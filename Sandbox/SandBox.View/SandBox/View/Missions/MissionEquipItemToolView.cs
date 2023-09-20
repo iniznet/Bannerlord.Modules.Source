@@ -15,10 +15,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000017 RID: 23
 	public class MissionEquipItemToolView : MissionView
 	{
-		// Token: 0x06000084 RID: 132 RVA: 0x00005860 File Offset: 0x00003A60
 		public override void AfterStart()
 		{
 			this._itemsXmls = new List<XmlDocument>();
@@ -57,7 +55,6 @@ namespace SandBox.View.Missions
 			this.SpawnItems();
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x00005A70 File Offset: 0x00003C70
 		private void GetItems(string str)
 		{
 			List<ItemObject> list = Game.Current.ObjectManager.GetObjectTypeList<ItemObject>().ToList<ItemObject>();
@@ -81,7 +78,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00005BAC File Offset: 0x00003DAC
 		public override void OnMissionTick(float dt)
 		{
 			this.OnEquipToolDebugTick(dt);
@@ -615,7 +611,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x00006FB8 File Offset: 0x000051B8
 		private void OnEquipToolDebugTick(float dt)
 		{
 			if (this._genderSet)
@@ -633,7 +628,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000088 RID: 136 RVA: 0x00007038 File Offset: 0x00005238
 		private void SpawnItems()
 		{
 			float num = -((float)this._allItemObjects.Count * this._diff / 2f);
@@ -670,7 +664,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000089 RID: 137 RVA: 0x000071E8 File Offset: 0x000053E8
 		private void SortFilter(ItemObject.ItemTypeEnum type)
 		{
 			this._currentItems.Clear();
@@ -735,7 +728,6 @@ namespace SandBox.View.Missions
 			this.PositionCurrentItems();
 		}
 
-		// Token: 0x0600008A RID: 138 RVA: 0x0000745C File Offset: 0x0000565C
 		private void SpawnHorse(ItemObject horse, ItemObject harness)
 		{
 			ItemRosterElement itemRosterElement = default(ItemRosterElement);
@@ -775,7 +767,6 @@ namespace SandBox.View.Missions
 			this._mountAgent.Controller = 0;
 		}
 
-		// Token: 0x0600008B RID: 139 RVA: 0x0000755C File Offset: 0x0000575C
 		private void SpawnAgent(string id)
 		{
 			Agent mountAgent = this._mountAgent;
@@ -822,7 +813,6 @@ namespace SandBox.View.Missions
 			this.UpdateCamera();
 		}
 
-		// Token: 0x0600008C RID: 140 RVA: 0x0000777C File Offset: 0x0000597C
 		private void PositionCurrentItems()
 		{
 			float num = 0f;
@@ -877,7 +867,6 @@ namespace SandBox.View.Missions
 			this._bounds.Clear();
 		}
 
-		// Token: 0x0600008D RID: 141 RVA: 0x00007A1C File Offset: 0x00005C1C
 		private void EditNode()
 		{
 			this._charactersXml = this.LoadXmlFile(ModuleHelper.GetModuleFullPath("SandBoxCore") + "ModuleData/spnpccharacters.xml");
@@ -916,7 +905,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600008E RID: 142 RVA: 0x00007CD8 File Offset: 0x00005ED8
 		private void CheckForLoad()
 		{
 			if (this._spawnAttributes[0] != this._attributes[0] && Game.Current.ObjectManager.GetObject<CharacterObject>(this._attributes[0]) != null)
@@ -941,7 +929,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x00007DC8 File Offset: 0x00005FC8
 		private void UpdateActiveItems()
 		{
 			this._activeItems.Clear();
@@ -974,7 +961,6 @@ namespace SandBox.View.Missions
 			this._activeItems.Add(this._mainAgent.SpawnEquipment[11].Item);
 		}
 
-		// Token: 0x06000090 RID: 144 RVA: 0x00007FA0 File Offset: 0x000061A0
 		private void SlotCheck(string slotName, int index, XmlNode parentNode, ItemObject obj = null)
 		{
 			XmlNodeList xmlNodeList = parentNode.SelectNodes("equipmentSet")[this._setIndex].SelectNodes("equipment");
@@ -1011,7 +997,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000091 RID: 145 RVA: 0x00008174 File Offset: 0x00006374
 		private void UpdateCamera()
 		{
 			Vec3 vec = ((this._mainAgent.MountAgent == null) ? new Vec3(1.3f, 2f, 1f, -1f) : new Vec3(2f, 3f, 2f, -1f));
@@ -1028,7 +1013,6 @@ namespace SandBox.View.Missions
 			base.MissionScreen.CustomCamera = this._cam;
 		}
 
-		// Token: 0x06000092 RID: 146 RVA: 0x000082AC File Offset: 0x000064AC
 		private void SaveToXml()
 		{
 			this._charactersXml = this.LoadXmlFile(ModuleHelper.GetModuleFullPath("Sandbox") + "ModuleData/spnpccharacters.xml");
@@ -1233,7 +1217,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000093 RID: 147 RVA: 0x00008A3C File Offset: 0x00006C3C
 		private void Clear(bool[] array)
 		{
 			for (int i = 0; i < array.Length; i++)
@@ -1242,7 +1225,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000094 RID: 148 RVA: 0x00008A5C File Offset: 0x00006C5C
 		private XmlDocument LoadXmlFile(string path)
 		{
 			Debug.Print("opening " + path, 0, 12, 17592186044416UL);
@@ -1254,194 +1236,125 @@ namespace SandBox.View.Missions
 			return xmlDocument;
 		}
 
-		// Token: 0x04000043 RID: 67
 		private string str = "";
 
-		// Token: 0x04000044 RID: 68
 		private int _itemCulture;
 
-		// Token: 0x04000045 RID: 69
 		private bool[] _filters = new bool[17];
 
-		// Token: 0x04000046 RID: 70
 		private bool _genderSet;
 
-		// Token: 0x04000047 RID: 71
 		private Agent _mainAgent;
 
-		// Token: 0x04000048 RID: 72
 		private List<ItemObject> _allItemObjects = new List<ItemObject>();
 
-		// Token: 0x04000049 RID: 73
 		private List<MissionEquipItemToolView.ItemData> _allItems = new List<MissionEquipItemToolView.ItemData>();
 
-		// Token: 0x0400004A RID: 74
 		private List<MissionEquipItemToolView.ItemData> _currentItems = new List<MissionEquipItemToolView.ItemData>();
 
-		// Token: 0x0400004B RID: 75
 		private List<Tuple<int, int, int, int>> _currentArmorValues = new List<Tuple<int, int, int, int>>();
 
-		// Token: 0x0400004C RID: 76
 		private List<CultureObject> _allFactions = new List<CultureObject>();
 
-		// Token: 0x0400004D RID: 77
 		private List<CharacterObject> _allCharacters = new List<CharacterObject>();
 
-		// Token: 0x0400004E RID: 78
 		private List<FormationClass> _groups = new List<FormationClass>();
 
-		// Token: 0x0400004F RID: 79
 		private int _activeIndex = -1;
 
-		// Token: 0x04000050 RID: 80
 		private int _factionIndex;
 
-		// Token: 0x04000051 RID: 81
 		private int _groupIndex;
 
-		// Token: 0x04000052 RID: 82
 		private XmlDocument _charactersXml;
 
-		// Token: 0x04000053 RID: 83
 		private List<XmlDocument> _itemsXmls;
 
-		// Token: 0x04000054 RID: 84
 		private string[] _attributes = new string[] { "id", "name", "level", "occupation", "culture", "group" };
 
-		// Token: 0x04000055 RID: 85
 		private string[] _spawnAttributes = new string[] { "id", "name", "level", "occupation", "culture", "group" };
 
-		// Token: 0x04000056 RID: 86
 		private bool underscoreGuard;
 
-		// Token: 0x04000057 RID: 87
 		private bool yGuard;
 
-		// Token: 0x04000058 RID: 88
 		private bool zGuard;
 
-		// Token: 0x04000059 RID: 89
 		private bool xGuard;
 
-		// Token: 0x0400005A RID: 90
 		private bool _capsLock;
 
-		// Token: 0x0400005B RID: 91
 		private List<ItemObject> _activeItems = new List<ItemObject>();
 
-		// Token: 0x0400005C RID: 92
 		private int _setIndex;
 
-		// Token: 0x0400005D RID: 93
 		private int _spawnSetIndex;
 
-		// Token: 0x0400005E RID: 94
 		private Camera _cam;
 
-		// Token: 0x0400005F RID: 95
 		private bool _init = true;
 
-		// Token: 0x04000060 RID: 96
 		private int _index;
 
-		// Token: 0x04000061 RID: 97
 		private float _diff = 0.75f;
 
-		// Token: 0x04000062 RID: 98
 		private int _activeFilter;
 
-		// Token: 0x04000063 RID: 99
 		private int _activeWeaponSlot;
 
-		// Token: 0x04000064 RID: 100
 		private Vec3 _textStart;
 
-		// Token: 0x04000065 RID: 101
 		private List<BoundingBox> _bounds = new List<BoundingBox>();
 
-		// Token: 0x04000066 RID: 102
 		private float _pivotDiff;
 
-		// Token: 0x04000067 RID: 103
 		private Agent _mountAgent;
 
-		// Token: 0x04000068 RID: 104
 		private ItemObject _horse;
 
-		// Token: 0x04000069 RID: 105
 		private ItemObject _harness;
 
-		// Token: 0x02000063 RID: 99
 		private enum Filter
 		{
-			// Token: 0x0400023D RID: 573
 			Head = 5,
-			// Token: 0x0400023E RID: 574
 			Cape = 9,
-			// Token: 0x0400023F RID: 575
 			Body = 6,
-			// Token: 0x04000240 RID: 576
 			Hand = 8,
-			// Token: 0x04000241 RID: 577
 			Leg = 7,
-			// Token: 0x04000242 RID: 578
 			Shield = 12,
-			// Token: 0x04000243 RID: 579
 			Bow,
-			// Token: 0x04000244 RID: 580
 			Crossbow = 15,
-			// Token: 0x04000245 RID: 581
 			Horse = 10,
-			// Token: 0x04000246 RID: 582
 			Onehanded = 1,
-			// Token: 0x04000247 RID: 583
 			Twohanded,
-			// Token: 0x04000248 RID: 584
 			Polearm,
-			// Token: 0x04000249 RID: 585
 			Thrown,
-			// Token: 0x0400024A RID: 586
 			Arrow = 14,
-			// Token: 0x0400024B RID: 587
 			Bolt = 16,
-			// Token: 0x0400024C RID: 588
 			Harness = 11
 		}
 
-		// Token: 0x02000064 RID: 100
-		// (Invoke) Token: 0x0600041B RID: 1051
 		private delegate void MainThreadDelegate();
 
-		// Token: 0x02000065 RID: 101
 		private class ItemData
 		{
-			// Token: 0x0400024D RID: 589
 			public GameEntity Entity;
 
-			// Token: 0x0400024E RID: 590
 			public string Name;
 
-			// Token: 0x0400024F RID: 591
 			public string Id;
 
-			// Token: 0x04000250 RID: 592
 			public BasicCultureObject Culture;
 
-			// Token: 0x04000251 RID: 593
 			public ItemObject.ItemTypeEnum itemType;
 
-			// Token: 0x04000252 RID: 594
 			public MissionEquipItemToolView.GenderEnum Gender;
 		}
 
-		// Token: 0x02000066 RID: 102
 		public enum GenderEnum
 		{
-			// Token: 0x04000254 RID: 596
 			Male = 1,
-			// Token: 0x04000255 RID: 597
 			Unisex,
-			// Token: 0x04000256 RID: 598
 			Female
 		}
 	}

@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x0200000C RID: 12
 	public static class HeroHelper
 	{
-		// Token: 0x06000046 RID: 70 RVA: 0x00004E24 File Offset: 0x00003024
 		public static TextObject GetLastSeenText(Hero hero)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -35,7 +33,6 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x06000047 RID: 71 RVA: 0x00004E90 File Offset: 0x00003090
 		public static Settlement GetClosestSettlement(Hero hero)
 		{
 			Settlement settlement = null;
@@ -82,7 +79,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x06000048 RID: 72 RVA: 0x00005018 File Offset: 0x00003218
 		public static bool LordWillConspireWithLord(Hero lord, Hero otherLord, bool suggestingBetrayal)
 		{
 			Hero.OneToOneConversationHero.MapFaction.Leader.SetTextVariables();
@@ -116,13 +112,11 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x06000049 RID: 73 RVA: 0x0000513C File Offset: 0x0000333C
 		public static bool UnderPlayerCommand(Hero hero)
 		{
 			return hero != null && ((hero.MapFaction != null && hero.MapFaction.Leader == Hero.MainHero) || (hero.IsNotable && hero.HomeSettlement.OwnerClan == Hero.MainHero.Clan) || hero.IsPlayerCompanion);
 		}
 
-		// Token: 0x0600004A RID: 74 RVA: 0x00005190 File Offset: 0x00003390
 		public static TextObject GetTitleInIndefiniteCase(Hero hero)
 		{
 			string text = hero.MapFaction.Culture.StringId;
@@ -137,7 +131,6 @@ namespace Helpers
 			return GameTexts.FindText("str_faction_official", text);
 		}
 
-		// Token: 0x0600004B RID: 75 RVA: 0x000051F4 File Offset: 0x000033F4
 		public static TextObject GetCharacterTypeName(Hero hero)
 		{
 			if (hero.IsArtisan)
@@ -188,7 +181,6 @@ namespace Helpers
 			return GameTexts.FindText("str_charactertype_lord", null);
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x000052F4 File Offset: 0x000034F4
 		public static TextObject GetOccupiedEventReasonText(Hero hero)
 		{
 			TextObject textObject;
@@ -203,7 +195,6 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00005324 File Offset: 0x00003524
 		public static List<string> OrderHeroesOnPlayerSideByPriority()
 		{
 			List<Hero> list = new List<Hero>();
@@ -231,7 +222,6 @@ namespace Helpers
 			return list.OrderByDescending((Hero t) => Campaign.Current.Models.EncounterModel.GetCharacterSergeantScore(t)).ToList<Hero>().ConvertAll<string>((Hero t) => t.CharacterObject.StringId);
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x0000542C File Offset: 0x0000362C
 		public static bool WillLordAttack()
 		{
 			if (PlayerEncounter.Current != null && PlayerEncounter.Current.PlayerSide == BattleSideEnum.Defender && (PlayerEncounter.EncounteredMobileParty == null || PlayerEncounter.EncounteredMobileParty.Ai.DoNotAttackMainPartyUntil.IsPast))
@@ -245,7 +235,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x000054C8 File Offset: 0x000036C8
 		public static void SetPlayerSalutation()
 		{
 			if (Hero.OneToOneConversationHero.IsLord)
@@ -266,13 +255,11 @@ namespace Helpers
 			MBTextManager.SetTextVariable("PLAYER_SALUTATION", GameTexts.FindText("str_player_salutation_sir", null), false);
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00005553 File Offset: 0x00003753
 		public static void DetermineInitialLevel(Hero hero)
 		{
 			hero.HeroDeveloper.CheckInitialLevel();
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00005560 File Offset: 0x00003760
 		public static void SpawnHeroForTheFirstTime(Hero hero, Settlement spawnSettlement)
 		{
 			hero.BornSettlement = spawnSettlement;
@@ -280,7 +267,6 @@ namespace Helpers
 			hero.ChangeState(Hero.CharacterStates.Active);
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00005578 File Offset: 0x00003778
 		public static int DefaultRelation(Hero hero, Hero otherHero)
 		{
 			if (hero.Clan != null && hero.Clan.IsNoble && hero.Clan == otherHero.Clan)
@@ -302,7 +288,6 @@ namespace Helpers
 			return 0;
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00005668 File Offset: 0x00003868
 		public static int CalculateTotalStrength(Hero hero)
 		{
 			float num = 1f;
@@ -323,13 +308,11 @@ namespace Helpers
 			return MathF.Round(num);
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00005730 File Offset: 0x00003930
 		public static bool IsCompanionInPlayerParty(Hero hero)
 		{
 			return hero != null && hero.IsPlayerCompanion && hero.PartyBelongedTo == MobileParty.MainParty;
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x0000574C File Offset: 0x0000394C
 		public static bool NPCPoliticalDifferencesWithNPC(Hero firstNPC, Hero secondNPC)
 		{
 			bool flag = firstNPC.GetTraitLevel(DefaultTraits.Egalitarian) > 0;
@@ -341,7 +324,6 @@ namespace Helpers
 			return flag != flag4 || flag2 != flag5 || flag3 != flag6;
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x000057C8 File Offset: 0x000039C8
 		public static int NPCPersonalityClashWithNPC(Hero firstNPC, Hero secondNPC)
 		{
 			int num = 0;
@@ -390,7 +372,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x000058C0 File Offset: 0x00003AC0
 		public static int TraitHarmony(Hero considerer, TraitObject trait, Hero consideree, bool sensitive)
 		{
 			int traitLevel = considerer.GetTraitLevel(trait);
@@ -422,32 +403,27 @@ namespace Helpers
 			return 0;
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x0000591C File Offset: 0x00003B1C
 		public static float CalculateReliabilityConstant(Hero hero, float maxValueConstant = 1f)
 		{
 			int traitLevel = hero.GetTraitLevel(DefaultTraits.Honor);
 			return maxValueConstant * ((2.5f + (float)MathF.Min(2, MathF.Max(-2, traitLevel))) / 5f);
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x00005952 File Offset: 0x00003B52
 		public static void SetPropertiesToTextObject(this Hero hero, TextObject textObject, string tagName)
 		{
 			StringHelpers.SetCharacterProperties(tagName, hero.CharacterObject, textObject, false);
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00005963 File Offset: 0x00003B63
 		public static void SetPropertiesToTextObject(this Settlement settlement, TextObject textObject, string tagName)
 		{
 			StringHelpers.SetSettlementProperties(tagName, settlement, textObject, false);
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x0000596E File Offset: 0x00003B6E
 		public static bool HeroCanRecruitFromHero(Hero buyerHero, Hero sellerHero, int index)
 		{
 			return index <= Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(buyerHero, sellerHero, -101);
 		}
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00005990 File Offset: 0x00003B90
 		public static List<CharacterObject> GetVolunteerTroopsOfHeroForRecruitment(Hero hero)
 		{
 			List<CharacterObject> list = new List<CharacterObject>();
@@ -458,7 +434,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x000059C0 File Offset: 0x00003BC0
 		public static Clan GetRandomClanForNotable(Hero notable)
 		{
 			float num = 0f;
@@ -506,7 +481,6 @@ namespace Helpers
 			return null;
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00005BE0 File Offset: 0x00003DE0
 		public static float GetProbabilityForClan(Clan clan, IEnumerable<Settlement> applicableSettlements, Hero notable)
 		{
 			float num = 1f;
@@ -527,7 +501,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x00005C70 File Offset: 0x00003E70
 		public static CampaignTime GetRandomBirthDayForAge(float age)
 		{
 			float num = MBRandom.RandomFloatRanged(0f, (float)CampaignTime.Now.GetDayOfYear);
@@ -535,7 +508,6 @@ namespace Helpers
 			return CampaignTime.Days(num) + CampaignTime.Years(num2);
 		}
 
-		// Token: 0x06000060 RID: 96 RVA: 0x00005CB8 File Offset: 0x00003EB8
 		public static void GetRandomDeathDayAndBirthDay(int deathAge, out CampaignTime birthday, out CampaignTime deathday)
 		{
 			int num = 84;
@@ -544,7 +516,6 @@ namespace Helpers
 			deathday = birthday + CampaignTime.Years((float)deathAge) + CampaignTime.Days((float)MBRandom.RandomInt(num - 1));
 		}
 
-		// Token: 0x06000061 RID: 97 RVA: 0x00005D24 File Offset: 0x00003F24
 		public static float StartRecruitingMoneyLimit(Hero hero)
 		{
 			if (hero.Clan == Clan.PlayerClan)
@@ -554,7 +525,6 @@ namespace Helpers
 			return 50f + ((hero.PartyBelongedTo != null) ? ((float)MathF.Min(150, hero.PartyBelongedTo.MemberRoster.TotalManCount) * 20f) : 0f);
 		}
 
-		// Token: 0x06000062 RID: 98 RVA: 0x00005D7C File Offset: 0x00003F7C
 		public static float StartRecruitingMoneyLimitForClanLeader(Hero hero)
 		{
 			if (hero.Clan == Clan.PlayerClan)

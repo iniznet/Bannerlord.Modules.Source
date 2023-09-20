@@ -19,11 +19,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 {
-	// Token: 0x0200002A RID: 42
 	internal class DisruptSupplyLinesConspiracyQuest : ConspiracyQuestBase
 	{
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x0600021F RID: 543 RVA: 0x0000C1A4 File Offset: 0x0000A3A4
 		public override TextObject Title
 		{
 			get
@@ -32,8 +29,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x06000220 RID: 544 RVA: 0x0000C1B4 File Offset: 0x0000A3B4
 		public override TextObject SideNotificationText
 		{
 			get
@@ -44,8 +39,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x06000221 RID: 545 RVA: 0x0000C1E8 File Offset: 0x0000A3E8
 		public override TextObject StartMessageLogFromMentor
 		{
 			get
@@ -59,8 +52,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000083 RID: 131
-		// (get) Token: 0x06000222 RID: 546 RVA: 0x0000C27C File Offset: 0x0000A47C
 		public override TextObject StartLog
 		{
 			get
@@ -74,8 +65,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x06000223 RID: 547 RVA: 0x0000C2E9 File Offset: 0x0000A4E9
 		public override float ConspiracyStrengthDecreaseAmount
 		{
 			get
@@ -84,8 +73,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x06000224 RID: 548 RVA: 0x0000C2F0 File Offset: 0x0000A4F0
 		private TextObject PlayerDefeatedCaravanLog
 		{
 			get
@@ -97,8 +84,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x06000225 RID: 549 RVA: 0x0000C356 File Offset: 0x0000A556
 		private TextObject MainHeroFailedToDisrupt
 		{
 			get
@@ -107,8 +92,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x06000226 RID: 550 RVA: 0x0000C363 File Offset: 0x0000A563
 		private TextObject MainHeroLostCombat
 		{
 			get
@@ -117,8 +100,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000088 RID: 136
-		// (get) Token: 0x06000227 RID: 551 RVA: 0x0000C370 File Offset: 0x0000A570
 		private Settlement QuestFromSettlement
 		{
 			get
@@ -127,8 +108,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000089 RID: 137
-		// (get) Token: 0x06000228 RID: 552 RVA: 0x0000C37A File Offset: 0x0000A57A
 		private Settlement QuestToSettlement
 		{
 			get
@@ -137,8 +116,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700008A RID: 138
-		// (get) Token: 0x06000229 RID: 553 RVA: 0x0000C38D File Offset: 0x0000A58D
 		public MobileParty ConspiracyCaravan
 		{
 			get
@@ -147,8 +124,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700008B RID: 139
-		// (get) Token: 0x0600022A RID: 554 RVA: 0x0000C395 File Offset: 0x0000A595
 		public int CaravanPartySize
 		{
 			get
@@ -157,7 +132,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x0000C3A4 File Offset: 0x0000A5A4
 		public DisruptSupplyLinesConspiracyQuest(string questId, Hero questGiver)
 			: base(questId, questGiver)
 		{
@@ -171,7 +145,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			base.AddTrackedObject(this.QuestFromSettlement);
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0000C410 File Offset: 0x0000A610
 		private Settlement GetQuestFromSettlement()
 		{
 			Settlement settlement = SettlementHelper.FindRandomSettlement(delegate(Settlement s)
@@ -208,7 +181,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			return settlement;
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x0000C494 File Offset: 0x0000A694
 		private Settlement GetNextSettlement(Settlement settlement)
 		{
 			Settlement settlement2 = SettlementHelper.FindNearestTown((Settlement s) => !this._caravanTargetSettlements.Contains(s) && s.MapFaction != Clan.PlayerClan.MapFaction && (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine ? StoryModeData.IsKingdomImperial(s.OwnerClan.Kingdom) : (!StoryModeData.IsKingdomImperial(s.OwnerClan.Kingdom))) && Campaign.Current.Models.MapDistanceModel.GetDistance(settlement, s) > 100f && Campaign.Current.Models.MapDistanceModel.GetDistance(settlement, s) < 500f, settlement);
@@ -223,13 +195,11 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			return settlement2;
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x0000C4F8 File Offset: 0x0000A6F8
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this.SetDialogs();
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x0000C500 File Offset: 0x0000A700
 		protected override void OnTimedOut()
 		{
 			MobileParty questCaravanMobileParty = this._questCaravanMobileParty;
@@ -239,7 +209,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x0000C524 File Offset: 0x0000A724
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -248,7 +217,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x0000C590 File Offset: 0x0000A790
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			if (this._questCaravanMobileParty != null && this._questCaravanMobileParty == party)
@@ -269,7 +237,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x0000C60A File Offset: 0x0000A80A
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (this._questCaravanMobileParty != null && this._questCaravanMobileParty == party)
@@ -278,7 +245,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x0000C624 File Offset: 0x0000A824
 		private void OnMapEventEnded(MapEvent mapEvent)
 		{
 			if (mapEvent.IsPlayerMapEvent && this._questCaravanMobileParty != null && mapEvent.InvolvedParties.Contains(this._questCaravanMobileParty.Party))
@@ -300,7 +266,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x06000234 RID: 564 RVA: 0x0000C6A8 File Offset: 0x0000A8A8
 		private void DailyTick()
 		{
 			if (this._questCaravanMobileParty == null && this._questStartTime.ElapsedDaysUntilNow >= 5f)
@@ -310,7 +275,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x06000235 RID: 565 RVA: 0x0000C6E0 File Offset: 0x0000A8E0
 		private void AddLogForSettlementVisit(Settlement settlement)
 		{
 			TextObject textObject = new TextObject("{=SVcr0EJM}Caravan is moving on to {TO_SETTLEMENT_LINK} from {FROM_SETTLEMENT_LINK}.", null);
@@ -321,7 +285,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			base.AddLog(textObject, false);
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x0000C754 File Offset: 0x0000A954
 		private void CreateQuestCaravanParty()
 		{
 			PartyTemplateObject partyTemplateObject = (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine ? Campaign.Current.ObjectManager.GetObject<PartyTemplateObject>("conspiracy_anti_imperial_special_raider_party_template") : Campaign.Current.ObjectManager.GetObject<PartyTemplateObject>("conspiracy_imperial_special_raider_party_template"));
@@ -355,7 +318,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			this.AddLogForSettlementVisit(this.QuestFromSettlement);
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x0000CA0C File Offset: 0x0000AC0C
 		private void GetAdditionalVisualsForParty(CultureObject culture, out string mountStringId, out string harnessStringId)
 		{
 			if (culture.StringId == "aserai" || culture.StringId == "khuzait")
@@ -368,34 +330,29 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			harnessStringId = ((MBRandom.RandomFloat > 0.5f) ? "mule_load_a" : ((MBRandom.RandomFloat > 0.5f) ? "mule_load_b" : "mule_load_c"));
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x0000CA94 File Offset: 0x0000AC94
 		private float GetQuestDifficultyMultiplier()
 		{
 			return MBMath.ClampFloat((0f + (float)Clan.PlayerClan.Fiefs.Count * 0.1f + Clan.PlayerClan.TotalStrength * 0.0008f + Clan.PlayerClan.Renown * 1.5E-05f + (float)Clan.PlayerClan.Lords.Count * 0.002f + (float)Clan.PlayerClan.Companions.Count * 0.01f + (float)Clan.PlayerClan.SupporterNotables.Count * 0.001f + (float)Hero.MainHero.OwnedCaravans.Count * 0.01f + (float)PartyBase.MainParty.NumberOfAllMembers * 0.002f + (float)CharacterObject.PlayerCharacter.Level * 0.002f) * 0.975f + MBRandom.RandomFloat * 0.025f, 0.1f, 1f);
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x0000CB80 File Offset: 0x0000AD80
 		private void BattleWon()
 		{
 			base.AddLog(this.PlayerDefeatedCaravanLog, false);
 			base.CompleteQuestWithSuccess();
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x0000CB96 File Offset: 0x0000AD96
 		private void BattleLost()
 		{
 			base.AddLog(this.MainHeroLostCombat, false);
 			base.CompleteQuestWithFail(null);
 		}
 
-		// Token: 0x0600023B RID: 571 RVA: 0x0000CBAD File Offset: 0x0000ADAD
 		private void FailedToDisrupt()
 		{
 			base.AddLog(this.MainHeroFailedToDisrupt, false);
 			base.CompleteQuestWithFail(null);
 		}
 
-		// Token: 0x0600023C RID: 572 RVA: 0x0000CBC4 File Offset: 0x0000ADC4
 		protected override void SetDialogs()
 		{
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=ch9f3A1e}Greetings, {?PLAYER.GENDER}madam{?}sir{\\?}. Why did you stop our caravan? I trust you are not robbing us.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.conversation_with_caravan_master_condition))
@@ -410,13 +367,11 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 				.CloseDialog(), this);
 		}
 
-		// Token: 0x0600023D RID: 573 RVA: 0x0000CC71 File Offset: 0x0000AE71
 		private bool conversation_with_caravan_master_condition()
 		{
 			return this._questCaravanMobileParty != null && ConversationHelper.GetConversationCharacterPartyLeader(this._questCaravanMobileParty.Party) == CharacterObject.OneToOneConversationCharacter;
 		}
 
-		// Token: 0x0600023E RID: 574 RVA: 0x0000CC94 File Offset: 0x0000AE94
 		private void cancel_encounter_consequence()
 		{
 			if (PlayerEncounter.Current != null)
@@ -425,13 +380,11 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x0600023F RID: 575 RVA: 0x0000CCA3 File Offset: 0x0000AEA3
 		internal static void AutoGeneratedStaticCollectObjectsDisruptSupplyLinesConspiracyQuest(object o, List<object> collectedObjects)
 		{
 			((DisruptSupplyLinesConspiracyQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x06000240 RID: 576 RVA: 0x0000CCB1 File Offset: 0x0000AEB1
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -440,39 +393,31 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			CampaignTime.AutoGeneratedStaticCollectObjectsCampaignTime(this._questStartTime, collectedObjects);
 		}
 
-		// Token: 0x06000241 RID: 577 RVA: 0x0000CCE3 File Offset: 0x0000AEE3
 		internal static object AutoGeneratedGetMemberValue_caravanTargetSettlements(object o)
 		{
 			return ((DisruptSupplyLinesConspiracyQuest)o)._caravanTargetSettlements;
 		}
 
-		// Token: 0x06000242 RID: 578 RVA: 0x0000CCF0 File Offset: 0x0000AEF0
 		internal static object AutoGeneratedGetMemberValue_questCaravanMobileParty(object o)
 		{
 			return ((DisruptSupplyLinesConspiracyQuest)o)._questCaravanMobileParty;
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x0000CCFD File Offset: 0x0000AEFD
 		internal static object AutoGeneratedGetMemberValue_questStartTime(object o)
 		{
 			return ((DisruptSupplyLinesConspiracyQuest)o)._questStartTime;
 		}
 
-		// Token: 0x040000AD RID: 173
 		private const int NumberOfSettlementsToVisit = 6;
 
-		// Token: 0x040000AE RID: 174
 		private const int SpawnCaravanWaitDaysAfterQuestStarted = 5;
 
-		// Token: 0x040000AF RID: 175
 		[SaveableField(1)]
 		private readonly Settlement[] _caravanTargetSettlements;
 
-		// Token: 0x040000B0 RID: 176
 		[SaveableField(2)]
 		private MobileParty _questCaravanMobileParty;
 
-		// Token: 0x040000B1 RID: 177
 		[SaveableField(3)]
 		private readonly CampaignTime _questStartTime;
 	}

@@ -3,10 +3,8 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200042C RID: 1068
 	public static class ChangeGovernorAction
 	{
-		// Token: 0x06003E9C RID: 16028 RVA: 0x0012B228 File Offset: 0x00129428
 		private static void ApplyInternal(Town fortification, Hero governor)
 		{
 			Hero governor2 = fortification.Governor;
@@ -35,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003E9D RID: 16029 RVA: 0x0012B2B0 File Offset: 0x001294B0
 		private static void ApplyGiveUpInternal(Hero governor)
 		{
 			Town governorOf = governor.GovernorOf;
@@ -44,13 +41,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnGovernorChanged(governorOf, governor, null);
 		}
 
-		// Token: 0x06003E9E RID: 16030 RVA: 0x0012B2DF File Offset: 0x001294DF
 		public static void Apply(Town fortification, Hero governor)
 		{
 			ChangeGovernorAction.ApplyInternal(fortification, governor);
 		}
 
-		// Token: 0x06003E9F RID: 16031 RVA: 0x0012B2E8 File Offset: 0x001294E8
 		public static void RemoveGovernorOf(Hero governor)
 		{
 			ChangeGovernorAction.ApplyGiveUpInternal(governor);

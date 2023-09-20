@@ -6,19 +6,12 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000BE RID: 190
 	public class MainHeroBattleVictoryDeathNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000524 RID: 1316
-		// (get) Token: 0x0600122E RID: 4654 RVA: 0x000530CB File Offset: 0x000512CB
 		public Hero DeadHero { get; }
 
-		// Token: 0x17000525 RID: 1317
-		// (get) Token: 0x0600122F RID: 4655 RVA: 0x000530D3 File Offset: 0x000512D3
 		public List<CharacterObject> EncounterAllyCharacters { get; }
 
-		// Token: 0x17000526 RID: 1318
-		// (get) Token: 0x06001230 RID: 4656 RVA: 0x000530DB File Offset: 0x000512DB
 		public override string SceneID
 		{
 			get
@@ -27,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x17000527 RID: 1319
-		// (get) Token: 0x06001231 RID: 4657 RVA: 0x000530E4 File Offset: 0x000512E4
 		public override TextObject TitleText
 		{
 			get
@@ -40,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x06001232 RID: 4658 RVA: 0x00053140 File Offset: 0x00051340
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -74,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x06001233 RID: 4659 RVA: 0x000532C0 File Offset: 0x000514C0
 		public MainHeroBattleVictoryDeathNotificationItem(Hero deadHero, List<CharacterObject> encounterAllyCharacters)
 		{
 			this.DeadHero = deadHero;
@@ -82,13 +71,10 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x04000662 RID: 1634
 		private const int NumberOfCorpses = 2;
 
-		// Token: 0x04000663 RID: 1635
 		private const int NumberOfCompanions = 3;
 
-		// Token: 0x04000666 RID: 1638
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

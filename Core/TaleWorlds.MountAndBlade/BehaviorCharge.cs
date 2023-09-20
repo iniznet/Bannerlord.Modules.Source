@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000FD RID: 253
 	public class BehaviorCharge : BehaviorComponent
 	{
-		// Token: 0x06000C79 RID: 3193 RVA: 0x0001A0F4 File Offset: 0x000182F4
 		public BehaviorCharge(Formation formation)
 			: base(formation)
 		{
@@ -15,13 +13,11 @@ namespace TaleWorlds.MountAndBlade
 			base.BehaviorCoherence = 0.5f;
 		}
 
-		// Token: 0x06000C7A RID: 3194 RVA: 0x0001A10E File Offset: 0x0001830E
 		protected override void CalculateCurrentOrder()
 		{
 			base.CurrentOrder = ((base.Formation.QuerySystem.ClosestEnemyFormation == null) ? MovementOrder.MovementOrderCharge : MovementOrder.MovementOrderChargeToTarget(base.Formation.QuerySystem.ClosestEnemyFormation.Formation));
 		}
 
-		// Token: 0x06000C7B RID: 3195 RVA: 0x0001A149 File Offset: 0x00018349
 		public override void TickOccasionally()
 		{
 			base.TickOccasionally();
@@ -29,8 +25,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 		}
 
-		// Token: 0x1700030B RID: 779
-		// (get) Token: 0x06000C7C RID: 3196 RVA: 0x0001A168 File Offset: 0x00018368
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -39,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C7D RID: 3197 RVA: 0x0001A170 File Offset: 0x00018370
 		protected override void OnBehaviorActivatedAux()
 		{
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
@@ -50,7 +43,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C7E RID: 3198 RVA: 0x0001A1C0 File Offset: 0x000183C0
 		private float CalculateAIWeight(bool isSiege, bool isInsideCastle)
 		{
 			FormationQuerySystem querySystem = base.Formation.QuerySystem;
@@ -166,7 +158,6 @@ namespace TaleWorlds.MountAndBlade
 			return num3 * num9 * num10 * num12 * num13 * num14;
 		}
 
-		// Token: 0x06000C7F RID: 3199 RVA: 0x0001A994 File Offset: 0x00018B94
 		protected override float GetAiWeight()
 		{
 			bool flag = base.Formation.Team.TeamAI is TeamAISiegeComponent;

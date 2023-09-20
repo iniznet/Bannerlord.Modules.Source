@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 {
-	// Token: 0x02000002 RID: 2
 	public class DCSHelperMapItemVM : ViewModel
 	{
-		// Token: 0x06000001 RID: 1 RVA: 0x00002048 File Offset: 0x00000248
 		public DCSHelperMapItemVM(string mapName, Action<DCSHelperMapItemVM> onSelection, bool currentlyPlaying, UniqueSceneId identifiers)
 		{
 			this._mapName = mapName;
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			this.LocalMapHint = new BasicTooltipViewModel();
 		}
 
-		// Token: 0x06000002 RID: 2 RVA: 0x00002099 File Offset: 0x00000299
 		public void ExecuteToggleSelection()
 		{
 			Action<DCSHelperMapItemVM> onSelection = this._onSelection;
@@ -33,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			onSelection(this);
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x000020AC File Offset: 0x000002AC
 		public void RefreshLocalMapData()
 		{
 			string text;
@@ -61,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			this.ExistsLocally = false;
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x0000212C File Offset: 0x0000032C
 		private List<TooltipProperty> GetTooltipProperties()
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -77,8 +72,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			return list;
 		}
 
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000005 RID: 5 RVA: 0x000021C2 File Offset: 0x000003C2
 		[DataSourceProperty]
 		public string ExclamationMark
 		{
@@ -88,9 +81,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000006 RID: 6 RVA: 0x000021C9 File Offset: 0x000003C9
-		// (set) Token: 0x06000007 RID: 7 RVA: 0x000021D1 File Offset: 0x000003D1
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -108,9 +98,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000008 RID: 8 RVA: 0x000021EF File Offset: 0x000003EF
-		// (set) Token: 0x06000009 RID: 9 RVA: 0x000021F8 File Offset: 0x000003F8
 		[DataSourceProperty]
 		public bool ExistsLocally
 		{
@@ -133,9 +120,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x0600000A RID: 10 RVA: 0x00002249 File Offset: 0x00000449
-		// (set) Token: 0x0600000B RID: 11 RVA: 0x00002251 File Offset: 0x00000451
 		[DataSourceProperty]
 		public bool IsCautionSpriteVisible
 		{
@@ -153,9 +137,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600000C RID: 12 RVA: 0x0000226F File Offset: 0x0000046F
-		// (set) Token: 0x0600000D RID: 13 RVA: 0x00002277 File Offset: 0x00000477
 		[DataSourceProperty]
 		public bool CurrentlyPlaying
 		{
@@ -173,9 +154,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x0600000E RID: 14 RVA: 0x00002295 File Offset: 0x00000495
-		// (set) Token: 0x0600000F RID: 15 RVA: 0x0000229D File Offset: 0x0000049D
 		[DataSourceProperty]
 		public string CurrentlyPlayingText
 		{
@@ -193,9 +171,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x06000010 RID: 16 RVA: 0x000022C0 File Offset: 0x000004C0
-		// (set) Token: 0x06000011 RID: 17 RVA: 0x000022C8 File Offset: 0x000004C8
 		[DataSourceProperty]
 		public string MapName
 		{
@@ -213,9 +188,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000012 RID: 18 RVA: 0x000022EB File Offset: 0x000004EB
-		// (set) Token: 0x06000013 RID: 19 RVA: 0x000022F3 File Offset: 0x000004F3
 		[DataSourceProperty]
 		public string MapPathClean
 		{
@@ -233,9 +205,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000014 RID: 20 RVA: 0x00002316 File Offset: 0x00000516
-		// (set) Token: 0x06000015 RID: 21 RVA: 0x0000231E File Offset: 0x0000051E
 		[DataSourceProperty]
 		public BasicTooltipViewModel LocalMapHint
 		{
@@ -253,34 +222,24 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x04000001 RID: 1
 		private readonly Action<DCSHelperMapItemVM> _onSelection;
 
-		// Token: 0x04000002 RID: 2
 		private readonly UniqueSceneId _identifiers;
 
-		// Token: 0x04000003 RID: 3
 		private bool _isSelected;
 
-		// Token: 0x04000004 RID: 4
 		private bool _existsLocally;
 
-		// Token: 0x04000005 RID: 5
 		private bool _isCautionSpriteVisible;
 
-		// Token: 0x04000006 RID: 6
 		private bool _currentlyPlaying;
 
-		// Token: 0x04000007 RID: 7
 		private string _currentlyPlayingText;
 
-		// Token: 0x04000008 RID: 8
 		private string _mapName;
 
-		// Token: 0x04000009 RID: 9
 		private string _mapPathClean;
 
-		// Token: 0x0400000A RID: 10
 		private BasicTooltipViewModel _localMapHint;
 	}
 }

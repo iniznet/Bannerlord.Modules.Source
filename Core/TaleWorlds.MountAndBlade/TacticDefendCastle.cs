@@ -6,15 +6,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000159 RID: 345
 	public class TacticDefendCastle : TacticComponent
 	{
-		// Token: 0x170003AC RID: 940
-		// (get) Token: 0x06001181 RID: 4481 RVA: 0x0003C724 File Offset: 0x0003A924
-		// (set) Token: 0x06001182 RID: 4482 RVA: 0x0003C72C File Offset: 0x0003A92C
 		public TacticDefendCastle.TacticState CurrentTacticState { get; private set; }
 
-		// Token: 0x06001183 RID: 4483 RVA: 0x0003C738 File Offset: 0x0003A938
 		public TacticDefendCastle(Team team)
 			: base(team)
 		{
@@ -29,7 +24,6 @@ namespace TaleWorlds.MountAndBlade
 			this._lanes = TeamAISiegeComponent.SiegeLanes;
 		}
 
-		// Token: 0x06001184 RID: 4484 RVA: 0x0003C7C4 File Offset: 0x0003A9C4
 		private static float GetFormationSallyOutPower(Formation formation)
 		{
 			if (formation.CountOfUnits > 0)
@@ -45,7 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x06001185 RID: 4485 RVA: 0x0003C834 File Offset: 0x0003AA34
 		private Formation GetStrongestSallyOutFormation()
 		{
 			float num = 0f;
@@ -65,13 +58,11 @@ namespace TaleWorlds.MountAndBlade
 			return formation;
 		}
 
-		// Token: 0x06001186 RID: 4486 RVA: 0x0003C8AC File Offset: 0x0003AAAC
 		private bool MustRetreatToCastle()
 		{
 			return false;
 		}
 
-		// Token: 0x06001187 RID: 4487 RVA: 0x0003C8B0 File Offset: 0x0003AAB0
 		private bool IsSallyOutApplicable()
 		{
 			float num = base.FormationsIncludingEmpty.Sum((Formation formation) => TacticDefendCastle.GetFormationSallyOutPower(formation));
@@ -92,7 +83,6 @@ namespace TaleWorlds.MountAndBlade
 			return num > num2 * 3f && base.Team.QuerySystem.RemainingPowerRatio / this._startingPowerRatio > 3f;
 		}
 
-		// Token: 0x06001188 RID: 4488 RVA: 0x0003C9BC File Offset: 0x0003ABBC
 		private void BalanceLaneDefenders(List<Formation> defenderFormations, out bool transferOccurred)
 		{
 			transferOccurred = false;
@@ -180,7 +170,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001189 RID: 4489 RVA: 0x0003CD68 File Offset: 0x0003AF68
 		private void ArcherShiftAround(List<Formation> p_RangedFormations)
 		{
 			List<Formation> list = p_RangedFormations.Where((Formation rf) => rf.AI.ActiveBehavior is BehaviorShootFromCastleWalls).ToList<Formation>();
@@ -244,7 +233,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600118A RID: 4490 RVA: 0x0003D030 File Offset: 0x0003B230
 		protected override bool CheckAndSetAvailableFormationsChanged()
 		{
 			bool flag = false;
@@ -263,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag || flag2;
 		}
 
-		// Token: 0x0600118B RID: 4491 RVA: 0x0003D092 File Offset: 0x0003B292
 		private int GetRequiredMeleeDefenderCount()
 		{
 			return this._lanes.Count(delegate(SiegeLane l)
@@ -279,7 +266,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x0600118C RID: 4492 RVA: 0x0003D0C0 File Offset: 0x0003B2C0
 		protected override void ManageFormationCounts()
 		{
 			if (this._startingPowerRatio == 0f)
@@ -367,21 +353,18 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600118D RID: 4493 RVA: 0x0003D55C File Offset: 0x0003B75C
 		protected override void StopUsingAllMachines()
 		{
 			base.StopUsingAllMachines();
 			this.StopUsingStrategicAreas();
 		}
 
-		// Token: 0x0600118E RID: 4494 RVA: 0x0003D56A File Offset: 0x0003B76A
 		protected override void StopUsingAllRangedSiegeWeapons()
 		{
 			base.StopUsingAllRangedSiegeWeapons();
 			this.StopUsingStrategicAreas();
 		}
 
-		// Token: 0x0600118F RID: 4495 RVA: 0x0003D578 File Offset: 0x0003B778
 		private void StopUsingStrategicAreas()
 		{
 			foreach (ValueTuple<IDetachment, DetachmentData> valueTuple in base.Team.DetachmentManager.Detachments.Where((ValueTuple<IDetachment, DetachmentData> d) => d.Item1 is StrategicArea).ToList<ValueTuple<IDetachment, DetachmentData>>())
@@ -390,7 +373,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001190 RID: 4496 RVA: 0x0003D610 File Offset: 0x0003B810
 		private void StartRetreatToKeep()
 		{
 			this.StopUsingAllMachines();
@@ -405,7 +387,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001191 RID: 4497 RVA: 0x0003D690 File Offset: 0x0003B890
 		private void DistributeRangedFormations()
 		{
 			List<Tuple<Formation, ArcherPosition>> list = this._rangedFormations.CombineWith(this._teamAISiegeDefender.ArcherPositions);
@@ -422,7 +403,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001192 RID: 4498 RVA: 0x0003D770 File Offset: 0x0003B970
 		private void ManageGatesForSallyingOut()
 		{
 			if (!this._teamAISiegeDefender.InnerGate.IsGateOpen || !this._teamAISiegeDefender.OuterGate.IsGateOpen)
@@ -451,7 +431,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001193 RID: 4499 RVA: 0x0003D86C File Offset: 0x0003BA6C
 		private void StartSallyOut()
 		{
 			this.DistributeRangedFormations();
@@ -463,7 +442,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001194 RID: 4500 RVA: 0x0003D8E0 File Offset: 0x0003BAE0
 		private void CarryOutDefense(List<SiegeLane> defendedLanes, List<SiegeLane> lanesToBeRetaken, bool isEnemyInside, bool doRangedJoinMelee, out bool hasTransferOccurred)
 		{
 			hasTransferOccurred = false;
@@ -1014,7 +992,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001195 RID: 4501 RVA: 0x0003F164 File Offset: 0x0003D364
 		private void CheckAndChangeState()
 		{
 			if (!this.MustRetreatToCastle())
@@ -1148,7 +1125,6 @@ namespace TaleWorlds.MountAndBlade
 			this.StartRetreatToKeep();
 		}
 
-		// Token: 0x06001196 RID: 4502 RVA: 0x0003F5D0 File Offset: 0x0003D7D0
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -1172,7 +1148,6 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x06001197 RID: 4503 RVA: 0x0003F66C File Offset: 0x0003D86C
 		protected internal override float GetTacticWeight()
 		{
 			if (this._isTacticFailing)
@@ -1182,79 +1157,53 @@ namespace TaleWorlds.MountAndBlade
 			return 10f;
 		}
 
-		// Token: 0x04000492 RID: 1170
 		private const float InfantrySallyOutEffectiveness = 1f;
 
-		// Token: 0x04000493 RID: 1171
 		private const float RangedSallyOutEffectiveness = 0.3f;
 
-		// Token: 0x04000494 RID: 1172
 		private const float CavalrySallyOutEffectiveness = 2f;
 
-		// Token: 0x04000495 RID: 1173
 		private const float SallyOutDecisionPenalty = 3f;
 
-		// Token: 0x04000496 RID: 1174
 		private const float InsideEnemyThresholdRatio = 0.5f;
 
-		// Token: 0x04000497 RID: 1175
 		private readonly TeamAISiegeDefender _teamAISiegeDefender;
 
-		// Token: 0x04000498 RID: 1176
 		private readonly List<MissionObject> _castleKeyPositions;
 
-		// Token: 0x04000499 RID: 1177
 		private readonly List<SiegeLane> _lanes;
 
-		// Token: 0x0400049A RID: 1178
 		private float _startingPowerRatio;
 
-		// Token: 0x0400049B RID: 1179
 		private float _meleeDefenderPower;
 
-		// Token: 0x0400049C RID: 1180
 		private float _laneThreatCapacity;
 
-		// Token: 0x0400049D RID: 1181
 		private float _initialLaneDefensePowerRatio = -1f;
 
-		// Token: 0x0400049E RID: 1182
 		private bool _isSallyingOut;
 
-		// Token: 0x0400049F RID: 1183
 		private bool _areRangedNeededForLaneDefense;
 
-		// Token: 0x040004A0 RID: 1184
 		private bool _isTacticFailing;
 
-		// Token: 0x040004A1 RID: 1185
 		private Formation _invadingEnemyFormation;
 
-		// Token: 0x040004A2 RID: 1186
 		private Formation _emergencyFormation;
 
-		// Token: 0x040004A3 RID: 1187
 		private List<Formation> _meleeFormations;
 
-		// Token: 0x040004A4 RID: 1188
 		private List<Formation> _laneDefendingFormations = new List<Formation>();
 
-		// Token: 0x040004A5 RID: 1189
 		private List<Formation> _rangedFormations;
 
-		// Token: 0x040004A6 RID: 1190
 		private int _laneCount;
 
-		// Token: 0x020004AC RID: 1196
 		public enum TacticState
 		{
-			// Token: 0x04001A15 RID: 6677
 			ProperDefense,
-			// Token: 0x04001A16 RID: 6678
 			DesperateDefense,
-			// Token: 0x04001A17 RID: 6679
 			RetreatToKeep,
-			// Token: 0x04001A18 RID: 6680
 			SallyOut
 		}
 	}

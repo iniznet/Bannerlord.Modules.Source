@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x0200000D RID: 13
 	public static class PartyBaseHelper
 	{
-		// Token: 0x06000063 RID: 99 RVA: 0x00005E08 File Offset: 0x00004008
 		public static TextObject GetPartySizeText(PartyBase party)
 		{
 			TextObject textObject;
@@ -32,7 +30,6 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x06000064 RID: 100 RVA: 0x00005E70 File Offset: 0x00004070
 		public static TextObject GetPartySizeText(int healtyNumber, int woundedNumber, bool isInspected)
 		{
 			string text = "";
@@ -51,13 +48,11 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x06000065 RID: 101 RVA: 0x00005F38 File Offset: 0x00004138
 		public static float FindPartySizeNormalLimit(MobileParty mobileParty)
 		{
 			return MathF.Max(0.1f, (float)mobileParty.LimitedPartySize / (float)mobileParty.Party.PartySizeLimit);
 		}
 
-		// Token: 0x06000066 RID: 102 RVA: 0x00005F58 File Offset: 0x00004158
 		public static Hero GetCaptainOfTroop(PartyBase affectorParty, CharacterObject affectorCharacter)
 		{
 			foreach (TroopRosterElement troopRosterElement in affectorParty.MemberRoster.GetTroopRoster())
@@ -70,7 +65,6 @@ namespace Helpers
 			return affectorParty.LeaderHero;
 		}
 
-		// Token: 0x06000067 RID: 103 RVA: 0x00005FEC File Offset: 0x000041EC
 		public static string PrintRosterContents(TroopRoster roster)
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);
@@ -99,7 +93,6 @@ namespace Helpers
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x06000068 RID: 104 RVA: 0x000060A4 File Offset: 0x000042A4
 		public static TextObject PrintSummarisedItemRoster(ItemRoster items)
 		{
 			int num = 0;
@@ -243,7 +236,6 @@ namespace Helpers
 			return GameTexts.GameTextHelper.MergeTextObjectsWithComma(list, false);
 		}
 
-		// Token: 0x06000069 RID: 105 RVA: 0x000064E0 File Offset: 0x000046E0
 		public static TextObject PrintRegularTroopCategories(TroopRoster roster)
 		{
 			int num = 0;
@@ -305,7 +297,6 @@ namespace Helpers
 			return GameTexts.GameTextHelper.MergeTextObjectsWithComma(list, true);
 		}
 
-		// Token: 0x0600006A RID: 106 RVA: 0x00006660 File Offset: 0x00004860
 		public static CharacterObject GetVisualPartyLeader(PartyBase party)
 		{
 			if (party == null)
@@ -328,7 +319,6 @@ namespace Helpers
 			return party.MemberRoster.GetCharacterAtIndex(0);
 		}
 
-		// Token: 0x0600006B RID: 107 RVA: 0x000066CC File Offset: 0x000048CC
 		public static int GetSpeedLimitation(ItemRoster partyItemRoster, out ItemObject speedLimitationItem)
 		{
 			speedLimitationItem = null;
@@ -344,7 +334,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x0600006C RID: 108 RVA: 0x00006778 File Offset: 0x00004978
 		public static bool DoesSurrenderIsLogicalForParty(MobileParty ourParty, MobileParty enemyParty, float acceptablePowerRatio = 0.1f)
 		{
 			float num = enemyParty.Party.TotalStrength;
@@ -375,7 +364,6 @@ namespace Helpers
 			return num2 < num6;
 		}
 
-		// Token: 0x0600006D RID: 109 RVA: 0x00006908 File Offset: 0x00004B08
 		public static bool HasFeat(PartyBase party, FeatObject feat)
 		{
 			if (party == null)

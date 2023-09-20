@@ -7,16 +7,13 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000384 RID: 900
 	public class VertexAnimator : SynchedMissionObject
 	{
-		// Token: 0x06003178 RID: 12664 RVA: 0x000CCDDA File Offset: 0x000CAFDA
 		public VertexAnimator()
 		{
 			this.Speed = 20f;
 		}
 
-		// Token: 0x06003179 RID: 12665 RVA: 0x000CCDF8 File Offset: 0x000CAFF8
 		private void SetIsPlaying(bool value)
 		{
 			if (this._isPlaying != value)
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600317A RID: 12666 RVA: 0x000CCE16 File Offset: 0x000CB016
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -35,13 +31,11 @@ namespace TaleWorlds.MountAndBlade
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x0600317B RID: 12667 RVA: 0x000CCE37 File Offset: 0x000CB037
 		protected internal override void OnEditorInit()
 		{
 			this.OnInit();
 		}
 
-		// Token: 0x0600317C RID: 12668 RVA: 0x000CCE3F File Offset: 0x000CB03F
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (this._isPlaying)
@@ -51,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x0600317D RID: 12669 RVA: 0x000CCE58 File Offset: 0x000CB058
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -81,33 +74,28 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600317E RID: 12670 RVA: 0x000CCF3D File Offset: 0x000CB13D
 		public void PlayOnce()
 		{
 			this.Play();
 			this._playOnce = true;
 		}
 
-		// Token: 0x0600317F RID: 12671 RVA: 0x000CCF4C File Offset: 0x000CB14C
 		public void Pause()
 		{
 			this.SetIsPlaying(false);
 		}
 
-		// Token: 0x06003180 RID: 12672 RVA: 0x000CCF55 File Offset: 0x000CB155
 		public void Play()
 		{
 			this.Stop();
 			this.Resume();
 		}
 
-		// Token: 0x06003181 RID: 12673 RVA: 0x000CCF63 File Offset: 0x000CB163
 		public void Resume()
 		{
 			this.SetIsPlaying(true);
 		}
 
-		// Token: 0x06003182 RID: 12674 RVA: 0x000CCF6C File Offset: 0x000CB16C
 		public void Stop()
 		{
 			this.SetIsPlaying(false);
@@ -119,7 +107,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003183 RID: 12675 RVA: 0x000CCFB0 File Offset: 0x000CB1B0
 		public void StopAndGoToEnd()
 		{
 			this.SetIsPlaying(false);
@@ -131,7 +118,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003184 RID: 12676 RVA: 0x000CCFF2 File Offset: 0x000CB1F2
 		public void SetAnimation(int beginKey, int endKey, float speed)
 		{
 			this.BeginKey = beginKey;
@@ -139,7 +125,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Speed = speed;
 		}
 
-		// Token: 0x06003185 RID: 12677 RVA: 0x000CD00C File Offset: 0x000CB20C
 		public void SetAnimationSynched(int beginKey, int endKey, float speed)
 		{
 			if (beginKey != this.BeginKey || endKey != this.EndKey || speed != this.Speed)
@@ -156,7 +141,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003186 RID: 12678 RVA: 0x000CD06B File Offset: 0x000CB26B
 		public void SetProgressSynched(float value)
 		{
 			if (MathF.Abs(this.Progress - value) > 0.0001f)
@@ -171,9 +155,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170008DE RID: 2270
-		// (get) Token: 0x06003187 RID: 12679 RVA: 0x000CD0A8 File Offset: 0x000CB2A8
-		// (set) Token: 0x06003188 RID: 12680 RVA: 0x000CD0C8 File Offset: 0x000CB2C8
 		private float Progress
 		{
 			get
@@ -191,7 +172,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003189 RID: 12681 RVA: 0x000CD114 File Offset: 0x000CB314
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -202,7 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600318A RID: 12682 RVA: 0x000CD154 File Offset: 0x000CB354
 		protected internal override void OnEditorTick(float dt)
 		{
 			int componentCount = base.GameEntity.GetComponentCount(GameEntity.ComponentType.MetaMesh);
@@ -235,7 +214,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnTick(dt);
 		}
 
-		// Token: 0x0600318B RID: 12683 RVA: 0x000CD1FC File Offset: 0x000CB3FC
 		private void RefreshEditDataUsers()
 		{
 			foreach (Mesh mesh in this._animatedMeshes)
@@ -264,7 +242,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600318C RID: 12684 RVA: 0x000CD2F0 File Offset: 0x000CB4F0
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
@@ -274,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteFloatToPacket(this.Progress, CompressionBasic.AnimationProgressCompressionInfo);
 		}
 
-		// Token: 0x0600318D RID: 12685 RVA: 0x000CD344 File Offset: 0x000CB544
 		public override bool ReadFromNetwork()
 		{
 			bool flag = true;
@@ -296,25 +272,18 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x040014AB RID: 5291
 		public float Speed;
 
-		// Token: 0x040014AC RID: 5292
 		public int BeginKey;
 
-		// Token: 0x040014AD RID: 5293
 		public int EndKey;
 
-		// Token: 0x040014AE RID: 5294
 		private bool _playOnce;
 
-		// Token: 0x040014AF RID: 5295
 		private float _curAnimTime;
 
-		// Token: 0x040014B0 RID: 5296
 		private bool _isPlaying;
 
-		// Token: 0x040014B1 RID: 5297
 		private readonly List<Mesh> _animatedMeshes = new List<Mesh>();
 	}
 }

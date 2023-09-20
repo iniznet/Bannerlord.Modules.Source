@@ -16,11 +16,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Arena
 {
-	// Token: 0x02000065 RID: 101
 	public class ArenaPracticeFightMissionController : MissionLogic
 	{
-		// Token: 0x17000055 RID: 85
-		// (get) Token: 0x06000441 RID: 1089 RVA: 0x0001F5A4 File Offset: 0x0001D7A4
 		private int AISpawnIndex
 		{
 			get
@@ -29,23 +26,12 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x17000056 RID: 86
-		// (get) Token: 0x06000442 RID: 1090 RVA: 0x0001F5AC File Offset: 0x0001D7AC
-		// (set) Token: 0x06000443 RID: 1091 RVA: 0x0001F5B4 File Offset: 0x0001D7B4
 		public int RemainingOpponentCountFromLastPractice { get; private set; }
 
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x06000444 RID: 1092 RVA: 0x0001F5BD File Offset: 0x0001D7BD
-		// (set) Token: 0x06000445 RID: 1093 RVA: 0x0001F5C5 File Offset: 0x0001D7C5
 		public bool IsPlayerPracticing { get; private set; }
 
-		// Token: 0x17000058 RID: 88
-		// (get) Token: 0x06000446 RID: 1094 RVA: 0x0001F5CE File Offset: 0x0001D7CE
-		// (set) Token: 0x06000447 RID: 1095 RVA: 0x0001F5D6 File Offset: 0x0001D7D6
 		public int OpponentCountBeatenByPlayer { get; private set; }
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x06000448 RID: 1096 RVA: 0x0001F5DF File Offset: 0x0001D7DF
 		public int RemainingOpponentCount
 		{
 			get
@@ -54,17 +40,10 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x06000449 RID: 1097 RVA: 0x0001F5F1 File Offset: 0x0001D7F1
-		// (set) Token: 0x0600044A RID: 1098 RVA: 0x0001F5F9 File Offset: 0x0001D7F9
 		public bool IsPlayerSurvived { get; private set; }
 
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x0600044B RID: 1099 RVA: 0x0001F602 File Offset: 0x0001D802
-		// (set) Token: 0x0600044C RID: 1100 RVA: 0x0001F60A File Offset: 0x0001D80A
 		public bool AfterPractice { get; set; }
 
-		// Token: 0x0600044D RID: 1101 RVA: 0x0001F614 File Offset: 0x0001D814
 		public override void AfterStart()
 		{
 			this._settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -100,7 +79,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			missionBehavior.SpawnLocationCharacters(null);
 		}
 
-		// Token: 0x0600044E RID: 1102 RVA: 0x0001F808 File Offset: 0x0001DA08
 		private void SpawnPlayerNearTournamentMaster()
 		{
 			GameEntity gameEntity = base.Mission.Scene.FindEntityWithTag("sp_player_near_arena_master");
@@ -111,7 +89,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			Mission.Current.SetMissionMode(0, false);
 		}
 
-		// Token: 0x0600044F RID: 1103 RVA: 0x0001F890 File Offset: 0x0001DA90
 		private Agent SpawnArenaAgent(Team team, MatrixFrame frame)
 		{
 			CharacterObject characterObject;
@@ -149,7 +126,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return agent;
 		}
 
-		// Token: 0x06000450 RID: 1104 RVA: 0x0001F99C File Offset: 0x0001DB9C
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			if (affectorAgent == null)
@@ -173,7 +149,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			this.EnemyHitReward(affectedAgent, affectorAgent, blow.MovementSpeedDamageModifier, shotDifficulty, attackerWeapon, blow.AttackType, 0.5f * num2, num);
 		}
 
-		// Token: 0x06000451 RID: 1105 RVA: 0x0001FA1C File Offset: 0x0001DC1C
 		private void EnemyHitReward(Agent affectedAgent, Agent affectorAgent, float lastSpeedBonus, float lastShotDifficulty, WeaponComponentData attackerWeapon, AgentAttackType attackType, float hitpointRatio, float damageAmount)
 		{
 			CharacterObject characterObject = (CharacterObject)affectedAgent.Character;
@@ -186,7 +161,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000452 RID: 1106 RVA: 0x0001FA9C File Offset: 0x0001DC9C
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -223,7 +197,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000453 RID: 1107 RVA: 0x0001FC34 File Offset: 0x0001DE34
 		private Team SelectRandomAiTeam()
 		{
 			Team team = null;
@@ -242,7 +215,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return team;
 		}
 
-		// Token: 0x06000454 RID: 1108 RVA: 0x0001FCB4 File Offset: 0x0001DEB4
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent != null && affectedAgent.IsHuman)
@@ -263,13 +235,11 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000455 RID: 1109 RVA: 0x0001FD28 File Offset: 0x0001DF28
 		public override bool MissionEnded(ref MissionResult missionResult)
 		{
 			return false;
 		}
 
-		// Token: 0x06000456 RID: 1110 RVA: 0x0001FD2C File Offset: 0x0001DF2C
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
 		{
 			canPlayerLeave = true;
@@ -280,7 +250,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return new InquiryData(new TextObject("{=zv49qE35}Practice Fight", null).ToString(), GameTexts.FindText("str_give_up_fight", null).ToString(), true, true, GameTexts.FindText("str_ok", null).ToString(), GameTexts.FindText("str_cancel", null).ToString(), new Action(base.Mission.OnEndMissionResult), null, "", 0f, null, null, null);
 		}
 
-		// Token: 0x06000457 RID: 1111 RVA: 0x0001FDAC File Offset: 0x0001DFAC
 		public void StartPlayerPractice()
 		{
 			this.IsPlayerPracticing = true;
@@ -288,7 +257,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			this.StartPractice();
 		}
 
-		// Token: 0x06000458 RID: 1112 RVA: 0x0001FDC4 File Offset: 0x0001DFC4
 		private void StartPractice()
 		{
 			this.InitializeParticipantCharacters();
@@ -316,13 +284,11 @@ namespace SandBox.Missions.MissionLogics.Arena
 			this._nextSpawnTime = base.Mission.CurrentTime + 14f;
 		}
 
-		// Token: 0x06000459 RID: 1113 RVA: 0x0001FEC6 File Offset: 0x0001E0C6
 		private bool CheckPracticeEndedForPlayer()
 		{
 			return base.Mission.MainAgent == null || !base.Mission.MainAgent.IsActive() || this.RemainingOpponentCount == 0;
 		}
 
-		// Token: 0x0600045A RID: 1114 RVA: 0x0001FEF4 File Offset: 0x0001E0F4
 		private void AddRandomWeapons(Equipment equipment, int spawnIndex)
 		{
 			int num = 1 + spawnIndex * 3 / 30;
@@ -344,7 +310,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x0600045B RID: 1115 RVA: 0x0001FFC4 File Offset: 0x0001E1C4
 		private void AddRandomClothes(CharacterObject troop, Equipment equipment)
 		{
 			Equipment participantArmor = Campaign.Current.Models.TournamentModel.GetParticipantArmor(troop);
@@ -361,7 +326,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x0600045C RID: 1116 RVA: 0x0002001C File Offset: 0x0001E21C
 		private void InitializeTeams()
 		{
 			this._AIParticipantTeams = new List<Team>();
@@ -382,14 +346,12 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x0600045D RID: 1117 RVA: 0x00020150 File Offset: 0x0001E350
 		private void InitializeParticipantCharacters()
 		{
 			List<CharacterObject> participantCharacters = ArenaPracticeFightMissionController.GetParticipantCharacters(this._settlement);
 			this._participantCharacters = participantCharacters.OrderBy((CharacterObject x) => x.Level).ToList<CharacterObject>();
 		}
 
-		// Token: 0x0600045E RID: 1118 RVA: 0x0002019C File Offset: 0x0001E39C
 		public static List<CharacterObject> GetParticipantCharacters(Settlement settlement)
 		{
 			int num = 30;
@@ -471,7 +433,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return list;
 		}
 
-		// Token: 0x0600045F RID: 1119 RVA: 0x00020454 File Offset: 0x0001E654
 		private static void GetUpgradeTargets(CharacterObject troop, ref List<CharacterObject> list)
 		{
 			if (!list.Contains(troop) && troop.Tier >= 3)
@@ -485,7 +446,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000460 RID: 1120 RVA: 0x0002049C File Offset: 0x0001E69C
 		private void ArrangePlayerTeamEnmity()
 		{
 			foreach (Team team in this._AIParticipantTeams)
@@ -494,7 +454,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000461 RID: 1121 RVA: 0x00020500 File Offset: 0x0001E700
 		private Team GetStrongestTeamExceptPlayerTeam()
 		{
 			Team team = null;
@@ -511,7 +470,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return team;
 		}
 
-		// Token: 0x06000462 RID: 1122 RVA: 0x00020564 File Offset: 0x0001E764
 		private int CalculateTeamPower(Team team)
 		{
 			int num = 0;
@@ -522,7 +480,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return num;
 		}
 
-		// Token: 0x06000463 RID: 1123 RVA: 0x000205D8 File Offset: 0x0001E7D8
 		private MatrixFrame GetSpawnFrame(bool considerPlayerDistance, bool isInitialSpawn)
 		{
 			List<MatrixFrame> list = ((isInitialSpawn || Extensions.IsEmpty<MatrixFrame>(this._spawnFrames)) ? this._initialSpawnFrames : this._spawnFrames);
@@ -565,7 +522,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return matrixFrame;
 		}
 
-		// Token: 0x06000464 RID: 1124 RVA: 0x000206DC File Offset: 0x0001E8DC
 		private float CalculateLocationScore(MatrixFrame matrixFrame)
 		{
 			float num = 100f;
@@ -585,64 +541,44 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return num;
 		}
 
-		// Token: 0x04000205 RID: 517
 		private const int AIParticipantCount = 30;
 
-		// Token: 0x04000206 RID: 518
 		private const int MaxAliveAgentCount = 6;
 
-		// Token: 0x04000207 RID: 519
 		private const int MaxSpawnInterval = 14;
 
-		// Token: 0x04000208 RID: 520
 		private const int MinSpawnDistanceSquared = 144;
 
-		// Token: 0x04000209 RID: 521
 		private const int TotalStageCount = 3;
 
-		// Token: 0x0400020A RID: 522
 		private const int PracticeFightTroopTierLimit = 3;
 
-		// Token: 0x0400020B RID: 523
 		public int TeleportTime = 5;
 
-		// Token: 0x0400020C RID: 524
 		private Settlement _settlement;
 
-		// Token: 0x0400020D RID: 525
 		private int _spawnedOpponentAgentCount;
 
-		// Token: 0x0400020E RID: 526
 		private int _aliveOpponentCount;
 
-		// Token: 0x0400020F RID: 527
 		private float _nextSpawnTime;
 
-		// Token: 0x04000210 RID: 528
 		private List<MatrixFrame> _initialSpawnFrames;
 
-		// Token: 0x04000211 RID: 529
 		private List<MatrixFrame> _spawnFrames;
 
-		// Token: 0x04000212 RID: 530
 		private List<Team> _AIParticipantTeams;
 
-		// Token: 0x04000213 RID: 531
 		private List<Agent> _participantAgents;
 
-		// Token: 0x04000214 RID: 532
 		private Team _tournamentMasterTeam;
 
-		// Token: 0x04000215 RID: 533
 		private BasicMissionTimer _teleportTimer;
 
-		// Token: 0x04000216 RID: 534
 		private List<CharacterObject> _participantCharacters;
 
-		// Token: 0x0400021C RID: 540
 		private const float XpShareForKill = 0.5f;
 
-		// Token: 0x0400021D RID: 541
 		private const float XpShareForDamage = 0.5f;
 	}
 }

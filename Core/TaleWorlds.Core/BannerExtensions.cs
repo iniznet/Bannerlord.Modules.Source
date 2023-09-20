@@ -2,10 +2,8 @@
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x0200000D RID: 13
 	public static class BannerExtensions
 	{
-		// Token: 0x0600009A RID: 154 RVA: 0x00003CFC File Offset: 0x00001EFC
 		public static bool IsContentsSameWith(this Banner banner, Banner otherBanner)
 		{
 			if (banner == null && otherBanner == null)

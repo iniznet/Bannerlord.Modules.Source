@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions
 {
-	// Token: 0x020003F2 RID: 1010
 	public class DebugObjectDestroyerMissionController : MissionLogic
 	{
-		// Token: 0x060034CA RID: 13514 RVA: 0x000DB988 File Offset: 0x000D9B88
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -94,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x040016A1 RID: 5793
 		private GameEntity _contouredEntity;
 	}
 }

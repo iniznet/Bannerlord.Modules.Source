@@ -15,10 +15,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Tournaments.MissionLogics
 {
-	// Token: 0x0200001C RID: 28
 	public class TournamentFightMissionController : MissionLogic, ITournamentGameBehavior
 	{
-		// Token: 0x06000134 RID: 308 RVA: 0x00008B18 File Offset: 0x00006D18
 		public TournamentFightMissionController(CultureObject culture)
 		{
 			this._match = null;
@@ -28,14 +26,12 @@ namespace SandBox.Tournaments.MissionLogics
 			this._currentTournamentMountAgents = new List<Agent>();
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x00008B95 File Offset: 0x00006D95
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			base.Mission.CanAgentRout_AdditionalCondition += this.CanAgentRout;
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x00008BB4 File Offset: 0x00006DB4
 		public override void AfterStart()
 		{
 			TournamentBehavior.DeleteTournamentSetsExcept(base.Mission.Scene.FindEntityWithTag("tournament_fight"));
@@ -54,7 +50,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x00008C58 File Offset: 0x00006E58
 		public void PrepareForMatch()
 		{
 			List<Equipment> teamWeaponEquipmentList = this.GetTeamWeaponEquipmentList(this._match.Teams.First<TournamentTeam>().Participants.Count<TournamentParticipant>());
@@ -70,7 +65,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00008D20 File Offset: 0x00006F20
 		public void StartMatch(TournamentMatch match, bool isLastRound)
 		{
 			this._cheerStarted = false;
@@ -115,13 +109,11 @@ namespace SandBox.Tournaments.MissionLogics
 			this._aliveTeams = this._match.Teams.ToList<TournamentTeam>();
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00008F40 File Offset: 0x00007140
 		protected override void OnEndMission()
 		{
 			base.Mission.CanAgentRout_AdditionalCondition -= this.CanAgentRout;
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x00008F5C File Offset: 0x0000715C
 		private void SpawnTournamentParticipant(GameEntity spawnPoint, TournamentParticipant participant, Team team)
 		{
 			MatrixFrame globalFrame = spawnPoint.GetGlobalFrame();
@@ -129,7 +121,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this.SpawnAgentWithRandomItems(participant, team, globalFrame);
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x00008F88 File Offset: 0x00007188
 		private List<Equipment> GetTeamWeaponEquipmentList(int teamSize)
 		{
 			List<Equipment> list = new List<Equipment>();
@@ -153,7 +144,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return list;
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x0000905C File Offset: 0x0000725C
 		public void SkipMatch(TournamentMatch match)
 		{
 			this._match = match;
@@ -161,7 +151,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this.Simulate();
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x00009074 File Offset: 0x00007274
 		public bool IsMatchEnded()
 		{
 			if (this._isSimulated || this._match == null)
@@ -200,7 +189,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return false;
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x00009194 File Offset: 0x00007394
 		public void OnMatchResultsReady()
 		{
 			if (!this._match.IsPlayerParticipating())
@@ -243,7 +231,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00009298 File Offset: 0x00007498
 		public void OnMatchEnded()
 		{
 			SandBoxHelpers.MissionHelper.FadeOutAgents(this._currentTournamentAgents.Where((Agent x) => x.IsActive()), true, false);
@@ -259,7 +246,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this._currentTournamentMountAgents.Clear();
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00009360 File Offset: 0x00007560
 		private void SpawnAgentWithRandomItems(TournamentParticipant participant, Team team, MatrixFrame frame)
 		{
 			frame.Strafe((float)MBRandom.RandomInt(-2, 2) * 1f);
@@ -289,7 +275,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x00009484 File Offset: 0x00007684
 		private void AddRandomClothes(CultureObject culture, TournamentParticipant participant)
 		{
 			Equipment participantArmor = Campaign.Current.Models.TournamentModel.GetParticipantArmor(participant.Character);
@@ -303,7 +288,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x000094D8 File Offset: 0x000076D8
 		private bool CheckIfTeamIsDead(TournamentTeam affectedParticipantTeam)
 		{
 			bool flag = true;
@@ -321,7 +305,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return flag;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00009534 File Offset: 0x00007734
 		private void AddScoreToRemainingTeams()
 		{
 			foreach (TournamentTeam tournamentTeam in this._aliveTeams)
@@ -333,7 +316,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x000095BC File Offset: 0x000077BC
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (!this.IsMatchEnded() && affectorAgent != null && affectedAgent != affectorAgent && affectedAgent.IsHuman && affectorAgent.IsHuman)
@@ -349,13 +331,11 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x0000963F File Offset: 0x0000783F
 		public bool CanAgentRout(Agent agent)
 		{
 			return false;
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00009644 File Offset: 0x00007844
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			if (affectorAgent == null)
@@ -379,7 +359,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this.EnemyHitReward(affectedAgent, affectorAgent, blow.MovementSpeedDamageModifier, shotDifficulty, attackerWeapon, blow.AttackType, 0.5f * num2, num);
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x000096C4 File Offset: 0x000078C4
 		private void EnemyHitReward(Agent affectedAgent, Agent affectorAgent, float lastSpeedBonus, float lastShotDifficulty, WeaponComponentData lastAttackerWeapon, AgentAttackType attackType, float hitpointRatio, float damageAmount)
 		{
 			CharacterObject characterObject = (CharacterObject)affectedAgent.Character;
@@ -391,7 +370,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x0000974C File Offset: 0x0000794C
 		public bool CheckIfIsThereAnyEnemies()
 		{
 			Team team = null;
@@ -412,7 +390,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return false;
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x000097D0 File Offset: 0x000079D0
 		private void Simulate()
 		{
 			this._isSimulated = false;
@@ -477,7 +454,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this._isSimulated = true;
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00009A4C File Offset: 0x00007C4C
 		private bool IsThereAnyPlayerAgent()
 		{
 			if (base.Mission.MainAgent != null && base.Mission.MainAgent.IsActive())
@@ -487,13 +463,11 @@ namespace SandBox.Tournaments.MissionLogics
 			return this._currentTournamentAgents.Any((Agent agent) => agent.IsPlayerControlled);
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x00009AA4 File Offset: 0x00007CA4
 		private void SkipMatch()
 		{
 			Mission.Current.GetMissionBehavior<TournamentBehavior>().SkipMatch(false);
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x00009AB8 File Offset: 0x00007CB8
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
 		{
 			InquiryData inquiryData = null;
@@ -543,58 +517,40 @@ namespace SandBox.Tournaments.MissionLogics
 			return inquiryData;
 		}
 
-		// Token: 0x04000071 RID: 113
 		private readonly CharacterObject _defaultWeaponTemplatesIdTeamSizeOne = MBObjectManager.Instance.GetObject<CharacterObject>("tournament_template_empire_one_participant_set_v1");
 
-		// Token: 0x04000072 RID: 114
 		private readonly CharacterObject _defaultWeaponTemplatesIdTeamSizeTwo = MBObjectManager.Instance.GetObject<CharacterObject>("tournament_template_empire_two_participant_set_v1");
 
-		// Token: 0x04000073 RID: 115
 		private readonly CharacterObject _defaultWeaponTemplatesIdTeamSizeFour = MBObjectManager.Instance.GetObject<CharacterObject>("tournament_template_empire_four_participant_set_v1");
 
-		// Token: 0x04000074 RID: 116
 		private TournamentMatch _match;
 
-		// Token: 0x04000075 RID: 117
 		private bool _isLastRound;
 
-		// Token: 0x04000076 RID: 118
 		private BasicMissionTimer _endTimer;
 
-		// Token: 0x04000077 RID: 119
 		private BasicMissionTimer _cheerTimer;
 
-		// Token: 0x04000078 RID: 120
 		private List<GameEntity> _spawnPoints;
 
-		// Token: 0x04000079 RID: 121
 		private bool _isSimulated;
 
-		// Token: 0x0400007A RID: 122
 		private bool _forceEndMatch;
 
-		// Token: 0x0400007B RID: 123
 		private bool _cheerStarted;
 
-		// Token: 0x0400007C RID: 124
 		private CultureObject _culture;
 
-		// Token: 0x0400007D RID: 125
 		private List<TournamentParticipant> _aliveParticipants;
 
-		// Token: 0x0400007E RID: 126
 		private List<TournamentTeam> _aliveTeams;
 
-		// Token: 0x0400007F RID: 127
 		private List<Agent> _currentTournamentAgents;
 
-		// Token: 0x04000080 RID: 128
 		private List<Agent> _currentTournamentMountAgents;
 
-		// Token: 0x04000081 RID: 129
 		private const float XpShareForKill = 0.5f;
 
-		// Token: 0x04000082 RID: 130
 		private const float XpShareForDamage = 0.5f;
 	}
 }

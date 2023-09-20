@@ -18,15 +18,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x0200000F RID: 15
 	public class GauntletUISubModule : MBSubModuleBase
 	{
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000067 RID: 103 RVA: 0x000045BA File Offset: 0x000027BA
-		// (set) Token: 0x06000068 RID: 104 RVA: 0x000045C1 File Offset: 0x000027C1
 		public static GauntletUISubModule Instance { get; private set; }
 
-		// Token: 0x0600006A RID: 106 RVA: 0x000045D4 File Offset: 0x000027D4
 		protected override void OnSubModuleLoad()
 		{
 			base.OnSubModuleLoad();
@@ -81,12 +76,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			GauntletUISubModule.Instance = this;
 		}
 
-		// Token: 0x0600006B RID: 107 RVA: 0x0000484C File Offset: 0x00002A4C
 		private void OnControllerDisconnected()
 		{
 		}
 
-		// Token: 0x0600006C RID: 108 RVA: 0x0000484E File Offset: 0x00002A4E
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
 			if (changedManagedOptionsType == null)
@@ -101,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600006D RID: 109 RVA: 0x00004874 File Offset: 0x00002A74
 		protected override void OnSubModuleUnloaded()
 		{
 			ScreenManager.OnControllerDisconnected -= new ScreenManager.OnControllerDisconnectedEvent(this.OnControllerDisconnected);
@@ -116,7 +108,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.OnSubModuleUnloaded();
 		}
 
-		// Token: 0x0600006E RID: 110 RVA: 0x000048DC File Offset: 0x00002ADC
 		protected override void OnBeforeInitialModuleScreenSetAsRoot()
 		{
 			if (!this._initialized)
@@ -141,7 +132,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x0000498A File Offset: 0x00002B8A
 		public override void OnMultiplayerGameStart(Game game, object starterObject)
 		{
 			base.OnMultiplayerGameStart(game, starterObject);
@@ -152,7 +142,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x000049AF File Offset: 0x00002BAF
 		public override void BeginGameStart(Game game)
 		{
 			base.BeginGameStart(game);
@@ -162,7 +151,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000071 RID: 113 RVA: 0x000049CF File Offset: 0x00002BCF
 		public override void OnGameEnd(Game game)
 		{
 			base.OnGameEnd(game);
@@ -173,7 +161,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x000049F3 File Offset: 0x00002BF3
 		protected override void OnApplicationTick(float dt)
 		{
 			base.OnApplicationTick(dt);
@@ -184,13 +171,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x00004A1A File Offset: 0x00002C1A
 		private static void CustomTooltipAction(PropertyBasedTooltipVM propertyBasedTooltip, object[] args)
 		{
 			propertyBasedTooltip.UpdateTooltip(args[0] as List<TooltipProperty>);
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x00004A2A File Offset: 0x00002C2A
 		[CommandLineFunctionality.CommandLineArgumentFunction("clear", "chatlog")]
 		public static string ClearChatLog(List<string> strings)
 		{
@@ -198,7 +183,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return "Chatlog cleared!";
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00004A38 File Offset: 0x00002C38
 		[CommandLineFunctionality.CommandLineArgumentFunction("can_focus_while_in_mission", "chatlog")]
 		public static string SetCanFocusWhileInMission(List<string> strings)
 		{
@@ -210,25 +194,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return "Wrong input";
 		}
 
-		// Token: 0x04000044 RID: 68
 		private bool _initialized;
 
-		// Token: 0x04000045 RID: 69
 		private bool _isMultiplayer;
 
-		// Token: 0x04000046 RID: 70
 		private GauntletQueryManager _queryManager;
 
-		// Token: 0x04000047 RID: 71
 		private LoadingWindowManager _loadingWindowManager;
 
-		// Token: 0x04000048 RID: 72
 		private SpriteCategory _fullBackgroundCategory;
 
-		// Token: 0x04000049 RID: 73
 		private SpriteCategory _backgroundCategory;
 
-		// Token: 0x0400004A RID: 74
 		private SpriteCategory _fullscreensCategory;
 	}
 }

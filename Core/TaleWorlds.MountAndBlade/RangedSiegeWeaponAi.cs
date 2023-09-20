@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade.DividableTasks;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200014D RID: 333
 	public abstract class RangedSiegeWeaponAi : UsableMachineAIBase
 	{
-		// Token: 0x060010DB RID: 4315 RVA: 0x00037208 File Offset: 0x00035408
 		public RangedSiegeWeaponAi(RangedSiegeWeapon rangedSiegeWeapon)
 			: base(rangedSiegeWeapon)
 		{
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			this._targetEvaluationTimer = new Timer(Mission.Current.CurrentTime, 0.5f, true);
 		}
 
-		// Token: 0x060010DC RID: 4316 RVA: 0x00037278 File Offset: 0x00035478
 		protected override void OnTick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
 		{
 			base.OnTick(agentToCompareTo, formationToCompareTo, potentialUsersTeam, dt);
@@ -89,13 +86,11 @@ namespace TaleWorlds.MountAndBlade
 			this.AfterTick(agentToCompareTo, formationToCompareTo, potentialUsersTeam, dt);
 		}
 
-		// Token: 0x060010DD RID: 4317 RVA: 0x0003747C File Offset: 0x0003567C
 		private void SetTargetFromThreatSeeker()
 		{
 			this._target = this._threatSeeker.PrepareTargetFromTask();
 		}
 
-		// Token: 0x060010DE RID: 4318 RVA: 0x0003748F File Offset: 0x0003568F
 		public void FindNextTarget()
 		{
 			if (this.UsableMachine.PilotAgent != null && this.UsableMachine.PilotAgent.IsAIControlled)
@@ -105,7 +100,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010DF RID: 4319 RVA: 0x000374D0 File Offset: 0x000356D0
 		private void AfterTick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
 		{
 			if ((dt <= 0f || (agentToCompareTo != null && this.UsableMachine.PilotAgent != agentToCompareTo) || (formationToCompareTo != null && (this.UsableMachine.PilotAgent == null || !this.UsableMachine.PilotAgent.IsAIControlled || this.UsableMachine.PilotAgent.Formation != formationToCompareTo))) && this.UsableMachine.PilotAgent == null)
@@ -115,40 +109,29 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010E0 RID: 4320 RVA: 0x0003754B File Offset: 0x0003574B
 		private void SetTargetingTimer()
 		{
 			this._delayTimer = this._delayDuration + MBRandom.RandomFloat * 0.5f;
 		}
 
-		// Token: 0x04000443 RID: 1091
 		private const float TargetEvaluationDelay = 0.5f;
 
-		// Token: 0x04000444 RID: 1092
 		private const int MaxTargetEvaluationCount = 4;
 
-		// Token: 0x04000445 RID: 1093
 		private readonly RangedSiegeWeaponAi.ThreatSeeker _threatSeeker;
 
-		// Token: 0x04000446 RID: 1094
 		private Threat _target;
 
-		// Token: 0x04000447 RID: 1095
 		private float _delayTimer;
 
-		// Token: 0x04000448 RID: 1096
 		private float _delayDuration = 1f;
 
-		// Token: 0x04000449 RID: 1097
 		private int _cannotShootCounter;
 
-		// Token: 0x0400044A RID: 1098
 		private readonly Timer _targetEvaluationTimer;
 
-		// Token: 0x02000495 RID: 1173
 		public class ThreatSeeker
 		{
-			// Token: 0x060036F3 RID: 14067 RVA: 0x000E19B0 File Offset: 0x000DFBB0
 			public ThreatSeeker(RangedSiegeWeapon weapon)
 			{
 				this.Weapon = weapon;
@@ -165,7 +148,6 @@ namespace TaleWorlds.MountAndBlade
 				this._getMostDangerousThreat = new FindMostDangerousThreat(null);
 			}
 
-			// Token: 0x060036F4 RID: 14068 RVA: 0x000E1A60 File Offset: 0x000DFC60
 			public Threat PrepareTargetFromTask()
 			{
 				Agent agent2;
@@ -210,7 +192,6 @@ namespace TaleWorlds.MountAndBlade
 				return this._currentThreat;
 			}
 
-			// Token: 0x060036F5 RID: 14069 RVA: 0x000E1BC8 File Offset: 0x000DFDC8
 			public bool UpdateThreatSeekerTask()
 			{
 				Agent targetAgent = this._targetAgent;
@@ -221,21 +202,18 @@ namespace TaleWorlds.MountAndBlade
 				return this._getMostDangerousThreat.Update();
 			}
 
-			// Token: 0x060036F6 RID: 14070 RVA: 0x000E1BF3 File Offset: 0x000DFDF3
 			public void PrepareThreatSeekerTask(Action lastAction)
 			{
 				this._getMostDangerousThreat.Prepare(this.GetAllThreats(), this.Weapon);
 				this._getMostDangerousThreat.SetLastAction(lastAction);
 			}
 
-			// Token: 0x060036F7 RID: 14071 RVA: 0x000E1C18 File Offset: 0x000DFE18
 			public void Release()
 			{
 				this._targetAgent = null;
 				this._currentThreat = null;
 			}
 
-			// Token: 0x060036F8 RID: 14072 RVA: 0x000E1C28 File Offset: 0x000DFE28
 			public List<Threat> GetAllThreats()
 			{
 				List<Threat> list = new List<Threat>();
@@ -281,7 +259,6 @@ namespace TaleWorlds.MountAndBlade
 				return list;
 			}
 
-			// Token: 0x060036F9 RID: 14073 RVA: 0x000E1DC8 File Offset: 0x000DFFC8
 			private static float GetTargetValueOfFormation(Formation formation, IEnumerable<ICastleKeyPosition> referencePositions)
 			{
 				if (formation.QuerySystem.LocalEnemyPower / formation.QuerySystem.LocalAllyPower > 0.5f)
@@ -298,13 +275,11 @@ namespace TaleWorlds.MountAndBlade
 				return num * num2;
 			}
 
-			// Token: 0x060036FA RID: 14074 RVA: 0x000E1E5F File Offset: 0x000E005F
 			public static TargetFlags GetTargetFlagsOfFormation()
 			{
 				return TargetFlags.None | TargetFlags.IsMoving | TargetFlags.IsFlammable | TargetFlags.IsAttacker;
 			}
 
-			// Token: 0x060036FB RID: 14075 RVA: 0x000E1E6C File Offset: 0x000E006C
 			private static float GetPositionMultiplierOfFormation(Formation formation, IEnumerable<ICastleKeyPosition> referencePositions)
 			{
 				ICastleKeyPosition castleKeyPosition;
@@ -342,7 +317,6 @@ namespace TaleWorlds.MountAndBlade
 				return num * (flag ? 7.5f : 1f);
 			}
 
-			// Token: 0x060036FC RID: 14076 RVA: 0x000E1F28 File Offset: 0x000E0128
 			private static float GetMinimumDistanceBetweenPositions(Vec3 position, IEnumerable<ICastleKeyPosition> referencePositions, out ICastleKeyPosition closestCastlePosition)
 			{
 				if (referencePositions != null && referencePositions.Count<ICastleKeyPosition>() != 0)
@@ -354,7 +328,6 @@ namespace TaleWorlds.MountAndBlade
 				return -1f;
 			}
 
-			// Token: 0x060036FD RID: 14077 RVA: 0x000E1F84 File Offset: 0x000E0184
 			public static Threat GetMaxThreat(List<ICastleKeyPosition> castleKeyPositions)
 			{
 				List<ITargetable> list = new List<ITargetable>();
@@ -381,31 +354,22 @@ namespace TaleWorlds.MountAndBlade
 				return list2.MaxBy((Threat t) => t.ThreatValue);
 			}
 
-			// Token: 0x040019AD RID: 6573
 			private FindMostDangerousThreat _getMostDangerousThreat;
 
-			// Token: 0x040019AE RID: 6574
 			private const float SingleUnitThreatValue = 3f;
 
-			// Token: 0x040019AF RID: 6575
 			private const float InsideWallsThreatMultiplier = 3f;
 
-			// Token: 0x040019B0 RID: 6576
 			private Threat _currentThreat;
 
-			// Token: 0x040019B1 RID: 6577
 			private Agent _targetAgent;
 
-			// Token: 0x040019B2 RID: 6578
 			public RangedSiegeWeapon Weapon;
 
-			// Token: 0x040019B3 RID: 6579
 			public List<Vec3> WeaponPositions;
 
-			// Token: 0x040019B4 RID: 6580
 			private readonly List<ITargetable> _potentialTargetUsableMachines;
 
-			// Token: 0x040019B5 RID: 6581
 			private readonly List<ICastleKeyPosition> _referencePositions;
 		}
 	}

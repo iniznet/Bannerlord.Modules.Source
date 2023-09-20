@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection
 {
-	// Token: 0x02000004 RID: 4
 	public class BoundaryCrossingVM : ViewModel
 	{
-		// Token: 0x06000003 RID: 3 RVA: 0x00002058 File Offset: 0x00000258
 		public BoundaryCrossingVM(Mission mission, Action<bool> onEscapeMenuToggled)
 		{
 			this._onEscapeMenuToggled = onEscapeMenuToggled;
@@ -22,9 +20,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.WarningProgress = 0.0;
 		}
 
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000004 RID: 4 RVA: 0x0000210D File Offset: 0x0000030D
-		// (set) Token: 0x06000005 RID: 5 RVA: 0x00002115 File Offset: 0x00000315
 		[DataSourceProperty]
 		public bool Show
 		{
@@ -43,9 +38,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000006 RID: 6 RVA: 0x0000213F File Offset: 0x0000033F
-		// (set) Token: 0x06000007 RID: 7 RVA: 0x00002147 File Offset: 0x00000347
 		[DataSourceProperty]
 		public string WarningText
 		{
@@ -63,9 +55,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000008 RID: 8 RVA: 0x0000216A File Offset: 0x0000036A
-		// (set) Token: 0x06000009 RID: 9 RVA: 0x00002172 File Offset: 0x00000372
 		[DataSourceProperty]
 		public double WarningProgress
 		{
@@ -84,9 +73,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x0600000A RID: 10 RVA: 0x000021A2 File Offset: 0x000003A2
-		// (set) Token: 0x0600000B RID: 11 RVA: 0x000021AA File Offset: 0x000003AA
 		[DataSourceProperty]
 		public int WarningIntProgress
 		{
@@ -104,9 +90,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600000C RID: 12 RVA: 0x000021C8 File Offset: 0x000003C8
-		// (set) Token: 0x0600000D RID: 13 RVA: 0x000021D0 File Offset: 0x000003D0
 		[DataSourceProperty]
 		public int Countdown
 		{
@@ -124,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x000021F0 File Offset: 0x000003F0
 		private void OnStartTime(float duration, float progress)
 		{
 			TextObject textObject = new TextObject("{=eGuQKRhb}You are leaving the area!", null);
@@ -155,44 +137,33 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.Show = true;
 		}
 
-		// Token: 0x0600000F RID: 15 RVA: 0x000022A2 File Offset: 0x000004A2
 		private void OnStopTime()
 		{
 			this.Show = false;
 		}
 
-		// Token: 0x06000010 RID: 16 RVA: 0x000022AB File Offset: 0x000004AB
 		private void OnTimeCount(float progress)
 		{
 			this.WarningProgress = (double)progress;
 			this.Countdown = MathF.Ceiling((1f - progress) * this._duration);
 		}
 
-		// Token: 0x04000001 RID: 1
 		private readonly Mission _mission;
 
-		// Token: 0x04000002 RID: 2
 		private readonly MissionBoundaryCrossingHandler _missionBoundaryCrossingHandler;
 
-		// Token: 0x04000003 RID: 3
 		private readonly Action<bool> _onEscapeMenuToggled;
 
-		// Token: 0x04000004 RID: 4
 		private float _duration;
 
-		// Token: 0x04000005 RID: 5
 		private bool _show = true;
 
-		// Token: 0x04000006 RID: 6
 		private string _warningText;
 
-		// Token: 0x04000007 RID: 7
 		private double _warningProgress = -1.0;
 
-		// Token: 0x04000008 RID: 8
 		private int _warningIntProgress = -1;
 
-		// Token: 0x04000009 RID: 9
 		private int _countdown;
 	}
 }

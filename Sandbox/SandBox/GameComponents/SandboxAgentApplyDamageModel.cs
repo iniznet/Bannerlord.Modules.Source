@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x02000085 RID: 133
 	public class SandboxAgentApplyDamageModel : AgentApplyDamageModel
 	{
-		// Token: 0x06000594 RID: 1428 RVA: 0x000275C0 File Offset: 0x000257C0
 		public override float CalculateDamage(in AttackInformation attackInformation, in AttackCollisionData collisionData, in MissionWeapon weapon, float baseDamage)
 		{
 			Formation attackerFormation = attackInformation.AttackerFormation;
@@ -476,7 +474,6 @@ namespace SandBox.GameComponents
 			return MathF.Max(0f, num);
 		}
 
-		// Token: 0x06000595 RID: 1429 RVA: 0x00028238 File Offset: 0x00026438
 		public override bool DecideCrushedThrough(Agent attackerAgent, Agent defenderAgent, float totalAttackEnergy, Agent.UsageDirection attackDirection, StrikeType strikeType, WeaponComponentData defendItem, bool isPassiveUsage)
 		{
 			EquipmentIndex equipmentIndex = attackerAgent.GetWieldedItemIndex(1);
@@ -496,7 +493,6 @@ namespace SandBox.GameComponents
 			return totalAttackEnergy > num;
 		}
 
-		// Token: 0x06000596 RID: 1430 RVA: 0x000282A8 File Offset: 0x000264A8
 		public override void DecideMissileWeaponFlags(Agent attackerAgent, MissionWeapon missileWeapon, ref WeaponFlags missileWeaponFlags)
 		{
 			CharacterObject characterObject = ((attackerAgent != null) ? attackerAgent.Character : null) as CharacterObject;
@@ -506,20 +502,17 @@ namespace SandBox.GameComponents
 			}
 		}
 
-		// Token: 0x06000597 RID: 1431 RVA: 0x000282F2 File Offset: 0x000264F2
 		public override bool CanWeaponIgnoreFriendlyFireChecks(WeaponComponentData weapon)
 		{
 			return weapon != null && weapon.IsConsumable && Extensions.HasAnyFlag<WeaponFlags>(weapon.WeaponFlags, 131072L) && Extensions.HasAnyFlag<WeaponFlags>(weapon.WeaponFlags, 1073741824L);
 		}
 
-		// Token: 0x06000598 RID: 1432 RVA: 0x00028328 File Offset: 0x00026528
 		public override bool CanWeaponDismount(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			CharacterObject characterObject;
 			return MBMath.IsBetween(blow.VictimBodyPart, 0, 6) && ((!attackerAgent.HasMount && blow.StrikeType == null && Extensions.HasAnyFlag<WeaponFlags>(blow.WeaponRecord.WeaponFlags, 33554432L)) || (blow.StrikeType == 1 && Extensions.HasAnyFlag<WeaponFlags>(blow.WeaponRecord.WeaponFlags, 16777216L)) || ((characterObject = attackerAgent.Character as CharacterObject) != null && ((attackerWeapon.RelevantSkill == DefaultSkills.Crossbow && attackerWeapon.IsConsumable && characterObject.GetPerkValue(DefaultPerks.Crossbow.HammerBolts)) || (attackerWeapon.RelevantSkill == DefaultSkills.Throwing && attackerWeapon.IsConsumable && characterObject.GetPerkValue(DefaultPerks.Throwing.KnockOff)))));
 		}
 
-		// Token: 0x06000599 RID: 1433 RVA: 0x000283EC File Offset: 0x000265EC
 		public override void CalculateCollisionStunMultipliers(Agent attackerAgent, Agent defenderAgent, bool isAlternativeAttack, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier)
 		{
 			float num = 1f;
@@ -533,14 +526,12 @@ namespace SandBox.GameComponents
 			attackerStunMultiplier = MathF.Max(0f, num2);
 		}
 
-		// Token: 0x0600059A RID: 1434 RVA: 0x00028458 File Offset: 0x00026658
 		public override bool CanWeaponKnockback(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			AttackCollisionData attackCollisionData = collisionData;
 			return MBMath.IsBetween(attackCollisionData.VictimHitBodyPart, 0, 6) && !Extensions.HasAnyFlag<WeaponFlags>(attackerWeapon.WeaponFlags, 67108864L) && (attackerWeapon.IsConsumable || (blow.BlowFlag & 128) != null || (blow.StrikeType == 1 && Extensions.HasAnyFlag<WeaponFlags>(blow.WeaponRecord.WeaponFlags, 64L)));
 		}
 
-		// Token: 0x0600059B RID: 1435 RVA: 0x000284C8 File Offset: 0x000266C8
 		public override bool CanWeaponKnockDown(Agent attackerAgent, Agent victimAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			if (attackerWeapon.WeaponClass == 18)
@@ -557,7 +548,6 @@ namespace SandBox.GameComponents
 			return flag && Extensions.HasAnyFlag<WeaponFlags>(blow.WeaponRecord.WeaponFlags, 67108864L) && ((attackerWeapon.IsPolearm && blow.StrikeType == 1) || (attackerWeapon.IsMeleeWeapon && blow.StrikeType == null && MissionCombatMechanicsHelper.DecideSweetSpotCollision(ref collisionData)));
 		}
 
-		// Token: 0x0600059C RID: 1436 RVA: 0x00028554 File Offset: 0x00026754
 		public override float GetDismountPenetration(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			float num = 0f;
@@ -584,7 +574,6 @@ namespace SandBox.GameComponents
 			return MathF.Max(0f, num);
 		}
 
-		// Token: 0x0600059D RID: 1437 RVA: 0x0002863C File Offset: 0x0002683C
 		public override float GetKnockBackPenetration(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			float num = 0f;
@@ -596,7 +585,6 @@ namespace SandBox.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600059E RID: 1438 RVA: 0x00028690 File Offset: 0x00026890
 		public override float GetKnockDownPenetration(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData collisionData)
 		{
 			float num = 0f;
@@ -633,13 +621,11 @@ namespace SandBox.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600059F RID: 1439 RVA: 0x00028767 File Offset: 0x00026967
 		public override float GetHorseChargePenetration()
 		{
 			return 0.37f;
 		}
 
-		// Token: 0x060005A0 RID: 1440 RVA: 0x00028770 File Offset: 0x00026970
 		public override float CalculateStaggerThresholdMultiplier(Agent defenderAgent)
 		{
 			float num = 1f;
@@ -685,7 +671,6 @@ namespace SandBox.GameComponents
 			return MathF.Max(num, 0f);
 		}
 
-		// Token: 0x060005A1 RID: 1441 RVA: 0x00028858 File Offset: 0x00026A58
 		public override float CalculatePassiveAttackDamage(BasicCharacterObject attackerCharacter, in AttackCollisionData collisionData, float baseDamage)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
@@ -700,7 +685,6 @@ namespace SandBox.GameComponents
 			return baseDamage;
 		}
 
-		// Token: 0x060005A2 RID: 1442 RVA: 0x000288A0 File Offset: 0x00026AA0
 		public override MeleeCollisionReaction DecidePassiveAttackCollisionReaction(Agent attacker, Agent defender, bool isFatalHit)
 		{
 			MeleeCollisionReaction meleeCollisionReaction = 3;
@@ -720,7 +704,6 @@ namespace SandBox.GameComponents
 			return meleeCollisionReaction;
 		}
 
-		// Token: 0x060005A3 RID: 1443 RVA: 0x000288F4 File Offset: 0x00026AF4
 		public override float CalculateShieldDamage(in AttackInformation attackInformation, float baseDamage)
 		{
 			Formation victimFormation = attackInformation.VictimFormation;
@@ -734,7 +717,6 @@ namespace SandBox.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060005A4 RID: 1444 RVA: 0x0002893C File Offset: 0x00026B3C
 		public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman)
 		{
 			float num = 1f;
@@ -806,37 +788,31 @@ namespace SandBox.GameComponents
 			return num;
 		}
 
-		// Token: 0x060005A5 RID: 1445 RVA: 0x00028A3C File Offset: 0x00026C3C
 		public override bool DecideAgentShrugOffBlow(Agent victimAgent, AttackCollisionData collisionData, in Blow blow)
 		{
 			return MissionCombatMechanicsHelper.DecideAgentShrugOffBlow(victimAgent, collisionData, ref blow);
 		}
 
-		// Token: 0x060005A6 RID: 1446 RVA: 0x00028A46 File Offset: 0x00026C46
 		public override bool DecideAgentDismountedByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			return MissionCombatMechanicsHelper.DecideAgentDismountedByBlow(attackerAgent, victimAgent, ref collisionData, attackerWeapon, ref blow);
 		}
 
-		// Token: 0x060005A7 RID: 1447 RVA: 0x00028A54 File Offset: 0x00026C54
 		public override bool DecideAgentKnockedBackByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			return MissionCombatMechanicsHelper.DecideAgentKnockedBackByBlow(attackerAgent, victimAgent, ref collisionData, attackerWeapon, ref blow);
 		}
 
-		// Token: 0x060005A8 RID: 1448 RVA: 0x00028A62 File Offset: 0x00026C62
 		public override bool DecideAgentKnockedDownByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			return MissionCombatMechanicsHelper.DecideAgentKnockedDownByBlow(attackerAgent, victimAgent, ref collisionData, attackerWeapon, ref blow);
 		}
 
-		// Token: 0x060005A9 RID: 1449 RVA: 0x00028A70 File Offset: 0x00026C70
 		public override bool DecideMountRearedByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			return MissionCombatMechanicsHelper.DecideMountRearedByBlow(attackerAgent, victimAgent, ref collisionData, attackerWeapon, ref blow);
 		}
 
-		// Token: 0x040002BA RID: 698
 		private const float SallyOutSiegeEngineDamageMultiplier = 4.5f;
 	}
 }

@@ -18,10 +18,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003A3 RID: 931
 	public class IssuesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003743 RID: 14147 RVA: 0x000F8A64 File Offset: 0x000F6C64
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.DailyTickClan));
@@ -32,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x17000CD0 RID: 3280
-		// (get) Token: 0x06003744 RID: 14148 RVA: 0x000F8AFC File Offset: 0x000F6CFC
 		private Settlement CurrentTickSettlement
 		{
 			get
@@ -44,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003745 RID: 14149 RVA: 0x000F8B54 File Offset: 0x000F6D54
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			Settlement[] array = Village.All.Select((Village x) => x.Settlement).ToArray<Settlement>();
@@ -67,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.ConversationManager.EnableSentenceSort();
 		}
 
-		// Token: 0x06003746 RID: 14150 RVA: 0x000F8CBC File Offset: 0x000F6EBC
 		private void OnSettlementTick(MBCampaignEvent campaignEvent, object[] delegateParams)
 		{
 			Settlement currentTickSettlement = this.CurrentTickSettlement;
@@ -81,7 +75,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003747 RID: 14151 RVA: 0x000F8D74 File Offset: 0x000F6F74
 		private void DailyTickClan(Clan clan)
 		{
 			if (this.IsClanSuitableForIssueCreation(clan))
@@ -98,13 +91,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003748 RID: 14152 RVA: 0x000F8E57 File Offset: 0x000F7057
 		private bool IsClanSuitableForIssueCreation(Clan clan)
 		{
 			return clan.Heroes.Count > 0 && !clan.IsBanditFaction;
 		}
 
-		// Token: 0x06003749 RID: 14153 RVA: 0x000F8E74 File Offset: 0x000F7074
 		private void OnGameLoaded(CampaignGameStarter obj)
 		{
 			this._additionalFrequencyScore = 0.2f;
@@ -122,14 +113,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600374A RID: 14154 RVA: 0x000F8F40 File Offset: 0x000F7140
 		private float GetIssueGenerationChance(int currentIssueCount, int maxIssueCount)
 		{
 			float num = 1f - (float)currentIssueCount / (float)maxIssueCount;
 			return 0.3f * num * num;
 		}
 
-		// Token: 0x0600374B RID: 14155 RVA: 0x000F8F64 File Offset: 0x000F7164
 		private void CreateRandomSettlementIssues(Settlement[] shuffledSettlementArray, int maxIssueCountPerSettlement, int desiredIssueCount, int totalDesiredIssueCount)
 		{
 			int num = shuffledSettlementArray.Length;
@@ -157,7 +146,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600374C RID: 14156 RVA: 0x000F8FD8 File Offset: 0x000F71D8
 		private void CreateRandomClanIssues(Clan[] shuffledClanArray, int desiredIssueCount, int totalDesiredIssueCount)
 		{
 			int num = shuffledClanArray.Length;
@@ -176,7 +164,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600374D RID: 14157 RVA: 0x000F9014 File Offset: 0x000F7214
 		private bool CreateAnIssueForSettlementNotables(Settlement settlement, int totalDesiredIssueCount)
 		{
 			List<IssuesCampaignBehavior.IssueData> list = new List<IssuesCampaignBehavior.IssueData>();
@@ -214,7 +201,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600374E RID: 14158 RVA: 0x000F91B0 File Offset: 0x000F73B0
 		private bool CreateAnIssueForClanNobles(Clan clan, int totalDesiredIssueCount)
 		{
 			List<IssuesCampaignBehavior.IssueData> list = new List<IssuesCampaignBehavior.IssueData>();
@@ -247,7 +233,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600374F RID: 14159 RVA: 0x000F9378 File Offset: 0x000F7578
 		private float CalculateIssueScoreForClan(in PotentialIssueData pid, Clan clan, int totalDesiredIssueCount, int totalFrequencyScore)
 		{
 			foreach (Hero hero in clan.Heroes)
@@ -265,7 +250,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this.CalculateIssueScoreInternal(pid, totalDesiredIssueCount, totalFrequencyScore);
 		}
 
-		// Token: 0x06003750 RID: 14160 RVA: 0x000F9400 File Offset: 0x000F7600
 		private float CalculateIssueScoreForNotable(in PotentialIssueData pid, Settlement settlement, int totalDesiredIssueCount, int totalFrequencyScore)
 		{
 			foreach (Hero hero in settlement.Notables)
@@ -283,7 +267,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this.CalculateIssueScoreInternal(pid, totalDesiredIssueCount, totalFrequencyScore);
 		}
 
-		// Token: 0x06003751 RID: 14161 RVA: 0x000F9488 File Offset: 0x000F7688
 		private float CalculateIssueScoreInternal(in PotentialIssueData pid, int totalDesiredIssueCount, int totalFrequencyScore)
 		{
 			PotentialIssueData potentialIssueData = pid;
@@ -323,7 +306,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num * num4;
 		}
 
-		// Token: 0x06003752 RID: 14162 RVA: 0x000F9584 File Offset: 0x000F7784
 		private int GetFrequencyScore(IssueBase.IssueFrequency frequency)
 		{
 			int num = 0;
@@ -342,7 +324,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003753 RID: 14163 RVA: 0x000F95B4 File Offset: 0x000F77B4
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			CharacterObject characterObject;
@@ -371,7 +352,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003754 RID: 14164 RVA: 0x000F9668 File Offset: 0x000F7868
 		private void OnIssueUpdated(IssueBase issue, IssueBase.IssueUpdateDetails details, Hero issueSolver = null)
 		{
 			if (details == IssueBase.IssueUpdateDetails.IssueFinishedWithSuccess && issueSolver != null && issueSolver.GetPerkValue(DefaultPerks.Charm.Oratory))
@@ -405,12 +385,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003755 RID: 14165 RVA: 0x000F97F7 File Offset: 0x000F79F7
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003756 RID: 14166 RVA: 0x000F97FC File Offset: 0x000F79FC
 		private void OnSessionLaunched(CampaignGameStarter starter)
 		{
 			List<Settlement> list = Settlement.All.Where((Settlement x) => x.IsTown || x.IsVillage).ToList<Settlement>();
@@ -423,7 +401,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.AddDialogues(starter);
 		}
 
-		// Token: 0x06003757 RID: 14167 RVA: 0x000F98BC File Offset: 0x000F7ABC
 		private void DeterministicShuffle(List<Settlement> settlements)
 		{
 			Random random = new Random(53);
@@ -436,7 +413,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003758 RID: 14168 RVA: 0x000F9910 File Offset: 0x000F7B10
 		private void AddDialogues(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("issue_not_offered", "issue_offer", "hero_main_options", "{=!}{ISSUE_NOT_OFFERED_EXPLANATION}", new ConversationSentence.OnConditionDelegate(IssuesCampaignBehavior.issue_not_offered_condition), new ConversationSentence.OnConsequenceDelegate(this.leave_on_conversation_end_consequence), 100, null);
@@ -474,7 +450,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("issue_alternative_solution_discuss", "issue_discuss_alternative_solution", "close_window", "{=!}{IssueDiscussAlternativeSolution}", new ConversationSentence.OnConditionDelegate(IssuesCampaignBehavior.issue_alternative_solution_discussion_condition), new ConversationSentence.OnConsequenceDelegate(this.issue_alternative_solution_discussion_consequence), int.MaxValue, null);
 		}
 
-		// Token: 0x06003759 RID: 14169 RVA: 0x000F9ED0 File Offset: 0x000F80D0
 		private static bool issue_alternative_solution_discussion_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -486,7 +461,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600375A RID: 14170 RVA: 0x000F9F0A File Offset: 0x000F810A
 		private void issue_alternative_solution_discussion_consequence()
 		{
 			if (PlayerEncounter.Current != null && Campaign.Current.ConversationManager.ConversationParty == PlayerEncounter.EncounteredMobileParty)
@@ -495,14 +469,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600375B RID: 14171 RVA: 0x000F9F30 File Offset: 0x000F8130
 		private static void issue_counter_offer_reject_consequence()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
 			Campaign.Current.ConversationManager.ConversationEndOneShot += counterOfferersIssue.CompleteIssueWithLordSolutionWithRefuseCounterOffer;
 		}
 
-		// Token: 0x0600375C RID: 14172 RVA: 0x000F9F60 File Offset: 0x000F8160
 		private static bool issue_counter_offer_reject_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -510,7 +482,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600375D RID: 14173 RVA: 0x000F9F88 File Offset: 0x000F8188
 		private static bool issue_counter_offer_player_reject_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -518,14 +489,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600375E RID: 14174 RVA: 0x000F9FB0 File Offset: 0x000F81B0
 		private static void issue_counter_offer_accepted_consequence()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
 			Campaign.Current.ConversationManager.ConversationEndOneShot += counterOfferersIssue.CompleteIssueWithLordSolutionWithAcceptCounterOffer;
 		}
 
-		// Token: 0x0600375F RID: 14175 RVA: 0x000F9FE0 File Offset: 0x000F81E0
 		private static bool issue_counter_offer_accepted_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -533,7 +502,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003760 RID: 14176 RVA: 0x000FA008 File Offset: 0x000F8208
 		private static bool issue_counter_offer_player_accept_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -541,7 +509,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003761 RID: 14177 RVA: 0x000FA030 File Offset: 0x000F8230
 		private static bool issue_counter_offer_2_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -549,7 +516,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003762 RID: 14178 RVA: 0x000FA058 File Offset: 0x000F8258
 		private static bool issue_counter_offer_start_condition()
 		{
 			IssueBase counterOfferersIssue = IssuesCampaignBehavior.GetCounterOfferersIssue();
@@ -561,7 +527,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003763 RID: 14179 RVA: 0x000FA084 File Offset: 0x000F8284
 		private static bool issue_offer_player_accept_lord_2_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -569,7 +534,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003764 RID: 14180 RVA: 0x000FA0AC File Offset: 0x000F82AC
 		private void issue_offer_player_accept_alternative_4_consequence()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -582,7 +546,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x06003765 RID: 14181 RVA: 0x000FA120 File Offset: 0x000F8320
 		private static void issue_offer_player_accept_alternative_5_b_consequence()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -590,7 +553,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			issueOwnersIssue.AlternativeSolutionSentTroops.Clear();
 		}
 
-		// Token: 0x06003766 RID: 14182 RVA: 0x000FA153 File Offset: 0x000F8353
 		private static void issue_offer_player_accept_alternative_5_a_consequence()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -598,7 +560,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			issueOwnersIssue.StartIssueWithAlternativeSolution();
 		}
 
-		// Token: 0x06003767 RID: 14183 RVA: 0x000FA168 File Offset: 0x000F8368
 		private bool issue_offer_player_accept_alternative_5_a_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -607,7 +568,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return IssuesCampaignBehavior.DoTroopsSatisfyAlternativeSolutionInternal(issueOwnersIssue.AlternativeSolutionSentTroops, out textObject);
 		}
 
-		// Token: 0x06003768 RID: 14184 RVA: 0x000FA19C File Offset: 0x000F839C
 		private static bool issue_offer_player_accept_alternative_3_clickable_condition(out TextObject explanation)
 		{
 			bool flag = true;
@@ -635,7 +595,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06003769 RID: 14185 RVA: 0x000FA21C File Offset: 0x000F841C
 		private static void issue_offer_player_accept_alternative_3_consequence()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -648,27 +607,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600376A RID: 14186 RVA: 0x000FA280 File Offset: 0x000F8480
 		private static bool TroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase leftOwnerParty)
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
 			return !character.IsHero && !character.IsNotTransferableInPartyScreen && type != PartyScreenLogic.TroopType.Prisoner && issueOwnersIssue.IsTroopTypeNeededByAlternativeSolution(character);
 		}
 
-		// Token: 0x0600376B RID: 14187 RVA: 0x000FA2B0 File Offset: 0x000F84B0
 		private static void PartyScreenDoneClicked(PartyBase leftOwnerParty, TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, PartyBase rightOwnerParty, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, bool fromCancel)
 		{
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x0600376C RID: 14188 RVA: 0x000FA2C4 File Offset: 0x000F84C4
 		private Tuple<bool, TextObject> PartyScreenDoneCondition(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, int leftLimitNum, int rightLimitNum)
 		{
 			TextObject textObject;
 			return new Tuple<bool, TextObject>(IssuesCampaignBehavior.DoTroopsSatisfyAlternativeSolutionInternal(leftMemberRoster, out textObject), textObject);
 		}
 
-		// Token: 0x0600376D RID: 14189 RVA: 0x000FA2E0 File Offset: 0x000F84E0
 		private static bool DoTroopsSatisfyAlternativeSolutionInternal(TroopRoster troopRoster, out TextObject explanation)
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -682,7 +637,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return issueOwnersIssue.DoTroopsSatisfyAlternativeSolution(troopRoster, out explanation);
 		}
 
-		// Token: 0x0600376E RID: 14190 RVA: 0x000FA334 File Offset: 0x000F8534
 		private static bool issue_offer_player_accept_alternative_3_condition()
 		{
 			Hero hero = ConversationSentence.CurrentProcessedRepeatObject as Hero;
@@ -779,7 +733,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600376F RID: 14191 RVA: 0x000FA5C4 File Offset: 0x000F87C4
 		private static void issue_offer_player_accept_alternative_2_consequence()
 		{
 			List<Hero> list = new List<Hero>();
@@ -793,7 +746,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationSentence.SetObjectsToRepeatOver(list, 5);
 		}
 
-		// Token: 0x06003770 RID: 14192 RVA: 0x000FA664 File Offset: 0x000F8864
 		private static bool issue_offer_hero_response_reject_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.GetPersona() == DefaultTraits.PersonaCurt)
@@ -811,7 +763,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003771 RID: 14193 RVA: 0x000FA6DC File Offset: 0x000F88DC
 		private static bool issue_offer_player_accept_lord_clickable_condition(out TextObject explanation)
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -831,13 +782,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003772 RID: 14194 RVA: 0x000FA762 File Offset: 0x000F8962
 		private static void issue_offer_player_accept_lord_consequence()
 		{
 			Hero.OneToOneConversationHero.Issue.StartIssueWithLordSolution();
 		}
 
-		// Token: 0x06003773 RID: 14195 RVA: 0x000FA774 File Offset: 0x000F8974
 		private bool issue_offer_player_accept_lord_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -849,7 +798,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003774 RID: 14196 RVA: 0x000FA7A8 File Offset: 0x000F89A8
 		private static bool issue_offer_player_accept_alternative_clickable_condition(out TextObject explanation)
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -868,7 +816,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003775 RID: 14197 RVA: 0x000FA818 File Offset: 0x000F8A18
 		private static bool issue_offer_player_accept_alternative_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -880,7 +827,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003776 RID: 14198 RVA: 0x000FA848 File Offset: 0x000F8A48
 		private static bool issue_offer_player_accept_quest_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -888,7 +834,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003777 RID: 14199 RVA: 0x000FA870 File Offset: 0x000F8A70
 		private static bool issue_alternative_solution_brief_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -896,7 +841,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003778 RID: 14200 RVA: 0x000FA898 File Offset: 0x000F8A98
 		private static bool issue_alternative_solution_player_response_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -904,7 +848,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return issueOwnersIssue.IsThereAlternativeSolution;
 		}
 
-		// Token: 0x06003779 RID: 14201 RVA: 0x000FA8C4 File Offset: 0x000F8AC4
 		private static bool issue_quest_solution_brief_pre_player_response_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -912,7 +855,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !issueOwnersIssue.IsThereAlternativeSolution;
 		}
 
-		// Token: 0x0600377A RID: 14202 RVA: 0x000FA8F4 File Offset: 0x000F8AF4
 		private static bool issue_quest_solution_brief_pre_alternative_solution_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -920,7 +862,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return issueOwnersIssue.IsThereAlternativeSolution;
 		}
 
-		// Token: 0x0600377B RID: 14203 RVA: 0x000FA920 File Offset: 0x000F8B20
 		private static bool issue_lord_solution_player_response_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -928,7 +869,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600377C RID: 14204 RVA: 0x000FA948 File Offset: 0x000F8B48
 		private static bool issue_lord_solution_brief_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -936,7 +876,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600377D RID: 14205 RVA: 0x000FA970 File Offset: 0x000F8B70
 		private bool issue_explanation_player_response_pre_quest_solution_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -944,7 +883,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !issueOwnersIssue.IsThereLordSolution || !IssuesCampaignBehavior.IssueLordSolutionCondition();
 		}
 
-		// Token: 0x0600377E RID: 14206 RVA: 0x000FA9A8 File Offset: 0x000F8BA8
 		private bool issue_explanation_player_response_pre_lord_solution_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -952,14 +890,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return issueOwnersIssue.IsThereLordSolution && IssuesCampaignBehavior.IssueLordSolutionCondition();
 		}
 
-		// Token: 0x0600377F RID: 14207 RVA: 0x000FA9DC File Offset: 0x000F8BDC
 		private static bool IssueLordSolutionCondition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
 			return issueOwnersIssue.IssueOwner.CurrentSettlement != null && issueOwnersIssue.IssueOwner.CurrentSettlement.OwnerClan == Clan.PlayerClan;
 		}
 
-		// Token: 0x06003780 RID: 14208 RVA: 0x000FAA18 File Offset: 0x000F8C18
 		private static bool issue_offered_begin_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -972,7 +908,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003781 RID: 14209 RVA: 0x000FAA54 File Offset: 0x000F8C54
 		private static bool issue_not_offered_condition()
 		{
 			IssueBase issueOwnersIssue = IssuesCampaignBehavior.GetIssueOwnersIssue();
@@ -985,13 +920,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003782 RID: 14210 RVA: 0x000FAA88 File Offset: 0x000F8C88
 		private void leave_on_conversation_end_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += MapEventHelper.OnConversationEnd;
 		}
 
-		// Token: 0x06003783 RID: 14211 RVA: 0x000FAAA5 File Offset: 0x000F8CA5
 		private static IssueBase GetIssueOwnersIssue()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -1002,7 +935,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return oneToOneConversationHero.Issue;
 		}
 
-		// Token: 0x06003784 RID: 14212 RVA: 0x000FAAB8 File Offset: 0x000F8CB8
 		private static IssueBase GetCounterOfferersIssue()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -1018,37 +950,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x04001180 RID: 4480
 		private const int MinNotableIssueCountForTowns = 1;
 
-		// Token: 0x04001181 RID: 4481
 		private const int MaxNotableIssueCountForTowns = 3;
 
-		// Token: 0x04001182 RID: 4482
 		private const int MinNotableIssueCountForVillages = 1;
 
-		// Token: 0x04001183 RID: 4483
 		private const int MaxNotableIssueCountForVillages = 2;
 
-		// Token: 0x04001184 RID: 4484
 		private const float MinIssuePercentageForClanHeroes = 0.1f;
 
-		// Token: 0x04001185 RID: 4485
 		private const float MaxIssuePercentageForClanHeroes = 0.2f;
 
-		// Token: 0x04001186 RID: 4486
 		private float _additionalFrequencyScore;
 
-		// Token: 0x04001187 RID: 4487
 		private Settlement[] _settlements;
 
-		// Token: 0x04001188 RID: 4488
 		private MBCampaignEvent _periodicEvent;
 
-		// Token: 0x020006F8 RID: 1784
 		private struct IssueData
 		{
-			// Token: 0x06005532 RID: 21810 RVA: 0x0016CBD9 File Offset: 0x0016ADD9
 			public IssueData(PotentialIssueData issueData, Hero hero, float score)
 			{
 				this.PotentialIssueData = issueData;
@@ -1056,13 +977,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.Score = score;
 			}
 
-			// Token: 0x04001CB0 RID: 7344
 			public readonly PotentialIssueData PotentialIssueData;
 
-			// Token: 0x04001CB1 RID: 7345
 			public readonly Hero Hero;
 
-			// Token: 0x04001CB2 RID: 7346
 			public readonly float Score;
 		}
 	}

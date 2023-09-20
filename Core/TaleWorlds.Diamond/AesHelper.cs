@@ -4,10 +4,8 @@ using System.Security.Cryptography;
 
 namespace TaleWorlds.Diamond
 {
-	// Token: 0x02000002 RID: 2
 	public static class AesHelper
 	{
-		// Token: 0x06000001 RID: 1 RVA: 0x00002048 File Offset: 0x00000248
 		public static byte[] Encrypt(byte[] plainData, byte[] key, byte[] initializationVector)
 		{
 			byte[] array;
@@ -20,7 +18,6 @@ namespace TaleWorlds.Diamond
 			return array;
 		}
 
-		// Token: 0x06000002 RID: 2 RVA: 0x0000209C File Offset: 0x0000029C
 		public static byte[] Decrypt(byte[] encrypted, byte[] key, byte[] initializationVector)
 		{
 			byte[] array;
@@ -33,7 +30,6 @@ namespace TaleWorlds.Diamond
 			return array;
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x000020F0 File Offset: 0x000002F0
 		private static byte[] EncryptStringToBytes(byte[] plainData, byte[] Key, byte[] IV)
 		{
 			if (plainData == null || plainData.Length == 0)
@@ -69,7 +65,6 @@ namespace TaleWorlds.Diamond
 			return array;
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x000021E8 File Offset: 0x000003E8
 		private static byte[] DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
 		{
 			if (cipherText == null || cipherText.Length == 0)
@@ -104,7 +99,6 @@ namespace TaleWorlds.Diamond
 			return array;
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x000022DC File Offset: 0x000004DC
 		private static byte[] ReadAllBytes(BinaryReader reader)
 		{
 			byte[] array2;

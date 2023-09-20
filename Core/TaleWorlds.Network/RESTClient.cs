@@ -10,16 +10,13 @@ using Newtonsoft.Json.Linq;
 
 namespace TaleWorlds.Network
 {
-	// Token: 0x02000012 RID: 18
 	public class RESTClient
 	{
-		// Token: 0x06000060 RID: 96 RVA: 0x00002A6C File Offset: 0x00000C6C
 		public RESTClient(string serviceAddress)
 		{
 			this._serviceAddress = serviceAddress;
 		}
 
-		// Token: 0x06000061 RID: 97 RVA: 0x00002A7C File Offset: 0x00000C7C
 		private ServiceException GetServiceErrorCode(Stream stream)
 		{
 			string text = new StreamReader(stream).ReadToEnd();
@@ -39,7 +36,6 @@ namespace TaleWorlds.Network
 			return new ServiceException((string)jobject["error"], (string)jobject["error_description"]);
 		}
 
-		// Token: 0x06000062 RID: 98 RVA: 0x00002B24 File Offset: 0x00000D24
 		private HttpWebRequest CreateHttpRequest(string service, List<KeyValuePair<string, string>> headers, string contentType, string method)
 		{
 			HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(new Uri(this._serviceAddress + service));
@@ -56,7 +52,6 @@ namespace TaleWorlds.Network
 			return httpWebRequest;
 		}
 
-		// Token: 0x06000063 RID: 99 RVA: 0x00002BC0 File Offset: 0x00000DC0
 		public async Task<TResult> Get<TResult>(string service, List<KeyValuePair<string, string>> headers)
 		{
 			HttpWebRequest httpWebRequest = this.CreateHttpRequest(service, headers, "application/json", "GET");
@@ -88,7 +83,6 @@ namespace TaleWorlds.Network
 			return tresult;
 		}
 
-		// Token: 0x06000064 RID: 100 RVA: 0x00002C18 File Offset: 0x00000E18
 		public async Task Get(string service, List<KeyValuePair<string, string>> headers)
 		{
 			HttpWebRequest httpWebRequest = this.CreateHttpRequest(service, headers, "application/json", "GET");
@@ -110,7 +104,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000065 RID: 101 RVA: 0x00002C70 File Offset: 0x00000E70
 		public async Task<TResult> Post<TResult>(string service, List<KeyValuePair<string, string>> headers, string payLoad, string contentType = "application/json")
 		{
 			HttpWebRequest http = this.CreateHttpRequest(service, headers, contentType, "POST");
@@ -152,7 +145,6 @@ namespace TaleWorlds.Network
 			return tresult;
 		}
 
-		// Token: 0x06000066 RID: 102 RVA: 0x00002CD8 File Offset: 0x00000ED8
 		public async Task Post(string service, List<KeyValuePair<string, string>> headers, string payLoad, string contentType = "application/json")
 		{
 			HttpWebRequest http = this.CreateHttpRequest(service, headers, contentType, "POST");
@@ -179,7 +171,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0400002B RID: 43
 		private string _serviceAddress;
 	}
 }

@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplomacy
 {
-	// Token: 0x0200005B RID: 91
 	public abstract class KingdomDiplomacyItemVM : KingdomItemVM
 	{
-		// Token: 0x060007C4 RID: 1988 RVA: 0x00021428 File Offset: 0x0001F628
 		protected KingdomDiplomacyItemVM(IFaction faction1, IFaction faction2)
 		{
 			this._playerKingdom = Hero.MainHero.MapFaction;
@@ -31,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.PopulateSettlements();
 		}
 
-		// Token: 0x060007C5 RID: 1989 RVA: 0x000214E8 File Offset: 0x0001F6E8
 		protected virtual void UpdateDiplomacyProperties()
 		{
 			this.Stats.Clear();
@@ -77,7 +74,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.IsFaction2OtherWarsVisible = this.Faction2OtherWars.Count > 0;
 		}
 
-		// Token: 0x060007C6 RID: 1990 RVA: 0x000218C8 File Offset: 0x0001FAC8
 		private void PopulateSettlements()
 		{
 			this._faction1Towns = new List<Settlement>();
@@ -108,12 +104,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007C7 RID: 1991
 		protected abstract void ExecuteAction();
 
-		// Token: 0x1700025C RID: 604
-		// (get) Token: 0x060007C8 RID: 1992 RVA: 0x000219DC File Offset: 0x0001FBDC
-		// (set) Token: 0x060007C9 RID: 1993 RVA: 0x000219E4 File Offset: 0x0001FBE4
 		[DataSourceProperty]
 		public MBBindingList<KingdomDiplomacyFactionItemVM> Faction1OwnedClans
 		{
@@ -131,9 +123,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700025D RID: 605
-		// (get) Token: 0x060007CA RID: 1994 RVA: 0x00021A02 File Offset: 0x0001FC02
-		// (set) Token: 0x060007CB RID: 1995 RVA: 0x00021A0A File Offset: 0x0001FC0A
 		[DataSourceProperty]
 		public MBBindingList<KingdomDiplomacyFactionItemVM> Faction2OwnedClans
 		{
@@ -151,9 +140,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700025E RID: 606
-		// (get) Token: 0x060007CC RID: 1996 RVA: 0x00021A28 File Offset: 0x0001FC28
-		// (set) Token: 0x060007CD RID: 1997 RVA: 0x00021A30 File Offset: 0x0001FC30
 		[DataSourceProperty]
 		public MBBindingList<KingdomDiplomacyFactionItemVM> Faction2OtherWars
 		{
@@ -171,9 +157,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700025F RID: 607
-		// (get) Token: 0x060007CE RID: 1998 RVA: 0x00021A4E File Offset: 0x0001FC4E
-		// (set) Token: 0x060007CF RID: 1999 RVA: 0x00021A56 File Offset: 0x0001FC56
 		[DataSourceProperty]
 		public MBBindingList<KingdomWarComparableStatVM> Stats
 		{
@@ -191,9 +174,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000260 RID: 608
-		// (get) Token: 0x060007D0 RID: 2000 RVA: 0x00021A74 File Offset: 0x0001FC74
-		// (set) Token: 0x060007D1 RID: 2001 RVA: 0x00021A7C File Offset: 0x0001FC7C
 		[DataSourceProperty]
 		public ImageIdentifierVM Faction1Visual
 		{
@@ -211,9 +191,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000261 RID: 609
-		// (get) Token: 0x060007D2 RID: 2002 RVA: 0x00021A9A File Offset: 0x0001FC9A
-		// (set) Token: 0x060007D3 RID: 2003 RVA: 0x00021AA2 File Offset: 0x0001FCA2
 		[DataSourceProperty]
 		public ImageIdentifierVM Faction2Visual
 		{
@@ -231,9 +208,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000262 RID: 610
-		// (get) Token: 0x060007D4 RID: 2004 RVA: 0x00021AC0 File Offset: 0x0001FCC0
-		// (set) Token: 0x060007D5 RID: 2005 RVA: 0x00021AC8 File Offset: 0x0001FCC8
 		[DataSourceProperty]
 		public string Faction1Name
 		{
@@ -251,9 +225,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000263 RID: 611
-		// (get) Token: 0x060007D6 RID: 2006 RVA: 0x00021AEB File Offset: 0x0001FCEB
-		// (set) Token: 0x060007D7 RID: 2007 RVA: 0x00021AF3 File Offset: 0x0001FCF3
 		[DataSourceProperty]
 		public string Faction2Name
 		{
@@ -271,9 +242,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000264 RID: 612
-		// (get) Token: 0x060007D8 RID: 2008 RVA: 0x00021B16 File Offset: 0x0001FD16
-		// (set) Token: 0x060007D9 RID: 2009 RVA: 0x00021B1E File Offset: 0x0001FD1E
 		[DataSourceProperty]
 		public string Faction1TributeText
 		{
@@ -291,9 +259,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000265 RID: 613
-		// (get) Token: 0x060007DA RID: 2010 RVA: 0x00021B41 File Offset: 0x0001FD41
-		// (set) Token: 0x060007DB RID: 2011 RVA: 0x00021B49 File Offset: 0x0001FD49
 		[DataSourceProperty]
 		public string Faction2TributeText
 		{
@@ -311,9 +276,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000266 RID: 614
-		// (get) Token: 0x060007DC RID: 2012 RVA: 0x00021B6C File Offset: 0x0001FD6C
-		// (set) Token: 0x060007DD RID: 2013 RVA: 0x00021B74 File Offset: 0x0001FD74
 		[DataSourceProperty]
 		public HintViewModel Faction1TributeHint
 		{
@@ -331,9 +293,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000267 RID: 615
-		// (get) Token: 0x060007DE RID: 2014 RVA: 0x00021B92 File Offset: 0x0001FD92
-		// (set) Token: 0x060007DF RID: 2015 RVA: 0x00021B9A File Offset: 0x0001FD9A
 		[DataSourceProperty]
 		public HintViewModel Faction2TributeHint
 		{
@@ -351,9 +310,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000268 RID: 616
-		// (get) Token: 0x060007E0 RID: 2016 RVA: 0x00021BB8 File Offset: 0x0001FDB8
-		// (set) Token: 0x060007E1 RID: 2017 RVA: 0x00021BC0 File Offset: 0x0001FDC0
 		[DataSourceProperty]
 		public bool IsFaction2OtherWarsVisible
 		{
@@ -371,9 +327,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000269 RID: 617
-		// (get) Token: 0x060007E2 RID: 2018 RVA: 0x00021BDE File Offset: 0x0001FDDE
-		// (set) Token: 0x060007E3 RID: 2019 RVA: 0x00021BE6 File Offset: 0x0001FDE6
 		[DataSourceProperty]
 		public HeroVM Faction1Leader
 		{
@@ -391,9 +344,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700026A RID: 618
-		// (get) Token: 0x060007E4 RID: 2020 RVA: 0x00021C04 File Offset: 0x0001FE04
-		// (set) Token: 0x060007E5 RID: 2021 RVA: 0x00021C0C File Offset: 0x0001FE0C
 		[DataSourceProperty]
 		public HeroVM Faction2Leader
 		{
@@ -411,76 +361,52 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x04000370 RID: 880
 		public readonly IFaction Faction1;
 
-		// Token: 0x04000371 RID: 881
 		public readonly IFaction Faction2;
 
-		// Token: 0x04000372 RID: 882
 		protected readonly string _faction1Color;
 
-		// Token: 0x04000373 RID: 883
 		protected readonly string _faction2Color;
 
-		// Token: 0x04000374 RID: 884
 		protected readonly IFaction _playerKingdom;
 
-		// Token: 0x04000375 RID: 885
 		protected List<Settlement> _faction1Towns;
 
-		// Token: 0x04000376 RID: 886
 		protected List<Settlement> _faction2Towns;
 
-		// Token: 0x04000377 RID: 887
 		protected List<Settlement> _faction1Castles;
 
-		// Token: 0x04000378 RID: 888
 		protected List<Settlement> _faction2Castles;
 
-		// Token: 0x04000379 RID: 889
 		private MBBindingList<KingdomWarComparableStatVM> _stats;
 
-		// Token: 0x0400037A RID: 890
 		private ImageIdentifierVM _faction1Visual;
 
-		// Token: 0x0400037B RID: 891
 		private ImageIdentifierVM _faction2Visual;
 
-		// Token: 0x0400037C RID: 892
 		private HeroVM _faction1Leader;
 
-		// Token: 0x0400037D RID: 893
 		private HeroVM _faction2Leader;
 
-		// Token: 0x0400037E RID: 894
 		private string _faction1Name;
 
-		// Token: 0x0400037F RID: 895
 		private string _faction2Name;
 
-		// Token: 0x04000380 RID: 896
 		private string _faction1TributeText;
 
-		// Token: 0x04000381 RID: 897
 		private string _faction2TributeText;
 
-		// Token: 0x04000382 RID: 898
 		private HintViewModel _faction1TributeHint;
 
-		// Token: 0x04000383 RID: 899
 		private HintViewModel _faction2TributeHint;
 
-		// Token: 0x04000384 RID: 900
 		private bool _isFaction2OtherWarsVisible;
 
-		// Token: 0x04000385 RID: 901
 		private MBBindingList<KingdomDiplomacyFactionItemVM> _faction1OwnedClans;
 
-		// Token: 0x04000386 RID: 902
 		private MBBindingList<KingdomDiplomacyFactionItemVM> _faction2OwnedClans;
 
-		// Token: 0x04000387 RID: 903
 		private MBBindingList<KingdomDiplomacyFactionItemVM> _faction2OtherWars;
 	}
 }

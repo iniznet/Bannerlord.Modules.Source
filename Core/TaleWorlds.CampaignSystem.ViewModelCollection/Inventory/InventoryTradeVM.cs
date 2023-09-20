@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 {
-	// Token: 0x02000078 RID: 120
 	public class InventoryTradeVM : ViewModel
 	{
-		// Token: 0x06000AC1 RID: 2753 RVA: 0x0002A630 File Offset: 0x00028830
 		public InventoryTradeVM(InventoryLogic inventoryLogic, ItemRosterElement itemRoster, InventoryLogic.InventorySide side, Action<int, bool> onApplyTransaction)
 		{
 			this._inventoryLogic = inventoryLogic;
@@ -23,7 +21,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000AC2 RID: 2754 RVA: 0x0002A6A4 File Offset: 0x000288A4
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -35,7 +32,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.ApplyExchangeHint = new HintViewModel(GameTexts.FindText("str_party_apply_exchange", null), null);
 		}
 
-		// Token: 0x06000AC3 RID: 2755 RVA: 0x0002A73C File Offset: 0x0002893C
 		public void UpdateItemData(ItemRosterElement itemRoster, InventoryLogic.InventorySide side, bool forceUpdate = true)
 		{
 			if (side != InventoryLogic.InventorySide.OtherInventory && side != InventoryLogic.InventorySide.PlayerInventory)
@@ -63,13 +59,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000AC4 RID: 2756 RVA: 0x0002A7FE File Offset: 0x000289FE
 		private ItemRosterElement? FindItemFromSide(EquipmentElement item, InventoryLogic.InventorySide side)
 		{
 			return this._inventoryLogic.FindItemFromSide(side, item);
 		}
 
-		// Token: 0x06000AC5 RID: 2757 RVA: 0x0002A810 File Offset: 0x00028A10
 		private void ThisStockUpdated()
 		{
 			this.ExecuteApplyTransaction();
@@ -79,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.UpdateProperties();
 		}
 
-		// Token: 0x06000AC6 RID: 2758 RVA: 0x0002A860 File Offset: 0x00028A60
 		private void UpdateProperties()
 		{
 			int num = this.ThisStock - this.InitialThisStock;
@@ -104,7 +97,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.PieceLbl = ((num2 <= 1) ? this._pieceLblSingular : this._pieceLblPlural);
 		}
 
-		// Token: 0x06000AC7 RID: 2759 RVA: 0x0002A944 File Offset: 0x00028B44
 		public string GetAveragePrice(int totalPrice, int lastPrice, bool isBuying)
 		{
 			InventoryLogic.InventorySide inventorySide = (isBuying ? InventoryLogic.InventorySide.OtherInventory : InventoryLogic.InventorySide.PlayerInventory);
@@ -120,7 +112,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return lastPrice + " - " + costOfItemRosterElement;
 		}
 
-		// Token: 0x06000AC8 RID: 2760 RVA: 0x0002A9A9 File Offset: 0x00028BA9
 		public void ExecuteIncreaseThisStock()
 		{
 			if (this.ThisStock < this.TotalStock)
@@ -129,7 +120,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000AC9 RID: 2761 RVA: 0x0002A9C7 File Offset: 0x00028BC7
 		public void ExecuteIncreaseOtherStock()
 		{
 			if (this.ThisStock > 0)
@@ -138,13 +128,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000ACA RID: 2762 RVA: 0x0002A9E0 File Offset: 0x00028BE0
 		public void ExecuteReset()
 		{
 			this.ThisStock = this.InitialThisStock;
 		}
 
-		// Token: 0x06000ACB RID: 2763 RVA: 0x0002A9F0 File Offset: 0x00028BF0
 		public void ExecuteApplyTransaction()
 		{
 			int num = this.ThisStock - this.InitialThisStock;
@@ -158,9 +146,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._onApplyTransaction(num2, flag2);
 		}
 
-		// Token: 0x17000380 RID: 896
-		// (get) Token: 0x06000ACC RID: 2764 RVA: 0x0002AA45 File Offset: 0x00028C45
-		// (set) Token: 0x06000ACD RID: 2765 RVA: 0x0002AA4D File Offset: 0x00028C4D
 		[DataSourceProperty]
 		public string ThisStockLbl
 		{
@@ -178,9 +163,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000381 RID: 897
-		// (get) Token: 0x06000ACE RID: 2766 RVA: 0x0002AA70 File Offset: 0x00028C70
-		// (set) Token: 0x06000ACF RID: 2767 RVA: 0x0002AA78 File Offset: 0x00028C78
 		[DataSourceProperty]
 		public string OtherStockLbl
 		{
@@ -198,9 +180,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000382 RID: 898
-		// (get) Token: 0x06000AD0 RID: 2768 RVA: 0x0002AA9B File Offset: 0x00028C9B
-		// (set) Token: 0x06000AD1 RID: 2769 RVA: 0x0002AAA3 File Offset: 0x00028CA3
 		[DataSourceProperty]
 		public string PieceLbl
 		{
@@ -218,9 +197,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000383 RID: 899
-		// (get) Token: 0x06000AD2 RID: 2770 RVA: 0x0002AAC6 File Offset: 0x00028CC6
-		// (set) Token: 0x06000AD3 RID: 2771 RVA: 0x0002AACE File Offset: 0x00028CCE
 		[DataSourceProperty]
 		public string AveragePriceLbl
 		{
@@ -238,9 +214,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000384 RID: 900
-		// (get) Token: 0x06000AD4 RID: 2772 RVA: 0x0002AAF1 File Offset: 0x00028CF1
-		// (set) Token: 0x06000AD5 RID: 2773 RVA: 0x0002AAF9 File Offset: 0x00028CF9
 		[DataSourceProperty]
 		public HintViewModel ApplyExchangeHint
 		{
@@ -258,9 +231,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000385 RID: 901
-		// (get) Token: 0x06000AD6 RID: 2774 RVA: 0x0002AB17 File Offset: 0x00028D17
-		// (set) Token: 0x06000AD7 RID: 2775 RVA: 0x0002AB1F File Offset: 0x00028D1F
 		[DataSourceProperty]
 		public bool IsExchangeAvailable
 		{
@@ -278,9 +248,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x06000AD8 RID: 2776 RVA: 0x0002AB3D File Offset: 0x00028D3D
-		// (set) Token: 0x06000AD9 RID: 2777 RVA: 0x0002AB45 File Offset: 0x00028D45
 		[DataSourceProperty]
 		public string PriceChange
 		{
@@ -298,9 +265,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x06000ADA RID: 2778 RVA: 0x0002AB68 File Offset: 0x00028D68
-		// (set) Token: 0x06000ADB RID: 2779 RVA: 0x0002AB70 File Offset: 0x00028D70
 		[DataSourceProperty]
 		public string PieceChange
 		{
@@ -318,9 +282,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000388 RID: 904
-		// (get) Token: 0x06000ADC RID: 2780 RVA: 0x0002AB93 File Offset: 0x00028D93
-		// (set) Token: 0x06000ADD RID: 2781 RVA: 0x0002AB9B File Offset: 0x00028D9B
 		[DataSourceProperty]
 		public string AveragePrice
 		{
@@ -338,9 +299,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000389 RID: 905
-		// (get) Token: 0x06000ADE RID: 2782 RVA: 0x0002ABBE File Offset: 0x00028DBE
-		// (set) Token: 0x06000ADF RID: 2783 RVA: 0x0002ABC6 File Offset: 0x00028DC6
 		[DataSourceProperty]
 		public int ThisStock
 		{
@@ -359,9 +317,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038A RID: 906
-		// (get) Token: 0x06000AE0 RID: 2784 RVA: 0x0002ABEA File Offset: 0x00028DEA
-		// (set) Token: 0x06000AE1 RID: 2785 RVA: 0x0002ABF2 File Offset: 0x00028DF2
 		[DataSourceProperty]
 		public int InitialThisStock
 		{
@@ -379,9 +334,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038B RID: 907
-		// (get) Token: 0x06000AE2 RID: 2786 RVA: 0x0002AC10 File Offset: 0x00028E10
-		// (set) Token: 0x06000AE3 RID: 2787 RVA: 0x0002AC18 File Offset: 0x00028E18
 		[DataSourceProperty]
 		public int OtherStock
 		{
@@ -399,9 +351,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038C RID: 908
-		// (get) Token: 0x06000AE4 RID: 2788 RVA: 0x0002AC36 File Offset: 0x00028E36
-		// (set) Token: 0x06000AE5 RID: 2789 RVA: 0x0002AC3E File Offset: 0x00028E3E
 		[DataSourceProperty]
 		public int InitialOtherStock
 		{
@@ -419,9 +368,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038D RID: 909
-		// (get) Token: 0x06000AE6 RID: 2790 RVA: 0x0002AC5C File Offset: 0x00028E5C
-		// (set) Token: 0x06000AE7 RID: 2791 RVA: 0x0002AC64 File Offset: 0x00028E64
 		[DataSourceProperty]
 		public int TotalStock
 		{
@@ -439,9 +385,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038E RID: 910
-		// (get) Token: 0x06000AE8 RID: 2792 RVA: 0x0002AC82 File Offset: 0x00028E82
-		// (set) Token: 0x06000AE9 RID: 2793 RVA: 0x0002AC8A File Offset: 0x00028E8A
 		[DataSourceProperty]
 		public bool IsThisStockIncreasable
 		{
@@ -459,9 +402,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700038F RID: 911
-		// (get) Token: 0x06000AEA RID: 2794 RVA: 0x0002ACA8 File Offset: 0x00028EA8
-		// (set) Token: 0x06000AEB RID: 2795 RVA: 0x0002ACB0 File Offset: 0x00028EB0
 		[DataSourceProperty]
 		public bool IsOtherStockIncreasable
 		{
@@ -479,9 +419,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000390 RID: 912
-		// (get) Token: 0x06000AEC RID: 2796 RVA: 0x0002ACCE File Offset: 0x00028ECE
-		// (set) Token: 0x06000AED RID: 2797 RVA: 0x0002ACD6 File Offset: 0x00028ED6
 		[DataSourceProperty]
 		public bool IsTrading
 		{
@@ -499,9 +436,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000391 RID: 913
-		// (get) Token: 0x06000AEE RID: 2798 RVA: 0x0002ACF4 File Offset: 0x00028EF4
-		// (set) Token: 0x06000AEF RID: 2799 RVA: 0x0002ACFC File Offset: 0x00028EFC
 		[DataSourceProperty]
 		public bool IsTradeable
 		{
@@ -519,76 +453,52 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x040004DB RID: 1243
 		private InventoryLogic _inventoryLogic;
 
-		// Token: 0x040004DC RID: 1244
 		private ItemRosterElement _referenceItemRoster;
 
-		// Token: 0x040004DD RID: 1245
 		private Action<int, bool> _onApplyTransaction;
 
-		// Token: 0x040004DE RID: 1246
 		private string _pieceLblSingular;
 
-		// Token: 0x040004DF RID: 1247
 		private string _pieceLblPlural;
 
-		// Token: 0x040004E0 RID: 1248
 		private bool _isPlayerItem;
 
-		// Token: 0x040004E1 RID: 1249
 		private string _thisStockLbl;
 
-		// Token: 0x040004E2 RID: 1250
 		private string _otherStockLbl;
 
-		// Token: 0x040004E3 RID: 1251
 		private string _averagePriceLbl;
 
-		// Token: 0x040004E4 RID: 1252
 		private string _pieceLbl;
 
-		// Token: 0x040004E5 RID: 1253
 		private HintViewModel _applyExchangeHint;
 
-		// Token: 0x040004E6 RID: 1254
 		private bool _isExchangeAvailable;
 
-		// Token: 0x040004E7 RID: 1255
 		private string _averagePrice;
 
-		// Token: 0x040004E8 RID: 1256
 		private string _pieceChange;
 
-		// Token: 0x040004E9 RID: 1257
 		private string _priceChange;
 
-		// Token: 0x040004EA RID: 1258
 		private int _thisStock = -1;
 
-		// Token: 0x040004EB RID: 1259
 		private int _initialThisStock;
 
-		// Token: 0x040004EC RID: 1260
 		private int _otherStock = -1;
 
-		// Token: 0x040004ED RID: 1261
 		private int _initialOtherStock;
 
-		// Token: 0x040004EE RID: 1262
 		private int _totalStock;
 
-		// Token: 0x040004EF RID: 1263
 		private bool _isThisStockIncreasable;
 
-		// Token: 0x040004F0 RID: 1264
 		private bool _isOtherStockIncreasable;
 
-		// Token: 0x040004F1 RID: 1265
 		private bool _isTrading;
 
-		// Token: 0x040004F2 RID: 1266
 		private bool _isTradeable;
 	}
 }

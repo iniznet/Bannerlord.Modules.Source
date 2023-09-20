@@ -5,17 +5,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.FlagMarker
 {
-	// Token: 0x020000E3 RID: 227
 	public class SiegeEngineVisualWidget : Widget
 	{
-		// Token: 0x06000BE1 RID: 3041 RVA: 0x000212DE File Offset: 0x0001F4DE
 		public SiegeEngineVisualWidget(UIContext context)
 			: base(context)
 		{
 			this._fallbackSprite = this.GetSprite("BlankWhiteCircle");
 		}
 
-		// Token: 0x06000BE2 RID: 3042 RVA: 0x00021304 File Offset: 0x0001F504
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -148,15 +145,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.FlagMarker
 			}
 		}
 
-		// Token: 0x06000BE3 RID: 3043 RVA: 0x00021577 File Offset: 0x0001F777
 		private Sprite GetSprite(string path)
 		{
 			return base.Context.SpriteData.GetSprite(path);
 		}
 
-		// Token: 0x17000442 RID: 1090
-		// (get) Token: 0x06000BE4 RID: 3044 RVA: 0x0002158A File Offset: 0x0001F78A
-		// (set) Token: 0x06000BE5 RID: 3045 RVA: 0x00021592 File Offset: 0x0001F792
 		[Editor(false)]
 		public string EngineID
 		{
@@ -174,9 +167,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.FlagMarker
 			}
 		}
 
-		// Token: 0x17000443 RID: 1091
-		// (get) Token: 0x06000BE6 RID: 3046 RVA: 0x000215B5 File Offset: 0x0001F7B5
-		// (set) Token: 0x06000BE7 RID: 3047 RVA: 0x000215BD File Offset: 0x0001F7BD
 		public Widget OutlineWidget
 		{
 			get
@@ -193,9 +183,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.FlagMarker
 			}
 		}
 
-		// Token: 0x17000444 RID: 1092
-		// (get) Token: 0x06000BE8 RID: 3048 RVA: 0x000215DB File Offset: 0x0001F7DB
-		// (set) Token: 0x06000BE9 RID: 3049 RVA: 0x000215E3 File Offset: 0x0001F7E3
 		public Widget IconWidget
 		{
 			get
@@ -212,22 +199,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.FlagMarker
 			}
 		}
 
-		// Token: 0x04000579 RID: 1401
 		private bool _hasVisualSet;
 
-		// Token: 0x0400057A RID: 1402
 		private Sprite _fallbackSprite;
 
-		// Token: 0x0400057B RID: 1403
 		private const string SpritePathPrefix = "MPHud\\SiegeMarkers\\";
 
-		// Token: 0x0400057C RID: 1404
 		private string _engineID = string.Empty;
 
-		// Token: 0x0400057D RID: 1405
 		private Widget _outlineWidget;
 
-		// Token: 0x0400057E RID: 1406
 		private Widget _iconWidget;
 	}
 }

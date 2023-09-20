@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000333 RID: 819
 	public class CameraDisplay : ScriptComponentBehavior
 	{
-		// Token: 0x06002C27 RID: 11303 RVA: 0x000AB6F8 File Offset: 0x000A98F8
 		private void BuildView()
 		{
 			this._sceneView = SceneView.CreateSceneView();
@@ -19,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			this._sceneView.SetScale(new Vec2(0.2f, 0.2f));
 		}
 
-		// Token: 0x06002C28 RID: 11304 RVA: 0x000AB770 File Offset: 0x000A9970
 		private void SetCamera()
 		{
 			Vec2 realScreenResolution = Screen.RealScreenResolution;
@@ -30,25 +27,21 @@ namespace TaleWorlds.MountAndBlade
 			this._sceneView.SetCamera(this._myCamera);
 		}
 
-		// Token: 0x06002C29 RID: 11305 RVA: 0x000AB7D5 File Offset: 0x000A99D5
 		private void RenderCameraFrustrum()
 		{
 			this._myCamera.RenderFrustrum();
 		}
 
-		// Token: 0x06002C2A RID: 11306 RVA: 0x000AB7E2 File Offset: 0x000A99E2
 		protected internal override void OnEditorInit()
 		{
 			this.BuildView();
 		}
 
-		// Token: 0x06002C2B RID: 11307 RVA: 0x000AB7EA File Offset: 0x000A99EA
 		protected internal override void OnInit()
 		{
 			this.BuildView();
 		}
 
-		// Token: 0x06002C2C RID: 11308 RVA: 0x000AB7F2 File Offset: 0x000A99F2
 		protected internal override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
@@ -61,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			this._sceneView.SetEnable(false);
 		}
 
-		// Token: 0x06002C2D RID: 11309 RVA: 0x000AB827 File Offset: 0x000A9A27
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -69,13 +61,10 @@ namespace TaleWorlds.MountAndBlade
 			this._myCamera = null;
 		}
 
-		// Token: 0x040010BC RID: 4284
 		private Camera _myCamera;
 
-		// Token: 0x040010BD RID: 4285
 		private SceneView _sceneView;
 
-		// Token: 0x040010BE RID: 4286
 		public int renderOrder;
 	}
 }

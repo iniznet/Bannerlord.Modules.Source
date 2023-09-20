@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000013 RID: 19
 	public class PreloadHelper
 	{
-		// Token: 0x0600007B RID: 123 RVA: 0x00005AF8 File Offset: 0x00003CF8
 		public void PreloadCharacters(List<BasicCharacterObject> characters)
 		{
 			Utilities.EnableGlobalEditDataCacher();
@@ -41,7 +39,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this.PreloadMeshesAndPhysics();
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00005C04 File Offset: 0x00003E04
 		public void WaitForMeshesToBeLoaded()
 		{
 			int num;
@@ -61,7 +58,6 @@ namespace TaleWorlds.MountAndBlade.View
 			while (num != 0);
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00005CC0 File Offset: 0x00003EC0
 		public void PreloadEquipments(List<Equipment> equipments)
 		{
 			foreach (Equipment equipment in equipments)
@@ -71,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this.PreloadMeshesAndPhysics();
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00005D14 File Offset: 0x00003F14
 		public void PreloadItems(List<ItemObject> items)
 		{
 			Utilities.EnableGlobalEditDataCacher();
@@ -83,7 +78,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this.PreloadMeshesAndPhysics();
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00005D50 File Offset: 0x00003F50
 		private void AddEquipment(Equipment equipment)
 		{
 			for (int i = 0; i < 12; i++)
@@ -96,7 +90,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x00005D84 File Offset: 0x00003F84
 		private void AddItemObject(ItemObject item)
 		{
 			if (item == null)
@@ -159,7 +152,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this.RegisterPhysicsBodyUsageIfValid(this._uniqueDynamicPhysicsShapeName, item.HolsterBodyName);
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x00005F68 File Offset: 0x00004168
 		private void PreloadMeshesAndPhysics()
 		{
 			foreach (ValueTuple<MetaMesh, bool, bool> valueTuple in this._uniqueMetaMeshes)
@@ -175,7 +167,6 @@ namespace TaleWorlds.MountAndBlade.View
 			PhysicsShape.ProcessPreloadQueue();
 		}
 
-		// Token: 0x06000082 RID: 130 RVA: 0x00006030 File Offset: 0x00004230
 		public void Clear()
 		{
 			this._uniqueMetaMeshNames.Clear();
@@ -184,7 +175,6 @@ namespace TaleWorlds.MountAndBlade.View
 			PhysicsShape.UnloadDynamicBodies();
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x00006058 File Offset: 0x00004258
 		private void RegisterMetaMeshUsageIfValid(string metaMeshName, bool useTableau, bool useTeamColor)
 		{
 			ValueTuple<string, bool, bool> valueTuple = new ValueTuple<string, bool, bool>(metaMeshName, useTableau, useTeamColor);
@@ -195,7 +185,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x000060A4 File Offset: 0x000042A4
 		private void RegisterMetaMeshUsageIfValid(MetaMesh metaMesh, bool useTableau, bool useTeamColor)
 		{
 			if (metaMesh != null)
@@ -205,7 +194,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x000060D1 File Offset: 0x000042D1
 		private void RegisterPhysicsBodyUsageIfValid(HashSet<string> uniquePhysicsShapeName, string physicsShape)
 		{
 			if (!string.IsNullOrWhiteSpace(physicsShape))
@@ -214,16 +202,12 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x04000017 RID: 23
 		private readonly HashSet<ValueTuple<string, bool, bool>> _uniqueMetaMeshNames = new HashSet<ValueTuple<string, bool, bool>>();
 
-		// Token: 0x04000018 RID: 24
 		private readonly HashSet<string> _uniqueDynamicPhysicsShapeName = new HashSet<string>();
 
-		// Token: 0x04000019 RID: 25
 		private readonly HashSet<ValueTuple<MetaMesh, bool, bool>> _uniqueMetaMeshes = new HashSet<ValueTuple<MetaMesh, bool, bool>>();
 
-		// Token: 0x0400001A RID: 26
 		private readonly HashSet<ItemObject> _loadedItems = new HashSet<ItemObject>();
 	}
 }

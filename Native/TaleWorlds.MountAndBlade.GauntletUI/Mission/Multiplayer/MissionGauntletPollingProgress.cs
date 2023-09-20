@@ -8,12 +8,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 {
-	// Token: 0x02000046 RID: 70
 	[OverrideView(typeof(MultiplayerPollProgressUIHandler))]
 	public class MissionGauntletPollingProgress : MissionView
 	{
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x06000341 RID: 833 RVA: 0x00012792 File Offset: 0x00010992
 		private InputContext _input
 		{
 			get
@@ -22,13 +19,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x06000342 RID: 834 RVA: 0x000127A4 File Offset: 0x000109A4
 		public MissionGauntletPollingProgress()
 		{
 			this.ViewOrderPriority = 24;
 		}
 
-		// Token: 0x06000343 RID: 835 RVA: 0x000127B4 File Offset: 0x000109B4
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -50,7 +45,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			base.MissionScreen.AddLayer(this._gauntletLayer);
 		}
 
-		// Token: 0x06000344 RID: 836 RVA: 0x0001290C File Offset: 0x00010B0C
 		public override void OnMissionScreenFinalize()
 		{
 			MultiplayerPollComponent multiplayerPollComponent = this._multiplayerPollComponent;
@@ -71,7 +65,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x06000345 RID: 837 RVA: 0x000129D1 File Offset: 0x00010BD1
 		private void OnKickPollOpened(MissionPeer initiatorPeer, MissionPeer targetPeer, bool isBanRequested)
 		{
 			this._isActive = true;
@@ -79,20 +72,17 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this._dataSource.OnKickPollOpened(initiatorPeer, targetPeer, isBanRequested);
 		}
 
-		// Token: 0x06000346 RID: 838 RVA: 0x00012A08 File Offset: 0x00010C08
 		private void OnPollUpdated(int votesAccepted, int votesRejected)
 		{
 			this._dataSource.OnPollUpdated(votesAccepted, votesRejected);
 		}
 
-		// Token: 0x06000347 RID: 839 RVA: 0x00012A17 File Offset: 0x00010C17
 		private void OnPollClosed()
 		{
 			this._isActive = false;
 			this._dataSource.OnPollClosed();
 		}
 
-		// Token: 0x06000348 RID: 840 RVA: 0x00012A2C File Offset: 0x00010C2C
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -114,19 +104,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x040001C1 RID: 449
 		private MultiplayerPollComponent _multiplayerPollComponent;
 
-		// Token: 0x040001C2 RID: 450
 		private MultiplayerPollProgressVM _dataSource;
 
-		// Token: 0x040001C3 RID: 451
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x040001C4 RID: 452
 		private bool _isActive;
 
-		// Token: 0x040001C5 RID: 453
 		private bool _isVoteOpenForMyPeer;
 	}
 }

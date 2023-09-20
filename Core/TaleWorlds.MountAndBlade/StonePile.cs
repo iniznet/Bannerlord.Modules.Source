@@ -12,16 +12,10 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000380 RID: 896
 	public class StonePile : UsableMachine, IDetachment
 	{
-		// Token: 0x170008B2 RID: 2226
-		// (get) Token: 0x06003091 RID: 12433 RVA: 0x000C8853 File Offset: 0x000C6A53
-		// (set) Token: 0x06003092 RID: 12434 RVA: 0x000C885B File Offset: 0x000C6A5B
 		public int AmmoCount { get; protected set; }
 
-		// Token: 0x170008B3 RID: 2227
-		// (get) Token: 0x06003093 RID: 12435 RVA: 0x000C8864 File Offset: 0x000C6A64
 		public bool HasThrowingPointUsed
 		{
 			get
@@ -37,8 +31,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170008B4 RID: 2228
-		// (get) Token: 0x06003094 RID: 12436 RVA: 0x000C88D4 File Offset: 0x000C6AD4
 		public virtual BattleSideEnum Side
 		{
 			get
@@ -47,8 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170008B5 RID: 2229
-		// (get) Token: 0x06003095 RID: 12437 RVA: 0x000C88D7 File Offset: 0x000C6AD7
 		public override int MaxUserCount
 		{
 			get
@@ -57,12 +47,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003096 RID: 12438 RVA: 0x000C88E4 File Offset: 0x000C6AE4
 		protected StonePile()
 		{
 		}
 
-		// Token: 0x06003097 RID: 12439 RVA: 0x000C88F4 File Offset: 0x000C6AF4
 		protected void ConsumeAmmo()
 		{
 			int ammoCount = this.AmmoCount;
@@ -77,7 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CheckAmmo();
 		}
 
-		// Token: 0x06003098 RID: 12440 RVA: 0x000C8942 File Offset: 0x000C6B42
 		public void SetAmmo(int ammoLeft)
 		{
 			if (this.AmmoCount != ammoLeft)
@@ -88,7 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06003099 RID: 12441 RVA: 0x000C8960 File Offset: 0x000C6B60
 		protected virtual void CheckAmmo()
 		{
 			if (this.AmmoCount <= 0)
@@ -100,7 +86,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600309A RID: 12442 RVA: 0x000C89BC File Offset: 0x000C6BBC
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -155,7 +140,6 @@ namespace TaleWorlds.MountAndBlade
 			this._throwingTargets = base.Scene.FindEntitiesWithTag("throwing_target").ToList<GameEntity>();
 		}
 
-		// Token: 0x0600309B RID: 12443 RVA: 0x000C8C4C File Offset: 0x000C6E4C
 		protected internal override void OnMissionReset()
 		{
 			base.OnMissionReset();
@@ -175,7 +159,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600309C RID: 12444 RVA: 0x000C8D40 File Offset: 0x000C6F40
 		public override void AfterMissionStart()
 		{
 			if (base.AmmoPickUpPoints != null)
@@ -196,7 +179,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600309D RID: 12445 RVA: 0x000C8E00 File Offset: 0x000C7000
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			if (usableGameObject.GameEntity.HasTag(this.AmmoPickUpTag))
@@ -208,7 +190,6 @@ namespace TaleWorlds.MountAndBlade
 			return TextObject.Empty;
 		}
 
-		// Token: 0x0600309E RID: 12446 RVA: 0x000C8E40 File Offset: 0x000C7040
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			if (gameEntity.HasTag(this.AmmoPickUpTag))
@@ -220,20 +201,17 @@ namespace TaleWorlds.MountAndBlade
 			return string.Empty;
 		}
 
-		// Token: 0x0600309F RID: 12447 RVA: 0x000C8E8E File Offset: 0x000C708E
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new StonePileAI(this);
 		}
 
-		// Token: 0x060030A0 RID: 12448 RVA: 0x000C8E98 File Offset: 0x000C7098
 		public override bool IsInRangeToCheckAlternativePoints(Agent agent)
 		{
 			float num = ((base.StandingPoints.Count > 0) ? (agent.GetInteractionDistanceToUsable(base.StandingPoints[0]) + 2f) : 2f);
 			return base.GameEntity.GlobalPosition.DistanceSquared(agent.Position) < num * num;
 		}
 
-		// Token: 0x060030A1 RID: 12449 RVA: 0x000C8EF4 File Offset: 0x000C70F4
 		public override StandingPoint GetBestPointAlternativeTo(StandingPoint standingPoint, Agent agent)
 		{
 			if (base.AmmoPickUpPoints.Contains(standingPoint))
@@ -254,7 +232,6 @@ namespace TaleWorlds.MountAndBlade
 			return standingPoint;
 		}
 
-		// Token: 0x060030A2 RID: 12450 RVA: 0x000C8FC8 File Offset: 0x000C71C8
 		private void TickOccasionally()
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -425,7 +402,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060030A3 RID: 12451 RVA: 0x000C94EC File Offset: 0x000C76EC
 		private void ReleaseAllUserAgentsAndFormations()
 		{
 			foreach (StandingPoint standingPoint in base.StandingPoints)
@@ -451,13 +427,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060030A4 RID: 12452 RVA: 0x000C95E0 File Offset: 0x000C77E0
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return ScriptComponentBehavior.TickRequirement.Tick | base.GetTickRequirement();
 		}
 
-		// Token: 0x060030A5 RID: 12453 RVA: 0x000C95EC File Offset: 0x000C77EC
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -574,7 +548,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060030A6 RID: 12454 RVA: 0x000C9A3C File Offset: 0x000C7C3C
 		public override bool ReadFromNetwork()
 		{
 			bool flag = base.ReadFromNetwork();
@@ -588,14 +561,12 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x060030A7 RID: 12455 RVA: 0x000C9A74 File Offset: 0x000C7C74
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
 			GameNetworkMessage.WriteIntToPacket(this.AmmoCount, CompressionMission.RangedSiegeWeaponAmmoCompressionInfo);
 		}
 
-		// Token: 0x060030A8 RID: 12456 RVA: 0x000C9A8C File Offset: 0x000C7C8C
 		float? IDetachment.GetWeightOfAgentAtNextSlot(List<ValueTuple<Agent, float>> candidates, out Agent match)
 		{
 			BattleSideEnum side = candidates[0].Item1.Team.Side;
@@ -621,7 +592,6 @@ namespace TaleWorlds.MountAndBlade
 			return new float?(num2.GetValueOrDefault() * num3);
 		}
 
-		// Token: 0x060030A9 RID: 12457 RVA: 0x000C9B24 File Offset: 0x000C7D24
 		float? IDetachment.GetWeightOfAgentAtNextSlot(List<Agent> candidates, out Agent match)
 		{
 			BattleSideEnum side = candidates[0].Team.Side;
@@ -647,7 +617,6 @@ namespace TaleWorlds.MountAndBlade
 			return new float?(num2.GetValueOrDefault() * num3);
 		}
 
-		// Token: 0x060030AA RID: 12458 RVA: 0x000C9BB0 File Offset: 0x000C7DB0
 		protected override StandingPoint GetSuitableStandingPointFor(BattleSideEnum side, Agent agent = null, List<Agent> agents = null, List<ValueTuple<Agent, float>> agentValuePairs = null)
 		{
 			List<Agent> list = new List<Agent>();
@@ -728,7 +697,6 @@ namespace TaleWorlds.MountAndBlade
 			return standingPoint;
 		}
 
-		// Token: 0x060030AB RID: 12459 RVA: 0x000C9D64 File Offset: 0x000C7F64
 		protected override float GetDetachmentWeightAux(BattleSideEnum side)
 		{
 			if (this.IsDisabledForBattleSideAI(side))
@@ -788,7 +756,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0.01f;
 		}
 
-		// Token: 0x060030AC RID: 12460 RVA: 0x000C9EB0 File Offset: 0x000C80B0
 		protected virtual void UpdateAmmoMesh()
 		{
 			int num = 20 - this.AmmoCount;
@@ -805,7 +772,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060030AD RID: 12461 RVA: 0x000C9F28 File Offset: 0x000C8128
 		private bool CanShootAtEntity(Agent agent, GameEntity entity, bool canShootEvenIfRayCastHitsNothing = false)
 		{
 			bool flag = false;
@@ -830,7 +796,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x060030AE RID: 12462 RVA: 0x000C9F84 File Offset: 0x000C8184
 		private List<GameEntity> GetEnemySiegeWeapons()
 		{
 			List<GameEntity> list = null;
@@ -855,13 +820,11 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x060030AF RID: 12463 RVA: 0x000CA038 File Offset: 0x000C8238
 		private bool IsThrowingPointAssignable(StonePile.ThrowingPoint throwingPoint, Agent agent = null)
 		{
 			return throwingPoint != null && !throwingPoint.StandingPoint.IsDeactivated && throwingPoint.AmmoPickUpPoint == null && !throwingPoint.StandingPoint.HasUser && !throwingPoint.StandingPoint.HasAIMovingTo && (agent == null || (StonePileAI.IsAgentAssignable(agent) && !throwingPoint.StandingPoint.IsDisabledForAgent(agent)));
 		}
 
-		// Token: 0x060030B0 RID: 12464 RVA: 0x000CA098 File Offset: 0x000C8298
 		private bool AssignAgentToStandingPoint(StandingPoint standingPoint, Agent agent)
 		{
 			if (standingPoint == null || agent == null || !StonePileAI.IsAgentAssignable(agent))
@@ -883,52 +846,36 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x04001473 RID: 5235
 		private static readonly ActionIndexCache act_pickup_boulder_begin = ActionIndexCache.Create("act_pickup_boulder_begin");
 
-		// Token: 0x04001474 RID: 5236
 		private static readonly ActionIndexCache act_pickup_boulder_end = ActionIndexCache.Create("act_pickup_boulder_end");
 
-		// Token: 0x04001475 RID: 5237
 		public const string ThrowingTargetTag = "throwing_target";
 
-		// Token: 0x04001476 RID: 5238
 		public const string ThrowingPointTag = "throwing";
 
-		// Token: 0x04001477 RID: 5239
 		private const float EnemyInRangeTimerDuration = 0.5f;
 
-		// Token: 0x04001478 RID: 5240
 		private const float EnemyWaitTimeLimit = 3f;
 
-		// Token: 0x04001479 RID: 5241
 		private const float ThrowingTargetRadius = 1.31f;
 
-		// Token: 0x0400147A RID: 5242
 		public int StartingAmmoCount = 12;
 
-		// Token: 0x0400147B RID: 5243
 		public string GivenItemID;
 
-		// Token: 0x0400147C RID: 5244
 		private ItemObject _givenItem;
 
-		// Token: 0x0400147D RID: 5245
 		private List<GameEntity> _throwingTargets;
 
-		// Token: 0x0400147E RID: 5246
 		private List<StonePile.ThrowingPoint> _throwingPoints;
 
-		// Token: 0x0400147F RID: 5247
 		private List<StonePile.VolumeBoxTimerPair> _volumeBoxTimerPairs;
 
-		// Token: 0x04001480 RID: 5248
 		private Timer _tickOccasionallyTimer;
 
-		// Token: 0x02000688 RID: 1672
 		private class ThrowingPoint
 		{
-			// Token: 0x06003EBF RID: 16063 RVA: 0x000F5E58 File Offset: 0x000F4058
 			public bool CanUseAttackEntity()
 			{
 				bool flag = true;
@@ -945,34 +892,24 @@ namespace TaleWorlds.MountAndBlade
 				return flag;
 			}
 
-			// Token: 0x0400214A RID: 8522
 			private const float CachedCanUseAttackEntityUpdateInterval = 1f;
 
-			// Token: 0x0400214B RID: 8523
 			public StandingPointWithVolumeBox StandingPoint;
 
-			// Token: 0x0400214C RID: 8524
 			public StandingPointWithWeaponRequirement AmmoPickUpPoint;
 
-			// Token: 0x0400214D RID: 8525
 			public Timer EnemyInRangeTimer;
 
-			// Token: 0x0400214E RID: 8526
 			public GameEntity AttackEntity;
 
-			// Token: 0x0400214F RID: 8527
 			public float AttackEntityNearbyAgentsCheckRadius;
 
-			// Token: 0x04002150 RID: 8528
 			private float _cachedCanUseAttackEntityExpireTime;
 
-			// Token: 0x04002151 RID: 8529
 			private bool _cachedCanUseAttackEntity;
 
-			// Token: 0x02000706 RID: 1798
 			public struct StackArray8ThrowingPoint
 			{
-				// Token: 0x17000A2D RID: 2605
 				public StonePile.ThrowingPoint this[int index]
 				{
 					get
@@ -1033,42 +970,30 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 
-				// Token: 0x04002359 RID: 9049
 				private StonePile.ThrowingPoint _element0;
 
-				// Token: 0x0400235A RID: 9050
 				private StonePile.ThrowingPoint _element1;
 
-				// Token: 0x0400235B RID: 9051
 				private StonePile.ThrowingPoint _element2;
 
-				// Token: 0x0400235C RID: 9052
 				private StonePile.ThrowingPoint _element3;
 
-				// Token: 0x0400235D RID: 9053
 				private StonePile.ThrowingPoint _element4;
 
-				// Token: 0x0400235E RID: 9054
 				private StonePile.ThrowingPoint _element5;
 
-				// Token: 0x0400235F RID: 9055
 				private StonePile.ThrowingPoint _element6;
 
-				// Token: 0x04002360 RID: 9056
 				private StonePile.ThrowingPoint _element7;
 
-				// Token: 0x04002361 RID: 9057
 				public const int Length = 8;
 			}
 		}
 
-		// Token: 0x02000689 RID: 1673
 		private struct VolumeBoxTimerPair
 		{
-			// Token: 0x04002152 RID: 8530
 			public VolumeBox VolumeBox;
 
-			// Token: 0x04002153 RID: 8531
 			public Timer Timer;
 		}
 	}

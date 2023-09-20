@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x0200000C RID: 12
 	public class DefaultCampaignOptionsProvider : ICampaignOptionProvider
 	{
-		// Token: 0x0600008A RID: 138 RVA: 0x00003A42 File Offset: 0x00001C42
 		public IEnumerable<ICampaignOptionData> GetGameplayCampaignOptions()
 		{
 			yield return new SelectionCampaignOptionData("DifficultyPresets", 100, CampaignOptionEnableState.Enabled, () => (float)this._difficultyPreset, delegate(float value)
@@ -49,7 +47,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			yield break;
 		}
 
-		// Token: 0x0600008B RID: 139 RVA: 0x00003A52 File Offset: 0x00001C52
 		public IEnumerable<ICampaignOptionData> GetCharacterCreationCampaignOptions()
 		{
 			IEnumerable<ICampaignOptionData> difficultyOptions = this.GetDifficultyRelatedOptions();
@@ -88,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			yield break;
 		}
 
-		// Token: 0x0600008C RID: 140 RVA: 0x00003A62 File Offset: 0x00001C62
 		private IEnumerable<ICampaignOptionData> GetDifficultyRelatedOptions()
 		{
 			yield return new SelectionCampaignOptionData("PlayerReceivedDamage", 200, CampaignOptionEnableState.Enabled, () => (float)CampaignOptions.PlayerReceivedDamage, delegate(float value)
@@ -126,7 +122,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			yield break;
 		}
 
-		// Token: 0x0600008D RID: 141 RVA: 0x00003A74 File Offset: 0x00001C74
 		private CampaignOptionsDifficultyPresets GetDefaultPresetForValue(float value)
 		{
 			switch ((int)value)
@@ -142,7 +137,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600008E RID: 142 RVA: 0x00003A9F File Offset: 0x00001C9F
 		private float GetDefaultValueForDifficultyPreset(CampaignOptionsDifficultyPresets preset)
 		{
 			switch (preset)
@@ -158,7 +152,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x00003ACC File Offset: 0x00001CCC
 		private CampaignOptionDisableStatus GetBattleDeathDisabledStatusWithReason()
 		{
 			if (CampaignOptions.IsLifeDeathCycleDisabled)
@@ -181,7 +174,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return new CampaignOptionDisableStatus(false, string.Empty, 0f);
 		}
 
-		// Token: 0x06000090 RID: 144 RVA: 0x00003B9C File Offset: 0x00001D9C
 		private List<TextObject> GetPresetTexts(string identifier)
 		{
 			List<TextObject> list = new List<TextObject>();
@@ -192,20 +184,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000091 RID: 145 RVA: 0x00003C18 File Offset: 0x00001E18
 		private void ExecuteResetTutorial()
 		{
 			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=a4GDfSel}Reset Tutorials", null).ToString(), new TextObject("{=I2sZ7K28}Are you sure want to reset tutorials?", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.ResetTutorials), null, "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x06000092 RID: 146 RVA: 0x00003C8D File Offset: 0x00001E8D
 		private void ResetTutorials()
 		{
 			Game.Current.EventManager.TriggerEvent<ResetAllTutorialsEvent>(new ResetAllTutorialsEvent());
 			InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=Iefr8Fra}Tutorials have been reset.", null).ToString()));
 		}
 
-		// Token: 0x04000055 RID: 85
 		private CampaignOptionsDifficultyPresets _difficultyPreset;
 	}
 }

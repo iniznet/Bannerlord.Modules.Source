@@ -4,16 +4,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI
 {
-	// Token: 0x02000017 RID: 23
 	public class StyleLayer : IBrushLayerData, IDataSource
 	{
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x06000182 RID: 386 RVA: 0x00009A20 File Offset: 0x00007C20
-		// (set) Token: 0x06000183 RID: 387 RVA: 0x00009A28 File Offset: 0x00007C28
 		public BrushLayer SourceLayer { get; private set; }
 
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x06000184 RID: 388 RVA: 0x00009A31 File Offset: 0x00007C31
 		public uint Version
 		{
 			get
@@ -22,9 +16,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x06000185 RID: 389 RVA: 0x00009A45 File Offset: 0x00007C45
-		// (set) Token: 0x06000186 RID: 390 RVA: 0x00009A52 File Offset: 0x00007C52
 		[Editor(false)]
 		public string Name
 		{
@@ -37,9 +28,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700007C RID: 124
-		// (get) Token: 0x06000187 RID: 391 RVA: 0x00009A54 File Offset: 0x00007C54
-		// (set) Token: 0x06000188 RID: 392 RVA: 0x00009A70 File Offset: 0x00007C70
 		[Editor(false)]
 		public Sprite Sprite
 		{
@@ -62,9 +50,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x06000189 RID: 393 RVA: 0x00009AA7 File Offset: 0x00007CA7
-		// (set) Token: 0x0600018A RID: 394 RVA: 0x00009AC3 File Offset: 0x00007CC3
 		[Editor(false)]
 		public Color Color
 		{
@@ -87,9 +72,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x0600018B RID: 395 RVA: 0x00009AFF File Offset: 0x00007CFF
-		// (set) Token: 0x0600018C RID: 396 RVA: 0x00009B1B File Offset: 0x00007D1B
 		[Editor(false)]
 		public float ColorFactor
 		{
@@ -112,9 +94,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x0600018D RID: 397 RVA: 0x00009B5A File Offset: 0x00007D5A
-		// (set) Token: 0x0600018E RID: 398 RVA: 0x00009B76 File Offset: 0x00007D76
 		[Editor(false)]
 		public float AlphaFactor
 		{
@@ -137,9 +116,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x0600018F RID: 399 RVA: 0x00009BB5 File Offset: 0x00007DB5
-		// (set) Token: 0x06000190 RID: 400 RVA: 0x00009BD1 File Offset: 0x00007DD1
 		[Editor(false)]
 		public float HueFactor
 		{
@@ -162,9 +138,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x06000191 RID: 401 RVA: 0x00009C10 File Offset: 0x00007E10
-		// (set) Token: 0x06000192 RID: 402 RVA: 0x00009C2C File Offset: 0x00007E2C
 		[Editor(false)]
 		public float SaturationFactor
 		{
@@ -187,9 +160,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x06000193 RID: 403 RVA: 0x00009C6B File Offset: 0x00007E6B
-		// (set) Token: 0x06000194 RID: 404 RVA: 0x00009C87 File Offset: 0x00007E87
 		[Editor(false)]
 		public float ValueFactor
 		{
@@ -212,9 +182,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000083 RID: 131
-		// (get) Token: 0x06000195 RID: 405 RVA: 0x00009CC6 File Offset: 0x00007EC6
-		// (set) Token: 0x06000196 RID: 406 RVA: 0x00009CE2 File Offset: 0x00007EE2
 		[Editor(false)]
 		public bool IsHidden
 		{
@@ -237,9 +204,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x06000197 RID: 407 RVA: 0x00009D19 File Offset: 0x00007F19
-		// (set) Token: 0x06000198 RID: 408 RVA: 0x00009D35 File Offset: 0x00007F35
 		[Editor(false)]
 		public bool UseOverlayAlphaAsMask
 		{
@@ -262,9 +226,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x06000199 RID: 409 RVA: 0x00009D6C File Offset: 0x00007F6C
-		// (set) Token: 0x0600019A RID: 410 RVA: 0x00009D88 File Offset: 0x00007F88
 		[Editor(false)]
 		public float XOffset
 		{
@@ -287,9 +248,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x0600019B RID: 411 RVA: 0x00009DC7 File Offset: 0x00007FC7
-		// (set) Token: 0x0600019C RID: 412 RVA: 0x00009DE3 File Offset: 0x00007FE3
 		[Editor(false)]
 		public float YOffset
 		{
@@ -312,9 +270,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x0600019D RID: 413 RVA: 0x00009E22 File Offset: 0x00008022
-		// (set) Token: 0x0600019E RID: 414 RVA: 0x00009E3E File Offset: 0x0000803E
 		[Editor(false)]
 		public float ExtendLeft
 		{
@@ -337,9 +292,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000088 RID: 136
-		// (get) Token: 0x0600019F RID: 415 RVA: 0x00009E7D File Offset: 0x0000807D
-		// (set) Token: 0x060001A0 RID: 416 RVA: 0x00009E99 File Offset: 0x00008099
 		[Editor(false)]
 		public float ExtendRight
 		{
@@ -362,9 +314,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000089 RID: 137
-		// (get) Token: 0x060001A1 RID: 417 RVA: 0x00009ED8 File Offset: 0x000080D8
-		// (set) Token: 0x060001A2 RID: 418 RVA: 0x00009EF4 File Offset: 0x000080F4
 		[Editor(false)]
 		public float ExtendTop
 		{
@@ -387,9 +336,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008A RID: 138
-		// (get) Token: 0x060001A3 RID: 419 RVA: 0x00009F33 File Offset: 0x00008133
-		// (set) Token: 0x060001A4 RID: 420 RVA: 0x00009F4F File Offset: 0x0000814F
 		[Editor(false)]
 		public float ExtendBottom
 		{
@@ -412,9 +358,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008B RID: 139
-		// (get) Token: 0x060001A5 RID: 421 RVA: 0x00009F8E File Offset: 0x0000818E
-		// (set) Token: 0x060001A6 RID: 422 RVA: 0x00009FAA File Offset: 0x000081AA
 		[Editor(false)]
 		public float OverridenWidth
 		{
@@ -437,9 +380,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008C RID: 140
-		// (get) Token: 0x060001A7 RID: 423 RVA: 0x00009FE9 File Offset: 0x000081E9
-		// (set) Token: 0x060001A8 RID: 424 RVA: 0x0000A005 File Offset: 0x00008205
 		[Editor(false)]
 		public float OverridenHeight
 		{
@@ -462,9 +402,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008D RID: 141
-		// (get) Token: 0x060001A9 RID: 425 RVA: 0x0000A044 File Offset: 0x00008244
-		// (set) Token: 0x060001AA RID: 426 RVA: 0x0000A060 File Offset: 0x00008260
 		[Editor(false)]
 		public BrushLayerSizePolicy WidthPolicy
 		{
@@ -487,9 +424,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008E RID: 142
-		// (get) Token: 0x060001AB RID: 427 RVA: 0x0000A097 File Offset: 0x00008297
-		// (set) Token: 0x060001AC RID: 428 RVA: 0x0000A0B3 File Offset: 0x000082B3
 		public BrushLayerSizePolicy HeightPolicy
 		{
 			get
@@ -511,9 +445,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700008F RID: 143
-		// (get) Token: 0x060001AD RID: 429 RVA: 0x0000A0EA File Offset: 0x000082EA
-		// (set) Token: 0x060001AE RID: 430 RVA: 0x0000A106 File Offset: 0x00008306
 		[Editor(false)]
 		public bool HorizontalFlip
 		{
@@ -536,9 +467,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000090 RID: 144
-		// (get) Token: 0x060001AF RID: 431 RVA: 0x0000A13D File Offset: 0x0000833D
-		// (set) Token: 0x060001B0 RID: 432 RVA: 0x0000A159 File Offset: 0x00008359
 		[Editor(false)]
 		public bool VerticalFlip
 		{
@@ -561,9 +489,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000091 RID: 145
-		// (get) Token: 0x060001B1 RID: 433 RVA: 0x0000A190 File Offset: 0x00008390
-		// (set) Token: 0x060001B2 RID: 434 RVA: 0x0000A1AC File Offset: 0x000083AC
 		[Editor(false)]
 		public BrushOverlayMethod OverlayMethod
 		{
@@ -586,9 +511,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000092 RID: 146
-		// (get) Token: 0x060001B3 RID: 435 RVA: 0x0000A1E3 File Offset: 0x000083E3
-		// (set) Token: 0x060001B4 RID: 436 RVA: 0x0000A1FF File Offset: 0x000083FF
 		[Editor(false)]
 		public Sprite OverlaySprite
 		{
@@ -611,9 +533,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000093 RID: 147
-		// (get) Token: 0x060001B5 RID: 437 RVA: 0x0000A236 File Offset: 0x00008436
-		// (set) Token: 0x060001B6 RID: 438 RVA: 0x0000A252 File Offset: 0x00008452
 		[Editor(false)]
 		public float OverlayXOffset
 		{
@@ -636,9 +555,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000094 RID: 148
-		// (get) Token: 0x060001B7 RID: 439 RVA: 0x0000A291 File Offset: 0x00008491
-		// (set) Token: 0x060001B8 RID: 440 RVA: 0x0000A2AD File Offset: 0x000084AD
 		[Editor(false)]
 		public float OverlayYOffset
 		{
@@ -661,9 +577,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000095 RID: 149
-		// (get) Token: 0x060001B9 RID: 441 RVA: 0x0000A2EC File Offset: 0x000084EC
-		// (set) Token: 0x060001BA RID: 442 RVA: 0x0000A308 File Offset: 0x00008508
 		[Editor(false)]
 		public bool UseRandomBaseOverlayXOffset
 		{
@@ -686,9 +599,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x060001BB RID: 443 RVA: 0x0000A33A File Offset: 0x0000853A
-		// (set) Token: 0x060001BC RID: 444 RVA: 0x0000A356 File Offset: 0x00008556
 		[Editor(false)]
 		public bool UseRandomBaseOverlayYOffset
 		{
@@ -711,13 +621,11 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060001BD RID: 445 RVA: 0x0000A388 File Offset: 0x00008588
 		public StyleLayer(BrushLayer brushLayer)
 		{
 			this.SourceLayer = brushLayer;
 		}
 
-		// Token: 0x060001BE RID: 446 RVA: 0x0000A397 File Offset: 0x00008597
 		public static StyleLayer CreateFrom(StyleLayer source)
 		{
 			StyleLayer styleLayer = new StyleLayer(source.SourceLayer);
@@ -725,7 +633,6 @@ namespace TaleWorlds.GauntletUI
 			return styleLayer;
 		}
 
-		// Token: 0x060001BF RID: 447 RVA: 0x0000A3AC File Offset: 0x000085AC
 		public void FillFrom(StyleLayer source)
 		{
 			this.Sprite = source.Sprite;
@@ -756,7 +663,6 @@ namespace TaleWorlds.GauntletUI
 			this.UseRandomBaseOverlayYOffset = source.UseRandomBaseOverlayYOffset;
 		}
 
-		// Token: 0x060001C0 RID: 448 RVA: 0x0000A4F4 File Offset: 0x000086F4
 		public float GetValueAsFloat(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			switch (propertyType)
@@ -804,7 +710,6 @@ namespace TaleWorlds.GauntletUI
 			return 0f;
 		}
 
-		// Token: 0x060001C1 RID: 449 RVA: 0x0000A5F7 File Offset: 0x000087F7
 		public Color GetValueAsColor(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			if (propertyType == BrushAnimationProperty.BrushAnimationPropertyType.Color)
@@ -815,7 +720,6 @@ namespace TaleWorlds.GauntletUI
 			return Color.Black;
 		}
 
-		// Token: 0x060001C2 RID: 450 RVA: 0x0000A622 File Offset: 0x00008822
 		public Sprite GetValueAsSprite(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			if (propertyType == BrushAnimationProperty.BrushAnimationPropertyType.Sprite)
@@ -830,7 +734,6 @@ namespace TaleWorlds.GauntletUI
 			return this.OverlaySprite;
 		}
 
-		// Token: 0x060001C3 RID: 451 RVA: 0x0000A658 File Offset: 0x00008858
 		public bool GetIsValueChanged(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			switch (propertyType)
@@ -893,169 +796,114 @@ namespace TaleWorlds.GauntletUI
 			return false;
 		}
 
-		// Token: 0x040000BF RID: 191
 		private uint _localVersion;
 
-		// Token: 0x040000C0 RID: 192
 		private bool _isSpriteChanged;
 
-		// Token: 0x040000C1 RID: 193
 		private bool _isColorChanged;
 
-		// Token: 0x040000C2 RID: 194
 		private bool _isColorFactorChanged;
 
-		// Token: 0x040000C3 RID: 195
 		private bool _isAlphaFactorChanged;
 
-		// Token: 0x040000C4 RID: 196
 		private bool _isHueFactorChanged;
 
-		// Token: 0x040000C5 RID: 197
 		private bool _isSaturationFactorChanged;
 
-		// Token: 0x040000C6 RID: 198
 		private bool _isValueFactorChanged;
 
-		// Token: 0x040000C7 RID: 199
 		private bool _isIsHiddenChanged;
 
-		// Token: 0x040000C8 RID: 200
 		private bool _isXOffsetChanged;
 
-		// Token: 0x040000C9 RID: 201
 		private bool _isYOffsetChanged;
 
-		// Token: 0x040000CA RID: 202
 		private bool _isExtendLeftChanged;
 
-		// Token: 0x040000CB RID: 203
 		private bool _isExtendRightChanged;
 
-		// Token: 0x040000CC RID: 204
 		private bool _isExtendTopChanged;
 
-		// Token: 0x040000CD RID: 205
 		private bool _isExtendBottomChanged;
 
-		// Token: 0x040000CE RID: 206
 		private bool _isOverridenWidthChanged;
 
-		// Token: 0x040000CF RID: 207
 		private bool _isOverridenHeightChanged;
 
-		// Token: 0x040000D0 RID: 208
 		private bool _isWidthPolicyChanged;
 
-		// Token: 0x040000D1 RID: 209
 		private bool _isHeightPolicyChanged;
 
-		// Token: 0x040000D2 RID: 210
 		private bool _isHorizontalFlipChanged;
 
-		// Token: 0x040000D3 RID: 211
 		private bool _isVerticalFlipChanged;
 
-		// Token: 0x040000D4 RID: 212
 		private bool _isOverlayMethodChanged;
 
-		// Token: 0x040000D5 RID: 213
 		private bool _isOverlaySpriteChanged;
 
-		// Token: 0x040000D6 RID: 214
 		private bool _isUseOverlayAlphaAsMaskChanged;
 
-		// Token: 0x040000D7 RID: 215
 		private bool _isOverlayXOffsetChanged;
 
-		// Token: 0x040000D8 RID: 216
 		private bool _isOverlayYOffsetChanged;
 
-		// Token: 0x040000D9 RID: 217
 		private bool _isUseRandomBaseOverlayXOffset;
 
-		// Token: 0x040000DA RID: 218
 		private bool _isUseRandomBaseOverlayYOffset;
 
-		// Token: 0x040000DB RID: 219
 		private Sprite _sprite;
 
-		// Token: 0x040000DC RID: 220
 		private Color _color;
 
-		// Token: 0x040000DD RID: 221
 		private float _colorFactor;
 
-		// Token: 0x040000DE RID: 222
 		private float _alphaFactor;
 
-		// Token: 0x040000DF RID: 223
 		private float _hueFactor;
 
-		// Token: 0x040000E0 RID: 224
 		private float _saturationFactor;
 
-		// Token: 0x040000E1 RID: 225
 		private float _valueFactor;
 
-		// Token: 0x040000E2 RID: 226
 		private bool _isHidden;
 
-		// Token: 0x040000E3 RID: 227
 		private bool _useOverlayAlphaAsMask;
 
-		// Token: 0x040000E4 RID: 228
 		private float _xOffset;
 
-		// Token: 0x040000E5 RID: 229
 		private float _yOffset;
 
-		// Token: 0x040000E6 RID: 230
 		private float _extendLeft;
 
-		// Token: 0x040000E7 RID: 231
 		private float _extendRight;
 
-		// Token: 0x040000E8 RID: 232
 		private float _extendTop;
 
-		// Token: 0x040000E9 RID: 233
 		private float _extendBottom;
 
-		// Token: 0x040000EA RID: 234
 		private float _overridenWidth;
 
-		// Token: 0x040000EB RID: 235
 		private float _overridenHeight;
 
-		// Token: 0x040000EC RID: 236
 		private BrushLayerSizePolicy _widthPolicy;
 
-		// Token: 0x040000ED RID: 237
 		private BrushLayerSizePolicy _heightPolicy;
 
-		// Token: 0x040000EE RID: 238
 		private bool _horizontalFlip;
 
-		// Token: 0x040000EF RID: 239
 		private bool _verticalFlip;
 
-		// Token: 0x040000F0 RID: 240
 		private BrushOverlayMethod _overlayMethod;
 
-		// Token: 0x040000F1 RID: 241
 		private Sprite _overlaySprite;
 
-		// Token: 0x040000F2 RID: 242
 		private float _overlayXOffset;
 
-		// Token: 0x040000F3 RID: 243
 		private float _overlayYOffset;
 
-		// Token: 0x040000F4 RID: 244
 		private bool _useRandomBaseOverlayXOffset;
 
-		// Token: 0x040000F5 RID: 245
 		private bool _useRandomBaseOverlayYOffset;
 	}
 }

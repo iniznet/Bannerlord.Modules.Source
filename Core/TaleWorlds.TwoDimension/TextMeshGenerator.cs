@@ -2,16 +2,13 @@
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000015 RID: 21
 	internal class TextMeshGenerator
 	{
-		// Token: 0x060000B8 RID: 184 RVA: 0x00005A3B File Offset: 0x00003C3B
 		internal TextMeshGenerator()
 		{
 			this._scaleValue = 1f;
 		}
 
-		// Token: 0x060000B9 RID: 185 RVA: 0x00005A50 File Offset: 0x00003C50
 		internal void Refresh(Font font, int possibleMaxCharacterLength, float scaleValue)
 		{
 			this._font = font;
@@ -29,7 +26,6 @@ namespace TaleWorlds.TwoDimension
 			this._scaleValue = scaleValue;
 		}
 
-		// Token: 0x060000BA RID: 186 RVA: 0x00005ABC File Offset: 0x00003CBC
 		internal DrawObject2D GenerateMesh()
 		{
 			int num = this._textMeshCharacterCount * 6;
@@ -55,7 +51,6 @@ namespace TaleWorlds.TwoDimension
 			return drawObject2D;
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x00005B8C File Offset: 0x00003D8C
 		internal void AddCharacterToMesh(float x, float y, BitmapFontCharacter fontCharacter)
 		{
 			float minU = this._font.FontSprite.MinU;
@@ -87,7 +82,6 @@ namespace TaleWorlds.TwoDimension
 			this._textMeshCharacterCount++;
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x00005D84 File Offset: 0x00003F84
 		internal void AddValueToX(float value)
 		{
 			for (int i = 0; i < this._vertices.Length; i += 2)
@@ -96,7 +90,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x060000BD RID: 189 RVA: 0x00005DB8 File Offset: 0x00003FB8
 		internal void AddValueToY(float value)
 		{
 			for (int i = 0; i < this._vertices.Length; i += 2)
@@ -105,22 +98,16 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x0400007C RID: 124
 		private Font _font;
 
-		// Token: 0x0400007D RID: 125
 		private float[] _vertices;
 
-		// Token: 0x0400007E RID: 126
 		private float[] _uvs;
 
-		// Token: 0x0400007F RID: 127
 		private uint[] _indices;
 
-		// Token: 0x04000080 RID: 128
 		private int _textMeshCharacterCount;
 
-		// Token: 0x04000081 RID: 129
 		private float _scaleValue;
 	}
 }

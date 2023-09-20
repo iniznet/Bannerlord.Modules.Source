@@ -5,16 +5,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.Tableaus
 {
-	// Token: 0x02000020 RID: 32
 	public class BrightnessDemoTableau
 	{
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x0600010C RID: 268 RVA: 0x00008FF9 File Offset: 0x000071F9
-		// (set) Token: 0x0600010D RID: 269 RVA: 0x00009001 File Offset: 0x00007201
 		public Texture Texture { get; private set; }
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x0600010E RID: 270 RVA: 0x0000900A File Offset: 0x0000720A
 		private TableauView View
 		{
 			get
@@ -27,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000110 RID: 272 RVA: 0x00009041 File Offset: 0x00007241
 		private void SetEnabled(bool enabled)
 		{
 			this._isEnabled = enabled;
@@ -43,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			view.SetEnable(this._isEnabled);
 		}
 
-		// Token: 0x06000111 RID: 273 RVA: 0x0000906E File Offset: 0x0000726E
 		public void SetDemoType(int demoType)
 		{
 			this._demoType = demoType;
@@ -51,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.RefreshDemoTableau();
 		}
 
-		// Token: 0x06000112 RID: 274 RVA: 0x00009084 File Offset: 0x00007284
 		public void SetTargetSize(int width, int height)
 		{
 			int num;
@@ -90,7 +81,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000113 RID: 275 RVA: 0x00009154 File Offset: 0x00007354
 		public void OnFinalize()
 		{
 			if (this._continuousRenderCamera != null)
@@ -112,7 +102,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._tableauScene = null;
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x000091B4 File Offset: 0x000073B4
 		public void SetScene()
 		{
 			this._tableauScene = Scene.CreateNewScene(true, true, 0, "mono_renderscene");
@@ -141,7 +130,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._tableauScene.SetDepthOfFieldParameters(0f, 0f, false);
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x000092C0 File Offset: 0x000074C0
 		private void RefreshDemoTableau()
 		{
 			if (!this._initialized)
@@ -150,7 +138,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x000092D1 File Offset: 0x000074D1
 		public void OnTick(float dt)
 		{
 			if (this._continuousRenderCamera == null)
@@ -165,7 +152,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			view.SetDoNotRenderThisFrame(false);
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x00009300 File Offset: 0x00007500
 		internal void SceneTableauContinuousRenderFunction(Texture sender, EventArgs e)
 		{
 			Scene scene = (Scene)sender.UserData;
@@ -199,34 +185,24 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x0400007E RID: 126
 		private MatrixFrame _frame;
 
-		// Token: 0x0400007F RID: 127
 		private Scene _tableauScene;
 
-		// Token: 0x04000080 RID: 128
 		private Texture _demoTexture;
 
-		// Token: 0x04000081 RID: 129
 		private Camera _continuousRenderCamera;
 
-		// Token: 0x04000082 RID: 130
 		private bool _initialized;
 
-		// Token: 0x04000083 RID: 131
 		private int _tableauSizeX;
 
-		// Token: 0x04000084 RID: 132
 		private int _tableauSizeY;
 
-		// Token: 0x04000085 RID: 133
 		private int _demoType = -1;
 
-		// Token: 0x04000086 RID: 134
 		private bool _isEnabled;
 
-		// Token: 0x04000087 RID: 135
 		private float RenderScale = 1f;
 	}
 }

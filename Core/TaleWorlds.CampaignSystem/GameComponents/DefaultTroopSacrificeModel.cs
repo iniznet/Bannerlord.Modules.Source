@@ -12,22 +12,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000147 RID: 327
 	public class DefaultTroopSacrificeModel : TroopSacrificeModel
 	{
-		// Token: 0x060017F9 RID: 6137 RVA: 0x00078FC7 File Offset: 0x000771C7
 		public override int GetLostTroopCountForBreakingInBesiegedSettlement(MobileParty party, SiegeEvent siegeEvent)
 		{
 			return this.GetLostTroopCount(party, siegeEvent);
 		}
 
-		// Token: 0x060017FA RID: 6138 RVA: 0x00078FD1 File Offset: 0x000771D1
 		public override int GetLostTroopCountForBreakingOutOfBesiegedSettlement(MobileParty party, SiegeEvent siegeEvent)
 		{
 			return this.GetLostTroopCount(party, siegeEvent);
 		}
 
-		// Token: 0x060017FB RID: 6139 RVA: 0x00078FDC File Offset: 0x000771DC
 		public override int GetNumberOfTroopsSacrificedForTryingToGetAway(BattleSideEnum battleSide, MapEvent mapEvent)
 		{
 			mapEvent.RecalculateStrengthOfSides();
@@ -58,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -1;
 		}
 
-		// Token: 0x060017FC RID: 6140 RVA: 0x0007915C File Offset: 0x0007735C
 		private int GetLostTroopCount(MobileParty party, SiegeEvent siegeEvent)
 		{
 			int num = 5;

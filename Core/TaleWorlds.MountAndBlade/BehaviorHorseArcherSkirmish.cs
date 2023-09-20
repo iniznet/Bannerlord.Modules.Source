@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200010A RID: 266
 	public class BehaviorHorseArcherSkirmish : BehaviorComponent
 	{
-		// Token: 0x06000CF1 RID: 3313 RVA: 0x0001E238 File Offset: 0x0001C438
 		public BehaviorHorseArcherSkirmish(Formation formation)
 			: base(formation)
 		{
@@ -15,7 +13,6 @@ namespace TaleWorlds.MountAndBlade
 			base.BehaviorCoherence = 0.5f;
 		}
 
-		// Token: 0x06000CF2 RID: 3314 RVA: 0x0001E259 File Offset: 0x0001C459
 		protected override float GetAiWeight()
 		{
 			if (!this._isEnemyReachable)
@@ -25,7 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0.9f;
 		}
 
-		// Token: 0x06000CF3 RID: 3315 RVA: 0x0001E270 File Offset: 0x0001C470
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -37,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CF4 RID: 3316 RVA: 0x0001E2E4 File Offset: 0x0001C4E4
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition worldPosition = base.Formation.QuerySystem.MedianPosition;
@@ -115,17 +110,14 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = MovementOrder.MovementOrderMove(worldPosition);
 		}
 
-		// Token: 0x06000CF5 RID: 3317 RVA: 0x0001E6BC File Offset: 0x0001C8BC
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 		}
 
-		// Token: 0x04000320 RID: 800
 		private bool _rushMode;
 
-		// Token: 0x04000321 RID: 801
 		private bool _isEnemyReachable = true;
 	}
 }

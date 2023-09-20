@@ -20,11 +20,8 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000057 RID: 87
 	public class PartyVisual : IPartyVisual
 	{
-		// Token: 0x17000065 RID: 101
-		// (get) Token: 0x0600038F RID: 911 RVA: 0x0001D66B File Offset: 0x0001B86B
 		public MapScreen MapScreen
 		{
 			get
@@ -33,28 +30,14 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x17000066 RID: 102
-		// (get) Token: 0x06000390 RID: 912 RVA: 0x0001D672 File Offset: 0x0001B872
-		// (set) Token: 0x06000391 RID: 913 RVA: 0x0001D67A File Offset: 0x0001B87A
 		public GameEntity StrategicEntity { get; private set; }
 
-		// Token: 0x17000067 RID: 103
-		// (get) Token: 0x06000392 RID: 914 RVA: 0x0001D683 File Offset: 0x0001B883
-		// (set) Token: 0x06000393 RID: 915 RVA: 0x0001D68B File Offset: 0x0001B88B
 		public List<GameEntity> TownPhysicalEntities { get; private set; }
 
-		// Token: 0x17000068 RID: 104
-		// (get) Token: 0x06000394 RID: 916 RVA: 0x0001D694 File Offset: 0x0001B894
-		// (set) Token: 0x06000395 RID: 917 RVA: 0x0001D69C File Offset: 0x0001B89C
 		public MatrixFrame CircleLocalFrame { get; private set; }
 
-		// Token: 0x17000069 RID: 105
-		// (get) Token: 0x06000396 RID: 918 RVA: 0x0001D6A5 File Offset: 0x0001B8A5
-		// (set) Token: 0x06000397 RID: 919 RVA: 0x0001D6AD File Offset: 0x0001B8AD
 		public bool EntityMoving { get; set; }
 
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x06000398 RID: 920 RVA: 0x0001D6B8 File Offset: 0x0001B8B8
 		private Scene MapScene
 		{
 			get
@@ -67,32 +50,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700006B RID: 107
-		// (get) Token: 0x06000399 RID: 921 RVA: 0x0001D706 File Offset: 0x0001B906
-		// (set) Token: 0x0600039A RID: 922 RVA: 0x0001D70E File Offset: 0x0001B90E
 		public AgentVisuals HumanAgentVisuals { get; private set; }
 
-		// Token: 0x1700006C RID: 108
-		// (get) Token: 0x0600039B RID: 923 RVA: 0x0001D717 File Offset: 0x0001B917
-		// (set) Token: 0x0600039C RID: 924 RVA: 0x0001D71F File Offset: 0x0001B91F
 		public AgentVisuals MountAgentVisuals { get; private set; }
 
-		// Token: 0x1700006D RID: 109
-		// (get) Token: 0x0600039D RID: 925 RVA: 0x0001D728 File Offset: 0x0001B928
-		// (set) Token: 0x0600039E RID: 926 RVA: 0x0001D730 File Offset: 0x0001B930
 		public AgentVisuals CaravanMountAgentVisuals { get; private set; }
 
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x0600039F RID: 927 RVA: 0x0001D739 File Offset: 0x0001B939
-		// (set) Token: 0x060003A0 RID: 928 RVA: 0x0001D741 File Offset: 0x0001B941
 		public bool IsEnemy { get; private set; }
 
-		// Token: 0x1700006F RID: 111
-		// (get) Token: 0x060003A1 RID: 929 RVA: 0x0001D74A File Offset: 0x0001B94A
-		// (set) Token: 0x060003A2 RID: 930 RVA: 0x0001D752 File Offset: 0x0001B952
 		public bool IsFriendly { get; private set; }
 
-		// Token: 0x060003A3 RID: 931 RVA: 0x0001D75C File Offset: 0x0001B95C
 		public PartyVisual()
 		{
 			this.EntityMoving = false;
@@ -104,7 +71,6 @@ namespace SandBox.View.Map
 			this.CircleLocalFrame = MatrixFrame.Identity;
 		}
 
-		// Token: 0x060003A4 RID: 932 RVA: 0x0001D7C0 File Offset: 0x0001B9C0
 		void IPartyVisual.OnBesieged(Vec3 soundPosition)
 		{
 			SoundEvent siegeSoundEvent = this._siegeSoundEvent;
@@ -118,7 +84,6 @@ namespace SandBox.View.Map
 			this._siegeSoundEvent.Play();
 		}
 
-		// Token: 0x060003A5 RID: 933 RVA: 0x0001D821 File Offset: 0x0001BA21
 		void IPartyVisual.OnSiegeLifted()
 		{
 			SoundEvent siegeSoundEvent = this._siegeSoundEvent;
@@ -129,13 +94,11 @@ namespace SandBox.View.Map
 			this._siegeSoundEvent = null;
 		}
 
-		// Token: 0x060003A6 RID: 934 RVA: 0x0001D83B File Offset: 0x0001BA3B
 		public void SetMapIconAsDirty()
 		{
 			this._isDirty = true;
 		}
 
-		// Token: 0x060003A7 RID: 935 RVA: 0x0001D844 File Offset: 0x0001BA44
 		private void AddMountToPartyIcon(Vec3 positionOffset, string mountItemId, string harnessItemId, uint contourColor, CharacterObject character)
 		{
 			ItemObject @object = Game.Current.ObjectManager.GetObject<ItemObject>(mountItemId);
@@ -167,7 +130,6 @@ namespace SandBox.View.Map
 			this.CaravanMountAgentVisuals.GetEntity().Skeleton.ForceUpdateBoneFrames();
 		}
 
-		// Token: 0x060003A8 RID: 936 RVA: 0x0001D9FC File Offset: 0x0001BBFC
 		private void AddCharacterToPartyIcon(CharacterObject characterObject, uint contourColor, string bannerKey, int wieldedItemIndex, uint teamColor1, uint teamColor2, ActionIndexCache leaderAction, ActionIndexCache mountAction, float animationStartDuration, ref bool clearBannerEntityCache)
 		{
 			Equipment equipment = characterObject.Equipment.Clone(false);
@@ -273,7 +235,6 @@ namespace SandBox.View.Map
 			this.HumanAgentVisuals.GetEntity().Skeleton.ForceUpdateBoneFrames();
 		}
 
-		// Token: 0x060003A9 RID: 937 RVA: 0x0001DF4C File Offset: 0x0001C14C
 		private static MetaMesh GetBannerOfCharacter(Banner banner, string bannerMeshName)
 		{
 			MetaMesh copy = MetaMesh.GetCopy(bannerMeshName, true, false);
@@ -308,7 +269,6 @@ namespace SandBox.View.Map
 			return copy;
 		}
 
-		// Token: 0x060003AA RID: 938 RVA: 0x0001E029 File Offset: 0x0001C229
 		public void Tick(float realDt, float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
 		{
 			if (party.IsSettlement)
@@ -319,7 +279,6 @@ namespace SandBox.View.Map
 			this.TickMobilePartyVisual(dt, party, ref dirtyPartiesCount, ref dirtyPartiesList);
 		}
 
-		// Token: 0x060003AB RID: 939 RVA: 0x0001E050 File Offset: 0x0001C250
 		private void TickSettlementVisual(float realDt, float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
 		{
 			if (this.StrategicEntity == null)
@@ -523,7 +482,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003AC RID: 940 RVA: 0x0001EB64 File Offset: 0x0001CD64
 		private void TickMobilePartyVisual(float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
 		{
 			if (this.StrategicEntity == null)
@@ -560,7 +518,6 @@ namespace SandBox.View.Map
 			caravanMountAgentVisuals.Tick(null, dt, this.EntityMoving, num3);
 		}
 
-		// Token: 0x060003AD RID: 941 RVA: 0x0001EC98 File Offset: 0x0001CE98
 		private void CalculateDataAndDurationsForSiegeMachine(int machineSlotIndex, SiegeEngineType machineType, BattleSideEnum side, SiegeBombardTargets targetType, int targetSlotIndex, out PartyVisual.SiegeBombardmentData bombardmentData)
 		{
 			bombardmentData = default(PartyVisual.SiegeBombardmentData);
@@ -621,7 +578,6 @@ namespace SandBox.View.Map
 			bombardmentData.TotalDuration = bombardmentData.RotationDuration + bombardmentData.ReloadDuration + bombardmentData.AimingDuration + bombardmentData.MissileLaunchDuration + bombardmentData.FlightDuration;
 		}
 
-		// Token: 0x060003AE RID: 942 RVA: 0x0001F068 File Offset: 0x0001D268
 		private void RemoveContourMesh()
 		{
 			if (this._contourMaskMesh != null)
@@ -631,14 +587,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003AF RID: 943 RVA: 0x0001F096 File Offset: 0x0001D296
 		public void ReleaseResources()
 		{
 			this.RemoveSiege();
 			this.ResetPartyIcon();
 		}
 
-		// Token: 0x060003B0 RID: 944 RVA: 0x0001F0A4 File Offset: 0x0001D2A4
 		public void ValidateIsDirty(PartyBase party, float realDt, float dt)
 		{
 			if (party.IsSettlement)
@@ -661,7 +615,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B1 RID: 945 RVA: 0x0001F114 File Offset: 0x0001D314
 		public void TickFadingState(float realDt, float dt)
 		{
 			if ((this._entityAlpha < 1f && this._targetVisibility) || (this._entityAlpha > 0f && !this._targetVisibility))
@@ -800,7 +753,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B2 RID: 946 RVA: 0x0001F3A4 File Offset: 0x0001D5A4
 		public void ResetPartyIcon()
 		{
 			if (this.StrategicEntity != null)
@@ -837,7 +789,6 @@ namespace SandBox.View.Map
 			Campaign.Current.UnregisterFadingVisual(this);
 		}
 
-		// Token: 0x060003B3 RID: 947 RVA: 0x0001F46C File Offset: 0x0001D66C
 		private void RefreshPartyIcon(PartyBase party)
 		{
 			if (this._isDirty)
@@ -1001,7 +952,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B4 RID: 948 RVA: 0x0001FB5C File Offset: 0x0001DD5C
 		private void RemoveSiege()
 		{
 			foreach (ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity> valueTuple in this._siegeRangedMachineEntities)
@@ -1021,7 +971,6 @@ namespace SandBox.View.Map
 			this._siegeMissileEntities.Clear();
 		}
 
-		// Token: 0x060003B5 RID: 949 RVA: 0x0001FC84 File Offset: 0x0001DE84
 		private void RefreshSiegePreparations(PartyBase party)
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -1049,7 +998,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B6 RID: 950 RVA: 0x0001FD90 File Offset: 0x0001DF90
 		private void AddSiegeIconComponents(PartyBase party)
 		{
 			if (party.Settlement.IsUnderSiege)
@@ -1121,7 +1069,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B7 RID: 951 RVA: 0x00020054 File Offset: 0x0001E254
 		private void AddSiegeMachine(SiegeEngineType type, MatrixFrame globalFrame, BattleSideEnum side, int wallLevel, int slotIndex)
 		{
 			string siegeEngineMapPrefabName = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineMapPrefabName(type, wallLevel, side);
@@ -1156,7 +1103,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B8 RID: 952 RVA: 0x0002019C File Offset: 0x0001E39C
 		private void AddSiegeMissile(SiegeEngineType type, MatrixFrame globalFrame, BattleSideEnum side, int missileIndex)
 		{
 			string siegeEngineMapProjectilePrefabName = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineMapProjectilePrefabName(type);
@@ -1175,7 +1121,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003B9 RID: 953 RVA: 0x00020230 File Offset: 0x0001E430
 		private void AddQuestPartyMarker(ref MatrixFrame frame)
 		{
 			MetaMesh copy = MetaMesh.GetCopy("physics_sphere_detailed", true, false);
@@ -1187,7 +1132,6 @@ namespace SandBox.View.Map
 			this.StrategicEntity.AddChild(gameEntity, false);
 		}
 
-		// Token: 0x060003BA RID: 954 RVA: 0x00020290 File Offset: 0x0001E490
 		private void AddMobileIconComponents(PartyBase party, ref bool clearBannerComponentCache, ref bool clearBannerEntityCache)
 		{
 			uint num = (FactionManager.IsAtWarAgainstFaction(party.MapFaction, Hero.MainHero.MapFaction) ? 4294905856U : 4278206719U);
@@ -1271,7 +1215,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003BB RID: 955 RVA: 0x00020660 File Offset: 0x0001E860
 		private void GetMeleeWeaponToWield(PartyBase party, out int wieldedItemIndex)
 		{
 			wieldedItemIndex = -1;
@@ -1289,7 +1232,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003BC RID: 956 RVA: 0x000206C0 File Offset: 0x0001E8C0
 		private static void GetPartyBattleAnimation(PartyBase party, int wieldedItemIndex, out ActionIndexCache leaderAction, out ActionIndexCache mountAction)
 		{
 			leaderAction = ActionIndexCache.act_none;
@@ -1399,7 +1341,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003BD RID: 957 RVA: 0x000209E0 File Offset: 0x0001EBE0
 		public void RefreshWallState(PartyBase party)
 		{
 			if (this._breachableWallEntities != null)
@@ -1446,7 +1387,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003BE RID: 958 RVA: 0x00020B40 File Offset: 0x0001ED40
 		public void RefreshTownPhysicalEntitiesState(PartyBase party)
 		{
 			if (((party != null) ? party.Settlement : null) != null && party.Settlement.IsFortification && this.TownPhysicalEntities != null)
@@ -1466,14 +1406,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003BF RID: 959 RVA: 0x00020BE1 File Offset: 0x0001EDE1
 		public void SetLevelMask(uint newMask)
 		{
 			this._currentLevelMask = newMask;
 			this.SetMapIconAsDirty();
 		}
 
-		// Token: 0x060003C0 RID: 960 RVA: 0x00020BF0 File Offset: 0x0001EDF0
 		public void RefreshLevelMask(PartyBase party)
 		{
 			if (party.IsSettlement)
@@ -1525,7 +1463,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C1 RID: 961 RVA: 0x00020D80 File Offset: 0x0001EF80
 		private static uint GetLevelOfProduction(Settlement settlement)
 		{
 			uint num = 0U;
@@ -1547,7 +1484,6 @@ namespace SandBox.View.Map
 			return num;
 		}
 
-		// Token: 0x060003C2 RID: 962 RVA: 0x00020E08 File Offset: 0x0001F008
 		private void SetSettlementLevelVisibility()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -1567,7 +1503,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C3 RID: 963 RVA: 0x00020E98 File Offset: 0x0001F098
 		private void InitializePartyCollider(PartyBase party)
 		{
 			if (this.StrategicEntity != null && party.IsMobile)
@@ -1576,7 +1511,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C4 RID: 964 RVA: 0x00020EEC File Offset: 0x0001F0EC
 		public void OnPartyRemoved()
 		{
 			if (this.StrategicEntity != null)
@@ -1591,7 +1525,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C5 RID: 965 RVA: 0x00020F80 File Offset: 0x0001F180
 		internal void OnMapHoverSiegeEngine(MatrixFrame engineFrame)
 		{
 			int attackerBatteringRamSiegeEngineFrameCount = this.GetAttackerBatteringRamSiegeEngineFrameCount();
@@ -1667,14 +1600,12 @@ namespace SandBox.View.Map
 			this._hoveredSiegeEntityFrame = MatrixFrame.Identity;
 		}
 
-		// Token: 0x060003C6 RID: 966 RVA: 0x000211E9 File Offset: 0x0001F3E9
 		internal void OnMapHoverSiegeEngineEnd()
 		{
 			this._hoveredSiegeEntityFrame = MatrixFrame.Identity;
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x060003C7 RID: 967 RVA: 0x000211FC File Offset: 0x0001F3FC
 		void IPartyVisual.OnStartup(PartyBase party)
 		{
 			this._mapEntity = party.MapEntity;
@@ -1867,7 +1798,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C8 RID: 968 RVA: 0x00021820 File Offset: 0x0001FA20
 		private void PopulateSiegeEngineFrameListsFromChildren(List<GameEntity> children)
 		{
 			this._attackerRangedEngineSpawnEntities = (from e in children.FindAll((GameEntity x) => x.Tags.Any((string t) => t.Contains("map_siege_engine")))
@@ -1916,19 +1846,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003C9 RID: 969 RVA: 0x00021B40 File Offset: 0x0001FD40
 		MatrixFrame IPartyVisual.GetFrame()
 		{
 			return this.StrategicEntity.GetFrame();
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x00021B4D File Offset: 0x0001FD4D
 		MatrixFrame IPartyVisual.GetGlobalFrame()
 		{
 			return this.StrategicEntity.GetGlobalFrame();
 		}
 
-		// Token: 0x060003CB RID: 971 RVA: 0x00021B5C File Offset: 0x0001FD5C
 		void IPartyVisual.SetFrame(ref MatrixFrame frame)
 		{
 			if (this.StrategicEntity != null && !this.StrategicEntity.GetFrame().NearlyEquals(frame, 1E-05f))
@@ -1955,19 +1882,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003CC RID: 972 RVA: 0x00021C5C File Offset: 0x0001FE5C
 		ReadOnlyCollection<MatrixFrame> IPartyVisual.GetSiegeCamp1GlobalFrames()
 		{
 			return Array.AsReadOnly<MatrixFrame>(this._siegeCamp1GlobalFrames);
 		}
 
-		// Token: 0x060003CD RID: 973 RVA: 0x00021C69 File Offset: 0x0001FE69
 		ReadOnlyCollection<MatrixFrame> IPartyVisual.GetSiegeCamp2GlobalFrames()
 		{
 			return Array.AsReadOnly<MatrixFrame>(this._siegeCamp2GlobalFrames);
 		}
 
-		// Token: 0x060003CE RID: 974 RVA: 0x00021C76 File Offset: 0x0001FE76
 		void IPartyVisual.SetVisualVisible(bool visible)
 		{
 			this._targetVisibility = visible;
@@ -1977,13 +1901,11 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060003CF RID: 975 RVA: 0x00021CB4 File Offset: 0x0001FEB4
 		bool IPartyVisual.IsVisibleOrFadingOut()
 		{
 			return this._entityAlpha > 0f;
 		}
 
-		// Token: 0x060003D0 RID: 976 RVA: 0x00021CC4 File Offset: 0x0001FEC4
 		private GameEntity.UpgradeLevelMask GetCurrentSettlementUpgradeLevelMask()
 		{
 			GameEntity.UpgradeLevelMask upgradeLevelMask = 0;
@@ -2006,298 +1928,211 @@ namespace SandBox.View.Map
 			return upgradeLevelMask;
 		}
 
-		// Token: 0x060003D1 RID: 977 RVA: 0x00021D1F File Offset: 0x0001FF1F
 		MatrixFrame IPartyVisual.GetAttackerTowerSiegeEngineFrameAtIndex(int index)
 		{
 			return this._siegeTowerSpawnEntities[index].GetGlobalFrame();
 		}
 
-		// Token: 0x060003D2 RID: 978 RVA: 0x00021D2E File Offset: 0x0001FF2E
 		int IPartyVisual.GetAttackerTowerSiegeEngineFrameCount()
 		{
 			return this._siegeTowerSpawnEntities.Length;
 		}
 
-		// Token: 0x060003D3 RID: 979 RVA: 0x00021D38 File Offset: 0x0001FF38
 		MatrixFrame IPartyVisual.GetAttackerBatteringRamSiegeEngineFrameAtIndex(int index)
 		{
 			return this._batteringRamSpawnEntities[index].GetGlobalFrame();
 		}
 
-		// Token: 0x060003D4 RID: 980 RVA: 0x00021D47 File Offset: 0x0001FF47
 		int IPartyVisual.GetAttackerBatteringRamSiegeEngineFrameCount()
 		{
 			return this._batteringRamSpawnEntities.Length;
 		}
 
-		// Token: 0x060003D5 RID: 981 RVA: 0x00021D51 File Offset: 0x0001FF51
 		MatrixFrame IPartyVisual.GetAttackerRangedSiegeEngineFrameAtIndex(int index)
 		{
 			return this._attackerRangedEngineSpawnEntities[index].GetGlobalFrame();
 		}
 
-		// Token: 0x060003D6 RID: 982 RVA: 0x00021D60 File Offset: 0x0001FF60
 		int IPartyVisual.GetAttackerRangedSiegeEngineFrameCount()
 		{
 			return this._attackerRangedEngineSpawnEntities.Length;
 		}
 
-		// Token: 0x060003D7 RID: 983 RVA: 0x00021D6A File Offset: 0x0001FF6A
 		MatrixFrame IPartyVisual.GetDefenderSiegeEngineFrameAtIndex(int index)
 		{
 			return this._defenderRangedEngineSpawnEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>()[index].GetGlobalFrame();
 		}
 
-		// Token: 0x060003D8 RID: 984 RVA: 0x00021D8F File Offset: 0x0001FF8F
 		int IPartyVisual.GetDefenderSiegeEngineFrameCount()
 		{
 			return this._defenderRangedEngineSpawnEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>().Length;
 		}
 
-		// Token: 0x060003D9 RID: 985 RVA: 0x00021DAF File Offset: 0x0001FFAF
 		MatrixFrame IPartyVisual.GetBreacableWallFrameAtIndex(int index)
 		{
 			return this._breachableWallEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>()[index].GetGlobalFrame();
 		}
 
-		// Token: 0x060003DA RID: 986 RVA: 0x00021DD4 File Offset: 0x0001FFD4
 		int IPartyVisual.GetBreacableWallFrameCount()
 		{
 			return this._breachableWallEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>().Length;
 		}
 
-		// Token: 0x060003DB RID: 987 RVA: 0x00021DF4 File Offset: 0x0001FFF4
 		public IMapEntity GetMapEntity()
 		{
 			return this._mapEntity;
 		}
 
-		// Token: 0x040001D0 RID: 464
 		private const string MapSiegeEngineTag = "map_siege_engine";
 
-		// Token: 0x040001D1 RID: 465
 		private const string MapBreachableWallTag = "map_breachable_wall";
 
-		// Token: 0x040001D2 RID: 466
 		private const string MapDefenderEngineTag = "map_defensive_engine";
 
-		// Token: 0x040001D3 RID: 467
 		private const string CircleTag = "map_settlement_circle";
 
-		// Token: 0x040001D4 RID: 468
 		private const string BannerPlaceHolderTag = "map_banner_placeholder";
 
-		// Token: 0x040001D5 RID: 469
 		private const string MapCampArea1Tag = "map_camp_area_1";
 
-		// Token: 0x040001D6 RID: 470
 		private const string MapCampArea2Tag = "map_camp_area_2";
 
-		// Token: 0x040001D7 RID: 471
 		private const string MapSiegeEngineRamTag = "map_siege_ram";
 
-		// Token: 0x040001D8 RID: 472
 		private const string TownPhysicalTag = "bo_town";
 
-		// Token: 0x040001D9 RID: 473
 		private const string MapSiegeEngineTowerTag = "map_siege_tower";
 
-		// Token: 0x040001DA RID: 474
 		private const string MapPreparationTag = "siege_preparation";
 
-		// Token: 0x040001DB RID: 475
 		private const string BurnedTag = "looted";
 
-		// Token: 0x040001DC RID: 476
 		private const float PartyScale = 0.3f;
 
-		// Token: 0x040001DD RID: 477
 		private const float HorseAnimationSpeedFactor = 1.3f;
 
-		// Token: 0x040001DE RID: 478
 		private const int NumberOfWorkshopSpotsAtVillage = 4;
 
-		// Token: 0x040001DF RID: 479
 		private static readonly ActionIndexCache raidOnFoot = ActionIndexCache.Create("act_map_raid");
 
-		// Token: 0x040001E0 RID: 480
 		private static readonly ActionIndexCache camelSwordAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h");
 
-		// Token: 0x040001E1 RID: 481
 		private static readonly ActionIndexCache camelSpearAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_spear");
 
-		// Token: 0x040001E2 RID: 482
 		private static readonly ActionIndexCache camel1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_swing");
 
-		// Token: 0x040001E3 RID: 483
 		private static readonly ActionIndexCache camel2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_2h_swing");
 
-		// Token: 0x040001E4 RID: 484
 		private static readonly ActionIndexCache camelUnarmedAttack = ActionIndexCache.Create("act_map_rider_camel_attack_unarmed");
 
-		// Token: 0x040001E5 RID: 485
 		private static readonly ActionIndexCache horseSwordAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h");
 
-		// Token: 0x040001E6 RID: 486
 		private static readonly ActionIndexCache horseSpearAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_spear");
 
-		// Token: 0x040001E7 RID: 487
 		private static readonly ActionIndexCache horse1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_swing");
 
-		// Token: 0x040001E8 RID: 488
 		private static readonly ActionIndexCache horse2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_2h_swing");
 
-		// Token: 0x040001E9 RID: 489
 		private static readonly ActionIndexCache horseUnarmedAttack = ActionIndexCache.Create("act_map_rider_horse_attack_unarmed");
 
-		// Token: 0x040001EA RID: 490
 		private static readonly ActionIndexCache swordAttackMount = ActionIndexCache.Create("act_map_mount_attack_1h");
 
-		// Token: 0x040001EB RID: 491
 		private static readonly ActionIndexCache spearAttackMount = ActionIndexCache.Create("act_map_mount_attack_spear");
 
-		// Token: 0x040001EC RID: 492
 		private static readonly ActionIndexCache swingAttackMount = ActionIndexCache.Create("act_map_mount_attack_swing");
 
-		// Token: 0x040001ED RID: 493
 		private static readonly ActionIndexCache unarmedAttackMount = ActionIndexCache.Create("act_map_mount_attack_unarmed");
 
-		// Token: 0x040001EE RID: 494
 		private static readonly ActionIndexCache attack1h = ActionIndexCache.Create("act_map_attack_1h");
 
-		// Token: 0x040001EF RID: 495
 		private static readonly ActionIndexCache attack2h = ActionIndexCache.Create("act_map_attack_2h");
 
-		// Token: 0x040001F0 RID: 496
 		private static readonly ActionIndexCache attackSpear1hOr2h = ActionIndexCache.Create("act_map_attack_spear_1h_or_2h");
 
-		// Token: 0x040001F1 RID: 497
 		private static readonly ActionIndexCache attackUnarmed = ActionIndexCache.Create("act_map_attack_unarmed");
 
-		// Token: 0x040001F4 RID: 500
 		private readonly GameEntity[] _siteEntities;
 
-		// Token: 0x040001F5 RID: 501
 		private readonly List<ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity>> _siegeRangedMachineEntities;
 
-		// Token: 0x040001F6 RID: 502
 		private readonly List<ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity>> _siegeMeleeMachineEntities;
 
-		// Token: 0x040001F7 RID: 503
 		private readonly List<ValueTuple<GameEntity, BattleSideEnum, int>> _siegeMissileEntities;
 
-		// Token: 0x040001F8 RID: 504
 		private Dictionary<int, List<GameEntity>> _gateBannerEntitiesWithLevels;
 
-		// Token: 0x040001F9 RID: 505
 		private MatrixFrame[] _siegeCamp1GlobalFrames;
 
-		// Token: 0x040001FA RID: 506
 		private MatrixFrame[] _siegeCamp2GlobalFrames;
 
-		// Token: 0x040001FB RID: 507
 		private GameEntity[] _attackerRangedEngineSpawnEntities;
 
-		// Token: 0x040001FC RID: 508
 		private GameEntity[] _batteringRamSpawnEntities;
 
-		// Token: 0x040001FD RID: 509
 		private GameEntity[] _siegeTowerSpawnEntities;
 
-		// Token: 0x040001FE RID: 510
 		private GameEntity[] _defenderRangedEngineSpawnEntities;
 
-		// Token: 0x040001FF RID: 511
 		private GameEntity[] _breachableWallEntities;
 
-		// Token: 0x04000200 RID: 512
 		private GameEntity[] _currentLevelBreachableWallEntities;
 
-		// Token: 0x04000201 RID: 513
 		private ValueTuple<string, GameEntityComponent> _cachedBannerComponent;
 
-		// Token: 0x04000202 RID: 514
 		private ValueTuple<string, GameEntity> _cachedBannerEntity;
 
-		// Token: 0x04000203 RID: 515
 		private MatrixFrame _hoveredSiegeEntityFrame = MatrixFrame.Identity;
 
-		// Token: 0x04000204 RID: 516
 		private GameEntity.UpgradeLevelMask _currentSettlementUpgradeLevelMask;
 
-		// Token: 0x04000207 RID: 519
 		private bool _isDirty;
 
-		// Token: 0x04000208 RID: 520
 		private float _speed;
 
-		// Token: 0x04000209 RID: 521
 		private bool _targetVisibility;
 
-		// Token: 0x0400020A RID: 522
 		private float _entityAlpha;
 
-		// Token: 0x0400020B RID: 523
 		private IMapEntity _mapEntity;
 
-		// Token: 0x0400020C RID: 524
 		private Scene _mapScene;
 
-		// Token: 0x0400020D RID: 525
 		private Mesh _contourMaskMesh;
 
-		// Token: 0x0400020E RID: 526
 		private uint _currentLevelMask;
 
-		// Token: 0x04000214 RID: 532
 		private SoundEvent _siegeSoundEvent;
 
-		// Token: 0x04000215 RID: 533
 		private SoundEvent _raidedSoundEvent;
 
-		// Token: 0x02000092 RID: 146
 		private struct SiegeBombardmentData
 		{
-			// Token: 0x04000305 RID: 773
 			public Vec3 LaunchGlobalPosition;
 
-			// Token: 0x04000306 RID: 774
 			public Vec3 TargetPosition;
 
-			// Token: 0x04000307 RID: 775
 			public MatrixFrame ShooterGlobalFrame;
 
-			// Token: 0x04000308 RID: 776
 			public MatrixFrame TargetAlignedShooterGlobalFrame;
 
-			// Token: 0x04000309 RID: 777
 			public float MissileSpeed;
 
-			// Token: 0x0400030A RID: 778
 			public float Gravity;
 
-			// Token: 0x0400030B RID: 779
 			public float LaunchAngle;
 
-			// Token: 0x0400030C RID: 780
 			public float RotationDuration;
 
-			// Token: 0x0400030D RID: 781
 			public float ReloadDuration;
 
-			// Token: 0x0400030E RID: 782
 			public float AimingDuration;
 
-			// Token: 0x0400030F RID: 783
 			public float MissileLaunchDuration;
 
-			// Token: 0x04000310 RID: 784
 			public float FireDuration;
 
-			// Token: 0x04000311 RID: 785
 			public float FlightDuration;
 
-			// Token: 0x04000312 RID: 786
 			public float TotalDuration;
 		}
 	}

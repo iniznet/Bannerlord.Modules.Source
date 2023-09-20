@@ -7,22 +7,18 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000427 RID: 1063
 	public static class BreakInOutBesiegedSettlementAction
 	{
-		// Token: 0x06003E90 RID: 16016 RVA: 0x0012AC28 File Offset: 0x00128E28
 		public static void ApplyBreakIn(out TroopRoster casualties, out int armyCasualtiesCount)
 		{
 			BreakInOutBesiegedSettlementAction.ApplyInternal(true, out casualties, out armyCasualtiesCount);
 		}
 
-		// Token: 0x06003E91 RID: 16017 RVA: 0x0012AC32 File Offset: 0x00128E32
 		public static void ApplyBreakOut(out TroopRoster casualties, out int armyCasualtiesCount)
 		{
 			BreakInOutBesiegedSettlementAction.ApplyInternal(false, out casualties, out armyCasualtiesCount);
 		}
 
-		// Token: 0x06003E92 RID: 16018 RVA: 0x0012AC3C File Offset: 0x00128E3C
 		private static void ApplyInternal(bool breakIn, out TroopRoster casualties, out int armyCasualtiesCount)
 		{
 			casualties = TroopRoster.CreateDummyTroopRoster();

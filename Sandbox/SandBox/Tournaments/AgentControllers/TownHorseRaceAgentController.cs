@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Tournaments.AgentControllers
 {
-	// Token: 0x02000021 RID: 33
 	public class TownHorseRaceAgentController : AgentController
 	{
-		// Token: 0x0600018D RID: 397 RVA: 0x0000B881 File Offset: 0x00009A81
 		public override void OnInitialize()
 		{
 			this._controller = base.Mission.GetMissionBehavior<TownHorseRaceMissionController>();
@@ -16,7 +14,6 @@ namespace SandBox.Tournaments.AgentControllers
 			this._tourCount = 0;
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x0000B8A4 File Offset: 0x00009AA4
 		public void DisableMovement()
 		{
 			if (base.Owner.IsAIControlled)
@@ -26,7 +23,6 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x0000B900 File Offset: 0x00009B00
 		public void Start()
 		{
 			if (this._checkPointIndex < this._controller.CheckPoints.Count)
@@ -42,7 +38,6 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x06000190 RID: 400 RVA: 0x0000B984 File Offset: 0x00009B84
 		public void OnEnterCheckPoint(VolumeBox checkPoint)
 		{
 			this._controller.CheckPoints[this._checkPointIndex].RemoveFromCheckList(base.Owner);
@@ -72,13 +67,10 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x040000A6 RID: 166
 		private TownHorseRaceMissionController _controller;
 
-		// Token: 0x040000A7 RID: 167
 		private int _checkPointIndex;
 
-		// Token: 0x040000A8 RID: 168
 		private int _tourCount;
 	}
 }

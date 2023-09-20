@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002C0 RID: 704
 	public class SkirmishScoreboardData : IScoreboardData
 	{
-		// Token: 0x060026EE RID: 9966 RVA: 0x00092C50 File Offset: 0x00090E50
 		public MissionScoreboardComponent.ScoreboardHeader[] GetScoreboardHeaders()
 		{
 			MissionScoreboardComponent.ScoreboardHeader[] array = new MissionScoreboardComponent.ScoreboardHeader[9];

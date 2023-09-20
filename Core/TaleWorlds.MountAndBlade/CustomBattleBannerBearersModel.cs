@@ -9,16 +9,13 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001F1 RID: 497
 	public class CustomBattleBannerBearersModel : BattleBannerBearersModel
 	{
-		// Token: 0x06001BA0 RID: 7072 RVA: 0x00061FD4 File Offset: 0x000601D4
 		public override int GetMinimumFormationTroopCountToBearBanners()
 		{
 			return 3;
 		}
 
-		// Token: 0x06001BA1 RID: 7073 RVA: 0x00061FD7 File Offset: 0x000601D7
 		public override float GetBannerInteractionDistance(Agent interactingAgent)
 		{
 			if (!interactingAgent.HasMount)
@@ -28,19 +25,16 @@ namespace TaleWorlds.MountAndBlade
 			return 3f;
 		}
 
-		// Token: 0x06001BA2 RID: 7074 RVA: 0x00061FEC File Offset: 0x000601EC
 		public override bool CanBannerBearerProvideEffectToFormation(Agent agent, Formation formation)
 		{
 			return agent.Formation == formation || (agent.IsPlayerControlled && agent.Team == formation.Team);
 		}
 
-		// Token: 0x06001BA3 RID: 7075 RVA: 0x00062014 File Offset: 0x00060214
 		public override bool CanAgentPickUpAnyBanner(Agent agent)
 		{
 			return agent.IsHuman && agent.Banner == null && agent.CanBeAssignedForScriptedMovement() && (agent.CommonAIComponent == null || !agent.CommonAIComponent.IsPanicked) && (agent.HumanAIComponent == null || !agent.HumanAIComponent.IsInImportantCombatAction());
 		}
 
-		// Token: 0x06001BA4 RID: 7076 RVA: 0x00062068 File Offset: 0x00060268
 		public override bool CanAgentBecomeBannerBearer(Agent agent)
 		{
 			if (CustomBattleBannerBearersModel._missionSpawnLogic == null)
@@ -60,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001BA5 RID: 7077 RVA: 0x000620E4 File Offset: 0x000602E4
 		public override int GetAgentBannerBearingPriority(Agent agent)
 		{
 			if (!this.CanAgentBecomeBannerBearer(agent))
@@ -79,7 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			return CustomBattleBannerBearersModel.BannerBearerPriorityPerTier[num];
 		}
 
-		// Token: 0x06001BA6 RID: 7078 RVA: 0x00062150 File Offset: 0x00060350
 		public override bool CanFormationDeployBannerBearers(Formation formation)
 		{
 			BannerBearerLogic bannerBearerLogic = base.BannerBearerLogic;
@@ -90,7 +82,6 @@ namespace TaleWorlds.MountAndBlade
 			}) > 0;
 		}
 
-		// Token: 0x06001BA7 RID: 7079 RVA: 0x0006219A File Offset: 0x0006039A
 		public override int GetDesiredNumberOfBannerBearersForFormation(Formation formation)
 		{
 			if (!this.CanFormationDeployBannerBearers(formation))
@@ -100,7 +91,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1;
 		}
 
-		// Token: 0x06001BA8 RID: 7080 RVA: 0x000621A8 File Offset: 0x000603A8
 		public override ItemObject GetBannerBearerReplacementWeapon(BasicCharacterObject agentCharacter)
 		{
 			if (CustomBattleBannerBearersModel.ReplacementWeapons == null)
@@ -136,13 +126,10 @@ namespace TaleWorlds.MountAndBlade
 			return list.Where(([TupleElementNames(new string[] { "TierDifference", "Weapon" })] ValueTuple<int, ItemObject> tuple) => tuple.Item1 == minTierDifference).GetRandomElementInefficiently<ValueTuple<int, ItemObject>>().Item2;
 		}
 
-		// Token: 0x040008E9 RID: 2281
 		private static readonly int[] BannerBearerPriorityPerTier = new int[] { 0, 1, 3, 5, 6, 4, 2 };
 
-		// Token: 0x040008EA RID: 2282
 		private static List<ItemObject> ReplacementWeapons = null;
 
-		// Token: 0x040008EB RID: 2283
 		private static MissionAgentSpawnLogic _missionSpawnLogic;
 	}
 }

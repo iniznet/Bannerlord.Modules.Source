@@ -18,22 +18,16 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 {
-	// Token: 0x0200002C RID: 44
 	[OverrideView(typeof(MissionOptionsUIHandler))]
 	public class MissionGauntletOptionsUIHandler : MissionView
 	{
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x0600021B RID: 539 RVA: 0x0000B748 File Offset: 0x00009948
-		// (set) Token: 0x0600021C RID: 540 RVA: 0x0000B750 File Offset: 0x00009950
 		public bool IsEnabled { get; private set; }
 
-		// Token: 0x0600021D RID: 541 RVA: 0x0000B759 File Offset: 0x00009959
 		public MissionGauntletOptionsUIHandler()
 		{
 			this.ViewOrderPriority = 49;
 		}
 
-		// Token: 0x0600021E RID: 542 RVA: 0x0000B76C File Offset: 0x0000996C
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -41,7 +35,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._keybindingPopup = new KeybindingPopup(new Action<Key>(this.SetHotKey), base.MissionScreen);
 		}
 
-		// Token: 0x0600021F RID: 543 RVA: 0x0000B7B8 File Offset: 0x000099B8
 		public override void OnMissionScreenFinalize()
 		{
 			base.Mission.GetMissionBehavior<MissionOptionsComponent>().OnOptionsAdded -= new OnMissionAddOptionsDelegate(this.OnShowOptions);
@@ -62,7 +55,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x06000220 RID: 544 RVA: 0x0000B828 File Offset: 0x00009A28
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -115,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			keybindingPopup.Tick();
 		}
 
-		// Token: 0x06000221 RID: 545 RVA: 0x0000B9D6 File Offset: 0x00009BD6
 		public override bool OnEscape()
 		{
 			if (this._dataSource != null)
@@ -126,7 +117,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			return base.OnEscape();
 		}
 
-		// Token: 0x06000222 RID: 546 RVA: 0x0000B9F3 File Offset: 0x00009BF3
 		private void OnShowOptions()
 		{
 			this.IsEnabled = true;
@@ -134,7 +124,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._initialClothSimValue = NativeOptions.GetConfig(49) == 0f;
 		}
 
-		// Token: 0x06000223 RID: 547 RVA: 0x0000BA18 File Offset: 0x00009C18
 		private void OnCloseOptions()
 		{
 			this.IsEnabled = false;
@@ -146,13 +135,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x06000224 RID: 548 RVA: 0x0000BAC0 File Offset: 0x00009CC0
 		public override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
 		{
 			return this._gauntletLayer == null;
 		}
 
-		// Token: 0x06000225 RID: 549 RVA: 0x0000BACC File Offset: 0x00009CCC
 		private void OnEscapeMenuToggled(bool isOpened)
 		{
 			if (isOpened)
@@ -222,14 +209,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x06000226 RID: 550 RVA: 0x0000BD49 File Offset: 0x00009F49
 		private void OnKeybindRequest(KeyOptionVM requestedHotKeyToChange)
 		{
 			this._currentKey = requestedHotKeyToChange;
 			this._keybindingPopup.OnToggle(true);
 		}
 
-		// Token: 0x06000227 RID: 551 RVA: 0x0000BD60 File Offset: 0x00009F60
 		private void SetHotKey(Key key)
 		{
 			GameKeyOptionVM gameKey;
@@ -279,28 +264,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._keybindingPopup.OnToggle(false);
 		}
 
-		// Token: 0x0400010A RID: 266
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400010B RID: 267
 		private OptionsVM _dataSource;
 
-		// Token: 0x0400010C RID: 268
 		private IGauntletMovie _movie;
 
-		// Token: 0x0400010D RID: 269
 		private KeybindingPopup _keybindingPopup;
 
-		// Token: 0x0400010E RID: 270
 		private KeyOptionVM _currentKey;
 
-		// Token: 0x0400010F RID: 271
 		private SpriteCategory _optionsSpriteCategory;
 
-		// Token: 0x04000110 RID: 272
 		private SpriteCategory _fullScreensSpriteCategory;
 
-		// Token: 0x04000111 RID: 273
 		private bool _initialClothSimValue;
 	}
 }

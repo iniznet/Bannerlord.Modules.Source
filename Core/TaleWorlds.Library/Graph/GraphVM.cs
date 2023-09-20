@@ -4,10 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace TaleWorlds.Library.Graph
 {
-	// Token: 0x020000AD RID: 173
 	public class GraphVM : ViewModel
 	{
-		// Token: 0x06000635 RID: 1589 RVA: 0x00013444 File Offset: 0x00011644
 		public GraphVM(string horizontalAxisLabel, string verticalAxisLabel)
 		{
 			this.Lines = new MBBindingList<GraphLineVM>();
@@ -15,7 +13,6 @@ namespace TaleWorlds.Library.Graph
 			this.VerticalAxisLabel = verticalAxisLabel;
 		}
 
-		// Token: 0x06000636 RID: 1590 RVA: 0x00013468 File Offset: 0x00011668
 		public void Draw([TupleElementNames(new string[] { "line", "points" })] IEnumerable<ValueTuple<GraphLineVM, IEnumerable<GraphLinePointVM>>> linesWithPoints, in Vec2 horizontalRange, in Vec2 verticalRange, float autoRangeHorizontalCoefficient = 1f, float autoRangeVerticalCoefficient = 1f, bool useAutoHorizontalRange = false, bool useAutoVerticalRange = false)
 		{
 			this.Lines.Clear();
@@ -78,7 +75,6 @@ namespace TaleWorlds.Library.Graph
 			this.VerticalMaxValue = y2;
 		}
 
-		// Token: 0x06000637 RID: 1591 RVA: 0x00013640 File Offset: 0x00011840
 		private static void ExtendRangeToNearestMultipleOfCoefficient(float minValue, float maxValue, float coefficient, out float extendedMinValue, out float extendedMaxValue)
 		{
 			if (coefficient > 1E-05f)
@@ -103,9 +99,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000C5 RID: 197
-		// (get) Token: 0x06000638 RID: 1592 RVA: 0x000136A5 File Offset: 0x000118A5
-		// (set) Token: 0x06000639 RID: 1593 RVA: 0x000136AD File Offset: 0x000118AD
 		[DataSourceProperty]
 		public MBBindingList<GraphLineVM> Lines
 		{
@@ -123,9 +116,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000C6 RID: 198
-		// (get) Token: 0x0600063A RID: 1594 RVA: 0x000136CB File Offset: 0x000118CB
-		// (set) Token: 0x0600063B RID: 1595 RVA: 0x000136D3 File Offset: 0x000118D3
 		[DataSourceProperty]
 		public string HorizontalAxisLabel
 		{
@@ -143,9 +133,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x0600063C RID: 1596 RVA: 0x000136F6 File Offset: 0x000118F6
-		// (set) Token: 0x0600063D RID: 1597 RVA: 0x000136FE File Offset: 0x000118FE
 		[DataSourceProperty]
 		public string VerticalAxisLabel
 		{
@@ -163,9 +150,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000C8 RID: 200
-		// (get) Token: 0x0600063E RID: 1598 RVA: 0x00013721 File Offset: 0x00011921
-		// (set) Token: 0x0600063F RID: 1599 RVA: 0x00013729 File Offset: 0x00011929
 		[DataSourceProperty]
 		public float HorizontalMinValue
 		{
@@ -183,9 +167,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000C9 RID: 201
-		// (get) Token: 0x06000640 RID: 1600 RVA: 0x00013747 File Offset: 0x00011947
-		// (set) Token: 0x06000641 RID: 1601 RVA: 0x0001374F File Offset: 0x0001194F
 		[DataSourceProperty]
 		public float HorizontalMaxValue
 		{
@@ -203,9 +184,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000CA RID: 202
-		// (get) Token: 0x06000642 RID: 1602 RVA: 0x0001376D File Offset: 0x0001196D
-		// (set) Token: 0x06000643 RID: 1603 RVA: 0x00013775 File Offset: 0x00011975
 		[DataSourceProperty]
 		public float VerticalMinValue
 		{
@@ -223,9 +201,6 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x170000CB RID: 203
-		// (get) Token: 0x06000644 RID: 1604 RVA: 0x00013793 File Offset: 0x00011993
-		// (set) Token: 0x06000645 RID: 1605 RVA: 0x0001379B File Offset: 0x0001199B
 		[DataSourceProperty]
 		public float VerticalMaxValue
 		{
@@ -243,25 +218,18 @@ namespace TaleWorlds.Library.Graph
 			}
 		}
 
-		// Token: 0x040001DE RID: 478
 		private MBBindingList<GraphLineVM> _lines;
 
-		// Token: 0x040001DF RID: 479
 		private string _horizontalAxisLabel;
 
-		// Token: 0x040001E0 RID: 480
 		private string _verticalAxisLabel;
 
-		// Token: 0x040001E1 RID: 481
 		private float _horizontalMinValue;
 
-		// Token: 0x040001E2 RID: 482
 		private float _horizontalMaxValue;
 
-		// Token: 0x040001E3 RID: 483
 		private float _verticalMinValue;
 
-		// Token: 0x040001E4 RID: 484
 		private float _verticalMaxValue;
 	}
 }

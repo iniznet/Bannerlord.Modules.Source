@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200010B RID: 267
 	public class BehaviorMountedSkirmish : BehaviorComponent
 	{
-		// Token: 0x06000CF6 RID: 3318 RVA: 0x0001E6D5 File Offset: 0x0001C8D5
 		public BehaviorMountedSkirmish(Formation formation)
 			: base(formation)
 		{
@@ -15,7 +13,6 @@ namespace TaleWorlds.MountAndBlade
 			base.BehaviorCoherence = 0.5f;
 		}
 
-		// Token: 0x06000CF7 RID: 3319 RVA: 0x0001E700 File Offset: 0x0001C900
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition medianPosition = base.Formation.QuerySystem.MedianPosition;
@@ -87,14 +84,12 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = MovementOrder.MovementOrderMove(medianPosition);
 		}
 
-		// Token: 0x06000CF8 RID: 3320 RVA: 0x0001EC3C File Offset: 0x0001CE3C
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 		}
 
-		// Token: 0x06000CF9 RID: 3321 RVA: 0x0001EC58 File Offset: 0x0001CE58
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -106,7 +101,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CFA RID: 3322 RVA: 0x0001ECCC File Offset: 0x0001CECC
 		protected override float GetAiWeight()
 		{
 			if (!this._isEnemyReachable)
@@ -116,16 +110,12 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x04000322 RID: 802
 		private bool _engaging = true;
 
-		// Token: 0x04000323 RID: 803
 		private bool _isEnemyReachable = true;
 
-		// Token: 0x02000449 RID: 1097
 		private struct Ellipse
 		{
-			// Token: 0x060035FF RID: 13823 RVA: 0x000DF39F File Offset: 0x000DD59F
 			public Ellipse(Vec2 center, float radius, float halfLength, Vec2 direction)
 			{
 				this._center = center;
@@ -134,7 +124,6 @@ namespace TaleWorlds.MountAndBlade
 				this._direction = direction;
 			}
 
-			// Token: 0x06003600 RID: 13824 RVA: 0x000DF3C0 File Offset: 0x000DD5C0
 			public Vec2 GetTargetPos(Vec2 position, float distance)
 			{
 				Vec2 vec = this._direction.LeftVec();
@@ -210,16 +199,12 @@ namespace TaleWorlds.MountAndBlade
 				return position;
 			}
 
-			// Token: 0x04001865 RID: 6245
 			private readonly Vec2 _center;
 
-			// Token: 0x04001866 RID: 6246
 			private readonly float _radius;
 
-			// Token: 0x04001867 RID: 6247
 			private readonly float _halfLength;
 
-			// Token: 0x04001868 RID: 6248
 			private readonly Vec2 _direction;
 		}
 	}

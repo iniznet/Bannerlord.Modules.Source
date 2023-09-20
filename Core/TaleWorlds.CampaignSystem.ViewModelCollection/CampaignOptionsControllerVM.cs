@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x02000008 RID: 8
 	public class CampaignOptionsControllerVM : ViewModel
 	{
-		// Token: 0x0600007A RID: 122 RVA: 0x000034D0 File Offset: 0x000016D0
 		public CampaignOptionsControllerVM(MBBindingList<CampaignOptionItemVM> options)
 		{
 			this._optionItems = new Dictionary<string, CampaignOptionItemVM>();
@@ -31,14 +29,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			this._difficultyPresetRelatedOptions = this.Options.Where((CampaignOptionItemVM x) => x.OptionData.IsRelatedToDifficultyPreset()).ToList<CampaignOptionItemVM>();
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x000035FF File Offset: 0x000017FF
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			CampaignOptionsManager.ClearCachedOptions();
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x0000360C File Offset: 0x0000180C
 		private void OnOptionChanged(CampaignOptionItemVM optionVM)
 		{
 			this.UpdatePresetData(optionVM);
@@ -48,7 +44,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			});
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00003640 File Offset: 0x00001840
 		private void UpdatePresetData(CampaignOptionItemVM changedOption)
 		{
 			if (this._isUpdatingPresetData)
@@ -105,7 +100,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			this._isUpdatingPresetData = false;
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x000037D8 File Offset: 0x000019D8
 		private CampaignOptionsDifficultyPresets FindOptionPresetForValue(ICampaignOptionData option)
 		{
 			float value = option.GetValue();
@@ -124,9 +118,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignOptionsDifficultyPresets.Custom;
 		}
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x0600007F RID: 127 RVA: 0x00003811 File Offset: 0x00001A11
-		// (set) Token: 0x06000080 RID: 128 RVA: 0x00003819 File Offset: 0x00001A19
 		[DataSourceProperty]
 		public MBBindingList<CampaignOptionItemVM> Options
 		{
@@ -144,31 +135,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x04000048 RID: 72
 		private const string _difficultyPresetsId = "DifficultyPresets";
 
-		// Token: 0x04000049 RID: 73
 		internal const int AutosaveDisableValue = -1;
 
-		// Token: 0x0400004A RID: 74
 		private SelectionCampaignOptionData _difficultyPreset;
 
-		// Token: 0x0400004B RID: 75
 		private Dictionary<string, CampaignOptionItemVM> _optionItems;
 
-		// Token: 0x0400004C RID: 76
 		private bool _isUpdatingPresetData;
 
-		// Token: 0x0400004D RID: 77
 		private List<CampaignOptionItemVM> _difficultyPresetRelatedOptions;
 
-		// Token: 0x0400004E RID: 78
 		private MBBindingList<CampaignOptionItemVM> _options;
 
-		// Token: 0x02000138 RID: 312
 		private class CampaignOptionComparer : IComparer<CampaignOptionItemVM>
 		{
-			// Token: 0x06001E2E RID: 7726 RVA: 0x0006B888 File Offset: 0x00069A88
 			public int Compare(CampaignOptionItemVM x, CampaignOptionItemVM y)
 			{
 				int priorityIndex = x.OptionData.GetPriorityIndex();

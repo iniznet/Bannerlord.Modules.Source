@@ -12,11 +12,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000006 RID: 6
 	[ViewCreatorModule]
 	public class CustomBattleViews
 	{
-		// Token: 0x0600001A RID: 26 RVA: 0x00004898 File Offset: 0x00002A98
 		[ViewMethod("CustomBattle")]
 		public static MissionView[] OpenCustomBattleMission(Mission mission)
 		{
@@ -51,7 +49,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return list.ToArray();
 		}
 
-		// Token: 0x0600001B RID: 27 RVA: 0x00004A0C File Offset: 0x00002C0C
 		[ViewMethod("CustomSiegeBattle")]
 		public static MissionView[] OpenCustomSiegeBattleMission(Mission mission)
 		{
@@ -88,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return list.ToArray();
 		}
 
-		// Token: 0x0600001C RID: 28 RVA: 0x00004B94 File Offset: 0x00002D94
 		[ViewMethod("CustomBattleLordsHall")]
 		public static MissionView[] OpenCustomBattleLordsHallMission(Mission mission)
 		{

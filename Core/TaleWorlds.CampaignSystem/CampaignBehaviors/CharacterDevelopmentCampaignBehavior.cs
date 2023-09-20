@@ -6,17 +6,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000380 RID: 896
 	public class CharacterDevelopmentCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600347B RID: 13435 RVA: 0x000DE65F File Offset: 0x000DC85F
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickHeroEvent.AddNonSerializedListener(this, new Action<Hero>(this.DailyTickHero));
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEndEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreatedPartialFollowUpEnd));
 		}
 
-		// Token: 0x0600347C RID: 13436 RVA: 0x000DE690 File Offset: 0x000DC890
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -29,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600347D RID: 13437 RVA: 0x000DE724 File Offset: 0x000DC924
 		private void InitializeHeroCharacterDeveloper(Hero hero)
 		{
 			hero.HeroDeveloper.CheckInitialLevel();
@@ -39,12 +35,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600347E RID: 13438 RVA: 0x000DE75C File Offset: 0x000DC95C
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600347F RID: 13439 RVA: 0x000DE760 File Offset: 0x000DC960
 		private void DailyTickHero(Hero hero)
 		{
 			if (!hero.IsChild && hero.IsAlive && (hero.Clan != Clan.PlayerClan || (hero != Hero.MainHero && CampaignOptions.AutoAllocateClanMemberPerks)))
@@ -64,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003480 RID: 13440 RVA: 0x000DE7DD File Offset: 0x000DC9DD
 		public void DevelopCharacterStats(Hero hero)
 		{
 			this.DistributeUnspentAttributePoints(hero);
@@ -72,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SelectPerks(hero);
 		}
 
-		// Token: 0x06003481 RID: 13441 RVA: 0x000DE7F4 File Offset: 0x000DC9F4
 		private void DistributeUnspentAttributePoints(Hero hero)
 		{
 			while (hero.HeroDeveloper.UnspentAttributePoints > 0)
@@ -126,7 +118,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003482 RID: 13442 RVA: 0x000DE9D8 File Offset: 0x000DCBD8
 		private void DistributeUnspentFocusPoints(Hero hero)
 		{
 			while (hero.HeroDeveloper.UnspentFocusPoints > 0)
@@ -155,7 +146,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003483 RID: 13443 RVA: 0x000DEAB4 File Offset: 0x000DCCB4
 		private void SelectPerks(Hero hero)
 		{
 			foreach (PerkObject perkObject in hero.HeroDeveloper.GetOneAvailablePerkForEachPerkPair())

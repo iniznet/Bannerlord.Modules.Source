@@ -8,16 +8,10 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x02000135 RID: 309
 	public static class PermaMuteList
 	{
-		// Token: 0x17000284 RID: 644
-		// (get) Token: 0x06000751 RID: 1873 RVA: 0x0000BD36 File Offset: 0x00009F36
-		// (set) Token: 0x06000752 RID: 1874 RVA: 0x0000BD3D File Offset: 0x00009F3D
 		public static bool HasMutedPlayersLoaded { get; private set; }
 
-		// Token: 0x17000285 RID: 645
-		// (get) Token: 0x06000753 RID: 1875 RVA: 0x0000BD48 File Offset: 0x00009F48
 		private static PlatformFilePath PermaMuteFilePath
 		{
 			get
@@ -27,8 +21,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x17000286 RID: 646
-		// (get) Token: 0x06000754 RID: 1876 RVA: 0x0000BD70 File Offset: 0x00009F70
 		[TupleElementNames(new string[] { "Id", "Name" })]
 		public static IReadOnlyList<ValueTuple<string, string>> MutedPlayers
 		{
@@ -44,13 +36,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000756 RID: 1878 RVA: 0x0000BDAA File Offset: 0x00009FAA
 		public static void SetPermanentMuteAvailableCallback(Func<bool> getPermanentMuteAvailable)
 		{
 			PermaMuteList._getPermanentMuteAvailable = getPermanentMuteAvailable;
 		}
 
-		// Token: 0x06000757 RID: 1879 RVA: 0x0000BDB4 File Offset: 0x00009FB4
 		public static async Task LoadMutedPlayers(PlayerId currentPlayerId)
 		{
 			PermaMuteList.CurrentPlayerId = currentPlayerId.ToString();
@@ -80,7 +70,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000758 RID: 1880 RVA: 0x0000BDFC File Offset: 0x00009FFC
 		public static async void SaveMutedPlayers()
 		{
 			try
@@ -94,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000759 RID: 1881 RVA: 0x0000BE30 File Offset: 0x0000A030
 		public static bool IsPlayerMuted(PlayerId player)
 		{
 			Func<bool> getPermanentMuteAvailable = PermaMuteList._getPermanentMuteAvailable;
@@ -125,7 +113,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return false;
 		}
 
-		// Token: 0x0600075A RID: 1882 RVA: 0x0000BEF8 File Offset: 0x0000A0F8
 		public static void MutePlayer(PlayerId player, string name)
 		{
 			Func<bool> getPermanentMuteAvailable = PermaMuteList._getPermanentMuteAvailable;
@@ -145,7 +132,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600075B RID: 1883 RVA: 0x0000BF88 File Offset: 0x0000A188
 		public static void RemoveMutedPlayer(PlayerId player)
 		{
 			Func<bool> getPermanentMuteAvailable = PermaMuteList._getPermanentMuteAvailable;
@@ -176,14 +162,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x04000360 RID: 864
 		[TupleElementNames(new string[] { "Id", "Name" })]
 		private static Dictionary<string, List<ValueTuple<string, string>>> _mutedPlayers = new Dictionary<string, List<ValueTuple<string, string>>>();
 
-		// Token: 0x04000361 RID: 865
 		private static string CurrentPlayerId;
 
-		// Token: 0x04000362 RID: 866
 		private static Func<bool> _getPermanentMuteAvailable;
 	}
 }

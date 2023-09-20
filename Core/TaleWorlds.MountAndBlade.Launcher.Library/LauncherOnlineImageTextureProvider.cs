@@ -12,11 +12,8 @@ using TaleWorlds.TwoDimension.Standalone;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x02000003 RID: 3
 	public class LauncherOnlineImageTextureProvider : TextureProvider
 	{
-		// Token: 0x17000001 RID: 1
-		// (set) Token: 0x0600001D RID: 29 RVA: 0x000021D3 File Offset: 0x000003D3
 		public string OnlineSourceUrl
 		{
 			set
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x0600001E RID: 30 RVA: 0x000021F0 File Offset: 0x000003F0
 		public LauncherOnlineImageTextureProvider()
 		{
 			this._onlineImageCache = new Dictionary<string, string>();
@@ -42,7 +38,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.PopulateOnlineImageCache();
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x00002248 File Offset: 0x00000448
 		public override void Tick(float dt)
 		{
 			base.Tick(dt);
@@ -59,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x000022AC File Offset: 0x000004AC
 		private async void RefreshOnlineImage()
 		{
 			if (this._retryCount < 10)
@@ -116,13 +110,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x000022E5 File Offset: 0x000004E5
 		public override Texture GetTexture(TwoDimensionContext twoDimensionContext, string name)
 		{
 			return this._texture;
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x000022F0 File Offset: 0x000004F0
 		private void PopulateOnlineImageCache()
 		{
 			if (Directory.Exists(this._onlineImageCacheFolderPath))
@@ -135,7 +127,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000023 RID: 35 RVA: 0x00002344 File Offset: 0x00000544
 		private static Guid ToGuid(string src)
 		{
 			if (!string.IsNullOrEmpty(src))
@@ -148,34 +139,25 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return Guid.Empty;
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00002386 File Offset: 0x00000586
 		private void OnTextureCreated(Texture texture)
 		{
 			this._texture = texture;
 		}
 
-		// Token: 0x04000002 RID: 2
 		private Dictionary<string, string> _onlineImageCache;
 
-		// Token: 0x04000003 RID: 3
 		private const string DataFolder = "/Mount and Blade II Bannerlord/Online Images/";
 
-		// Token: 0x04000004 RID: 4
 		private readonly string _onlineImageCacheFolderPath;
 
-		// Token: 0x04000005 RID: 5
 		private Texture _texture;
 
-		// Token: 0x04000006 RID: 6
 		private bool _requiresRetry;
 
-		// Token: 0x04000007 RID: 7
 		private int _retryCount;
 
-		// Token: 0x04000008 RID: 8
 		private const int _maxRetryCount = 10;
 
-		// Token: 0x04000009 RID: 9
 		private string _onlineSourceUrl;
 	}
 }

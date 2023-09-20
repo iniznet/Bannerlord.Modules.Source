@@ -14,18 +14,15 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x02000032 RID: 50
 	[OverrideView(typeof(MissionOrderOfBattleUIHandler))]
 	public class MissionGauntletOrderOfBattleUIHandler : MissionView
 	{
-		// Token: 0x06000258 RID: 600 RVA: 0x0000CE4C File Offset: 0x0000B04C
 		public MissionGauntletOrderOfBattleUIHandler(OrderOfBattleVM dataSource)
 		{
 			this._dataSource = dataSource;
 			this.ViewOrderPriority = 13;
 		}
 
-		// Token: 0x06000259 RID: 601 RVA: 0x0000CE64 File Offset: 0x0000B064
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -52,13 +49,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericPanelGameKeyCategory"));
 		}
 
-		// Token: 0x0600025A RID: 602 RVA: 0x0000CFF3 File Offset: 0x0000B1F3
 		public override bool IsReady()
 		{
 			return this._isDeploymentFinished || this._orderOfBattleCategory.IsLoaded;
 		}
 
-		// Token: 0x0600025B RID: 603 RVA: 0x0000D00A File Offset: 0x0000B20A
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -69,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600025C RID: 604 RVA: 0x0000D02C File Offset: 0x0000B22C
 		private void TickInput()
 		{
 			bool flag;
@@ -99,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
 		}
 
-		// Token: 0x0600025D RID: 605 RVA: 0x0000D0E8 File Offset: 0x0000B2E8
 		private void HandleLayerFocus(out bool isAnyHeroSelected, out bool isClassSelectionEnabled, out bool isFilterSelectionEnabled)
 		{
 			isAnyHeroSelected = this._dataSource.HasSelectedHeroes;
@@ -119,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600025E RID: 606 RVA: 0x0000D178 File Offset: 0x0000B378
 		public override void OnMissionScreenFinalize()
 		{
 			this._dataSource.OnFinalize();
@@ -130,7 +122,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x0600025F RID: 607 RVA: 0x0000D1CC File Offset: 0x0000B3CC
 		public override bool OnEscape()
 		{
 			bool flag = false;
@@ -145,27 +136,23 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return flag;
 		}
 
-		// Token: 0x06000260 RID: 608 RVA: 0x0000D20C File Offset: 0x0000B40C
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 0f;
 		}
 
-		// Token: 0x06000261 RID: 609 RVA: 0x0000D229 File Offset: 0x0000B429
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
 		}
 
-		// Token: 0x06000262 RID: 610 RVA: 0x0000D246 File Offset: 0x0000B446
 		public override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
 		{
 			return !this._isActive;
 		}
 
-		// Token: 0x06000263 RID: 611 RVA: 0x0000D254 File Offset: 0x0000B454
 		private void OnPlayerTurnToChooseFormationToLead(Dictionary<int, Agent> lockedFormationIndicesAndSergeants, List<int> remainingFormationIndices)
 		{
 			this._cachedOrderTypeSetting = ManagedOptions.GetConfig(31);
@@ -176,13 +163,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._isActive = true;
 		}
 
-		// Token: 0x06000264 RID: 612 RVA: 0x0000D302 File Offset: 0x0000B502
 		private void OnAllFormationsAssignedSergeants(Dictionary<int, Agent> formationsWithLooselyAssignedSergeants)
 		{
 			this._dataSource.OnAllFormationsAssignedSergeants(formationsWithLooselyAssignedSergeants);
 		}
 
-		// Token: 0x06000265 RID: 613 RVA: 0x0000D310 File Offset: 0x0000B510
 		private void OnDeploymentFinish()
 		{
 			bool flag = MissionGameModels.Current.BattleInitializationModel.CanPlayerSideDeployWithOrderOfBattle();
@@ -206,13 +191,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._gauntletLayer.IsFocusLayer = false;
 		}
 
-		// Token: 0x06000266 RID: 614 RVA: 0x0000D421 File Offset: 0x0000B621
 		private void OnCameraControlsToggled(bool isEnabled)
 		{
 			this._dataSource.AreCameraControlsEnabled = isEnabled;
 		}
 
-		// Token: 0x06000267 RID: 615 RVA: 0x0000D42F File Offset: 0x0000B62F
 		private void SelectFormationAtIndex(int index)
 		{
 			MissionGauntletSingleplayerOrderUIHandler orderUIHandler = this._orderUIHandler;
@@ -223,7 +206,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			orderUIHandler.SelectFormationAtIndex(index);
 		}
 
-		// Token: 0x06000268 RID: 616 RVA: 0x0000D442 File Offset: 0x0000B642
 		private void DeselectFormationAtIndex(int index)
 		{
 			MissionGauntletSingleplayerOrderUIHandler orderUIHandler = this._orderUIHandler;
@@ -234,7 +216,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			orderUIHandler.DeselectFormationAtIndex(index);
 		}
 
-		// Token: 0x06000269 RID: 617 RVA: 0x0000D455 File Offset: 0x0000B655
 		private void ClearFormationSelection()
 		{
 			MissionGauntletSingleplayerOrderUIHandler orderUIHandler = this._orderUIHandler;
@@ -245,56 +226,42 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			orderUIHandler.ClearFormationSelection();
 		}
 
-		// Token: 0x0600026A RID: 618 RVA: 0x0000D467 File Offset: 0x0000B667
 		private void OnAutoDeploy()
 		{
 			this._orderUIHandler.OnAutoDeploy();
 		}
 
-		// Token: 0x0600026B RID: 619 RVA: 0x0000D474 File Offset: 0x0000B674
 		private void OnBeginMission()
 		{
 			this._orderUIHandler.OnBeginMission();
 			this._orderUIHandler.OnFiltersSet(this._dataSource.CurrentConfiguration);
 		}
 
-		// Token: 0x0600026C RID: 620 RVA: 0x0000D497 File Offset: 0x0000B697
 		private void OnUnitDeployed()
 		{
 			this._dataSource.OnUnitDeployed();
 		}
 
-		// Token: 0x04000128 RID: 296
 		private OrderOfBattleVM _dataSource;
 
-		// Token: 0x04000129 RID: 297
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400012A RID: 298
 		private IGauntletMovie _movie;
 
-		// Token: 0x0400012B RID: 299
 		private SpriteCategory _orderOfBattleCategory;
 
-		// Token: 0x0400012C RID: 300
 		private DeploymentMissionView _deploymentMissionView;
 
-		// Token: 0x0400012D RID: 301
 		private MissionGauntletSingleplayerOrderUIHandler _orderUIHandler;
 
-		// Token: 0x0400012E RID: 302
 		private AssignPlayerRoleInTeamMissionController _playerRoleMissionController;
 
-		// Token: 0x0400012F RID: 303
 		private OrderTroopPlacer _orderTroopPlacer;
 
-		// Token: 0x04000130 RID: 304
 		private bool _isActive;
 
-		// Token: 0x04000131 RID: 305
 		private bool _isDeploymentFinished;
 
-		// Token: 0x04000132 RID: 306
 		private float _cachedOrderTypeSetting;
 	}
 }

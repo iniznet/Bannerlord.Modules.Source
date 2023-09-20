@@ -23,34 +23,28 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x0200009D RID: 157
 	public class GuardsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060007DA RID: 2010 RVA: 0x0003E196 File Offset: 0x0003C396
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
 		}
 
-		// Token: 0x060007DB RID: 2011 RVA: 0x0003E1C6 File Offset: 0x0003C3C6
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060007DC RID: 2012 RVA: 0x0003E1C8 File Offset: 0x0003C3C8
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060007DD RID: 2013 RVA: 0x0003E1D1 File Offset: 0x0003C3D1
 		private float GetProsperityMultiplier(SettlementComponent settlement)
 		{
 			return (settlement.GetProsperityLevel() + 1f) / 3f;
 		}
 
-		// Token: 0x060007DE RID: 2014 RVA: 0x0003E1E8 File Offset: 0x0003C3E8
 		private void AddGarrisonAndPrisonCharacters(Settlement settlement)
 		{
 			this.InitializeGarrisonCharacters(settlement);
@@ -59,7 +53,6 @@ namespace SandBox.CampaignBehaviors
 			locationWithId.AddLocationCharacters(new CreateLocationCharacterDelegate(this.CreatePrisonGuard), cultureObject, 0, 1);
 		}
 
-		// Token: 0x060007DF RID: 2015 RVA: 0x0003E244 File Offset: 0x0003C444
 		private void InitializeGarrisonCharacters(Settlement settlement)
 		{
 			this._garrisonTroops.Clear();
@@ -79,7 +72,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007E0 RID: 2016 RVA: 0x0003E2F0 File Offset: 0x0003C4F0
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -94,7 +86,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007E1 RID: 2017 RVA: 0x0003E344 File Offset: 0x0003C544
 		private void AddGuardsFromGarrison(Settlement settlement, Dictionary<string, int> unusedUsablePointCount, Location location)
 		{
 			int num;
@@ -151,14 +142,12 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007E2 RID: 2018 RVA: 0x0003E524 File Offset: 0x0003C724
 		private static ItemObject GetSuitableSpear(CultureObject culture)
 		{
 			string text = ((culture.StringId == "battania") ? "northern_spear_2_t3" : "western_spear_3_t3");
 			return MBObjectManager.Instance.GetObject<ItemObject>(text);
 		}
 
-		// Token: 0x060007E3 RID: 2019 RVA: 0x0003E55C File Offset: 0x0003C75C
 		private AgentData TakeGuardAgentDataFromGarrisonTroopList(CultureObject culture, bool overrideWeaponWithSpear = false, bool unarmed = false)
 		{
 			CharacterObject characterObject;
@@ -188,7 +177,6 @@ namespace SandBox.CampaignBehaviors
 			return GuardsCampaignBehavior.PrepareGuardAgentDataFromGarrison(characterObject, overrideWeaponWithSpear, unarmed);
 		}
 
-		// Token: 0x060007E4 RID: 2020 RVA: 0x0003E644 File Offset: 0x0003C844
 		public static AgentData PrepareGuardAgentDataFromGarrison(CharacterObject guardRosterElement, bool overrideWeaponWithSpear = false, bool unarmed = false)
 		{
 			Banner banner = ((Campaign.Current.GameMode == 1) ? PlayerEncounter.LocationEncounter.Settlement.OwnerClan.Banner : null);
@@ -306,7 +294,6 @@ namespace SandBox.CampaignBehaviors
 			return new AgentData(new SimpleAgentOrigin(guardRosterElement, -1, banner, default(UniqueTroopDescriptor))).Equipment(randomEquipmentElements).Monster(monsterWithSuffix).NoHorses(true);
 		}
 
-		// Token: 0x060007E5 RID: 2021 RVA: 0x0003E980 File Offset: 0x0003CB80
 		private static bool IfEquipmentHasSpearSwapSlots(Equipment equipment)
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
@@ -321,7 +308,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060007E6 RID: 2022 RVA: 0x0003E9CC File Offset: 0x0003CBCC
 		private void RemoveShields(Equipment equipment)
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
@@ -334,42 +320,36 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007E7 RID: 2023 RVA: 0x0003EA1C File Offset: 0x0003CC1C
 		private LocationCharacter CreateCastleGuard(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			AgentData agentData = this.TakeGuardAgentDataFromGarrisonTroopList(culture, true, false);
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddStandGuardBehaviors), "sp_guard_castle", true, 0, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_guard"), false, false, null, false, false, true);
 		}
 
-		// Token: 0x060007E8 RID: 2024 RVA: 0x0003EA74 File Offset: 0x0003CC74
 		private LocationCharacter CreateStandGuard(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			AgentData agentData = this.TakeGuardAgentDataFromGarrisonTroopList(culture, false, false);
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddStandGuardBehaviors), "sp_guard", true, 0, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_guard"), false, false, null, false, false, true);
 		}
 
-		// Token: 0x060007E9 RID: 2025 RVA: 0x0003EACC File Offset: 0x0003CCCC
 		private LocationCharacter CreateStandGuardWithSpear(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			AgentData agentData = this.TakeGuardAgentDataFromGarrisonTroopList(culture, true, false);
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddStandGuardBehaviors), "sp_guard_with_spear", true, 0, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_guard"), false, false, null, false, false, true);
 		}
 
-		// Token: 0x060007EA RID: 2026 RVA: 0x0003EB24 File Offset: 0x0003CD24
 		private LocationCharacter CreateUnarmedGuard(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			AgentData agentData = this.TakeGuardAgentDataFromGarrisonTroopList(culture, false, true);
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "sp_guard_unarmed", true, 0, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_unarmed_guard"), false, false, null, false, false, true);
 		}
 
-		// Token: 0x060007EB RID: 2027 RVA: 0x0003EB7C File Offset: 0x0003CD7C
 		private LocationCharacter CreatePatrollingGuard(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			AgentData agentData = this.TakeGuardAgentDataFromGarrisonTroopList(culture, false, false);
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddPatrollingGuardBehaviors), "sp_guard_patrol", true, 0, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_guard"), false, false, null, false, false, true);
 		}
 
-		// Token: 0x060007EC RID: 2028 RVA: 0x0003EBD4 File Offset: 0x0003CDD4
 		private LocationCharacter CreatePrisonGuard(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject prisonGuard = culture.PrisonGuard;
@@ -378,7 +358,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddStandGuardBehaviors), "sp_prison_guard", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_guard"), false, true, null, false, false, true);
 		}
 
-		// Token: 0x060007ED RID: 2029 RVA: 0x0003EC54 File Offset: 0x0003CE54
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("disguise_start_conversation_alt", "start", "close_window", "{=uTycGRdI}You need to move along. I'm on duty right now and I can't spare any coin. May Heaven provide.", new ConversationSentence.OnConditionDelegate(this.conversation_disguised_start_on_condition_alt), null, 100, null);
@@ -426,19 +405,16 @@ namespace SandBox.CampaignBehaviors
 			}, 100, null);
 		}
 
-		// Token: 0x060007EE RID: 2030 RVA: 0x0003F21C File Offset: 0x0003D41C
 		private bool conversation_prison_guard_criminal_start_on_condition()
 		{
 			return !Campaign.Current.IsMainHeroDisguised && CharacterObject.OneToOneConversationCharacter.Occupation == 23 && Settlement.CurrentSettlement.MapFaction != Hero.MainHero.MapFaction && (Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingModerate(Settlement.CurrentSettlement.MapFaction) || Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingSevere(Settlement.CurrentSettlement.MapFaction) || Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingMild(Settlement.CurrentSettlement.MapFaction));
 		}
 
-		// Token: 0x060007EF RID: 2031 RVA: 0x0003F2C0 File Offset: 0x0003D4C0
 		private bool conversation_prison_guard_start_on_condition()
 		{
 			return !Campaign.Current.IsMainHeroDisguised && CharacterObject.OneToOneConversationCharacter.Occupation == 23 && (Settlement.CurrentSettlement.MapFaction == Hero.MainHero.MapFaction || (Settlement.CurrentSettlement.MapFaction != Hero.MainHero.MapFaction && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingModerate(Settlement.CurrentSettlement.MapFaction) && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingSevere(Settlement.CurrentSettlement.MapFaction) && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingMild(Settlement.CurrentSettlement.MapFaction)));
 		}
 
-		// Token: 0x060007F0 RID: 2032 RVA: 0x0003F380 File Offset: 0x0003D580
 		private bool conversation_prison_guard_talk_about_prisoners_on_condition()
 		{
 			List<CharacterObject> prisonerHeroes = Settlement.CurrentSettlement.SettlementComponent.GetPrisonerHeroes();
@@ -467,13 +443,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060007F1 RID: 2033 RVA: 0x0003F462 File Offset: 0x0003D662
 		private bool conversation_prison_guard_visit_prison_cheat_on_condition()
 		{
 			return Game.Current.IsDevelopmentMode;
 		}
 
-		// Token: 0x060007F2 RID: 2034 RVA: 0x0003F470 File Offset: 0x0003D670
 		private bool can_player_bribe_to_prison_guard_clickable(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
@@ -491,7 +465,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060007F3 RID: 2035 RVA: 0x0003F508 File Offset: 0x0003D708
 		private bool conversation_prison_guard_reject_visit_prison_on_condition()
 		{
 			bool flag = Settlement.CurrentSettlement.BribePaid >= Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterDungeon(Settlement.CurrentSettlement);
@@ -501,7 +474,6 @@ namespace SandBox.CampaignBehaviors
 			return !flag && accessDetails.AccessLevel != 2;
 		}
 
-		// Token: 0x060007F4 RID: 2036 RVA: 0x0003F58C File Offset: 0x0003D78C
 		private void conversation_prison_guard_visit_prison_on_consequence()
 		{
 			if (Settlement.CurrentSettlement.IsFortification)
@@ -515,7 +487,6 @@ namespace SandBox.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x060007F5 RID: 2037 RVA: 0x0003F610 File Offset: 0x0003D810
 		private bool conversation_guard_start_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.OneToOneConversationAgent == null || this.CheckIfConversationAgentIsEscortingTheMainAgent())
@@ -552,19 +523,16 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060007F6 RID: 2038 RVA: 0x0003F773 File Offset: 0x0003D973
 		private bool CheckIfConversationAgentIsEscortingTheMainAgent()
 		{
 			return Agent.Main != null && Agent.Main.IsActive() && Settlement.CurrentSettlement != null && ConversationMission.OneToOneConversationAgent != null && EscortAgentBehavior.CheckIfAgentIsEscortedBy(ConversationMission.OneToOneConversationAgent, Agent.Main);
 		}
 
-		// Token: 0x060007F7 RID: 2039 RVA: 0x0003F7A7 File Offset: 0x0003D9A7
 		private bool conversation_prison_guard_visit_prison_nobody_inside_condition()
 		{
 			return Settlement.CurrentSettlement.SettlementComponent.GetPrisonerHeroes().Count == 0;
 		}
 
-		// Token: 0x060007F8 RID: 2040 RVA: 0x0003F7C0 File Offset: 0x0003D9C0
 		private bool prison_guard_visit_permission_try_bribe_on_condition()
 		{
 			int bribeToEnterDungeon = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterDungeon(Settlement.CurrentSettlement);
@@ -573,7 +541,6 @@ namespace SandBox.CampaignBehaviors
 			return Hero.MainHero.Gold >= bribeToEnterDungeon && !Campaign.Current.IsMainHeroDisguised;
 		}
 
-		// Token: 0x060007F9 RID: 2041 RVA: 0x0003F820 File Offset: 0x0003DA20
 		private void conversation_prison_guard_visit_permission_bribe_on_consequence()
 		{
 			int bribeToEnterDungeon = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterDungeon(Settlement.CurrentSettlement);
@@ -581,12 +548,10 @@ namespace SandBox.CampaignBehaviors
 			this.conversation_prison_guard_visit_prison_on_consequence();
 		}
 
-		// Token: 0x060007FA RID: 2042 RVA: 0x0003F858 File Offset: 0x0003DA58
 		private void conversation_prison_guard_visit_break_on_consequence()
 		{
 		}
 
-		// Token: 0x060007FB RID: 2043 RVA: 0x0003F85C File Offset: 0x0003DA5C
 		private bool IsCastleGuard()
 		{
 			Agent oneToOneConversationAgent = ConversationMission.OneToOneConversationAgent;
@@ -612,31 +577,26 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060007FC RID: 2044 RVA: 0x0003F94C File Offset: 0x0003DB4C
 		private bool conversation_castle_guard_start_on_condition()
 		{
 			return !Campaign.Current.IsMainHeroDisguised && this.IsCastleGuard() && (Settlement.CurrentSettlement.MapFaction == Hero.MainHero.MapFaction || (Settlement.CurrentSettlement.MapFaction != Hero.MainHero.MapFaction && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingModerate(Settlement.CurrentSettlement.MapFaction) && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingSevere(Settlement.CurrentSettlement.MapFaction) && !Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingMild(Settlement.CurrentSettlement.MapFaction)));
 		}
 
-		// Token: 0x060007FD RID: 2045 RVA: 0x0003FA08 File Offset: 0x0003DC08
 		private bool conversation_castle_guard_criminal_start_on_condition()
 		{
 			return !Campaign.Current.IsMainHeroDisguised && this.IsCastleGuard() && Settlement.CurrentSettlement.MapFaction != Hero.MainHero.MapFaction && (Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingModerate(Settlement.CurrentSettlement.MapFaction) || Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingSevere(Settlement.CurrentSettlement.MapFaction) || Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingMild(Settlement.CurrentSettlement.MapFaction));
 		}
 
-		// Token: 0x060007FE RID: 2046 RVA: 0x0003FAA4 File Offset: 0x0003DCA4
 		private bool conversation_castle_guard_nobody_inside_condition()
 		{
 			return !LocationComplex.Current.GetLocationWithId("lordshall").GetCharacterList().Any((LocationCharacter c) => c.Character.IsHero && c.Character.HeroObject.IsLord) && Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement) > 0 && Settlement.CurrentSettlement.OwnerClan != Clan.PlayerClan;
 		}
 
-		// Token: 0x060007FF RID: 2047 RVA: 0x0003FB20 File Offset: 0x0003DD20
 		private bool conversation_castle_guard_player_can_enter_lordshall_condition()
 		{
 			return Settlement.CurrentSettlement.MapFaction == Hero.MainHero.MapFaction || (!Hero.MainHero.MapFaction.IsAtWarWith(Settlement.CurrentSettlement.MapFaction) && Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement) == 0);
 		}
 
-		// Token: 0x06000800 RID: 2048 RVA: 0x0003FB80 File Offset: 0x0003DD80
 		private bool conversation_player_bribe_to_enter_lords_hall_on_condition()
 		{
 			int bribeToEnterLordsHall = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement);
@@ -645,14 +605,12 @@ namespace SandBox.CampaignBehaviors
 			return bribeToEnterLordsHall > 0 && Hero.MainHero.Gold >= bribeToEnterLordsHall && !Campaign.Current.IsMainHeroDisguised && !this.conversation_castle_guard_nobody_inside_condition();
 		}
 
-		// Token: 0x06000801 RID: 2049 RVA: 0x0003FBEC File Offset: 0x0003DDEC
 		private void conversation_player_bribe_to_enter_lords_hall_on_consequence()
 		{
 			int bribeToEnterLordsHall = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement);
 			BribeGuardsAction.Apply(Settlement.CurrentSettlement, bribeToEnterLordsHall);
 		}
 
-		// Token: 0x06000802 RID: 2050 RVA: 0x0003FC20 File Offset: 0x0003DE20
 		private void OpenLordsHallMission()
 		{
 			Campaign.Current.GameMenuManager.NextLocation = LocationComplex.Current.GetLocationWithId("lordshall");
@@ -660,22 +618,18 @@ namespace SandBox.CampaignBehaviors
 			Mission.Current.EndMission();
 		}
 
-		// Token: 0x06000803 RID: 2051 RVA: 0x0003FC74 File Offset: 0x0003DE74
 		private bool conversation_disguised_start_on_condition()
 		{
 			return Campaign.Current.IsMainHeroDisguised && (this.IsCastleGuard() || CharacterObject.OneToOneConversationCharacter.Occupation == 23 || CharacterObject.OneToOneConversationCharacter.Occupation == 24 || CharacterObject.OneToOneConversationCharacter.Occupation == 5 || CharacterObject.OneToOneConversationCharacter.Occupation == 7);
 		}
 
-		// Token: 0x06000804 RID: 2052 RVA: 0x0003FCD0 File Offset: 0x0003DED0
 		private bool conversation_disguised_start_on_condition_alt()
 		{
 			return Campaign.Current.IsMainHeroDisguised && MBRandom.RandomInt(2) == 0 && (this.IsCastleGuard() || CharacterObject.OneToOneConversationCharacter.Occupation == 23 || CharacterObject.OneToOneConversationCharacter.Occupation == 24 || CharacterObject.OneToOneConversationCharacter.Occupation == 5 || CharacterObject.OneToOneConversationCharacter.Occupation == 7);
 		}
 
-		// Token: 0x04000321 RID: 801
 		public const float UnarmedTownGuardSpawnRate = 0.4f;
 
-		// Token: 0x04000322 RID: 802
 		private readonly List<ValueTuple<CharacterObject, int>> _garrisonTroops = new List<ValueTuple<CharacterObject, int>>();
 	}
 }

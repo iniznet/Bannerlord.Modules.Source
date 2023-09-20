@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.TwoDimension.BitmapFont
 {
-	// Token: 0x0200003B RID: 59
 	internal static class TextHelper
 	{
-		// Token: 0x0600028F RID: 655 RVA: 0x00009F68 File Offset: 0x00008168
 		internal static int GetIndexOfFirstAppropriateCharacterToMoveToNextLineBackwardsFromIndex(List<TextToken> tokens, int startIndex, ILanguage currentLanguage)
 		{
 			if (!currentLanguage.DoesLanguageRequireSpaceForNewline())
@@ -32,7 +30,6 @@ namespace TaleWorlds.TwoDimension.BitmapFont
 			return -1;
 		}
 
-		// Token: 0x06000290 RID: 656 RVA: 0x00009FE8 File Offset: 0x000081E8
 		internal static int GetIndexOfFirstAppropriateCharacterToMoveToNextLineForwardsFromIndex(List<TextToken> tokens, int startIndex, ILanguage currentLanguage)
 		{
 			if (!currentLanguage.DoesLanguageRequireSpaceForNewline())
@@ -58,7 +55,6 @@ namespace TaleWorlds.TwoDimension.BitmapFont
 			return -1;
 		}
 
-		// Token: 0x06000291 RID: 657 RVA: 0x0000A074 File Offset: 0x00008274
 		internal static float GetTotalWordWidthBetweenIndices(int startIndex, int endIndex, List<TextToken> tokens, Func<TextToken, Font> getFontForToken, float extraPadding, float scale)
 		{
 			float num = 0f;

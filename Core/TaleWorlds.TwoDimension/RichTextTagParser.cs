@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x0200000F RID: 15
 	public class RichTextTagParser
 	{
-		// Token: 0x06000083 RID: 131 RVA: 0x000047A4 File Offset: 0x000029A4
 		public static RichTextTag Parse(string text2, int tagBeginIndex, int tagEndIndex)
 		{
 			RichTextTagType richTextTagType = RichTextTagType.Open;
@@ -148,7 +146,6 @@ namespace TaleWorlds.TwoDimension
 			return richTextTag;
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x000049C0 File Offset: 0x00002BC0
 		private static KeyValuePair<string, string> ParseAttribute(string attributeText)
 		{
 			string[] array = attributeText.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
@@ -159,7 +156,6 @@ namespace TaleWorlds.TwoDimension
 			return new KeyValuePair<string, string>(text3, text4);
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x000049FC File Offset: 0x00002BFC
 		private static string ParseAttributeKey(string keyText)
 		{
 			string text = "";
@@ -186,7 +182,6 @@ namespace TaleWorlds.TwoDimension
 			return text;
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00004A68 File Offset: 0x00002C68
 		private static string ParseAttributeValue(string valueText)
 		{
 			if (valueText[0] != '"' && valueText[valueText.Length - 1] != '"' && valueText[0] != '\'' && valueText[valueText.Length - 1] != '\'')

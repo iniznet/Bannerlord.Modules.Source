@@ -11,11 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisions
 {
-	// Token: 0x02000066 RID: 102
 	public class KingdomDecisionsVM : ViewModel
 	{
-		// Token: 0x170002B7 RID: 695
-		// (get) Token: 0x060008BF RID: 2239 RVA: 0x00024609 File Offset: 0x00022809
 		public bool IsCurrentDecisionActive
 		{
 			get
@@ -25,12 +22,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002B8 RID: 696
-		// (get) Token: 0x060008C0 RID: 2240 RVA: 0x0002461C File Offset: 0x0002281C
-		// (set) Token: 0x060008C1 RID: 2241 RVA: 0x00024624 File Offset: 0x00022824
 		private bool _shouldCheckForDecision { get; set; } = true;
 
-		// Token: 0x060008C2 RID: 2242 RVA: 0x00024630 File Offset: 0x00022830
 		public KingdomDecisionsVM(Action refreshKingdomManagement)
 		{
 			this._refreshKingdomManagement = refreshKingdomManagement;
@@ -40,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this.RefreshValues();
 		}
 
-		// Token: 0x060008C3 RID: 2243 RVA: 0x000246A7 File Offset: 0x000228A7
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -53,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			currentDecision.RefreshValues();
 		}
 
-		// Token: 0x060008C4 RID: 2244 RVA: 0x000246D8 File Offset: 0x000228D8
 		public void OnFrameTick()
 		{
 			this.IsActive = this.IsCurrentDecisionActive;
@@ -74,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x060008C5 RID: 2245 RVA: 0x00024740 File Offset: 0x00022940
 		public void QueryForNextDecision()
 		{
 			KingdomDecision curDecision = Clan.PlayerClan.Kingdom.UnresolvedDecisions.Except(this._examinedDecisionsSinceInit).FirstOrDefault<KingdomDecision>();
@@ -115,7 +105,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x060008C6 RID: 2246 RVA: 0x00024930 File Offset: 0x00022B30
 		public void RefreshWith(KingdomDecision decision)
 		{
 			if (decision.IsSingleClanDecision())
@@ -134,14 +123,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this.CurrentDecision.SetDoneInputKey(this.DoneInputKey);
 		}
 
-		// Token: 0x060008C7 RID: 2247 RVA: 0x000249D6 File Offset: 0x00022BD6
 		private void OnSingleDecisionOver()
 		{
 			this._refreshKingdomManagement();
 			this._shouldCheckForDecision = true;
 		}
 
-		// Token: 0x060008C8 RID: 2248 RVA: 0x000249EA File Offset: 0x00022BEA
 		private void OnDecisionOver()
 		{
 			this._refreshKingdomManagement();
@@ -154,7 +141,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this._shouldCheckForDecision = true;
 		}
 
-		// Token: 0x060008C9 RID: 2249 RVA: 0x00024A18 File Offset: 0x00022C18
 		private DecisionItemBaseVM GetDecisionItemBasedOnType(KingdomDecision decision)
 		{
 			SettlementClaimantDecision settlementClaimantDecision;
@@ -196,7 +182,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			return new DecisionItemBaseVM(decision, new Action(this.OnDecisionOver));
 		}
 
-		// Token: 0x060008CA RID: 2250 RVA: 0x00024B2D File Offset: 0x00022D2D
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -209,15 +194,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this.CurrentDecision = null;
 		}
 
-		// Token: 0x060008CB RID: 2251 RVA: 0x00024B58 File Offset: 0x00022D58
 		public void SetDoneInputKey(HotKey hotKey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x170002B9 RID: 697
-		// (get) Token: 0x060008CC RID: 2252 RVA: 0x00024B67 File Offset: 0x00022D67
-		// (set) Token: 0x060008CD RID: 2253 RVA: 0x00024B6F File Offset: 0x00022D6F
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -235,9 +216,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002BA RID: 698
-		// (get) Token: 0x060008CE RID: 2254 RVA: 0x00024B8D File Offset: 0x00022D8D
-		// (set) Token: 0x060008CF RID: 2255 RVA: 0x00024B95 File Offset: 0x00022D95
 		[DataSourceProperty]
 		public DecisionItemBaseVM CurrentDecision
 		{
@@ -255,9 +233,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002BB RID: 699
-		// (get) Token: 0x060008D0 RID: 2256 RVA: 0x00024BB3 File Offset: 0x00022DB3
-		// (set) Token: 0x060008D1 RID: 2257 RVA: 0x00024BBB File Offset: 0x00022DBB
 		[DataSourceProperty]
 		public int NotificationCount
 		{
@@ -275,9 +250,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002BC RID: 700
-		// (get) Token: 0x060008D2 RID: 2258 RVA: 0x00024BD9 File Offset: 0x00022DD9
-		// (set) Token: 0x060008D3 RID: 2259 RVA: 0x00024BE1 File Offset: 0x00022DE1
 		[DataSourceProperty]
 		public bool IsRefreshed
 		{
@@ -295,9 +267,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002BD RID: 701
-		// (get) Token: 0x060008D4 RID: 2260 RVA: 0x00024BFF File Offset: 0x00022DFF
-		// (set) Token: 0x060008D5 RID: 2261 RVA: 0x00024C07 File Offset: 0x00022E07
 		[DataSourceProperty]
 		public bool IsActive
 		{
@@ -315,9 +284,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002BE RID: 702
-		// (get) Token: 0x060008D6 RID: 2262 RVA: 0x00024C25 File Offset: 0x00022E25
-		// (set) Token: 0x060008D7 RID: 2263 RVA: 0x00024C2D File Offset: 0x00022E2D
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -335,31 +301,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x040003F3 RID: 1011
 		private List<KingdomDecision> _examinedDecisionsSinceInit;
 
-		// Token: 0x040003F4 RID: 1012
 		private readonly Action _refreshKingdomManagement;
 
-		// Token: 0x040003F6 RID: 1014
 		private InquiryData _queryData;
 
-		// Token: 0x040003F7 RID: 1015
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x040003F8 RID: 1016
 		private bool _isRefreshed;
 
-		// Token: 0x040003F9 RID: 1017
 		private bool _isActive;
 
-		// Token: 0x040003FA RID: 1018
 		private int _notificationCount;
 
-		// Token: 0x040003FB RID: 1019
 		private string _titleText;
 
-		// Token: 0x040003FC RID: 1020
 		private DecisionItemBaseVM _currentDecision;
 	}
 }

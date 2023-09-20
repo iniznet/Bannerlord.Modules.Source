@@ -5,16 +5,13 @@ using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000009 RID: 9
 	public class BorderFlagEntityFactory : IEntityFactory
 	{
-		// Token: 0x06000042 RID: 66 RVA: 0x000038F6 File Offset: 0x00001AF6
 		public BorderFlagEntityFactory(string prefabName)
 		{
 			this._prefabName = prefabName;
 		}
 
-		// Token: 0x06000043 RID: 67 RVA: 0x00003908 File Offset: 0x00001B08
 		public GameEntity MakeEntity(params object[] paramObjects)
 		{
 			Scene scene = Mission.Current.Scene;
@@ -37,10 +34,8 @@ namespace TaleWorlds.MountAndBlade.View
 			return gameEntity;
 		}
 
-		// Token: 0x0400000C RID: 12
 		private readonly string _prefabName;
 
-		// Token: 0x0400000D RID: 13
 		private GameEntity _cachedFlagEntity;
 	}
 }

@@ -9,11 +9,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000010 RID: 16
 	public class CustomGame : GameType
 	{
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x060000D9 RID: 217 RVA: 0x00007A5A File Offset: 0x00005C5A
 		public IEnumerable<CustomBattleSceneData> CustomBattleScenes
 		{
 			get
@@ -22,8 +19,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x060000DA RID: 218 RVA: 0x00007A62 File Offset: 0x00005C62
 		public override bool IsCoreOnlyGameMode
 		{
 			get
@@ -32,13 +27,8 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x060000DB RID: 219 RVA: 0x00007A65 File Offset: 0x00005C65
-		// (set) Token: 0x060000DC RID: 220 RVA: 0x00007A6D File Offset: 0x00005C6D
 		public CustomBattleBannerEffects CustomBattleBannerEffects { get; private set; }
 
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x060000DD RID: 221 RVA: 0x00007A76 File Offset: 0x00005C76
 		public static CustomGame Current
 		{
 			get
@@ -47,13 +37,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x00007A87 File Offset: 0x00005C87
 		public CustomGame()
 		{
 			this._customBattleScenes = new List<CustomBattleSceneData>();
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00007A9C File Offset: 0x00005C9C
 		protected override void OnInitialize()
 		{
 			this.InitializeScenes();
@@ -77,7 +65,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			base.GameManager.OnGameInitializationFinished(base.CurrentGame);
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x00007B68 File Offset: 0x00005D68
 		private void InitializeGameModels(IGameStarter basicGameStarter)
 		{
 			basicGameStarter.AddModel(new CustomBattleAgentStatCalculateModel());
@@ -98,14 +85,12 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			basicGameStarter.AddModel(new DefaultItemValueModel());
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x00007C28 File Offset: 0x00005E28
 		private void InitializeScenes()
 		{
 			XmlDocument mergedXmlForManaged = MBObjectManager.GetMergedXmlForManaged("Scene", true, true, "");
 			this.LoadCustomBattleScenes(mergedXmlForManaged);
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x00007C50 File Offset: 0x00005E50
 		private void LoadCustomGameXmls()
 		{
 			this.CustomBattleBannerEffects = new CustomBattleBannerEffects();
@@ -115,19 +100,16 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			MBObjectManagerExtensions.LoadXML(base.ObjectManager, "SPCultures", false);
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x00007CAC File Offset: 0x00005EAC
 		protected override void BeforeRegisterTypes(MBObjectManager objectManager)
 		{
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x00007CAE File Offset: 0x00005EAE
 		protected override void OnRegisterTypes(MBObjectManager objectManager)
 		{
 			objectManager.RegisterType<BasicCharacterObject>("NPCCharacter", "NPCCharacters", 43U, true, false);
 			objectManager.RegisterType<BasicCultureObject>("Culture", "SPCultures", 17U, true, false);
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x00007CD8 File Offset: 0x00005ED8
 		protected override void DoLoadingForGameType(GameTypeLoadingStates gameTypeLoadingState, out GameTypeLoadingStates nextState)
 		{
 			nextState = -1;
@@ -150,12 +132,10 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x00007D0A File Offset: 0x00005F0A
 		public override void OnDestroy()
 		{
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x00007D0C File Offset: 0x00005F0C
 		private void LoadCustomBattleScenes(XmlDocument doc)
 		{
 			if (doc.ChildNodes.Count == 0)
@@ -249,18 +229,14 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x00008178 File Offset: 0x00006378
 		public override void OnStateChanged(GameState oldState)
 		{
 		}
 
-		// Token: 0x0400007D RID: 125
 		private List<CustomBattleSceneData> _customBattleScenes;
 
-		// Token: 0x0400007E RID: 126
 		private const TerrainType DefaultTerrain = 4;
 
-		// Token: 0x0400007F RID: 127
 		private const ForestDensity DefaultForestDensity = 0;
 	}
 }

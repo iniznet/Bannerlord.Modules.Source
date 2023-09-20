@@ -17,16 +17,13 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003C6 RID: 966
 	public class PrisonBreakCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060039DC RID: 14812 RVA: 0x00109F83 File Offset: 0x00108183
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x060039DD RID: 14813 RVA: 0x00109F9C File Offset: 0x0010819C
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Hero>("_prisonerHero", ref this._prisonerHero);
@@ -34,14 +31,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<string>("_previousMenuId", ref this._previousMenuId);
 		}
 
-		// Token: 0x060039DE RID: 14814 RVA: 0x00109FD4 File Offset: 0x001081D4
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060039DF RID: 14815 RVA: 0x00109FE4 File Offset: 0x001081E4
 		private void AddGameMenus(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddGameMenuOption("town_keep_dungeon", "town_prison_break", "{=lc0YIqby}Stage a prison break", new GameMenuOption.OnConditionDelegate(this.game_menu_stage_prison_break_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_castle_prison_break_from_dungeon_on_consequence), false, 3, false, null);
@@ -63,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddGameMenuOption("settlement_prison_break_fail_prisoner_unconscious", "continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(this.game_menu_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.settlement_prison_break_fail_prisoner_unconscious_continue_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x060039E0 RID: 14816 RVA: 0x0010A23C File Offset: 0x0010843C
 		private void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("prison_break_start_1", "start", "prison_break_end_already_met", "{=5RDF3aZN}{SALUTATION}... You came for me!", new ConversationSentence.OnConditionDelegate(this.prison_break_end_with_success_clan_member), null, 120, null);
@@ -81,7 +75,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("prison_break_end_dialog_2", "prison_break_next_move_player_other", "close_window", "{=dzXaXKaC}Very well.", null, new ConversationSentence.OnConsequenceDelegate(this.prison_break_end_with_success_on_consequence), 100, null, null);
 		}
 
-		// Token: 0x060039E1 RID: 14817 RVA: 0x0010A45C File Offset: 0x0010865C
 		[GameMenuInitializationHandler("start_prison_break")]
 		[GameMenuInitializationHandler("prison_break_cool_down")]
 		[GameMenuInitializationHandler("settlement_prison_break_success")]
@@ -92,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.SettlementComponent.WaitMeshName);
 		}
 
-		// Token: 0x060039E2 RID: 14818 RVA: 0x0010A478 File Offset: 0x00108678
 		private bool prison_break_end_with_success_clan_member()
 		{
 			bool flag = this._prisonerHero != null && this._prisonerHero.CharacterObject == CharacterObject.OneToOneConversationCharacter && (this._prisonerHero.CompanionOf == Clan.PlayerClan || this._prisonerHero.Clan == Clan.PlayerClan);
@@ -103,7 +95,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060039E3 RID: 14819 RVA: 0x0010A4F0 File Offset: 0x001086F0
 		private bool prison_break_end_with_success_player_already_met()
 		{
 			bool flag = this._prisonerHero != null && this._prisonerHero.CharacterObject == CharacterObject.OneToOneConversationCharacter && this._prisonerHero.HasMet;
@@ -114,20 +105,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060039E4 RID: 14820 RVA: 0x0010A54C File Offset: 0x0010874C
 		private bool prison_break_end_with_success_other_on_condition()
 		{
 			return this._prisonerHero != null && this._prisonerHero.CharacterObject == CharacterObject.OneToOneConversationCharacter;
 		}
 
-		// Token: 0x060039E5 RID: 14821 RVA: 0x0010A56A File Offset: 0x0010876A
 		private void PrisonBreakEndedInternal()
 		{
 			ChangeRelationAction.ApplyPlayerRelation(this._prisonerHero, Campaign.Current.Models.PrisonBreakModel.GetRelationRewardOnPrisonBreak(this._prisonerHero), true, true);
 			SkillLevelingManager.OnPrisonBreakEnd(this._prisonerHero, true);
 		}
 
-		// Token: 0x060039E6 RID: 14822 RVA: 0x0010A59F File Offset: 0x0010879F
 		private void prison_break_end_with_success_on_consequence()
 		{
 			this.PrisonBreakEndedInternal();
@@ -135,7 +123,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._prisonerHero = null;
 		}
 
-		// Token: 0x060039E7 RID: 14823 RVA: 0x0010A5BE File Offset: 0x001087BE
 		private void prison_break_end_with_success_companion()
 		{
 			this.PrisonBreakEndedInternal();
@@ -145,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._prisonerHero = null;
 		}
 
-		// Token: 0x060039E8 RID: 14824 RVA: 0x0010A5FA File Offset: 0x001087FA
 		private bool game_menu_castle_prison_break_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
@@ -154,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060039E9 RID: 14825 RVA: 0x0010A634 File Offset: 0x00108834
 		private void AddCoolDownForPrisonBreak(Settlement settlement)
 		{
 			CampaignTime campaignTime = CampaignTime.DaysFromNow(7f);
@@ -166,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._coolDownData.Add(settlement, campaignTime);
 		}
 
-		// Token: 0x060039EA RID: 14826 RVA: 0x0010A678 File Offset: 0x00108878
 		private bool CanPlayerStartPrisonBreak(Settlement settlement)
 		{
 			bool flag = true;
@@ -182,7 +166,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060039EB RID: 14827 RVA: 0x0010A6B0 File Offset: 0x001088B0
 		private bool game_menu_stage_prison_break_on_condition(MenuCallbackArgs args)
 		{
 			bool flag = false;
@@ -199,28 +182,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060039EC RID: 14828 RVA: 0x0010A709 File Offset: 0x00108909
 		private void game_menu_castle_prison_break_from_dungeon_on_consequence(MenuCallbackArgs args)
 		{
 			this._previousMenuId = "town_keep_dungeon";
 			this.game_menu_castle_prison_break_on_consequence(args);
 		}
 
-		// Token: 0x060039ED RID: 14829 RVA: 0x0010A71D File Offset: 0x0010891D
 		private void game_menu_castle_prison_break_from_castle_dungeon_on_consequence(MenuCallbackArgs args)
 		{
 			this._previousMenuId = "castle_dungeon";
 			this.game_menu_castle_prison_break_on_consequence(args);
 		}
 
-		// Token: 0x060039EE RID: 14830 RVA: 0x0010A731 File Offset: 0x00108931
 		private void game_menu_castle_prison_break_from_enemy_keep_on_consequence(MenuCallbackArgs args)
 		{
 			this._previousMenuId = "town_enemy_town_keep";
 			this.game_menu_castle_prison_break_on_consequence(args);
 		}
 
-		// Token: 0x060039EF RID: 14831 RVA: 0x0010A748 File Offset: 0x00108948
 		private void game_menu_castle_prison_break_on_consequence(MenuCallbackArgs args)
 		{
 			if (this.CanPlayerStartPrisonBreak(Settlement.CurrentSettlement))
@@ -263,7 +242,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("prison_break_cool_down");
 		}
 
-		// Token: 0x060039F0 RID: 14832 RVA: 0x0010A9AC File Offset: 0x00108BAC
 		private void StartPrisonBreak(List<InquiryElement> prisonerList)
 		{
 			if (prisonerList.Count > 0)
@@ -275,7 +253,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._prisonerHero = null;
 		}
 
-		// Token: 0x060039F1 RID: 14833 RVA: 0x0010A9E8 File Offset: 0x00108BE8
 		private void OpenPrisonBreakMission()
 		{
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, this._bribeCost, false);
@@ -284,41 +261,35 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMission.OpenPrisonBreakMission(locationWithId.GetSceneName(Settlement.CurrentSettlement.Town.GetWallLevel()), locationWithId, this._prisonerHero.CharacterObject, null);
 		}
 
-		// Token: 0x060039F2 RID: 14834 RVA: 0x0010AA4A File Offset: 0x00108C4A
 		private bool game_menu_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060039F3 RID: 14835 RVA: 0x0010AA55 File Offset: 0x00108C55
 		private bool game_menu_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x060039F4 RID: 14836 RVA: 0x0010AA60 File Offset: 0x00108C60
 		private void game_menu_cancel_prison_break(MenuCallbackArgs args)
 		{
 			this._prisonerHero = null;
 			GameMenu.SwitchToMenu(this._previousMenuId);
 		}
 
-		// Token: 0x060039F5 RID: 14837 RVA: 0x0010AA74 File Offset: 0x00108C74
 		private void start_prison_break_on_init(MenuCallbackArgs args)
 		{
 			StringHelpers.SetCharacterProperties("PRISONER", this._prisonerHero.CharacterObject, null, false);
 		}
 
-		// Token: 0x060039F6 RID: 14838 RVA: 0x0010AA8E File Offset: 0x00108C8E
 		private void settlement_prison_break_success_on_init(MenuCallbackArgs args)
 		{
 			StringHelpers.SetCharacterProperties("PRISONER", this._prisonerHero.CharacterObject, null, false);
 			MBTextManager.SetTextVariable("SETTLEMENT_TYPE", Settlement.CurrentSettlement.IsTown ? 1 : 0);
 		}
 
-		// Token: 0x060039F7 RID: 14839 RVA: 0x0010AAC4 File Offset: 0x00108CC4
 		private void settlement_prison_break_success_continue_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveSettlement();
@@ -326,7 +297,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, null, false, false, false, false, false, false), new ConversationCharacterData(this._prisonerHero.CharacterObject, null, false, false, false, false, false, false));
 		}
 
-		// Token: 0x060039F8 RID: 14840 RVA: 0x0010AB0C File Offset: 0x00108D0C
 		private void settlement_prison_break_fail_prisoner_injured_on_init(MenuCallbackArgs args)
 		{
 			if (this._prisonerHero.IsDead)
@@ -338,13 +308,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			StringHelpers.SetCharacterProperties("PRISONER", this._prisonerHero.CharacterObject, null, false);
 		}
 
-		// Token: 0x060039F9 RID: 14841 RVA: 0x0010AB6E File Offset: 0x00108D6E
 		private void settlement_prison_break_fail_on_init(MenuCallbackArgs args)
 		{
 			StringHelpers.SetCharacterProperties("PRISONER", this._prisonerHero.CharacterObject, null, false);
 		}
 
-		// Token: 0x060039FA RID: 14842 RVA: 0x0010AB88 File Offset: 0x00108D88
 		private void settlement_prison_break_fail_player_unconscious_continue_on_consequence(MenuCallbackArgs args)
 		{
 			SkillLevelingManager.OnPrisonBreakEnd(this._prisonerHero, false);
@@ -355,7 +323,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._prisonerHero = null;
 		}
 
-		// Token: 0x060039FB RID: 14843 RVA: 0x0010ABBC File Offset: 0x00108DBC
 		private void settlement_prison_break_fail_prisoner_unconscious_continue_on_consequence(MenuCallbackArgs args)
 		{
 			SkillLevelingManager.OnPrisonBreakEnd(this._prisonerHero, false);
@@ -364,22 +331,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x040011DB RID: 4571
 		private const int CoolDownInDays = 7;
 
-		// Token: 0x040011DC RID: 4572
 		private const int PrisonBreakDialogPriority = 120;
 
-		// Token: 0x040011DD RID: 4573
 		private Dictionary<Settlement, CampaignTime> _coolDownData = new Dictionary<Settlement, CampaignTime>();
 
-		// Token: 0x040011DE RID: 4574
 		private Hero _prisonerHero;
 
-		// Token: 0x040011DF RID: 4575
 		private int _bribeCost;
 
-		// Token: 0x040011E0 RID: 4576
 		private string _previousMenuId;
 	}
 }

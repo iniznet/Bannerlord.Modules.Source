@@ -6,11 +6,9 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.GauntletUI.Menu
 {
-	// Token: 0x02000018 RID: 24
 	[OverrideView(typeof(MenuBackgroundView))]
 	public class GauntlerMenuBackground : MenuView
 	{
-		// Token: 0x06000107 RID: 263 RVA: 0x000087E8 File Offset: 0x000069E8
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -28,7 +26,6 @@ namespace SandBox.GauntletUI.Menu
 			base.Layer.InputRestrictions.SetInputRestrictions(true, 7);
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x00008878 File Offset: 0x00006A78
 		protected override void OnFinalize()
 		{
 			GauntletLayer gauntletLayer = base.Layer as GauntletLayer;
@@ -41,7 +38,6 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFinalize();
 		}
 
-		// Token: 0x04000079 RID: 121
 		private IGauntletMovie _movie;
 	}
 }

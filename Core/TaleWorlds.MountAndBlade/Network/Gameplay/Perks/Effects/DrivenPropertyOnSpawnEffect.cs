@@ -5,15 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003BE RID: 958
 	public class DrivenPropertyOnSpawnEffect : MPOnSpawnPerkEffect
 	{
-		// Token: 0x060033A6 RID: 13222 RVA: 0x000D6200 File Offset: 0x000D4400
 		protected DrivenPropertyOnSpawnEffect()
 		{
 		}
 
-		// Token: 0x060033A7 RID: 13223 RVA: 0x000D6208 File Offset: 0x000D4408
 		protected override void Deserialize(XmlNode node)
 		{
 			base.Deserialize(node);
@@ -84,7 +81,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033A8 RID: 13224 RVA: 0x000D6300 File Offset: 0x000D4500
 		public override float GetDrivenPropertyBonusOnSpawn(bool isPlayer, DrivenProperty drivenProperty, float baseValue)
 		{
 			if (drivenProperty != this._drivenProperty || (this.EffectTarget != MPOnSpawnPerkEffectBase.Target.Any && !(isPlayer ? (this.EffectTarget == MPOnSpawnPerkEffectBase.Target.Player) : (this.EffectTarget == MPOnSpawnPerkEffectBase.Target.Troops))))
@@ -98,16 +94,12 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return baseValue * this._value;
 		}
 
-		// Token: 0x040015F2 RID: 5618
 		protected static string StringType = "DrivenPropertyOnSpawn";
 
-		// Token: 0x040015F3 RID: 5619
 		private DrivenProperty _drivenProperty;
 
-		// Token: 0x040015F4 RID: 5620
 		private float _value;
 
-		// Token: 0x040015F5 RID: 5621
 		private bool _isRatio;
 	}
 }

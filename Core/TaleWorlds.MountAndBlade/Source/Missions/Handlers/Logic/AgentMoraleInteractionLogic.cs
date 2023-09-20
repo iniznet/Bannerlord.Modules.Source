@@ -5,17 +5,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 {
-	// Token: 0x020003FC RID: 1020
 	public class AgentMoraleInteractionLogic : MissionLogic
 	{
-		// Token: 0x0600350C RID: 13580 RVA: 0x000DCEC8 File Offset: 0x000DB0C8
 		public AgentMoraleInteractionLogic()
 		{
 			this._nearbyAgentsCache = new MBList<Agent>();
 			this._nearbyAllyAgentsCache = new MBList<Agent>();
 		}
 
-		// Token: 0x0600350D RID: 13581 RVA: 0x000DCF28 File Offset: 0x000DB128
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent == null || !affectedAgent.IsHuman || (agentState != AgentState.Killed && agentState != AgentState.Unconscious))
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 			}
 		}
 
-		// Token: 0x0600350E RID: 13582 RVA: 0x000DCFAC File Offset: 0x000DB1AC
 		public override void OnAgentFleeing(Agent affectedAgent)
 		{
 			if (affectedAgent == null || !affectedAgent.IsHuman)
@@ -55,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 			}
 		}
 
-		// Token: 0x0600350F RID: 13583 RVA: 0x000DD01C File Offset: 0x000DB21C
 		private void ApplyMoraleEffectOnAgentIncapacitated(Agent affectedAgent, Agent affectorAgent, float affectedSideMaxMoraleLoss, float affectorSideMoraleMaxGain, float effectRadius)
 		{
 			AgentMoraleInteractionLogic.<>c__DisplayClass15_0 CS$<>8__locals1 = new AgentMoraleInteractionLogic.<>c__DisplayClass15_0();
@@ -114,7 +109,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 			}
 		}
 
-		// Token: 0x06003510 RID: 13584 RVA: 0x000DD324 File Offset: 0x000DB524
 		private void SelectRandomAgentsFromListToAgentSet(MBReadOnlyList<Agent> agentsList, HashSet<Agent> outputAgentsSet, int maxCountInSet, Predicate<Agent> conditions = null)
 		{
 			if (outputAgentsSet != null && agentsList != null)
@@ -128,7 +122,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 			}
 		}
 
-		// Token: 0x06003511 RID: 13585 RVA: 0x000DD368 File Offset: 0x000DB568
 		private void SelectRandomAgentsFromFormationToAgentSet(Formation formation, HashSet<Agent> outputAgentsSet, int maxCountInSet, Predicate<IFormationUnit> conditions = null)
 		{
 			if (outputAgentsSet != null && formation != null && formation.CountOfUnits > 0)
@@ -172,40 +165,28 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic
 			}
 		}
 
-		// Token: 0x040016B9 RID: 5817
 		private const float DebacleVoiceChance = 0.7f;
 
-		// Token: 0x040016BA RID: 5818
 		private const float MoraleEffectRadius = 4f;
 
-		// Token: 0x040016BB RID: 5819
 		private const int MaxNumAgentsToGainMorale = 10;
 
-		// Token: 0x040016BC RID: 5820
 		private const int MaxNumAgentsToLoseMorale = 10;
 
-		// Token: 0x040016BD RID: 5821
 		private const float SquaredDistanceForSeparateAffectorQuery = 2.25f;
 
-		// Token: 0x040016BE RID: 5822
 		private const ushort RandomSelectorCapacity = 1024;
 
-		// Token: 0x040016BF RID: 5823
 		private readonly HashSet<Agent> _agentsToReceiveMoraleGain = new HashSet<Agent>();
 
-		// Token: 0x040016C0 RID: 5824
 		private readonly HashSet<Agent> _agentsToReceiveMoraleLoss = new HashSet<Agent>();
 
-		// Token: 0x040016C1 RID: 5825
 		private readonly MBFastRandomSelector<Agent> _randomAgentSelector = new MBFastRandomSelector<Agent>(1024);
 
-		// Token: 0x040016C2 RID: 5826
 		private readonly MBFastRandomSelector<IFormationUnit> _randomFormationUnitSelector = new MBFastRandomSelector<IFormationUnit>(1024);
 
-		// Token: 0x040016C3 RID: 5827
 		private readonly MBList<Agent> _nearbyAgentsCache;
 
-		// Token: 0x040016C4 RID: 5828
 		private readonly MBList<Agent> _nearbyAllyAgentsCache;
 	}
 }

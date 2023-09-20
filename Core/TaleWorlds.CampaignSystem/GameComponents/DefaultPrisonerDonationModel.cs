@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200012F RID: 303
 	public class DefaultPrisonerDonationModel : PrisonerDonationModel
 	{
-		// Token: 0x060016D7 RID: 5847 RVA: 0x00070100 File Offset: 0x0006E300
 		public override float CalculateRelationGainAfterHeroPrisonerDonate(PartyBase donatingParty, Hero donatedHero, Settlement donatedSettlement)
 		{
 			float num = 0f;
@@ -36,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060016D8 RID: 5848 RVA: 0x000701E4 File Offset: 0x0006E3E4
 		public override float CalculateInfluenceGainAfterPrisonerDonation(PartyBase donatingParty, CharacterObject character, Settlement donatedSettlement)
 		{
 			float num = 0f;
@@ -72,7 +69,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060016D9 RID: 5849 RVA: 0x000702A8 File Offset: 0x0006E4A8
 		public override float CalculateInfluenceGainAfterTroopDonation(PartyBase donatingParty, CharacterObject donatedCharacter, Settlement donatedSettlement)
 		{
 			Hero leaderHero = donatingParty.LeaderHero;

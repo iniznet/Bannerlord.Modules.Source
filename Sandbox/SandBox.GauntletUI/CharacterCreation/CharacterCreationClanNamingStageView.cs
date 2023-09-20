@@ -20,12 +20,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.CharacterCreation
 {
-	// Token: 0x02000038 RID: 56
 	[CharacterCreationStageView(typeof(CharacterCreationClanNamingStage))]
 	public class CharacterCreationClanNamingStageView : CharacterCreationStageViewBase
 	{
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x060001F4 RID: 500 RVA: 0x0000DF44 File Offset: 0x0000C144
 		private ItemRosterElement ShieldRosterElement
 		{
 			get
@@ -34,8 +31,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			}
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x060001F5 RID: 501 RVA: 0x0000DF51 File Offset: 0x0000C151
 		private int ShieldSlotIndex
 		{
 			get
@@ -44,12 +39,8 @@ namespace SandBox.GauntletUI.CharacterCreation
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x060001F7 RID: 503 RVA: 0x0000DF67 File Offset: 0x0000C167
-		// (set) Token: 0x060001F6 RID: 502 RVA: 0x0000DF5E File Offset: 0x0000C15E
 		public SceneLayer SceneLayer { get; private set; }
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x0000DF70 File Offset: 0x0000C170
 		public CharacterCreationClanNamingStageView(CharacterCreation characterCreation, ControlCharacterCreationStage affirmativeAction, TextObject affirmativeActionText, ControlCharacterCreationStage negativeAction, TextObject negativeActionText, ControlCharacterCreationStage refreshAction, ControlCharacterCreationStageReturnInt getCurrentStageIndexAction, ControlCharacterCreationStageReturnInt getTotalStageCountAction, ControlCharacterCreationStageReturnInt getFurthestIndexAction, ControlCharacterCreationStageWithInt goToIndexAction)
 			: base(affirmativeAction, negativeAction, refreshAction, getCurrentStageIndexAction, getTotalStageCountAction, getFurthestIndexAction, goToIndexAction)
 		{
@@ -73,7 +64,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this.RefreshCharacterEntity();
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x0000E0EC File Offset: 0x0000C2EC
 		public override void Tick(float dt)
 		{
 			this.HandleUserInput();
@@ -90,7 +80,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this.HandleLayerInput();
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x0000E150 File Offset: 0x0000C350
 		private void CreateScene()
 		{
 			this._scene = Scene.CreateNewScene(true, false, 0, "mono_renderscene");
@@ -125,7 +114,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this.AddCharacterEntity(this._idleAction);
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x0000E300 File Offset: 0x0000C500
 		private void AddCharacterEntity(ActionIndexCache action)
 		{
 			this._weaponEquipment = new Equipment();
@@ -164,13 +152,11 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this.UpdateBanners();
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0000E44D File Offset: 0x0000C64D
 		private void UpdateBanners()
 		{
 			this._banner.GetTableauTextureLarge(new Action<Texture>(this.OnNewBannerReadyForBanners));
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x0000E468 File Offset: 0x0000C668
 		private void OnNewBannerReadyForBanners(Texture newTexture)
 		{
 			if (this._scene == null)
@@ -199,7 +185,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			}
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x0000E504 File Offset: 0x0000C704
 		private void RefreshCharacterEntity()
 		{
 			this._weaponEquipment.AddEquipmentToSlotWithoutAgent(this.ShieldSlotIndex, this.ShieldRosterElement.EquipmentElement);
@@ -217,7 +202,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this._banner.GetTableauTextureLarge(action);
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x0000E5EE File Offset: 0x0000C7EE
 		private void HandleLayerInput()
 		{
 			if (this.IsGameKeyReleasedInAnyLayer("Exit"))
@@ -231,7 +215,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			}
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x0000E630 File Offset: 0x0000C830
 		private void HandleUserInput()
 		{
 			if (this.SceneLayer.Input.IsHotKeyReleased("Ascend") || this.SceneLayer.Input.IsHotKeyReleased("Rotate") || this.SceneLayer.Input.IsHotKeyReleased("Zoom"))
@@ -264,7 +247,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			}
 		}
 
-		// Token: 0x06000201 RID: 513 RVA: 0x0000E808 File Offset: 0x0000CA08
 		private void UpdateCamera(float dt)
 		{
 			this._cameraCurrentRotation += MBMath.WrapAngle(this._cameraTargetRotation - this._cameraCurrentRotation) * MathF.Min(1f, 10f * dt);
@@ -281,19 +263,16 @@ namespace SandBox.GauntletUI.CharacterCreation
 			SoundManager.SetListenerFrame(characterFrame);
 		}
 
-		// Token: 0x06000202 RID: 514 RVA: 0x0000E95F File Offset: 0x0000CB5F
 		public override IEnumerable<ScreenLayer> GetLayers()
 		{
 			return new List<ScreenLayer> { this.SceneLayer, this.GauntletLayer };
 		}
 
-		// Token: 0x06000203 RID: 515 RVA: 0x0000E97E File Offset: 0x0000CB7E
 		public override int GetVirtualStageCount()
 		{
 			return 1;
 		}
 
-		// Token: 0x06000204 RID: 516 RVA: 0x0000E984 File Offset: 0x0000CB84
 		public override void NextStage()
 		{
 			TextObject textObject = new TextObject(this._dataSource.ClanName, null);
@@ -308,7 +287,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			affirmativeAction.Invoke();
 		}
 
-		// Token: 0x06000205 RID: 517 RVA: 0x0000E9D8 File Offset: 0x0000CBD8
 		public override void PreviousStage()
 		{
 			ControlCharacterCreationStage negativeAction = this._negativeAction;
@@ -319,7 +297,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			negativeAction.Invoke();
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x0000E9EC File Offset: 0x0000CBEC
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -341,14 +318,12 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this._scene = null;
 		}
 
-		// Token: 0x06000207 RID: 519 RVA: 0x0000EA81 File Offset: 0x0000CC81
 		public override void LoadEscapeMenuMovie()
 		{
 			this._escapeMenuDatasource = new EscapeMenuVM(base.GetEscapeMenuItems(this), null);
 			this._escapeMenuMovie = this.GauntletLayer.LoadMovie("EscapeMenu", this._escapeMenuDatasource);
 		}
 
-		// Token: 0x06000208 RID: 520 RVA: 0x0000EAB2 File Offset: 0x0000CCB2
 		public override void ReleaseEscapeMenuMovie()
 		{
 			this.GauntletLayer.ReleaseMovie(this._escapeMenuMovie);
@@ -356,7 +331,6 @@ namespace SandBox.GauntletUI.CharacterCreation
 			this._escapeMenuMovie = null;
 		}
 
-		// Token: 0x06000209 RID: 521 RVA: 0x0000EAD4 File Offset: 0x0000CCD4
 		private bool IsGameKeyReleasedInAnyLayer(string hotKeyID)
 		{
 			bool flag = this.IsReleasedInSceneLayer(hotKeyID);
@@ -364,87 +338,62 @@ namespace SandBox.GauntletUI.CharacterCreation
 			return flag || flag2;
 		}
 
-		// Token: 0x0600020A RID: 522 RVA: 0x0000EAF2 File Offset: 0x0000CCF2
 		private bool IsReleasedInSceneLayer(string hotKeyID)
 		{
 			SceneLayer sceneLayer = this.SceneLayer;
 			return sceneLayer != null && sceneLayer.Input.IsHotKeyReleased(hotKeyID);
 		}
 
-		// Token: 0x0600020B RID: 523 RVA: 0x0000EB0B File Offset: 0x0000CD0B
 		private bool IsReleasedInGauntletLayer(string hotKeyID)
 		{
 			GauntletLayer gauntletLayer = this.GauntletLayer;
 			return gauntletLayer != null && gauntletLayer.Input.IsHotKeyReleased(hotKeyID);
 		}
 
-		// Token: 0x04000109 RID: 265
 		private CharacterCreation _characterCreation;
 
-		// Token: 0x0400010A RID: 266
 		private GauntletLayer GauntletLayer;
 
-		// Token: 0x0400010B RID: 267
 		private CharacterCreationClanNamingStageVM _dataSource;
 
-		// Token: 0x0400010C RID: 268
 		private IGauntletMovie _clanNamingStageMovie;
 
-		// Token: 0x0400010D RID: 269
 		private TextObject _affirmativeActionText;
 
-		// Token: 0x0400010E RID: 270
 		private TextObject _negativeActionText;
 
-		// Token: 0x0400010F RID: 271
 		private Banner _banner;
 
-		// Token: 0x04000110 RID: 272
 		private float _cameraCurrentRotation;
 
-		// Token: 0x04000111 RID: 273
 		private float _cameraTargetRotation;
 
-		// Token: 0x04000112 RID: 274
 		private float _cameraCurrentDistanceAdder;
 
-		// Token: 0x04000113 RID: 275
 		private float _cameraTargetDistanceAdder;
 
-		// Token: 0x04000114 RID: 276
 		private float _cameraCurrentElevationAdder;
 
-		// Token: 0x04000115 RID: 277
 		private float _cameraTargetElevationAdder;
 
-		// Token: 0x04000116 RID: 278
 		private readonly BasicCharacterObject _character;
 
-		// Token: 0x04000117 RID: 279
 		private Scene _scene;
 
-		// Token: 0x04000118 RID: 280
 		private readonly ActionIndexCache _idleAction = ActionIndexCache.Create("act_walk_idle_1h_with_shield_left_stance");
 
-		// Token: 0x04000119 RID: 281
 		private MBAgentRendererSceneController _agentRendererSceneController;
 
-		// Token: 0x0400011A RID: 282
 		private AgentVisuals _agentVisuals;
 
-		// Token: 0x0400011B RID: 283
 		private MatrixFrame _characterFrame;
 
-		// Token: 0x0400011C RID: 284
 		private Equipment _weaponEquipment;
 
-		// Token: 0x0400011D RID: 285
 		private Camera _camera;
 
-		// Token: 0x0400011F RID: 287
 		private EscapeMenuVM _escapeMenuDatasource;
 
-		// Token: 0x04000120 RID: 288
 		private IGauntletMovie _escapeMenuMovie;
 	}
 }

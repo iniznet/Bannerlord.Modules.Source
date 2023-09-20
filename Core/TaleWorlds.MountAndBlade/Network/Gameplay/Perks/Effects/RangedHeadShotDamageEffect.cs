@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CC RID: 972
 	public class RangedHeadShotDamageEffect : MPPerkEffect
 	{
-		// Token: 0x060033E5 RID: 13285 RVA: 0x000D7249 File Offset: 0x000D5449
 		protected RangedHeadShotDamageEffect()
 		{
 		}
 
-		// Token: 0x060033E6 RID: 13286 RVA: 0x000D7254 File Offset: 0x000D5454
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -60,16 +57,13 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033E7 RID: 13287 RVA: 0x000D72F8 File Offset: 0x000D54F8
 		public override float GetRangedHeadShotDamage()
 		{
 			return this._value;
 		}
 
-		// Token: 0x04001615 RID: 5653
 		protected static string StringType = "RangedHeadShotDamage";
 
-		// Token: 0x04001616 RID: 5654
 		private float _value;
 	}
 }

@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001DF RID: 479
 	public class CustomBattleInitializationModel : BattleInitializationModel
 	{
-		// Token: 0x06001B39 RID: 6969 RVA: 0x0005FD08 File Offset: 0x0005DF08
 		public override List<FormationClass> GetAllAvailableTroopTypes()
 		{
 			List<FormationClass> list = new List<FormationClass>();
@@ -35,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001B3A RID: 6970 RVA: 0x0005FDF0 File Offset: 0x0005DFF0
 		protected override bool CanPlayerSideDeployWithOrderOfBattleAux()
 		{
 			if (Mission.Current.IsSallyOutBattle)

@@ -21,11 +21,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200022D RID: 557
 	public class LobbyState : GameState
 	{
-		// Token: 0x1700060D RID: 1549
-		// (get) Token: 0x06001E5D RID: 7773 RVA: 0x0006D105 File Offset: 0x0006B305
 		private bool AutoConnect
 		{
 			get
@@ -34,8 +31,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700060E RID: 1550
-		// (get) Token: 0x06001E5E RID: 7774 RVA: 0x0006D11D File Offset: 0x0006B31D
 		public override bool IsMenuState
 		{
 			get
@@ -44,8 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700060F RID: 1551
-		// (get) Token: 0x06001E5F RID: 7775 RVA: 0x0006D120 File Offset: 0x0006B320
 		public override bool IsMusicMenuState
 		{
 			get
@@ -54,14 +47,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000610 RID: 1552
-		// (get) Token: 0x06001E60 RID: 7776 RVA: 0x0006D123 File Offset: 0x0006B323
-		// (set) Token: 0x06001E61 RID: 7777 RVA: 0x0006D12B File Offset: 0x0006B32B
 		public bool IsLoggingIn { get; private set; }
 
-		// Token: 0x17000611 RID: 1553
-		// (get) Token: 0x06001E62 RID: 7778 RVA: 0x0006D134 File Offset: 0x0006B334
-		// (set) Token: 0x06001E63 RID: 7779 RVA: 0x0006D13C File Offset: 0x0006B33C
 		public ILobbyStateHandler Handler
 		{
 			get
@@ -74,8 +61,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000612 RID: 1554
-		// (get) Token: 0x06001E64 RID: 7780 RVA: 0x0006D145 File Offset: 0x0006B345
 		public LobbyClient LobbyClient
 		{
 			get
@@ -84,38 +69,21 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000613 RID: 1555
-		// (get) Token: 0x06001E65 RID: 7781 RVA: 0x0006D14C File Offset: 0x0006B34C
-		// (set) Token: 0x06001E66 RID: 7782 RVA: 0x0006D154 File Offset: 0x0006B354
 		public NewsManager NewsManager { get; private set; }
 
-		// Token: 0x17000614 RID: 1556
-		// (get) Token: 0x06001E67 RID: 7783 RVA: 0x0006D15D File Offset: 0x0006B35D
-		// (set) Token: 0x06001E68 RID: 7784 RVA: 0x0006D165 File Offset: 0x0006B365
 		public bool? HasMultiplayerPrivilege { get; private set; }
 
-		// Token: 0x17000615 RID: 1557
-		// (get) Token: 0x06001E69 RID: 7785 RVA: 0x0006D16E File Offset: 0x0006B36E
-		// (set) Token: 0x06001E6A RID: 7786 RVA: 0x0006D176 File Offset: 0x0006B376
 		public bool? HasCrossplayPrivilege { get; private set; }
 
-		// Token: 0x17000616 RID: 1558
-		// (get) Token: 0x06001E6B RID: 7787 RVA: 0x0006D17F File Offset: 0x0006B37F
-		// (set) Token: 0x06001E6C RID: 7788 RVA: 0x0006D187 File Offset: 0x0006B387
 		public bool? HasUserGeneratedContentPrivilege { get; private set; }
 
-		// Token: 0x14000026 RID: 38
-		// (add) Token: 0x06001E6D RID: 7789 RVA: 0x0006D190 File Offset: 0x0006B390
-		// (remove) Token: 0x06001E6E RID: 7790 RVA: 0x0006D1C8 File Offset: 0x0006B3C8
 		public event Action<GameServerEntry> ClientRefusedToJoinCustomServer;
 
-		// Token: 0x06001E6F RID: 7791 RVA: 0x0006D1FD File Offset: 0x0006B3FD
 		public void InitializeLogic(ILobbyStateHandler lobbyStateHandler)
 		{
 			this.Handler = lobbyStateHandler;
 		}
 
-		// Token: 0x06001E70 RID: 7792 RVA: 0x0006D208 File Offset: 0x0006B408
 		protected override async void OnInitialize()
 		{
 			base.OnInitialize();
@@ -166,7 +134,6 @@ namespace TaleWorlds.MountAndBlade
 			PlatformServices.OnPlatformRequestedMultiplayer = (Action)Delegate.Combine(PlatformServices.OnPlatformRequestedMultiplayer, new Action(this.OnPlatformRequestedMultiplayer));
 		}
 
-		// Token: 0x06001E71 RID: 7793 RVA: 0x0006D241 File Offset: 0x0006B441
 		private void OnPlayerNameUpdated(string newName)
 		{
 			this.LobbyClient.OnPlayerNameUpdated(newName);
@@ -178,7 +145,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPlayerNameUpdated(newName);
 		}
 
-		// Token: 0x06001E72 RID: 7794 RVA: 0x0006D260 File Offset: 0x0006B460
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -201,13 +167,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E73 RID: 7795 RVA: 0x0006D38C File Offset: 0x0006B58C
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
 		}
 
-		// Token: 0x06001E74 RID: 7796 RVA: 0x0006D398 File Offset: 0x0006B598
 		private string GetApplicableNewsSourceURL()
 		{
 			bool flag = this.NewsManager.LocalizationID == "zh";
@@ -220,7 +184,6 @@ namespace TaleWorlds.MountAndBlade
 			return "https://taleworldswebsiteassets.blob.core.windows.net/upload/bannerlordnews/NewsFeed_" + text + "_preview.json";
 		}
 
-		// Token: 0x06001E75 RID: 7797 RVA: 0x0006D3FC File Offset: 0x0006B5FC
 		[Conditional("_RGL_KEEP_ASSERTS")]
 		private void CheckValidityOfItems()
 		{
@@ -242,7 +205,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E76 RID: 7798 RVA: 0x0006D4DC File Offset: 0x0006B6DC
 		public async Task UpdateHasMultiplayerPrivilege()
 		{
 			TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
@@ -259,7 +221,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E77 RID: 7799 RVA: 0x0006D524 File Offset: 0x0006B724
 		public async Task UpdateHasCrossplayPrivilege()
 		{
 			TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
@@ -276,7 +237,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E78 RID: 7800 RVA: 0x0006D569 File Offset: 0x0006B769
 		public void OnClientRefusedToJoinCustomServer(GameServerEntry serverEntry)
 		{
 			Action<GameServerEntry> clientRefusedToJoinCustomServer = this.ClientRefusedToJoinCustomServer;
@@ -287,7 +247,6 @@ namespace TaleWorlds.MountAndBlade
 			clientRefusedToJoinCustomServer(serverEntry);
 		}
 
-		// Token: 0x06001E79 RID: 7801 RVA: 0x0006D57C File Offset: 0x0006B77C
 		public async Task UpdateHasUserGeneratedContentPrivilege(bool showResolveUI)
 		{
 			TaskCompletionSource<bool> tsc = new TaskCompletionSource<bool>();
@@ -304,7 +263,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E7A RID: 7802 RVA: 0x0006D5CC File Offset: 0x0006B7CC
 		public async Task TryLogin()
 		{
 			this.IsLoggingIn = true;
@@ -362,7 +320,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsLoggingIn = false;
 		}
 
-		// Token: 0x06001E7B RID: 7803 RVA: 0x0006D614 File Offset: 0x0006B814
 		public async Task TryLogin(string userName, string password)
 		{
 			this.IsLoggingIn = true;
@@ -374,7 +331,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsLoggingIn = false;
 		}
 
-		// Token: 0x06001E7C RID: 7804 RVA: 0x0006D664 File Offset: 0x0006B864
 		public void HostGame()
 		{
 			if (string.IsNullOrEmpty(MultiplayerOptions.OptionType.ServerName.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)))
@@ -400,7 +356,6 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.Instance.InitializeAllOptionsFromCurrent();
 		}
 
-		// Token: 0x06001E7D RID: 7805 RVA: 0x0006D74C File Offset: 0x0006B94C
 		public void CreatePremadeGame()
 		{
 			string strValue = MultiplayerOptions.OptionType.ServerName.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
@@ -443,7 +398,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ShowFeedback(new TextObject("{=oZrVNUOk}Error", null).ToString(), new TextObject("{=EgTUzWUz}Name Can't Be Empty!", null).ToString());
 		}
 
-		// Token: 0x06001E7E RID: 7806 RVA: 0x0006D8D4 File Offset: 0x0006BAD4
 		public string ShowFeedback(string title, string message)
 		{
 			if (this.Handler != null)
@@ -453,7 +407,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06001E7F RID: 7807 RVA: 0x0006D8ED File Offset: 0x0006BAED
 		public string ShowFeedback(InquiryData inquiryData)
 		{
 			if (this.Handler != null)
@@ -463,7 +416,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06001E80 RID: 7808 RVA: 0x0006D905 File Offset: 0x0006BB05
 		public void DismissFeedback(string messageId)
 		{
 			if (this.Handler != null)
@@ -472,7 +424,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E81 RID: 7809 RVA: 0x0006D91B File Offset: 0x0006BB1B
 		public void OnPause()
 		{
 			if (this.Handler != null)
@@ -481,7 +432,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E82 RID: 7810 RVA: 0x0006D930 File Offset: 0x0006BB30
 		public void OnResume()
 		{
 			if (this.Handler != null)
@@ -490,7 +440,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E83 RID: 7811 RVA: 0x0006D945 File Offset: 0x0006BB45
 		public void OnRequestedToSearchBattle()
 		{
 			if (this.Handler != null)
@@ -499,7 +448,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E84 RID: 7812 RVA: 0x0006D95A File Offset: 0x0006BB5A
 		public void OnUpdateFindingGame(MatchmakingWaitTimeStats matchmakingWaitTimeStats, string[] gameTypeInfo = null)
 		{
 			if (this.Handler != null)
@@ -508,7 +456,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E85 RID: 7813 RVA: 0x0006D971 File Offset: 0x0006BB71
 		public void OnRequestedToCancelSearchBattle()
 		{
 			if (this.Handler != null)
@@ -517,7 +464,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E86 RID: 7814 RVA: 0x0006D986 File Offset: 0x0006BB86
 		public void OnCancelFindingGame()
 		{
 			if (this.Handler != null)
@@ -526,7 +472,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E87 RID: 7815 RVA: 0x0006D99C File Offset: 0x0006BB9C
 		public void OnDisconnected(TextObject feedback)
 		{
 			if (this.Handler != null)
@@ -540,7 +485,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E88 RID: 7816 RVA: 0x0006D9DE File Offset: 0x0006BBDE
 		public void OnPlayerDataReceived(PlayerData playerData)
 		{
 			if (this.Handler != null)
@@ -549,7 +493,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E89 RID: 7817 RVA: 0x0006D9F4 File Offset: 0x0006BBF4
 		public void OnPendingRejoin()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -560,7 +503,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPendingRejoin();
 		}
 
-		// Token: 0x06001E8A RID: 7818 RVA: 0x0006DA06 File Offset: 0x0006BC06
 		public void OnEnterBattleWithParty(string[] selectedGameTypes)
 		{
 			if (this.Handler != null)
@@ -569,7 +511,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E8B RID: 7819 RVA: 0x0006DA1C File Offset: 0x0006BC1C
 		public async void OnPartyInvitationReceived(string inviterPlayerName, PlayerId playerId)
 		{
 			while (this.IsLoggingIn)
@@ -627,7 +568,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E8C RID: 7820 RVA: 0x0006DA5D File Offset: 0x0006BC5D
 		public void OnAdminMessageReceived(string message)
 		{
 			if (this.Handler != null)
@@ -636,7 +576,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E8D RID: 7821 RVA: 0x0006DA73 File Offset: 0x0006BC73
 		public void OnPartyInvitationInvalidated()
 		{
 			if (this.Handler != null)
@@ -645,7 +584,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E8E RID: 7822 RVA: 0x0006DA88 File Offset: 0x0006BC88
 		public void OnPlayerInvitedToParty(PlayerId playerId)
 		{
 			if (this.Handler != null)
@@ -654,7 +592,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E8F RID: 7823 RVA: 0x0006DAA0 File Offset: 0x0006BCA0
 		public void OnPlayerRemovedFromParty(PlayerId playerId, PartyRemoveReason reason)
 		{
 			if (playerId.Equals(this.LobbyClient.PlayerID))
@@ -676,7 +613,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E90 RID: 7824 RVA: 0x0006DB24 File Offset: 0x0006BD24
 		public void OnPlayersAddedToParty([TupleElementNames(new string[] { "PlayerId", "PlayerName", "IsPartyLeader" })] List<ValueTuple<PlayerId, string, bool>> addedPlayers, [TupleElementNames(new string[] { "PlayerId", "PlayerName" })] List<ValueTuple<PlayerId, string>> invitedPlayers)
 		{
 			using (List<ValueTuple<PlayerId, string, bool>>.Enumerator enumerator = addedPlayers.GetEnumerator())
@@ -749,7 +685,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E91 RID: 7825 RVA: 0x0006DCC0 File Offset: 0x0006BEC0
 		private void MultiplayerPermissionWithPlayerChanged(PlayerId targetPlayerId, Permission permission, bool hasPermission)
 		{
 			if (!hasPermission && NetworkMain.GameClient.PlayersInParty.FirstOrDefault((PartyPlayerInLobbyClient p) => p.PlayerId == targetPlayerId) != null)
@@ -758,7 +693,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E92 RID: 7826 RVA: 0x0006DD10 File Offset: 0x0006BF10
 		public void OnGameClientStateChange(LobbyClient.State state)
 		{
 			if (!this.LobbyClient.IsInGame)
@@ -785,7 +719,6 @@ namespace TaleWorlds.MountAndBlade
 			PlatformServices.LobbyClientStateChanged(state == LobbyClient.State.AtLobby, !this.LobbyClient.IsInParty || this.LobbyClient.IsPartyLeader);
 		}
 
-		// Token: 0x06001E93 RID: 7827 RVA: 0x0006DDAD File Offset: 0x0006BFAD
 		public void SetConnectionState(bool isAuthenticated)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -796,7 +729,6 @@ namespace TaleWorlds.MountAndBlade
 			PlatformServices.ConnectionStateChanged(isAuthenticated);
 		}
 
-		// Token: 0x06001E94 RID: 7828 RVA: 0x0006DDC7 File Offset: 0x0006BFC7
 		public void OnActivateHome()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -807,7 +739,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateHome();
 		}
 
-		// Token: 0x06001E95 RID: 7829 RVA: 0x0006DDD9 File Offset: 0x0006BFD9
 		public void OnActivateCustomServer()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -818,7 +749,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateCustomServer();
 		}
 
-		// Token: 0x06001E96 RID: 7830 RVA: 0x0006DDEB File Offset: 0x0006BFEB
 		public void OnActivateMatchmaking()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -829,7 +759,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateMatchmaking();
 		}
 
-		// Token: 0x06001E97 RID: 7831 RVA: 0x0006DDFD File Offset: 0x0006BFFD
 		public void OnActivateProfile()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -840,7 +769,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateProfile();
 		}
 
-		// Token: 0x06001E98 RID: 7832 RVA: 0x0006DE0F File Offset: 0x0006C00F
 		public void OnClanInvitationReceived(string clanName, string clanTag, bool isCreation)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -851,7 +779,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanInvitationReceived(clanName, clanTag, isCreation);
 		}
 
-		// Token: 0x06001E99 RID: 7833 RVA: 0x0006DE24 File Offset: 0x0006C024
 		public void OnClanInvitationAnswered(PlayerId playerId, ClanCreationAnswer answer)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -862,7 +789,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanInvitationAnswered(playerId, answer);
 		}
 
-		// Token: 0x06001E9A RID: 7834 RVA: 0x0006DE38 File Offset: 0x0006C038
 		public void OnClanCreationSuccessful()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -873,7 +799,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanCreationSuccessful();
 		}
 
-		// Token: 0x06001E9B RID: 7835 RVA: 0x0006DE4A File Offset: 0x0006C04A
 		public void OnClanCreationFailed()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -884,7 +809,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanCreationFailed();
 		}
 
-		// Token: 0x06001E9C RID: 7836 RVA: 0x0006DE5C File Offset: 0x0006C05C
 		public void OnClanCreationStarted()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -895,7 +819,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanCreationStarted();
 		}
 
-		// Token: 0x06001E9D RID: 7837 RVA: 0x0006DE6E File Offset: 0x0006C06E
 		public void OnClanInfoChanged()
 		{
 			ClanFriendListService clanFriendListService = this._clanFriendListService;
@@ -911,7 +834,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnClanInfoChanged();
 		}
 
-		// Token: 0x06001E9E RID: 7838 RVA: 0x0006DE9C File Offset: 0x0006C09C
 		public void OnPremadeGameEligibilityStatusReceived(bool isEligible)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -922,7 +844,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPremadeGameEligibilityStatusReceived(isEligible);
 		}
 
-		// Token: 0x06001E9F RID: 7839 RVA: 0x0006DEAF File Offset: 0x0006C0AF
 		public void OnPremadeGameCreated()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -933,7 +854,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPremadeGameCreated();
 		}
 
-		// Token: 0x06001EA0 RID: 7840 RVA: 0x0006DEC1 File Offset: 0x0006C0C1
 		public void OnPremadeGameListReceived()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -944,7 +864,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPremadeGameListReceived();
 		}
 
-		// Token: 0x06001EA1 RID: 7841 RVA: 0x0006DED3 File Offset: 0x0006C0D3
 		public void OnPremadeGameCreationCancelled()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -955,7 +874,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPremadeGameCreationCancelled();
 		}
 
-		// Token: 0x06001EA2 RID: 7842 RVA: 0x0006DEE5 File Offset: 0x0006C0E5
 		public void OnJoinPremadeGameRequested(string clanName, string clanSigilCode, Guid partyId, PlayerId[] challengerPlayerIDs, PlayerId challengerPartyLeaderID, PremadeGameType premadeGameType)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -966,7 +884,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnJoinPremadeGameRequested(clanName, clanSigilCode, partyId, challengerPlayerIDs, challengerPartyLeaderID, premadeGameType);
 		}
 
-		// Token: 0x06001EA3 RID: 7843 RVA: 0x0006DF00 File Offset: 0x0006C100
 		public void OnJoinPremadeGameRequestSuccessful()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -977,7 +894,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnJoinPremadeGameRequestSuccessful();
 		}
 
-		// Token: 0x06001EA4 RID: 7844 RVA: 0x0006DF12 File Offset: 0x0006C112
 		public void OnActivateArmory()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -988,7 +904,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateArmory();
 		}
 
-		// Token: 0x06001EA5 RID: 7845 RVA: 0x0006DF24 File Offset: 0x0006C124
 		public void OnActivateOptions()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -999,7 +914,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnActivateOptions();
 		}
 
-		// Token: 0x06001EA6 RID: 7846 RVA: 0x0006DF36 File Offset: 0x0006C136
 		public void OnDeactivateOptions()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1010,7 +924,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnDeactivateOptions();
 		}
 
-		// Token: 0x06001EA7 RID: 7847 RVA: 0x0006DF48 File Offset: 0x0006C148
 		public void OnCustomGameServerListReceived(AvailableCustomGames customGameServerList)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1021,7 +934,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnCustomGameServerListReceived(customGameServerList);
 		}
 
-		// Token: 0x06001EA8 RID: 7848 RVA: 0x0006DF5B File Offset: 0x0006C15B
 		public void OnMatchmakerGameOver(int oldExp, int newExp, List<string> badgesEarned, int lootGained, RankBarInfo oldRankBarInfo, RankBarInfo newRankBarInfo)
 		{
 			if (this.Handler != null)
@@ -1030,7 +942,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EA9 RID: 7849 RVA: 0x0006DF79 File Offset: 0x0006C179
 		public void OnBattleServerLost()
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1041,7 +952,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnBattleServerLost();
 		}
 
-		// Token: 0x06001EAA RID: 7850 RVA: 0x0006DF8B File Offset: 0x0006C18B
 		public void OnRemovedFromMatchmakerGame(DisconnectType disconnectType)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1052,7 +962,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnRemovedFromMatchmakerGame(disconnectType);
 		}
 
-		// Token: 0x06001EAB RID: 7851 RVA: 0x0006DF9E File Offset: 0x0006C19E
 		public void OnRemovedFromCustomGame(DisconnectType disconnectType)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1063,7 +972,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnRemovedFromCustomGame(disconnectType);
 		}
 
-		// Token: 0x06001EAC RID: 7852 RVA: 0x0006DFB1 File Offset: 0x0006C1B1
 		public void OnPlayerAssignedPartyLeader(PlayerId partyLeaderId)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1074,7 +982,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPlayerAssignedPartyLeader(partyLeaderId);
 		}
 
-		// Token: 0x06001EAD RID: 7853 RVA: 0x0006DFC4 File Offset: 0x0006C1C4
 		public void OnPlayerSuggestedToParty(PlayerId playerId, string playerName, PlayerId suggestingPlayerId, string suggestingPlayerName)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1085,7 +992,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnPlayerSuggestedToParty(playerId, playerName, suggestingPlayerId, suggestingPlayerName);
 		}
 
-		// Token: 0x06001EAE RID: 7854 RVA: 0x0006DFDB File Offset: 0x0006C1DB
 		public void OnJoinCustomGameFailureResponse(CustomGameJoinResponse response)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1096,7 +1002,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnJoinCustomGameFailureResponse(response);
 		}
 
-		// Token: 0x06001EAF RID: 7855 RVA: 0x0006DFEE File Offset: 0x0006C1EE
 		public void OnServerStatusReceived(ServerStatus serverStatus)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1107,7 +1012,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnServerStatusReceived(serverStatus);
 		}
 
-		// Token: 0x06001EB0 RID: 7856 RVA: 0x0006E001 File Offset: 0x0006C201
 		public void OnFriendListReceived(FriendInfo[] friends)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1123,7 +1027,6 @@ namespace TaleWorlds.MountAndBlade
 			bannerlordFriendListService.OnFriendListReceived(friends);
 		}
 
-		// Token: 0x06001EB1 RID: 7857 RVA: 0x0006E025 File Offset: 0x0006C225
 		public void OnRecentPlayerStatusesReceived(FriendInfo[] friends)
 		{
 			RecentPlayersFriendListService recentPlayersFriendListService = this._recentPlayersFriendListService;
@@ -1134,7 +1037,6 @@ namespace TaleWorlds.MountAndBlade
 			recentPlayersFriendListService.OnFriendListReceived(friends);
 		}
 
-		// Token: 0x06001EB2 RID: 7858 RVA: 0x0006E038 File Offset: 0x0006C238
 		public void OnBattleServerInformationReceived(BattleServerInformationForClient battleServerInformation)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1145,7 +1047,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnBattleServerInformationReceived(battleServerInformation);
 		}
 
-		// Token: 0x06001EB3 RID: 7859 RVA: 0x0006E04B File Offset: 0x0006C24B
 		public void OnRejoinBattleRequestAnswered(bool isSuccessful)
 		{
 			ILobbyStateHandler handler = this.Handler;
@@ -1156,7 +1057,6 @@ namespace TaleWorlds.MountAndBlade
 			handler.OnRejoinBattleRequestAnswered(isSuccessful);
 		}
 
-		// Token: 0x06001EB4 RID: 7860 RVA: 0x0006E05E File Offset: 0x0006C25E
 		internal void OnSigilChanged()
 		{
 			if (this.Handler != null)
@@ -1165,7 +1065,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EB5 RID: 7861 RVA: 0x0006E073 File Offset: 0x0006C273
 		public void OnNotificationsReceived(LobbyNotification[] notifications)
 		{
 			if (this.Handler != null)
@@ -1174,7 +1073,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EB6 RID: 7862 RVA: 0x0006E089 File Offset: 0x0006C289
 		private void OnPlatformSignInStateUpdated(bool isSignedIn, TextObject message)
 		{
 			if (!isSignedIn && this.LobbyClient.Connected)
@@ -1183,7 +1081,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EB7 RID: 7863 RVA: 0x0006E0B8 File Offset: 0x0006C2B8
 		[Conditional("DEBUG")]
 		private void PrintCompressionInfoKey()
 		{
@@ -1234,7 +1131,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EB8 RID: 7864 RVA: 0x0006E2A4 File Offset: 0x0006C4A4
 		public async Task<bool> OnInviteToPlatformSession(PlayerId playerId)
 		{
 			bool flag;
@@ -1258,7 +1154,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06001EB9 RID: 7865 RVA: 0x0006E2F4 File Offset: 0x0006C4F4
 		public async void OnPlatformRequestedMultiplayer()
 		{
 			PlatformServices.OnPlatformMultiplayerRequestHandled();
@@ -1278,7 +1173,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EBA RID: 7866 RVA: 0x0006E330 File Offset: 0x0006C530
 		public async void OnSessionInvitationAccepted(SessionInvitationType targetGameType)
 		{
 			if (targetGameType == SessionInvitationType.Multiplayer)
@@ -1323,7 +1217,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001EBB RID: 7867 RVA: 0x0006E374 File Offset: 0x0006C574
 		public List<CustomServerAction> GetCustomActionsForServer(GameServerEntry gameServerEntry)
 		{
 			List<CustomServerAction> list = new List<CustomServerAction>();
@@ -1338,53 +1231,39 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001EBC RID: 7868 RVA: 0x0006E3C4 File Offset: 0x0006C5C4
 		public void RegisterForCustomServerAction(Func<GameServerEntry, List<CustomServerAction>> action)
 		{
 			this._onCustomServerActionRequestedForServerEntry.Add(action);
 		}
 
-		// Token: 0x06001EBD RID: 7869 RVA: 0x0006E3D2 File Offset: 0x0006C5D2
 		public void UnregisterForCustomServerAction(Func<GameServerEntry, List<CustomServerAction>> action)
 		{
 			this._onCustomServerActionRequestedForServerEntry.Remove(action);
 		}
 
-		// Token: 0x04000B39 RID: 2873
 		private const string _newsSourceURLBase = "https://taleworldswebsiteassets.blob.core.windows.net/upload/bannerlordnews/NewsFeed_";
 
-		// Token: 0x04000B3A RID: 2874
 		private BannerlordFriendListService _bannerlordFriendListService;
 
-		// Token: 0x04000B3B RID: 2875
 		private RecentPlayersFriendListService _recentPlayersFriendListService;
 
-		// Token: 0x04000B3C RID: 2876
 		private ClanFriendListService _clanFriendListService;
 
-		// Token: 0x04000B3E RID: 2878
 		private readonly object _sessionInvitationDataLock = new object();
 
-		// Token: 0x04000B3F RID: 2879
 		[TupleElementNames(new string[] { "PlayerId", "Permission" })]
 		private ConcurrentDictionary<ValueTuple<PlayerId, Permission>, bool> _registeredPermissionEvents = new ConcurrentDictionary<ValueTuple<PlayerId, Permission>, bool>();
 
-		// Token: 0x04000B40 RID: 2880
 		private ILobbyStateHandler _handler;
 
-		// Token: 0x04000B41 RID: 2881
 		private LobbyGameClientHandler _lobbyGameClientManager;
 
-		// Token: 0x04000B42 RID: 2882
 		private List<Func<GameServerEntry, List<CustomServerAction>>> _onCustomServerActionRequestedForServerEntry;
 
-		// Token: 0x04000B44 RID: 2884
 		public Action<bool> OnMultiplayerPrivilegeUpdated;
 
-		// Token: 0x04000B45 RID: 2885
 		public Action<bool> OnCrossplayPrivilegeUpdated;
 
-		// Token: 0x04000B46 RID: 2886
 		public Action<bool> OnUserGeneratedContentPrivilegeUpdated;
 	}
 }

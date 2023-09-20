@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000012 RID: 18
 	public class CustomGameManager : MBGameManager
 	{
-		// Token: 0x060000FA RID: 250 RVA: 0x00008244 File Offset: 0x00006444
 		protected override void DoLoadingForGameManager(GameManagerLoadingSteps gameManagerLoadingStep, out GameManagerLoadingSteps nextStep)
 		{
 			nextStep = -1;
@@ -46,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000FB RID: 251 RVA: 0x00008318 File Offset: 0x00006518
 		public override void OnLoadFinished()
 		{
 			base.OnLoadFinished();

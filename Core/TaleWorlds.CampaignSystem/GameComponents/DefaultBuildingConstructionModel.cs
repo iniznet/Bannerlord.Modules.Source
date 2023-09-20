@@ -11,11 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F5 RID: 245
 	public class DefaultBuildingConstructionModel : BuildingConstructionModel
 	{
-		// Token: 0x170005CC RID: 1484
-		// (get) Token: 0x0600149D RID: 5277 RVA: 0x0005BD67 File Offset: 0x00059F67
 		public override int TownBoostCost
 		{
 			get
@@ -24,8 +21,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005CD RID: 1485
-		// (get) Token: 0x0600149E RID: 5278 RVA: 0x0005BD6E File Offset: 0x00059F6E
 		public override int TownBoostBonus
 		{
 			get
@@ -34,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005CE RID: 1486
-		// (get) Token: 0x0600149F RID: 5279 RVA: 0x0005BD72 File Offset: 0x00059F72
 		public override int CastleBoostCost
 		{
 			get
@@ -44,8 +37,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005CF RID: 1487
-		// (get) Token: 0x060014A0 RID: 5280 RVA: 0x0005BD79 File Offset: 0x00059F79
 		public override int CastleBoostBonus
 		{
 			get
@@ -54,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014A1 RID: 5281 RVA: 0x0005BD80 File Offset: 0x00059F80
 		public override ExplainedNumber CalculateDailyConstructionPower(Town town, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -62,14 +52,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014A2 RID: 5282 RVA: 0x0005BDA8 File Offset: 0x00059FA8
 		public override int CalculateDailyConstructionPowerWithoutBoost(Town town)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
 			return this.CalculateDailyConstructionPowerInternal(town, ref explainedNumber, true);
 		}
 
-		// Token: 0x060014A3 RID: 5283 RVA: 0x0005BDD0 File Offset: 0x00059FD0
 		public override int GetBoostAmount(Town town)
 		{
 			object obj = (town.IsCastle ? this.CastleBoostBonus : this.TownBoostBonus);
@@ -86,7 +74,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return obj2 + (int)(obj2 * num);
 		}
 
-		// Token: 0x060014A4 RID: 5284 RVA: 0x0005BE4D File Offset: 0x0005A04D
 		public override int GetBoostCost(Town town)
 		{
 			if (!town.IsCastle)
@@ -96,7 +83,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.CastleBoostCost;
 		}
 
-		// Token: 0x060014A5 RID: 5285 RVA: 0x0005BE64 File Offset: 0x0005A064
 		private int CalculateDailyConstructionPowerInternal(Town town, ref ExplainedNumber result, bool omitBoost = false)
 		{
 			float num = town.Prosperity * 0.01f;
@@ -200,37 +186,26 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)result.ResultNumber;
 		}
 
-		// Token: 0x04000733 RID: 1843
 		private const float HammerMultiplier = 0.01f;
 
-		// Token: 0x04000734 RID: 1844
 		private const int VeryLowLoyaltyValue = 25;
 
-		// Token: 0x04000735 RID: 1845
 		private const float MediumLoyaltyValue = 50f;
 
-		// Token: 0x04000736 RID: 1846
 		private const float HighLoyaltyValue = 75f;
 
-		// Token: 0x04000737 RID: 1847
 		private const float HighestLoyaltyValue = 100f;
 
-		// Token: 0x04000738 RID: 1848
 		private static readonly TextObject ProductionFromMarketText = new TextObject("{=vaZDJGMx}Construction from Market", null);
 
-		// Token: 0x04000739 RID: 1849
 		private static readonly TextObject BoostText = new TextObject("{=yX1RycON}Boost from Reserve", null);
 
-		// Token: 0x0400073A RID: 1850
 		private static readonly TextObject HighLoyaltyBonusText = new TextObject("{=aSniKUJv}High Loyalty", null);
 
-		// Token: 0x0400073B RID: 1851
 		private static readonly TextObject LowLoyaltyPenaltyText = new TextObject("{=SJ2qsRdF}Low Loyalty", null);
 
-		// Token: 0x0400073C RID: 1852
 		private static readonly TextObject VeryLowLoyaltyPenaltyText = new TextObject("{=CcQzFnpN}Very Low Loyalty", null);
 
-		// Token: 0x0400073D RID: 1853
 		private static readonly TextObject CultureText = GameTexts.FindText("str_culture", null);
 	}
 }

@@ -7,11 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200014F RID: 335
 	public class DefaultWorkshopModel : WorkshopModel
 	{
-		// Token: 0x17000661 RID: 1633
-		// (get) Token: 0x0600181E RID: 6174 RVA: 0x0007A933 File Offset: 0x00078B33
 		public override int MaxWorkshopLevel
 		{
 			get
@@ -20,8 +17,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000662 RID: 1634
-		// (get) Token: 0x0600181F RID: 6175 RVA: 0x0007A936 File Offset: 0x00078B36
 		public override int DaysForPlayerSaveWorkshopFromBankruptcy
 		{
 			get
@@ -30,19 +25,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001820 RID: 6176 RVA: 0x0007A939 File Offset: 0x00078B39
 		public override int GetInitialCapital(int level)
 		{
 			return 10000;
 		}
 
-		// Token: 0x06001821 RID: 6177 RVA: 0x0007A940 File Offset: 0x00078B40
 		public override int GetDailyExpense(int level)
 		{
 			return 100;
 		}
 
-		// Token: 0x06001822 RID: 6178 RVA: 0x0007A944 File Offset: 0x00078B44
 		public override float GetPolicyEffectToProduction(Town town)
 		{
 			float num = 1f;
@@ -60,31 +52,26 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001823 RID: 6179 RVA: 0x0007A9BC File Offset: 0x00078BBC
 		public override int GetUpgradeCost(int currentLevel)
 		{
 			return 5000;
 		}
 
-		// Token: 0x06001824 RID: 6180 RVA: 0x0007A9C3 File Offset: 0x00078BC3
 		public override int GetMaxWorkshopCountForTier(int tier)
 		{
 			return 1 + tier;
 		}
 
-		// Token: 0x06001825 RID: 6181 RVA: 0x0007A9C8 File Offset: 0x00078BC8
 		public override int GetBuyingCostForPlayer(Workshop workshop)
 		{
 			return workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Prosperity * 3 + this.GetInitialCapital(workshop.Level);
 		}
 
-		// Token: 0x06001826 RID: 6182 RVA: 0x0007A9F1 File Offset: 0x00078BF1
 		public override int GetSellingCost(Workshop workshop)
 		{
 			return (workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Prosperity / 2 + workshop.Capital) / 2;
 		}
 
-		// Token: 0x06001827 RID: 6183 RVA: 0x0007AA18 File Offset: 0x00078C18
 		public override Hero SelectNextOwnerForWorkshop(Town town, Workshop workshop, Hero excludedHero, int requiredGold = 0)
 		{
 			Hero hero = null;
@@ -106,13 +93,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return hero;
 		}
 
-		// Token: 0x06001828 RID: 6184 RVA: 0x0007AAC8 File Offset: 0x00078CC8
 		public override int GetConvertProductionCost(WorkshopType workshopType)
 		{
 			return 2000;
 		}
 
-		// Token: 0x06001829 RID: 6185 RVA: 0x0007AAD0 File Offset: 0x00078CD0
 		public override bool CanPlayerSellWorkshop(Workshop workshop, out TextObject explanation)
 		{
 			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);

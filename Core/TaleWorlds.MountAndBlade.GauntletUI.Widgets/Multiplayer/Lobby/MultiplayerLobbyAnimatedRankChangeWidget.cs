@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 {
-	// Token: 0x02000090 RID: 144
 	public class MultiplayerLobbyAnimatedRankChangeWidget : Widget
 	{
-		// Token: 0x06000797 RID: 1943 RVA: 0x00016530 File Offset: 0x00014730
 		public MultiplayerLobbyAnimatedRankChangeWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000798 RID: 1944 RVA: 0x00016550 File Offset: 0x00014750
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -47,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			this._animationTimeElapsed += dt;
 		}
 
-		// Token: 0x06000799 RID: 1945 RVA: 0x000166DC File Offset: 0x000148DC
 		private void StartAnimation()
 		{
 			this.NewRankName.SetGlobalAlphaRecursively(0f);
@@ -60,9 +56,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			this._animationTimeElapsed = 0f;
 		}
 
-		// Token: 0x170002AC RID: 684
-		// (get) Token: 0x0600079A RID: 1946 RVA: 0x0001676D File Offset: 0x0001496D
-		// (set) Token: 0x0600079B RID: 1947 RVA: 0x00016775 File Offset: 0x00014975
 		[Editor(false)]
 		public bool IsAnimationRequested
 		{
@@ -81,9 +74,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002AD RID: 685
-		// (get) Token: 0x0600079C RID: 1948 RVA: 0x00016799 File Offset: 0x00014999
-		// (set) Token: 0x0600079D RID: 1949 RVA: 0x000167A1 File Offset: 0x000149A1
 		[Editor(false)]
 		public bool IsPromoted
 		{
@@ -101,9 +91,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002AE RID: 686
-		// (get) Token: 0x0600079E RID: 1950 RVA: 0x000167BF File Offset: 0x000149BF
-		// (set) Token: 0x0600079F RID: 1951 RVA: 0x000167C7 File Offset: 0x000149C7
 		[Editor(false)]
 		public TextWidget OldRankName
 		{
@@ -121,9 +108,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002AF RID: 687
-		// (get) Token: 0x060007A0 RID: 1952 RVA: 0x000167E5 File Offset: 0x000149E5
-		// (set) Token: 0x060007A1 RID: 1953 RVA: 0x000167ED File Offset: 0x000149ED
 		[Editor(false)]
 		public TextWidget NewRankName
 		{
@@ -141,9 +125,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002B0 RID: 688
-		// (get) Token: 0x060007A2 RID: 1954 RVA: 0x0001680B File Offset: 0x00014A0B
-		// (set) Token: 0x060007A3 RID: 1955 RVA: 0x00016813 File Offset: 0x00014A13
 		[Editor(false)]
 		public MultiplayerLobbyRankItemButtonWidget OldRankSprite
 		{
@@ -161,9 +142,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002B1 RID: 689
-		// (get) Token: 0x060007A4 RID: 1956 RVA: 0x00016831 File Offset: 0x00014A31
-		// (set) Token: 0x060007A5 RID: 1957 RVA: 0x00016839 File Offset: 0x00014A39
 		[Editor(false)]
 		public MultiplayerLobbyRankItemButtonWidget NewRankSprite
 		{
@@ -181,34 +159,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x0400036B RID: 875
 		private float _animationTimeElapsed;
 
-		// Token: 0x0400036C RID: 876
 		private float _animationDuration = 0.25f;
 
-		// Token: 0x0400036D RID: 877
 		private float _preAnimationTimeElapsed;
 
-		// Token: 0x0400036E RID: 878
 		private float _animationDelay = 0.5f;
 
-		// Token: 0x0400036F RID: 879
 		private bool _isAnimationRequested;
 
-		// Token: 0x04000370 RID: 880
 		private bool _isPromoted;
 
-		// Token: 0x04000371 RID: 881
 		private TextWidget _oldRankName;
 
-		// Token: 0x04000372 RID: 882
 		private TextWidget _newRankName;
 
-		// Token: 0x04000373 RID: 883
 		private MultiplayerLobbyRankItemButtonWidget _oldRankSprite;
 
-		// Token: 0x04000374 RID: 884
 		private MultiplayerLobbyRankItemButtonWidget _newRankSprite;
 	}
 }

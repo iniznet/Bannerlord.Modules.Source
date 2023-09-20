@@ -9,11 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisions.ItemTypes
 {
-	// Token: 0x0200006C RID: 108
 	public class MakePeaceDecisionItemVM : DecisionItemBaseVM
 	{
-		// Token: 0x170002F4 RID: 756
-		// (get) Token: 0x0600095C RID: 2396 RVA: 0x00026A99 File Offset: 0x00024C99
 		private Kingdom _sourceFaction
 		{
 			get
@@ -22,8 +19,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F5 RID: 757
-		// (get) Token: 0x0600095D RID: 2397 RVA: 0x00026AAA File Offset: 0x00024CAA
 		public IFaction TargetFaction
 		{
 			get
@@ -32,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x0600095E RID: 2398 RVA: 0x00026ABC File Offset: 0x00024CBC
 		public MakePeaceDecisionItemVM(MakePeaceKingdomDecision decision, Action onDecisionOver)
 			: base(decision, onDecisionOver)
 		{
@@ -40,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			base.DecisionType = 5;
 		}
 
-		// Token: 0x0600095F RID: 2399 RVA: 0x00026AD4 File Offset: 0x00024CD4
 		protected override void InitValues()
 		{
 			base.InitValues();
@@ -89,9 +82,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this.ComparedStats.Add(kingdomWarComparableStatVM5);
 		}
 
-		// Token: 0x170002F6 RID: 758
-		// (get) Token: 0x06000960 RID: 2400 RVA: 0x00026D97 File Offset: 0x00024F97
-		// (set) Token: 0x06000961 RID: 2401 RVA: 0x00026D9F File Offset: 0x00024F9F
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -109,9 +99,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F7 RID: 759
-		// (get) Token: 0x06000962 RID: 2402 RVA: 0x00026DC2 File Offset: 0x00024FC2
-		// (set) Token: 0x06000963 RID: 2403 RVA: 0x00026DCA File Offset: 0x00024FCA
 		[DataSourceProperty]
 		public string PeaceDescriptionText
 		{
@@ -129,9 +116,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F8 RID: 760
-		// (get) Token: 0x06000964 RID: 2404 RVA: 0x00026DED File Offset: 0x00024FED
-		// (set) Token: 0x06000965 RID: 2405 RVA: 0x00026DF5 File Offset: 0x00024FF5
 		[DataSourceProperty]
 		public ImageIdentifierVM SourceFactionBanner
 		{
@@ -149,9 +133,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F9 RID: 761
-		// (get) Token: 0x06000966 RID: 2406 RVA: 0x00026E13 File Offset: 0x00025013
-		// (set) Token: 0x06000967 RID: 2407 RVA: 0x00026E1B File Offset: 0x0002501B
 		[DataSourceProperty]
 		public ImageIdentifierVM TargetFactionBanner
 		{
@@ -169,9 +150,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002FA RID: 762
-		// (get) Token: 0x06000968 RID: 2408 RVA: 0x00026E39 File Offset: 0x00025039
-		// (set) Token: 0x06000969 RID: 2409 RVA: 0x00026E41 File Offset: 0x00025041
 		[DataSourceProperty]
 		public MBBindingList<KingdomWarComparableStatVM> ComparedStats
 		{
@@ -189,9 +167,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002FB RID: 763
-		// (get) Token: 0x0600096A RID: 2410 RVA: 0x00026E5F File Offset: 0x0002505F
-		// (set) Token: 0x0600096B RID: 2411 RVA: 0x00026E67 File Offset: 0x00025067
 		[DataSourceProperty]
 		public string LeaderText
 		{
@@ -209,9 +184,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002FC RID: 764
-		// (get) Token: 0x0600096C RID: 2412 RVA: 0x00026E8A File Offset: 0x0002508A
-		// (set) Token: 0x0600096D RID: 2413 RVA: 0x00026E92 File Offset: 0x00025092
 		[DataSourceProperty]
 		public HeroVM SourceFactionLeader
 		{
@@ -229,9 +201,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002FD RID: 765
-		// (get) Token: 0x0600096E RID: 2414 RVA: 0x00026EB0 File Offset: 0x000250B0
-		// (set) Token: 0x0600096F RID: 2415 RVA: 0x00026EB8 File Offset: 0x000250B8
 		[DataSourceProperty]
 		public HeroVM TargetFactionLeader
 		{
@@ -249,31 +218,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x04000436 RID: 1078
 		private readonly MakePeaceKingdomDecision _makePeaceDecision;
 
-		// Token: 0x04000437 RID: 1079
 		private string _nameText;
 
-		// Token: 0x04000438 RID: 1080
 		private string _peaceDescriptionText;
 
-		// Token: 0x04000439 RID: 1081
 		private ImageIdentifierVM _sourceFactionBanner;
 
-		// Token: 0x0400043A RID: 1082
 		private ImageIdentifierVM _targetFactionBanner;
 
-		// Token: 0x0400043B RID: 1083
 		private string _leaderText;
 
-		// Token: 0x0400043C RID: 1084
 		private HeroVM _sourceFactionLeader;
 
-		// Token: 0x0400043D RID: 1085
 		private HeroVM _targetFactionLeader;
 
-		// Token: 0x0400043E RID: 1086
 		private MBBindingList<KingdomWarComparableStatVM> _comparedStats;
 	}
 }

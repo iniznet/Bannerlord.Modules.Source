@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.Source.Objects;
 
 namespace SandBox.Missions.AgentBehaviors
 {
-	// Token: 0x02000073 RID: 115
 	public class FollowAgentBehavior : AgentBehavior
 	{
-		// Token: 0x06000502 RID: 1282 RVA: 0x00023E7A File Offset: 0x0002207A
 		public FollowAgentBehavior(AgentBehaviorGroup behaviorGroup)
 			: base(behaviorGroup)
 		{
@@ -18,7 +16,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._myLastStateWasRunning = false;
 		}
 
-		// Token: 0x06000503 RID: 1283 RVA: 0x00023E98 File Offset: 0x00022098
 		public void SetTargetAgent(Agent agent)
 		{
 			this._selectedAgent = agent;
@@ -35,7 +32,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this.TryMoveStateTransition(true);
 		}
 
-		// Token: 0x06000504 RID: 1284 RVA: 0x00023EF6 File Offset: 0x000220F6
 		public override void Tick(float dt, bool isSimulation)
 		{
 			if (this._selectedAgent != null)
@@ -44,7 +40,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000505 RID: 1285 RVA: 0x00023F08 File Offset: 0x00022108
 		private void ControlMovement()
 		{
 			if (base.Navigator.TargetPosition.IsValid && base.Navigator.IsTargetReached())
@@ -90,7 +85,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000506 RID: 1286 RVA: 0x00024088 File Offset: 0x00022288
 		private void TryMoveStateTransition(bool forceMove)
 		{
 			if (this._selectedAgent != null && base.OwnerAgent.Position.AsVec2.Distance(this._selectedAgent.Position.AsVec2) > 4f + this._idleDistance)
@@ -100,7 +94,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000507 RID: 1287 RVA: 0x000240E8 File Offset: 0x000222E8
 		private void MoveToFollowingAgent(bool forcedMove)
 		{
 			Vec2 asVec = this._selectedAgent.Velocity.AsVec2;
@@ -207,7 +200,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000508 RID: 1288 RVA: 0x0002458C File Offset: 0x0002278C
 		private void SetMovePos(WorldPosition pos, float rotationInRadians, float rangeThreshold, Agent.AIScriptedFrameFlags flags)
 		{
 			bool flag = base.Mission.Mode == 4;
@@ -247,7 +239,6 @@ namespace SandBox.Missions.AgentBehaviors
 			base.Navigator.SetTargetFrame(pos, rotationInRadians, rangeThreshold, -10f, flags, flag);
 		}
 
-		// Token: 0x06000509 RID: 1289 RVA: 0x00024716 File Offset: 0x00022916
 		public override void OnAgentRemoved(Agent agent)
 		{
 			if (agent == this._selectedAgent)
@@ -257,7 +248,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x0600050A RID: 1290 RVA: 0x00024733 File Offset: 0x00022933
 		protected override void OnActivate()
 		{
 			if (this._deactivatedAgent != null)
@@ -267,7 +257,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x0600050B RID: 1291 RVA: 0x00024750 File Offset: 0x00022950
 		protected override void OnDeactivate()
 		{
 			this._state = FollowAgentBehavior.State.Idle;
@@ -278,7 +267,6 @@ namespace SandBox.Missions.AgentBehaviors
 			base.Navigator.ClearTarget();
 		}
 
-		// Token: 0x0600050C RID: 1292 RVA: 0x00024790 File Offset: 0x00022990
 		public override string GetDebugInfo()
 		{
 			return string.Concat(new object[]
@@ -291,62 +279,43 @@ namespace SandBox.Missions.AgentBehaviors
 			});
 		}
 
-		// Token: 0x0600050D RID: 1293 RVA: 0x000247E1 File Offset: 0x000229E1
 		public override float GetAvailability(bool isSimulation)
 		{
 			return (float)((this._selectedAgent == null) ? 0 : 100);
 		}
 
-		// Token: 0x0400026E RID: 622
 		private const float _moveReactionProximityThreshold = 4f;
 
-		// Token: 0x0400026F RID: 623
 		private const float _longitudinalClearanceOffset = 2f;
 
-		// Token: 0x04000270 RID: 624
 		private const float _onFootMoveProximityThreshold = 1.2f;
 
-		// Token: 0x04000271 RID: 625
 		private const float _mountedMoveProximityThreshold = 2.2f;
 
-		// Token: 0x04000272 RID: 626
 		private const float _onFootAgentLongitudinalOffset = 0.6f;
 
-		// Token: 0x04000273 RID: 627
 		private const float _onFootAgentLateralOffset = 1f;
 
-		// Token: 0x04000274 RID: 628
 		private const float _mountedAgentLongitudinalOffset = 1.25f;
 
-		// Token: 0x04000275 RID: 629
 		private const float _mountedAgentLateralOffset = 1.5f;
 
-		// Token: 0x04000276 RID: 630
 		private float _idleDistance;
 
-		// Token: 0x04000277 RID: 631
 		private Agent _selectedAgent;
 
-		// Token: 0x04000278 RID: 632
 		private FollowAgentBehavior.State _state;
 
-		// Token: 0x04000279 RID: 633
 		private Agent _deactivatedAgent;
 
-		// Token: 0x0400027A RID: 634
 		private bool _myLastStateWasRunning;
 
-		// Token: 0x0400027B RID: 635
 		private bool _updatePositionThisFrame;
 
-		// Token: 0x02000143 RID: 323
 		private enum State
 		{
-			// Token: 0x040005EE RID: 1518
 			Idle,
-			// Token: 0x040005EF RID: 1519
 			OnMove,
-			// Token: 0x040005F0 RID: 1520
 			Fight
 		}
 	}

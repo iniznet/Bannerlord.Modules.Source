@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Objects.Siege
 {
-	// Token: 0x020003ED RID: 1005
 	public class AgentPathNavMeshChecker
 	{
-		// Token: 0x060034A4 RID: 13476 RVA: 0x000DA948 File Offset: 0x000D8B48
 		public AgentPathNavMeshChecker(Mission mission, MatrixFrame pathFrameToCheck, float radiusToCheck, int navMeshId, BattleSideEnum teamToCollect, AgentPathNavMeshChecker.Direction directionToCollect, float maxDistanceCheck, float agentMoveTime)
 		{
 			this._mission = mission;
@@ -20,7 +18,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects.Siege
 			this._agentMoveTime = agentMoveTime;
 		}
 
-		// Token: 0x060034A5 RID: 13477 RVA: 0x000DA9A4 File Offset: 0x000D8BA4
 		public void Tick(float dt)
 		{
 			float currentTime = this._mission.CurrentTime;
@@ -97,62 +94,44 @@ namespace TaleWorlds.MountAndBlade.Source.Objects.Siege
 			}
 		}
 
-		// Token: 0x060034A6 RID: 13478 RVA: 0x000DAC18 File Offset: 0x000D8E18
 		public void TickOccasionally(float dt)
 		{
 			this._nearbyAgents = this._mission.GetNearbyAgents(this._pathFrameToCheck.origin.AsVec2, this._maxDistanceCheck, this._nearbyAgents);
 		}
 
-		// Token: 0x060034A7 RID: 13479 RVA: 0x000DAC47 File Offset: 0x000D8E47
 		public bool HasAgentsUsingPath()
 		{
 			return this._isBeingUsed;
 		}
 
-		// Token: 0x04001681 RID: 5761
 		private BattleSideEnum _teamToCollect;
 
-		// Token: 0x04001682 RID: 5762
 		private AgentPathNavMeshChecker.Direction _directionToCollect;
 
-		// Token: 0x04001683 RID: 5763
 		private MatrixFrame _pathFrameToCheck;
 
-		// Token: 0x04001684 RID: 5764
 		private float _radiusToCheck;
 
-		// Token: 0x04001685 RID: 5765
 		private Mission _mission;
 
-		// Token: 0x04001686 RID: 5766
 		private int _navMeshId;
 
-		// Token: 0x04001687 RID: 5767
 		private Timer _tickOccasionallyTimer;
 
-		// Token: 0x04001688 RID: 5768
 		private MBList<Agent> _nearbyAgents = new MBList<Agent>();
 
-		// Token: 0x04001689 RID: 5769
 		private bool _isBeingUsed;
 
-		// Token: 0x0400168A RID: 5770
 		private Timer _setBeingUsedToFalseTimer;
 
-		// Token: 0x0400168B RID: 5771
 		private float _maxDistanceCheck;
 
-		// Token: 0x0400168C RID: 5772
 		private float _agentMoveTime;
 
-		// Token: 0x020006D0 RID: 1744
 		public enum Direction
 		{
-			// Token: 0x040022C8 RID: 8904
 			ForwardOnly,
-			// Token: 0x040022C9 RID: 8905
 			BackwardOnly,
-			// Token: 0x040022CA RID: 8906
 			BothDirections
 		}
 	}

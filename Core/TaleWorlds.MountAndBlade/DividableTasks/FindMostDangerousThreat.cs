@@ -5,10 +5,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade.DividableTasks
 {
-	// Token: 0x0200040F RID: 1039
 	public class FindMostDangerousThreat : DividableTask
 	{
-		// Token: 0x06003591 RID: 13713 RVA: 0x000DE582 File Offset: 0x000DC782
 		public FindMostDangerousThreat(DividableTask continueToTask = null)
 			: base(continueToTask)
 		{
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade.DividableTasks
 			this._formationSearchThreatTask = new FormationSearchThreatTask();
 		}
 
-		// Token: 0x06003592 RID: 13714 RVA: 0x000DE5A0 File Offset: 0x000DC7A0
 		protected override bool UpdateExtra()
 		{
 			bool flag = false;
@@ -75,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.DividableTasks
 			return flag || this._threats.Count == 0;
 		}
 
-		// Token: 0x06003593 RID: 13715 RVA: 0x000DE6F0 File Offset: 0x000DC8F0
 		public void Prepare(List<Threat> threats, RangedSiegeWeapon weapon)
 		{
 			base.ResetTaskStatus();
@@ -96,29 +92,22 @@ namespace TaleWorlds.MountAndBlade.DividableTasks
 			}
 		}
 
-		// Token: 0x06003594 RID: 13716 RVA: 0x000DE7B8 File Offset: 0x000DC9B8
 		public Threat GetResult(out Agent targetAgent)
 		{
 			targetAgent = this._targetAgent;
 			return this._currentThreat;
 		}
 
-		// Token: 0x040016EC RID: 5868
 		private Agent _targetAgent;
 
-		// Token: 0x040016ED RID: 5869
 		private FormationSearchThreatTask _formationSearchThreatTask;
 
-		// Token: 0x040016EE RID: 5870
 		private List<Threat> _threats;
 
-		// Token: 0x040016EF RID: 5871
 		private RangedSiegeWeapon _weapon;
 
-		// Token: 0x040016F0 RID: 5872
 		private Threat _currentThreat;
 
-		// Token: 0x040016F1 RID: 5873
 		private bool _hasOngoingThreatTask;
 	}
 }

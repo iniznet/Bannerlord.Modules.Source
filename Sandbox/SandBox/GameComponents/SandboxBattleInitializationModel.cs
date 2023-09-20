@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x0200008A RID: 138
 	public class SandboxBattleInitializationModel : BattleInitializationModel
 	{
-		// Token: 0x060005CB RID: 1483 RVA: 0x0002B994 File Offset: 0x00029B94
 		public override List<FormationClass> GetAllAvailableTroopTypes()
 		{
 			List<FormationClass> list = new List<FormationClass>();
@@ -60,7 +58,6 @@ namespace SandBox.GameComponents
 			return list;
 		}
 
-		// Token: 0x060005CC RID: 1484 RVA: 0x0002BB58 File Offset: 0x00029D58
 		protected override bool CanPlayerSideDeployWithOrderOfBattleAux()
 		{
 			if (Mission.Current.IsSallyOutBattle)

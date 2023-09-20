@@ -16,17 +16,11 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x0200000B RID: 11
 	[GameStateScreen(typeof(KingdomState))]
 	public class GauntletKingdomScreen : ScreenBase, IGameStateListener
 	{
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600007F RID: 127 RVA: 0x00005689 File Offset: 0x00003889
-		// (set) Token: 0x06000080 RID: 128 RVA: 0x00005691 File Offset: 0x00003891
 		public KingdomManagementVM DataSource { get; private set; }
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x06000081 RID: 129 RVA: 0x0000569A File Offset: 0x0000389A
 		public bool IsMakingDecision
 		{
 			get
@@ -35,13 +29,11 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000082 RID: 130 RVA: 0x000056AC File Offset: 0x000038AC
 		public GauntletKingdomScreen(KingdomState kingdomState)
 		{
 			this._kingdomState = kingdomState;
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x000056BC File Offset: 0x000038BC
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -100,7 +92,6 @@ namespace SandBox.GauntletUI
 			dataSource.OnFrameTick();
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x000058A4 File Offset: 0x00003AA4
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -146,7 +137,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x00005AFB File Offset: 0x00003CFB
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -156,12 +146,10 @@ namespace SandBox.GauntletUI
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00005B3B File Offset: 0x00003D3B
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x00005B3D File Offset: 0x00003D3D
 		void IGameStateListener.OnFinalize()
 		{
 			this._kingdomCategory.Unload();
@@ -170,7 +158,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x06000088 RID: 136 RVA: 0x00005B64 File Offset: 0x00003D64
 		private void ShowArmyOnMap(Army army)
 		{
 			Vec2 position2D = army.LeaderParty.Position2D;
@@ -178,7 +165,6 @@ namespace SandBox.GauntletUI
 			MapScreen.Instance.FastMoveCameraToPosition(position2D);
 		}
 
-		// Token: 0x06000089 RID: 137 RVA: 0x00005B90 File Offset: 0x00003D90
 		private void OpenArmyManagement()
 		{
 			if (this._gauntletLayer != null)
@@ -205,7 +191,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600008A RID: 138 RVA: 0x00005D1C File Offset: 0x00003F1C
 		private void CloseArmyManagement()
 		{
 			this._armyManagementLayer.InputRestrictions.ResetInputRestrictions();
@@ -220,31 +205,23 @@ namespace SandBox.GauntletUI
 			this.DataSource.OnRefresh();
 		}
 
-		// Token: 0x0600008B RID: 139 RVA: 0x00005DA0 File Offset: 0x00003FA0
 		private void CloseKingdomScreen()
 		{
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x0400003E RID: 62
 		private const string _panelOpenSound = "event:/ui/panels/panel_kingdom_open";
 
-		// Token: 0x0400003F RID: 63
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000040 RID: 64
 		private readonly KingdomState _kingdomState;
 
-		// Token: 0x04000041 RID: 65
 		private GauntletLayer _armyManagementLayer;
 
-		// Token: 0x04000042 RID: 66
 		private ArmyManagementVM _armyManagementDatasource;
 
-		// Token: 0x04000043 RID: 67
 		private SpriteCategory _kingdomCategory;
 
-		// Token: 0x04000044 RID: 68
 		private SpriteCategory _armyManagementCategory;
 	}
 }

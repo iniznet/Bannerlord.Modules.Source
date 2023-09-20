@@ -13,17 +13,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x02000009 RID: 9
 	[GameStateScreen(typeof(GameOverState))]
 	public class GauntletGameOverScreen : ScreenBase, IGameOverStateHandler, IGameStateListener
 	{
-		// Token: 0x06000058 RID: 88 RVA: 0x00004C22 File Offset: 0x00002E22
 		public GauntletGameOverScreen(GameOverState gameOverState)
 		{
 			this._gameOverState = gameOverState;
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x00004C31 File Offset: 0x00002E31
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -33,7 +30,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00004C58 File Offset: 0x00002E58
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -56,7 +52,6 @@ namespace SandBox.GauntletUI
 			LoadingWindow.DisableGlobalLoadingWindow();
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x00004D7F File Offset: 0x00002F7F
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -66,12 +61,10 @@ namespace SandBox.GauntletUI
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00004DBF File Offset: 0x00002FBF
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x00004DC1 File Offset: 0x00002FC1
 		void IGameStateListener.OnFinalize()
 		{
 			this._gameOverCategory.Unload();
@@ -80,7 +73,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00004DE7 File Offset: 0x00002FE7
 		private void CloseGameOverScreen()
 		{
 			if (false || Game.Current.IsDevelopmentMode || this._gameOverState.Reason == 2)
@@ -91,19 +83,14 @@ namespace SandBox.GauntletUI
 			MBGameManager.EndGame();
 		}
 
-		// Token: 0x04000030 RID: 48
 		private const string _panelOpenSound = "event:/ui/panels/panel_kingdom_open";
 
-		// Token: 0x04000031 RID: 49
 		private SpriteCategory _gameOverCategory;
 
-		// Token: 0x04000032 RID: 50
 		private GameOverVM _dataSource;
 
-		// Token: 0x04000033 RID: 51
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000034 RID: 52
 		private readonly GameOverState _gameOverState;
 	}
 }

@@ -11,10 +11,8 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000397 RID: 919
 	public class HeroSpawnCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060036E0 RID: 14048 RVA: 0x000F65A8 File Offset: 0x000F47A8
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
@@ -27,7 +25,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.CompanionRemoved.AddNonSerializedListener(this, new Action<Hero, RemoveCompanionAction.RemoveCompanionDetail>(this.OnCompanionRemoved));
 		}
 
-		// Token: 0x060036E1 RID: 14049 RVA: 0x000F6670 File Offset: 0x000F4870
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i == 0)
@@ -61,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E2 RID: 14050 RVA: 0x000F67AC File Offset: 0x000F49AC
 		private void OnNewGameCreated(CampaignGameStarter starter)
 		{
 			foreach (Clan clan in Clan.NonBanditFactions)
@@ -75,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E3 RID: 14051 RVA: 0x000F6820 File Offset: 0x000F4A20
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -87,7 +82,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E4 RID: 14052 RVA: 0x000F687C File Offset: 0x000F4A7C
 		private void OnHeroComesOfAge(Hero hero)
 		{
 			if (!hero.IsDisabled && hero.HeroState != Hero.CharacterStates.Active && !hero.IsTraveling)
@@ -97,12 +91,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E5 RID: 14053 RVA: 0x000F68AA File Offset: 0x000F4AAA
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060036E6 RID: 14054 RVA: 0x000F68AC File Offset: 0x000F4AAC
 		private void OnCompanionRemoved(Hero companion, RemoveCompanionAction.RemoveCompanionDetail detail)
 		{
 			if (!companion.IsFugitive && !companion.IsDead && detail != RemoveCompanionAction.RemoveCompanionDetail.ByTurningToLord)
@@ -119,7 +111,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E7 RID: 14055 RVA: 0x000F6910 File Offset: 0x000F4B10
 		private void OnHeroDailyTick(Hero hero)
 		{
 			Settlement settlement = null;
@@ -159,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E8 RID: 14056 RVA: 0x000F6A3C File Offset: 0x000F4C3C
 		private void OnNonBanditClanDailyTick(Clan clan)
 		{
 			if (!clan.IsEliminated && clan != Clan.PlayerClan && !clan.IsNeutralClan)
@@ -172,7 +162,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036E9 RID: 14057 RVA: 0x000F6A6C File Offset: 0x000F4C6C
 		private bool CanHeroMoveToAnotherSettlement(Hero hero)
 		{
 			if (hero.Clan != Clan.PlayerClan && !hero.IsTemplate && hero.IsAlive && !hero.IsNotable && !hero.IsHumanPlayerCharacter && !hero.IsPartyLeader && !hero.IsPrisoner && hero.HeroState != Hero.CharacterStates.Disabled && hero.GovernorOf == null && hero.PartyBelongedTo == null && !hero.IsWanderer && hero.PartyBelongedToAsPrisoner == null && hero.CharacterObject.Occupation != Occupation.Special && hero.Age >= (float)Campaign.Current.Models.AgeModel.HeroComesOfAge)
@@ -186,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060036EA RID: 14058 RVA: 0x000F6B60 File Offset: 0x000F4D60
 		private Settlement FindASuitableSettlementToTeleportForHero(Hero hero, float minimumScore = 0f)
 		{
 			Settlement settlement;
@@ -244,13 +232,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return settlement;
 		}
 
-		// Token: 0x060036EB RID: 14059 RVA: 0x000F6DB0 File Offset: 0x000F4FB0
 		private float GetHeroPartyCommandScore(Hero hero)
 		{
 			return 3f * (float)hero.GetSkillValue(DefaultSkills.Tactics) + 2f * (float)hero.GetSkillValue(DefaultSkills.Leadership) + (float)hero.GetSkillValue(DefaultSkills.Scouting) + (float)hero.GetSkillValue(DefaultSkills.Steward) + (float)hero.GetSkillValue(DefaultSkills.OneHanded) + (float)hero.GetSkillValue(DefaultSkills.TwoHanded) + (float)hero.GetSkillValue(DefaultSkills.Polearm) + (float)hero.GetSkillValue(DefaultSkills.Riding) + ((hero.Clan.Leader == hero) ? 1000f : 0f) + ((hero.GovernorOf == null) ? 500f : 0f);
 		}
 
-		// Token: 0x060036EC RID: 14060 RVA: 0x000F6E60 File Offset: 0x000F5060
 		private float GetMoveScoreForHero(Hero hero, Town fief)
 		{
 			Clan clan = hero.Clan;
@@ -293,7 +279,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x060036ED RID: 14061 RVA: 0x000F6FA4 File Offset: 0x000F51A4
 		private void ConsiderSpawningLordParties(Clan clan)
 		{
 			int partyLimitForTier = Campaign.Current.Models.ClanTierModel.GetPartyLimitForTier(clan, clan.Tier);
@@ -322,13 +307,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036EE RID: 14062 RVA: 0x000F702C File Offset: 0x000F522C
 		private float CalculateScoreToCreateParty(Clan clan)
 		{
 			return (float)(clan.Fiefs.Count * 100 - clan.WarPartyComponents.Count * 100) + (float)clan.Gold * 0.01f + (clan.IsMinorFaction ? 200f : 0f) + ((clan.WarPartyComponents.Count > 0) ? 0f : 200f);
 		}
 
-		// Token: 0x060036EF RID: 14063 RVA: 0x000F7098 File Offset: 0x000F5298
 		private Hero GetBestAvailableCommander(Clan clan)
 		{
 			Hero hero = null;
@@ -367,7 +350,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return hero;
 		}
 
-		// Token: 0x060036F0 RID: 14064 RVA: 0x000F7208 File Offset: 0x000F5408
 		private MobileParty SpawnLordParty(Hero hero)
 		{
 			if (hero.GovernorOf != null)
@@ -406,7 +388,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return mobileParty;
 		}
 
-		// Token: 0x060036F1 RID: 14065 RVA: 0x000F72E8 File Offset: 0x000F54E8
 		private void GiveInitialItemsToParty(MobileParty heroParty)
 		{
 			float num = (254f + Campaign.AverageDistanceBetweenTwoFortifications * 4.54f) / 2f;
@@ -435,7 +416,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036F2 RID: 14066 RVA: 0x000F747C File Offset: 0x000F567C
 		private static void CheckAndAssignClanLeader(Clan clan)
 		{
 			if (clan.Leader == null || clan.Leader.IsDead)
@@ -450,7 +430,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036F3 RID: 14067 RVA: 0x000F74F0 File Offset: 0x000F56F0
 		private static Hero CreateMinorFactionHeroFromTemplate(CharacterObject template, Clan faction)
 		{
 			Hero hero = HeroCreator.CreateSpecialHero(template, null, faction, null, Campaign.Current.GameStarted ? 19 : (-1));
@@ -460,7 +439,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return hero;
 		}
 
-		// Token: 0x060036F4 RID: 14068 RVA: 0x000F7544 File Offset: 0x000F5744
 		private static void SpawnMinorFactionHeroes(Clan clan, bool firstTime)
 		{
 			int num = Campaign.Current.Models.MinorFactionsModel.MinorFactionHeroLimit - clan.Lords.Count((Hero x) => x.IsAlive);
@@ -494,7 +472,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036F5 RID: 14069 RVA: 0x000F7644 File Offset: 0x000F5844
 		public void OnGovernorChanged(Town fortification, Hero oldGovernor, Hero newGovernor)
 		{
 			if (oldGovernor != null && oldGovernor.Clan != null)
@@ -513,13 +490,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04001176 RID: 4470
 		public const float DefaultHealingPercentage = 0.015f;
 
-		// Token: 0x04001177 RID: 4471
 		private const float MinimumScoreForSafeSettlement = 10f;
 
-		// Token: 0x04001178 RID: 4472
 		private const float CompanionMoveGoodEnoughScore = 1000f;
 	}
 }

@@ -5,17 +5,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 {
-	// Token: 0x02000072 RID: 114
 	public class SettlementNameplateEventVisualBrushWidget : BrushWidget
 	{
-		// Token: 0x06000650 RID: 1616 RVA: 0x00012DAA File Offset: 0x00010FAA
 		public SettlementNameplateEventVisualBrushWidget(UIContext context)
 			: base(context)
 		{
 			base.EventManager.AddLateUpdateAction(this, new Action<float>(this.LateUpdateAction), 1);
 		}
 
-		// Token: 0x06000651 RID: 1617 RVA: 0x00012DD3 File Offset: 0x00010FD3
 		private void LateUpdateAction(float dt)
 		{
 			if (!this._determinedVisual)
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x06000652 RID: 1618 RVA: 0x00012DF8 File Offset: 0x00010FF8
 		private void UpdateVisual(int type)
 		{
 			switch (type)
@@ -81,9 +77,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700023A RID: 570
-		// (get) Token: 0x06000653 RID: 1619 RVA: 0x00012EEA File Offset: 0x000110EA
-		// (set) Token: 0x06000654 RID: 1620 RVA: 0x00012EF2 File Offset: 0x000110F2
 		[Editor(false)]
 		public int Type
 		{
@@ -101,9 +94,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700023B RID: 571
-		// (get) Token: 0x06000655 RID: 1621 RVA: 0x00012F10 File Offset: 0x00011110
-		// (set) Token: 0x06000656 RID: 1622 RVA: 0x00012F18 File Offset: 0x00011118
 		[Editor(false)]
 		public string AdditionalParameters
 		{
@@ -121,13 +111,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x040002C4 RID: 708
 		private bool _determinedVisual;
 
-		// Token: 0x040002C5 RID: 709
 		private int _type = -1;
 
-		// Token: 0x040002C6 RID: 710
 		private string _additionalParameters;
 	}
 }

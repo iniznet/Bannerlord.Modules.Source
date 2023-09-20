@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.OfficialGame
 {
-	// Token: 0x02000074 RID: 116
 	public class MPMatchmakingSelectionInfoVM : ViewModel
 	{
-		// Token: 0x06000AA4 RID: 2724 RVA: 0x000260AE File Offset: 0x000242AE
 		public MPMatchmakingSelectionInfoVM()
 		{
 			this.Name = "";
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			this.ExtraInfos = new MBBindingList<StringPairItemVM>();
 		}
 
-		// Token: 0x06000AA5 RID: 2725 RVA: 0x000260D8 File Offset: 0x000242D8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			this._troopsDescription = new TextObject("{=5k4dxUEJ}Troops", null).ToString();
 		}
 
-		// Token: 0x06000AA6 RID: 2726 RVA: 0x00026170 File Offset: 0x00024370
 		public void UpdateForGameType(string gameTypeStr)
 		{
 			this.Name = GameTexts.FindText("str_multiplayer_official_game_type_name", gameTypeStr).ToString();
@@ -59,15 +55,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			this.ExtraInfos.Add(new StringPairItemVM(this._troopsDescription, text6, null));
 		}
 
-		// Token: 0x06000AA7 RID: 2727 RVA: 0x00026346 File Offset: 0x00024546
 		public void SetEnabled(bool isEnabled)
 		{
 			this.IsEnabled = isEnabled;
 		}
 
-		// Token: 0x1700034F RID: 847
-		// (get) Token: 0x06000AA8 RID: 2728 RVA: 0x0002634F File Offset: 0x0002454F
-		// (set) Token: 0x06000AA9 RID: 2729 RVA: 0x00026357 File Offset: 0x00024557
 		[DataSourceProperty]
 		public string Name
 		{
@@ -85,9 +77,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			}
 		}
 
-		// Token: 0x17000350 RID: 848
-		// (get) Token: 0x06000AAA RID: 2730 RVA: 0x0002637A File Offset: 0x0002457A
-		// (set) Token: 0x06000AAB RID: 2731 RVA: 0x00026382 File Offset: 0x00024582
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -105,9 +94,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			}
 		}
 
-		// Token: 0x17000351 RID: 849
-		// (get) Token: 0x06000AAC RID: 2732 RVA: 0x000263A0 File Offset: 0x000245A0
-		// (set) Token: 0x06000AAD RID: 2733 RVA: 0x000263A8 File Offset: 0x000245A8
 		[DataSourceProperty]
 		public string Description
 		{
@@ -125,9 +111,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			}
 		}
 
-		// Token: 0x17000352 RID: 850
-		// (get) Token: 0x06000AAE RID: 2734 RVA: 0x000263CB File Offset: 0x000245CB
-		// (set) Token: 0x06000AAF RID: 2735 RVA: 0x000263D3 File Offset: 0x000245D3
 		[DataSourceProperty]
 		public MBBindingList<StringPairItemVM> ExtraInfos
 		{
@@ -145,34 +128,24 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Officia
 			}
 		}
 
-		// Token: 0x04000526 RID: 1318
 		private string _playersDescription;
 
-		// Token: 0x04000527 RID: 1319
 		private string _averagePlaytimeDescription;
 
-		// Token: 0x04000528 RID: 1320
 		private string _roundsDescription;
 
-		// Token: 0x04000529 RID: 1321
 		private string _roundTimeDescription;
 
-		// Token: 0x0400052A RID: 1322
 		private string _objectivesDescription;
 
-		// Token: 0x0400052B RID: 1323
 		private string _troopsDescription;
 
-		// Token: 0x0400052C RID: 1324
 		private string _name;
 
-		// Token: 0x0400052D RID: 1325
 		private string _description;
 
-		// Token: 0x0400052E RID: 1326
 		private bool _isEnabled;
 
-		// Token: 0x0400052F RID: 1327
 		private MBBindingList<StringPairItemVM> _extraInfos;
 	}
 }

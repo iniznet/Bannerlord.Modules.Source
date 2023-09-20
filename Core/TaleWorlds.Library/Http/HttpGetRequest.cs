@@ -6,41 +6,23 @@ using System.Threading.Tasks;
 
 namespace TaleWorlds.Library.Http
 {
-	// Token: 0x020000A5 RID: 165
 	public class HttpGetRequest : IHttpRequestTask
 	{
-		// Token: 0x170000B3 RID: 179
-		// (get) Token: 0x060005FF RID: 1535 RVA: 0x00013094 File Offset: 0x00011294
-		// (set) Token: 0x06000600 RID: 1536 RVA: 0x0001309C File Offset: 0x0001129C
 		public HttpRequestTaskState State { get; private set; }
 
-		// Token: 0x170000B4 RID: 180
-		// (get) Token: 0x06000601 RID: 1537 RVA: 0x000130A5 File Offset: 0x000112A5
-		// (set) Token: 0x06000602 RID: 1538 RVA: 0x000130AD File Offset: 0x000112AD
 		public bool Successful { get; private set; }
 
-		// Token: 0x170000B5 RID: 181
-		// (get) Token: 0x06000603 RID: 1539 RVA: 0x000130B6 File Offset: 0x000112B6
-		// (set) Token: 0x06000604 RID: 1540 RVA: 0x000130BE File Offset: 0x000112BE
 		public string ResponseData { get; private set; }
 
-		// Token: 0x170000B6 RID: 182
-		// (get) Token: 0x06000605 RID: 1541 RVA: 0x000130C7 File Offset: 0x000112C7
-		// (set) Token: 0x06000606 RID: 1542 RVA: 0x000130CF File Offset: 0x000112CF
 		public HttpStatusCode ResponseStatusCode { get; private set; }
 
-		// Token: 0x170000B7 RID: 183
-		// (get) Token: 0x06000607 RID: 1543 RVA: 0x000130D8 File Offset: 0x000112D8
-		// (set) Token: 0x06000608 RID: 1544 RVA: 0x000130E0 File Offset: 0x000112E0
 		public Exception Exception { get; private set; }
 
-		// Token: 0x06000609 RID: 1545 RVA: 0x000130E9 File Offset: 0x000112E9
 		static HttpGetRequest()
 		{
 			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 		}
 
-		// Token: 0x0600060A RID: 1546 RVA: 0x000130F5 File Offset: 0x000112F5
 		public HttpGetRequest(string address)
 		{
 			this._address = address;
@@ -49,7 +31,6 @@ namespace TaleWorlds.Library.Http
 			this.ResponseStatusCode = HttpStatusCode.OK;
 		}
 
-		// Token: 0x0600060B RID: 1547 RVA: 0x00013121 File Offset: 0x00011321
 		private void SetFinishedAsSuccessful(string responseData, HttpStatusCode statusCode)
 		{
 			this.Successful = true;
@@ -62,7 +43,6 @@ namespace TaleWorlds.Library.Http
 			this.State = HttpRequestTaskState.Finished;
 		}
 
-		// Token: 0x0600060C RID: 1548 RVA: 0x00013152 File Offset: 0x00011352
 		private void SetFinishedAsUnsuccessful(Exception e)
 		{
 			this.Successful = false;
@@ -74,13 +54,11 @@ namespace TaleWorlds.Library.Http
 			this.State = HttpRequestTaskState.Finished;
 		}
 
-		// Token: 0x0600060D RID: 1549 RVA: 0x0001317C File Offset: 0x0001137C
 		public void Start()
 		{
 			this.DoTask();
 		}
 
-		// Token: 0x0600060E RID: 1550 RVA: 0x00013188 File Offset: 0x00011388
 		public async Task DoTask()
 		{
 			this.State = HttpRequestTaskState.Working;
@@ -123,13 +101,10 @@ namespace TaleWorlds.Library.Http
 			}
 		}
 
-		// Token: 0x040001C1 RID: 449
 		private const int BufferSize = 1024;
 
-		// Token: 0x040001C2 RID: 450
 		private HttpWebResponse _httpWebResponse;
 
-		// Token: 0x040001C3 RID: 451
 		private readonly string _address;
 	}
 }

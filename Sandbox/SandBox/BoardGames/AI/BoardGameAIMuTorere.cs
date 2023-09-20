@@ -7,17 +7,14 @@ using TaleWorlds.Library;
 
 namespace SandBox.BoardGames.AI
 {
-	// Token: 0x020000C5 RID: 197
 	public class BoardGameAIMuTorere : BoardGameAIBase
 	{
-		// Token: 0x06000BDD RID: 3037 RVA: 0x0005DC3A File Offset: 0x0005BE3A
 		public BoardGameAIMuTorere(BoardGameHelper.AIDifficulty difficulty, MissionBoardGameLogic boardGameHandler)
 			: base(difficulty, boardGameHandler)
 		{
 			this._board = base.BoardGameHandler.Board as BoardGameMuTorere;
 		}
 
-		// Token: 0x06000BDE RID: 3038 RVA: 0x0005DC5C File Offset: 0x0005BE5C
 		protected override void InitializeDifficulty()
 		{
 			switch (base.Difficulty)
@@ -36,7 +33,6 @@ namespace SandBox.BoardGames.AI
 			}
 		}
 
-		// Token: 0x06000BDF RID: 3039 RVA: 0x0005DC9C File Offset: 0x0005BE9C
 		public override Move CalculateMovementStageMove()
 		{
 			Move move;
@@ -80,7 +76,6 @@ namespace SandBox.BoardGames.AI
 			return move;
 		}
 
-		// Token: 0x06000BE0 RID: 3040 RVA: 0x0005DDC8 File Offset: 0x0005BFC8
 		private int NegaMax(int depth, int color)
 		{
 			int num = int.MinValue;
@@ -106,7 +101,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BE1 RID: 3041 RVA: 0x0005DED0 File Offset: 0x0005C0D0
 		private int Evaluation()
 		{
 			float num = MBRandom.RandomFloat;
@@ -125,7 +119,6 @@ namespace SandBox.BoardGames.AI
 			return (int)(num * 100f * (float)(this.CanMove(false) - this.CanMove(true)));
 		}
 
-		// Token: 0x06000BE2 RID: 3042 RVA: 0x0005DF48 File Offset: 0x0005C148
 		private int CanMove(bool playerOne)
 		{
 			List<List<Move>> list = this._board.CalculateAllValidMoves(playerOne ? BoardGameSide.Player : BoardGameSide.AI);
@@ -136,7 +129,6 @@ namespace SandBox.BoardGames.AI
 			return 1;
 		}
 
-		// Token: 0x04000435 RID: 1077
 		private readonly BoardGameMuTorere _board;
 	}
 }

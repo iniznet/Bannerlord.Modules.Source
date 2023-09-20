@@ -7,16 +7,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.AI
 {
-	// Token: 0x020000CB RID: 203
 	public class PassageAI : UsableMachineAIBase
 	{
-		// Token: 0x06000C0F RID: 3087 RVA: 0x0005F138 File Offset: 0x0005D338
 		public PassageAI(UsableMachine usableMachine)
 			: base(usableMachine)
 		{
 		}
 
-		// Token: 0x06000C10 RID: 3088 RVA: 0x0005F141 File Offset: 0x0005D341
 		protected override Agent.AIScriptedFrameFlags GetScriptedFrameFlags(Agent agent)
 		{
 			if (agent.CurrentWatchState != 2)
@@ -26,7 +23,6 @@ namespace SandBox.AI
 			return 10;
 		}
 
-		// Token: 0x06000C11 RID: 3089 RVA: 0x0005F154 File Offset: 0x0005D354
 		protected override void OnTick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
 		{
 			foreach (StandingPoint standingPoint in this.UsableMachine.StandingPoints)
@@ -61,7 +57,6 @@ namespace SandBox.AI
 			}
 		}
 
-		// Token: 0x06000C12 RID: 3090 RVA: 0x0005F33C File Offset: 0x0005D53C
 		[Conditional("DEBUG")]
 		private void TickForDebug()
 		{

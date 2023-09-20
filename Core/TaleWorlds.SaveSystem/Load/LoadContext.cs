@@ -7,25 +7,14 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Load
 {
-	// Token: 0x02000037 RID: 55
 	public class LoadContext
 	{
-		// Token: 0x1700004E RID: 78
-		// (get) Token: 0x060001EB RID: 491 RVA: 0x00009150 File Offset: 0x00007350
-		// (set) Token: 0x060001EC RID: 492 RVA: 0x00009158 File Offset: 0x00007358
 		public object RootObject { get; private set; }
 
-		// Token: 0x1700004F RID: 79
-		// (get) Token: 0x060001ED RID: 493 RVA: 0x00009161 File Offset: 0x00007361
-		// (set) Token: 0x060001EE RID: 494 RVA: 0x00009169 File Offset: 0x00007369
 		public DefinitionContext DefinitionContext { get; private set; }
 
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x060001EF RID: 495 RVA: 0x00009172 File Offset: 0x00007372
-		// (set) Token: 0x060001F0 RID: 496 RVA: 0x0000917A File Offset: 0x0000737A
 		public ISaveDriver Driver { get; private set; }
 
-		// Token: 0x060001F1 RID: 497 RVA: 0x00009183 File Offset: 0x00007383
 		public LoadContext(DefinitionContext definitionContext, ISaveDriver driver)
 		{
 			this.DefinitionContext = definitionContext;
@@ -35,7 +24,6 @@ namespace TaleWorlds.SaveSystem.Load
 			this.Driver = driver;
 		}
 
-		// Token: 0x060001F2 RID: 498 RVA: 0x000091B0 File Offset: 0x000073B0
 		internal static ObjectLoadData CreateLoadData(LoadData loadData, int i, ObjectHeaderLoadData header)
 		{
 			ArchiveDeserializer archiveDeserializer = new ArchiveDeserializer();
@@ -50,7 +38,6 @@ namespace TaleWorlds.SaveSystem.Load
 			return objectLoadData;
 		}
 
-		// Token: 0x060001F3 RID: 499 RVA: 0x00009208 File Offset: 0x00007408
 		public bool Load(LoadData loadData, bool loadAsLateInitialize)
 		{
 			bool flag = false;
@@ -192,20 +179,17 @@ namespace TaleWorlds.SaveSystem.Load
 			return flag;
 		}
 
-		// Token: 0x060001F4 RID: 500 RVA: 0x00009630 File Offset: 0x00007830
 		internal LoadCallbackInitializator CreateLoadCallbackInitializator(LoadData loadData)
 		{
 			return new LoadCallbackInitializator(loadData, this._objectHeaderLoadDatas, this._objectCount);
 		}
 
-		// Token: 0x060001F5 RID: 501 RVA: 0x00009644 File Offset: 0x00007844
 		private static string LoadString(ArchiveDeserializer saveArchive, int id)
 		{
 			return saveArchive.RootFolder.GetChildFolder(new FolderId(-1, SaveFolderExtension.Strings)).GetEntry(new EntryId(id, SaveEntryExtension.Txt)).GetBinaryReader()
 				.ReadString();
 		}
 
-		// Token: 0x060001F6 RID: 502 RVA: 0x00009670 File Offset: 0x00007870
 		public static bool TryConvertType(Type sourceType, Type targetType, ref object data)
 		{
 			if (LoadContext.<TryConvertType>g__isNum|23_2(sourceType) && LoadContext.<TryConvertType>g__isNum|23_2(targetType))
@@ -239,7 +223,6 @@ namespace TaleWorlds.SaveSystem.Load
 			return false;
 		}
 
-		// Token: 0x060001F7 RID: 503 RVA: 0x0000974C File Offset: 0x0000794C
 		public ObjectHeaderLoadData GetObjectWithId(int id)
 		{
 			ObjectHeaderLoadData objectHeaderLoadData = null;
@@ -250,7 +233,6 @@ namespace TaleWorlds.SaveSystem.Load
 			return objectHeaderLoadData;
 		}
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x0000976C File Offset: 0x0000796C
 		public ContainerHeaderLoadData GetContainerWithId(int id)
 		{
 			ContainerHeaderLoadData containerHeaderLoadData = null;
@@ -261,7 +243,6 @@ namespace TaleWorlds.SaveSystem.Load
 			return containerHeaderLoadData;
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x0000978C File Offset: 0x0000798C
 		public string GetStringWithId(int id)
 		{
 			string text = null;
@@ -272,43 +253,34 @@ namespace TaleWorlds.SaveSystem.Load
 			return text;
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x000097AC File Offset: 0x000079AC
 		[CompilerGenerated]
 		internal static bool <TryConvertType>g__isInt|23_0(Type type)
 		{
 			return type == typeof(long) || type == typeof(int) || type == typeof(short) || type == typeof(ulong) || type == typeof(uint) || type == typeof(ushort);
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x00009825 File Offset: 0x00007A25
 		[CompilerGenerated]
 		internal static bool <TryConvertType>g__isFloat|23_1(Type type)
 		{
 			return type == typeof(double) || type == typeof(float);
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0000984B File Offset: 0x00007A4B
 		[CompilerGenerated]
 		internal static bool <TryConvertType>g__isNum|23_2(Type type)
 		{
 			return LoadContext.<TryConvertType>g__isInt|23_0(type) || LoadContext.<TryConvertType>g__isFloat|23_1(type);
 		}
 
-		// Token: 0x04000098 RID: 152
 		private int _objectCount;
 
-		// Token: 0x04000099 RID: 153
 		private int _stringCount;
 
-		// Token: 0x0400009A RID: 154
 		private int _containerCount;
 
-		// Token: 0x0400009B RID: 155
 		private ObjectHeaderLoadData[] _objectHeaderLoadDatas;
 
-		// Token: 0x0400009C RID: 156
 		private ContainerHeaderLoadData[] _containerHeaderLoadDatas;
 
-		// Token: 0x0400009D RID: 157
 		private string[] _strings;
 	}
 }

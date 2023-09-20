@@ -10,11 +10,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002DA RID: 730
 	public class MultiplayerGame : GameType
 	{
-		// Token: 0x17000744 RID: 1860
-		// (get) Token: 0x06002829 RID: 10281 RVA: 0x0009B716 File Offset: 0x00099916
 		public override bool IsCoreOnlyGameMode
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000745 RID: 1861
-		// (get) Token: 0x0600282A RID: 10282 RVA: 0x0009B719 File Offset: 0x00099919
 		public static MultiplayerGame Current
 		{
 			get
@@ -33,7 +28,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600282C RID: 10284 RVA: 0x0009B734 File Offset: 0x00099934
 		protected override void OnInitialize()
 		{
 			Game currentGame = base.CurrentGame;
@@ -67,7 +61,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600282D RID: 10285 RVA: 0x0009B878 File Offset: 0x00099A78
 		private void AddGameModels(IGameStarter basicGameStarter)
 		{
 			basicGameStarter.AddModel(new MultiplayerRidingModel());
@@ -84,7 +77,6 @@ namespace TaleWorlds.MountAndBlade
 			basicGameStarter.AddModel(new DefaultItemPickupModel());
 		}
 
-		// Token: 0x0600282E RID: 10286 RVA: 0x0009B90C File Offset: 0x00099B0C
 		public static Dictionary<string, Equipment> ReadDefaultEquipments(string defaultEquipmentsPath)
 		{
 			Dictionary<string, Equipment> dictionary = new Dictionary<string, Equipment>();
@@ -104,12 +96,10 @@ namespace TaleWorlds.MountAndBlade
 			return dictionary;
 		}
 
-		// Token: 0x0600282F RID: 10287 RVA: 0x0009B9B8 File Offset: 0x00099BB8
 		protected override void BeforeRegisterTypes(MBObjectManager objectManager)
 		{
 		}
 
-		// Token: 0x06002830 RID: 10288 RVA: 0x0009B9BA File Offset: 0x00099BBA
 		protected override void OnRegisterTypes(MBObjectManager objectManager)
 		{
 			objectManager.RegisterType<BasicCharacterObject>("NPCCharacter", "MPCharacters", 43U, true, false);
@@ -117,7 +107,6 @@ namespace TaleWorlds.MountAndBlade
 			objectManager.RegisterType<MultiplayerClassDivisions.MPHeroClass>("MPClassDivision", "MPClassDivisions", 45U, true, false);
 		}
 
-		// Token: 0x06002831 RID: 10289 RVA: 0x0009B9F8 File Offset: 0x00099BF8
 		protected override void DoLoadingForGameType(GameTypeLoadingStates gameTypeLoadingState, out GameTypeLoadingStates nextState)
 		{
 			nextState = GameTypeLoadingStates.None;
@@ -140,7 +129,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002832 RID: 10290 RVA: 0x0009BA2A File Offset: 0x00099C2A
 		public override void OnDestroy()
 		{
 			BadgeManager.OnFinalize();
@@ -150,7 +138,6 @@ namespace TaleWorlds.MountAndBlade
 			AvatarServices.ClearAvatarCaches();
 		}
 
-		// Token: 0x06002833 RID: 10291 RVA: 0x0009BA45 File Offset: 0x00099C45
 		public override void OnStateChanged(GameState oldState)
 		{
 		}

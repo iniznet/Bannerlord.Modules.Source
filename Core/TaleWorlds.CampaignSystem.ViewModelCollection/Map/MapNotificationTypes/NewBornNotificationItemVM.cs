@@ -5,10 +5,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 {
-	// Token: 0x02000040 RID: 64
 	public class NewBornNotificationItemVM : MapNotificationItemBaseVM
 	{
-		// Token: 0x06000545 RID: 1349 RVA: 0x0001A7CC File Offset: 0x000189CC
 		public NewBornNotificationItemVM(ChildBornMapNotification data)
 			: base(data)
 		{
@@ -54,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			};
 		}
 
-		// Token: 0x0400023A RID: 570
 		private readonly SceneNotificationData _notification;
 	}
 }

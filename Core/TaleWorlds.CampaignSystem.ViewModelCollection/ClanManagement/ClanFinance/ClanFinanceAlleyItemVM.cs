@@ -13,10 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinance
 {
-	// Token: 0x0200010D RID: 269
 	public class ClanFinanceAlleyItemVM : ClanFinanceIncomeItemBaseVM
 	{
-		// Token: 0x060019A7 RID: 6567 RVA: 0x0005CB24 File Offset: 0x0005AD24
 		public ClanFinanceAlleyItemVM(Alley alley, Action<ClanCardSelectionInfo> openCardSelectionPopup, Action<ClanFinanceAlleyItemVM> onSelection, Action onRefresh)
 			: base(null, onRefresh)
 		{
@@ -38,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			this.RefreshValues();
 		}
 
-		// Token: 0x060019A8 RID: 6568 RVA: 0x0005CC20 File Offset: 0x0005AE20
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -50,13 +47,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			this.PopulateStatsList();
 		}
 
-		// Token: 0x060019A9 RID: 6569 RVA: 0x0005CCBD File Offset: 0x0005AEBD
 		private void tempOnSelection(ClanFinanceIncomeItemBaseVM item)
 		{
 			this._onSelectionT(this);
 		}
 
-		// Token: 0x060019AA RID: 6570 RVA: 0x0005CCCC File Offset: 0x0005AECC
 		protected override void PopulateStatsList()
 		{
 			base.PopulateStatsList();
@@ -76,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x060019AB RID: 6571 RVA: 0x0005CE6C File Offset: 0x0005B06C
 		private string GetStatusText()
 		{
 			string text = string.Empty;
@@ -112,14 +106,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			return text;
 		}
 
-		// Token: 0x060019AC RID: 6572 RVA: 0x0005CF7C File Offset: 0x0005B17C
 		private ClanCardSelectionItemPropertyInfo GetSkillProperty(Hero hero, SkillObject skill)
 		{
 			TextObject textObject = ClanCardSelectionItemPropertyInfo.CreateLabeledValueText(skill.Name, new TextObject("{=!}" + hero.GetSkillValue(skill), null));
 			return new ClanCardSelectionItemPropertyInfo(TextObject.Empty, textObject);
 		}
 
-		// Token: 0x060019AD RID: 6573 RVA: 0x0005CFBC File Offset: 0x0005B1BC
 		private IEnumerable<ClanCardSelectionItemPropertyInfo> GetHeroProperties(Hero hero, Alley alley, DefaultAlleyModel.AlleyMemberAvailabilityDetail detail)
 		{
 			if (detail == DefaultAlleyModel.AlleyMemberAvailabilityDetail.AvailableWithDelay)
@@ -135,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			yield break;
 		}
 
-		// Token: 0x060019AE RID: 6574 RVA: 0x0005CFE1 File Offset: 0x0005B1E1
 		private IEnumerable<ClanCardSelectionItemInfo> GetAvailableMembers()
 		{
 			yield return new ClanCardSelectionItemInfo(new TextObject("{=W3hmFcfv}Abandon Alley", null), false, TextObject.Empty, TextObject.Empty);
@@ -159,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			yield break;
 		}
 
-		// Token: 0x060019AF RID: 6575 RVA: 0x0005CFF4 File Offset: 0x0005B1F4
 		private void OnMemberSelection(List<object> members, Action closePopup)
 		{
 			if (members.Count > 0)
@@ -202,28 +192,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x060019B0 RID: 6576 RVA: 0x0005D0D0 File Offset: 0x0005B2D0
 		public void ExecuteManageAlley()
 		{
 			ClanCardSelectionInfo clanCardSelectionInfo = new ClanCardSelectionInfo(new TextObject("{=dQBArrqh}Manage Alley", null), this.GetAvailableMembers(), new Action<List<object>, Action>(this.OnMemberSelection), false);
 			this._openCardSelectionPopup(clanCardSelectionInfo);
 		}
 
-		// Token: 0x060019B1 RID: 6577 RVA: 0x0005D10E File Offset: 0x0005B30E
 		public void ExecuteBeginHeroHint()
 		{
 			InformationManager.ShowTooltip(typeof(Hero), new object[] { this._alleyOwner, true });
 		}
 
-		// Token: 0x060019B2 RID: 6578 RVA: 0x0005D137 File Offset: 0x0005B337
 		public void ExecuteEndHeroHint()
 		{
 			InformationManager.HideTooltip();
 		}
 
-		// Token: 0x170008CD RID: 2253
-		// (get) Token: 0x060019B3 RID: 6579 RVA: 0x0005D13E File Offset: 0x0005B33E
-		// (set) Token: 0x060019B4 RID: 6580 RVA: 0x0005D146 File Offset: 0x0005B346
 		[DataSourceProperty]
 		public HintViewModel ManageAlleyHint
 		{
@@ -241,9 +225,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008CE RID: 2254
-		// (get) Token: 0x060019B5 RID: 6581 RVA: 0x0005D164 File Offset: 0x0005B364
-		// (set) Token: 0x060019B6 RID: 6582 RVA: 0x0005D16C File Offset: 0x0005B36C
 		[DataSourceProperty]
 		public ImageIdentifierVM OwnerVisual
 		{
@@ -261,9 +242,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008CF RID: 2255
-		// (get) Token: 0x060019B7 RID: 6583 RVA: 0x0005D18A File Offset: 0x0005B38A
-		// (set) Token: 0x060019B8 RID: 6584 RVA: 0x0005D192 File Offset: 0x0005B392
 		[DataSourceProperty]
 		public string IncomeText
 		{
@@ -281,9 +259,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008D0 RID: 2256
-		// (get) Token: 0x060019B9 RID: 6585 RVA: 0x0005D1B5 File Offset: 0x0005B3B5
-		// (set) Token: 0x060019BA RID: 6586 RVA: 0x0005D1BD File Offset: 0x0005B3BD
 		[DataSourceProperty]
 		public string IncomeTextWithVisual
 		{
@@ -301,34 +276,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x04000C2E RID: 3118
 		public readonly Alley Alley;
 
-		// Token: 0x04000C2F RID: 3119
 		private readonly Hero _alleyOwner;
 
-		// Token: 0x04000C30 RID: 3120
 		private readonly IAlleyCampaignBehavior _alleyBehavior;
 
-		// Token: 0x04000C31 RID: 3121
 		private readonly AlleyModel _alleyModel;
 
-		// Token: 0x04000C32 RID: 3122
 		private readonly Action<ClanFinanceAlleyItemVM> _onSelectionT;
 
-		// Token: 0x04000C33 RID: 3123
 		private readonly Action<ClanCardSelectionInfo> _openCardSelectionPopup;
 
-		// Token: 0x04000C34 RID: 3124
 		private HintViewModel _manageAlleyHint;
 
-		// Token: 0x04000C35 RID: 3125
 		private ImageIdentifierVM _ownerVisual;
 
-		// Token: 0x04000C36 RID: 3126
 		private string _incomeText;
 
-		// Token: 0x04000C37 RID: 3127
 		private string _incomeTextWithVisual;
 	}
 }

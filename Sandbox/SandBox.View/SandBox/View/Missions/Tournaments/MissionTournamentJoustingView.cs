@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
 
 namespace SandBox.View.Missions.Tournaments
 {
-	// Token: 0x02000022 RID: 34
 	public class MissionTournamentJoustingView : MissionView
 	{
-		// Token: 0x060000E3 RID: 227 RVA: 0x0000BEE0 File Offset: 0x0000A0E0
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -39,7 +37,6 @@ namespace SandBox.View.Missions.Tournaments
 			this.SetJoustingBanners();
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x0000C014 File Offset: 0x0000A214
 		private void RefreshScoreBoard()
 		{
 			int num = 0;
@@ -54,7 +51,6 @@ namespace SandBox.View.Missions.Tournaments
 			}
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x0000C08C File Offset: 0x0000A28C
 		private void SetJoustingBanners()
 		{
 			GameEntity banner0 = base.Mission.Scene.FindEntityWithTag("banner_0");
@@ -89,47 +85,40 @@ namespace SandBox.View.Missions.Tournaments
 			}
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x0000C12B File Offset: 0x0000A32B
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
 			this.RefreshScoreBoard();
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x0000C133 File Offset: 0x0000A333
 		private void OnVictoryAchieved(Agent affectorAgent, Agent affectedAgent)
 		{
 			this.ShowMessage(affectorAgent, GameTexts.FindText("str_tournament_joust_player_victory", null).ToString(), 8f, true);
 			this.ShowMessage(affectedAgent, GameTexts.FindText("str_tournament_joust_opponent_victory", null).ToString(), 8f, true);
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x0000C16F File Offset: 0x0000A36F
 		private void OnPointGanied(Agent affectorAgent, Agent affectedAgent)
 		{
 			this.ShowMessage(affectorAgent, GameTexts.FindText("str_tournament_joust_you_gain_point", null).ToString(), 5f, true);
 			this.ShowMessage(affectedAgent, GameTexts.FindText("str_tournament_joust_opponent_gain_point", null).ToString(), 5f, true);
 		}
 
-		// Token: 0x060000E9 RID: 233 RVA: 0x0000C1AB File Offset: 0x0000A3AB
 		private void OnDisqualified(Agent affectorAgent, Agent affectedAgent)
 		{
 			this.ShowMessage(affectedAgent, GameTexts.FindText("str_tournament_joust_opponent_disqualified", null).ToString(), 5f, true);
 			this.ShowMessage(affectorAgent, GameTexts.FindText("str_tournament_joust_you_disqualified", null).ToString(), 5f, true);
 		}
 
-		// Token: 0x060000EA RID: 234 RVA: 0x0000C1E7 File Offset: 0x0000A3E7
 		private void OnUnconscious(Agent affectorAgent, Agent affectedAgent)
 		{
 			this.ShowMessage(affectedAgent, GameTexts.FindText("str_tournament_joust_you_become_unconscious", null).ToString(), 5f, true);
 			this.ShowMessage(affectorAgent, GameTexts.FindText("str_tournament_joust_opponent_become_unconscious", null).ToString(), 5f, true);
 		}
 
-		// Token: 0x060000EB RID: 235 RVA: 0x0000C223 File Offset: 0x0000A423
 		public void ShowMessage(string str, float duration, bool hasPriority = true)
 		{
 			this._messageUIHandler.ShowMessage(str, duration, hasPriority);
 		}
 
-		// Token: 0x060000EC RID: 236 RVA: 0x0000C233 File Offset: 0x0000A433
 		public void ShowMessage(Agent agent, string str, float duration, bool hasPriority = true)
 		{
 			if (agent.Character == this._gameSystem.PlayerTroop)
@@ -138,19 +127,16 @@ namespace SandBox.View.Missions.Tournaments
 			}
 		}
 
-		// Token: 0x060000ED RID: 237 RVA: 0x0000C252 File Offset: 0x0000A452
 		public void DeleteMessage(string str)
 		{
 			this._messageUIHandler.DeleteMessage(str);
 		}
 
-		// Token: 0x060000EE RID: 238 RVA: 0x0000C260 File Offset: 0x0000A460
 		public void DeleteMessage(Agent agent, string str)
 		{
 			this.DeleteMessage(str);
 		}
 
-		// Token: 0x060000EF RID: 239 RVA: 0x0000C26C File Offset: 0x0000A46C
 		private void OnAgentStateChanged(Agent agent, JoustingAgentController.JoustingAgentState state)
 		{
 			string text;
@@ -200,16 +186,12 @@ namespace SandBox.View.Missions.Tournaments
 			}
 		}
 
-		// Token: 0x0400007C RID: 124
 		private MissionScoreUIHandler _scoreUIHandler;
 
-		// Token: 0x0400007D RID: 125
 		private MissionMessageUIHandler _messageUIHandler;
 
-		// Token: 0x0400007E RID: 126
 		private TournamentJoustingMissionController _tournamentJoustingMissionController;
 
-		// Token: 0x0400007F RID: 127
 		private Game _gameSystem;
 	}
 }

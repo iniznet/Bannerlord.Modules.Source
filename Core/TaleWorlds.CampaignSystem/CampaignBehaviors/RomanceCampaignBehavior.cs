@@ -20,11 +20,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003CF RID: 975
 	public class RomanceCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CEA RID: 3306
-		// (get) Token: 0x06003A8F RID: 14991 RVA: 0x0010FCF1 File Offset: 0x0010DEF1
 		private CampaignTime RomanceCourtshipAttemptCooldown
 		{
 			get
@@ -33,13 +30,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A90 RID: 14992 RVA: 0x0010FCFD File Offset: 0x0010DEFD
 		public RomanceCampaignBehavior()
 		{
 			this._previousRomancePersuasionAttempts = new List<PersuasionAttempt>();
 		}
 
-		// Token: 0x06003A91 RID: 14993 RVA: 0x0010FD34 File Offset: 0x0010DF34
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -47,13 +42,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.DailyTickClan));
 		}
 
-		// Token: 0x06003A92 RID: 14994 RVA: 0x0010FD86 File Offset: 0x0010DF86
 		private void DailyTickClan(Clan clan)
 		{
 			this.CheckNpcMarriages(clan);
 		}
 
-		// Token: 0x06003A93 RID: 14995 RVA: 0x0010FD90 File Offset: 0x0010DF90
 		private void CheckNpcMarriages(Clan consideringClan)
 		{
 			if (this.IsClanSuitableForNpcMarriage(consideringClan))
@@ -93,25 +86,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A94 RID: 14996 RVA: 0x0010FF54 File Offset: 0x0010E154
 		private bool IsClanSuitableForNpcMarriage(Clan clan)
 		{
 			return clan != Clan.PlayerClan && Campaign.Current.Models.MarriageModel.IsClanSuitableForMarriage(clan);
 		}
 
-		// Token: 0x06003A95 RID: 14997 RVA: 0x0010FF75 File Offset: 0x0010E175
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<PersuasionAttempt>>("previousRomancePersuasionAttempts", ref this._previousRomancePersuasionAttempts);
 		}
 
-		// Token: 0x06003A96 RID: 14998 RVA: 0x0010FF89 File Offset: 0x0010E189
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06003A97 RID: 14999 RVA: 0x0010FF94 File Offset: 0x0010E194
 		private PersuasionTask GetCurrentPersuasionTask()
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -124,7 +113,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this._allReservations[this._allReservations.Count - 1];
 		}
 
-		// Token: 0x06003A98 RID: 15000 RVA: 0x00110030 File Offset: 0x0010E230
 		private void RemoveUnneededPersuasionAttempts()
 		{
 			foreach (PersuasionAttempt persuasionAttempt in this._previousRomancePersuasionAttempts.ToList<PersuasionAttempt>())
@@ -136,7 +124,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A99 RID: 15001 RVA: 0x001100A8 File Offset: 0x0010E2A8
 		protected void AddDialogs(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("lord_special_request_flirt", "lord_talk_speak_diplomacy_2", "lord_start_courtship_response", "{=!}{FLIRTATION_LINE}", new ConversationSentence.OnConditionDelegate(this.conversation_player_can_open_courtship_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_player_opens_courtship_on_consequence), 100, null, null);
@@ -229,7 +216,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddPlayerLine("lord_propose_marriage_conv_nevermind", "lord_propose_marry_one_of_your_kind_options", "lord_pretalk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
 		}
 
-		// Token: 0x06003A9A RID: 15002 RVA: 0x00110AF0 File Offset: 0x0010ECF0
 		private bool courtship_hero_not_clan_leader_on_condition()
 		{
 			Hero leader = Hero.OneToOneConversationHero.Clan.Leader;
@@ -241,7 +227,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003A9B RID: 15003 RVA: 0x00110B2B File Offset: 0x0010ED2B
 		private void courtship_conversation_leave_on_consequence()
 		{
 			if (PlayerEncounter.Current != null)
@@ -250,7 +235,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A9C RID: 15004 RVA: 0x00110B3C File Offset: 0x0010ED3C
 		private void conversation_finalize_marriage_barter_consequence()
 		{
 			Hero heroBeingProposedTo = Hero.OneToOneConversationHero;
@@ -275,7 +259,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A9D RID: 15005 RVA: 0x00110C40 File Offset: 0x0010EE40
 		private bool PersuasionAttemptRecentlyFailed(Hero targetHero, int reservationType)
 		{
 			foreach (PersuasionAttempt persuasionAttempt in this._previousRomancePersuasionAttempts)
@@ -288,7 +271,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003A9E RID: 15006 RVA: 0x00110CBC File Offset: 0x0010EEBC
 		private void DailyTick()
 		{
 			foreach (Romance.RomanticState romanticState in Romance.RomanticStateList.ToList<Romance.RomanticState>())
@@ -300,7 +282,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A9F RID: 15007 RVA: 0x00110D34 File Offset: 0x0010EF34
 		private bool PersuasionAttemptRecentlyCriticallyFailed(Hero targetHero, int reservationType)
 		{
 			foreach (PersuasionAttempt persuasionAttempt in this._previousRomancePersuasionAttempts)
@@ -313,7 +294,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AA0 RID: 15008 RVA: 0x00110DB0 File Offset: 0x0010EFB0
 		private IEnumerable<RomanceCampaignBehavior.RomanceReservationDescription> GetRomanceReservations(Hero wooed, Hero wooer)
 		{
 			List<RomanceCampaignBehavior.RomanceReservationDescription> list = new List<RomanceCampaignBehavior.RomanceReservationDescription>();
@@ -383,7 +363,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06003AA1 RID: 15009 RVA: 0x00110F98 File Offset: 0x0010F198
 		private List<PersuasionTask> GetPersuasionTasksForCourtshipStage1(Hero wooed, Hero wooer)
 		{
 			StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, null, false);
@@ -458,7 +437,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06003AA2 RID: 15010 RVA: 0x00111500 File Offset: 0x0010F700
 		private Tuple<TraitObject, int>[] GetTraitCorrelations(int valor = 0, int mercy = 0, int honor = 0, int generosity = 0, int calculating = 0)
 		{
 			return new Tuple<TraitObject, int>[]
@@ -471,7 +449,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x06003AA3 RID: 15011 RVA: 0x0011155C File Offset: 0x0010F75C
 		private List<PersuasionTask> GetPersuasionTasksForCourtshipStage2(Hero wooed, Hero wooer)
 		{
 			StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, null, false);
@@ -650,7 +627,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06003AA4 RID: 15012 RVA: 0x00111E58 File Offset: 0x00110058
 		private bool conversation_courtship_initial_reaction_on_condition()
 		{
 			IEnumerable<RomanceCampaignBehavior.RomanceReservationDescription> romanceReservations = this.GetRomanceReservations(Hero.OneToOneConversationHero, Hero.MainHero);
@@ -662,7 +638,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003AA5 RID: 15013 RVA: 0x00111EDC File Offset: 0x001100DC
 		private bool conversation_courtship_decline_reaction_to_player_on_condition()
 		{
 			if (Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) == Romance.RomanceLevelEnum.FailedInPracticalities)
@@ -678,7 +653,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AA6 RID: 15014 RVA: 0x00111F34 File Offset: 0x00110134
 		private bool conversation_courtship_reaction_to_player_on_condition()
 		{
 			IEnumerable<RomanceCampaignBehavior.RomanceReservationDescription> romanceReservations = this.GetRomanceReservations(Hero.OneToOneConversationHero, Hero.MainHero);
@@ -746,7 +720,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003AA7 RID: 15015 RVA: 0x0011219C File Offset: 0x0011039C
 		private void conversation_fail_courtship_on_consequence()
 		{
 			if (Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) == Romance.RomanceLevelEnum.CourtshipStarted)
@@ -765,7 +738,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationManager.EndPersuasion();
 		}
 
-		// Token: 0x06003AA8 RID: 15016 RVA: 0x00112208 File Offset: 0x00110408
 		private void conversation_start_courtship_persuasion_pt1_on_consequence()
 		{
 			if (Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) == Romance.RomanceLevelEnum.MatchMadeByFamily)
@@ -808,7 +780,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationManager.StartPersuasion(this._maximumScoreCap, this._successValue, this._failValue, this._criticalSuccessValue, this._criticalFailValue, num, PersuasionDifficulty.Medium);
 		}
 
-		// Token: 0x06003AA9 RID: 15017 RVA: 0x001123A0 File Offset: 0x001105A0
 		private void conversation_courtship_stage_1_success_on_consequence()
 		{
 			Romance.RomanticState romanticState = Romance.GetRomanticState(Hero.MainHero, Hero.OneToOneConversationHero);
@@ -819,7 +790,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ChangeRomanticStateAction.Apply(Hero.MainHero, Hero.OneToOneConversationHero, Romance.RomanceLevelEnum.CoupleDecidedThatTheyAreCompatible);
 		}
 
-		// Token: 0x06003AAA RID: 15018 RVA: 0x001123EC File Offset: 0x001105EC
 		private void conversation_courtship_stage_2_success_on_consequence()
 		{
 			Romance.RomanticState romanticState = Romance.GetRomanticState(Hero.MainHero, Hero.OneToOneConversationHero);
@@ -830,7 +800,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ChangeRomanticStateAction.Apply(Hero.MainHero, Hero.OneToOneConversationHero, Romance.RomanceLevelEnum.CoupleAgreedOnMarriage);
 		}
 
-		// Token: 0x06003AAB RID: 15019 RVA: 0x00112440 File Offset: 0x00110640
 		private void conversation_continue_courtship_stage_2_on_consequence()
 		{
 			Hero hero = Hero.MainHero.MapFaction.Leader;
@@ -869,7 +838,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationManager.StartPersuasion(this._maximumScoreCap, this._successValue, this._failValue, this._criticalSuccessValue, this._criticalFailValue, num, PersuasionDifficulty.Medium);
 		}
 
-		// Token: 0x06003AAC RID: 15020 RVA: 0x001125B8 File Offset: 0x001107B8
 		private bool conversation_check_if_unmet_reservation_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -888,7 +856,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AAD RID: 15021 RVA: 0x00112630 File Offset: 0x00110830
 		private bool conversation_lord_player_has_failed_in_courtship_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -900,7 +867,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AAE RID: 15022 RVA: 0x0011268C File Offset: 0x0011088C
 		private bool conversation_courtship_persuasion_option_1_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -915,7 +881,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AAF RID: 15023 RVA: 0x00112704 File Offset: 0x00110904
 		private bool conversation_courtship_persuasion_option_2_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -930,7 +895,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB0 RID: 15024 RVA: 0x0011277C File Offset: 0x0011097C
 		private bool conversation_courtship_persuasion_option_3_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -945,7 +909,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB1 RID: 15025 RVA: 0x001127F4 File Offset: 0x001109F4
 		private bool conversation_courtship_persuasion_option_4_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -960,7 +923,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB2 RID: 15026 RVA: 0x0011286C File Offset: 0x00110A6C
 		private void conversation_romance_1_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -970,7 +932,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AB3 RID: 15027 RVA: 0x001128A0 File Offset: 0x00110AA0
 		private void conversation_romance_2_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -980,7 +941,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AB4 RID: 15028 RVA: 0x001128D4 File Offset: 0x00110AD4
 		private void conversation_romance_3_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -990,7 +950,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AB5 RID: 15029 RVA: 0x00112908 File Offset: 0x00110B08
 		private void conversation_romance_4_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -1000,7 +959,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AB6 RID: 15030 RVA: 0x0011293C File Offset: 0x00110B3C
 		private bool RomancePersuasionOption1ClickableOnCondition1(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -1013,7 +971,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB7 RID: 15031 RVA: 0x00112988 File Offset: 0x00110B88
 		private bool RomancePersuasionOption2ClickableOnCondition2(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -1026,7 +983,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB8 RID: 15032 RVA: 0x001129D4 File Offset: 0x00110BD4
 		private bool RomancePersuasionOption3ClickableOnCondition3(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -1039,7 +995,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AB9 RID: 15033 RVA: 0x00112A20 File Offset: 0x00110C20
 		private bool RomancePersuasionOption4ClickableOnCondition4(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -1052,62 +1007,52 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ABA RID: 15034 RVA: 0x00112A6C File Offset: 0x00110C6C
 		private PersuasionOptionArgs SetupCourtshipPersuasionOption1()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(0);
 		}
 
-		// Token: 0x06003ABB RID: 15035 RVA: 0x00112A7F File Offset: 0x00110C7F
 		private PersuasionOptionArgs SetupCourtshipPersuasionOption2()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(1);
 		}
 
-		// Token: 0x06003ABC RID: 15036 RVA: 0x00112A92 File Offset: 0x00110C92
 		private PersuasionOptionArgs SetupCourtshipPersuasionOption3()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(2);
 		}
 
-		// Token: 0x06003ABD RID: 15037 RVA: 0x00112AA5 File Offset: 0x00110CA5
 		private PersuasionOptionArgs SetupCourtshipPersuasionOption4()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(3);
 		}
 
-		// Token: 0x06003ABE RID: 15038 RVA: 0x00112AB8 File Offset: 0x00110CB8
 		private bool conversation_player_eligible_for_marriage_with_conversation_hero_on_condition()
 		{
 			return Hero.MainHero.Spouse == null && Hero.OneToOneConversationHero != null && this.MarriageCourtshipPossibility(Hero.MainHero, Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06003ABF RID: 15039 RVA: 0x00112ADF File Offset: 0x00110CDF
 		private bool conversation_player_eligible_for_marriage_with_hero_rltv_on_condition()
 		{
 			return Hero.MainHero.Spouse == null && Hero.OneToOneConversationHero != null;
 		}
 
-		// Token: 0x06003AC0 RID: 15040 RVA: 0x00112AF7 File Offset: 0x00110CF7
 		private void conversation_find_player_relatives_eligible_for_marriage_on_consequence()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(this.FindPlayerRelativesEligibleForMarriage(Hero.OneToOneConversationHero.Clan).ToList<CharacterObject>(), 5);
 		}
 
-		// Token: 0x06003AC1 RID: 15041 RVA: 0x00112B14 File Offset: 0x00110D14
 		private void conversation_player_nominates_self_for_marriage_on_consequence()
 		{
 			this._playerProposalHero = Hero.MainHero;
 		}
 
-		// Token: 0x06003AC2 RID: 15042 RVA: 0x00112B24 File Offset: 0x00110D24
 		private void conversation_player_nominates_marriage_relative_on_consequence()
 		{
 			CharacterObject characterObject = ConversationSentence.SelectedRepeatObject as CharacterObject;
 			this._playerProposalHero = characterObject.HeroObject;
 		}
 
-		// Token: 0x06003AC3 RID: 15043 RVA: 0x00112B48 File Offset: 0x00110D48
 		private bool conversation_player_relative_eligible_for_marriage_on_condition()
 		{
 			CharacterObject characterObject = ConversationSentence.CurrentProcessedRepeatObject as CharacterObject;
@@ -1120,7 +1065,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AC4 RID: 15044 RVA: 0x00112B78 File Offset: 0x00110D78
 		private bool conversation_propose_clan_leader_for_player_nomination_on_condition()
 		{
 			foreach (Hero hero in Hero.OneToOneConversationHero.Clan.Lords.OrderByDescending((Hero x) => x.Age))
@@ -1134,7 +1078,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AC5 RID: 15045 RVA: 0x00112C1C File Offset: 0x00110E1C
 		private bool conversation_propose_spouse_for_player_nomination_on_condition()
 		{
 			foreach (Hero hero in Hero.OneToOneConversationHero.Clan.Lords.OrderByDescending((Hero x) => x.Age))
@@ -1151,20 +1094,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AC6 RID: 15046 RVA: 0x00112CD8 File Offset: 0x00110ED8
 		private bool conversation_player_rltv_agrees_on_courtship_on_condition()
 		{
 			Hero courtedHeroInOtherClan = Romance.GetCourtedHeroInOtherClan(this._playerProposalHero, this._proposedSpouseForPlayerRelative);
 			return courtedHeroInOtherClan == null || courtedHeroInOtherClan == this._proposedSpouseForPlayerRelative;
 		}
 
-		// Token: 0x06003AC7 RID: 15047 RVA: 0x00112D05 File Offset: 0x00110F05
 		private void conversation_player_agrees_on_courtship_on_consequence()
 		{
 			ChangeRomanticStateAction.Apply(this._playerProposalHero, this._proposedSpouseForPlayerRelative, Romance.RomanceLevelEnum.MatchMadeByFamily);
 		}
 
-		// Token: 0x06003AC8 RID: 15048 RVA: 0x00112D1C File Offset: 0x00110F1C
 		private void conversation_lord_propose_marriage_to_clan_leader_confirm_consequences()
 		{
 			MarriageBarterable marriageBarterable = new MarriageBarterable(Hero.MainHero, PartyBase.MainParty, this._playerProposalHero, this._proposedSpouseForPlayerRelative);
@@ -1176,7 +1116,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			instance.StartBarterOffer(mainHero, oneToOneConversationHero, mainParty, (partyBelongedTo != null) ? partyBelongedTo.Party : null, null, (Barterable barterableObj, BarterData _args, object obj) => BarterManager.Instance.InitializeMarriageBarterContext(barterableObj, _args, new Tuple<Hero, Hero>(this._playerProposalHero, this._proposedSpouseForPlayerRelative)), 0, false, new Barterable[] { marriageBarterable });
 		}
 
-		// Token: 0x06003AC9 RID: 15049 RVA: 0x00112D90 File Offset: 0x00110F90
 		private bool conversation_romance_blocked_on_condition()
 		{
 			if (Hero.OneToOneConversationHero == null)
@@ -1201,7 +1140,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ACA RID: 15050 RVA: 0x00112E48 File Offset: 0x00111048
 		private bool conversation_romance_at_stage_1_discussions_on_condition()
 		{
 			if (Hero.OneToOneConversationHero == null)
@@ -1223,7 +1161,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ACB RID: 15051 RVA: 0x00112F00 File Offset: 0x00111100
 		private bool conversation_romance_at_stage_2_discussions_on_condition()
 		{
 			if (Hero.OneToOneConversationHero == null)
@@ -1245,13 +1182,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ACC RID: 15052 RVA: 0x00112FB4 File Offset: 0x001111B4
 		private bool conversation_finalize_courtship_for_hero_on_condition()
 		{
 			return this.MarriageCourtshipPossibility(Hero.MainHero, Hero.OneToOneConversationHero) && Hero.OneToOneConversationHero.Clan.Leader == Hero.OneToOneConversationHero && Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) == Romance.RomanceLevelEnum.CoupleAgreedOnMarriage;
 		}
 
-		// Token: 0x06003ACD RID: 15053 RVA: 0x00112FF4 File Offset: 0x001111F4
 		private bool conversation_finalize_courtship_for_other_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -1273,7 +1208,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ACE RID: 15054 RVA: 0x001130B8 File Offset: 0x001112B8
 		private bool conversation_discuss_marriage_alliance_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -1306,7 +1240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003ACF RID: 15055 RVA: 0x001131D0 File Offset: 0x001113D0
 		private bool conversation_player_can_open_courtship_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -1344,13 +1277,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AD0 RID: 15056 RVA: 0x001132B2 File Offset: 0x001114B2
 		private bool conversation_player_opens_courtship_on_condition()
 		{
 			return this._playerProposalHero == Hero.MainHero;
 		}
 
-		// Token: 0x06003AD1 RID: 15057 RVA: 0x001132C1 File Offset: 0x001114C1
 		private void conversation_player_opens_courtship_on_consequence()
 		{
 			if (Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) != Romance.RomanceLevelEnum.FailedInCompatibility && Romance.GetRomanticLevel(Hero.MainHero, Hero.OneToOneConversationHero) != Romance.RomanceLevelEnum.FailedInPracticalities)
@@ -1359,7 +1290,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AD2 RID: 15058 RVA: 0x001132F8 File Offset: 0x001114F8
 		private bool conversation_courtship_try_later_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -1367,7 +1297,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003AD3 RID: 15059 RVA: 0x00113320 File Offset: 0x00111520
 		private bool conversation_courtship_reaction_stage_1_on_condition()
 		{
 			PersuasionOptionResult item = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>().Item2;
@@ -1396,13 +1325,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003AD4 RID: 15060 RVA: 0x001133D4 File Offset: 0x001115D4
 		private bool conversation_marriage_barter_successful_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x06003AD5 RID: 15061 RVA: 0x001133E8 File Offset: 0x001115E8
 		private void conversation_marriage_barter_successful_on_consequence()
 		{
 			foreach (PersuasionAttempt persuasionAttempt in this._previousRomancePersuasionAttempts)
@@ -1427,7 +1354,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AD6 RID: 15062 RVA: 0x001134F8 File Offset: 0x001116F8
 		private bool conversation_courtship_reaction_stage_2_on_condition()
 		{
 			PersuasionOptionResult item = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>().Item2;
@@ -1458,7 +1384,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003AD7 RID: 15063 RVA: 0x001135E0 File Offset: 0x001117E0
 		private void conversation_lord_persuade_option_reaction_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -1472,7 +1397,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._previousRomancePersuasionAttempts.Add(persuasionAttempt);
 		}
 
-		// Token: 0x06003AD8 RID: 15064 RVA: 0x00113678 File Offset: 0x00111878
 		private PersuasionTask FindTaskOfOption(PersuasionOptionArgs optionChosenWithLine)
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -1491,7 +1415,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003AD9 RID: 15065 RVA: 0x00113714 File Offset: 0x00111914
 		private List<CharacterObject> FindPlayerRelativesEligibleForMarriage(Clan withClan)
 		{
 			List<CharacterObject> list = new List<CharacterObject>();
@@ -1511,125 +1434,78 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06003ADA RID: 15066 RVA: 0x001137E0 File Offset: 0x001119E0
 		private TextObject ShowSuccess(PersuasionOptionArgs optionArgs)
 		{
 			return TextObject.Empty;
 		}
 
-		// Token: 0x06003ADB RID: 15067 RVA: 0x001137E7 File Offset: 0x001119E7
 		private bool MarriageCourtshipPossibility(Hero person1, Hero person2)
 		{
 			return Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(person1, person2) && !FactionManager.IsAtWarAgainstFaction(person1.MapFaction, person2.MapFaction);
 		}
 
-		// Token: 0x04001203 RID: 4611
 		private const PersuasionDifficulty _difficulty = PersuasionDifficulty.Medium;
 
-		// Token: 0x04001204 RID: 4612
 		private List<PersuasionTask> _allReservations;
 
-		// Token: 0x04001205 RID: 4613
 		[SaveableField(1)]
 		private List<PersuasionAttempt> _previousRomancePersuasionAttempts;
 
-		// Token: 0x04001206 RID: 4614
 		private Hero _playerProposalHero;
 
-		// Token: 0x04001207 RID: 4615
 		private Hero _proposedSpouseForPlayerRelative;
 
-		// Token: 0x04001208 RID: 4616
 		private float _maximumScoreCap;
 
-		// Token: 0x04001209 RID: 4617
 		private float _successValue = 1f;
 
-		// Token: 0x0400120A RID: 4618
 		private float _criticalSuccessValue = 2f;
 
-		// Token: 0x0400120B RID: 4619
 		private float _criticalFailValue = 2f;
 
-		// Token: 0x0400120C RID: 4620
 		private float _failValue;
 
-		// Token: 0x0200071C RID: 1820
 		public enum RomanticPreference
 		{
-			// Token: 0x04001D49 RID: 7497
 			Conventional,
-			// Token: 0x04001D4A RID: 7498
 			Moralist,
-			// Token: 0x04001D4B RID: 7499
 			AttractedToBravery,
-			// Token: 0x04001D4C RID: 7500
 			Macchiavellian,
-			// Token: 0x04001D4D RID: 7501
 			Romantic,
-			// Token: 0x04001D4E RID: 7502
 			Companionship,
-			// Token: 0x04001D4F RID: 7503
 			MadAndBad,
-			// Token: 0x04001D50 RID: 7504
 			Security,
-			// Token: 0x04001D51 RID: 7505
 			PreferencesEnd
 		}
 
-		// Token: 0x0200071D RID: 1821
 		private enum RomanceReservationType
 		{
-			// Token: 0x04001D53 RID: 7507
 			TravelChat,
-			// Token: 0x04001D54 RID: 7508
 			TravelLesson,
-			// Token: 0x04001D55 RID: 7509
 			Aspirations,
-			// Token: 0x04001D56 RID: 7510
 			Compatibility,
-			// Token: 0x04001D57 RID: 7511
 			Attraction,
-			// Token: 0x04001D58 RID: 7512
 			Family,
-			// Token: 0x04001D59 RID: 7513
 			MaterialWealth,
-			// Token: 0x04001D5A RID: 7514
 			NoObjection
 		}
 
-		// Token: 0x0200071E RID: 1822
 		private enum RomanceReservationDescription
 		{
-			// Token: 0x04001D5C RID: 7516
 			CompatibilityINeedSomeoneUpright,
-			// Token: 0x04001D5D RID: 7517
 			CompatibilityNeedSomethingInCommon,
-			// Token: 0x04001D5E RID: 7518
 			CompatibiliyINeedSomeoneDangerous,
-			// Token: 0x04001D5F RID: 7519
 			CompatibilityStrongPoliticalBeliefs,
-			// Token: 0x04001D60 RID: 7520
 			AttractionYoureNotMyType,
-			// Token: 0x04001D61 RID: 7521
 			AttractionYoureGoodEnough,
-			// Token: 0x04001D62 RID: 7522
 			AttractionIAmDrawnToYou,
-			// Token: 0x04001D63 RID: 7523
 			PropertyYouSeemRichEnough,
-			// Token: 0x04001D64 RID: 7524
 			PropertyWeNeedToBeComfortable,
-			// Token: 0x04001D65 RID: 7525
 			PropertyIWantRealWealth,
-			// Token: 0x04001D66 RID: 7526
 			PropertyHowCanIMarryAnAdventuress,
-			// Token: 0x04001D67 RID: 7527
 			FamilyApprovalIAmGladYouAreFriendsWithOurFamily,
-			// Token: 0x04001D68 RID: 7528
 			FamilyApprovalYouNeedToBeFriendsWithOurFamily,
-			// Token: 0x04001D69 RID: 7529
 			FamilyApprovalHowCanYouBeEnemiesWithOurFamily,
-			// Token: 0x04001D6A RID: 7530
 			FamilyApprovalItWouldBeBestToBefriendOurFamily
 		}
 	}

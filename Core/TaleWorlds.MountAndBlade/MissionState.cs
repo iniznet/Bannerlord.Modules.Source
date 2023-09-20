@@ -9,16 +9,10 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000231 RID: 561
 	public class MissionState : GameState
 	{
-		// Token: 0x1700061A RID: 1562
-		// (get) Token: 0x06001F02 RID: 7938 RVA: 0x0006E457 File Offset: 0x0006C657
-		// (set) Token: 0x06001F03 RID: 7939 RVA: 0x0006E45F File Offset: 0x0006C65F
 		public IMissionSystemHandler Handler { get; set; }
 
-		// Token: 0x1700061B RID: 1563
-		// (get) Token: 0x06001F04 RID: 7940 RVA: 0x0006E468 File Offset: 0x0006C668
 		public override bool IsMission
 		{
 			get
@@ -27,27 +21,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700061C RID: 1564
-		// (get) Token: 0x06001F05 RID: 7941 RVA: 0x0006E46B File Offset: 0x0006C66B
-		// (set) Token: 0x06001F06 RID: 7942 RVA: 0x0006E472 File Offset: 0x0006C672
 		public static MissionState Current { get; private set; }
 
-		// Token: 0x1700061D RID: 1565
-		// (get) Token: 0x06001F07 RID: 7943 RVA: 0x0006E47A File Offset: 0x0006C67A
-		// (set) Token: 0x06001F08 RID: 7944 RVA: 0x0006E482 File Offset: 0x0006C682
 		public Mission CurrentMission { get; private set; }
 
-		// Token: 0x1700061E RID: 1566
-		// (get) Token: 0x06001F09 RID: 7945 RVA: 0x0006E48B File Offset: 0x0006C68B
-		// (set) Token: 0x06001F0A RID: 7946 RVA: 0x0006E493 File Offset: 0x0006C693
 		public string MissionName { get; private set; }
 
-		// Token: 0x1700061F RID: 1567
-		// (get) Token: 0x06001F0B RID: 7947 RVA: 0x0006E49C File Offset: 0x0006C69C
-		// (set) Token: 0x06001F0C RID: 7948 RVA: 0x0006E4A4 File Offset: 0x0006C6A4
 		public bool Paused { get; set; }
 
-		// Token: 0x06001F0D RID: 7949 RVA: 0x0006E4AD File Offset: 0x0006C6AD
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -55,7 +36,6 @@ namespace TaleWorlds.MountAndBlade
 			LoadingWindow.EnableGlobalLoadingWindow();
 		}
 
-		// Token: 0x06001F0E RID: 7950 RVA: 0x0006E4C0 File Offset: 0x0006C6C0
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -64,21 +44,18 @@ namespace TaleWorlds.MountAndBlade
 			MissionState.Current = null;
 		}
 
-		// Token: 0x06001F0F RID: 7951 RVA: 0x0006E4EB File Offset: 0x0006C6EB
 		protected override void OnActivate()
 		{
 			base.OnActivate();
 			this.CurrentMission.OnMissionStateActivate();
 		}
 
-		// Token: 0x06001F10 RID: 7952 RVA: 0x0006E4FE File Offset: 0x0006C6FE
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
 			this.CurrentMission.OnMissionStateDeactivate();
 		}
 
-		// Token: 0x06001F11 RID: 7953 RVA: 0x0006E511 File Offset: 0x0006C711
 		protected override void OnIdleTick(float dt)
 		{
 			base.OnIdleTick(dt);
@@ -88,7 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F12 RID: 7954 RVA: 0x0006E53C File Offset: 0x0006C73C
 		protected override void OnTick(float realDt)
 		{
 			base.OnTick(realDt);
@@ -142,7 +118,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F13 RID: 7955 RVA: 0x0006E6B4 File Offset: 0x0006C8B4
 		private void TickMission(float realDt)
 		{
 			if (this._firstMissionTickAfterLoading && this.CurrentMission != null && this.CurrentMission.CurrentState == Mission.State.Continuing)
@@ -229,7 +204,6 @@ namespace TaleWorlds.MountAndBlade
 			this._missionTickCount++;
 		}
 
-		// Token: 0x06001F14 RID: 7956 RVA: 0x0006E8CF File Offset: 0x0006CACF
 		private void TickMissionAux(float dt, float realDt, bool updateCamera, bool asyncAITick)
 		{
 			this.CurrentMission.Tick(dt);
@@ -239,7 +213,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F15 RID: 7957 RVA: 0x0006E8F8 File Offset: 0x0006CAF8
 		private void TickLoading(float realDt)
 		{
 			this._tickCountBeforeLoad++;
@@ -255,7 +228,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F16 RID: 7958 RVA: 0x0006E950 File Offset: 0x0006CB50
 		private void LoadMission()
 		{
 			foreach (MissionBehavior missionBehavior in this.CurrentMission.MissionBehaviors)
@@ -267,13 +239,11 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentMission.Initialize();
 		}
 
-		// Token: 0x06001F17 RID: 7959 RVA: 0x0006E9BC File Offset: 0x0006CBBC
 		private void CreateMission(MissionInitializerRecord rec)
 		{
 			this.CurrentMission = new Mission(rec, this);
 		}
 
-		// Token: 0x06001F18 RID: 7960 RVA: 0x0006E9CC File Offset: 0x0006CBCC
 		private Mission HandleOpenNew(string missionName, MissionInitializerRecord rec, InitializeMissionBehaviorsDelegate handler, bool addDefaultMissionBehaviors)
 		{
 			this.MissionName = missionName;
@@ -297,7 +267,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.CurrentMission;
 		}
 
-		// Token: 0x06001F19 RID: 7961 RVA: 0x0006EA78 File Offset: 0x0006CC78
 		private void AddBehaviorsToMission(IEnumerable<MissionBehavior> behaviors)
 		{
 			MissionLogic[] array = (from behavior in behaviors.OfType<MissionLogic>()
@@ -308,7 +277,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentMission.InitializeStartingBehaviors(array, array2, array3);
 		}
 
-		// Token: 0x06001F1A RID: 7962 RVA: 0x0006EAFA File Offset: 0x0006CCFA
 		private static bool IsRecordingActive()
 		{
 			if (GameNetwork.IsServer)
@@ -318,7 +286,6 @@ namespace TaleWorlds.MountAndBlade
 			return MissionState.RecordMission && Game.Current.GameType.IsCoreOnlyGameMode;
 		}
 
-		// Token: 0x06001F1B RID: 7963 RVA: 0x0006EB24 File Offset: 0x0006CD24
 		public static Mission OpenNew(string missionName, MissionInitializerRecord rec, InitializeMissionBehaviorsDelegate handler, bool addDefaultMissionBehaviors = true, bool needsMemoryCleanup = true)
 		{
 			Debug.Print(string.Concat(new string[] { "Opening new mission ", missionName, " ", rec.SceneLevels, ".\n" }), 0, Debug.DebugColor.White, 17592186044416UL);
@@ -334,7 +301,6 @@ namespace TaleWorlds.MountAndBlade
 			return mission;
 		}
 
-		// Token: 0x06001F1C RID: 7964 RVA: 0x0006EBD0 File Offset: 0x0006CDD0
 		private static IEnumerable<MissionBehavior> AddDefaultMissionBehaviorsTo(Mission mission, IEnumerable<MissionBehavior> behaviors)
 		{
 			List<MissionBehavior> list = new List<MissionBehavior>();
@@ -353,7 +319,6 @@ namespace TaleWorlds.MountAndBlade
 			return list.Concat(behaviors);
 		}
 
-		// Token: 0x06001F1D RID: 7965 RVA: 0x0006EC48 File Offset: 0x0006CE48
 		private void FinishMissionLoading()
 		{
 			this._missionInitializing = false;
@@ -381,37 +346,27 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentMission.Scene.ResumeLoadingRenderings();
 		}
 
-		// Token: 0x06001F1E RID: 7966 RVA: 0x0006ED03 File Offset: 0x0006CF03
 		public void BeginDelayedDisconnectFromMission()
 		{
 			this._isDelayedDisconnecting = true;
 		}
 
-		// Token: 0x04000B4E RID: 2894
 		private const int MissionFastForwardSpeedMultiplier = 10;
 
-		// Token: 0x04000B4F RID: 2895
 		private bool _missionInitializing;
 
-		// Token: 0x04000B50 RID: 2896
 		private bool _firstMissionTickAfterLoading = true;
 
-		// Token: 0x04000B51 RID: 2897
 		private int _tickCountBeforeLoad;
 
-		// Token: 0x04000B52 RID: 2898
 		public static bool RecordMission;
 
-		// Token: 0x04000B54 RID: 2900
 		public float MissionFastForwardAmount;
 
-		// Token: 0x04000B55 RID: 2901
 		public float MissionEndTime;
 
-		// Token: 0x04000B5A RID: 2906
 		private bool _isDelayedDisconnecting;
 
-		// Token: 0x04000B5B RID: 2907
 		private int _missionTickCount;
 	}
 }

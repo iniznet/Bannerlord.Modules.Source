@@ -13,10 +13,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x0200008B RID: 139
 	public class SandboxBattleMoraleModel : BattleMoraleModel
 	{
-		// Token: 0x060005CE RID: 1486 RVA: 0x0002BBE0 File Offset: 0x00029DE0
 		[return: TupleElementNames(new string[] { "affectedSideMaxMoraleLoss", "affectorSideMaxMoraleGain" })]
 		public override ValueTuple<float, float> CalculateMaxMoraleChangeDueToAgentIncapacitated(Agent affectedAgent, AgentState affectedAgentState, Agent affectorAgent, in KillingBlow killingBlow)
 		{
@@ -151,7 +149,6 @@ namespace SandBox.GameComponents
 			return new ValueTuple<float, float>(MathF.Max(explainedNumber2.ResultNumber, 0f), MathF.Max(explainedNumber.ResultNumber, 0f));
 		}
 
-		// Token: 0x060005CF RID: 1487 RVA: 0x0002BF88 File Offset: 0x0002A188
 		[return: TupleElementNames(new string[] { "affectedSideMaxMoraleLoss", "affectorSideMaxMoraleGain" })]
 		public override ValueTuple<float, float> CalculateMaxMoraleChangeDueToAgentPanicked(Agent agent)
 		{
@@ -208,13 +205,11 @@ namespace SandBox.GameComponents
 			return new ValueTuple<float, float>(MathF.Max(num3, 0f), MathF.Max(num2, 0f));
 		}
 
-		// Token: 0x060005D0 RID: 1488 RVA: 0x0002C0C3 File Offset: 0x0002A2C3
 		public override float CalculateMoraleChangeToCharacter(Agent agent, float maxMoraleChange)
 		{
 			return maxMoraleChange / MathF.Max(1f, agent.Character.GetMoraleResistance());
 		}
 
-		// Token: 0x060005D1 RID: 1489 RVA: 0x0002C0DC File Offset: 0x0002A2DC
 		public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
 		{
 			ExplainedNumber explainedNumber;
@@ -339,7 +334,6 @@ namespace SandBox.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060005D2 RID: 1490 RVA: 0x0002C3F0 File Offset: 0x0002A5F0
 		public override bool CanPanicDueToMorale(Agent agent)
 		{
 			bool flag = true;
@@ -357,7 +351,6 @@ namespace SandBox.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060005D3 RID: 1491 RVA: 0x0002C460 File Offset: 0x0002A660
 		public override float CalculateCasualtiesFactor(BattleSideEnum battleSide)
 		{
 			float num = 1f;
@@ -370,7 +363,6 @@ namespace SandBox.GameComponents
 			return num;
 		}
 
-		// Token: 0x060005D4 RID: 1492 RVA: 0x0002C4A4 File Offset: 0x0002A6A4
 		public override float GetAverageMorale(Formation formation)
 		{
 			float num = 0f;

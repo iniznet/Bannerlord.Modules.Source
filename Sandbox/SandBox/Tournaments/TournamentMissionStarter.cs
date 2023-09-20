@@ -11,11 +11,9 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace SandBox.Tournaments
 {
-	// Token: 0x02000019 RID: 25
 	[MissionManager]
 	public static class TournamentMissionStarter
 	{
-		// Token: 0x060000ED RID: 237 RVA: 0x00007538 File Offset: 0x00005738
 		[MissionMethod]
 		public static Mission OpenTournamentArcheryMission(string scene, TournamentGame tournamentGame, Settlement settlement, CultureObject culture, bool isPlayerParticipating)
 		{
@@ -40,7 +38,6 @@ namespace SandBox.Tournaments
 			}, true, true);
 		}
 
-		// Token: 0x060000EE RID: 238 RVA: 0x00007590 File Offset: 0x00005790
 		[MissionMethod]
 		public static Mission OpenTournamentFightMission(string scene, TournamentGame tournamentGame, Settlement settlement, CultureObject culture, bool isPlayerParticipating)
 		{
@@ -66,7 +63,6 @@ namespace SandBox.Tournaments
 			}, true, true);
 		}
 
-		// Token: 0x060000EF RID: 239 RVA: 0x000075E8 File Offset: 0x000057E8
 		[MissionMethod]
 		public static Mission OpenTournamentHorseRaceMission(string scene, TournamentGame tournamentGame, Settlement settlement, CultureObject culture, bool isPlayerParticipating)
 		{
@@ -91,7 +87,6 @@ namespace SandBox.Tournaments
 			}, true, true);
 		}
 
-		// Token: 0x060000F0 RID: 240 RVA: 0x00007640 File Offset: 0x00005840
 		[MissionMethod]
 		public static Mission OpenTournamentJoustingMission(string scene, TournamentGame tournamentGame, Settlement settlement, CultureObject culture, bool isPlayerParticipating)
 		{
@@ -116,7 +111,6 @@ namespace SandBox.Tournaments
 			}, true, true);
 		}
 
-		// Token: 0x060000F1 RID: 241 RVA: 0x00007695 File Offset: 0x00005895
 		[MissionMethod]
 		public static Mission OpenBattleChallengeMission(string scene, IList<Hero> priorityCharsAttacker, IList<Hero> priorityCharsDefender)
 		{

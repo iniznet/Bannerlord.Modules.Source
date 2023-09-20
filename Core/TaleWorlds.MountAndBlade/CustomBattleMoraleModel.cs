@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001E0 RID: 480
 	public class CustomBattleMoraleModel : BattleMoraleModel
 	{
-		// Token: 0x06001B3C RID: 6972 RVA: 0x0005FE2C File Offset: 0x0005E02C
 		[return: TupleElementNames(new string[] { "affectedSideMaxMoraleLoss", "affectorSideMaxMoraleGain" })]
 		public override ValueTuple<float, float> CalculateMaxMoraleChangeDueToAgentIncapacitated(Agent affectedAgent, AgentState affectedAgentState, Agent affectorAgent, in KillingBlow killingBlow)
 		{
@@ -47,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			return new ValueTuple<float, float>(MathF.Max(factoredNumber2.ResultNumber, 0f), MathF.Max(factoredNumber.ResultNumber, 0f));
 		}
 
-		// Token: 0x06001B3D RID: 6973 RVA: 0x0005FF5C File Offset: 0x0005E15C
 		[return: TupleElementNames(new string[] { "affectedSideMaxMoraleLoss", "affectorSideMaxMoraleGain" })]
 		public override ValueTuple<float, float> CalculateMaxMoraleChangeDueToAgentPanicked(Agent agent)
 		{
@@ -71,25 +68,21 @@ namespace TaleWorlds.MountAndBlade
 			return new ValueTuple<float, float>(MathF.Max(num3, 0f), MathF.Max(num2, 0f));
 		}
 
-		// Token: 0x06001B3E RID: 6974 RVA: 0x0005FFFB File Offset: 0x0005E1FB
 		public override float CalculateMoraleChangeToCharacter(Agent agent, float maxMoraleChange)
 		{
 			return maxMoraleChange / MathF.Max(1f, agent.Character.GetMoraleResistance());
 		}
 
-		// Token: 0x06001B3F RID: 6975 RVA: 0x00060014 File Offset: 0x0005E214
 		public override float GetEffectiveInitialMorale(Agent agent, float baseMorale)
 		{
 			return baseMorale;
 		}
 
-		// Token: 0x06001B40 RID: 6976 RVA: 0x00060017 File Offset: 0x0005E217
 		public override bool CanPanicDueToMorale(Agent agent)
 		{
 			return true;
 		}
 
-		// Token: 0x06001B41 RID: 6977 RVA: 0x0006001C File Offset: 0x0005E21C
 		public override float CalculateCasualtiesFactor(BattleSideEnum battleSide)
 		{
 			float num = 1f;
@@ -102,7 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001B42 RID: 6978 RVA: 0x00060060 File Offset: 0x0005E260
 		public override float GetAverageMorale(Formation formation)
 		{
 			float num = 0f;

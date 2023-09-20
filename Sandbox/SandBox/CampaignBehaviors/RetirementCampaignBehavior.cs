@@ -18,16 +18,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x020000A1 RID: 161
 	public class RetirementCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600095A RID: 2394 RVA: 0x0004E6FB File Offset: 0x0004C8FB
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<bool>("_hasTalkedWithHermitBefore", ref this._hasTalkedWithHermitBefore);
 		}
 
-		// Token: 0x0600095B RID: 2395 RVA: 0x0004E710 File Offset: 0x0004C910
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -35,7 +32,6 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.GameMenuOpened));
 		}
 
-		// Token: 0x0600095C RID: 2396 RVA: 0x0004E764 File Offset: 0x0004C964
 		private void GameMenuOpened(MenuCallbackArgs args)
 		{
 			if (args.MenuContext.GameMenu.StringId == "retirement_place")
@@ -55,13 +51,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600095D RID: 2397 RVA: 0x0004E7C1 File Offset: 0x0004C9C1
 		private void HourlyTick()
 		{
 			this.CheckRetirementSettlementVisibility();
 		}
 
-		// Token: 0x0600095E RID: 2398 RVA: 0x0004E7C9 File Offset: 0x0004C9C9
 		private void OnSessionLaunched(CampaignGameStarter starter)
 		{
 			this._retirementSettlement = Settlement.Find("retirement_retreat");
@@ -69,7 +63,6 @@ namespace SandBox.CampaignBehaviors
 			this.SetupConversationDialogues(starter);
 		}
 
-		// Token: 0x0600095F RID: 2399 RVA: 0x0004E7EC File Offset: 0x0004C9EC
 		private void SetupGameMenus(CampaignGameStarter starter)
 		{
 			starter.AddGameMenu("retirement_place", "{=ruHt0Ub5}You are at the base of Mount Erithrys, an ancient volcano that has long been a refuge for oracles, seers and mystics. High up a steep valley, you can make out a number of caves carved into the soft volcanic rock. Coming closer, you see that some show signs of habitation. An old man in worn and tattered robes sits at the mouth of one of these caves, meditating in the cool mountain air.", new OnInitDelegate(this.retirement_menu_on_init), 0, 0, null);
@@ -80,7 +73,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddGameMenuOption("retirement_after_player_knockedout", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.retirement_menu_on_leave), true, -1, false, null);
 		}
 
-		// Token: 0x06000960 RID: 2400 RVA: 0x0004E8F0 File Offset: 0x0004CAF0
 		private void SetupConversationDialogues(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("hermit_start_1", "start", "player_answer", "{=09PJ02x6}Hello there. You must be one of those lordly types who ride their horses about this land, scrabbling for wealth and power. I wonder what you hope to gain from such things...", new ConversationSentence.OnConditionDelegate(this.hermit_start_talk_first_time_on_condition), null, 100, null);
@@ -105,13 +97,11 @@ namespace SandBox.CampaignBehaviors
 			}, 100, null, null);
 		}
 
-		// Token: 0x06000961 RID: 2401 RVA: 0x0004EB25 File Offset: 0x0004CD25
 		private bool hermit_start_talk_first_time_on_condition()
 		{
 			return !this._hasTalkedWithHermitBefore && CharacterObject.OneToOneConversationCharacter.StringId == "sp_hermit";
 		}
 
-		// Token: 0x06000962 RID: 2402 RVA: 0x0004EB48 File Offset: 0x0004CD48
 		private void hermit_player_retire_on_consequence()
 		{
 			TextObject textObject = new TextObject("{=LmoyzsTE}{PLAYER.NAME} will retire. {HEIR_PART} Would you like to continue?", null);
@@ -140,7 +130,6 @@ namespace SandBox.CampaignBehaviors
 			}, null, "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x06000963 RID: 2403 RVA: 0x0004EC14 File Offset: 0x0004CE14
 		private void hermit_player_select_heir_on_consequence()
 		{
 			List<Hero> list = new List<Hero>();
@@ -153,14 +142,12 @@ namespace SandBox.CampaignBehaviors
 			ConversationSentence.SetObjectsToRepeatOver(list, 5);
 		}
 
-		// Token: 0x06000964 RID: 2404 RVA: 0x0004EC9C File Offset: 0x0004CE9C
 		private void hermit_select_heir_multiple_on_consequence()
 		{
 			this._selectedHeir = ConversationSentence.SelectedRepeatObject as Hero;
 			this.hermit_player_retire_on_consequence();
 		}
 
-		// Token: 0x06000965 RID: 2405 RVA: 0x0004ECB4 File Offset: 0x0004CEB4
 		private bool hermit_select_heir_multiple_on_condition()
 		{
 			if (Clan.PlayerClan.GetHeirApparents().Any<KeyValuePair<Hero, int>>())
@@ -175,20 +162,17 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000966 RID: 2406 RVA: 0x0004ECF9 File Offset: 0x0004CEF9
 		private bool hermit_start_talk_on_condition()
 		{
 			return this._hasTalkedWithHermitBefore && CharacterObject.OneToOneConversationCharacter.StringId == "sp_hermit";
 		}
 
-		// Token: 0x06000967 RID: 2407 RVA: 0x0004ED1C File Offset: 0x0004CF1C
 		private void ShowGameStatistics()
 		{
 			GameOverState gameOverState = Game.Current.GameStateManager.CreateState<GameOverState>(new object[] { 0 });
 			Game.Current.GameStateManager.PushState(gameOverState, 0);
 		}
 
-		// Token: 0x06000968 RID: 2408 RVA: 0x0004ED5C File Offset: 0x0004CF5C
 		private void retirement_menu_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = MobileParty.MainParty.CurrentSettlement;
@@ -202,34 +186,29 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000969 RID: 2409 RVA: 0x0004EDD9 File Offset: 0x0004CFD9
 		private bool enter_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 1;
 			return true;
 		}
 
-		// Token: 0x0600096A RID: 2410 RVA: 0x0004EDE3 File Offset: 0x0004CFE3
 		private bool leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 16;
 			return true;
 		}
 
-		// Token: 0x0600096B RID: 2411 RVA: 0x0004EDEE File Offset: 0x0004CFEE
 		private void retirement_menu_on_enter(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationWithId("retirement_retreat"), null, null, null);
 		}
 
-		// Token: 0x0600096C RID: 2412 RVA: 0x0004EE0D File Offset: 0x0004D00D
 		private void retirement_menu_on_leave(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveSettlement();
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600096D RID: 2413 RVA: 0x0004EE1C File Offset: 0x0004D01C
 		private void CheckRetirementSettlementVisibility()
 		{
 			float hideoutSpottingDistance = Campaign.Current.Models.MapVisibilityModel.GetHideoutSpottingDistance();
@@ -245,16 +224,12 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04000333 RID: 819
 		private Hero _selectedHeir;
 
-		// Token: 0x04000334 RID: 820
 		private bool _hasTalkedWithHermitBefore;
 
-		// Token: 0x04000335 RID: 821
 		private bool _playerEndedGame;
 
-		// Token: 0x04000336 RID: 822
 		private Settlement _retirementSettlement;
 	}
 }

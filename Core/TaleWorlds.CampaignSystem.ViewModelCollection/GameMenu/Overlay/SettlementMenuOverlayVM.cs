@@ -19,11 +19,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 {
-	// Token: 0x020000A5 RID: 165
 	[MenuOverlay("SettlementMenuOverlay")]
 	public class SettlementMenuOverlayVM : GameMenuOverlay
 	{
-		// Token: 0x0600105E RID: 4190 RVA: 0x00040BFC File Offset: 0x0003EDFC
 		public SettlementMenuOverlayVM(GameOverlays.MenuOverlayType type)
 		{
 			this._type = type;
@@ -77,7 +75,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600105F RID: 4191 RVA: 0x00040F31 File Offset: 0x0003F131
 		private List<TooltipProperty> GetCrimeTooltip()
 		{
 			Game game = Game.Current;
@@ -88,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return CampaignUIHelper.GetCrimeTooltip(Settlement.CurrentSettlement);
 		}
 
-		// Token: 0x06001060 RID: 4192 RVA: 0x00040F57 File Offset: 0x0003F157
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -97,7 +93,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.Refresh();
 		}
 
-		// Token: 0x06001061 RID: 4193 RVA: 0x00040F94 File Offset: 0x0003F194
 		protected override void ExecuteOnSetAsActiveContextMenuItem(GameMenuPartyItemVM troop)
 		{
 			base.ExecuteOnSetAsActiveContextMenuItem(troop);
@@ -223,25 +218,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001062 RID: 4194 RVA: 0x000416C0 File Offset: 0x0003F8C0
 		private void OnSettlementOverlayTalkPermissionResult(bool isAvailable, TextObject reasonStr)
 		{
 			this._mostRecentOverlayTalkPermission = new Tuple<bool, TextObject>(isAvailable, reasonStr);
 		}
 
-		// Token: 0x06001063 RID: 4195 RVA: 0x000416CF File Offset: 0x0003F8CF
 		private void OnSettlementOverlayQuickTalkPermissionResult(bool isAvailable, TextObject reasonStr)
 		{
 			this._mostRecentOverlayQuickTalkPermission = new Tuple<bool, TextObject>(isAvailable, reasonStr);
 		}
 
-		// Token: 0x06001064 RID: 4196 RVA: 0x000416DE File Offset: 0x0003F8DE
 		private void OnSettlementOverlayLeaveCharacterPermissionResult(bool isAvailable, TextObject reasonStr)
 		{
 			this._mostRecentOverlayLeaveCharacterPermission = new Tuple<bool, TextObject>(isAvailable, reasonStr);
 		}
 
-		// Token: 0x06001065 RID: 4197 RVA: 0x000416ED File Offset: 0x0003F8ED
 		public override void ExecuteOnOverlayClosed()
 		{
 			base.ExecuteOnOverlayClosed();
@@ -249,13 +240,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			base.ContextList.Clear();
 		}
 
-		// Token: 0x06001066 RID: 4198 RVA: 0x00041706 File Offset: 0x0003F906
 		private void ExecuteCloseTooltip()
 		{
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x06001067 RID: 4199 RVA: 0x0004170D File Offset: 0x0003F90D
 		private void ExecuteOpenTooltip()
 		{
 			InformationManager.ShowTooltip(typeof(Settlement), new object[]
@@ -265,13 +254,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			});
 		}
 
-		// Token: 0x06001068 RID: 4200 RVA: 0x00041735 File Offset: 0x0003F935
 		private void ExecuteSettlementLink()
 		{
 			Campaign.Current.EncyclopediaManager.GoToLink(Settlement.CurrentSettlement.EncyclopediaLink);
 		}
 
-		// Token: 0x06001069 RID: 4201 RVA: 0x00041750 File Offset: 0x0003F950
 		private bool Contains(MBBindingList<GameMenuPartyItemVM> list, CharacterObject character)
 		{
 			using (IEnumerator<GameMenuPartyItemVM> enumerator = list.GetEnumerator())
@@ -287,21 +274,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return false;
 		}
 
-		// Token: 0x0600106A RID: 4202 RVA: 0x000417A0 File Offset: 0x0003F9A0
 		public override void UpdateOverlayType(GameOverlays.MenuOverlayType newType)
 		{
 			this._type = newType;
 			base.UpdateOverlayType(newType);
 		}
 
-		// Token: 0x0600106B RID: 4203 RVA: 0x000417B0 File Offset: 0x0003F9B0
 		private void InitLists()
 		{
 			this.InitCharacterList();
 			this.InitPartyList();
 		}
 
-		// Token: 0x0600106C RID: 4204 RVA: 0x000417C0 File Offset: 0x0003F9C0
 		private void InitCharacterList()
 		{
 			if (this._type == GameOverlays.MenuOverlayType.SettlementWithCharacters || this._type == GameOverlays.MenuOverlayType.SettlementWithBoth)
@@ -335,7 +319,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.CharacterList.Clear();
 		}
 
-		// Token: 0x0600106D RID: 4205 RVA: 0x00041914 File Offset: 0x0003FB14
 		private void InitPartyList()
 		{
 			if (this._type == GameOverlays.MenuOverlayType.SettlementWithBoth || this._type == GameOverlays.MenuOverlayType.SettlementWithParties)
@@ -367,7 +350,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.PartyList.Clear();
 		}
 
-		// Token: 0x0600106E RID: 4206 RVA: 0x00041A10 File Offset: 0x0003FC10
 		private void UpdateList<TListItem, TElement>(MBBindingList<TListItem> listToUpdate, IEnumerable<TElement> listInSettlement, IComparer<TListItem> comparer, Func<TListItem, TElement> getElementFromListItem, Func<TElement, bool> doesSettlementHasElement, Func<TElement, TListItem> createListItem)
 		{
 			HashSet<TElement> hashSet = new HashSet<TElement>();
@@ -396,27 +378,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			listToUpdate.Sort(comparer);
 		}
 
-		// Token: 0x0600106F RID: 4207 RVA: 0x00041AC8 File Offset: 0x0003FCC8
 		private bool WillBeListed(MobileParty mobileParty)
 		{
 			return mobileParty != null && mobileParty.IsActive;
 		}
 
-		// Token: 0x06001070 RID: 4208 RVA: 0x00041AD8 File Offset: 0x0003FCD8
 		private bool WillBeListed(LocationCharacter locationCharacter)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
 			return locationCharacter.Character.IsHero && !locationCharacter.IsHidden && locationCharacter.Character.HeroObject.PartyBelongedTo != MobileParty.MainParty && locationCharacter.Character.HeroObject.CurrentSettlement == settlement;
 		}
 
-		// Token: 0x06001071 RID: 4209 RVA: 0x00041B4C File Offset: 0x0003FD4C
 		private bool WillBeListed(CharacterObject character)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
 			return character.IsHero && character.HeroObject.PartyBelongedTo != MobileParty.MainParty && character.HeroObject.CurrentSettlement == settlement;
 		}
 
-		// Token: 0x06001072 RID: 4210 RVA: 0x00041BA8 File Offset: 0x0003FDA8
 		private void UpdateSettlementOwnerBanner()
 		{
 			Banner banner = null;
@@ -441,7 +419,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.SettlementOwnerBanner = new ImageIdentifierVM(ImageIdentifierType.Null);
 		}
 
-		// Token: 0x06001073 RID: 4211 RVA: 0x00041C50 File Offset: 0x0003FE50
 		private void UpdateProperties()
 		{
 			Settlement currentSettlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
@@ -522,7 +499,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.LeaveMembersHint = new HintViewModel(new TextObject("{=aGFxIvqx}Leave Member(s)", null), null);
 		}
 
-		// Token: 0x06001074 RID: 4212 RVA: 0x00042150 File Offset: 0x00040350
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
 		{
 			this._latestTutorialElementID = obj.NewNotificationElementID;
@@ -630,7 +606,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001075 RID: 4213 RVA: 0x00042470 File Offset: 0x00040670
 		private bool SetPartyItemHighlightState(string condition, bool state)
 		{
 			bool flag = false;
@@ -650,7 +625,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return flag;
 		}
 
-		// Token: 0x06001076 RID: 4214 RVA: 0x00042550 File Offset: 0x00040750
 		public override void Refresh()
 		{
 			base.IsInitializationOver = false;
@@ -668,7 +642,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			base.Refresh();
 		}
 
-		// Token: 0x06001077 RID: 4215 RVA: 0x000425F4 File Offset: 0x000407F4
 		public void ExecuteAddCompanion()
 		{
 			List<InquiryElement> list = new List<InquiryElement>();
@@ -684,7 +657,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=aGFxIvqx}Leave Member(s)", null).ToString(), string.Empty, list, true, -1, new TextObject("{=FBYFcrWo}Leave in settlement", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), ""), false, false);
 		}
 
-		// Token: 0x06001078 RID: 4216 RVA: 0x00042714 File Offset: 0x00040914
 		private void OnLeaveMembersInSettlement(List<InquiryElement> leftMembers)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
@@ -703,7 +675,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001079 RID: 4217 RVA: 0x000427F0 File Offset: 0x000409F0
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -717,7 +688,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			Game.Current.EventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 		}
 
-		// Token: 0x0600107A RID: 4218 RVA: 0x0004286C File Offset: 0x00040A6C
 		private void OnSettlementEntered(MobileParty arg1, Settlement arg2, Hero arg3)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
@@ -727,7 +697,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600107B RID: 4219 RVA: 0x000428A8 File Offset: 0x00040AA8
 		private void OnSettlementLeft(MobileParty arg1, Settlement arg2)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
@@ -737,7 +706,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600107C RID: 4220 RVA: 0x000428E4 File Offset: 0x00040AE4
 		private void OnQuestCompleted(QuestBase arg1, QuestBase.QuestCompleteDetails arg2)
 		{
 			Settlement settlement = ((MobileParty.MainParty.CurrentSettlement != null) ? MobileParty.MainParty.CurrentSettlement : MobileParty.MainParty.LastVisitedSettlement);
@@ -748,19 +716,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600107D RID: 4221 RVA: 0x0004293C File Offset: 0x00040B3C
 		private void OnPeaceDeclared(IFaction faction1, IFaction faction2, MakePeaceAction.MakePeaceDetail detail)
 		{
 			this.OnPeaceOrWarDeclared(faction1, faction2);
 		}
 
-		// Token: 0x0600107E RID: 4222 RVA: 0x00042946 File Offset: 0x00040B46
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail reason)
 		{
 			this.OnPeaceOrWarDeclared(faction1, faction2);
 		}
 
-		// Token: 0x0600107F RID: 4223 RVA: 0x00042950 File Offset: 0x00040B50
 		private void OnPeaceOrWarDeclared(IFaction arg1, IFaction arg2)
 		{
 			Hero mainHero = Hero.MainHero;
@@ -810,7 +775,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001080 RID: 4224 RVA: 0x000429EA File Offset: 0x00040BEA
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero previousOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (Settlement.CurrentSettlement == null)
@@ -823,7 +787,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001081 RID: 4225 RVA: 0x00042A28 File Offset: 0x00040C28
 		private void OnTownRebelliousStateChanged(Town town, bool isRebellious)
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsTown && Settlement.CurrentSettlement.Town == town)
@@ -832,9 +795,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000566 RID: 1382
-		// (get) Token: 0x06001082 RID: 4226 RVA: 0x00042A7E File Offset: 0x00040C7E
-		// (set) Token: 0x06001083 RID: 4227 RVA: 0x00042A86 File Offset: 0x00040C86
 		[DataSourceProperty]
 		public string RemainingFoodText
 		{
@@ -852,9 +812,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000567 RID: 1383
-		// (get) Token: 0x06001084 RID: 4228 RVA: 0x00042AA9 File Offset: 0x00040CA9
-		// (set) Token: 0x06001085 RID: 4229 RVA: 0x00042AB1 File Offset: 0x00040CB1
 		[DataSourceProperty]
 		public int ProsperityChangeAmount
 		{
@@ -872,9 +829,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000568 RID: 1384
-		// (get) Token: 0x06001086 RID: 4230 RVA: 0x00042ACF File Offset: 0x00040CCF
-		// (set) Token: 0x06001087 RID: 4231 RVA: 0x00042AD7 File Offset: 0x00040CD7
 		[DataSourceProperty]
 		public int MilitiaChangeAmount
 		{
@@ -892,9 +846,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000569 RID: 1385
-		// (get) Token: 0x06001088 RID: 4232 RVA: 0x00042AF5 File Offset: 0x00040CF5
-		// (set) Token: 0x06001089 RID: 4233 RVA: 0x00042AFD File Offset: 0x00040CFD
 		[DataSourceProperty]
 		public int GarrisonChangeAmount
 		{
@@ -912,9 +863,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056A RID: 1386
-		// (get) Token: 0x0600108A RID: 4234 RVA: 0x00042B1B File Offset: 0x00040D1B
-		// (set) Token: 0x0600108B RID: 4235 RVA: 0x00042B23 File Offset: 0x00040D23
 		[DataSourceProperty]
 		public int GarrisonAmount
 		{
@@ -932,9 +880,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056B RID: 1387
-		// (get) Token: 0x0600108C RID: 4236 RVA: 0x00042B41 File Offset: 0x00040D41
-		// (set) Token: 0x0600108D RID: 4237 RVA: 0x00042B49 File Offset: 0x00040D49
 		[DataSourceProperty]
 		public int CrimeChangeAmount
 		{
@@ -952,9 +897,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056C RID: 1388
-		// (get) Token: 0x0600108E RID: 4238 RVA: 0x00042B67 File Offset: 0x00040D67
-		// (set) Token: 0x0600108F RID: 4239 RVA: 0x00042B6F File Offset: 0x00040D6F
 		[DataSourceProperty]
 		public int LoyaltyChangeAmount
 		{
@@ -972,9 +914,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056D RID: 1389
-		// (get) Token: 0x06001090 RID: 4240 RVA: 0x00042B8D File Offset: 0x00040D8D
-		// (set) Token: 0x06001091 RID: 4241 RVA: 0x00042B95 File Offset: 0x00040D95
 		[DataSourceProperty]
 		public int SecurityChangeAmount
 		{
@@ -992,9 +931,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056E RID: 1390
-		// (get) Token: 0x06001092 RID: 4242 RVA: 0x00042BB3 File Offset: 0x00040DB3
-		// (set) Token: 0x06001093 RID: 4243 RVA: 0x00042BBB File Offset: 0x00040DBB
 		[DataSourceProperty]
 		public int FoodChangeAmount
 		{
@@ -1012,9 +948,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700056F RID: 1391
-		// (get) Token: 0x06001094 RID: 4244 RVA: 0x00042BD9 File Offset: 0x00040DD9
-		// (set) Token: 0x06001095 RID: 4245 RVA: 0x00042BE1 File Offset: 0x00040DE1
 		[DataSourceProperty]
 		public BasicTooltipViewModel RemainingFoodHint
 		{
@@ -1032,9 +965,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000570 RID: 1392
-		// (get) Token: 0x06001096 RID: 4246 RVA: 0x00042BFF File Offset: 0x00040DFF
-		// (set) Token: 0x06001097 RID: 4247 RVA: 0x00042C07 File Offset: 0x00040E07
 		[DataSourceProperty]
 		public BasicTooltipViewModel SecurityHint
 		{
@@ -1052,9 +982,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000571 RID: 1393
-		// (get) Token: 0x06001098 RID: 4248 RVA: 0x00042C25 File Offset: 0x00040E25
-		// (set) Token: 0x06001099 RID: 4249 RVA: 0x00042C2D File Offset: 0x00040E2D
 		[DataSourceProperty]
 		public HintViewModel PartyFilterHint
 		{
@@ -1072,9 +999,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000572 RID: 1394
-		// (get) Token: 0x0600109A RID: 4250 RVA: 0x00042C4B File Offset: 0x00040E4B
-		// (set) Token: 0x0600109B RID: 4251 RVA: 0x00042C53 File Offset: 0x00040E53
 		[DataSourceProperty]
 		public HintViewModel CharacterFilterHint
 		{
@@ -1092,9 +1016,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000573 RID: 1395
-		// (get) Token: 0x0600109C RID: 4252 RVA: 0x00042C71 File Offset: 0x00040E71
-		// (set) Token: 0x0600109D RID: 4253 RVA: 0x00042C79 File Offset: 0x00040E79
 		[DataSourceProperty]
 		public BasicTooltipViewModel MilitasHint
 		{
@@ -1112,9 +1033,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000574 RID: 1396
-		// (get) Token: 0x0600109E RID: 4254 RVA: 0x00042C97 File Offset: 0x00040E97
-		// (set) Token: 0x0600109F RID: 4255 RVA: 0x00042C9F File Offset: 0x00040E9F
 		[DataSourceProperty]
 		public BasicTooltipViewModel GarrisonHint
 		{
@@ -1132,9 +1050,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000575 RID: 1397
-		// (get) Token: 0x060010A0 RID: 4256 RVA: 0x00042CBD File Offset: 0x00040EBD
-		// (set) Token: 0x060010A1 RID: 4257 RVA: 0x00042CC5 File Offset: 0x00040EC5
 		[DataSourceProperty]
 		public BasicTooltipViewModel ProsperityHint
 		{
@@ -1152,9 +1067,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000576 RID: 1398
-		// (get) Token: 0x060010A2 RID: 4258 RVA: 0x00042CE3 File Offset: 0x00040EE3
-		// (set) Token: 0x060010A3 RID: 4259 RVA: 0x00042CEB File Offset: 0x00040EEB
 		[DataSourceProperty]
 		public BasicTooltipViewModel LoyaltyHint
 		{
@@ -1172,9 +1084,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000577 RID: 1399
-		// (get) Token: 0x060010A4 RID: 4260 RVA: 0x00042D09 File Offset: 0x00040F09
-		// (set) Token: 0x060010A5 RID: 4261 RVA: 0x00042D11 File Offset: 0x00040F11
 		[DataSourceProperty]
 		public BasicTooltipViewModel WallsHint
 		{
@@ -1192,9 +1101,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000578 RID: 1400
-		// (get) Token: 0x060010A6 RID: 4262 RVA: 0x00042D2F File Offset: 0x00040F2F
-		// (set) Token: 0x060010A7 RID: 4263 RVA: 0x00042D37 File Offset: 0x00040F37
 		[DataSourceProperty]
 		public BasicTooltipViewModel CrimeHint
 		{
@@ -1212,9 +1118,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000579 RID: 1401
-		// (get) Token: 0x060010A8 RID: 4264 RVA: 0x00042D55 File Offset: 0x00040F55
-		// (set) Token: 0x060010A9 RID: 4265 RVA: 0x00042D5D File Offset: 0x00040F5D
 		[DataSourceProperty]
 		public HintViewModel LeaveMembersHint
 		{
@@ -1232,9 +1135,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057A RID: 1402
-		// (get) Token: 0x060010AA RID: 4266 RVA: 0x00042D7B File Offset: 0x00040F7B
-		// (set) Token: 0x060010AB RID: 4267 RVA: 0x00042D83 File Offset: 0x00040F83
 		[DataSourceProperty]
 		public ImageIdentifierVM SettlementOwnerBanner
 		{
@@ -1252,9 +1152,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057B RID: 1403
-		// (get) Token: 0x060010AC RID: 4268 RVA: 0x00042DA1 File Offset: 0x00040FA1
-		// (set) Token: 0x060010AD RID: 4269 RVA: 0x00042DA9 File Offset: 0x00040FA9
 		[DataSourceProperty]
 		public MBBindingList<GameMenuPartyItemVM> CharacterList
 		{
@@ -1272,9 +1169,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057C RID: 1404
-		// (get) Token: 0x060010AE RID: 4270 RVA: 0x00042DC7 File Offset: 0x00040FC7
-		// (set) Token: 0x060010AF RID: 4271 RVA: 0x00042DCF File Offset: 0x00040FCF
 		[DataSourceProperty]
 		public MBBindingList<GameMenuPartyItemVM> PartyList
 		{
@@ -1292,9 +1186,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057D RID: 1405
-		// (get) Token: 0x060010B0 RID: 4272 RVA: 0x00042DED File Offset: 0x00040FED
-		// (set) Token: 0x060010B1 RID: 4273 RVA: 0x00042DF5 File Offset: 0x00040FF5
 		[DataSourceProperty]
 		public MBBindingList<StringItemWithHintVM> IssueList
 		{
@@ -1312,9 +1203,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057E RID: 1406
-		// (get) Token: 0x060010B2 RID: 4274 RVA: 0x00042E13 File Offset: 0x00041013
-		// (set) Token: 0x060010B3 RID: 4275 RVA: 0x00042E1B File Offset: 0x0004101B
 		[DataSourceProperty]
 		public string MilitasLbl
 		{
@@ -1332,9 +1220,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700057F RID: 1407
-		// (get) Token: 0x060010B4 RID: 4276 RVA: 0x00042E3E File Offset: 0x0004103E
-		// (set) Token: 0x060010B5 RID: 4277 RVA: 0x00042E46 File Offset: 0x00041046
 		[DataSourceProperty]
 		public string GarrisonLbl
 		{
@@ -1352,9 +1237,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000580 RID: 1408
-		// (get) Token: 0x060010B6 RID: 4278 RVA: 0x00042E69 File Offset: 0x00041069
-		// (set) Token: 0x060010B7 RID: 4279 RVA: 0x00042E71 File Offset: 0x00041071
 		[DataSourceProperty]
 		public string CrimeLbl
 		{
@@ -1372,9 +1254,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000581 RID: 1409
-		// (get) Token: 0x060010B8 RID: 4280 RVA: 0x00042E94 File Offset: 0x00041094
-		// (set) Token: 0x060010B9 RID: 4281 RVA: 0x00042E9C File Offset: 0x0004109C
 		[DataSourceProperty]
 		public bool CanLeaveMembers
 		{
@@ -1392,9 +1271,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000582 RID: 1410
-		// (get) Token: 0x060010BA RID: 4282 RVA: 0x00042EBA File Offset: 0x000410BA
-		// (set) Token: 0x060010BB RID: 4283 RVA: 0x00042EC2 File Offset: 0x000410C2
 		[DataSourceProperty]
 		public string ProsperityLbl
 		{
@@ -1412,9 +1288,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000583 RID: 1411
-		// (get) Token: 0x060010BC RID: 4284 RVA: 0x00042EE5 File Offset: 0x000410E5
-		// (set) Token: 0x060010BD RID: 4285 RVA: 0x00042EED File Offset: 0x000410ED
 		[DataSourceProperty]
 		public string LoyaltyLbl
 		{
@@ -1432,9 +1305,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000584 RID: 1412
-		// (get) Token: 0x060010BE RID: 4286 RVA: 0x00042F10 File Offset: 0x00041110
-		// (set) Token: 0x060010BF RID: 4287 RVA: 0x00042F18 File Offset: 0x00041118
 		[DataSourceProperty]
 		public string SecurityLbl
 		{
@@ -1452,9 +1322,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000585 RID: 1413
-		// (get) Token: 0x060010C0 RID: 4288 RVA: 0x00042F3B File Offset: 0x0004113B
-		// (set) Token: 0x060010C1 RID: 4289 RVA: 0x00042F43 File Offset: 0x00041143
 		[DataSourceProperty]
 		public string WallsLbl
 		{
@@ -1472,9 +1339,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000586 RID: 1414
-		// (get) Token: 0x060010C2 RID: 4290 RVA: 0x00042F66 File Offset: 0x00041166
-		// (set) Token: 0x060010C3 RID: 4291 RVA: 0x00042F6E File Offset: 0x0004116E
 		[DataSourceProperty]
 		public int WallsLevel
 		{
@@ -1492,9 +1356,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000587 RID: 1415
-		// (get) Token: 0x060010C4 RID: 4292 RVA: 0x00042F8C File Offset: 0x0004118C
-		// (set) Token: 0x060010C5 RID: 4293 RVA: 0x00042F94 File Offset: 0x00041194
 		[DataSourceProperty]
 		public string SettlementNameLbl
 		{
@@ -1512,9 +1373,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000588 RID: 1416
-		// (get) Token: 0x060010C6 RID: 4294 RVA: 0x00042FB7 File Offset: 0x000411B7
-		// (set) Token: 0x060010C7 RID: 4295 RVA: 0x00042FBF File Offset: 0x000411BF
 		[DataSourceProperty]
 		public bool IsFortification
 		{
@@ -1532,9 +1390,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000589 RID: 1417
-		// (get) Token: 0x060010C8 RID: 4296 RVA: 0x00042FDD File Offset: 0x000411DD
-		// (set) Token: 0x060010C9 RID: 4297 RVA: 0x00042FE5 File Offset: 0x000411E5
 		[DataSourceProperty]
 		public bool IsCrimeEnabled
 		{
@@ -1552,9 +1407,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700058A RID: 1418
-		// (get) Token: 0x060010CA RID: 4298 RVA: 0x00043003 File Offset: 0x00041203
-		// (set) Token: 0x060010CB RID: 4299 RVA: 0x0004300B File Offset: 0x0004120B
 		[DataSourceProperty]
 		public bool IsNoGarrisonWarning
 		{
@@ -1572,9 +1424,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700058B RID: 1419
-		// (get) Token: 0x060010CC RID: 4300 RVA: 0x00043029 File Offset: 0x00041229
-		// (set) Token: 0x060010CD RID: 4301 RVA: 0x00043031 File Offset: 0x00041231
 		[DataSourceProperty]
 		public bool IsCrimeLabelHighlightEnabled
 		{
@@ -1592,9 +1441,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700058C RID: 1420
-		// (get) Token: 0x060010CE RID: 4302 RVA: 0x0004304F File Offset: 0x0004124F
-		// (set) Token: 0x060010CF RID: 4303 RVA: 0x00043057 File Offset: 0x00041257
 		[DataSourceProperty]
 		public bool IsLoyaltyRebellionWarning
 		{
@@ -1612,227 +1458,155 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0400079A RID: 1946
 		private readonly SettlementComponent _settlementComponent;
 
-		// Token: 0x0400079B RID: 1947
 		private GameOverlays.MenuOverlayType _type;
 
-		// Token: 0x0400079C RID: 1948
 		private GameMenuOverlayActionVM _overlayTalkItem;
 
-		// Token: 0x0400079D RID: 1949
 		private GameMenuOverlayActionVM _overlayQuickTalkItem;
 
-		// Token: 0x0400079E RID: 1950
 		private Tuple<bool, TextObject> _mostRecentOverlayTalkPermission;
 
-		// Token: 0x0400079F RID: 1951
 		private Tuple<bool, TextObject> _mostRecentOverlayQuickTalkPermission;
 
-		// Token: 0x040007A0 RID: 1952
 		private Tuple<bool, TextObject> _mostRecentOverlayLeaveCharacterPermission;
 
-		// Token: 0x040007A1 RID: 1953
 		private string _latestTutorialElementID;
 
-		// Token: 0x040007A2 RID: 1954
 		private bool _isCompanionHighlightApplied;
 
-		// Token: 0x040007A3 RID: 1955
 		private bool _isQuestGiversHighlightApplied;
 
-		// Token: 0x040007A4 RID: 1956
 		private bool _isNotableHighlightApplied;
 
-		// Token: 0x040007A5 RID: 1957
 		private bool _isTalkItemHighlightApplied;
 
-		// Token: 0x040007A6 RID: 1958
 		private string _militasLbl;
 
-		// Token: 0x040007A7 RID: 1959
 		private string _garrisonLbl;
 
-		// Token: 0x040007A8 RID: 1960
 		private bool _isNoGarrisonWarning;
 
-		// Token: 0x040007A9 RID: 1961
 		private bool _isLoyaltyRebellionWarning;
 
-		// Token: 0x040007AA RID: 1962
 		private bool _isCrimeLabelHighlightEnabled;
 
-		// Token: 0x040007AB RID: 1963
 		private string _crimeLbl;
 
-		// Token: 0x040007AC RID: 1964
 		private string _prosperityLbl;
 
-		// Token: 0x040007AD RID: 1965
 		private string _loyaltyLbl;
 
-		// Token: 0x040007AE RID: 1966
 		private string _securityLbl;
 
-		// Token: 0x040007AF RID: 1967
 		private string _wallsLbl;
 
-		// Token: 0x040007B0 RID: 1968
 		private string _settlementNameLbl;
 
-		// Token: 0x040007B1 RID: 1969
 		private string _remainingFoodText = "";
 
-		// Token: 0x040007B2 RID: 1970
 		private int _wallsLevel;
 
-		// Token: 0x040007B3 RID: 1971
 		private int _prosperityChangeAmount;
 
-		// Token: 0x040007B4 RID: 1972
 		private int _militiaChangeAmount;
 
-		// Token: 0x040007B5 RID: 1973
 		private int _garrisonChangeAmount;
 
-		// Token: 0x040007B6 RID: 1974
 		private int _garrisonAmount;
 
-		// Token: 0x040007B7 RID: 1975
 		private int _crimeChangeAmount;
 
-		// Token: 0x040007B8 RID: 1976
 		private int _loyaltyChangeAmount;
 
-		// Token: 0x040007B9 RID: 1977
 		private int _securityChangeAmount;
 
-		// Token: 0x040007BA RID: 1978
 		private int _foodChangeAmount;
 
-		// Token: 0x040007BB RID: 1979
 		private MBBindingList<GameMenuPartyItemVM> _characterList;
 
-		// Token: 0x040007BC RID: 1980
 		private MBBindingList<GameMenuPartyItemVM> _partyList;
 
-		// Token: 0x040007BD RID: 1981
 		private MBBindingList<StringItemWithHintVM> _issueList;
 
-		// Token: 0x040007BE RID: 1982
 		private bool _isFortification;
 
-		// Token: 0x040007BF RID: 1983
 		private bool _isCrimeEnabled;
 
-		// Token: 0x040007C0 RID: 1984
 		private bool _canLeaveMembers;
 
-		// Token: 0x040007C1 RID: 1985
 		private BasicTooltipViewModel _remainingFoodHint;
 
-		// Token: 0x040007C2 RID: 1986
 		private BasicTooltipViewModel _militasHint;
 
-		// Token: 0x040007C3 RID: 1987
 		private BasicTooltipViewModel _garrisonHint;
 
-		// Token: 0x040007C4 RID: 1988
 		private BasicTooltipViewModel _prosperityHint;
 
-		// Token: 0x040007C5 RID: 1989
 		private BasicTooltipViewModel _loyaltyHint;
 
-		// Token: 0x040007C6 RID: 1990
 		private BasicTooltipViewModel _securityHint;
 
-		// Token: 0x040007C7 RID: 1991
 		private BasicTooltipViewModel _wallsHint;
 
-		// Token: 0x040007C8 RID: 1992
 		private BasicTooltipViewModel _crimeHint;
 
-		// Token: 0x040007C9 RID: 1993
 		private HintViewModel _characterFilterHint;
 
-		// Token: 0x040007CA RID: 1994
 		private HintViewModel _partyFilterHint;
 
-		// Token: 0x040007CB RID: 1995
 		private HintViewModel _leaveMembersHint;
 
-		// Token: 0x040007CC RID: 1996
 		private ImageIdentifierVM _settlementOwnerBanner;
 
-		// Token: 0x020001E5 RID: 485
 		public class SettlementOverlayTalkPermissionEvent : EventBase
 		{
-			// Token: 0x17000A6B RID: 2667
-			// (get) Token: 0x06002068 RID: 8296 RVA: 0x0006FADE File Offset: 0x0006DCDE
-			// (set) Token: 0x06002069 RID: 8297 RVA: 0x0006FAE6 File Offset: 0x0006DCE6
 			public Action<bool, TextObject> IsTalkAvailable { get; private set; }
 
-			// Token: 0x0600206A RID: 8298 RVA: 0x0006FAEF File Offset: 0x0006DCEF
 			public SettlementOverlayTalkPermissionEvent(Hero heroToTalkTo, Action<bool, TextObject> isTalkAvailable)
 			{
 				this.HeroToTalkTo = heroToTalkTo;
 				this.IsTalkAvailable = isTalkAvailable;
 			}
 
-			// Token: 0x04001017 RID: 4119
 			public Hero HeroToTalkTo;
 		}
 
-		// Token: 0x020001E6 RID: 486
 		public class SettlementOverylayQuickTalkPermissionEvent : EventBase
 		{
-			// Token: 0x17000A6C RID: 2668
-			// (get) Token: 0x0600206B RID: 8299 RVA: 0x0006FB05 File Offset: 0x0006DD05
-			// (set) Token: 0x0600206C RID: 8300 RVA: 0x0006FB0D File Offset: 0x0006DD0D
 			public Action<bool, TextObject> IsTalkAvailable { get; private set; }
 
-			// Token: 0x0600206D RID: 8301 RVA: 0x0006FB16 File Offset: 0x0006DD16
 			public SettlementOverylayQuickTalkPermissionEvent(Action<bool, TextObject> isTalkAvailable)
 			{
 				this.IsTalkAvailable = isTalkAvailable;
 			}
 		}
 
-		// Token: 0x020001E7 RID: 487
 		public class SettlementOverlayLeaveCharacterPermissionEvent : EventBase
 		{
-			// Token: 0x17000A6D RID: 2669
-			// (get) Token: 0x0600206E RID: 8302 RVA: 0x0006FB25 File Offset: 0x0006DD25
-			// (set) Token: 0x0600206F RID: 8303 RVA: 0x0006FB2D File Offset: 0x0006DD2D
 			public Action<bool, TextObject> IsLeaveAvailable { get; private set; }
 
-			// Token: 0x06002070 RID: 8304 RVA: 0x0006FB36 File Offset: 0x0006DD36
 			public SettlementOverlayLeaveCharacterPermissionEvent(Action<bool, TextObject> isLeaveAvailable)
 			{
 				this.IsLeaveAvailable = isLeaveAvailable;
 			}
 		}
 
-		// Token: 0x020001E8 RID: 488
 		public class CrimeValueInspectedInSettlementOverlayEvent : EventBase
 		{
 		}
 
-		// Token: 0x020001E9 RID: 489
 		private class CharacterComparer : IComparer<GameMenuPartyItemVM>
 		{
-			// Token: 0x06002072 RID: 8306 RVA: 0x0006FB4D File Offset: 0x0006DD4D
 			public int Compare(GameMenuPartyItemVM x, GameMenuPartyItemVM y)
 			{
 				return CampaignUIHelper.GetHeroCompareSortIndex(x.Character.HeroObject, y.Character.HeroObject);
 			}
 		}
 
-		// Token: 0x020001EA RID: 490
 		private class PartyComparer : IComparer<GameMenuPartyItemVM>
 		{
-			// Token: 0x06002074 RID: 8308 RVA: 0x0006FB72 File Offset: 0x0006DD72
 			public int Compare(GameMenuPartyItemVM x, GameMenuPartyItemVM y)
 			{
 				return CampaignUIHelper.MobilePartyPrecedenceComparerInstance.Compare(x.Party.MobileParty, y.Party.MobileParty);

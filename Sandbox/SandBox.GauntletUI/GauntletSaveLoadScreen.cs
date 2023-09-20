@@ -15,17 +15,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x0200000E RID: 14
 	[OverrideView(typeof(SaveLoadScreen))]
 	public class GauntletSaveLoadScreen : ScreenBase
 	{
-		// Token: 0x060000A2 RID: 162 RVA: 0x00006AB3 File Offset: 0x00004CB3
 		public GauntletSaveLoadScreen(bool isSaving)
 		{
 			this._isSaving = isSaving;
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x00006AC4 File Offset: 0x00004CC4
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -56,7 +53,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00006C4C File Offset: 0x00004E4C
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -79,7 +75,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x00006CF4 File Offset: 0x00004EF4
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -97,16 +92,12 @@ namespace SandBox.GauntletUI
 			Utilities.SetForceVsync(false);
 		}
 
-		// Token: 0x0400004F RID: 79
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000050 RID: 80
 		private SaveLoadVM _dataSource;
 
-		// Token: 0x04000051 RID: 81
 		private SpriteCategory _spriteCategory;
 
-		// Token: 0x04000052 RID: 82
 		private readonly bool _isSaving;
 	}
 }

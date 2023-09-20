@@ -19,16 +19,10 @@ using TaleWorlds.MountAndBlade.View.Tableaus;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000040 RID: 64
 	public class MapConversationTableau : ICampaignMission
 	{
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x0600020B RID: 523 RVA: 0x00013C4C File Offset: 0x00011E4C
-		// (set) Token: 0x0600020C RID: 524 RVA: 0x00013C54 File Offset: 0x00011E54
 		public Texture Texture { get; private set; }
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x0600020D RID: 525 RVA: 0x00013C5D File Offset: 0x00011E5D
 		private TableauView View
 		{
 			get
@@ -42,7 +36,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600020E RID: 526 RVA: 0x00013C70 File Offset: 0x00011E70
 		public MapConversationTableau()
 		{
 			this._changeIdleActionTimer = new Timer(Game.Current.ApplicationTime, 8f, true);
@@ -56,7 +49,6 @@ namespace SandBox.View.Map
 			this._dataProvider = SandBoxViewSubModule.MapConversationDataProvider;
 		}
 
-		// Token: 0x0600020F RID: 527 RVA: 0x00013D54 File Offset: 0x00011F54
 		public void SetEnabled(bool enabled)
 		{
 			if (this._isEnabled != enabled)
@@ -98,7 +90,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000210 RID: 528 RVA: 0x00013E14 File Offset: 0x00012014
 		public void SetData(object data)
 		{
 			if (this._data != null)
@@ -113,7 +104,6 @@ namespace SandBox.View.Map
 			this._data = data as MapConversationTableauData;
 		}
 
-		// Token: 0x06000211 RID: 529 RVA: 0x00013E8C File Offset: 0x0001208C
 		public void SetTargetSize(int width, int height)
 		{
 			int num;
@@ -153,7 +143,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000212 RID: 530 RVA: 0x00013F74 File Offset: 0x00012174
 		public void OnFinalize()
 		{
 			TableauView view = this.View;
@@ -196,7 +185,6 @@ namespace SandBox.View.Map
 			this._tableauScene = null;
 		}
 
-		// Token: 0x06000213 RID: 531 RVA: 0x00014094 File Offset: 0x00012294
 		public void OnTick(float dt)
 		{
 			if (this._data != null && !this._initialized)
@@ -237,7 +225,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000214 RID: 532 RVA: 0x000141D0 File Offset: 0x000123D0
 		private void FirstTimeInit()
 		{
 			if (this._tableauScene == null)
@@ -322,7 +309,6 @@ namespace SandBox.View.Map
 			this.OnConversationPlay(this._initialIdleActionId, this._initialFaceAnimId, this._initialReactionId, this._initialReactionFaceAnimId, this._initialSoundPath);
 		}
 
-		// Token: 0x06000215 RID: 533 RVA: 0x000144E0 File Offset: 0x000126E0
 		private void SpawnOpponentLeader()
 		{
 			CharacterObject character = this._data.ConversationPartnerData.Character;
@@ -379,7 +365,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000216 RID: 534 RVA: 0x000147C8 File Offset: 0x000129C8
 		private void SpawnOpponentBodyguardCharacter(CharacterObject character, int indexOfBodyguard)
 		{
 			if (indexOfBodyguard >= 0 && indexOfBodyguard <= 1)
@@ -457,7 +442,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000217 RID: 535 RVA: 0x00014ACC File Offset: 0x00012CCC
 		internal void CharacterTableauContinuousRenderFunction(Texture sender, EventArgs e)
 		{
 			Scene scene = (Scene)sender.UserData;
@@ -508,7 +492,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000218 RID: 536 RVA: 0x00014C48 File Offset: 0x00012E48
 		private MapConversationTableau.DefaultConversationAnimationData GetDefaultAnimForCharacter(CharacterObject character, bool preferLoopAnimationIfAvailable)
 		{
 			MapConversationTableau.DefaultConversationAnimationData invalid = MapConversationTableau.DefaultConversationAnimationData.Invalid;
@@ -553,7 +536,6 @@ namespace SandBox.View.Map
 			return invalid;
 		}
 
-		// Token: 0x06000219 RID: 537 RVA: 0x00014D74 File Offset: 0x00012F74
 		void ICampaignMission.OnConversationPlay(string idleActionId, string idleFaceAnimId, string reactionId, string reactionFaceAnimId, string soundPath)
 		{
 			if (this._initialized)
@@ -616,7 +598,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600021A RID: 538 RVA: 0x00014F30 File Offset: 0x00013130
 		private void RemovePreviousAgentsSoundEvent()
 		{
 			if (this._conversationSoundEvent != null)
@@ -625,7 +606,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600021B RID: 539 RVA: 0x00014F54 File Offset: 0x00013154
 		private void PlayConversationSoundEvent(string soundPath)
 		{
 			Debug.Print("Conversation sound playing: " + soundPath, 5, 12, 17592186044416UL);
@@ -636,7 +616,6 @@ namespace SandBox.View.Map
 			this._agentVisuals[0].StartRhubarbRecord(rhubarbXmlPathFromSoundPath, soundId);
 		}
 
-		// Token: 0x0600021C RID: 540 RVA: 0x00014FC7 File Offset: 0x000131C7
 		private void StopConversationSoundEvent()
 		{
 			if (this._conversationSoundEvent != null)
@@ -646,15 +625,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600021D RID: 541 RVA: 0x00014FE4 File Offset: 0x000131E4
 		private string GetRhubarbXmlPathFromSoundPath(string soundPath)
 		{
 			int num = soundPath.LastIndexOf('.');
 			return soundPath.Substring(0, num) + ".xml";
 		}
 
-		// Token: 0x17000029 RID: 41
-		// (get) Token: 0x0600021E RID: 542 RVA: 0x0001500C File Offset: 0x0001320C
 		GameState ICampaignMission.State
 		{
 			get
@@ -663,8 +639,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x0600021F RID: 543 RVA: 0x0001501D File Offset: 0x0001321D
 		IMissionTroopSupplier ICampaignMission.AgentSupplier
 		{
 			get
@@ -673,9 +647,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700002B RID: 43
-		// (get) Token: 0x06000220 RID: 544 RVA: 0x00015020 File Offset: 0x00013220
-		// (set) Token: 0x06000221 RID: 545 RVA: 0x00015023 File Offset: 0x00013223
 		Location ICampaignMission.Location
 		{
 			get
@@ -687,9 +658,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700002C RID: 44
-		// (get) Token: 0x06000222 RID: 546 RVA: 0x00015025 File Offset: 0x00013225
-		// (set) Token: 0x06000223 RID: 547 RVA: 0x00015028 File Offset: 0x00013228
 		Alley ICampaignMission.LastVisitedAlley
 		{
 			get
@@ -701,8 +669,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x06000224 RID: 548 RVA: 0x0001502A File Offset: 0x0001322A
 		MissionMode ICampaignMission.Mode
 		{
 			get
@@ -711,181 +677,133 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000225 RID: 549 RVA: 0x0001502D File Offset: 0x0001322D
 		void ICampaignMission.AddAgentFollowing(IAgent agent)
 		{
 		}
 
-		// Token: 0x06000226 RID: 550 RVA: 0x0001502F File Offset: 0x0001322F
 		bool ICampaignMission.AgentLookingAtAgent(IAgent agent1, IAgent agent2)
 		{
 			return false;
 		}
 
-		// Token: 0x06000227 RID: 551 RVA: 0x00015032 File Offset: 0x00013232
 		bool ICampaignMission.CheckIfAgentCanFollow(IAgent agent)
 		{
 			return false;
 		}
 
-		// Token: 0x06000228 RID: 552 RVA: 0x00015035 File Offset: 0x00013235
 		bool ICampaignMission.CheckIfAgentCanUnFollow(IAgent agent)
 		{
 			return false;
 		}
 
-		// Token: 0x06000229 RID: 553 RVA: 0x00015038 File Offset: 0x00013238
 		void ICampaignMission.OnConversationContinue()
 		{
 		}
 
-		// Token: 0x0600022A RID: 554 RVA: 0x0001503A File Offset: 0x0001323A
 		void ICampaignMission.EndMission()
 		{
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x0001503C File Offset: 0x0001323C
 		void ICampaignMission.OnCharacterLocationChanged(LocationCharacter locationCharacter, Location fromLocation, Location toLocation)
 		{
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0001503E File Offset: 0x0001323E
 		void ICampaignMission.OnCloseEncounterMenu()
 		{
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x00015040 File Offset: 0x00013240
 		void ICampaignMission.OnConversationEnd(IAgent agent)
 		{
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x00015042 File Offset: 0x00013242
 		void ICampaignMission.OnConversationStart(IAgent agent, bool setActionsInstantly)
 		{
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x00015044 File Offset: 0x00013244
 		void ICampaignMission.OnProcessSentence()
 		{
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x00015046 File Offset: 0x00013246
 		void ICampaignMission.RemoveAgentFollowing(IAgent agent)
 		{
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x00015048 File Offset: 0x00013248
 		void ICampaignMission.SetMissionMode(MissionMode newMode, bool atStart)
 		{
 		}
 
-		// Token: 0x04000112 RID: 274
 		private const float MinimumTimeRequiredToChangeIdleAction = 8f;
 
-		// Token: 0x04000114 RID: 276
 		private Scene _tableauScene;
 
-		// Token: 0x04000115 RID: 277
 		private float _animationFrequencyThreshold = 2.5f;
 
-		// Token: 0x04000116 RID: 278
 		private MatrixFrame _frame;
 
-		// Token: 0x04000117 RID: 279
 		private GameEntity _cameraEntity;
 
-		// Token: 0x04000118 RID: 280
 		private SoundEvent _conversationSoundEvent;
 
-		// Token: 0x04000119 RID: 281
 		private Camera _continuousRenderCamera;
 
-		// Token: 0x0400011A RID: 282
 		private MapConversationTableauData _data;
 
-		// Token: 0x0400011B RID: 283
 		private float _cameraRatio;
 
-		// Token: 0x0400011C RID: 284
 		private IMapConversationDataProvider _dataProvider;
 
-		// Token: 0x0400011D RID: 285
 		private bool _initialized;
 
-		// Token: 0x0400011E RID: 286
 		private string _initialFaceAnimId;
 
-		// Token: 0x0400011F RID: 287
 		private string _initialIdleActionId;
 
-		// Token: 0x04000120 RID: 288
 		private string _initialReactionId;
 
-		// Token: 0x04000121 RID: 289
 		private string _initialReactionFaceAnimId;
 
-		// Token: 0x04000122 RID: 290
 		private string _initialSoundPath;
 
-		// Token: 0x04000123 RID: 291
 		private Timer _changeIdleActionTimer;
 
-		// Token: 0x04000124 RID: 292
 		private int _tableauSizeX;
 
-		// Token: 0x04000125 RID: 293
 		private int _tableauSizeY;
 
-		// Token: 0x04000126 RID: 294
 		private uint _clothColor1 = new Color(1f, 1f, 1f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000127 RID: 295
 		private uint _clothColor2 = new Color(1f, 1f, 1f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000128 RID: 296
 		private List<AgentVisuals> _agentVisuals;
 
-		// Token: 0x04000129 RID: 297
 		private static readonly string fallbackAnimActName = "act_inventory_idle_start";
 
-		// Token: 0x0400012A RID: 298
 		private float _animationGap;
 
-		// Token: 0x0400012B RID: 299
 		private bool _isEnabled = true;
 
-		// Token: 0x0400012C RID: 300
 		private float RenderScale = 1f;
 
-		// Token: 0x0400012D RID: 301
 		private const float _baseCameraRatio = 1.7777778f;
 
-		// Token: 0x0400012E RID: 302
 		private float _baseCameraFOV = -1f;
 
-		// Token: 0x0400012F RID: 303
 		private string _cachedAtmosphereName = "";
 
-		// Token: 0x04000130 RID: 304
 		private string _opponentLeaderEquipmentCache;
 
-		// Token: 0x02000079 RID: 121
 		private struct DefaultConversationAnimationData
 		{
-			// Token: 0x040002C2 RID: 706
 			public static readonly MapConversationTableau.DefaultConversationAnimationData Invalid = new MapConversationTableau.DefaultConversationAnimationData
 			{
 				ActionName = "",
 				AnimationDataValid = false
 			};
 
-			// Token: 0x040002C3 RID: 707
 			public ConversationAnimData AnimationData;
 
-			// Token: 0x040002C4 RID: 708
 			public string ActionName;
 
-			// Token: 0x040002C5 RID: 709
 			public bool AnimationDataValid;
 		}
 	}

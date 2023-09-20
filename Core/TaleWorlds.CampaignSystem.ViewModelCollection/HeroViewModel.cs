@@ -8,16 +8,13 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x02000017 RID: 23
 	public class HeroViewModel : CharacterViewModel
 	{
-		// Token: 0x06000158 RID: 344 RVA: 0x0000A6FF File Offset: 0x000088FF
 		public HeroViewModel(CharacterViewModel.StanceTypes stance = CharacterViewModel.StanceTypes.None)
 			: base(stance)
 		{
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x0000A708 File Offset: 0x00008908
 		public override void SetEquipment(Equipment equipment)
 		{
 			this._equipment = ((equipment != null) ? equipment.Clone(false) : null);
@@ -31,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600015A RID: 346 RVA: 0x0000A798 File Offset: 0x00008998
 		public void FillFrom(Hero hero, int seed = -1, bool useCivilian = false, bool useCharacteristicIdleAction = false)
 		{
 			TextObject textObject;
@@ -76,16 +72,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600015B RID: 347 RVA: 0x0000A940 File Offset: 0x00008B40
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			this._hero = null;
 		}
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x0600015C RID: 348 RVA: 0x0000A94F File Offset: 0x00008B4F
-		// (set) Token: 0x0600015D RID: 349 RVA: 0x0000A957 File Offset: 0x00008B57
 		[DataSourceProperty]
 		public bool IsDead
 		{
@@ -103,10 +95,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x040000A6 RID: 166
 		private Hero _hero;
 
-		// Token: 0x040000A7 RID: 167
 		private bool _isDead;
 	}
 }

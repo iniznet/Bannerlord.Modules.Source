@@ -8,16 +8,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003A1 RID: 929
 	public class InitialChildGenerationCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600373D RID: 14141 RVA: 0x000F86DC File Offset: 0x000F68DC
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
 		}
 
-		// Token: 0x0600373E RID: 14142 RVA: 0x000F86F8 File Offset: 0x000F68F8
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int index)
 		{
 			if (index == 0)
@@ -115,12 +112,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600373F RID: 14143 RVA: 0x000F8A58 File Offset: 0x000F6C58
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0400117F RID: 4479
 		private const float FemaleChildrenChance = 0.49f;
 	}
 }

@@ -8,17 +8,14 @@ using TaleWorlds.SaveSystem.Save;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x02000021 RID: 33
 	public static class SaveManager
 	{
-		// Token: 0x060000B5 RID: 181 RVA: 0x00004230 File Offset: 0x00002430
 		public static void InitializeGlobalDefinitionContext()
 		{
 			SaveManager._definitionContext = new DefinitionContext();
 			SaveManager._definitionContext.FillWithCurrentTypes();
 		}
 
-		// Token: 0x060000B6 RID: 182 RVA: 0x00004248 File Offset: 0x00002448
 		public static SaveOutput Save(object target, MetaData metaData, string saveName, ISaveDriver driver)
 		{
 			if (SaveManager._definitionContext == null)
@@ -84,19 +81,16 @@ namespace TaleWorlds.SaveSystem
 			return saveOutput;
 		}
 
-		// Token: 0x060000B7 RID: 183 RVA: 0x000043D8 File Offset: 0x000025D8
 		public static MetaData LoadMetaData(string saveName, ISaveDriver driver)
 		{
 			return driver.LoadMetaData(saveName);
 		}
 
-		// Token: 0x060000B8 RID: 184 RVA: 0x000043E1 File Offset: 0x000025E1
 		public static LoadResult Load(string saveName, ISaveDriver driver)
 		{
 			return SaveManager.Load(saveName, driver, false);
 		}
 
-		// Token: 0x060000B9 RID: 185 RVA: 0x000043EC File Offset: 0x000025EC
 		public static LoadResult Load(string saveName, ISaveDriver driver, bool loadAsLateInitialize)
 		{
 			DefinitionContext definitionContext = new DefinitionContext();
@@ -123,13 +117,10 @@ namespace TaleWorlds.SaveSystem
 			return loadResult;
 		}
 
-		// Token: 0x0400004F RID: 79
 		public const string SaveFileExtension = "sav";
 
-		// Token: 0x04000050 RID: 80
 		private const int CurrentVersion = 1;
 
-		// Token: 0x04000051 RID: 81
 		private static DefinitionContext _definitionContext;
 	}
 }

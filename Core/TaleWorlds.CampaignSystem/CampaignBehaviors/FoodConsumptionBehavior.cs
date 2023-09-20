@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000392 RID: 914
 	public class FoodConsumptionBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600367E RID: 13950 RVA: 0x000F2D60 File Offset: 0x000F0F60
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEndEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreatedPartialFollowUpEnd));
@@ -23,7 +21,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.PartyAttachedAnotherParty.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartyAttachedParty));
 		}
 
-		// Token: 0x0600367F RID: 13951 RVA: 0x000F2DCC File Offset: 0x000F0FCC
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -35,13 +32,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003680 RID: 13952 RVA: 0x000F2E38 File Offset: 0x000F1038
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<int>("_lastItemVersion", ref this._lastItemVersion);
 		}
 
-		// Token: 0x06003681 RID: 13953 RVA: 0x000F2E4C File Offset: 0x000F104C
 		public void DailyTickParty(MobileParty party)
 		{
 			this.CheckAnimalBreeding(party);
@@ -51,7 +46,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003682 RID: 13954 RVA: 0x000F2E74 File Offset: 0x000F1074
 		private void OnPartyAttachedParty(MobileParty mobileParty)
 		{
 			if (MobileParty.MainParty.Army != null && mobileParty.Army == MobileParty.MainParty.Army)
@@ -75,7 +69,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003683 RID: 13955 RVA: 0x000F2F54 File Offset: 0x000F1154
 		public void OnTick(float dt)
 		{
 			if (PartyBase.MainParty.IsStarving)
@@ -89,7 +82,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003684 RID: 13956 RVA: 0x000F2F9C File Offset: 0x000F119C
 		private void PartyConsumeFood(MobileParty mobileParty, bool starvingCheck = false)
 		{
 			bool isStarving = mobileParty.Party.IsStarving;
@@ -229,7 +221,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnPartyConsumedFood(mobileParty);
 		}
 
-		// Token: 0x06003685 RID: 13957 RVA: 0x000F352C File Offset: 0x000F172C
 		private bool SlaughterLivestock(MobileParty party, int partyRemainingFoodPercentage)
 		{
 			int num = 0;
@@ -261,7 +252,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003686 RID: 13958 RVA: 0x000F35B8 File Offset: 0x000F17B8
 		private void CheckAnimalBreeding(MobileParty party)
 		{
 			if (party.HasPerk(DefaultPerks.Riding.Breeder, false) && MBRandom.RandomFloat < DefaultPerks.Riding.Breeder.PrimaryBonus && (party.ItemRoster.NumberOfLivestockAnimals > 1 || party.ItemRoster.NumberOfPackAnimals > 1 || party.ItemRoster.NumberOfMounts > 1))
@@ -280,7 +270,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003687 RID: 13959 RVA: 0x000F36EC File Offset: 0x000F18EC
 		private void MakeFoodConsumption(MobileParty party, ref int partyRemainingFoodPercentage)
 		{
 			ItemRoster itemRoster = party.ItemRoster;
@@ -329,7 +318,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0400116F RID: 4463
 		private int _lastItemVersion = -1;
 	}
 }

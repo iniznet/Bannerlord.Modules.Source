@@ -16,17 +16,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x02000006 RID: 6
 	[GameStateScreen(typeof(ClanState))]
 	public class GauntletClanScreen : ScreenBase, IGameStateListener
 	{
-		// Token: 0x0600001E RID: 30 RVA: 0x000025FC File Offset: 0x000007FC
 		public GauntletClanScreen(ClanState clanState)
 		{
 			this._clanState = clanState;
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x0000260C File Offset: 0x0000080C
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -80,20 +77,17 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x0000277F File Offset: 0x0000097F
 		private void OpenPartyScreenForNewClanParty(Hero hero)
 		{
 			this._isCreatingPartyWithMembers = true;
 			PartyScreenManager.OpenScreenAsCreateClanPartyForHero(hero, null, null);
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x00002790 File Offset: 0x00000990
 		private void OpenBannerEditorWithPlayerClan()
 		{
 			Game.Current.GameStateManager.PushState(Game.Current.GameStateManager.CreateState<BannerEditorState>(), 0);
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x000027B4 File Offset: 0x000009B4
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -164,7 +158,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
-		// Token: 0x06000023 RID: 35 RVA: 0x00002AB0 File Offset: 0x00000CB0
 		private void ShowHeroOnMap(Hero hero)
 		{
 			Vec2 asVec = hero.GetPosition().AsVec2;
@@ -172,7 +165,6 @@ namespace SandBox.GauntletUI
 			MapScreen.Instance.FastMoveCameraToPosition(asVec);
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00002ADD File Offset: 0x00000CDD
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -182,12 +174,10 @@ namespace SandBox.GauntletUI
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x00002B1D File Offset: 0x00000D1D
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x00002B1F File Offset: 0x00000D1F
 		void IGameStateListener.OnFinalize()
 		{
 			this._clanCategory.Unload();
@@ -196,7 +186,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x00002B45 File Offset: 0x00000D45
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -213,28 +202,21 @@ namespace SandBox.GauntletUI
 			dataSource2.RefreshCategoryValues();
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x00002B6E File Offset: 0x00000D6E
 		private void CloseClanScreen()
 		{
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x04000007 RID: 7
 		private const string _panelOpenSound = "event:/ui/panels/panel_clan_open";
 
-		// Token: 0x04000008 RID: 8
 		private ClanManagementVM _dataSource;
 
-		// Token: 0x04000009 RID: 9
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400000A RID: 10
 		private SpriteCategory _clanCategory;
 
-		// Token: 0x0400000B RID: 11
 		private readonly ClanState _clanState;
 
-		// Token: 0x0400000C RID: 12
 		private bool _isCreatingPartyWithMembers;
 	}
 }

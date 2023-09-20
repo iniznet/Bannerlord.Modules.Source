@@ -9,17 +9,14 @@ using TaleWorlds.Localization;
 
 namespace SandBox.BoardGames.AI
 {
-	// Token: 0x020000C7 RID: 199
 	public class BoardGameAISeega : BoardGameAIBase
 	{
-		// Token: 0x06000BEB RID: 3051 RVA: 0x0005E37C File Offset: 0x0005C57C
 		public BoardGameAISeega(BoardGameHelper.AIDifficulty difficulty, MissionBoardGameLogic boardGameHandler)
 			: base(difficulty, boardGameHandler)
 		{
 			this._board = base.BoardGameHandler.Board as BoardGameSeega;
 		}
 
-		// Token: 0x06000BEC RID: 3052 RVA: 0x0005E3B4 File Offset: 0x0005C5B4
 		protected override void InitializeDifficulty()
 		{
 			switch (base.Difficulty)
@@ -38,7 +35,6 @@ namespace SandBox.BoardGames.AI
 			}
 		}
 
-		// Token: 0x06000BED RID: 3053 RVA: 0x0005E3F4 File Offset: 0x0005C5F4
 		public override Move CalculateMovementStageMove()
 		{
 			Move move = Move.Invalid;
@@ -88,7 +84,6 @@ namespace SandBox.BoardGames.AI
 			return move;
 		}
 
-		// Token: 0x06000BEE RID: 3054 RVA: 0x0005E5A8 File Offset: 0x0005C7A8
 		public override bool WantsToForfeit()
 		{
 			if (!this.MayForfeit)
@@ -106,7 +101,6 @@ namespace SandBox.BoardGames.AI
 			return false;
 		}
 
-		// Token: 0x06000BEF RID: 3055 RVA: 0x0005E600 File Offset: 0x0005C800
 		public override Move CalculatePreMovementStageMove()
 		{
 			Move invalid = Move.Invalid;
@@ -135,7 +129,6 @@ namespace SandBox.BoardGames.AI
 			return invalid;
 		}
 
-		// Token: 0x06000BF0 RID: 3056 RVA: 0x0005E6F0 File Offset: 0x0005C8F0
 		private int NegaMax(int depth, int color, int alpha, int beta)
 		{
 			int num = int.MinValue;
@@ -173,7 +166,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BF1 RID: 3057 RVA: 0x0005E870 File Offset: 0x0005CA70
 		private int Evaluation()
 		{
 			float num = MBRandom.RandomFloat;
@@ -192,7 +184,6 @@ namespace SandBox.BoardGames.AI
 			return (int)((float)(20 * (this._board.GetPlayerTwoUnitsAlive() - this._board.GetPlayerOneUnitsAlive()) + (this.GetPlacementScore(false) - this.GetPlacementScore(true)) + 2 * (this.GetSurroundedScore(false) - this.GetSurroundedScore(true))) * num);
 		}
 
-		// Token: 0x06000BF2 RID: 3058 RVA: 0x0005E90C File Offset: 0x0005CB0C
 		private int GetPlacementScore(bool player)
 		{
 			int num = 0;
@@ -207,7 +198,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BF3 RID: 3059 RVA: 0x0005E998 File Offset: 0x0005CB98
 		private int GetSurroundedScore(bool player)
 		{
 			int num = 0;
@@ -222,7 +212,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BF4 RID: 3060 RVA: 0x0005EA14 File Offset: 0x0005CC14
 		private int GetAmountSurroundingThisPawn(PawnSeega pawn)
 		{
 			int num = 0;
@@ -247,10 +236,8 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x04000438 RID: 1080
 		private readonly BoardGameSeega _board;
 
-		// Token: 0x04000439 RID: 1081
 		private readonly int[,] _boardValues = new int[,]
 		{
 			{ 3, 2, 2, 2, 3 },

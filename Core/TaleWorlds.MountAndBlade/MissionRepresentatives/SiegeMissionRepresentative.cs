@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 {
-	// Token: 0x020003E5 RID: 997
 	public class SiegeMissionRepresentative : MissionRepresentativeBase
 	{
-		// Token: 0x06003485 RID: 13445 RVA: 0x000D9820 File Offset: 0x000D7A20
 		public override void OnAgentSpawned()
 		{
 			this._currentGoldGains = (GoldGainFlags)0;
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			this._assistCountOnSpawn = base.MissionPeer.AssistCount;
 		}
 
-		// Token: 0x06003486 RID: 13446 RVA: 0x000D984C File Offset: 0x000D7A4C
 		public int GetGoldGainsFromKillDataAndUpdateFlags(MPPerkObject.MPPerkHandler killerPerkHandler, MPPerkObject.MPPerkHandler assistingHitterPerkHandler, MultiplayerClassDivisions.MPHeroClass victimClass, bool isAssist, bool isRanged, bool isFriendly)
 		{
 			int num = 0;
@@ -134,7 +131,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return num;
 		}
 
-		// Token: 0x06003487 RID: 13447 RVA: 0x000D9BE4 File Offset: 0x000D7DE4
 		public int GetGoldGainsFromObjectiveAssist(GameEntity objectiveMostParentEntity, float contributionRatio, bool isCompleted)
 		{
 			int num = (int)(contributionRatio * (float)this.GetTotalGoldDistributionForDestructable(objectiveMostParentEntity));
@@ -150,7 +146,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return num;
 		}
 
-		// Token: 0x06003488 RID: 13448 RVA: 0x000D9C60 File Offset: 0x000D7E60
 		public int GetGoldGainsFromAllyDeathReward(int baseAmount)
 		{
 			if (baseAmount > 0 && !base.Peer.Communicator.IsServerPeer && base.Peer.Communicator.IsConnectionActive)
@@ -165,7 +160,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return baseAmount;
 		}
 
-		// Token: 0x06003489 RID: 13449 RVA: 0x000D9CC8 File Offset: 0x000D7EC8
 		private int GetTotalGoldDistributionForDestructable(GameEntity objectiveMostParentEntity)
 		{
 			string text = null;
@@ -193,34 +187,24 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return 600;
 		}
 
-		// Token: 0x0400165C RID: 5724
 		private const int FirstRangedKillGold = 10;
 
-		// Token: 0x0400165D RID: 5725
 		private const int FirstMeleeKillGold = 10;
 
-		// Token: 0x0400165E RID: 5726
 		private const int FirstAssistGold = 10;
 
-		// Token: 0x0400165F RID: 5727
 		private const int SecondAssistGold = 10;
 
-		// Token: 0x04001660 RID: 5728
 		private const int ThirdAssistGold = 10;
 
-		// Token: 0x04001661 RID: 5729
 		private const int FifthKillGold = 20;
 
-		// Token: 0x04001662 RID: 5730
 		private const int TenthKillGold = 30;
 
-		// Token: 0x04001663 RID: 5731
 		private GoldGainFlags _currentGoldGains;
 
-		// Token: 0x04001664 RID: 5732
 		private int _killCountOnSpawn;
 
-		// Token: 0x04001665 RID: 5733
 		private int _assistCountOnSpawn;
 	}
 }

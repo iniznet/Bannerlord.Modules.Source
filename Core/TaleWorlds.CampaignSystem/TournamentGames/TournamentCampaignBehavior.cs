@@ -14,10 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.TournamentGames
 {
-	// Token: 0x02000280 RID: 640
 	public class TournamentCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600218E RID: 8590 RVA: 0x0008E918 File Offset: 0x0008CB18
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
@@ -31,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
 		}
 
-		// Token: 0x0600218F RID: 8591 RVA: 0x0008E9F4 File Offset: 0x0008CBF4
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			Campaign.Current.TournamentManager.InitializeLeaderboardEntry(Hero.MainHero, 0);
@@ -48,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002190 RID: 8592 RVA: 0x0008EA78 File Offset: 0x0008CC78
 		private void OnDailyTick()
 		{
 			Hero leaderBoardLeader = Campaign.Current.TournamentManager.GetLeaderBoardLeader();
@@ -58,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002191 RID: 8593 RVA: 0x0008EABC File Offset: 0x0008CCBC
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			foreach (Town town in Town.AllTowns)
@@ -78,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002192 RID: 8594 RVA: 0x0008EBB0 File Offset: 0x0008CDB0
 		private void OnTownRebelliousStateChanged(Town town, bool rebelliousState)
 		{
 			if (town.InRebelliousState)
@@ -91,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002193 RID: 8595 RVA: 0x0008EBEC File Offset: 0x0008CDEC
 		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
 			Town town = siegeEvent.BesiegedSettlement.Town;
@@ -105,26 +98,22 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002194 RID: 8596 RVA: 0x0008EC2D File Offset: 0x0008CE2D
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Town, CampaignTime>>("_lastCreatedTournamentTimesInTowns", ref this._lastCreatedTournamentDatesInTowns);
 		}
 
-		// Token: 0x06002195 RID: 8597 RVA: 0x0008EC41 File Offset: 0x0008CE41
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			Campaign.Current.TournamentManager.DeleteLeaderboardEntry(victim);
 		}
 
-		// Token: 0x06002196 RID: 8598 RVA: 0x0008EC53 File Offset: 0x0008CE53
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06002197 RID: 8599 RVA: 0x0008EC63 File Offset: 0x0008CE63
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsTown)
@@ -133,7 +122,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002198 RID: 8600 RVA: 0x0008EC7C File Offset: 0x0008CE7C
 		private void ConsiderStartOrEndTournament(Town town)
 		{
 			CampaignTime campaignTime;
@@ -166,7 +154,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x06002199 RID: 8601 RVA: 0x0008ED8C File Offset: 0x0008CF8C
 		private void OnTournamentFinished(CharacterObject winner, MBReadOnlyList<CharacterObject> participants, Town town, ItemObject prize)
 		{
 			if (winner.IsHero && winner.HeroObject.Clan != null)
@@ -176,13 +163,11 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x0600219A RID: 8602 RVA: 0x0008EE02 File Offset: 0x0008D002
 		private float GetTournamentSimulationScore(Hero hero)
 		{
 			return Campaign.Current.Models.TournamentModel.GetTournamentSimulationScore(hero.CharacterObject);
 		}
 
-		// Token: 0x0600219B RID: 8603 RVA: 0x0008EE20 File Offset: 0x0008D020
 		private void InitializeTournamentLeaderboard()
 		{
 			Hero[] array = Hero.AllAliveHeroes.Where((Hero x) => x.IsLord && this.GetTournamentSimulationScore(x) > 1.5f).ToArray<Hero>();
@@ -216,12 +201,10 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}
 		}
 
-		// Token: 0x0600219C RID: 8604 RVA: 0x0008EF50 File Offset: 0x0008D150
 		protected void AddDialogs(CampaignGameStarter campaignGameSystemStarter)
 		{
 		}
 
-		// Token: 0x0600219D RID: 8605 RVA: 0x0008EF54 File Offset: 0x0008D154
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenuOption("town_arena", "join_tournament", "{=LN09ZLXZ}Join the tournament", new GameMenuOption.OnConditionDelegate(this.game_menu_join_tournament_on_condition), delegate(MenuCallbackArgs args)
@@ -246,14 +229,12 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			}, true, -1, false, null);
 		}
 
-		// Token: 0x0600219E RID: 8606 RVA: 0x0008F0B6 File Offset: 0x0008D2B6
 		[GameMenuEventHandler("town_arena", "mno_see_tournament_leaderboard", GameMenuEventHandler.EventType.OnConsequence)]
 		public static void game_menu_ui_town_arena_see_leaderboard_on_consequence(MenuCallbackArgs args)
 		{
 			args.MenuContext.OpenTournamentLeaderboards();
 		}
 
-		// Token: 0x0600219F RID: 8607 RVA: 0x0008F0C4 File Offset: 0x0008D2C4
 		private bool game_menu_join_tournament_on_condition(MenuCallbackArgs args)
 		{
 			bool flag2;
@@ -263,14 +244,12 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			return MenuHelper.SetOptionProperties(args, flag, flag2, textObject);
 		}
 
-		// Token: 0x060021A0 RID: 8608 RVA: 0x0008F101 File Offset: 0x0008D301
 		private static bool game_menu_town_arena_see_leaderboard_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leaderboard;
 			return Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsTown;
 		}
 
-		// Token: 0x060021A1 RID: 8609 RVA: 0x0008F120 File Offset: 0x0008D320
 		[GameMenuInitializationHandler("menu_town_tournament_join")]
 		private static void game_menu_ui_town_ui_on_init(MenuCallbackArgs args)
 		{
@@ -278,7 +257,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			args.MenuContext.SetBackgroundMeshName(currentSettlement.Town.WaitMeshName);
 		}
 
-		// Token: 0x060021A2 RID: 8610 RVA: 0x0008F14C File Offset: 0x0008D34C
 		private void game_menu_tournament_join_on_init(MenuCallbackArgs args)
 		{
 			TournamentGame tournamentGame = Campaign.Current.TournamentManager.GetTournamentGame(Settlement.CurrentSettlement.Town);
@@ -286,7 +264,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			GameTexts.SetVariable("MENU_TEXT", tournamentGame.GetMenuText());
 		}
 
-		// Token: 0x060021A3 RID: 8611 RVA: 0x0008F18C File Offset: 0x0008D38C
 		private void game_menu_tournament_join_current_game_on_consequence(MenuCallbackArgs args)
 		{
 			TournamentGame tournamentGame = Campaign.Current.TournamentManager.GetTournamentGame(Settlement.CurrentSettlement.Town);
@@ -295,7 +272,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			Campaign.Current.TournamentManager.OnPlayerJoinTournament(tournamentGame.GetType(), Settlement.CurrentSettlement);
 		}
 
-		// Token: 0x060021A4 RID: 8612 RVA: 0x0008F1E0 File Offset: 0x0008D3E0
 		private bool game_menu_tournament_watch_on_condition(MenuCallbackArgs args)
 		{
 			bool flag2;
@@ -305,7 +281,6 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			return MenuHelper.SetOptionProperties(args, flag, flag2, textObject);
 		}
 
-		// Token: 0x060021A5 RID: 8613 RVA: 0x0008F21C File Offset: 0x0008D41C
 		private void game_menu_tournament_watch_current_game_on_consequence(MenuCallbackArgs args)
 		{
 			TournamentGame tournamentGame = Campaign.Current.TournamentManager.GetTournamentGame(Settlement.CurrentSettlement.Town);
@@ -314,10 +289,8 @@ namespace TaleWorlds.CampaignSystem.TournamentGames
 			Campaign.Current.TournamentManager.OnPlayerWatchTournament(tournamentGame.GetType(), Settlement.CurrentSettlement);
 		}
 
-		// Token: 0x04000A73 RID: 2675
 		private const int TournamentCooldownDurationAsDays = 15;
 
-		// Token: 0x04000A74 RID: 2676
 		private Dictionary<Town, CampaignTime> _lastCreatedTournamentDatesInTowns = new Dictionary<Town, CampaignTime>();
 	}
 }

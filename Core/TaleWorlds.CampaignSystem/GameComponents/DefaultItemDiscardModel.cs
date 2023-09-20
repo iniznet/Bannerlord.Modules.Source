@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000113 RID: 275
 	public class DefaultItemDiscardModel : ItemDiscardModel
 	{
-		// Token: 0x060015CE RID: 5582 RVA: 0x00067424 File Offset: 0x00065624
 		public override bool PlayerCanDonateItem(ItemObject item)
 		{
 			bool flag = false;
@@ -26,7 +24,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015CF RID: 5583 RVA: 0x00067468 File Offset: 0x00065668
 		public override int GetXpBonusForDiscardingItem(ItemObject item, int amount = 1)
 		{
 			int num = 0;
@@ -56,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num * amount;
 		}
 
-		// Token: 0x060015D0 RID: 5584 RVA: 0x000674CC File Offset: 0x000656CC
 		public override int GetXpBonusForDiscardingItems(ItemRoster itemRoster)
 		{
 			float num = 0f;

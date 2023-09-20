@@ -16,35 +16,29 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003E1 RID: 993
 	public class VillageHostileActionCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003C1B RID: 15387 RVA: 0x0011CE09 File Offset: 0x0011B009
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<string, CampaignTime>>("_villageLastHostileActionTimeDictionary", ref this._villageLastHostileActionTimeDictionary);
 		}
 
-		// Token: 0x06003C1C RID: 15388 RVA: 0x0011CE1D File Offset: 0x0011B01D
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnAfterSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterSessionLaunched));
 			CampaignEvents.ItemsLooted.AddNonSerializedListener(this, new Action<MobileParty, ItemRoster>(this.OnItemsLooted));
 		}
 
-		// Token: 0x06003C1D RID: 15389 RVA: 0x0011CE4D File Offset: 0x0011B04D
 		private void OnItemsLooted(MobileParty mobileParty, ItemRoster lootedItems)
 		{
 			SkillLevelingManager.OnRaid(mobileParty, lootedItems);
 		}
 
-		// Token: 0x06003C1E RID: 15390 RVA: 0x0011CE56 File Offset: 0x0011B056
 		private void OnAfterSessionLaunched(CampaignGameStarter campaignGameSystemStarter)
 		{
 			this.AddGameMenus(campaignGameSystemStarter);
 		}
 
-		// Token: 0x06003C1F RID: 15391 RVA: 0x0011CE60 File Offset: 0x0011B060
 		public void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenuOption("village", "hostile_action", "{=GM3tAYMr}Take a hostile action", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_condition), new GameMenuOption.OnConsequenceDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_consequence), false, 1, false, null);
@@ -72,7 +66,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("village_raid_ended_leaded_by_someone_else", "continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.continue_on_condition), new GameMenuOption.OnConsequenceDelegate(VillageHostileActionCampaignBehavior.village_raid_ended_leaded_by_someone_else_on_consequence), true, -1, false, null);
 		}
 
-		// Token: 0x06003C20 RID: 15392 RVA: 0x0011D263 File Offset: 0x0011B463
 		private static bool wait_menu_end_raiding_on_condition(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)
@@ -83,14 +76,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003C21 RID: 15393 RVA: 0x0011D292 File Offset: 0x0011B492
 		private static bool wait_menu_end_raiding_at_army_by_leaving_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MobileParty.MainParty.MapEvent == null;
 		}
 
-		// Token: 0x06003C22 RID: 15394 RVA: 0x0011D2D0 File Offset: 0x0011B4D0
 		private void village_force_supplies_ended_successfully_on_consequence(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -128,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Current.FinalizeBattle();
 		}
 
-		// Token: 0x06003C23 RID: 15395 RVA: 0x0011D44C File Offset: 0x0011B64C
 		private void village_force_volunteers_ended_successfully_on_consequence(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -156,14 +146,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Current.FinalizeBattle();
 		}
 
-		// Token: 0x06003C24 RID: 15396 RVA: 0x0011D5A0 File Offset: 0x0011B7A0
 		private static bool game_menu_village_hostile_action_raid_village_warn_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Raid;
 			return true;
 		}
 
-		// Token: 0x06003C25 RID: 15397 RVA: 0x0011D5AC File Offset: 0x0011B7AC
 		private static bool wait_menu_end_raiding_at_army_by_abandoning_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -176,7 +164,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C26 RID: 15398 RVA: 0x0011D62E File Offset: 0x0011B82E
 		private static void wait_menu_end_raiding_at_army_by_leaving_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Current.ForceRaid = false;
@@ -184,7 +171,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003C27 RID: 15399 RVA: 0x0011D64C File Offset: 0x0011B84C
 		private static void wait_menu_end_raiding_at_army_by_abandoning_on_consequence(MenuCallbackArgs args)
 		{
 			Clan.PlayerClan.Influence -= (float)Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAbandoningArmy();
@@ -193,13 +179,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003C28 RID: 15400 RVA: 0x0011D69B File Offset: 0x0011B89B
 		private static void village_player_raid_ended_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003C29 RID: 15401 RVA: 0x0011D6A4 File Offset: 0x0011B8A4
 		private static void village_raid_ended_leaded_by_someone_else_on_init(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army == null)
@@ -235,7 +219,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("VILLAGE_ENCOUNTER_RESULT", new TextObject("{=2Ixb5OKD}Village is successfully saved by your help.", null), false);
 		}
 
-		// Token: 0x06003C2A RID: 15402 RVA: 0x0011D884 File Offset: 0x0011BA84
 		private static void village_player_raid_ended_on_init(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.LastVisitedSettlement != null && MobileParty.MainParty.LastVisitedSettlement.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
@@ -246,7 +229,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("VILLAGE_ENCOUNTER_RESULT", "{=aih1Y62W}You have saved the village.", false);
 		}
 
-		// Token: 0x06003C2B RID: 15403 RVA: 0x0011D8DE File Offset: 0x0011BADE
 		private static void village_raid_ended_leaded_by_someone_else_on_consequence(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
@@ -257,14 +239,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003C2C RID: 15404 RVA: 0x0011D914 File Offset: 0x0011BB14
 		private static void game_menu_warn_player_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
 			MBTextManager.SetTextVariable("KINGDOM", currentSettlement.MapFaction.IsKingdomFaction ? ((Kingdom)currentSettlement.MapFaction).EncyclopediaTitle : currentSettlement.MapFaction.Name, false);
 		}
 
-		// Token: 0x06003C2D RID: 15405 RVA: 0x0011D95C File Offset: 0x0011BB5C
 		private static void game_menu_village_hostile_menu_on_init(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveEncounter = false;
@@ -281,7 +261,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C2E RID: 15406 RVA: 0x0011D9E8 File Offset: 0x0011BBE8
 		private static bool game_menu_village_hostile_action_on_condition(MenuCallbackArgs args)
 		{
 			Village village = Settlement.CurrentSettlement.Village;
@@ -289,13 +268,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return village != null && Hero.MainHero.MapFaction != village.Owner.MapFaction && village.VillageState == Village.VillageStates.Normal;
 		}
 
-		// Token: 0x06003C2F RID: 15407 RVA: 0x0011DA2E File Offset: 0x0011BC2E
 		private static void game_menu_village_hostile_action_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village_hostile_action");
 		}
 
-		// Token: 0x06003C30 RID: 15408 RVA: 0x0011DA3C File Offset: 0x0011BC3C
 		private bool game_menu_village_hostile_action_take_food_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.ForceToGiveGoods;
@@ -315,13 +292,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C31 RID: 15409 RVA: 0x0011DAC3 File Offset: 0x0011BCC3
 		private void game_menu_village_hostile_action_forget_it_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village");
 		}
 
-		// Token: 0x06003C32 RID: 15410 RVA: 0x0011DACF File Offset: 0x0011BCCF
 		private void game_menu_village_hostile_action_take_food_on_consequence(MenuCallbackArgs args)
 		{
 			this._lastSelectedHostileAction = VillageHostileActionCampaignBehavior.HostileAction.TakeSupplies;
@@ -329,7 +304,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003C33 RID: 15411 RVA: 0x0011DAF0 File Offset: 0x0011BCF0
 		private bool game_menu_village_hostile_action_force_volunteers_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.ForceToGiveTroops;
@@ -347,7 +321,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C34 RID: 15412 RVA: 0x0011DB82 File Offset: 0x0011BD82
 		private void game_menu_village_hostile_action_force_volunteers_on_consequence(MenuCallbackArgs args)
 		{
 			this._lastSelectedHostileAction = VillageHostileActionCampaignBehavior.HostileAction.GetVolunteers;
@@ -355,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003C35 RID: 15413 RVA: 0x0011DBA0 File Offset: 0x0011BDA0
 		private bool game_menu_village_hostile_action_raid_village_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
@@ -363,7 +335,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !FactionManager.IsAlliedWithFaction(Hero.MainHero.MapFaction, Settlement.CurrentSettlement.MapFaction);
 		}
 
-		// Token: 0x06003C36 RID: 15414 RVA: 0x0011DBCC File Offset: 0x0011BDCC
 		private void game_menu_village_hostile_action_raid_village_warn_continue_on_consequence(MenuCallbackArgs args)
 		{
 			this._lastSelectedHostileAction = VillageHostileActionCampaignBehavior.HostileAction.RaidTheVillage;
@@ -371,14 +342,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003C37 RID: 15415 RVA: 0x0011DBEA File Offset: 0x0011BDEA
 		private void game_menu_village_hostile_action_raid_village_warn_leave_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village_hostile_action");
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06003C38 RID: 15416 RVA: 0x0011DBFC File Offset: 0x0011BDFC
 		private void game_menu_village_hostile_action_raid_village_on_consequence(MenuCallbackArgs args)
 		{
 			if (!FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Settlement.CurrentSettlement.MapFaction))
@@ -391,13 +360,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003C39 RID: 15417 RVA: 0x0011DC4B File Offset: 0x0011BE4B
 		private void game_menu_villagers_resist_attack_resistance_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003C3A RID: 15418 RVA: 0x0011DC58 File Offset: 0x0011BE58
 		private void CheckVillageAttackableHonorably(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = MobileParty.MainParty.CurrentSettlement;
@@ -405,7 +372,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.CheckFactionAttackableHonorably(args, faction);
 		}
 
-		// Token: 0x06003C3B RID: 15419 RVA: 0x0011DC84 File Offset: 0x0011BE84
 		private void CheckFactionAttackableHonorably(MenuCallbackArgs args, IFaction faction)
 		{
 			if (faction.NotAttackableByPlayerUntilTime.IsFuture)
@@ -415,14 +381,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C3C RID: 15420 RVA: 0x0011DCB4 File Offset: 0x0011BEB4
 		private bool game_menu_no_resist_plunder_village_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Raid;
 			return !this.IsThereAnyDefence() && !FactionManager.IsAlliedWithFaction(Hero.MainHero.MapFaction, Settlement.CurrentSettlement.MapFaction);
 		}
 
-		// Token: 0x06003C3D RID: 15421 RVA: 0x0011DCE4 File Offset: 0x0011BEE4
 		private void game_menu_villagers_resist_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -450,7 +414,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("STATE", GameTexts.FindText(this.IsThereAnyDefence() ? "str_raid_resist" : "str_village_raid_villagers_are_nonresistant", null), false);
 		}
 
-		// Token: 0x06003C3E RID: 15422 RVA: 0x0011DD7C File Offset: 0x0011BF7C
 		private static void game_menu_village_start_attack_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -471,14 +434,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameTexts.SetVariable("STATE", GameTexts.FindText("str_villigers_grab_their_tools", null));
 		}
 
-		// Token: 0x06003C3F RID: 15423 RVA: 0x0011DE07 File Offset: 0x0011C007
 		private static bool game_menu_menu_village_take_food_success_take_supplies_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
 			return true;
 		}
 
-		// Token: 0x06003C40 RID: 15424 RVA: 0x0011DE12 File Offset: 0x0011C012
 		private bool game_menu_villagers_resist_attack_resistance_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
@@ -486,7 +447,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this.IsThereAnyDefence();
 		}
 
-		// Token: 0x06003C41 RID: 15425 RVA: 0x0011DE28 File Offset: 0x0011C028
 		private bool IsThereAnyDefence()
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -504,46 +464,39 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003C42 RID: 15426 RVA: 0x0011DEA8 File Offset: 0x0011C0A8
 		public static void game_menu_menu_village_take_food_success_let_them_keep_it_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village");
 		}
 
-		// Token: 0x06003C43 RID: 15427 RVA: 0x0011DEB4 File Offset: 0x0011C0B4
 		public static bool game_menu_menu_village_take_food_success_let_them_keep_it_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return true;
 		}
 
-		// Token: 0x06003C44 RID: 15428 RVA: 0x0011DEBE File Offset: 0x0011C0BE
 		public static void hostile_action_village_on_init(MenuCallbackArgs args)
 		{
 			MBTextManager.SetTextVariable("VILLAGE_NAME", PlayerEncounter.EncounterSettlement.Name, false);
 		}
 
-		// Token: 0x06003C45 RID: 15429 RVA: 0x0011DED5 File Offset: 0x0011C0D5
 		public static void wait_menu_raiding_village_on_tick(MenuCallbackArgs args, CampaignTime dt)
 		{
 			args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(1f - PlayerEncounter.Battle.MapEventSettlement.SettlementHitPoints);
 		}
 
-		// Token: 0x06003C46 RID: 15430 RVA: 0x0011DEFC File Offset: 0x0011C0FC
 		public static bool wait_menu_start_raiding_on_condition(MenuCallbackArgs args)
 		{
 			MBTextManager.SetTextVariable("SETTLEMENT_NAME", PlayerEncounter.Battle.MapEventSettlement.Name, false);
 			return true;
 		}
 
-		// Token: 0x06003C47 RID: 15431 RVA: 0x0011DF19 File Offset: 0x0011C119
 		public static void wait_menu_end_raiding_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Current.ForceRaid = false;
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06003C48 RID: 15432 RVA: 0x0011DF2C File Offset: 0x0011C12C
 		private static void game_menu_settlement_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveSettlement();
@@ -551,7 +504,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.SaveHandler.SignalAutoSave();
 		}
 
-		// Token: 0x06003C49 RID: 15433 RVA: 0x0011DF48 File Offset: 0x0011C148
 		[GameMenuInitializationHandler("village_player_raid_ended")]
 		public static void game_menu_village_raid_ended_menu_sound_on_init(MenuCallbackArgs args)
 		{
@@ -562,7 +514,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C4A RID: 15434 RVA: 0x0011DFA1 File Offset: 0x0011C1A1
 		[GameMenuInitializationHandler("village_looted")]
 		[GameMenuInitializationHandler("village_raid_ended_leaded_by_someone_else")]
 		[GameMenuInitializationHandler("raiding_village")]
@@ -571,7 +522,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("wait_raiding_village");
 		}
 
-		// Token: 0x06003C4B RID: 15435 RVA: 0x0011DFB4 File Offset: 0x0011C1B4
 		[GameMenuInitializationHandler("village_hostile_action")]
 		[GameMenuInitializationHandler("force_volunteers_village")]
 		[GameMenuInitializationHandler("force_supplies_village")]
@@ -588,37 +538,28 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(village.WaitMeshName);
 		}
 
-		// Token: 0x06003C4C RID: 15436 RVA: 0x0011DFDD File Offset: 0x0011C1DD
 		private static bool continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003C4D RID: 15437 RVA: 0x0011DFE8 File Offset: 0x0011C1E8
 		private static bool back_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x0400124B RID: 4683
 		private readonly TextObject EnemyNotAttackableTooltip = GameTexts.FindText("str_enemy_not_attackable_tooltip", null);
 
-		// Token: 0x0400124C RID: 4684
 		private VillageHostileActionCampaignBehavior.HostileAction _lastSelectedHostileAction;
 
-		// Token: 0x0400124D RID: 4685
 		private Dictionary<string, CampaignTime> _villageLastHostileActionTimeDictionary = new Dictionary<string, CampaignTime>();
 
-		// Token: 0x02000740 RID: 1856
 		private enum HostileAction
 		{
-			// Token: 0x04001DEF RID: 7663
 			RaidTheVillage,
-			// Token: 0x04001DF0 RID: 7664
 			TakeSupplies,
-			// Token: 0x04001DF1 RID: 7665
 			GetVolunteers
 		}
 	}

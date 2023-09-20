@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000449 RID: 1097
 	public static class LeaveTroopsToSettlementAction
 	{
-		// Token: 0x06003F2D RID: 16173 RVA: 0x0012E17C File Offset: 0x0012C37C
 		private static void ApplyInternal(MobileParty mobileParty, Settlement settlement, int numberOfTroopsWillBeLeft, bool archersAreHighPriority)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -136,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003F2E RID: 16174 RVA: 0x0012E568 File Offset: 0x0012C768
 		public static void Apply(MobileParty mobileParty, Settlement settlement, int number, bool archersAreHighPriority)
 		{
 			LeaveTroopsToSettlementAction.ApplyInternal(mobileParty, settlement, number, archersAreHighPriority);

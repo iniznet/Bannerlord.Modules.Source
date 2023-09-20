@@ -4,10 +4,8 @@ using System.Text;
 
 namespace TaleWorlds.Library.CodeGeneration
 {
-	// Token: 0x020000B4 RID: 180
 	public class CodeGenerationFile
 	{
-		// Token: 0x06000679 RID: 1657 RVA: 0x00013F90 File Offset: 0x00012190
 		public CodeGenerationFile(List<string> usingDefinitions = null)
 		{
 			this._lines = new List<string>();
@@ -20,13 +18,11 @@ namespace TaleWorlds.Library.CodeGeneration
 			}
 		}
 
-		// Token: 0x0600067A RID: 1658 RVA: 0x0001400C File Offset: 0x0001220C
 		public void AddLine(string line)
 		{
 			this._lines.Add(line);
 		}
 
-		// Token: 0x0600067B RID: 1659 RVA: 0x0001401C File Offset: 0x0001221C
 		public string GenerateText()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -52,7 +48,6 @@ namespace TaleWorlds.Library.CodeGeneration
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x040001F8 RID: 504
 		private List<string> _lines;
 	}
 }

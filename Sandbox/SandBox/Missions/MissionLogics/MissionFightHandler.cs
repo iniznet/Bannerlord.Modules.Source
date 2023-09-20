@@ -9,11 +9,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x0200004A RID: 74
 	public class MissionFightHandler : MissionLogic
 	{
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x06000388 RID: 904 RVA: 0x0001A4B5 File Offset: 0x000186B5
 		private static MissionFightHandler _current
 		{
 			get
@@ -22,8 +19,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x17000051 RID: 81
-		// (get) Token: 0x06000389 RID: 905 RVA: 0x0001A4C1 File Offset: 0x000186C1
 		public IEnumerable<Agent> PlayerSideAgents
 		{
 			get
@@ -32,8 +27,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x17000052 RID: 82
-		// (get) Token: 0x0600038A RID: 906 RVA: 0x0001A4CE File Offset: 0x000186CE
 		public IEnumerable<Agent> OpponentSideAgents
 		{
 			get
@@ -42,8 +35,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x17000053 RID: 83
-		// (get) Token: 0x0600038B RID: 907 RVA: 0x0001A4DB File Offset: 0x000186DB
 		public bool IsPlayerSideWon
 		{
 			get
@@ -52,25 +43,21 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600038C RID: 908 RVA: 0x0001A4E3 File Offset: 0x000186E3
 		public override void OnBehaviorInitialize()
 		{
 			base.Mission.IsAgentInteractionAllowed_AdditionalCondition += this.IsAgentInteractionAllowed_AdditionalCondition;
 		}
 
-		// Token: 0x0600038D RID: 909 RVA: 0x0001A4FC File Offset: 0x000186FC
 		public override void EarlyStart()
 		{
 			this._playerSideAgents = new List<Agent>();
 			this._opponentSideAgents = new List<Agent>();
 		}
 
-		// Token: 0x0600038E RID: 910 RVA: 0x0001A514 File Offset: 0x00018714
 		public override void AfterStart()
 		{
 		}
 
-		// Token: 0x0600038F RID: 911 RVA: 0x0001A518 File Offset: 0x00018718
 		public override void OnMissionTick(float dt)
 		{
 			if (this._finishTimer != null && this._finishTimer.ElapsedTime > 5f)
@@ -85,7 +72,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000390 RID: 912 RVA: 0x0001A578 File Offset: 0x00018778
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (this._state != MissionFightHandler.State.Fighting)
@@ -119,7 +105,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000391 RID: 913 RVA: 0x0001A634 File Offset: 0x00018834
 		public void StartCustomFight(List<Agent> playerSideAgents, List<Agent> opponentSideAgents, bool dropWeapons, bool isItemUseDisabled, MissionFightHandler.OnFightEndDelegate onFightEndDelegate)
 		{
 			this._state = MissionFightHandler.State.Fighting;
@@ -152,7 +137,6 @@ namespace SandBox.Missions.MissionLogics
 			this.SetTeamsForFightAndDuel();
 		}
 
-		// Token: 0x06000392 RID: 914 RVA: 0x0001A768 File Offset: 0x00018968
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
 		{
 			canPlayerLeave = true;
@@ -164,7 +148,6 @@ namespace SandBox.Missions.MissionLogics
 			return null;
 		}
 
-		// Token: 0x06000393 RID: 915 RVA: 0x0001A7B8 File Offset: 0x000189B8
 		private void ForceAgentForFight(Agent agent)
 		{
 			if (agent.GetComponent<CampaignAgentComponent>().AgentNavigator != null)
@@ -176,13 +159,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000394 RID: 916 RVA: 0x0001A7EA File Offset: 0x000189EA
 		protected override void OnEndMission()
 		{
 			base.Mission.IsAgentInteractionAllowed_AdditionalCondition -= this.IsAgentInteractionAllowed_AdditionalCondition;
 		}
 
-		// Token: 0x06000395 RID: 917 RVA: 0x0001A804 File Offset: 0x00018A04
 		private void SetTeamsForFightAndDuel()
 		{
 			Mission.Current.PlayerEnemyTeam.SetIsEnemyOf(Mission.Current.PlayerTeam, true);
@@ -210,7 +191,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000396 RID: 918 RVA: 0x0001A8F8 File Offset: 0x00018AF8
 		private void ResetTeamsForFightAndDuel()
 		{
 			foreach (Agent agent in this._playerSideAgents)
@@ -237,13 +217,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000397 RID: 919 RVA: 0x0001AA10 File Offset: 0x00018C10
 		private bool IsAgentInteractionAllowed_AdditionalCondition()
 		{
 			return this._state != MissionFightHandler.State.Fighting;
 		}
 
-		// Token: 0x06000398 RID: 920 RVA: 0x0001AA20 File Offset: 0x00018C20
 		public static Agent GetAgentToSpectate()
 		{
 			MissionFightHandler current = MissionFightHandler._current;
@@ -258,7 +236,6 @@ namespace SandBox.Missions.MissionLogics
 			return null;
 		}
 
-		// Token: 0x06000399 RID: 921 RVA: 0x0001AA6C File Offset: 0x00018C6C
 		private void DropAllWeapons(Agent agent)
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
@@ -270,7 +247,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600039A RID: 922 RVA: 0x0001AAA4 File Offset: 0x00018CA4
 		private void ResetScriptedBehaviors()
 		{
 			foreach (Agent agent in this._playerSideAgents)
@@ -289,7 +265,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600039B RID: 923 RVA: 0x0001AB80 File Offset: 0x00018D80
 		public void EndFight()
 		{
 			this.ResetTeamsForFightAndDuel();
@@ -322,13 +297,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600039C RID: 924 RVA: 0x0001ACB4 File Offset: 0x00018EB4
 		public bool IsThereActiveFight()
 		{
 			return this._state == MissionFightHandler.State.Fighting;
 		}
 
-		// Token: 0x0600039D RID: 925 RVA: 0x0001ACC0 File Offset: 0x00018EC0
 		public void AddAgentToSide(Agent agent, bool isPlayerSide)
 		{
 			if (!this.IsThereActiveFight() || this._playerSideAgents.Contains(agent) || this._opponentSideAgents.Contains(agent))
@@ -345,7 +318,6 @@ namespace SandBox.Missions.MissionLogics
 			this._opponentSideAgents.Add(agent);
 		}
 
-		// Token: 0x0600039E RID: 926 RVA: 0x0001AD30 File Offset: 0x00018F30
 		public IEnumerable<Agent> GetDangerSources(Agent ownerAgent)
 		{
 			if (!(ownerAgent.Character is CharacterObject))
@@ -360,68 +332,49 @@ namespace SandBox.Missions.MissionLogics
 			return new List<Agent>();
 		}
 
-		// Token: 0x0600039F RID: 927 RVA: 0x0001AD98 File Offset: 0x00018F98
 		public static bool IsAgentAggressive(Agent agent)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
 			return agent.HasWeapon() || (characterObject != null && (characterObject.Occupation == 2 || MissionFightHandler.IsAgentVillian(characterObject) || MissionFightHandler.IsAgentJusticeWarrior(characterObject)));
 		}
 
-		// Token: 0x060003A0 RID: 928 RVA: 0x0001ADD9 File Offset: 0x00018FD9
 		public static bool IsAgentJusticeWarrior(CharacterObject character)
 		{
 			return character.Occupation == 7 || character.Occupation == 24 || character.Occupation == 23;
 		}
 
-		// Token: 0x060003A1 RID: 929 RVA: 0x0001ADFA File Offset: 0x00018FFA
 		public static bool IsAgentVillian(CharacterObject character)
 		{
 			return character.Occupation == 27 || character.Occupation == 21 || character.Occupation == 15;
 		}
 
-		// Token: 0x040001B3 RID: 435
 		private static MissionFightHandler.OnFightEndDelegate _onFightEnd;
 
-		// Token: 0x040001B4 RID: 436
 		private List<Agent> _playerSideAgents;
 
-		// Token: 0x040001B5 RID: 437
 		private List<Agent> _opponentSideAgents;
 
-		// Token: 0x040001B6 RID: 438
 		private Dictionary<Agent, Team> _playerSideAgentsOldTeamData;
 
-		// Token: 0x040001B7 RID: 439
 		private Dictionary<Agent, Team> _opponentSideAgentsOldTeamData;
 
-		// Token: 0x040001B8 RID: 440
 		private MissionFightHandler.State _state;
 
-		// Token: 0x040001B9 RID: 441
 		private BasicMissionTimer _finishTimer;
 
-		// Token: 0x040001BA RID: 442
 		private BasicMissionTimer _prepareTimer;
 
-		// Token: 0x040001BB RID: 443
 		private bool _isPlayerSideWon;
 
-		// Token: 0x040001BC RID: 444
 		private MissionMode _oldMissionMode;
 
-		// Token: 0x0200012C RID: 300
 		private enum State
 		{
-			// Token: 0x040005AE RID: 1454
 			NoFight,
-			// Token: 0x040005AF RID: 1455
 			Fighting,
-			// Token: 0x040005B0 RID: 1456
 			FightEnded
 		}
 
-		// Token: 0x0200012D RID: 301
-		// (Invoke) Token: 0x06000D1F RID: 3359
 		public delegate void OnFightEndDelegate(bool isPlayerSideWon);
 	}
 }

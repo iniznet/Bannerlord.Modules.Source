@@ -8,11 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000100 RID: 256
 	public class BehaviorDefendCastleKeyPosition : BehaviorComponent
 	{
-		// Token: 0x17000312 RID: 786
-		// (get) Token: 0x06000CA3 RID: 3235 RVA: 0x0001B35E File Offset: 0x0001955E
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -21,7 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CA4 RID: 3236 RVA: 0x0001B365 File Offset: 0x00019565
 		public BehaviorDefendCastleKeyPosition(Formation formation)
 			: base(formation)
 		{
@@ -32,7 +28,6 @@ namespace TaleWorlds.MountAndBlade
 			this._hasFormedShieldWall = true;
 		}
 
-		// Token: 0x06000CA5 RID: 3237 RVA: 0x0001B3A4 File Offset: 0x000195A4
 		protected override void CalculateCurrentOrder()
 		{
 			base.CalculateCurrentOrder();
@@ -40,7 +35,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = ((base.Formation.QuerySystem.ClosestEnemyFormation != null && TeamAISiegeComponent.IsFormationInsideCastle(base.Formation.QuerySystem.ClosestEnemyFormation.Formation, true, 0.4f)) ? FacingOrder.FacingOrderLookAtEnemy : ((this._behaviorState == BehaviorDefendCastleKeyPosition.BehaviorState.Ready) ? this._readyFacingOrder : this._waitFacingOrder));
 		}
 
-		// Token: 0x06000CA6 RID: 3238 RVA: 0x0001B42C File Offset: 0x0001962C
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -50,7 +44,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000CA7 RID: 3239 RVA: 0x0001B488 File Offset: 0x00019688
 		private void ResetOrderPositions()
 		{
 			this._behaviorSide = base.Formation.AI.Side;
@@ -143,14 +136,12 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = ((base.Formation.QuerySystem.ClosestEnemyFormation != null && TeamAISiegeComponent.IsFormationInsideCastle(base.Formation.QuerySystem.ClosestEnemyFormation.Formation, true, 0.4f)) ? FacingOrder.FacingOrderLookAtEnemy : ((this._behaviorState == BehaviorDefendCastleKeyPosition.BehaviorState.Ready) ? this._readyFacingOrder : this._waitFacingOrder));
 		}
 
-		// Token: 0x06000CA8 RID: 3240 RVA: 0x0001B7E7 File Offset: 0x000199E7
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this.ResetOrderPositions();
 		}
 
-		// Token: 0x06000CA9 RID: 3241 RVA: 0x0001B7F8 File Offset: 0x000199F8
 		public override void TickOccasionally()
 		{
 			base.TickOccasionally();
@@ -252,7 +243,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CAA RID: 3242 RVA: 0x0001BBD4 File Offset: 0x00019DD4
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.ResetOrderPositions();
@@ -265,59 +255,41 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CAB RID: 3243 RVA: 0x0001BC50 File Offset: 0x00019E50
 		protected override float GetAiWeight()
 		{
 			return 1f;
 		}
 
-		// Token: 0x040002FB RID: 763
 		private TeamAISiegeComponent _teamAISiegeDefender;
 
-		// Token: 0x040002FC RID: 764
 		private CastleGate _innerGate;
 
-		// Token: 0x040002FD RID: 765
 		private CastleGate _outerGate;
 
-		// Token: 0x040002FE RID: 766
 		private List<SiegeLadder> _laddersOnThisSide;
 
-		// Token: 0x040002FF RID: 767
 		private BehaviorDefendCastleKeyPosition.BehaviorState _behaviorState;
 
-		// Token: 0x04000300 RID: 768
 		private MovementOrder _waitOrder;
 
-		// Token: 0x04000301 RID: 769
 		private MovementOrder _readyOrder;
 
-		// Token: 0x04000302 RID: 770
 		private FacingOrder _waitFacingOrder;
 
-		// Token: 0x04000303 RID: 771
 		private FacingOrder _readyFacingOrder;
 
-		// Token: 0x04000304 RID: 772
 		private TacticalPosition _tacticalMiddlePos;
 
-		// Token: 0x04000305 RID: 773
 		private TacticalPosition _tacticalWaitPos;
 
-		// Token: 0x04000306 RID: 774
 		private bool _hasFormedShieldWall;
 
-		// Token: 0x04000307 RID: 775
 		private WorldPosition _readyOrderPosition;
 
-		// Token: 0x0200043F RID: 1087
 		private enum BehaviorState
 		{
-			// Token: 0x0400184A RID: 6218
 			UnSet,
-			// Token: 0x0400184B RID: 6219
 			Waiting,
-			// Token: 0x0400184C RID: 6220
 			Ready
 		}
 	}

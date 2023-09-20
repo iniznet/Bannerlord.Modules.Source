@@ -13,12 +13,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x0200002E RID: 46
 	[OverrideView(typeof(MissionBattleScoreUIHandler))]
 	public class MissionGauntletBattleScore : MissionView
 	{
-		// Token: 0x17000051 RID: 81
-		// (get) Token: 0x0600022F RID: 559 RVA: 0x0000C105 File Offset: 0x0000A305
 		public ScoreboardBaseVM DataSource
 		{
 			get
@@ -27,14 +24,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x0000C10D File Offset: 0x0000A30D
 		public MissionGauntletBattleScore(ScoreboardBaseVM scoreboardVM)
 		{
 			this._dataSource = scoreboardVM;
 			this.ViewOrderPriority = 15;
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x0000C124 File Offset: 0x0000A324
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -51,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			dataSource.SetShortcuts(scoreboardHotkeys);
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x0000C1F8 File Offset: 0x0000A3F8
 		private void CreateView()
 		{
 			this._gauntletLayer = new GauntletLayer(this.ViewOrderPriority, "GauntletLayer", false);
@@ -67,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.MissionScreen.AddLayer(this._gauntletLayer);
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x0000C2CC File Offset: 0x0000A4CC
 		public override void OnMissionScreenFinalize()
 		{
 			base.Mission.OnMainAgentChanged -= this.Mission_OnMainAgentChanged;
@@ -79,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource = null;
 		}
 
-		// Token: 0x06000234 RID: 564 RVA: 0x0000C32C File Offset: 0x0000A52C
 		public override bool OnEscape()
 		{
 			if (this._dataSource.ShowScoreboard)
@@ -90,20 +82,17 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return base.OnEscape();
 		}
 
-		// Token: 0x06000235 RID: 565 RVA: 0x0000C349 File Offset: 0x0000A549
 		public override void EarlyStart()
 		{
 			base.EarlyStart();
 			base.Mission.OnMainAgentChanged += this.Mission_OnMainAgentChanged;
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x0000C368 File Offset: 0x0000A568
 		public override void OnDeploymentFinished()
 		{
 			this._isPreparationEnded = true;
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x0000C371 File Offset: 0x0000A571
 		private void Mission_OnMainAgentChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (base.Mission.MainAgent == null)
@@ -112,7 +101,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x0000C38C File Offset: 0x0000A58C
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -189,13 +177,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x0000C711 File Offset: 0x0000A911
 		private bool CanOpenScoreboard()
 		{
 			return !base.MissionScreen.IsRadialMenuActive && !base.MissionScreen.IsPhotoModeEnabled && !base.Mission.IsOrderMenuOpen;
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x0000C73D File Offset: 0x0000A93D
 		private void ToggleScoreboard(bool value)
 		{
 			if (value)
@@ -206,7 +192,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this.OnClose();
 		}
 
-		// Token: 0x0600023B RID: 571 RVA: 0x0000C750 File Offset: 0x0000A950
 		private void OnOpen()
 		{
 			this._toOpen = false;
@@ -224,7 +209,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600023C RID: 572 RVA: 0x0000C7DC File Offset: 0x0000A9DC
 		private void OnClose()
 		{
 			if (!this._dataSource.ShowScoreboard)
@@ -238,7 +222,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this.SetMouseState(false);
 		}
 
-		// Token: 0x0600023D RID: 573 RVA: 0x0000C834 File Offset: 0x0000AA34
 		private void SetMouseState(bool isEnabled)
 		{
 			this._gauntletLayer.IsFocusLayer = isEnabled;
@@ -259,21 +242,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._isMouseEnabled = isEnabled;
 		}
 
-		// Token: 0x0600023E RID: 574 RVA: 0x0000C893 File Offset: 0x0000AA93
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 0f;
 		}
 
-		// Token: 0x0600023F RID: 575 RVA: 0x0000C8B0 File Offset: 0x0000AAB0
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
 		}
 
-		// Token: 0x06000240 RID: 576 RVA: 0x0000C8D0 File Offset: 0x0000AAD0
 		[CommandLineFunctionality.CommandLineArgumentFunction("force_toggle", "scoreboard")]
 		public static string ForceScoreboardToggle(List<string> args)
 		{
@@ -286,25 +266,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return "Format is: scoreboard.force_toggle 0-1";
 		}
 
-		// Token: 0x04000117 RID: 279
 		private ScoreboardBaseVM _dataSource;
 
-		// Token: 0x04000118 RID: 280
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000119 RID: 281
 		private bool _isPreparationEnded;
 
-		// Token: 0x0400011A RID: 282
 		private bool _isSiegeScoreboard;
 
-		// Token: 0x0400011B RID: 283
 		private bool _toOpen;
 
-		// Token: 0x0400011C RID: 284
 		private bool _isMouseEnabled;
 
-		// Token: 0x0400011D RID: 285
 		private static bool _forceScoreboardToggle;
 	}
 }

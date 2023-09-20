@@ -10,18 +10,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000151 RID: 337
 	public abstract class UsableMachineAIBase
 	{
-		// Token: 0x060010EA RID: 4330 RVA: 0x000375CF File Offset: 0x000357CF
 		protected UsableMachineAIBase(UsableMachine usableMachine)
 		{
 			this.UsableMachine = usableMachine;
 			this._lastActiveWaitStandingPoint = this.UsableMachine.WaitEntity;
 		}
 
-		// Token: 0x170003A0 RID: 928
-		// (get) Token: 0x060010EB RID: 4331 RVA: 0x000375EF File Offset: 0x000357EF
 		public virtual bool HasActionCompleted
 		{
 			get
@@ -30,19 +26,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010EC RID: 4332 RVA: 0x000375F2 File Offset: 0x000357F2
 		protected internal virtual Agent.AIScriptedFrameFlags GetScriptedFrameFlags(Agent agent)
 		{
 			return Agent.AIScriptedFrameFlags.NoAttack;
 		}
 
-		// Token: 0x060010ED RID: 4333 RVA: 0x000375F5 File Offset: 0x000357F5
 		public void Tick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
 		{
 			this.OnTick(agentToCompareTo, formationToCompareTo, potentialUsersTeam, dt);
 		}
 
-		// Token: 0x060010EE RID: 4334 RVA: 0x00037604 File Offset: 0x00035804
 		protected virtual void OnTick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
 		{
 			foreach (StandingPoint standingPoint in this.UsableMachine.StandingPoints)
@@ -117,7 +110,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010EF RID: 4335 RVA: 0x00037954 File Offset: 0x00035B54
 		[Conditional("DEBUG")]
 		private void TickForDebug()
 		{
@@ -131,7 +123,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010F0 RID: 4336 RVA: 0x000379C4 File Offset: 0x00035BC4
 		public static Agent GetSuitableAgentForStandingPoint(UsableMachine usableMachine, StandingPoint standingPoint, IEnumerable<Agent> agents, List<Agent> usedAgents)
 		{
 			if (usableMachine.AmmoPickUpPoints.Contains(standingPoint) && usableMachine.StandingPoints.Any((StandingPoint standingPoint2) => (standingPoint2.IsDeactivated || standingPoint2.HasUser || standingPoint2.HasAIMovingTo) && !standingPoint2.GameEntity.HasTag(usableMachine.AmmoPickUpTag) && standingPoint2 is StandingPointWithWeaponRequirement))
@@ -146,7 +137,6 @@ namespace TaleWorlds.MountAndBlade
 			return enumerable.MaxBy((Agent a) => standingPoint.GetUsageScoreForAgent(a));
 		}
 
-		// Token: 0x060010F1 RID: 4337 RVA: 0x00037A54 File Offset: 0x00035C54
 		public static Agent GetSuitableAgentForStandingPoint(UsableMachine usableMachine, StandingPoint standingPoint, List<ValueTuple<Agent, float>> agents, List<Agent> usedAgents, float weight)
 		{
 			if (usableMachine.IsStandingPointNotUsedOnAccountOfBeingAmmoLoad(standingPoint))
@@ -171,8 +161,6 @@ namespace TaleWorlds.MountAndBlade
 			return agent;
 		}
 
-		// Token: 0x170003A1 RID: 929
-		// (get) Token: 0x060010F2 RID: 4338 RVA: 0x00037B1C File Offset: 0x00035D1C
 		protected virtual MovementOrder NextOrder
 		{
 			get
@@ -181,7 +169,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010F3 RID: 4339 RVA: 0x00037B24 File Offset: 0x00035D24
 		public virtual void TeleportUserAgentsToMachine(List<Agent> agentList)
 		{
 			int num = 0;
@@ -214,14 +201,12 @@ namespace TaleWorlds.MountAndBlade
 			while (flag && num < 10);
 		}
 
-		// Token: 0x060010F4 RID: 4340 RVA: 0x00037C60 File Offset: 0x00035E60
 		public void StopUsingStandingPoint(StandingPoint standingPoint)
 		{
 			Agent agent = (standingPoint.HasUser ? standingPoint.UserAgent : (standingPoint.HasAIMovingTo ? standingPoint.MovingAgent : null));
 			this.HandleAgentStopUsingStandingPoint(agent, standingPoint);
 		}
 
-		// Token: 0x060010F5 RID: 4341 RVA: 0x00037C98 File Offset: 0x00035E98
 		protected virtual void HandleAgentStopUsingStandingPoint(Agent agent, StandingPoint standingPoint)
 		{
 			Agent.StopUsingGameObjectFlags stopUsingGameObjectFlags = Agent.StopUsingGameObjectFlags.None;
@@ -243,16 +228,12 @@ namespace TaleWorlds.MountAndBlade
 			agent.StopUsingGameObjectMT(true, stopUsingGameObjectFlags);
 		}
 
-		// Token: 0x0400044B RID: 1099
 		protected readonly UsableMachine UsableMachine;
 
-		// Token: 0x0400044C RID: 1100
 		private GameEntity _lastActiveWaitStandingPoint;
 
-		// Token: 0x0400044D RID: 1101
 		private const int MovingAgentReassigningFrequency = 200;
 
-		// Token: 0x0400044E RID: 1102
 		private const float CurrentMovingAgentBias = 0.9f;
 	}
 }

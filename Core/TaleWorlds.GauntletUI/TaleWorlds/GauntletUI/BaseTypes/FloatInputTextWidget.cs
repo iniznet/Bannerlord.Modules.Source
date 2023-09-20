@@ -6,17 +6,14 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x0200005A RID: 90
 	public class FloatInputTextWidget : EditableTextWidget
 	{
-		// Token: 0x060005CF RID: 1487 RVA: 0x00019BD3 File Offset: 0x00017DD3
 		public FloatInputTextWidget(UIContext context)
 			: base(context)
 		{
 			base.PropertyChanged += this.IntegerInputTextWidget_PropertyChanged;
 		}
 
-		// Token: 0x060005D0 RID: 1488 RVA: 0x00019C04 File Offset: 0x00017E04
 		private void IntegerInputTextWidget_PropertyChanged(PropertyOwnerObject arg1, string arg2, object arg3)
 		{
 			float num;
@@ -26,7 +23,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005D1 RID: 1489 RVA: 0x00019C50 File Offset: 0x00017E50
 		public override void HandleInput(IReadOnlyList<int> lastKeysPressed)
 		{
 			int count = lastKeysPressed.Count;
@@ -192,13 +188,11 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005D2 RID: 1490 RVA: 0x0001A115 File Offset: 0x00018315
 		private int GetNumberOfSeperatorsInText(string realText)
 		{
 			return realText.Count((char c) => char.IsPunctuation(c));
 		}
 
-		// Token: 0x060005D3 RID: 1491 RVA: 0x0001A13C File Offset: 0x0001833C
 		private string GetAppendResult(int lastPressedKey)
 		{
 			if (base.MaxLength > -1 && base.Text.Length >= base.MaxLength)
@@ -215,7 +209,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return base.RealText.Substring(0, cursorPosition) + c.ToString() + base.RealText.Substring(cursorPosition, base.RealText.Length - cursorPosition);
 		}
 
-		// Token: 0x060005D4 RID: 1492 RVA: 0x0001A21C File Offset: 0x0001841C
 		public override void SetAllText(string text)
 		{
 			base.DeleteText(0, base.RealText.Length);
@@ -224,9 +217,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.AppendText(text2);
 		}
 
-		// Token: 0x170001A8 RID: 424
-		// (get) Token: 0x060005D5 RID: 1493 RVA: 0x0001A283 File Offset: 0x00018483
-		// (set) Token: 0x060005D6 RID: 1494 RVA: 0x0001A28B File Offset: 0x0001848B
 		[Editor(false)]
 		public float FloatText
 		{
@@ -246,9 +236,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A9 RID: 425
-		// (get) Token: 0x060005D7 RID: 1495 RVA: 0x0001A2C3 File Offset: 0x000184C3
-		// (set) Token: 0x060005D8 RID: 1496 RVA: 0x0001A2CB File Offset: 0x000184CB
 		[Editor(false)]
 		public float MaxFloat
 		{
@@ -265,9 +252,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001AA RID: 426
-		// (get) Token: 0x060005D9 RID: 1497 RVA: 0x0001A2DD File Offset: 0x000184DD
-		// (set) Token: 0x060005DA RID: 1498 RVA: 0x0001A2E5 File Offset: 0x000184E5
 		[Editor(false)]
 		public float MinFloat
 		{
@@ -284,13 +268,10 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002CF RID: 719
 		private float _floatText;
 
-		// Token: 0x040002D0 RID: 720
 		private float _maxFloat = float.MaxValue;
 
-		// Token: 0x040002D1 RID: 721
 		private float _minFloat = float.MinValue;
 	}
 }

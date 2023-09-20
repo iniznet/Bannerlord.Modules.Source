@@ -6,21 +6,15 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x0200005D RID: 93
 	public class IntegerInputTextWidget : EditableTextWidget
 	{
-		// Token: 0x170001B5 RID: 437
-		// (get) Token: 0x060005F2 RID: 1522 RVA: 0x0001A4ED File Offset: 0x000186ED
-		// (set) Token: 0x060005F3 RID: 1523 RVA: 0x0001A4F5 File Offset: 0x000186F5
 		public bool EnableClamp { get; set; }
 
-		// Token: 0x060005F4 RID: 1524 RVA: 0x0001A4FE File Offset: 0x000186FE
 		public IntegerInputTextWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060005F5 RID: 1525 RVA: 0x0001A524 File Offset: 0x00018724
 		public override void HandleInput(IReadOnlyList<int> lastKeysPressed)
 		{
 			int count = lastKeysPressed.Count;
@@ -188,7 +182,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005F6 RID: 1526 RVA: 0x0001A9C4 File Offset: 0x00018BC4
 		private void HandleInput(int lastPressedKey)
 		{
 			string text = null;
@@ -248,7 +241,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005F7 RID: 1527 RVA: 0x0001ABC4 File Offset: 0x00018DC4
 		private void SetInteger(int newInteger)
 		{
 			if (newInteger != this.IntText)
@@ -272,7 +264,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005F8 RID: 1528 RVA: 0x0001AC68 File Offset: 0x00018E68
 		private bool TrySetStringAsInteger(string str)
 		{
 			int num;
@@ -297,7 +288,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return false;
 		}
 
-		// Token: 0x060005F9 RID: 1529 RVA: 0x0001AD2C File Offset: 0x00018F2C
 		public override void SetAllText(string text)
 		{
 			base.DeleteText(0, base.RealText.Length);
@@ -306,9 +296,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.TrySetStringAsInteger(text2);
 		}
 
-		// Token: 0x170001B6 RID: 438
-		// (get) Token: 0x060005FA RID: 1530 RVA: 0x0001AD94 File Offset: 0x00018F94
-		// (set) Token: 0x060005FB RID: 1531 RVA: 0x0001AD9C File Offset: 0x00018F9C
 		[Editor(false)]
 		public int IntText
 		{
@@ -328,9 +315,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001B7 RID: 439
-		// (get) Token: 0x060005FC RID: 1532 RVA: 0x0001ADD4 File Offset: 0x00018FD4
-		// (set) Token: 0x060005FD RID: 1533 RVA: 0x0001ADDC File Offset: 0x00018FDC
 		[Editor(false)]
 		public int MaxInt
 		{
@@ -347,9 +331,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001B8 RID: 440
-		// (get) Token: 0x060005FE RID: 1534 RVA: 0x0001ADEE File Offset: 0x00018FEE
-		// (set) Token: 0x060005FF RID: 1535 RVA: 0x0001ADF6 File Offset: 0x00018FF6
 		[Editor(false)]
 		public int MinInt
 		{
@@ -366,13 +347,10 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002D9 RID: 729
 		private int _intText = -1;
 
-		// Token: 0x040002DA RID: 730
 		private int _maxInt = int.MaxValue;
 
-		// Token: 0x040002DB RID: 731
 		private int _minInt = int.MinValue;
 	}
 }

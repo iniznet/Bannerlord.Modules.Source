@@ -5,25 +5,16 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.Scripts
 {
-	// Token: 0x0200003C RID: 60
 	public class CharacterSpawner : ScriptComponentBehavior
 	{
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x060002BD RID: 701 RVA: 0x000189FD File Offset: 0x00016BFD
-		// (set) Token: 0x060002BE RID: 702 RVA: 0x00018A05 File Offset: 0x00016C05
 		public uint ClothColor1 { get; private set; }
 
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x060002BF RID: 703 RVA: 0x00018A0E File Offset: 0x00016C0E
-		// (set) Token: 0x060002C0 RID: 704 RVA: 0x00018A16 File Offset: 0x00016C16
 		public uint ClothColor2 { get; private set; }
 
-		// Token: 0x060002C1 RID: 705 RVA: 0x00018A20 File Offset: 0x00016C20
 		~CharacterSpawner()
 		{
 		}
 
-		// Token: 0x060002C2 RID: 706 RVA: 0x00018A48 File Offset: 0x00016C48
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -31,13 +22,11 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.ClothColor2 = uint.MaxValue;
 		}
 
-		// Token: 0x060002C3 RID: 707 RVA: 0x00018A5E File Offset: 0x00016C5E
 		protected void Init()
 		{
 			this.Active = false;
 		}
 
-		// Token: 0x060002C4 RID: 708 RVA: 0x00018A67 File Offset: 0x00016C67
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -48,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002C5 RID: 709 RVA: 0x00018A98 File Offset: 0x00016C98
 		protected override void OnEditorTick(float dt)
 		{
 			if (!this.Enabled)
@@ -74,7 +62,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002C6 RID: 710 RVA: 0x00018B27 File Offset: 0x00016D27
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -86,13 +73,11 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002C7 RID: 711 RVA: 0x00018B5A File Offset: 0x00016D5A
 		public void SetCreateFaceImmediately(bool value)
 		{
 			this.CreateFaceImmediately = value;
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x00018B64 File Offset: 0x00016D64
 		private void Disable()
 		{
 			if (this._agentEntity != null && this._agentEntity.Parent == base.GameEntity)
@@ -112,7 +97,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.Active = false;
 		}
 
-		// Token: 0x060002C9 RID: 713 RVA: 0x00018C1C File Offset: 0x00016E1C
 		protected override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -241,14 +225,12 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002CA RID: 714 RVA: 0x00018F88 File Offset: 0x00017188
 		public void SetClothColors(uint color1, uint color2)
 		{
 			this.ClothColor1 = color1;
 			this.ClothColor2 = color2;
 		}
 
-		// Token: 0x060002CB RID: 715 RVA: 0x00018F98 File Offset: 0x00017198
 		public void SpawnCharacter()
 		{
 			BasicCharacterObject @object = Game.Current.ObjectManager.GetObject<BasicCharacterObject>(this.LordName);
@@ -259,7 +241,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002CC RID: 716 RVA: 0x00018FD0 File Offset: 0x000171D0
 		public void InitWithCharacter(CharacterCode characterCode, bool useBodyProperties = false)
 		{
 			base.GameEntity.BreakPrefab();
@@ -373,7 +354,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002CD RID: 717 RVA: 0x00019468 File Offset: 0x00017668
 		private void WieldWeapon(CharacterCode characterCode)
 		{
 			if (this.IsWeaponWielded)
@@ -423,7 +403,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002CE RID: 718 RVA: 0x000195B0 File Offset: 0x000177B0
 		private void SpawnMount(CharacterCode characterCode)
 		{
 			Equipment equipment = characterCode.CalculateEquipment();
@@ -446,61 +425,42 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this._horseEntity.Skeleton.TickAnimations(0.01f, this._agentVisuals.GetVisuals().GetGlobalFrame(), true);
 		}
 
-		// Token: 0x040001DE RID: 478
 		public bool Enabled;
 
-		// Token: 0x040001DF RID: 479
 		public string PoseAction = "act_walk_idle_unarmed";
 
-		// Token: 0x040001E0 RID: 480
 		public string LordName = "main_hero_for_perf";
 
-		// Token: 0x040001E1 RID: 481
 		public string ActionSetSuffix = "_facegen";
 
-		// Token: 0x040001E2 RID: 482
 		public string PoseActionForHorse = "horse_stand_3";
 
-		// Token: 0x040001E3 RID: 483
 		public string BodyPropertiesString = "<BodyProperties version=\"4\" age=\"23.16\" weight=\"0.3333\" build=\"0\" key=\"00000C07000000010011111211151111000701000010000000111011000101000000500202111110000000000000000000000000000000000000000000A00000\" />";
 
-		// Token: 0x040001E4 RID: 484
 		public bool IsWeaponWielded;
 
-		// Token: 0x040001E5 RID: 485
 		public bool HasMount;
 
-		// Token: 0x040001E6 RID: 486
 		public bool WieldOffHand = true;
 
-		// Token: 0x040001E7 RID: 487
 		public float AnimationProgress;
 
-		// Token: 0x040001E8 RID: 488
 		public float HorseAnimationProgress;
 
-		// Token: 0x040001EB RID: 491
 		private MBGameManager _editorGameManager;
 
-		// Token: 0x040001EC RID: 492
 		private bool isFinished;
 
-		// Token: 0x040001ED RID: 493
 		private bool CreateFaceImmediately = true;
 
-		// Token: 0x040001EE RID: 494
 		private AgentVisuals _agentVisuals;
 
-		// Token: 0x040001EF RID: 495
 		private GameEntity _agentEntity;
 
-		// Token: 0x040001F0 RID: 496
 		private GameEntity _horseEntity;
 
-		// Token: 0x040001F1 RID: 497
 		public bool Active;
 
-		// Token: 0x040001F2 RID: 498
 		private MatrixFrame _spawnFrame;
 	}
 }

@@ -8,36 +8,18 @@ using TaleWorlds.Library.Http;
 
 namespace TaleWorlds.Diamond.Rest
 {
-	// Token: 0x0200003F RID: 63
 	internal class ClientRestSessionTask
 	{
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x06000152 RID: 338 RVA: 0x000045FA File Offset: 0x000027FA
-		// (set) Token: 0x06000153 RID: 339 RVA: 0x00004602 File Offset: 0x00002802
 		public RestRequestMessage RestRequestMessage { get; private set; }
 
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x06000154 RID: 340 RVA: 0x0000460B File Offset: 0x0000280B
-		// (set) Token: 0x06000155 RID: 341 RVA: 0x00004613 File Offset: 0x00002813
 		public bool Finished { get; private set; }
 
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x06000156 RID: 342 RVA: 0x0000461C File Offset: 0x0000281C
-		// (set) Token: 0x06000157 RID: 343 RVA: 0x00004624 File Offset: 0x00002824
 		public bool Successful { get; private set; }
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x06000158 RID: 344 RVA: 0x0000462D File Offset: 0x0000282D
-		// (set) Token: 0x06000159 RID: 345 RVA: 0x00004635 File Offset: 0x00002835
 		public IHttpRequestTask Request { get; private set; }
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x0600015A RID: 346 RVA: 0x0000463E File Offset: 0x0000283E
-		// (set) Token: 0x0600015B RID: 347 RVA: 0x00004646 File Offset: 0x00002846
 		public RestResponse RestResponse { get; private set; }
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x0600015C RID: 348 RVA: 0x0000464F File Offset: 0x0000284F
 		public bool IsCompletelyFinished
 		{
 			get
@@ -46,7 +28,6 @@ namespace TaleWorlds.Diamond.Rest
 			}
 		}
 
-		// Token: 0x0600015D RID: 349 RVA: 0x00004674 File Offset: 0x00002874
 		public ClientRestSessionTask(RestRequestMessage restRequestMessage)
 		{
 			this.RestRequestMessage = restRequestMessage;
@@ -61,7 +42,6 @@ namespace TaleWorlds.Diamond.Rest
 			this._messageName = this.RestRequestMessage.TypeName;
 		}
 
-		// Token: 0x0600015E RID: 350 RVA: 0x000046E4 File Offset: 0x000028E4
 		public void SetRequestData(byte[] userCertificate, string address, ushort port, bool isSecure, IHttpDriver networkClient)
 		{
 			this.RestRequestMessage.UserCertificate = userCertificate;
@@ -73,7 +53,6 @@ namespace TaleWorlds.Diamond.Rest
 			this.CreateAndSetRequest();
 		}
 
-		// Token: 0x0600015F RID: 351 RVA: 0x00004734 File Offset: 0x00002934
 		private void DetermineNextTry()
 		{
 			if (this._sw.ElapsedMilliseconds >= (long)ClientRestSessionTask.RequestRetryTimeout)
@@ -84,7 +63,6 @@ namespace TaleWorlds.Diamond.Rest
 			}
 		}
 
-		// Token: 0x06000160 RID: 352 RVA: 0x00004788 File Offset: 0x00002988
 		private static string GetCode(WebException webException)
 		{
 			if (webException.Response != null && webException.Response is HttpWebResponse)
@@ -94,7 +72,6 @@ namespace TaleWorlds.Diamond.Rest
 			return "NoCode";
 		}
 
-		// Token: 0x06000161 RID: 353 RVA: 0x000047D0 File Offset: 0x000029D0
 		private void ExamineResult()
 		{
 			if (!this.Request.Successful)
@@ -187,7 +164,6 @@ namespace TaleWorlds.Diamond.Rest
 			this._resultExamined = true;
 		}
 
-		// Token: 0x06000162 RID: 354 RVA: 0x00004BF4 File Offset: 0x00002DF4
 		public void Tick()
 		{
 			switch (this.Request.State)
@@ -210,7 +186,6 @@ namespace TaleWorlds.Diamond.Rest
 			}
 		}
 
-		// Token: 0x06000163 RID: 355 RVA: 0x00004C44 File Offset: 0x00002E44
 		public async Task WaitUntilFinished()
 		{
 			Debug.Print("ClientRestSessionTask::WaitUntilFinished::" + this._messageName, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -218,7 +193,6 @@ namespace TaleWorlds.Diamond.Rest
 			Debug.Print("ClientRestSessionTask::WaitUntilFinished::" + this._messageName + " done", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06000164 RID: 356 RVA: 0x00004C8C File Offset: 0x00002E8C
 		public void SetFinishedAsSuccessful(RestResponse restResponse)
 		{
 			Debug.Print("ClientRestSessionTask::SetFinishedAsSuccessful::" + this._messageName, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -229,13 +203,11 @@ namespace TaleWorlds.Diamond.Rest
 			Debug.Print("ClientRestSessionTask::SetFinishedAsSuccessful::" + this._messageName + " done", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06000165 RID: 357 RVA: 0x00004D01 File Offset: 0x00002F01
 		public void SetFinishedAsFailed()
 		{
 			this.SetFinishedAsFailed(null);
 		}
 
-		// Token: 0x06000166 RID: 358 RVA: 0x00004D0C File Offset: 0x00002F0C
 		public void SetFinishedAsFailed(RestResponse restResponse)
 		{
 			Debug.Print("ClientRestSessionTask::SetFinishedAsFailed::" + this._messageName, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -246,7 +218,6 @@ namespace TaleWorlds.Diamond.Rest
 			Debug.Print("ClientRestSessionTask::SetFinishedAsFailed:: " + this._messageName + " done", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06000167 RID: 359 RVA: 0x00004D84 File Offset: 0x00002F84
 		private void CreateAndSetRequest()
 		{
 			string text = "http://";
@@ -263,7 +234,6 @@ namespace TaleWorlds.Diamond.Rest
 			this._resultExamined = false;
 		}
 
-		// Token: 0x06000168 RID: 360 RVA: 0x00004E30 File Offset: 0x00003030
 		private void PrintExceptions(Exception e)
 		{
 			if (e != null)
@@ -279,43 +249,30 @@ namespace TaleWorlds.Diamond.Rest
 			}
 		}
 
-		// Token: 0x0400006F RID: 111
 		private static readonly int RequestRetryTimeout = 1000;
 
-		// Token: 0x04000074 RID: 116
 		public bool _willTryAgain;
 
-		// Token: 0x04000076 RID: 118
 		private string _requestAddress;
 
-		// Token: 0x04000077 RID: 119
 		private ushort _requestPort;
 
-		// Token: 0x04000078 RID: 120
 		private string _postData;
 
-		// Token: 0x04000079 RID: 121
 		private bool _isSecure;
 
-		// Token: 0x0400007A RID: 122
 		private string _messageName;
 
-		// Token: 0x0400007B RID: 123
 		private int _maxIterationCount = 5;
 
-		// Token: 0x0400007C RID: 124
 		private int _currentIterationCount;
 
-		// Token: 0x0400007D RID: 125
 		private Stopwatch _sw;
 
-		// Token: 0x0400007E RID: 126
 		private TaskCompletionSource<bool> _taskCompletionSource;
 
-		// Token: 0x0400007F RID: 127
 		private IHttpDriver _networkClient;
 
-		// Token: 0x04000080 RID: 128
 		private bool _resultExamined;
 	}
 }

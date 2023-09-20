@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200033B RID: 827
 	public class HideoutSpawnPointGroup : SynchedMissionObject
 	{
-		// Token: 0x06002C5F RID: 11359 RVA: 0x000AC1A0 File Offset: 0x000AA3A0
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -51,7 +49,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C60 RID: 11360 RVA: 0x000AC2AC File Offset: 0x000AA4AC
 		public MatrixFrame[] GetSpawnPointFrames()
 		{
 			MatrixFrame[] array = new MatrixFrame[this._spawnPoints.Length];
@@ -62,23 +59,18 @@ namespace TaleWorlds.MountAndBlade
 			return array;
 		}
 
-		// Token: 0x06002C61 RID: 11361 RVA: 0x000AC306 File Offset: 0x000AA506
 		public void RemoveWithAllChildren()
 		{
 			base.GameEntity.RemoveAllChildren();
 			base.GameEntity.Remove(83);
 		}
 
-		// Token: 0x040010E3 RID: 4323
 		private const int NumberOfDefaultFormations = 4;
 
-		// Token: 0x040010E4 RID: 4324
 		public BattleSideEnum Side;
 
-		// Token: 0x040010E5 RID: 4325
 		public int PhaseNumber;
 
-		// Token: 0x040010E6 RID: 4326
 		private GameEntity[] _spawnPoints;
 	}
 }

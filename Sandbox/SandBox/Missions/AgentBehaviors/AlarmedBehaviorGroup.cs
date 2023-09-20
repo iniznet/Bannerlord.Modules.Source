@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.AgentBehaviors
 {
-	// Token: 0x0200006C RID: 108
 	public class AlarmedBehaviorGroup : AgentBehaviorGroup
 	{
-		// Token: 0x060004AF RID: 1199 RVA: 0x00021A28 File Offset: 0x0001FC28
 		public AlarmedBehaviorGroup(AgentNavigator navigator, Mission mission)
 			: base(navigator, mission)
 		{
@@ -21,7 +19,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._missionFightHandler = base.Mission.GetMissionBehavior<MissionFightHandler>();
 		}
 
-		// Token: 0x060004B0 RID: 1200 RVA: 0x00021A78 File Offset: 0x0001FC78
 		public override void Tick(float dt, bool isSimulation)
 		{
 			if (base.ScriptedBehavior != null)
@@ -54,7 +51,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this.TickActiveBehaviors(dt, isSimulation);
 		}
 
-		// Token: 0x060004B1 RID: 1201 RVA: 0x00021B2C File Offset: 0x0001FD2C
 		private void TickActiveBehaviors(float dt, bool isSimulation)
 		{
 			foreach (AgentBehavior agentBehavior in this.Behaviors)
@@ -66,7 +62,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004B2 RID: 1202 RVA: 0x00021B88 File Offset: 0x0001FD88
 		public override float GetScore(bool isSimulation)
 		{
 			if (base.OwnerAgent.CurrentWatchState == 2)
@@ -99,7 +94,6 @@ namespace SandBox.Missions.AgentBehaviors
 			return 0f;
 		}
 
-		// Token: 0x060004B3 RID: 1203 RVA: 0x00021C98 File Offset: 0x0001FE98
 		private bool IsNearDanger()
 		{
 			float num;
@@ -107,7 +101,6 @@ namespace SandBox.Missions.AgentBehaviors
 			return closestAlarmSource != null && (num < 225f || this.Navigator.CanSeeAgent(closestAlarmSource));
 		}
 
-		// Token: 0x060004B4 RID: 1204 RVA: 0x00021CCC File Offset: 0x0001FECC
 		public Agent GetClosestAlarmSource(out float distanceSquared)
 		{
 			distanceSquared = float.MaxValue;
@@ -128,13 +121,11 @@ namespace SandBox.Missions.AgentBehaviors
 			return agent;
 		}
 
-		// Token: 0x060004B5 RID: 1205 RVA: 0x00021D64 File Offset: 0x0001FF64
 		public static void AlarmAgent(Agent agent)
 		{
 			agent.SetWatchState(2);
 		}
 
-		// Token: 0x060004B6 RID: 1206 RVA: 0x00021D70 File Offset: 0x0001FF70
 		protected override void OnActivate()
 		{
 			TextObject textObject = new TextObject("{=!}{p0} {p1} activate alarmed behavior group.", null);
@@ -158,7 +149,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004B7 RID: 1207 RVA: 0x00021E78 File Offset: 0x00020078
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -178,36 +168,26 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004B8 RID: 1208 RVA: 0x00021F84 File Offset: 0x00020184
 		public override void ForceThink(float inSeconds)
 		{
 		}
 
-		// Token: 0x0400023E RID: 574
 		private static readonly ActionIndexCache act_scared_to_normal_1 = ActionIndexCache.Create("act_scared_to_normal_1");
 
-		// Token: 0x0400023F RID: 575
 		public const float SafetyDistance = 15f;
 
-		// Token: 0x04000240 RID: 576
 		public const float SafetyDistanceSquared = 225f;
 
-		// Token: 0x04000241 RID: 577
 		private readonly MissionAgentHandler _missionAgentHandler;
 
-		// Token: 0x04000242 RID: 578
 		private readonly MissionFightHandler _missionFightHandler;
 
-		// Token: 0x04000243 RID: 579
 		public bool DisableCalmDown;
 
-		// Token: 0x04000244 RID: 580
 		private readonly BasicMissionTimer _alarmedTimer;
 
-		// Token: 0x04000245 RID: 581
 		private readonly BasicMissionTimer _checkCalmDownTimer;
 
-		// Token: 0x04000246 RID: 582
 		private bool _isCalmingDown;
 	}
 }

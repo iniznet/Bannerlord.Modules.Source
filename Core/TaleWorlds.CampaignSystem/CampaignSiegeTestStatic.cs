@@ -16,11 +16,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200006E RID: 110
 	public static class CampaignSiegeTestStatic
 	{
-		// Token: 0x170003A0 RID: 928
-		// (get) Token: 0x06000E92 RID: 3730 RVA: 0x00042F34 File Offset: 0x00041134
 		public static MobileParty AttackerParty
 		{
 			get
@@ -29,8 +26,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003A1 RID: 929
-		// (get) Token: 0x06000E93 RID: 3731 RVA: 0x00042F41 File Offset: 0x00041141
 		public static MobileParty DefenderParty
 		{
 			get
@@ -39,8 +34,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003A2 RID: 930
-		// (get) Token: 0x06000E94 RID: 3732 RVA: 0x00042F4E File Offset: 0x0004114E
 		public static bool IsSiegeTestBuild
 		{
 			get
@@ -57,7 +50,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000E95 RID: 3733 RVA: 0x00042F7C File Offset: 0x0004117C
 		public static void AddGameMenu(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenu("siege_test_menu", "{=!}Siege Test", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -96,7 +88,6 @@ namespace TaleWorlds.CampaignSystem
 			}, false, -1, false, null);
 		}
 
-		// Token: 0x06000E96 RID: 3734 RVA: 0x00043168 File Offset: 0x00041368
 		private static void PreparationAttackerConsequence(bool forceLordsHall = false)
 		{
 			CampaignCheats.SetMainPartyAttackable(new List<string> { "0" });
@@ -130,7 +121,6 @@ namespace TaleWorlds.CampaignSystem
 			PlayerSiege.StartSiegeMission(false, null);
 		}
 
-		// Token: 0x06000E97 RID: 3735 RVA: 0x0004325C File Offset: 0x0004145C
 		private static void PreparationDefenderConsequence(bool forceLordsHall = false)
 		{
 			CampaignCheats.SetMainPartyAttackable(new List<string> { "0" });
@@ -164,7 +154,6 @@ namespace TaleWorlds.CampaignSystem
 			PlayerSiege.StartSiegeMission(false, null);
 		}
 
-		// Token: 0x06000E98 RID: 3736 RVA: 0x00043344 File Offset: 0x00041544
 		private static void PreparationDialogsConsequence()
 		{
 			CampaignSiegeTestStatic.DisableSiegeTest();
@@ -219,7 +208,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000E99 RID: 3737 RVA: 0x00043540 File Offset: 0x00041740
 		private static void PreparationSallyOutConsequence()
 		{
 			CampaignCheats.SetMainPartyAttackable(new List<string> { "0" });
@@ -238,7 +226,6 @@ namespace TaleWorlds.CampaignSystem
 			PlayerSiege.StartSiegeMission(true, null);
 		}
 
-		// Token: 0x06000E9A RID: 3738 RVA: 0x000435F4 File Offset: 0x000417F4
 		private static void PrepareParties()
 		{
 			Settlement @object = MBObjectManager.Instance.GetObject<Settlement>("town_B3");
@@ -289,7 +276,6 @@ namespace TaleWorlds.CampaignSystem
 			CampaignSiegeTestStatic._testParties[1] = party1;
 		}
 
-		// Token: 0x06000E9B RID: 3739 RVA: 0x00043A5C File Offset: 0x00041C5C
 		private static void PreparePartiesForLH()
 		{
 			Settlement @object = MBObjectManager.Instance.GetObject<Settlement>("town_B3");
@@ -340,7 +326,6 @@ namespace TaleWorlds.CampaignSystem
 			CampaignSiegeTestStatic._testParties[1] = party1;
 		}
 
-		// Token: 0x06000E9C RID: 3740 RVA: 0x00043EB0 File Offset: 0x000420B0
 		private static void PreparationHideoutConsequence()
 		{
 			CampaignCheats.SetMainPartyAttackable(new List<string> { "0" });
@@ -364,7 +349,6 @@ namespace TaleWorlds.CampaignSystem
 			CampaignMission.OpenHideoutBattleMission(Settlement.CurrentSettlement.Hideout.SceneName, null);
 		}
 
-		// Token: 0x06000E9D RID: 3741 RVA: 0x00043FBC File Offset: 0x000421BC
 		private static void SetPartiesForTest()
 		{
 			if (CampaignSiegeTestStatic.AttackerParty.MapFaction == CampaignSiegeTestStatic._settlement.MapFaction || !FactionManager.IsAtWarAgainstFaction(CampaignSiegeTestStatic.AttackerParty.MapFaction, CampaignSiegeTestStatic._settlement.MapFaction))
@@ -389,14 +373,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000E9E RID: 3742 RVA: 0x0004410C File Offset: 0x0004230C
 		public static void DisableSiegeTest()
 		{
 			CampaignSiegeTestStatic._siegeTest = false;
 			CampaignSiegeTestStatic.Destruct();
 		}
 
-		// Token: 0x06000E9F RID: 3743 RVA: 0x00044119 File Offset: 0x00042319
 		public static void Destruct()
 		{
 			CampaignSiegeTestStatic._settlement = null;
@@ -405,38 +387,28 @@ namespace TaleWorlds.CampaignSystem
 			CampaignSiegeTestStatic._defenderPartyIndex = -1;
 		}
 
-		// Token: 0x06000EA0 RID: 3744 RVA: 0x00044133 File Offset: 0x00042333
 		[GameMenuInitializationHandler("siege_test_menu")]
 		private static void game_menu_siege_test_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");
 		}
 
-		// Token: 0x0400043D RID: 1085
 		public static int SiegeLevel = 1;
 
-		// Token: 0x0400043E RID: 1086
 		public static string SiegeTestSceneName = "vlandia_castle_005a";
 
-		// Token: 0x0400043F RID: 1087
 		public const string SettlementId = "town_B2";
 
-		// Token: 0x04000440 RID: 1088
 		public const string SettlementToMoveId = "town_B3";
 
-		// Token: 0x04000441 RID: 1089
 		private static MobileParty[] _testParties;
 
-		// Token: 0x04000442 RID: 1090
 		private static Settlement _settlement;
 
-		// Token: 0x04000443 RID: 1091
 		private static int _attackerPartyIndex = -1;
 
-		// Token: 0x04000444 RID: 1092
 		private static int _defenderPartyIndex = -1;
 
-		// Token: 0x04000445 RID: 1093
 		private static bool _siegeTest = true;
 	}
 }

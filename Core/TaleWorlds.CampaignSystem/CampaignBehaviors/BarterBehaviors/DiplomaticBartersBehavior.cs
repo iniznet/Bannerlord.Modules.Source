@@ -8,16 +8,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 {
-	// Token: 0x020003F6 RID: 1014
 	public class DiplomaticBartersBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003CF7 RID: 15607 RVA: 0x00121C97 File Offset: 0x0011FE97
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.DailyTickClan));
 		}
 
-		// Token: 0x06003CF8 RID: 15608 RVA: 0x00121CB0 File Offset: 0x0011FEB0
 		private void DailyTickClan(Clan clan)
 		{
 			bool flag = false;
@@ -166,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CF9 RID: 15609 RVA: 0x0012222C File Offset: 0x0012042C
 		private void ConsiderClanLeaveKingdom(Clan clan)
 		{
 			LeaveKingdomAsClanBarterable leaveKingdomAsClanBarterable = new LeaveKingdomAsClanBarterable(clan.Leader, null);
@@ -176,7 +172,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFA RID: 15610 RVA: 0x00122258 File Offset: 0x00120458
 		private void ConsiderClanLeaveAsMercenary(Clan clan)
 		{
 			LeaveKingdomAsClanBarterable leaveKingdomAsClanBarterable = new LeaveKingdomAsClanBarterable(clan.Leader, null);
@@ -186,7 +181,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFB RID: 15611 RVA: 0x00122288 File Offset: 0x00120488
 		private void ConsiderClanJoin(Clan clan, Kingdom kingdom)
 		{
 			JoinKingdomAsClanBarterable joinKingdomAsClanBarterable = new JoinKingdomAsClanBarterable(clan.Leader, kingdom, false);
@@ -196,7 +190,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFC RID: 15612 RVA: 0x001222D4 File Offset: 0x001204D4
 		private void ConsiderClanJoinAsMercenary(Clan clan, Kingdom kingdom)
 		{
 			MercenaryJoinKingdomBarterable mercenaryJoinKingdomBarterable = new MercenaryJoinKingdomBarterable(clan.Leader, null, kingdom);
@@ -206,7 +199,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFD RID: 15613 RVA: 0x00122320 File Offset: 0x00120520
 		private void ConsiderDefection(Clan clan1, Kingdom kingdom)
 		{
 			JoinKingdomAsClanBarterable joinKingdomAsClanBarterable = new JoinKingdomAsClanBarterable(clan1.Leader, kingdom, false);
@@ -226,7 +218,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFE RID: 15614 RVA: 0x001223B8 File Offset: 0x001205B8
 		private void ConsiderPeace(Clan clan1, Clan clan2)
 		{
 			PeaceBarterable peaceBarterable = new PeaceBarterable(clan1.Leader, clan1.MapFaction, clan2.MapFaction, CampaignTime.Years(1f));
@@ -236,7 +227,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003CFF RID: 15615 RVA: 0x00122418 File Offset: 0x00120618
 		private void ConsiderWar(Clan clan, IFaction otherMapFaction)
 		{
 			DeclareWarBarterable declareWarBarterable = new DeclareWarBarterable(clan, otherMapFaction);
@@ -246,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003D00 RID: 15616 RVA: 0x00122441 File Offset: 0x00120641
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

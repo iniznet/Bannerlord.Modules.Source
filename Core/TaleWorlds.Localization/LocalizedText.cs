@@ -4,16 +4,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Localization
 {
-	// Token: 0x02000006 RID: 6
 	internal class LocalizedText
 	{
-		// Token: 0x06000042 RID: 66 RVA: 0x00002BFC File Offset: 0x00000DFC
 		public LocalizedText()
 		{
 			this._localizedTextDictionary = new Dictionary<string, string>();
 		}
 
-		// Token: 0x06000043 RID: 67 RVA: 0x00002C0F File Offset: 0x00000E0F
 		public void AddTranslation(string language, string translation)
 		{
 			if (!this._localizedTextDictionary.ContainsKey(language))
@@ -23,7 +20,6 @@ namespace TaleWorlds.Localization
 			}
 		}
 
-		// Token: 0x06000044 RID: 68 RVA: 0x00002C30 File Offset: 0x00000E30
 		public string GetTranslatedText(string languageId)
 		{
 			string text;
@@ -38,7 +34,6 @@ namespace TaleWorlds.Localization
 			return null;
 		}
 
-		// Token: 0x06000045 RID: 69 RVA: 0x00002C68 File Offset: 0x00000E68
 		public bool CheckValidity(string id, out string errorLine)
 		{
 			errorLine = null;
@@ -113,7 +108,6 @@ namespace TaleWorlds.Localization
 			return flag;
 		}
 
-		// Token: 0x04000010 RID: 16
 		private readonly Dictionary<string, string> _localizedTextDictionary;
 	}
 }

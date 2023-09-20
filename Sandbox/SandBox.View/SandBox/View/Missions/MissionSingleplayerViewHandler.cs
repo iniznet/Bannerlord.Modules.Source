@@ -17,10 +17,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x0200001D RID: 29
 	public class MissionSingleplayerViewHandler : MissionView
 	{
-		// Token: 0x060000AB RID: 171 RVA: 0x0000937C File Offset: 0x0000757C
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -30,7 +28,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x000093D0 File Offset: 0x000075D0
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -157,7 +154,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x0000991C File Offset: 0x00007B1C
 		private void OnInventoryScreenDone()
 		{
 			Mission mission = Mission.Current;
@@ -195,7 +191,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x00009A14 File Offset: 0x00007C14
 		[Conditional("DEBUG")]
 		private void OnDebugTick()
 		{

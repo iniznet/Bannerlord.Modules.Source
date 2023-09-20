@@ -8,10 +8,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Screens
 {
-	// Token: 0x02000028 RID: 40
 	public class BenchmarkScreen : ScreenBase
 	{
-		// Token: 0x060001AD RID: 429 RVA: 0x0000EE28 File Offset: 0x0000D028
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -30,14 +28,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._cameraLocationEntities = gameEntity.GetChildren().ToList<GameEntity>();
 		}
 
-		// Token: 0x060001AE RID: 430 RVA: 0x0000EF02 File Offset: 0x0000D102
 		public void UpdateCamera()
 		{
 			this._camera.Frame = this._cameraFrame;
 			this._sceneView.SetCamera(this._camera);
 		}
 
-		// Token: 0x060001AF RID: 431 RVA: 0x0000EF26 File Offset: 0x0000D126
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -45,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._analyzer = null;
 		}
 
-		// Token: 0x060001B0 RID: 432 RVA: 0x0000EF3C File Offset: 0x0000D13C
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -67,37 +62,26 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._analyzer.Tick(dt);
 		}
 
-		// Token: 0x04000113 RID: 275
 		private SceneView _sceneView;
 
-		// Token: 0x04000114 RID: 276
 		private Scene _scene;
 
-		// Token: 0x04000115 RID: 277
 		private Camera _camera;
 
-		// Token: 0x04000116 RID: 278
 		private MatrixFrame _cameraFrame;
 
-		// Token: 0x04000117 RID: 279
 		private Timer _cameraTimer;
 
-		// Token: 0x04000118 RID: 280
 		private const string _parentEntityName = "LocationEntityParent";
 
-		// Token: 0x04000119 RID: 281
 		private const string _sceneName = "benchmark";
 
-		// Token: 0x0400011A RID: 282
 		private const string _xmlPath = "../../../Tools/TestAutomation/Attachments/benchmark_scene_performance.xml";
 
-		// Token: 0x0400011B RID: 283
 		private List<GameEntity> _cameraLocationEntities;
 
-		// Token: 0x0400011C RID: 284
 		private int _currentEntityIndex = -1;
 
-		// Token: 0x0400011D RID: 285
 		private PerformanceAnalyzer _analyzer = new PerformanceAnalyzer();
 	}
 }

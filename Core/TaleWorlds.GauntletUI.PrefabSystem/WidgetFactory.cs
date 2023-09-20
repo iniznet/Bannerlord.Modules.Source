@@ -8,25 +8,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.GauntletUI.PrefabSystem
 {
-	// Token: 0x02000019 RID: 25
 	public class WidgetFactory
 	{
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x0600009C RID: 156 RVA: 0x00003642 File Offset: 0x00001842
-		// (set) Token: 0x0600009D RID: 157 RVA: 0x0000364A File Offset: 0x0000184A
 		public PrefabExtensionContext PrefabExtensionContext { get; private set; }
 
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x0600009E RID: 158 RVA: 0x00003653 File Offset: 0x00001853
-		// (set) Token: 0x0600009F RID: 159 RVA: 0x0000365B File Offset: 0x0000185B
 		public WidgetAttributeContext WidgetAttributeContext { get; private set; }
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x060000A0 RID: 160 RVA: 0x00003664 File Offset: 0x00001864
-		// (set) Token: 0x060000A1 RID: 161 RVA: 0x0000366C File Offset: 0x0000186C
 		public GeneratedPrefabContext GeneratedPrefabContext { get; private set; }
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x00003678 File Offset: 0x00001878
 		public WidgetFactory(ResourceDepot resourceDepot, string resourceFolder)
 		{
 			this._resourceDepot = resourceDepot;
@@ -41,13 +30,11 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this.GeneratedPrefabContext = new GeneratedPrefabContext();
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x000036FD File Offset: 0x000018FD
 		private void OnResourceChange()
 		{
 			this.CheckForUpdates();
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00003708 File Offset: 0x00001908
 		public void Initialize(List<string> assemblyOrder = null)
 		{
 			foreach (PrefabExtension prefabExtension in this.PrefabExtensionContext.PrefabExtensions)
@@ -72,7 +59,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x00003870 File Offset: 0x00001A70
 		private Dictionary<string, string> GetPrefabNamesAndPathsFromCurrentPath()
 		{
 			string[] files = this._resourceDepot.GetFiles(this._resourceFolder, ".xml", false);
@@ -102,43 +88,36 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return dictionary;
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x00003939 File Offset: 0x00001B39
 		public void AddCustomType(string name, string path)
 		{
 			this._customTypePaths.Add(name, path);
 		}
 
-		// Token: 0x060000A7 RID: 167 RVA: 0x00003948 File Offset: 0x00001B48
 		public IEnumerable<string> GetPrefabNames()
 		{
 			return this._customTypePaths.Keys;
 		}
 
-		// Token: 0x060000A8 RID: 168 RVA: 0x00003955 File Offset: 0x00001B55
 		public IEnumerable<string> GetWidgetTypes()
 		{
 			return this._builtinTypes.Keys.Concat(this._customTypePaths.Keys);
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x00003972 File Offset: 0x00001B72
 		public bool IsBuiltinType(string name)
 		{
 			return this._builtinTypes.ContainsKey(name);
 		}
 
-		// Token: 0x060000AA RID: 170 RVA: 0x00003980 File Offset: 0x00001B80
 		public Type GetBuiltinType(string name)
 		{
 			return this._builtinTypes[name];
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x0000398E File Offset: 0x00001B8E
 		public bool IsCustomType(string typeName)
 		{
 			return this._customTypePaths.ContainsKey(typeName);
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x0000399C File Offset: 0x00001B9C
 		public string GetCustomTypePath(string name)
 		{
 			string text;
@@ -150,7 +129,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return "";
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x000039DC File Offset: 0x00001BDC
 		public Widget CreateBuiltinWidget(UIContext context, string typeName)
 		{
 			Type type;
@@ -167,7 +145,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return widget;
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x00003A60 File Offset: 0x00001C60
 		public WidgetPrefab GetCustomType(string typeName)
 		{
 			CustomWidgetType customWidgetType;
@@ -190,7 +167,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return null;
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x00003AFC File Offset: 0x00001CFC
 		public void OnUnload(string typeName)
 		{
 			if (this._liveCustomTypes.ContainsKey(typeName))
@@ -206,7 +182,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000B0 RID: 176 RVA: 0x00003B58 File Offset: 0x00001D58
 		public void CheckForUpdates()
 		{
 			bool flag = false;
@@ -253,27 +228,18 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x060000B1 RID: 177 RVA: 0x00003CE0 File Offset: 0x00001EE0
-		// (remove) Token: 0x060000B2 RID: 178 RVA: 0x00003D18 File Offset: 0x00001F18
 		public event Action PrefabChange;
 
-		// Token: 0x04000032 RID: 50
 		private Dictionary<string, Type> _builtinTypes;
 
-		// Token: 0x04000033 RID: 51
 		private Dictionary<string, string> _customTypePaths;
 
-		// Token: 0x04000034 RID: 52
 		private Dictionary<string, CustomWidgetType> _liveCustomTypes;
 
-		// Token: 0x04000035 RID: 53
 		private Dictionary<string, int> _liveInstanceTracker;
 
-		// Token: 0x04000036 RID: 54
 		private ResourceDepot _resourceDepot;
 
-		// Token: 0x04000037 RID: 55
 		private readonly string _resourceFolder;
 	}
 }

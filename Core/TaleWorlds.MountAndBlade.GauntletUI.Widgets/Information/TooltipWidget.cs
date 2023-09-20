@@ -8,11 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 {
-	// Token: 0x0200012B RID: 299
 	public class TooltipWidget : ListPanel
 	{
-		// Token: 0x1700058E RID: 1422
-		// (get) Token: 0x06000FC0 RID: 4032 RVA: 0x0002C7AA File Offset: 0x0002A9AA
 		private float TooltipOffset
 		{
 			get
@@ -21,44 +18,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x1700058F RID: 1423
-		// (get) Token: 0x06000FC1 RID: 4033 RVA: 0x0002C7B1 File Offset: 0x0002A9B1
-		// (set) Token: 0x06000FC2 RID: 4034 RVA: 0x0002C7B9 File Offset: 0x0002A9B9
 		public Color AllyColor { get; set; }
 
-		// Token: 0x17000590 RID: 1424
-		// (get) Token: 0x06000FC3 RID: 4035 RVA: 0x0002C7C2 File Offset: 0x0002A9C2
-		// (set) Token: 0x06000FC4 RID: 4036 RVA: 0x0002C7CA File Offset: 0x0002A9CA
 		public Color EnemyColor { get; set; }
 
-		// Token: 0x17000591 RID: 1425
-		// (get) Token: 0x06000FC5 RID: 4037 RVA: 0x0002C7D3 File Offset: 0x0002A9D3
-		// (set) Token: 0x06000FC6 RID: 4038 RVA: 0x0002C7DB File Offset: 0x0002A9DB
 		public Color NeutralColor { get; set; }
 
-		// Token: 0x17000592 RID: 1426
-		// (get) Token: 0x06000FC7 RID: 4039 RVA: 0x0002C7E4 File Offset: 0x0002A9E4
-		// (set) Token: 0x06000FC8 RID: 4040 RVA: 0x0002C7EC File Offset: 0x0002A9EC
 		public Widget PropertyListBackground { get; set; }
 
-		// Token: 0x17000593 RID: 1427
-		// (get) Token: 0x06000FC9 RID: 4041 RVA: 0x0002C7F5 File Offset: 0x0002A9F5
-		// (set) Token: 0x06000FCA RID: 4042 RVA: 0x0002C7FD File Offset: 0x0002A9FD
 		public ListPanel PropertyList { get; set; }
 
-		// Token: 0x17000594 RID: 1428
-		// (get) Token: 0x06000FCB RID: 4043 RVA: 0x0002C806 File Offset: 0x0002AA06
-		// (set) Token: 0x06000FCC RID: 4044 RVA: 0x0002C80E File Offset: 0x0002AA0E
 		public bool DoNotUpdatePosition { get; set; }
 
-		// Token: 0x06000FCD RID: 4045 RVA: 0x0002C817 File Offset: 0x0002AA17
 		public TooltipWidget(UIContext context)
 			: base(context)
 		{
 			base.IsVisible = false;
 		}
 
-		// Token: 0x06000FCE RID: 4046 RVA: 0x0002C83D File Offset: 0x0002AA3D
 		protected override void RefreshState()
 		{
 			base.RefreshState();
@@ -75,7 +52,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000FCF RID: 4047 RVA: 0x0002C880 File Offset: 0x0002AA80
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -147,7 +123,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000FD0 RID: 4048 RVA: 0x0002CB24 File Offset: 0x0002AD24
 		private void UpdateBattleScopes()
 		{
 			bool flag = false;
@@ -165,7 +140,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000FD1 RID: 4049 RVA: 0x0002CB8C File Offset: 0x0002AD8C
 		private float GetBattleScopeSize()
 		{
 			bool flag = false;
@@ -199,7 +173,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			return num;
 		}
 
-		// Token: 0x06000FD2 RID: 4050 RVA: 0x0002CC48 File Offset: 0x0002AE48
 		private void UpdateAnimationProperties(float dt)
 		{
 			this.TooltipAnimXOffset = 0f;
@@ -235,7 +208,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000FD3 RID: 4051 RVA: 0x0002CD80 File Offset: 0x0002AF80
 		private void UpdateRelationBrushes()
 		{
 			TooltipPropertyWidget tooltipPropertyWidget = this.PropertyWidgets.SingleOrDefault((TooltipPropertyWidget p) => p.IsRelation);
@@ -267,8 +239,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000595 RID: 1429
-		// (get) Token: 0x06000FD4 RID: 4052 RVA: 0x0002CE44 File Offset: 0x0002B044
 		private IEnumerable<TooltipPropertyWidget> PropertyWidgets
 		{
 			get
@@ -290,7 +260,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000FD5 RID: 4053 RVA: 0x0002CE54 File Offset: 0x0002B054
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -354,9 +323,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000596 RID: 1430
-		// (get) Token: 0x06000FD6 RID: 4054 RVA: 0x0002CFF0 File Offset: 0x0002B1F0
-		// (set) Token: 0x06000FD7 RID: 4055 RVA: 0x0002CFF8 File Offset: 0x0002B1F8
 		[Editor(false)]
 		public float TooltipAnimTime
 		{
@@ -374,9 +340,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000597 RID: 1431
-		// (get) Token: 0x06000FD8 RID: 4056 RVA: 0x0002D016 File Offset: 0x0002B216
-		// (set) Token: 0x06000FD9 RID: 4057 RVA: 0x0002D01E File Offset: 0x0002B21E
 		[Editor(false)]
 		public int Mode
 		{
@@ -393,9 +356,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000598 RID: 1432
-		// (get) Token: 0x06000FDA RID: 4058 RVA: 0x0002D030 File Offset: 0x0002B230
-		// (set) Token: 0x06000FDB RID: 4059 RVA: 0x0002D038 File Offset: 0x0002B238
 		[Editor(false)]
 		public float TooltipAnimXOffset
 		{
@@ -413,9 +373,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000599 RID: 1433
-		// (get) Token: 0x06000FDC RID: 4060 RVA: 0x0002D056 File Offset: 0x0002B256
-		// (set) Token: 0x06000FDD RID: 4061 RVA: 0x0002D05E File Offset: 0x0002B25E
 		[Editor(false)]
 		public Brush NeutralTroopsTextBrush
 		{
@@ -433,9 +390,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x1700059A RID: 1434
-		// (get) Token: 0x06000FDE RID: 4062 RVA: 0x0002D07C File Offset: 0x0002B27C
-		// (set) Token: 0x06000FDF RID: 4063 RVA: 0x0002D084 File Offset: 0x0002B284
 		[Editor(false)]
 		public Brush EnemyTroopsTextBrush
 		{
@@ -453,9 +407,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x1700059B RID: 1435
-		// (get) Token: 0x06000FE0 RID: 4064 RVA: 0x0002D0A2 File Offset: 0x0002B2A2
-		// (set) Token: 0x06000FE1 RID: 4065 RVA: 0x0002D0AA File Offset: 0x0002B2AA
 		[Editor(false)]
 		public Brush AllyTroopsTextBrush
 		{
@@ -473,59 +424,40 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x04000744 RID: 1860
 		private bool _isActive;
 
-		// Token: 0x04000745 RID: 1861
 		private int _frame;
 
-		// Token: 0x04000746 RID: 1862
 		private Vector2 _tooltipPosition;
 
-		// Token: 0x0400074D RID: 1869
 		private TooltipWidget.TooltipAnimStates _currentTooltipAnimState;
 
-		// Token: 0x0400074E RID: 1870
 		private float _currentTooltipAnimTime;
 
-		// Token: 0x0400074F RID: 1871
 		private float _currentTooltipAnimAlpha;
 
-		// Token: 0x04000750 RID: 1872
 		private float _currentTooltipAnimXOffset;
 
-		// Token: 0x04000751 RID: 1873
 		private Brush _definitionRelationBrush;
 
-		// Token: 0x04000752 RID: 1874
 		private Brush _valueRelationBrush;
 
-		// Token: 0x04000753 RID: 1875
 		private float _tooltipAnimXOffset = 8f;
 
-		// Token: 0x04000754 RID: 1876
 		private float _tooltipAnimTime = 0.5f;
 
-		// Token: 0x04000755 RID: 1877
 		private int _mode;
 
-		// Token: 0x04000756 RID: 1878
 		private Brush _neutralTroopsTextBrush;
 
-		// Token: 0x04000757 RID: 1879
 		private Brush _allyTroopsTextBrush;
 
-		// Token: 0x04000758 RID: 1880
 		private Brush _enemyTroopsTextBrush;
 
-		// Token: 0x0200019D RID: 413
 		public enum TooltipAnimStates
 		{
-			// Token: 0x04000930 RID: 2352
 			Start,
-			// Token: 0x04000931 RID: 2353
 			Animating,
-			// Token: 0x04000932 RID: 2354
 			Finished
 		}
 	}

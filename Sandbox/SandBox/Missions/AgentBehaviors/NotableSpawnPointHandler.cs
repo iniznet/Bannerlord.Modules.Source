@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.AgentBehaviors
 {
-	// Token: 0x02000075 RID: 117
 	public class NotableSpawnPointHandler : MissionLogic
 	{
-		// Token: 0x06000514 RID: 1300 RVA: 0x00024928 File Offset: 0x00022B28
 		public override void OnBehaviorInitialize()
 		{
 			List<GameEntity> list = Mission.Current.Scene.FindEntitiesWithTag("sp_notables_parent").ToList<GameEntity>();
@@ -74,7 +72,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000515 RID: 1301 RVA: 0x00024C54 File Offset: 0x00022E54
 		private void FindAndSetChild(GameEntity childGameEntity)
 		{
 			if (childGameEntity.HasTag("merchant_notary_talking_set"))
@@ -103,7 +100,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000516 RID: 1302 RVA: 0x00024CCC File Offset: 0x00022ECC
 		private void ActivateParentSetInsideWorkshop(WorkshopAreaMarker areaMarker)
 		{
 			Hero owner = areaMarker.GetWorkshop().Owner;
@@ -147,7 +143,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x06000517 RID: 1303 RVA: 0x00024DB8 File Offset: 0x00022FB8
 		private void ActivateParentSetOutsideWorkshop()
 		{
 			if (this._gangLeaderNotableCount > 0)
@@ -183,7 +178,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this.DeactivateAll();
 		}
 
-		// Token: 0x06000518 RID: 1304 RVA: 0x00024E7F File Offset: 0x0002307F
 		private void DeactivateAll()
 		{
 			this.MakeInvisibleAndDeactivate(this._currentGangLeaderSetGameEntity);
@@ -193,7 +187,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this.MakeInvisibleAndDeactivate(this._currentRuralNotableSetGameEntity);
 		}
 
-		// Token: 0x06000519 RID: 1305 RVA: 0x00024EC0 File Offset: 0x000230C0
 		private void DeactivateAllExcept(GameEntity gameEntity)
 		{
 			if (gameEntity != this._currentMerchantSetGameEntity)
@@ -218,7 +211,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x0600051A RID: 1306 RVA: 0x00024F50 File Offset: 0x00023150
 		private void MakeInvisibleAndDeactivate(GameEntity gameEntity)
 		{
 			gameEntity.SetVisibilityExcludeParents(false);
@@ -233,37 +225,26 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x0400027C RID: 636
 		private int _merchantNotableCount;
 
-		// Token: 0x0400027D RID: 637
 		private int _gangLeaderNotableCount;
 
-		// Token: 0x0400027E RID: 638
 		private int _preacherNotableCount;
 
-		// Token: 0x0400027F RID: 639
 		private int _artisanNotableCount;
 
-		// Token: 0x04000280 RID: 640
 		private int _ruralNotableCount;
 
-		// Token: 0x04000281 RID: 641
 		private GameEntity _currentMerchantSetGameEntity;
 
-		// Token: 0x04000282 RID: 642
 		private GameEntity _currentPreacherSetGameEntity;
 
-		// Token: 0x04000283 RID: 643
 		private GameEntity _currentGangLeaderSetGameEntity;
 
-		// Token: 0x04000284 RID: 644
 		private GameEntity _currentArtisanSetGameEntity;
 
-		// Token: 0x04000285 RID: 645
 		private GameEntity _currentRuralNotableSetGameEntity;
 
-		// Token: 0x04000286 RID: 646
 		private List<Hero> _workshopAssignedHeroes;
 	}
 }

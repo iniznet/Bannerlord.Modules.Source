@@ -5,21 +5,17 @@ using TaleWorlds.CampaignSystem.Party;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 {
-	// Token: 0x020003FD RID: 1021
 	public class TransferPrisonerBarterBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D19 RID: 15641 RVA: 0x00122B00 File Offset: 0x00120D00
 		public override void RegisterEvents()
 		{
 			CampaignEvents.BarterablesRequested.AddNonSerializedListener(this, new Action<BarterData>(this.CheckForBarters));
 		}
 
-		// Token: 0x06003D1A RID: 15642 RVA: 0x00122B19 File Offset: 0x00120D19
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D1B RID: 15643 RVA: 0x00122B1C File Offset: 0x00120D1C
 		public void CheckForBarters(BarterData args)
 		{
 			PartyBase offererParty = args.OffererParty;

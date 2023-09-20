@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 {
-	// Token: 0x020000D1 RID: 209
 	public class EducationGainedAttributeItemVM : ViewModel
 	{
-		// Token: 0x06001378 RID: 4984 RVA: 0x0004AB5C File Offset: 0x00048D5C
 		public EducationGainedAttributeItemVM(CharacterAttribute attributeObj)
 		{
 			this._attributeObj = attributeObj;
@@ -24,13 +22,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			this.SetValue(0, 0);
 		}
 
-		// Token: 0x06001379 RID: 4985 RVA: 0x0004ABBD File Offset: 0x00048DBD
 		internal void ResetValues()
 		{
 			this.SetValue(0, 0);
 		}
 
-		// Token: 0x0600137A RID: 4986 RVA: 0x0004ABC8 File Offset: 0x00048DC8
 		public void SetValue(int gainedFromOtherStages, int gainedFromCurrentStage)
 		{
 			this.HasIncreasedInCurrentStage = gainedFromCurrentStage > 0;
@@ -39,9 +35,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			this.NameText = GameTexts.FindText("str_LEFT_colon_RIGHT_wSpaceAfterColon", null).ToString();
 		}
 
-		// Token: 0x17000681 RID: 1665
-		// (get) Token: 0x0600137B RID: 4987 RVA: 0x0004AC17 File Offset: 0x00048E17
-		// (set) Token: 0x0600137C RID: 4988 RVA: 0x0004AC1F File Offset: 0x00048E1F
 		[DataSourceProperty]
 		public BasicTooltipViewModel Hint
 		{
@@ -59,9 +52,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x17000682 RID: 1666
-		// (get) Token: 0x0600137D RID: 4989 RVA: 0x0004AC3D File Offset: 0x00048E3D
-		// (set) Token: 0x0600137E RID: 4990 RVA: 0x0004AC45 File Offset: 0x00048E45
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -79,9 +69,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x17000683 RID: 1667
-		// (get) Token: 0x0600137F RID: 4991 RVA: 0x0004AC68 File Offset: 0x00048E68
-		// (set) Token: 0x06001380 RID: 4992 RVA: 0x0004AC70 File Offset: 0x00048E70
 		[DataSourceProperty]
 		public bool HasIncreasedInCurrentStage
 		{
@@ -99,16 +86,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x04000904 RID: 2308
 		private readonly CharacterAttribute _attributeObj;
 
-		// Token: 0x04000905 RID: 2309
 		private string _nameText;
 
-		// Token: 0x04000906 RID: 2310
 		private bool _hasIncreasedInCurrentStage;
 
-		// Token: 0x04000907 RID: 2311
 		private BasicTooltipViewModel _hint;
 	}
 }

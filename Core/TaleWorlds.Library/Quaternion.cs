@@ -2,11 +2,9 @@
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x0200007A RID: 122
 	[Serializable]
 	public struct Quaternion
 	{
-		// Token: 0x0600041F RID: 1055 RVA: 0x0000D1A9 File Offset: 0x0000B3A9
 		public Quaternion(float x, float y, float z, float w)
 		{
 			this.X = x;
@@ -15,55 +13,46 @@ namespace TaleWorlds.Library
 			this.W = w;
 		}
 
-		// Token: 0x06000420 RID: 1056 RVA: 0x0000D1C8 File Offset: 0x0000B3C8
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
 
-		// Token: 0x06000421 RID: 1057 RVA: 0x0000D1DA File Offset: 0x0000B3DA
 		public override bool Equals(object obj)
 		{
 			return base.Equals(obj);
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x0000D1F0 File Offset: 0x0000B3F0
 		public static bool operator ==(Quaternion a, Quaternion b)
 		{
 			return a == b || (a != null && b != null && (a.X == b.X && a.Y == b.Y && a.Z == b.Z) && a.W == b.W);
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x0000D259 File Offset: 0x0000B459
 		public static bool operator !=(Quaternion a, Quaternion b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06000424 RID: 1060 RVA: 0x0000D265 File Offset: 0x0000B465
 		public static Quaternion operator +(Quaternion a, Quaternion b)
 		{
 			return new Quaternion(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
 		}
 
-		// Token: 0x06000425 RID: 1061 RVA: 0x0000D2A0 File Offset: 0x0000B4A0
 		public static Quaternion operator -(Quaternion a, Quaternion b)
 		{
 			return new Quaternion(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
 		}
 
-		// Token: 0x06000426 RID: 1062 RVA: 0x0000D2DB File Offset: 0x0000B4DB
 		public static Quaternion operator *(Quaternion a, float b)
 		{
 			return new Quaternion(a.X * b, a.Y * b, a.Z * b, a.W * b);
 		}
 
-		// Token: 0x06000427 RID: 1063 RVA: 0x0000D302 File Offset: 0x0000B502
 		public static Quaternion operator *(float s, Quaternion v)
 		{
 			return v * s;
 		}
 
-		// Token: 0x1700006D RID: 109
 		public float this[int i]
 		{
 			get
@@ -110,7 +99,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x0600042A RID: 1066 RVA: 0x0000D3B8 File Offset: 0x0000B5B8
 		public float Normalize()
 		{
 			float num = MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z + this.W * this.W);
@@ -132,7 +120,6 @@ namespace TaleWorlds.Library
 			return num;
 		}
 
-		// Token: 0x0600042B RID: 1067 RVA: 0x0000D47C File Offset: 0x0000B67C
 		public float SafeNormalize()
 		{
 			double num = Math.Sqrt((double)this.X * (double)this.X + (double)this.Y * (double)this.Y + (double)this.Z * (double)this.Z + (double)this.W * (double)this.W);
@@ -153,7 +140,6 @@ namespace TaleWorlds.Library
 			return (float)num;
 		}
 
-		// Token: 0x0600042C RID: 1068 RVA: 0x0000D54C File Offset: 0x0000B74C
 		public float NormalizeWeighted()
 		{
 			float num = this.X * this.X + this.Y * this.Y + this.Z * this.Z;
@@ -171,7 +157,6 @@ namespace TaleWorlds.Library
 			return num;
 		}
 
-		// Token: 0x0600042D RID: 1069 RVA: 0x0000D5CC File Offset: 0x0000B7CC
 		public void SetToRotationX(float angle)
 		{
 			float num;
@@ -183,7 +168,6 @@ namespace TaleWorlds.Library
 			this.W = num2;
 		}
 
-		// Token: 0x0600042E RID: 1070 RVA: 0x0000D610 File Offset: 0x0000B810
 		public void SetToRotationY(float angle)
 		{
 			float num;
@@ -195,7 +179,6 @@ namespace TaleWorlds.Library
 			this.W = num2;
 		}
 
-		// Token: 0x0600042F RID: 1071 RVA: 0x0000D654 File Offset: 0x0000B854
 		public void SetToRotationZ(float angle)
 		{
 			float num;
@@ -207,7 +190,6 @@ namespace TaleWorlds.Library
 			this.W = num2;
 		}
 
-		// Token: 0x06000430 RID: 1072 RVA: 0x0000D695 File Offset: 0x0000B895
 		public void Flip()
 		{
 			this.X = -this.X;
@@ -216,8 +198,6 @@ namespace TaleWorlds.Library
 			this.W = -this.W;
 		}
 
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x06000431 RID: 1073 RVA: 0x0000D6CB File Offset: 0x0000B8CB
 		public bool IsIdentity
 		{
 			get
@@ -226,8 +206,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x1700006F RID: 111
-		// (get) Token: 0x06000432 RID: 1074 RVA: 0x0000D704 File Offset: 0x0000B904
 		public bool IsUnit
 		{
 			get
@@ -236,8 +214,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x17000070 RID: 112
-		// (get) Token: 0x06000433 RID: 1075 RVA: 0x0000D757 File Offset: 0x0000B957
 		public static Quaternion Identity
 		{
 			get
@@ -246,7 +222,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x06000434 RID: 1076 RVA: 0x0000D774 File Offset: 0x0000B974
 		public Quaternion TransformToParent(Quaternion q)
 		{
 			return new Quaternion
@@ -258,7 +233,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x06000435 RID: 1077 RVA: 0x0000D884 File Offset: 0x0000BA84
 		public Quaternion TransformToLocal(Quaternion q)
 		{
 			return new Quaternion
@@ -270,7 +244,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x06000436 RID: 1078 RVA: 0x0000D994 File Offset: 0x0000BB94
 		public Quaternion TransformToLocalWithoutNormalize(Quaternion q)
 		{
 			return new Quaternion
@@ -282,7 +255,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x06000437 RID: 1079 RVA: 0x0000DAA4 File Offset: 0x0000BCA4
 		public static Quaternion Slerp(Quaternion from, Quaternion to, float t)
 		{
 			float num = from.Dotp4(to);
@@ -321,7 +293,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x06000438 RID: 1080 RVA: 0x0000DB98 File Offset: 0x0000BD98
 		public static Quaternion Lerp(Quaternion from, Quaternion to, float t)
 		{
 			float num = from.Dotp4(to);
@@ -345,7 +316,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x06000439 RID: 1081 RVA: 0x0000DC34 File Offset: 0x0000BE34
 		public static Mat3 Mat3FromQuaternion(Quaternion quat)
 		{
 			Mat3 mat = default(Mat3);
@@ -373,7 +343,6 @@ namespace TaleWorlds.Library
 			return mat;
 		}
 
-		// Token: 0x0600043A RID: 1082 RVA: 0x0000DD7C File Offset: 0x0000BF7C
 		public static Quaternion QuaternionFromMat3(Mat3 m)
 		{
 			Quaternion quaternion = default(Quaternion);
@@ -421,7 +390,6 @@ namespace TaleWorlds.Library
 			return quaternion;
 		}
 
-		// Token: 0x0600043B RID: 1083 RVA: 0x0000E150 File Offset: 0x0000C350
 		public static void AxisAngleFromQuaternion(out Vec3 axis, out float angle, Quaternion quat)
 		{
 			axis = default(Vec3);
@@ -445,7 +413,6 @@ namespace TaleWorlds.Library
 			angle = MathF.Acos(w) * 2f;
 		}
 
-		// Token: 0x0600043C RID: 1084 RVA: 0x0000E1F4 File Offset: 0x0000C3F4
 		public static Quaternion QuaternionFromAxisAngle(Vec3 axis, float angle)
 		{
 			Quaternion quaternion = default(Quaternion);
@@ -459,7 +426,6 @@ namespace TaleWorlds.Library
 			return quaternion;
 		}
 
-		// Token: 0x0600043D RID: 1085 RVA: 0x0000E250 File Offset: 0x0000C450
 		public static Vec3 EulerAngleFromQuaternion(Quaternion quat)
 		{
 			float w = quat.W;
@@ -478,7 +444,6 @@ namespace TaleWorlds.Library
 			};
 		}
 
-		// Token: 0x0600043E RID: 1086 RVA: 0x0000E2FC File Offset: 0x0000C4FC
 		public static Quaternion FindShortestArcAsQuaternion(Vec3 v0, Vec3 v1)
 		{
 			Vec3 vec = Vec3.CrossProduct(v0, v1);
@@ -502,14 +467,11 @@ namespace TaleWorlds.Library
 			return new Quaternion(vec.x * num3, vec.y * num3, vec.z * num3, num2 * 0.5f);
 		}
 
-		// Token: 0x0600043F RID: 1087 RVA: 0x0000E3EE File Offset: 0x0000C5EE
 		public float Dotp4(Quaternion q2)
 		{
 			return this.X * q2.X + this.Y * q2.Y + this.Z * q2.Z + this.W * q2.W;
 		}
 
-		// Token: 0x17000071 RID: 113
-		// (get) Token: 0x06000440 RID: 1088 RVA: 0x0000E427 File Offset: 0x0000C627
 		public Mat3 ToMat3
 		{
 			get
@@ -518,22 +480,17 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x06000441 RID: 1089 RVA: 0x0000E434 File Offset: 0x0000C634
 		public bool InverseDirection(Quaternion q2)
 		{
 			return this.Dotp4(q2) < 0f;
 		}
 
-		// Token: 0x0400013C RID: 316
 		public float W;
 
-		// Token: 0x0400013D RID: 317
 		public float X;
 
-		// Token: 0x0400013E RID: 318
 		public float Y;
 
-		// Token: 0x0400013F RID: 319
 		public float Z;
 	}
 }

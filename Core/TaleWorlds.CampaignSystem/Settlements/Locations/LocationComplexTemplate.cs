@@ -7,10 +7,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Settlements.Locations
 {
-	// Token: 0x02000370 RID: 880
 	public sealed class LocationComplexTemplate : MBObjectBase
 	{
-		// Token: 0x06003362 RID: 13154 RVA: 0x000D400C File Offset: 0x000D220C
 		public override void Deserialize(MBObjectManager objectManager, XmlNode node)
 		{
 			List<string> list = new List<string>();
@@ -71,10 +69,8 @@ namespace TaleWorlds.CampaignSystem.Settlements.Locations
 			}
 		}
 
-		// Token: 0x040010B2 RID: 4274
 		public List<Location> Locations = new List<Location>();
 
-		// Token: 0x040010B3 RID: 4275
 		public List<KeyValuePair<string, string>> Passages = new List<KeyValuePair<string, string>>();
 	}
 }

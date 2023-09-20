@@ -7,11 +7,8 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200025E RID: 606
 	public class BattleEndLogic : MissionLogic, IBattleEndLogic
 	{
-		// Token: 0x1700064B RID: 1611
-		// (get) Token: 0x060020AB RID: 8363 RVA: 0x00074A2E File Offset: 0x00072C2E
 		public bool PlayerVictory
 		{
 			get
@@ -20,8 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700064C RID: 1612
-		// (get) Token: 0x060020AC RID: 8364 RVA: 0x00074A4B File Offset: 0x00072C4B
 		public bool EnemyVictory
 		{
 			get
@@ -30,12 +25,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700064D RID: 1613
-		// (get) Token: 0x060020AD RID: 8365 RVA: 0x00074A5D File Offset: 0x00072C5D
-		// (set) Token: 0x060020AE RID: 8366 RVA: 0x00074A65 File Offset: 0x00072C65
 		private bool _notificationsDisabled { get; set; }
 
-		// Token: 0x060020AF RID: 8367 RVA: 0x00074A70 File Offset: 0x00072C70
 		public override bool MissionEnded(ref MissionResult missionResult)
 		{
 			bool flag = false;
@@ -62,7 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x060020B0 RID: 8368 RVA: 0x00074AFC File Offset: 0x00072CFC
 		public override void OnMissionTick(float dt)
 		{
 			if (base.Mission.IsMissionEnding)
@@ -168,13 +158,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020B1 RID: 8369 RVA: 0x00074E4E File Offset: 0x0007304E
 		public void ChangeCanCheckForEndCondition(bool canCheckForEndCondition)
 		{
 			this._canCheckForEndCondition = canCheckForEndCondition;
 		}
 
-		// Token: 0x060020B2 RID: 8370 RVA: 0x00074E58 File Offset: 0x00073058
 		private void CheckIsEnemySideRetreatingOrOneSideDepleted()
 		{
 			if (!this._canCheckForEndConditionSiege)
@@ -263,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020B3 RID: 8371 RVA: 0x000750E8 File Offset: 0x000732E8
 		public BattleEndLogic.ExitResult TryExit()
 		{
 			if (GameNetwork.IsClientOrReplay)
@@ -287,7 +274,6 @@ namespace TaleWorlds.MountAndBlade
 			return BattleEndLogic.ExitResult.NeedsPlayerConfirmation;
 		}
 
-		// Token: 0x060020B4 RID: 8372 RVA: 0x0007518B File Offset: 0x0007338B
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -295,7 +281,6 @@ namespace TaleWorlds.MountAndBlade
 			this._missionAgentSpawnLogic = base.Mission.GetMissionBehavior<IMissionAgentSpawnLogic>();
 		}
 
-		// Token: 0x060020B5 RID: 8373 RVA: 0x000751B0 File Offset: 0x000733B0
 		protected override void OnEndMission()
 		{
 			if (this._isEnemySideRetreating)
@@ -311,7 +296,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020B6 RID: 8374 RVA: 0x00075220 File Offset: 0x00073420
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (base.Mission.Mode != MissionMode.Deployment && this._enemyDefenderPullbackEnabled && this._troopNumberNeededForEnemyDefenderPullBack > 0 && affectedAgent.IsHuman && agentState == AgentState.Routed && affectedAgent.Team != null && affectedAgent.Team.Side == BattleSideEnum.Defender && affectedAgent.Team.Side != base.Mission.PlayerTeam.Side)
@@ -321,15 +305,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020B7 RID: 8375 RVA: 0x000752AA File Offset: 0x000734AA
 		public void EnableEnemyDefenderPullBack(int neededTroopNumber)
 		{
 			this._enemyDefenderPullbackEnabled = true;
 			this._troopNumberNeededForEnemyDefenderPullBack = neededTroopNumber;
 		}
 
-		// Token: 0x1700064E RID: 1614
-		// (get) Token: 0x060020B8 RID: 8376 RVA: 0x000752BA File Offset: 0x000734BA
 		public bool IsEnemySideRetreating
 		{
 			get
@@ -338,73 +319,50 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020B9 RID: 8377 RVA: 0x000752C2 File Offset: 0x000734C2
 		public void SetNotificationDisabled(bool value)
 		{
 			this._notificationsDisabled = value;
 		}
 
-		// Token: 0x04000C01 RID: 3073
 		private IMissionAgentSpawnLogic _missionAgentSpawnLogic;
 
-		// Token: 0x04000C02 RID: 3074
 		private MissionTime _enemySideNotYetRetreatingTime;
 
-		// Token: 0x04000C03 RID: 3075
 		private MissionTime _playerSideNotYetRetreatingTime;
 
-		// Token: 0x04000C04 RID: 3076
 		private BasicMissionTimer _checkRetreatingTimer;
 
-		// Token: 0x04000C05 RID: 3077
 		private bool _isEnemySideRetreating;
 
-		// Token: 0x04000C06 RID: 3078
 		private bool _isPlayerSideRetreating;
 
-		// Token: 0x04000C07 RID: 3079
 		private bool _isEnemySideDepleted;
 
-		// Token: 0x04000C08 RID: 3080
 		private bool _isPlayerSideDepleted;
 
-		// Token: 0x04000C09 RID: 3081
 		private bool _isEnemyDefenderPulledBack;
 
-		// Token: 0x04000C0A RID: 3082
 		private bool _canCheckForEndCondition = true;
 
-		// Token: 0x04000C0B RID: 3083
 		private bool _canCheckForEndConditionSiege;
 
-		// Token: 0x04000C0C RID: 3084
 		private bool _enemyDefenderPullbackEnabled;
 
-		// Token: 0x04000C0D RID: 3085
 		private int _troopNumberNeededForEnemyDefenderPullBack;
 
-		// Token: 0x04000C0E RID: 3086
 		private bool _missionEndedMessageShown;
 
-		// Token: 0x04000C0F RID: 3087
 		private bool _victoryReactionsActivated;
 
-		// Token: 0x04000C10 RID: 3088
 		private bool _victoryReactionsActivatedForRetreating;
 
-		// Token: 0x04000C11 RID: 3089
 		private bool _scoreBoardOpenedOnceOnMissionEnd;
 
-		// Token: 0x0200056A RID: 1386
 		public enum ExitResult
 		{
-			// Token: 0x04001D09 RID: 7433
 			False,
-			// Token: 0x04001D0A RID: 7434
 			NeedsPlayerConfirmation,
-			// Token: 0x04001D0B RID: 7435
 			SurrenderSiege,
-			// Token: 0x04001D0C RID: 7436
 			True
 		}
 	}

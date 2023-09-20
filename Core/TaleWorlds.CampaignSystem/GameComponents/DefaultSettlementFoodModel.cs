@@ -11,11 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000136 RID: 310
 	public class DefaultSettlementFoodModel : SettlementFoodModel
 	{
-		// Token: 0x1700061A RID: 1562
-		// (get) Token: 0x06001708 RID: 5896 RVA: 0x000717E0 File Offset: 0x0006F9E0
 		public override int FoodStocksUpperLimit
 		{
 			get
@@ -24,8 +21,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700061B RID: 1563
-		// (get) Token: 0x06001709 RID: 5897 RVA: 0x000717E4 File Offset: 0x0006F9E4
 		public override int NumberOfProsperityToEatOneFood
 		{
 			get
@@ -34,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700061C RID: 1564
-		// (get) Token: 0x0600170A RID: 5898 RVA: 0x000717E8 File Offset: 0x0006F9E8
 		public override int NumberOfMenOnGarrisonToEatOneFood
 		{
 			get
@@ -44,8 +37,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700061D RID: 1565
-		// (get) Token: 0x0600170B RID: 5899 RVA: 0x000717EC File Offset: 0x0006F9EC
 		public override int CastleFoodStockUpperLimitBonus
 		{
 			get
@@ -54,13 +45,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600170C RID: 5900 RVA: 0x000717F3 File Offset: 0x0006F9F3
 		public override ExplainedNumber CalculateTownFoodStocksChange(Town town, bool includeMarketStocks = true, bool includeDescriptions = false)
 		{
 			return this.CalculateTownFoodChangeInternal(town, includeMarketStocks, includeDescriptions);
 		}
 
-		// Token: 0x0600170D RID: 5901 RVA: 0x00071800 File Offset: 0x0006FA00
 		private ExplainedNumber CalculateTownFoodChangeInternal(Town town, bool includeMarketStocks, bool includeDescriptions)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -150,7 +139,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600170E RID: 5902 RVA: 0x00071B1C File Offset: 0x0006FD1C
 		private int CalculateFoodPurchasedFromMarket(Town town)
 		{
 			return town.SoldItems.Sum(delegate(Town.SellLog x)
@@ -163,34 +151,25 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			});
 		}
 
-		// Token: 0x0600170F RID: 5903 RVA: 0x00071B48 File Offset: 0x0006FD48
 		private static void GetSettlementFoodChangeDueToIssues(Town town, ref ExplainedNumber explainedNumber)
 		{
 			Campaign.Current.Models.IssueModel.GetIssueEffectsOfSettlement(DefaultIssueEffects.SettlementFood, town.Settlement, ref explainedNumber);
 		}
 
-		// Token: 0x0400081F RID: 2079
 		private static readonly TextObject ProsperityText = GameTexts.FindText("str_prosperity", null);
 
-		// Token: 0x04000820 RID: 2080
 		private static readonly TextObject GarrisonText = GameTexts.FindText("str_garrison", null);
 
-		// Token: 0x04000821 RID: 2081
 		private static readonly TextObject LandsAroundSettlementText = GameTexts.FindText("str_lands_around_settlement", null);
 
-		// Token: 0x04000822 RID: 2082
 		private static readonly TextObject NormalVillagesText = GameTexts.FindText("str_normal_villages", null);
 
-		// Token: 0x04000823 RID: 2083
 		private static readonly TextObject RaidedVillagesText = GameTexts.FindText("str_raided_villages", null);
 
-		// Token: 0x04000824 RID: 2084
 		private static readonly TextObject VillagesUnderSiegeText = GameTexts.FindText("str_villages_under_siege", null);
 
-		// Token: 0x04000825 RID: 2085
 		private static readonly TextObject FoodBoughtByCiviliansText = GameTexts.FindText("str_food_bought_by_civilians", null);
 
-		// Token: 0x04000826 RID: 2086
 		private const int FoodProductionPerVillage = 10;
 	}
 }

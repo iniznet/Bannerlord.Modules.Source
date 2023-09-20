@@ -14,15 +14,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 {
-	// Token: 0x020000F4 RID: 244
 	public class MissionConversationVM : ViewModel
 	{
-		// Token: 0x170007AE RID: 1966
-		// (get) Token: 0x060016BC RID: 5820 RVA: 0x0005462D File Offset: 0x0005282D
-		// (set) Token: 0x060016BD RID: 5821 RVA: 0x00054635 File Offset: 0x00052835
 		public bool SelectedAnOptionOrLinkThisFrame { get; set; }
 
-		// Token: 0x060016BE RID: 5822 RVA: 0x00054640 File Offset: 0x00052840
 		public MissionConversationVM(Func<string> getContinueInputText, bool isLinksDisabled = false)
 		{
 			this.AnswerList = new MBBindingList<ConversationItemVM>();
@@ -109,7 +104,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this.RefreshValues();
 		}
 
-		// Token: 0x060016BF RID: 5823 RVA: 0x00054A90 File Offset: 0x00052C90
 		private void OnPersuasionProgress(Tuple<PersuasionOptionArgs, PersuasionOptionResult> result)
 		{
 			PersuasionVM persuasion = this.Persuasion;
@@ -123,7 +117,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			});
 		}
 
-		// Token: 0x060016C0 RID: 5824 RVA: 0x00054AD8 File Offset: 0x00052CD8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -149,7 +142,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this._currentSelectedAnswer.RefreshValues();
 		}
 
-		// Token: 0x060016C1 RID: 5825 RVA: 0x00054BF5 File Offset: 0x00052DF5
 		public void OnConversationContinue()
 		{
 			if (ConversationManager.GetPersuasionIsActive() && (!ConversationManager.GetPersuasionIsActive() || this.IsPersuading))
@@ -163,7 +155,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this.Refresh();
 		}
 
-		// Token: 0x060016C2 RID: 5826 RVA: 0x00054C2D File Offset: 0x00052E2D
 		public void ExecuteLink(string link)
 		{
 			if (!this._isLinksDisabled)
@@ -172,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x060016C3 RID: 5827 RVA: 0x00054C48 File Offset: 0x00052E48
 		public void ExecuteConversedHeroLink()
 		{
 			CharacterObject characterObject;
@@ -185,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x060016C4 RID: 5828 RVA: 0x00054CA0 File Offset: 0x00052EA0
 		public void Refresh()
 		{
 			this.ExecuteCloseTooltip();
@@ -285,13 +274,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this.Persuasion.RefreshPersusasion();
 		}
 
-		// Token: 0x060016C5 RID: 5829 RVA: 0x000550B1 File Offset: 0x000532B1
 		private void OnReadyToContinue()
 		{
 			this.Refresh();
 		}
 
-		// Token: 0x060016C6 RID: 5830 RVA: 0x000550BC File Offset: 0x000532BC
 		private void ExecuteDefenderTooltip()
 		{
 			if (PlayerEncounter.PlayerIsDefender)
@@ -302,13 +289,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			InformationManager.ShowTooltip(typeof(List<MobileParty>), new object[] { 1 });
 		}
 
-		// Token: 0x060016C7 RID: 5831 RVA: 0x0005510D File Offset: 0x0005330D
 		public void ExecuteCloseTooltip()
 		{
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x060016C8 RID: 5832 RVA: 0x00055114 File Offset: 0x00053314
 		public void ExecuteHeroTooltip()
 		{
 			CharacterObject characterObject = (CharacterObject)this._currentDialogCharacter;
@@ -318,7 +303,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x060016C9 RID: 5833 RVA: 0x00055160 File Offset: 0x00053360
 		private void ExecuteAttackerTooltip()
 		{
 			if (PlayerEncounter.PlayerIsAttacker)
@@ -329,7 +313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			InformationManager.ShowTooltip(typeof(List<MobileParty>), new object[] { 1 });
 		}
 
-		// Token: 0x060016CA RID: 5834 RVA: 0x000551B4 File Offset: 0x000533B4
 		private void ExecuteHeroInfo()
 		{
 			if (this._conversationManager.ListenerAgent.Character == Hero.MainHero.CharacterObject)
@@ -345,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			Campaign.Current.EncyclopediaManager.GoToLink(CharacterObject.OneToOneConversationCharacter.EncyclopediaLink);
 		}
 
-		// Token: 0x060016CB RID: 5835 RVA: 0x0005523B File Offset: 0x0005343B
 		private void OnSelectOption(int optionIndex)
 		{
 			if (!this._isProcessingOption)
@@ -361,13 +343,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x060016CC RID: 5836 RVA: 0x00055270 File Offset: 0x00053470
 		public void ExecuteFinalizeSelection()
 		{
 			this.Refresh();
 		}
 
-		// Token: 0x060016CD RID: 5837 RVA: 0x00055278 File Offset: 0x00053478
 		public void ExecuteContinue()
 		{
 			Debug.Print("ExecuteContinue", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -375,7 +355,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this._isProcessingOption = false;
 		}
 
-		// Token: 0x060016CE RID: 5838 RVA: 0x000552A2 File Offset: 0x000534A2
 		private void ExecuteSetCurrentAnswer(ConversationItemVM _answer)
 		{
 			this.Persuasion.SetCurrentOption((_answer != null) ? _answer.PersuasionItem : null);
@@ -387,7 +366,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this.CurrentSelectedAnswer = new ConversationItemVM();
 		}
 
-		// Token: 0x060016CF RID: 5839 RVA: 0x000552D1 File Offset: 0x000534D1
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -400,9 +378,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			persuasion.OnFinalize();
 		}
 
-		// Token: 0x170007AF RID: 1967
-		// (get) Token: 0x060016D0 RID: 5840 RVA: 0x000552F4 File Offset: 0x000534F4
-		// (set) Token: 0x060016D1 RID: 5841 RVA: 0x000552FC File Offset: 0x000534FC
 		[DataSourceProperty]
 		public PersuasionVM Persuasion
 		{
@@ -420,9 +395,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B0 RID: 1968
-		// (get) Token: 0x060016D2 RID: 5842 RVA: 0x0005531A File Offset: 0x0005351A
-		// (set) Token: 0x060016D3 RID: 5843 RVA: 0x00055322 File Offset: 0x00053522
 		[DataSourceProperty]
 		public PowerLevelComparer PowerComparer
 		{
@@ -440,9 +412,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B1 RID: 1969
-		// (get) Token: 0x060016D4 RID: 5844 RVA: 0x00055340 File Offset: 0x00053540
-		// (set) Token: 0x060016D5 RID: 5845 RVA: 0x00055348 File Offset: 0x00053548
 		[DataSourceProperty]
 		public int Relation
 		{
@@ -460,9 +429,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B2 RID: 1970
-		// (get) Token: 0x060016D6 RID: 5846 RVA: 0x00055366 File Offset: 0x00053566
-		// (set) Token: 0x060016D7 RID: 5847 RVA: 0x0005536E File Offset: 0x0005356E
 		[DataSourceProperty]
 		public int MinRelation
 		{
@@ -480,9 +446,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B3 RID: 1971
-		// (get) Token: 0x060016D8 RID: 5848 RVA: 0x0005538C File Offset: 0x0005358C
-		// (set) Token: 0x060016D9 RID: 5849 RVA: 0x00055394 File Offset: 0x00053594
 		[DataSourceProperty]
 		public int MaxRelation
 		{
@@ -500,9 +463,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B4 RID: 1972
-		// (get) Token: 0x060016DA RID: 5850 RVA: 0x000553B2 File Offset: 0x000535B2
-		// (set) Token: 0x060016DB RID: 5851 RVA: 0x000553BA File Offset: 0x000535BA
 		[DataSourceProperty]
 		public ConversationAggressivePartyItemVM DefenderLeader
 		{
@@ -520,9 +480,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B5 RID: 1973
-		// (get) Token: 0x060016DC RID: 5852 RVA: 0x000553D8 File Offset: 0x000535D8
-		// (set) Token: 0x060016DD RID: 5853 RVA: 0x000553E0 File Offset: 0x000535E0
 		[DataSourceProperty]
 		public ConversationAggressivePartyItemVM AttackerLeader
 		{
@@ -540,9 +497,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B6 RID: 1974
-		// (get) Token: 0x060016DE RID: 5854 RVA: 0x000553FE File Offset: 0x000535FE
-		// (set) Token: 0x060016DF RID: 5855 RVA: 0x00055406 File Offset: 0x00053606
 		[DataSourceProperty]
 		public MBBindingList<ConversationAggressivePartyItemVM> AttackerParties
 		{
@@ -560,9 +514,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B7 RID: 1975
-		// (get) Token: 0x060016E0 RID: 5856 RVA: 0x00055424 File Offset: 0x00053624
-		// (set) Token: 0x060016E1 RID: 5857 RVA: 0x0005542C File Offset: 0x0005362C
 		[DataSourceProperty]
 		public MBBindingList<ConversationAggressivePartyItemVM> DefenderParties
 		{
@@ -580,9 +531,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B8 RID: 1976
-		// (get) Token: 0x060016E2 RID: 5858 RVA: 0x0005544A File Offset: 0x0005364A
-		// (set) Token: 0x060016E3 RID: 5859 RVA: 0x00055452 File Offset: 0x00053652
 		[DataSourceProperty]
 		public string MoreOptionText
 		{
@@ -600,9 +548,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007B9 RID: 1977
-		// (get) Token: 0x060016E4 RID: 5860 RVA: 0x00055475 File Offset: 0x00053675
-		// (set) Token: 0x060016E5 RID: 5861 RVA: 0x0005547D File Offset: 0x0005367D
 		[DataSourceProperty]
 		public string GoldText
 		{
@@ -620,9 +565,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BA RID: 1978
-		// (get) Token: 0x060016E6 RID: 5862 RVA: 0x000554A0 File Offset: 0x000536A0
-		// (set) Token: 0x060016E7 RID: 5863 RVA: 0x000554A8 File Offset: 0x000536A8
 		[DataSourceProperty]
 		public string PersuasionText
 		{
@@ -640,9 +582,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BB RID: 1979
-		// (get) Token: 0x060016E8 RID: 5864 RVA: 0x000554CB File Offset: 0x000536CB
-		// (set) Token: 0x060016E9 RID: 5865 RVA: 0x000554D3 File Offset: 0x000536D3
 		[DataSourceProperty]
 		public bool IsCurrentCharacterValidInEncyclopedia
 		{
@@ -660,9 +599,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BC RID: 1980
-		// (get) Token: 0x060016EA RID: 5866 RVA: 0x000554F1 File Offset: 0x000536F1
-		// (set) Token: 0x060016EB RID: 5867 RVA: 0x000554F9 File Offset: 0x000536F9
 		[DataSourceProperty]
 		public bool IsLoadingOver
 		{
@@ -680,9 +616,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BD RID: 1981
-		// (get) Token: 0x060016EC RID: 5868 RVA: 0x00055517 File Offset: 0x00053717
-		// (set) Token: 0x060016ED RID: 5869 RVA: 0x0005551F File Offset: 0x0005371F
 		[DataSourceProperty]
 		public bool IsPersuading
 		{
@@ -700,9 +633,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BE RID: 1982
-		// (get) Token: 0x060016EE RID: 5870 RVA: 0x0005553D File Offset: 0x0005373D
-		// (set) Token: 0x060016EF RID: 5871 RVA: 0x00055545 File Offset: 0x00053745
 		[DataSourceProperty]
 		public string ContinueText
 		{
@@ -720,9 +650,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007BF RID: 1983
-		// (get) Token: 0x060016F0 RID: 5872 RVA: 0x00055568 File Offset: 0x00053768
-		// (set) Token: 0x060016F1 RID: 5873 RVA: 0x00055570 File Offset: 0x00053770
 		[DataSourceProperty]
 		public string CurrentCharacterNameLbl
 		{
@@ -740,9 +667,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C0 RID: 1984
-		// (get) Token: 0x060016F2 RID: 5874 RVA: 0x00055593 File Offset: 0x00053793
-		// (set) Token: 0x060016F3 RID: 5875 RVA: 0x0005559B File Offset: 0x0005379B
 		[DataSourceProperty]
 		public MBBindingList<ConversationItemVM> AnswerList
 		{
@@ -760,9 +684,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C1 RID: 1985
-		// (get) Token: 0x060016F4 RID: 5876 RVA: 0x000555B9 File Offset: 0x000537B9
-		// (set) Token: 0x060016F5 RID: 5877 RVA: 0x000555C1 File Offset: 0x000537C1
 		[DataSourceProperty]
 		public string DialogText
 		{
@@ -780,9 +701,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C2 RID: 1986
-		// (get) Token: 0x060016F6 RID: 5878 RVA: 0x000555E4 File Offset: 0x000537E4
-		// (set) Token: 0x060016F7 RID: 5879 RVA: 0x000555EC File Offset: 0x000537EC
 		[DataSourceProperty]
 		public bool IsAggressive
 		{
@@ -800,9 +718,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C3 RID: 1987
-		// (get) Token: 0x060016F8 RID: 5880 RVA: 0x0005560A File Offset: 0x0005380A
-		// (set) Token: 0x060016F9 RID: 5881 RVA: 0x00055612 File Offset: 0x00053812
 		[DataSourceProperty]
 		public int SelectedSide
 		{
@@ -820,9 +735,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C4 RID: 1988
-		// (get) Token: 0x060016FA RID: 5882 RVA: 0x00055630 File Offset: 0x00053830
-		// (set) Token: 0x060016FB RID: 5883 RVA: 0x00055638 File Offset: 0x00053838
 		[DataSourceProperty]
 		public string RelationText
 		{
@@ -840,9 +752,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C5 RID: 1989
-		// (get) Token: 0x060016FC RID: 5884 RVA: 0x0005565B File Offset: 0x0005385B
-		// (set) Token: 0x060016FD RID: 5885 RVA: 0x00055663 File Offset: 0x00053863
 		[DataSourceProperty]
 		public bool IsRelationEnabled
 		{
@@ -860,9 +769,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C6 RID: 1990
-		// (get) Token: 0x060016FE RID: 5886 RVA: 0x00055681 File Offset: 0x00053881
-		// (set) Token: 0x060016FF RID: 5887 RVA: 0x00055689 File Offset: 0x00053889
 		[DataSourceProperty]
 		public bool IsBannerEnabled
 		{
@@ -880,9 +786,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C7 RID: 1991
-		// (get) Token: 0x06001700 RID: 5888 RVA: 0x000556A7 File Offset: 0x000538A7
-		// (set) Token: 0x06001701 RID: 5889 RVA: 0x000556AF File Offset: 0x000538AF
 		[DataSourceProperty]
 		public ConversationItemVM CurrentSelectedAnswer
 		{
@@ -900,9 +803,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C8 RID: 1992
-		// (get) Token: 0x06001702 RID: 5890 RVA: 0x000556CD File Offset: 0x000538CD
-		// (set) Token: 0x06001703 RID: 5891 RVA: 0x000556D5 File Offset: 0x000538D5
 		[DataSourceProperty]
 		public ImageIdentifierVM ConversedHeroBanner
 		{
@@ -920,9 +820,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007C9 RID: 1993
-		// (get) Token: 0x06001704 RID: 5892 RVA: 0x000556F3 File Offset: 0x000538F3
-		// (set) Token: 0x06001705 RID: 5893 RVA: 0x000556FB File Offset: 0x000538FB
 		[DataSourceProperty]
 		public HintViewModel RelationHint
 		{
@@ -940,9 +837,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007CA RID: 1994
-		// (get) Token: 0x06001706 RID: 5894 RVA: 0x00055719 File Offset: 0x00053919
-		// (set) Token: 0x06001707 RID: 5895 RVA: 0x00055721 File Offset: 0x00053921
 		[DataSourceProperty]
 		public HintViewModel FactionHint
 		{
@@ -960,9 +854,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007CB RID: 1995
-		// (get) Token: 0x06001708 RID: 5896 RVA: 0x0005573F File Offset: 0x0005393F
-		// (set) Token: 0x06001709 RID: 5897 RVA: 0x00055747 File Offset: 0x00053947
 		[DataSourceProperty]
 		public HintViewModel GoldHint
 		{
@@ -980,109 +871,74 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x04000AA8 RID: 2728
 		private readonly ConversationManager _conversationManager;
 
-		// Token: 0x04000AA9 RID: 2729
 		private readonly bool _isLinksDisabled;
 
-		// Token: 0x04000AAA RID: 2730
 		private static bool _isCurrentlyPlayerSpeaking;
 
-		// Token: 0x04000AAB RID: 2731
 		private bool _isProcessingOption;
 
-		// Token: 0x04000AAC RID: 2732
 		private BasicCharacterObject _currentDialogCharacter;
 
-		// Token: 0x04000AAD RID: 2733
 		private Func<string> _getContinueInputText;
 
-		// Token: 0x04000AAE RID: 2734
 		private MBBindingList<ConversationItemVM> _answerList;
 
-		// Token: 0x04000AAF RID: 2735
 		private string _dialogText;
 
-		// Token: 0x04000AB0 RID: 2736
 		private string _currentCharacterNameLbl;
 
-		// Token: 0x04000AB1 RID: 2737
 		private string _continueText;
 
-		// Token: 0x04000AB2 RID: 2738
 		private string _relationText;
 
-		// Token: 0x04000AB3 RID: 2739
 		private string _persuasionText;
 
-		// Token: 0x04000AB4 RID: 2740
 		private bool _isLoadingOver;
 
-		// Token: 0x04000AB5 RID: 2741
 		private string _moreOptionText;
 
-		// Token: 0x04000AB6 RID: 2742
 		private string _goldText;
 
-		// Token: 0x04000AB7 RID: 2743
 		private ConversationAggressivePartyItemVM _defenderLeader;
 
-		// Token: 0x04000AB8 RID: 2744
 		private ConversationAggressivePartyItemVM _attackerLeader;
 
-		// Token: 0x04000AB9 RID: 2745
 		private MBBindingList<ConversationAggressivePartyItemVM> _defenderParties;
 
-		// Token: 0x04000ABA RID: 2746
 		private MBBindingList<ConversationAggressivePartyItemVM> _attackerParties;
 
-		// Token: 0x04000ABB RID: 2747
 		private ImageIdentifierVM _conversedHeroBanner;
 
-		// Token: 0x04000ABC RID: 2748
 		private bool _isAggressive;
 
-		// Token: 0x04000ABD RID: 2749
 		private bool _isRelationEnabled;
 
-		// Token: 0x04000ABE RID: 2750
 		private bool _isBannerEnabled;
 
-		// Token: 0x04000ABF RID: 2751
 		private bool _isPersuading;
 
-		// Token: 0x04000AC0 RID: 2752
 		private bool _isCurrentCharacterValidInEncyclopedia;
 
-		// Token: 0x04000AC1 RID: 2753
 		private int _selectedSide;
 
-		// Token: 0x04000AC2 RID: 2754
 		private int _relation;
 
-		// Token: 0x04000AC3 RID: 2755
 		private int _minRelation;
 
-		// Token: 0x04000AC4 RID: 2756
 		private int _maxRelation;
 
-		// Token: 0x04000AC5 RID: 2757
 		private PowerLevelComparer _powerComparer;
 
-		// Token: 0x04000AC6 RID: 2758
 		private ConversationItemVM _currentSelectedAnswer;
 
-		// Token: 0x04000AC7 RID: 2759
 		private PersuasionVM _persuasion;
 
-		// Token: 0x04000AC8 RID: 2760
 		private HintViewModel _relationHint;
 
-		// Token: 0x04000AC9 RID: 2761
 		private HintViewModel _factionHint;
 
-		// Token: 0x04000ACA RID: 2762
 		private HintViewModel _goldHint;
 	}
 }

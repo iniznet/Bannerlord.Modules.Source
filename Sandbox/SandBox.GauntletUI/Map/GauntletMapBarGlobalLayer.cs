@@ -15,10 +15,8 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x02000020 RID: 32
 	public class GauntletMapBarGlobalLayer : GlobalLayer
 	{
-		// Token: 0x06000138 RID: 312 RVA: 0x000099B0 File Offset: 0x00007BB0
 		public void Initialize(MapScreen mapScreen, float contextAlphaModifider)
 		{
 			this._mapScreen = mapScreen;
@@ -35,7 +33,6 @@ namespace SandBox.GauntletUI.Map
 			this._encyclopediaManager = mapScreen.EncyclopediaScreenManager;
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00009A8C File Offset: 0x00007C8C
 		public void OnFinalize()
 		{
 			ArmyManagementVM armyManagementVM = this._armyManagementVM;
@@ -58,7 +55,6 @@ namespace SandBox.GauntletUI.Map
 			this._mapScreen = null;
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x00009AFF File Offset: 0x00007CFF
 		public void Refresh()
 		{
 			MapBarVM mapDataSource = this._mapDataSource;
@@ -69,7 +65,6 @@ namespace SandBox.GauntletUI.Map
 			mapDataSource.OnRefresh();
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x00009B14 File Offset: 0x00007D14
 		private MapBarShortcuts GetMapBarShortcuts()
 		{
 			MapBarShortcuts mapBarShortcuts = default(MapBarShortcuts);
@@ -86,7 +81,6 @@ namespace SandBox.GauntletUI.Map
 			return mapBarShortcuts;
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x00009C84 File Offset: 0x00007E84
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -144,7 +138,6 @@ namespace SandBox.GauntletUI.Map
 			base.Layer.InputRestrictions.ResetInputRestrictions();
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x00009EBC File Offset: 0x000080BC
 		private void HandleArmyManagementInput()
 		{
 			if (this._armyManagementLayer.Input.IsHotKeyReleased("Exit"))
@@ -168,7 +161,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x00009F68 File Offset: 0x00008168
 		private void HandlePanelSwitching(PanelScreenStatus screenStatus)
 		{
 			GauntletLayer gauntletLayer = ScreenManager.TopScreen.FindLayer<GauntletLayer>();
@@ -242,7 +234,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x0000A070 File Offset: 0x00008270
 		private void OpenArmyManagement()
 		{
 			if (this._gauntletLayer != null)
@@ -278,7 +269,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x0000A260 File Offset: 0x00008460
 		private void CloseArmyManagement()
 		{
 			this._armyManagementVM.OnFinalize();
@@ -298,7 +288,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x0000A2FF File Offset: 0x000084FF
 		internal bool IsEscaped()
 		{
 			if (this._armyManagementVM != null)
@@ -309,61 +298,44 @@ namespace SandBox.GauntletUI.Map
 			return false;
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x0000A317 File Offset: 0x00008517
 		internal void OnMapConversationStart()
 		{
 			this._contextAlphaTarget = 0f;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x0000A324 File Offset: 0x00008524
 		internal void OnMapConversationEnd()
 		{
 			this._contextAlphaTarget = 1f;
 		}
 
-		// Token: 0x04000092 RID: 146
 		private MapBarVM _mapDataSource;
 
-		// Token: 0x04000093 RID: 147
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000094 RID: 148
 		private IGauntletMovie _movie;
 
-		// Token: 0x04000095 RID: 149
 		private SpriteCategory _mapBarCategory;
 
-		// Token: 0x04000096 RID: 150
 		private MapScreen _mapScreen;
 
-		// Token: 0x04000097 RID: 151
 		private MapNavigationHandler _mapNavigationHandler;
 
-		// Token: 0x04000098 RID: 152
 		private INavigationHandler _mapNavigationHandlerAsInterface;
 
-		// Token: 0x04000099 RID: 153
 		private MapEncyclopediaView _encyclopediaManager;
 
-		// Token: 0x0400009A RID: 154
 		private float _contextAlphaTarget = 1f;
 
-		// Token: 0x0400009B RID: 155
 		private float _contextAlphaModifider;
 
-		// Token: 0x0400009C RID: 156
 		private GauntletLayer _armyManagementLayer;
 
-		// Token: 0x0400009D RID: 157
 		private SpriteCategory _armyManagementCategory;
 
-		// Token: 0x0400009E RID: 158
 		private ArmyManagementVM _armyManagementVM;
 
-		// Token: 0x0400009F RID: 159
 		private IGauntletMovie _gauntletArmyManagementMovie;
 
-		// Token: 0x040000A0 RID: 160
 		private CampaignTimeControlMode _timeControlModeBeforeArmyManagementOpened;
 	}
 }

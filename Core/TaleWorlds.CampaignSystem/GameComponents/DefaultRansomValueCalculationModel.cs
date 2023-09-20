@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000132 RID: 306
 	public class DefaultRansomValueCalculationModel : RansomValueCalculationModel
 	{
-		// Token: 0x060016E7 RID: 5863 RVA: 0x00070844 File Offset: 0x0006EA44
 		public override int PrisonerRansomValue(CharacterObject prisoner, Hero sellerHero = null)
 		{
 			float troopRecruitmentCost = (float)Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(prisoner, null, false);

@@ -8,17 +8,14 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 {
-	// Token: 0x02000165 RID: 357
 	[EncyclopediaModel(new Type[] { typeof(Clan) })]
 	public class DefaultEncyclopediaClanPage : EncyclopediaPage
 	{
-		// Token: 0x06001887 RID: 6279 RVA: 0x0007BBAF File Offset: 0x00079DAF
 		public DefaultEncyclopediaClanPage()
 		{
 			base.HomePageOrderIndex = 500;
 		}
 
-		// Token: 0x06001888 RID: 6280 RVA: 0x0007BBC2 File Offset: 0x00079DC2
 		protected override IEnumerable<EncyclopediaListItem> InitializeListItems()
 		{
 			foreach (Clan clan in Clan.NonBanditFactions)
@@ -33,7 +30,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			yield break;
 		}
 
-		// Token: 0x06001889 RID: 6281 RVA: 0x0007BBD4 File Offset: 0x00079DD4
 		protected override IEnumerable<EncyclopediaFilterGroup> InitializeFilterItems()
 		{
 			List<EncyclopediaFilterGroup> list = new List<EncyclopediaFilterGroup>();
@@ -67,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			return list;
 		}
 
-		// Token: 0x0600188A RID: 6282 RVA: 0x0007BE8C File Offset: 0x0007A08C
 		protected override IEnumerable<EncyclopediaSortController> InitializeSortControllers()
 		{
 			return new List<EncyclopediaSortController>
@@ -80,47 +75,39 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			};
 		}
 
-		// Token: 0x0600188B RID: 6283 RVA: 0x0007BF25 File Offset: 0x0007A125
 		public override string GetViewFullyQualifiedName()
 		{
 			return "EncyclopediaClanPage";
 		}
 
-		// Token: 0x0600188C RID: 6284 RVA: 0x0007BF2C File Offset: 0x0007A12C
 		public override TextObject GetName()
 		{
 			return GameTexts.FindText("str_clans", null);
 		}
 
-		// Token: 0x0600188D RID: 6285 RVA: 0x0007BF39 File Offset: 0x0007A139
 		public override TextObject GetDescriptionText()
 		{
 			return GameTexts.FindText("str_clan_description", null);
 		}
 
-		// Token: 0x0600188E RID: 6286 RVA: 0x0007BF46 File Offset: 0x0007A146
 		public override string GetStringID()
 		{
 			return "EncyclopediaClan";
 		}
 
-		// Token: 0x0600188F RID: 6287 RVA: 0x0007BF4D File Offset: 0x0007A14D
 		public override MBObjectBase GetObject(string typeName, string stringID)
 		{
 			return Campaign.Current.CampaignObjectManager.Find<Clan>(stringID);
 		}
 
-		// Token: 0x06001890 RID: 6288 RVA: 0x0007BF60 File Offset: 0x0007A160
 		public override bool IsValidEncyclopediaItem(object o)
 		{
 			IFaction faction = o as IFaction;
 			return faction != null && (!faction.IsClan || (faction.IsClan && !((Clan)faction).IsNeutralClan));
 		}
 
-		// Token: 0x02000527 RID: 1319
 		private class EncyclopediaListClanWealthComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
 		{
-			// Token: 0x060042A8 RID: 17064 RVA: 0x00135A54 File Offset: 0x00133C54
 			private string GetClanWealthStatusText(Clan _clan)
 			{
 				string text = string.Empty;
@@ -147,13 +134,11 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return text;
 			}
 
-			// Token: 0x060042A9 RID: 17065 RVA: 0x00135B10 File Offset: 0x00133D10
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareClans(x, y, DefaultEncyclopediaClanPage.EncyclopediaListClanWealthComparer._comparison);
 			}
 
-			// Token: 0x060042AA RID: 17066 RVA: 0x00135B20 File Offset: 0x00133D20
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Clan clan;
@@ -165,20 +150,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x040015FC RID: 5628
 			private static Func<Clan, Clan, int> _comparison = (Clan c1, Clan c2) => c1.Gold.CompareTo(c2.Gold);
 		}
 
-		// Token: 0x02000528 RID: 1320
 		private class EncyclopediaListClanTierComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
 		{
-			// Token: 0x060042AD RID: 17069 RVA: 0x00135B81 File Offset: 0x00133D81
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareClans(x, y, DefaultEncyclopediaClanPage.EncyclopediaListClanTierComparer._comparison);
 			}
 
-			// Token: 0x060042AE RID: 17070 RVA: 0x00135B90 File Offset: 0x00133D90
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Clan clan;
@@ -190,20 +171,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x040015FD RID: 5629
 			private static Func<Clan, Clan, int> _comparison = (Clan c1, Clan c2) => c1.Tier.CompareTo(c2.Tier);
 		}
 
-		// Token: 0x02000529 RID: 1321
 		private class EncyclopediaListClanStrengthComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
 		{
-			// Token: 0x060042B1 RID: 17073 RVA: 0x00135BF8 File Offset: 0x00133DF8
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareClans(x, y, DefaultEncyclopediaClanPage.EncyclopediaListClanStrengthComparer._comparison);
 			}
 
-			// Token: 0x060042B2 RID: 17074 RVA: 0x00135C08 File Offset: 0x00133E08
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Clan clan;
@@ -215,20 +192,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x040015FE RID: 5630
 			private static Func<Clan, Clan, int> _comparison = (Clan c1, Clan c2) => c1.TotalStrength.CompareTo(c2.TotalStrength);
 		}
 
-		// Token: 0x0200052A RID: 1322
 		private class EncyclopediaListClanFiefComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
 		{
-			// Token: 0x060042B5 RID: 17077 RVA: 0x00135C71 File Offset: 0x00133E71
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareClans(x, y, DefaultEncyclopediaClanPage.EncyclopediaListClanFiefComparer._comparison);
 			}
 
-			// Token: 0x060042B6 RID: 17078 RVA: 0x00135C80 File Offset: 0x00133E80
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Clan clan;
@@ -240,20 +213,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x040015FF RID: 5631
 			private static Func<Clan, Clan, int> _comparison = (Clan c1, Clan c2) => c1.Fiefs.Count.CompareTo(c2.Fiefs.Count);
 		}
 
-		// Token: 0x0200052B RID: 1323
 		private class EncyclopediaListClanMemberComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
 		{
-			// Token: 0x060042B9 RID: 17081 RVA: 0x00135CED File Offset: 0x00133EED
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareClans(x, y, DefaultEncyclopediaClanPage.EncyclopediaListClanMemberComparer._comparison);
 			}
 
-			// Token: 0x060042BA RID: 17082 RVA: 0x00135CFC File Offset: 0x00133EFC
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Clan clan;
@@ -265,14 +234,11 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x04001600 RID: 5632
 			private static Func<Clan, Clan, int> _comparison = (Clan c1, Clan c2) => c1.Heroes.Count.CompareTo(c2.Heroes.Count);
 		}
 
-		// Token: 0x0200052C RID: 1324
 		public abstract class EncyclopediaListClanComparer : EncyclopediaListItemComparerBase
 		{
-			// Token: 0x060042BD RID: 17085 RVA: 0x00135D6C File Offset: 0x00133F6C
 			public int CompareClans(EncyclopediaListItem x, EncyclopediaListItem y, Func<Clan, Clan, int> comparison)
 			{
 				Clan clan;

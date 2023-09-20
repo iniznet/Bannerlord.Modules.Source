@@ -6,15 +6,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x02000013 RID: 19
 	public class LoadingWindowViewModel : ViewModel
 	{
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000084 RID: 132 RVA: 0x00004F82 File Offset: 0x00003182
-		// (set) Token: 0x06000085 RID: 133 RVA: 0x00004F8A File Offset: 0x0000318A
 		public bool CurrentlyShowingMultiplayer { get; private set; }
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00004F93 File Offset: 0x00003193
 		public LoadingWindowViewModel(Action<bool, int> handleSPPartialLoading)
 		{
 			this._handleSPPartialLoading = handleSPPartialLoading;
@@ -26,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			handleSPPartialLoading2(true, this._currentImage + 1);
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x00004FBC File Offset: 0x000031BC
 		internal void Update()
 		{
 			if (this.Enabled)
@@ -44,7 +38,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000088 RID: 136 RVA: 0x00004FFB File Offset: 0x000031FB
 		private void HandleEnable()
 		{
 			if (this.IsEligableForMultiplayerLoading())
@@ -55,13 +48,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.SetForEmpty();
 		}
 
-		// Token: 0x06000089 RID: 137 RVA: 0x00005012 File Offset: 0x00003212
 		private bool IsEligableForMultiplayerLoading()
 		{
 			return this._isMultiplayer && Mission.Current != null && Game.Current.GameStateManager.ActiveState is MissionState;
 		}
 
-		// Token: 0x0600008A RID: 138 RVA: 0x0000503C File Offset: 0x0000323C
 		private void SetForMultiplayer()
 		{
 			MissionState missionState = (MissionState)Game.Current.GameStateManager.ActiveState;
@@ -152,7 +143,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.CurrentlyShowingMultiplayer = true;
 		}
 
-		// Token: 0x0600008B RID: 139 RVA: 0x00005207 File Offset: 0x00003407
 		private void SetForEmpty()
 		{
 			this.DescriptionText = "";
@@ -162,7 +152,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.CurrentlyShowingMultiplayer = false;
 		}
 
-		// Token: 0x0600008C RID: 140 RVA: 0x00005238 File Offset: 0x00003438
 		private void SetNextGenericImage()
 		{
 			int num = ((this._currentImage >= 1) ? this._currentImage : this._totalGenericImageCount);
@@ -182,15 +171,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.LoadingImageName = "loading_" + this._currentImage.ToString("00");
 		}
 
-		// Token: 0x0600008D RID: 141 RVA: 0x000052E7 File Offset: 0x000034E7
 		public void SetTotalGenericImageCount(int totalGenericImageCount)
 		{
 			this._totalGenericImageCount = totalGenericImageCount;
 		}
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x0600008E RID: 142 RVA: 0x000052F0 File Offset: 0x000034F0
-		// (set) Token: 0x0600008F RID: 143 RVA: 0x000052F8 File Offset: 0x000034F8
 		[DataSourceProperty]
 		public bool Enabled
 		{
@@ -212,9 +197,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x06000090 RID: 144 RVA: 0x0000531F File Offset: 0x0000351F
-		// (set) Token: 0x06000091 RID: 145 RVA: 0x00005327 File Offset: 0x00003527
 		[DataSourceProperty]
 		public bool IsDevelopmentMode
 		{
@@ -232,9 +214,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x06000092 RID: 146 RVA: 0x00005345 File Offset: 0x00003545
-		// (set) Token: 0x06000093 RID: 147 RVA: 0x0000534D File Offset: 0x0000354D
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -252,9 +231,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x06000094 RID: 148 RVA: 0x00005370 File Offset: 0x00003570
-		// (set) Token: 0x06000095 RID: 149 RVA: 0x00005378 File Offset: 0x00003578
 		[DataSourceProperty]
 		public string GameModeText
 		{
@@ -272,9 +248,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x06000096 RID: 150 RVA: 0x0000539B File Offset: 0x0000359B
-		// (set) Token: 0x06000097 RID: 151 RVA: 0x000053A3 File Offset: 0x000035A3
 		[DataSourceProperty]
 		public string DescriptionText
 		{
@@ -292,9 +265,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000098 RID: 152 RVA: 0x000053C6 File Offset: 0x000035C6
-		// (set) Token: 0x06000099 RID: 153 RVA: 0x000053CE File Offset: 0x000035CE
 		[DataSourceProperty]
 		public bool IsMultiplayer
 		{
@@ -312,9 +282,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x0600009A RID: 154 RVA: 0x000053EC File Offset: 0x000035EC
-		// (set) Token: 0x0600009B RID: 155 RVA: 0x000053F4 File Offset: 0x000035F4
 		[DataSourceProperty]
 		public string LoadingImageName
 		{
@@ -332,34 +299,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0400005A RID: 90
 		private int _currentImage;
 
-		// Token: 0x0400005B RID: 91
 		private int _totalGenericImageCount;
 
-		// Token: 0x0400005C RID: 92
 		private Action<bool, int> _handleSPPartialLoading;
 
-		// Token: 0x0400005E RID: 94
 		private bool _enabled;
 
-		// Token: 0x0400005F RID: 95
 		private bool _isDevelopmentMode;
 
-		// Token: 0x04000060 RID: 96
 		private bool _isMultiplayer;
 
-		// Token: 0x04000061 RID: 97
 		private string _loadingImageName;
 
-		// Token: 0x04000062 RID: 98
 		private string _titleText;
 
-		// Token: 0x04000063 RID: 99
 		private string _descriptionText;
 
-		// Token: 0x04000064 RID: 100
 		private string _gameModeText;
 	}
 }

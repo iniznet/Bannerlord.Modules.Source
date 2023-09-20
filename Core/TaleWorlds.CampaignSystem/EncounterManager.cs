@@ -13,11 +13,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200007C RID: 124
 	public static class EncounterManager
 	{
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06000F4E RID: 3918 RVA: 0x00047092 File Offset: 0x00045292
 		public static EncounterModel EncounterModel
 		{
 			get
@@ -26,13 +23,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F4F RID: 3919 RVA: 0x000470A3 File Offset: 0x000452A3
 		public static void Tick(float dt)
 		{
 			EncounterManager.HandleEncounters(dt);
 		}
 
-		// Token: 0x06000F50 RID: 3920 RVA: 0x000470AC File Offset: 0x000452AC
 		private static void HandleEncounters(float dt)
 		{
 			if (Campaign.Current.TimeControlMode != CampaignTimeControlMode.Stop)
@@ -44,7 +39,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F51 RID: 3921 RVA: 0x000470F8 File Offset: 0x000452F8
 		public static void HandleEncounterForMobileParty(MobileParty mobileParty, float dt)
 		{
 			if (mobileParty.IsActive && mobileParty.AttachedTo == null && mobileParty.MapEventSide == null && (mobileParty.CurrentSettlement == null || mobileParty.IsGarrison) && (mobileParty.BesiegedSettlement == null || mobileParty.ShortTermBehavior == AiBehavior.AssaultSettlement) && (mobileParty.IsCurrentlyEngagingParty || mobileParty.IsCurrentlyEngagingSettlement || (mobileParty.Ai.AiBehaviorMapEntity != null && mobileParty.ShortTermBehavior == AiBehavior.GoToPoint && !(mobileParty.Ai.AiBehaviorMapEntity is Settlement) && !(mobileParty.Ai.AiBehaviorMapEntity is MobileParty) && (mobileParty.Party != PartyBase.MainParty || PlayerEncounter.Current == null))))
@@ -68,7 +62,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F52 RID: 3922 RVA: 0x00047294 File Offset: 0x00045494
 		public static void StartPartyEncounter(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			bool flag = PartyBase.MainParty.MapEvent != null && (PartyBase.MainParty.MapEvent.InvolvedParties.Contains(attackerParty) || PartyBase.MainParty.MapEvent.InvolvedParties.Contains(defenderParty));
@@ -108,7 +101,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F53 RID: 3923 RVA: 0x00047544 File Offset: 0x00045744
 		public static void StartSettlementEncounter(MobileParty attackerParty, Settlement settlement)
 		{
 			if (attackerParty.DefaultBehavior == AiBehavior.BesiegeSettlement && attackerParty.TargetSettlement == settlement && attackerParty.ShortTermBehavior != AiBehavior.AssaultSettlement)
@@ -285,7 +277,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F54 RID: 3924 RVA: 0x00047BF8 File Offset: 0x00045DF8
 		private static void GetEncounterTargetPoint(float dt, MobileParty mobileParty, out Vec2 targetPoint, out float neededMaximumDistanceForEncountering)
 		{
 			if (mobileParty.Army != null)
@@ -315,7 +306,6 @@ namespace TaleWorlds.CampaignSystem
 			targetPoint = mobileParty.Ai.AiBehaviorMapEntity.InteractionPosition;
 		}
 
-		// Token: 0x06000F55 RID: 3925 RVA: 0x00047D80 File Offset: 0x00045F80
 		private static void RestartPlayerEncounter(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			Settlement settlement = null;

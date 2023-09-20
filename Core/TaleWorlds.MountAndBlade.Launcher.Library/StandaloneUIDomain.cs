@@ -9,15 +9,10 @@ using TaleWorlds.TwoDimension.Standalone;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x0200000A RID: 10
 	public class StandaloneUIDomain : FrameworkDomain
 	{
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x0600004A RID: 74 RVA: 0x00002BF5 File Offset: 0x00000DF5
-		// (set) Token: 0x0600004B RID: 75 RVA: 0x00002BFD File Offset: 0x00000DFD
 		public UserDataManager UserDataManager { get; private set; }
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00002C06 File Offset: 0x00000E06
 		public StandaloneUIDomain(GraphicsForm graphicsForm, ResourceDepot resourceDepot)
 		{
 			this._graphicsForm = graphicsForm;
@@ -25,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.UserDataManager = new UserDataManager();
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00002C28 File Offset: 0x00000E28
 		public override void Update()
 		{
 			if (this._synchronizationContext == null)
@@ -69,8 +63,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this._graphicsContext.SwapBuffers();
 		}
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x0600004E RID: 78 RVA: 0x00002DEA File Offset: 0x00000FEA
 		public string AdditionalArgs
 		{
 			get
@@ -83,8 +75,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x0600004F RID: 79 RVA: 0x00002E05 File Offset: 0x00001005
 		public bool HasUnofficialModulesSelected
 		{
 			get
@@ -93,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00002E12 File Offset: 0x00001012
 		public override void Destroy()
 		{
 			this._synchronizationContext = null;
@@ -104,45 +93,34 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this._graphicsForm.Destroy();
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00002E46 File Offset: 0x00001046
 		private void OnStartGameRequest()
 		{
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00002E48 File Offset: 0x00001048
 		private void OnCloseRequest()
 		{
 			Environment.Exit(0);
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00002E50 File Offset: 0x00001050
 		private void OnMinimizeRequest()
 		{
 			this._graphicsForm.MinimizeWindow();
 		}
 
-		// Token: 0x0400002C RID: 44
 		private SingleThreadedSynchronizationContext _synchronizationContext;
 
-		// Token: 0x0400002D RID: 45
 		private bool _initialized;
 
-		// Token: 0x0400002E RID: 46
 		private GraphicsForm _graphicsForm;
 
-		// Token: 0x0400002F RID: 47
 		private GraphicsContext _graphicsContext;
 
-		// Token: 0x04000030 RID: 48
 		private UIContext _gauntletUIContext;
 
-		// Token: 0x04000031 RID: 49
 		private TwoDimensionContext _twoDimensionContext;
 
-		// Token: 0x04000032 RID: 50
 		private LauncherUI _launcherUI;
 
-		// Token: 0x04000033 RID: 51
 		private readonly ResourceDepot _resourceDepot;
 	}
 }

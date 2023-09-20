@@ -12,11 +12,9 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace StoryMode.View.Missions
 {
-	// Token: 0x02000005 RID: 5
 	[ViewCreatorModule]
 	public class StoryModeMissionViews
 	{
-		// Token: 0x06000008 RID: 8 RVA: 0x00002274 File Offset: 0x00000474
 		[ViewMethod("TrainingField")]
 		public static MissionView[] OpenVillageMission(Mission mission)
 		{

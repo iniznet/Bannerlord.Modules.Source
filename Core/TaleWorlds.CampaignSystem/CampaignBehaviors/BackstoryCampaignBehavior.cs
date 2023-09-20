@@ -9,21 +9,17 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000377 RID: 887
 	public class BackstoryCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060033B8 RID: 13240 RVA: 0x000D620A File Offset: 0x000D440A
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
 		}
 
-		// Token: 0x060033B9 RID: 13241 RVA: 0x000D6223 File Offset: 0x000D4423
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060033BA RID: 13242 RVA: 0x000D6228 File Offset: 0x000D4428
 		public void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			Hero heroObject = Game.Current.ObjectManager.GetObject<CharacterObject>("lord_1_7").HeroObject;

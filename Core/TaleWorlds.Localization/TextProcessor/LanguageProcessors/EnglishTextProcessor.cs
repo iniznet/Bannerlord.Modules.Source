@@ -6,10 +6,8 @@ using System.Text;
 
 namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 {
-	// Token: 0x02000031 RID: 49
 	public class EnglishTextProcessor : LanguageSpecificTextProcessor
 	{
-		// Token: 0x06000143 RID: 323 RVA: 0x000071F0 File Offset: 0x000053F0
 		public override void ProcessToken(string sourceText, ref int cursorPos, string token, StringBuilder outputString)
 		{
 			char c = token[1];
@@ -90,7 +88,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x0000736C File Offset: 0x0000556C
 		private char GetLastCharacter(StringBuilder outputText, int cursorPos)
 		{
 			for (int i = cursorPos - 1; i >= 0; i--)
@@ -103,7 +100,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return 'x';
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x000073A0 File Offset: 0x000055A0
 		private void HandleApostrophe(StringBuilder outputString, int cursorPos)
 		{
 			string text = outputString.ToString();
@@ -130,7 +126,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00007418 File Offset: 0x00005618
 		private bool CheckNextCharIsVowel(string sourceText, int cursorPos)
 		{
 			while (cursorPos < sourceText.Length)
@@ -149,7 +144,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x0000745C File Offset: 0x0000565C
 		private bool HandleIrregularNouns(string text, out string resultPlural)
 		{
 			resultPlural = null;
@@ -177,7 +171,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00007500 File Offset: 0x00005700
 		private bool Handle_ves_Suffix(string text, out string resultPlural)
 		{
 			resultPlural = null;
@@ -207,7 +200,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x00007634 File Offset: 0x00005834
 		private bool Handle_ies_Suffix(string text, out string resultPlural)
 		{
 			resultPlural = null;
@@ -223,7 +215,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x000076C0 File Offset: 0x000058C0
 		private bool Handle_es_Suffix(string text, out string resultPlural)
 		{
 			resultPlural = null;
@@ -271,7 +262,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x00007864 File Offset: 0x00005A64
 		private bool Handle_s_Suffix(string text, out string resultPlural)
 		{
 			resultPlural = null;
@@ -317,8 +307,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x0600014C RID: 332 RVA: 0x000079A9 File Offset: 0x00005BA9
 		public override CultureInfo CultureInfoForLanguage
 		{
 			get
@@ -327,12 +315,10 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x000079B0 File Offset: 0x00005BB0
 		public override void ClearTemporaryData()
 		{
 		}
 
-		// Token: 0x040000A4 RID: 164
 		private Dictionary<string, string> IrregularNouns = new Dictionary<string, string>
 		{
 			{ "man", "men" },
@@ -388,13 +374,10 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			{ "phenomenon", "phenomena" }
 		};
 
-		// Token: 0x040000A5 RID: 165
 		private string[] Sibilants = new string[] { "s", "x", "ch", "sh", "es", "ss" };
 
-		// Token: 0x040000A6 RID: 166
 		private const string Vowels = "aeiouAEIOU";
 
-		// Token: 0x040000A7 RID: 167
 		private const string Consonants = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
 	}
 }

@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000452 RID: 1106
 	public static class SellGoodsForTradeAction
 	{
-		// Token: 0x06003F45 RID: 16197 RVA: 0x0012EE34 File Offset: 0x0012D034
 		private static void ApplyInternal(Settlement settlement, MobileParty mobileParty, SellGoodsForTradeAction.SellGoodsForTradeActionDetail detail)
 		{
 			Town town = settlement.Town;
@@ -63,18 +61,14 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003F46 RID: 16198 RVA: 0x0012EFEC File Offset: 0x0012D1EC
 		public static void ApplyByVillagerTrade(Settlement settlement, MobileParty villagerParty)
 		{
 			SellGoodsForTradeAction.ApplyInternal(settlement, villagerParty, SellGoodsForTradeAction.SellGoodsForTradeActionDetail.VillagerTrade);
 		}
 
-		// Token: 0x02000768 RID: 1896
 		private enum SellGoodsForTradeActionDetail
 		{
-			// Token: 0x04001E70 RID: 7792
 			VillagerTrade,
-			// Token: 0x04001E71 RID: 7793
 			LordTrade
 		}
 	}

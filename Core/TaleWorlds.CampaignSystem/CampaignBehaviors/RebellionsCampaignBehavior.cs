@@ -13,17 +13,14 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003CB RID: 971
 	public class RebellionsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003A3A RID: 14906 RVA: 0x0010C984 File Offset: 0x0010AB84
 		public RebellionsCampaignBehavior()
 		{
 			this._rebelClansAndDaysPassedAfterCreation = new Dictionary<Clan, int>();
 			this._cultureIconIdAndFrequencies = new Dictionary<CultureObject, Dictionary<int, int>>();
 		}
 
-		// Token: 0x06003A3B RID: 14907 RVA: 0x0010C9AC File Offset: 0x0010ABAC
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
@@ -34,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeStarted));
 		}
 
-		// Token: 0x06003A3C RID: 14908 RVA: 0x0010CA43 File Offset: 0x0010AC43
 		private void OnSiegeStarted(SiegeEvent siegeEvent)
 		{
 			if (siegeEvent.BesiegedSettlement.IsTown)
@@ -43,20 +39,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A3D RID: 14909 RVA: 0x0010CA5E File Offset: 0x0010AC5E
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Clan, int>>("_rebelClansAndDaysPassedAfterCreation", ref this._rebelClansAndDaysPassedAfterCreation);
 			dataStore.SyncData<Dictionary<CultureObject, Dictionary<int, int>>>("_iconIdAndFrequency", ref this._cultureIconIdAndFrequencies);
 		}
 
-		// Token: 0x06003A3E RID: 14910 RVA: 0x0010CA84 File Offset: 0x0010AC84
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			this.InitializeIconIdAndFrequencies();
 		}
 
-		// Token: 0x06003A3F RID: 14911 RVA: 0x0010CA8C File Offset: 0x0010AC8C
 		private void OnGameLoaded()
 		{
 			this.InitializeIconIdAndFrequencies();
@@ -73,7 +66,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A40 RID: 14912 RVA: 0x0010CB2C File Offset: 0x0010AD2C
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (this._rebellionEnabled && settlement.IsTown && settlement.Party.MapEvent == null && settlement.Party.SiegeEvent == null && !settlement.OwnerClan.IsRebelClan && Settlement.CurrentSettlement != settlement)
@@ -91,7 +83,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A41 RID: 14913 RVA: 0x0010CC00 File Offset: 0x0010AE00
 		private void CheckAndSetTownRebelliousState(Settlement settlement)
 		{
 			bool inRebelliousState = settlement.Town.InRebelliousState;
@@ -102,7 +93,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A42 RID: 14914 RVA: 0x0010CC70 File Offset: 0x0010AE70
 		private void OnClanDestroyed(Clan destroyedClan)
 		{
 			if (this._rebelClansAndDaysPassedAfterCreation.ContainsKey(destroyedClan))
@@ -111,7 +101,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A43 RID: 14915 RVA: 0x0010CC90 File Offset: 0x0010AE90
 		private void DailyTickClan(Clan clan)
 		{
 			if (this._rebelClansAndDaysPassedAfterCreation.ContainsKey(clan))
@@ -149,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A44 RID: 14916 RVA: 0x0010CDFC File Offset: 0x0010AFFC
 		private static bool CheckRebellionEvent(Settlement settlement)
 		{
 			if (settlement.Town.Loyalty <= (float)Campaign.Current.Models.SettlementLoyaltyModel.RebellionStartLoyaltyThreshold)
@@ -169,7 +157,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003A45 RID: 14917 RVA: 0x0010CED0 File Offset: 0x0010B0D0
 		private void StartRebellionEvent(Settlement settlement)
 		{
 			Clan ownerClan = settlement.OwnerClan;
@@ -180,7 +167,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			settlement.Militia = 100f;
 		}
 
-		// Token: 0x06003A46 RID: 14918 RVA: 0x0010CF20 File Offset: 0x0010B120
 		private void ApplyRebellionConsequencesToSettlement(Settlement settlement)
 		{
 			Dictionary<TroopRosterElement, int> dictionary = new Dictionary<TroopRosterElement, int>();
@@ -221,7 +207,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			settlement.Town.InRebelliousState = false;
 		}
 
-		// Token: 0x06003A47 RID: 14919 RVA: 0x0010D144 File Offset: 0x0010B344
 		private void CreateRebelPartyAndClan(Settlement settlement)
 		{
 			MBReadOnlyList<CharacterObject> rebelliousHeroTemplates = settlement.Culture.RebelliousHeroTemplates;
@@ -279,7 +264,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			list[0].ChangeHeroGold(50000);
 		}
 
-		// Token: 0x06003A48 RID: 14920 RVA: 0x0010D494 File Offset: 0x0010B694
 		private Hero CreateRebelLeader(CharacterObject templateCharacter, Settlement settlement)
 		{
 			return this.CreateRebelHeroInternal(templateCharacter, settlement, new Dictionary<SkillObject, int>
@@ -299,7 +283,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x06003A49 RID: 14921 RVA: 0x0010D4F4 File Offset: 0x0010B6F4
 		private Hero CreateRebelGovernor(CharacterObject templateCharacter, Settlement settlement)
 		{
 			return this.CreateRebelHeroInternal(templateCharacter, settlement, new Dictionary<SkillObject, int>
@@ -319,7 +302,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x06003A4A RID: 14922 RVA: 0x0010D550 File Offset: 0x0010B750
 		private Hero CreateRebelSupporterHero(CharacterObject templateCharacter, Settlement settlement)
 		{
 			return this.CreateRebelHeroInternal(templateCharacter, settlement, new Dictionary<SkillObject, int>
@@ -339,7 +321,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x06003A4B RID: 14923 RVA: 0x0010D5B0 File Offset: 0x0010B7B0
 		private Hero CreateRebelHeroInternal(CharacterObject templateCharacter, Settlement settlement, Dictionary<SkillObject, int> startingSkills)
 		{
 			Hero hero = HeroCreator.CreateSpecialHero(templateCharacter, settlement, null, null, MBRandom.RandomInt(25, 40));
@@ -350,7 +331,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return hero;
 		}
 
-		// Token: 0x06003A4C RID: 14924 RVA: 0x0010D624 File Offset: 0x0010B824
 		private int GetClanIdForNewRebelClan(CultureObject culture)
 		{
 			int num = int.MaxValue;
@@ -404,7 +384,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num5;
 		}
 
-		// Token: 0x06003A4D RID: 14925 RVA: 0x0010D7B4 File Offset: 0x0010B9B4
 		private void InitializeIconIdAndFrequencies()
 		{
 			if (this._cultureIconIdAndFrequencies == null)
@@ -437,7 +416,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A4E RID: 14926 RVA: 0x0010D944 File Offset: 0x0010BB44
 		[CommandLineFunctionality.CommandLineArgumentFunction("rebellion_enabled", "campaign")]
 		public static string SetRebellionEnabled(List<string> strings)
 		{
@@ -462,55 +440,38 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return "Rebellions Campaign behavior not found";
 		}
 
-		// Token: 0x040011EE RID: 4590
 		private const int UpdateClanAfterDays = 30;
 
-		// Token: 0x040011EF RID: 4591
 		private const int LoyaltyAfterRebellion = 100;
 
-		// Token: 0x040011F0 RID: 4592
 		private const int InitialRelationPenalty = -80;
 
-		// Token: 0x040011F1 RID: 4593
 		private const int InitialRelationBoostWithOtherFactions = 10;
 
-		// Token: 0x040011F2 RID: 4594
 		private const int InitialRelationBoost = 60;
 
-		// Token: 0x040011F3 RID: 4595
 		private const int InitialRelationBetweenRebelHeroes = 10;
 
-		// Token: 0x040011F4 RID: 4596
 		private const int RebelClanStartingRenownMin = 200;
 
-		// Token: 0x040011F5 RID: 4597
 		private const int RebelClanStartingRenownMax = 300;
 
-		// Token: 0x040011F6 RID: 4598
 		private const int RebelHeroAgeMin = 25;
 
-		// Token: 0x040011F7 RID: 4599
 		private const int RebelHeroAgeMax = 40;
 
-		// Token: 0x040011F8 RID: 4600
 		private const float MilitiaGarrisonRatio = 1.4f;
 
-		// Token: 0x040011F9 RID: 4601
 		private const float ThrowGarrisonTroopToPrisonPercentage = 0.5f;
 
-		// Token: 0x040011FA RID: 4602
 		private const float ThrowMilitiaTroopToGarrisonPercentage = 0.6f;
 
-		// Token: 0x040011FB RID: 4603
 		private const float DailyRebellionCheckChance = 0.25f;
 
-		// Token: 0x040011FC RID: 4604
 		private Dictionary<Clan, int> _rebelClansAndDaysPassedAfterCreation;
 
-		// Token: 0x040011FD RID: 4605
 		private Dictionary<CultureObject, Dictionary<int, int>> _cultureIconIdAndFrequencies;
 
-		// Token: 0x040011FE RID: 4606
 		private bool _rebellionEnabled = true;
 	}
 }

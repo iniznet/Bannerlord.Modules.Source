@@ -6,10 +6,8 @@ using TaleWorlds.CampaignSystem.Settlements.Buildings;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F6 RID: 246
 	public class DefaultBuildingEffectModel : BuildingEffectModel
 	{
-		// Token: 0x060014A8 RID: 5288 RVA: 0x0005C380 File Offset: 0x0005A580
 		public override float GetBuildingEffectAmount(Building building, BuildingEffectEnum effect)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(building.BuildingType.GetBaseBuildingEffectAmount(effect, building.CurrentLevel), false, null);

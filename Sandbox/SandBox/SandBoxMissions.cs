@@ -31,11 +31,9 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic;
 
 namespace SandBox
 {
-	// Token: 0x0200000E RID: 14
 	[MissionManager]
 	public static class SandBoxMissions
 	{
-		// Token: 0x0600009A RID: 154 RVA: 0x000053A4 File Offset: 0x000035A4
 		public static MissionInitializerRecord CreateSandBoxMissionInitializerRecord(string sceneName, string sceneLevels = "", bool doNotUseLoadingScreen = false, DecalAtlasGroup decalAtlasGroup = 0)
 		{
 			MissionInitializerRecord missionInitializerRecord;
@@ -52,7 +50,6 @@ namespace SandBox
 			return missionInitializerRecord;
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00005494 File Offset: 0x00003694
 		public static MissionInitializerRecord CreateSandBoxTrainingMissionInitializerRecord(string sceneName, string sceneLevels = "", bool doNotUseLoadingScreen = false)
 		{
 			MissionInitializerRecord missionInitializerRecord;
@@ -68,7 +65,6 @@ namespace SandBox
 			return missionInitializerRecord;
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x0000556C File Offset: 0x0000376C
 		[MissionMethod]
 		public static Mission OpenTownCenterMission(string scene, int townUpgradeLevel, Location location, CharacterObject talkToChar, string playerSpawnTag)
 		{
@@ -76,7 +72,6 @@ namespace SandBox
 			return SandBoxMissions.OpenTownCenterMission(scene, civilianUpgradeLevelTag, location, talkToChar, playerSpawnTag);
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x0000559C File Offset: 0x0000379C
 		[MissionMethod]
 		public static Mission OpenTownCenterMission(string scene, string sceneLevels, Location location, CharacterObject talkToChar, string playerSpawnTag)
 		{
@@ -113,7 +108,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x0600009E RID: 158 RVA: 0x000055E8 File Offset: 0x000037E8
 		[MissionMethod]
 		public static Mission OpenCastleCourtyardMission(string scene, int castleUpgradeLevel, Location location, CharacterObject talkToChar)
 		{
@@ -121,7 +115,6 @@ namespace SandBox
 			return SandBoxMissions.OpenCastleCourtyardMission(scene, civilianUpgradeLevelTag, location, talkToChar);
 		}
 
-		// Token: 0x0600009F RID: 159 RVA: 0x00005614 File Offset: 0x00003814
 		[MissionMethod]
 		public static Mission OpenCastleCourtyardMission(string scene, string sceneLevels, Location location, CharacterObject talkToChar)
 		{
@@ -161,7 +154,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00005658 File Offset: 0x00003858
 		[MissionMethod]
 		public static Mission OpenIndoorMission(string scene, int townUpgradeLevel, Location location, CharacterObject talkToChar)
 		{
@@ -169,7 +161,6 @@ namespace SandBox
 			return SandBoxMissions.OpenIndoorMission(scene, location, talkToChar, civilianUpgradeLevelTag);
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00005684 File Offset: 0x00003884
 		[MissionMethod]
 		public static Mission OpenIndoorMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = "")
 		{
@@ -200,7 +191,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x000056C8 File Offset: 0x000038C8
 		[MissionMethod]
 		public static Mission OpenPrisonBreakMission(string scene, Location location, CharacterObject prisonerCharacter, CharacterObject companionCharacter = null)
 		{
@@ -236,7 +226,6 @@ namespace SandBox
 			return mission2;
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x0000571C File Offset: 0x0000391C
 		[MissionMethod]
 		public static Mission OpenVillageMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = null)
 		{
@@ -272,7 +261,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00005760 File Offset: 0x00003960
 		[MissionMethod]
 		public static Mission OpenArenaStartMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = "")
 		{
@@ -295,7 +283,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x000057A4 File Offset: 0x000039A4
 		[MissionMethod]
 		public static Mission OpenRetirementMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = null)
 		{
@@ -329,7 +316,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x000057E8 File Offset: 0x000039E8
 		[MissionMethod]
 		public static Mission OpenArenaDuelMission(string scene, Location location, CharacterObject duelCharacter, bool requireCivilianEquipment, bool spawnBOthSidesWithHorse, Action<CharacterObject> onDuelEnd, float customAgentHealth, string sceneLevels = "")
 		{
@@ -349,7 +335,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A7 RID: 167 RVA: 0x0000584C File Offset: 0x00003A4C
 		[MissionMethod]
 		public static Mission OpenArenaDuelMission(string scene, Location location)
 		{
@@ -370,7 +355,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A8 RID: 168 RVA: 0x0000588C File Offset: 0x00003A8C
 		[MissionMethod]
 		public static Mission OpenBattleMission(MissionInitializerRecord rec)
 		{
@@ -422,7 +406,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x00005954 File Offset: 0x00003B54
 		[MissionMethod]
 		public static Mission OpenCaravanBattleMission(MissionInitializerRecord rec, bool isCaravan)
 		{
@@ -472,7 +455,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000AA RID: 170 RVA: 0x000059F8 File Offset: 0x00003BF8
 		[MissionMethod]
 		public static Mission OpenAlleyFightMission(MissionInitializerRecord rec, Location location, TroopRoster playerSideTroops, TroopRoster rivalSideTroops)
 		{
@@ -505,7 +487,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x00005A3C File Offset: 0x00003C3C
 		[MissionMethod]
 		public static Mission OpenCombatMissionWithDialogue(MissionInitializerRecord rec, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam)
 		{
@@ -547,7 +528,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x00005A78 File Offset: 0x00003C78
 		[MissionMethod]
 		public static Mission OpenBattleMissionWhileEnteringSettlement(string scene, int upgradeLevel, int numberOfMaxTroopToBeSpawnedForPlayer, int numberOfMaxTroopToBeSpawnedForOpponent)
 		{
@@ -597,28 +577,24 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x00005B2C File Offset: 0x00003D2C
 		[MissionMethod]
 		public static Mission OpenBattleMission(string scene)
 		{
 			return SandBoxMissions.OpenBattleMission(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 2));
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x00005B40 File Offset: 0x00003D40
 		[MissionMethod]
 		public static Mission OpenAlleyFightMission(string scene, int upgradeLevel, Location location, TroopRoster playerSideTroops, TroopRoster rivalSideTroops)
 		{
 			return SandBoxMissions.OpenAlleyFightMission(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, Campaign.Current.Models.LocationModel.GetCivilianUpgradeLevelTag(upgradeLevel), false, 3), location, playerSideTroops, rivalSideTroops);
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x00005B68 File Offset: 0x00003D68
 		[MissionMethod]
 		public static Mission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam, int upgradeLevel)
 		{
 			return SandBoxMissions.OpenCombatMissionWithDialogue(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, Campaign.Current.Models.LocationModel.GetCivilianUpgradeLevelTag(upgradeLevel), false, 3), characterToTalkTo, allyTroopsWithFixedTeam);
 		}
 
-		// Token: 0x060000B0 RID: 176 RVA: 0x00005B90 File Offset: 0x00003D90
 		[MissionMethod]
 		public static Mission OpenHideoutBattleMission(string scene, FlattenedTroopRoster playerTroops)
 		{
@@ -661,7 +637,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B1 RID: 177 RVA: 0x00005C24 File Offset: 0x00003E24
 		private static FlattenedTroopRoster GetPriorityListForHideoutMission(MapEvent playerMapEvent, BattleSideEnum side, out int firstPhaseTroopCount)
 		{
 			List<MapEventParty> list = LinQuick.WhereQ<MapEventParty>(playerMapEvent.PartiesOnSide(side), (MapEventParty x) => x.Party.IsMobile).ToList<MapEventParty>();
@@ -684,7 +659,6 @@ namespace SandBox
 			return flattenedTroopRoster;
 		}
 
-		// Token: 0x060000B2 RID: 178 RVA: 0x00005DCC File Offset: 0x00003FCC
 		[MissionMethod]
 		public static Mission OpenAmbushMission(string scene, MissionResult oldResult)
 		{
@@ -713,7 +687,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B3 RID: 179 RVA: 0x00005E2A File Offset: 0x0000402A
 		[MissionMethod]
 		public static Mission OpenCampMission(string scene)
 		{
@@ -731,7 +704,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B4 RID: 180 RVA: 0x00005E64 File Offset: 0x00004064
 		[MissionMethod]
 		public static Mission OpenSiegeMissionWithDeployment(string scene, float[] wallHitPointPercentages, bool hasAnySiegeTower, List<MissionSiegeWeapon> siegeWeaponsOfAttackers, List<MissionSiegeWeapon> siegeWeaponsOfDefenders, bool isPlayerAttacker, int sceneUpgradeLevel = 0, bool isSallyOut = false, bool isReliefForceAttack = false)
 		{
@@ -817,7 +789,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B5 RID: 181 RVA: 0x00005F24 File Offset: 0x00004124
 		[MissionMethod]
 		public static Mission OpenSiegeMissionNoDeployment(string scene, bool isSallyOut = false, bool isReliefForceAttack = false)
 		{
@@ -875,7 +846,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B6 RID: 182 RVA: 0x00005FBC File Offset: 0x000041BC
 		[MissionMethod]
 		public static Mission OpenSiegeLordsHallFightMission(string scene, FlattenedTroopRoster attackerPriorityList)
 		{
@@ -941,7 +911,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B7 RID: 183 RVA: 0x000060AC File Offset: 0x000042AC
 		[MissionMethod]
 		public static Mission OpenAmbushMissionForTutorial(string scene, bool isPlayerAttacker)
 		{
@@ -961,7 +930,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B8 RID: 184 RVA: 0x000060EC File Offset: 0x000042EC
 		[MissionMethod]
 		public static Mission OpenVillageBattleMission(string scene)
 		{
@@ -995,7 +963,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000B9 RID: 185 RVA: 0x0000614C File Offset: 0x0000434C
 		[MissionMethod]
 		public static Mission OpenConversationMission(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData, string specialScene = "", string sceneLevels = "")
 		{
@@ -1011,7 +978,6 @@ namespace SandBox
 			}, true, false);
 		}
 
-		// Token: 0x060000BA RID: 186 RVA: 0x000061AC File Offset: 0x000043AC
 		[MissionMethod]
 		public static Mission OpenMeetingMission(string scene, CharacterObject character)
 		{
@@ -1026,7 +992,6 @@ namespace SandBox
 			}, true, false);
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x0000620C File Offset: 0x0000440C
 		private static Settlement GetCurrentTown()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsTown)
@@ -1040,7 +1005,6 @@ namespace SandBox
 			return null;
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x00006262 File Offset: 0x00004462
 		private static MissionAgentSpawnLogic CreateCampaignMissionAgentSpawnLogic(Mission.BattleSizeType battleSizeType, FlattenedTroopRoster priorTroopsForDefenders = null, FlattenedTroopRoster priorTroopsForAttackers = null)
 		{
 			return new MissionAgentSpawnLogic(new IMissionTroopSupplier[]

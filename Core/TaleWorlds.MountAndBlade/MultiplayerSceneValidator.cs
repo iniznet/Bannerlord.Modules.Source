@@ -4,10 +4,8 @@ using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000340 RID: 832
 	public class MultiplayerSceneValidator : ScriptComponentBehavior
 	{
-		// Token: 0x06002C75 RID: 11381 RVA: 0x000AC9F2 File Offset: 0x000AABF2
 		protected internal override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C76 RID: 11382 RVA: 0x000ACA10 File Offset: 0x000AAC10
 		protected internal override void OnSceneSave(string saveFolder)
 		{
 			base.OnSceneSave(saveFolder);
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C77 RID: 11383 RVA: 0x000ACA64 File Offset: 0x000AAC64
 		private List<GameEntity> GetInvalidEntities()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -46,7 +42,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06002C78 RID: 11384 RVA: 0x000ACB4C File Offset: 0x000AAD4C
 		private void SelectInvalidEntities()
 		{
 			base.GameEntity.DeselectEntityOnEditor();
@@ -56,7 +51,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040010F9 RID: 4345
 		public SimpleButton SelectFaultyEntities;
 	}
 }

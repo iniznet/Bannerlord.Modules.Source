@@ -6,10 +6,8 @@ using TaleWorlds.CampaignSystem.Actions;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
-	// Token: 0x0200004D RID: 77
 	public class MainStorylineCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000431 RID: 1073 RVA: 0x000195E4 File Offset: 0x000177E4
 		public override void RegisterEvents()
 		{
 			CampaignEvents.CanHeroDieEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.CanHeroDie));
@@ -17,7 +15,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
 		}
 
-		// Token: 0x06000432 RID: 1074 RVA: 0x00019638 File Offset: 0x00017838
 		private void OnGameLoadFinished()
 		{
 			if (Clan.PlayerClan.Kingdom != null && !Clan.PlayerClan.IsUnderMercenaryService)
@@ -37,7 +34,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000433 RID: 1075 RVA: 0x000196F3 File Offset: 0x000178F3
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			if (clan == Clan.PlayerClan && newKingdom != null && (detail == 7 || detail == 1))
@@ -46,12 +42,10 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000434 RID: 1076 RVA: 0x00019715 File Offset: 0x00017915
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06000435 RID: 1077 RVA: 0x00019718 File Offset: 0x00017918
 		private void CanHeroDie(Hero hero, KillCharacterAction.KillCharacterActionDetail causeOfDeath, ref bool result)
 		{
 			if (hero == StoryModeHeroes.Radagos && StoryModeManager.Current.MainStoryLine.TutorialPhase.IsCompleted && !Campaign.Current.QuestManager.IsThereActiveQuestWithType(typeof(RescueFamilyQuestBehavior.RescueFamilyQuest)) && !Campaign.Current.QuestManager.IsThereActiveQuestWithType(typeof(RebuildPlayerClanQuest)) && causeOfDeath == 6)

@@ -9,10 +9,8 @@ using TaleWorlds.CampaignSystem.Siege;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D9 RID: 985
 	public class TownSecurityCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003B9E RID: 15262 RVA: 0x00119E58 File Offset: 0x00118058
 		public override void RegisterEvents()
 		{
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventEnded));
@@ -20,7 +18,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnHideoutDeactivatedEvent.AddNonSerializedListener(this, new Action<Settlement>(this.OnHideoutDeactivated));
 		}
 
-		// Token: 0x06003B9F RID: 15263 RVA: 0x00119EAC File Offset: 0x001180AC
 		private void OnHideoutDeactivated(Settlement hideout)
 		{
 			SettlementSecurityModel model = Campaign.Current.Models.SettlementSecurityModel;
@@ -30,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BA0 RID: 15264 RVA: 0x00119F4C File Offset: 0x0011814C
 		private void MapEventEnded(MapEvent mapEvent)
 		{
 			if (mapEvent.IsFieldBattle && mapEvent.HasWinner)
@@ -66,13 +62,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BA1 RID: 15265 RVA: 0x0011A1B4 File Offset: 0x001183B4
 		private bool ValidCivilianPartyCondition(PartyBase party, MapEvent mapEvent, IFaction mapFaction)
 		{
 			return party.IsMobile && ((party.Side != mapEvent.WinningSide && party.MobileParty.IsVillager && FactionManager.IsAlliedWithFaction(party.MapFaction, mapFaction)) || (party.MobileParty.IsCaravan && !party.MapFaction.IsAtWarWith(mapFaction)));
 		}
 
-		// Token: 0x06003BA2 RID: 15266 RVA: 0x0011A214 File Offset: 0x00118414
 		private bool ValidBanditPartyCondition(PartyBase party, MapEvent mapEvent)
 		{
 			if (party.Side != mapEvent.WinningSide)
@@ -83,12 +77,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003BA3 RID: 15267 RVA: 0x0011A237 File Offset: 0x00118437
 		private void SiegeEventEnded(SiegeEvent siegeEvent)
 		{
 		}
 
-		// Token: 0x06003BA4 RID: 15268 RVA: 0x0011A239 File Offset: 0x00118439
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

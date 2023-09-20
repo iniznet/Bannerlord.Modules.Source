@@ -10,11 +10,9 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x02000025 RID: 37
 	[OverrideView(typeof(MapCheatsView))]
 	internal class GauntletMapCheatsView : MapView
 	{
-		// Token: 0x06000158 RID: 344 RVA: 0x0000A918 File Offset: 0x00008B18
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -52,7 +50,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x0000AA94 File Offset: 0x00008C94
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -69,7 +66,6 @@ namespace SandBox.GauntletUI.Map
 			this._dataSource = null;
 		}
 
-		// Token: 0x040000B1 RID: 177
 		private MapCheatsVM _dataSource;
 	}
 }

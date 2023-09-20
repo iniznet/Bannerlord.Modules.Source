@@ -7,17 +7,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 {
-	// Token: 0x0200016A RID: 362
 	[EncyclopediaModel(new Type[] { typeof(CharacterObject) })]
 	public class DefaultEncyclopediaUnitPage : EncyclopediaPage
 	{
-		// Token: 0x060018B9 RID: 6329 RVA: 0x0007CBCC File Offset: 0x0007ADCC
 		public DefaultEncyclopediaUnitPage()
 		{
 			base.HomePageOrderIndex = 300;
 		}
 
-		// Token: 0x060018BA RID: 6330 RVA: 0x0007CBDF File Offset: 0x0007ADDF
 		protected override IEnumerable<EncyclopediaListItem> InitializeListItems()
 		{
 			using (List<CharacterObject>.Enumerator enumerator = CharacterObject.All.GetEnumerator())
@@ -39,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			yield break;
 		}
 
-		// Token: 0x060018BB RID: 6331 RVA: 0x0007CBF0 File Offset: 0x0007ADF0
 		protected override IEnumerable<EncyclopediaFilterGroup> InitializeFilterItems()
 		{
 			List<EncyclopediaFilterGroup> list = new List<EncyclopediaFilterGroup>();
@@ -74,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			return list;
 		}
 
-		// Token: 0x060018BC RID: 6332 RVA: 0x0007CEBC File Offset: 0x0007B0BC
 		protected override IEnumerable<EncyclopediaSortController> InitializeSortControllers()
 		{
 			return new List<EncyclopediaSortController>
@@ -84,47 +79,39 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			};
 		}
 
-		// Token: 0x060018BD RID: 6333 RVA: 0x0007CEF9 File Offset: 0x0007B0F9
 		public override string GetViewFullyQualifiedName()
 		{
 			return "EncyclopediaUnitPage";
 		}
 
-		// Token: 0x060018BE RID: 6334 RVA: 0x0007CF00 File Offset: 0x0007B100
 		public override TextObject GetName()
 		{
 			return GameTexts.FindText("str_encyclopedia_troops", null);
 		}
 
-		// Token: 0x060018BF RID: 6335 RVA: 0x0007CF0D File Offset: 0x0007B10D
 		public override TextObject GetDescriptionText()
 		{
 			return GameTexts.FindText("str_unit_description", null);
 		}
 
-		// Token: 0x060018C0 RID: 6336 RVA: 0x0007CF1A File Offset: 0x0007B11A
 		public override string GetStringID()
 		{
 			return "EncyclopediaUnit";
 		}
 
-		// Token: 0x060018C1 RID: 6337 RVA: 0x0007CF24 File Offset: 0x0007B124
 		public override bool IsValidEncyclopediaItem(object o)
 		{
 			CharacterObject characterObject = o as CharacterObject;
 			return characterObject != null && !characterObject.IsTemplate && characterObject != null && !characterObject.HiddenInEncylopedia && (characterObject.Occupation == Occupation.Soldier || characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Bandit || characterObject.Occupation == Occupation.Gangster || characterObject.Occupation == Occupation.CaravanGuard || (characterObject.Occupation == Occupation.Villager && characterObject.UpgradeTargets.Length != 0));
 		}
 
-		// Token: 0x0200054B RID: 1355
 		private class EncyclopediaListUnitTierComparer : DefaultEncyclopediaUnitPage.EncyclopediaListUnitComparer
 		{
-			// Token: 0x0600435F RID: 17247 RVA: 0x0013792B File Offset: 0x00135B2B
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareUnits(x, y, DefaultEncyclopediaUnitPage.EncyclopediaListUnitTierComparer._comparison);
 			}
 
-			// Token: 0x06004360 RID: 17248 RVA: 0x0013793C File Offset: 0x00135B3C
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				CharacterObject characterObject;
@@ -136,20 +123,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x04001651 RID: 5713
 			private static Func<CharacterObject, CharacterObject, int> _comparison = (CharacterObject c1, CharacterObject c2) => c1.Tier.CompareTo(c2.Tier);
 		}
 
-		// Token: 0x0200054C RID: 1356
 		private class EncyclopediaListUnitLevelComparer : DefaultEncyclopediaUnitPage.EncyclopediaListUnitComparer
 		{
-			// Token: 0x06004363 RID: 17251 RVA: 0x001379A4 File Offset: 0x00135BA4
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareUnits(x, y, DefaultEncyclopediaUnitPage.EncyclopediaListUnitLevelComparer._comparison);
 			}
 
-			// Token: 0x06004364 RID: 17252 RVA: 0x001379B4 File Offset: 0x00135BB4
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				CharacterObject characterObject;
@@ -161,14 +144,11 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return "";
 			}
 
-			// Token: 0x04001652 RID: 5714
 			private static Func<CharacterObject, CharacterObject, int> _comparison = (CharacterObject c1, CharacterObject c2) => c1.Level.CompareTo(c2.Level);
 		}
 
-		// Token: 0x0200054D RID: 1357
 		public abstract class EncyclopediaListUnitComparer : EncyclopediaListItemComparerBase
 		{
-			// Token: 0x06004367 RID: 17255 RVA: 0x00137A1C File Offset: 0x00135C1C
 			public int CompareUnits(EncyclopediaListItem x, EncyclopediaListItem y, Func<CharacterObject, CharacterObject, int> comparison)
 			{
 				CharacterObject characterObject;

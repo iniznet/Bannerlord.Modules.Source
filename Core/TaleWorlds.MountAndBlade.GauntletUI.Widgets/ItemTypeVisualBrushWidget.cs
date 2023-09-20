@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x02000025 RID: 37
 	public class ItemTypeVisualBrushWidget : BrushWidget
 	{
-		// Token: 0x060001D1 RID: 465 RVA: 0x00006FCD File Offset: 0x000051CD
 		public ItemTypeVisualBrushWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060001D2 RID: 466 RVA: 0x00006FD8 File Offset: 0x000051D8
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -185,9 +182,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700009E RID: 158
-		// (get) Token: 0x060001D3 RID: 467 RVA: 0x000072C6 File Offset: 0x000054C6
-		// (set) Token: 0x060001D4 RID: 468 RVA: 0x000072CE File Offset: 0x000054CE
 		[Editor(false)]
 		public string ItemTypeAsString
 		{
@@ -206,13 +200,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x040000E2 RID: 226
 		private const string ItemTypeBrushNameBase = "Item.Type.Icon.";
 
-		// Token: 0x040000E3 RID: 227
 		private bool _isInitialized;
 
-		// Token: 0x040000E4 RID: 228
 		private string _itemTypeAsString;
 	}
 }

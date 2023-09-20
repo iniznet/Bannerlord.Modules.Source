@@ -7,35 +7,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.GauntletUI.PrefabSystem
 {
-	// Token: 0x0200001C RID: 28
 	public class WidgetPrefab
 	{
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x060000CB RID: 203 RVA: 0x00004013 File Offset: 0x00002213
-		// (set) Token: 0x060000CC RID: 204 RVA: 0x0000401B File Offset: 0x0000221B
 		public Dictionary<string, VisualDefinitionTemplate> VisualDefinitionTemplates { get; set; }
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x060000CD RID: 205 RVA: 0x00004024 File Offset: 0x00002224
-		// (set) Token: 0x060000CE RID: 206 RVA: 0x0000402C File Offset: 0x0000222C
 		public Dictionary<string, ConstantDefinition> Constants { get; set; }
 
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x060000CF RID: 207 RVA: 0x00004035 File Offset: 0x00002235
-		// (set) Token: 0x060000D0 RID: 208 RVA: 0x0000403D File Offset: 0x0000223D
 		public Dictionary<string, string> Parameters { get; set; }
 
-		// Token: 0x17000034 RID: 52
-		// (get) Token: 0x060000D1 RID: 209 RVA: 0x00004046 File Offset: 0x00002246
-		// (set) Token: 0x060000D2 RID: 210 RVA: 0x0000404E File Offset: 0x0000224E
 		public Dictionary<string, XmlElement> CustomElements { get; set; }
 
-		// Token: 0x17000035 RID: 53
-		// (get) Token: 0x060000D3 RID: 211 RVA: 0x00004057 File Offset: 0x00002257
-		// (set) Token: 0x060000D4 RID: 212 RVA: 0x0000405F File Offset: 0x0000225F
 		public WidgetTemplate RootTemplate { get; private set; }
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x00004068 File Offset: 0x00002268
 		public WidgetPrefab()
 		{
 			this.VisualDefinitionTemplates = new Dictionary<string, VisualDefinitionTemplate>();
@@ -44,7 +27,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this.CustomElements = new Dictionary<string, XmlElement>();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x0000409C File Offset: 0x0000229C
 		private static Dictionary<string, VisualDefinitionTemplate> LoadVisualDefinitions(XmlNode visualDefinitionsNode)
 		{
 			Dictionary<string, VisualDefinitionTemplate> dictionary = new Dictionary<string, VisualDefinitionTemplate>();
@@ -94,7 +76,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return dictionary;
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x000042B0 File Offset: 0x000024B0
 		private static void SaveVisualDefinitionsTo(XmlNode visualDefinitionsNode, Dictionary<string, VisualDefinitionTemplate> visualDefinitionTemplates)
 		{
 			foreach (VisualDefinitionTemplate visualDefinitionTemplate in visualDefinitionTemplates.Values)
@@ -103,7 +84,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00004304 File Offset: 0x00002504
 		private static Dictionary<string, string> LoadParameters(XmlNode constantsNode)
 		{
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -117,7 +97,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return dictionary;
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x00004394 File Offset: 0x00002594
 		private static Dictionary<string, XmlElement> LoadCustomElements(XmlNode customElementsNode)
 		{
 			Dictionary<string, XmlElement> dictionary = new Dictionary<string, XmlElement>();
@@ -131,7 +110,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return dictionary;
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x00004418 File Offset: 0x00002618
 		private static void SaveParametersTo(XmlNode parametersNode, Dictionary<string, string> parameters)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in parameters)
@@ -144,7 +122,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x000044A8 File Offset: 0x000026A8
 		private static Dictionary<string, ConstantDefinition> LoadConstants(XmlNode constantsNode)
 		{
 			Dictionary<string, ConstantDefinition> dictionary = new Dictionary<string, ConstantDefinition>();
@@ -240,7 +217,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return dictionary;
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x00004804 File Offset: 0x00002A04
 		private static void SaveConstantsTo(XmlNode constantsNode, Dictionary<string, ConstantDefinition> constants)
 		{
 			foreach (ConstantDefinition constantDefinition in constants.Values)
@@ -337,7 +313,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x00004BF4 File Offset: 0x00002DF4
 		public static WidgetPrefab LoadFrom(PrefabExtensionContext prefabExtensionContext, WidgetAttributeContext widgetAttributeContext, string path)
 		{
 			path = Path.GetFullPath(path);
@@ -392,7 +367,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return widgetPrefab;
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x00004D80 File Offset: 0x00002F80
 		public XmlDocument Save(PrefabExtensionContext prefabExtensionContext)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -413,25 +387,21 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return xmlDocument;
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00004E2A File Offset: 0x0000302A
 		public WidgetInstantiationResult Instantiate(WidgetCreationData widgetCreationData)
 		{
 			return this.RootTemplate.Instantiate(widgetCreationData, new Dictionary<string, WidgetAttributeTemplate>());
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x00004E3D File Offset: 0x0000303D
 		public WidgetInstantiationResult Instantiate(WidgetCreationData widgetCreationData, Dictionary<string, WidgetAttributeTemplate> parameters)
 		{
 			return this.RootTemplate.Instantiate(widgetCreationData, parameters);
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x00004E4C File Offset: 0x0000304C
 		public void OnRelease()
 		{
 			this.RootTemplate.OnRelease();
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x00004E5C File Offset: 0x0000305C
 		public ConstantDefinition GetConstantValue(string name)
 		{
 			ConstantDefinition constantDefinition;
@@ -439,7 +409,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return constantDefinition;
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x00004E7C File Offset: 0x0000307C
 		public string GetParameterDefaultValue(string name)
 		{
 			string text;

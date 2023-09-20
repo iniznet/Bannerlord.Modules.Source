@@ -9,16 +9,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Tableaus
 {
-	// Token: 0x02000022 RID: 34
 	public class ItemTableau
 	{
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x06000141 RID: 321 RVA: 0x0000AC00 File Offset: 0x00008E00
-		// (set) Token: 0x06000142 RID: 322 RVA: 0x0000AC08 File Offset: 0x00008E08
 		public Texture Texture { get; private set; }
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000143 RID: 323 RVA: 0x0000AC11 File Offset: 0x00008E11
 		private TableauView View
 		{
 			get
@@ -31,8 +25,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000144 RID: 324 RVA: 0x0000AC2E File Offset: 0x00008E2E
 		private bool _isSizeValid
 		{
 			get
@@ -41,13 +33,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x0000AC44 File Offset: 0x00008E44
 		public ItemTableau()
 		{
 			this.SetEnabled(true);
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x0000ACA0 File Offset: 0x00008EA0
 		public void SetTargetSize(int width, int height)
 		{
 			bool isSizeValid = this._isSizeValid;
@@ -86,7 +76,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.Texture = TableauView.AddTableau("ItemTableau", new RenderTargetComponent.TextureUpdateEventHandler(this.TableauMaterialTabInventoryItemTooltipOnRender), this._tableauScene, this._tableauSizeX, this._tableauSizeY);
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x0000AD90 File Offset: 0x00008F90
 		public void OnFinalize()
 		{
 			TableauView view = this.View;
@@ -114,7 +103,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x0000AE00 File Offset: 0x00009000
 		protected void SetEnabled(bool enabled)
 		{
 			this._isRotatingByDefault = true;
@@ -128,42 +116,36 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x0000AE44 File Offset: 0x00009044
 		public void SetStringId(string stringId)
 		{
 			this._stringId = stringId;
 			this.Recalculate();
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x0000AE53 File Offset: 0x00009053
 		public void SetAmmo(int ammo)
 		{
 			this._ammo = ammo;
 			this.Recalculate();
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x0000AE62 File Offset: 0x00009062
 		public void SetAverageUnitCost(int averageUnitCost)
 		{
 			this._averageUnitCost = averageUnitCost;
 			this.Recalculate();
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x0000AE71 File Offset: 0x00009071
 		public void SetItemModifierId(string itemModifierId)
 		{
 			this._itemModifierId = itemModifierId;
 			this.Recalculate();
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x0000AE80 File Offset: 0x00009080
 		public void SetBannerCode(string bannerCode)
 		{
 			this._bannerCode = bannerCode;
 			this.Recalculate();
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x0000AE90 File Offset: 0x00009090
 		public void Recalculate()
 		{
 			if (UiStringHelper.IsStringNoneOrEmptyForUi(this._stringId) || !this._isSizeValid)
@@ -223,7 +205,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._isRotating = false;
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x0000B17C File Offset: 0x0000937C
 		public void Initialize()
 		{
 			this._isRotatingByDefault = true;
@@ -241,13 +222,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._initialized = true;
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x0000B21E File Offset: 0x0000941E
 		private void TranslateCamera(bool value)
 		{
 			this.TranslateCameraAux(value);
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x0000B227 File Offset: 0x00009427
 		private void TranslateCameraAux(bool value)
 		{
 			this._isRotatingByDefault = !value && this._isRotatingByDefault;
@@ -255,7 +234,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.UpdateMouseLock(false);
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x0000B24C File Offset: 0x0000944C
 		private void ResetCamera()
 		{
 			this._curCamDisplacement = Vec3.Zero;
@@ -268,7 +246,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000153 RID: 339 RVA: 0x0000B29E File Offset: 0x0000949E
 		public void RotateItem(bool value)
 		{
 			this._isRotatingByDefault = !value && this._isRotatingByDefault;
@@ -276,19 +253,16 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.UpdateMouseLock(false);
 		}
 
-		// Token: 0x06000154 RID: 340 RVA: 0x0000B2C0 File Offset: 0x000094C0
 		public void RotateItemVerticalWithAmount(float value)
 		{
 			this.UpdateRotation(0f, value / -2f);
 		}
 
-		// Token: 0x06000155 RID: 341 RVA: 0x0000B2D4 File Offset: 0x000094D4
 		public void RotateItemHorizontalWithAmount(float value)
 		{
 			this.UpdateRotation(value / 2f, 0f);
 		}
 
-		// Token: 0x06000156 RID: 342 RVA: 0x0000B2E8 File Offset: 0x000094E8
 		public void OnTick(float dt)
 		{
 			float num = Input.MouseMoveX + Input.GetKeyState(222).X * 1000f * dt;
@@ -307,7 +281,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.TickCameraZoom(dt);
 		}
 
-		// Token: 0x06000157 RID: 343 RVA: 0x0000B39C File Offset: 0x0000959C
 		private void UpdatePosition(float mouseMoveX, float mouseMoveY)
 		{
 			if (this._initialized)
@@ -320,7 +293,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000158 RID: 344 RVA: 0x0000B408 File Offset: 0x00009608
 		private void UpdateRotation(float mouseMoveX, float mouseMoveY)
 		{
 			if (this._initialized)
@@ -344,34 +316,29 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x0000B51F File Offset: 0x0000971F
 		public void SetInitialTiltRotation(float amount)
 		{
 			this._hasInitialTiltRotation = true;
 			this._initialTiltRotation = amount;
 		}
 
-		// Token: 0x0600015A RID: 346 RVA: 0x0000B52F File Offset: 0x0000972F
 		public void SetInitialPanRotation(float amount)
 		{
 			this._hasInitialPanRotation = true;
 			this._initialPanRotation = amount;
 		}
 
-		// Token: 0x0600015B RID: 347 RVA: 0x0000B53F File Offset: 0x0000973F
 		public void Zoom(double value)
 		{
 			this._curZoomSpeed -= (float)(value / 1000.0);
 		}
 
-		// Token: 0x0600015C RID: 348 RVA: 0x0000B55A File Offset: 0x0000975A
 		public void SetItem(ItemRosterElement itemRosterElement)
 		{
 			this._itemRosterElement = itemRosterElement;
 			this.RefreshItemTableau();
 		}
 
-		// Token: 0x0600015D RID: 349 RVA: 0x0000B56C File Offset: 0x0000976C
 		private void RefreshItemTableau()
 		{
 			if (!this._initialized)
@@ -553,7 +520,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x0600015E RID: 350 RVA: 0x0000BBF4 File Offset: 0x00009DF4
 		private void TableauMaterialTabInventoryItemTooltipOnRender(Texture sender, EventArgs e)
 		{
 			if (this._initialized)
@@ -590,7 +556,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x0600015F RID: 351 RVA: 0x0000BCF0 File Offset: 0x00009EF0
 		private void MakeCameraLookMidPoint()
 		{
 			Vec3 vec = this._camera.Frame.rotation.TransformToParent(this._curCamDisplacement);
@@ -600,13 +565,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._camera.Position = vec3;
 		}
 
-		// Token: 0x06000160 RID: 352 RVA: 0x0000BD5D File Offset: 0x00009F5D
 		private void SetCamFovHorizontal(float camFov)
 		{
 			this._camera.SetFovHorizontal(camFov, 1f, 0.1f, 50f);
 		}
 
-		// Token: 0x06000161 RID: 353 RVA: 0x0000BD7A File Offset: 0x00009F7A
 		private void UpdateMouseLock(bool forceUnlock = false)
 		{
 			this._lockMouse = (this._isRotating || this._isTranslating) && !forceUnlock;
@@ -614,7 +577,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			MouseManager.ShowCursor(!this._lockMouse);
 		}
 
-		// Token: 0x06000162 RID: 354 RVA: 0x0000BDB4 File Offset: 0x00009FB4
 		private void TickCameraZoom(float dt)
 		{
 			if (this._camera != null)
@@ -630,97 +592,66 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x040000C3 RID: 195
 		private Scene _tableauScene;
 
-		// Token: 0x040000C4 RID: 196
 		private GameEntity _itemTableauEntity;
 
-		// Token: 0x040000C5 RID: 197
 		private MatrixFrame _itemTableauFrame = MatrixFrame.Identity;
 
-		// Token: 0x040000C6 RID: 198
 		private bool _isRotating;
 
-		// Token: 0x040000C7 RID: 199
 		private bool _isTranslating;
 
-		// Token: 0x040000C8 RID: 200
 		private bool _isRotatingByDefault;
 
-		// Token: 0x040000C9 RID: 201
 		private bool _initialized;
 
-		// Token: 0x040000CA RID: 202
 		private int _tableauSizeX;
 
-		// Token: 0x040000CB RID: 203
 		private int _tableauSizeY;
 
-		// Token: 0x040000CC RID: 204
 		private float _cameraRatio;
 
-		// Token: 0x040000CD RID: 205
 		private Camera _camera;
 
-		// Token: 0x040000CE RID: 206
 		private Vec3 _midPoint;
 
-		// Token: 0x040000CF RID: 207
 		private const float InitialCamFov = 1f;
 
-		// Token: 0x040000D0 RID: 208
 		private float _curZoomSpeed;
 
-		// Token: 0x040000D1 RID: 209
 		private Vec3 _curCamDisplacement = Vec3.Zero;
 
-		// Token: 0x040000D2 RID: 210
 		private bool _isEnabled;
 
-		// Token: 0x040000D3 RID: 211
 		private float _panRotation;
 
-		// Token: 0x040000D4 RID: 212
 		private float _tiltRotation;
 
-		// Token: 0x040000D5 RID: 213
 		private bool _hasInitialTiltRotation;
 
-		// Token: 0x040000D6 RID: 214
 		private float _initialTiltRotation;
 
-		// Token: 0x040000D7 RID: 215
 		private bool _hasInitialPanRotation;
 
-		// Token: 0x040000D8 RID: 216
 		private float _initialPanRotation;
 
-		// Token: 0x040000D9 RID: 217
 		private float RenderScale = 1f;
 
-		// Token: 0x040000DA RID: 218
 		private string _stringId = "";
 
-		// Token: 0x040000DB RID: 219
 		private int _ammo;
 
-		// Token: 0x040000DC RID: 220
 		private int _averageUnitCost;
 
-		// Token: 0x040000DD RID: 221
 		private string _itemModifierId = "";
 
-		// Token: 0x040000DE RID: 222
 		private string _bannerCode = "";
 
-		// Token: 0x040000DF RID: 223
 		private ItemRosterElement _itemRosterElement;
 
-		// Token: 0x040000E0 RID: 224
 		private MatrixFrame _initialFrame;
 
-		// Token: 0x040000E1 RID: 225
 		private bool _lockMouse;
 	}
 }

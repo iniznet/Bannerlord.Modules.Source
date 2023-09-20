@@ -14,16 +14,10 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 {
-	// Token: 0x0200001C RID: 28
 	public class GauntletSceneNotification : GlobalLayer
 	{
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x06000100 RID: 256 RVA: 0x0000635B File Offset: 0x0000455B
-		// (set) Token: 0x06000101 RID: 257 RVA: 0x00006362 File Offset: 0x00004562
 		public static GauntletSceneNotification Current { get; private set; }
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x06000102 RID: 258 RVA: 0x0000636A File Offset: 0x0000456A
 		public bool IsActive
 		{
 			get
@@ -32,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00006374 File Offset: 0x00004574
 		private GauntletSceneNotification()
 		{
 			this._dataSource = new SceneNotificationVM(new Action(this.OnPositiveAction), new Action(this.CloseNotification), new Func<string>(this.GetContinueKeyText));
@@ -47,13 +40,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x0000644F File Offset: 0x0000464F
 		private bool IsAnySceneNotifiationActive()
 		{
 			return this._isActive;
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x00006457 File Offset: 0x00004657
 		public static void Initialize()
 		{
 			if (GauntletSceneNotification.Current == null)
@@ -64,19 +55,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x00006485 File Offset: 0x00004685
 		private void OnHideSceneNotification()
 		{
 			this.CloseNotification();
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x0000648D File Offset: 0x0000468D
 		private void OnShowSceneNotification(SceneNotificationData campaignNotification)
 		{
 			this._notificationQueue.Enqueue(new ValueTuple<SceneNotificationData, bool>(campaignNotification, campaignNotification.PauseActiveState));
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x000064A8 File Offset: 0x000046A8
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -99,14 +87,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			scene.Tick(dt);
 		}
 
-		// Token: 0x06000109 RID: 265 RVA: 0x00006512 File Offset: 0x00004712
 		protected override void OnLateTick(float dt)
 		{
 			base.OnLateTick(dt);
 			this.QueueTick();
 		}
 
-		// Token: 0x0600010A RID: 266 RVA: 0x00006524 File Offset: 0x00004724
 		private void QueueTick()
 		{
 			if (!this._isActive && this._notificationQueue.Count > 0)
@@ -120,7 +106,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x00006584 File Offset: 0x00004784
 		private void OnPositiveAction()
 		{
 			PopupSceneCameraPath cameraPathScript = this._cameraPathScript;
@@ -134,7 +119,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x0600010C RID: 268 RVA: 0x000065E8 File Offset: 0x000047E8
 		private void OpenScene()
 		{
 			this._scene = Scene.CreateNewScene(true, true, 0, "mono_renderscene");
@@ -284,7 +268,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			this._dataSource.Scene = this._scene;
 		}
 
-		// Token: 0x0600010D RID: 269 RVA: 0x00006B00 File Offset: 0x00004D00
 		private void OnBannerTableauRenderDone(GameEntity bannerEntity, Texture bannerTexture)
 		{
 			if (bannerEntity != null)
@@ -308,7 +291,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x0600010E RID: 270 RVA: 0x00006BCC File Offset: 0x00004DCC
 		private void ApplyBannerTextureToMesh(Mesh bannerMesh, Texture bannerTexture)
 		{
 			if (bannerMesh != null)
@@ -322,7 +304,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 		}
 
-		// Token: 0x0600010F RID: 271 RVA: 0x00006C24 File Offset: 0x00004E24
 		private void CreateSceneNotification(SceneNotificationData data, bool pauseGameActiveState)
 		{
 			if (this._isActive)
@@ -346,7 +327,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			this.OpenScene();
 		}
 
-		// Token: 0x06000110 RID: 272 RVA: 0x00006CC0 File Offset: 0x00004EC0
 		private void CloseNotification()
 		{
 			if (!this._isActive)
@@ -382,7 +362,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			this._scene = null;
 		}
 
-		// Token: 0x06000111 RID: 273 RVA: 0x00006DB8 File Offset: 0x00004FB8
 		private string GetContinueKeyText()
 		{
 			if (Input.IsGamepadActive)
@@ -394,26 +373,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			return Module.CurrentModule.GlobalTextManager.FindText("str_click_to_continue", null).ToString();
 		}
 
-		// Token: 0x06000112 RID: 274 RVA: 0x00006E21 File Offset: 0x00005021
 		public void OnFinalize()
 		{
 			this._dataSource.OnFinalize();
 			this._dataSource = null;
 		}
 
-		// Token: 0x06000113 RID: 275 RVA: 0x00006E35 File Offset: 0x00005035
 		public void RegisterContextProvider(ISceneNotificationContextProvider provider)
 		{
 			this._contextProviders.Add(provider);
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x00006E43 File Offset: 0x00005043
 		public bool RemoveContextProvider(ISceneNotificationContextProvider provider)
 		{
 			return this._contextProviders.Remove(provider);
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x00006E54 File Offset: 0x00005054
 		private bool IsGivenContextApplicableToCurrentContext(SceneNotificationData.RelevantContextType givenContextType)
 		{
 			if (LoadingWindow.IsLoadingWindowActive)
@@ -435,40 +410,28 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			return true;
 		}
 
-		// Token: 0x04000095 RID: 149
 		private readonly GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000096 RID: 150
 		private readonly Queue<ValueTuple<SceneNotificationData, bool>> _notificationQueue;
 
-		// Token: 0x04000097 RID: 151
 		private readonly List<ISceneNotificationContextProvider> _contextProviders;
 
-		// Token: 0x04000098 RID: 152
 		private SceneNotificationVM _dataSource;
 
-		// Token: 0x04000099 RID: 153
 		private SceneNotificationData _activeData;
 
-		// Token: 0x0400009A RID: 154
 		private bool _isActive;
 
-		// Token: 0x0400009B RID: 155
 		private bool _isLastActiveGameStatePaused;
 
-		// Token: 0x0400009C RID: 156
 		private Scene _scene;
 
-		// Token: 0x0400009D RID: 157
 		private MBAgentRendererSceneController _agentRendererSceneController;
 
-		// Token: 0x0400009E RID: 158
 		private List<PopupSceneSpawnPoint> _sceneCharacterScripts;
 
-		// Token: 0x0400009F RID: 159
 		private PopupSceneCameraPath _cameraPathScript;
 
-		// Token: 0x040000A0 RID: 160
 		private Dictionary<string, GameEntity> _customPrefabBannerEntities;
 	}
 }

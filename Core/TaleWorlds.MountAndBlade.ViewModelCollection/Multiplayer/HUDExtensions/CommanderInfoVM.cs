@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 {
-	// Token: 0x020000B8 RID: 184
 	public class CommanderInfoVM : ViewModel
 	{
-		// Token: 0x0600114D RID: 4429 RVA: 0x00038F04 File Offset: 0x00037104
 		public CommanderInfoVM(MissionRepresentativeBase missionRepresentative)
 		{
 			this._missionRepresentative = missionRepresentative;
@@ -48,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.OnTeamChanged();
 		}
 
-		// Token: 0x0600114E RID: 4430 RVA: 0x00039060 File Offset: 0x00037260
 		private void OnRoundStarted()
 		{
 			this.OnTeamChanged();
@@ -59,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x0600114F RID: 4431 RVA: 0x000390B8 File Offset: 0x000372B8
 		private void RegisterMoraleEvents()
 		{
 			if (!this._areMoraleEventsRegistered)
@@ -74,14 +70,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001150 RID: 4432 RVA: 0x00039136 File Offset: 0x00037336
 		private void OnPreparationEnded()
 		{
 			this.ShowTacticalInfo = true;
 			this.OnTeamChanged();
 		}
 
-		// Token: 0x06001151 RID: 4433 RVA: 0x00039148 File Offset: 0x00037348
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -100,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001152 RID: 4434 RVA: 0x000391F3 File Offset: 0x000373F3
 		public void UpdateWarmupDependentFlags(bool isInWarmup)
 		{
 			this.UseMoraleComparer = !isInWarmup && this._gameMode.IsGameModeTactical && this._commanderInfo != null;
@@ -111,7 +104,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001153 RID: 4435 RVA: 0x00039234 File Offset: 0x00037434
 		public void OnUpdateMorale(BattleSideEnum side, float morale)
 		{
 			if (this._allyTeam != null && this._allyTeam.Side == side)
@@ -125,7 +117,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001154 RID: 4436 RVA: 0x0003929C File Offset: 0x0003749C
 		private void OnMissionReset(object sender, PropertyChangedEventArgs e)
 		{
 			if (this.UseMoraleComparer)
@@ -139,7 +130,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001155 RID: 4437 RVA: 0x000392F8 File Offset: 0x000374F8
 		internal void Tick(float dt)
 		{
 			foreach (CapturePointVM capturePointVM in this.AllyControlPoints)
@@ -172,7 +162,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001156 RID: 4438 RVA: 0x000394EC File Offset: 0x000376EC
 		private void OnCapturePointOwnerChanged(FlagCapturePoint target, Team newOwnerTeam)
 		{
 			CapturePointVM capturePointVM = this.FindCapturePointInLists(target);
@@ -184,7 +173,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001157 RID: 4439 RVA: 0x0003951C File Offset: 0x0003771C
 		private void OnCapturePointRemainingMoraleGainsChanged(int[] remainingMoraleArr)
 		{
 			foreach (CapturePointVM capturePointVM in this.AllyControlPoints)
@@ -213,14 +201,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x06001158 RID: 4440 RVA: 0x00039634 File Offset: 0x00037834
 		private void OnNumberOfCapturePointsChanged()
 		{
 			this.ResetCapturePointLists();
 			this.InitCapturePoints();
 		}
 
-		// Token: 0x06001159 RID: 4441 RVA: 0x00039644 File Offset: 0x00037844
 		private void InitCapturePoints()
 		{
 			if (this._commanderInfo != null)
@@ -248,7 +234,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x0600115A RID: 4442 RVA: 0x000396E0 File Offset: 0x000378E0
 		private void HandleAddNewCapturePoint(CapturePointVM capturePointVM)
 		{
 			this.RemoveFlagFromLists(capturePointVM);
@@ -285,14 +270,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.RefreshMoraleIncreaseLevels();
 		}
 
-		// Token: 0x0600115B RID: 4443 RVA: 0x00039808 File Offset: 0x00037A08
 		private void RefreshMoraleIncreaseLevels()
 		{
 			this.AllyMoraleIncreaseLevel = MathF.Max(0, this.AllyControlPoints.Count - this.EnemyControlPoints.Count);
 			this.EnemyMoraleIncreaseLevel = MathF.Max(0, this.EnemyControlPoints.Count - this.AllyControlPoints.Count);
 		}
 
-		// Token: 0x0600115C RID: 4444 RVA: 0x0003985C File Offset: 0x00037A5C
 		private void RemoveFlagFromLists(CapturePointVM capturePoint)
 		{
 			if (this.AllyControlPoints.Contains(capturePoint))
@@ -311,7 +294,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x0600115D RID: 4445 RVA: 0x000398BC File Offset: 0x00037ABC
 		public void OnTeamChanged()
 		{
 			if (!GameNetwork.IsMyPeerReady || !this.ShowTacticalInfo)
@@ -335,7 +317,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.InitCapturePoints();
 		}
 
-		// Token: 0x0600115E RID: 4446 RVA: 0x0003994C File Offset: 0x00037B4C
 		private void ResetCapturePointLists()
 		{
 			this.AllyControlPoints.Clear();
@@ -343,7 +324,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.EnemyControlPoints.Clear();
 		}
 
-		// Token: 0x0600115F RID: 4447 RVA: 0x00039970 File Offset: 0x00037B70
 		private CapturePointVM FindCapturePointInLists(FlagCapturePoint target)
 		{
 			CapturePointVM capturePointVM = this.AllyControlPoints.SingleOrDefault((CapturePointVM c) => c.Target == target);
@@ -364,7 +344,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			return null;
 		}
 
-		// Token: 0x06001160 RID: 4448 RVA: 0x000399E2 File Offset: 0x00037BE2
 		public void RefreshColors(string allyTeamColor, string allyTeamColorSecondary, string enemyTeamColor, string enemyTeamColorSecondary)
 		{
 			this.AllyTeamColor = allyTeamColor;
@@ -377,9 +356,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x17000599 RID: 1433
-		// (get) Token: 0x06001161 RID: 4449 RVA: 0x00039A20 File Offset: 0x00037C20
-		// (set) Token: 0x06001162 RID: 4450 RVA: 0x00039A28 File Offset: 0x00037C28
 		[DataSourceProperty]
 		public MBBindingList<CapturePointVM> AllyControlPoints
 		{
@@ -397,9 +373,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059A RID: 1434
-		// (get) Token: 0x06001163 RID: 4451 RVA: 0x00039A46 File Offset: 0x00037C46
-		// (set) Token: 0x06001164 RID: 4452 RVA: 0x00039A4E File Offset: 0x00037C4E
 		[DataSourceProperty]
 		public MBBindingList<CapturePointVM> NeutralControlPoints
 		{
@@ -417,9 +390,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059B RID: 1435
-		// (get) Token: 0x06001165 RID: 4453 RVA: 0x00039A6C File Offset: 0x00037C6C
-		// (set) Token: 0x06001166 RID: 4454 RVA: 0x00039A74 File Offset: 0x00037C74
 		[DataSourceProperty]
 		public MBBindingList<CapturePointVM> EnemyControlPoints
 		{
@@ -437,9 +407,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059C RID: 1436
-		// (get) Token: 0x06001167 RID: 4455 RVA: 0x00039A92 File Offset: 0x00037C92
-		// (set) Token: 0x06001168 RID: 4456 RVA: 0x00039A9A File Offset: 0x00037C9A
 		[DataSourceProperty]
 		public string AllyTeamColor
 		{
@@ -457,9 +424,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059D RID: 1437
-		// (get) Token: 0x06001169 RID: 4457 RVA: 0x00039ABD File Offset: 0x00037CBD
-		// (set) Token: 0x0600116A RID: 4458 RVA: 0x00039AC5 File Offset: 0x00037CC5
 		[DataSourceProperty]
 		public string AllyTeamColorSecondary
 		{
@@ -477,9 +441,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059E RID: 1438
-		// (get) Token: 0x0600116B RID: 4459 RVA: 0x00039AE8 File Offset: 0x00037CE8
-		// (set) Token: 0x0600116C RID: 4460 RVA: 0x00039AF0 File Offset: 0x00037CF0
 		[DataSourceProperty]
 		public string EnemyTeamColor
 		{
@@ -497,9 +458,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x1700059F RID: 1439
-		// (get) Token: 0x0600116D RID: 4461 RVA: 0x00039B13 File Offset: 0x00037D13
-		// (set) Token: 0x0600116E RID: 4462 RVA: 0x00039B1B File Offset: 0x00037D1B
 		[DataSourceProperty]
 		public string EnemyTeamColorSecondary
 		{
@@ -517,9 +475,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A0 RID: 1440
-		// (get) Token: 0x0600116F RID: 4463 RVA: 0x00039B3E File Offset: 0x00037D3E
-		// (set) Token: 0x06001170 RID: 4464 RVA: 0x00039B46 File Offset: 0x00037D46
 		[DataSourceProperty]
 		public int AllyMoraleIncreaseLevel
 		{
@@ -537,9 +492,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A1 RID: 1441
-		// (get) Token: 0x06001171 RID: 4465 RVA: 0x00039B64 File Offset: 0x00037D64
-		// (set) Token: 0x06001172 RID: 4466 RVA: 0x00039B6C File Offset: 0x00037D6C
 		[DataSourceProperty]
 		public int EnemyMoraleIncreaseLevel
 		{
@@ -557,9 +509,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A2 RID: 1442
-		// (get) Token: 0x06001173 RID: 4467 RVA: 0x00039B8A File Offset: 0x00037D8A
-		// (set) Token: 0x06001174 RID: 4468 RVA: 0x00039B92 File Offset: 0x00037D92
 		[DataSourceProperty]
 		public int AllyMoralePercentage
 		{
@@ -577,9 +526,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A3 RID: 1443
-		// (get) Token: 0x06001175 RID: 4469 RVA: 0x00039BB0 File Offset: 0x00037DB0
-		// (set) Token: 0x06001176 RID: 4470 RVA: 0x00039BB8 File Offset: 0x00037DB8
 		[DataSourceProperty]
 		public int EnemyMoralePercentage
 		{
@@ -597,9 +543,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A4 RID: 1444
-		// (get) Token: 0x06001177 RID: 4471 RVA: 0x00039BD6 File Offset: 0x00037DD6
-		// (set) Token: 0x06001178 RID: 4472 RVA: 0x00039BDE File Offset: 0x00037DDE
 		[DataSourceProperty]
 		public int AllyMemberCount
 		{
@@ -617,9 +560,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A5 RID: 1445
-		// (get) Token: 0x06001179 RID: 4473 RVA: 0x00039BFC File Offset: 0x00037DFC
-		// (set) Token: 0x0600117A RID: 4474 RVA: 0x00039C04 File Offset: 0x00037E04
 		[DataSourceProperty]
 		public int EnemyMemberCount
 		{
@@ -637,9 +577,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A6 RID: 1446
-		// (get) Token: 0x0600117B RID: 4475 RVA: 0x00039C22 File Offset: 0x00037E22
-		// (set) Token: 0x0600117C RID: 4476 RVA: 0x00039C2A File Offset: 0x00037E2A
 		[DataSourceProperty]
 		public PowerLevelComparer PowerLevelComparer
 		{
@@ -657,9 +594,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A7 RID: 1447
-		// (get) Token: 0x0600117D RID: 4477 RVA: 0x00039C48 File Offset: 0x00037E48
-		// (set) Token: 0x0600117E RID: 4478 RVA: 0x00039C50 File Offset: 0x00037E50
 		[DataSourceProperty]
 		public bool UsePowerComparer
 		{
@@ -677,9 +611,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A8 RID: 1448
-		// (get) Token: 0x0600117F RID: 4479 RVA: 0x00039C6E File Offset: 0x00037E6E
-		// (set) Token: 0x06001180 RID: 4480 RVA: 0x00039C76 File Offset: 0x00037E76
 		[DataSourceProperty]
 		public bool UseMoraleComparer
 		{
@@ -697,9 +628,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005A9 RID: 1449
-		// (get) Token: 0x06001181 RID: 4481 RVA: 0x00039C94 File Offset: 0x00037E94
-		// (set) Token: 0x06001182 RID: 4482 RVA: 0x00039C9C File Offset: 0x00037E9C
 		[DataSourceProperty]
 		public bool ShowTacticalInfo
 		{
@@ -717,9 +645,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005AA RID: 1450
-		// (get) Token: 0x06001183 RID: 4483 RVA: 0x00039CBA File Offset: 0x00037EBA
-		// (set) Token: 0x06001184 RID: 4484 RVA: 0x00039CC2 File Offset: 0x00037EC2
 		[DataSourceProperty]
 		public bool AreMoralesIndependent
 		{
@@ -737,9 +662,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005AB RID: 1451
-		// (get) Token: 0x06001185 RID: 4485 RVA: 0x00039CE0 File Offset: 0x00037EE0
-		// (set) Token: 0x06001186 RID: 4486 RVA: 0x00039CE8 File Offset: 0x00037EE8
 		[DataSourceProperty]
 		public bool ShowControlPointStatus
 		{
@@ -757,94 +679,64 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x0400083B RID: 2107
 		private readonly MissionRepresentativeBase _missionRepresentative;
 
-		// Token: 0x0400083C RID: 2108
 		private readonly MissionMultiplayerGameModeBaseClient _gameMode;
 
-		// Token: 0x0400083D RID: 2109
 		private readonly MissionMultiplayerSiegeClient _siegeClient;
 
-		// Token: 0x0400083E RID: 2110
 		private readonly MissionScoreboardComponent _missionScoreboardComponent;
 
-		// Token: 0x0400083F RID: 2111
 		private const float InitialArmyStrength = 1f;
 
-		// Token: 0x04000840 RID: 2112
 		private int _attackerTeamInitialMemberCount;
 
-		// Token: 0x04000841 RID: 2113
 		private int _defenderTeamInitialMemberCount;
 
-		// Token: 0x04000842 RID: 2114
 		private Team _allyTeam;
 
-		// Token: 0x04000843 RID: 2115
 		private Team _enemyTeam;
 
-		// Token: 0x04000844 RID: 2116
 		private ICommanderInfo _commanderInfo;
 
-		// Token: 0x04000845 RID: 2117
 		private bool _areMoraleEventsRegistered;
 
-		// Token: 0x04000846 RID: 2118
 		private MBBindingList<CapturePointVM> _allyControlPoints;
 
-		// Token: 0x04000847 RID: 2119
 		private MBBindingList<CapturePointVM> _neutralControlPoints;
 
-		// Token: 0x04000848 RID: 2120
 		private MBBindingList<CapturePointVM> _enemyControlPoints;
 
-		// Token: 0x04000849 RID: 2121
 		private int _allyMoraleIncreaseLevel;
 
-		// Token: 0x0400084A RID: 2122
 		private int _enemyMoraleIncreaseLevel;
 
-		// Token: 0x0400084B RID: 2123
 		private int _allyMoralePercentage;
 
-		// Token: 0x0400084C RID: 2124
 		private int _enemyMoralePercentage;
 
-		// Token: 0x0400084D RID: 2125
 		private int _allyMemberCount;
 
-		// Token: 0x0400084E RID: 2126
 		private int _enemyMemberCount;
 
-		// Token: 0x0400084F RID: 2127
 		private PowerLevelComparer _powerLevelComparer;
 
-		// Token: 0x04000850 RID: 2128
 		private bool _showTacticalInfo;
 
-		// Token: 0x04000851 RID: 2129
 		private bool _usePowerComparer;
 
-		// Token: 0x04000852 RID: 2130
 		private bool _useMoraleComparer;
 
-		// Token: 0x04000853 RID: 2131
 		private bool _areMoralesIndependent;
 
-		// Token: 0x04000854 RID: 2132
 		private bool _showControlPointStatus;
 
-		// Token: 0x04000855 RID: 2133
 		private string _allyTeamColor;
 
-		// Token: 0x04000856 RID: 2134
 		private string _allyTeamColorSecondary;
 
-		// Token: 0x04000857 RID: 2135
 		private string _enemyTeamColor;
 
-		// Token: 0x04000858 RID: 2136
 		private string _enemyTeamColorSecondary;
 	}
 }

@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace StoryMode
 {
-	// Token: 0x02000013 RID: 19
 	public class StoryModeGameManager : SandBoxGameManager
 	{
-		// Token: 0x0600008E RID: 142 RVA: 0x00004B30 File Offset: 0x00002D30
 		protected override void DoLoadingForGameManager(GameManagerLoadingSteps gameManagerLoadingStep, out GameManagerLoadingSteps nextStep)
 		{
 			if (gameManagerLoadingStep != 3)
@@ -30,7 +28,6 @@ namespace StoryMode
 			nextStep = 4;
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x00004BA0 File Offset: 0x00002DA0
 		public override void OnLoadFinished()
 		{
 			VideoPlaybackState videoPlaybackState = Game.Current.GameStateManager.CreateState<VideoPlaybackState>();
@@ -44,7 +41,6 @@ namespace StoryMode
 			base.IsLoaded = true;
 		}
 
-		// Token: 0x06000090 RID: 144 RVA: 0x00004C30 File Offset: 0x00002E30
 		private void LaunchStoryModeCharacterCreation()
 		{
 			CharacterCreationState characterCreationState = Game.Current.GameStateManager.CreateState<CharacterCreationState>(new object[]

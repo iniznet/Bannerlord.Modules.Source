@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200014E RID: 334
 	public class DefaultWallHitPointCalculationModel : WallHitPointCalculationModel
 	{
-		// Token: 0x0600181B RID: 6171 RVA: 0x0007A87D File Offset: 0x00078A7D
 		public override float CalculateMaximumWallHitPoint(Town town)
 		{
 			if (town == null)
@@ -19,7 +17,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.CalculateMaximumWallHitPointInternal(town);
 		}
 
-		// Token: 0x0600181C RID: 6172 RVA: 0x0007A890 File Offset: 0x00078A90
 		private float CalculateMaximumWallHitPointInternal(Town town)
 		{
 			float num = 0f;

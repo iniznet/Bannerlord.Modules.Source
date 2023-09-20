@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Issues.IssueQuestTasks
 {
-	// Token: 0x02000084 RID: 132
 	public class FollowAgentQuestTask : QuestTaskBase
 	{
-		// Token: 0x0600058E RID: 1422 RVA: 0x00027453 File Offset: 0x00025653
 		public FollowAgentQuestTask(Agent followedAgent, GameEntity targetEntity, Action onSucceededAction, Action onCanceledAction, DialogFlow dialogFlow = null)
 			: base(dialogFlow, onSucceededAction, null, onCanceledAction)
 		{
@@ -19,7 +17,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			this.StartAgentMovement();
 		}
 
-		// Token: 0x0600058F RID: 1423 RVA: 0x0002748B File Offset: 0x0002568B
 		public FollowAgentQuestTask(Agent followedAgent, Agent targetAgent, Action onSucceededAction, Action onCanceledAction, DialogFlow dialogFlow = null)
 			: base(dialogFlow, onSucceededAction, null, onCanceledAction)
 		{
@@ -28,7 +25,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			this.StartAgentMovement();
 		}
 
-		// Token: 0x06000590 RID: 1424 RVA: 0x000274B0 File Offset: 0x000256B0
 		private void StartAgentMovement()
 		{
 			if (this._targetEntity != null)
@@ -43,7 +39,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			}
 		}
 
-		// Token: 0x06000591 RID: 1425 RVA: 0x00027500 File Offset: 0x00025700
 		public void MissionTick(float dt)
 		{
 			ScriptBehavior scriptBehavior = (ScriptBehavior)this._followedAgent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetBehavior<ScriptBehavior>();
@@ -53,7 +48,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			}
 		}
 
-		// Token: 0x06000592 RID: 1426 RVA: 0x00027588 File Offset: 0x00025788
 		protected override void OnFinished()
 		{
 			this._followedAgent = null;
@@ -62,22 +56,17 @@ namespace SandBox.Issues.IssueQuestTasks
 			this._targetAgent = null;
 		}
 
-		// Token: 0x06000593 RID: 1427 RVA: 0x000275A6 File Offset: 0x000257A6
 		public override void SetReferences()
 		{
 			CampaignEvents.MissionTickEvent.AddNonSerializedListener(this, new Action<float>(this.MissionTick));
 		}
 
-		// Token: 0x040002B6 RID: 694
 		private Agent _followedAgent;
 
-		// Token: 0x040002B7 RID: 695
 		private CharacterObject _followedAgentChar;
 
-		// Token: 0x040002B8 RID: 696
 		private GameEntity _targetEntity;
 
-		// Token: 0x040002B9 RID: 697
 		private Agent _targetAgent;
 	}
 }

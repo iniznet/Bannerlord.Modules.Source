@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000156 RID: 342
 	public class TacticCharge : TacticComponent
 	{
-		// Token: 0x06001154 RID: 4436 RVA: 0x0003AB23 File Offset: 0x00038D23
 		public TacticCharge(Team team)
 			: base(team)
 		{
 		}
 
-		// Token: 0x06001155 RID: 4437 RVA: 0x0003AB2C File Offset: 0x00038D2C
 		protected internal override void TickOccasionally()
 		{
 			foreach (Formation formation in base.FormationsIncludingEmpty)
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x06001156 RID: 4438 RVA: 0x0003ABAC File Offset: 0x00038DAC
 		protected internal override void OnApply()
 		{
 			base.OnApply();
@@ -64,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001157 RID: 4439 RVA: 0x0003ACE8 File Offset: 0x00038EE8
 		protected internal override float GetTacticWeight()
 		{
 			float num = base.Team.QuerySystem.RemainingPowerRatio / base.Team.QuerySystem.TotalPowerRatio;

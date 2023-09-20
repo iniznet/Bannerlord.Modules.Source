@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 {
-	// Token: 0x020000FB RID: 251
 	public class OptionGroupVM : ViewModel
 	{
-		// Token: 0x06001619 RID: 5657 RVA: 0x00046E94 File Offset: 0x00045094
 		public OptionGroupVM(TextObject groupName, OptionsVM optionsBase, IEnumerable<IOptionData> optionsList)
 		{
 			this._groupName = groupName;
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600161A RID: 5658 RVA: 0x00046F08 File Offset: 0x00045108
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -33,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			});
 		}
 
-		// Token: 0x0600161B RID: 5659 RVA: 0x00046F58 File Offset: 0x00045158
 		internal List<IOptionData> GetManagedOptions()
 		{
 			List<IOptionData> list = new List<IOptionData>();
@@ -47,13 +43,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return list;
 		}
 
-		// Token: 0x0600161C RID: 5660 RVA: 0x00046FBC File Offset: 0x000451BC
 		internal bool IsChanged()
 		{
 			return this.Options.Any((GenericOptionDataVM o) => o.IsChanged());
 		}
 
-		// Token: 0x0600161D RID: 5661 RVA: 0x00046FE8 File Offset: 0x000451E8
 		internal void Cancel()
 		{
 			this.Options.ApplyActionOnAllItems(delegate(GenericOptionDataVM o)
@@ -62,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			});
 		}
 
-		// Token: 0x0600161E RID: 5662 RVA: 0x00047014 File Offset: 0x00045214
 		internal void InitializeDependentConfigs(Action<IOptionData, float> updateDependentConfigs)
 		{
 			this.Options.ApplyActionOnAllItems(delegate(GenericOptionDataVM o)
@@ -71,9 +64,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			});
 		}
 
-		// Token: 0x17000741 RID: 1857
-		// (get) Token: 0x0600161F RID: 5663 RVA: 0x00047045 File Offset: 0x00045245
-		// (set) Token: 0x06001620 RID: 5664 RVA: 0x0004704D File Offset: 0x0004524D
 		[DataSourceProperty]
 		public string Name
 		{
@@ -91,9 +81,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000742 RID: 1858
-		// (get) Token: 0x06001621 RID: 5665 RVA: 0x00047070 File Offset: 0x00045270
-		// (set) Token: 0x06001622 RID: 5666 RVA: 0x00047078 File Offset: 0x00045278
 		[DataSourceProperty]
 		public MBBindingList<GenericOptionDataVM> Options
 		{
@@ -111,16 +98,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x04000A83 RID: 2691
 		private readonly TextObject _groupName;
 
-		// Token: 0x04000A84 RID: 2692
 		private const string ControllerIdentificationModifier = "_controller";
 
-		// Token: 0x04000A85 RID: 2693
 		private string _name;
 
-		// Token: 0x04000A86 RID: 2694
 		private MBBindingList<GenericOptionDataVM> _options;
 	}
 }

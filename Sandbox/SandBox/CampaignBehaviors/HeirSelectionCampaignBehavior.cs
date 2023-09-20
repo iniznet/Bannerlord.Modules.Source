@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x0200009E RID: 158
 	public class HeirSelectionCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000808 RID: 2056 RVA: 0x0003FD80 File Offset: 0x0003DF80
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnBeforeMainCharacterDiedEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnBeforeMainCharacterDied));
@@ -26,12 +24,10 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnPlayerCharacterChangedEvent.AddNonSerializedListener(this, new Action<Hero, Hero, MobileParty, bool>(this.OnPlayerCharacterChanged));
 		}
 
-		// Token: 0x06000809 RID: 2057 RVA: 0x0003FDD2 File Offset: 0x0003DFD2
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600080A RID: 2058 RVA: 0x0003FDD4 File Offset: 0x0003DFD4
 		private void OnBeforePlayerCharacterChanged(Hero oldPlayer, Hero newPlayer)
 		{
 			foreach (ItemRosterElement itemRosterElement in MobileParty.MainParty.ItemRoster)
@@ -51,7 +47,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600080B RID: 2059 RVA: 0x0003FE98 File Offset: 0x0003E098
 		private void OnPlayerCharacterChanged(Hero oldPlayer, Hero newPlayer, MobileParty newMainParty, bool isMainPartyChanged)
 		{
 			if (isMainPartyChanged)
@@ -63,7 +58,6 @@ namespace SandBox.CampaignBehaviors
 			this._equipmentsThatWillBeInherited.Clear();
 		}
 
-		// Token: 0x0600080C RID: 2060 RVA: 0x0003FED8 File Offset: 0x0003E0D8
 		private void OnBeforeMainCharacterDied(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			Dictionary<Hero, int> heirApparents = Hero.MainHero.Clan.GetHeirApparents();
@@ -113,7 +107,6 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.TimeControlMode = 0;
 		}
 
-		// Token: 0x0600080D RID: 2061 RVA: 0x00040198 File Offset: 0x0003E398
 		private static string GetHeroPropertiesHint(Hero hero)
 		{
 			GameTexts.SetVariable("newline", "\n");
@@ -164,13 +157,11 @@ namespace SandBox.CampaignBehaviors
 			return text6;
 		}
 
-		// Token: 0x0600080E RID: 2062 RVA: 0x00040420 File Offset: 0x0003E620
 		private static void OnHeirSelectionOver(List<InquiryElement> element)
 		{
 			ApplyHeirSelectionAction.ApplyByDeath(element[0].Identifier as Hero);
 		}
 
-		// Token: 0x0600080F RID: 2063 RVA: 0x00040438 File Offset: 0x0003E638
 		private void ShowGameStatistics()
 		{
 			object obj = new TextObject("{=oxb2FVz5}Clan Destroyed", null);
@@ -184,7 +175,6 @@ namespace SandBox.CampaignBehaviors
 			}, null, "", 0f, null, null, null), true, false);
 		}
 
-		// Token: 0x06000810 RID: 2064 RVA: 0x000404D0 File Offset: 0x0003E6D0
 		private void GameOverCleanup()
 		{
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, Hero.MainHero.Gold, true);
@@ -201,10 +191,8 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04000323 RID: 803
 		private readonly ItemRoster _itemsThatWillBeInherited = new ItemRoster();
 
-		// Token: 0x04000324 RID: 804
 		private readonly ItemRoster _equipmentsThatWillBeInherited = new ItemRoster();
 	}
 }

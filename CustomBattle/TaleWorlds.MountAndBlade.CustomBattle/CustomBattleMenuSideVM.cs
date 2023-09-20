@@ -9,15 +9,10 @@ using TaleWorlds.MountAndBlade.CustomBattle.CustomBattle.SelectionItem;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000009 RID: 9
 	public class CustomBattleMenuSideVM : ViewModel
 	{
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x0600004D RID: 77 RVA: 0x00005A1C File Offset: 0x00003C1C
-		// (set) Token: 0x0600004E RID: 78 RVA: 0x00005A24 File Offset: 0x00003C24
 		public BasicCharacterObject SelectedCharacter { get; private set; }
 
-		// Token: 0x0600004F RID: 79 RVA: 0x00005A30 File Offset: 0x00003C30
 		public CustomBattleMenuSideVM(TextObject sideName, bool isPlayerSide, TroopTypeSelectionPopUpVM troopTypeSelectionPopUp)
 		{
 			this._sideName = sideName;
@@ -30,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00005AB0 File Offset: 0x00003CB0
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -56,13 +50,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.FactionSelectionGroup.RefreshValues();
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00005BB8 File Offset: 0x00003DB8
 		public void OnPlayerTypeChange(CustomBattlePlayerType playerType)
 		{
 			this.CompositionGroup.OnPlayerTypeChange(playerType);
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00005BC8 File Offset: 0x00003DC8
 		private void OnCultureSelection(BasicCultureObject selectedCulture)
 		{
 			this.CompositionGroup.SetCurrentSelectedCulture(selectedCulture);
@@ -74,7 +66,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00005C1C File Offset: 0x00003E1C
 		private void OnCharacterSelection(SelectorVM<CharacterItemVM> selector)
 		{
 			BasicCharacterObject character = selector.SelectedItem.Character;
@@ -99,7 +90,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00005CBC File Offset: 0x00003EBC
 		public void UpdateCharacterVisual()
 		{
 			this.CurrentSelectedCharacter = new CharacterViewModel(1);
@@ -125,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.WeaponsList.Add(new CharacterEquipmentItemVM(this.SelectedCharacter.Equipment[4].Item));
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00005F0C File Offset: 0x0000410C
 		public void Randomize()
 		{
 			this.CharacterSelectionGroup.ExecuteRandomize();
@@ -133,9 +122,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.CompositionGroup.ExecuteRandomize();
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x06000056 RID: 86 RVA: 0x00005F2F File Offset: 0x0000412F
-		// (set) Token: 0x06000057 RID: 87 RVA: 0x00005F37 File Offset: 0x00004137
 		[DataSourceProperty]
 		public CharacterViewModel CurrentSelectedCharacter
 		{
@@ -153,9 +139,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000058 RID: 88 RVA: 0x00005F55 File Offset: 0x00004155
-		// (set) Token: 0x06000059 RID: 89 RVA: 0x00005F5D File Offset: 0x0000415D
 		[DataSourceProperty]
 		public MBBindingList<CharacterEquipmentItemVM> ArmorsList
 		{
@@ -173,9 +156,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x0600005A RID: 90 RVA: 0x00005F7B File Offset: 0x0000417B
-		// (set) Token: 0x0600005B RID: 91 RVA: 0x00005F83 File Offset: 0x00004183
 		[DataSourceProperty]
 		public MBBindingList<CharacterEquipmentItemVM> WeaponsList
 		{
@@ -193,9 +173,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x0600005C RID: 92 RVA: 0x00005FA1 File Offset: 0x000041A1
-		// (set) Token: 0x0600005D RID: 93 RVA: 0x00005FA9 File Offset: 0x000041A9
 		[DataSourceProperty]
 		public string FactionText
 		{
@@ -213,9 +190,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x0600005E RID: 94 RVA: 0x00005FCC File Offset: 0x000041CC
-		// (set) Token: 0x0600005F RID: 95 RVA: 0x00005FD4 File Offset: 0x000041D4
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -233,9 +207,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x06000060 RID: 96 RVA: 0x00005FF7 File Offset: 0x000041F7
-		// (set) Token: 0x06000061 RID: 97 RVA: 0x00005FFF File Offset: 0x000041FF
 		[DataSourceProperty]
 		public string Name
 		{
@@ -253,9 +224,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000062 RID: 98 RVA: 0x00006022 File Offset: 0x00004222
-		// (set) Token: 0x06000063 RID: 99 RVA: 0x0000602A File Offset: 0x0000422A
 		[DataSourceProperty]
 		public SelectorVM<CharacterItemVM> CharacterSelectionGroup
 		{
@@ -273,9 +241,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000064 RID: 100 RVA: 0x00006048 File Offset: 0x00004248
-		// (set) Token: 0x06000065 RID: 101 RVA: 0x00006050 File Offset: 0x00004250
 		[DataSourceProperty]
 		public ArmyCompositionGroupVM CompositionGroup
 		{
@@ -293,9 +258,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000066 RID: 102 RVA: 0x0000606E File Offset: 0x0000426E
-		// (set) Token: 0x06000067 RID: 103 RVA: 0x00006076 File Offset: 0x00004276
 		[DataSourceProperty]
 		public CustomBattleFactionSelectionVM FactionSelectionGroup
 		{
@@ -313,40 +275,28 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x04000048 RID: 72
 		private readonly TextObject _sideName;
 
-		// Token: 0x04000049 RID: 73
 		private readonly bool _isPlayerSide;
 
-		// Token: 0x0400004A RID: 74
 		public CustomBattleMenuSideVM OppositeSide;
 
-		// Token: 0x0400004B RID: 75
 		private ArmyCompositionGroupVM _compositionGroup;
 
-		// Token: 0x0400004C RID: 76
 		private CustomBattleFactionSelectionVM _factionSelectionGroup;
 
-		// Token: 0x0400004D RID: 77
 		private SelectorVM<CharacterItemVM> _characterSelectionGroup;
 
-		// Token: 0x0400004E RID: 78
 		private CharacterViewModel _currentSelectedCharacter;
 
-		// Token: 0x0400004F RID: 79
 		private MBBindingList<CharacterEquipmentItemVM> _armorsList;
 
-		// Token: 0x04000050 RID: 80
 		private MBBindingList<CharacterEquipmentItemVM> _weaponsList;
 
-		// Token: 0x04000051 RID: 81
 		private string _name;
 
-		// Token: 0x04000052 RID: 82
 		private string _factionText;
 
-		// Token: 0x04000053 RID: 83
 		private string _titleText;
 	}
 }

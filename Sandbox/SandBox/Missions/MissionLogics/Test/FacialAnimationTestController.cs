@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Test
 {
-	// Token: 0x02000060 RID: 96
 	public class FacialAnimationTestController : MissionLogic
 	{
-		// Token: 0x0600042C RID: 1068 RVA: 0x0001EADC File Offset: 0x0001CCDC
 		public override void AfterStart()
 		{
 			this.InitializeTeams(true);
@@ -53,14 +51,12 @@ namespace SandBox.Missions.MissionLogics.Test
 			this.SpawnTestAgent("convo_test_hip", "sp_9", true);
 		}
 
-		// Token: 0x0600042D RID: 1069 RVA: 0x0001ED34 File Offset: 0x0001CF34
 		private Agent SpawnTestAgent(string characterId, string entityName, bool noHorse = true)
 		{
 			CharacterObject @object = Game.Current.ObjectManager.GetObject<CharacterObject>(characterId);
 			return this.SpawnTestAgent(@object, entityName, noHorse);
 		}
 
-		// Token: 0x0600042E RID: 1070 RVA: 0x0001ED5C File Offset: 0x0001CF5C
 		private Agent SpawnTestAgent(BasicCharacterObject character, string entityName, bool noHorse = true)
 		{
 			GameEntity gameEntity = base.Mission.Scene.FindEntityWithTag(entityName);
@@ -76,7 +72,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			return agent;
 		}
 
-		// Token: 0x0600042F RID: 1071 RVA: 0x0001EE3C File Offset: 0x0001D03C
 		private void InitializeTeams(bool isPlayerAttacker = true)
 		{
 			if (!Extensions.IsEmpty<Team>(base.Mission.Teams))
@@ -94,7 +89,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			base.Mission.PlayerTeam = base.Mission.DefenderTeam;
 		}
 
-		// Token: 0x040001FA RID: 506
 		private static readonly ActionIndexCache act_stand_1 = ActionIndexCache.Create("act_stand_1");
 	}
 }

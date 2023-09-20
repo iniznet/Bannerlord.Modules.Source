@@ -15,11 +15,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 {
-	// Token: 0x0200009F RID: 159
 	[MenuOverlay("EncounterMenuOverlay")]
 	public class EncounterMenuOverlayVM : GameMenuOverlay
 	{
-		// Token: 0x06000FC9 RID: 4041 RVA: 0x0003D784 File Offset: 0x0003B984
 		public EncounterMenuOverlayVM()
 		{
 			this.AttackerPartyList = new MBBindingList<GameMenuPartyItemVM>();
@@ -37,7 +35,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000FCA RID: 4042 RVA: 0x0003D83C File Offset: 0x0003BA3C
 		private void SetAttackerAndDefenderParties(out bool attackerChanged, out bool defenderChanged)
 		{
 			attackerChanged = false;
@@ -99,7 +96,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FCB RID: 4043 RVA: 0x0003DA64 File Offset: 0x0003BC64
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -118,7 +114,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			});
 		}
 
-		// Token: 0x06000FCC RID: 4044 RVA: 0x0003DB6C File Offset: 0x0003BD6C
 		public override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -128,7 +123,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FCD RID: 4045 RVA: 0x0003DBBF File Offset: 0x0003BDBF
 		public override void Refresh()
 		{
 			base.IsInitializationOver = false;
@@ -137,7 +131,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			base.IsInitializationOver = true;
 		}
 
-		// Token: 0x06000FCE RID: 4046 RVA: 0x0003DBDC File Offset: 0x0003BDDC
 		private void UpdateProperties()
 		{
 			if (this.IsSiege)
@@ -234,7 +227,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FCF RID: 4047 RVA: 0x0003DFC4 File Offset: 0x0003C1C4
 		private void UpdateLists()
 		{
 			if (MobileParty.MainParty.MapEvent == null)
@@ -447,9 +439,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.PowerComparer.SetColors(text, text2);
 		}
 
-		// Token: 0x17000531 RID: 1329
-		// (get) Token: 0x06000FD0 RID: 4048 RVA: 0x0003EA18 File Offset: 0x0003CC18
-		// (set) Token: 0x06000FD1 RID: 4049 RVA: 0x0003EA20 File Offset: 0x0003CC20
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -467,9 +456,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000532 RID: 1330
-		// (get) Token: 0x06000FD2 RID: 4050 RVA: 0x0003EA43 File Offset: 0x0003CC43
-		// (set) Token: 0x06000FD3 RID: 4051 RVA: 0x0003EA4B File Offset: 0x0003CC4B
 		[DataSourceProperty]
 		public ImageIdentifierVM DefenderPartyBanner
 		{
@@ -487,9 +473,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000533 RID: 1331
-		// (get) Token: 0x06000FD4 RID: 4052 RVA: 0x0003EA69 File Offset: 0x0003CC69
-		// (set) Token: 0x06000FD5 RID: 4053 RVA: 0x0003EA71 File Offset: 0x0003CC71
 		[DataSourceProperty]
 		public ImageIdentifierVM AttackerPartyBanner
 		{
@@ -507,9 +490,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000534 RID: 1332
-		// (get) Token: 0x06000FD6 RID: 4054 RVA: 0x0003EA8F File Offset: 0x0003CC8F
-		// (set) Token: 0x06000FD7 RID: 4055 RVA: 0x0003EA97 File Offset: 0x0003CC97
 		[DataSourceProperty]
 		public PowerLevelComparer PowerComparer
 		{
@@ -527,9 +507,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000535 RID: 1333
-		// (get) Token: 0x06000FD8 RID: 4056 RVA: 0x0003EAB5 File Offset: 0x0003CCB5
-		// (set) Token: 0x06000FD9 RID: 4057 RVA: 0x0003EABD File Offset: 0x0003CCBD
 		[DataSourceProperty]
 		public MBBindingList<GameMenuPartyItemVM> AttackerPartyList
 		{
@@ -547,9 +524,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000536 RID: 1334
-		// (get) Token: 0x06000FDA RID: 4058 RVA: 0x0003EADB File Offset: 0x0003CCDB
-		// (set) Token: 0x06000FDB RID: 4059 RVA: 0x0003EAE3 File Offset: 0x0003CCE3
 		[DataSourceProperty]
 		public MBBindingList<GameMenuPartyItemVM> DefenderPartyList
 		{
@@ -567,9 +541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000537 RID: 1335
-		// (get) Token: 0x06000FDC RID: 4060 RVA: 0x0003EB01 File Offset: 0x0003CD01
-		// (set) Token: 0x06000FDD RID: 4061 RVA: 0x0003EB09 File Offset: 0x0003CD09
 		[DataSourceProperty]
 		public string DefenderPartyMorale
 		{
@@ -587,9 +558,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000538 RID: 1336
-		// (get) Token: 0x06000FDE RID: 4062 RVA: 0x0003EB2C File Offset: 0x0003CD2C
-		// (set) Token: 0x06000FDF RID: 4063 RVA: 0x0003EB34 File Offset: 0x0003CD34
 		[DataSourceProperty]
 		public string AttackerPartyMorale
 		{
@@ -607,9 +575,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000539 RID: 1337
-		// (get) Token: 0x06000FE0 RID: 4064 RVA: 0x0003EB57 File Offset: 0x0003CD57
-		// (set) Token: 0x06000FE1 RID: 4065 RVA: 0x0003EB5F File Offset: 0x0003CD5F
 		[DataSourceProperty]
 		public int DefenderPartyCount
 		{
@@ -627,9 +592,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053A RID: 1338
-		// (get) Token: 0x06000FE2 RID: 4066 RVA: 0x0003EB7D File Offset: 0x0003CD7D
-		// (set) Token: 0x06000FE3 RID: 4067 RVA: 0x0003EB85 File Offset: 0x0003CD85
 		[DataSourceProperty]
 		public int AttackerPartyCount
 		{
@@ -647,9 +609,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053B RID: 1339
-		// (get) Token: 0x06000FE4 RID: 4068 RVA: 0x0003EBA3 File Offset: 0x0003CDA3
-		// (set) Token: 0x06000FE5 RID: 4069 RVA: 0x0003EBAB File Offset: 0x0003CDAB
 		[DataSourceProperty]
 		public string DefenderPartyFood
 		{
@@ -667,9 +626,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053C RID: 1340
-		// (get) Token: 0x06000FE6 RID: 4070 RVA: 0x0003EBCE File Offset: 0x0003CDCE
-		// (set) Token: 0x06000FE7 RID: 4071 RVA: 0x0003EBD6 File Offset: 0x0003CDD6
 		[DataSourceProperty]
 		public string AttackerPartyFood
 		{
@@ -687,9 +643,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053D RID: 1341
-		// (get) Token: 0x06000FE8 RID: 4072 RVA: 0x0003EBF9 File Offset: 0x0003CDF9
-		// (set) Token: 0x06000FE9 RID: 4073 RVA: 0x0003EC01 File Offset: 0x0003CE01
 		public string DefenderWallHitPoints
 		{
 			get
@@ -706,9 +659,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053E RID: 1342
-		// (get) Token: 0x06000FEA RID: 4074 RVA: 0x0003EC24 File Offset: 0x0003CE24
-		// (set) Token: 0x06000FEB RID: 4075 RVA: 0x0003EC2C File Offset: 0x0003CE2C
 		[DataSourceProperty]
 		public bool IsSiege
 		{
@@ -726,9 +676,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700053F RID: 1343
-		// (get) Token: 0x06000FEC RID: 4076 RVA: 0x0003EC4A File Offset: 0x0003CE4A
-		// (set) Token: 0x06000FED RID: 4077 RVA: 0x0003EC52 File Offset: 0x0003CE52
 		[DataSourceProperty]
 		public string DefenderPartyCountLbl
 		{
@@ -746,9 +693,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000540 RID: 1344
-		// (get) Token: 0x06000FEE RID: 4078 RVA: 0x0003EC75 File Offset: 0x0003CE75
-		// (set) Token: 0x06000FEF RID: 4079 RVA: 0x0003EC7D File Offset: 0x0003CE7D
 		[DataSourceProperty]
 		public string AttackerPartyCountLbl
 		{
@@ -766,9 +710,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000541 RID: 1345
-		// (get) Token: 0x06000FF0 RID: 4080 RVA: 0x0003ECA0 File Offset: 0x0003CEA0
-		// (set) Token: 0x06000FF1 RID: 4081 RVA: 0x0003ECA8 File Offset: 0x0003CEA8
 		[DataSourceProperty]
 		public HintViewModel AttackerBannerHint
 		{
@@ -786,9 +727,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000542 RID: 1346
-		// (get) Token: 0x06000FF2 RID: 4082 RVA: 0x0003ECC6 File Offset: 0x0003CEC6
-		// (set) Token: 0x06000FF3 RID: 4083 RVA: 0x0003ECCE File Offset: 0x0003CECE
 		[DataSourceProperty]
 		public HintViewModel DefenderBannerHint
 		{
@@ -806,9 +744,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000543 RID: 1347
-		// (get) Token: 0x06000FF4 RID: 4084 RVA: 0x0003ECEC File Offset: 0x0003CEEC
-		// (set) Token: 0x06000FF5 RID: 4085 RVA: 0x0003ECF4 File Offset: 0x0003CEF4
 		[DataSourceProperty]
 		public HintViewModel AttackerTroopNumHint
 		{
@@ -826,9 +761,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000544 RID: 1348
-		// (get) Token: 0x06000FF6 RID: 4086 RVA: 0x0003ED12 File Offset: 0x0003CF12
-		// (set) Token: 0x06000FF7 RID: 4087 RVA: 0x0003ED1A File Offset: 0x0003CF1A
 		[DataSourceProperty]
 		public HintViewModel DefenderTroopNumHint
 		{
@@ -846,9 +778,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000545 RID: 1349
-		// (get) Token: 0x06000FF8 RID: 4088 RVA: 0x0003ED38 File Offset: 0x0003CF38
-		// (set) Token: 0x06000FF9 RID: 4089 RVA: 0x0003ED40 File Offset: 0x0003CF40
 		[DataSourceProperty]
 		public BasicTooltipViewModel DefenderWallHint
 		{
@@ -866,9 +795,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000546 RID: 1350
-		// (get) Token: 0x06000FFA RID: 4090 RVA: 0x0003ED5E File Offset: 0x0003CF5E
-		// (set) Token: 0x06000FFB RID: 4091 RVA: 0x0003ED66 File Offset: 0x0003CF66
 		[DataSourceProperty]
 		public BasicTooltipViewModel DefenderFoodHint
 		{
@@ -886,9 +812,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000547 RID: 1351
-		// (get) Token: 0x06000FFC RID: 4092 RVA: 0x0003ED84 File Offset: 0x0003CF84
-		// (set) Token: 0x06000FFD RID: 4093 RVA: 0x0003ED8C File Offset: 0x0003CF8C
 		[DataSourceProperty]
 		public BasicTooltipViewModel AttackerFoodHint
 		{
@@ -906,9 +829,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000548 RID: 1352
-		// (get) Token: 0x06000FFE RID: 4094 RVA: 0x0003EDAA File Offset: 0x0003CFAA
-		// (set) Token: 0x06000FFF RID: 4095 RVA: 0x0003EDB2 File Offset: 0x0003CFB2
 		[DataSourceProperty]
 		public BasicTooltipViewModel AttackerMoraleHint
 		{
@@ -926,9 +846,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000549 RID: 1353
-		// (get) Token: 0x06001000 RID: 4096 RVA: 0x0003EDD0 File Offset: 0x0003CFD0
-		// (set) Token: 0x06001001 RID: 4097 RVA: 0x0003EDD8 File Offset: 0x0003CFD8
 		[DataSourceProperty]
 		public BasicTooltipViewModel DefenderMoraleHint
 		{
@@ -946,7 +863,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001002 RID: 4098 RVA: 0x0003EDF8 File Offset: 0x0003CFF8
 		private List<TooltipProperty> GetEncounterSideFoodTooltip(BattleSideEnum side)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1001,7 +917,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return list;
 		}
 
-		// Token: 0x06001003 RID: 4099 RVA: 0x0003F134 File Offset: 0x0003D334
 		private List<TooltipProperty> GetEncounterSideMoraleTooltip(BattleSideEnum side)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1018,85 +933,58 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return list;
 		}
 
-		// Token: 0x04000754 RID: 1876
 		private GameMenuPartyItemVM _defenderLeadingParty;
 
-		// Token: 0x04000755 RID: 1877
 		private GameMenuPartyItemVM _attackerLeadingParty;
 
-		// Token: 0x04000756 RID: 1878
 		private string _titleText;
 
-		// Token: 0x04000757 RID: 1879
 		private ImageIdentifierVM _defenderPartyBanner;
 
-		// Token: 0x04000758 RID: 1880
 		private ImageIdentifierVM _attackerPartyBanner;
 
-		// Token: 0x04000759 RID: 1881
 		private MBBindingList<GameMenuPartyItemVM> _attackerPartyList;
 
-		// Token: 0x0400075A RID: 1882
 		private MBBindingList<GameMenuPartyItemVM> _defenderPartyList;
 
-		// Token: 0x0400075B RID: 1883
 		private string _attackerPartyMorale;
 
-		// Token: 0x0400075C RID: 1884
 		private string _defenderPartyMorale;
 
-		// Token: 0x0400075D RID: 1885
 		private int _attackerPartyCount;
 
-		// Token: 0x0400075E RID: 1886
 		private int _defenderPartyCount;
 
-		// Token: 0x0400075F RID: 1887
 		private string _attackerPartyFood;
 
-		// Token: 0x04000760 RID: 1888
 		private string _defenderPartyFood;
 
-		// Token: 0x04000761 RID: 1889
 		private string _defenderWallHitPoints;
 
-		// Token: 0x04000762 RID: 1890
 		private string _defenderPartyCountLbl;
 
-		// Token: 0x04000763 RID: 1891
 		private string _attackerPartyCountLbl;
 
-		// Token: 0x04000764 RID: 1892
 		private bool _isSiege;
 
-		// Token: 0x04000765 RID: 1893
 		private PowerLevelComparer _powerComparer;
 
-		// Token: 0x04000766 RID: 1894
 		private HintViewModel _attackerBannerHint;
 
-		// Token: 0x04000767 RID: 1895
 		private HintViewModel _defenderBannerHint;
 
-		// Token: 0x04000768 RID: 1896
 		private HintViewModel _attackerTroopNumHint;
 
-		// Token: 0x04000769 RID: 1897
 		private HintViewModel _defenderTroopNumHint;
 
-		// Token: 0x0400076A RID: 1898
 		private BasicTooltipViewModel _defenderWallHint;
 
-		// Token: 0x0400076B RID: 1899
 		private BasicTooltipViewModel _defenderFoodHint;
 
-		// Token: 0x0400076C RID: 1900
 		private BasicTooltipViewModel _attackerFoodHint;
 
-		// Token: 0x0400076D RID: 1901
 		private BasicTooltipViewModel _attackerMoraleHint;
 
-		// Token: 0x0400076E RID: 1902
 		private BasicTooltipViewModel _defenderMoraleHint;
 	}
 }

@@ -10,20 +10,12 @@ using TaleWorlds.PlayerServices.Avatar;
 
 namespace TaleWorlds.MountAndBlade.View.Tableaus
 {
-	// Token: 0x02000024 RID: 36
 	public class TableauCacheManager
 	{
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x06000173 RID: 371 RVA: 0x0000C28A File Offset: 0x0000A48A
-		// (set) Token: 0x06000174 RID: 372 RVA: 0x0000C291 File Offset: 0x0000A491
 		public static TableauCacheManager Current { get; private set; }
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x06000175 RID: 373 RVA: 0x0000C299 File Offset: 0x0000A499
-		// (set) Token: 0x06000176 RID: 374 RVA: 0x0000C2A1 File Offset: 0x0000A4A1
 		public MatrixFrame InventorySceneCameraFrame { get; private set; }
 
-		// Token: 0x06000177 RID: 375 RVA: 0x0000C2AC File Offset: 0x0000A4AC
 		private Camera CreateBannerCamera(float left, float right, float bottom, float top, float near, float far)
 		{
 			Camera camera = Camera.CreateCamera();
@@ -35,7 +27,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return camera;
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x0000C340 File Offset: 0x0000A540
 		private void InitializeThumbnailCreator()
 		{
 			this._thumbnailCreatorView = ThumbnailCreatorView.CreateThumbnailCreatorView();
@@ -64,45 +55,38 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.characterTableauGPUAllocationIndex = Utilities.RegisterGPUAllocationGroup("CharacterTableauCache");
 		}
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000C4A1 File Offset: 0x0000A6A1
 		public bool IsCachedInventoryTableauSceneUsed()
 		{
 			return this._inventorySceneBeingUsed;
 		}
 
-		// Token: 0x0600017A RID: 378 RVA: 0x0000C4A9 File Offset: 0x0000A6A9
 		public Scene GetCachedInventoryTableauScene()
 		{
 			this._inventorySceneBeingUsed = true;
 			return this._inventoryScene;
 		}
 
-		// Token: 0x0600017B RID: 379 RVA: 0x0000C4B8 File Offset: 0x0000A6B8
 		public void ReturnCachedInventoryTableauScene()
 		{
 			this._inventorySceneBeingUsed = false;
 		}
 
-		// Token: 0x0600017C RID: 380 RVA: 0x0000C4C1 File Offset: 0x0000A6C1
 		public bool IsCachedMapConversationTableauSceneUsed()
 		{
 			return this._mapConversationSceneBeingUsed;
 		}
 
-		// Token: 0x0600017D RID: 381 RVA: 0x0000C4C9 File Offset: 0x0000A6C9
 		public Scene GetCachedMapConversationTableauScene()
 		{
 			this._mapConversationSceneBeingUsed = true;
 			return this._mapConversationScene;
 		}
 
-		// Token: 0x0600017E RID: 382 RVA: 0x0000C4D8 File Offset: 0x0000A6D8
 		public void ReturnCachedMapConversationTableauScene()
 		{
 			this._mapConversationSceneBeingUsed = false;
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x0000C4E1 File Offset: 0x0000A6E1
 		public static int GetNumberOfPendingRequests()
 		{
 			if (TableauCacheManager.Current != null)
@@ -112,13 +96,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return 0;
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x0000C4FB File Offset: 0x0000A6FB
 		public static bool IsNativeMemoryCleared()
 		{
 			return TableauCacheManager.Current != null && TableauCacheManager.Current._thumbnailCreatorView.IsMemoryCleared();
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x0000C518 File Offset: 0x0000A718
 		public static void InitializeManager()
 		{
 			TableauCacheManager.Current = new TableauCacheManager();
@@ -134,7 +116,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			TableauCacheManager.Current._heroSilhouetteTexture = Texture.GetFromResource("hero_silhouette");
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x0000C648 File Offset: 0x0000A848
 		public static void InitializeSandboxValues()
 		{
 			SceneInitializationData sceneInitializationData;
@@ -149,7 +130,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			Utilities.LoadVirtualTextureTileset("WorldMap");
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x0000C6F0 File Offset: 0x0000A8F0
 		public static void ReleaseSandboxValues()
 		{
 			MBAgentRendererSceneController.DestructAgentRendererSceneController(TableauCacheManager.Current._mapConversationScene, TableauCacheManager.Current._mapConversationSceneAgentRenderer, false);
@@ -159,7 +139,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			TableauCacheManager.Current._mapConversationScene = null;
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x0000C74C File Offset: 0x0000A94C
 		public static void ClearManager()
 		{
 			Debug.Print("TableauCacheManager::ClearManager", 0, 12, 17592186044416UL);
@@ -213,7 +192,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x0000C8C4 File Offset: 0x0000AAC4
 		private string ByteWidthToString(int bytes)
 		{
 			double num = Math.Log((double)bytes);
@@ -226,7 +204,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return ((double)bytes / Math.Pow(1024.0, (double)num2)).ToString("0.00") + " " + c.ToString() + "      ";
 		}
 
-		// Token: 0x06000186 RID: 390 RVA: 0x0000C93C File Offset: 0x0000AB3C
 		private void PrintTextureToImgui(string name, ThumbnailCache cache)
 		{
 			int totalMemorySize = cache.GetTotalMemorySize();
@@ -238,7 +215,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			Imgui.NextColumn();
 		}
 
-		// Token: 0x06000187 RID: 391 RVA: 0x0000C984 File Offset: 0x0000AB84
 		public void OnImguiProfilerTick()
 		{
 			Imgui.BeginMainThreadScope();
@@ -266,7 +242,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			Imgui.EndMainThreadScope();
 		}
 
-		// Token: 0x06000188 RID: 392 RVA: 0x0000CA78 File Offset: 0x0000AC78
 		private void OnThumbnailRenderComplete(string renderId, Texture renderTarget)
 		{
 			Texture texture = null;
@@ -299,7 +274,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x0000CB80 File Offset: 0x0000AD80
 		public Texture CreateAvatarTexture(string avatarID, byte[] avatarBytes, uint width, uint height, AvatarData.ImageType imageType)
 		{
 			Texture texture;
@@ -320,7 +294,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return texture;
 		}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x0000CBDC File Offset: 0x0000ADDC
 		public void BeginCreateItemTexture(ItemObject itemObject, string additionalArgs, Action<Texture> setAction)
 		{
 			string text = itemObject.StringId;
@@ -358,7 +331,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._renderCallbacks[text].Actions.Add(setAction);
 		}
 
-		// Token: 0x0600018B RID: 395 RVA: 0x0000CD08 File Offset: 0x0000AF08
 		public void BeginCreateCraftingPieceTexture(CraftingPiece craftingPiece, string type, Action<Texture> setAction)
 		{
 			string text = craftingPiece.StringId + "$" + type;
@@ -392,7 +364,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._renderCallbacks[text].Actions.Add(setAction);
 		}
 
-		// Token: 0x0600018C RID: 396 RVA: 0x0000CE24 File Offset: 0x0000B024
 		public void BeginCreateCharacterTexture(CharacterCode characterCode, Action<Texture> setAction, bool isBig)
 		{
 			if (MBObjectManager.Instance == null)
@@ -434,13 +405,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._renderCallbacks[text].Actions.Add(setAction);
 		}
 
-		// Token: 0x0600018D RID: 397 RVA: 0x0000CFD8 File Offset: 0x0000B1D8
 		public Texture GetCachedHeroSilhouetteTexture()
 		{
 			return this._heroSilhouetteTexture;
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x0000CFE0 File Offset: 0x0000B1E0
 		public Texture BeginCreateBannerTexture(BannerCode bannerCode, Action<Texture> setAction, bool isTableauOrNineGrid = false, bool isLarge = false)
 		{
 			int num = 512;
@@ -499,7 +468,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return texture2;
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x0000D198 File Offset: 0x0000B398
 		public void Tick()
 		{
 			ThumbnailCache avatarVisuals = this._avatarVisuals;
@@ -530,14 +498,12 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			bannerVisuals.Tick();
 		}
 
-		// Token: 0x06000190 RID: 400 RVA: 0x0000D1FC File Offset: 0x0000B3FC
 		public void ReleaseTextureWithId(CraftingPiece craftingPiece, string type)
 		{
 			string text = craftingPiece.StringId + "$" + type;
 			this._craftingPieceVisuals.MarkForDeletion(text);
 		}
 
-		// Token: 0x06000191 RID: 401 RVA: 0x0000D228 File Offset: 0x0000B428
 		public void ReleaseTextureWithId(CharacterCode characterCode, bool isBig)
 		{
 			characterCode.BodyProperties = new BodyProperties(new DynamicBodyProperties((float)((int)characterCode.BodyProperties.Age), (float)((int)characterCode.BodyProperties.Weight), (float)((int)characterCode.BodyProperties.Build)), characterCode.BodyProperties.StaticProperties);
@@ -546,14 +512,12 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._characterVisuals.MarkForDeletion(text);
 		}
 
-		// Token: 0x06000192 RID: 402 RVA: 0x0000D2A4 File Offset: 0x0000B4A4
 		public void ReleaseTextureWithId(ItemObject itemObject)
 		{
 			string stringId = itemObject.StringId;
 			this._itemVisuals.MarkForDeletion(stringId);
 		}
 
-		// Token: 0x06000193 RID: 403 RVA: 0x0000D2C8 File Offset: 0x0000B4C8
 		public void ReleaseTextureWithId(BannerCode bannerCode, bool isTableau = false, bool isLarge = false)
 		{
 			string text = "BannerThumbnail";
@@ -572,7 +536,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._bannerVisuals.MarkForDeletion(text2);
 		}
 
-		// Token: 0x06000194 RID: 404 RVA: 0x0000D310 File Offset: 0x0000B510
 		public void ForceReleaseBanner(BannerCode bannerCode, bool isTableau = false, bool isLarge = false)
 		{
 			string text = "BannerThumbnail";
@@ -591,7 +554,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._bannerVisuals.ForceDelete(text2);
 		}
 
-		// Token: 0x06000195 RID: 405 RVA: 0x0000D358 File Offset: 0x0000B558
 		private void GetItemPoseAndCameraForCraftedItem(ItemObject item, Scene scene, ref Camera camera, ref MatrixFrame itemFrame, ref MatrixFrame itemFrame1, ref MatrixFrame itemFrame2)
 		{
 			if (camera == null)
@@ -743,7 +705,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000196 RID: 406 RVA: 0x0000D964 File Offset: 0x0000BB64
 		private void GetItemPoseAndCamera(ItemObject item, Scene scene, ref Camera camera, ref MatrixFrame itemFrame, ref MatrixFrame itemFrame1, ref MatrixFrame itemFrame2)
 		{
 			if (item.IsCraftedWeapon)
@@ -946,7 +907,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000197 RID: 407 RVA: 0x0000E14C File Offset: 0x0000C34C
 		private GameEntity AddItem(Scene scene, ItemObject item, MatrixFrame itemFrame, MatrixFrame itemFrame1, MatrixFrame itemFrame2)
 		{
 			ItemRosterElement itemRosterElement;
@@ -1013,7 +973,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return gameEntity;
 		}
 
-		// Token: 0x06000198 RID: 408 RVA: 0x0000E35C File Offset: 0x0000C55C
 		private void GetPoseParamsFromCharacterCode(CharacterCode characterCode, out string poseName, out bool hasHorse)
 		{
 			hasHorse = false;
@@ -1159,7 +1118,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000199 RID: 409 RVA: 0x0000E6B0 File Offset: 0x0000C8B0
 		private GameEntity CreateCraftingPieceBaseEntity(CraftingPiece craftingPiece, string ItemType, Scene scene, ref Camera camera)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -1267,7 +1225,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return gameEntity4;
 		}
 
-		// Token: 0x0600019A RID: 410 RVA: 0x0000E970 File Offset: 0x0000CB70
 		private GameEntity CreateItemBaseEntity(ItemObject item, Scene scene, ref Camera camera)
 		{
 			MatrixFrame identity = MatrixFrame.Identity;
@@ -1277,7 +1234,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return this.AddItem(scene, item, identity, identity2, identity3);
 		}
 
-		// Token: 0x0600019B RID: 411 RVA: 0x0000E9AC File Offset: 0x0000CBAC
 		private GameEntity CreateCharacterBaseEntity(CharacterCode characterCode, Scene scene, ref Camera camera, bool isBig)
 		{
 			string text;
@@ -1308,7 +1264,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return gameEntity2;
 		}
 
-		// Token: 0x0600019C RID: 412 RVA: 0x0000EA8C File Offset: 0x0000CC8C
 		private GameEntity FillEntityWithPose(CharacterCode characterCode, GameEntity poseEntity, Scene scene)
 		{
 			if (TableauCacheManager.Current != null && poseEntity != null)
@@ -1323,113 +1278,76 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			return poseEntity;
 		}
 
-		// Token: 0x040000F2 RID: 242
 		private ThumbnailCreatorView _thumbnailCreatorView;
 
-		// Token: 0x040000F3 RID: 243
 		private Scene _bannerScene;
 
-		// Token: 0x040000F4 RID: 244
 		private Scene _inventoryScene;
 
-		// Token: 0x040000F5 RID: 245
 		private bool _inventorySceneBeingUsed;
 
-		// Token: 0x040000F6 RID: 246
 		private MBAgentRendererSceneController _inventorySceneAgentRenderer;
 
-		// Token: 0x040000F7 RID: 247
 		private Scene _mapConversationScene;
 
-		// Token: 0x040000F8 RID: 248
 		private bool _mapConversationSceneBeingUsed;
 
-		// Token: 0x040000F9 RID: 249
 		private MBAgentRendererSceneController _mapConversationSceneAgentRenderer;
 
-		// Token: 0x040000FB RID: 251
 		private Camera _bannerCamera;
 
-		// Token: 0x040000FC RID: 252
 		private Camera _nineGridBannerCamera;
 
-		// Token: 0x040000FD RID: 253
 		private readonly ActionIndexCache act_tableau_hand_armor_pose = ActionIndexCache.Create("act_tableau_hand_armor_pose");
 
-		// Token: 0x040000FE RID: 254
 		private int _characterCount;
 
-		// Token: 0x040000FF RID: 255
 		private int _bannerCount;
 
-		// Token: 0x04000100 RID: 256
 		private Dictionary<string, TableauCacheManager.RenderDetails> _renderCallbacks;
 
-		// Token: 0x04000101 RID: 257
 		private ThumbnailCache _avatarVisuals;
 
-		// Token: 0x04000102 RID: 258
 		private ThumbnailCache _itemVisuals;
 
-		// Token: 0x04000103 RID: 259
 		private ThumbnailCache _craftingPieceVisuals;
 
-		// Token: 0x04000104 RID: 260
 		private ThumbnailCache _characterVisuals;
 
-		// Token: 0x04000105 RID: 261
 		private ThumbnailCache _bannerVisuals;
 
-		// Token: 0x04000106 RID: 262
 		private int bannerTableauGPUAllocationIndex;
 
-		// Token: 0x04000107 RID: 263
 		private int itemTableauGPUAllocationIndex;
 
-		// Token: 0x04000108 RID: 264
 		private int characterTableauGPUAllocationIndex;
 
-		// Token: 0x04000109 RID: 265
 		private Texture _heroSilhouetteTexture;
 
-		// Token: 0x020000A3 RID: 163
 		private struct RenderDetails
 		{
-			// Token: 0x1700007C RID: 124
-			// (get) Token: 0x0600051D RID: 1309 RVA: 0x00026A80 File Offset: 0x00024C80
-			// (set) Token: 0x0600051E RID: 1310 RVA: 0x00026A88 File Offset: 0x00024C88
 			public List<Action<Texture>> Actions { get; private set; }
 
-			// Token: 0x0600051F RID: 1311 RVA: 0x00026A91 File Offset: 0x00024C91
 			public RenderDetails(List<Action<Texture>> setActionList)
 			{
 				this.Actions = setActionList;
 			}
 		}
 
-		// Token: 0x020000A4 RID: 164
 		private struct CustomPoseParameters
 		{
-			// Token: 0x0400031E RID: 798
 			public string CameraTag;
 
-			// Token: 0x0400031F RID: 799
 			public string FrameTag;
 
-			// Token: 0x04000320 RID: 800
 			public float DistanceModifier;
 
-			// Token: 0x04000321 RID: 801
 			public TableauCacheManager.CustomPoseParameters.Alignment FocusAlignment;
 
-			// Token: 0x020000D1 RID: 209
 			public enum Alignment
 			{
-				// Token: 0x040003BB RID: 955
 				Center,
-				// Token: 0x040003BC RID: 956
 				Top,
-				// Token: 0x040003BD RID: 957
 				Bottom
 			}
 		}

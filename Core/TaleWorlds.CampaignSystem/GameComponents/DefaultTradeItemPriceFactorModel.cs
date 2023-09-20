@@ -10,10 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000146 RID: 326
 	public class DefaultTradeItemPriceFactorModel : TradeItemPriceFactorModel
 	{
-		// Token: 0x060017F3 RID: 6131 RVA: 0x000788D0 File Offset: 0x00076AD0
 		public override float GetTradePenalty(ItemObject item, MobileParty clientParty, PartyBase merchant, bool isSelling, float inStore, float supply, float demand)
 		{
 			Settlement settlement = ((merchant != null) ? merchant.Settlement : null);
@@ -159,7 +157,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060017F4 RID: 6132 RVA: 0x00078E2C File Offset: 0x0007702C
 		private float GetPriceFactor(ItemObject item, MobileParty tradingParty, PartyBase merchant, float inStoreValue, float supply, float demand, bool isSelling)
 		{
 			float basePriceFactor = this.GetBasePriceFactor(item.GetItemCategory(), inStoreValue, supply, demand, isSelling, item.Value);
@@ -171,7 +168,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return basePriceFactor * 1f / (1f + tradePenalty);
 		}
 
-		// Token: 0x060017F5 RID: 6133 RVA: 0x00078E84 File Offset: 0x00077084
 		public override float GetBasePriceFactor(ItemCategory itemCategory, float inStoreValue, float supply, float demand, bool isSelling, int transferValue)
 		{
 			if (isSelling)
@@ -186,7 +182,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Clamp(num, 0.8f, 1.3f);
 		}
 
-		// Token: 0x060017F6 RID: 6134 RVA: 0x00078EF8 File Offset: 0x000770F8
 		public override int GetPrice(EquipmentElement itemRosterElement, MobileParty clientParty, PartyBase merchant, bool isSelling, float inStoreValue, float supply, float demand)
 		{
 			float priceFactor = this.GetPriceFactor(itemRosterElement.Item, clientParty, merchant, inStoreValue, supply, demand, isSelling);
@@ -199,7 +194,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Max(num2, 1);
 		}
 
-		// Token: 0x060017F7 RID: 6135 RVA: 0x00078F88 File Offset: 0x00077188
 		public override int GetTheoreticalMaxItemMarketValue(ItemObject item)
 		{
 			if (item.IsTradeGood || item.IsAnimal)
@@ -209,25 +203,18 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round((float)item.Value * 1.3f);
 		}
 
-		// Token: 0x04000879 RID: 2169
 		private const float MinPriceFactor = 0.1f;
 
-		// Token: 0x0400087A RID: 2170
 		private const float MaxPriceFactor = 10f;
 
-		// Token: 0x0400087B RID: 2171
 		private const float MinPriceFactorNonTrade = 0.8f;
 
-		// Token: 0x0400087C RID: 2172
 		private const float MaxPriceFactorNonTrade = 1.3f;
 
-		// Token: 0x0400087D RID: 2173
 		private const float HighTradePenaltyBaseValue = 1.5f;
 
-		// Token: 0x0400087E RID: 2174
 		private const float PackAnimalTradePenalty = 0.8f;
 
-		// Token: 0x0400087F RID: 2175
 		private const float MountTradePenalty = 0.8f;
 	}
 }

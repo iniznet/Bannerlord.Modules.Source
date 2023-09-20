@@ -7,21 +7,12 @@ using TaleWorlds.TwoDimension.BitmapFont;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000007 RID: 7
 	public class RichText : IText
 	{
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x06000036 RID: 54 RVA: 0x00002D5B File Offset: 0x00000F5B
-		// (set) Token: 0x06000037 RID: 55 RVA: 0x00002D63 File Offset: 0x00000F63
 		internal int Width { get; private set; }
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000038 RID: 56 RVA: 0x00002D6C File Offset: 0x00000F6C
-		// (set) Token: 0x06000039 RID: 57 RVA: 0x00002D74 File Offset: 0x00000F74
 		internal int Height { get; private set; }
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x0600003A RID: 58 RVA: 0x00002D7D File Offset: 0x00000F7D
 		internal float WidthSize
 		{
 			get
@@ -34,13 +25,8 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x0600003B RID: 59 RVA: 0x00002D9A File Offset: 0x00000F9A
-		// (set) Token: 0x0600003C RID: 60 RVA: 0x00002DA2 File Offset: 0x00000FA2
 		public string CurrentStyle { get; set; } = "Default";
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x0600003D RID: 61 RVA: 0x00002DAB File Offset: 0x00000FAB
 		public int TextHeight
 		{
 			get
@@ -53,14 +39,8 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x0600003E RID: 62 RVA: 0x00002DC3 File Offset: 0x00000FC3
-		// (set) Token: 0x0600003F RID: 63 RVA: 0x00002DCB File Offset: 0x00000FCB
 		public StyleFontContainer StyleFontContainer { get; private set; }
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000040 RID: 64 RVA: 0x00002DD4 File Offset: 0x00000FD4
-		// (set) Token: 0x06000041 RID: 65 RVA: 0x00002DDC File Offset: 0x00000FDC
 		public TextHorizontalAlignment HorizontalAlignment
 		{
 			get
@@ -77,9 +57,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000042 RID: 66 RVA: 0x00002DF5 File Offset: 0x00000FF5
-		// (set) Token: 0x06000043 RID: 67 RVA: 0x00002DFD File Offset: 0x00000FFD
 		public TextVerticalAlignment VerticalAlignment
 		{
 			get
@@ -96,9 +73,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000044 RID: 68 RVA: 0x00002E16 File Offset: 0x00001016
-		// (set) Token: 0x06000045 RID: 69 RVA: 0x00002E20 File Offset: 0x00001020
 		public string Value
 		{
 			get
@@ -129,13 +103,8 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x06000046 RID: 70 RVA: 0x00002EA4 File Offset: 0x000010A4
-		// (set) Token: 0x06000047 RID: 71 RVA: 0x00002EAC File Offset: 0x000010AC
 		internal TextOutput TextOutput { get; private set; }
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x06000048 RID: 72 RVA: 0x00002EB5 File Offset: 0x000010B5
 		private int _textLength
 		{
 			get
@@ -144,8 +113,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x06000049 RID: 73 RVA: 0x00002EC9 File Offset: 0x000010C9
 		public RichTextLinkGroup FocusedLinkGroup
 		{
 			get
@@ -154,9 +121,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x0600004A RID: 74 RVA: 0x00002ED1 File Offset: 0x000010D1
-		// (set) Token: 0x0600004B RID: 75 RVA: 0x00002ED9 File Offset: 0x000010D9
 		public bool SkipLineOnContainerExceeded
 		{
 			get
@@ -174,7 +138,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00002EFC File Offset: 0x000010FC
 		public RichText(int width, int height, Font font, Func<int, Font> getUsableFontForCharacter)
 		{
 			this.Width = width;
@@ -193,7 +156,6 @@ namespace TaleWorlds.TwoDimension
 			this.StyleFontContainer.Add("Default", font, 1f);
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00002FD8 File Offset: 0x000011D8
 		public virtual void Update(SpriteData spriteData, Vector2 focusPosition, bool focus, bool isFixedWidth, bool isFixedHeight, float renderScale)
 		{
 			bool flag = false;
@@ -243,7 +205,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x000030B6 File Offset: 0x000012B6
 		public void SetAllDirty()
 		{
 			this._meshNeedsUpdate = true;
@@ -252,13 +213,11 @@ namespace TaleWorlds.TwoDimension
 			this._tokensNeedUpdate = true;
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x000030D4 File Offset: 0x000012D4
 		private float GetEmptyCharacterWidth(Font font, float scaleValue)
 		{
 			return ((float)font.Characters[32].XAdvance + 0.5f) * scaleValue;
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x000030F4 File Offset: 0x000012F4
 		public Vector2 GetPreferredSize(bool fixedWidth, float widthSize, bool fixedHeight, float heightSize, SpriteData spriteData, float renderScale)
 		{
 			this._isFixedHeight = fixedHeight;
@@ -303,7 +262,6 @@ namespace TaleWorlds.TwoDimension
 			return this._preferredSize;
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x000031F4 File Offset: 0x000013F4
 		public void CalculateTextOutput(bool fixedWidth, bool fixedHeight, float width, float height, SpriteData spriteData, float renderScale)
 		{
 			if (this._tokensNeedUpdate)
@@ -488,7 +446,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x0000392C File Offset: 0x00001B2C
 		public void UpdateSize(int width, int height)
 		{
 			bool flag = this.Width != width;
@@ -501,7 +458,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00003978 File Offset: 0x00001B78
 		private TextTokenOutput GetTokenUnderPosition(Vector2 position)
 		{
 			if (position.X >= 0f && position.Y >= 0f && position.X < (float)this.Width && position.Y < (float)this.Height && this.TextOutput != null)
@@ -517,7 +473,6 @@ namespace TaleWorlds.TwoDimension
 			return null;
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00003A1C File Offset: 0x00001C1C
 		private void PositionTokensInTextOutput(SpriteData spriteData, float renderScale)
 		{
 			if (this._preferredSize.X == 0f && this._preferredSize.Y == 0f)
@@ -647,7 +602,6 @@ namespace TaleWorlds.TwoDimension
 			this._positionNeedsUpdate = false;
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00003E10 File Offset: 0x00002010
 		private void FindLinkGroups()
 		{
 			this._linkGroups.Clear();
@@ -679,7 +633,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x00003EB8 File Offset: 0x000020B8
 		private RichTextPart GetOrCreatTextPartyOfStyle(string style, Font font, float x, float y)
 		{
 			foreach (RichTextPart richTextPart in this._richTextParts)
@@ -705,7 +658,6 @@ namespace TaleWorlds.TwoDimension
 			return richTextPart2;
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00003FAC File Offset: 0x000021AC
 		private void FillPartsWithTokens(SpriteData spriteData, float renderScale)
 		{
 			this._richTextParts.Clear();
@@ -801,7 +753,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x000042F4 File Offset: 0x000024F4
 		private void GenerateMeshes(float renderScale)
 		{
 			for (int i = 0; i < this._richTextParts.Count; i++)
@@ -826,19 +777,16 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x000043E9 File Offset: 0x000025E9
 		private Font GetFontForTextToken(TextToken token)
 		{
 			return this._getUsableFontForCharacter((int)token.Token);
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x000043FC File Offset: 0x000025FC
 		public List<RichTextPart> GetParts()
 		{
 			return this._richTextParts;
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x00004404 File Offset: 0x00002604
 		private RichTextLinkGroup FindLinkGroup(TextToken textToken)
 		{
 			foreach (RichTextLinkGroup richTextLinkGroup in this._linkGroups)
@@ -851,82 +799,56 @@ namespace TaleWorlds.TwoDimension
 			return null;
 		}
 
-		// Token: 0x04000020 RID: 32
 		public ILanguage CurrentLanguage;
 
-		// Token: 0x04000021 RID: 33
 		private TextHorizontalAlignment _horizontalAlignment;
 
-		// Token: 0x04000022 RID: 34
 		private TextVerticalAlignment _verticalAlignment;
 
-		// Token: 0x04000023 RID: 35
 		private bool _meshNeedsUpdate = true;
 
-		// Token: 0x04000024 RID: 36
 		private bool _preferredSizeNeedsUpdate = true;
 
-		// Token: 0x04000025 RID: 37
 		private bool _positionNeedsUpdate = true;
 
-		// Token: 0x04000026 RID: 38
 		private bool _tokensNeedUpdate = true;
 
-		// Token: 0x04000027 RID: 39
 		private bool _isFixedWidth;
 
-		// Token: 0x04000028 RID: 40
 		private bool _isFixedHeight;
 
-		// Token: 0x04000029 RID: 41
 		private Vector2 _preferredSize;
 
-		// Token: 0x0400002A RID: 42
 		private string _text;
 
-		// Token: 0x0400002B RID: 43
 		private List<TextToken> _tokens;
 
-		// Token: 0x0400002E RID: 46
 		private float _widthSize = -1f;
 
-		// Token: 0x04000031 RID: 49
 		private const float ExtraLetterPaddingHorizontal = 0.5f;
 
-		// Token: 0x04000032 RID: 50
 		private const float ExtraLetterPaddingVertical = 5f;
 
-		// Token: 0x04000033 RID: 51
 		private const float RichTextIconHorizontalPadding = 8f;
 
-		// Token: 0x04000034 RID: 52
 		private const float RichTextIconVerticalPadding = 0f;
 
-		// Token: 0x04000035 RID: 53
 		private List<RichTextPart> _richTextParts;
 
-		// Token: 0x04000036 RID: 54
 		private List<RichTextLinkGroup> _linkGroups;
 
-		// Token: 0x04000037 RID: 55
 		private Stack<string> _styleStack;
 
-		// Token: 0x04000039 RID: 57
 		private TextTokenOutput _focusedToken;
 
-		// Token: 0x0400003A RID: 58
 		private RichTextLinkGroup _focusedLinkGroup;
 
-		// Token: 0x0400003B RID: 59
 		private bool _gotFocus;
 
-		// Token: 0x0400003C RID: 60
 		private int _numOfAddedSeparators;
 
-		// Token: 0x0400003D RID: 61
 		private readonly Func<int, Font> _getUsableFontForCharacter;
 
-		// Token: 0x0400003E RID: 62
 		private bool _shouldAddNewLineWhenExceedingContainerWidth = true;
 	}
 }

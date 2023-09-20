@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000118 RID: 280
 	public class BehaviorSergeantMPLastFlagLastStand : BehaviorComponent
 	{
-		// Token: 0x06000D4E RID: 3406 RVA: 0x00021B7B File Offset: 0x0001FD7B
 		public BehaviorSergeantMPLastFlagLastStand(Formation formation)
 			: base(formation)
 		{
@@ -18,13 +16,11 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D4F RID: 3407 RVA: 0x00021BB4 File Offset: 0x0001FDB4
 		protected override void CalculateCurrentOrder()
 		{
 			base.CurrentOrder = ((this._flagpositions.Count > 0) ? MovementOrder.MovementOrderMove(new WorldPosition(Mission.Current.Scene, UIntPtr.Zero, this._flagpositions[0].Position, false)) : MovementOrder.MovementOrderStop);
 		}
 
-		// Token: 0x06000D50 RID: 3408 RVA: 0x00021C08 File Offset: 0x0001FE08
 		public override void TickOccasionally()
 		{
 			this._flagpositions.RemoveAll((FlagCapturePoint fp) => fp.IsDeactivated);
@@ -33,7 +29,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
 		}
 
-		// Token: 0x06000D51 RID: 3409 RVA: 0x00021C68 File Offset: 0x0001FE68
 		protected override void OnBehaviorActivatedAux()
 		{
 			this._flagpositions.RemoveAll((FlagCapturePoint fp) => fp.IsDeactivated);
@@ -46,7 +41,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D52 RID: 3410 RVA: 0x00021D08 File Offset: 0x0001FF08
 		protected override float GetAiWeight()
 		{
 			if (this._lastEffort)
@@ -74,13 +68,10 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x04000339 RID: 825
 		private List<FlagCapturePoint> _flagpositions;
 
-		// Token: 0x0400033A RID: 826
 		private bool _lastEffort;
 
-		// Token: 0x0400033B RID: 827
 		private MissionMultiplayerFlagDomination _flagDominationGameMode;
 	}
 }

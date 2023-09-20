@@ -8,11 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200011D RID: 285
 	public class DefaultMinorFactionsModel : MinorFactionsModel
 	{
-		// Token: 0x17000604 RID: 1540
-		// (get) Token: 0x0600163D RID: 5693 RVA: 0x0006A2B1 File Offset: 0x000684B1
 		public override float DailyMinorFactionHeroSpawnChance
 		{
 			get
@@ -21,8 +18,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000605 RID: 1541
-		// (get) Token: 0x0600163E RID: 5694 RVA: 0x0006A2B8 File Offset: 0x000684B8
 		public override int MinorFactionHeroLimit
 		{
 			get
@@ -31,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600163F RID: 5695 RVA: 0x0006A2BC File Offset: 0x000684BC
 		public override int GetMercenaryAwardFactorToJoinKingdom(Clan mercenaryClan, Kingdom kingdom, bool neededAmountForClanToJoinCalculation = false)
 		{
 			float powerRatioToEnemies = FactionHelper.GetPowerRatioToEnemies(kingdom);

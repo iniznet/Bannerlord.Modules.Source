@@ -10,11 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x02000097 RID: 151
 	public class NameGenerator
 	{
-		// Token: 0x170004BD RID: 1213
-		// (get) Token: 0x06001119 RID: 4377 RVA: 0x0004AD35 File Offset: 0x00048F35
 		public static NameGenerator Current
 		{
 			get
@@ -23,20 +20,17 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600111A RID: 4378 RVA: 0x0004AD41 File Offset: 0x00048F41
 		public NameGenerator()
 		{
 			this._nameCodeAndCount = new Dictionary<int, int>();
 		}
 
-		// Token: 0x0600111B RID: 4379 RVA: 0x0004AD54 File Offset: 0x00048F54
 		internal void Initialize()
 		{
 			this.InitializePersonNames();
 			this.InitializeNameCodeAndCountDictionary();
 		}
 
-		// Token: 0x0600111C RID: 4380 RVA: 0x0004AD64 File Offset: 0x00048F64
 		private void InitializeNameCodeAndCountDictionary()
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -57,14 +51,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600111D RID: 4381 RVA: 0x0004AE40 File Offset: 0x00049040
 		public void GenerateHeroNameAndHeroFullName(Hero hero, out TextObject firstName, out TextObject fullName, bool useDeterministicValues = true)
 		{
 			firstName = this.GenerateHeroFirstName(hero);
 			fullName = this.GenerateHeroFullName(hero, firstName, useDeterministicValues);
 		}
 
-		// Token: 0x0600111E RID: 4382 RVA: 0x0004AE58 File Offset: 0x00049058
 		private TextObject GenerateHeroFullName(Hero hero, TextObject heroFirstName, bool useDeterministicValues = true)
 		{
 			TextObject textObject = heroFirstName;
@@ -139,7 +131,6 @@ namespace TaleWorlds.CampaignSystem
 			return textObject;
 		}
 
-		// Token: 0x0600111F RID: 4383 RVA: 0x0004B198 File Offset: 0x00049398
 		public TextObject GenerateHeroFirstName(Hero hero)
 		{
 			MBReadOnlyList<TextObject> nameListForCulture = this.GetNameListForCulture(hero.Culture, hero.IsFemale);
@@ -148,7 +139,6 @@ namespace TaleWorlds.CampaignSystem
 			return nameListForCulture[num].CopyTextObject();
 		}
 
-		// Token: 0x06001120 RID: 4384 RVA: 0x0004B1DC File Offset: 0x000493DC
 		public TextObject GenerateFirstNameForPlayer(CultureObject culture, bool isFemale)
 		{
 			MBReadOnlyList<TextObject> nameListForCulture = this.GetNameListForCulture(culture, isFemale);
@@ -156,7 +146,6 @@ namespace TaleWorlds.CampaignSystem
 			return nameListForCulture[num].CopyTextObject();
 		}
 
-		// Token: 0x06001121 RID: 4385 RVA: 0x0004B20C File Offset: 0x0004940C
 		public TextObject GenerateClanName(CultureObject culture, Settlement clanOriginSettlement)
 		{
 			TextObject[] clanNameListForCulture = this.GetClanNameListForCulture(culture);
@@ -192,7 +181,6 @@ namespace TaleWorlds.CampaignSystem
 			return textObject2;
 		}
 
-		// Token: 0x06001122 RID: 4386 RVA: 0x0004B380 File Offset: 0x00049580
 		private void InitializePersonNames()
 		{
 			this._imperialNamesMale = new MBList<TextObject>
@@ -480,7 +468,6 @@ namespace TaleWorlds.CampaignSystem
 			};
 		}
 
-		// Token: 0x06001123 RID: 4387 RVA: 0x0004C568 File Offset: 0x0004A768
 		public MBReadOnlyList<TextObject> GetNameListForCulture(CultureObject npcCulture, bool isFemale)
 		{
 			MBReadOnlyList<TextObject> mbreadOnlyList = (isFemale ? this._imperialNamesFemale : this._imperialNamesMale);
@@ -498,7 +485,6 @@ namespace TaleWorlds.CampaignSystem
 			return mbreadOnlyList;
 		}
 
-		// Token: 0x06001124 RID: 4388 RVA: 0x0004C5B8 File Offset: 0x0004A7B8
 		private TextObject[] GetClanNameListForCulture(CultureObject clanCulture)
 		{
 			TextObject[] array = null;
@@ -513,7 +499,6 @@ namespace TaleWorlds.CampaignSystem
 			return array;
 		}
 
-		// Token: 0x06001125 RID: 4389 RVA: 0x0004C5FC File Offset: 0x0004A7FC
 		public void AddName(TextObject name)
 		{
 			int num = this.CreateNameCode(name);
@@ -530,13 +515,11 @@ namespace TaleWorlds.CampaignSystem
 			this._nameCodeAndCount.Add(num, 1);
 		}
 
-		// Token: 0x06001126 RID: 4390 RVA: 0x0004C647 File Offset: 0x0004A847
 		private int CreateNameCode(TextObject name)
 		{
 			return name.GetValueHashCode();
 		}
 
-		// Token: 0x06001127 RID: 4391 RVA: 0x0004C650 File Offset: 0x0004A850
 		private int CalculateNameScore(Hero hero, TextObject name)
 		{
 			int num = 5000;
@@ -604,7 +587,6 @@ namespace TaleWorlds.CampaignSystem
 			return num;
 		}
 
-		// Token: 0x06001128 RID: 4392 RVA: 0x0004C864 File Offset: 0x0004AA64
 		private int SelectNameIndex(Hero hero, MBReadOnlyList<TextObject> nameList, uint deterministicIndex, bool useDeterministicValues)
 		{
 			int num = (useDeterministicValues ? hero.HomeSettlement.RandomIntWithSeed(deterministicIndex) : MBRandom.RandomInt()) % nameList.Count;
@@ -624,25 +606,18 @@ namespace TaleWorlds.CampaignSystem
 			return num2;
 		}
 
-		// Token: 0x040005F4 RID: 1524
 		private readonly Dictionary<int, int> _nameCodeAndCount;
 
-		// Token: 0x040005F5 RID: 1525
 		private MBList<TextObject> _imperialNamesMale;
 
-		// Token: 0x040005F6 RID: 1526
 		private MBList<TextObject> _imperialNamesFemale;
 
-		// Token: 0x040005F7 RID: 1527
 		private MBList<TextObject> _preacherNames;
 
-		// Token: 0x040005F8 RID: 1528
 		private MBList<TextObject> _merchantNames;
 
-		// Token: 0x040005F9 RID: 1529
 		private MBList<TextObject> _artisanNames;
 
-		// Token: 0x040005FA RID: 1530
 		private MBList<TextObject> _gangLeaderNames;
 	}
 }

@@ -20,16 +20,11 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x02000008 RID: 8
 	[GameStateScreen(typeof(EducationState))]
 	public class GauntletEducationScreen : ScreenBase, IGameStateListener
 	{
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000046 RID: 70 RVA: 0x00003F18 File Offset: 0x00002118
-		// (set) Token: 0x06000047 RID: 71 RVA: 0x00003F20 File Offset: 0x00002120
 		public SceneLayer CharacterLayer { get; private set; }
 
-		// Token: 0x06000048 RID: 72 RVA: 0x00003F29 File Offset: 0x00002129
 		public GauntletEducationScreen(EducationState educationState)
 		{
 			this._educationState = educationState;
@@ -38,13 +33,11 @@ namespace SandBox.GauntletUI
 			this._preloadHelper = new PreloadHelper();
 		}
 
-		// Token: 0x06000049 RID: 73 RVA: 0x00003F5F File Offset: 0x0000215F
 		private void OnOptionSelect(EducationCampaignBehavior.EducationCharacterProperties[] characterProperties)
 		{
 			this.RefreshSceneCharacters(characterProperties);
 		}
 
-		// Token: 0x0600004A RID: 74 RVA: 0x00003F68 File Offset: 0x00002168
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -89,7 +82,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600004B RID: 75 RVA: 0x00004067 File Offset: 0x00002267
 		private void ToggleEscapeMenu()
 		{
 			if (this._isEscapeOpen)
@@ -100,13 +92,11 @@ namespace SandBox.GauntletUI
 			this.OpenEscapeMenu();
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x0000407E File Offset: 0x0000227E
 		private void CloseEducationScreen(bool isCancel)
 		{
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00004090 File Offset: 0x00002290
 		private void OpenScene()
 		{
 			this._characterScene = Scene.CreateNewScene(true, false, 0, "mono_renderscene");
@@ -178,7 +168,6 @@ namespace SandBox.GauntletUI
 			cradleEntity.SetVisibilityExcludeParents(false);
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x0000430C File Offset: 0x0000250C
 		private void RefreshSceneCharacters(EducationCampaignBehavior.EducationCharacterProperties[] characterProperties)
 		{
 			List<float> list = new List<float>();
@@ -256,14 +245,12 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x00004608 File Offset: 0x00002808
 		private void PreloadCharactersAndEquipment(List<BasicCharacterObject> characters, List<Equipment> equipments)
 		{
 			this._preloadHelper.PreloadCharacters(characters);
 			this._preloadHelper.PreloadEquipments(equipments);
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00004624 File Offset: 0x00002824
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -284,7 +271,6 @@ namespace SandBox.GauntletUI
 			LoadingWindow.EnableGlobalLoadingWindow();
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00004770 File Offset: 0x00002970
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -295,7 +281,6 @@ namespace SandBox.GauntletUI
 			LoadingWindow.EnableGlobalLoadingWindow();
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x000047C0 File Offset: 0x000029C0
 		void IGameStateListener.OnFinalize()
 		{
 			base.OnFinalize();
@@ -322,12 +307,10 @@ namespace SandBox.GauntletUI
 			this._characterScene = null;
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x0000486D File Offset: 0x00002A6D
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00004870 File Offset: 0x00002A70
 		private static AgentVisualsData CreateAgentVisual(CharacterObject character, MatrixFrame characterFrame, Equipment equipment, string actionName, Scene scene, CultureObject childsCulture)
 		{
 			ActionIndexCache actionIndexCache = ActionIndexCache.Create(actionName);
@@ -362,7 +345,6 @@ namespace SandBox.GauntletUI
 			return agentVisualsData;
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00004975 File Offset: 0x00002B75
 		private void OpenEscapeMenu()
 		{
 			this._escapeMenuDatasource = new EscapeMenuVM(this.GetEscapeMenuItems(), null);
@@ -370,7 +352,6 @@ namespace SandBox.GauntletUI
 			this._isEscapeOpen = true;
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x000049AC File Offset: 0x00002BAC
 		private void RemoveEscapeMenu()
 		{
 			this._gauntletLayer.ReleaseMovie(this._escapeMenuMovie);
@@ -379,7 +360,6 @@ namespace SandBox.GauntletUI
 			this._isEscapeOpen = false;
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x000049D4 File Offset: 0x00002BD4
 		private List<EscapeMenuItemVM> GetEscapeMenuItems()
 		{
 			TextObject ironmanDisabledReason = GameTexts.FindText("str_pause_menu_disabled_hint", "IronmanMode");
@@ -415,46 +395,32 @@ namespace SandBox.GauntletUI
 			return list;
 		}
 
-		// Token: 0x04000021 RID: 33
 		private readonly EducationState _educationState;
 
-		// Token: 0x04000022 RID: 34
 		private readonly Hero _child;
 
-		// Token: 0x04000023 RID: 35
 		private readonly PreloadHelper _preloadHelper;
 
-		// Token: 0x04000024 RID: 36
 		private EducationVM _dataSource;
 
-		// Token: 0x04000025 RID: 37
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000026 RID: 38
 		private bool _startedRendering;
 
-		// Token: 0x04000028 RID: 40
 		private Scene _characterScene;
 
-		// Token: 0x04000029 RID: 41
 		private MBAgentRendererSceneController _agentRendererSceneController;
 
-		// Token: 0x0400002A RID: 42
 		private Camera _camera;
 
-		// Token: 0x0400002B RID: 43
 		private List<AgentVisuals> _agentVisuals;
 
-		// Token: 0x0400002C RID: 44
 		private GameEntity _cradleEntity;
 
-		// Token: 0x0400002D RID: 45
 		private EscapeMenuVM _escapeMenuDatasource;
 
-		// Token: 0x0400002E RID: 46
 		private IGauntletMovie _escapeMenuMovie;
 
-		// Token: 0x0400002F RID: 47
 		private bool _isEscapeOpen;
 	}
 }

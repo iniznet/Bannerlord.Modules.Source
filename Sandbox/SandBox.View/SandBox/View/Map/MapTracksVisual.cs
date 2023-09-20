@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000055 RID: 85
 	public class MapTracksVisual : CampaignEntityVisualComponent
 	{
-		// Token: 0x06000367 RID: 871 RVA: 0x0001CF10 File Offset: 0x0001B110
 		public MapTracksVisual()
 		{
 			this._trackEntityPool = new List<GameEntity>();
@@ -19,8 +17,6 @@ namespace SandBox.View.Map
 			this._parallelUpdateVisibleTracksPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelUpdateVisibleTracks);
 		}
 
-		// Token: 0x17000062 RID: 98
-		// (get) Token: 0x06000368 RID: 872 RVA: 0x0001CF80 File Offset: 0x0001B180
 		public Scene MapScene
 		{
 			get
@@ -33,7 +29,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000369 RID: 873 RVA: 0x0001CFCE File Offset: 0x0001B1CE
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -42,26 +37,22 @@ namespace SandBox.View.Map
 			this.InitializeObjectPoolWithDefaultCount();
 		}
 
-		// Token: 0x0600036A RID: 874 RVA: 0x0001D00A File Offset: 0x0001B20A
 		private void OnTrackDetected(Track track)
 		{
 			this._tracksDirty = true;
 		}
 
-		// Token: 0x0600036B RID: 875 RVA: 0x0001D013 File Offset: 0x0001B213
 		private void OnTrackLost(Track track)
 		{
 			this._tracksDirty = true;
 		}
 
-		// Token: 0x0600036C RID: 876 RVA: 0x0001D01C File Offset: 0x0001B21C
 		public override void OnLoadSavedGame()
 		{
 			this.InitializeObjectPoolWithDefaultCount();
 			this.UpdateTrackMesh();
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x0001D02C File Offset: 0x0001B22C
 		private void ParallelUpdateTrackColors(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -70,7 +61,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x0001D08C File Offset: 0x0001B28C
 		private void UpdateTrackMesh()
 		{
 			int num = this._trackEntityPool.Count - MapScreen.Instance.MapTracksCampaignBehavior.DetectedTracks.Count;
@@ -87,7 +77,6 @@ namespace SandBox.View.Map
 			TWParallel.For(0, MapScreen.Instance.MapTracksCampaignBehavior.DetectedTracks.Count, this._parallelUpdateTrackPoolPositionsPredicate, 16);
 		}
 
-		// Token: 0x0600036F RID: 879 RVA: 0x0001D130 File Offset: 0x0001B330
 		private void ParallelUpdateTrackPoolPositions(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -98,7 +87,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000370 RID: 880 RVA: 0x0001D17C File Offset: 0x0001B37C
 		private void ParallelUpdateVisibleTracks(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -107,7 +95,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000371 RID: 881 RVA: 0x0001D1A8 File Offset: 0x0001B3A8
 		private void ParallelMakeTrackPoolElementsInvisible(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -116,7 +103,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000372 RID: 882 RVA: 0x0001D1D4 File Offset: 0x0001B3D4
 		private void InitializeObjectPoolWithDefaultCount()
 		{
 			this.CreateNewTrackPoolElements(5);
@@ -126,7 +112,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000373 RID: 883 RVA: 0x0001D22C File Offset: 0x0001B42C
 		private void CreateNewTrackPoolElements(int delta)
 		{
 			for (int i = 0; i < delta; i++)
@@ -137,7 +122,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000374 RID: 884 RVA: 0x0001D26E File Offset: 0x0001B46E
 		public override void OnVisualTick(MapScreen screen, float realDt, float dt)
 		{
 			if (this._tracksDirty)
@@ -148,7 +132,6 @@ namespace SandBox.View.Map
 			TWParallel.For(0, MapScreen.Instance.MapTracksCampaignBehavior.DetectedTracks.Count, this._parallelUpdateTrackColorsPredicate, 16);
 		}
 
-		// Token: 0x06000375 RID: 885 RVA: 0x0001D2A8 File Offset: 0x0001B4A8
 		public bool RaySphereIntersection(Ray ray, SphereData sphere, ref Vec3 intersectionPoint)
 		{
 			Vec3 origin = sphere.Origin;
@@ -183,7 +166,6 @@ namespace SandBox.View.Map
 			return false;
 		}
 
-		// Token: 0x06000376 RID: 886 RVA: 0x0001D3AC File Offset: 0x0001B5AC
 		public Track GetTrackOnMouse(Ray mouseRay, Vec3 mouseIntersectionPoint)
 		{
 			Track track = null;
@@ -208,7 +190,6 @@ namespace SandBox.View.Map
 			return track;
 		}
 
-		// Token: 0x06000377 RID: 887 RVA: 0x0001D488 File Offset: 0x0001B688
 		private MatrixFrame CalculateTrackFrame(Track track)
 		{
 			Vec3 vec = track.Position.ToVec3(0f);
@@ -234,34 +215,24 @@ namespace SandBox.View.Map
 			return identity;
 		}
 
-		// Token: 0x040001C3 RID: 451
 		private const string TrackPrefabName = "map_track_arrow";
 
-		// Token: 0x040001C4 RID: 452
 		private const int DefaultObjectPoolCount = 5;
 
-		// Token: 0x040001C5 RID: 453
 		private readonly List<GameEntity> _trackEntityPool;
 
-		// Token: 0x040001C6 RID: 454
 		private SphereData _trackSphere;
 
-		// Token: 0x040001C7 RID: 455
 		private Scene _mapScene;
 
-		// Token: 0x040001C8 RID: 456
 		private bool _tracksDirty = true;
 
-		// Token: 0x040001C9 RID: 457
 		private readonly TWParallel.ParallelForAuxPredicate _parallelUpdateTrackColorsPredicate;
 
-		// Token: 0x040001CA RID: 458
 		private readonly TWParallel.ParallelForAuxPredicate _parallelMakeTrackPoolElementsInvisiblePredicate;
 
-		// Token: 0x040001CB RID: 459
 		private readonly TWParallel.ParallelForAuxPredicate _parallelUpdateTrackPoolPositionsPredicate;
 
-		// Token: 0x040001CC RID: 460
 		private readonly TWParallel.ParallelForAuxPredicate _parallelUpdateVisibleTracksPredicate;
 	}
 }

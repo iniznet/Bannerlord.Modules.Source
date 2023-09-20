@@ -4,16 +4,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.ExtraWidgets
 {
-	// Token: 0x02000007 RID: 7
 	public class FillBarVerticalClipTierColorsWidget : FillBarVerticalWidget
 	{
-		// Token: 0x06000053 RID: 83 RVA: 0x00002D5C File Offset: 0x00000F5C
 		public FillBarVerticalClipTierColorsWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00002D88 File Offset: 0x00000F88
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			base.OnRender(twoDimensionContext, drawContext);
@@ -54,9 +51,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			base.FillWidget.Color = color;
 		}
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x06000055 RID: 85 RVA: 0x00002EE1 File Offset: 0x000010E1
-		// (set) Token: 0x06000056 RID: 86 RVA: 0x00002EE9 File Offset: 0x000010E9
 		[Editor(false)]
 		public string MaxedColor
 		{
@@ -74,9 +68,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x06000057 RID: 87 RVA: 0x00002F0C File Offset: 0x0000110C
-		// (set) Token: 0x06000058 RID: 88 RVA: 0x00002F14 File Offset: 0x00001114
 		[Editor(false)]
 		public string HighColor
 		{
@@ -94,9 +85,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x06000059 RID: 89 RVA: 0x00002F37 File Offset: 0x00001137
-		// (set) Token: 0x0600005A RID: 90 RVA: 0x00002F3F File Offset: 0x0000113F
 		[Editor(false)]
 		public string MediumColor
 		{
@@ -114,9 +102,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x0600005B RID: 91 RVA: 0x00002F62 File Offset: 0x00001162
-		// (set) Token: 0x0600005C RID: 92 RVA: 0x00002F6A File Offset: 0x0000116A
 		[Editor(false)]
 		public string LowColor
 		{
@@ -134,28 +119,20 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x04000024 RID: 36
 		private readonly float _maxThreshold = 1f;
 
-		// Token: 0x04000025 RID: 37
 		private readonly float _highThreshold = 0.6f;
 
-		// Token: 0x04000026 RID: 38
 		private readonly float _mediumThreshold = 0.35f;
 
-		// Token: 0x04000027 RID: 39
 		private readonly float _lowThreshold;
 
-		// Token: 0x04000028 RID: 40
 		private string _maxedColor;
 
-		// Token: 0x04000029 RID: 41
 		private string _highColor;
 
-		// Token: 0x0400002A RID: 42
 		private string _mediumColor;
 
-		// Token: 0x0400002B RID: 43
 		private string _lowColor;
 	}
 }

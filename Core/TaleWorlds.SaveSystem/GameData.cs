@@ -4,32 +4,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x0200000E RID: 14
 	[Serializable]
 	public class GameData
 	{
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x0600002B RID: 43 RVA: 0x0000270B File Offset: 0x0000090B
-		// (set) Token: 0x0600002C RID: 44 RVA: 0x00002713 File Offset: 0x00000913
 		public byte[] Header { get; private set; }
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x0600002D RID: 45 RVA: 0x0000271C File Offset: 0x0000091C
-		// (set) Token: 0x0600002E RID: 46 RVA: 0x00002724 File Offset: 0x00000924
 		public byte[] Strings { get; private set; }
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x0600002F RID: 47 RVA: 0x0000272D File Offset: 0x0000092D
-		// (set) Token: 0x06000030 RID: 48 RVA: 0x00002735 File Offset: 0x00000935
 		public byte[][] ObjectData { get; private set; }
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000031 RID: 49 RVA: 0x0000273E File Offset: 0x0000093E
-		// (set) Token: 0x06000032 RID: 50 RVA: 0x00002746 File Offset: 0x00000946
 		public byte[][] ContainerData { get; private set; }
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000033 RID: 51 RVA: 0x00002750 File Offset: 0x00000950
 		public int TotalSize
 		{
 			get
@@ -48,7 +33,6 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x06000034 RID: 52 RVA: 0x000027B2 File Offset: 0x000009B2
 		public GameData(byte[] header, byte[] strings, byte[][] objectData, byte[][] containerData)
 		{
 			this.Header = header;
@@ -57,7 +41,6 @@ namespace TaleWorlds.SaveSystem
 			this.ContainerData = containerData;
 		}
 
-		// Token: 0x06000035 RID: 53 RVA: 0x000027D8 File Offset: 0x000009D8
 		public void Inspect()
 		{
 			Debug.Print("Header Size: " + this.Header.Length, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -88,19 +71,16 @@ namespace TaleWorlds.SaveSystem
 			Debug.Print(string.Format("Total size: {0:##.00} MB", num5), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06000036 RID: 54 RVA: 0x0000294D File Offset: 0x00000B4D
 		public static GameData CreateFrom(byte[] readBytes)
 		{
 			return (GameData)Common.DeserializeObject(readBytes);
 		}
 
-		// Token: 0x06000037 RID: 55 RVA: 0x0000295A File Offset: 0x00000B5A
 		public byte[] GetData()
 		{
 			return Common.SerializeObject(this);
 		}
 
-		// Token: 0x06000038 RID: 56 RVA: 0x00002964 File Offset: 0x00000B64
 		public static void Write(BinaryWriter writer, GameData gameData)
 		{
 			writer.Write(gameData.Header.Length);
@@ -121,7 +101,6 @@ namespace TaleWorlds.SaveSystem
 			writer.Write(gameData.Strings);
 		}
 
-		// Token: 0x06000039 RID: 57 RVA: 0x00002A14 File Offset: 0x00000C14
 		public static GameData Read(BinaryReader reader)
 		{
 			int num = reader.ReadInt32();

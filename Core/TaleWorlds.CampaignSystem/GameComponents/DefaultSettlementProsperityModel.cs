@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200013A RID: 314
 	public class DefaultSettlementProsperityModel : SettlementProsperityModel
 	{
-		// Token: 0x0600174B RID: 5963 RVA: 0x000731E4 File Offset: 0x000713E4
 		public override ExplainedNumber CalculateProsperityChange(Town fortification, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -22,7 +20,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600174C RID: 5964 RVA: 0x0007320C File Offset: 0x0007140C
 		public override ExplainedNumber CalculateHearthChange(Village village, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -30,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600174D RID: 5965 RVA: 0x00073234 File Offset: 0x00071434
 		private void CalculateHearthChangeInternal(Village village, ref ExplainedNumber result, bool includeDescriptions)
 		{
 			if (village.VillageState == Village.VillageStates.Normal)
@@ -62,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			Campaign.Current.Models.IssueModel.GetIssueEffectsOfSettlement(DefaultIssueEffects.VillageHearth, village.Settlement, ref result);
 		}
 
-		// Token: 0x0600174E RID: 5966 RVA: 0x000733E8 File Offset: 0x000715E8
 		private void CalculateProsperityChangeInternal(Town fortification, ref ExplainedNumber explainedNumber)
 		{
 			float foodChange = fortification.FoodChange;
@@ -207,28 +202,21 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetSettlementProsperityChangeDueToIssues(fortification.Settlement, ref explainedNumber);
 		}
 
-		// Token: 0x0600174F RID: 5967 RVA: 0x000739BC File Offset: 0x00071BBC
 		private void GetSettlementProsperityChangeDueToIssues(Settlement settlement, ref ExplainedNumber result)
 		{
 			Campaign.Current.Models.IssueModel.GetIssueEffectsOfSettlement(DefaultIssueEffects.SettlementProsperity, settlement, ref result);
 		}
 
-		// Token: 0x0400084B RID: 2123
 		private static readonly TextObject LoyaltyText = GameTexts.FindText("str_loyalty", null);
 
-		// Token: 0x0400084C RID: 2124
 		private static readonly TextObject FoodShortageText = new TextObject("{=qTFKvGSg}Food Shortage", null);
 
-		// Token: 0x0400084D RID: 2125
 		private static readonly TextObject ProsperityFromMarketText = new TextObject("{=RNT5hMVb}Goods From Market", null);
 
-		// Token: 0x0400084E RID: 2126
 		private static readonly TextObject SurplusFoodText = GameTexts.FindText("str_surplus_food", null);
 
-		// Token: 0x0400084F RID: 2127
 		private static readonly TextObject RaidedText = new TextObject("{=RVas572P}Raided", null);
 
-		// Token: 0x04000850 RID: 2128
 		private static readonly TextObject HousingCostsText = new TextObject("{=ByRAgJy4}Housing Costs", null);
 	}
 }

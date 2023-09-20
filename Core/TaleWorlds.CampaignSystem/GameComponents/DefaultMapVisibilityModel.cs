@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000119 RID: 281
 	public class DefaultMapVisibilityModel : MapVisibilityModel
 	{
-		// Token: 0x06001605 RID: 5637 RVA: 0x00068BB0 File Offset: 0x00066DB0
 		public override ExplainedNumber GetPartySpottingRange(MobileParty party, bool includeDescriptions = false)
 		{
 			float num = (Campaign.Current.IsNight ? 6f : 12f);
@@ -62,13 +60,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001606 RID: 5638 RVA: 0x00068DC6 File Offset: 0x00066FC6
 		public override float GetPartyRelativeInspectionRange(IMapPoint party)
 		{
 			return 0.5f;
 		}
 
-		// Token: 0x06001607 RID: 5639 RVA: 0x00068DD0 File Offset: 0x00066FD0
 		public override float GetPartySpottingDifficulty(MobileParty spottingParty, MobileParty party)
 		{
 			float num = 1f;
@@ -84,7 +80,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (1f / MathF.Pow((float)(party.Party.NumberOfAllMembers + party.Party.NumberOfPrisoners + 2) * 0.2f, 0.6f) + 0.94f) * num;
 		}
 
-		// Token: 0x06001608 RID: 5640 RVA: 0x00068E64 File Offset: 0x00067064
 		public override float GetHideoutSpottingDistance()
 		{
 			if (MobileParty.MainParty.HasPerk(DefaultPerks.Scouting.RumourNetwork, true))
@@ -94,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MobileParty.MainParty.SeeingRange * 1.2f;
 		}
 
-		// Token: 0x040007AF RID: 1967
 		private const float PartySpottingDifficultyInForests = 0.3f;
 	}
 }

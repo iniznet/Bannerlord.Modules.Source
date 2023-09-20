@@ -7,17 +7,14 @@ using TaleWorlds.Library;
 
 namespace SandBox.BoardGames.AI
 {
-	// Token: 0x020000C4 RID: 196
 	public class BoardGameAIKonane : BoardGameAIBase
 	{
-		// Token: 0x06000BD7 RID: 3031 RVA: 0x0005D87C File Offset: 0x0005BA7C
 		public BoardGameAIKonane(BoardGameHelper.AIDifficulty difficulty, MissionBoardGameLogic boardGameHandler)
 			: base(difficulty, boardGameHandler)
 		{
 			this._board = base.BoardGameHandler.Board as BoardGameKonane;
 		}
 
-		// Token: 0x06000BD8 RID: 3032 RVA: 0x0005D89C File Offset: 0x0005BA9C
 		protected override void InitializeDifficulty()
 		{
 			switch (base.Difficulty)
@@ -36,7 +33,6 @@ namespace SandBox.BoardGames.AI
 			}
 		}
 
-		// Token: 0x06000BD9 RID: 3033 RVA: 0x0005D8DC File Offset: 0x0005BADC
 		public override Move CalculateMovementStageMove()
 		{
 			Move move;
@@ -80,7 +76,6 @@ namespace SandBox.BoardGames.AI
 			return move;
 		}
 
-		// Token: 0x06000BDA RID: 3034 RVA: 0x0005DA18 File Offset: 0x0005BC18
 		public override Move CalculatePreMovementStageMove()
 		{
 			Move invalid = Move.Invalid;
@@ -90,7 +85,6 @@ namespace SandBox.BoardGames.AI
 			return invalid;
 		}
 
-		// Token: 0x06000BDB RID: 3035 RVA: 0x0005DA5C File Offset: 0x0005BC5C
 		private int NegaMax(int depth, int color, int alpha, int beta)
 		{
 			if (depth == 0)
@@ -120,7 +114,6 @@ namespace SandBox.BoardGames.AI
 			return alpha;
 		}
 
-		// Token: 0x06000BDC RID: 3036 RVA: 0x0005DB64 File Offset: 0x0005BD64
 		private int Evaluation()
 		{
 			float num = MBRandom.RandomFloat;
@@ -145,7 +138,6 @@ namespace SandBox.BoardGames.AI
 			return (int)((float)(100 * (num3 - num2) + 20 * (this._board.GetPlayerTwoUnitsAlive() - this._board.GetPlayerOneUnitsAlive()) + 5 * (totalMovesAvailable2 - totalMovesAvailable)) * num);
 		}
 
-		// Token: 0x04000434 RID: 1076
 		private readonly BoardGameKonane _board;
 	}
 }

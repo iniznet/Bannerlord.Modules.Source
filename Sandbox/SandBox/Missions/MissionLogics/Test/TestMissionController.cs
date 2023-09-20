@@ -9,16 +9,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Test
 {
-	// Token: 0x02000061 RID: 97
 	public class TestMissionController : MissionLogic
 	{
-		// Token: 0x06000432 RID: 1074 RVA: 0x0001EEF7 File Offset: 0x0001D0F7
 		public TestMissionController()
 		{
 			this._campaign = Campaign.Current;
 		}
 
-		// Token: 0x06000433 RID: 1075 RVA: 0x0001EF0C File Offset: 0x0001D10C
 		public override void AfterStart()
 		{
 			base.Mission.IsInventoryAccessible = true;
@@ -62,7 +59,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			this.SpawnSheeps();
 		}
 
-		// Token: 0x06000434 RID: 1076 RVA: 0x0001F0E8 File Offset: 0x0001D2E8
 		private void SpawnSheeps()
 		{
 			foreach (GameEntity gameEntity in base.Mission.Scene.FindEntitiesWithTag("sp_sheep"))
@@ -79,7 +75,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x040001FB RID: 507
 		private Campaign _campaign;
 	}
 }

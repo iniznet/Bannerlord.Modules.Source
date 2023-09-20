@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 {
-	// Token: 0x020003DE RID: 990
 	public class MountHealthCondition : MPPerkCondition
 	{
-		// Token: 0x1700092B RID: 2347
-		// (get) Token: 0x06003447 RID: 13383 RVA: 0x000D881C File Offset: 0x000D6A1C
 		public override MPPerkCondition.PerkEventFlags EventFlags
 		{
 			get
@@ -17,12 +14,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			}
 		}
 
-		// Token: 0x06003448 RID: 13384 RVA: 0x000D8823 File Offset: 0x000D6A23
 		protected MountHealthCondition()
 		{
 		}
 
-		// Token: 0x06003449 RID: 13385 RVA: 0x000D882C File Offset: 0x000D6A2C
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -102,13 +97,11 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			}
 		}
 
-		// Token: 0x0600344A RID: 13386 RVA: 0x000D8949 File Offset: 0x000D6B49
 		public override bool Check(MissionPeer peer)
 		{
 			return this.Check((peer != null) ? peer.ControlledAgent : null);
 		}
 
-		// Token: 0x0600344B RID: 13387 RVA: 0x000D8960 File Offset: 0x000D6B60
 		public override bool Check(Agent agent)
 		{
 			agent = ((agent != null && !agent.IsMount) ? agent.MountAgent : agent);
@@ -120,16 +113,12 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			return false;
 		}
 
-		// Token: 0x0400163F RID: 5695
 		protected static string StringType = "MountHealth";
 
-		// Token: 0x04001640 RID: 5696
 		private bool _isRatio;
 
-		// Token: 0x04001641 RID: 5697
 		private float _min;
 
-		// Token: 0x04001642 RID: 5698
 		private float _max;
 	}
 }

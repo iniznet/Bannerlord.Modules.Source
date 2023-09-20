@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 {
-	// Token: 0x020000BB RID: 187
 	public class MissionMultiplayerSpectatorHUDVM : ViewModel
 	{
-		// Token: 0x060011EA RID: 4586 RVA: 0x0003AEE0 File Offset: 0x000390E0
 		public MissionMultiplayerSpectatorHUDVM(Mission mission)
 		{
 			this._mission = mission;
@@ -19,7 +17,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.RefreshValues();
 		}
 
-		// Token: 0x060011EB RID: 4587 RVA: 0x0003AF3C File Offset: 0x0003913C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -28,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.TakeControlText = GameTexts.FindText("str_sergeant_battle_press_action_to_control_bot_2", null).ToString();
 		}
 
-		// Token: 0x060011EC RID: 4588 RVA: 0x0003AF82 File Offset: 0x00039182
 		public void Tick(float dt)
 		{
 			if (this._mission.MainAgent != null)
@@ -38,7 +34,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.UpdateDynamicProperties();
 		}
 
-		// Token: 0x060011ED RID: 4589 RVA: 0x0003AFA0 File Offset: 0x000391A0
 		private void UpdateDynamicProperties()
 		{
 			this.AgentHasShield = false;
@@ -90,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011EE RID: 4590 RVA: 0x0003B260 File Offset: 0x00039460
 		internal void OnSpectatedAgentFocusIn(Agent followedAgent)
 		{
 			this._spectatedAgent = followedAgent;
@@ -131,16 +125,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011EF RID: 4591 RVA: 0x0003B3BE File Offset: 0x000395BE
 		internal void OnSpectatedAgentFocusOut(Agent followedPeer)
 		{
 			this._spectatedAgent = null;
 			this.SpectatedPlayerNeutrality = -1;
 		}
 
-		// Token: 0x170005D1 RID: 1489
-		// (get) Token: 0x060011F0 RID: 4592 RVA: 0x0003B3CE File Offset: 0x000395CE
-		// (set) Token: 0x060011F1 RID: 4593 RVA: 0x0003B3D6 File Offset: 0x000395D6
 		[DataSourceProperty]
 		public int SpectatedPlayerNeutrality
 		{
@@ -159,9 +149,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D2 RID: 1490
-		// (get) Token: 0x060011F2 RID: 4594 RVA: 0x0003B401 File Offset: 0x00039601
-		// (set) Token: 0x060011F3 RID: 4595 RVA: 0x0003B409 File Offset: 0x00039609
 		[DataSourceProperty]
 		public MPTeammateCompassTargetVM CompassElement
 		{
@@ -179,9 +166,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D3 RID: 1491
-		// (get) Token: 0x060011F4 RID: 4596 RVA: 0x0003B427 File Offset: 0x00039627
-		// (set) Token: 0x060011F5 RID: 4597 RVA: 0x0003B42F File Offset: 0x0003962F
 		[DataSourceProperty]
 		public bool IsSpectatingAgent
 		{
@@ -199,9 +183,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D4 RID: 1492
-		// (get) Token: 0x060011F6 RID: 4598 RVA: 0x0003B44D File Offset: 0x0003964D
-		// (set) Token: 0x060011F7 RID: 4599 RVA: 0x0003B455 File Offset: 0x00039655
 		[DataSourceProperty]
 		public bool AgentHasCompassElement
 		{
@@ -219,9 +200,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x060011F8 RID: 4600 RVA: 0x0003B473 File Offset: 0x00039673
-		// (set) Token: 0x060011F9 RID: 4601 RVA: 0x0003B47B File Offset: 0x0003967B
 		[DataSourceProperty]
 		public bool AgentHasMount
 		{
@@ -239,9 +217,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x060011FA RID: 4602 RVA: 0x0003B499 File Offset: 0x00039699
-		// (set) Token: 0x060011FB RID: 4603 RVA: 0x0003B4A1 File Offset: 0x000396A1
 		[DataSourceProperty]
 		public bool ShowAgentHealth
 		{
@@ -259,9 +234,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D7 RID: 1495
-		// (get) Token: 0x060011FC RID: 4604 RVA: 0x0003B4BF File Offset: 0x000396BF
-		// (set) Token: 0x060011FD RID: 4605 RVA: 0x0003B4C7 File Offset: 0x000396C7
 		[DataSourceProperty]
 		public bool AgentHasRangedWeapon
 		{
@@ -279,9 +251,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D8 RID: 1496
-		// (get) Token: 0x060011FE RID: 4606 RVA: 0x0003B4E5 File Offset: 0x000396E5
-		// (set) Token: 0x060011FF RID: 4607 RVA: 0x0003B4ED File Offset: 0x000396ED
 		[DataSourceProperty]
 		public bool AgentHasShield
 		{
@@ -299,9 +268,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D9 RID: 1497
-		// (get) Token: 0x06001200 RID: 4608 RVA: 0x0003B50B File Offset: 0x0003970B
-		// (set) Token: 0x06001201 RID: 4609 RVA: 0x0003B513 File Offset: 0x00039713
 		[DataSourceProperty]
 		public bool CanTakeControlOfSpectatedAgent
 		{
@@ -319,9 +285,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DA RID: 1498
-		// (get) Token: 0x06001202 RID: 4610 RVA: 0x0003B531 File Offset: 0x00039731
-		// (set) Token: 0x06001203 RID: 4611 RVA: 0x0003B539 File Offset: 0x00039739
 		[DataSourceProperty]
 		public string SpectatedPlayerName
 		{
@@ -339,9 +302,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DB RID: 1499
-		// (get) Token: 0x06001204 RID: 4612 RVA: 0x0003B55C File Offset: 0x0003975C
-		// (set) Token: 0x06001205 RID: 4613 RVA: 0x0003B564 File Offset: 0x00039764
 		[DataSourceProperty]
 		public string TakeControlText
 		{
@@ -359,9 +319,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DC RID: 1500
-		// (get) Token: 0x06001206 RID: 4614 RVA: 0x0003B587 File Offset: 0x00039787
-		// (set) Token: 0x06001207 RID: 4615 RVA: 0x0003B58F File Offset: 0x0003978F
 		[DataSourceProperty]
 		public float SpectatedPlayerHealthLimit
 		{
@@ -379,9 +336,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DD RID: 1501
-		// (get) Token: 0x06001208 RID: 4616 RVA: 0x0003B5AD File Offset: 0x000397AD
-		// (set) Token: 0x06001209 RID: 4617 RVA: 0x0003B5B5 File Offset: 0x000397B5
 		[DataSourceProperty]
 		public float SpectatedPlayerCurrentHealth
 		{
@@ -399,9 +353,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DE RID: 1502
-		// (get) Token: 0x0600120A RID: 4618 RVA: 0x0003B5D3 File Offset: 0x000397D3
-		// (set) Token: 0x0600120B RID: 4619 RVA: 0x0003B5DB File Offset: 0x000397DB
 		[DataSourceProperty]
 		public float SpectatedPlayerMountCurrentHealth
 		{
@@ -419,9 +370,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005DF RID: 1503
-		// (get) Token: 0x0600120C RID: 4620 RVA: 0x0003B5F9 File Offset: 0x000397F9
-		// (set) Token: 0x0600120D RID: 4621 RVA: 0x0003B601 File Offset: 0x00039801
 		[DataSourceProperty]
 		public float SpectatedPlayerMountHealthLimit
 		{
@@ -439,9 +387,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005E0 RID: 1504
-		// (get) Token: 0x0600120E RID: 4622 RVA: 0x0003B61F File Offset: 0x0003981F
-		// (set) Token: 0x0600120F RID: 4623 RVA: 0x0003B627 File Offset: 0x00039827
 		[DataSourceProperty]
 		public float SpectatedPlayerShieldCurrentHealth
 		{
@@ -459,9 +404,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005E1 RID: 1505
-		// (get) Token: 0x06001210 RID: 4624 RVA: 0x0003B645 File Offset: 0x00039845
-		// (set) Token: 0x06001211 RID: 4625 RVA: 0x0003B64D File Offset: 0x0003984D
 		[DataSourceProperty]
 		public float SpectatedPlayerShieldHealthLimit
 		{
@@ -479,9 +421,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005E2 RID: 1506
-		// (get) Token: 0x06001212 RID: 4626 RVA: 0x0003B66B File Offset: 0x0003986B
-		// (set) Token: 0x06001213 RID: 4627 RVA: 0x0003B673 File Offset: 0x00039873
 		[DataSourceProperty]
 		public int SpectatedPlayerAmmoAmount
 		{
@@ -499,70 +438,48 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x0400088B RID: 2187
 		private readonly Mission _mission;
 
-		// Token: 0x0400088C RID: 2188
 		private readonly bool _isTeamsEnabled;
 
-		// Token: 0x0400088D RID: 2189
 		private readonly bool _isFlagDominationMode;
 
-		// Token: 0x0400088E RID: 2190
 		private Agent _spectatedAgent;
 
-		// Token: 0x0400088F RID: 2191
 		private string _spectatedPlayerName;
 
-		// Token: 0x04000890 RID: 2192
 		private string _takeControlText;
 
-		// Token: 0x04000891 RID: 2193
 		private int _spectatedPlayerNeutrality = -1;
 
-		// Token: 0x04000892 RID: 2194
 		private bool _isSpectatingPlayer;
 
-		// Token: 0x04000893 RID: 2195
 		private bool _canTakeControlOfSpectatedAgent;
 
-		// Token: 0x04000894 RID: 2196
 		private bool _agentHasMount;
 
-		// Token: 0x04000895 RID: 2197
 		private bool _agentHasShield;
 
-		// Token: 0x04000896 RID: 2198
 		private bool _showAgentHealth;
 
-		// Token: 0x04000897 RID: 2199
 		private bool _agentHasRangedWeapon;
 
-		// Token: 0x04000898 RID: 2200
 		private bool _agentHasCompassElement;
 
-		// Token: 0x04000899 RID: 2201
 		private float _spectatedPlayerHealthLimit;
 
-		// Token: 0x0400089A RID: 2202
 		private float _spectatedPlayerCurrentHealth;
 
-		// Token: 0x0400089B RID: 2203
 		private float _spectatedPlayerMountCurrentHealth;
 
-		// Token: 0x0400089C RID: 2204
 		private float _spectatedPlayerMountHealthLimit;
 
-		// Token: 0x0400089D RID: 2205
 		private float _spectatedPlayerShieldCurrentHealth;
 
-		// Token: 0x0400089E RID: 2206
 		private float _spectatedPlayerShieldHealthLimit;
 
-		// Token: 0x0400089F RID: 2207
 		private int _spectatedPlayerAmmoAmount;
 
-		// Token: 0x040008A0 RID: 2208
 		private MPTeammateCompassTargetVM _compassElement;
 	}
 }

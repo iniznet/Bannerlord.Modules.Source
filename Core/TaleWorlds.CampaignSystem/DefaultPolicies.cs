@@ -4,11 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x02000077 RID: 119
 	public class DefaultPolicies
 	{
-		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x06000ECA RID: 3786 RVA: 0x00044E67 File Offset: 0x00043067
 		private static DefaultPolicies Instance
 		{
 			get
@@ -17,8 +14,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x06000ECB RID: 3787 RVA: 0x00044E73 File Offset: 0x00043073
 		public static PolicyObject LandTax
 		{
 			get
@@ -27,8 +22,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x06000ECC RID: 3788 RVA: 0x00044E7F File Offset: 0x0004307F
 		public static PolicyObject StateMonopolies
 		{
 			get
@@ -37,8 +30,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x06000ECD RID: 3789 RVA: 0x00044E8B File Offset: 0x0004308B
 		public static PolicyObject SacredMajesty
 		{
 			get
@@ -47,8 +38,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003B8 RID: 952
-		// (get) Token: 0x06000ECE RID: 3790 RVA: 0x00044E97 File Offset: 0x00043097
 		public static PolicyObject Magistrates
 		{
 			get
@@ -57,8 +46,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003B9 RID: 953
-		// (get) Token: 0x06000ECF RID: 3791 RVA: 0x00044EA3 File Offset: 0x000430A3
 		public static PolicyObject DebasementOfTheCurrency
 		{
 			get
@@ -67,8 +54,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BA RID: 954
-		// (get) Token: 0x06000ED0 RID: 3792 RVA: 0x00044EAF File Offset: 0x000430AF
 		public static PolicyObject PrecarialLandTenure
 		{
 			get
@@ -77,8 +62,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BB RID: 955
-		// (get) Token: 0x06000ED1 RID: 3793 RVA: 0x00044EBB File Offset: 0x000430BB
 		public static PolicyObject CrownDuty
 		{
 			get
@@ -87,8 +70,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BC RID: 956
-		// (get) Token: 0x06000ED2 RID: 3794 RVA: 0x00044EC7 File Offset: 0x000430C7
 		public static PolicyObject ImperialTowns
 		{
 			get
@@ -97,8 +78,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BD RID: 957
-		// (get) Token: 0x06000ED3 RID: 3795 RVA: 0x00044ED3 File Offset: 0x000430D3
 		public static PolicyObject RoyalCommissions
 		{
 			get
@@ -107,8 +86,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BE RID: 958
-		// (get) Token: 0x06000ED4 RID: 3796 RVA: 0x00044EDF File Offset: 0x000430DF
 		public static PolicyObject RoyalGuard
 		{
 			get
@@ -117,8 +94,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003BF RID: 959
-		// (get) Token: 0x06000ED5 RID: 3797 RVA: 0x00044EEB File Offset: 0x000430EB
 		public static PolicyObject WarTax
 		{
 			get
@@ -127,8 +102,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C0 RID: 960
-		// (get) Token: 0x06000ED6 RID: 3798 RVA: 0x00044EF7 File Offset: 0x000430F7
 		public static PolicyObject RoyalPrivilege
 		{
 			get
@@ -137,8 +110,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C1 RID: 961
-		// (get) Token: 0x06000ED7 RID: 3799 RVA: 0x00044F03 File Offset: 0x00043103
 		public static PolicyObject KingsMercenaries
 		{
 			get
@@ -147,8 +118,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C2 RID: 962
-		// (get) Token: 0x06000ED8 RID: 3800 RVA: 0x00044F0F File Offset: 0x0004310F
 		public static PolicyObject Senate
 		{
 			get
@@ -157,8 +126,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C3 RID: 963
-		// (get) Token: 0x06000ED9 RID: 3801 RVA: 0x00044F1B File Offset: 0x0004311B
 		public static PolicyObject LordsPrivyCouncil
 		{
 			get
@@ -167,8 +134,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C4 RID: 964
-		// (get) Token: 0x06000EDA RID: 3802 RVA: 0x00044F27 File Offset: 0x00043127
 		public static PolicyObject MilitaryCoronae
 		{
 			get
@@ -177,8 +142,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C5 RID: 965
-		// (get) Token: 0x06000EDB RID: 3803 RVA: 0x00044F33 File Offset: 0x00043133
 		public static PolicyObject FeudalInheritance
 		{
 			get
@@ -187,8 +150,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C6 RID: 966
-		// (get) Token: 0x06000EDC RID: 3804 RVA: 0x00044F3F File Offset: 0x0004313F
 		public static PolicyObject Serfdom
 		{
 			get
@@ -197,8 +158,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C7 RID: 967
-		// (get) Token: 0x06000EDD RID: 3805 RVA: 0x00044F4B File Offset: 0x0004314B
 		public static PolicyObject NobleRetinues
 		{
 			get
@@ -207,8 +166,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C8 RID: 968
-		// (get) Token: 0x06000EDE RID: 3806 RVA: 0x00044F57 File Offset: 0x00043157
 		public static PolicyObject CastleCharters
 		{
 			get
@@ -217,8 +174,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003C9 RID: 969
-		// (get) Token: 0x06000EDF RID: 3807 RVA: 0x00044F63 File Offset: 0x00043163
 		public static PolicyObject Bailiffs
 		{
 			get
@@ -227,8 +182,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CA RID: 970
-		// (get) Token: 0x06000EE0 RID: 3808 RVA: 0x00044F6F File Offset: 0x0004316F
 		public static PolicyObject HuntingRights
 		{
 			get
@@ -237,8 +190,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CB RID: 971
-		// (get) Token: 0x06000EE1 RID: 3809 RVA: 0x00044F7B File Offset: 0x0004317B
 		public static PolicyObject RoadTolls
 		{
 			get
@@ -247,8 +198,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CC RID: 972
-		// (get) Token: 0x06000EE2 RID: 3810 RVA: 0x00044F87 File Offset: 0x00043187
 		public static PolicyObject Peerage
 		{
 			get
@@ -257,8 +206,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CD RID: 973
-		// (get) Token: 0x06000EE3 RID: 3811 RVA: 0x00044F93 File Offset: 0x00043193
 		public static PolicyObject Marshals
 		{
 			get
@@ -267,8 +214,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CE RID: 974
-		// (get) Token: 0x06000EE4 RID: 3812 RVA: 0x00044F9F File Offset: 0x0004319F
 		public static PolicyObject CouncilOfTheCommons
 		{
 			get
@@ -277,8 +222,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003CF RID: 975
-		// (get) Token: 0x06000EE5 RID: 3813 RVA: 0x00044FAB File Offset: 0x000431AB
 		public static PolicyObject ForgivenessOfDebts
 		{
 			get
@@ -287,8 +230,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D0 RID: 976
-		// (get) Token: 0x06000EE6 RID: 3814 RVA: 0x00044FB7 File Offset: 0x000431B7
 		public static PolicyObject Citizenship
 		{
 			get
@@ -297,8 +238,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D1 RID: 977
-		// (get) Token: 0x06000EE7 RID: 3815 RVA: 0x00044FC3 File Offset: 0x000431C3
 		public static PolicyObject TribunesOfThePeople
 		{
 			get
@@ -307,8 +246,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D2 RID: 978
-		// (get) Token: 0x06000EE8 RID: 3816 RVA: 0x00044FCF File Offset: 0x000431CF
 		public static PolicyObject GrazingRights
 		{
 			get
@@ -317,8 +254,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D3 RID: 979
-		// (get) Token: 0x06000EE9 RID: 3817 RVA: 0x00044FDB File Offset: 0x000431DB
 		public static PolicyObject LandGrantsForVeterans
 		{
 			get
@@ -327,8 +262,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D4 RID: 980
-		// (get) Token: 0x06000EEA RID: 3818 RVA: 0x00044FE7 File Offset: 0x000431E7
 		public static PolicyObject Lawspeakers
 		{
 			get
@@ -337,8 +270,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D5 RID: 981
-		// (get) Token: 0x06000EEB RID: 3819 RVA: 0x00044FF3 File Offset: 0x000431F3
 		public static PolicyObject TrialByJury
 		{
 			get
@@ -347,8 +278,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D6 RID: 982
-		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x00044FFF File Offset: 0x000431FF
 		public static PolicyObject Cantons
 		{
 			get
@@ -357,13 +286,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000EED RID: 3821 RVA: 0x0004500B File Offset: 0x0004320B
 		public DefaultPolicies()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x06000EEE RID: 3822 RVA: 0x0004501C File Offset: 0x0004321C
 		private void RegisterAll()
 		{
 			this._policyLandTax = this.Create("policy_land_tax");
@@ -403,13 +330,11 @@ namespace TaleWorlds.CampaignSystem
 			this.InitializeAll();
 		}
 
-		// Token: 0x06000EEF RID: 3823 RVA: 0x00045271 File Offset: 0x00043471
 		private PolicyObject Create(string stringId)
 		{
 			return Game.Current.ObjectManager.RegisterPresumedObject<PolicyObject>(new PolicyObject(stringId));
 		}
 
-		// Token: 0x06000EF0 RID: 3824 RVA: 0x00045288 File Offset: 0x00043488
 		private void InitializeAll()
 		{
 			this._policyLandTax.Initialize(new TextObject("{=Tw2FaO0m}Land Tax", null), new TextObject("{=MWvzJSH1}A shift in the tax system that put more emphasis on property and less on the head tax charged to everyone could collect more from wealthy landowners.", null), new TextObject("{=0I6xdead}taxing landowners on their property", null), new TextObject("{=OWwPj500}5% of the village income is paid to the ruler clan as tax{newline}5% less village income for clans", null), 0.7f, 0.15f, -0.7f);
@@ -448,106 +373,72 @@ namespace TaleWorlds.CampaignSystem
 			this._policyCantons.Initialize(new TextObject("{=D6YLpUQa}Cantons", null), new TextObject("{=FMUlfbJf}Rulers organize farmers into groups of households responsible for supplying troops. This makes recruiting easier, but at the cost of their economic productivity.", null), new TextObject("{=PXhIFXbv}organizing households to supply military recruits", null), new TextObject("{=bPpdw81a}Daily militia production is increased by 1{newline}Recruits replenish 20% faster{newline}Tax income in settlements are reduced by 10%", null), -0.2f, -0.1f, 0.4f);
 		}
 
-		// Token: 0x040004D6 RID: 1238
 		private PolicyObject _policyLandTax;
 
-		// Token: 0x040004D7 RID: 1239
 		private PolicyObject _policyStateMonopolies;
 
-		// Token: 0x040004D8 RID: 1240
 		private PolicyObject _policySacredMajesty;
 
-		// Token: 0x040004D9 RID: 1241
 		private PolicyObject _policyMagistrates;
 
-		// Token: 0x040004DA RID: 1242
 		private PolicyObject _policyDebasementOfTheCurrency;
 
-		// Token: 0x040004DB RID: 1243
 		private PolicyObject _policyPrecarialLandTenure;
 
-		// Token: 0x040004DC RID: 1244
 		private PolicyObject _policyCrownDuty;
 
-		// Token: 0x040004DD RID: 1245
 		private PolicyObject _policyImperialTowns;
 
-		// Token: 0x040004DE RID: 1246
 		private PolicyObject _policyRoyalCommissions;
 
-		// Token: 0x040004DF RID: 1247
 		private PolicyObject _policyRoyalGuard;
 
-		// Token: 0x040004E0 RID: 1248
 		private PolicyObject _policyWarTax;
 
-		// Token: 0x040004E1 RID: 1249
 		private PolicyObject _policyRoyalPrivilege;
 
-		// Token: 0x040004E2 RID: 1250
 		private PolicyObject _policyKingsMercenaries;
 
-		// Token: 0x040004E3 RID: 1251
 		private PolicyObject _policySenate;
 
-		// Token: 0x040004E4 RID: 1252
 		private PolicyObject _policyLordsPrivyCouncil;
 
-		// Token: 0x040004E5 RID: 1253
 		private PolicyObject _policyMilitaryCoronae;
 
-		// Token: 0x040004E6 RID: 1254
 		private PolicyObject _policyFeudalInheritance;
 
-		// Token: 0x040004E7 RID: 1255
 		private PolicyObject _policySerfdom;
 
-		// Token: 0x040004E8 RID: 1256
 		private PolicyObject _policyNobleRetinues;
 
-		// Token: 0x040004E9 RID: 1257
 		private PolicyObject _policyCastleCharters;
 
-		// Token: 0x040004EA RID: 1258
 		private PolicyObject _policyBailiffs;
 
-		// Token: 0x040004EB RID: 1259
 		private PolicyObject _policyHuntingRights;
 
-		// Token: 0x040004EC RID: 1260
 		private PolicyObject _policyRoadTolls;
 
-		// Token: 0x040004ED RID: 1261
 		private PolicyObject _policyPeerage;
 
-		// Token: 0x040004EE RID: 1262
 		private PolicyObject _policyMarshals;
 
-		// Token: 0x040004EF RID: 1263
 		private PolicyObject _policyCouncilOfTheCommons;
 
-		// Token: 0x040004F0 RID: 1264
 		private PolicyObject _policyCitizenship;
 
-		// Token: 0x040004F1 RID: 1265
 		private PolicyObject _policyForgivenessOfDebts;
 
-		// Token: 0x040004F2 RID: 1266
 		private PolicyObject _policyTribunesOfThePeople;
 
-		// Token: 0x040004F3 RID: 1267
 		private PolicyObject _policyGrazingRights;
 
-		// Token: 0x040004F4 RID: 1268
 		private PolicyObject _policyLandGrantsForVeterans;
 
-		// Token: 0x040004F5 RID: 1269
 		private PolicyObject _policyLawspeakers;
 
-		// Token: 0x040004F6 RID: 1270
 		private PolicyObject _policyTrialByJury;
 
-		// Token: 0x040004F7 RID: 1271
 		private PolicyObject _policyCantons;
 	}
 }

@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x0200000A RID: 10
 	public class ChangeAmountTextWidget : TextWidget
 	{
-		// Token: 0x0600002D RID: 45 RVA: 0x00002562 File Offset: 0x00000762
 		public ChangeAmountTextWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00002574 File Offset: 0x00000774
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -48,9 +45,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x0600002F RID: 47 RVA: 0x0000264E File Offset: 0x0000084E
-		// (set) Token: 0x06000030 RID: 48 RVA: 0x00002656 File Offset: 0x00000856
 		[Editor(false)]
 		public int Amount
 		{
@@ -69,9 +63,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000031 RID: 49 RVA: 0x0000267B File Offset: 0x0000087B
-		// (set) Token: 0x06000032 RID: 50 RVA: 0x00002683 File Offset: 0x00000883
 		[Editor(false)]
 		public bool UseParentheses
 		{
@@ -89,9 +80,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x06000033 RID: 51 RVA: 0x000026A1 File Offset: 0x000008A1
-		// (set) Token: 0x06000034 RID: 52 RVA: 0x000026A9 File Offset: 0x000008A9
 		[Editor(false)]
 		public bool ShouldBeVisible
 		{
@@ -109,9 +97,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000035 RID: 53 RVA: 0x000026C7 File Offset: 0x000008C7
-		// (set) Token: 0x06000036 RID: 54 RVA: 0x000026D0 File Offset: 0x000008D0
 		[Editor(false)]
 		public string NegativeBrushName
 		{
@@ -130,9 +115,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x06000037 RID: 55 RVA: 0x00002741 File Offset: 0x00000941
-		// (set) Token: 0x06000038 RID: 56 RVA: 0x0000274C File Offset: 0x0000094C
 		[Editor(false)]
 		public string PositiveBrushName
 		{
@@ -151,28 +133,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x04000010 RID: 16
 		private bool _isVisualsDirty;
 
-		// Token: 0x04000011 RID: 17
 		private Brush _negativeBrush;
 
-		// Token: 0x04000012 RID: 18
 		private Brush _positiveBrush;
 
-		// Token: 0x04000013 RID: 19
 		private bool _useParentheses;
 
-		// Token: 0x04000014 RID: 20
 		private int _amount;
 
-		// Token: 0x04000015 RID: 21
 		private string _negativeBrushName;
 
-		// Token: 0x04000016 RID: 22
 		private string _positiveBrushName;
 
-		// Token: 0x04000017 RID: 23
 		private bool _shouldBeVisible = true;
 	}
 }

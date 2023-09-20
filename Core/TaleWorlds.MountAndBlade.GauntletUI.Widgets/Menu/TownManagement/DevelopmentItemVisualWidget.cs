@@ -4,16 +4,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 {
-	// Token: 0x020000EB RID: 235
 	public class DevelopmentItemVisualWidget : Widget
 	{
-		// Token: 0x06000C40 RID: 3136 RVA: 0x00022222 File Offset: 0x00020422
 		public DevelopmentItemVisualWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000C41 RID: 3137 RVA: 0x0002222C File Offset: 0x0002042C
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x06000C42 RID: 3138 RVA: 0x000222AC File Offset: 0x000204AC
 		private string DetermineSpriteImageFromSpriteCode(string spriteCode, bool useSmallVariant)
 		{
 			uint num = <PrivateImplementationDetails>.ComputeStringHash(spriteCode);
@@ -369,9 +365,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			return text;
 		}
 
-		// Token: 0x17000462 RID: 1122
-		// (get) Token: 0x06000C43 RID: 3139 RVA: 0x00022759 File Offset: 0x00020959
-		// (set) Token: 0x06000C44 RID: 3140 RVA: 0x00022761 File Offset: 0x00020961
 		[Editor(false)]
 		public bool UseSmallVariant
 		{
@@ -389,9 +382,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x17000463 RID: 1123
-		// (get) Token: 0x06000C45 RID: 3141 RVA: 0x0002277F File Offset: 0x0002097F
-		// (set) Token: 0x06000C46 RID: 3142 RVA: 0x00022787 File Offset: 0x00020987
 		[Editor(false)]
 		public bool IsDaily
 		{
@@ -409,9 +399,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x17000464 RID: 1124
-		// (get) Token: 0x06000C47 RID: 3143 RVA: 0x000227A5 File Offset: 0x000209A5
-		// (set) Token: 0x06000C48 RID: 3144 RVA: 0x000227AD File Offset: 0x000209AD
 		[Editor(false)]
 		public string SpriteCode
 		{
@@ -430,9 +417,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x17000465 RID: 1125
-		// (get) Token: 0x06000C49 RID: 3145 RVA: 0x000227D7 File Offset: 0x000209D7
-		// (set) Token: 0x06000C4A RID: 3146 RVA: 0x000227DF File Offset: 0x000209DF
 		[Editor(false)]
 		public Widget DevelopmentFrontVisualWidget
 		{
@@ -450,22 +434,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x040005A5 RID: 1445
 		private const string _defaultBuildingSpriteName = "building_default";
 
-		// Token: 0x040005A6 RID: 1446
 		private bool _changedVisualToSmallVariant;
 
-		// Token: 0x040005A7 RID: 1447
 		private bool _useSmallVariant;
 
-		// Token: 0x040005A8 RID: 1448
 		private bool _isDaily;
 
-		// Token: 0x040005A9 RID: 1449
 		private string _spriteCode;
 
-		// Token: 0x040005AA RID: 1450
 		private Widget _developmentFrontVisualWidget;
 	}
 }

@@ -11,11 +11,9 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200024A RID: 586
 	[MissionManager]
 	public static class BannerlordMissions
 	{
-		// Token: 0x06001FE4 RID: 8164 RVA: 0x00071124 File Offset: 0x0006F324
 		private static Type GetSiegeWeaponType(SiegeEngineType siegeWeaponType)
 		{
 			if (siegeWeaponType == DefaultSiegeEngineTypes.Ladder)
@@ -53,7 +51,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06001FE5 RID: 8165 RVA: 0x000711F4 File Offset: 0x0006F3F4
 		private static Dictionary<Type, int> GetSiegeWeaponTypes(Dictionary<SiegeEngineType, int> values)
 		{
 			Dictionary<Type, int> dictionary = new Dictionary<Type, int>();
@@ -64,7 +61,6 @@ namespace TaleWorlds.MountAndBlade
 			return dictionary;
 		}
 
-		// Token: 0x06001FE6 RID: 8166 RVA: 0x0007125C File Offset: 0x0006F45C
 		private static AtmosphereInfo CreateAtmosphereInfoForMission(string seasonId, int timeOfDay)
 		{
 			Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -92,7 +88,6 @@ namespace TaleWorlds.MountAndBlade
 			};
 		}
 
-		// Token: 0x06001FE7 RID: 8167 RVA: 0x00071320 File Offset: 0x0006F520
 		[MissionMethod]
 		public static Mission OpenCustomBattleMission(string scene, BasicCharacterObject playerCharacter, CustomBattleCombatant playerParty, CustomBattleCombatant enemyParty, bool isPlayerGeneral, BasicCharacterObject playerSideGeneralCharacter, string sceneLevels = "", string seasonString = "", float timeOfDay = 6f)
 		{
@@ -142,7 +137,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06001FE8 RID: 8168 RVA: 0x0007143C File Offset: 0x0006F63C
 		[MissionMethod]
 		public static Mission OpenSiegeMissionWithDeployment(string scene, BasicCharacterObject playerCharacter, CustomBattleCombatant playerParty, CustomBattleCombatant enemyParty, bool isPlayerGeneral, float[] wallHitPointPercentages, bool hasAnySiegeTower, List<MissionSiegeWeapon> siegeWeaponsOfAttackers, List<MissionSiegeWeapon> siegeWeaponsOfDefenders, bool isPlayerAttacker, int sceneUpgradeLevel = 0, string seasonString = "", bool isSallyOut = false, bool isReliefForceAttack = false, float timeOfDay = 6f)
 		{
@@ -217,7 +211,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06001FE9 RID: 8169 RVA: 0x0007159C File Offset: 0x0006F79C
 		[MissionMethod]
 		public static Mission OpenCustomBattleLordsHallMission(string scene, BasicCharacterObject playerCharacter, CustomBattleCombatant playerParty, CustomBattleCombatant enemyParty, BasicCharacterObject playerSideGeneralCharacter, string sceneLevels = "", int sceneUpgradeLevel = 0, string seasonString = "", float timeOfDay = 6f)
 		{
@@ -273,31 +266,21 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x04000BD3 RID: 3027
 		private const string Level1Tag = "level_1";
 
-		// Token: 0x04000BD4 RID: 3028
 		private const string Level2Tag = "level_2";
 
-		// Token: 0x04000BD5 RID: 3029
 		private const string Level3Tag = "level_3";
 
-		// Token: 0x04000BD6 RID: 3030
 		private const string SiegeTag = "siege";
 
-		// Token: 0x04000BD7 RID: 3031
 		private const string SallyOutTag = "sally";
 
-		// Token: 0x0200055A RID: 1370
 		private enum CustomBattleGameTypes
 		{
-			// Token: 0x04001CC6 RID: 7366
 			AttackerGeneral,
-			// Token: 0x04001CC7 RID: 7367
 			DefenderGeneral,
-			// Token: 0x04001CC8 RID: 7368
 			AttackerSergeant,
-			// Token: 0x04001CC9 RID: 7369
 			DefenderSergeant
 		}
 	}

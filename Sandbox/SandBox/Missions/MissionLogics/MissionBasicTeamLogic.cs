@@ -6,17 +6,14 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000045 RID: 69
 	public class MissionBasicTeamLogic : MissionLogic
 	{
-		// Token: 0x06000370 RID: 880 RVA: 0x000190AD File Offset: 0x000172AD
 		public override void AfterStart()
 		{
 			base.AfterStart();
 			this.InitializeTeams(true);
 		}
 
-		// Token: 0x06000371 RID: 881 RVA: 0x000190BC File Offset: 0x000172BC
 		private void GetTeamColor(BattleSideEnum side, bool isPlayerAttacker, out uint teamColor1, out uint teamColor2)
 		{
 			teamColor1 = uint.MaxValue;
@@ -43,7 +40,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000372 RID: 882 RVA: 0x000191A4 File Offset: 0x000173A4
 		private void InitializeTeams(bool isPlayerAttacker = true)
 		{
 			if (!Extensions.IsEmpty<Team>(base.Mission.Teams))

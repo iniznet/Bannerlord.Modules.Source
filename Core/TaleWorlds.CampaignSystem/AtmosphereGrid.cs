@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x02000020 RID: 32
 	public class AtmosphereGrid
 	{
-		// Token: 0x06000149 RID: 329 RVA: 0x0000E7A6 File Offset: 0x0000C9A6
 		public void Initialize()
 		{
 			this.states = Campaign.Current.MapSceneWrapper.GetAtmosphereStates().ToList<AtmosphereState>();
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x0000E7C4 File Offset: 0x0000C9C4
 		public AtmosphereState GetInterpolatedStateInfo(Vec3 pos)
 		{
 			AtmosphereGrid.<>c__DisplayClass3_0 CS$<>8__locals1 = new AtmosphereGrid.<>c__DisplayClass3_0();
@@ -68,16 +65,12 @@ namespace TaleWorlds.CampaignSystem
 			return atmosphereState2;
 		}
 
-		// Token: 0x04000032 RID: 50
 		private List<AtmosphereState> states = new List<AtmosphereState>();
 
-		// Token: 0x02000478 RID: 1144
 		private struct AtmosphereStateSortData
 		{
-			// Token: 0x04001371 RID: 4977
 			public Vec3 Position;
 
-			// Token: 0x04001372 RID: 4978
 			public int InitialIndex;
 		}
 	}

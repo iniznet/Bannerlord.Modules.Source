@@ -12,11 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000114 RID: 276
 	public class DefaultKingdomCreationModel : KingdomCreationModel
 	{
-		// Token: 0x170005FC RID: 1532
-		// (get) Token: 0x060015D2 RID: 5586 RVA: 0x00067518 File Offset: 0x00065718
 		public override int MinimumClanTierToCreateKingdom
 		{
 			get
@@ -25,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005FD RID: 1533
-		// (get) Token: 0x060015D3 RID: 5587 RVA: 0x0006751B File Offset: 0x0006571B
 		public override int MinimumNumberOfSettlementsOwnedToCreateKingdom
 		{
 			get
@@ -35,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005FE RID: 1534
-		// (get) Token: 0x060015D4 RID: 5588 RVA: 0x0006751E File Offset: 0x0006571E
 		public override int MinimumTroopCountToCreateKingdom
 		{
 			get
@@ -45,8 +38,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005FF RID: 1535
-		// (get) Token: 0x060015D5 RID: 5589 RVA: 0x00067522 File Offset: 0x00065722
 		public override int MaximumNumberOfInitialPolicies
 		{
 			get
@@ -55,7 +46,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015D6 RID: 5590 RVA: 0x00067528 File Offset: 0x00065728
 		public override bool IsPlayerKingdomCreationPossible(out List<TextObject> explanations)
 		{
 			bool flag = true;
@@ -109,7 +99,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015D7 RID: 5591 RVA: 0x00067690 File Offset: 0x00065890
 		public override bool IsPlayerKingdomAbdicationPossible(out List<TextObject> explanations)
 		{
 			explanations = new List<TextObject>();
@@ -132,7 +121,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return obj2 != null && !flag && !flag2;
 		}
 
-		// Token: 0x060015D8 RID: 5592 RVA: 0x0006774E File Offset: 0x0006594E
 		public override IEnumerable<CultureObject> GetAvailablePlayerKingdomCultures()
 		{
 			List<CultureObject> list = new List<CultureObject>();

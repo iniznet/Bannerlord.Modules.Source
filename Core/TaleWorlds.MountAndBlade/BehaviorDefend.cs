@@ -4,17 +4,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000FF RID: 255
 	public class BehaviorDefend : BehaviorComponent
 	{
-		// Token: 0x06000C9D RID: 3229 RVA: 0x0001AEAB File Offset: 0x000190AB
 		public BehaviorDefend(Formation formation)
 			: base(formation)
 		{
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000C9E RID: 3230 RVA: 0x0001AEC8 File Offset: 0x000190C8
 		protected override void CalculateCurrentOrder()
 		{
 			Vec2 vec;
@@ -67,7 +64,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C9F RID: 3231 RVA: 0x0001B10C File Offset: 0x0001930C
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -106,7 +102,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CA0 RID: 3232 RVA: 0x0001B2C8 File Offset: 0x000194C8
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -118,7 +113,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CA1 RID: 3233 RVA: 0x0001B33D File Offset: 0x0001953D
 		public override void ResetBehavior()
 		{
 			base.ResetBehavior();
@@ -126,16 +120,13 @@ namespace TaleWorlds.MountAndBlade
 			this.TacticalDefendPosition = null;
 		}
 
-		// Token: 0x06000CA2 RID: 3234 RVA: 0x0001B357 File Offset: 0x00019557
 		protected override float GetAiWeight()
 		{
 			return 1f;
 		}
 
-		// Token: 0x040002F9 RID: 761
 		public WorldPosition DefensePosition = WorldPosition.Invalid;
 
-		// Token: 0x040002FA RID: 762
 		public TacticalPosition TacticalDefendPosition;
 	}
 }

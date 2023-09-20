@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
-	// Token: 0x02000028 RID: 40
 	public class OrderTroopItemFormationClassVM : ViewModel
 	{
-		// Token: 0x060002E1 RID: 737 RVA: 0x0000D54C File Offset: 0x0000B74C
 		public OrderTroopItemFormationClassVM(Formation formation, FormationClass formationClass)
 		{
 			this._formation = formation;
@@ -15,7 +13,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.FormationClassValue = (int)formationClass;
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x0000D56C File Offset: 0x0000B76C
 		public void UpdateTroopCount()
 		{
 			switch (this.FormationClass)
@@ -37,9 +34,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E0 RID: 224
-		// (get) Token: 0x060002E3 RID: 739 RVA: 0x0000D62A File Offset: 0x0000B82A
-		// (set) Token: 0x060002E4 RID: 740 RVA: 0x0000D632 File Offset: 0x0000B832
 		[DataSourceProperty]
 		public int FormationClassValue
 		{
@@ -57,9 +51,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E1 RID: 225
-		// (get) Token: 0x060002E5 RID: 741 RVA: 0x0000D650 File Offset: 0x0000B850
-		// (set) Token: 0x060002E6 RID: 742 RVA: 0x0000D658 File Offset: 0x0000B858
 		[DataSourceProperty]
 		public int TroopCount
 		{
@@ -77,16 +68,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x04000167 RID: 359
 		public readonly FormationClass FormationClass;
 
-		// Token: 0x04000168 RID: 360
 		private readonly Formation _formation;
 
-		// Token: 0x04000169 RID: 361
 		private int _formationClassValue;
 
-		// Token: 0x0400016A RID: 362
 		private int _troopCount;
 	}
 }

@@ -10,11 +10,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000385 RID: 901
 	public class CompanionsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CBE RID: 3262
-		// (get) Token: 0x060034C2 RID: 13506 RVA: 0x000E1DD1 File Offset: 0x000DFFD1
 		private float _desiredTotalCompanionCount
 		{
 			get
@@ -23,7 +20,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034C3 RID: 13507 RVA: 0x000E1DE4 File Offset: 0x000DFFE4
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
@@ -35,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
 		}
 
-		// Token: 0x060034C4 RID: 13508 RVA: 0x000E1E92 File Offset: 0x000E0092
 		private void DailyTick()
 		{
 			this.TryKillCompanion();
@@ -43,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.TrySpawnNewCompanion();
 		}
 
-		// Token: 0x060034C5 RID: 13509 RVA: 0x000E1EA8 File Offset: 0x000E00A8
 		private void WeeklyTick()
 		{
 			foreach (Hero hero in Hero.DeadOrDisabledHeroes.ToList<Hero>())
@@ -55,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034C6 RID: 13510 RVA: 0x000E1F30 File Offset: 0x000E0130
 		private void RemoveFromAliveCompanions(Hero companion)
 		{
 			CharacterObject template = companion.Template;
@@ -65,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034C7 RID: 13511 RVA: 0x000E1F60 File Offset: 0x000E0160
 		private void AddToAliveCompanions(Hero companion)
 		{
 			CharacterObject template = companion.Template;
@@ -75,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034C8 RID: 13512 RVA: 0x000E1F98 File Offset: 0x000E0198
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			this.RemoveFromAliveCompanions(victim);
@@ -85,7 +76,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034C9 RID: 13513 RVA: 0x000E1FC9 File Offset: 0x000E01C9
 		private void OnHeroOccupationChanged(Hero hero, Occupation oldOccupation)
 		{
 			if (oldOccupation == Occupation.Wanderer)
@@ -99,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034CA RID: 13514 RVA: 0x000E1FE9 File Offset: 0x000E01E9
 		private void OnHeroCreated(Hero hero, bool showNotification = true)
 		{
 			if (hero.IsAlive && hero.IsWanderer)
@@ -108,7 +97,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034CB RID: 13515 RVA: 0x000E2004 File Offset: 0x000E0204
 		private void TryKillCompanion()
 		{
 			if (MBRandom.RandomFloat <= 0.1f)
@@ -130,7 +118,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034CC RID: 13516 RVA: 0x000E20AC File Offset: 0x000E02AC
 		private void TrySpawnNewCompanion()
 		{
 			if ((float)this._aliveCompanionTemplates.Count < this._desiredTotalCompanionCount)
@@ -151,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034CD RID: 13517 RVA: 0x000E2110 File Offset: 0x000E0310
 		private void SwapCompanions()
 		{
 			int num = Town.AllTowns.Count / 2;
@@ -180,12 +166,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034CE RID: 13518 RVA: 0x000E2223 File Offset: 0x000E0423
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060034CF RID: 13519 RVA: 0x000E2228 File Offset: 0x000E0428
 		private void OnNewGameCreated(CampaignGameStarter starter)
 		{
 			this.InitializeCompanionTemplateList();
@@ -199,7 +183,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D0 RID: 13520 RVA: 0x000E2270 File Offset: 0x000E0470
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.InitializeCompanionTemplateList();
@@ -219,14 +202,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D1 RID: 13521 RVA: 0x000E2324 File Offset: 0x000E0524
 		private void AdjustEquipment(Hero hero)
 		{
 			this.AdjustEquipmentImp(hero.BattleEquipment);
 			this.AdjustEquipmentImp(hero.CivilianEquipment);
 		}
 
-		// Token: 0x060034D2 RID: 13522 RVA: 0x000E2340 File Offset: 0x000E0540
 		private void AdjustEquipmentImp(Equipment equipment)
 		{
 			ItemModifier @object = MBObjectManager.Instance.GetObject<ItemModifier>("companion_armor");
@@ -253,7 +234,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D3 RID: 13523 RVA: 0x000E2414 File Offset: 0x000E0614
 		private void InitializeCompanionTemplateList()
 		{
 			foreach (CultureObject cultureObject in MBObjectManager.Instance.GetObjectTypeList<CultureObject>())
@@ -268,7 +248,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D4 RID: 13524 RVA: 0x000E24C0 File Offset: 0x000E06C0
 		private CompanionsCampaignBehavior.CompanionTemplateType GetTemplateTypeOfCompanion(CharacterObject character)
 		{
 			CompanionsCampaignBehavior.CompanionTemplateType companionTemplateType = CompanionsCampaignBehavior.CompanionTemplateType.Combat;
@@ -302,7 +281,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return companionTemplateType;
 		}
 
-		// Token: 0x060034D5 RID: 13525 RVA: 0x000E25AC File Offset: 0x000E07AC
 		private void CreateCompanionAndAddToSettlement(Settlement settlement)
 		{
 			CharacterObject companionTemplate = this.GetCompanionTemplateToSpawn();
@@ -321,7 +299,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D6 RID: 13526 RVA: 0x000E264C File Offset: 0x000E084C
 		private CompanionsCampaignBehavior.CompanionTemplateType GetCompanionTemplateTypeToSpawn()
 		{
 			CompanionsCampaignBehavior.CompanionTemplateType companionTemplateType = CompanionsCampaignBehavior.CompanionTemplateType.Combat;
@@ -351,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return companionTemplateType;
 		}
 
-		// Token: 0x060034D7 RID: 13527 RVA: 0x000E274C File Offset: 0x000E094C
 		private CharacterObject GetCompanionTemplateToSpawn()
 		{
 			List<CharacterObject> list = this._companionsOfTemplates[this.GetCompanionTemplateTypeToSpawn()];
@@ -368,7 +344,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return characterObject;
 		}
 
-		// Token: 0x060034D8 RID: 13528 RVA: 0x000E27C0 File Offset: 0x000E09C0
 		private float GetTemplateTypeScore(CompanionsCampaignBehavior.CompanionTemplateType templateType)
 		{
 			switch (templateType)
@@ -398,7 +373,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034D9 RID: 13529 RVA: 0x000E2840 File Offset: 0x000E0A40
 		private bool IsTemplateKnown(CharacterObject companionTemplate)
 		{
 			foreach (KeyValuePair<CompanionsCampaignBehavior.CompanionTemplateType, List<CharacterObject>> keyValuePair in this._companionsOfTemplates)
@@ -414,7 +388,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060034DA RID: 13530 RVA: 0x000E28B4 File Offset: 0x000E0AB4
 		private CompanionsCampaignBehavior.CompanionTemplateType GetTemplateTypeForSkill(SkillObject skill)
 		{
 			CompanionsCampaignBehavior.CompanionTemplateType companionTemplateType = CompanionsCampaignBehavior.CompanionTemplateType.Combat;
@@ -457,22 +430,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return companionTemplateType;
 		}
 
-		// Token: 0x04001122 RID: 4386
 		private const int CompanionMoveRandomIndex = 2;
 
-		// Token: 0x04001123 RID: 4387
 		private const float DesiredCompanionPerTown = 0.6f;
 
-		// Token: 0x04001124 RID: 4388
 		private const float KillChance = 0.1f;
 
-		// Token: 0x04001125 RID: 4389
 		private const int SkillThresholdValue = 20;
 
-		// Token: 0x04001126 RID: 4390
 		private const int RemoveWandererAfterDays = 40;
 
-		// Token: 0x04001127 RID: 4391
 		private IReadOnlyDictionary<CompanionsCampaignBehavior.CompanionTemplateType, List<CharacterObject>> _companionsOfTemplates = new Dictionary<CompanionsCampaignBehavior.CompanionTemplateType, List<CharacterObject>>
 		{
 			{
@@ -517,64 +484,41 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		};
 
-		// Token: 0x04001128 RID: 4392
 		private HashSet<CharacterObject> _aliveCompanionTemplates = new HashSet<CharacterObject>();
 
-		// Token: 0x04001129 RID: 4393
 		private const float EngineerScore = 2f;
 
-		// Token: 0x0400112A RID: 4394
 		private const float TacticsScore = 4f;
 
-		// Token: 0x0400112B RID: 4395
 		private const float LeadershipScore = 3f;
 
-		// Token: 0x0400112C RID: 4396
 		private const float StewardScore = 3f;
 
-		// Token: 0x0400112D RID: 4397
 		private const float TradeScore = 3f;
 
-		// Token: 0x0400112E RID: 4398
 		private const float RogueryScore = 4f;
 
-		// Token: 0x0400112F RID: 4399
 		private const float MedicineScore = 3f;
 
-		// Token: 0x04001130 RID: 4400
 		private const float SmithingScore = 2f;
 
-		// Token: 0x04001131 RID: 4401
 		private const float ScoutingScore = 5f;
 
-		// Token: 0x04001132 RID: 4402
 		private const float CombatScore = 5f;
 
-		// Token: 0x04001133 RID: 4403
 		private const float AllScore = 34f;
 
-		// Token: 0x020006C8 RID: 1736
 		private enum CompanionTemplateType
 		{
-			// Token: 0x04001BED RID: 7149
 			Engineering,
-			// Token: 0x04001BEE RID: 7150
 			Tactics,
-			// Token: 0x04001BEF RID: 7151
 			Leadership,
-			// Token: 0x04001BF0 RID: 7152
 			Steward,
-			// Token: 0x04001BF1 RID: 7153
 			Trade,
-			// Token: 0x04001BF2 RID: 7154
 			Roguery,
-			// Token: 0x04001BF3 RID: 7155
 			Medicine,
-			// Token: 0x04001BF4 RID: 7156
 			Smithing,
-			// Token: 0x04001BF5 RID: 7157
 			Scouting,
-			// Token: 0x04001BF6 RID: 7158
 			Combat
 		}
 	}

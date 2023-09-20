@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 {
-	// Token: 0x020000D3 RID: 211
 	public class SingleQueryPopUpVM : PopUpBaseVM
 	{
-		// Token: 0x060013B7 RID: 5047 RVA: 0x00040CED File Offset: 0x0003EEED
 		public SingleQueryPopUpVM(Action closeQuery)
 			: base(closeQuery)
 		{
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.ButtonCancelHint = new HintViewModel();
 		}
 
-		// Token: 0x060013B8 RID: 5048 RVA: 0x00040D0C File Offset: 0x0003EF0C
 		public override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -43,7 +40,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x060013B9 RID: 5049 RVA: 0x00040D97 File Offset: 0x0003EF97
 		public override void ExecuteAffirmativeAction()
 		{
 			Action affirmativeAction = this._data.AffirmativeAction;
@@ -54,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.CloseQuery();
 		}
 
-		// Token: 0x060013BA RID: 5050 RVA: 0x00040DB5 File Offset: 0x0003EFB5
 		public override void ExecuteNegativeAction()
 		{
 			Action negativeAction = this._data.NegativeAction;
@@ -65,14 +60,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.CloseQuery();
 		}
 
-		// Token: 0x060013BB RID: 5051 RVA: 0x00040DD3 File Offset: 0x0003EFD3
 		public override void OnClearData()
 		{
 			base.OnClearData();
 			this._data = null;
 		}
 
-		// Token: 0x060013BC RID: 5052 RVA: 0x00040DE4 File Offset: 0x0003EFE4
 		private void UpdateButtonEnabledStates()
 		{
 			if (this._data.GetIsAffirmativeOptionEnabled != null)
@@ -105,7 +98,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			this._lastButtonCancelHint = string.Empty;
 		}
 
-		// Token: 0x060013BD RID: 5053 RVA: 0x00040F18 File Offset: 0x0003F118
 		public void SetData(InquiryData data)
 		{
 			this._data = data;
@@ -123,9 +115,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			this.TotalQueryTime = (float)MathF.Round(this._data.ExpireTime);
 		}
 
-		// Token: 0x17000682 RID: 1666
-		// (get) Token: 0x060013BE RID: 5054 RVA: 0x00040FE0 File Offset: 0x0003F1E0
-		// (set) Token: 0x060013BF RID: 5055 RVA: 0x00040FE8 File Offset: 0x0003F1E8
 		[DataSourceProperty]
 		public float RemainingQueryTime
 		{
@@ -143,9 +132,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x17000683 RID: 1667
-		// (get) Token: 0x060013C0 RID: 5056 RVA: 0x00041006 File Offset: 0x0003F206
-		// (set) Token: 0x060013C1 RID: 5057 RVA: 0x0004100E File Offset: 0x0003F20E
 		[DataSourceProperty]
 		public float TotalQueryTime
 		{
@@ -163,9 +149,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x17000684 RID: 1668
-		// (get) Token: 0x060013C2 RID: 5058 RVA: 0x0004102C File Offset: 0x0003F22C
-		// (set) Token: 0x060013C3 RID: 5059 RVA: 0x00041034 File Offset: 0x0003F234
 		[DataSourceProperty]
 		public bool IsTimerShown
 		{
@@ -183,25 +166,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x04000978 RID: 2424
 		private InquiryData _data;
 
-		// Token: 0x04000979 RID: 2425
 		private float _queryTimer;
 
-		// Token: 0x0400097A RID: 2426
 		private string _lastButtonOkHint;
 
-		// Token: 0x0400097B RID: 2427
 		private string _lastButtonCancelHint;
 
-		// Token: 0x0400097C RID: 2428
 		private float _remainingQueryTime;
 
-		// Token: 0x0400097D RID: 2429
 		private float _totalQueryTime;
 
-		// Token: 0x0400097E RID: 2430
 		private bool _isTimerShown;
 	}
 }

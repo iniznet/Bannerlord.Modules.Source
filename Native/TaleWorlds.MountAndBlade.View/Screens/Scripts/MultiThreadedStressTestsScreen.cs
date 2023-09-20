@@ -7,10 +7,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Screens.Scripts
 {
-	// Token: 0x02000036 RID: 54
 	public class MultiThreadedStressTestsScreen : ScreenBase
 	{
-		// Token: 0x0600027D RID: 637 RVA: 0x00016ED0 File Offset: 0x000150D0
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -47,7 +45,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens.Scripts
 			}
 		}
 
-		// Token: 0x0600027E RID: 638 RVA: 0x0001703C File Offset: 0x0001523C
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -55,7 +52,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens.Scripts
 			this._scene = null;
 		}
 
-		// Token: 0x0600027F RID: 639 RVA: 0x00017054 File Offset: 0x00015254
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -73,19 +69,14 @@ namespace TaleWorlds.MountAndBlade.View.Screens.Scripts
 			}
 		}
 
-		// Token: 0x04000194 RID: 404
 		private List<Thread> _workerThreads;
 
-		// Token: 0x04000195 RID: 405
 		private Scene _scene;
 
-		// Token: 0x04000196 RID: 406
 		private SceneView _sceneView;
 
-		// Token: 0x020000AD RID: 173
 		public static class MultiThreadedTestFunctions
 		{
-			// Token: 0x0600053E RID: 1342 RVA: 0x00026C2C File Offset: 0x00024E2C
 			public static void MeshMerger(InputLayout layout)
 			{
 				Mesh mesh = Mesh.GetRandomMeshWithVdecl(layout);
@@ -105,7 +96,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens.Scripts
 				mesh.UnlockEditDataWrite(uintPtr);
 			}
 
-			// Token: 0x0600053F RID: 1343 RVA: 0x00026D94 File Offset: 0x00024F94
 			public static void SceneHandler(SceneView view)
 			{
 				int i = 0;

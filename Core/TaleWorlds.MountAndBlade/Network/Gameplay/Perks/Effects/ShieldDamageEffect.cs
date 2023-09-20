@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CF RID: 975
 	public class ShieldDamageEffect : MPPerkEffect
 	{
-		// Token: 0x060033F3 RID: 13299 RVA: 0x000D7720 File Offset: 0x000D5920
 		protected ShieldDamageEffect()
 		{
 		}
 
-		// Token: 0x060033F4 RID: 13300 RVA: 0x000D7728 File Offset: 0x000D5928
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -85,7 +82,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033F5 RID: 13301 RVA: 0x000D782C File Offset: 0x000D5A2C
 		public override float GetShieldDamage(bool isCorrectSideBlock)
 		{
 			switch (this._blockType)
@@ -109,23 +105,16 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x0400161D RID: 5661
 		protected static string StringType = "ShieldDamage";
 
-		// Token: 0x0400161E RID: 5662
 		private float _value;
 
-		// Token: 0x0400161F RID: 5663
 		private ShieldDamageEffect.BlockType _blockType;
 
-		// Token: 0x020006C5 RID: 1733
 		private enum BlockType
 		{
-			// Token: 0x040022A6 RID: 8870
 			Any,
-			// Token: 0x040022A7 RID: 8871
 			CorrectSide,
-			// Token: 0x040022A8 RID: 8872
 			WrongSide
 		}
 	}

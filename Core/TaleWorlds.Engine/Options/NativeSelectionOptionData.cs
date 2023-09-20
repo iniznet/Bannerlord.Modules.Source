@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine.Options
 {
-	// Token: 0x020000A3 RID: 163
 	public class NativeSelectionOptionData : NativeOptionData, ISelectionOptionData, IOptionData
 	{
-		// Token: 0x06000BF2 RID: 3058 RVA: 0x0000D91A File Offset: 0x0000BB1A
 		public NativeSelectionOptionData(NativeOptions.NativeOptionsType type)
 			: base(type)
 		{
@@ -15,19 +13,16 @@ namespace TaleWorlds.Engine.Options
 			this._selectableOptionNames = NativeSelectionOptionData.GetOptionNames(type);
 		}
 
-		// Token: 0x06000BF3 RID: 3059 RVA: 0x0000D93B File Offset: 0x0000BB3B
 		public int GetSelectableOptionsLimit()
 		{
 			return this._selectableOptionsLimit;
 		}
 
-		// Token: 0x06000BF4 RID: 3060 RVA: 0x0000D943 File Offset: 0x0000BB43
 		public IEnumerable<SelectionData> GetSelectableOptionNames()
 		{
 			return NativeSelectionOptionData.GetOptionNames(this.Type);
 		}
 
-		// Token: 0x06000BF5 RID: 3061 RVA: 0x0000D950 File Offset: 0x0000BB50
 		public static int GetOptionsLimit(NativeOptions.NativeOptionsType optionType)
 		{
 			switch (optionType)
@@ -100,7 +95,6 @@ namespace TaleWorlds.Engine.Options
 			return 0;
 		}
 
-		// Token: 0x06000BF6 RID: 3062 RVA: 0x0000DA6A File Offset: 0x0000BC6A
 		private static IEnumerable<SelectionData> GetOptionNames(NativeOptions.NativeOptionsType type)
 		{
 			if (type == NativeOptions.NativeOptionsType.SoundDevice)
@@ -183,16 +177,13 @@ namespace TaleWorlds.Engine.Options
 			yield break;
 		}
 
-		// Token: 0x06000BF7 RID: 3063 RVA: 0x0000DA7A File Offset: 0x0000BC7A
 		private static string GetAspectRatioOfResolution(int width, int height)
 		{
 			return string.Format("{0}:{1}", width / MathF.GreatestCommonDivisor(width, height), height / MathF.GreatestCommonDivisor(width, height));
 		}
 
-		// Token: 0x040001FF RID: 511
 		private readonly int _selectableOptionsLimit;
 
-		// Token: 0x04000200 RID: 512
 		private readonly IEnumerable<SelectionData> _selectableOptionNames;
 	}
 }

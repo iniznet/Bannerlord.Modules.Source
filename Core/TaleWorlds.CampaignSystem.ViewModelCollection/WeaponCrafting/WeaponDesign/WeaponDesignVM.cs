@@ -18,10 +18,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDesign
 {
-	// Token: 0x020000E9 RID: 233
 	public class WeaponDesignVM : ViewModel
 	{
-		// Token: 0x0600154F RID: 5455 RVA: 0x0004F600 File Offset: 0x0004D800
 		public WeaponDesignVM(Crafting crafting, ICraftingCampaignBehavior craftingBehavior, Action onRefresh, Action onWeaponCrafted, Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero, Action<CraftingOrder> refreshHeroAvailabilities, Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> getItemUsageSetFlags)
 		{
 			this._crafting = crafting;
@@ -96,7 +94,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._selectedWeaponClassIndex = this._primaryUsages.IndexOf(this._crafting.CurrentCraftingTemplate);
 		}
 
-		// Token: 0x06001550 RID: 5456 RVA: 0x0004F9D0 File Offset: 0x0004DBD0
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -141,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CurrentCraftedWeaponTemplateId = this._crafting.CurrentCraftingTemplate.StringId;
 		}
 
-		// Token: 0x06001551 RID: 5457 RVA: 0x0004FB8C File Offset: 0x0004DD8C
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -164,14 +160,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CraftedItemVisual = null;
 		}
 
-		// Token: 0x06001552 RID: 5458 RVA: 0x0004FBE4 File Offset: 0x0004DDE4
 		internal void OnCraftingLogicRefreshed(Crafting newCraftingLogic)
 		{
 			this._crafting = newCraftingLogic;
 			this.InitializeDefaultFromLogic();
 		}
 
-		// Token: 0x06001553 RID: 5459 RVA: 0x0004FBF4 File Offset: 0x0004DDF4
 		private void FilterPieces(WeaponDesignVM.CraftingPieceTierFilter filter)
 		{
 			List<int> list = new List<int>();
@@ -227,7 +221,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._currentTierFilter = filter;
 		}
 
-		// Token: 0x06001554 RID: 5460 RVA: 0x0004FD9C File Offset: 0x0004DF9C
 		private void OnNewPieceUnlocked(CraftingPiece piece)
 		{
 			if (piece.IsValid && !piece.IsHiddenOnDesigner)
@@ -242,13 +235,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001555 RID: 5461 RVA: 0x0004FDE0 File Offset: 0x0004DFE0
 		private int GetUnlockedPartsCount(CraftingTemplate template)
 		{
 			return template.Pieces.Count((CraftingPiece piece) => this._craftingBehavior.IsOpened(piece, template) && !string.IsNullOrEmpty(piece.MeshName));
 		}
 
-		// Token: 0x06001556 RID: 5462 RVA: 0x0004FE1D File Offset: 0x0004E01D
 		private WeaponClassVM GetCurrentWeaponClass()
 		{
 			if (this._selectedWeaponClassIndex >= 0 && this._selectedWeaponClassIndex < this.WeaponClassSelectionPopup.WeaponClasses.Count)
@@ -258,7 +249,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			return null;
 		}
 
-		// Token: 0x06001557 RID: 5463 RVA: 0x0004FE58 File Offset: 0x0004E058
 		private void OnSelectItemFromHistory(WeaponDesignSelectorVM selector)
 		{
 			WeaponDesign design = selector.Design;
@@ -275,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.SetDesignManually(design.Template, array, true);
 		}
 
-		// Token: 0x06001558 RID: 5464 RVA: 0x0004FEE4 File Offset: 0x0004E0E4
 		public void SetPieceNewlyUnlocked(CraftingPiece piece)
 		{
 			if (!this._newlyUnlockedPieces.Contains(piece))
@@ -284,7 +273,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001559 RID: 5465 RVA: 0x0004FF00 File Offset: 0x0004E100
 		private void UnsetPieceNewlyUnlocked(CraftingPieceVM pieceVM)
 		{
 			CraftingPiece craftingPiece = pieceVM.CraftingPiece.CraftingPiece;
@@ -295,7 +283,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600155A RID: 5466 RVA: 0x0004FF3B File Offset: 0x0004E13B
 		private void OnSelectPieceTierFilter(WeaponDesignVM.CraftingPieceTierFilter filter)
 		{
 			if (this._currentTierFilter != filter)
@@ -304,7 +291,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600155B RID: 5467 RVA: 0x0004FF50 File Offset: 0x0004E150
 		private void OnSelectPieceType(CraftingPiece.PieceTypes pieceType)
 		{
 			CraftingPieceListVM craftingPieceListVM = this.PieceLists.ElementAt(this.SelectedPieceTypeIndex);
@@ -327,7 +313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.SelectedPieceTypeIndex = (int)pieceType;
 		}
 
-		// Token: 0x0600155C RID: 5468 RVA: 0x00050038 File Offset: 0x0004E238
 		private void SelectDefaultPiecesForCurrentTemplate()
 		{
 			CraftingOrderItemVM activeCraftingOrder = this.ActiveCraftingOrder;
@@ -367,7 +352,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._shouldRecordHistory = true;
 		}
 
-		// Token: 0x0600155D RID: 5469 RVA: 0x000501CC File Offset: 0x0004E3CC
 		private void InitializeDefaultFromLogic()
 		{
 			this.PrimaryPropertyList.Clear();
@@ -424,7 +408,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.RefreshAlternativeUsageList();
 		}
 
-		// Token: 0x0600155E RID: 5470 RVA: 0x0005054C File Offset: 0x0004E74C
 		private void RefreshPieceFlags()
 		{
 			foreach (CraftingPieceListVM craftingPieceListVM in this.PieceLists)
@@ -442,7 +425,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.RefreshWeaponFlags();
 		}
 
-		// Token: 0x0600155F RID: 5471 RVA: 0x00050600 File Offset: 0x0004E800
 		private void AddClassFlagsToPiece(CraftingPieceVM piece)
 		{
 			WeaponComponentData weaponWithUsageIndex = this._crafting.GetCurrentCraftedItemObject(false, null).GetWeaponWithUsageIndex(this.SecondaryUsageSelector.SelectedIndex);
@@ -475,7 +457,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001560 RID: 5472 RVA: 0x0005078C File Offset: 0x0004E98C
 		private void UpdateSecondaryUsageIndex(SelectorVM<CraftingSecondaryUsageItemVM> selector)
 		{
 			if (selector.SelectedIndex != -1)
@@ -485,7 +466,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001561 RID: 5473 RVA: 0x000507A4 File Offset: 0x0004E9A4
 		private void UpdateResultPropertyList()
 		{
 			this.DesignResultPropertyList.Clear();
@@ -537,7 +517,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001562 RID: 5474 RVA: 0x00050960 File Offset: 0x0004EB60
 		public void SelectPrimaryWeaponClass(CraftingTemplate template)
 		{
 			int num = this._primaryUsages.IndexOf(template);
@@ -550,7 +529,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.AddHistoryKey();
 		}
 
-		// Token: 0x06001563 RID: 5475 RVA: 0x0005099C File Offset: 0x0004EB9C
 		private void RefreshWeaponDesignMode(CraftingOrderItemVM orderToSelect, int classIndex = -1, bool doNotAutoSelectPieces = false)
 		{
 			bool flag = false;
@@ -609,13 +587,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001564 RID: 5476 RVA: 0x00050AEB File Offset: 0x0004ECEB
 		private void OnCraftingOrderSelected(CraftingOrderItemVM selectedOrder)
 		{
 			this.RefreshWeaponDesignMode(selectedOrder, -1, false);
 		}
 
-		// Token: 0x06001565 RID: 5477 RVA: 0x00050AF8 File Offset: 0x0004ECF8
 		public void ExecuteOpenOrderPopup()
 		{
 			this.CraftingOrderPopup.ExecuteOpenPopup();
@@ -632,13 +608,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001566 RID: 5478 RVA: 0x00050B3E File Offset: 0x0004ED3E
 		public void ExecuteCloseOrderPopup()
 		{
 			this.CraftingOrderPopup.IsVisible = false;
 		}
 
-		// Token: 0x06001567 RID: 5479 RVA: 0x00050B4C File Offset: 0x0004ED4C
 		public void ExecuteOpenWeaponClassSelectionPopup()
 		{
 			this.WeaponClassSelectionPopup.UpdateNewlyUnlockedPiecesCount(this._newlyUnlockedPieces);
@@ -657,7 +631,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			});
 		}
 
-		// Token: 0x06001568 RID: 5480 RVA: 0x00050BCC File Offset: 0x0004EDCC
 		public void CreateCraftingResultPopup()
 		{
 			WeaponDesignResultPopupVM craftingResultPopup = this.CraftingResultPopup;
@@ -671,14 +644,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CraftingResultPopup = new WeaponDesignResultPopupVM(action, crafting, (activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder : null, this.WeaponFlagIconsList, this.CraftedItemObject, this._designResultPropertyList, this._itemName, this._craftedItemVisual);
 		}
 
-		// Token: 0x06001569 RID: 5481 RVA: 0x00050C37 File Offset: 0x0004EE37
 		public void ExecuteToggleShowOnlyUnlockedPieces()
 		{
 			this.ShowOnlyUnlockedPieces = !this.ShowOnlyUnlockedPieces;
 			this.FilterPieces(this._currentTierFilter);
 		}
 
-		// Token: 0x0600156A RID: 5482 RVA: 0x00050C54 File Offset: 0x0004EE54
 		public void ExecuteUndo()
 		{
 			if (this._crafting.Undo())
@@ -706,7 +677,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600156B RID: 5483 RVA: 0x00050D0C File Offset: 0x0004EF0C
 		public void ExecuteRedo()
 		{
 			if (this._crafting.Redo())
@@ -734,7 +704,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600156C RID: 5484 RVA: 0x00050DC4 File Offset: 0x0004EFC4
 		internal void OnCraftingHeroChanged(CraftingAvailableHeroItemVM newHero)
 		{
 			this.RefreshCurrentHeroSkillLevel();
@@ -742,7 +711,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CraftingOrderPopup.RefreshOrders();
 		}
 
-		// Token: 0x0600156D RID: 5485 RVA: 0x00050DE0 File Offset: 0x0004EFE0
 		public void ChangeModeIfHeroIsUnavailable()
 		{
 			CraftingAvailableHeroItemVM craftingAvailableHeroItemVM = this._getCurrentCraftingHero();
@@ -752,7 +720,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600156E RID: 5486 RVA: 0x00050E14 File Offset: 0x0004F014
 		public void ExecuteRandomize()
 		{
 			for (int i = 0; i < 4; i++)
@@ -773,7 +740,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._updatePiece = true;
 		}
 
-		// Token: 0x0600156F RID: 5487 RVA: 0x00050EB0 File Offset: 0x0004F0B0
 		public void ExecuteChangeScabbardVisibility()
 		{
 			if (!this._crafting.CurrentCraftingTemplate.UseWeaponAsHolsterMesh)
@@ -782,7 +748,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001570 RID: 5488 RVA: 0x00050ED4 File Offset: 0x0004F0D4
 		public void SelectWeapon(ItemObject itemObject)
 		{
 			this._crafting.SwitchToCraftedItem(itemObject);
@@ -809,7 +774,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._updatePiece = true;
 		}
 
-		// Token: 0x06001571 RID: 5489 RVA: 0x00050FAC File Offset: 0x0004F1AC
 		public bool CanCompleteOrder()
 		{
 			bool flag = true;
@@ -821,7 +785,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			return flag;
 		}
 
-		// Token: 0x06001572 RID: 5490 RVA: 0x00050FF4 File Offset: 0x0004F1F4
 		public void ExecuteFinalizeCrafting()
 		{
 			if (this._craftingBehavior != null && Campaign.Current.GameMode == CampaignGameMode.Campaign)
@@ -865,7 +828,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001573 RID: 5491 RVA: 0x0005111C File Offset: 0x0004F31C
 		public void RegisterTempItemObject()
 		{
 			this._tempItemObjectForVisual = this._crafting.GetCurrentCraftedItemObject(true, null);
@@ -880,7 +842,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.IsWeaponCivilian = this._tempItemObjectForVisual.IsCivilian;
 		}
 
-		// Token: 0x06001574 RID: 5492 RVA: 0x000511B8 File Offset: 0x0004F3B8
 		public void UnregisterTempItemObject()
 		{
 			if (this._tempItemObjectForVisual != null)
@@ -889,13 +850,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001575 RID: 5493 RVA: 0x000511D2 File Offset: 0x0004F3D2
 		private bool DoesCurrentItemHaveSecondaryUsage(int usageIndex)
 		{
 			return usageIndex >= 0 && usageIndex < this._crafting.GetCurrentCraftedItemObject(false, null).Weapons.Count;
 		}
 
-		// Token: 0x06001576 RID: 5494 RVA: 0x000511F4 File Offset: 0x0004F3F4
 		private void TrySetSecondaryUsageIndex(int usageIndex)
 		{
 			int num = 0;
@@ -914,7 +873,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001577 RID: 5495 RVA: 0x00051280 File Offset: 0x0004F480
 		private void RefreshAlternativeUsageList()
 		{
 			int num = this.SecondaryUsageSelector.SelectedIndex;
@@ -938,7 +896,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.TrySetSecondaryUsageIndex(num);
 		}
 
-		// Token: 0x06001578 RID: 5496 RVA: 0x0005135C File Offset: 0x0004F55C
 		private void RefreshStats()
 		{
 			if (!this.DoesCurrentItemHaveSecondaryUsage(this.SecondaryUsageSelector.SelectedIndex))
@@ -998,7 +955,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.MissingPropertyWarningText = CampaignUIHelper.GetCraftingOrderMissingPropertyWarningText((activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder : null, currentCraftedItemObject);
 		}
 
-		// Token: 0x06001579 RID: 5497 RVA: 0x00051644 File Offset: 0x0004F844
 		private IEnumerable<CraftingStatData> GetOrderStatDatas(CraftingOrder order)
 		{
 			if (order == null)
@@ -1009,7 +965,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			return order.GetStatDataForItem(order.PreCraftedWeaponDesignItem, out weaponComponentData);
 		}
 
-		// Token: 0x0600157A RID: 5498 RVA: 0x00051664 File Offset: 0x0004F864
 		private void RefreshWeaponFlags()
 		{
 			this.WeaponFlagIconsList.Clear();
@@ -1032,13 +987,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0600157B RID: 5499 RVA: 0x0005172C File Offset: 0x0004F92C
 		private void RefreshName()
 		{
 			this._crafting.SetCraftedWeaponName(this.ItemName);
 		}
 
-		// Token: 0x0600157C RID: 5500 RVA: 0x0005173F File Offset: 0x0004F93F
 		private void OnSetItemPieceManually(CraftingPieceVM piece)
 		{
 			this.OnSetItemPiece(piece, 0, true, false);
@@ -1046,7 +999,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.AddHistoryKey();
 		}
 
-		// Token: 0x0600157D RID: 5501 RVA: 0x00051758 File Offset: 0x0004F958
 		private void OnSetItemPiece(CraftingPieceVM piece, int scalePercentage = 0, bool shouldUpdateWholeWeapon = true, bool forceUpdatePiece = false)
 		{
 			CraftingPiece.PieceTypes pieceType = (CraftingPiece.PieceTypes)piece.PieceType;
@@ -1107,7 +1059,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			});
 		}
 
-		// Token: 0x0600157E RID: 5502 RVA: 0x000518AF File Offset: 0x0004FAAF
 		public void RefreshItem()
 		{
 			this.RefreshStats();
@@ -1121,7 +1072,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			onRefresh();
 		}
 
-		// Token: 0x0600157F RID: 5503 RVA: 0x000518D4 File Offset: 0x0004FAD4
 		private void RefreshDifficulty()
 		{
 			this.CurrentDifficulty = Campaign.Current.Models.SmithingModel.CalculateWeaponDesignDifficulty(this._crafting.CurrentWeaponDesign);
@@ -1136,21 +1086,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CurrentOrderDifficultyText = this.GetCurrentOrderDifficultyText(this.CurrentOrderDifficulty);
 		}
 
-		// Token: 0x06001580 RID: 5504 RVA: 0x00051996 File Offset: 0x0004FB96
 		private string GetCurrentDifficultyText(int skillValue, int difficultyValue)
 		{
 			this._difficultyTextobj.SetTextVariable("DIFFICULTY", difficultyValue);
 			return this._difficultyTextobj.ToString();
 		}
 
-		// Token: 0x06001581 RID: 5505 RVA: 0x000519B5 File Offset: 0x0004FBB5
 		private string GetCurrentOrderDifficultyText(int orderDifficulty)
 		{
 			this._orderDifficultyTextObj.SetTextVariable("DIFFICULTY", orderDifficulty.ToString());
 			return this._orderDifficultyTextObj.ToString();
 		}
 
-		// Token: 0x06001582 RID: 5506 RVA: 0x000519DC File Offset: 0x0004FBDC
 		private void RefreshCurrentHeroSkillLevel()
 		{
 			Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero = this._getCurrentCraftingHero;
@@ -1171,7 +1118,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CurrentDifficultyText = this.GetCurrentDifficultyText(this.CurrentHeroCraftingSkill, this.CurrentDifficulty);
 		}
 
-		// Token: 0x06001583 RID: 5507 RVA: 0x00051A9C File Offset: 0x0004FC9C
 		public bool HaveUnlockedAllSelectedPieces()
 		{
 			foreach (CraftingPieceListVM craftingPieceListVM in this.PieceLists)
@@ -1188,7 +1134,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			return true;
 		}
 
-		// Token: 0x06001584 RID: 5508 RVA: 0x00051B14 File Offset: 0x0004FD14
 		private void AddHistoryKey()
 		{
 			if (this._shouldRecordHistory)
@@ -1197,14 +1142,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001585 RID: 5509 RVA: 0x00051B2C File Offset: 0x0004FD2C
 		public void SwitchToPiece(WeaponDesignElement usedPiece)
 		{
 			CraftingPieceVM craftingPieceVM = this._pieceListsDictionary[usedPiece.CraftingPiece.PieceType].Pieces.FirstOrDefault((CraftingPieceVM p) => p.CraftingPiece.CraftingPiece == usedPiece.CraftingPiece);
 			this.OnSetItemPiece(craftingPieceVM, usedPiece.ScalePercentage, true, false);
 		}
 
-		// Token: 0x06001586 RID: 5510 RVA: 0x00051B8C File Offset: 0x0004FD8C
 		internal void SetDesignManually(CraftingTemplate craftingTemplate, ValueTuple<CraftingPiece, int>[] pieces, bool forceChangeTemplate = false)
 		{
 			int num = this._primaryUsages.IndexOf(craftingTemplate);
@@ -1234,9 +1177,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000734 RID: 1844
-		// (get) Token: 0x06001587 RID: 5511 RVA: 0x00051C8E File Offset: 0x0004FE8E
-		// (set) Token: 0x06001588 RID: 5512 RVA: 0x00051C96 File Offset: 0x0004FE96
 		[DataSourceProperty]
 		public MBBindingList<TierFilterTypeVM> TierFilters
 		{
@@ -1254,9 +1194,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000735 RID: 1845
-		// (get) Token: 0x06001589 RID: 5513 RVA: 0x00051CB4 File Offset: 0x0004FEB4
-		// (set) Token: 0x0600158A RID: 5514 RVA: 0x00051CBC File Offset: 0x0004FEBC
 		[DataSourceProperty]
 		public string CurrentCraftedWeaponTemplateId
 		{
@@ -1274,9 +1211,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000736 RID: 1846
-		// (get) Token: 0x0600158B RID: 5515 RVA: 0x00051CDF File Offset: 0x0004FEDF
-		// (set) Token: 0x0600158C RID: 5516 RVA: 0x00051CE7 File Offset: 0x0004FEE7
 		[DataSourceProperty]
 		public string ChooseOrderText
 		{
@@ -1294,9 +1228,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000737 RID: 1847
-		// (get) Token: 0x0600158D RID: 5517 RVA: 0x00051D0A File Offset: 0x0004FF0A
-		// (set) Token: 0x0600158E RID: 5518 RVA: 0x00051D12 File Offset: 0x0004FF12
 		[DataSourceProperty]
 		public string ChooseWeaponTypeText
 		{
@@ -1314,9 +1245,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000738 RID: 1848
-		// (get) Token: 0x0600158F RID: 5519 RVA: 0x00051D35 File Offset: 0x0004FF35
-		// (set) Token: 0x06001590 RID: 5520 RVA: 0x00051D3D File Offset: 0x0004FF3D
 		[DataSourceProperty]
 		public string CurrentCraftedWeaponTypeText
 		{
@@ -1334,9 +1262,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000739 RID: 1849
-		// (get) Token: 0x06001591 RID: 5521 RVA: 0x00051D60 File Offset: 0x0004FF60
-		// (set) Token: 0x06001592 RID: 5522 RVA: 0x00051D68 File Offset: 0x0004FF68
 		[DataSourceProperty]
 		public MBBindingList<CraftingPieceListVM> PieceLists
 		{
@@ -1354,9 +1279,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073A RID: 1850
-		// (get) Token: 0x06001593 RID: 5523 RVA: 0x00051D86 File Offset: 0x0004FF86
-		// (set) Token: 0x06001594 RID: 5524 RVA: 0x00051D8E File Offset: 0x0004FF8E
 		[DataSourceProperty]
 		public int SelectedPieceTypeIndex
 		{
@@ -1374,9 +1296,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073B RID: 1851
-		// (get) Token: 0x06001595 RID: 5525 RVA: 0x00051DAC File Offset: 0x0004FFAC
-		// (set) Token: 0x06001596 RID: 5526 RVA: 0x00051DB4 File Offset: 0x0004FFB4
 		[DataSourceProperty]
 		public bool ShowOnlyUnlockedPieces
 		{
@@ -1394,9 +1313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073C RID: 1852
-		// (get) Token: 0x06001597 RID: 5527 RVA: 0x00051DD2 File Offset: 0x0004FFD2
-		// (set) Token: 0x06001598 RID: 5528 RVA: 0x00051DDA File Offset: 0x0004FFDA
 		[DataSourceProperty]
 		public string MissingPropertyWarningText
 		{
@@ -1414,9 +1330,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073D RID: 1853
-		// (get) Token: 0x06001599 RID: 5529 RVA: 0x00051DFD File Offset: 0x0004FFFD
-		// (set) Token: 0x0600159A RID: 5530 RVA: 0x00051E05 File Offset: 0x00050005
 		[DataSourceProperty]
 		public WeaponDesignResultPopupVM CraftingResultPopup
 		{
@@ -1434,9 +1347,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x0600159B RID: 5531 RVA: 0x00051E23 File Offset: 0x00050023
-		// (set) Token: 0x0600159C RID: 5532 RVA: 0x00051E2B File Offset: 0x0005002B
 		[DataSourceProperty]
 		public bool IsOrderButtonActive
 		{
@@ -1454,9 +1364,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700073F RID: 1855
-		// (get) Token: 0x0600159D RID: 5533 RVA: 0x00051E49 File Offset: 0x00050049
-		// (set) Token: 0x0600159E RID: 5534 RVA: 0x00051E51 File Offset: 0x00050051
 		[DataSourceProperty]
 		public bool IsInOrderMode
 		{
@@ -1475,9 +1382,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000740 RID: 1856
-		// (get) Token: 0x0600159F RID: 5535 RVA: 0x00051E7A File Offset: 0x0005007A
-		// (set) Token: 0x060015A0 RID: 5536 RVA: 0x00051E85 File Offset: 0x00050085
 		[DataSourceProperty]
 		public bool IsInFreeMode
 		{
@@ -1496,9 +1400,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000741 RID: 1857
-		// (get) Token: 0x060015A1 RID: 5537 RVA: 0x00051EB1 File Offset: 0x000500B1
-		// (set) Token: 0x060015A2 RID: 5538 RVA: 0x00051EB9 File Offset: 0x000500B9
 		[DataSourceProperty]
 		public bool WeaponControlsEnabled
 		{
@@ -1516,9 +1417,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000742 RID: 1858
-		// (get) Token: 0x060015A3 RID: 5539 RVA: 0x00051ED7 File Offset: 0x000500D7
-		// (set) Token: 0x060015A4 RID: 5540 RVA: 0x00051EDF File Offset: 0x000500DF
 		[DataSourceProperty]
 		public string FreeModeButtonText
 		{
@@ -1536,9 +1434,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000743 RID: 1859
-		// (get) Token: 0x060015A5 RID: 5541 RVA: 0x00051F02 File Offset: 0x00050102
-		// (set) Token: 0x060015A6 RID: 5542 RVA: 0x00051F0A File Offset: 0x0005010A
 		[DataSourceProperty]
 		public CraftingOrderItemVM ActiveCraftingOrder
 		{
@@ -1556,9 +1451,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000744 RID: 1860
-		// (get) Token: 0x060015A7 RID: 5543 RVA: 0x00051F28 File Offset: 0x00050128
-		// (set) Token: 0x060015A8 RID: 5544 RVA: 0x00051F30 File Offset: 0x00050130
 		[DataSourceProperty]
 		public CraftingOrderPopupVM CraftingOrderPopup
 		{
@@ -1576,9 +1468,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000745 RID: 1861
-		// (get) Token: 0x060015A9 RID: 5545 RVA: 0x00051F4E File Offset: 0x0005014E
-		// (set) Token: 0x060015AA RID: 5546 RVA: 0x00051F56 File Offset: 0x00050156
 		[DataSourceProperty]
 		public WeaponClassSelectionPopupVM WeaponClassSelectionPopup
 		{
@@ -1596,9 +1485,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000746 RID: 1862
-		// (get) Token: 0x060015AB RID: 5547 RVA: 0x00051F74 File Offset: 0x00050174
-		// (set) Token: 0x060015AC RID: 5548 RVA: 0x00051F7C File Offset: 0x0005017C
 		[DataSourceProperty]
 		public MBBindingList<CraftingListPropertyItem> PrimaryPropertyList
 		{
@@ -1616,9 +1502,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000747 RID: 1863
-		// (get) Token: 0x060015AD RID: 5549 RVA: 0x00051F9A File Offset: 0x0005019A
-		// (set) Token: 0x060015AE RID: 5550 RVA: 0x00051FA2 File Offset: 0x000501A2
 		[DataSourceProperty]
 		public MBBindingList<WeaponDesignResultPropertyItemVM> DesignResultPropertyList
 		{
@@ -1636,9 +1519,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000748 RID: 1864
-		// (get) Token: 0x060015AF RID: 5551 RVA: 0x00051FC0 File Offset: 0x000501C0
-		// (set) Token: 0x060015B0 RID: 5552 RVA: 0x00051FC8 File Offset: 0x000501C8
 		[DataSourceProperty]
 		public SelectorVM<CraftingSecondaryUsageItemVM> SecondaryUsageSelector
 		{
@@ -1656,9 +1536,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000749 RID: 1865
-		// (get) Token: 0x060015B1 RID: 5553 RVA: 0x00051FE6 File Offset: 0x000501E6
-		// (set) Token: 0x060015B2 RID: 5554 RVA: 0x00051FEE File Offset: 0x000501EE
 		[DataSourceProperty]
 		public ItemCollectionElementViewModel CraftedItemVisual
 		{
@@ -1676,9 +1553,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074A RID: 1866
-		// (get) Token: 0x060015B3 RID: 5555 RVA: 0x0005200C File Offset: 0x0005020C
-		// (set) Token: 0x060015B4 RID: 5556 RVA: 0x00052014 File Offset: 0x00050214
 		[DataSourceProperty]
 		public bool IsInFinalCraftingStage
 		{
@@ -1697,9 +1571,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074B RID: 1867
-		// (get) Token: 0x060015B5 RID: 5557 RVA: 0x00052038 File Offset: 0x00050238
-		// (set) Token: 0x060015B6 RID: 5558 RVA: 0x00052040 File Offset: 0x00050240
 		[DataSourceProperty]
 		public string ItemName
 		{
@@ -1718,9 +1589,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074C RID: 1868
-		// (get) Token: 0x060015B7 RID: 5559 RVA: 0x00052069 File Offset: 0x00050269
-		// (set) Token: 0x060015B8 RID: 5560 RVA: 0x00052071 File Offset: 0x00050271
 		[DataSourceProperty]
 		public bool IsScabbardVisible
 		{
@@ -1745,9 +1613,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074D RID: 1869
-		// (get) Token: 0x060015B9 RID: 5561 RVA: 0x000520AB File Offset: 0x000502AB
-		// (set) Token: 0x060015BA RID: 5562 RVA: 0x000520B3 File Offset: 0x000502B3
 		[DataSourceProperty]
 		public bool CurrentWeaponHasScabbard
 		{
@@ -1765,9 +1630,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x060015BB RID: 5563 RVA: 0x000520D1 File Offset: 0x000502D1
-		// (set) Token: 0x060015BC RID: 5564 RVA: 0x000520D9 File Offset: 0x000502D9
 		[DataSourceProperty]
 		public int CurrentDifficulty
 		{
@@ -1785,9 +1647,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700074F RID: 1871
-		// (get) Token: 0x060015BD RID: 5565 RVA: 0x000520F7 File Offset: 0x000502F7
-		// (set) Token: 0x060015BE RID: 5566 RVA: 0x000520FF File Offset: 0x000502FF
 		[DataSourceProperty]
 		public int CurrentOrderDifficulty
 		{
@@ -1805,9 +1664,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000750 RID: 1872
-		// (get) Token: 0x060015BF RID: 5567 RVA: 0x0005211D File Offset: 0x0005031D
-		// (set) Token: 0x060015C0 RID: 5568 RVA: 0x00052125 File Offset: 0x00050325
 		[DataSourceProperty]
 		public int MaxDifficulty
 		{
@@ -1825,9 +1681,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x060015C1 RID: 5569 RVA: 0x00052143 File Offset: 0x00050343
-		// (set) Token: 0x060015C2 RID: 5570 RVA: 0x0005214B File Offset: 0x0005034B
 		[DataSourceProperty]
 		public bool IsCurrentHeroAtMaxCraftingSkill
 		{
@@ -1845,9 +1698,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000752 RID: 1874
-		// (get) Token: 0x060015C3 RID: 5571 RVA: 0x00052169 File Offset: 0x00050369
-		// (set) Token: 0x060015C4 RID: 5572 RVA: 0x00052171 File Offset: 0x00050371
 		[DataSourceProperty]
 		public int CurrentHeroCraftingSkill
 		{
@@ -1865,9 +1715,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x060015C5 RID: 5573 RVA: 0x0005218F File Offset: 0x0005038F
-		// (set) Token: 0x060015C6 RID: 5574 RVA: 0x00052197 File Offset: 0x00050397
 		[DataSourceProperty]
 		public string CurrentDifficultyText
 		{
@@ -1885,9 +1732,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000754 RID: 1876
-		// (get) Token: 0x060015C7 RID: 5575 RVA: 0x000521BA File Offset: 0x000503BA
-		// (set) Token: 0x060015C8 RID: 5576 RVA: 0x000521C2 File Offset: 0x000503C2
 		[DataSourceProperty]
 		public string CurrentOrderDifficultyText
 		{
@@ -1905,9 +1749,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000755 RID: 1877
-		// (get) Token: 0x060015C9 RID: 5577 RVA: 0x000521E5 File Offset: 0x000503E5
-		// (set) Token: 0x060015CA RID: 5578 RVA: 0x000521ED File Offset: 0x000503ED
 		[DataSourceProperty]
 		public string CurrentCraftingSkillValueText
 		{
@@ -1925,9 +1766,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x060015CB RID: 5579 RVA: 0x00052210 File Offset: 0x00050410
-		// (set) Token: 0x060015CC RID: 5580 RVA: 0x00052218 File Offset: 0x00050418
 		[DataSourceProperty]
 		public string DifficultyText
 		{
@@ -1945,9 +1783,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000757 RID: 1879
-		// (get) Token: 0x060015CD RID: 5581 RVA: 0x0005223B File Offset: 0x0005043B
-		// (set) Token: 0x060015CE RID: 5582 RVA: 0x00052243 File Offset: 0x00050443
 		[DataSourceProperty]
 		public string DefaultUsageText
 		{
@@ -1965,9 +1800,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000758 RID: 1880
-		// (get) Token: 0x060015CF RID: 5583 RVA: 0x00052266 File Offset: 0x00050466
-		// (set) Token: 0x060015D0 RID: 5584 RVA: 0x0005226E File Offset: 0x0005046E
 		[DataSourceProperty]
 		public string AlternativeUsageText
 		{
@@ -1985,9 +1817,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000759 RID: 1881
-		// (get) Token: 0x060015D1 RID: 5585 RVA: 0x00052291 File Offset: 0x00050491
-		// (set) Token: 0x060015D2 RID: 5586 RVA: 0x00052299 File Offset: 0x00050499
 		[DataSourceProperty]
 		public HintViewModel ShowOnlyUnlockedPiecesHint
 		{
@@ -2005,9 +1834,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075A RID: 1882
-		// (get) Token: 0x060015D3 RID: 5587 RVA: 0x000522B7 File Offset: 0x000504B7
-		// (set) Token: 0x060015D4 RID: 5588 RVA: 0x000522BF File Offset: 0x000504BF
 		[DataSourceProperty]
 		public CraftingPieceListVM BladePieceList
 		{
@@ -2025,9 +1851,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075B RID: 1883
-		// (get) Token: 0x060015D5 RID: 5589 RVA: 0x000522DD File Offset: 0x000504DD
-		// (set) Token: 0x060015D6 RID: 5590 RVA: 0x000522E5 File Offset: 0x000504E5
 		[DataSourceProperty]
 		public CraftingPieceListVM GuardPieceList
 		{
@@ -2045,9 +1868,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075C RID: 1884
-		// (get) Token: 0x060015D7 RID: 5591 RVA: 0x00052303 File Offset: 0x00050503
-		// (set) Token: 0x060015D8 RID: 5592 RVA: 0x0005230B File Offset: 0x0005050B
 		[DataSourceProperty]
 		public CraftingPieceListVM HandlePieceList
 		{
@@ -2065,9 +1885,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075D RID: 1885
-		// (get) Token: 0x060015D9 RID: 5593 RVA: 0x00052329 File Offset: 0x00050529
-		// (set) Token: 0x060015DA RID: 5594 RVA: 0x00052331 File Offset: 0x00050531
 		[DataSourceProperty]
 		public CraftingPieceListVM PommelPieceList
 		{
@@ -2085,9 +1902,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075E RID: 1886
-		// (get) Token: 0x060015DB RID: 5595 RVA: 0x0005234F File Offset: 0x0005054F
-		// (set) Token: 0x060015DC RID: 5596 RVA: 0x00052357 File Offset: 0x00050557
 		[DataSourceProperty]
 		public CraftingPieceVM SelectedBladePiece
 		{
@@ -2105,9 +1919,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700075F RID: 1887
-		// (get) Token: 0x060015DD RID: 5597 RVA: 0x00052375 File Offset: 0x00050575
-		// (set) Token: 0x060015DE RID: 5598 RVA: 0x0005237D File Offset: 0x0005057D
 		[DataSourceProperty]
 		public CraftingPieceVM SelectedGuardPiece
 		{
@@ -2125,9 +1936,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000760 RID: 1888
-		// (get) Token: 0x060015DF RID: 5599 RVA: 0x0005239B File Offset: 0x0005059B
-		// (set) Token: 0x060015E0 RID: 5600 RVA: 0x000523A3 File Offset: 0x000505A3
 		[DataSourceProperty]
 		public CraftingPieceVM SelectedHandlePiece
 		{
@@ -2145,9 +1953,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000761 RID: 1889
-		// (get) Token: 0x060015E1 RID: 5601 RVA: 0x000523C1 File Offset: 0x000505C1
-		// (set) Token: 0x060015E2 RID: 5602 RVA: 0x000523C9 File Offset: 0x000505C9
 		[DataSourceProperty]
 		public CraftingPieceVM SelectedPommelPiece
 		{
@@ -2165,9 +1970,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000762 RID: 1890
-		// (get) Token: 0x060015E3 RID: 5603 RVA: 0x000523E7 File Offset: 0x000505E7
-		// (set) Token: 0x060015E4 RID: 5604 RVA: 0x000523F0 File Offset: 0x000505F0
 		[DataSourceProperty]
 		public int BladeSize
 		{
@@ -2191,9 +1993,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000763 RID: 1891
-		// (get) Token: 0x060015E5 RID: 5605 RVA: 0x00052454 File Offset: 0x00050654
-		// (set) Token: 0x060015E6 RID: 5606 RVA: 0x0005245C File Offset: 0x0005065C
 		[DataSourceProperty]
 		public int GuardSize
 		{
@@ -2217,9 +2016,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000764 RID: 1892
-		// (get) Token: 0x060015E7 RID: 5607 RVA: 0x000524C0 File Offset: 0x000506C0
-		// (set) Token: 0x060015E8 RID: 5608 RVA: 0x000524C8 File Offset: 0x000506C8
 		[DataSourceProperty]
 		public int HandleSize
 		{
@@ -2243,9 +2039,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000765 RID: 1893
-		// (get) Token: 0x060015E9 RID: 5609 RVA: 0x0005252C File Offset: 0x0005072C
-		// (set) Token: 0x060015EA RID: 5610 RVA: 0x00052534 File Offset: 0x00050734
 		[DataSourceProperty]
 		public int PommelSize
 		{
@@ -2269,9 +2062,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000766 RID: 1894
-		// (get) Token: 0x060015EB RID: 5611 RVA: 0x00052598 File Offset: 0x00050798
-		// (set) Token: 0x060015EC RID: 5612 RVA: 0x000525A0 File Offset: 0x000507A0
 		[DataSourceProperty]
 		public string ComponentSizeLbl
 		{
@@ -2289,9 +2079,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000767 RID: 1895
-		// (get) Token: 0x060015ED RID: 5613 RVA: 0x000525C3 File Offset: 0x000507C3
-		// (set) Token: 0x060015EE RID: 5614 RVA: 0x000525CB File Offset: 0x000507CB
 		[DataSourceProperty]
 		public bool IsWeaponCivilian
 		{
@@ -2309,9 +2096,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000768 RID: 1896
-		// (get) Token: 0x060015EF RID: 5615 RVA: 0x000525E9 File Offset: 0x000507E9
-		// (set) Token: 0x060015F0 RID: 5616 RVA: 0x000525F1 File Offset: 0x000507F1
 		[DataSourceProperty]
 		public HintViewModel ScabbardHint
 		{
@@ -2329,9 +2113,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000769 RID: 1897
-		// (get) Token: 0x060015F1 RID: 5617 RVA: 0x0005260F File Offset: 0x0005080F
-		// (set) Token: 0x060015F2 RID: 5618 RVA: 0x00052617 File Offset: 0x00050817
 		[DataSourceProperty]
 		public HintViewModel RandomizeHint
 		{
@@ -2349,9 +2130,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700076A RID: 1898
-		// (get) Token: 0x060015F3 RID: 5619 RVA: 0x00052635 File Offset: 0x00050835
-		// (set) Token: 0x060015F4 RID: 5620 RVA: 0x0005263D File Offset: 0x0005083D
 		[DataSourceProperty]
 		public HintViewModel UndoHint
 		{
@@ -2369,9 +2147,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700076B RID: 1899
-		// (get) Token: 0x060015F5 RID: 5621 RVA: 0x0005265B File Offset: 0x0005085B
-		// (set) Token: 0x060015F6 RID: 5622 RVA: 0x00052663 File Offset: 0x00050863
 		[DataSourceProperty]
 		public HintViewModel RedoHint
 		{
@@ -2389,9 +2164,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700076C RID: 1900
-		// (get) Token: 0x060015F7 RID: 5623 RVA: 0x00052681 File Offset: 0x00050881
-		// (set) Token: 0x060015F8 RID: 5624 RVA: 0x00052689 File Offset: 0x00050889
 		[DataSourceProperty]
 		public MBBindingList<ItemFlagVM> WeaponFlagIconsList
 		{
@@ -2409,9 +2181,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700076D RID: 1901
-		// (get) Token: 0x060015F9 RID: 5625 RVA: 0x000526A7 File Offset: 0x000508A7
-		// (set) Token: 0x060015FA RID: 5626 RVA: 0x000526AF File Offset: 0x000508AF
 		[DataSourceProperty]
 		public CraftingHistoryVM CraftingHistory
 		{
@@ -2429,276 +2198,184 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x040009F7 RID: 2551
 		private WeaponDesignVM.CraftingPieceTierFilter _currentTierFilter = WeaponDesignVM.CraftingPieceTierFilter.All;
 
-		// Token: 0x040009F8 RID: 2552
 		public const int MAX_SKILL_LEVEL = 300;
 
-		// Token: 0x040009F9 RID: 2553
 		public int ModifierTier;
 
-		// Token: 0x040009FA RID: 2554
 		public Crafting.OverrideData OverridenData;
 
-		// Token: 0x040009FB RID: 2555
 		public ItemObject CraftedItemObject;
 
-		// Token: 0x040009FC RID: 2556
 		private int _selectedWeaponClassIndex;
 
-		// Token: 0x040009FD RID: 2557
 		private readonly List<CraftingPiece> _newlyUnlockedPieces;
 
-		// Token: 0x040009FE RID: 2558
 		private readonly List<CraftingTemplate> _primaryUsages;
 
-		// Token: 0x040009FF RID: 2559
 		private readonly WeaponDesignVM.PieceTierComparer _pieceTierComparer;
 
-		// Token: 0x04000A00 RID: 2560
 		private readonly WeaponDesignVM.TemplateComparer _templateComparer;
 
-		// Token: 0x04000A01 RID: 2561
 		private readonly ICraftingCampaignBehavior _craftingBehavior;
 
-		// Token: 0x04000A02 RID: 2562
 		private readonly Action _onRefresh;
 
-		// Token: 0x04000A03 RID: 2563
 		private readonly Action _onWeaponCrafted;
 
-		// Token: 0x04000A04 RID: 2564
 		private readonly Func<CraftingAvailableHeroItemVM> _getCurrentCraftingHero;
 
-		// Token: 0x04000A05 RID: 2565
 		private readonly Action<CraftingOrder> _refreshHeroAvailabilities;
 
-		// Token: 0x04000A06 RID: 2566
 		private Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
 
-		// Token: 0x04000A07 RID: 2567
 		private Crafting _crafting;
 
-		// Token: 0x04000A08 RID: 2568
 		private ItemObject _tempItemObjectForVisual;
 
-		// Token: 0x04000A09 RID: 2569
 		private bool _updatePiece = true;
 
-		// Token: 0x04000A0A RID: 2570
 		private Dictionary<CraftingPiece.PieceTypes, CraftingPieceListVM> _pieceListsDictionary;
 
-		// Token: 0x04000A0B RID: 2571
 		private Dictionary<CraftingPiece, CraftingPieceVM> _pieceVMs;
 
-		// Token: 0x04000A0C RID: 2572
 		private TextObject _difficultyTextobj = new TextObject("{=cbbUzYX3}Difficulty: {DIFFICULTY}", null);
 
-		// Token: 0x04000A0D RID: 2573
 		private TextObject _orderDifficultyTextObj = new TextObject("{=8szijlHj}Order Difficulty: {DIFFICULTY}", null);
 
-		// Token: 0x04000A0E RID: 2574
 		private bool _shouldRecordHistory;
 
-		// Token: 0x04000A0F RID: 2575
 		private MBBindingList<TierFilterTypeVM> _tierFilters;
 
-		// Token: 0x04000A10 RID: 2576
 		private string _currentCraftedWeaponTemplateId;
 
-		// Token: 0x04000A11 RID: 2577
 		private string _chooseOrderText;
 
-		// Token: 0x04000A12 RID: 2578
 		private string _chooseWeaponTypeText;
 
-		// Token: 0x04000A13 RID: 2579
 		private string _currentCraftedWeaponTypeText;
 
-		// Token: 0x04000A14 RID: 2580
 		private MBBindingList<CraftingPieceListVM> _pieceLists;
 
-		// Token: 0x04000A15 RID: 2581
 		private int _selectedPieceTypeIndex;
 
-		// Token: 0x04000A16 RID: 2582
 		private bool _showOnlyUnlockedPieces;
 
-		// Token: 0x04000A17 RID: 2583
 		private string _missingPropertyWarningText;
 
-		// Token: 0x04000A18 RID: 2584
 		private bool _isInFinalCraftingStage;
 
-		// Token: 0x04000A19 RID: 2585
 		private string _componentSizeLbl;
 
-		// Token: 0x04000A1A RID: 2586
 		private string _itemName;
 
-		// Token: 0x04000A1B RID: 2587
 		private string _difficultyText;
 
-		// Token: 0x04000A1C RID: 2588
 		private int _bladeSize;
 
-		// Token: 0x04000A1D RID: 2589
 		private int _pommelSize;
 
-		// Token: 0x04000A1E RID: 2590
 		private int _handleSize;
 
-		// Token: 0x04000A1F RID: 2591
 		private int _guardSize;
 
-		// Token: 0x04000A20 RID: 2592
 		private CraftingPieceVM _selectedBladePiece;
 
-		// Token: 0x04000A21 RID: 2593
 		private CraftingPieceVM _selectedGuardPiece;
 
-		// Token: 0x04000A22 RID: 2594
 		private CraftingPieceVM _selectedHandlePiece;
 
-		// Token: 0x04000A23 RID: 2595
 		private CraftingPieceVM _selectedPommelPiece;
 
-		// Token: 0x04000A24 RID: 2596
 		private CraftingPieceListVM _bladePieceList;
 
-		// Token: 0x04000A25 RID: 2597
 		private CraftingPieceListVM _guardPieceList;
 
-		// Token: 0x04000A26 RID: 2598
 		private CraftingPieceListVM _handlePieceList;
 
-		// Token: 0x04000A27 RID: 2599
 		private CraftingPieceListVM _pommelPieceList;
 
-		// Token: 0x04000A28 RID: 2600
 		private string _alternativeUsageText;
 
-		// Token: 0x04000A29 RID: 2601
 		private string _defaultUsageText;
 
-		// Token: 0x04000A2A RID: 2602
 		private bool _isScabbardVisible;
 
-		// Token: 0x04000A2B RID: 2603
 		private bool _currentWeaponHasScabbard;
 
-		// Token: 0x04000A2C RID: 2604
 		public SelectorVM<CraftingSecondaryUsageItemVM> _secondaryUsageSelector;
 
-		// Token: 0x04000A2D RID: 2605
 		private ItemCollectionElementViewModel _craftedItemVisual;
 
-		// Token: 0x04000A2E RID: 2606
 		private MBBindingList<CraftingListPropertyItem> _primaryPropertyList;
 
-		// Token: 0x04000A2F RID: 2607
 		private MBBindingList<WeaponDesignResultPropertyItemVM> _designResultPropertyList;
 
-		// Token: 0x04000A30 RID: 2608
 		private int _currentDifficulty;
 
-		// Token: 0x04000A31 RID: 2609
 		private int _currentOrderDifficulty;
 
-		// Token: 0x04000A32 RID: 2610
 		private int _maxDifficulty;
 
-		// Token: 0x04000A33 RID: 2611
 		private string _currentDifficultyText;
 
-		// Token: 0x04000A34 RID: 2612
 		private string _currentOrderDifficultyText;
 
-		// Token: 0x04000A35 RID: 2613
 		private string _currentCraftingSkillValueText;
 
-		// Token: 0x04000A36 RID: 2614
 		private bool _isCurrentHeroAtMaxCraftingSkill;
 
-		// Token: 0x04000A37 RID: 2615
 		private int _currentHeroCraftingSkill;
 
-		// Token: 0x04000A38 RID: 2616
 		private bool _isWeaponCivilian;
 
-		// Token: 0x04000A39 RID: 2617
 		private HintViewModel _scabbardHint;
 
-		// Token: 0x04000A3A RID: 2618
 		private HintViewModel _randomizeHint;
 
-		// Token: 0x04000A3B RID: 2619
 		private HintViewModel _undoHint;
 
-		// Token: 0x04000A3C RID: 2620
 		private HintViewModel _redoHint;
 
-		// Token: 0x04000A3D RID: 2621
 		private HintViewModel _showOnlyUnlockedPiecesHint;
 
-		// Token: 0x04000A3E RID: 2622
 		private CraftingOrderItemVM _activeCraftingOrder;
 
-		// Token: 0x04000A3F RID: 2623
 		private CraftingOrderPopupVM _craftingOrderPopup;
 
-		// Token: 0x04000A40 RID: 2624
 		private WeaponClassSelectionPopupVM _weaponClassSelectionPopup;
 
-		// Token: 0x04000A41 RID: 2625
 		private string _freeModeButtonText;
 
-		// Token: 0x04000A42 RID: 2626
 		private bool _isOrderButtonActive;
 
-		// Token: 0x04000A43 RID: 2627
 		private bool _isInOrderMode;
 
-		// Token: 0x04000A44 RID: 2628
 		private bool _weaponControlsEnabled;
 
-		// Token: 0x04000A45 RID: 2629
 		private WeaponDesignResultPopupVM _craftingResultPopup;
 
-		// Token: 0x04000A46 RID: 2630
 		private MBBindingList<ItemFlagVM> _weaponFlagIconsList;
 
-		// Token: 0x04000A47 RID: 2631
 		private CraftingHistoryVM _craftingHistory;
 
-		// Token: 0x04000A48 RID: 2632
 		private TextObject _currentCraftingSkillText;
 
-		// Token: 0x0200020D RID: 525
 		[Flags]
 		public enum CraftingPieceTierFilter
 		{
-			// Token: 0x04001072 RID: 4210
 			None = 0,
-			// Token: 0x04001073 RID: 4211
 			Tier1 = 1,
-			// Token: 0x04001074 RID: 4212
 			Tier2 = 2,
-			// Token: 0x04001075 RID: 4213
 			Tier3 = 4,
-			// Token: 0x04001076 RID: 4214
 			Tier4 = 8,
-			// Token: 0x04001077 RID: 4215
 			Tier5 = 16,
-			// Token: 0x04001078 RID: 4216
 			All = 31
 		}
 
-		// Token: 0x0200020E RID: 526
 		public class PieceTierComparer : IComparer<CraftingPieceVM>
 		{
-			// Token: 0x060020E8 RID: 8424 RVA: 0x000702AC File Offset: 0x0006E4AC
 			public int Compare(CraftingPieceVM x, CraftingPieceVM y)
 			{
 				if (x.Tier != y.Tier)
@@ -2709,20 +2386,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x0200020F RID: 527
 		public class TemplateComparer : IComparer<CraftingTemplate>
 		{
-			// Token: 0x060020EA RID: 8426 RVA: 0x00070309 File Offset: 0x0006E509
 			public int Compare(CraftingTemplate x, CraftingTemplate y)
 			{
 				return string.Compare(x.StringId, y.StringId, StringComparison.OrdinalIgnoreCase);
 			}
 		}
 
-		// Token: 0x02000210 RID: 528
 		public class WeaponPropertyComparer : IComparer<CraftingListPropertyItem>
 		{
-			// Token: 0x060020EC RID: 8428 RVA: 0x00070328 File Offset: 0x0006E528
 			public int Compare(CraftingListPropertyItem x, CraftingListPropertyItem y)
 			{
 				return ((int)x.Type).CompareTo((int)y.Type);

@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x02000053 RID: 83
 	public class ReplayCaptureLogic : MissionView
 	{
-		// Token: 0x06000399 RID: 921 RVA: 0x0001ECA8 File Offset: 0x0001CEA8
 		private void CheckFixedDeltaTimeMode()
 		{
 			if (this.RenderActive && this.SaveScreenshots)
@@ -22,9 +20,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			base.Mission.FixedDeltaTimeMode = false;
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x0600039A RID: 922 RVA: 0x0001ECFE File Offset: 0x0001CEFE
-		// (set) Token: 0x0600039B RID: 923 RVA: 0x0001ED06 File Offset: 0x0001CF06
 		private bool RenderActive
 		{
 			get
@@ -38,8 +33,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x0600039C RID: 924 RVA: 0x0001ED15 File Offset: 0x0001CF15
 		private Camera MissionCamera
 		{
 			get
@@ -52,8 +45,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x0600039D RID: 925 RVA: 0x0001ED3F File Offset: 0x0001CF3F
 		private float ReplayTime
 		{
 			get
@@ -62,9 +53,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x0600039E RID: 926 RVA: 0x0001ED53 File Offset: 0x0001CF53
-		// (set) Token: 0x0600039F RID: 927 RVA: 0x0001ED5B File Offset: 0x0001CF5B
 		private bool SaveScreenshots
 		{
 			get
@@ -78,8 +66,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x060003A0 RID: 928 RVA: 0x0001ED6A File Offset: 0x0001CF6A
 		private KeyValuePair<float, MatrixFrame> PreviousKey
 		{
 			get
@@ -88,8 +74,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x1700005F RID: 95
-		// (get) Token: 0x060003A1 RID: 929 RVA: 0x0001ED72 File Offset: 0x0001CF72
 		private KeyValuePair<float, MatrixFrame> NextKey
 		{
 			get
@@ -98,7 +82,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x060003A2 RID: 930 RVA: 0x0001ED7C File Offset: 0x0001CF7C
 		private KeyValuePair<float, MatrixFrame> GetPreviousKey()
 		{
 			KeyValuePair<float, MatrixFrame> keyValuePair = this._invalid;
@@ -116,7 +99,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return keyValuePair;
 		}
 
-		// Token: 0x060003A3 RID: 931 RVA: 0x0001EE18 File Offset: 0x0001D018
 		private KeyValuePair<float, MatrixFrame> GetNextKey()
 		{
 			KeyValuePair<float, MatrixFrame> keyValuePair = this._invalid;
@@ -135,13 +117,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return keyValuePair;
 		}
 
-		// Token: 0x060003A4 RID: 932 RVA: 0x0001EEA8 File Offset: 0x0001D0A8
 		public ReplayCaptureLogic()
 		{
 			this._cameraKeys = new SortedDictionary<float, SortedDictionary<int, MatrixFrame>>();
 		}
 
-		// Token: 0x060003A5 RID: 933 RVA: 0x0001EEDF File Offset: 0x0001D0DF
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -153,7 +133,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x060003A6 RID: 934 RVA: 0x0001EF18 File Offset: 0x0001D118
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -242,7 +221,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x060003A7 RID: 935 RVA: 0x0001F2B8 File Offset: 0x0001D4B8
 		private void InsertCamKey()
 		{
 			float replayTime = this.ReplayTime;
@@ -260,7 +238,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			MBDebug.Print(string.Concat(new object[] { "Keyframe to \"", replayTime, "\" has been inserted with the index: ", num, ".\n" }), 0, 4, 64UL);
 		}
 
-		// Token: 0x060003A8 RID: 936 RVA: 0x0001F367 File Offset: 0x0001D567
 		private void MoveToNextFrame()
 		{
 			this._replayLogic.FastForward(0.016666668f);
@@ -268,7 +245,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this._frameSkip = true;
 		}
 
-		// Token: 0x060003A9 RID: 937 RVA: 0x0001F38C File Offset: 0x0001D58C
 		private void GoToKey(float keyTime)
 		{
 			if (keyTime < 0f || !this._cameraKeys.ContainsKey(keyTime) || keyTime == this.ReplayTime)
@@ -290,7 +266,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this.MissionCamera.Frame = matrixFrame;
 		}
 
-		// Token: 0x060003AA RID: 938 RVA: 0x0001F440 File Offset: 0x0001D640
 		private void SetPath()
 		{
 			if (base.Mission.Scene.GetPathWithName("CameraPath") != null)
@@ -305,7 +280,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this._path = base.Mission.Scene.GetPathWithName("CameraPath");
 		}
 
-		// Token: 0x060003AB RID: 939 RVA: 0x0001F510 File Offset: 0x0001D710
 		private void Render(bool saveScreenshots = false)
 		{
 			if (!this._cameraKeys.ContainsKey(0f))
@@ -334,7 +308,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			base.MissionScreen.CustomCamera = base.MissionScreen.CombatCamera;
 		}
 
-		// Token: 0x060003AC RID: 940 RVA: 0x0001F5D8 File Offset: 0x0001D7D8
 		private void SaveScreenshot()
 		{
 			if (!this.SaveScreenshots)
@@ -352,43 +325,30 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this._ssNum++;
 		}
 
-		// Token: 0x0400025A RID: 602
 		private ReplayMissionView _replayLogic;
 
-		// Token: 0x0400025B RID: 603
 		private bool _renderActive;
 
-		// Token: 0x0400025C RID: 604
 		public const float CaptureFrameRate = 60f;
 
-		// Token: 0x0400025D RID: 605
 		private float _replayTimeDiff;
 
-		// Token: 0x0400025E RID: 606
 		private bool _frameSkip;
 
-		// Token: 0x0400025F RID: 607
 		private Path _path;
 
-		// Token: 0x04000260 RID: 608
 		private PlatformDirectoryPath _directoryPath;
 
-		// Token: 0x04000261 RID: 609
 		private bool _saveScreenshots;
 
-		// Token: 0x04000262 RID: 610
 		private readonly KeyValuePair<float, MatrixFrame> _invalid = new KeyValuePair<float, MatrixFrame>(-1f, default(MatrixFrame));
 
-		// Token: 0x04000263 RID: 611
 		private SortedDictionary<float, SortedDictionary<int, MatrixFrame>> _cameraKeys;
 
-		// Token: 0x04000264 RID: 612
 		private bool _isRendered;
 
-		// Token: 0x04000265 RID: 613
 		private int _lastUsedIndex;
 
-		// Token: 0x04000266 RID: 614
 		private int _ssNum;
 	}
 }

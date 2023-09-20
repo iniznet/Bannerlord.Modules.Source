@@ -7,11 +7,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Screens
 {
-	// Token: 0x0200002E RID: 46
 	public class GameStateScreenManager : IGameStateManagerListener
 	{
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x060001BF RID: 447 RVA: 0x0000F054 File Offset: 0x0000D254
 		private GameStateManager GameStateManager
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001C0 RID: 448 RVA: 0x0000F05C File Offset: 0x0000D25C
 		public GameStateScreenManager()
 		{
 			this._screenTypes = new Dictionary<Type, Type>();
@@ -34,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x060001C1 RID: 449 RVA: 0x0000F0D0 File Offset: 0x0000D2D0
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
 			if (changedManagedOptionsType == 25)
@@ -51,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001C2 RID: 450 RVA: 0x0000F100 File Offset: 0x0000D300
 		private void CheckAssemblyScreens(Assembly assembly)
 		{
 			foreach (Type type in assembly.GetTypes())
@@ -74,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001C3 RID: 451 RVA: 0x0000F1A0 File Offset: 0x0000D3A0
 		public static Assembly[] GetViewAssemblies()
 		{
 			List<Assembly> list = new List<Assembly>();
@@ -94,7 +87,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return list.ToArray();
 		}
 
-		// Token: 0x060001C4 RID: 452 RVA: 0x0000F22C File Offset: 0x0000D42C
 		public ScreenBase CreateScreen(GameState state)
 		{
 			Type type = null;
@@ -105,7 +97,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return null;
 		}
 
-		// Token: 0x060001C5 RID: 453 RVA: 0x0000F268 File Offset: 0x0000D468
 		public void BuildScreens()
 		{
 			int num = 0;
@@ -128,14 +119,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001C6 RID: 454 RVA: 0x0000F2E4 File Offset: 0x0000D4E4
 		void IGameStateManagerListener.OnCreateState(GameState gameState)
 		{
 			ScreenBase screenBase = this.CreateScreen(gameState);
 			gameState.RegisterListener(screenBase as IGameStateListener);
 		}
 
-		// Token: 0x060001C7 RID: 455 RVA: 0x0000F308 File Offset: 0x0000D508
 		void IGameStateManagerListener.OnPushState(GameState gameState, bool isTopGameState)
 		{
 			if (!gameState.IsMenuState)
@@ -162,7 +151,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001C8 RID: 456 RVA: 0x0000F364 File Offset: 0x0000D564
 		void IGameStateManagerListener.OnPopState(GameState gameState)
 		{
 			if (!gameState.IsMenuState)
@@ -180,19 +168,16 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			ScreenManager.PopScreen();
 		}
 
-		// Token: 0x060001C9 RID: 457 RVA: 0x0000F3C4 File Offset: 0x0000D5C4
 		void IGameStateManagerListener.OnCleanStates()
 		{
 			ScreenManager.CleanScreens();
 		}
 
-		// Token: 0x060001CA RID: 458 RVA: 0x0000F3CB File Offset: 0x0000D5CB
 		void IGameStateManagerListener.OnSavedGameLoadFinished()
 		{
 			this.BuildScreens();
 		}
 
-		// Token: 0x04000120 RID: 288
 		private Dictionary<Type, Type> _screenTypes;
 	}
 }

@@ -9,22 +9,18 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003B4 RID: 948
 	public class PartiesBuyFoodCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003889 RID: 14473 RVA: 0x001013FE File Offset: 0x000FF5FE
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.HourlyTickParty));
 		}
 
-		// Token: 0x0600388A RID: 14474 RVA: 0x0010142E File Offset: 0x000FF62E
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600388B RID: 14475 RVA: 0x00101430 File Offset: 0x000FF630
 		private void TryBuyingFood(MobileParty mobileParty, Settlement settlement)
 		{
 			if (Campaign.Current.GameStarted && mobileParty.LeaderHero != null && (settlement.IsTown || settlement.IsVillage) && Campaign.Current.Models.MobilePartyFoodConsumptionModel.DoesPartyConsumeFood(mobileParty) && (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty) && (settlement.IsVillage || (mobileParty.MapFaction != null && !mobileParty.MapFaction.IsAtWarWith(settlement.MapFaction))) && settlement.ItemRoster.TotalFood > 0)
@@ -40,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600388C RID: 14476 RVA: 0x00101520 File Offset: 0x000FF720
 		private int CalculateFoodCountToBuy(MobileParty mobileParty, float minimumDaysToLast)
 		{
 			float num = (float)mobileParty.TotalFoodAtInventory / -mobileParty.FoodChange;
@@ -52,7 +47,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 0;
 		}
 
-		// Token: 0x0600388D RID: 14477 RVA: 0x00101558 File Offset: 0x000FF758
 		private void BuyFoodInternal(MobileParty mobileParty, Settlement settlement, int numberOfFoodItemsNeededToBuy)
 		{
 			if (!mobileParty.IsMainParty)
@@ -78,7 +72,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600388E RID: 14478 RVA: 0x00101620 File Offset: 0x000FF820
 		private void BuyFoodForArmy(MobileParty mobileParty, Settlement settlement, float minimumDaysToLast)
 		{
 			float num = mobileParty.Army.LeaderParty.FoodChange;
@@ -112,7 +105,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600388F RID: 14479 RVA: 0x00101814 File Offset: 0x000FFA14
 		public void HourlyTickParty(MobileParty mobileParty)
 		{
 			Settlement currentSettlementOfMobilePartyForAICalculation = MobilePartyHelper.GetCurrentSettlementOfMobilePartyForAICalculation(mobileParty);
@@ -122,7 +114,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003890 RID: 14480 RVA: 0x00101833 File Offset: 0x000FFA33
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null)

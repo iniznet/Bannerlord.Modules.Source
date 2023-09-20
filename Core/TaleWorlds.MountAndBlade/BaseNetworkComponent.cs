@@ -10,25 +10,14 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002EF RID: 751
 	public class BaseNetworkComponent : UdpNetworkComponent
 	{
-		// Token: 0x1700075E RID: 1886
-		// (get) Token: 0x060028F2 RID: 10482 RVA: 0x0009F01C File Offset: 0x0009D21C
-		// (set) Token: 0x060028F3 RID: 10483 RVA: 0x0009F024 File Offset: 0x0009D224
 		public MultiplayerIntermissionState ClientIntermissionState { get; private set; }
 
-		// Token: 0x1700075F RID: 1887
-		// (get) Token: 0x060028F4 RID: 10484 RVA: 0x0009F02D File Offset: 0x0009D22D
-		// (set) Token: 0x060028F5 RID: 10485 RVA: 0x0009F035 File Offset: 0x0009D235
 		public float CurrentIntermissionTimer { get; private set; }
 
-		// Token: 0x17000760 RID: 1888
-		// (get) Token: 0x060028F6 RID: 10486 RVA: 0x0009F03E File Offset: 0x0009D23E
-		// (set) Token: 0x060028F7 RID: 10487 RVA: 0x0009F046 File Offset: 0x0009D246
 		public int CurrentBattleIndex { get; private set; }
 
-		// Token: 0x060028F8 RID: 10488 RVA: 0x0009F050 File Offset: 0x0009D250
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			base.AddRemoveMessageHandlers(registerer);
@@ -57,7 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060028F9 RID: 10489 RVA: 0x0009F198 File Offset: 0x0009D398
 		public override void OnUdpNetworkHandlerTick(float dt)
 		{
 			base.OnUdpNetworkHandlerTick(dt);
@@ -71,7 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060028FA RID: 10490 RVA: 0x0009F200 File Offset: 0x0009D400
 		public override void HandleNewClientConnect(PlayerConnectionInfo playerConnectionInfo)
 		{
 			NetworkCommunicator networkPeer = playerConnectionInfo.NetworkPeer;
@@ -119,13 +106,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060028FB RID: 10491 RVA: 0x0009F3C0 File Offset: 0x0009D5C0
 		public override void HandlePlayerDisconnect(NetworkCommunicator networkPeer)
 		{
 			MultiplayerIntermissionVotingManager.Instance.HandlePlayerDisconnect(networkPeer.VirtualPlayer.Id);
 		}
 
-		// Token: 0x060028FC RID: 10492 RVA: 0x0009F3D7 File Offset: 0x0009D5D7
 		public void IntermissionCastVote(string itemID, int voteCount)
 		{
 			GameNetwork.BeginModuleEventAsClient();
@@ -133,7 +118,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndModuleEventAsClient();
 		}
 
-		// Token: 0x060028FD RID: 10493 RVA: 0x0009F3F0 File Offset: 0x0009D5F0
 		public override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
 		{
 			Mission mission = Mission.Current;
@@ -144,29 +128,20 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060028FE RID: 10494 RVA: 0x0009F419 File Offset: 0x0009D619
 		public void UpdateCurrentBattleIndex(int currentBattleIndex)
 		{
 			this.CurrentBattleIndex = currentBattleIndex;
 		}
 
-		// Token: 0x17000761 RID: 1889
-		// (get) Token: 0x060028FF RID: 10495 RVA: 0x0009F422 File Offset: 0x0009D622
-		// (set) Token: 0x06002900 RID: 10496 RVA: 0x0009F42A File Offset: 0x0009D62A
 		public bool DisplayingWelcomeMessage { get; private set; }
 
-		// Token: 0x14000079 RID: 121
-		// (add) Token: 0x06002901 RID: 10497 RVA: 0x0009F434 File Offset: 0x0009D634
-		// (remove) Token: 0x06002902 RID: 10498 RVA: 0x0009F46C File Offset: 0x0009D66C
 		public event BaseNetworkComponent.WelcomeMessageReceivedDelegate WelcomeMessageReceived;
 
-		// Token: 0x06002903 RID: 10499 RVA: 0x0009F4A1 File Offset: 0x0009D6A1
 		public void SetDisplayingWelcomeMessage(bool displaying)
 		{
 			this.DisplayingWelcomeMessage = displaying;
 		}
 
-		// Token: 0x06002904 RID: 10500 RVA: 0x0009F4AC File Offset: 0x0009D6AC
 		private void HandleServerEventMultiplayerOptionsInitial(MultiplayerOptionsInitial message)
 		{
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
@@ -215,7 +190,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002905 RID: 10501 RVA: 0x0009F570 File Offset: 0x0009D770
 		private void HandleServerEventMultiplayerOptionsImmediate(MultiplayerOptionsImmediate message)
 		{
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
@@ -254,7 +228,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002906 RID: 10502 RVA: 0x0009F60F File Offset: 0x0009D80F
 		private void HandleServerEventMultiplayerIntermissionUpdate(MultiplayerIntermissionUpdate message)
 		{
 			this.CurrentIntermissionTimer = message.IntermissionTimer;
@@ -267,7 +240,6 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		// Token: 0x06002907 RID: 10503 RVA: 0x0009F639 File Offset: 0x0009D839
 		private void HandleServerEventIntermissionMapItemAdded(MultiplayerIntermissionMapItemAdded message)
 		{
 			MultiplayerIntermissionVotingManager.Instance.AddMapItem(message.MapId);
@@ -279,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		// Token: 0x06002908 RID: 10504 RVA: 0x0009F65B File Offset: 0x0009D85B
 		private void HandleServerEventIntermissionCultureItemAdded(MultiplayerIntermissionCultureItemAdded message)
 		{
 			MultiplayerIntermissionVotingManager.Instance.AddCultureItem(message.CultureId);
@@ -291,7 +262,6 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		// Token: 0x06002909 RID: 10505 RVA: 0x0009F67D File Offset: 0x0009D87D
 		private void HandleServerEventIntermissionMapItemVoteCountChanged(MultiplayerIntermissionMapItemVoteCountChanged message)
 		{
 			MultiplayerIntermissionVotingManager.Instance.SetVotesOfMap(message.MapItemIndex, message.VoteCount);
@@ -303,7 +273,6 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		// Token: 0x0600290A RID: 10506 RVA: 0x0009F6A5 File Offset: 0x0009D8A5
 		private void HandleServerEventIntermissionCultureItemVoteCountChanged(MultiplayerIntermissionCultureItemVoteCountChanged message)
 		{
 			MultiplayerIntermissionVotingManager.Instance.SetVotesOfCulture(message.CultureItemIndex, message.VoteCount);
@@ -315,7 +284,6 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		// Token: 0x0600290B RID: 10507 RVA: 0x0009F6D0 File Offset: 0x0009D8D0
 		private void HandleServerEventAddPeerComponent(AddPeerComponent message)
 		{
 			NetworkCommunicator peer = message.Peer;
@@ -326,7 +294,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600290C RID: 10508 RVA: 0x0009F6FC File Offset: 0x0009D8FC
 		private void HandleServerEventRemovePeerComponent(RemovePeerComponent message)
 		{
 			NetworkCommunicator peer = message.Peer;
@@ -335,7 +302,6 @@ namespace TaleWorlds.MountAndBlade
 			peer.RemoveComponent(component);
 		}
 
-		// Token: 0x0600290D RID: 10509 RVA: 0x0009F724 File Offset: 0x0009D924
 		private void HandleServerEventSynchronizingDone(SynchronizingDone message)
 		{
 			NetworkCommunicator peer = message.Peer;
@@ -372,7 +338,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600290E RID: 10510 RVA: 0x0009F7B4 File Offset: 0x0009D9B4
 		private async void HandleServerEventLoadMission(LoadMission message)
 		{
 			while (GameStateManager.Current.ActiveState is MissionState)
@@ -392,19 +357,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600290F RID: 10511 RVA: 0x0009F7F5 File Offset: 0x0009D9F5
 		private void HandleServerEventUnloadMission(UnloadMission message)
 		{
 			this.HandleServerEventUnloadMissionAux(message);
 		}
 
-		// Token: 0x06002910 RID: 10512 RVA: 0x0009F7FE File Offset: 0x0009D9FE
 		private void HandleServerEventInitializeCustomGame(InitializeCustomGameMessage message)
 		{
 			this.InitializeCustomGameAux(message);
 		}
 
-		// Token: 0x06002911 RID: 10513 RVA: 0x0009F808 File Offset: 0x0009DA08
 		private async void InitializeCustomGameAux(InitializeCustomGameMessage message)
 		{
 			await Task.Delay(200);
@@ -428,7 +390,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002912 RID: 10514 RVA: 0x0009F84C File Offset: 0x0009DA4C
 		private async void HandleServerEventUnloadMissionAux(UnloadMission message)
 		{
 			GameNetwork.MyPeer.IsSynchronized = false;
@@ -451,14 +412,12 @@ namespace TaleWorlds.MountAndBlade
 			LoadingWindow.DisableGlobalLoadingWindow();
 		}
 
-		// Token: 0x06002913 RID: 10515 RVA: 0x0009F88D File Offset: 0x0009DA8D
 		private bool HandleClientEventFinishedLoading(NetworkCommunicator networkPeer, FinishedLoading message)
 		{
 			this.HandleClientEventFinishedLoadingAux(networkPeer, message);
 			return true;
 		}
 
-		// Token: 0x06002914 RID: 10516 RVA: 0x0009F898 File Offset: 0x0009DA98
 		private async void HandleClientEventFinishedLoadingAux(NetworkCommunicator networkPeer, FinishedLoading message)
 		{
 			while (Mission.Current != null && Mission.Current.CurrentState != Mission.State.Continuing)
@@ -481,14 +440,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002915 RID: 10517 RVA: 0x0009F8E1 File Offset: 0x0009DAE1
 		private bool HandleSyncRelevantGameOptionsToServer(NetworkCommunicator networkPeer, SyncRelevantGameOptionsToServer message)
 		{
 			networkPeer.SetRelevantGameOptions(message.SendMeBloodEvents, message.SendMeSoundEvents);
 			return true;
 		}
 
-		// Token: 0x06002916 RID: 10518 RVA: 0x0009F8F8 File Offset: 0x0009DAF8
 		private bool HandleIntermissionClientVote(NetworkCommunicator networkPeer, IntermissionVote message)
 		{
 			int voteCount = message.VoteCount;
@@ -503,14 +460,10 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x04000F56 RID: 3926
 		public const float MaxIntermissionStateTime = 240f;
 
-		// Token: 0x04000F59 RID: 3929
 		public Action OnIntermissionStateUpdated;
 
-		// Token: 0x02000606 RID: 1542
-		// (Invoke) Token: 0x06003D24 RID: 15652
 		public delegate void WelcomeMessageReceivedDelegate(string messageText);
 	}
 }

@@ -7,10 +7,8 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000FB RID: 251
 	public sealed class BehaviorCautiousAdvance : BehaviorComponent
 	{
-		// Token: 0x06000C6A RID: 3178 RVA: 0x0001913C File Offset: 0x0001733C
 		public BehaviorCautiousAdvance()
 		{
 			base.BehaviorCoherence = 1f;
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			this._switchedToShieldWallTimer = new Timer(0f, 0f, true);
 		}
 
-		// Token: 0x06000C6B RID: 3179 RVA: 0x000191B0 File Offset: 0x000173B0
 		public BehaviorCautiousAdvance(Formation formation)
 			: base(formation)
 		{
@@ -28,7 +25,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000C6C RID: 3180 RVA: 0x0001922C File Offset: 0x0001742C
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition worldPosition = base.Formation.QuerySystem.MedianPosition;
@@ -156,7 +152,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C6D RID: 3181 RVA: 0x00019838 File Offset: 0x00017A38
 		protected override void OnBehaviorActivatedAux()
 		{
 			IEnumerable<Formation> enumerable = base.Formation.Team.FormationsIncludingEmpty.WhereQ((Formation f) => f.CountOfUnits > 0 && f != base.Formation && f.QuerySystem.IsRangedFormation);
@@ -179,12 +174,10 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000C6E RID: 3182 RVA: 0x000199AB File Offset: 0x00017BAB
 		public override void OnBehaviorCanceled()
 		{
 		}
 
-		// Token: 0x06000C6F RID: 3183 RVA: 0x000199B0 File Offset: 0x00017BB0
 		public override void TickOccasionally()
 		{
 			this._targetFormation = base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation ?? base.Formation.QuerySystem.ClosestEnemyFormation;
@@ -215,53 +208,37 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
 		}
 
-		// Token: 0x06000C70 RID: 3184 RVA: 0x00019B75 File Offset: 0x00017D75
 		protected override float GetAiWeight()
 		{
 			return 1f;
 		}
 
-		// Token: 0x040002DD RID: 733
 		private bool _isInShieldWallDistance;
 
-		// Token: 0x040002DE RID: 734
 		private bool _switchedToShieldWallRecently;
 
-		// Token: 0x040002DF RID: 735
 		private Timer _switchedToShieldWallTimer;
 
-		// Token: 0x040002E0 RID: 736
 		private Vec2 _reformPosition = Vec2.Invalid;
 
-		// Token: 0x040002E1 RID: 737
 		private Formation _archerFormation;
 
-		// Token: 0x040002E2 RID: 738
 		private bool _cantShoot;
 
-		// Token: 0x040002E3 RID: 739
 		private float _cantShootDistance = float.MaxValue;
 
-		// Token: 0x040002E4 RID: 740
 		private BehaviorCautiousAdvance.BehaviorState _behaviorState = BehaviorCautiousAdvance.BehaviorState.Shooting;
 
-		// Token: 0x040002E5 RID: 741
 		private Timer _cantShootTimer;
 
-		// Token: 0x040002E6 RID: 742
 		private Vec2 _shootPosition = Vec2.Invalid;
 
-		// Token: 0x040002E7 RID: 743
 		private FormationQuerySystem _targetFormation;
 
-		// Token: 0x0200043C RID: 1084
 		private enum BehaviorState
 		{
-			// Token: 0x04001840 RID: 6208
 			Approaching,
-			// Token: 0x04001841 RID: 6209
 			Shooting,
-			// Token: 0x04001842 RID: 6210
 			PullingBack
 		}
 	}

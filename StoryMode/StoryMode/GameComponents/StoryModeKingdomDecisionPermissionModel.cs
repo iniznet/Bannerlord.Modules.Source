@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace StoryMode.GameComponents
 {
-	// Token: 0x02000042 RID: 66
 	public class StoryModeKingdomDecisionPermissionModel : DefaultKingdomDecisionPermissionModel
 	{
-		// Token: 0x060003BC RID: 956 RVA: 0x00017390 File Offset: 0x00015590
 		public override bool IsWarDecisionAllowedBetweenKingdoms(Kingdom kingdom1, Kingdom kingdom2, out TextObject reason)
 		{
 			if (StoryModeManager.Current.MainStoryLine.ThirdPhase != null)
@@ -26,7 +24,6 @@ namespace StoryMode.GameComponents
 			return true;
 		}
 
-		// Token: 0x060003BD RID: 957 RVA: 0x000173F0 File Offset: 0x000155F0
 		public override bool IsPeaceDecisionAllowedBetweenKingdoms(Kingdom kingdom1, Kingdom kingdom2, out TextObject reason)
 		{
 			if (StoryModeManager.Current.MainStoryLine.ThirdPhase != null)

@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace StoryMode.GameComponents
 {
-	// Token: 0x02000039 RID: 57
 	public class StoryModeAgentDecideKilledOrUnconsciousModel : SandboxAgentDecideKilledOrUnconsciousModel
 	{
-		// Token: 0x060003A4 RID: 932 RVA: 0x0001700C File Offset: 0x0001520C
 		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, out float useSurgeryProbability)
 		{
 			useSurgeryProbability = 1f;

@@ -6,30 +6,25 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002C9 RID: 713
 	public class DuelSpawningBehavior : SpawningBehaviorBase
 	{
-		// Token: 0x0600270A RID: 9994 RVA: 0x00093DFD File Offset: 0x00091FFD
 		public DuelSpawningBehavior()
 		{
 			this.IsSpawningEnabled = true;
 		}
 
-		// Token: 0x0600270B RID: 9995 RVA: 0x00093E0C File Offset: 0x0009200C
 		public override void Initialize(SpawnComponent spawnComponent)
 		{
 			base.Initialize(spawnComponent);
 			base.OnPeerSpawnedFromVisuals += this.OnPeerSpawned;
 		}
 
-		// Token: 0x0600270C RID: 9996 RVA: 0x00093E27 File Offset: 0x00092027
 		public override void Clear()
 		{
 			base.Clear();
 			base.OnPeerSpawnedFromVisuals -= this.OnPeerSpawned;
 		}
 
-		// Token: 0x0600270D RID: 9997 RVA: 0x00093E41 File Offset: 0x00092041
 		public override void OnTick(float dt)
 		{
 			if (this.IsSpawningEnabled && this._spawnCheckTimer.Check(Mission.Current.CurrentTime))
@@ -39,7 +34,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnTick(dt);
 		}
 
-		// Token: 0x0600270E RID: 9998 RVA: 0x00093E70 File Offset: 0x00092070
 		protected override void SpawnAgents()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -91,19 +85,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600270F RID: 9999 RVA: 0x000940C8 File Offset: 0x000922C8
 		public override bool AllowEarlyAgentVisualsDespawning(MissionPeer missionPeer)
 		{
 			return true;
 		}
 
-		// Token: 0x06002710 RID: 10000 RVA: 0x000940CB File Offset: 0x000922CB
 		protected override bool IsRoundInProgress()
 		{
 			return Mission.Current.CurrentState == Mission.State.Continuing;
 		}
 
-		// Token: 0x06002711 RID: 10001 RVA: 0x000940DA File Offset: 0x000922DA
 		private void OnPeerSpawned(MissionPeer peer)
 		{
 			MissionRepresentativeBase representative = peer.Representative;

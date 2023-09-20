@@ -15,30 +15,25 @@ using TaleWorlds.SaveSystem.Load;
 
 namespace SandBox
 {
-	// Token: 0x02000012 RID: 18
 	public class SandBoxGameManager : MBGameManager
 	{
-		// Token: 0x060000C6 RID: 198 RVA: 0x000064AA File Offset: 0x000046AA
 		public SandBoxGameManager()
 		{
 			this._loadingSavedGame = false;
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x000064B9 File Offset: 0x000046B9
 		public SandBoxGameManager(LoadResult loadedGameResult)
 		{
 			this._loadingSavedGame = true;
 			this._loadedGameResult = loadedGameResult;
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x000064CF File Offset: 0x000046CF
 		public override void OnGameEnd(Game game)
 		{
 			MBDebug.SetErrorReportScene(null);
 			base.OnGameEnd(game);
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x000064E0 File Offset: 0x000046E0
 		protected override void DoLoadingForGameManager(GameManagerLoadingSteps gameManagerLoadingStep, out GameManagerLoadingSteps nextStep)
 		{
 			nextStep = -1;
@@ -97,7 +92,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000CA RID: 202 RVA: 0x0000665C File Offset: 0x0000485C
 		public override void OnLoadFinished()
 		{
 			if (!this._loadingSavedGame)
@@ -157,7 +151,6 @@ namespace SandBox
 			base.IsLoaded = true;
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x00006844 File Offset: 0x00004A44
 		private void LaunchSandboxCharacterCreation()
 		{
 			CharacterCreationState characterCreationState = Game.Current.GameStateManager.CreateState<CharacterCreationState>(new object[]
@@ -167,7 +160,6 @@ namespace SandBox
 			Game.Current.GameStateManager.CleanAndPushState(characterCreationState, 0);
 		}
 
-		// Token: 0x060000CC RID: 204 RVA: 0x00006880 File Offset: 0x00004A80
 		[CrashInformationCollector.CrashInformationProvider]
 		private static CrashInformationCollector.CrashInformation UsedModuleInfoCrashCallback()
 		{
@@ -190,7 +182,6 @@ namespace SandBox
 			return null;
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x00006950 File Offset: 0x00004B50
 		[CrashInformationCollector.CrashInformationProvider]
 		private static CrashInformationCollector.CrashInformation UsedGameVersionsCallback()
 		{
@@ -212,10 +203,8 @@ namespace SandBox
 			return null;
 		}
 
-		// Token: 0x04000047 RID: 71
 		private bool _loadingSavedGame;
 
-		// Token: 0x04000048 RID: 72
 		private LoadResult _loadedGameResult;
 	}
 }

@@ -6,28 +6,17 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x0200006B RID: 107
 	public class TextureWidget : ImageWidget
 	{
-		// Token: 0x060006F1 RID: 1777 RVA: 0x0001E742 File Offset: 0x0001C942
 		internal static void RecollectProviderTypes()
 		{
 			TextureWidget._typeCollector.Collect();
 		}
 
-		// Token: 0x17000201 RID: 513
-		// (get) Token: 0x060006F2 RID: 1778 RVA: 0x0001E74E File Offset: 0x0001C94E
-		// (set) Token: 0x060006F3 RID: 1779 RVA: 0x0001E756 File Offset: 0x0001C956
 		public Widget LoadingIconWidget { get; set; }
 
-		// Token: 0x17000202 RID: 514
-		// (get) Token: 0x060006F4 RID: 1780 RVA: 0x0001E75F File Offset: 0x0001C95F
-		// (set) Token: 0x060006F5 RID: 1781 RVA: 0x0001E767 File Offset: 0x0001C967
 		public TextureProvider TextureProvider { get; private set; }
 
-		// Token: 0x17000203 RID: 515
-		// (get) Token: 0x060006F6 RID: 1782 RVA: 0x0001E770 File Offset: 0x0001C970
-		// (set) Token: 0x060006F7 RID: 1783 RVA: 0x0001E778 File Offset: 0x0001C978
 		[Editor(false)]
 		public string TextureProviderName
 		{
@@ -45,9 +34,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x17000204 RID: 516
-		// (get) Token: 0x060006F8 RID: 1784 RVA: 0x0001E79B File Offset: 0x0001C99B
-		// (set) Token: 0x060006F9 RID: 1785 RVA: 0x0001E7A3 File Offset: 0x0001C9A3
 		public Texture Texture
 		{
 			get
@@ -64,13 +50,11 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060006FA RID: 1786 RVA: 0x0001E7BB File Offset: 0x0001C9BB
 		static TextureWidget()
 		{
 			TextureWidget._typeCollector.Collect();
 		}
 
-		// Token: 0x060006FB RID: 1787 RVA: 0x0001E7D1 File Offset: 0x0001C9D1
 		public TextureWidget(UIContext context)
 			: base(context)
 		{
@@ -81,7 +65,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._cachedQuadSize = Vector2.Zero;
 		}
 
-		// Token: 0x060006FC RID: 1788 RVA: 0x0001E809 File Offset: 0x0001CA09
 		protected override void OnDisconnectedFromRoot()
 		{
 			if (this.TextureProvider != null)
@@ -92,7 +75,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.OnDisconnectedFromRoot();
 		}
 
-		// Token: 0x060006FD RID: 1789 RVA: 0x0001E82C File Offset: 0x0001CA2C
 		private void SetTextureProviderProperties()
 		{
 			if (this.TextureProvider != null)
@@ -104,7 +86,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060006FE RID: 1790 RVA: 0x0001E89C File Offset: 0x0001CA9C
 		protected void SetTextureProviderProperty(string name, object value)
 		{
 			if (this._textureProviderProperties.ContainsKey(name))
@@ -122,7 +103,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.Texture = null;
 		}
 
-		// Token: 0x060006FF RID: 1791 RVA: 0x0001E8EF File Offset: 0x0001CAEF
 		protected object GetTextureProviderProperty(string propertyName)
 		{
 			TextureProvider textureProvider = this.TextureProvider;
@@ -133,7 +113,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return textureProvider.GetProperty(propertyName);
 		}
 
-		// Token: 0x06000700 RID: 1792 RVA: 0x0001E903 File Offset: 0x0001CB03
 		protected void ClearTextureOfTextureProvier()
 		{
 			if (this.TextureProvider != null)
@@ -142,7 +121,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000701 RID: 1793 RVA: 0x0001E918 File Offset: 0x0001CB18
 		protected void UpdateTextureWidget()
 		{
 			if (this._isRenderRequestedPreviousFrame)
@@ -168,7 +146,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000702 RID: 1794 RVA: 0x0001E9E4 File Offset: 0x0001CBE4
 		protected virtual void OnTextureUpdated()
 		{
 			bool toShow = this.Texture == null;
@@ -182,7 +159,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000703 RID: 1795 RVA: 0x0001EA36 File Offset: 0x0001CC36
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -198,7 +174,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._isRenderRequestedPreviousFrame = false;
 		}
 
-		// Token: 0x06000704 RID: 1796 RVA: 0x0001EA68 File Offset: 0x0001CC68
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			this._isRenderRequestedPreviousFrame = true;
@@ -254,34 +229,24 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x04000343 RID: 835
 		protected static TypeCollector<TextureProvider> _typeCollector = new TypeCollector<TextureProvider>();
 
-		// Token: 0x04000346 RID: 838
 		private string _textureProviderName;
 
-		// Token: 0x04000347 RID: 839
 		private Texture _texture;
 
-		// Token: 0x04000348 RID: 840
 		private float _lastWidth;
 
-		// Token: 0x04000349 RID: 841
 		private float _lastHeight;
 
-		// Token: 0x0400034A RID: 842
 		protected bool _isTargetSizeDirty;
 
-		// Token: 0x0400034B RID: 843
 		private Dictionary<string, object> _textureProviderProperties;
 
-		// Token: 0x0400034C RID: 844
 		protected bool _isRenderRequestedPreviousFrame;
 
-		// Token: 0x0400034D RID: 845
 		protected DrawObject2D _cachedQuad;
 
-		// Token: 0x0400034E RID: 846
 		protected Vector2 _cachedQuadSize;
 	}
 }

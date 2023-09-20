@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace StoryMode
 {
-	// Token: 0x02000011 RID: 17
 	public static class StoryModeData
 	{
-		// Token: 0x06000074 RID: 116 RVA: 0x000044F4 File Offset: 0x000026F4
 		public static void OnGameEnd()
 		{
 			StoryModeData._northernEmpireKingdom = null;
@@ -20,14 +18,11 @@ namespace StoryMode
 			StoryModeData._khuzaitKingdom = null;
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00004526 File Offset: 0x00002726
 		public static bool IsKingdomImperial(Kingdom kingdomToCheck)
 		{
 			return kingdomToCheck != null && kingdomToCheck.Culture == StoryModeData.ImperialCulture;
 		}
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000076 RID: 118 RVA: 0x0000453A File Offset: 0x0000273A
 		public static CultureObject ImperialCulture
 		{
 			get
@@ -36,8 +31,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x06000077 RID: 119 RVA: 0x00004548 File Offset: 0x00002748
 		public static Kingdom NorthernEmpireKingdom
 		{
 			get
@@ -59,8 +52,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x06000078 RID: 120 RVA: 0x000045D8 File Offset: 0x000027D8
 		public static Kingdom WesternEmpireKingdom
 		{
 			get
@@ -82,8 +73,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x06000079 RID: 121 RVA: 0x00004668 File Offset: 0x00002868
 		public static Kingdom SouthernEmpireKingdom
 		{
 			get
@@ -105,8 +94,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x0600007A RID: 122 RVA: 0x000046F8 File Offset: 0x000028F8
 		public static Kingdom SturgiaKingdom
 		{
 			get
@@ -128,8 +115,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x0600007B RID: 123 RVA: 0x00004788 File Offset: 0x00002988
 		public static Kingdom AseraiKingdom
 		{
 			get
@@ -151,8 +136,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x0600007C RID: 124 RVA: 0x00004818 File Offset: 0x00002A18
 		public static Kingdom VlandiaKingdom
 		{
 			get
@@ -174,8 +157,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x0600007D RID: 125 RVA: 0x000048A8 File Offset: 0x00002AA8
 		public static Kingdom BattaniaKingdom
 		{
 			get
@@ -197,8 +178,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x0600007E RID: 126 RVA: 0x00004938 File Offset: 0x00002B38
 		public static Kingdom KhuzaitKingdom
 		{
 			get
@@ -220,28 +199,20 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x04000021 RID: 33
 		private static Kingdom _northernEmpireKingdom;
 
-		// Token: 0x04000022 RID: 34
 		private static Kingdom _westernEmpireKingdom;
 
-		// Token: 0x04000023 RID: 35
 		private static Kingdom _southernEmpireKingdom;
 
-		// Token: 0x04000024 RID: 36
 		private static Kingdom _sturgiaKingdom;
 
-		// Token: 0x04000025 RID: 37
 		private static Kingdom _aseraiKingdom;
 
-		// Token: 0x04000026 RID: 38
 		private static Kingdom _vlandiaKingdom;
 
-		// Token: 0x04000027 RID: 39
 		private static Kingdom _battaniaKingdom;
 
-		// Token: 0x04000028 RID: 40
 		private static Kingdom _khuzaitKingdom;
 	}
 }

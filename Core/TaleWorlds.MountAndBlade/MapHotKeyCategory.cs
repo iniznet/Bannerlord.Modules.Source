@@ -4,10 +4,8 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000219 RID: 537
 	public class MapHotKeyCategory : GameKeyContext
 	{
-		// Token: 0x06001DDC RID: 7644 RVA: 0x0006BD6B File Offset: 0x00069F6B
 		public MapHotKeyCategory()
 			: base("MapHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
 		{
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade
 			this.RegisterGameAxisKeys();
 		}
 
-		// Token: 0x06001DDD RID: 7645 RVA: 0x0006BD90 File Offset: 0x00069F90
 		private void RegisterHotKeys()
 		{
 			List<Key> list = new List<Key>
@@ -38,7 +35,6 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterHotKey(new HotKey("MapChangeCursorMode", "MapHotKeyCategory", list3, HotKey.Modifiers.None, HotKey.Modifiers.None), true);
 		}
 
-		// Token: 0x06001DDE RID: 7646 RVA: 0x0006BE48 File Offset: 0x0006A048
 		private void RegisterGameKeys()
 		{
 			base.RegisterGameKey(new GameKey(49, "PartyMoveUp", "MapHotKeyCategory", InputKey.Up, GameKeyMainCategories.CampaignMapCategory), true);
@@ -61,7 +57,6 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterGameKey(new GameKey(66, "MapGoToEncylopedia", "MapHotKeyCategory", InputKey.Invalid, InputKey.ControllerLOption, GameKeyMainCategories.CampaignMapCategory), true);
 		}
 
-		// Token: 0x06001DDF RID: 7647 RVA: 0x0006C0B4 File Offset: 0x0006A2B4
 		private void RegisterGameAxisKeys()
 		{
 			GameKey gameKey = new GameKey(45, "MapMoveUp", "MapHotKeyCategory", InputKey.W, GameKeyMainCategories.CampaignMapCategory);
@@ -76,88 +71,60 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterGameAxisKey(new GameAxisKey("MovementAxisY", InputKey.ControllerLStick, gameKey, gameKey2, GameAxisKey.AxisType.Y), true);
 		}
 
-		// Token: 0x04000AA4 RID: 2724
 		public const string CategoryId = "MapHotKeyCategory";
 
-		// Token: 0x04000AA5 RID: 2725
 		public const int QuickSave = 53;
 
-		// Token: 0x04000AA6 RID: 2726
 		public const int PartyMoveUp = 49;
 
-		// Token: 0x04000AA7 RID: 2727
 		public const int PartyMoveLeft = 52;
 
-		// Token: 0x04000AA8 RID: 2728
 		public const int PartyMoveDown = 50;
 
-		// Token: 0x04000AA9 RID: 2729
 		public const int PartyMoveRight = 51;
 
-		// Token: 0x04000AAA RID: 2730
 		public const int MapMoveUp = 45;
 
-		// Token: 0x04000AAB RID: 2731
 		public const int MapMoveDown = 46;
 
-		// Token: 0x04000AAC RID: 2732
 		public const int MapMoveLeft = 48;
 
-		// Token: 0x04000AAD RID: 2733
 		public const int MapMoveRight = 47;
 
-		// Token: 0x04000AAE RID: 2734
 		public const string MovementAxisX = "MovementAxisX";
 
-		// Token: 0x04000AAF RID: 2735
 		public const string MovementAxisY = "MovementAxisY";
 
-		// Token: 0x04000AB0 RID: 2736
 		public const int MapFastMove = 54;
 
-		// Token: 0x04000AB1 RID: 2737
 		public const int MapZoomIn = 55;
 
-		// Token: 0x04000AB2 RID: 2738
 		public const int MapZoomOut = 56;
 
-		// Token: 0x04000AB3 RID: 2739
 		public const int MapRotateLeft = 57;
 
-		// Token: 0x04000AB4 RID: 2740
 		public const int MapRotateRight = 58;
 
-		// Token: 0x04000AB5 RID: 2741
 		public const int MapCameraFollowMode = 63;
 
-		// Token: 0x04000AB6 RID: 2742
 		public const int MapToggleFastForward = 64;
 
-		// Token: 0x04000AB7 RID: 2743
 		public const int MapTrackSettlement = 65;
 
-		// Token: 0x04000AB8 RID: 2744
 		public const int MapGoToEncylopedia = 66;
 
-		// Token: 0x04000AB9 RID: 2745
 		public const string MapClick = "MapClick";
 
-		// Token: 0x04000ABA RID: 2746
 		public const string MapFollowModifier = "MapFollowModifier";
 
-		// Token: 0x04000ABB RID: 2747
 		public const string MapChangeCursorMode = "MapChangeCursorMode";
 
-		// Token: 0x04000ABC RID: 2748
 		public const int MapTimeStop = 59;
 
-		// Token: 0x04000ABD RID: 2749
 		public const int MapTimeNormal = 60;
 
-		// Token: 0x04000ABE RID: 2750
 		public const int MapTimeFastForward = 61;
 
-		// Token: 0x04000ABF RID: 2751
 		public const int MapTimeTogglePause = 62;
 	}
 }

@@ -6,15 +6,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000AA RID: 170
 	public class BecomeKingSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x170004D9 RID: 1241
-		// (get) Token: 0x060011A3 RID: 4515 RVA: 0x00050BF3 File Offset: 0x0004EDF3
 		public Hero NewLeaderHero { get; }
 
-		// Token: 0x170004DA RID: 1242
-		// (get) Token: 0x060011A4 RID: 4516 RVA: 0x00050BFB File Offset: 0x0004EDFB
 		public override string SceneID
 		{
 			get
@@ -23,8 +18,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x170004DB RID: 1243
-		// (get) Token: 0x060011A5 RID: 4517 RVA: 0x00050C04 File Offset: 0x0004EE04
 		public override TextObject TitleText
 		{
 			get
@@ -48,7 +41,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x060011A6 RID: 4518 RVA: 0x00050D20 File Offset: 0x0004EF20
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			Equipment equipment = this.NewLeaderHero.CharacterObject.Equipment.Clone(true);
@@ -76,7 +68,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x060011A7 RID: 4519 RVA: 0x00050EFC File Offset: 0x0004F0FC
 		public override IEnumerable<Banner> GetBanners()
 		{
 			return new List<Banner>
@@ -86,29 +77,23 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			};
 		}
 
-		// Token: 0x060011A8 RID: 4520 RVA: 0x00050F39 File Offset: 0x0004F139
 		public BecomeKingSceneNotificationItem(Hero newLeaderHero)
 		{
 			this.NewLeaderHero = newLeaderHero;
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x060011A9 RID: 4521 RVA: 0x00050F53 File Offset: 0x0004F153
 		private bool IsAudienceFemale(int indexOfAudience)
 		{
 			return indexOfAudience == 2 || indexOfAudience == 5 || indexOfAudience - 11 <= 2;
 		}
 
-		// Token: 0x04000622 RID: 1570
 		private const int NumberOfAudience = 14;
 
-		// Token: 0x04000623 RID: 1571
 		private const int NumberOfGuards = 2;
 
-		// Token: 0x04000624 RID: 1572
 		private const int NumberOfCompanions = 4;
 
-		// Token: 0x04000626 RID: 1574
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

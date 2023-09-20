@@ -12,10 +12,8 @@ using TaleWorlds.MountAndBlade.Diamond;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 {
-	// Token: 0x020000A6 RID: 166
 	public class MPArmoryCosmeticsVM : ViewModel
 	{
-		// Token: 0x06000FE3 RID: 4067 RVA: 0x000345F4 File Offset: 0x000327F4
 		public MPArmoryCosmeticsVM(Action<EquipmentIndex, EquipmentElement> onHeroPreviewItemEquipped, Action resetHeroEquipment, Action<MPArmoryCosmeticItemVM> onItemObtainRequested, Func<List<IReadOnlyPerkObject>> getSelectedPerks)
 		{
 			this._onHeroPreviewItemEquipped = onHeroPreviewItemEquipped;
@@ -40,7 +38,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000FE4 RID: 4068 RVA: 0x00034740 File Offset: 0x00032940
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -64,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			});
 		}
 
-		// Token: 0x06000FE5 RID: 4069 RVA: 0x00034874 File Offset: 0x00032A74
 		private void InitializeAllCosmetics()
 		{
 			this._allCosmetics = new List<MPArmoryCosmeticItemVM>();
@@ -80,7 +76,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x06000FE6 RID: 4070 RVA: 0x0003490C File Offset: 0x00032B0C
 		private void InitializeCosmeticItemComparers()
 		{
 			this._itemComparers = new List<MPArmoryCosmeticsVM.CosmeticItemComparer>
@@ -93,13 +88,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this._currentItemComparer = this._itemComparers[0];
 		}
 
-		// Token: 0x06000FE7 RID: 4071 RVA: 0x00034962 File Offset: 0x00032B62
 		public void RefreshPlayerData(PlayerData playerData)
 		{
 			this.Loot = playerData.Gold;
 		}
 
-		// Token: 0x06000FE8 RID: 4072 RVA: 0x00034970 File Offset: 0x00032B70
 		public void RefreshCosmeticsInfo()
 		{
 			this.IsLoading = true;
@@ -119,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.RefreshSelectedClass(this._selectedClass, this._getSelectedPerks());
 		}
 
-		// Token: 0x06000FE9 RID: 4073 RVA: 0x00034A7C File Offset: 0x00032C7C
 		public async Task<bool> UpdateUsedCosmetics()
 		{
 			IReadOnlyDictionary<string, List<string>> usedCosmetics = NetworkMain.GameClient.UsedCosmetics;
@@ -176,7 +168,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			return await NetworkMain.GameClient.UpdateUsedCosmeticItems(dictionary);
 		}
 
-		// Token: 0x06000FEA RID: 4074 RVA: 0x00034AC4 File Offset: 0x00032CC4
 		public void RefreshSelectedClass(MultiplayerClassDivisions.MPHeroClass selectedClass, List<IReadOnlyPerkObject> selectedPerks)
 		{
 			this._selectedClass = selectedClass;
@@ -205,7 +196,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.FilterCosmeticsByCategory(this._currentFilterCategory);
 		}
 
-		// Token: 0x06000FEB RID: 4075 RVA: 0x00034BA8 File Offset: 0x00032DA8
 		private void AddDefaultItem(ItemObject item)
 		{
 			MPArmoryCosmeticItemVM mparmoryCosmeticItemVM = new MPArmoryCosmeticItemVM(new CosmeticsManager.CosmeticElement(item.StringId, CosmeticsManager.CosmeticRarity.Default, 0, CosmeticsManager.CosmeticType.Clothing), string.Empty, new Action<MPArmoryCosmeticItemVM>(this.OnItemEquipRequested), null, new Action<MPArmoryCosmeticItemVM>(this.EquipItemOnHeroPreview))
@@ -222,7 +212,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x06000FEC RID: 4076 RVA: 0x00034C34 File Offset: 0x00032E34
 		private void EquipItemOnHeroPreview(MPArmoryCosmeticItemVM itemVM)
 		{
 			Action<EquipmentIndex, EquipmentElement> onHeroPreviewItemEquipped = this._onHeroPreviewItemEquipped;
@@ -233,7 +222,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			onHeroPreviewItemEquipped(this.GetEquipmentIndexOfItemObject(itemVM.EquipmentElement.Item), itemVM.EquipmentElement);
 		}
 
-		// Token: 0x06000FED RID: 4077 RVA: 0x00034C6C File Offset: 0x00032E6C
 		private async void OnItemEquipRequested(MPArmoryCosmeticItemVM itemVM)
 		{
 			CosmeticsManager.ClothingCosmeticElement clothingCosmeticElement;
@@ -272,7 +260,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x06000FEE RID: 4078 RVA: 0x00034CB0 File Offset: 0x00032EB0
 		private void OnItemEquipped(MPArmoryCosmeticItemVM itemVM, bool forceRemove = true)
 		{
 			this.EquipItemOnHeroPreview(itemVM);
@@ -303,7 +290,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			itemVM.IsUsed = true;
 		}
 
-		// Token: 0x06000FEF RID: 4079 RVA: 0x00034DF4 File Offset: 0x00032FF4
 		private void OnItemPurchaseRequested(MPArmoryCosmeticItemVM itemVM)
 		{
 			Action<MPArmoryCosmeticItemVM> onItemObtainRequested = this._onItemObtainRequested;
@@ -314,7 +300,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			onItemObtainRequested(itemVM);
 		}
 
-		// Token: 0x06000FF0 RID: 4080 RVA: 0x00034E07 File Offset: 0x00033007
 		public void OnItemObtained(string cosmeticID, int finalLoot)
 		{
 			this._ownedCosmetics.Add(cosmeticID);
@@ -322,7 +307,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.Loot = finalLoot;
 		}
 
-		// Token: 0x06000FF1 RID: 4081 RVA: 0x00034E24 File Offset: 0x00033024
 		private void OnSortCategoryUpdated(SelectorVM<SelectorItemVM> selector)
 		{
 			if (this.SortCategories.SelectedIndex == -1)
@@ -333,7 +317,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.AvailableCosmetics.Sort(this._currentItemComparer);
 		}
 
-		// Token: 0x06000FF2 RID: 4082 RVA: 0x00034E74 File Offset: 0x00033074
 		private void OnSortOrderUpdated(SelectorVM<SelectorItemVM> selector)
 		{
 			if (this.SortOrders.SelectedIndex == -1)
@@ -347,7 +330,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.AvailableCosmetics.Sort(this._currentItemComparer);
 		}
 
-		// Token: 0x06000FF3 RID: 4083 RVA: 0x00034EF8 File Offset: 0x000330F8
 		private EquipmentIndex GetEquipmentIndexOfItemObject(ItemObject itemObject)
 		{
 			if (itemObject == null)
@@ -387,7 +369,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			return EquipmentIndex.None;
 		}
 
-		// Token: 0x06000FF4 RID: 4084 RVA: 0x00034F54 File Offset: 0x00033154
 		public void ExecuteFilterByCategory(int categoryIndex)
 		{
 			ItemObject.ItemTypeEnum itemTypeEnum;
@@ -416,7 +397,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.FilterCosmeticsByCategory(itemTypeEnum);
 		}
 
-		// Token: 0x06000FF5 RID: 4085 RVA: 0x00034FAC File Offset: 0x000331AC
 		private void FilterCosmeticsByCategory(ItemObject.ItemTypeEnum itemType = ItemObject.ItemTypeEnum.Invalid)
 		{
 			this.AvailableCosmetics.Clear();
@@ -447,7 +427,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.RefreshEquipment();
 		}
 
-		// Token: 0x06000FF6 RID: 4086 RVA: 0x00035128 File Offset: 0x00033328
 		private void RefreshEquipment()
 		{
 			Dictionary<EquipmentIndex, bool> dictionary = new Dictionary<EquipmentIndex, bool>();
@@ -511,7 +490,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x06000FF7 RID: 4087 RVA: 0x0003542C File Offset: 0x0003362C
 		public void RefreshKeyBindings(HotKey actionKey, HotKey previewKey)
 		{
 			foreach (MPArmoryCosmeticItemVM mparmoryCosmeticItemVM in this._allCosmetics)
@@ -526,21 +504,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this._previewKey = previewKey;
 		}
 
-		// Token: 0x06000FF8 RID: 4088 RVA: 0x000354C8 File Offset: 0x000336C8
 		private void ExecuteRefreshCosmeticInfo()
 		{
 			this.RefreshCosmeticsInfo();
 		}
 
-		// Token: 0x06000FF9 RID: 4089 RVA: 0x000354D0 File Offset: 0x000336D0
 		private void ExecuteResetPreview()
 		{
 			this.RefreshSelectedClass(this._selectedClass, this._getSelectedPerks());
 		}
 
-		// Token: 0x1700051B RID: 1307
-		// (get) Token: 0x06000FFA RID: 4090 RVA: 0x000354E9 File Offset: 0x000336E9
-		// (set) Token: 0x06000FFB RID: 4091 RVA: 0x000354F1 File Offset: 0x000336F1
 		[DataSourceProperty]
 		public int Loot
 		{
@@ -558,9 +531,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x1700051C RID: 1308
-		// (get) Token: 0x06000FFC RID: 4092 RVA: 0x0003550F File Offset: 0x0003370F
-		// (set) Token: 0x06000FFD RID: 4093 RVA: 0x00035517 File Offset: 0x00033717
 		[DataSourceProperty]
 		public bool IsLoading
 		{
@@ -578,9 +548,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x1700051D RID: 1309
-		// (get) Token: 0x06000FFE RID: 4094 RVA: 0x00035535 File Offset: 0x00033735
-		// (set) Token: 0x06000FFF RID: 4095 RVA: 0x0003553D File Offset: 0x0003373D
 		[DataSourceProperty]
 		public bool HasCosmeticInfoReceived
 		{
@@ -598,9 +565,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x1700051E RID: 1310
-		// (get) Token: 0x06001000 RID: 4096 RVA: 0x0003555B File Offset: 0x0003375B
-		// (set) Token: 0x06001001 RID: 4097 RVA: 0x00035563 File Offset: 0x00033763
 		[DataSourceProperty]
 		public string CosmeticInfoErrorText
 		{
@@ -618,9 +582,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x1700051F RID: 1311
-		// (get) Token: 0x06001002 RID: 4098 RVA: 0x00035586 File Offset: 0x00033786
-		// (set) Token: 0x06001003 RID: 4099 RVA: 0x0003558E File Offset: 0x0003378E
 		[DataSourceProperty]
 		public HintViewModel AllCategoriesHint
 		{
@@ -638,9 +599,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000520 RID: 1312
-		// (get) Token: 0x06001004 RID: 4100 RVA: 0x000355AC File Offset: 0x000337AC
-		// (set) Token: 0x06001005 RID: 4101 RVA: 0x000355B4 File Offset: 0x000337B4
 		[DataSourceProperty]
 		public HintViewModel BodyCategoryHint
 		{
@@ -658,9 +616,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000521 RID: 1313
-		// (get) Token: 0x06001006 RID: 4102 RVA: 0x000355D2 File Offset: 0x000337D2
-		// (set) Token: 0x06001007 RID: 4103 RVA: 0x000355DA File Offset: 0x000337DA
 		[DataSourceProperty]
 		public HintViewModel HeadCategoryHint
 		{
@@ -678,9 +633,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000522 RID: 1314
-		// (get) Token: 0x06001008 RID: 4104 RVA: 0x000355F8 File Offset: 0x000337F8
-		// (set) Token: 0x06001009 RID: 4105 RVA: 0x00035600 File Offset: 0x00033800
 		[DataSourceProperty]
 		public HintViewModel ShoulderCategoryHint
 		{
@@ -698,9 +650,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000523 RID: 1315
-		// (get) Token: 0x0600100A RID: 4106 RVA: 0x0003561E File Offset: 0x0003381E
-		// (set) Token: 0x0600100B RID: 4107 RVA: 0x00035626 File Offset: 0x00033826
 		[DataSourceProperty]
 		public HintViewModel HandCategoryHint
 		{
@@ -718,9 +667,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000524 RID: 1316
-		// (get) Token: 0x0600100C RID: 4108 RVA: 0x00035644 File Offset: 0x00033844
-		// (set) Token: 0x0600100D RID: 4109 RVA: 0x0003564C File Offset: 0x0003384C
 		[DataSourceProperty]
 		public HintViewModel LegCategoryHint
 		{
@@ -738,9 +684,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000525 RID: 1317
-		// (get) Token: 0x0600100E RID: 4110 RVA: 0x0003566A File Offset: 0x0003386A
-		// (set) Token: 0x0600100F RID: 4111 RVA: 0x00035672 File Offset: 0x00033872
 		[DataSourceProperty]
 		public HintViewModel ResetPreviewHint
 		{
@@ -758,9 +701,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000526 RID: 1318
-		// (get) Token: 0x06001010 RID: 4112 RVA: 0x00035690 File Offset: 0x00033890
-		// (set) Token: 0x06001011 RID: 4113 RVA: 0x00035698 File Offset: 0x00033898
 		[DataSourceProperty]
 		public SelectorVM<SelectorItemVM> SortCategories
 		{
@@ -778,9 +718,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000527 RID: 1319
-		// (get) Token: 0x06001012 RID: 4114 RVA: 0x000356B6 File Offset: 0x000338B6
-		// (set) Token: 0x06001013 RID: 4115 RVA: 0x000356BE File Offset: 0x000338BE
 		[DataSourceProperty]
 		public SelectorVM<SelectorItemVM> SortOrders
 		{
@@ -798,9 +735,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x17000528 RID: 1320
-		// (get) Token: 0x06001014 RID: 4116 RVA: 0x000356DC File Offset: 0x000338DC
-		// (set) Token: 0x06001015 RID: 4117 RVA: 0x000356E4 File Offset: 0x000338E4
 		[DataSourceProperty]
 		public MBBindingList<MPArmoryCosmeticItemVM> AvailableCosmetics
 		{
@@ -818,104 +752,70 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x0400077F RID: 1919
 		private readonly Action<EquipmentIndex, EquipmentElement> _onHeroPreviewItemEquipped;
 
-		// Token: 0x04000780 RID: 1920
 		private readonly Action _resetHeroEquipment;
 
-		// Token: 0x04000781 RID: 1921
 		private readonly Action<MPArmoryCosmeticItemVM> _onItemObtainRequested;
 
-		// Token: 0x04000782 RID: 1922
 		private readonly Func<List<IReadOnlyPerkObject>> _getSelectedPerks;
 
-		// Token: 0x04000783 RID: 1923
 		private List<MPArmoryCosmeticItemVM> _allCosmetics;
 
-		// Token: 0x04000784 RID: 1924
 		private List<string> _ownedCosmetics;
 
-		// Token: 0x04000785 RID: 1925
 		private Dictionary<string, List<string>> _usedCosmetics;
 
-		// Token: 0x04000786 RID: 1926
 		private List<string> _defaultCosmeticIDs;
 
-		// Token: 0x04000787 RID: 1927
 		private ItemObject.ItemTypeEnum _currentFilterCategory;
 
-		// Token: 0x04000788 RID: 1928
 		private MPArmoryCosmeticsVM.CosmeticItemComparer _currentItemComparer;
 
-		// Token: 0x04000789 RID: 1929
 		private List<MPArmoryCosmeticsVM.CosmeticItemComparer> _itemComparers;
 
-		// Token: 0x0400078A RID: 1930
 		private MultiplayerClassDivisions.MPHeroClass _selectedClass;
 
-		// Token: 0x0400078B RID: 1931
 		private Equipment _selectedClassDefaultEquipment;
 
-		// Token: 0x0400078C RID: 1932
 		private string _selectedTroopID;
 
-		// Token: 0x0400078D RID: 1933
 		private bool _isUpdatingUsedCosmetics;
 
-		// Token: 0x0400078E RID: 1934
 		private HotKey _actionKey;
 
-		// Token: 0x0400078F RID: 1935
 		private HotKey _previewKey;
 
-		// Token: 0x04000790 RID: 1936
 		private int _loot;
 
-		// Token: 0x04000791 RID: 1937
 		private bool _isLoading;
 
-		// Token: 0x04000792 RID: 1938
 		private bool _hasCosmeticInfoReceived;
 
-		// Token: 0x04000793 RID: 1939
 		private string _cosmeticInfoErrorText;
 
-		// Token: 0x04000794 RID: 1940
 		private HintViewModel _allCategoriesHint;
 
-		// Token: 0x04000795 RID: 1941
 		private HintViewModel _bodyCategoryHint;
 
-		// Token: 0x04000796 RID: 1942
 		private HintViewModel _headCategoryHint;
 
-		// Token: 0x04000797 RID: 1943
 		private HintViewModel _shoulderCategoryHint;
 
-		// Token: 0x04000798 RID: 1944
 		private HintViewModel _handCategoryHint;
 
-		// Token: 0x04000799 RID: 1945
 		private HintViewModel _legCategoryHint;
 
-		// Token: 0x0400079A RID: 1946
 		private HintViewModel _resetPreviewHint;
 
-		// Token: 0x0400079B RID: 1947
 		private SelectorVM<SelectorItemVM> _sortCategories;
 
-		// Token: 0x0400079C RID: 1948
 		private SelectorVM<SelectorItemVM> _sortOrders;
 
-		// Token: 0x0400079D RID: 1949
 		private MBBindingList<MPArmoryCosmeticItemVM> _availableCosmetics;
 
-		// Token: 0x02000202 RID: 514
 		private abstract class CosmeticItemComparer : IComparer<MPArmoryCosmeticItemVM>
 		{
-			// Token: 0x170007DD RID: 2013
-			// (get) Token: 0x06001ABB RID: 6843 RVA: 0x00056902 File Offset: 0x00054B02
 			protected int _sortMultiplier
 			{
 				get
@@ -928,33 +828,26 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 				}
 			}
 
-			// Token: 0x06001ABC RID: 6844 RVA: 0x0005690F File Offset: 0x00054B0F
 			public void SetSortMode(bool isAscending)
 			{
 				this._isAscending = isAscending;
 			}
 
-			// Token: 0x06001ABD RID: 6845
 			public abstract int Compare(MPArmoryCosmeticItemVM x, MPArmoryCosmeticItemVM y);
 
-			// Token: 0x04000E4F RID: 3663
 			private bool _isAscending;
 		}
 
-		// Token: 0x02000203 RID: 515
 		private class CosmeticItemNameComparer : MPArmoryCosmeticsVM.CosmeticItemComparer
 		{
-			// Token: 0x06001ABF RID: 6847 RVA: 0x00056920 File Offset: 0x00054B20
 			public override int Compare(MPArmoryCosmeticItemVM x, MPArmoryCosmeticItemVM y)
 			{
 				return x.Name.CompareTo(y.Name) * base._sortMultiplier;
 			}
 		}
 
-		// Token: 0x02000204 RID: 516
 		private class CosmeticItemCostComparer : MPArmoryCosmeticsVM.CosmeticItemComparer
 		{
-			// Token: 0x06001AC1 RID: 6849 RVA: 0x00056944 File Offset: 0x00054B44
 			public override int Compare(MPArmoryCosmeticItemVM x, MPArmoryCosmeticItemVM y)
 			{
 				int num = x.Cost.CompareTo(y.Cost);
@@ -966,10 +859,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x02000205 RID: 517
 		private class CosmeticItemRarityComparer : MPArmoryCosmeticsVM.CosmeticItemComparer
 		{
-			// Token: 0x06001AC3 RID: 6851 RVA: 0x000569B4 File Offset: 0x00054BB4
 			public override int Compare(MPArmoryCosmeticItemVM x, MPArmoryCosmeticItemVM y)
 			{
 				int num = x.Cosmetic.Rarity.CompareTo(y.Cosmetic.Rarity);
@@ -981,10 +872,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x02000206 RID: 518
 		private class CosmeticItemCategoryComparer : MPArmoryCosmeticsVM.CosmeticItemComparer
 		{
-			// Token: 0x06001AC5 RID: 6853 RVA: 0x00056A38 File Offset: 0x00054C38
 			public override int Compare(MPArmoryCosmeticItemVM x, MPArmoryCosmeticItemVM y)
 			{
 				return x.EquipmentElement.Item.ItemType.CompareTo(y.EquipmentElement.Item.ItemType) * base._sortMultiplier;

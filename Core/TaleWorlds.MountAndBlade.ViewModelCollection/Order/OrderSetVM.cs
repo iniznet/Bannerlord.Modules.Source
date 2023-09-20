@@ -9,11 +9,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
-	// Token: 0x02000024 RID: 36
 	public class OrderSetVM : ViewModel
 	{
-		// Token: 0x170000C6 RID: 198
-		// (get) Token: 0x060002A0 RID: 672 RVA: 0x0000C75C File Offset: 0x0000A95C
 		internal IEnumerable<OrderSubType> SubOrdersSP
 		{
 			get
@@ -61,8 +58,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x060002A1 RID: 673 RVA: 0x0000C76C File Offset: 0x0000A96C
 		internal IEnumerable<OrderSubType> SubOrdersMP
 		{
 			get
@@ -108,7 +103,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002A2 RID: 674 RVA: 0x0000C77C File Offset: 0x0000A97C
 		internal OrderSetVM(OrderSetType orderSetType, Action<OrderItemVM, OrderSetType, bool> onExecution, bool isMultiplayer)
 		{
 			this.ContainsOrders = true;
@@ -121,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.TitleOrder.IsActive = true;
 		}
 
-		// Token: 0x060002A3 RID: 675 RVA: 0x0000C7F8 File Offset: 0x0000A9F8
 		internal OrderSetVM(OrderSubType orderSubType, int index, Action<OrderItemVM, OrderSetType, bool> onExecution, bool isMultiplayer)
 		{
 			this.ContainsOrders = false;
@@ -135,7 +128,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.TitleOrder.IsActive = true;
 		}
 
-		// Token: 0x060002A4 RID: 676 RVA: 0x0000C87C File Offset: 0x0000AA7C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -203,7 +195,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002A5 RID: 677 RVA: 0x0000CB58 File Offset: 0x0000AD58
 		private int GetOrderIndexFromOrderSetType(OrderSetType orderSetType)
 		{
 			int num;
@@ -227,7 +218,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			return num;
 		}
 
-		// Token: 0x060002A6 RID: 678 RVA: 0x0000CB9C File Offset: 0x0000AD9C
 		private static GameKey GetOrderGameKey(int index)
 		{
 			switch (index)
@@ -256,7 +246,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002A7 RID: 679 RVA: 0x0000CC94 File Offset: 0x0000AE94
 		private void OnExecuteSubOrder(OrderItemVM orderItem, bool fromSelection)
 		{
 			this.OnSetExecution(orderItem, this.OrderSetType, fromSelection);
@@ -266,7 +255,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002A8 RID: 680 RVA: 0x0000CCB8 File Offset: 0x0000AEB8
 		private void OnExecuteOrderSet(OrderItemVM orderItem, bool fromSelection)
 		{
 			this.OnSetExecution(orderItem, this.OrderSetType, fromSelection);
@@ -276,7 +264,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002A9 RID: 681 RVA: 0x0000CCDC File Offset: 0x0000AEDC
 		public void ResetActiveStatus(bool disable = false)
 		{
 			this.TitleOrder.SelectionState = (disable ? 0 : 1);
@@ -301,7 +288,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002AA RID: 682 RVA: 0x0000CD88 File Offset: 0x0000AF88
 		public void FinalizeActiveStatus(bool forceDisable = false)
 		{
 			this.TitleOrder.FinalizeActiveStatus();
@@ -315,7 +301,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002AB RID: 683 RVA: 0x0000CDE4 File Offset: 0x0000AFE4
 		internal OrderItemVM GetOrder(OrderSubType type)
 		{
 			if (this.ContainsOrders)
@@ -330,7 +315,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			return null;
 		}
 
-		// Token: 0x060002AC RID: 684 RVA: 0x0000CE68 File Offset: 0x0000B068
 		public void SetActiveOrder(OrderItemVM order)
 		{
 			if (this.OrderSetType != OrderSetType.Toggle)
@@ -344,7 +328,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			order.SetActiveState(true);
 		}
 
-		// Token: 0x060002AD RID: 685 RVA: 0x0000CEFC File Offset: 0x0000B0FC
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -359,14 +342,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.TitleOrderKey.OnFinalize();
 		}
 
-		// Token: 0x170000C8 RID: 200
-		// (get) Token: 0x060002AE RID: 686 RVA: 0x0000CF74 File Offset: 0x0000B174
-		// (set) Token: 0x060002AF RID: 687 RVA: 0x0000CF7C File Offset: 0x0000B17C
 		public bool ContainsOrders { get; private set; }
 
-		// Token: 0x170000C9 RID: 201
-		// (get) Token: 0x060002B0 RID: 688 RVA: 0x0000CF85 File Offset: 0x0000B185
-		// (set) Token: 0x060002B1 RID: 689 RVA: 0x0000CF90 File Offset: 0x0000B190
 		[DataSourceProperty]
 		public bool CanUseShortcuts
 		{
@@ -392,9 +369,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CA RID: 202
-		// (get) Token: 0x060002B2 RID: 690 RVA: 0x0000CFF5 File Offset: 0x0000B1F5
-		// (set) Token: 0x060002B3 RID: 691 RVA: 0x0000CFFD File Offset: 0x0000B1FD
 		[DataSourceProperty]
 		public string SelectedOrderText
 		{
@@ -412,9 +386,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CB RID: 203
-		// (get) Token: 0x060002B4 RID: 692 RVA: 0x0000D020 File Offset: 0x0000B220
-		// (set) Token: 0x060002B5 RID: 693 RVA: 0x0000D028 File Offset: 0x0000B228
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -432,9 +403,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CC RID: 204
-		// (get) Token: 0x060002B6 RID: 694 RVA: 0x0000D04B File Offset: 0x0000B24B
-		// (set) Token: 0x060002B7 RID: 695 RVA: 0x0000D053 File Offset: 0x0000B253
 		[DataSourceProperty]
 		public MBBindingList<OrderItemVM> Orders
 		{
@@ -452,9 +420,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CD RID: 205
-		// (get) Token: 0x060002B8 RID: 696 RVA: 0x0000D071 File Offset: 0x0000B271
-		// (set) Token: 0x060002B9 RID: 697 RVA: 0x0000D079 File Offset: 0x0000B279
 		[DataSourceProperty]
 		public OrderItemVM TitleOrder
 		{
@@ -472,9 +437,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CE RID: 206
-		// (get) Token: 0x060002BA RID: 698 RVA: 0x0000D097 File Offset: 0x0000B297
-		// (set) Token: 0x060002BB RID: 699 RVA: 0x0000D09F File Offset: 0x0000B29F
 		[DataSourceProperty]
 		public InputKeyItemVM TitleOrderKey
 		{
@@ -492,9 +454,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000CF RID: 207
-		// (get) Token: 0x060002BC RID: 700 RVA: 0x0000D0BC File Offset: 0x0000B2BC
-		// (set) Token: 0x060002BD RID: 701 RVA: 0x0000D0CE File Offset: 0x0000B2CE
 		[DataSourceProperty]
 		public bool ShowOrders
 		{
@@ -509,46 +468,32 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x04000148 RID: 328
 		private Action<OrderItemVM, OrderSetType, bool> OnSetExecution;
 
-		// Token: 0x04000149 RID: 329
 		internal OrderSetType OrderSetType = OrderSetType.None;
 
-		// Token: 0x0400014A RID: 330
 		internal OrderSubType OrderSubType = OrderSubType.None;
 
-		// Token: 0x0400014B RID: 331
 		private OrderSubType _selectedOrder = OrderSubType.None;
 
-		// Token: 0x0400014C RID: 332
 		private bool _isMultiplayer;
 
-		// Token: 0x0400014D RID: 333
 		private int _index = -1;
 
-		// Token: 0x0400014E RID: 334
 		private bool _isToggleActivationOrder;
 
-		// Token: 0x04000150 RID: 336
 		private bool _showOrders;
 
-		// Token: 0x04000151 RID: 337
 		private bool _canUseShortcuts;
 
-		// Token: 0x04000152 RID: 338
 		private OrderItemVM _titleOrder;
 
-		// Token: 0x04000153 RID: 339
 		private MBBindingList<OrderItemVM> _orders;
 
-		// Token: 0x04000154 RID: 340
 		private string _titleText;
 
-		// Token: 0x04000155 RID: 341
 		private InputKeyItemVM _titleOrderKey;
 
-		// Token: 0x04000156 RID: 342
 		private string _selectedOrderText;
 	}
 }

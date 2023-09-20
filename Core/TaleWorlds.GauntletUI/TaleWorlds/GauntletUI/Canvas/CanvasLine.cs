@@ -6,15 +6,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.Canvas
 {
-	// Token: 0x0200004A RID: 74
 	public class CanvasLine : CanvasObject
 	{
-		// Token: 0x17000176 RID: 374
-		// (get) Token: 0x060004EF RID: 1263 RVA: 0x00016027 File Offset: 0x00014227
-		// (set) Token: 0x060004F0 RID: 1264 RVA: 0x0001602F File Offset: 0x0001422F
 		public CanvasLineAlignment Alignment { get; set; }
 
-		// Token: 0x060004F1 RID: 1265 RVA: 0x00016038 File Offset: 0x00014238
 		public CanvasLine(CanvasTextBox textBox, int lineIndex, FontFactory fontFactory, SpriteData spriteData)
 			: base(textBox, fontFactory, spriteData)
 		{
@@ -23,7 +18,6 @@ namespace TaleWorlds.GauntletUI.Canvas
 			this._textBox = textBox;
 		}
 
-		// Token: 0x060004F2 RID: 1266 RVA: 0x00016060 File Offset: 0x00014260
 		protected override Vector2 Measure()
 		{
 			float num = 0f;
@@ -36,7 +30,6 @@ namespace TaleWorlds.GauntletUI.Canvas
 			return new Vector2(num, num2);
 		}
 
-		// Token: 0x060004F3 RID: 1267 RVA: 0x000160D8 File Offset: 0x000142D8
 		protected override Vector2 Layout()
 		{
 			Vector2 zero = Vector2.Zero;
@@ -56,7 +49,6 @@ namespace TaleWorlds.GauntletUI.Canvas
 			return zero;
 		}
 
-		// Token: 0x060004F4 RID: 1268 RVA: 0x00016168 File Offset: 0x00014368
 		public void LoadFrom(XmlNode lineNode)
 		{
 			foreach (object obj in lineNode.Attributes)
@@ -95,7 +87,6 @@ namespace TaleWorlds.GauntletUI.Canvas
 			}
 		}
 
-		// Token: 0x060004F5 RID: 1269 RVA: 0x000162C0 File Offset: 0x000144C0
 		public float GetHorizontalPositionOf(int index)
 		{
 			float num = 0f;
@@ -112,13 +103,10 @@ namespace TaleWorlds.GauntletUI.Canvas
 			return num;
 		}
 
-		// Token: 0x0400026F RID: 623
 		private List<CanvasLineElement> _elements;
 
-		// Token: 0x04000270 RID: 624
 		private CanvasTextBox _textBox;
 
-		// Token: 0x04000271 RID: 625
 		private int _lineIndex;
 	}
 }

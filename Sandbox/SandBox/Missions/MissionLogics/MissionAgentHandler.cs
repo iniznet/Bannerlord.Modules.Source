@@ -23,18 +23,14 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000042 RID: 66
 	public class MissionAgentHandler : MissionLogic
 	{
-		// Token: 0x0600031B RID: 795 RVA: 0x000148E4 File Offset: 0x00012AE4
 		public bool HasPassages()
 		{
 			List<UsableMachine> list;
 			return this._usablePoints.TryGetValue("npc_passage", out list) && list.Count > 0;
 		}
 
-		// Token: 0x1700004F RID: 79
-		// (get) Token: 0x0600031C RID: 796 RVA: 0x00014910 File Offset: 0x00012B10
 		public List<UsableMachine> TownPassageProps
 		{
 			get
@@ -45,7 +41,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600031D RID: 797 RVA: 0x00014934 File Offset: 0x00012B34
 		public MissionAgentHandler(Location location, string playerSpecialSpawnTag = null)
 		{
 			this._currentLocation = location;
@@ -68,7 +63,6 @@ namespace SandBox.Missions.MissionLogics
 			this._playerSpecialSpawnTag = playerSpecialSpawnTag;
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x00014A15 File Offset: 0x00012C15
 		public override void OnCreated()
 		{
 			if (this._currentLocation != null)
@@ -77,7 +71,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600031F RID: 799 RVA: 0x00014A2F File Offset: 0x00012C2F
 		public override void EarlyStart()
 		{
 			this._passageUsageTime = base.Mission.CurrentTime + 30f;
@@ -86,12 +79,10 @@ namespace SandBox.Missions.MissionLogics
 			base.Mission.SetReportStuckAgentsMode(true);
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x00014A60 File Offset: 0x00012C60
 		public override void OnRenderingStarted()
 		{
 		}
 
-		// Token: 0x06000321 RID: 801 RVA: 0x00014A64 File Offset: 0x00012C64
 		public override void OnMissionTick(float dt)
 		{
 			float currentTime = base.Mission.CurrentTime;
@@ -105,7 +96,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000322 RID: 802 RVA: 0x00014AAC File Offset: 0x00012CAC
 		public override void OnRemoveBehavior()
 		{
 			foreach (Location location in LocationComplex.Current.GetListOfLocations())
@@ -118,7 +108,6 @@ namespace SandBox.Missions.MissionLogics
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x06000323 RID: 803 RVA: 0x00014B94 File Offset: 0x00012D94
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent.IsHuman && (agentState == 4 || agentState == 3))
@@ -143,7 +132,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000324 RID: 804 RVA: 0x00014C50 File Offset: 0x00012E50
 		private void InitializePairedUsableObjects()
 		{
 			Dictionary<string, List<UsableMachine>> dictionary = new Dictionary<string, List<UsableMachine>>();
@@ -194,7 +182,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000325 RID: 805 RVA: 0x00014F08 File Offset: 0x00013108
 		private void GetAllProps()
 		{
 			GameEntity gameEntity = base.Mission.Scene.FindEntityWithTag("navigation_mesh_deactivator");
@@ -294,7 +281,6 @@ namespace SandBox.Missions.MissionLogics
 			this.RemoveDeactivatedUsablePlacesFromList();
 		}
 
-		// Token: 0x06000326 RID: 806 RVA: 0x00015408 File Offset: 0x00013608
 		[Conditional("DEBUG")]
 		public void DetectMissingEntities()
 		{
@@ -362,7 +348,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000327 RID: 807 RVA: 0x000156A0 File Offset: 0x000138A0
 		public void RemoveDeactivatedUsablePlacesFromList()
 		{
 			Dictionary<string, List<UsableMachine>> dictionary = new Dictionary<string, List<UsableMachine>>();
@@ -393,7 +378,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000328 RID: 808 RVA: 0x00015818 File Offset: 0x00013A18
 		private Dictionary<string, int> FindUnusedUsablePointCount()
 		{
 			Dictionary<string, int> dictionary = new Dictionary<string, int>();
@@ -433,7 +417,6 @@ namespace SandBox.Missions.MissionLogics
 			return dictionary;
 		}
 
-		// Token: 0x06000329 RID: 809 RVA: 0x000159A0 File Offset: 0x00013BA0
 		private CharacterObject GetPlayerCharacter()
 		{
 			CharacterObject characterObject = CharacterObject.PlayerCharacter;
@@ -444,7 +427,6 @@ namespace SandBox.Missions.MissionLogics
 			return characterObject;
 		}
 
-		// Token: 0x0600032A RID: 810 RVA: 0x000159CC File Offset: 0x00013BCC
 		public void SpawnPlayer(bool civilianEquipment = false, bool noHorses = false, bool noWeapon = false, bool wieldInitialWeapons = false, bool isStealth = false, string spawnTag = "")
 		{
 			if (Campaign.Current.GameMode != 1)
@@ -568,7 +550,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600032B RID: 811 RVA: 0x00015E4C File Offset: 0x0001404C
 		private Equipment GetStealthEquipmentForPlayer()
 		{
 			Equipment equipment = new Equipment();
@@ -591,7 +572,6 @@ namespace SandBox.Missions.MissionLogics
 			return equipment;
 		}
 
-		// Token: 0x0600032C RID: 812 RVA: 0x00015F58 File Offset: 0x00014158
 		private MatrixFrame GetSpawnFrameOfPassage(Location location)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -607,7 +587,6 @@ namespace SandBox.Missions.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x0600032D RID: 813 RVA: 0x00016008 File Offset: 0x00014208
 		public void DisableUnavailableWaypoints()
 		{
 			bool isNight = Campaign.Current.IsNight;
@@ -713,7 +692,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600032E RID: 814 RVA: 0x00016430 File Offset: 0x00014630
 		public void SpawnLocationCharacters(string overridenTagValue = null)
 		{
 			Dictionary<string, int> dictionary = this.FindUnusedUsablePointCount();
@@ -744,13 +722,11 @@ namespace SandBox.Missions.MissionLogics
 			CampaignEventDispatcher.Instance.LocationCharactersSimulated();
 		}
 
-		// Token: 0x0600032F RID: 815 RVA: 0x0001659C File Offset: 0x0001479C
 		private bool IsAlreadySpawned(IAgentOriginBase agentOrigin)
 		{
 			return Mission.Current != null && Mission.Current.Agents.Any((Agent x) => x.Origin == agentOrigin);
 		}
 
-		// Token: 0x06000330 RID: 816 RVA: 0x000165DC File Offset: 0x000147DC
 		public Agent SpawnLocationCharacter(LocationCharacter locationCharacter, bool simulateAgentAfterSpawn = false)
 		{
 			Agent agent = this.SpawnWanderingAgent(locationCharacter);
@@ -769,7 +745,6 @@ namespace SandBox.Missions.MissionLogics
 			return agent;
 		}
 
-		// Token: 0x06000331 RID: 817 RVA: 0x0001661C File Offset: 0x0001481C
 		public void SimulateAgent(Agent agent)
 		{
 			if (agent.IsHuman)
@@ -791,7 +766,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000332 RID: 818 RVA: 0x00016680 File Offset: 0x00014880
 		public void SpawnThugs()
 		{
 			IEnumerable<LocationCharacter> characterList = CampaignMission.Current.Location.GetCharacterList();
@@ -808,14 +782,12 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000333 RID: 819 RVA: 0x00016740 File Offset: 0x00014940
 		private void GetFrameForFollowingAgent(Agent followedAgent, out MatrixFrame frame)
 		{
 			frame = followedAgent.Frame;
 			frame.origin += -(frame.rotation.f * 1.5f);
 		}
 
-		// Token: 0x06000334 RID: 820 RVA: 0x00016780 File Offset: 0x00014980
 		public void SpawnCharactersAccompanyingPlayer(bool noHorse)
 		{
 			int num = 0;
@@ -873,7 +845,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000335 RID: 821 RVA: 0x00016A7C File Offset: 0x00014C7C
 		public void FadeoutExitingLocationCharacter(LocationCharacter locationCharacter)
 		{
 			foreach (Agent agent in Mission.Current.Agents)
@@ -886,7 +857,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000336 RID: 822 RVA: 0x00016AEC File Offset: 0x00014CEC
 		public void SpawnEnteringLocationCharacter(LocationCharacter locationCharacter, Location fromLocation)
 		{
 			if (fromLocation != null)
@@ -915,7 +885,6 @@ namespace SandBox.Missions.MissionLogics
 			this.SpawnLocationCharacter(locationCharacter, true);
 		}
 
-		// Token: 0x06000337 RID: 823 RVA: 0x00016C28 File Offset: 0x00014E28
 		public Agent SpawnHiddenLocationCharacter(LocationCharacter locationCharacter, MatrixFrame spawnFrame)
 		{
 			Agent agent = this.SpawnWanderingAgent(locationCharacter, spawnFrame, true);
@@ -923,7 +892,6 @@ namespace SandBox.Missions.MissionLogics
 			return agent;
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x00016C3C File Offset: 0x00014E3C
 		public void SpawnGuardsForSneakCaught()
 		{
 			List<GameEntity> list = base.Mission.Scene.FindEntitiesWithTag("spawnpoint_npc_sneak").ToList<GameEntity>();
@@ -948,7 +916,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x00016D50 File Offset: 0x00014F50
 		public void SpawnGuards()
 		{
 			List<GameEntity> list = base.Mission.Scene.FindEntitiesWithTag("sp_guard").ToList<GameEntity>();
@@ -967,7 +934,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x00016E08 File Offset: 0x00015008
 		private static void SimulateAnimalAnimations(Agent agent)
 		{
 			int num = 10 + MBRandom.RandomInt(90);
@@ -983,7 +949,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x00016E84 File Offset: 0x00015084
 		public static void SpawnSheeps()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_sheep"))
@@ -1004,7 +969,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033C RID: 828 RVA: 0x00016F64 File Offset: 0x00015164
 		public static void SpawnCows()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_cow"))
@@ -1025,7 +989,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033D RID: 829 RVA: 0x00017044 File Offset: 0x00015244
 		public static void SpawnGeese()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_goose"))
@@ -1046,7 +1009,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033E RID: 830 RVA: 0x00017124 File Offset: 0x00015324
 		public static void SpawnChicken()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_chicken"))
@@ -1067,7 +1029,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600033F RID: 831 RVA: 0x00017204 File Offset: 0x00015404
 		public static void SpawnHogs()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_hog"))
@@ -1088,7 +1049,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000340 RID: 832 RVA: 0x000172E4 File Offset: 0x000154E4
 		public static void SpawnCats()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_cat"))
@@ -1109,7 +1069,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000341 RID: 833 RVA: 0x000173C4 File Offset: 0x000155C4
 		public static void SpawnDogs()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_dog").ToList<GameEntity>())
@@ -1130,7 +1089,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000342 RID: 834 RVA: 0x000174B0 File Offset: 0x000156B0
 		public static List<Agent> SpawnHorses()
 		{
 			List<Agent> list = new List<Agent>();
@@ -1158,13 +1116,11 @@ namespace SandBox.Missions.MissionLogics
 			return list;
 		}
 
-		// Token: 0x06000343 RID: 835 RVA: 0x0001759C File Offset: 0x0001579C
 		public IEnumerable<string> GetAllSpawnTags()
 		{
 			return this._usablePoints.Keys.ToList<string>().Concat(this._pairedUsablePoints.Keys.ToList<string>());
 		}
 
-		// Token: 0x06000344 RID: 836 RVA: 0x000175C4 File Offset: 0x000157C4
 		public List<UsableMachine> GetAllUsablePointsWithTag(string tag)
 		{
 			List<UsableMachine> list = new List<UsableMachine>();
@@ -1181,7 +1137,6 @@ namespace SandBox.Missions.MissionLogics
 			return list;
 		}
 
-		// Token: 0x06000345 RID: 837 RVA: 0x00017614 File Offset: 0x00015814
 		public Agent SpawnWanderingAgent(LocationCharacter locationCharacter)
 		{
 			bool flag = false;
@@ -1285,7 +1240,6 @@ namespace SandBox.Missions.MissionLogics
 			return agent;
 		}
 
-		// Token: 0x06000346 RID: 838 RVA: 0x00017948 File Offset: 0x00015B48
 		private bool GetSpawnFrameFromUsableMachine(UsableMachine usableMachine, out MatrixFrame frame)
 		{
 			frame = MatrixFrame.Identity;
@@ -1298,7 +1252,6 @@ namespace SandBox.Missions.MissionLogics
 			return false;
 		}
 
-		// Token: 0x06000347 RID: 839 RVA: 0x000179A4 File Offset: 0x00015BA4
 		private Agent SpawnWanderingAgent(LocationCharacter locationCharacter, MatrixFrame spawnPointFrame, bool noHorses = true)
 		{
 			Team team = Team.Invalid;
@@ -1351,7 +1304,6 @@ namespace SandBox.Missions.MissionLogics
 			return agent;
 		}
 
-		// Token: 0x06000348 RID: 840 RVA: 0x00017B15 File Offset: 0x00015D15
 		private static void SetAgentExcludeFaceGroupIdAux(Agent agent, int _disabledFaceId)
 		{
 			if (_disabledFaceId != -1)
@@ -1360,13 +1312,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000349 RID: 841 RVA: 0x00017B23 File Offset: 0x00015D23
 		public static uint GetRandomTournamentTeamColor(int teamIndex)
 		{
 			return MissionAgentHandler._tournamentTeamColors[teamIndex % MissionAgentHandler._tournamentTeamColors.Length];
 		}
 
-		// Token: 0x0600034A RID: 842 RVA: 0x00017B34 File Offset: 0x00015D34
 		[return: TupleElementNames(new string[] { "color1", "color2" })]
 		public static ValueTuple<uint, uint> GetAgentSettlementColors(LocationCharacter locationCharacter)
 		{
@@ -1393,13 +1343,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600034B RID: 843 RVA: 0x00017C0B File Offset: 0x00015E0B
 		public UsableMachine FindUnusedPointWithTagForAgent(Agent agent, string tag)
 		{
 			return this.FindUnusedPointForAgent(agent, this._pairedUsablePoints, tag) ?? this.FindUnusedPointForAgent(agent, this._usablePoints, tag);
 		}
 
-		// Token: 0x0600034C RID: 844 RVA: 0x00017C30 File Offset: 0x00015E30
 		private UsableMachine FindUnusedPointForAgent(Agent agent, Dictionary<string, List<UsableMachine>> usableMachinesList, string primaryTag)
 		{
 			List<UsableMachine> list;
@@ -1418,7 +1366,6 @@ namespace SandBox.Missions.MissionLogics
 			return null;
 		}
 
-		// Token: 0x0600034D RID: 845 RVA: 0x00017C9C File Offset: 0x00015E9C
 		public List<UsableMachine> FindAllUnusedPoints(Agent agent, string primaryTag)
 		{
 			List<UsableMachine> list = new List<UsableMachine>();
@@ -1456,7 +1403,6 @@ namespace SandBox.Missions.MissionLogics
 			return list2;
 		}
 
-		// Token: 0x0600034E RID: 846 RVA: 0x00017D9C File Offset: 0x00015F9C
 		public void RemovePropReference(List<GameEntity> props)
 		{
 			foreach (KeyValuePair<string, List<UsableMachine>> keyValuePair in this._usablePoints)
@@ -1483,7 +1429,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x00017EE0 File Offset: 0x000160E0
 		public void AddPropReference(List<GameEntity> props)
 		{
 			foreach (KeyValuePair<string, List<UsableMachine>> keyValuePair in this._usablePoints)
@@ -1499,7 +1444,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x00017F8C File Offset: 0x0001618C
 		public void TeleportTargetAgentNearReferenceAgent(Agent referenceAgent, Agent teleportAgent, bool teleportFollowers, bool teleportOpposite)
 		{
 			Vec3 vec = referenceAgent.Position + referenceAgent.LookDirection.NormalizedCopy() * 4f;
@@ -1536,7 +1480,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000351 RID: 849 RVA: 0x00018138 File Offset: 0x00016338
 		public static int GetPointCountOfUsableMachine(UsableMachine usableMachine, bool checkForUnusedOnes)
 		{
 			int num = 0;
@@ -1568,17 +1511,14 @@ namespace SandBox.Missions.MissionLogics
 			return num;
 		}
 
-		// Token: 0x04000199 RID: 409
 		private const float PassageUsageDeltaTime = 30f;
 
-		// Token: 0x0400019A RID: 410
 		private static readonly uint[] _tournamentTeamColors = new uint[]
 		{
 			4294110933U, 4290269521U, 4291535494U, 4286151096U, 4290286497U, 4291600739U, 4291868275U, 4287285710U, 4283204487U, 4287282028U,
 			4290300789U
 		};
 
-		// Token: 0x0400019B RID: 411
 		private static readonly uint[] _villagerClothColors = new uint[]
 		{
 			4292860590U, 4291351206U, 4289117081U, 4288460959U, 4287541416U, 4288922566U, 4292654718U, 4289243320U, 4290286483U, 4290288531U,
@@ -1587,34 +1527,24 @@ namespace SandBox.Missions.MissionLogics
 			4289830302U, 4287593853U, 4289957781U, 4287071646U, 4284445583U
 		};
 
-		// Token: 0x0400019C RID: 412
 		private static int _disabledFaceId = -1;
 
-		// Token: 0x0400019D RID: 413
 		private static int _disabledFaceIdForAnimals = 1;
 
-		// Token: 0x0400019E RID: 414
 		private readonly Dictionary<string, List<UsableMachine>> _usablePoints;
 
-		// Token: 0x0400019F RID: 415
 		private readonly Dictionary<string, List<UsableMachine>> _pairedUsablePoints;
 
-		// Token: 0x040001A0 RID: 416
 		private List<UsableMachine> _disabledPassages;
 
-		// Token: 0x040001A1 RID: 417
 		private readonly Location _previousLocation;
 
-		// Token: 0x040001A2 RID: 418
 		private readonly Location _currentLocation;
 
-		// Token: 0x040001A3 RID: 419
 		private readonly string _playerSpecialSpawnTag;
 
-		// Token: 0x040001A4 RID: 420
 		private BasicMissionTimer _checkPossibleQuestTimer;
 
-		// Token: 0x040001A5 RID: 421
 		private float _passageUsageTime;
 	}
 }

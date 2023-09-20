@@ -4,10 +4,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A8 RID: 680
 	public class MultiplayerPreloadHelper : MissionNetwork
 	{
-		// Token: 0x06002591 RID: 9617 RVA: 0x0008E5FC File Offset: 0x0008C7FC
 		public override List<EquipmentElement> GetExtraEquipmentElementsForCharacter(BasicCharacterObject character, bool getAllEquipments = false)
 		{
 			List<EquipmentElement> list = new List<EquipmentElement>();

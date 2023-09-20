@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Conversation
 {
-	// Token: 0x020001EC RID: 492
 	public static class ConversationHelper
 	{
-		// Token: 0x06001D3F RID: 7487 RVA: 0x00083BFC File Offset: 0x00081DFC
 		public static string HeroRefersToHero(Hero talkTroop, Hero referringTo, bool uppercaseFirst)
 		{
 			if (talkTroop == null)
@@ -107,7 +105,6 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			return text2;
 		}
 
-		// Token: 0x06001D40 RID: 7488 RVA: 0x00083F18 File Offset: 0x00082118
 		public static string GetHeroRelationToHeroTextShort(Hero queriedHero, Hero baseHero, bool uppercaseFirst)
 		{
 			TextObject textObject = null;
@@ -268,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			return text;
 		}
 
-		// Token: 0x06001D41 RID: 7489 RVA: 0x00084688 File Offset: 0x00082888
 		public static CharacterObject GetConversationCharacterPartyLeader(PartyBase party)
 		{
 			if (party == null)
@@ -297,10 +293,8 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			return characterObject;
 		}
 
-		// Token: 0x04000916 RID: 2326
 		public static CharacterObject AskedLord;
 
-		// Token: 0x04000917 RID: 2327
 		public static bool ConversationTroopCommentShown;
 	}
 }

@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200010E RID: 270
 	public class BehaviorPullBack : BehaviorComponent
 	{
-		// Token: 0x06000D07 RID: 3335 RVA: 0x0001F502 File Offset: 0x0001D702
 		public BehaviorPullBack(Formation formation)
 			: base(formation)
 		{
@@ -15,7 +13,6 @@ namespace TaleWorlds.MountAndBlade
 			base.BehaviorCoherence = 0.2f;
 		}
 
-		// Token: 0x06000D08 RID: 3336 RVA: 0x0001F51C File Offset: 0x0001D71C
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition medianPosition = base.Formation.QuerySystem.MedianPosition;
@@ -30,14 +27,12 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = MovementOrder.MovementOrderMove(medianPosition);
 		}
 
-		// Token: 0x06000D09 RID: 3337 RVA: 0x0001F5DE File Offset: 0x0001D7DE
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 		}
 
-		// Token: 0x06000D0A RID: 3338 RVA: 0x0001F5F8 File Offset: 0x0001D7F8
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -49,7 +44,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D0B RID: 3339 RVA: 0x0001F66C File Offset: 0x0001D86C
 		protected override float GetAiWeight()
 		{
 			if (base.Formation.Team.TeamAI is TeamAISiegeComponent && !(base.Formation.Team.TeamAI is TeamAISallyOutAttacker) && !(base.Formation.Team.TeamAI is TeamAISallyOutDefender))
@@ -129,7 +123,6 @@ namespace TaleWorlds.MountAndBlade
 			return MBMath.ClampFloat((1f + num4 + formationQuerySystem.Formation.QuerySystem.FormationMeleeFightingPower * formationQuerySystem.GetClassWeightedFactor(1f, 1f, 1f, 1f)) / (base.Formation.GetFormationMeleeFightingPower() * querySystem.GetClassWeightedFactor(1f, 1f, 1f, 1f) + num6 + 1f) * querySystem.Team.RemainingPowerRatio / 3f, 0.1f, 1.21f) * num3;
 		}
 
-		// Token: 0x06000D0C RID: 3340 RVA: 0x0001FC34 File Offset: 0x0001DE34
 		private float GetSiegeAIWeight()
 		{
 			return 0f;

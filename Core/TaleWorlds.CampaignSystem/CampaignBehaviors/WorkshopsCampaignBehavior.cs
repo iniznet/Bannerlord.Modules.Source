@@ -13,10 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003E4 RID: 996
 	public class WorkshopsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003C90 RID: 15504 RVA: 0x00120130 File Offset: 0x0011E330
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickTownEvent.AddNonSerializedListener(this, new Action<Town>(this.DailyTickTown));
@@ -29,25 +27,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x06003C91 RID: 15505 RVA: 0x001201F5 File Offset: 0x0011E3F5
 		private void OnNewGameCreated(CampaignGameStarter obj)
 		{
 			this.FillItemsInAllCategories();
 		}
 
-		// Token: 0x06003C92 RID: 15506 RVA: 0x001201FD File Offset: 0x0011E3FD
 		private void OnSessionLaunched(CampaignGameStarter obj)
 		{
 			this.FillItemsInAllCategories();
 		}
 
-		// Token: 0x06003C93 RID: 15507 RVA: 0x00120205 File Offset: 0x0011E405
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Workshop, int>>("_playerOwnedWorkshopsDaysInBankruptcy", ref this._playerOwnedWorkshopsDaysInBankruptcy);
 		}
 
-		// Token: 0x06003C94 RID: 15508 RVA: 0x00120219 File Offset: 0x0011E419
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i >= 10)
@@ -64,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C95 RID: 15509 RVA: 0x00120240 File Offset: 0x0011E440
 		private void FillItemsInAllCategories()
 		{
 			foreach (ItemObject itemObject in Game.Current.ObjectManager.GetObjectTypeList<ItemObject>())
@@ -86,7 +79,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C96 RID: 15510 RVA: 0x001202D4 File Offset: 0x0011E4D4
 		private void OnWorkshopChanged(Workshop workshop, Hero oldOwner, WorkshopType oldType)
 		{
 			if (oldOwner != null && oldOwner.IsHumanPlayerCharacter)
@@ -95,7 +87,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C97 RID: 15511 RVA: 0x001202E8 File Offset: 0x0011E4E8
 		private void RemoveBankruptcyIfExist(Workshop workshop)
 		{
 			if (this._playerOwnedWorkshopsDaysInBankruptcy.ContainsKey(workshop))
@@ -104,13 +95,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C98 RID: 15512 RVA: 0x00120305 File Offset: 0x0011E505
 		private static bool IsProducable(ItemObject item)
 		{
 			return !item.MultiplayerItem && !item.NotMerchandise && !item.IsCraftedByPlayer;
 		}
 
-		// Token: 0x06003C99 RID: 15513 RVA: 0x00120324 File Offset: 0x0011E524
 		private void DailyTickTown(Town town)
 		{
 			if (!town.InRebelliousState)
@@ -124,7 +113,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9A RID: 15514 RVA: 0x0012036C File Offset: 0x0011E56C
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			if (!victim.IsHumanPlayerCharacter)
@@ -140,7 +128,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9B RID: 15515 RVA: 0x001203F8 File Offset: 0x0011E5F8
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 		{
 			IFaction faction3 = ((faction1 == Hero.MainHero.MapFaction) ? faction1 : ((faction2 == Hero.MainHero.MapFaction) ? faction2 : null));
@@ -165,7 +152,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9C RID: 15516 RVA: 0x001204F4 File Offset: 0x0011E6F4
 		private void ChangeWorkshopOwnerByBankruptcy(Workshop workshop)
 		{
 			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);
@@ -177,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9D RID: 15517 RVA: 0x00120578 File Offset: 0x0011E778
 		private void HandleDailyExpense(Workshop shop)
 		{
 			if (shop.IsRunning)
@@ -198,7 +183,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9E RID: 15518 RVA: 0x001205C4 File Offset: 0x0011E7C4
 		private void DeclareBankruptcy(Workshop workshop)
 		{
 			if (workshop.Owner.IsHumanPlayerCharacter)
@@ -224,7 +208,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C9F RID: 15519 RVA: 0x00120651 File Offset: 0x0011E851
 		private void HandleWorkshopConstruction(Workshop workshop)
 		{
 			if (workshop.ConstructionTimeRemained > 0)
@@ -233,7 +216,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA0 RID: 15520 RVA: 0x00120664 File Offset: 0x0011E864
 		private EquipmentElement GetRandomItem(ItemCategory itemGroupBase, Town townComponent)
 		{
 			EquipmentElement randomItemAux = this.GetRandomItemAux(itemGroupBase, townComponent);
@@ -244,7 +226,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this.GetRandomItemAux(itemGroupBase, null);
 		}
 
-		// Token: 0x06003CA1 RID: 15521 RVA: 0x00120690 File Offset: 0x0011E890
 		private EquipmentElement GetRandomItemAux(ItemCategory itemGroupBase, Town townComponent = null)
 		{
 			float num = 0f;
@@ -284,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new EquipmentElement(itemObject, itemModifier, null, false);
 		}
 
-		// Token: 0x06003CA2 RID: 15522 RVA: 0x00120770 File Offset: 0x0011E970
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newSettlementOwner, Hero oldSettlementOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (settlement.IsTown)
@@ -299,7 +279,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA3 RID: 15523 RVA: 0x001207F4 File Offset: 0x0011E9F4
 		private float FindTotalInputDensityScore(Settlement bornSettlement, WorkshopType workshop, IDictionary<ItemCategory, float> productionDict, bool atGameStart)
 		{
 			int num = 0;
@@ -352,7 +331,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num2;
 		}
 
-		// Token: 0x06003CA4 RID: 15524 RVA: 0x001209B8 File Offset: 0x0011EBB8
 		private void BuildWorkshopForHeroAtGameStart(Hero ownerHero)
 		{
 			Settlement bornSettlement = ownerHero.BornSettlement;
@@ -379,7 +357,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA5 RID: 15525 RVA: 0x00120A64 File Offset: 0x0011EC64
 		private WorkshopType DecideBestWorkshopType(Settlement currentSettlement, bool atGameStart, WorkshopType workshopToExclude = null)
 		{
 			IDictionary<ItemCategory, float> dictionary = new Dictionary<ItemCategory, float>();
@@ -443,7 +420,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return workshopType2;
 		}
 
-		// Token: 0x06003CA6 RID: 15526 RVA: 0x00120CB4 File Offset: 0x0011EEB4
 		private void InitializeWorkshops()
 		{
 			foreach (Town town in Town.AllTowns)
@@ -452,7 +428,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA7 RID: 15527 RVA: 0x00120D04 File Offset: 0x0011EF04
 		private void BuildWorkshopsAtGameStart()
 		{
 			foreach (Town town in Town.AllTowns)
@@ -466,7 +441,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA8 RID: 15528 RVA: 0x00120D78 File Offset: 0x0011EF78
 		private void BuildArtisanWorkshop(Town town)
 		{
 			Hero hero = town.Settlement.Notables.FirstOrDefault((Hero x) => x.IsArtisan);
@@ -481,7 +455,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CA9 RID: 15529 RVA: 0x00120E00 File Offset: 0x0011F000
 		private Hero SelectRandomOwner(Town town)
 		{
 			Hero hero = null;
@@ -508,7 +481,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return hero;
 		}
 
-		// Token: 0x06003CAA RID: 15530 RVA: 0x00120F00 File Offset: 0x0011F100
 		private void RunTownShopsAtGameStart()
 		{
 			foreach (Town town in Town.AllTowns)
@@ -520,7 +492,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CAB RID: 15531 RVA: 0x00120F70 File Offset: 0x0011F170
 		private void RunTownWorkshop(Town townComponent, Workshop workshop, bool willBeSold = true)
 		{
 			if (workshop.IsRunning && !this._playerOwnedWorkshopsDaysInBankruptcy.ContainsKey(workshop))
@@ -578,7 +549,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CAC RID: 15532 RVA: 0x001210D4 File Offset: 0x0011F2D4
 		private static bool DetermineTownHasSufficientInputs(WorkshopType.Production production, Town town, out int inputMaterialCost)
 		{
 			List<ValueTuple<ItemCategory, int>> inputs = production.Inputs;
@@ -607,7 +577,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003CAD RID: 15533 RVA: 0x001211A0 File Offset: 0x0011F3A0
 		private bool DoProduction(WorkshopType.Production production, Workshop workshop, Town town)
 		{
 			List<ValueTuple<EquipmentElement, int>> list = new List<ValueTuple<EquipmentElement, int>>();
@@ -673,7 +642,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003CAE RID: 15534 RVA: 0x00121438 File Offset: 0x0011F638
 		private static void ProduceOutput(EquipmentElement outputItem, Town town, Workshop workshop, int count, bool doNotEffectCapital)
 		{
 			int itemPrice = town.GetItemPrice(outputItem, null, false);
@@ -687,7 +655,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnItemProduced(outputItem.Item, town.Owner.Settlement, count);
 		}
 
-		// Token: 0x06003CAF RID: 15535 RVA: 0x001214AC File Offset: 0x0011F6AC
 		private static void ConsumeInput(ItemCategory productionInput, Town town, Workshop workshop, bool doNotEffectCapital)
 		{
 			ItemRoster itemRoster = town.Owner.ItemRoster;
@@ -706,22 +673,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003CB0 RID: 15536 RVA: 0x0012153C File Offset: 0x0011F73C
 		private bool IsItemPreferredForTown(ItemObject item, Town townComponent)
 		{
 			return item.Culture == null || item.Culture.StringId == "neutral_culture" || item.Culture == townComponent.Culture;
 		}
 
-		// Token: 0x04001259 RID: 4697
 		private const string TransactionStringID = "str_workshop_profits";
 
-		// Token: 0x0400125A RID: 4698
 		private const int WorkShopCount = 4;
 
-		// Token: 0x0400125B RID: 4699
 		private readonly Dictionary<ItemCategory, List<ItemObject>> _itemsInCategory = new Dictionary<ItemCategory, List<ItemObject>>();
 
-		// Token: 0x0400125C RID: 4700
 		private Dictionary<Workshop, int> _playerOwnedWorkshopsDaysInBankruptcy = new Dictionary<Workshop, int>();
 	}
 }

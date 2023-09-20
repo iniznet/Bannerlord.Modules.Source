@@ -7,21 +7,12 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200036B RID: 875
 	public class SynchedMissionObject : MissionObject
 	{
-		// Token: 0x17000897 RID: 2199
-		// (get) Token: 0x06002FBA RID: 12218 RVA: 0x000C3D55 File Offset: 0x000C1F55
-		// (set) Token: 0x06002FBB RID: 12219 RVA: 0x000C3D5D File Offset: 0x000C1F5D
 		public uint Color { get; private set; }
 
-		// Token: 0x17000898 RID: 2200
-		// (get) Token: 0x06002FBC RID: 12220 RVA: 0x000C3D66 File Offset: 0x000C1F66
-		// (set) Token: 0x06002FBD RID: 12221 RVA: 0x000C3D6E File Offset: 0x000C1F6E
 		public uint Color2 { get; private set; }
 
-		// Token: 0x17000899 RID: 2201
-		// (get) Token: 0x06002FBE RID: 12222 RVA: 0x000C3D77 File Offset: 0x000C1F77
 		public bool SynchronizeCompleted
 		{
 			get
@@ -30,14 +21,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FBF RID: 12223 RVA: 0x000C3D82 File Offset: 0x000C1F82
 		protected internal override void OnInit()
 		{
 			base.OnInit();
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06002FC0 RID: 12224 RVA: 0x000C3D96 File Offset: 0x000C1F96
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (!this.SynchronizeCompleted)
@@ -47,7 +36,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002FC1 RID: 12225 RVA: 0x000C3DB0 File Offset: 0x000C1FB0
 		protected internal override void OnTick(float dt)
 		{
 			if (!this.SynchronizeCompleted)
@@ -83,7 +71,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FC2 RID: 12226 RVA: 0x000C402E File Offset: 0x000C222E
 		private void SetSynchState(SynchedMissionObject.SynchState newState)
 		{
 			if (newState != this._synchState)
@@ -93,14 +80,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FC3 RID: 12227 RVA: 0x000C404C File Offset: 0x000C224C
 		public void SetLocalPositionSmoothStep(ref Vec3 targetPosition)
 		{
 			this._lastSynchedFrame.origin = targetPosition;
 			this.SetSynchState(SynchedMissionObject.SynchState.SynchronizePosition);
 		}
 
-		// Token: 0x06002FC4 RID: 12228 RVA: 0x000C4068 File Offset: 0x000C2268
 		public virtual void SetVisibleSynched(bool value, bool forceChildrenVisible = false)
 		{
 			bool flag = base.GameEntity.IsVisibleIncludeParents() != value;
@@ -145,12 +130,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FC5 RID: 12229 RVA: 0x000C417C File Offset: 0x000C237C
 		public virtual void SetPhysicsStateSynched(bool value, bool setChildren = true)
 		{
 		}
 
-		// Token: 0x06002FC6 RID: 12230 RVA: 0x000C417E File Offset: 0x000C237E
 		public virtual void SetDisabledSynched()
 		{
 			if (GameNetwork.IsServerOrRecorder)
@@ -162,7 +145,6 @@ namespace TaleWorlds.MountAndBlade
 			base.SetDisabledAndMakeInvisible(false);
 		}
 
-		// Token: 0x06002FC7 RID: 12231 RVA: 0x000C41A8 File Offset: 0x000C23A8
 		public void SetFrameSynched(ref MatrixFrame frame, bool isClient = false)
 		{
 			if (base.GameEntity.GetFrame() != frame || this._synchState != SynchedMissionObject.SynchState.SynchronizeCompleted)
@@ -187,7 +169,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FC8 RID: 12232 RVA: 0x000C4248 File Offset: 0x000C2448
 		public void SetGlobalFrameSynched(ref MatrixFrame frame, bool isClient = false)
 		{
 			this._duration = 0f;
@@ -212,7 +193,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FC9 RID: 12233 RVA: 0x000C4310 File Offset: 0x000C2510
 		public void SetFrameSynchedOverTime(ref MatrixFrame frame, float duration, bool isClient = false)
 		{
 			if (base.GameEntity.GetFrame() != frame || duration.ApproximatelyEqualsTo(0f, 1E-05f))
@@ -232,7 +212,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FCA RID: 12234 RVA: 0x000C43C8 File Offset: 0x000C25C8
 		public void SetGlobalFrameSynchedOverTime(ref MatrixFrame frame, float duration, bool isClient = false)
 		{
 			if (base.GameEntity.GetGlobalFrame() != frame || duration.ApproximatelyEqualsTo(0f, 1E-05f))
@@ -252,13 +231,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FCB RID: 12235 RVA: 0x000C44AE File Offset: 0x000C26AE
 		public void SetAnimationAtChannelSynched(string animationName, int channelNo, float animationSpeed = 1f)
 		{
 			this.SetAnimationAtChannelSynched(MBAnimation.GetAnimationIndexWithName(animationName), channelNo, animationSpeed);
 		}
 
-		// Token: 0x06002FCC RID: 12236 RVA: 0x000C44C0 File Offset: 0x000C26C0
 		public void SetAnimationAtChannelSynched(int animationIndex, int channelNo, float animationSpeed = 1f)
 		{
 			if (GameNetwork.IsServerOrRecorder)
@@ -280,7 +257,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.Skeleton.SetAnimationAtChannel(animationIndex, channelNo, animationSpeed, -1f, 0f);
 		}
 
-		// Token: 0x06002FCD RID: 12237 RVA: 0x000C456C File Offset: 0x000C276C
 		public void SetAnimationChannelParameterSynched(int channelNo, float parameter)
 		{
 			if (!base.GameEntity.Skeleton.GetAnimationParameterAtChannel(channelNo).ApproximatelyEqualsTo(parameter, 1E-05f))
@@ -296,7 +272,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FCE RID: 12238 RVA: 0x000C45D8 File Offset: 0x000C27D8
 		public void PauseSkeletonAnimationSynched()
 		{
 			if (!base.GameEntity.IsSkeletonAnimationPaused())
@@ -312,7 +287,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FCF RID: 12239 RVA: 0x000C462C File Offset: 0x000C282C
 		public void ResumeSkeletonAnimationSynched()
 		{
 			if (base.GameEntity.IsSkeletonAnimationPaused())
@@ -328,7 +302,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FD0 RID: 12240 RVA: 0x000C467F File Offset: 0x000C287F
 		public void BurstParticlesSynched(bool doChildren = true)
 		{
 			if (GameNetwork.IsServerOrRecorder)
@@ -340,7 +313,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.BurstEntityParticle(doChildren);
 		}
 
-		// Token: 0x06002FD1 RID: 12241 RVA: 0x000C46AD File Offset: 0x000C28AD
 		public void ApplyImpulseSynched(Vec3 localPosition, Vec3 impulse)
 		{
 			if (GameNetwork.IsServerOrRecorder)
@@ -353,7 +325,6 @@ namespace TaleWorlds.MountAndBlade
 			this._initialSynchFlags |= SynchedMissionObject.SynchFlags.SynchTransform;
 		}
 
-		// Token: 0x06002FD2 RID: 12242 RVA: 0x000C46EC File Offset: 0x000C28EC
 		public void AddBodyFlagsSynched(BodyFlags flags, bool applyToChildren = true)
 		{
 			if ((base.GameEntity.BodyFlag & flags) != flags)
@@ -369,7 +340,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FD3 RID: 12243 RVA: 0x000C4748 File Offset: 0x000C2948
 		public void RemoveBodyFlagsSynched(BodyFlags flags, bool applyToChildren = true)
 		{
 			if ((base.GameEntity.BodyFlag & flags) != BodyFlags.None)
@@ -385,7 +355,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FD4 RID: 12244 RVA: 0x000C47A0 File Offset: 0x000C29A0
 		public void SetTeamColors(uint color, uint color2)
 		{
 			this.Color = color;
@@ -393,7 +362,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.SetColor(color, color2, "use_team_color");
 		}
 
-		// Token: 0x06002FD5 RID: 12245 RVA: 0x000C47C4 File Offset: 0x000C29C4
 		public virtual void SetTeamColorsSynched(uint color, uint color2)
 		{
 			if (base.GameEntity != null)
@@ -409,7 +377,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002FD6 RID: 12246 RVA: 0x000C4818 File Offset: 0x000C2A18
 		public virtual bool ReadFromNetwork()
 		{
 			bool flag = true;
@@ -464,7 +431,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002FD7 RID: 12247 RVA: 0x000C49D0 File Offset: 0x000C2BD0
 		public virtual void WriteToNetwork()
 		{
 			GameEntity gameEntity = base.GameEntity;
@@ -505,52 +471,34 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteBoolToPacket(base.IsDisabled);
 		}
 
-		// Token: 0x040013CE RID: 5070
 		private SynchedMissionObject.SynchFlags _initialSynchFlags;
 
-		// Token: 0x040013CF RID: 5071
 		private SynchedMissionObject.SynchState _synchState;
 
-		// Token: 0x040013D0 RID: 5072
 		private MatrixFrame _lastSynchedFrame;
 
-		// Token: 0x040013D1 RID: 5073
 		private MatrixFrame _firstFrame;
 
-		// Token: 0x040013D2 RID: 5074
 		private float _timer;
 
-		// Token: 0x040013D3 RID: 5075
 		private float _duration;
 
-		// Token: 0x0200067C RID: 1660
 		private enum SynchState
 		{
-			// Token: 0x04002116 RID: 8470
 			SynchronizeCompleted,
-			// Token: 0x04002117 RID: 8471
 			SynchronizePosition,
-			// Token: 0x04002118 RID: 8472
 			SynchronizeFrame,
-			// Token: 0x04002119 RID: 8473
 			SynchronizeFrameOverTime
 		}
 
-		// Token: 0x0200067D RID: 1661
 		[Flags]
 		public enum SynchFlags : uint
 		{
-			// Token: 0x0400211B RID: 8475
 			SynchNone = 0U,
-			// Token: 0x0400211C RID: 8476
 			SynchTransform = 1U,
-			// Token: 0x0400211D RID: 8477
 			SynchAnimation = 2U,
-			// Token: 0x0400211E RID: 8478
 			SynchBodyFlags = 4U,
-			// Token: 0x0400211F RID: 8479
 			SyncColors = 8U,
-			// Token: 0x04002120 RID: 8480
 			SynchAll = 4294967295U
 		}
 	}

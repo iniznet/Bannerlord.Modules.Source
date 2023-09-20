@@ -6,21 +6,17 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200038F RID: 911
 	public class EmissarySystemCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060035AD RID: 13741 RVA: 0x000EDBCD File Offset: 0x000EBDCD
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 		}
 
-		// Token: 0x060035AE RID: 13742 RVA: 0x000EDBE6 File Offset: 0x000EBDE6
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060035AF RID: 13743 RVA: 0x000EDBE8 File Offset: 0x000EBDE8
 		private void DailyTick()
 		{
 			EmissaryModel emissaryModel = Campaign.Current.Models.EmissaryModel;

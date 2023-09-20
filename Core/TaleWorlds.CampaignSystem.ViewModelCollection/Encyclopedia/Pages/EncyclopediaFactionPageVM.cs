@@ -13,11 +13,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 {
-	// Token: 0x020000B3 RID: 179
 	[EncyclopediaViewModel(typeof(Kingdom))]
 	public class EncyclopediaFactionPageVM : EncyclopediaContentPageVM
 	{
-		// Token: 0x06001181 RID: 4481 RVA: 0x000450AC File Offset: 0x000432AC
 		public EncyclopediaFactionPageVM(EncyclopediaPageArgs args)
 			: base(args)
 		{
@@ -30,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			this.RefreshValues();
 		}
 
-		// Token: 0x06001182 RID: 4482 RVA: 0x00045124 File Offset: 0x00043324
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -47,7 +44,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			this.Refresh();
 		}
 
-		// Token: 0x06001183 RID: 4483 RVA: 0x00045208 File Offset: 0x00043408
 		public override void Refresh()
 		{
 			base.IsLoadingOver = false;
@@ -117,19 +113,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			base.IsLoadingOver = true;
 		}
 
-		// Token: 0x06001184 RID: 4484 RVA: 0x000456C4 File Offset: 0x000438C4
 		public override string GetName()
 		{
 			return this._faction.Name.ToString();
 		}
 
-		// Token: 0x06001185 RID: 4485 RVA: 0x000456D8 File Offset: 0x000438D8
 		public override string GetNavigationBarURL()
 		{
 			return HyperlinkTexts.GetGenericHyperlinkText("Home", GameTexts.FindText("str_encyclopedia_home", null).ToString()) + " \\ " + HyperlinkTexts.GetGenericHyperlinkText("ListPage-Kingdoms", GameTexts.FindText("str_encyclopedia_kingdoms", null).ToString()) + " \\ " + this.GetName();
 		}
 
-		// Token: 0x06001186 RID: 4486 RVA: 0x00045740 File Offset: 0x00043940
 		public override void ExecuteSwitchBookmarkedState()
 		{
 			base.ExecuteSwitchBookmarkedState();
@@ -141,9 +134,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			Campaign.Current.EncyclopediaManager.ViewDataTracker.RemoveEncyclopediaBookmarkFromItem(this._faction);
 		}
 
-		// Token: 0x170005C9 RID: 1481
-		// (get) Token: 0x06001187 RID: 4487 RVA: 0x00045790 File Offset: 0x00043990
-		// (set) Token: 0x06001188 RID: 4488 RVA: 0x00045798 File Offset: 0x00043998
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaFactionVM> Clans
 		{
@@ -161,9 +151,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CA RID: 1482
-		// (get) Token: 0x06001189 RID: 4489 RVA: 0x000457B6 File Offset: 0x000439B6
-		// (set) Token: 0x0600118A RID: 4490 RVA: 0x000457BE File Offset: 0x000439BE
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaFactionVM> Enemies
 		{
@@ -181,9 +168,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CB RID: 1483
-		// (get) Token: 0x0600118B RID: 4491 RVA: 0x000457DC File Offset: 0x000439DC
-		// (set) Token: 0x0600118C RID: 4492 RVA: 0x000457E4 File Offset: 0x000439E4
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaSettlementVM> Settlements
 		{
@@ -201,9 +185,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CC RID: 1484
-		// (get) Token: 0x0600118D RID: 4493 RVA: 0x00045802 File Offset: 0x00043A02
-		// (set) Token: 0x0600118E RID: 4494 RVA: 0x0004580A File Offset: 0x00043A0A
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaHistoryEventVM> History
 		{
@@ -221,9 +202,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CD RID: 1485
-		// (get) Token: 0x0600118F RID: 4495 RVA: 0x00045828 File Offset: 0x00043A28
-		// (set) Token: 0x06001190 RID: 4496 RVA: 0x00045830 File Offset: 0x00043A30
 		[DataSourceProperty]
 		public HeroVM Leader
 		{
@@ -241,9 +219,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CE RID: 1486
-		// (get) Token: 0x06001191 RID: 4497 RVA: 0x0004584E File Offset: 0x00043A4E
-		// (set) Token: 0x06001192 RID: 4498 RVA: 0x00045856 File Offset: 0x00043A56
 		[DataSourceProperty]
 		public ImageIdentifierVM Banner
 		{
@@ -261,9 +236,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005CF RID: 1487
-		// (get) Token: 0x06001193 RID: 4499 RVA: 0x00045874 File Offset: 0x00043A74
-		// (set) Token: 0x06001194 RID: 4500 RVA: 0x0004587C File Offset: 0x00043A7C
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -281,9 +253,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D0 RID: 1488
-		// (get) Token: 0x06001195 RID: 4501 RVA: 0x0004589F File Offset: 0x00043A9F
-		// (set) Token: 0x06001196 RID: 4502 RVA: 0x000458A7 File Offset: 0x00043AA7
 		[DataSourceProperty]
 		public string MembersText
 		{
@@ -301,9 +270,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D1 RID: 1489
-		// (get) Token: 0x06001197 RID: 4503 RVA: 0x000458CA File Offset: 0x00043ACA
-		// (set) Token: 0x06001198 RID: 4504 RVA: 0x000458D2 File Offset: 0x00043AD2
 		[DataSourceProperty]
 		public string EnemiesText
 		{
@@ -321,9 +287,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D2 RID: 1490
-		// (get) Token: 0x06001199 RID: 4505 RVA: 0x000458F5 File Offset: 0x00043AF5
-		// (set) Token: 0x0600119A RID: 4506 RVA: 0x000458FD File Offset: 0x00043AFD
 		[DataSourceProperty]
 		public string ClansText
 		{
@@ -341,9 +304,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D3 RID: 1491
-		// (get) Token: 0x0600119B RID: 4507 RVA: 0x00045920 File Offset: 0x00043B20
-		// (set) Token: 0x0600119C RID: 4508 RVA: 0x00045928 File Offset: 0x00043B28
 		[DataSourceProperty]
 		public string SettlementsText
 		{
@@ -361,9 +321,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D4 RID: 1492
-		// (get) Token: 0x0600119D RID: 4509 RVA: 0x0004594B File Offset: 0x00043B4B
-		// (set) Token: 0x0600119E RID: 4510 RVA: 0x00045953 File Offset: 0x00043B53
 		[DataSourceProperty]
 		public string VillagesText
 		{
@@ -381,9 +338,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x0600119F RID: 4511 RVA: 0x00045976 File Offset: 0x00043B76
-		// (set) Token: 0x060011A0 RID: 4512 RVA: 0x0004597E File Offset: 0x00043B7E
 		[DataSourceProperty]
 		public string LeaderText
 		{
@@ -401,9 +355,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x060011A1 RID: 4513 RVA: 0x000459A1 File Offset: 0x00043BA1
-		// (set) Token: 0x060011A2 RID: 4514 RVA: 0x000459A9 File Offset: 0x00043BA9
 		[DataSourceProperty]
 		public string DescriptorText
 		{
@@ -421,9 +372,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D7 RID: 1495
-		// (get) Token: 0x060011A3 RID: 4515 RVA: 0x000459CC File Offset: 0x00043BCC
-		// (set) Token: 0x060011A4 RID: 4516 RVA: 0x000459D4 File Offset: 0x00043BD4
 		[DataSourceProperty]
 		public string InformationText
 		{
@@ -441,9 +389,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D8 RID: 1496
-		// (get) Token: 0x060011A5 RID: 4517 RVA: 0x000459F7 File Offset: 0x00043BF7
-		// (set) Token: 0x060011A6 RID: 4518 RVA: 0x000459FF File Offset: 0x00043BFF
 		[DataSourceProperty]
 		public string ProsperityText
 		{
@@ -461,9 +406,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005D9 RID: 1497
-		// (get) Token: 0x060011A7 RID: 4519 RVA: 0x00045A22 File Offset: 0x00043C22
-		// (set) Token: 0x060011A8 RID: 4520 RVA: 0x00045A2A File Offset: 0x00043C2A
 		[DataSourceProperty]
 		public string StrengthText
 		{
@@ -481,9 +423,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005DA RID: 1498
-		// (get) Token: 0x060011A9 RID: 4521 RVA: 0x00045A4D File Offset: 0x00043C4D
-		// (set) Token: 0x060011AA RID: 4522 RVA: 0x00045A55 File Offset: 0x00043C55
 		[DataSourceProperty]
 		public HintViewModel ProsperityHint
 		{
@@ -501,9 +440,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x170005DB RID: 1499
-		// (get) Token: 0x060011AB RID: 4523 RVA: 0x00045A73 File Offset: 0x00043C73
-		// (set) Token: 0x060011AC RID: 4524 RVA: 0x00045A7B File Offset: 0x00043C7B
 		[DataSourceProperty]
 		public HintViewModel StrengthHint
 		{
@@ -521,64 +457,44 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x04000828 RID: 2088
 		private Kingdom _faction;
 
-		// Token: 0x04000829 RID: 2089
 		private MBBindingList<EncyclopediaFactionVM> _clans;
 
-		// Token: 0x0400082A RID: 2090
 		private MBBindingList<EncyclopediaFactionVM> _enemies;
 
-		// Token: 0x0400082B RID: 2091
 		private MBBindingList<EncyclopediaSettlementVM> _settlements;
 
-		// Token: 0x0400082C RID: 2092
 		private MBBindingList<EncyclopediaHistoryEventVM> _history;
 
-		// Token: 0x0400082D RID: 2093
 		private HeroVM _leader;
 
-		// Token: 0x0400082E RID: 2094
 		private ImageIdentifierVM _banner;
 
-		// Token: 0x0400082F RID: 2095
 		private string _membersText;
 
-		// Token: 0x04000830 RID: 2096
 		private string _enemiesText;
 
-		// Token: 0x04000831 RID: 2097
 		private string _clansText;
 
-		// Token: 0x04000832 RID: 2098
 		private string _settlementsText;
 
-		// Token: 0x04000833 RID: 2099
 		private string _villagesText;
 
-		// Token: 0x04000834 RID: 2100
 		private string _leaderText;
 
-		// Token: 0x04000835 RID: 2101
 		private string _descriptorText;
 
-		// Token: 0x04000836 RID: 2102
 		private string _prosperityText;
 
-		// Token: 0x04000837 RID: 2103
 		private string _strengthText;
 
-		// Token: 0x04000838 RID: 2104
 		private string _informationText;
 
-		// Token: 0x04000839 RID: 2105
 		private HintViewModel _prosperityHint;
 
-		// Token: 0x0400083A RID: 2106
 		private HintViewModel _strengthHint;
 
-		// Token: 0x0400083B RID: 2107
 		private string _nameText;
 	}
 }

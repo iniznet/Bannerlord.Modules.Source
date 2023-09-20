@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 {
-	// Token: 0x02000109 RID: 265
 	public class EscapeMenuVM : ViewModel
 	{
-		// Token: 0x060017D3 RID: 6099 RVA: 0x0004ECD4 File Offset: 0x0004CED4
 		public EscapeMenuVM(IEnumerable<EscapeMenuItemVM> items, TextObject title = null)
 		{
 			this._titleObj = title;
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			this.RefreshValues();
 		}
 
-		// Token: 0x060017D4 RID: 6100 RVA: 0x0004ED50 File Offset: 0x0004CF50
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -37,12 +34,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			this.Tips.RefreshValues();
 		}
 
-		// Token: 0x060017D5 RID: 6101 RVA: 0x0004EDB9 File Offset: 0x0004CFB9
 		public virtual void Tick(float dt)
 		{
 		}
 
-		// Token: 0x060017D6 RID: 6102 RVA: 0x0004EDBC File Offset: 0x0004CFBC
 		public void RefreshItems(IEnumerable<EscapeMenuItemVM> items)
 		{
 			this.MenuItems.Clear();
@@ -52,9 +47,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007C9 RID: 1993
-		// (get) Token: 0x060017D7 RID: 6103 RVA: 0x0004EE14 File Offset: 0x0004D014
-		// (set) Token: 0x060017D8 RID: 6104 RVA: 0x0004EE1C File Offset: 0x0004D01C
 		[DataSourceProperty]
 		public string Title
 		{
@@ -72,9 +64,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007CA RID: 1994
-		// (get) Token: 0x060017D9 RID: 6105 RVA: 0x0004EE3F File Offset: 0x0004D03F
-		// (set) Token: 0x060017DA RID: 6106 RVA: 0x0004EE47 File Offset: 0x0004D047
 		[DataSourceProperty]
 		public MBBindingList<EscapeMenuItemVM> MenuItems
 		{
@@ -92,9 +81,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007CB RID: 1995
-		// (get) Token: 0x060017DB RID: 6107 RVA: 0x0004EE65 File Offset: 0x0004D065
-		// (set) Token: 0x060017DC RID: 6108 RVA: 0x0004EE6D File Offset: 0x0004D06D
 		[DataSourceProperty]
 		public GameTipsVM Tips
 		{
@@ -112,16 +98,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x04000B66 RID: 2918
 		private readonly TextObject _titleObj;
 
-		// Token: 0x04000B67 RID: 2919
 		private string _title;
 
-		// Token: 0x04000B68 RID: 2920
 		private MBBindingList<EscapeMenuItemVM> _menuItems;
 
-		// Token: 0x04000B69 RID: 2921
 		private GameTipsVM _tips;
 	}
 }

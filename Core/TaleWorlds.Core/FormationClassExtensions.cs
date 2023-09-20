@@ -4,10 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000060 RID: 96
 	public static class FormationClassExtensions
 	{
-		// Token: 0x0600065A RID: 1626 RVA: 0x000170BC File Offset: 0x000152BC
 		public static string GetName(this FormationClass formationClass)
 		{
 			switch (formationClass)
@@ -37,7 +35,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x0600065B RID: 1627 RVA: 0x0001713C File Offset: 0x0001533C
 		public static TextObject GetLocalizedName(this FormationClass formationClass)
 		{
 			string text = "str_troop_group_name";
@@ -45,7 +42,6 @@ namespace TaleWorlds.Core
 			return GameTexts.FindText(text, num.ToString());
 		}
 
-		// Token: 0x0600065C RID: 1628 RVA: 0x0001715C File Offset: 0x0001535C
 		public static TroopType GetTroopTypeForRegularFormation(this FormationClass formationClass)
 		{
 			TroopType troopType = TroopType.Invalid;
@@ -72,7 +68,6 @@ namespace TaleWorlds.Core
 			return troopType;
 		}
 
-		// Token: 0x04000374 RID: 884
 		public static FormationClass[] FormationClassValues = (FormationClass[])Enum.GetValues(typeof(FormationClass));
 	}
 }

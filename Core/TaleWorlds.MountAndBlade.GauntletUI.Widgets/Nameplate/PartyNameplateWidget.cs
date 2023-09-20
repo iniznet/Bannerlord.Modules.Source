@@ -6,17 +6,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 {
-	// Token: 0x02000071 RID: 113
 	public class PartyNameplateWidget : Widget
 	{
-		// Token: 0x06000619 RID: 1561 RVA: 0x00012021 File Offset: 0x00010221
 		public PartyNameplateWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x17000221 RID: 545
-		// (get) Token: 0x0600061A RID: 1562 RVA: 0x0001203C File Offset: 0x0001023C
 		private float _animSpeedModifier
 		{
 			get
@@ -25,8 +21,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000222 RID: 546
-		// (get) Token: 0x0600061B RID: 1563 RVA: 0x00012043 File Offset: 0x00010243
 		private int _armyFontSizeOffset
 		{
 			get
@@ -35,12 +29,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000223 RID: 547
-		// (get) Token: 0x0600061C RID: 1564 RVA: 0x00012047 File Offset: 0x00010247
-		// (set) Token: 0x0600061D RID: 1565 RVA: 0x0001204F File Offset: 0x0001024F
 		public Widget HeadGroupWidget { get; set; }
 
-		// Token: 0x0600061E RID: 1566 RVA: 0x00012058 File Offset: 0x00010258
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -64,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			this.UpdateTutorialStatus();
 		}
 
-		// Token: 0x0600061F RID: 1567 RVA: 0x00012150 File Offset: 0x00010350
 		private void UpdateNameplatesVisibility(float dt)
 		{
 			float num = 0f;
@@ -123,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			this.PartyBannerWidget.Brush.GlobalAlphaFactor = this.LocalLerp(this.PartyBannerWidget.ReadOnlyBrush.GlobalAlphaFactor, num2, dt * this._animSpeedModifier);
 		}
 
-		// Token: 0x06000620 RID: 1568 RVA: 0x000124E8 File Offset: 0x000106E8
 		private void UpdateNameplatesScreenPosition()
 		{
 			this._screenWidth = base.Context.EventManager.PageSize.X;
@@ -191,7 +179,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			this.NameplateLayoutListPanel.PositionXOffset = (base.Size.X / 2f - this.PartyBannerWidget.Size.X) * base._inverseScaleToUse;
 		}
 
-		// Token: 0x06000621 RID: 1569 RVA: 0x0001297D File Offset: 0x00010B7D
 		private void UpdateTutorialStatus()
 		{
 			if (this._tutorialAnimState == PartyNameplateWidget.TutorialAnimState.Start)
@@ -210,13 +197,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			this.SetState("Disabled");
 		}
 
-		// Token: 0x06000622 RID: 1570 RVA: 0x000129BC File Offset: 0x00010BBC
 		private bool IsNameplateOutsideScreen()
 		{
 			return this.Position.x + base.Size.X > this._screenWidth || this.Position.y - base.Size.Y > this._screenHeight || this.Position.x < 0f || this.Position.y < 0f || this.IsBehind || this.IsHigh;
 		}
 
-		// Token: 0x06000623 RID: 1571 RVA: 0x00012A3B File Offset: 0x00010C3B
 		private float LocalLerp(float start, float end, float delta)
 		{
 			if (Math.Abs(start - end) > 1E-45f)
@@ -226,9 +211,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			return end;
 		}
 
-		// Token: 0x17000224 RID: 548
-		// (get) Token: 0x06000624 RID: 1572 RVA: 0x00012A55 File Offset: 0x00010C55
-		// (set) Token: 0x06000625 RID: 1573 RVA: 0x00012A5D File Offset: 0x00010C5D
 		public ListPanel NameplateLayoutListPanel
 		{
 			get
@@ -245,9 +227,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000225 RID: 549
-		// (get) Token: 0x06000626 RID: 1574 RVA: 0x00012A7B File Offset: 0x00010C7B
-		// (set) Token: 0x06000627 RID: 1575 RVA: 0x00012A83 File Offset: 0x00010C83
 		public MaskedTextureWidget PartyBannerWidget
 		{
 			get
@@ -264,9 +243,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000226 RID: 550
-		// (get) Token: 0x06000628 RID: 1576 RVA: 0x00012AA1 File Offset: 0x00010CA1
-		// (set) Token: 0x06000629 RID: 1577 RVA: 0x00012AA9 File Offset: 0x00010CA9
 		public Widget TrackerFrame
 		{
 			get
@@ -283,9 +259,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000227 RID: 551
-		// (get) Token: 0x0600062A RID: 1578 RVA: 0x00012AC7 File Offset: 0x00010CC7
-		// (set) Token: 0x0600062B RID: 1579 RVA: 0x00012ACF File Offset: 0x00010CCF
 		public Vec2 Position
 		{
 			get
@@ -302,9 +275,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000228 RID: 552
-		// (get) Token: 0x0600062C RID: 1580 RVA: 0x00012AF2 File Offset: 0x00010CF2
-		// (set) Token: 0x0600062D RID: 1581 RVA: 0x00012AFA File Offset: 0x00010CFA
 		public Vec2 HeadPosition
 		{
 			get
@@ -321,9 +291,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000229 RID: 553
-		// (get) Token: 0x0600062E RID: 1582 RVA: 0x00012B1D File Offset: 0x00010D1D
-		// (set) Token: 0x0600062F RID: 1583 RVA: 0x00012B25 File Offset: 0x00010D25
 		public bool ShouldShowFullName
 		{
 			get
@@ -340,9 +307,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022A RID: 554
-		// (get) Token: 0x06000630 RID: 1584 RVA: 0x00012B43 File Offset: 0x00010D43
-		// (set) Token: 0x06000631 RID: 1585 RVA: 0x00012B4B File Offset: 0x00010D4B
 		public bool IsTargetedByTutorial
 		{
 			get
@@ -360,9 +324,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022B RID: 555
-		// (get) Token: 0x06000632 RID: 1586 RVA: 0x00012B70 File Offset: 0x00010D70
-		// (set) Token: 0x06000633 RID: 1587 RVA: 0x00012B78 File Offset: 0x00010D78
 		public bool IsInArmy
 		{
 			get
@@ -379,9 +340,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022C RID: 556
-		// (get) Token: 0x06000634 RID: 1588 RVA: 0x00012B96 File Offset: 0x00010D96
-		// (set) Token: 0x06000635 RID: 1589 RVA: 0x00012B9E File Offset: 0x00010D9E
 		public bool IsInSettlement
 		{
 			get
@@ -398,9 +356,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022D RID: 557
-		// (get) Token: 0x06000636 RID: 1590 RVA: 0x00012BBC File Offset: 0x00010DBC
-		// (set) Token: 0x06000637 RID: 1591 RVA: 0x00012BC4 File Offset: 0x00010DC4
 		public bool IsArmy
 		{
 			get
@@ -417,9 +372,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022E RID: 558
-		// (get) Token: 0x06000638 RID: 1592 RVA: 0x00012BE2 File Offset: 0x00010DE2
-		// (set) Token: 0x06000639 RID: 1593 RVA: 0x00012BEA File Offset: 0x00010DEA
 		public bool IsVisibleOnMap
 		{
 			get
@@ -436,9 +388,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x1700022F RID: 559
-		// (get) Token: 0x0600063A RID: 1594 RVA: 0x00012C08 File Offset: 0x00010E08
-		// (set) Token: 0x0600063B RID: 1595 RVA: 0x00012C10 File Offset: 0x00010E10
 		public bool IsMainParty
 		{
 			get
@@ -455,9 +404,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000230 RID: 560
-		// (get) Token: 0x0600063C RID: 1596 RVA: 0x00012C2E File Offset: 0x00010E2E
-		// (set) Token: 0x0600063D RID: 1597 RVA: 0x00012C36 File Offset: 0x00010E36
 		public bool IsInside
 		{
 			get
@@ -474,9 +420,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000231 RID: 561
-		// (get) Token: 0x0600063E RID: 1598 RVA: 0x00012C54 File Offset: 0x00010E54
-		// (set) Token: 0x0600063F RID: 1599 RVA: 0x00012C5C File Offset: 0x00010E5C
 		public bool IsHigh
 		{
 			get
@@ -493,9 +436,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000232 RID: 562
-		// (get) Token: 0x06000640 RID: 1600 RVA: 0x00012C7A File Offset: 0x00010E7A
-		// (set) Token: 0x06000641 RID: 1601 RVA: 0x00012C82 File Offset: 0x00010E82
 		public bool IsBehind
 		{
 			get
@@ -512,9 +452,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000233 RID: 563
-		// (get) Token: 0x06000642 RID: 1602 RVA: 0x00012CA0 File Offset: 0x00010EA0
-		// (set) Token: 0x06000643 RID: 1603 RVA: 0x00012CA8 File Offset: 0x00010EA8
 		public bool IsPrisoner
 		{
 			get
@@ -531,9 +468,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000234 RID: 564
-		// (get) Token: 0x06000644 RID: 1604 RVA: 0x00012CC6 File Offset: 0x00010EC6
-		// (set) Token: 0x06000645 RID: 1605 RVA: 0x00012CCE File Offset: 0x00010ECE
 		public TextWidget NameplateTextWidget
 		{
 			get
@@ -550,9 +484,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000235 RID: 565
-		// (get) Token: 0x06000646 RID: 1606 RVA: 0x00012CEC File Offset: 0x00010EEC
-		// (set) Token: 0x06000647 RID: 1607 RVA: 0x00012CF4 File Offset: 0x00010EF4
 		public TextWidget NameplateExtraInfoTextWidget
 		{
 			get
@@ -569,9 +500,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000236 RID: 566
-		// (get) Token: 0x06000648 RID: 1608 RVA: 0x00012D12 File Offset: 0x00010F12
-		// (set) Token: 0x06000649 RID: 1609 RVA: 0x00012D1A File Offset: 0x00010F1A
 		public TextWidget NameplateFullNameTextWidget
 		{
 			get
@@ -588,9 +516,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000237 RID: 567
-		// (get) Token: 0x0600064A RID: 1610 RVA: 0x00012D38 File Offset: 0x00010F38
-		// (set) Token: 0x0600064B RID: 1611 RVA: 0x00012D40 File Offset: 0x00010F40
 		public TextWidget SpeedTextWidget
 		{
 			get
@@ -607,9 +532,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000238 RID: 568
-		// (get) Token: 0x0600064C RID: 1612 RVA: 0x00012D5E File Offset: 0x00010F5E
-		// (set) Token: 0x0600064D RID: 1613 RVA: 0x00012D66 File Offset: 0x00010F66
 		public Widget SpeedIconWidget
 		{
 			get
@@ -626,9 +548,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x17000239 RID: 569
-		// (get) Token: 0x0600064E RID: 1614 RVA: 0x00012D84 File Offset: 0x00010F84
-		// (set) Token: 0x0600064F RID: 1615 RVA: 0x00012D8C File Offset: 0x00010F8C
 		public Widget MainPartyArrowWidget
 		{
 			get
@@ -645,103 +564,69 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Nameplate
 			}
 		}
 
-		// Token: 0x040002A6 RID: 678
 		private bool _isFirstFrame = true;
 
-		// Token: 0x040002A7 RID: 679
 		private float _screenWidth;
 
-		// Token: 0x040002A8 RID: 680
 		private float _screenHeight;
 
-		// Token: 0x040002A9 RID: 681
 		private bool _latestIsOutside;
 
-		// Token: 0x040002AA RID: 682
 		private float _initialDelayAmount = 2f;
 
-		// Token: 0x040002AB RID: 683
 		private int _defaultNameplateFontSize;
 
-		// Token: 0x040002AC RID: 684
 		private PartyNameplateWidget.TutorialAnimState _tutorialAnimState;
 
-		// Token: 0x040002AE RID: 686
 		private Vec2 _position;
 
-		// Token: 0x040002AF RID: 687
 		private Vec2 _headPosition;
 
-		// Token: 0x040002B0 RID: 688
 		private TextWidget _nameplateTextWidget;
 
-		// Token: 0x040002B1 RID: 689
 		private TextWidget _nameplateFullNameTextWidget;
 
-		// Token: 0x040002B2 RID: 690
 		private TextWidget _speedTextWidget;
 
-		// Token: 0x040002B3 RID: 691
 		private Widget _speedIconWidget;
 
-		// Token: 0x040002B4 RID: 692
 		private TextWidget _nameplateExtraInfoTextWidget;
 
-		// Token: 0x040002B5 RID: 693
 		private Widget _trackerFrame;
 
-		// Token: 0x040002B6 RID: 694
 		private Widget _mainPartyArrowWidget;
 
-		// Token: 0x040002B7 RID: 695
 		private ListPanel _nameplateLayoutListPanel;
 
-		// Token: 0x040002B8 RID: 696
 		private MaskedTextureWidget _partyBannerWidget;
 
-		// Token: 0x040002B9 RID: 697
 		private bool _isVisibleOnMap;
 
-		// Token: 0x040002BA RID: 698
 		private bool _isMainParty;
 
-		// Token: 0x040002BB RID: 699
 		private bool _isInside;
 
-		// Token: 0x040002BC RID: 700
 		private bool _isBehind;
 
-		// Token: 0x040002BD RID: 701
 		private bool _isHigh;
 
-		// Token: 0x040002BE RID: 702
 		private bool _isInArmy;
 
-		// Token: 0x040002BF RID: 703
 		private bool _isInSettlement;
 
-		// Token: 0x040002C0 RID: 704
 		private bool _isArmy;
 
-		// Token: 0x040002C1 RID: 705
 		private bool _isTargetedByTutorial;
 
-		// Token: 0x040002C2 RID: 706
 		private bool _shouldShowFullName;
 
-		// Token: 0x040002C3 RID: 707
 		private bool _isPrisoner;
 
-		// Token: 0x02000189 RID: 393
 		public enum TutorialAnimState
 		{
-			// Token: 0x040008DF RID: 2271
 			Idle,
-			// Token: 0x040008E0 RID: 2272
 			Start,
-			// Token: 0x040008E1 RID: 2273
 			FirstFrame,
-			// Token: 0x040008E2 RID: 2274
 			Playing
 		}
 	}

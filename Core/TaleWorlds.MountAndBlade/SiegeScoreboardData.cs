@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002BF RID: 703
 	public class SiegeScoreboardData : IScoreboardData
 	{
-		// Token: 0x060026EC RID: 9964 RVA: 0x000929B0 File Offset: 0x00090BB0
 		public MissionScoreboardComponent.ScoreboardHeader[] GetScoreboardHeaders()
 		{
 			GameNetwork.MyPeer.GetComponent<MissionRepresentativeBase>();

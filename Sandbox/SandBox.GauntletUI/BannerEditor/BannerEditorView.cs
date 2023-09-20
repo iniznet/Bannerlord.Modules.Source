@@ -21,26 +21,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI.BannerEditor
 {
-	// Token: 0x0200003E RID: 62
 	public class BannerEditorView
 	{
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x06000259 RID: 601 RVA: 0x00011434 File Offset: 0x0000F634
-		// (set) Token: 0x0600025A RID: 602 RVA: 0x0001143C File Offset: 0x0000F63C
 		public GauntletLayer GauntletLayer { get; private set; }
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x0600025B RID: 603 RVA: 0x00011445 File Offset: 0x0000F645
-		// (set) Token: 0x0600025C RID: 604 RVA: 0x0001144D File Offset: 0x0000F64D
 		public BannerEditorVM DataSource { get; private set; }
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x0600025D RID: 605 RVA: 0x00011456 File Offset: 0x0000F656
-		// (set) Token: 0x0600025E RID: 606 RVA: 0x0001145E File Offset: 0x0000F65E
 		public Banner Banner { get; private set; }
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x0600025F RID: 607 RVA: 0x00011467 File Offset: 0x0000F667
 		private ItemRosterElement ShieldRosterElement
 		{
 			get
@@ -49,8 +37,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x06000260 RID: 608 RVA: 0x00011474 File Offset: 0x0000F674
 		private int ShieldSlotIndex
 		{
 			get
@@ -59,12 +45,8 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000262 RID: 610 RVA: 0x0001148A File Offset: 0x0000F68A
-		// (set) Token: 0x06000261 RID: 609 RVA: 0x00011481 File Offset: 0x0000F681
 		public SceneLayer SceneLayer { get; private set; }
 
-		// Token: 0x06000263 RID: 611 RVA: 0x00011494 File Offset: 0x0000F694
 		public BannerEditorView(BasicCharacterObject character, Banner banner, ControlCharacterCreationStage affirmativeAction, TextObject affirmativeActionText, ControlCharacterCreationStage negativeAction, TextObject negativeActionText, ControlCharacterCreationStage onRefresh = null, ControlCharacterCreationStageReturnInt getCurrentStageIndexAction = null, ControlCharacterCreationStageReturnInt getTotalStageCountAction = null, ControlCharacterCreationStageReturnInt getFurthestIndexAction = null, ControlCharacterCreationStageWithInt goToIndexAction = null)
 		{
 			SpriteData spriteData = UIResourceManager.SpriteData;
@@ -132,7 +114,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._firstCharacterRender = true;
 		}
 
-		// Token: 0x06000264 RID: 612 RVA: 0x000118C0 File Offset: 0x0000FAC0
 		public void OnTick(float dt)
 		{
 			if (this._isFinalized)
@@ -184,7 +165,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x06000265 RID: 613 RVA: 0x000119D0 File Offset: 0x0000FBD0
 		public void OnFinalize()
 		{
 			if (!this._isOpenedFromCharacterCreation)
@@ -199,7 +179,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._isFinalized = true;
 		}
 
-		// Token: 0x06000266 RID: 614 RVA: 0x000119FD File Offset: 0x0000FBFD
 		public void Exit(bool isCancel)
 		{
 			MouseManager.ActivateMouseCursor(1);
@@ -213,7 +192,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._affirmativeAction.Invoke();
 		}
 
-		// Token: 0x06000267 RID: 615 RVA: 0x00011A2C File Offset: 0x0000FC2C
 		private void SetMapIconAsDirtyForAllPlayerClanParties()
 		{
 			foreach (Hero hero in Clan.PlayerClan.Lords)
@@ -267,7 +245,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x06000268 RID: 616 RVA: 0x00011C80 File Offset: 0x0000FE80
 		private void CreateScene()
 		{
 			this._scene = Scene.CreateNewScene(true, true, 2, "mono_renderscene");
@@ -301,7 +278,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this.AddCharacterEntity(this._idleAction);
 		}
 
-		// Token: 0x06000269 RID: 617 RVA: 0x00011E20 File Offset: 0x00010020
 		private void AddCharacterEntity(ActionIndexCache action)
 		{
 			this._weaponEquipment = new Equipment();
@@ -352,7 +328,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this.UpdateBanners();
 		}
 
-		// Token: 0x0600026A RID: 618 RVA: 0x0001206C File Offset: 0x0001026C
 		private void UpdateBanners()
 		{
 			BannerCode currentBannerCode = BannerCode.CreateFrom(this.Banner);
@@ -376,7 +351,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._previousBannerCode = BannerCode.CreateFrom(this.Banner);
 		}
 
-		// Token: 0x0600026B RID: 619 RVA: 0x00012100 File Offset: 0x00010300
 		private void OnNewBannerReadyForBanners(BannerCode bannerCodeOfTexture, Texture newTexture)
 		{
 			if (!this._isFinalized && this._scene != null && this._currentBannerCode == bannerCodeOfTexture)
@@ -403,14 +377,12 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x0600026C RID: 620 RVA: 0x000121B5 File Offset: 0x000103B5
 		private void RefreshShieldAndCharacter()
 		{
 			this._currentBannerCode = BannerCode.CreateFrom(this.Banner);
 			this._refreshBannersNextFrame = true;
 		}
 
-		// Token: 0x0600026D RID: 621 RVA: 0x000121D0 File Offset: 0x000103D0
 		private void RefreshShieldAndCharacterAux()
 		{
 			int agentVisualToShowIndex = this._agentVisualToShowIndex;
@@ -430,7 +402,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._checkWhetherAgentVisualIsReady = true;
 		}
 
-		// Token: 0x0600026E RID: 622 RVA: 0x000122F8 File Offset: 0x000104F8
 		private void HandleUserInput()
 		{
 			if (this.GauntletLayer.Input.IsHotKeyReleased("Confirm"))
@@ -473,7 +444,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			}
 		}
 
-		// Token: 0x0600026F RID: 623 RVA: 0x00012518 File Offset: 0x00010718
 		private void UpdateCamera(float dt)
 		{
 			this._cameraCurrentRotation += MBMath.WrapAngle(this._cameraTargetRotation - this._cameraCurrentRotation) * MathF.Min(1f, 10f * dt);
@@ -490,7 +460,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			SoundManager.SetListenerFrame(characterFrame);
 		}
 
-		// Token: 0x06000270 RID: 624 RVA: 0x0001266F File Offset: 0x0001086F
 		public void OnDeactivate()
 		{
 			this._agentVisuals[0].Reset();
@@ -500,94 +469,65 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._scene = null;
 		}
 
-		// Token: 0x06000271 RID: 625 RVA: 0x000126AB File Offset: 0x000108AB
 		public void GoToIndex(int index)
 		{
 			this._goToIndexAction.Invoke(index);
 		}
 
-		// Token: 0x04000165 RID: 357
 		private IGauntletMovie _gauntletmovie;
 
-		// Token: 0x04000166 RID: 358
 		private readonly SpriteCategory _spriteCategory;
 
-		// Token: 0x04000167 RID: 359
 		private bool _isFinalized;
 
-		// Token: 0x04000168 RID: 360
 		private float _cameraCurrentRotation;
 
-		// Token: 0x04000169 RID: 361
 		private float _cameraTargetRotation;
 
-		// Token: 0x0400016A RID: 362
 		private float _cameraCurrentDistanceAdder;
 
-		// Token: 0x0400016B RID: 363
 		private float _cameraTargetDistanceAdder;
 
-		// Token: 0x0400016C RID: 364
 		private float _cameraCurrentElevationAdder;
 
-		// Token: 0x0400016D RID: 365
 		private float _cameraTargetElevationAdder;
 
-		// Token: 0x0400016E RID: 366
 		private readonly BasicCharacterObject _character;
 
-		// Token: 0x0400016F RID: 367
 		private readonly ActionIndexCache _idleAction = ActionIndexCache.Create("act_walk_idle_1h_with_shield_left_stance");
 
-		// Token: 0x04000170 RID: 368
 		private Scene _scene;
 
-		// Token: 0x04000171 RID: 369
 		private MBAgentRendererSceneController _agentRendererSceneController;
 
-		// Token: 0x04000172 RID: 370
 		private AgentVisuals[] _agentVisuals;
 
-		// Token: 0x04000173 RID: 371
 		private int _agentVisualToShowIndex;
 
-		// Token: 0x04000174 RID: 372
 		private bool _checkWhetherAgentVisualIsReady;
 
-		// Token: 0x04000175 RID: 373
 		private bool _firstCharacterRender = true;
 
-		// Token: 0x04000176 RID: 374
 		private bool _refreshBannersNextFrame;
 
-		// Token: 0x04000177 RID: 375
 		private bool _refreshCharacterAndShieldNextFrame;
 
-		// Token: 0x04000178 RID: 376
 		private BannerCode _previousBannerCode;
 
-		// Token: 0x04000179 RID: 377
 		private MatrixFrame _characterFrame;
 
-		// Token: 0x0400017A RID: 378
 		private Equipment _weaponEquipment;
 
-		// Token: 0x0400017B RID: 379
 		private BannerCode _currentBannerCode;
 
-		// Token: 0x0400017C RID: 380
 		private Camera _camera;
 
-		// Token: 0x0400017E RID: 382
 		private bool _isOpenedFromCharacterCreation;
 
-		// Token: 0x0400017F RID: 383
 		private ControlCharacterCreationStage _affirmativeAction;
 
-		// Token: 0x04000180 RID: 384
 		private ControlCharacterCreationStage _negativeAction;
 
-		// Token: 0x04000181 RID: 385
 		private ControlCharacterCreationStageWithInt _goToIndexAction;
 	}
 }

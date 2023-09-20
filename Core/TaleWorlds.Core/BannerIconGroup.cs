@@ -7,30 +7,18 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000013 RID: 19
 	public class BannerIconGroup
 	{
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x060000D8 RID: 216 RVA: 0x000043EF File Offset: 0x000025EF
-		// (set) Token: 0x060000D9 RID: 217 RVA: 0x000043F7 File Offset: 0x000025F7
 		public TextObject Name { get; private set; }
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x060000DA RID: 218 RVA: 0x00004400 File Offset: 0x00002600
-		// (set) Token: 0x060000DB RID: 219 RVA: 0x00004408 File Offset: 0x00002608
 		public bool IsPattern { get; private set; }
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060000DC RID: 220 RVA: 0x00004411 File Offset: 0x00002611
-		// (set) Token: 0x060000DD RID: 221 RVA: 0x00004419 File Offset: 0x00002619
 		public int Id { get; private set; }
 
-		// Token: 0x060000DE RID: 222 RVA: 0x00004422 File Offset: 0x00002622
 		internal BannerIconGroup()
 		{
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x0000442C File Offset: 0x0000262C
 		public void Deserialize(XmlNode xmlNode, MBList<BannerIconGroup> previouslyAddedGroups)
 		{
 			this._allIcons = new Dictionary<int, BannerIconData>();
@@ -75,7 +63,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x0000471C File Offset: 0x0000291C
 		public void Merge(BannerIconGroup otherGroup)
 		{
 			foreach (KeyValuePair<int, BannerIconData> keyValuePair in otherGroup._allIcons)
@@ -101,22 +88,16 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x040000F1 RID: 241
 		public MBReadOnlyDictionary<int, BannerIconData> AllIcons;
 
-		// Token: 0x040000F2 RID: 242
 		public MBReadOnlyDictionary<int, string> AllBackgrounds;
 
-		// Token: 0x040000F3 RID: 243
 		public MBReadOnlyDictionary<int, BannerIconData> AvailableIcons;
 
-		// Token: 0x040000F4 RID: 244
 		private Dictionary<int, BannerIconData> _allIcons;
 
-		// Token: 0x040000F5 RID: 245
 		private Dictionary<int, string> _allBackgrounds;
 
-		// Token: 0x040000F6 RID: 246
 		private Dictionary<int, BannerIconData> _availableIcons;
 	}
 }

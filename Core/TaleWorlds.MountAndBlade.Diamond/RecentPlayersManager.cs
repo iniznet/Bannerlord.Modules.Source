@@ -9,11 +9,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x02000149 RID: 329
 	public static class RecentPlayersManager
 	{
-		// Token: 0x170002E6 RID: 742
-		// (get) Token: 0x06000844 RID: 2116 RVA: 0x0000D29C File Offset: 0x0000B49C
 		private static PlatformFilePath RecentPlayerFilePath
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x170002E7 RID: 743
-		// (get) Token: 0x06000845 RID: 2117 RVA: 0x0000D2C1 File Offset: 0x0000B4C1
 		public static MBReadOnlyList<RecentPlayerInfo> RecentPlayers
 		{
 			get
@@ -33,14 +28,12 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000847 RID: 2119 RVA: 0x0000D334 File Offset: 0x0000B534
 		public static async void Initialize()
 		{
 			await RecentPlayersManager.LoadRecentPlayers();
 			RecentPlayersManager.DecayPlayers();
 		}
 
-		// Token: 0x06000848 RID: 2120 RVA: 0x0000D368 File Offset: 0x0000B568
 		private static async Task LoadRecentPlayers()
 		{
 			if (RecentPlayersManager.IsRecentPlayersCacheDirty)
@@ -81,20 +74,17 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000849 RID: 2121 RVA: 0x0000D3A8 File Offset: 0x0000B5A8
 		public static async Task<MBReadOnlyList<RecentPlayerInfo>> GetRecentPlayerInfos()
 		{
 			await RecentPlayersManager.LoadRecentPlayers();
 			return RecentPlayersManager.RecentPlayers;
 		}
 
-		// Token: 0x0600084A RID: 2122 RVA: 0x0000D3E5 File Offset: 0x0000B5E5
 		public static PlayerId[] GetRecentPlayerIds()
 		{
 			return RecentPlayersManager._recentPlayers.Select((RecentPlayerInfo p) => PlayerId.FromString(p.PlayerId)).ToArray<PlayerId>();
 		}
 
-		// Token: 0x0600084B RID: 2123 RVA: 0x0000D418 File Offset: 0x0000B618
 		public static void AddOrUpdatePlayerEntry(PlayerId playerId, string playerName, InteractionType interactionType, int forcedIndex)
 		{
 			if (forcedIndex == -1)
@@ -135,12 +125,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x0600084C RID: 2124 RVA: 0x0000D51C File Offset: 0x0000B71C
-		// (remove) Token: 0x0600084D RID: 2125 RVA: 0x0000D550 File Offset: 0x0000B750
 		public static event Action<PlayerId, InteractionType> OnRecentPlayerInteraction;
 
-		// Token: 0x0600084E RID: 2126 RVA: 0x0000D584 File Offset: 0x0000B784
 		private static void DecayPlayers()
 		{
 			object lockObject = RecentPlayersManager._lockObject;
@@ -163,7 +149,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600084F RID: 2127 RVA: 0x0000D680 File Offset: 0x0000B880
 		public static void Serialize()
 		{
 			try
@@ -177,7 +162,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000850 RID: 2128 RVA: 0x0000D6C0 File Offset: 0x0000B8C0
 		public static IEnumerable<PlayerId> GetPlayersOrdered()
 		{
 			return from p in RecentPlayersManager._recentPlayers
@@ -185,7 +169,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				select PlayerId.FromString(p.PlayerId);
 		}
 
-		// Token: 0x06000851 RID: 2129 RVA: 0x0000D71C File Offset: 0x0000B91C
 		private static RecentPlayerInfo TryGetPlayer(PlayerId playerId)
 		{
 			string text = playerId.ToString();
@@ -199,22 +182,16 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return null;
 		}
 
-		// Token: 0x040003BD RID: 957
 		private const string RecentPlayersDirectoryName = "Data";
 
-		// Token: 0x040003BE RID: 958
 		private const string RecentPlayersFileName = "RecentPlayers.json";
 
-		// Token: 0x040003BF RID: 959
 		private static bool IsRecentPlayersCacheDirty = true;
 
-		// Token: 0x040003C0 RID: 960
 		private static readonly object _lockObject = new object();
 
-		// Token: 0x040003C1 RID: 961
 		private static MBList<RecentPlayerInfo> _recentPlayers = new MBList<RecentPlayerInfo>();
 
-		// Token: 0x040003C2 RID: 962
 		private static readonly Dictionary<InteractionType, RecentPlayersManager.InteractionTypeInfo> InteractionTypeScoreDictionary = new Dictionary<InteractionType, RecentPlayersManager.InteractionTypeInfo>
 		{
 			{
@@ -235,32 +212,21 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		};
 
-		// Token: 0x020001B7 RID: 439
 		private class InteractionTypeInfo
 		{
-			// Token: 0x17000320 RID: 800
-			// (get) Token: 0x06000982 RID: 2434 RVA: 0x00013FF2 File Offset: 0x000121F2
-			// (set) Token: 0x06000983 RID: 2435 RVA: 0x00013FFA File Offset: 0x000121FA
 			public int Score { get; private set; }
 
-			// Token: 0x17000321 RID: 801
-			// (get) Token: 0x06000984 RID: 2436 RVA: 0x00014003 File Offset: 0x00012203
-			// (set) Token: 0x06000985 RID: 2437 RVA: 0x0001400B File Offset: 0x0001220B
 			public RecentPlayersManager.InteractionTypeInfo.InteractionProcessType ProcessType { get; private set; }
 
-			// Token: 0x06000986 RID: 2438 RVA: 0x00014014 File Offset: 0x00012214
 			public InteractionTypeInfo(int score, RecentPlayersManager.InteractionTypeInfo.InteractionProcessType type)
 			{
 				this.Score = score;
 				this.ProcessType = type;
 			}
 
-			// Token: 0x020001BC RID: 444
 			public enum InteractionProcessType
 			{
-				// Token: 0x04000659 RID: 1625
 				Cumulative,
-				// Token: 0x0400065A RID: 1626
 				Fixed
 			}
 		}

@@ -4,10 +4,8 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 {
-	// Token: 0x0200000C RID: 12
 	public class CustomBattleScoreboardVM : ScoreboardBaseVM, IBattleObserver
 	{
-		// Token: 0x060000CF RID: 207 RVA: 0x00004960 File Offset: 0x00002B60
 		public override void Initialize(IMissionScreen missionScreen, Mission mission, Action releaseSimulationSources, Action<bool> onToggle)
 		{
 			base.Initialize(missionScreen, mission, releaseSimulationSources, onToggle);
@@ -28,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			this.PlayerSide = Mission.Current.PlayerTeam.Side;
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00004A30 File Offset: 0x00002C30
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -45,7 +42,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			attackers.RefreshValues();
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x00004A5C File Offset: 0x00002C5C
 		public override void Tick(float dt)
 		{
 			if (!base.IsOver)
@@ -80,7 +76,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			}
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x00004B62 File Offset: 0x00002D62
 		public override void ExecuteFastForwardAction()
 		{
 			if (base.IsMainCharacterDead)
@@ -89,13 +84,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			}
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x00004B7C File Offset: 0x00002D7C
 		public override void ExecuteQuitAction()
 		{
 			this.OnExitBattle();
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x00004B84 File Offset: 0x00002D84
 		public void OnBattleOver()
 		{
 			Mission mission = Mission.Current;
@@ -133,7 +126,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			base.BattleResult = GameTexts.FindText("str_defeat", null).ToString();
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x00004CB8 File Offset: 0x00002EB8
 		public void OnExitBattle()
 		{
 			BasicMissionHandler missionBehavior = this._mission.GetMissionBehavior<BasicMissionHandler>();
@@ -147,25 +139,21 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			this._mission.EndMission();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x00004D08 File Offset: 0x00002F08
 		public void TroopNumberChanged(BattleSideEnum side, IBattleCombatant battleCombatant, BasicCharacterObject character, int number = 0, int numberDead = 0, int numberWounded = 0, int numberRouted = 0, int numberKilled = 0, int numberReadyToUpgrade = 0)
 		{
 			base.GetSide(side).UpdateScores(battleCombatant, false, character, number, numberDead, numberWounded, numberRouted, numberKilled, numberReadyToUpgrade);
 			base.PowerComparer.Update((double)base.Defenders.CurrentPower, (double)base.Attackers.CurrentPower, (double)base.Defenders.InitialPower, (double)base.Attackers.InitialPower);
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00004D6B File Offset: 0x00002F6B
 		public void HeroSkillIncreased(BattleSideEnum side, IBattleCombatant battleCombatant, BasicCharacterObject heroCharacter, SkillObject upgradedSkill)
 		{
 			base.GetSide(side).UpdateHeroSkills(battleCombatant, false, heroCharacter, upgradedSkill);
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00004D7E File Offset: 0x00002F7E
 		public void BattleResultsReady()
 		{
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x00004D80 File Offset: 0x00002F80
 		public void TroopSideChanged(BattleSideEnum prevSide, BattleSideEnum newSide, IBattleCombatant battleCombatant, BasicCharacterObject character)
 		{
 			SPScoreboardStatsVM spscoreboardStatsVM = base.GetSide(prevSide).RemoveTroop(battleCombatant, character);
@@ -173,13 +161,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			base.GetSide(newSide).AddTroop(battleCombatant, character, spscoreboardStatsVM);
 		}
 
-		// Token: 0x04000055 RID: 85
 		private SallyOutEndLogic _sallyOutEndLogic;
 
-		// Token: 0x04000056 RID: 86
 		private MissionCombatantsLogic _missionCombatantsLogic;
 
-		// Token: 0x04000057 RID: 87
 		private float _missionEndScoreboardDelayTimer;
 	}
 }

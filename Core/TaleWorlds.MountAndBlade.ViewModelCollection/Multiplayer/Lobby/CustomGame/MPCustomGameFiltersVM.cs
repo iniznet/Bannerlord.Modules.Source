@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.Diamond;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomGame
 {
-	// Token: 0x0200008B RID: 139
 	public class MPCustomGameFiltersVM : ViewModel
 	{
-		// Token: 0x06000CBB RID: 3259 RVA: 0x0002CAB4 File Offset: 0x0002ACB4
 		public MPCustomGameFiltersVM()
 		{
 			this.SearchText = string.Empty;
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000CBC RID: 3260 RVA: 0x0002CC1C File Offset: 0x0002AE1C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -36,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			});
 		}
 
-		// Token: 0x06000CBD RID: 3261 RVA: 0x0002CC88 File Offset: 0x0002AE88
 		public List<GameServerEntry> GetFilteredServerList(IEnumerable<GameServerEntry> unfilteredList)
 		{
 			List<GameServerEntry> list = unfilteredList.ToList<GameServerEntry>();
@@ -52,13 +48,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			return list;
 		}
 
-		// Token: 0x06000CBE RID: 3262 RVA: 0x0002CD1F File Offset: 0x0002AF1F
 		private bool FilterByCompatibleModules(GameServerEntry serverEntry)
 		{
 			return NetworkMain.GameClient.LoadedUnofficialModules.IsCompatibleWith(serverEntry.LoadedModules, serverEntry.AllowsOptionalModules);
 		}
 
-		// Token: 0x06000CBF RID: 3263 RVA: 0x0002CD3C File Offset: 0x0002AF3C
 		private void OnAnyFilterChange()
 		{
 			Action onFiltersApplied = this.OnFiltersApplied;
@@ -69,9 +63,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			onFiltersApplied();
 		}
 
-		// Token: 0x170003FB RID: 1019
-		// (get) Token: 0x06000CC0 RID: 3264 RVA: 0x0002CD4E File Offset: 0x0002AF4E
-		// (set) Token: 0x06000CC1 RID: 3265 RVA: 0x0002CD56 File Offset: 0x0002AF56
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -89,9 +80,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x170003FC RID: 1020
-		// (get) Token: 0x06000CC2 RID: 3266 RVA: 0x0002CD79 File Offset: 0x0002AF79
-		// (set) Token: 0x06000CC3 RID: 3267 RVA: 0x0002CD81 File Offset: 0x0002AF81
 		[DataSourceProperty]
 		public string SearchInitialText
 		{
@@ -109,9 +97,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x170003FD RID: 1021
-		// (get) Token: 0x06000CC4 RID: 3268 RVA: 0x0002CDA4 File Offset: 0x0002AFA4
-		// (set) Token: 0x06000CC5 RID: 3269 RVA: 0x0002CDAC File Offset: 0x0002AFAC
 		[DataSourceProperty]
 		public string SearchText
 		{
@@ -130,9 +115,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x170003FE RID: 1022
-		// (get) Token: 0x06000CC6 RID: 3270 RVA: 0x0002CDD5 File Offset: 0x0002AFD5
-		// (set) Token: 0x06000CC7 RID: 3271 RVA: 0x0002CDDD File Offset: 0x0002AFDD
 		[DataSourceProperty]
 		public MBBindingList<MPCustomGameFilterItemVM> Items
 		{
@@ -150,35 +132,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x04000618 RID: 1560
 		public Action OnFiltersApplied;
 
-		// Token: 0x04000619 RID: 1561
 		private string _titleText;
 
-		// Token: 0x0400061A RID: 1562
 		private string _searchInitialText;
 
-		// Token: 0x0400061B RID: 1563
 		private string _searchText;
 
-		// Token: 0x0400061C RID: 1564
 		private MBBindingList<MPCustomGameFilterItemVM> _items;
 
-		// Token: 0x020001CE RID: 462
 		public enum CustomGameFilterType
 		{
-			// Token: 0x04000DCE RID: 3534
 			Name,
-			// Token: 0x04000DCF RID: 3535
 			NotFull,
-			// Token: 0x04000DD0 RID: 3536
 			HasPlayers,
-			// Token: 0x04000DD1 RID: 3537
 			HasPasswordProtection,
-			// Token: 0x04000DD2 RID: 3538
 			IsOfficial,
-			// Token: 0x04000DD3 RID: 3539
 			ModuleCompatible
 		}
 	}

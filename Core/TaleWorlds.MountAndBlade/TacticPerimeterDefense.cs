@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000160 RID: 352
 	public class TacticPerimeterDefense : TacticComponent
 	{
-		// Token: 0x060011E4 RID: 4580 RVA: 0x00042EE8 File Offset: 0x000410E8
 		public TacticPerimeterDefense(Team team)
 			: base(team)
 		{
@@ -28,7 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			this._defenseFronts = new List<TacticPerimeterDefense.DefenseFront>();
 		}
 
-		// Token: 0x060011E5 RID: 4581 RVA: 0x00042F74 File Offset: 0x00041174
 		private void DetermineEnemyClusters()
 		{
 			List<Formation> list = new List<Formation>();
@@ -94,13 +91,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011E6 RID: 4582 RVA: 0x00043290 File Offset: 0x00041490
 		private bool MustRetreatToCastle()
 		{
 			return base.Team.QuerySystem.TotalPowerRatio / base.Team.QuerySystem.RemainingPowerRatio > 2f;
 		}
 
-		// Token: 0x060011E7 RID: 4583 RVA: 0x000432BC File Offset: 0x000414BC
 		private void StartRetreatToKeep()
 		{
 			foreach (Formation formation in base.FormationsIncludingEmpty)
@@ -114,7 +109,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011E8 RID: 4584 RVA: 0x00043334 File Offset: 0x00041534
 		private void CheckAndChangeState()
 		{
 			if (this.MustRetreatToCastle())
@@ -128,7 +122,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011E9 RID: 4585 RVA: 0x00043354 File Offset: 0x00041554
 		private void ArrangeDefenseFronts()
 		{
 			this._meleeFormations = base.FormationsIncludingEmpty.Where((Formation f) => f.CountOfUnits > 0 && (f.QuerySystem.IsInfantryFormation || f.QuerySystem.IsCavalryFormation)).ToList<Formation>();
@@ -183,7 +176,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011EA RID: 4586 RVA: 0x000436C8 File Offset: 0x000418C8
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -198,7 +190,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011EB RID: 4587 RVA: 0x000436ED File Offset: 0x000418ED
 		protected internal override float GetTacticWeight()
 		{
 			if (this._defendPosition.IsValid)
@@ -208,31 +199,22 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x040004B6 RID: 1206
 		private WorldPosition _defendPosition;
 
-		// Token: 0x040004B7 RID: 1207
 		private readonly List<TacticPerimeterDefense.EnemyCluster> _enemyClusters;
 
-		// Token: 0x040004B8 RID: 1208
 		private readonly List<TacticPerimeterDefense.DefenseFront> _defenseFronts;
 
-		// Token: 0x040004B9 RID: 1209
 		private const float RetreatThresholdValue = 2f;
 
-		// Token: 0x040004BA RID: 1210
 		private List<Formation> _meleeFormations;
 
-		// Token: 0x040004BB RID: 1211
 		private List<Formation> _rangedFormations;
 
-		// Token: 0x040004BC RID: 1212
 		private bool _isRetreatingToKeep;
 
-		// Token: 0x020004C4 RID: 1220
 		private class DefenseFront
 		{
-			// Token: 0x060037DA RID: 14298 RVA: 0x000E31FF File Offset: 0x000E13FF
 			public DefenseFront(TacticPerimeterDefense.EnemyCluster matchedEnemyCluster, Formation meleeFormation)
 			{
 				this.MatchedEnemyCluster = matchedEnemyCluster;
@@ -240,36 +222,24 @@ namespace TaleWorlds.MountAndBlade
 				this.RangedFormation = null;
 			}
 
-			// Token: 0x04001A8C RID: 6796
 			public Formation MeleeFormation;
 
-			// Token: 0x04001A8D RID: 6797
 			public Formation RangedFormation;
 
-			// Token: 0x04001A8E RID: 6798
 			public TacticPerimeterDefense.EnemyCluster MatchedEnemyCluster;
 		}
 
-		// Token: 0x020004C5 RID: 1221
 		private class EnemyCluster
 		{
-			// Token: 0x17000956 RID: 2390
-			// (get) Token: 0x060037DB RID: 14299 RVA: 0x000E321C File Offset: 0x000E141C
-			// (set) Token: 0x060037DC RID: 14300 RVA: 0x000E3224 File Offset: 0x000E1424
 			public Vec2 AggregatePosition { get; private set; }
 
-			// Token: 0x17000957 RID: 2391
-			// (get) Token: 0x060037DD RID: 14301 RVA: 0x000E322D File Offset: 0x000E142D
-			// (set) Token: 0x060037DE RID: 14302 RVA: 0x000E3235 File Offset: 0x000E1435
 			public WorldPosition MedianAggregatePosition { get; private set; }
 
-			// Token: 0x060037DF RID: 14303 RVA: 0x000E323E File Offset: 0x000E143E
 			public EnemyCluster()
 			{
 				this.enemyFormations = new List<Formation>();
 			}
 
-			// Token: 0x060037E0 RID: 14304 RVA: 0x000E3254 File Offset: 0x000E1454
 			public void UpdateClusterData()
 			{
 				this.totalPower = this.enemyFormations.Sum((Formation ef) => ef.QuerySystem.FormationPower);
@@ -281,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 				this.UpdateMedianPosition();
 			}
 
-			// Token: 0x060037E1 RID: 14305 RVA: 0x000E3314 File Offset: 0x000E1514
 			public void AddToCluster(Formation formation)
 			{
 				this.enemyFormations.Add(formation);
@@ -291,7 +260,6 @@ namespace TaleWorlds.MountAndBlade
 				this.UpdateMedianPosition();
 			}
 
-			// Token: 0x060037E2 RID: 14306 RVA: 0x000E3394 File Offset: 0x000E1594
 			public void RemoveFromCluster(Formation formation)
 			{
 				this.enemyFormations.Remove(formation);
@@ -302,7 +270,6 @@ namespace TaleWorlds.MountAndBlade
 				this.UpdateMedianPosition();
 			}
 
-			// Token: 0x060037E3 RID: 14307 RVA: 0x000E341C File Offset: 0x000E161C
 			private void UpdateMedianPosition()
 			{
 				float num = float.MaxValue;
@@ -317,10 +284,8 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001A8F RID: 6799
 			public List<Formation> enemyFormations;
 
-			// Token: 0x04001A90 RID: 6800
 			public float totalPower;
 		}
 	}

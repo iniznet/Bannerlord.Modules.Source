@@ -19,30 +19,25 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace SandBox.Missions.MissionLogics.Towns
 {
-	// Token: 0x0200005B RID: 91
 	public class PrisonBreakMissionController : MissionLogic
 	{
-		// Token: 0x060003EF RID: 1007 RVA: 0x0001C512 File Offset: 0x0001A712
 		public PrisonBreakMissionController(CharacterObject prisonerCharacter, CharacterObject companionCharacter)
 		{
 			this._prisonerCharacter = prisonerCharacter;
 			this._companionCharacter = companionCharacter;
 		}
 
-		// Token: 0x060003F0 RID: 1008 RVA: 0x0001C528 File Offset: 0x0001A728
 		public override void OnCreated()
 		{
 			base.OnCreated();
 			base.Mission.DoesMissionRequireCivilianEquipment = true;
 		}
 
-		// Token: 0x060003F1 RID: 1009 RVA: 0x0001C53C File Offset: 0x0001A73C
 		public override void OnBehaviorInitialize()
 		{
 			base.Mission.IsAgentInteractionAllowed_AdditionalCondition += this.IsAgentInteractionAllowed_AdditionalCondition;
 		}
 
-		// Token: 0x060003F2 RID: 1010 RVA: 0x0001C558 File Offset: 0x0001A758
 		public override void AfterStart()
 		{
 			this._isPrisonerFollowing = true;
@@ -75,7 +70,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this.SetTeams();
 		}
 
-		// Token: 0x060003F3 RID: 1011 RVA: 0x0001C710 File Offset: 0x0001A910
 		public override void OnMissionTick(float dt)
 		{
 			SandBoxHelpers.MissionHelper.FadeOutAgents(this._agentsToRemove, true, true);
@@ -86,7 +80,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003F4 RID: 1012 RVA: 0x0001C738 File Offset: 0x0001A938
 		public override void OnObjectUsed(Agent userAgent, UsableMissionObject usedObject)
 		{
 			if (this._guardAgents != null && usedObject is AnimationPoint && this._guardAgents.Contains(userAgent))
@@ -95,7 +88,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003F5 RID: 1013 RVA: 0x0001C760 File Offset: 0x0001A960
 		public override void OnAgentInteraction(Agent userAgent, Agent agent)
 		{
 			if (userAgent == Agent.Main && agent == this._prisonerAgent)
@@ -104,13 +96,11 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003F6 RID: 1014 RVA: 0x0001C77A File Offset: 0x0001A97A
 		public override bool IsThereAgentAction(Agent userAgent, Agent otherAgent)
 		{
 			return userAgent == Agent.Main && otherAgent == this._prisonerAgent;
 		}
 
-		// Token: 0x060003F7 RID: 1015 RVA: 0x0001C790 File Offset: 0x0001A990
 		private void PreparePrisonAgent()
 		{
 			this._prisonerAgent.Health = this._prisonerAgent.HealthLimit;
@@ -124,7 +114,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this._prisonerAgent.EquipWeaponWithNewEntity(0, ref missionWeapon);
 		}
 
-		// Token: 0x060003F8 RID: 1016 RVA: 0x0001C858 File Offset: 0x0001AA58
 		public override void OnAgentAlarmedStateChanged(Agent agent, Agent.AIStateFlag flag)
 		{
 			if (agent == this._prisonerAgent && flag != 1)
@@ -134,7 +123,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this.UpdateDoorPermission();
 		}
 
-		// Token: 0x060003F9 RID: 1017 RVA: 0x0001C874 File Offset: 0x0001AA74
 		private void ArrangeGuardCount()
 		{
 			int num = 2 + Settlement.CurrentSettlement.Town.GetWallLevel();
@@ -195,7 +183,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this._guardAgents = base.Mission.Agents.Where((Agent x) => x.Character is CharacterObject && ((CharacterObject)x.Character).IsSoldier && !this._agentsToRemove.Contains(x)).ToList<Agent>();
 		}
 
-		// Token: 0x060003FA RID: 1018 RVA: 0x0001CB24 File Offset: 0x0001AD24
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (this._guardAgents.Contains(affectedAgent))
@@ -215,7 +202,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003FB RID: 1019 RVA: 0x0001CB8C File Offset: 0x0001AD8C
 		private void CheckPrisonerSwitchToAlarmState()
 		{
 			foreach (Agent agent in this._guardAgents)
@@ -228,7 +214,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003FC RID: 1020 RVA: 0x0001CC18 File Offset: 0x0001AE18
 		private void SwitchPrisonerFollowingState(bool forceFollow = false)
 		{
 			this._isPrisonerFollowing = forceFollow || !this._isPrisonerFollowing;
@@ -249,7 +234,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this._prisonerAgent.AIStateFlags = 0;
 		}
 
-		// Token: 0x060003FD RID: 1021 RVA: 0x0001CCCC File Offset: 0x0001AECC
 		public override InquiryData OnEndMissionRequest(out bool canLeave)
 		{
 			bool flag;
@@ -269,7 +253,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			return null;
 		}
 
-		// Token: 0x060003FE RID: 1022 RVA: 0x0001CD44 File Offset: 0x0001AF44
 		private void SetTeams()
 		{
 			base.Mission.PlayerTeam.SetIsEnemyOf(base.Mission.PlayerEnemyTeam, true);
@@ -286,7 +269,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x060003FF RID: 1023 RVA: 0x0001CE24 File Offset: 0x0001B024
 		protected override void OnEndMission()
 		{
 			if (PlayerEncounter.LocationEncounter.CharactersAccompanyingPlayer.Any((AccompanyingCharacter x) => x.LocationCharacter.Character == this._prisonerCharacter))
@@ -310,7 +292,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			base.Mission.IsAgentInteractionAllowed_AdditionalCondition -= this.IsAgentInteractionAllowed_AdditionalCondition;
 		}
 
-		// Token: 0x06000400 RID: 1024 RVA: 0x0001CEE4 File Offset: 0x0001B0E4
 		private void UpdateDoorPermission()
 		{
 			bool flag;
@@ -336,34 +317,25 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x06000401 RID: 1025 RVA: 0x0001CF88 File Offset: 0x0001B188
 		private bool IsAgentInteractionAllowed_AdditionalCondition()
 		{
 			return true;
 		}
 
-		// Token: 0x040001D8 RID: 472
 		private const int PrisonerSwitchToAlarmedDistance = 3;
 
-		// Token: 0x040001D9 RID: 473
 		private readonly CharacterObject _prisonerCharacter;
 
-		// Token: 0x040001DA RID: 474
 		private readonly CharacterObject _companionCharacter;
 
-		// Token: 0x040001DB RID: 475
 		private List<Agent> _guardAgents;
 
-		// Token: 0x040001DC RID: 476
 		private List<Agent> _agentsToRemove;
 
-		// Token: 0x040001DD RID: 477
 		private Agent _prisonerAgent;
 
-		// Token: 0x040001DE RID: 478
 		private List<AreaMarker> _areaMarkers;
 
-		// Token: 0x040001DF RID: 479
 		private bool _isPrisonerFollowing;
 	}
 }

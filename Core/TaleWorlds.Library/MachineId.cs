@@ -5,10 +5,8 @@ using System.Text;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000059 RID: 89
 	public static class MachineId
 	{
-		// Token: 0x06000282 RID: 642 RVA: 0x000070B4 File Offset: 0x000052B4
 		public static void Initialize()
 		{
 			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -19,7 +17,6 @@ namespace TaleWorlds.Library
 			MachineId.MachineIdString = MachineId.ProcessId();
 		}
 
-		// Token: 0x06000283 RID: 643 RVA: 0x000070D7 File Offset: 0x000052D7
 		public static int AsInteger()
 		{
 			if (!string.IsNullOrEmpty(MachineId.MachineIdString))
@@ -29,13 +26,11 @@ namespace TaleWorlds.Library
 			return 0;
 		}
 
-		// Token: 0x06000284 RID: 644 RVA: 0x000070FC File Offset: 0x000052FC
 		private static string ProcessId()
 		{
 			return "" + MachineId.GetMotherboardIdentifier() + MachineId.GetCpuIdentifier() + MachineId.GetDiskIdentifier();
 		}
 
-		// Token: 0x06000285 RID: 645 RVA: 0x00007124 File Offset: 0x00005324
 		private static string GetMotherboardIdentifier()
 		{
 			string text = "";
@@ -57,7 +52,6 @@ namespace TaleWorlds.Library
 			return text;
 		}
 
-		// Token: 0x06000286 RID: 646 RVA: 0x000071EC File Offset: 0x000053EC
 		private static string GetCpuIdentifier()
 		{
 			string text = "";
@@ -79,7 +73,6 @@ namespace TaleWorlds.Library
 			return text;
 		}
 
-		// Token: 0x06000287 RID: 647 RVA: 0x000072B4 File Offset: 0x000054B4
 		private static string GetDiskIdentifier()
 		{
 			string text = "";
@@ -105,7 +98,6 @@ namespace TaleWorlds.Library
 			return text;
 		}
 
-		// Token: 0x040000F0 RID: 240
 		private static string MachineIdString;
 	}
 }

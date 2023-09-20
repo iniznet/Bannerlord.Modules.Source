@@ -11,10 +11,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200037B RID: 891
 	public class BuildingsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003410 RID: 13328 RVA: 0x000D9A60 File Offset: 0x000D7C60
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
@@ -22,18 +20,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnBuildingLevelChangedEvent.AddNonSerializedListener(this, new Action<Town, Building, int>(this.OnBuildingLevelChanged));
 		}
 
-		// Token: 0x06003411 RID: 13329 RVA: 0x000D9AB2 File Offset: 0x000D7CB2
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003412 RID: 13330 RVA: 0x000D9AB4 File Offset: 0x000D7CB4
 		private void OnNewGameCreated(CampaignGameStarter starter)
 		{
 			BuildingsCampaignBehavior.BuildDevelopmentsAtGameStart();
 		}
 
-		// Token: 0x06003413 RID: 13331 RVA: 0x000D9ABC File Offset: 0x000D7CBC
 		private void DecideProject(Town town)
 		{
 			if (town.Owner.Settlement.OwnerClan != Clan.PlayerClan && town.BuildingsInProgress.Count < 3)
@@ -53,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003414 RID: 13332 RVA: 0x000D9B34 File Offset: 0x000D7D34
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsFortification)
@@ -70,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003415 RID: 13333 RVA: 0x000D9BB4 File Offset: 0x000D7DB4
 		private void OnBuildingLevelChanged(Town town, Building building, int levelChange)
 		{
 			if (levelChange > 0)
@@ -94,7 +87,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003416 RID: 13334 RVA: 0x000D9C60 File Offset: 0x000D7E60
 		private static void BuildDevelopmentsAtGameStart()
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -196,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003417 RID: 13335 RVA: 0x000DA05C File Offset: 0x000D825C
 		private static void GetBuildingProbability(out bool haveBuilding, out int level)
 		{
 			level = MBRandom.RandomInt(0, 7);

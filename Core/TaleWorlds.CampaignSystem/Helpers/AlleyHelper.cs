@@ -10,16 +10,13 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000008 RID: 8
 	public static class AlleyHelper
 	{
-		// Token: 0x06000023 RID: 35 RVA: 0x000037D1 File Offset: 0x000019D1
 		public static void OpenScreenForManagingAlley(TroopRoster leftMemberRoster, PartyPresentationDoneButtonDelegate onDoneButtonClicked, TextObject leftText, PartyPresentationCancelButtonDelegate onCancelButtonClicked = null)
 		{
 			PartyScreenManager.OpenScreenForManagingAlley(leftMemberRoster, new IsTroopTransferableDelegate(AlleyHelper.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(AlleyHelper.DoneButtonCondition), onDoneButtonClicked, leftText, onCancelButtonClicked);
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x000037F4 File Offset: 0x000019F4
 		private static Tuple<bool, TextObject> DoneButtonCondition(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, int lefLimitNum, int rightLimitNum)
 		{
 			if (leftMemberRoster.TotalRegulars > Campaign.Current.Models.AlleyModel.MaximumTroopCountInPlayerOwnedAlley)
@@ -37,13 +34,11 @@ namespace Helpers
 			return new Tuple<bool, TextObject>(true, TextObject.Empty);
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x000038AC File Offset: 0x00001AAC
 		private static bool IsTroopTransferable(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase leftOwnerParty)
 		{
 			return !character.IsHero && type != PartyScreenLogic.TroopType.Prisoner;
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x000038C0 File Offset: 0x00001AC0
 		public static void CreateMultiSelectionInquiryForSelectingClanMemberToAlley(Alley alley, Action<List<InquiryElement>> affirmativeAction, Action<List<InquiryElement>> negativeAction)
 		{
 			List<InquiryElement> list = new List<InquiryElement>();

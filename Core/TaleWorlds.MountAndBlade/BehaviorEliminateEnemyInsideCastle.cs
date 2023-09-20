@@ -6,10 +6,8 @@ using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000105 RID: 261
 	public class BehaviorEliminateEnemyInsideCastle : BehaviorComponent
 	{
-		// Token: 0x06000CCF RID: 3279 RVA: 0x0001CD30 File Offset: 0x0001AF30
 		public BehaviorEliminateEnemyInsideCastle(Formation formation)
 			: base(formation)
 		{
@@ -18,14 +16,12 @@ namespace TaleWorlds.MountAndBlade
 			this.ResetOrderPositions();
 		}
 
-		// Token: 0x06000CD0 RID: 3280 RVA: 0x0001CD57 File Offset: 0x0001AF57
 		protected override void CalculateCurrentOrder()
 		{
 			base.CalculateCurrentOrder();
 			base.CurrentOrder = ((this._behaviorState == BehaviorEliminateEnemyInsideCastle.BehaviorState.Attacking) ? this._attackOrder : this._gatherOrder);
 		}
 
-		// Token: 0x06000CD1 RID: 3281 RVA: 0x0001CD7C File Offset: 0x0001AF7C
 		private void DetermineMostImportantInvadingEnemyFormation()
 		{
 			float num = float.MinValue;
@@ -51,7 +47,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CD2 RID: 3282 RVA: 0x0001CE5C File Offset: 0x0001B05C
 		private void ConfirmGatheringSide()
 		{
 			SiegeLane siegeLane = TeamAISiegeComponent.SiegeLanes.FirstOrDefault((SiegeLane sl) => sl.LaneSide == this._behaviorSide);
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CD3 RID: 3283 RVA: 0x0001CE94 File Offset: 0x0001B094
 		private FormationAI.BehaviorSide DetermineGatheringSide()
 		{
 			this.DetermineMostImportantInvadingEnemyFormation();
@@ -92,7 +86,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorSide;
 		}
 
-		// Token: 0x06000CD4 RID: 3284 RVA: 0x0001CFB0 File Offset: 0x0001B1B0
 		private void ResetOrderPositions()
 		{
 			this._behaviorSide = this.DetermineGatheringSide();
@@ -170,14 +163,12 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = ((this._behaviorState == BehaviorEliminateEnemyInsideCastle.BehaviorState.Attacking) ? this._attackFacingOrder : this._gatheringFacingOrder);
 		}
 
-		// Token: 0x06000CD5 RID: 3285 RVA: 0x0001D1A8 File Offset: 0x0001B3A8
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this.ResetOrderPositions();
 		}
 
-		// Token: 0x06000CD6 RID: 3286 RVA: 0x0001D1B8 File Offset: 0x0001B3B8
 		public override void TickOccasionally()
 		{
 			base.TickOccasionally();
@@ -209,7 +200,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CD7 RID: 3287 RVA: 0x0001D334 File Offset: 0x0001B534
 		protected override void OnBehaviorActivatedAux()
 		{
 			this._behaviorState = BehaviorEliminateEnemyInsideCastle.BehaviorState.UnSet;
@@ -223,8 +213,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x17000315 RID: 789
-		// (get) Token: 0x06000CD8 RID: 3288 RVA: 0x0001D3C6 File Offset: 0x0001B5C6
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -233,41 +221,29 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CD9 RID: 3289 RVA: 0x0001D3CD File Offset: 0x0001B5CD
 		protected override float GetAiWeight()
 		{
 			return 1f;
 		}
 
-		// Token: 0x04000313 RID: 787
 		private BehaviorEliminateEnemyInsideCastle.BehaviorState _behaviorState;
 
-		// Token: 0x04000314 RID: 788
 		private MovementOrder _gatherOrder;
 
-		// Token: 0x04000315 RID: 789
 		private MovementOrder _attackOrder;
 
-		// Token: 0x04000316 RID: 790
 		private FacingOrder _gatheringFacingOrder;
 
-		// Token: 0x04000317 RID: 791
 		private FacingOrder _attackFacingOrder;
 
-		// Token: 0x04000318 RID: 792
 		private TacticalPosition _gatheringTacticalPos;
 
-		// Token: 0x04000319 RID: 793
 		private Formation _targetEnemyFormation;
 
-		// Token: 0x02000443 RID: 1091
 		private enum BehaviorState
 		{
-			// Token: 0x04001856 RID: 6230
 			UnSet,
-			// Token: 0x04001857 RID: 6231
 			Gathering,
-			// Token: 0x04001858 RID: 6232
 			Attacking
 		}
 	}

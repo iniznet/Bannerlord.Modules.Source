@@ -6,46 +6,25 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x020000BD RID: 189
 	public sealed class SkeletonScale : MBObjectBase
 	{
-		// Token: 0x1700032C RID: 812
-		// (get) Token: 0x06000970 RID: 2416 RVA: 0x0001F600 File Offset: 0x0001D800
-		// (set) Token: 0x06000971 RID: 2417 RVA: 0x0001F608 File Offset: 0x0001D808
 		public string SkeletonModel { get; private set; }
 
-		// Token: 0x1700032D RID: 813
-		// (get) Token: 0x06000972 RID: 2418 RVA: 0x0001F611 File Offset: 0x0001D811
-		// (set) Token: 0x06000973 RID: 2419 RVA: 0x0001F619 File Offset: 0x0001D819
 		public Vec3 MountSitBoneScale { get; private set; }
 
-		// Token: 0x1700032E RID: 814
-		// (get) Token: 0x06000974 RID: 2420 RVA: 0x0001F622 File Offset: 0x0001D822
-		// (set) Token: 0x06000975 RID: 2421 RVA: 0x0001F62A File Offset: 0x0001D82A
 		public float MountRadiusAdder { get; private set; }
 
-		// Token: 0x1700032F RID: 815
-		// (get) Token: 0x06000976 RID: 2422 RVA: 0x0001F633 File Offset: 0x0001D833
-		// (set) Token: 0x06000977 RID: 2423 RVA: 0x0001F63B File Offset: 0x0001D83B
 		public Vec3[] Scales { get; private set; }
 
-		// Token: 0x17000330 RID: 816
-		// (get) Token: 0x06000978 RID: 2424 RVA: 0x0001F644 File Offset: 0x0001D844
-		// (set) Token: 0x06000979 RID: 2425 RVA: 0x0001F64C File Offset: 0x0001D84C
 		public List<string> BoneNames { get; private set; }
 
-		// Token: 0x17000331 RID: 817
-		// (get) Token: 0x0600097A RID: 2426 RVA: 0x0001F655 File Offset: 0x0001D855
-		// (set) Token: 0x0600097B RID: 2427 RVA: 0x0001F65D File Offset: 0x0001D85D
 		public sbyte[] BoneIndices { get; private set; }
 
-		// Token: 0x0600097C RID: 2428 RVA: 0x0001F666 File Offset: 0x0001D866
 		public SkeletonScale()
 		{
 			this.BoneNames = null;
 		}
 
-		// Token: 0x0600097D RID: 2429 RVA: 0x0001F678 File Offset: 0x0001D878
 		public override void Deserialize(MBObjectManager objectManager, XmlNode node)
 		{
 			base.Deserialize(objectManager, node);
@@ -106,7 +85,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x0600097E RID: 2430 RVA: 0x0001F908 File Offset: 0x0001DB08
 		public void SetBoneIndices(sbyte[] boneIndices)
 		{
 			this.BoneIndices = boneIndices;

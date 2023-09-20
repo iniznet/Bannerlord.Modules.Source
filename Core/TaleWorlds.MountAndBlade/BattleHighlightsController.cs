@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200025F RID: 607
 	public class BattleHighlightsController : MissionLogic
 	{
-		// Token: 0x060020BB RID: 8379 RVA: 0x000752DC File Offset: 0x000734DC
 		public override void AfterStart()
 		{
 			this._highlightsController = Mission.Current.GetMissionBehavior<HighlightsController>();
@@ -19,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020BC RID: 8380 RVA: 0x0007533C File Offset: 0x0007353C
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectorAgent != null && affectedAgent != null && affectorAgent.IsHuman && affectedAgent.IsHuman && (agentState == AgentState.Killed || agentState == AgentState.Unconscious))
@@ -78,7 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000C12 RID: 3090
 		private List<HighlightsController.HighlightType> _highlightTypes = new List<HighlightsController.HighlightType>
 		{
 			new HighlightsController.HighlightType("hlid_kill_last_enemy_on_battlefield", "Take No Prisoners", "grpid_incidents", -5000, 3000, 0f, float.MaxValue, false),
@@ -86,7 +82,6 @@ namespace TaleWorlds.MountAndBlade
 			new HighlightsController.HighlightType("hlid_wall_break_kill", "Wall Break Kill", "grpid_incidents", -5000, 3000, 0.25f, 100f, true)
 		};
 
-		// Token: 0x04000C13 RID: 3091
 		private HighlightsController _highlightsController;
 	}
 }

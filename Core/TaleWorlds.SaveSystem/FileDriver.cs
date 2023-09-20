@@ -8,11 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x0200000D RID: 13
 	public class FileDriver : ISaveDriver
 	{
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600001F RID: 31 RVA: 0x0000232C File Offset: 0x0000052C
 		private static PlatformDirectoryPath SavePath
 		{
 			get
@@ -22,13 +19,11 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x00002346 File Offset: 0x00000546
 		private PlatformFilePath GetSaveFilePath(string fileName)
 		{
 			return new PlatformFilePath(FileDriver.SavePath, fileName);
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x00002354 File Offset: 0x00000554
 		public Task<SaveResultWithMessage> Save(string saveName, int version, MetaData metaData, GameData gameData)
 		{
 			SaveResult saveResult = SaveResult.FileDriverFailure;
@@ -55,7 +50,6 @@ namespace TaleWorlds.SaveSystem
 			return Task.FromResult<SaveResultWithMessage>(new SaveResultWithMessage(saveResult, error));
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x00002430 File Offset: 0x00000630
 		public MetaData LoadMetaData(string saveName)
 		{
 			byte[] fileContent = FileHelper.GetFileContent(this.GetSaveFilePath(saveName + ".sav"));
@@ -67,7 +61,6 @@ namespace TaleWorlds.SaveSystem
 			return null;
 		}
 
-		// Token: 0x06000023 RID: 35 RVA: 0x00002480 File Offset: 0x00000680
 		public LoadData Load(string saveName)
 		{
 			byte[] fileContent = FileHelper.GetFileContent(this.GetSaveFilePath(saveName + ".sav"));
@@ -102,7 +95,6 @@ namespace TaleWorlds.SaveSystem
 			return null;
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00002590 File Offset: 0x00000790
 		public SaveGameFileInfo[] GetSaveGameFileInfos()
 		{
 			PlatformFilePath[] files = FileHelper.GetFiles(FileDriver.SavePath, "*.sav");
@@ -124,7 +116,6 @@ namespace TaleWorlds.SaveSystem
 			return list.ToArray();
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x00002630 File Offset: 0x00000830
 		private ApplicationVersion GetApplicationVersionOfMetaData(MetaData metaData)
 		{
 			string text = ((metaData != null) ? metaData["ApplicationVersion"] : null);
@@ -135,7 +126,6 @@ namespace TaleWorlds.SaveSystem
 			return ApplicationVersion.FromString(text, 17949);
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x00002664 File Offset: 0x00000864
 		public string[] GetSaveGameFileNames()
 		{
 			List<string> list = new List<string>();
@@ -151,7 +141,6 @@ namespace TaleWorlds.SaveSystem
 			return list.ToArray();
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x000026B8 File Offset: 0x000008B8
 		public bool Delete(string saveName)
 		{
 			PlatformFilePath saveFilePath = this.GetSaveFilePath(saveName + ".sav");
@@ -163,19 +152,16 @@ namespace TaleWorlds.SaveSystem
 			return false;
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x000026E8 File Offset: 0x000008E8
 		public bool IsSaveGameFileExists(string saveName)
 		{
 			return FileHelper.FileExists(this.GetSaveFilePath(saveName + ".sav"));
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00002700 File Offset: 0x00000900
 		public bool IsWorkingAsync()
 		{
 			return false;
 		}
 
-		// Token: 0x04000011 RID: 17
 		private const string SaveDirectoryName = "Game Saves";
 	}
 }

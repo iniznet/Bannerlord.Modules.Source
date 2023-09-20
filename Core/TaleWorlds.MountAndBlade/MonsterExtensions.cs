@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002D4 RID: 724
 	public static class MonsterExtensions
 	{
-		// Token: 0x06002807 RID: 10247 RVA: 0x0009AD9C File Offset: 0x00098F9C
 		public static AnimationSystemData FillAnimationSystemData(this Monster monster, float stepSize, bool hasClippingPlane, bool isFemale)
 		{
 			MonsterMissionData monsterMissionData = (MonsterMissionData)monster.MonsterMissionData;
@@ -14,7 +12,6 @@ namespace TaleWorlds.MountAndBlade
 			return monster.FillAnimationSystemData(mbactionSet, stepSize, hasClippingPlane);
 		}
 
-		// Token: 0x06002808 RID: 10248 RVA: 0x0009ADE0 File Offset: 0x00098FE0
 		public static AnimationSystemData FillAnimationSystemData(this Monster monster, MBActionSet actionSet, float stepSize, bool hasClippingPlane)
 		{
 			AnimationSystemData animationSystemData = new AnimationSystemData
@@ -98,7 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			return animationSystemData;
 		}
 
-		// Token: 0x06002809 RID: 10249 RVA: 0x0009B218 File Offset: 0x00099418
 		private static bool CopyArrayAndTruncateSourceIfNecessary(ref sbyte[] destinationArray, out sbyte destinationArraySize, sbyte destinationArrayCapacity, sbyte[] sourceArray)
 		{
 			sbyte b = (sbyte)sourceArray.Length;
@@ -113,7 +109,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x0600280A RID: 10250 RVA: 0x0009B24C File Offset: 0x0009944C
 		public static AgentCapsuleData FillCapsuleData(this Monster monster)
 		{
 			MonsterMissionData monsterMissionData = (MonsterMissionData)monster.MonsterMissionData;
@@ -124,7 +119,6 @@ namespace TaleWorlds.MountAndBlade
 			};
 		}
 
-		// Token: 0x0600280B RID: 10251 RVA: 0x0009B288 File Offset: 0x00099488
 		public static AgentSpawnData FillSpawnData(this Monster monster, ItemObject mountItem)
 		{
 			return new AgentSpawnData

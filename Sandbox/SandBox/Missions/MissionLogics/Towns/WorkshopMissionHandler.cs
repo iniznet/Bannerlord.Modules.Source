@@ -11,11 +11,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Towns
 {
-	// Token: 0x0200005E RID: 94
 	public class WorkshopMissionHandler : MissionLogic
 	{
-		// Token: 0x17000054 RID: 84
-		// (get) Token: 0x06000412 RID: 1042 RVA: 0x0001D5B6 File Offset: 0x0001B7B6
 		public IEnumerable<Tuple<Workshop, GameEntity>> WorkshopSignEntities
 		{
 			get
@@ -24,13 +21,11 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x06000413 RID: 1043 RVA: 0x0001D5C4 File Offset: 0x0001B7C4
 		public WorkshopMissionHandler(Settlement settlement)
 		{
 			this._settlement = settlement;
 		}
 
-		// Token: 0x06000414 RID: 1044 RVA: 0x0001D61A File Offset: 0x0001B81A
 		public override void OnBehaviorInitialize()
 		{
 			this._missionAgentHandler = base.Mission.GetMissionBehavior<MissionAgentHandler>();
@@ -40,7 +35,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this._areaMarkers = new List<WorkshopAreaMarker>();
 		}
 
-		// Token: 0x06000415 RID: 1045 RVA: 0x0001D65C File Offset: 0x0001B85C
 		public override void EarlyStart()
 		{
 			for (int i = 0; i < this._settlement.Town.Workshops.Length; i++)
@@ -78,13 +72,11 @@ namespace SandBox.Missions.MissionLogics.Towns
 			this.SetBenches();
 		}
 
-		// Token: 0x06000416 RID: 1046 RVA: 0x0001D884 File Offset: 0x0001BA84
 		public override void AfterStart()
 		{
 			this.InitShopSigns();
 		}
 
-		// Token: 0x06000417 RID: 1047 RVA: 0x0001D88C File Offset: 0x0001BA8C
 		private WorkshopAreaMarker FindWorkshop(GameEntity prop)
 		{
 			foreach (WorkshopAreaMarker workshopAreaMarker in this._areaMarkers)
@@ -97,7 +89,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			return null;
 		}
 
-		// Token: 0x06000418 RID: 1048 RVA: 0x0001D8F0 File Offset: 0x0001BAF0
 		private void SetBenches()
 		{
 			MissionAgentHandler missionAgentHandler = this._missionAgentHandler;
@@ -128,7 +119,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x0001DA60 File Offset: 0x0001BC60
 		private void InitShopSigns()
 		{
 			if (Campaign.Current.GameMode == 1 && this._settlement != null && this._settlement.IsTown)
@@ -162,7 +152,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x0001DC10 File Offset: 0x0001BE10
 		private List<string> GetPrefabNames(int areaIndex, string propKind)
 		{
 			List<string> list = new List<string>();
@@ -197,25 +186,18 @@ namespace SandBox.Missions.MissionLogics.Towns
 			return list;
 		}
 
-		// Token: 0x040001E5 RID: 485
 		private Settlement _settlement;
 
-		// Token: 0x040001E6 RID: 486
 		private MissionAgentHandler _missionAgentHandler;
 
-		// Token: 0x040001E7 RID: 487
 		private string[] _propKinds = new string[] { "a", "b", "c", "d", "e", "f" };
 
-		// Token: 0x040001E8 RID: 488
 		private Dictionary<int, Dictionary<string, List<MatrixFrame>>> _propFrames;
 
-		// Token: 0x040001E9 RID: 489
 		private List<GameEntity> _listOfCurrentProps;
 
-		// Token: 0x040001EA RID: 490
 		private List<WorkshopAreaMarker> _areaMarkers;
 
-		// Token: 0x040001EB RID: 491
 		private List<Tuple<Workshop, GameEntity>> _workshopSignEntities;
 	}
 }

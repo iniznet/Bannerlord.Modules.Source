@@ -6,15 +6,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000366 RID: 870
 	public class TrajectoryVisualizer
 	{
-		// Token: 0x17000885 RID: 2181
-		// (get) Token: 0x06002F66 RID: 12134 RVA: 0x000C1301 File Offset: 0x000BF501
-		// (set) Token: 0x06002F67 RID: 12135 RVA: 0x000C1309 File Offset: 0x000BF509
 		public bool IsVisible { get; private set; }
 
-		// Token: 0x06002F68 RID: 12136 RVA: 0x000C1312 File Offset: 0x000BF512
 		public TrajectoryVisualizer(Scene scene)
 		{
 			this.trajectoryPointList = new List<GameEntity>();
@@ -22,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsVisible = true;
 		}
 
-		// Token: 0x06002F69 RID: 12137 RVA: 0x000C1334 File Offset: 0x000BF534
 		public void Init(Vec3 startingPosition, Vec3 startingVelocity, float simulationTime, float pointCount)
 		{
 			this.trajectoryPointList.Clear();
@@ -59,7 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F6A RID: 12138 RVA: 0x000C1518 File Offset: 0x000BF718
 		public void Clear()
 		{
 			foreach (GameEntity gameEntity in this.trajectoryPointList)
@@ -73,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F6B RID: 12139 RVA: 0x000C1598 File Offset: 0x000BF798
 		public void Update(Vec3 position, Vec3 velocity, float simulationTime, float pointCount, ItemObject missileItem)
 		{
 			if (missileItem != null)
@@ -101,7 +93,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F6C RID: 12140 RVA: 0x000C1634 File Offset: 0x000BF834
 		private void UpdateCollisionSpheres(Vec3 position, Vec3 velocity, ItemObject missileItem)
 		{
 			MissionWeapon missionWeapon = new MissionWeapon(missileItem, null, null);
@@ -136,7 +127,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F6D RID: 12141 RVA: 0x000C1800 File Offset: 0x000BFA00
 		public void SetVisible(bool isVisible)
 		{
 			if (this.IsVisible != isVisible)
@@ -154,22 +144,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04001370 RID: 4976
 		private List<GameEntity> trajectoryPointList;
 
-		// Token: 0x04001371 RID: 4977
 		protected MatrixFrame initialFrame;
 
-		// Token: 0x04001372 RID: 4978
 		private GameEntity[] collisionEntity;
 
-		// Token: 0x04001373 RID: 4979
 		private const int vectorCount = 0;
 
-		// Token: 0x04001374 RID: 4980
 		private const string trajectoryPointPrefabName = "trajectory_entity";
 
-		// Token: 0x04001376 RID: 4982
 		private Scene _scene;
 	}
 }

@@ -9,10 +9,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x0200004C RID: 76
 	public class MountAgentLogic : MissionLogic
 	{
-		// Token: 0x060003A6 RID: 934 RVA: 0x0001AEC0 File Offset: 0x000190C0
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			if (agent.IsMainAgent && agent.HasMount)
@@ -21,7 +19,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060003A7 RID: 935 RVA: 0x0001AEE0 File Offset: 0x000190E0
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent.IsMount && agentState == 4 && this._mainHeroMountAgent == affectedAgent)
@@ -74,7 +71,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x040001BD RID: 445
 		private Agent _mainHeroMountAgent;
 	}
 }

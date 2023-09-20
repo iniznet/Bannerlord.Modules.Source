@@ -8,11 +8,8 @@ using TaleWorlds.MountAndBlade.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200016B RID: 363
 	public class TeamQuerySystem
 	{
-		// Token: 0x170003F6 RID: 1014
-		// (get) Token: 0x0600128C RID: 4748 RVA: 0x00048189 File Offset: 0x00046389
 		public int MemberCount
 		{
 			get
@@ -21,8 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003F7 RID: 1015
-		// (get) Token: 0x0600128D RID: 4749 RVA: 0x00048196 File Offset: 0x00046396
 		public WorldPosition MedianPosition
 		{
 			get
@@ -31,8 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003F8 RID: 1016
-		// (get) Token: 0x0600128E RID: 4750 RVA: 0x000481A3 File Offset: 0x000463A3
 		public Vec2 AveragePosition
 		{
 			get
@@ -41,8 +34,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003F9 RID: 1017
-		// (get) Token: 0x0600128F RID: 4751 RVA: 0x000481B0 File Offset: 0x000463B0
 		public Vec2 AverageEnemyPosition
 		{
 			get
@@ -51,8 +42,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FA RID: 1018
-		// (get) Token: 0x06001290 RID: 4752 RVA: 0x000481BD File Offset: 0x000463BD
 		public WorldPosition MedianTargetFormationPosition
 		{
 			get
@@ -61,8 +50,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FB RID: 1019
-		// (get) Token: 0x06001291 RID: 4753 RVA: 0x000481CA File Offset: 0x000463CA
 		public WorldPosition LeftFlankEdgePosition
 		{
 			get
@@ -71,8 +58,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FC RID: 1020
-		// (get) Token: 0x06001292 RID: 4754 RVA: 0x000481D7 File Offset: 0x000463D7
 		public WorldPosition RightFlankEdgePosition
 		{
 			get
@@ -81,8 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FD RID: 1021
-		// (get) Token: 0x06001293 RID: 4755 RVA: 0x000481E4 File Offset: 0x000463E4
 		public float InfantryRatio
 		{
 			get
@@ -91,8 +74,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FE RID: 1022
-		// (get) Token: 0x06001294 RID: 4756 RVA: 0x000481F1 File Offset: 0x000463F1
 		public float RangedRatio
 		{
 			get
@@ -101,8 +82,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06001295 RID: 4757 RVA: 0x000481FE File Offset: 0x000463FE
 		public float CavalryRatio
 		{
 			get
@@ -111,8 +90,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06001296 RID: 4758 RVA: 0x0004820B File Offset: 0x0004640B
 		public float RangedCavalryRatio
 		{
 			get
@@ -121,8 +98,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06001297 RID: 4759 RVA: 0x00048218 File Offset: 0x00046418
 		public int AllyUnitCount
 		{
 			get
@@ -131,8 +106,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06001298 RID: 4760 RVA: 0x00048225 File Offset: 0x00046425
 		public int EnemyUnitCount
 		{
 			get
@@ -141,8 +114,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06001299 RID: 4761 RVA: 0x00048232 File Offset: 0x00046432
 		public float AllyInfantryRatio
 		{
 			get
@@ -151,8 +122,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x0600129A RID: 4762 RVA: 0x0004823F File Offset: 0x0004643F
 		public float AllyRangedRatio
 		{
 			get
@@ -161,8 +130,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x0600129B RID: 4763 RVA: 0x0004824C File Offset: 0x0004644C
 		public float AllyCavalryRatio
 		{
 			get
@@ -171,8 +138,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x0600129C RID: 4764 RVA: 0x00048259 File Offset: 0x00046459
 		public float AllyRangedCavalryRatio
 		{
 			get
@@ -181,8 +146,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x0600129D RID: 4765 RVA: 0x00048266 File Offset: 0x00046466
 		public float EnemyInfantryRatio
 		{
 			get
@@ -191,8 +154,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000408 RID: 1032
-		// (get) Token: 0x0600129E RID: 4766 RVA: 0x00048273 File Offset: 0x00046473
 		public float EnemyRangedRatio
 		{
 			get
@@ -201,8 +162,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000409 RID: 1033
-		// (get) Token: 0x0600129F RID: 4767 RVA: 0x00048280 File Offset: 0x00046480
 		public float EnemyCavalryRatio
 		{
 			get
@@ -211,8 +170,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040A RID: 1034
-		// (get) Token: 0x060012A0 RID: 4768 RVA: 0x0004828D File Offset: 0x0004648D
 		public float EnemyRangedCavalryRatio
 		{
 			get
@@ -221,8 +178,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040B RID: 1035
-		// (get) Token: 0x060012A1 RID: 4769 RVA: 0x0004829A File Offset: 0x0004649A
 		public float RemainingPowerRatio
 		{
 			get
@@ -231,8 +186,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040C RID: 1036
-		// (get) Token: 0x060012A2 RID: 4770 RVA: 0x000482A7 File Offset: 0x000464A7
 		public float TeamPower
 		{
 			get
@@ -241,8 +194,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040D RID: 1037
-		// (get) Token: 0x060012A3 RID: 4771 RVA: 0x000482B4 File Offset: 0x000464B4
 		public float TotalPowerRatio
 		{
 			get
@@ -251,8 +202,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040E RID: 1038
-		// (get) Token: 0x060012A4 RID: 4772 RVA: 0x000482C1 File Offset: 0x000464C1
 		public float InsideWallsRatio
 		{
 			get
@@ -261,8 +210,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700040F RID: 1039
-		// (get) Token: 0x060012A5 RID: 4773 RVA: 0x000482CE File Offset: 0x000464CE
 		public BattlePowerCalculationLogic BattlePowerLogic
 		{
 			get
@@ -275,8 +222,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x060012A6 RID: 4774 RVA: 0x000482EF File Offset: 0x000464EF
 		public CasualtyHandler CasualtyHandler
 		{
 			get
@@ -289,8 +234,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x060012A7 RID: 4775 RVA: 0x00048310 File Offset: 0x00046510
 		public float MaxUnderRangedAttackRatio
 		{
 			get
@@ -299,18 +242,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x060012A8 RID: 4776 RVA: 0x0004831D File Offset: 0x0004651D
-		// (set) Token: 0x060012A9 RID: 4777 RVA: 0x00048325 File Offset: 0x00046525
 		public int DeathCount { get; private set; }
 
-		// Token: 0x17000413 RID: 1043
-		// (get) Token: 0x060012AA RID: 4778 RVA: 0x0004832E File Offset: 0x0004652E
-		// (set) Token: 0x060012AB RID: 4779 RVA: 0x00048336 File Offset: 0x00046536
 		public int DeathByRangedCount { get; private set; }
 
-		// Token: 0x17000414 RID: 1044
-		// (get) Token: 0x060012AC RID: 4780 RVA: 0x0004833F File Offset: 0x0004653F
 		public int AllyRangedUnitCount
 		{
 			get
@@ -319,8 +254,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000415 RID: 1045
-		// (get) Token: 0x060012AD RID: 4781 RVA: 0x00048350 File Offset: 0x00046550
 		public int AllCavalryUnitCount
 		{
 			get
@@ -329,8 +262,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000416 RID: 1046
-		// (get) Token: 0x060012AE RID: 4782 RVA: 0x00048361 File Offset: 0x00046561
 		public int EnemyRangedUnitCount
 		{
 			get
@@ -339,7 +270,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012AF RID: 4783 RVA: 0x00048374 File Offset: 0x00046574
 		public void Expire()
 		{
 			this._memberCount.Expire();
@@ -377,7 +307,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012B0 RID: 4784 RVA: 0x000484F8 File Offset: 0x000466F8
 		public void ExpireAfterUnitAddRemove()
 		{
 			this._memberCount.Expire();
@@ -401,12 +330,10 @@ namespace TaleWorlds.MountAndBlade
 			this._maxUnderRangedAttackRatio.Expire();
 		}
 
-		// Token: 0x060012B1 RID: 4785 RVA: 0x000485D6 File Offset: 0x000467D6
 		private void InitializeTelemetryScopeNames()
 		{
 		}
 
-		// Token: 0x060012B2 RID: 4786 RVA: 0x000485D8 File Offset: 0x000467D8
 		public TeamQuerySystem(Team team)
 		{
 			TeamQuerySystem <>4__this = this;
@@ -856,21 +783,18 @@ namespace TaleWorlds.MountAndBlade
 			this.InitializeTelemetryScopeNames();
 		}
 
-		// Token: 0x060012B3 RID: 4787 RVA: 0x00048984 File Offset: 0x00046B84
 		public void RegisterDeath()
 		{
 			int deathCount = this.DeathCount;
 			this.DeathCount = deathCount + 1;
 		}
 
-		// Token: 0x060012B4 RID: 4788 RVA: 0x000489A4 File Offset: 0x00046BA4
 		public void RegisterDeathByRanged()
 		{
 			int deathByRangedCount = this.DeathByRangedCount;
 			this.DeathByRangedCount = deathByRangedCount + 1;
 		}
 
-		// Token: 0x060012B5 RID: 4789 RVA: 0x000489C4 File Offset: 0x00046BC4
 		public float GetLocalAllyPower(Vec2 target)
 		{
 			return this.Team.FormationsIncludingSpecialAndEmpty.Sum(delegate(Formation f)
@@ -883,7 +807,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x060012B6 RID: 4790 RVA: 0x000489FC File Offset: 0x00046BFC
 		public float GetLocalEnemyPower(Vec2 target)
 		{
 			float num = 0f;
@@ -903,94 +826,64 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x0400051A RID: 1306
 		public readonly Team Team;
 
-		// Token: 0x0400051B RID: 1307
 		private readonly Mission _mission;
 
-		// Token: 0x0400051C RID: 1308
 		private readonly QueryData<int> _memberCount;
 
-		// Token: 0x0400051D RID: 1309
 		private readonly QueryData<WorldPosition> _medianPosition;
 
-		// Token: 0x0400051E RID: 1310
 		private readonly QueryData<Vec2> _averagePosition;
 
-		// Token: 0x0400051F RID: 1311
 		private readonly QueryData<Vec2> _averageEnemyPosition;
 
-		// Token: 0x04000520 RID: 1312
 		private readonly QueryData<WorldPosition> _medianTargetFormationPosition;
 
-		// Token: 0x04000521 RID: 1313
 		private readonly QueryData<WorldPosition> _leftFlankEdgePosition;
 
-		// Token: 0x04000522 RID: 1314
 		private readonly QueryData<WorldPosition> _rightFlankEdgePosition;
 
-		// Token: 0x04000523 RID: 1315
 		private readonly QueryData<float> _infantryRatio;
 
-		// Token: 0x04000524 RID: 1316
 		private readonly QueryData<float> _rangedRatio;
 
-		// Token: 0x04000525 RID: 1317
 		private readonly QueryData<float> _cavalryRatio;
 
-		// Token: 0x04000526 RID: 1318
 		private readonly QueryData<float> _rangedCavalryRatio;
 
-		// Token: 0x04000527 RID: 1319
 		private readonly QueryData<int> _allyMemberCount;
 
-		// Token: 0x04000528 RID: 1320
 		private readonly QueryData<int> _enemyMemberCount;
 
-		// Token: 0x04000529 RID: 1321
 		private readonly QueryData<float> _allyInfantryRatio;
 
-		// Token: 0x0400052A RID: 1322
 		private readonly QueryData<float> _allyRangedRatio;
 
-		// Token: 0x0400052B RID: 1323
 		private readonly QueryData<float> _allyCavalryRatio;
 
-		// Token: 0x0400052C RID: 1324
 		private readonly QueryData<float> _allyRangedCavalryRatio;
 
-		// Token: 0x0400052D RID: 1325
 		private readonly QueryData<float> _enemyInfantryRatio;
 
-		// Token: 0x0400052E RID: 1326
 		private readonly QueryData<float> _enemyRangedRatio;
 
-		// Token: 0x0400052F RID: 1327
 		private readonly QueryData<float> _enemyCavalryRatio;
 
-		// Token: 0x04000530 RID: 1328
 		private readonly QueryData<float> _enemyRangedCavalryRatio;
 
-		// Token: 0x04000531 RID: 1329
 		private readonly QueryData<float> _remainingPowerRatio;
 
-		// Token: 0x04000532 RID: 1330
 		private readonly QueryData<float> _teamPower;
 
-		// Token: 0x04000533 RID: 1331
 		private readonly QueryData<float> _totalPowerRatio;
 
-		// Token: 0x04000534 RID: 1332
 		private readonly QueryData<float> _insideWallsRatio;
 
-		// Token: 0x04000535 RID: 1333
 		private BattlePowerCalculationLogic _battlePowerLogic;
 
-		// Token: 0x04000536 RID: 1334
 		private CasualtyHandler _casualtyHandler;
 
-		// Token: 0x04000537 RID: 1335
 		private readonly QueryData<float> _maxUnderRangedAttackRatio;
 	}
 }

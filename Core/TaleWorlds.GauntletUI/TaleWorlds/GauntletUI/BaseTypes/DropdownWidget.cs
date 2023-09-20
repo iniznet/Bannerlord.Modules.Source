@@ -6,11 +6,8 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x02000058 RID: 88
 	public class DropdownWidget : Widget
 	{
-		// Token: 0x17000198 RID: 408
-		// (get) Token: 0x06000583 RID: 1411 RVA: 0x00017C4E File Offset: 0x00015E4E
 		private Vector2 ListPanelPositionInsideUsableArea
 		{
 			get
@@ -19,19 +16,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x17000199 RID: 409
-		// (get) Token: 0x06000584 RID: 1412 RVA: 0x00017C7B File Offset: 0x00015E7B
-		// (set) Token: 0x06000585 RID: 1413 RVA: 0x00017C83 File Offset: 0x00015E83
 		[Editor(false)]
 		public RichTextWidget RichTextWidget { get; set; }
 
-		// Token: 0x1700019A RID: 410
-		// (get) Token: 0x06000586 RID: 1414 RVA: 0x00017C8C File Offset: 0x00015E8C
-		// (set) Token: 0x06000587 RID: 1415 RVA: 0x00017C94 File Offset: 0x00015E94
 		[Editor(false)]
 		public bool DoNotHandleDropdownListPanel { get; set; }
 
-		// Token: 0x06000588 RID: 1416 RVA: 0x00017CA0 File Offset: 0x00015EA0
 		public DropdownWidget(UIContext context)
 			: base(context)
 		{
@@ -42,7 +32,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.UsedNavigationMovements = GamepadNavigationTypes.Horizontal;
 		}
 
-		// Token: 0x06000589 RID: 1417 RVA: 0x00017D0C File Offset: 0x00015F0C
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -95,14 +84,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.RefreshSelectedItem();
 		}
 
-		// Token: 0x0600058A RID: 1418 RVA: 0x00017E15 File Offset: 0x00016015
 		protected override void OnConnectedToRoot()
 		{
 			base.OnConnectedToRoot();
 			this.ScrollablePanel = this.GetParentScrollablePanelOfWidget(this);
 		}
 
-		// Token: 0x0600058B RID: 1419 RVA: 0x00017E2A File Offset: 0x0001602A
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -113,7 +100,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.UpdateGamepadNavigationControls();
 		}
 
-		// Token: 0x0600058C RID: 1420 RVA: 0x00017E48 File Offset: 0x00016048
 		private void UpdateGamepadNavigationControls()
 		{
 			if (this._isOpen && base.EventManager.IsControllerActive && (Input.IsKeyPressed(InputKey.ControllerLBumper) || Input.IsKeyPressed(InputKey.ControllerLTrigger) || Input.IsKeyPressed(InputKey.ControllerRBumper) || Input.IsKeyPressed(InputKey.ControllerRTrigger)))
@@ -157,7 +143,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.IsUsingNavigation = false;
 		}
 
-		// Token: 0x0600058D RID: 1421 RVA: 0x00017F88 File Offset: 0x00016188
 		private void UpdateListPanelPosition()
 		{
 			this.ListPanel.HorizontalAlignment = HorizontalAlignment.Left;
@@ -167,7 +152,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ListPanel.MarginLeft = (base.GlobalPosition.X + num - base.EventManager.LeftUsableAreaStart) * base._inverseScaleToUse;
 		}
 
-		// Token: 0x0600058E RID: 1422 RVA: 0x00018038 File Offset: 0x00016238
 		protected virtual void OpenPanel()
 		{
 			if (this.Button != null)
@@ -186,7 +170,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.CreateGamepadNavigationScopeData();
 		}
 
-		// Token: 0x0600058F RID: 1423 RVA: 0x00018098 File Offset: 0x00016298
 		protected virtual void ClosePanel()
 		{
 			if (this.Button != null)
@@ -204,7 +187,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ClearGamepadScopeData();
 		}
 
-		// Token: 0x06000590 RID: 1424 RVA: 0x000180EC File Offset: 0x000162EC
 		private void CreateGamepadNavigationScopeData()
 		{
 			if (this._navigationScope != null)
@@ -230,7 +212,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.EventManager.AddForcedScopeCollection(this._scopeCollection);
 		}
 
-		// Token: 0x06000591 RID: 1425 RVA: 0x0001823F File Offset: 0x0001643F
 		private void OnWidgetGainedNavigationFocus(Widget widget)
 		{
 			ScrollablePanel scrollablePanel = this.ScrollablePanel;
@@ -241,7 +222,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			scrollablePanel.ScrollToChild(widget, -1f, -1f, 0, 0, 0f, 0f);
 		}
 
-		// Token: 0x06000592 RID: 1426 RVA: 0x00018268 File Offset: 0x00016468
 		private ScrollablePanel GetParentScrollablePanelOfWidget(Widget widget)
 		{
 			for (Widget widget2 = widget; widget2 != null; widget2 = widget2.ParentWidget)
@@ -255,7 +235,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return null;
 		}
 
-		// Token: 0x06000593 RID: 1427 RVA: 0x00018290 File Offset: 0x00016490
 		private GamepadNavigationScope BuildGamepadNavigationScopeData()
 		{
 			return new GamepadNavigationScope
@@ -269,7 +248,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			};
 		}
 
-		// Token: 0x06000594 RID: 1428 RVA: 0x000182D0 File Offset: 0x000164D0
 		private void ClearGamepadScopeData()
 		{
 			if (this._navigationScope != null)
@@ -292,14 +270,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000595 RID: 1429 RVA: 0x000183B0 File Offset: 0x000165B0
 		public void OnButtonClick(Widget widget)
 		{
 			this._buttonClicked = true;
 			this._closeNextFrame = false;
 		}
 
-		// Token: 0x06000596 RID: 1430 RVA: 0x000183C0 File Offset: 0x000165C0
 		public void UpdateButtonText(string text)
 		{
 			if (this.RichTextWidget != null)
@@ -308,19 +284,16 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000597 RID: 1431 RVA: 0x000183E5 File Offset: 0x000165E5
 		public void OnListItemAdded(Widget parentWidget, Widget newChild)
 		{
 			this._isSelectedItemDirty = true;
 		}
 
-		// Token: 0x06000598 RID: 1432 RVA: 0x000183EE File Offset: 0x000165EE
 		public void OnListItemRemoved(Widget removedItem, Widget removedChild)
 		{
 			this._isSelectedItemDirty = true;
 		}
 
-		// Token: 0x06000599 RID: 1433 RVA: 0x000183F7 File Offset: 0x000165F7
 		public void OnSelectionChanged(Widget widget)
 		{
 			this.CurrentSelectedIndex = this.ListPanelValue;
@@ -328,7 +301,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.OnPropertyChanged(this.CurrentSelectedIndex, "CurrentSelectedIndex");
 		}
 
-		// Token: 0x0600059A RID: 1434 RVA: 0x00018420 File Offset: 0x00016620
 		private void RefreshSelectedItem()
 		{
 			if (this._isSelectedItemDirty)
@@ -370,9 +342,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x1700019B RID: 411
-		// (get) Token: 0x0600059B RID: 1435 RVA: 0x00018510 File Offset: 0x00016710
-		// (set) Token: 0x0600059C RID: 1436 RVA: 0x00018518 File Offset: 0x00016718
 		[Editor(false)]
 		public ScrollablePanel ScrollablePanel
 		{
@@ -390,9 +359,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x1700019C RID: 412
-		// (get) Token: 0x0600059D RID: 1437 RVA: 0x00018536 File Offset: 0x00016736
-		// (set) Token: 0x0600059E RID: 1438 RVA: 0x00018540 File Offset: 0x00016740
 		[Editor(false)]
 		public ButtonWidget Button
 		{
@@ -417,9 +383,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x1700019D RID: 413
-		// (get) Token: 0x0600059F RID: 1439 RVA: 0x00018594 File Offset: 0x00016794
-		// (set) Token: 0x060005A0 RID: 1440 RVA: 0x0001859C File Offset: 0x0001679C
 		[Editor(false)]
 		public ListPanel ListPanel
 		{
@@ -452,9 +415,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x1700019E RID: 414
-		// (get) Token: 0x060005A1 RID: 1441 RVA: 0x00018684 File Offset: 0x00016884
-		// (set) Token: 0x060005A2 RID: 1442 RVA: 0x0001868C File Offset: 0x0001688C
 		public bool IsOpen
 		{
 			get
@@ -475,9 +435,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x1700019F RID: 415
-		// (get) Token: 0x060005A3 RID: 1443 RVA: 0x000186B4 File Offset: 0x000168B4
-		// (set) Token: 0x060005A4 RID: 1444 RVA: 0x000186CB File Offset: 0x000168CB
 		[Editor(false)]
 		public int ListPanelValue
 		{
@@ -498,9 +455,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A0 RID: 416
-		// (get) Token: 0x060005A5 RID: 1445 RVA: 0x000186EF File Offset: 0x000168EF
-		// (set) Token: 0x060005A6 RID: 1446 RVA: 0x000186F7 File Offset: 0x000168F7
 		[Editor(false)]
 		public int CurrentSelectedIndex
 		{
@@ -518,58 +472,40 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002A9 RID: 681
 		public Action<DropdownWidget> OnOpenStateChanged;
 
-		// Token: 0x040002AA RID: 682
 		private readonly Action<Widget> _clickHandler;
 
-		// Token: 0x040002AB RID: 683
 		private readonly Action<Widget> _listSelectionHandler;
 
-		// Token: 0x040002AC RID: 684
 		private readonly Action<Widget, Widget> _listItemRemovedHandler;
 
-		// Token: 0x040002AD RID: 685
 		private readonly Action<Widget, Widget> _listItemAddedHandler;
 
-		// Token: 0x040002AE RID: 686
 		private Vector2 _listPanelOpenPosition;
 
-		// Token: 0x040002AF RID: 687
 		private int _openFrameCounter;
 
-		// Token: 0x040002B0 RID: 688
 		private bool _isSelectedItemDirty = true;
 
-		// Token: 0x040002B1 RID: 689
 		private bool _changedByControllerNavigation;
 
-		// Token: 0x040002B2 RID: 690
 		private GamepadNavigationScope _navigationScope;
 
-		// Token: 0x040002B3 RID: 691
 		private GamepadNavigationForcedScopeCollection _scopeCollection;
 
-		// Token: 0x040002B6 RID: 694
 		private ScrollablePanel _scrollablePanel;
 
-		// Token: 0x040002B7 RID: 695
 		private ButtonWidget _button;
 
-		// Token: 0x040002B8 RID: 696
 		private ListPanel _listPanel;
 
-		// Token: 0x040002B9 RID: 697
 		private int _currentSelectedIndex;
 
-		// Token: 0x040002BA RID: 698
 		private bool _closeNextFrame;
 
-		// Token: 0x040002BB RID: 699
 		private bool _isOpen;
 
-		// Token: 0x040002BC RID: 700
 		private bool _buttonClicked;
 	}
 }

@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200043B RID: 1083
 	public static class DisableHeroAction
 	{
-		// Token: 0x06003EE0 RID: 16096 RVA: 0x0012C7E4 File Offset: 0x0012A9E4
 		private static void ApplyInternal(Hero hero)
 		{
 			if (hero.IsAlive)
@@ -39,7 +37,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003EE1 RID: 16097 RVA: 0x0012C878 File Offset: 0x0012AA78
 		public static void Apply(Hero hero)
 		{
 			DisableHeroAction.ApplyInternal(hero);

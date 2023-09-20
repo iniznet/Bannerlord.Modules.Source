@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Objects.Siege
 {
-	// Token: 0x020003A4 RID: 932
 	public class BatteringRamSpawner : SpawnerBase
 	{
-		// Token: 0x060032C5 RID: 12997 RVA: 0x000D1FC2 File Offset: 0x000D01C2
 		protected internal override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -20,14 +18,12 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 			}
 		}
 
-		// Token: 0x060032C6 RID: 12998 RVA: 0x000D2000 File Offset: 0x000D0200
 		protected internal override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
 			this._spawnerEditorHelper.Tick(dt);
 		}
 
-		// Token: 0x060032C7 RID: 12999 RVA: 0x000D2018 File Offset: 0x000D0218
 		protected internal override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -47,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 			}
 		}
 
-		// Token: 0x060032C8 RID: 13000 RVA: 0x000D2094 File Offset: 0x000D0294
 		protected internal override bool OnCheckForProblems()
 		{
 			bool flag = base.OnCheckForProblems();
@@ -87,14 +82,12 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 			return flag;
 		}
 
-		// Token: 0x060032C9 RID: 13001 RVA: 0x000D21F9 File Offset: 0x000D03F9
 		protected internal override void OnPreInit()
 		{
 			base.OnPreInit();
 			this._spawnerMissionHelper = new SpawnerEntityMissionHelper(this, false);
 		}
 
-		// Token: 0x060032CA RID: 13002 RVA: 0x000D2210 File Offset: 0x000D0410
 		public override void AssignParameters(SpawnerEntityMissionHelper _spawnerMissionHelper)
 		{
 			BatteringRam firstScriptOfType = _spawnerMissionHelper.SpawnedEntity.GetFirstScriptOfType<BatteringRam>();
@@ -105,65 +98,49 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 			firstScriptOfType.AssignParametersFromSpawner(this.GateTag, this.SideTag, this.BridgeNavMeshID_1, this.BridgeNavMeshID_2, this.DitchNavMeshID_1, this.DitchNavMeshID_2, this.GroundToBridgeNavMeshID_1, this.GroundToBridgeNavMeshID_2, this.PathEntityName);
 		}
 
-		// Token: 0x04001568 RID: 5480
 		private const float _modifierFactorUpperLimit = 1.2f;
 
-		// Token: 0x04001569 RID: 5481
 		private const float _modifierFactorLowerLimit = 0.8f;
 
-		// Token: 0x0400156A RID: 5482
 		[EditorVisibleScriptComponentVariable(false)]
 		public MatrixFrame wait_pos_ground = MatrixFrame.Zero;
 
-		// Token: 0x0400156B RID: 5483
 		[EditorVisibleScriptComponentVariable(true)]
 		public string SideTag;
 
-		// Token: 0x0400156C RID: 5484
 		[EditorVisibleScriptComponentVariable(true)]
 		public string GateTag = "";
 
-		// Token: 0x0400156D RID: 5485
 		[EditorVisibleScriptComponentVariable(true)]
 		public string PathEntityName = "Path";
 
-		// Token: 0x0400156E RID: 5486
 		[EditorVisibleScriptComponentVariable(true)]
 		public int BridgeNavMeshID_1 = 8;
 
-		// Token: 0x0400156F RID: 5487
 		[EditorVisibleScriptComponentVariable(true)]
 		public int BridgeNavMeshID_2 = 8;
 
-		// Token: 0x04001570 RID: 5488
 		[EditorVisibleScriptComponentVariable(true)]
 		public int DitchNavMeshID_1 = 9;
 
-		// Token: 0x04001571 RID: 5489
 		[EditorVisibleScriptComponentVariable(true)]
 		public int DitchNavMeshID_2 = 10;
 
-		// Token: 0x04001572 RID: 5490
 		[EditorVisibleScriptComponentVariable(true)]
 		public int GroundToBridgeNavMeshID_1 = 12;
 
-		// Token: 0x04001573 RID: 5491
 		[EditorVisibleScriptComponentVariable(true)]
 		public int GroundToBridgeNavMeshID_2 = 13;
 
-		// Token: 0x04001574 RID: 5492
 		[EditorVisibleScriptComponentVariable(true)]
 		public string AddOnDeployTag = "";
 
-		// Token: 0x04001575 RID: 5493
 		[EditorVisibleScriptComponentVariable(true)]
 		public string RemoveOnDeployTag = "";
 
-		// Token: 0x04001576 RID: 5494
 		[EditorVisibleScriptComponentVariable(true)]
 		public float SpeedModifierFactor = 1f;
 
-		// Token: 0x04001577 RID: 5495
 		public bool EnableAutoGhostMovement;
 	}
 }

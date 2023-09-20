@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox
 {
-	// Token: 0x02000005 RID: 5
 	public class CampaignMapSiegePrefabEntityCache : ScriptComponentBehavior
 	{
-		// Token: 0x06000008 RID: 8 RVA: 0x00002D68 File Offset: 0x00000F68
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -57,7 +55,6 @@ namespace SandBox
 			this._defenderTrebuchetScale = matrixFrame.rotation.GetScaleVector();
 		}
 
-		// Token: 0x06000009 RID: 9 RVA: 0x00003130 File Offset: 0x00001330
 		public MatrixFrame GetLaunchEntitialFrameForSiegeEngine(SiegeEngineType type, BattleSideEnum side)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -96,7 +93,6 @@ namespace SandBox
 			return matrixFrame;
 		}
 
-		// Token: 0x0600000A RID: 10 RVA: 0x000031E8 File Offset: 0x000013E8
 		public Vec3 GetScaleForSiegeEngine(SiegeEngineType type, BattleSideEnum side)
 		{
 			Vec3 vec = Vec3.Zero;
@@ -135,104 +131,74 @@ namespace SandBox
 			return vec;
 		}
 
-		// Token: 0x04000001 RID: 1
 		[EditableScriptComponentVariable(true)]
 		private string _attackerBallistaPrefab = "ballista_a_mapicon";
 
-		// Token: 0x04000002 RID: 2
 		[EditableScriptComponentVariable(true)]
 		private string _defenderBallistaPrefab = "ballista_b_mapicon";
 
-		// Token: 0x04000003 RID: 3
 		[EditableScriptComponentVariable(true)]
 		private string _attackerFireBallistaPrefab = "ballista_a_fire_mapicon";
 
-		// Token: 0x04000004 RID: 4
 		[EditableScriptComponentVariable(true)]
 		private string _defenderFireBallistaPrefab = "ballista_b_fire_mapicon";
 
-		// Token: 0x04000005 RID: 5
 		[EditableScriptComponentVariable(true)]
 		private string _attackerMangonelPrefab = "mangonel_a_mapicon";
 
-		// Token: 0x04000006 RID: 6
 		[EditableScriptComponentVariable(true)]
 		private string _defenderMangonelPrefab = "mangonel_b_mapicon";
 
-		// Token: 0x04000007 RID: 7
 		[EditableScriptComponentVariable(true)]
 		private string _attackerFireMangonelPrefab = "mangonel_a_fire_mapicon";
 
-		// Token: 0x04000008 RID: 8
 		[EditableScriptComponentVariable(true)]
 		private string _defenderFireMangonelPrefab = "mangonel_b_fire_mapicon";
 
-		// Token: 0x04000009 RID: 9
 		[EditableScriptComponentVariable(true)]
 		private string _attackerTrebuchetPrefab = "trebuchet_a_mapicon";
 
-		// Token: 0x0400000A RID: 10
 		[EditableScriptComponentVariable(true)]
 		private string _defenderTrebuchetPrefab = "trebuchet_b_mapicon";
 
-		// Token: 0x0400000B RID: 11
 		private MatrixFrame _attackerBallistaLaunchEntitialFrame;
 
-		// Token: 0x0400000C RID: 12
 		private MatrixFrame _defenderBallistaLaunchEntitialFrame;
 
-		// Token: 0x0400000D RID: 13
 		private MatrixFrame _attackerFireBallistaLaunchEntitialFrame;
 
-		// Token: 0x0400000E RID: 14
 		private MatrixFrame _defenderFireBallistaLaunchEntitialFrame;
 
-		// Token: 0x0400000F RID: 15
 		private MatrixFrame _attackerMangonelLaunchEntitialFrame;
 
-		// Token: 0x04000010 RID: 16
 		private MatrixFrame _defenderMangonelLaunchEntitialFrame;
 
-		// Token: 0x04000011 RID: 17
 		private MatrixFrame _attackerFireMangonelLaunchEntitialFrame;
 
-		// Token: 0x04000012 RID: 18
 		private MatrixFrame _defenderFireMangonelLaunchEntitialFrame;
 
-		// Token: 0x04000013 RID: 19
 		private MatrixFrame _attackerTrebuchetLaunchEntitialFrame;
 
-		// Token: 0x04000014 RID: 20
 		private MatrixFrame _defenderTrebuchetLaunchEntitialFrame;
 
-		// Token: 0x04000015 RID: 21
 		private Vec3 _attackerBallistaScale;
 
-		// Token: 0x04000016 RID: 22
 		private Vec3 _defenderBallistaScale;
 
-		// Token: 0x04000017 RID: 23
 		private Vec3 _attackerFireBallistaScale;
 
-		// Token: 0x04000018 RID: 24
 		private Vec3 _defenderFireBallistaScale;
 
-		// Token: 0x04000019 RID: 25
 		private Vec3 _attackerMangonelScale;
 
-		// Token: 0x0400001A RID: 26
 		private Vec3 _defenderMangonelScale;
 
-		// Token: 0x0400001B RID: 27
 		private Vec3 _attackerFireMangonelScale;
 
-		// Token: 0x0400001C RID: 28
 		private Vec3 _defenderFireMangonelScale;
 
-		// Token: 0x0400001D RID: 29
 		private Vec3 _attackerTrebuchetScale;
 
-		// Token: 0x0400001E RID: 30
 		private Vec3 _defenderTrebuchetScale;
 	}
 }

@@ -15,12 +15,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200001D RID: 29
 	public class ViewSubModule : MBSubModuleBase
 	{
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x060000DF RID: 223 RVA: 0x00007755 File Offset: 0x00005955
-		// (set) Token: 0x060000E0 RID: 224 RVA: 0x00007761 File Offset: 0x00005961
 		public static Dictionary<Tuple<Material, BannerCode>, Material> BannerTexturedMaterialCache
 		{
 			get
@@ -33,8 +29,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x060000E1 RID: 225 RVA: 0x0000776E File Offset: 0x0000596E
 		public static GameStateScreenManager GameStateScreenManager
 		{
 			get
@@ -43,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x0000777C File Offset: 0x0000597C
 		private void InitializeHotKeyManager()
 		{
 			string text = "BannerlordGameKeys.xml";
@@ -73,7 +66,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}, false);
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x00007898 File Offset: 0x00005A98
 		private void InitializeBannerVisualManager()
 		{
 			if (BannerManager.Instance == null)
@@ -83,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x000078C4 File Offset: 0x00005AC4
 		protected override void OnSubModuleLoad()
 		{
 			base.OnSubModuleLoad();
@@ -125,13 +116,11 @@ namespace TaleWorlds.MountAndBlade.View
 			EngineController.OnConstrainedStateChanged += this.OnConstrainedStateChange;
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x00007B3B File Offset: 0x00005D3B
 		private void OnConstrainedStateChange(bool isConstrained)
 		{
 			ScreenManager.OnConstrainStateChanged(isConstrained);
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x00007B44 File Offset: 0x00005D44
 		private async void StartMultiplayer()
 		{
 			if (!this._isConnectingToMultiplayer)
@@ -157,7 +146,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x00007B80 File Offset: 0x00005D80
 		protected override void OnSubModuleUnloaded()
 		{
 			ScreenManager.OnPushScreen -= new ScreenManager.OnPushScreenEvent(this.OnScreenManagerPushScreen);
@@ -171,7 +159,6 @@ namespace TaleWorlds.MountAndBlade.View
 			base.OnSubModuleUnloaded();
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x00007C00 File Offset: 0x00005E00
 		protected override void OnBeforeInitialModuleScreenSetAsRoot()
 		{
 			if (!this._initialized)
@@ -183,7 +170,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000E9 RID: 233 RVA: 0x00007C20 File Offset: 0x00005E20
 		protected override void OnApplicationTick(float dt)
 		{
 			base.OnApplicationTick(dt);
@@ -205,7 +191,6 @@ namespace TaleWorlds.MountAndBlade.View
 			tableauCacheManager.Tick();
 		}
 
-		// Token: 0x060000EA RID: 234 RVA: 0x00007C76 File Offset: 0x00005E76
 		protected override void AfterAsyncTickTick(float dt)
 		{
 			MBMusicManager mbmusicManager = MBMusicManager.Current;
@@ -216,32 +201,27 @@ namespace TaleWorlds.MountAndBlade.View
 			mbmusicManager.Update(dt);
 		}
 
-		// Token: 0x060000EB RID: 235 RVA: 0x00007C88 File Offset: 0x00005E88
 		protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
 		{
 			MissionWeapon.OnGetWeaponDataHandler = new MissionWeapon.OnGetWeaponDataDelegate(ItemCollectionElementViewExtensions.OnGetWeaponData);
 		}
 
-		// Token: 0x060000EC RID: 236 RVA: 0x00007C9B File Offset: 0x00005E9B
 		public override void OnCampaignStart(Game game, object starterObject)
 		{
 			Game.Current.GameStateManager.RegisterListener(this._gameStateScreenManager);
 			this._newGameInitialization = false;
 		}
 
-		// Token: 0x060000ED RID: 237 RVA: 0x00007CBA File Offset: 0x00005EBA
 		public override void OnMultiplayerGameStart(Game game, object starterObject)
 		{
 			Game.Current.GameStateManager.RegisterListener(this._gameStateScreenManager);
 		}
 
-		// Token: 0x060000EE RID: 238 RVA: 0x00007CD2 File Offset: 0x00005ED2
 		public override void OnGameLoaded(Game game, object initializerObject)
 		{
 			Game.Current.GameStateManager.RegisterListener(this._gameStateScreenManager);
 		}
 
-		// Token: 0x060000EF RID: 239 RVA: 0x00007CEC File Offset: 0x00005EEC
 		public override void OnGameInitializationFinished(Game game)
 		{
 			base.OnGameInitializationFinished(game);
@@ -271,14 +251,12 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000F0 RID: 240 RVA: 0x00007E08 File Offset: 0x00006008
 		public override void BeginGameStart(Game game)
 		{
 			base.BeginGameStart(game);
 			Game.Current.BannerVisualCreator = new BannerVisualCreator();
 		}
 
-		// Token: 0x060000F1 RID: 241 RVA: 0x00007E20 File Offset: 0x00006020
 		public override bool DoLoading(Game game)
 		{
 			if (this._newGameInitialization)
@@ -289,20 +267,17 @@ namespace TaleWorlds.MountAndBlade.View
 			return this._newGameInitialization;
 		}
 
-		// Token: 0x060000F2 RID: 242 RVA: 0x00007E39 File Offset: 0x00006039
 		public override void OnGameEnd(Game game)
 		{
 			MissionWeapon.OnGetWeaponDataHandler = null;
 			CraftedDataViewManager.Clear();
 		}
 
-		// Token: 0x060000F3 RID: 243 RVA: 0x00007E46 File Offset: 0x00006046
 		private void OnImguiProfilerTick()
 		{
 			TableauCacheManager.Current.OnImguiProfilerTick();
 		}
 
-		// Token: 0x060000F4 RID: 244 RVA: 0x00007E52 File Offset: 0x00006052
 		private void OnGamepadActiveStateChanged()
 		{
 			Game game = Game.Current;
@@ -313,27 +288,20 @@ namespace TaleWorlds.MountAndBlade.View
 			game.EventManager.TriggerEvent<GamepadActiveStateChangedEvent>(new GamepadActiveStateChangedEvent());
 		}
 
-		// Token: 0x060000F5 RID: 245 RVA: 0x00007E6D File Offset: 0x0000606D
 		private void OnScreenManagerPushScreen(ScreenBase pushedScreen)
 		{
 		}
 
-		// Token: 0x04000046 RID: 70
 		private Dictionary<Tuple<Material, BannerCode>, Material> _bannerTexturedMaterialCache;
 
-		// Token: 0x04000047 RID: 71
 		private GameStateScreenManager _gameStateScreenManager;
 
-		// Token: 0x04000048 RID: 72
 		private bool _newGameInitialization;
 
-		// Token: 0x04000049 RID: 73
 		private static ViewSubModule _instance;
 
-		// Token: 0x0400004A RID: 74
 		private bool _initialized;
 
-		// Token: 0x0400004B RID: 75
 		private bool _isConnectingToMultiplayer;
 	}
 }

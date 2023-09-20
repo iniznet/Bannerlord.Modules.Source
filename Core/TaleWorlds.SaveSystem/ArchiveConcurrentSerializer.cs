@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x02000017 RID: 23
 	internal class ArchiveConcurrentSerializer : IArchiveContext
 	{
-		// Token: 0x0600007B RID: 123 RVA: 0x00003A10 File Offset: 0x00001C10
 		public ArchiveConcurrentSerializer()
 		{
 			this._locker = new object();
@@ -17,7 +15,6 @@ namespace TaleWorlds.SaveSystem
 			this._folders = new ConcurrentBag<SaveEntryFolder>();
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00003A3C File Offset: 0x00001C3C
 		public void SerializeFolderConcurrent(SaveEntryFolder folder)
 		{
 			int managedThreadId = Thread.CurrentThread.ManagedThreadId;
@@ -37,7 +34,6 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00003AF0 File Offset: 0x00001CF0
 		public SaveEntryFolder CreateFolder(SaveEntryFolder parentFolder, FolderId folderId, int entryCount)
 		{
 			int num = Interlocked.Increment(ref this._folderCount) - 1;
@@ -47,7 +43,6 @@ namespace TaleWorlds.SaveSystem
 			return saveEntryFolder;
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00003B2C File Offset: 0x00001D2C
 		private void SerializeEntryConcurrent(SaveEntry entry, BinaryWriter writer)
 		{
 			BinaryWriter binaryWriter = BinaryWriterFactory.GetBinaryWriter();
@@ -62,7 +57,6 @@ namespace TaleWorlds.SaveSystem
 			Interlocked.Increment(ref this._entryCount);
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00003BAC File Offset: 0x00001DAC
 		public byte[] FinalizeAndGetBinaryDataConcurrent()
 		{
 			BinaryWriter binaryWriter = new BinaryWriter();
@@ -86,19 +80,14 @@ namespace TaleWorlds.SaveSystem
 			return binaryWriter.Data;
 		}
 
-		// Token: 0x0400001D RID: 29
 		private int _entryCount;
 
-		// Token: 0x0400001E RID: 30
 		private int _folderCount;
 
-		// Token: 0x0400001F RID: 31
 		private object _locker;
 
-		// Token: 0x04000020 RID: 32
 		private Dictionary<int, BinaryWriter> _writers;
 
-		// Token: 0x04000021 RID: 33
 		private ConcurrentBag<SaveEntryFolder> _folders;
 	}
 }

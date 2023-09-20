@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 {
-	// Token: 0x0200039D RID: 925
 	public class ManagedSelectionOptionData : ManagedOptionData, ISelectionOptionData, IOptionData
 	{
-		// Token: 0x0600328F RID: 12943 RVA: 0x000D152F File Offset: 0x000CF72F
 		public ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType type)
 			: base(type)
 		{
@@ -17,19 +15,16 @@ namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 			this._selectableOptionNames = ManagedSelectionOptionData.GetOptionNames(type);
 		}
 
-		// Token: 0x06003290 RID: 12944 RVA: 0x000D1550 File Offset: 0x000CF750
 		public int GetSelectableOptionsLimit()
 		{
 			return this._selectableOptionsLimit;
 		}
 
-		// Token: 0x06003291 RID: 12945 RVA: 0x000D1558 File Offset: 0x000CF758
 		public IEnumerable<SelectionData> GetSelectableOptionNames()
 		{
 			return this._selectableOptionNames;
 		}
 
-		// Token: 0x06003292 RID: 12946 RVA: 0x000D1560 File Offset: 0x000CF760
 		public static int GetOptionsLimit(ManagedOptions.ManagedOptionsType optionType)
 		{
 			if (optionType <= ManagedOptions.ManagedOptionsType.ReportCasualtiesType)
@@ -88,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 			return 0;
 		}
 
-		// Token: 0x06003293 RID: 12947 RVA: 0x000D15FC File Offset: 0x000CF7FC
 		private static IEnumerable<SelectionData> GetOptionNames(ManagedOptions.ManagedOptionsType type)
 		{
 			if (type == ManagedOptions.ManagedOptionsType.Language)
@@ -128,10 +122,8 @@ namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 			yield break;
 		}
 
-		// Token: 0x04001550 RID: 5456
 		private readonly int _selectableOptionsLimit;
 
-		// Token: 0x04001551 RID: 5457
 		private readonly IEnumerable<SelectionData> _selectableOptionNames;
 	}
 }

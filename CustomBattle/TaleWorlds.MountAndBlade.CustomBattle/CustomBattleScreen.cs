@@ -10,38 +10,31 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x0200000C RID: 12
 	[GameStateScreen(typeof(CustomBattleState))]
 	public class CustomBattleScreen : ScreenBase, IGameStateListener
 	{
-		// Token: 0x060000A8 RID: 168 RVA: 0x00007097 File Offset: 0x00005297
 		public CustomBattleScreen(CustomBattleState customBattleState)
 		{
 			this._customBattleState = customBattleState;
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x000070A6 File Offset: 0x000052A6
 		void IGameStateListener.OnActivate()
 		{
 		}
 
-		// Token: 0x060000AA RID: 170 RVA: 0x000070A8 File Offset: 0x000052A8
 		void IGameStateListener.OnDeactivate()
 		{
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x000070AA File Offset: 0x000052AA
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x000070AC File Offset: 0x000052AC
 		void IGameStateListener.OnFinalize()
 		{
 			this._dataSource.OnFinalize();
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x000070BC File Offset: 0x000052BC
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -64,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			base.AddLayer(this._gauntletLayer);
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x000071FC File Offset: 0x000053FC
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -121,7 +113,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x00007346 File Offset: 0x00005546
 		protected override void OnFinalize()
 		{
 			this.UnloadMovie();
@@ -131,7 +122,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			base.OnFinalize();
 		}
 
-		// Token: 0x060000B0 RID: 176 RVA: 0x0000736E File Offset: 0x0000556E
 		protected override void OnActivate()
 		{
 			this.LoadMovie();
@@ -146,7 +136,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			base.OnActivate();
 		}
 
-		// Token: 0x060000B1 RID: 177 RVA: 0x000073AC File Offset: 0x000055AC
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -159,7 +148,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			dataSource.SetActiveState(false);
 		}
 
-		// Token: 0x060000B2 RID: 178 RVA: 0x000073CB File Offset: 0x000055CB
 		public override void UpdateLayout()
 		{
 			base.UpdateLayout();
@@ -174,7 +162,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000B3 RID: 179 RVA: 0x000073EB File Offset: 0x000055EB
 		private void LoadMovie()
 		{
 			if (!this._isMovieLoaded)
@@ -184,7 +171,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x060000B4 RID: 180 RVA: 0x00007418 File Offset: 0x00005618
 		private void UnloadMovie()
 		{
 			if (this._isMovieLoaded)
@@ -197,22 +183,16 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x04000067 RID: 103
 		private CustomBattleState _customBattleState;
 
-		// Token: 0x04000068 RID: 104
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000069 RID: 105
 		private IGauntletMovie _gauntletMovie;
 
-		// Token: 0x0400006A RID: 106
 		private CustomBattleMenuVM _dataSource;
 
-		// Token: 0x0400006B RID: 107
 		private bool _isMovieLoaded;
 
-		// Token: 0x0400006C RID: 108
 		private int _isFirstFrameCounter;
 	}
 }

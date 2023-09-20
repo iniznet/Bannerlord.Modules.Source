@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Objects.AnimationPoints
 {
-	// Token: 0x02000032 RID: 50
 	public class PlayMusicPoint : AnimationPoint
 	{
-		// Token: 0x0600025C RID: 604 RVA: 0x00010391 File Offset: 0x0000E591
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -17,7 +15,6 @@ namespace SandBox.Objects.AnimationPoints
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x0600025D RID: 605 RVA: 0x000103B4 File Offset: 0x0000E5B4
 		public void StartLoop(SoundEvent trackEvent)
 		{
 			this._trackEvent = trackEvent;
@@ -27,7 +24,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600025E RID: 606 RVA: 0x0001041F File Offset: 0x0000E61F
 		public void EndLoop()
 		{
 			if (this._trackEvent != null)
@@ -37,7 +33,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600025F RID: 607 RVA: 0x00010437 File Offset: 0x0000E637
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.HasUser)
@@ -47,7 +42,6 @@ namespace SandBox.Objects.AnimationPoints
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06000260 RID: 608 RVA: 0x00010450 File Offset: 0x0000E650
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -57,7 +51,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000261 RID: 609 RVA: 0x000104C8 File Offset: 0x0000E6C8
 		public override void OnUseStopped(Agent userAgent, bool isSuccessful, int preferenceIndex)
 		{
 			base.OnUseStopped(userAgent, isSuccessful, preferenceIndex);
@@ -65,7 +58,6 @@ namespace SandBox.Objects.AnimationPoints
 			this.EndLoop();
 		}
 
-		// Token: 0x06000262 RID: 610 RVA: 0x000104E4 File Offset: 0x0000E6E4
 		public void ChangeInstrument(Tuple<InstrumentData, float> instrument)
 		{
 			InstrumentData instrumentData = ((instrument != null) ? instrument.Item1 : null);
@@ -100,13 +92,10 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x04000137 RID: 311
 		private InstrumentData _instrumentData;
 
-		// Token: 0x04000138 RID: 312
 		private SoundEvent _trackEvent;
 
-		// Token: 0x04000139 RID: 313
 		private bool _hasInstrumentAttached;
 	}
 }

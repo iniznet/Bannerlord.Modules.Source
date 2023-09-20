@@ -7,32 +7,16 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network
 {
-	// Token: 0x020003B3 RID: 947
 	public static class DebugNetworkEventStatistics
 	{
-		// Token: 0x14000098 RID: 152
-		// (add) Token: 0x06003305 RID: 13061 RVA: 0x000D341C File Offset: 0x000D161C
-		// (remove) Token: 0x06003306 RID: 13062 RVA: 0x000D3450 File Offset: 0x000D1650
 		public static event Action<IEnumerable<DebugNetworkEventStatistics.TotalEventData>> OnEventDataUpdated;
 
-		// Token: 0x14000099 RID: 153
-		// (add) Token: 0x06003307 RID: 13063 RVA: 0x000D3484 File Offset: 0x000D1684
-		// (remove) Token: 0x06003308 RID: 13064 RVA: 0x000D34B8 File Offset: 0x000D16B8
 		public static event Action<DebugNetworkEventStatistics.PerSecondEventData> OnPerSecondEventDataUpdated;
 
-		// Token: 0x1400009A RID: 154
-		// (add) Token: 0x06003309 RID: 13065 RVA: 0x000D34EC File Offset: 0x000D16EC
-		// (remove) Token: 0x0600330A RID: 13066 RVA: 0x000D3520 File Offset: 0x000D1720
 		public static event Action<IEnumerable<float>> OnFPSEventUpdated;
 
-		// Token: 0x1400009B RID: 155
-		// (add) Token: 0x0600330B RID: 13067 RVA: 0x000D3554 File Offset: 0x000D1754
-		// (remove) Token: 0x0600330C RID: 13068 RVA: 0x000D3588 File Offset: 0x000D1788
 		public static event Action OnOpenExternalMonitor;
 
-		// Token: 0x1700090F RID: 2319
-		// (get) Token: 0x0600330D RID: 13069 RVA: 0x000D35BB File Offset: 0x000D17BB
-		// (set) Token: 0x0600330E RID: 13070 RVA: 0x000D35C2 File Offset: 0x000D17C2
 		public static int SamplesPerSecond
 		{
 			get
@@ -46,12 +30,8 @@ namespace TaleWorlds.MountAndBlade.Network
 			}
 		} = 10;
 
-		// Token: 0x17000910 RID: 2320
-		// (get) Token: 0x0600330F RID: 13071 RVA: 0x000D35D2 File Offset: 0x000D17D2
-		// (set) Token: 0x06003310 RID: 13072 RVA: 0x000D35D9 File Offset: 0x000D17D9
 		public static bool IsActive { get; private set; }
 
-		// Token: 0x06003312 RID: 13074 RVA: 0x000D36AC File Offset: 0x000D18AC
 		internal static void StartEvent(string eventName, int eventType)
 		{
 			if (!DebugNetworkEventStatistics.IsActive)
@@ -70,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._totalData.TotalCount++;
 		}
 
-		// Token: 0x06003313 RID: 13075 RVA: 0x000D3724 File Offset: 0x000D1924
 		internal static void EndEvent()
 		{
 			if (!DebugNetworkEventStatistics.IsActive)
@@ -82,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._curEventType = -1;
 		}
 
-		// Token: 0x06003314 RID: 13076 RVA: 0x000D3762 File Offset: 0x000D1962
 		internal static void AddDataToStatistic(int bitCount)
 		{
 			if (!DebugNetworkEventStatistics.IsActive)
@@ -93,7 +71,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._totalData.TotalDataSize += bitCount;
 		}
 
-		// Token: 0x06003315 RID: 13077 RVA: 0x000D379A File Offset: 0x000D199A
 		public static void OpenExternalMonitor()
 		{
 			if (DebugNetworkEventStatistics.OnOpenExternalMonitor != null)
@@ -102,38 +79,32 @@ namespace TaleWorlds.MountAndBlade.Network
 			}
 		}
 
-		// Token: 0x06003316 RID: 13078 RVA: 0x000D37AD File Offset: 0x000D19AD
 		public static void ControlActivate()
 		{
 			DebugNetworkEventStatistics.IsActive = true;
 		}
 
-		// Token: 0x06003317 RID: 13079 RVA: 0x000D37B5 File Offset: 0x000D19B5
 		public static void ControlDeactivate()
 		{
 			DebugNetworkEventStatistics.IsActive = false;
 		}
 
-		// Token: 0x06003318 RID: 13080 RVA: 0x000D37BD File Offset: 0x000D19BD
 		public static void ControlJustDump()
 		{
 			DebugNetworkEventStatistics.DumpData();
 		}
 
-		// Token: 0x06003319 RID: 13081 RVA: 0x000D37C4 File Offset: 0x000D19C4
 		public static void ControlDumpAll()
 		{
 			DebugNetworkEventStatistics.DumpData();
 			DebugNetworkEventStatistics.DumpReplicationData();
 		}
 
-		// Token: 0x0600331A RID: 13082 RVA: 0x000D37D0 File Offset: 0x000D19D0
 		public static void ControlClear()
 		{
 			DebugNetworkEventStatistics.Clear();
 		}
 
-		// Token: 0x0600331B RID: 13083 RVA: 0x000D37D7 File Offset: 0x000D19D7
 		public static void ClearNetGraphs()
 		{
 			DebugNetworkEventStatistics._eventSamples.Clear();
@@ -143,7 +114,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._collectSampleCheck = 0f;
 		}
 
-		// Token: 0x0600331C RID: 13084 RVA: 0x000D380B File Offset: 0x000D1A0B
 		public static void ClearFpsGraph()
 		{
 			DebugNetworkEventStatistics._fpsSamplesUntilNextSampling.Clear();
@@ -151,7 +121,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._collectFpsSampleCheck = 0f;
 		}
 
-		// Token: 0x0600331D RID: 13085 RVA: 0x000D382B File Offset: 0x000D1A2B
 		public static void ControlClearAll()
 		{
 			DebugNetworkEventStatistics.Clear();
@@ -160,14 +129,12 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics.ClearReplicationData();
 		}
 
-		// Token: 0x0600331E RID: 13086 RVA: 0x000D3841 File Offset: 0x000D1A41
 		public static void ControlDumpReplicationData()
 		{
 			DebugNetworkEventStatistics.DumpReplicationData();
 			DebugNetworkEventStatistics.ClearReplicationData();
 		}
 
-		// Token: 0x0600331F RID: 13087 RVA: 0x000D3850 File Offset: 0x000D1A50
 		public static void EndTick(float dt)
 		{
 			if (DebugNetworkEventStatistics._useImgui && Input.DebugInput.IsHotKeyPressed("DebugNetworkEventStatisticsHotkeyToggleActive"))
@@ -319,7 +286,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			Imgui.EndMainThreadScope();
 		}
 
-		// Token: 0x06003320 RID: 13088 RVA: 0x000D40BC File Offset: 0x000D22BC
 		private static void CollectFpsSample(float dt)
 		{
 			if (DebugNetworkEventStatistics.TrackFps)
@@ -351,13 +317,11 @@ namespace TaleWorlds.MountAndBlade.Network
 			}
 		}
 
-		// Token: 0x06003321 RID: 13089 RVA: 0x000D4193 File Offset: 0x000D2393
 		private static void ToggleActive()
 		{
 			DebugNetworkEventStatistics.IsActive = !DebugNetworkEventStatistics.IsActive;
 		}
 
-		// Token: 0x06003322 RID: 13090 RVA: 0x000D41A2 File Offset: 0x000D23A2
 		private static void Clear()
 		{
 			DebugNetworkEventStatistics._totalData = new DebugNetworkEventStatistics.TotalData();
@@ -366,7 +330,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			DebugNetworkEventStatistics._curEventType = -1;
 		}
 
-		// Token: 0x06003323 RID: 13091 RVA: 0x000D41C4 File Offset: 0x000D23C4
 		private static void DumpData()
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);
@@ -405,7 +368,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			MBDebug.Print(mbstringBuilder.ToStringAndRelease(), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06003324 RID: 13092 RVA: 0x000D4480 File Offset: 0x000D2680
 		private static void GetFormattedDebugUploadDataOutput(ref MBStringBuilder outStr)
 		{
 			GameNetwork.DebugNetworkPacketStatisticsStruct debugNetworkPacketStatisticsStruct = default(GameNetwork.DebugNetworkPacketStatisticsStruct);
@@ -494,7 +456,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			outStr.AppendLine<string>("Total Upload: " + debugNetworkPacketStatisticsStruct.TotalUpload + " in bits");
 		}
 
-		// Token: 0x06003325 RID: 13093 RVA: 0x000D484C File Offset: 0x000D2A4C
 		private static void ShowUploadData()
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);
@@ -507,7 +468,6 @@ namespace TaleWorlds.MountAndBlade.Network
 			}
 		}
 
-		// Token: 0x06003326 RID: 13094 RVA: 0x000D48A4 File Offset: 0x000D2AA4
 		private static DebugNetworkEventStatistics.TotalEventData GetCurrentEventData()
 		{
 			GameNetwork.DebugNetworkPacketStatisticsStruct debugNetworkPacketStatisticsStruct = default(GameNetwork.DebugNetworkPacketStatisticsStruct);
@@ -516,111 +476,81 @@ namespace TaleWorlds.MountAndBlade.Network
 			return new DebugNetworkEventStatistics.TotalEventData(debugNetworkPacketStatisticsStruct.TotalPackets, debugNetworkPacketStatisticsStruct.TotalUpload, debugNetworkPacketStatisticsStruct.TotalConstantsUpload, debugNetworkPacketStatisticsStruct.TotalReliableEventUpload, debugNetworkPacketStatisticsStruct.TotalReplicationUpload, debugNetworkPacketStatisticsStruct.TotalUnreliableEventUpload);
 		}
 
-		// Token: 0x06003327 RID: 13095 RVA: 0x000D48F3 File Offset: 0x000D2AF3
 		private static void DumpReplicationData()
 		{
 			GameNetwork.PrintReplicationTableStatistics();
 		}
 
-		// Token: 0x06003328 RID: 13096 RVA: 0x000D48FA File Offset: 0x000D2AFA
 		private static void ClearReplicationData()
 		{
 			GameNetwork.ClearReplicationTableStatistics();
 		}
 
-		// Token: 0x040015BE RID: 5566
 		private static DebugNetworkEventStatistics.TotalData _totalData = new DebugNetworkEventStatistics.TotalData();
 
-		// Token: 0x040015BF RID: 5567
 		private static int _curEventType = -1;
 
-		// Token: 0x040015C0 RID: 5568
 		private static Dictionary<int, DebugNetworkEventStatistics.PerEventData> _statistics = new Dictionary<int, DebugNetworkEventStatistics.PerEventData>();
 
-		// Token: 0x040015C1 RID: 5569
 		private static int _samplesPerSecond;
 
-		// Token: 0x040015C2 RID: 5570
 		public static int MaxGraphPointCount;
 
-		// Token: 0x040015C3 RID: 5571
 		private static bool _showUploadDataText = false;
 
-		// Token: 0x040015C4 RID: 5572
 		private static bool _useAbsoluteMaximum = false;
 
-		// Token: 0x040015C5 RID: 5573
 		private static float _collectSampleCheck = 0f;
 
-		// Token: 0x040015C6 RID: 5574
 		private static float _collectFpsSampleCheck = 0f;
 
-		// Token: 0x040015C7 RID: 5575
 		private static float _curMaxGraphHeight = 0f;
 
-		// Token: 0x040015C8 RID: 5576
 		private static float _targetMaxGraphHeight = 0f;
 
-		// Token: 0x040015C9 RID: 5577
 		private static float _currMaxLossGraphHeight = 0f;
 
-		// Token: 0x040015CA RID: 5578
 		private static float _targetMaxLossGraphHeight = 0f;
 
-		// Token: 0x040015CB RID: 5579
 		private static DebugNetworkEventStatistics.PerSecondEventData UploadPerSecondEventData;
 
-		// Token: 0x040015CC RID: 5580
 		private static readonly Queue<DebugNetworkEventStatistics.TotalEventData> _eventSamples = new Queue<DebugNetworkEventStatistics.TotalEventData>();
 
-		// Token: 0x040015CD RID: 5581
 		private static readonly Queue<float> _lossSamples = new Queue<float>();
 
-		// Token: 0x040015CE RID: 5582
 		private static DebugNetworkEventStatistics.TotalEventData _prevEventData = new DebugNetworkEventStatistics.TotalEventData();
 
-		// Token: 0x040015CF RID: 5583
 		private static DebugNetworkEventStatistics.TotalEventData _currEventData = new DebugNetworkEventStatistics.TotalEventData();
 
-		// Token: 0x040015D0 RID: 5584
 		private static readonly List<float> _fpsSamplesUntilNextSampling = new List<float>();
 
-		// Token: 0x040015D1 RID: 5585
 		private static readonly Queue<float> _fpsSamples = new Queue<float>();
 
-		// Token: 0x040015D2 RID: 5586
 		private static bool _useImgui = !GameNetwork.IsDedicatedServer;
 
-		// Token: 0x040015D3 RID: 5587
 		public static bool TrackFps = false;
 
-		// Token: 0x020006B8 RID: 1720
 		public class TotalEventData
 		{
-			// Token: 0x06003FB3 RID: 16307 RVA: 0x000F8C88 File Offset: 0x000F6E88
 			protected bool Equals(DebugNetworkEventStatistics.TotalEventData other)
 			{
 				return this.TotalPackets == other.TotalPackets && this.TotalUpload == other.TotalUpload && this.TotalConstantsUpload == other.TotalConstantsUpload && this.TotalReliableUpload == other.TotalReliableUpload && this.TotalReplicationUpload == other.TotalReplicationUpload && this.TotalUnreliableUpload == other.TotalUnreliableUpload && this.TotalOtherUpload == other.TotalOtherUpload;
 			}
 
-			// Token: 0x06003FB4 RID: 16308 RVA: 0x000F8CF9 File Offset: 0x000F6EF9
 			public override bool Equals(object obj)
 			{
 				return obj != null && (this == obj || (obj.GetType() == base.GetType() && this.Equals((DebugNetworkEventStatistics.TotalEventData)obj)));
 			}
 
-			// Token: 0x06003FB5 RID: 16309 RVA: 0x000F8D28 File Offset: 0x000F6F28
 			public override int GetHashCode()
 			{
 				return (((((((((((this.TotalPackets * 397) ^ this.TotalUpload) * 397) ^ this.TotalConstantsUpload) * 397) ^ this.TotalReliableUpload) * 397) ^ this.TotalReplicationUpload) * 397) ^ this.TotalUnreliableUpload) * 397) ^ this.TotalOtherUpload;
 			}
 
-			// Token: 0x06003FB6 RID: 16310 RVA: 0x000F8D89 File Offset: 0x000F6F89
 			public TotalEventData()
 			{
 			}
 
-			// Token: 0x06003FB7 RID: 16311 RVA: 0x000F8D94 File Offset: 0x000F6F94
 			public TotalEventData(int totalPackets, int totalUpload, int totalConstants, int totalReliable, int totalReplication, int totalUnreliable)
 			{
 				this.TotalPackets = totalPackets;
@@ -632,8 +562,6 @@ namespace TaleWorlds.MountAndBlade.Network
 				this.TotalOtherUpload = totalUpload - (totalConstants + totalReliable + totalReplication + totalUnreliable);
 			}
 
-			// Token: 0x17000A12 RID: 2578
-			// (get) Token: 0x06003FB8 RID: 16312 RVA: 0x000F8DE6 File Offset: 0x000F6FE6
 			public bool HasData
 			{
 				get
@@ -642,72 +570,54 @@ namespace TaleWorlds.MountAndBlade.Network
 				}
 			}
 
-			// Token: 0x06003FB9 RID: 16313 RVA: 0x000F8DF4 File Offset: 0x000F6FF4
 			public static DebugNetworkEventStatistics.TotalEventData operator -(DebugNetworkEventStatistics.TotalEventData d1, DebugNetworkEventStatistics.TotalEventData d2)
 			{
 				return new DebugNetworkEventStatistics.TotalEventData(d1.TotalPackets - d2.TotalPackets, d1.TotalUpload - d2.TotalUpload, d1.TotalConstantsUpload - d2.TotalConstantsUpload, d1.TotalReliableUpload - d2.TotalReliableUpload, d1.TotalReplicationUpload - d2.TotalReplicationUpload, d1.TotalUnreliableUpload - d2.TotalUnreliableUpload);
 			}
 
-			// Token: 0x06003FBA RID: 16314 RVA: 0x000F8E54 File Offset: 0x000F7054
 			public static bool operator ==(DebugNetworkEventStatistics.TotalEventData d1, DebugNetworkEventStatistics.TotalEventData d2)
 			{
 				return d1.TotalPackets == d2.TotalPackets && d1.TotalUpload == d2.TotalUpload && d1.TotalConstantsUpload == d2.TotalConstantsUpload && d1.TotalReliableUpload == d2.TotalReliableUpload && d1.TotalReplicationUpload == d2.TotalReplicationUpload && d1.TotalUnreliableUpload == d2.TotalUnreliableUpload;
 			}
 
-			// Token: 0x06003FBB RID: 16315 RVA: 0x000F8EB7 File Offset: 0x000F70B7
 			public static bool operator !=(DebugNetworkEventStatistics.TotalEventData d1, DebugNetworkEventStatistics.TotalEventData d2)
 			{
 				return !(d1 == d2);
 			}
 
-			// Token: 0x0400226D RID: 8813
 			public readonly int TotalPackets;
 
-			// Token: 0x0400226E RID: 8814
 			public readonly int TotalUpload;
 
-			// Token: 0x0400226F RID: 8815
 			public readonly int TotalConstantsUpload;
 
-			// Token: 0x04002270 RID: 8816
 			public readonly int TotalReliableUpload;
 
-			// Token: 0x04002271 RID: 8817
 			public readonly int TotalReplicationUpload;
 
-			// Token: 0x04002272 RID: 8818
 			public readonly int TotalUnreliableUpload;
 
-			// Token: 0x04002273 RID: 8819
 			public readonly int TotalOtherUpload;
 		}
 
-		// Token: 0x020006B9 RID: 1721
 		private class PerEventData : IComparable<DebugNetworkEventStatistics.PerEventData>
 		{
-			// Token: 0x06003FBC RID: 16316 RVA: 0x000F8EC3 File Offset: 0x000F70C3
 			public int CompareTo(DebugNetworkEventStatistics.PerEventData other)
 			{
 				return other.TotalDataSize - this.TotalDataSize;
 			}
 
-			// Token: 0x04002274 RID: 8820
 			public string Name;
 
-			// Token: 0x04002275 RID: 8821
 			public int DataSize;
 
-			// Token: 0x04002276 RID: 8822
 			public int TotalDataSize;
 
-			// Token: 0x04002277 RID: 8823
 			public int Count;
 		}
 
-		// Token: 0x020006BA RID: 1722
 		public class PerSecondEventData
 		{
-			// Token: 0x06003FBE RID: 16318 RVA: 0x000F8EDA File Offset: 0x000F70DA
 			public PerSecondEventData(int totalUploadPerSecond, int constantsUploadPerSecond, int reliableUploadPerSecond, int replicationUploadPerSecond, int unreliableUploadPerSecond, int otherUploadPerSecond)
 			{
 				this.TotalUploadPerSecond = totalUploadPerSecond;
@@ -718,38 +628,27 @@ namespace TaleWorlds.MountAndBlade.Network
 				this.OtherUploadPerSecond = otherUploadPerSecond;
 			}
 
-			// Token: 0x04002278 RID: 8824
 			public readonly int TotalUploadPerSecond;
 
-			// Token: 0x04002279 RID: 8825
 			public readonly int ConstantsUploadPerSecond;
 
-			// Token: 0x0400227A RID: 8826
 			public readonly int ReliableUploadPerSecond;
 
-			// Token: 0x0400227B RID: 8827
 			public readonly int ReplicationUploadPerSecond;
 
-			// Token: 0x0400227C RID: 8828
 			public readonly int UnreliableUploadPerSecond;
 
-			// Token: 0x0400227D RID: 8829
 			public readonly int OtherUploadPerSecond;
 		}
 
-		// Token: 0x020006BB RID: 1723
 		private class TotalData
 		{
-			// Token: 0x0400227E RID: 8830
 			public float TotalTime;
 
-			// Token: 0x0400227F RID: 8831
 			public int TotalFrameCount;
 
-			// Token: 0x04002280 RID: 8832
 			public int TotalCount;
 
-			// Token: 0x04002281 RID: 8833
 			public int TotalDataSize;
 		}
 	}

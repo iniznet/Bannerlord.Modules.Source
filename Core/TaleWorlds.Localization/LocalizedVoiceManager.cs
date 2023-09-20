@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Localization
 {
-	// Token: 0x02000008 RID: 8
 	public static class LocalizedVoiceManager
 	{
-		// Token: 0x0600005C RID: 92 RVA: 0x0000369C File Offset: 0x0000189C
 		public static VoiceObject GetLocalizedVoice(string id)
 		{
 			VoiceObject voiceObject;
@@ -20,7 +18,6 @@ namespace TaleWorlds.Localization
 			return null;
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x000036BC File Offset: 0x000018BC
 		public static List<string> GetVoiceLanguageIds()
 		{
 			List<string> list = new List<string>();
@@ -34,7 +31,6 @@ namespace TaleWorlds.Localization
 			return list;
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00003734 File Offset: 0x00001934
 		internal static void LoadLanguage(string languageId)
 		{
 			LocalizedVoiceManager._voiceObjectDictionary.Clear();
@@ -45,7 +41,6 @@ namespace TaleWorlds.Localization
 			}
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x0000375C File Offset: 0x0000195C
 		private static XmlDocument LoadXmlFile(string xmlPath)
 		{
 			try
@@ -65,7 +60,6 @@ namespace TaleWorlds.Localization
 			return null;
 		}
 
-		// Token: 0x06000060 RID: 96 RVA: 0x000037DC File Offset: 0x000019DC
 		private static void LoadLanguage(LanguageData language)
 		{
 			foreach (KeyValuePair<string, string> keyValuePair in language.VoiceXmlPathsAndModulePaths)
@@ -104,7 +98,6 @@ namespace TaleWorlds.Localization
 			}
 		}
 
-		// Token: 0x04000014 RID: 20
 		private static readonly Dictionary<string, VoiceObject> _voiceObjectDictionary = new Dictionary<string, VoiceObject>();
 	}
 }

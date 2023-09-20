@@ -6,15 +6,10 @@ using psai.Editor;
 
 namespace psai.net
 {
-	// Token: 0x02000014 RID: 20
 	internal class Logik
 	{
-		// Token: 0x17000051 RID: 81
-		// (get) Token: 0x0600013D RID: 317 RVA: 0x00005F73 File Offset: 0x00004173
-		// (set) Token: 0x0600013E RID: 318 RVA: 0x00005F7A File Offset: 0x0000417A
 		internal static Logik Instance { get; private set; }
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00005F84 File Offset: 0x00004184
 		internal void Release()
 		{
 			for (int i = 0; i < this.m_playbackChannels.Length; i++)
@@ -24,25 +19,21 @@ namespace psai.net
 			this.m_platformLayer.Release();
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00005FBC File Offset: 0x000041BC
 		internal static int GetRandomInt(int min, int max)
 		{
 			return Logik.s_random.Next(min, max);
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x00005FCA File Offset: 0x000041CA
 		internal static float GetRandomFloat()
 		{
 			return (float)Logik.s_random.NextDouble();
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x00005FD7 File Offset: 0x000041D7
 		private static void UpdateMaximumLatencyForPlayingBackUnbufferedSounds()
 		{
 			Logik.s_audioLayerMaximumLatencyForPlayingBackUnbufferedSounds = Logik.s_audioLayerMaximumLatencyForBufferingSounds + Logik.s_audioLayerMaximumLatencyForPlayingbackPrebufferedSounds;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00005FE9 File Offset: 0x000041E9
 		internal PsaiResult SetMaximumLatencyNeededByPlatformToBufferSounddata(int latencyInMilliseconds)
 		{
 			if (latencyInMilliseconds >= 0)
@@ -54,7 +45,6 @@ namespace psai.net
 			return PsaiResult.invalidParam;
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x00005FFE File Offset: 0x000041FE
 		internal PsaiResult SetMaximumLatencyNeededByPlatformToPlayBackBufferedSounds(int latencyInMilliseconds)
 		{
 			if (latencyInMilliseconds >= 0)
@@ -66,7 +56,6 @@ namespace psai.net
 			return PsaiResult.invalidParam;
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x00006014 File Offset: 0x00004214
 		static Logik()
 		{
 			Logik.m_stopWatch.Start();
@@ -74,7 +63,6 @@ namespace psai.net
 			Logik.Instance = new Logik();
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00006068 File Offset: 0x00004268
 		private Logik()
 		{
 			this.m_platformLayer = new PlatformLayerStandalone(this);
@@ -102,14 +90,12 @@ namespace psai.net
 			this.m_paused = false;
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x00006182 File Offset: 0x00004382
 		private Logik(string pathToPcbFile)
 			: this()
 		{
 			this.LoadSoundtrack(pathToPcbFile);
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00006194 File Offset: 0x00004394
 		internal PsaiResult LoadSoundtrackFromProjectFile(string pathToProjectFile)
 		{
 			this.m_psaiCoreSoundtackFilepath = pathToProjectFile;
@@ -138,7 +124,6 @@ namespace psai.net
 			return psaiResult;
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x0000620C File Offset: 0x0000440C
 		public PsaiResult LoadSoundtrackByPsaiProject(PsaiProject psaiProject, string fullProjectPath)
 		{
 			this.m_soundtrack = psaiProject.BuildPsaiDotNetSoundtrackFromProject();
@@ -148,7 +133,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00006234 File Offset: 0x00004434
 		internal PsaiResult LoadSoundtrack(string pathToPcbFile)
 		{
 			this.m_psaiCoreSoundtackFilepath = pathToPcbFile;
@@ -167,7 +151,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x000062B4 File Offset: 0x000044B4
 		private void InitMembersAfterSoundtrackHasLoaded()
 		{
 			this.m_themeQueue.Clear();
@@ -188,7 +171,6 @@ namespace psai.net
 			this.m_soundtrack.BuildAllIndirectionSequences();
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x000063A4 File Offset: 0x000045A4
 		internal int GetLastBasicMoodId()
 		{
 			if (this.m_lastBasicMood != null)
@@ -198,7 +180,6 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x000063BC File Offset: 0x000045BC
 		public void SetLastBasicMood(int themeId)
 		{
 			Theme themeById = this.m_soundtrack.getThemeById(themeId);
@@ -210,26 +191,22 @@ namespace psai.net
 			this.m_lastBasicMood = null;
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x000063E8 File Offset: 0x000045E8
 		internal static bool CheckIfFileExists(string filepath)
 		{
 			return File.Exists(filepath);
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x000063F0 File Offset: 0x000045F0
 		private int GetRemainingMusicDurationSecondsOfCurrentTheme()
 		{
 			int num = Logik.GetTimestampMillisElapsedSinceInitialisation() - this.m_timeStampOfLastIntensitySetForCurrentTheme;
 			return this.m_lastMusicDuration - num / 1000;
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x00006418 File Offset: 0x00004618
 		internal static int GetTimestampMillisElapsedSinceInitialisation()
 		{
 			return (int)Logik.m_stopWatch.ElapsedMilliseconds;
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x00006425 File Offset: 0x00004625
 		private PsaiResult Readfile_ProtoBuf(Stream stream)
 		{
 			if (stream == null)
@@ -241,19 +218,16 @@ namespace psai.net
 			return PsaiResult.error_file;
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x00006444 File Offset: 0x00004644
 		internal string getVersion()
 		{
 			return "psai Version .NET 1.7.3";
 		}
 
-		// Token: 0x06000153 RID: 339 RVA: 0x0000644B File Offset: 0x0000464B
 		internal long GetCurrentSystemTimeMillis()
 		{
 			return (long)Logik.GetTimestampMillisElapsedSinceInitialisation();
 		}
 
-		// Token: 0x06000154 RID: 340 RVA: 0x00006454 File Offset: 0x00004654
 		private void startFade(int voiceId, int fadeoutMillis, int timeOffsetMillis)
 		{
 			if (voiceId > -1)
@@ -282,7 +256,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000155 RID: 341 RVA: 0x000064FC File Offset: 0x000046FC
 		private void AddFadeData(int voiceNumber, int fadeoutMillis, float currentVolume, int delayMillis)
 		{
 			FadeData fadeData = new FadeData();
@@ -293,7 +266,6 @@ namespace psai.net
 			this.m_fadeVoices.Add(fadeData);
 		}
 
-		// Token: 0x06000156 RID: 342 RVA: 0x00006544 File Offset: 0x00004744
 		internal int getNextVoiceNumber(bool forHighlight)
 		{
 			int num;
@@ -317,12 +289,10 @@ namespace psai.net
 			return num;
 		}
 
-		// Token: 0x06000157 RID: 343 RVA: 0x00006582 File Offset: 0x00004782
 		private void PsaiErrorCheck(PsaiResult result, string infoAboutLastCall)
 		{
 		}
 
-		// Token: 0x06000158 RID: 344 RVA: 0x00006584 File Offset: 0x00004784
 		private int GetMillisElapsedAfterCurrentSnippetPlaycall()
 		{
 			if (this.m_currentSegmentPlaying == null)
@@ -336,7 +306,6 @@ namespace psai.net
 			return this.m_timeStampPauseOn - this.m_timeStampCurrentSnippetPlaycall;
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x000065B4 File Offset: 0x000047B4
 		internal PsaiResult setPaused(bool setPaused)
 		{
 			if ((setPaused && !this.m_paused) || (!setPaused && this.m_paused))
@@ -369,7 +338,6 @@ namespace psai.net
 			return PsaiResult.commandIgnored;
 		}
 
-		// Token: 0x0600015A RID: 346 RVA: 0x00006698 File Offset: 0x00004898
 		internal PsaiResult Update()
 		{
 			if (!this.m_paused)
@@ -403,7 +371,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600015B RID: 347 RVA: 0x00006747 File Offset: 0x00004947
 		private void SetThemeAsLastBasicMood(Theme latestBasicMood)
 		{
 			if (latestBasicMood != null)
@@ -412,13 +379,11 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600015C RID: 348 RVA: 0x00006753 File Offset: 0x00004953
 		private bool CheckIfAnyThemeIsCurrentlyPlaying()
 		{
 			return this.m_psaiState == PsaiState.playing && this.m_currentSegmentPlaying != null && this.m_effectiveTheme != null;
 		}
 
-		// Token: 0x0600015D RID: 349 RVA: 0x00006774 File Offset: 0x00004974
 		internal PsaiResult ReturnToLastBasicMood(bool immediately)
 		{
 			if (this.m_initializationFailure)
@@ -482,7 +447,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600015E RID: 350 RVA: 0x00006898 File Offset: 0x00004A98
 		internal int getUpcomingThemeId()
 		{
 			PsaiState psaiState = this.m_psaiState;
@@ -501,7 +465,6 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x0600015F RID: 351 RVA: 0x000068DC File Offset: 0x00004ADC
 		internal PsaiResult TriggerMusicTheme(int argThemeId, float argIntensity)
 		{
 			Theme themeById = this.m_soundtrack.getThemeById(argThemeId);
@@ -516,7 +479,6 @@ namespace psai.net
 			return this.TriggerMusicTheme(themeById, argIntensity, themeById.musicDurationGeneral);
 		}
 
-		// Token: 0x06000160 RID: 352 RVA: 0x0000691C File Offset: 0x00004B1C
 		internal PsaiResult TriggerMusicTheme(int argThemeId, float argIntensity, int argMusicDuration)
 		{
 			Theme themeById = this.m_soundtrack.getThemeById(argThemeId);
@@ -527,7 +489,6 @@ namespace psai.net
 			return this.TriggerMusicTheme(themeById, argIntensity, argMusicDuration);
 		}
 
-		// Token: 0x06000161 RID: 353 RVA: 0x00006948 File Offset: 0x00004B48
 		internal PsaiResult TriggerMusicTheme(Theme argTheme, float argIntensity, int argMusicDuration)
 		{
 			if (this.m_initializationFailure)
@@ -695,7 +656,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000162 RID: 354 RVA: 0x00006D49 File Offset: 0x00004F49
 		internal static float ClampPercentValue(float argValue)
 		{
 			if (argValue > 1f)
@@ -709,7 +669,6 @@ namespace psai.net
 			return argValue;
 		}
 
-		// Token: 0x06000163 RID: 355 RVA: 0x00006D68 File Offset: 0x00004F68
 		internal PsaiResult AddToCurrentIntensity(float deltaIntensity, bool resetIntensityFalloffToFullMusicDuration)
 		{
 			if (this.m_psaiState == PsaiState.playing && this.m_psaiPlayMode == PsaiPlayMode.regular)
@@ -728,7 +687,6 @@ namespace psai.net
 			return PsaiResult.notReady;
 		}
 
-		// Token: 0x06000164 RID: 356 RVA: 0x00006DD4 File Offset: 0x00004FD4
 		internal PsaiResult PlaySegmentLayeredAndImmediately(int segmentId)
 		{
 			Segment segmentById = this.m_soundtrack.GetSegmentById(segmentId);
@@ -739,7 +697,6 @@ namespace psai.net
 			return PsaiResult.invalidHandle;
 		}
 
-		// Token: 0x06000165 RID: 357 RVA: 0x00006DFC File Offset: 0x00004FFC
 		internal void PlaySegmentLayeredAndImmediately(Segment segment)
 		{
 			this.m_hilightVoiceIndex = this.getNextVoiceNumber(true);
@@ -749,7 +706,6 @@ namespace psai.net
 			this.m_playbackChannels[this.m_hilightVoiceIndex].ScheduleSegmentPlayback(segment, Logik.s_audioLayerMaximumLatencyForBufferingSounds + Logik.s_audioLayerMaximumLatencyForPlayingbackPrebufferedSounds);
 		}
 
-		// Token: 0x06000166 RID: 358 RVA: 0x00006E70 File Offset: 0x00005070
 		private PsaiResult startHighlight(Theme highlightTheme)
 		{
 			if (highlightTheme.m_segments.Count <= 0)
@@ -777,19 +733,16 @@ namespace psai.net
 			return PsaiResult.essential_segment_missing;
 		}
 
-		// Token: 0x06000167 RID: 359 RVA: 0x00006F00 File Offset: 0x00005100
 		private void ClearLatestEndOfSegmentTriggerCall()
 		{
 			this.m_latestEndOfSegmentTriggerCall.themeId = -1;
 		}
 
-		// Token: 0x06000168 RID: 360 RVA: 0x00006F0E File Offset: 0x0000510E
 		private void ClearQueuedTheme()
 		{
 			this.m_themeQueue.Clear();
 		}
 
-		// Token: 0x06000169 RID: 361 RVA: 0x00006F1C File Offset: 0x0000511C
 		private bool pushThemeToThemeQueue(int themeId, float intensity, int musicDuration, bool clearThemeQueue, int restTimeMillis, PsaiPlayMode playMode, bool holdIntensity)
 		{
 			if (clearThemeQueue)
@@ -812,7 +765,6 @@ namespace psai.net
 			return false;
 		}
 
-		// Token: 0x0600016A RID: 362 RVA: 0x00006F90 File Offset: 0x00005190
 		private ThemeType getThemeTypeOfFirstThemeQueueEntry()
 		{
 			ThemeQueueEntry followingThemeQueueEntry = this.getFollowingThemeQueueEntry();
@@ -827,7 +779,6 @@ namespace psai.net
 			return ThemeType.none;
 		}
 
-		// Token: 0x0600016B RID: 363 RVA: 0x00006FC4 File Offset: 0x000051C4
 		internal float getUpcomingIntensity()
 		{
 			if (this.m_psaiState == PsaiState.playing && this.m_latestEndOfSegmentTriggerCall.themeId != -1)
@@ -837,7 +788,6 @@ namespace psai.net
 			return this.getCurrentIntensity();
 		}
 
-		// Token: 0x0600016C RID: 364 RVA: 0x00006FF0 File Offset: 0x000051F0
 		internal float getCurrentIntensity()
 		{
 			if (this.m_paused)
@@ -874,7 +824,6 @@ namespace psai.net
 			return num;
 		}
 
-		// Token: 0x0600016D RID: 365 RVA: 0x000070C8 File Offset: 0x000052C8
 		private PsaiResult PlaySegment(Segment targetSnippet, bool immediately)
 		{
 			if (this.m_initializationFailure)
@@ -921,7 +870,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600016E RID: 366 RVA: 0x000071EE File Offset: 0x000053EE
 		private PsaiResult LoadSegment(Segment snippet, int channelIndex)
 		{
 			if (snippet == null || channelIndex >= 9)
@@ -932,7 +880,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600016F RID: 367 RVA: 0x0000720C File Offset: 0x0000540C
 		private void PlayTargetSegmentImmediately()
 		{
 			int num;
@@ -963,7 +910,6 @@ namespace psai.net
 			this.m_psaiState = PsaiState.playing;
 		}
 
-		// Token: 0x06000170 RID: 368 RVA: 0x00007314 File Offset: 0x00005514
 		internal void SetSegmentEndApproachingAndReachedTimersAfterPlaybackHasStarted(int snippetPlaybackDelayMillis)
 		{
 			this.m_timeStampCurrentSnippetPlaycall = Logik.GetTimestampMillisElapsedSinceInitialisation() + snippetPlaybackDelayMillis;
@@ -977,13 +923,11 @@ namespace psai.net
 			this.m_timerSegmentEndReached.SetTimer(num, 0);
 		}
 
-		// Token: 0x06000171 RID: 369 RVA: 0x00007392 File Offset: 0x00005592
 		internal float getVolume()
 		{
 			return this.m_psaiMasterVolume;
 		}
 
-		// Token: 0x06000172 RID: 370 RVA: 0x0000739C File Offset: 0x0000559C
 		internal void setVolume(float vol)
 		{
 			this.m_psaiMasterVolume = vol;
@@ -1001,13 +945,11 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000173 RID: 371 RVA: 0x00007403 File Offset: 0x00005603
 		private PsaiResult PlayThemeNowOrAtEndOfCurrentSegmentAndStartEvaluation(ThemeQueueEntry tqe, bool immediately)
 		{
 			return this.PlayThemeNowOrAtEndOfCurrentSegmentAndStartEvaluation(tqe.themeId, tqe.startIntensity, tqe.musicDuration, immediately, tqe.holdIntensity);
 		}
 
-		// Token: 0x06000174 RID: 372 RVA: 0x00007424 File Offset: 0x00005624
 		private PsaiResult PlayThemeNowOrAtEndOfCurrentSegmentAndStartEvaluation(int themeId, float intensity, int musicDuration, bool immediately, bool holdIntensity)
 		{
 			this.SetCurrentIntensityAndMusicDuration(intensity, musicDuration, true);
@@ -1064,13 +1006,11 @@ namespace psai.net
 			return PsaiResult.internal_error;
 		}
 
-		// Token: 0x06000175 RID: 373 RVA: 0x0000752D File Offset: 0x0000572D
 		internal PsaiResult StopMusic(bool immediately)
 		{
 			return this.StopMusic(immediately, 1000);
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x0000753C File Offset: 0x0000573C
 		internal PsaiResult StopMusic(bool immediately, int fadeOutMilliSeconds)
 		{
 			if (immediately && fadeOutMilliSeconds <= 0)
@@ -1133,19 +1073,16 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x06000177 RID: 375 RVA: 0x00007620 File Offset: 0x00005820
 		private void WriteLogWarningIfThereIsNoDirectPathForEffectiveSnippetToEndSnippet()
 		{
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x00007624 File Offset: 0x00005824
 		private bool CheckIfThereIsAPathToEndSegmentForEffectiveSegmentAndLogWarningIfThereIsnt()
 		{
 			Segment effectiveSegment = this.GetEffectiveSegment();
 			return effectiveSegment.IsUsableAs(SegmentSuitability.end) || effectiveSegment.nextSnippetToShortestEndSequence != null;
 		}
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000764C File Offset: 0x0000584C
 		private void updateFades()
 		{
 			bool flag = false;
@@ -1198,7 +1135,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600017A RID: 378 RVA: 0x00007770 File Offset: 0x00005970
 		internal PsaiResult HoldCurrentIntensity(bool hold)
 		{
 			switch (this.m_psaiPlayModeIntended)
@@ -1233,7 +1169,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600017B RID: 379 RVA: 0x000077FC File Offset: 0x000059FC
 		private void SetCurrentIntensityAndMusicDuration(float intensity, int musicDuration, bool recalculateIntensitySlope)
 		{
 			this.m_timeStampOfLastIntensitySetForCurrentTheme = Logik.GetTimestampMillisElapsedSinceInitialisation();
@@ -1245,7 +1180,6 @@ namespace psai.net
 			this.m_startOrRetriggerIntensityOfCurrentTheme = intensity;
 		}
 
-		// Token: 0x0600017C RID: 380 RVA: 0x00007824 File Offset: 0x00005A24
 		private void SegmentEndApproachingHandler()
 		{
 			if (this.m_latestEndOfSegmentTriggerCall.themeId != -1)
@@ -1323,7 +1257,6 @@ namespace psai.net
 			this.PlaySegment(this.m_currentSegmentPlaying.nextSnippetToShortestEndSequence, false);
 		}
 
-		// Token: 0x0600017D RID: 381 RVA: 0x00007A57 File Offset: 0x00005C57
 		private PsaiResult PlayThemeAtEndOfCurrentSegment(Theme argTheme, float intensity, int musicDuration)
 		{
 			this.m_latestEndOfSegmentTriggerCall.themeId = argTheme.id;
@@ -1333,7 +1266,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600017E RID: 382 RVA: 0x00007A8A File Offset: 0x00005C8A
 		private PsaiResult PlayThemeAtEndOfCurrentTheme(Theme argTheme, float argIntensity, int argMusicDuration)
 		{
 			this.ClearLatestEndOfSegmentTriggerCall();
@@ -1342,7 +1274,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x00007AAC File Offset: 0x00005CAC
 		private void SegmentEndReachedHandler()
 		{
 			if (this.m_targetSegment == null)
@@ -1351,7 +1282,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x00007AC0 File Offset: 0x00005CC0
 		private void InitiateTransitionToRestOrSilence(PsaiState psaiStateIntended)
 		{
 			if ((psaiStateIntended == PsaiState.rest || psaiStateIntended == PsaiState.silence) && this.m_currentSegmentPlaying != null)
@@ -1373,13 +1303,11 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x00007B4C File Offset: 0x00005D4C
 		private void InitiateTransitionToRestMode()
 		{
 			this.InitiateTransitionToRestOrSilence(PsaiState.rest);
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x00007B58 File Offset: 0x00005D58
 		private void IntensityZeroHandler()
 		{
 			if (this.m_currentSegmentPlaying != null)
@@ -1434,13 +1362,11 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x00007C42 File Offset: 0x00005E42
 		public PsaiResult GoToRest(bool immediately, int fadeOutMilliSeconds)
 		{
 			return this.GoToRest(immediately, fadeOutMilliSeconds, -1, -1);
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x00007C50 File Offset: 0x00005E50
 		public PsaiResult GoToRest(bool immediately, int fadeOutMilliSeconds, int restSecondsOverrideMin, int restSecondsOverrideMax)
 		{
 			if (restSecondsOverrideMin > restSecondsOverrideMax)
@@ -1471,7 +1397,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x00007CB8 File Offset: 0x00005EB8
 		private void EnterRestMode(int themeIdToWakeUpWith, int themeIdToUseForRestingTimeCalculation)
 		{
 			this.m_psaiState = PsaiState.rest;
@@ -1510,7 +1435,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000186 RID: 390 RVA: 0x00007D9C File Offset: 0x00005F9C
 		private void WakeUpFromRestHandler()
 		{
 			if (this.m_effectiveTheme != null)
@@ -1521,7 +1445,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000187 RID: 391 RVA: 0x00007DEC File Offset: 0x00005FEC
 		private Segment GetBestCompatibleSegment(Segment sourceSegment, int targetThemeId, float intensity, int allowedSegmentSuitabilities)
 		{
 			float num = 0f;
@@ -1576,7 +1499,6 @@ namespace psai.net
 			return this.ChooseBestSegmentFromList(list, weighting, intensity, num3, num2, num);
 		}
 
-		// Token: 0x06000188 RID: 392 RVA: 0x00007F18 File Offset: 0x00006118
 		private Segment GetBestStartSegmentForTheme(int themeId, float intensity)
 		{
 			Theme themeById = this.m_soundtrack.getThemeById(themeId);
@@ -1587,7 +1509,6 @@ namespace psai.net
 			return this.GetBestStartSegmentForTheme_internal(themeById, intensity);
 		}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x00007F40 File Offset: 0x00006140
 		private Segment GetBestStartSegmentForTheme_internal(Theme theme, float intensity)
 		{
 			float num = 0f;
@@ -1629,7 +1550,6 @@ namespace psai.net
 			return this.ChooseBestSegmentFromList(list, weightings, intensity, num3, num2, num);
 		}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x00008028 File Offset: 0x00006228
 		private Segment ChooseBestSegmentFromList(List<Follower> segmentList, Weighting weighting, float intensity, int maxPlaycount, int minPlaycount, float maxDeltaIntensity)
 		{
 			Segment segment = null;
@@ -1687,7 +1607,6 @@ namespace psai.net
 			return segment;
 		}
 
-		// Token: 0x0600018B RID: 395 RVA: 0x0000818C File Offset: 0x0000638C
 		private void PlaySegmentOfCurrentTheme(SegmentSuitability snippetType)
 		{
 			if (this.m_effectiveTheme != null)
@@ -1709,7 +1628,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600018C RID: 396 RVA: 0x000081F4 File Offset: 0x000063F4
 		private Segment substituteSegment(int themeId)
 		{
 			Segment segment = null;
@@ -1721,7 +1639,6 @@ namespace psai.net
 			return segment;
 		}
 
-		// Token: 0x0600018D RID: 397 RVA: 0x00008234 File Offset: 0x00006434
 		private void EnterSilenceMode()
 		{
 			this.m_timerStartSnippetPlayback.Stop();
@@ -1734,19 +1651,16 @@ namespace psai.net
 			this.m_psaiState = PsaiState.silence;
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x00008285 File Offset: 0x00006485
 		internal bool menuModeIsActive()
 		{
 			return this.m_psaiPlayMode == PsaiPlayMode.menuMode;
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x00008290 File Offset: 0x00006490
 		internal bool cutSceneIsActive()
 		{
 			return this.m_psaiPlayModeIntended == PsaiPlayMode.cutScene;
 		}
 
-		// Token: 0x06000190 RID: 400 RVA: 0x0000829C File Offset: 0x0000649C
 		internal PsaiResult MenuModeEnter(int menuThemeId, float menuIntensity)
 		{
 			if (this.m_initializationFailure)
@@ -1782,7 +1696,6 @@ namespace psai.net
 			return PsaiResult.commandIgnoredMenuModeActive;
 		}
 
-		// Token: 0x06000191 RID: 401 RVA: 0x0000833C File Offset: 0x0000653C
 		internal PsaiResult MenuModeLeave()
 		{
 			if (this.m_initializationFailure)
@@ -1810,7 +1723,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x06000192 RID: 402 RVA: 0x000083A8 File Offset: 0x000065A8
 		internal PsaiResult CutSceneEnter(int themeId, float intensity)
 		{
 			if (this.m_initializationFailure)
@@ -1839,7 +1751,6 @@ namespace psai.net
 			return PsaiResult.unknown_theme;
 		}
 
-		// Token: 0x06000193 RID: 403 RVA: 0x00008430 File Offset: 0x00006630
 		internal PsaiResult CutSceneLeave(bool immediately, bool reset)
 		{
 			if (this.m_initializationFailure)
@@ -1867,7 +1778,6 @@ namespace psai.net
 			return PsaiResult.OK;
 		}
 
-		// Token: 0x06000194 RID: 404 RVA: 0x000084A1 File Offset: 0x000066A1
 		private ThemeQueueEntry getFollowingThemeQueueEntry()
 		{
 			if (this.m_themeQueue.Count > 0)
@@ -1877,13 +1787,11 @@ namespace psai.net
 			return null;
 		}
 
-		// Token: 0x06000195 RID: 405 RVA: 0x000084BF File Offset: 0x000066BF
 		private void SetPlayMode(PsaiPlayMode playMode)
 		{
 			this.m_psaiPlayMode = playMode;
 		}
 
-		// Token: 0x06000196 RID: 406 RVA: 0x000084C8 File Offset: 0x000066C8
 		private void PushEffectiveThemeToThemeQueue(PsaiPlayMode playModeToReturnTo)
 		{
 			if (this.m_psaiState == PsaiState.rest)
@@ -1913,7 +1821,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000197 RID: 407 RVA: 0x00008619 File Offset: 0x00006819
 		private Segment GetEffectiveSegment()
 		{
 			if (this.m_targetSegment != null)
@@ -1927,7 +1834,6 @@ namespace psai.net
 			return null;
 		}
 
-		// Token: 0x06000198 RID: 408 RVA: 0x0000863A File Offset: 0x0000683A
 		internal int getEffectiveThemeId()
 		{
 			if (this.m_effectiveTheme != null)
@@ -1937,7 +1843,6 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x06000199 RID: 409 RVA: 0x00008651 File Offset: 0x00006851
 		private int GetEffectiveSegmentSuitabilitiesRequested()
 		{
 			if (this.m_targetSegment != null)
@@ -1947,7 +1852,6 @@ namespace psai.net
 			return this.m_currentSnippetTypeRequested;
 		}
 
-		// Token: 0x0600019A RID: 410 RVA: 0x00008668 File Offset: 0x00006868
 		private void PopAndPlayNextFollowingTheme(bool immediately)
 		{
 			if (this.getFollowingThemeQueueEntry() != null)
@@ -1970,7 +1874,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600019B RID: 411 RVA: 0x00008701 File Offset: 0x00006901
 		private void removeFirstFollowingThemeQueueEntry()
 		{
 			if (this.m_themeQueue.Count > 0)
@@ -1979,7 +1882,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600019C RID: 412 RVA: 0x00008720 File Offset: 0x00006920
 		internal PsaiInfo getPsaiInfo()
 		{
 			PsaiState psaiState = this.m_psaiState;
@@ -1995,7 +1897,6 @@ namespace psai.net
 			return new PsaiInfo(psaiState, psaiStateIntended, num, effectiveThemeId, upcomingThemeId, currentIntensity, upcomingIntensity, count, (targetSegment != null) ? targetSegment.Id : (-1), this.m_holdIntensity, this.m_returnToLastBasicMoodFlag, this.m_timerWakeUpFromRest.IsSet() ? this.m_timerWakeUpFromRest.GetRemainingMillisToFireTime() : 0, this.m_paused);
 		}
 
-		// Token: 0x0600019D RID: 413 RVA: 0x000087B2 File Offset: 0x000069B2
 		internal int getCurrentSnippetId()
 		{
 			if (this.m_currentSegmentPlaying != null)
@@ -2005,7 +1906,6 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x0600019E RID: 414 RVA: 0x000087C9 File Offset: 0x000069C9
 		internal int GetRemainingMillisecondsOfCurrentSegmentPlayback()
 		{
 			if (this.m_currentSegmentPlaying != null)
@@ -2015,7 +1915,6 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x0600019F RID: 415 RVA: 0x000087EC File Offset: 0x000069EC
 		internal int GetRemainingMillisecondsUntilNextSegmentStart()
 		{
 			if (this.m_timerStartSnippetPlayback.IsSet() && this.m_timerStartSnippetPlayback.IsSet())
@@ -2025,200 +1924,136 @@ namespace psai.net
 			return -1;
 		}
 
-		// Token: 0x060001A0 RID: 416 RVA: 0x00008818 File Offset: 0x00006A18
 		internal bool CheckIfAtLeastOneDirectTransitionOrLayeringIsPossible(int sourceSegmentId, int targetThemeId)
 		{
 			Segment segmentById = this.m_soundtrack.GetSegmentById(sourceSegmentId);
 			return segmentById != null && segmentById.CheckIfAtLeastOneDirectTransitionOrLayeringIsPossible(this.m_soundtrack, targetThemeId);
 		}
 
-		// Token: 0x040000AB RID: 171
 		private const string PSAI_VERSION = ".NET 1.7.3";
 
-		// Token: 0x040000AC RID: 172
 		private const string m_fullVersionString = "psai Version .NET 1.7.3";
 
-		// Token: 0x040000AD RID: 173
 		internal const float COMPATIBILITY_PERCENTAGE_SAME_GROUP = 1f;
 
-		// Token: 0x040000AE RID: 174
 		internal const float COMPATIBILITY_PERCENTAGE_OTHER_GROUP = 0.5f;
 
-		// Token: 0x040000AF RID: 175
 		internal const int PSAI_CHANNEL_COUNT = 9;
 
-		// Token: 0x040000B0 RID: 176
 		internal const int PSAI_CHANNEL_COUNT_HIGHLIGHTS = 2;
 
-		// Token: 0x040000B1 RID: 177
 		internal const int PSAI_FADING_UPDATE_INVERVAL_MILLIS = 50;
 
-		// Token: 0x040000B2 RID: 178
 		internal const int PSAI_FADEOUTMILLIS_PLAYIMMEDIATELY = 500;
 
-		// Token: 0x040000B3 RID: 179
 		internal const int PSAI_FADEOUTMILLIS_STOPMUSIC = 1000;
 
-		// Token: 0x040000B4 RID: 180
 		internal const int PSAI_FADEOUTMILLIS_HIGHLIGHT_INTERRUPTED = 2000;
 
-		// Token: 0x040000B5 RID: 181
 		internal const int SNIPPET_TYPE_MIDDLE_OR_BRIDGE = 10;
 
-		// Token: 0x040000B7 RID: 183
 		private static Random s_random = new Random();
 
-		// Token: 0x040000B8 RID: 184
 		internal Soundtrack m_soundtrack;
 
-		// Token: 0x040000B9 RID: 185
 		private List<FadeData> m_fadeVoices;
 
-		// Token: 0x040000BA RID: 186
 		private int m_currentVoiceNumber;
 
-		// Token: 0x040000BB RID: 187
 		private int m_targetVoice;
 
-		// Token: 0x040000BC RID: 188
 		private IPlatformLayer m_platformLayer;
 
-		// Token: 0x040000BD RID: 189
 		private bool m_initializationFailure;
 
-		// Token: 0x040000BE RID: 190
 		internal string m_psaiCoreSoundtackFilepath;
 
-		// Token: 0x040000BF RID: 191
 		internal string m_psaiCoreSoundtrackDirectoryName;
 
-		// Token: 0x040000C0 RID: 192
 		private static Stopwatch m_stopWatch = new Stopwatch();
 
-		// Token: 0x040000C1 RID: 193
 		private Theme m_lastBasicMood;
 
-		// Token: 0x040000C2 RID: 194
 		private int m_hilightVoiceIndex;
 
-		// Token: 0x040000C3 RID: 195
 		private int m_lastRegularVoiceNumberReturned;
 
-		// Token: 0x040000C4 RID: 196
 		private float m_psaiMasterVolume;
 
-		// Token: 0x040000C5 RID: 197
 		private Segment m_currentSegmentPlaying;
 
-		// Token: 0x040000C6 RID: 198
 		private int m_currentSnippetTypeRequested;
 
-		// Token: 0x040000C7 RID: 199
 		private Theme m_effectiveTheme;
 
-		// Token: 0x040000C8 RID: 200
 		private int m_timeStampCurrentSnippetPlaycall;
 
-		// Token: 0x040000C9 RID: 201
 		private int m_estimatedTimestampOfTargetSnippetPlayback;
 
-		// Token: 0x040000CA RID: 202
 		private int m_timeStampOfLastIntensitySetForCurrentTheme;
 
-		// Token: 0x040000CB RID: 203
 		private int m_timeStampRestStart;
 
-		// Token: 0x040000CC RID: 204
 		private Segment m_targetSegment;
 
-		// Token: 0x040000CD RID: 205
 		private int m_targetSegmentSuitabilitiesRequested;
 
-		// Token: 0x040000CE RID: 206
 		private float m_currentIntensitySlope;
 
-		// Token: 0x040000CF RID: 207
 		private float m_lastIntensity;
 
-		// Token: 0x040000D0 RID: 208
 		private bool m_holdIntensity;
 
-		// Token: 0x040000D1 RID: 209
 		private float m_heldIntensity;
 
-		// Token: 0x040000D2 RID: 210
 		private bool m_scheduleFadeoutUponSnippetPlayback;
 
-		// Token: 0x040000D3 RID: 211
 		private float m_startOrRetriggerIntensityOfCurrentTheme;
 
-		// Token: 0x040000D4 RID: 212
 		private int m_lastMusicDuration;
 
-		// Token: 0x040000D5 RID: 213
 		private int m_remainingMusicDurationAtTimeOfHoldIntensity;
 
-		// Token: 0x040000D6 RID: 214
 		private PsaiState m_psaiState;
 
-		// Token: 0x040000D7 RID: 215
 		private PsaiState m_psaiStateIntended;
 
-		// Token: 0x040000D8 RID: 216
 		private List<ThemeQueueEntry> m_themeQueue;
 
-		// Token: 0x040000D9 RID: 217
 		private PsaiPlayMode m_psaiPlayMode;
 
-		// Token: 0x040000DA RID: 218
 		private PsaiPlayMode m_psaiPlayModeIntended;
 
-		// Token: 0x040000DB RID: 219
 		private bool m_returnToLastBasicMoodFlag;
 
-		// Token: 0x040000DC RID: 220
 		private PlaybackChannel[] m_playbackChannels = new PlaybackChannel[9];
 
-		// Token: 0x040000DD RID: 221
 		internal static int s_audioLayerMaximumLatencyForPlayingbackPrebufferedSounds = 50;
 
-		// Token: 0x040000DE RID: 222
 		internal static int s_audioLayerMaximumLatencyForBufferingSounds = 200;
 
-		// Token: 0x040000DF RID: 223
 		internal static int s_audioLayerMaximumLatencyForPlayingBackUnbufferedSounds;
 
-		// Token: 0x040000E0 RID: 224
 		internal static int s_updateIntervalMillis = 100;
 
-		// Token: 0x040000E1 RID: 225
 		private PsaiTimer m_timerStartSnippetPlayback = new PsaiTimer();
 
-		// Token: 0x040000E2 RID: 226
 		private PsaiTimer m_timerSegmentEndApproaching = new PsaiTimer();
 
-		// Token: 0x040000E3 RID: 227
 		private PsaiTimer m_timerSegmentEndReached = new PsaiTimer();
 
-		// Token: 0x040000E4 RID: 228
 		private PsaiTimer m_timerFades = new PsaiTimer();
 
-		// Token: 0x040000E5 RID: 229
 		private PsaiTimer m_timerWakeUpFromRest = new PsaiTimer();
 
-		// Token: 0x040000E6 RID: 230
 		private int m_timeStampOfLastFadeUpdate;
 
-		// Token: 0x040000E7 RID: 231
 		private ThemeQueueEntry m_latestEndOfSegmentTriggerCall = new ThemeQueueEntry();
 
-		// Token: 0x040000E8 RID: 232
 		private bool m_paused;
 
-		// Token: 0x040000E9 RID: 233
 		private int m_timeStampPauseOn;
 
-		// Token: 0x040000EA RID: 234
 		private int m_restModeSecondsOverride;
 	}
 }

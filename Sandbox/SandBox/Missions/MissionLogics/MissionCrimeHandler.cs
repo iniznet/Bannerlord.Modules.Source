@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000047 RID: 71
 	public class MissionCrimeHandler : MissionLogic
 	{
-		// Token: 0x06000376 RID: 886 RVA: 0x00019370 File Offset: 0x00017570
 		protected override void OnEndMission()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsFortification)

@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200014C RID: 332
 	public class DefaultVoiceOverModel : VoiceOverModel
 	{
-		// Token: 0x06001811 RID: 6161 RVA: 0x00079DFC File Offset: 0x00077FFC
 		public override string GetSoundPathForCharacter(CharacterObject character, VoiceObject voiceObject)
 		{
 			if (voiceObject == null)
@@ -91,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text2 + ".ogg";
 		}
 
-		// Token: 0x06001812 RID: 6162 RVA: 0x0007A1AC File Offset: 0x000783AC
 		private void CheckPossibleMatches(VoiceObject voiceObject, List<string> possibleMatches, ref List<string> possibleVoicePaths, bool doubleCheckForGender = false, bool isFemale = false)
 		{
 			foreach (string text in possibleMatches)
@@ -117,7 +114,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001813 RID: 6163 RVA: 0x0007A29C File Offset: 0x0007849C
 		public override string GetAccentClass(CultureObject culture, bool isHighClass)
 		{
 			if (culture.StringId == "empire")
@@ -178,52 +174,36 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x04000881 RID: 2177
 		private const string ImperialHighClass = "imperial_high";
 
-		// Token: 0x04000882 RID: 2178
 		private const string ImperialLowClass = "imperial_low";
 
-		// Token: 0x04000883 RID: 2179
 		private const string VlandianClass = "vlandian";
 
-		// Token: 0x04000884 RID: 2180
 		private const string SturgianClass = "sturgian";
 
-		// Token: 0x04000885 RID: 2181
 		private const string KhuzaitClass = "khuzait";
 
-		// Token: 0x04000886 RID: 2182
 		private const string AseraiClass = "aserai";
 
-		// Token: 0x04000887 RID: 2183
 		private const string BattanianClass = "battanian";
 
-		// Token: 0x04000888 RID: 2184
 		private const string ForestBanditClass = "forest_bandits";
 
-		// Token: 0x04000889 RID: 2185
 		private const string SeaBanditClass = "sea_raiders";
 
-		// Token: 0x0400088A RID: 2186
 		private const string MountainBanditClass = "mountain_bandits";
 
-		// Token: 0x0400088B RID: 2187
 		private const string DesertBanditClass = "desert_bandits";
 
-		// Token: 0x0400088C RID: 2188
 		private const string SteppeBanditClass = "steppe_bandits";
 
-		// Token: 0x0400088D RID: 2189
 		private const string LootersClass = "looters";
 
-		// Token: 0x0400088E RID: 2190
 		private const string Male = "male";
 
-		// Token: 0x0400088F RID: 2191
 		private const string Female = "female";
 
-		// Token: 0x04000890 RID: 2192
 		private const string GenericPersonaId = "generic";
 	}
 }

@@ -5,11 +5,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000202 RID: 514
 	public class EditorGame : GameType
 	{
-		// Token: 0x170005AD RID: 1453
-		// (get) Token: 0x06001C7D RID: 7293 RVA: 0x00065621 File Offset: 0x00063821
 		public static EditorGame Current
 		{
 			get
@@ -18,7 +15,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001C7F RID: 7295 RVA: 0x0006563C File Offset: 0x0006383C
 		protected override void OnInitialize()
 		{
 			Game currentGame = base.CurrentGame;
@@ -41,7 +37,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameManager.OnGameInitializationFinished(base.CurrentGame);
 		}
 
-		// Token: 0x06001C80 RID: 7296 RVA: 0x00065704 File Offset: 0x00063904
 		private void InitializeGameModels(IGameStarter basicGameStarter)
 		{
 			basicGameStarter.AddModel(new CustomBattleAgentStatCalculateModel());
@@ -59,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			basicGameStarter.AddModel(new DefaultItemPickupModel());
 		}
 
-		// Token: 0x06001C81 RID: 7297 RVA: 0x000657A0 File Offset: 0x000639A0
 		private void LoadCustomGameXmls()
 		{
 			base.ObjectManager.LoadXML("Items", false);
@@ -68,19 +62,16 @@ namespace TaleWorlds.MountAndBlade
 			base.ObjectManager.LoadXML("SPCultures", false);
 		}
 
-		// Token: 0x06001C82 RID: 7298 RVA: 0x000657F1 File Offset: 0x000639F1
 		protected override void BeforeRegisterTypes(MBObjectManager objectManager)
 		{
 		}
 
-		// Token: 0x06001C83 RID: 7299 RVA: 0x000657F3 File Offset: 0x000639F3
 		protected override void OnRegisterTypes(MBObjectManager objectManager)
 		{
 			objectManager.RegisterType<BasicCharacterObject>("NPCCharacter", "NPCCharacters", 43U, true, false);
 			objectManager.RegisterType<BasicCultureObject>("Culture", "SPCultures", 17U, true, false);
 		}
 
-		// Token: 0x06001C84 RID: 7300 RVA: 0x0006581D File Offset: 0x00063A1D
 		protected override void DoLoadingForGameType(GameTypeLoadingStates gameTypeLoadingState, out GameTypeLoadingStates nextState)
 		{
 			nextState = GameTypeLoadingStates.None;
@@ -103,12 +94,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001C85 RID: 7301 RVA: 0x0006584F File Offset: 0x00063A4F
 		public override void OnDestroy()
 		{
 		}
 
-		// Token: 0x06001C86 RID: 7302 RVA: 0x00065851 File Offset: 0x00063A51
 		public override void OnStateChanged(GameState oldState)
 		{
 		}

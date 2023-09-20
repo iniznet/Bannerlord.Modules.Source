@@ -12,11 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Inventory
 {
-	// Token: 0x020000D7 RID: 215
 	public class InventoryManager
 	{
-		// Token: 0x1700057B RID: 1403
-		// (get) Token: 0x0600133C RID: 4924 RVA: 0x0005652E File Offset: 0x0005472E
 		public InventoryMode CurrentMode
 		{
 			get
@@ -25,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			}
 		}
 
-		// Token: 0x1700057C RID: 1404
-		// (get) Token: 0x0600133D RID: 4925 RVA: 0x00056536 File Offset: 0x00054736
 		public static InventoryManager Instance
 		{
 			get
@@ -35,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			}
 		}
 
-		// Token: 0x1700057D RID: 1405
-		// (get) Token: 0x0600133E RID: 4926 RVA: 0x00056542 File Offset: 0x00054742
 		public static InventoryLogic InventoryLogic
 		{
 			get
@@ -45,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			}
 		}
 
-		// Token: 0x0600133F RID: 4927 RVA: 0x0005654E File Offset: 0x0005474E
 		public void PlayerAcceptTradeOffer()
 		{
 			InventoryLogic inventoryLogic = this._inventoryLogic;
@@ -56,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			inventoryLogic.SetPlayerAcceptTraderOffer();
 		}
 
-		// Token: 0x06001340 RID: 4928 RVA: 0x00056560 File Offset: 0x00054760
 		public void CloseInventoryPresentation(bool fromCancel)
 		{
 			if (this._inventoryLogic.DoneLogic())
@@ -72,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			}
 		}
 
-		// Token: 0x06001341 RID: 4929 RVA: 0x000565A0 File Offset: 0x000547A0
 		private void OpenInventoryPresentation(TextObject leftRosterName)
 		{
 			ItemRoster itemRoster = new ItemRoster();
@@ -96,7 +86,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x06001342 RID: 4930 RVA: 0x00056664 File Offset: 0x00054864
 		private static IMarketData GetCurrentMarketData()
 		{
 			IMarketData marketData = null;
@@ -126,7 +115,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			return marketData;
 		}
 
-		// Token: 0x06001343 RID: 4931 RVA: 0x000566D0 File Offset: 0x000548D0
 		public static void OpenScreenAsInventoryOfSubParty(MobileParty rightParty, MobileParty leftParty, InventoryManager.DoneLogicExtrasDelegate doneLogicExtrasDelegate)
 		{
 			Hero leaderHero = rightParty.LeaderHero;
@@ -145,7 +133,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x06001344 RID: 4932 RVA: 0x00056764 File Offset: 0x00054964
 		public static void OpenScreenAsInventoryForCraftedItemDecomposition(MobileParty party, CharacterObject character, InventoryManager.DoneLogicExtrasDelegate doneLogicExtrasDelegate)
 		{
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
@@ -156,7 +143,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x06001345 RID: 4933 RVA: 0x000567EC File Offset: 0x000549EC
 		public static void OpenScreenAsInventoryOf(MobileParty party, CharacterObject character)
 		{
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
@@ -166,7 +152,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x06001346 RID: 4934 RVA: 0x00056868 File Offset: 0x00054A68
 		public static void OpenScreenAsInventoryOf(PartyBase rightParty, PartyBase leftParty)
 		{
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(leftParty);
@@ -183,7 +168,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x06001347 RID: 4935 RVA: 0x000568F9 File Offset: 0x00054AF9
 		public static void OpenScreenAsInventory(InventoryManager.DoneLogicExtrasDelegate doneLogicExtrasDelegate = null)
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Default;
@@ -191,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			InventoryManager.Instance._doneLogicExtrasDelegate = doneLogicExtrasDelegate;
 		}
 
-		// Token: 0x06001348 RID: 4936 RVA: 0x00056926 File Offset: 0x00054B26
 		public static void OpenCampaignBattleLootScreen()
 		{
 			InventoryManager.OpenScreenAsLoot(new Dictionary<PartyBase, ItemRoster> { 
@@ -201,7 +184,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			} });
 		}
 
-		// Token: 0x06001349 RID: 4937 RVA: 0x0005694C File Offset: 0x00054B4C
 		public static void OpenScreenAsLoot(Dictionary<PartyBase, ItemRoster> itemRostersToLoot)
 		{
 			ItemRoster itemRoster = itemRostersToLoot[PartyBase.MainParty];
@@ -213,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x0600134A RID: 4938 RVA: 0x000569E8 File Offset: 0x00054BE8
 		public static void OpenScreenAsStash(ItemRoster stash)
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Stash;
@@ -224,7 +205,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x0600134B RID: 4939 RVA: 0x00056A70 File Offset: 0x00054C70
 		public static void OpenScreenAsReceiveItems(ItemRoster items, TextObject leftRosterName, InventoryManager.DoneLogicExtrasDelegate doneLogicDelegate = null)
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Default;
@@ -236,7 +216,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x0600134C RID: 4940 RVA: 0x00056B08 File Offset: 0x00054D08
 		public static void OpenTradeWithCaravanOrAlleyParty(MobileParty caravan, InventoryManager.InventoryCategoryType merchantItemType = InventoryManager.InventoryCategoryType.None)
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Trade;
@@ -248,13 +227,11 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
 		}
 
-		// Token: 0x0600134D RID: 4941 RVA: 0x00056BB9 File Offset: 0x00054DB9
 		public static void ActivateTradeWithCurrentSettlement()
 		{
 			InventoryManager.OpenScreenAsTrade(Settlement.CurrentSettlement.ItemRoster, Settlement.CurrentSettlement.SettlementComponent, InventoryManager.InventoryCategoryType.None, null);
 		}
 
-		// Token: 0x0600134E RID: 4942 RVA: 0x00056BD8 File Offset: 0x00054DD8
 		public static void OpenScreenAsTrade(ItemRoster leftRoster, SettlementComponent settlementComponent, InventoryManager.InventoryCategoryType merchantItemType = InventoryManager.InventoryCategoryType.None, InventoryManager.DoneLogicExtrasDelegate doneLogicExtrasDelegate = null)
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Trade;
@@ -268,7 +245,6 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			inventoryState.Handler.FilterInventoryAtOpening(merchantItemType);
 		}
 
-		// Token: 0x0600134F RID: 4943 RVA: 0x00056C98 File Offset: 0x00054E98
 		public static InventoryItemType GetInventoryItemTypeOfItem(ItemObject item)
 		{
 			if (item != null)
@@ -326,56 +302,38 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			return InventoryItemType.None;
 		}
 
-		// Token: 0x040006B9 RID: 1721
 		private InventoryMode _currentMode;
 
-		// Token: 0x040006BA RID: 1722
 		private InventoryLogic _inventoryLogic;
 
-		// Token: 0x040006BB RID: 1723
 		private InventoryManager.DoneLogicExtrasDelegate _doneLogicExtrasDelegate;
 
-		// Token: 0x020004EB RID: 1259
 		public enum InventoryCategoryType
 		{
-			// Token: 0x04001524 RID: 5412
 			None = -1,
-			// Token: 0x04001525 RID: 5413
 			All,
-			// Token: 0x04001526 RID: 5414
 			Armors,
-			// Token: 0x04001527 RID: 5415
 			Weapon,
-			// Token: 0x04001528 RID: 5416
 			Shield,
-			// Token: 0x04001529 RID: 5417
 			HorseCategory,
-			// Token: 0x0400152A RID: 5418
 			Goods,
-			// Token: 0x0400152B RID: 5419
 			CategoryTypeAmount
 		}
 
-		// Token: 0x020004EC RID: 1260
-		// (Invoke) Token: 0x060041D4 RID: 16852
 		public delegate void DoneLogicExtrasDelegate();
 
-		// Token: 0x020004ED RID: 1261
 		private class CaravanInventoryListener : InventoryListener
 		{
-			// Token: 0x060041D7 RID: 16855 RVA: 0x001346F2 File Offset: 0x001328F2
 			public CaravanInventoryListener(MobileParty caravan)
 			{
 				this._caravan = caravan;
 			}
 
-			// Token: 0x060041D8 RID: 16856 RVA: 0x00134701 File Offset: 0x00132901
 			public override int GetGold()
 			{
 				return this._caravan.PartyTradeGold;
 			}
 
-			// Token: 0x060041D9 RID: 16857 RVA: 0x0013470E File Offset: 0x0013290E
 			public override TextObject GetTraderName()
 			{
 				if (this._caravan.LeaderHero == null)
@@ -385,68 +343,56 @@ namespace TaleWorlds.CampaignSystem.Inventory
 				return this._caravan.LeaderHero.Name;
 			}
 
-			// Token: 0x060041DA RID: 16858 RVA: 0x00134739 File Offset: 0x00132939
 			public override void SetGold(int gold)
 			{
 				this._caravan.PartyTradeGold = gold;
 			}
 
-			// Token: 0x060041DB RID: 16859 RVA: 0x00134747 File Offset: 0x00132947
 			public override PartyBase GetOppositeParty()
 			{
 				return this._caravan.Party;
 			}
 
-			// Token: 0x060041DC RID: 16860 RVA: 0x00134754 File Offset: 0x00132954
 			public override void OnTransaction()
 			{
 				throw new NotImplementedException();
 			}
 
-			// Token: 0x0400152C RID: 5420
 			private MobileParty _caravan;
 		}
 
-		// Token: 0x020004EE RID: 1262
 		private class MerchantInventoryListener : InventoryListener
 		{
-			// Token: 0x060041DD RID: 16861 RVA: 0x0013475B File Offset: 0x0013295B
 			public MerchantInventoryListener(SettlementComponent settlementComponent)
 			{
 				this._settlementComponent = settlementComponent;
 			}
 
-			// Token: 0x060041DE RID: 16862 RVA: 0x0013476A File Offset: 0x0013296A
 			public override TextObject GetTraderName()
 			{
 				return this._settlementComponent.Owner.Name;
 			}
 
-			// Token: 0x060041DF RID: 16863 RVA: 0x0013477C File Offset: 0x0013297C
 			public override PartyBase GetOppositeParty()
 			{
 				return this._settlementComponent.Owner;
 			}
 
-			// Token: 0x060041E0 RID: 16864 RVA: 0x00134789 File Offset: 0x00132989
 			public override int GetGold()
 			{
 				return this._settlementComponent.Gold;
 			}
 
-			// Token: 0x060041E1 RID: 16865 RVA: 0x00134796 File Offset: 0x00132996
 			public override void SetGold(int gold)
 			{
 				this._settlementComponent.ChangeGold(gold - this._settlementComponent.Gold);
 			}
 
-			// Token: 0x060041E2 RID: 16866 RVA: 0x001347B0 File Offset: 0x001329B0
 			public override void OnTransaction()
 			{
 				throw new NotImplementedException();
 			}
 
-			// Token: 0x0400152D RID: 5421
 			private SettlementComponent _settlementComponent;
 		}
 	}

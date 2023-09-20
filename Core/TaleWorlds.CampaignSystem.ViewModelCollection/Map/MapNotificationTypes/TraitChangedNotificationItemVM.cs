@@ -3,10 +3,8 @@ using TaleWorlds.CampaignSystem.MapNotificationTypes;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 {
-	// Token: 0x02000049 RID: 73
 	public class TraitChangedNotificationItemVM : MapNotificationItemBaseVM
 	{
-		// Token: 0x06000567 RID: 1383 RVA: 0x0001AFEC File Offset: 0x000191EC
 		public TraitChangedNotificationItemVM(TraitChangedMapNotification data)
 			: base(data)
 		{

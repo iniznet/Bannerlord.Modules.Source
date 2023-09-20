@@ -6,22 +6,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOptions
 {
-	// Token: 0x020000FF RID: 255
 	public class GamepadOptionKeyItemVM : ViewModel
 	{
-		// Token: 0x17000765 RID: 1893
-		// (get) Token: 0x0600169F RID: 5791 RVA: 0x000492AD File Offset: 0x000474AD
 		public GameKey GamepadKey { get; }
 
-		// Token: 0x17000766 RID: 1894
-		// (get) Token: 0x060016A0 RID: 5792 RVA: 0x000492B5 File Offset: 0x000474B5
 		public HotKey GamepadHotKey { get; }
 
-		// Token: 0x17000767 RID: 1895
-		// (get) Token: 0x060016A1 RID: 5793 RVA: 0x000492BD File Offset: 0x000474BD
 		public InputKey? Key { get; }
 
-		// Token: 0x060016A2 RID: 5794 RVA: 0x000492C8 File Offset: 0x000474C8
 		public GamepadOptionKeyItemVM(GameKey gamepadGameKey)
 		{
 			this.GamepadKey = gamepadGameKey;
@@ -41,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			this.KeyIdAsString = text ?? string.Empty;
 		}
 
-		// Token: 0x060016A3 RID: 5795 RVA: 0x00049380 File Offset: 0x00047580
 		public GamepadOptionKeyItemVM(HotKey gamepadHotKey)
 		{
 			this.GamepadHotKey = gamepadHotKey;
@@ -65,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			this.KeyIdAsString = ((inputKey != null) ? inputKey.GetValueOrDefault().ToString() : null) ?? string.Empty;
 		}
 
-		// Token: 0x060016A4 RID: 5796 RVA: 0x00049470 File Offset: 0x00047670
 		public GamepadOptionKeyItemVM(InputKey key, TextObject name)
 		{
 			this.Key = new InputKey?(key);
@@ -77,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			this.Action = this._nameObject.ToString();
 		}
 
-		// Token: 0x060016A5 RID: 5797 RVA: 0x000494F4 File Offset: 0x000476F4
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -97,9 +86,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000768 RID: 1896
-		// (get) Token: 0x060016A6 RID: 5798 RVA: 0x000495B0 File Offset: 0x000477B0
-		// (set) Token: 0x060016A7 RID: 5799 RVA: 0x000495B8 File Offset: 0x000477B8
 		[DataSourceProperty]
 		public string Action
 		{
@@ -117,9 +103,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000769 RID: 1897
-		// (get) Token: 0x060016A8 RID: 5800 RVA: 0x000495DB File Offset: 0x000477DB
-		// (set) Token: 0x060016A9 RID: 5801 RVA: 0x000495E3 File Offset: 0x000477E3
 		[DataSourceProperty]
 		public int KeyId
 		{
@@ -137,9 +120,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x1700076A RID: 1898
-		// (get) Token: 0x060016AA RID: 5802 RVA: 0x00049601 File Offset: 0x00047801
-		// (set) Token: 0x060016AB RID: 5803 RVA: 0x00049609 File Offset: 0x00047809
 		[DataSourceProperty]
 		public string KeyIdAsString
 		{
@@ -157,16 +137,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x04000ABF RID: 2751
 		private TextObject _nameObject;
 
-		// Token: 0x04000AC1 RID: 2753
 		private string _action;
 
-		// Token: 0x04000AC2 RID: 2754
 		private string _keyIdAsString;
 
-		// Token: 0x04000AC3 RID: 2755
 		private int _keyId;
 	}
 }

@@ -10,10 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 {
-	// Token: 0x02000125 RID: 293
 	public class CharacterCreationGainedPropertiesVM : ViewModel
 	{
-		// Token: 0x06001C3D RID: 7229 RVA: 0x000656B4 File Offset: 0x000638B4
 		public CharacterCreationGainedPropertiesVM(CharacterCreation characterCreation, int currentIndex)
 		{
 			this._characterCreation = characterCreation;
@@ -29,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			this.UpdateValues();
 		}
 
-		// Token: 0x06001C3E RID: 7230 RVA: 0x00065764 File Offset: 0x00063964
 		public void UpdateValues()
 		{
 			this._affectedAttributesMap.Clear();
@@ -51,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C3F RID: 7231 RVA: 0x00065894 File Offset: 0x00063A94
 		private void PopulateInitialValues()
 		{
 			foreach (SkillObject skillObject in Skills.All)
@@ -82,7 +78,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C40 RID: 7232 RVA: 0x000659D8 File Offset: 0x00063BD8
 		private void PopulateGainedAttributeValues()
 		{
 			for (int i = 0; i < this._characterCreation.CharacterCreationMenuCount; i++)
@@ -142,7 +137,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C41 RID: 7233 RVA: 0x00065BC0 File Offset: 0x00063DC0
 		private void PopulateGainedTraitValues()
 		{
 			this.GainedTraits.Clear();
@@ -170,7 +164,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C42 RID: 7234 RVA: 0x00065CEC File Offset: 0x00063EEC
 		private CharacterCreationGainedAttributeItemVM GetItemFromAttribute(CharacterAttribute attribute)
 		{
 			CharacterCreationGainGroupItemVM characterCreationGainGroupItemVM = this.GainGroups.SingleOrDefault((CharacterCreationGainGroupItemVM g) => g.AttributeObj == attribute);
@@ -181,7 +174,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			return characterCreationGainGroupItemVM.Attribute;
 		}
 
-		// Token: 0x06001C43 RID: 7235 RVA: 0x00065D28 File Offset: 0x00063F28
 		private CharacterCreationGainedSkillItemVM GetItemFromSkill(SkillObject skill)
 		{
 			Func<CharacterCreationGainedSkillItemVM, bool> <>9__2;
@@ -202,9 +194,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			return characterCreationGainGroupItemVM.Skills.SingleOrDefault((CharacterCreationGainedSkillItemVM s) => s.SkillObj == skill);
 		}
 
-		// Token: 0x170009AD RID: 2477
-		// (get) Token: 0x06001C44 RID: 7236 RVA: 0x00065D75 File Offset: 0x00063F75
-		// (set) Token: 0x06001C45 RID: 7237 RVA: 0x00065D7D File Offset: 0x00063F7D
 		[DataSourceProperty]
 		public MBBindingList<CharacterCreationGainGroupItemVM> GainGroups
 		{
@@ -222,9 +211,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x170009AE RID: 2478
-		// (get) Token: 0x06001C46 RID: 7238 RVA: 0x00065D9B File Offset: 0x00063F9B
-		// (set) Token: 0x06001C47 RID: 7239 RVA: 0x00065DA3 File Offset: 0x00063FA3
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaTraitItemVM> GainedTraits
 		{
@@ -242,22 +228,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x04000D50 RID: 3408
 		private readonly CharacterCreation _characterCreation;
 
-		// Token: 0x04000D51 RID: 3409
 		private readonly int _currentIndex;
 
-		// Token: 0x04000D52 RID: 3410
 		private readonly Dictionary<CharacterAttribute, Tuple<int, int>> _affectedAttributesMap;
 
-		// Token: 0x04000D53 RID: 3411
 		private readonly Dictionary<SkillObject, Tuple<int, int>> _affectedSkillMap;
 
-		// Token: 0x04000D54 RID: 3412
 		private MBBindingList<CharacterCreationGainGroupItemVM> _gainGroups;
 
-		// Token: 0x04000D55 RID: 3413
 		private MBBindingList<EncyclopediaTraitItemVM> _gainedTraits;
 	}
 }

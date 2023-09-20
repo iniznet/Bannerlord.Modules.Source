@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 {
-	// Token: 0x02000017 RID: 23
 	public struct CustomBattleData
 	{
-		// Token: 0x060000FD RID: 253 RVA: 0x00008347 File Offset: 0x00006547
 		public static IEnumerable<SiegeEngineType> GetAllAttackerMeleeMachines()
 		{
 			yield return DefaultSiegeEngineTypes.Ram;
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			yield break;
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x00008350 File Offset: 0x00006550
 		public static IEnumerable<SiegeEngineType> GetAllDefenderRangedMachines()
 		{
 			yield return DefaultSiegeEngineTypes.Ballista;
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			yield break;
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x00008359 File Offset: 0x00006559
 		public static IEnumerable<SiegeEngineType> GetAllAttackerRangedMachines()
 		{
 			yield return DefaultSiegeEngineTypes.Ballista;
@@ -37,8 +33,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			yield break;
 		}
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x06000100 RID: 256 RVA: 0x00008362 File Offset: 0x00006562
 		public static IEnumerable<Tuple<string, CustomBattleGameType>> GameTypes
 		{
 			get
@@ -53,8 +47,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x06000101 RID: 257 RVA: 0x0000836B File Offset: 0x0000656B
 		public static IEnumerable<Tuple<string, CustomBattlePlayerType>> PlayerTypes
 		{
 			get
@@ -68,8 +60,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000045 RID: 69
-		// (get) Token: 0x06000102 RID: 258 RVA: 0x00008374 File Offset: 0x00006574
 		public static IEnumerable<Tuple<string, CustomBattlePlayerSide>> PlayerSides
 		{
 			get
@@ -80,8 +70,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000046 RID: 70
-		// (get) Token: 0x06000103 RID: 259 RVA: 0x0000837D File Offset: 0x0000657D
 		public static IEnumerable<BasicCharacterObject> Characters
 		{
 			get
@@ -108,8 +96,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x06000104 RID: 260 RVA: 0x00008386 File Offset: 0x00006586
 		public static IEnumerable<BasicCultureObject> Factions
 		{
 			get
@@ -127,8 +113,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x06000105 RID: 261 RVA: 0x0000838F File Offset: 0x0000658F
 		public static IEnumerable<Tuple<string, CustomBattleTimeOfDay>> TimesOfDay
 		{
 			get
@@ -142,8 +126,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x17000049 RID: 73
-		// (get) Token: 0x06000106 RID: 262 RVA: 0x00008398 File Offset: 0x00006598
 		public static IEnumerable<Tuple<string, string>> Seasons
 		{
 			get
@@ -156,8 +138,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x1700004A RID: 74
-		// (get) Token: 0x06000107 RID: 263 RVA: 0x000083A1 File Offset: 0x000065A1
 		public static IEnumerable<Tuple<string, int>> WallHitpoints
 		{
 			get
@@ -169,8 +149,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x1700004B RID: 75
-		// (get) Token: 0x06000108 RID: 264 RVA: 0x000083AA File Offset: 0x000065AA
 		public static IEnumerable<int> SceneLevels
 		{
 			get
@@ -182,70 +160,48 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle
 			}
 		}
 
-		// Token: 0x04000099 RID: 153
 		public const int NumberOfAttackerMeleeMachines = 3;
 
-		// Token: 0x0400009A RID: 154
 		public const int NumberOfAttackerRangedMachines = 4;
 
-		// Token: 0x0400009B RID: 155
 		public const int NumberOfDefenderRangedMachines = 4;
 
-		// Token: 0x0400009C RID: 156
 		public const string CoreContentDefaultSceneName = "battle_terrain_029";
 
-		// Token: 0x0400009D RID: 157
 		public CustomBattleGameType GameType;
 
-		// Token: 0x0400009E RID: 158
 		public string SceneId;
 
-		// Token: 0x0400009F RID: 159
 		public string SeasonId;
 
-		// Token: 0x040000A0 RID: 160
 		public BasicCharacterObject PlayerCharacter;
 
-		// Token: 0x040000A1 RID: 161
 		public BasicCharacterObject PlayerSideGeneralCharacter;
 
-		// Token: 0x040000A2 RID: 162
 		public CustomBattleCombatant PlayerParty;
 
-		// Token: 0x040000A3 RID: 163
 		public CustomBattleCombatant EnemyParty;
 
-		// Token: 0x040000A4 RID: 164
 		public float TimeOfDay;
 
-		// Token: 0x040000A5 RID: 165
 		public bool IsPlayerGeneral;
 
-		// Token: 0x040000A6 RID: 166
 		public string SceneLevel;
 
-		// Token: 0x040000A7 RID: 167
 		public List<MissionSiegeWeapon> AttackerMachines;
 
-		// Token: 0x040000A8 RID: 168
 		public List<MissionSiegeWeapon> DefenderMachines;
 
-		// Token: 0x040000A9 RID: 169
 		public float[] WallHitpointPercentages;
 
-		// Token: 0x040000AA RID: 170
 		public bool HasAnySiegeTower;
 
-		// Token: 0x040000AB RID: 171
 		public bool IsPlayerAttacker;
 
-		// Token: 0x040000AC RID: 172
 		public bool IsReliefAttack;
 
-		// Token: 0x040000AD RID: 173
 		public bool IsSallyOut;
 
-		// Token: 0x040000AE RID: 174
 		public int SceneUpgradeLevel;
 	}
 }

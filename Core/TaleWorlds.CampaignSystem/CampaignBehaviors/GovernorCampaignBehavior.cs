@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000394 RID: 916
 	public class GovernorCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600368E RID: 13966 RVA: 0x000F39AC File Offset: 0x000F1BAC
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -24,13 +22,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnHeroChangedClanEvent.AddNonSerializedListener(this, new Action<Hero, Clan>(this.OnHeroChangedClan));
 		}
 
-		// Token: 0x0600368F RID: 13967 RVA: 0x000F3A15 File Offset: 0x000F1C15
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06003690 RID: 13968 RVA: 0x000F3A20 File Offset: 0x000F1C20
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if ((settlement.IsTown || settlement.IsCastle) && settlement.Town.Governor != null)
@@ -66,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003691 RID: 13969 RVA: 0x000F3BA4 File Offset: 0x000F1DA4
 		private void OnHeroChangedClan(Hero hero, Clan oldClan)
 		{
 			if (hero.GovernorOf != null && hero.GovernorOf.OwnerClan != hero.Clan)
@@ -75,12 +70,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003692 RID: 13970 RVA: 0x000F3BC7 File Offset: 0x000F1DC7
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003693 RID: 13971 RVA: 0x000F3BCC File Offset: 0x000F1DCC
 		private void AddDialogs(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("governor_talk_start", "hero_main_options", "governor_talk_start_reply", "{=zBo78JQb}How are things doing here in {GOVERNOR_SETTLEMENT}?", new ConversationSentence.OnConditionDelegate(this.governor_talk_start_on_condition), null, 100, null, null);
@@ -105,7 +98,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddPlayerLine("governor_talk_kingdom_creation_finalization", "governor_kingdom_creation_finalization", "close_window", "{=VRbbIWNf}So it shall be.", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_finalization_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_finalization_on_consequence), 100, null, null);
 		}
 
-		// Token: 0x06003694 RID: 13972 RVA: 0x000F3F31 File Offset: 0x000F2131
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			if (victim.GovernorOf != null)
@@ -114,7 +106,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003695 RID: 13973 RVA: 0x000F3F44 File Offset: 0x000F2144
 		private bool governor_talk_start_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.GovernorOf != null && Hero.OneToOneConversationHero.CurrentSettlement != null && Hero.OneToOneConversationHero.CurrentSettlement.IsTown && Hero.OneToOneConversationHero.CurrentSettlement.Town == Hero.OneToOneConversationHero.GovernorOf && Hero.OneToOneConversationHero.GovernorOf.Owner.Owner == Hero.MainHero)
@@ -125,7 +116,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003696 RID: 13974 RVA: 0x000F3FD4 File Offset: 0x000F21D4
 		private bool governor_talk_start_reply_on_condition()
 		{
 			Settlement currentSettlement = Hero.OneToOneConversationHero.CurrentSettlement;
@@ -147,13 +137,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003697 RID: 13975 RVA: 0x000F405C File Offset: 0x000F225C
 		private bool governor_talk_kingdom_creation_start_on_condition()
 		{
 			return Clan.PlayerClan.Kingdom == null && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.GovernorOf != null && Hero.OneToOneConversationHero.GovernorOf.Settlement.MapFaction == Hero.MainHero.MapFaction;
 		}
 
-		// Token: 0x06003698 RID: 13976 RVA: 0x000F40AA File Offset: 0x000F22AA
 		private void governor_talk_kingdom_creation_start_on_consequence()
 		{
 			this._availablePlayerKingdomCultures.Clear();
@@ -161,7 +149,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._kingdomCreationCurrentCulturePageIndex = 0;
 		}
 
-		// Token: 0x06003699 RID: 13977 RVA: 0x000F40E0 File Offset: 0x000F22E0
 		private bool governor_talk_kingdom_creation_start_clickable_condition(out TextObject explanation)
 		{
 			List<TextObject> list;
@@ -179,25 +166,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x0600369A RID: 13978 RVA: 0x000F4178 File Offset: 0x000F2378
 		private bool governor_talk_kingdom_creation_culture_option_0_on_condition()
 		{
 			return this.HandleAvailableCultureConditionAndText(0);
 		}
 
-		// Token: 0x0600369B RID: 13979 RVA: 0x000F4181 File Offset: 0x000F2381
 		private bool governor_talk_kingdom_creation_culture_option_1_on_condition()
 		{
 			return this.HandleAvailableCultureConditionAndText(1);
 		}
 
-		// Token: 0x0600369C RID: 13980 RVA: 0x000F418A File Offset: 0x000F238A
 		private bool governor_talk_kingdom_creation_culture_option_2_on_condition()
 		{
 			return this.HandleAvailableCultureConditionAndText(2);
 		}
 
-		// Token: 0x0600369D RID: 13981 RVA: 0x000F4194 File Offset: 0x000F2394
 		private bool HandleAvailableCultureConditionAndText(int index)
 		{
 			int cultureIndex = this.GetCultureIndex(index);
@@ -211,37 +194,31 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600369E RID: 13982 RVA: 0x000F41FB File Offset: 0x000F23FB
 		private int GetCultureIndex(int optionIndex)
 		{
 			return this._kingdomCreationCurrentCulturePageIndex * 3 + optionIndex;
 		}
 
-		// Token: 0x0600369F RID: 13983 RVA: 0x000F4207 File Offset: 0x000F2407
 		private void governor_talk_kingdom_creation_culture_option_0_on_consequence()
 		{
 			this._kingdomCreationChosenCulture = this._availablePlayerKingdomCultures[this.GetCultureIndex(0)];
 		}
 
-		// Token: 0x060036A0 RID: 13984 RVA: 0x000F4221 File Offset: 0x000F2421
 		private void governor_talk_kingdom_creation_culture_option_1_on_consequence()
 		{
 			this._kingdomCreationChosenCulture = this._availablePlayerKingdomCultures[this.GetCultureIndex(1)];
 		}
 
-		// Token: 0x060036A1 RID: 13985 RVA: 0x000F423B File Offset: 0x000F243B
 		private void governor_talk_kingdom_creation_culture_option_2_on_consequence()
 		{
 			this._kingdomCreationChosenCulture = this._availablePlayerKingdomCultures[this.GetCultureIndex(2)];
 		}
 
-		// Token: 0x060036A2 RID: 13986 RVA: 0x000F4255 File Offset: 0x000F2455
 		private bool governor_talk_kingdom_creation_culture_other_on_condition()
 		{
 			return this._availablePlayerKingdomCultures.Count > 3;
 		}
 
-		// Token: 0x060036A3 RID: 13987 RVA: 0x000F4265 File Offset: 0x000F2465
 		private void governor_talk_kingdom_creation_culture_other_on_consequence()
 		{
 			this._kingdomCreationCurrentCulturePageIndex++;
@@ -251,7 +228,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036A4 RID: 13988 RVA: 0x000F42A0 File Offset: 0x000F24A0
 		private bool governor_kingdom_creation_culture_selected_on_condition()
 		{
 			TextObject textObject = GameTexts.GameTextHelper.MergeTextObjectsWithComma(this._kingdomCreationChosenCulture.DefaultPolicyList.Select((PolicyObject t) => t.Name).ToList<TextObject>(), true);
@@ -260,52 +236,42 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060036A5 RID: 13989 RVA: 0x000F430C File Offset: 0x000F250C
 		private void governor_talk_kingdom_creation_name_selection_on_consequence()
 		{
 			this._kingdomCreationChosenName = TextObject.Empty;
 			InformationManager.ShowTextInquiry(new TextInquiryData(new TextObject("{=RuaA8t97}Kingdom Name", null).ToString(), string.Empty, true, true, GameTexts.FindText("str_done", null).ToString(), GameTexts.FindText("str_cancel", null).ToString(), new Action<string>(this.OnKingdomNameSelectionDone), new Action(this.OnKingdomNameSelectionCancel), false, new Func<string, Tuple<bool, string>>(FactionHelper.IsKingdomNameApplicable), "", ""), false, false);
 		}
 
-		// Token: 0x060036A6 RID: 13990 RVA: 0x000F4396 File Offset: 0x000F2596
 		private void OnKingdomNameSelectionDone(string chosenName)
 		{
 			this._kingdomCreationChosenName = new TextObject(chosenName, null);
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x060036A7 RID: 13991 RVA: 0x000F43B4 File Offset: 0x000F25B4
 		private void OnKingdomNameSelectionCancel()
 		{
 			Campaign.Current.ConversationManager.EndConversation();
 		}
 
-		// Token: 0x060036A8 RID: 13992 RVA: 0x000F43C5 File Offset: 0x000F25C5
 		private bool governor_talk_kingdom_creation_finalization_on_condition()
 		{
 			MBTextManager.SetTextVariable("KINGDOM_NAME", this._kingdomCreationChosenName, false);
 			return true;
 		}
 
-		// Token: 0x060036A9 RID: 13993 RVA: 0x000F43DC File Offset: 0x000F25DC
 		private void governor_talk_kingdom_creation_finalization_on_consequence()
 		{
 			Campaign.Current.KingdomManager.CreateKingdom(this._kingdomCreationChosenName, this._kingdomCreationChosenName, this._kingdomCreationChosenCulture, Clan.PlayerClan, this._kingdomCreationChosenCulture.DefaultPolicyList, null, null, null);
 		}
 
-		// Token: 0x04001170 RID: 4464
 		private const int CultureDialogueOptionCount = 3;
 
-		// Token: 0x04001171 RID: 4465
 		private List<CultureObject> _availablePlayerKingdomCultures = new List<CultureObject>();
 
-		// Token: 0x04001172 RID: 4466
 		private int _kingdomCreationCurrentCulturePageIndex;
 
-		// Token: 0x04001173 RID: 4467
 		private CultureObject _kingdomCreationChosenCulture;
 
-		// Token: 0x04001174 RID: 4468
 		private TextObject _kingdomCreationChosenName;
 	}
 }

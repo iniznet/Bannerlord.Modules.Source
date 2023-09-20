@@ -9,11 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000131 RID: 305
 	public class DefaultRaidModel : RaidModel
 	{
-		// Token: 0x17000617 RID: 1559
-		// (get) Token: 0x060016E2 RID: 5858 RVA: 0x00070614 File Offset: 0x0006E814
 		private MBReadOnlyList<ValueTuple<ItemObject, float>> CommonLootItemSpawnChances
 		{
 			get
@@ -43,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060016E3 RID: 5859 RVA: 0x0007076C File Offset: 0x0006E96C
 		public override float CalculateHitDamage(MapEventSide attackerSide, float settlementHitPoints)
 		{
 			float num = (MathF.Sqrt((float)attackerSide.TroopCount) + 5f) / 900f * (float)CampaignTime.DeltaTime.ToHours;
@@ -59,14 +55,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num + num * num2;
 		}
 
-		// Token: 0x060016E4 RID: 5860 RVA: 0x00070830 File Offset: 0x0006EA30
 		public override MBReadOnlyList<ValueTuple<ItemObject, float>> GetCommonLootItemScores()
 		{
 			return this.CommonLootItemSpawnChances;
 		}
 
-		// Token: 0x17000618 RID: 1560
-		// (get) Token: 0x060016E5 RID: 5861 RVA: 0x00070838 File Offset: 0x0006EA38
 		public override int GoldRewardForEachLostHearth
 		{
 			get
@@ -75,7 +68,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0400081A RID: 2074
 		private MBReadOnlyList<ValueTuple<ItemObject, float>> _commonLootItems;
 	}
 }

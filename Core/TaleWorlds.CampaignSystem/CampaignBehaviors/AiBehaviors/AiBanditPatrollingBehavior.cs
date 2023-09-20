@@ -7,21 +7,17 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x020003FF RID: 1023
 	public class AiBanditPatrollingBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D21 RID: 15649 RVA: 0x00122CC1 File Offset: 0x00120EC1
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
 		}
 
-		// Token: 0x06003D22 RID: 15650 RVA: 0x00122CDA File Offset: 0x00120EDA
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D23 RID: 15651 RVA: 0x00122CDC File Offset: 0x00120EDC
 		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (!mobileParty.IsBandit)

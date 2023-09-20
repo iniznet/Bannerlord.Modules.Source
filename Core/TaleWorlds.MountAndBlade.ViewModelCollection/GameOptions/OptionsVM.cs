@@ -15,15 +15,10 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 {
-	// Token: 0x020000FC RID: 252
 	public class OptionsVM : ViewModel
 	{
-		// Token: 0x17000743 RID: 1859
-		// (get) Token: 0x06001623 RID: 5667 RVA: 0x00047096 File Offset: 0x00045296
-		// (set) Token: 0x06001624 RID: 5668 RVA: 0x0004709E File Offset: 0x0004529E
 		public OptionsVM.OptionsMode CurrentOptionsMode { get; private set; }
 
-		// Token: 0x06001625 RID: 5669 RVA: 0x000470A8 File Offset: 0x000452A8
 		public OptionsVM(bool autoHandleClose, OptionsVM.OptionsMode optionsMode, Action<KeyOptionVM> onKeybindRequest, Action onBrightnessExecute = null, Action onExposureExecute = null)
 		{
 			this._onKeybindRequest = onKeybindRequest;
@@ -89,7 +84,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._isInitialized = true;
 		}
 
-		// Token: 0x06001626 RID: 5670 RVA: 0x00047400 File Offset: 0x00045600
 		public OptionsVM(OptionsVM.OptionsMode optionsMode, Action onClose, Action<KeyOptionVM> onKeybindRequest, Action onBrightnessExecute = null, Action onExposureExecute = null)
 			: this(false, optionsMode, onKeybindRequest, null, null)
 		{
@@ -98,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._onExposureExecute = onExposureExecute;
 		}
 
-		// Token: 0x06001627 RID: 5671 RVA: 0x00047424 File Offset: 0x00045624
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -126,7 +119,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			});
 		}
 
-		// Token: 0x06001628 RID: 5672 RVA: 0x00047517 File Offset: 0x00045717
 		public void ExecuteCloseOptions()
 		{
 			if (this._onClose != null)
@@ -135,7 +127,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x06001629 RID: 5673 RVA: 0x0004752C File Offset: 0x0004572C
 		protected void OnBrightnessClick()
 		{
 			if (this._onBrightnessExecute == null)
@@ -146,7 +137,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._onBrightnessExecute();
 		}
 
-		// Token: 0x0600162A RID: 5674 RVA: 0x0004754E File Offset: 0x0004574E
 		protected void OnExposureClick()
 		{
 			if (this._onExposureExecute == null)
@@ -157,7 +147,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._onExposureExecute();
 		}
 
-		// Token: 0x0600162B RID: 5675 RVA: 0x00047570 File Offset: 0x00045770
 		public ViewModel GetActiveCategory()
 		{
 			if (this.CategoryIndex >= 0 && this.CategoryIndex < this._categories.Count)
@@ -167,13 +156,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return null;
 		}
 
-		// Token: 0x0600162C RID: 5676 RVA: 0x000475A1 File Offset: 0x000457A1
 		public int GetIndexOfCategory(ViewModel categoryVM)
 		{
 			return this._categories.IndexOf(categoryVM);
 		}
 
-		// Token: 0x0600162D RID: 5677 RVA: 0x000475B0 File Offset: 0x000457B0
 		public float GetConfig(IOptionData data)
 		{
 			if (!data.IsNative())
@@ -188,7 +175,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return NativeOptions.GetConfig(nativeOptionsType);
 		}
 
-		// Token: 0x0600162E RID: 5678 RVA: 0x000475F4 File Offset: 0x000457F4
 		public void SetConfig(IOptionData data, float val)
 		{
 			if (!this._isInitialized)
@@ -255,7 +241,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x0600162F RID: 5679 RVA: 0x000478A8 File Offset: 0x00045AA8
 		private void UpdateEnabledStates()
 		{
 			foreach (GenericOptionDataVM genericOptionDataVM in this._groupedCategories.SelectMany((GroupedOptionCategoryVM c) => c.AllOptions))
@@ -268,7 +253,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x06001630 RID: 5680 RVA: 0x00047954 File Offset: 0x00045B54
 		private void UpdateDependentConfigs(IOptionData data, float val)
 		{
 			if (data.IsNative())
@@ -297,13 +281,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x06001631 RID: 5681 RVA: 0x000479D0 File Offset: 0x00045BD0
 		private bool IsManagedOptionsConflictWithOverallSettings(int overallSettingsOption)
 		{
 			return this._performanceManagedOptions.Any((IOptionData o) => (float)((int)o.GetValue(false)) != this.GetDefaultOptionForOverallManagedSettings((ManagedOptions.ManagedOptionsType)o.GetOptionType(), overallSettingsOption));
 		}
 
-		// Token: 0x06001632 RID: 5682 RVA: 0x00047A08 File Offset: 0x00045C08
 		private float GetDefaultOptionForOverallNativeSettings(NativeOptions.NativeOptionsType option, int overallSettingsOption)
 		{
 			if (overallSettingsOption >= this._overallConfigCount || overallSettingsOption < 0)
@@ -318,7 +300,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return -1f;
 		}
 
-		// Token: 0x06001633 RID: 5683 RVA: 0x00047A40 File Offset: 0x00045C40
 		private float GetDefaultOptionForOverallManagedSettings(ManagedOptions.ManagedOptionsType option, int overallSettingsOption)
 		{
 			if (overallSettingsOption >= this._overallConfigCount || overallSettingsOption < 0)
@@ -333,7 +314,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return -1f;
 		}
 
-		// Token: 0x06001634 RID: 5684 RVA: 0x00047A78 File Offset: 0x00045C78
 		private bool IsCategoryAvailable(ViewModel category)
 		{
 			GameKeyOptionCategoryVM gameKeyOptionCategoryVM;
@@ -350,7 +330,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return (groupedOptionCategoryVM = category as GroupedOptionCategoryVM) == null || groupedOptionCategoryVM.IsEnabled;
 		}
 
-		// Token: 0x06001635 RID: 5685 RVA: 0x00047AB9 File Offset: 0x00045CB9
 		private int GetPreviousAvailableCategoryIndex(int currentCategoryIndex)
 		{
 			if (--currentCategoryIndex < 0)
@@ -364,14 +343,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return currentCategoryIndex;
 		}
 
-		// Token: 0x06001636 RID: 5686 RVA: 0x00047AF0 File Offset: 0x00045CF0
 		public void SelectPreviousCategory()
 		{
 			int previousAvailableCategoryIndex = this.GetPreviousAvailableCategoryIndex(this.CategoryIndex);
 			this.SetSelectedCategory(previousAvailableCategoryIndex);
 		}
 
-		// Token: 0x06001637 RID: 5687 RVA: 0x00047B11 File Offset: 0x00045D11
 		private int GetNextAvailableCategoryIndex(int currentCategoryIndex)
 		{
 			if (++currentCategoryIndex >= this._categories.Count)
@@ -385,20 +362,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			return currentCategoryIndex;
 		}
 
-		// Token: 0x06001638 RID: 5688 RVA: 0x00047B48 File Offset: 0x00045D48
 		public void SelectNextCategory()
 		{
 			int nextAvailableCategoryIndex = this.GetNextAvailableCategoryIndex(this.CategoryIndex);
 			this.SetSelectedCategory(nextAvailableCategoryIndex);
 		}
 
-		// Token: 0x06001639 RID: 5689 RVA: 0x00047B69 File Offset: 0x00045D69
 		private void SetSelectedCategory(int index)
 		{
 			this.CategoryIndex = index;
 		}
 
-		// Token: 0x0600163A RID: 5690 RVA: 0x00047B72 File Offset: 0x00045D72
 		private void OnGamepadActiveStateChanged()
 		{
 			if (!this.IsCategoryAvailable(this._categories[this.CategoryIndex]))
@@ -412,7 +386,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x0600163B RID: 5691 RVA: 0x00047BB0 File Offset: 0x00045DB0
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -459,7 +432,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		// Token: 0x0600163C RID: 5692 RVA: 0x00047C6C File Offset: 0x00045E6C
 		protected void HandleCancel(bool autoHandleClose)
 		{
 			this._isCancelling = true;
@@ -472,7 +444,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.CloseScreen(autoHandleClose);
 		}
 
-		// Token: 0x0600163D RID: 5693 RVA: 0x00047CC7 File Offset: 0x00045EC7
 		private void CloseScreen(bool autoHandleClose)
 		{
 			this.ExecuteCloseOptions();
@@ -486,7 +457,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x0600163E RID: 5694 RVA: 0x00047CF0 File Offset: 0x00045EF0
 		public void ExecuteCancel()
 		{
 			if (this.IsOptionsChanged())
@@ -501,7 +471,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.HandleCancel(this._autoHandleClose);
 		}
 
-		// Token: 0x0600163F RID: 5695 RVA: 0x00047D74 File Offset: 0x00045F74
 		protected void OnDone()
 		{
 			this.ApplyChangedOptions();
@@ -531,7 +500,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}, null, null), false, false);
 		}
 
-		// Token: 0x06001640 RID: 5696 RVA: 0x00047E48 File Offset: 0x00046048
 		private void ApplyChangedOptions()
 		{
 			int num = 0;
@@ -649,7 +617,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			HotKeyManager.Save(flag);
 		}
 
-		// Token: 0x06001641 RID: 5697 RVA: 0x00048138 File Offset: 0x00046338
 		protected void ExecuteBenchmark()
 		{
 			GameStateManager.StateActivateCommand = "state_string.benchmark_start";
@@ -657,7 +624,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			CommandLineFunctionality.CallFunction("benchmark.cpu_benchmark", "", out flag);
 		}
 
-		// Token: 0x06001642 RID: 5698 RVA: 0x00048164 File Offset: 0x00046364
 		public void ExecuteDone()
 		{
 			bool flag = false;
@@ -674,19 +640,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.OnDone();
 		}
 
-		// Token: 0x06001643 RID: 5699 RVA: 0x00048204 File Offset: 0x00046404
 		protected void ExecuteReset()
 		{
 			InformationManager.ShowInquiry(new InquiryData("", new TextObject("{=cDzWYQrz}Reset to default settings?", null).ToString(), true, true, new TextObject("{=oHaWR73d}Ok", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), new Action(this.OnResetToDefaults), null, "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x06001644 RID: 5700 RVA: 0x00048270 File Offset: 0x00046470
 		public bool IsOptionsChanged()
 		{
 			return (this._groupedCategories.Any((GroupedOptionCategoryVM c) => c.IsChanged()) || this.GameKeyOptionGroups.IsChanged()) | this._performanceOptionCategory.IsChanged();
 		}
 
-		// Token: 0x06001645 RID: 5701 RVA: 0x000482C3 File Offset: 0x000464C3
 		private void OnResetToDefaults()
 		{
 			this._groupedCategories.ForEach(delegate(GroupedOptionCategoryVM g)
@@ -696,7 +659,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._performanceOptionCategory.ResetData();
 		}
 
-		// Token: 0x06001646 RID: 5702 RVA: 0x000482FC File Offset: 0x000464FC
 		private void UpdateVideoMemoryUsage()
 		{
 			int currentEstimatedGPUMemoryCostMB = Utilities.GetCurrentEstimatedGPUMemoryCostMB();
@@ -708,7 +670,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.VideoMemoryUsageText = textObject.ToString();
 		}
 
-		// Token: 0x06001647 RID: 5703 RVA: 0x0004835C File Offset: 0x0004655C
 		internal GenericOptionDataVM GetOptionItem(IOptionData option)
 		{
 			bool flag = false;
@@ -772,9 +733,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000744 RID: 1860
-		// (get) Token: 0x06001648 RID: 5704 RVA: 0x000485B2 File Offset: 0x000467B2
-		// (set) Token: 0x06001649 RID: 5705 RVA: 0x000485BA File Offset: 0x000467BA
 		[DataSourceProperty]
 		public int CategoryIndex
 		{
@@ -792,9 +750,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000745 RID: 1861
-		// (get) Token: 0x0600164A RID: 5706 RVA: 0x000485D8 File Offset: 0x000467D8
-		// (set) Token: 0x0600164B RID: 5707 RVA: 0x000485E0 File Offset: 0x000467E0
 		[DataSourceProperty]
 		public string OptionsLbl
 		{
@@ -812,9 +767,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000746 RID: 1862
-		// (get) Token: 0x0600164C RID: 5708 RVA: 0x00048603 File Offset: 0x00046803
-		// (set) Token: 0x0600164D RID: 5709 RVA: 0x0004860B File Offset: 0x0004680B
 		[DataSourceProperty]
 		public string CancelLbl
 		{
@@ -832,9 +784,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000747 RID: 1863
-		// (get) Token: 0x0600164E RID: 5710 RVA: 0x0004862E File Offset: 0x0004682E
-		// (set) Token: 0x0600164F RID: 5711 RVA: 0x00048636 File Offset: 0x00046836
 		[DataSourceProperty]
 		public string DoneLbl
 		{
@@ -852,9 +801,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000748 RID: 1864
-		// (get) Token: 0x06001650 RID: 5712 RVA: 0x00048659 File Offset: 0x00046859
-		// (set) Token: 0x06001651 RID: 5713 RVA: 0x00048661 File Offset: 0x00046861
 		[DataSourceProperty]
 		public string ResetLbl
 		{
@@ -872,9 +818,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000749 RID: 1865
-		// (get) Token: 0x06001652 RID: 5714 RVA: 0x00048684 File Offset: 0x00046884
-		// (set) Token: 0x06001653 RID: 5715 RVA: 0x0004868C File Offset: 0x0004688C
 		[DataSourceProperty]
 		public string GameVersionText
 		{
@@ -892,9 +835,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074A RID: 1866
-		// (get) Token: 0x06001654 RID: 5716 RVA: 0x000486AF File Offset: 0x000468AF
-		// (set) Token: 0x06001655 RID: 5717 RVA: 0x000486B7 File Offset: 0x000468B7
 		[DataSourceProperty]
 		public bool IsConsole
 		{
@@ -912,9 +852,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074B RID: 1867
-		// (get) Token: 0x06001656 RID: 5718 RVA: 0x000486D5 File Offset: 0x000468D5
-		// (set) Token: 0x06001657 RID: 5719 RVA: 0x000486DD File Offset: 0x000468DD
 		public bool IsDevelopmentMode
 		{
 			get
@@ -931,9 +868,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074C RID: 1868
-		// (get) Token: 0x06001658 RID: 5720 RVA: 0x000486FB File Offset: 0x000468FB
-		// (set) Token: 0x06001659 RID: 5721 RVA: 0x00048703 File Offset: 0x00046903
 		[DataSourceProperty]
 		public string VideoMemoryUsageName
 		{
@@ -951,9 +885,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074D RID: 1869
-		// (get) Token: 0x0600165A RID: 5722 RVA: 0x00048726 File Offset: 0x00046926
-		// (set) Token: 0x0600165B RID: 5723 RVA: 0x0004872E File Offset: 0x0004692E
 		[DataSourceProperty]
 		public string VideoMemoryUsageText
 		{
@@ -971,9 +902,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x0600165C RID: 5724 RVA: 0x00048751 File Offset: 0x00046951
-		// (set) Token: 0x0600165D RID: 5725 RVA: 0x00048759 File Offset: 0x00046959
 		[DataSourceProperty]
 		public float VideoMemoryUsageNormalized
 		{
@@ -991,8 +919,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700074F RID: 1871
-		// (get) Token: 0x0600165E RID: 5726 RVA: 0x00048777 File Offset: 0x00046977
 		[DataSourceProperty]
 		public GameKeyOptionCategoryVM GameKeyOptionGroups
 		{
@@ -1002,8 +928,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000750 RID: 1872
-		// (get) Token: 0x0600165F RID: 5727 RVA: 0x0004877F File Offset: 0x0004697F
 		[DataSourceProperty]
 		public GamepadOptionCategoryVM GamepadOptions
 		{
@@ -1013,8 +937,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x06001660 RID: 5728 RVA: 0x00048787 File Offset: 0x00046987
 		[DataSourceProperty]
 		public GroupedOptionCategoryVM PerformanceOptions
 		{
@@ -1024,8 +946,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000752 RID: 1874
-		// (get) Token: 0x06001661 RID: 5729 RVA: 0x0004878F File Offset: 0x0004698F
 		[DataSourceProperty]
 		public GroupedOptionCategoryVM AudioOptions
 		{
@@ -1035,8 +955,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x06001662 RID: 5730 RVA: 0x00048797 File Offset: 0x00046997
 		[DataSourceProperty]
 		public GroupedOptionCategoryVM GameplayOptions
 		{
@@ -1046,8 +964,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000754 RID: 1876
-		// (get) Token: 0x06001663 RID: 5731 RVA: 0x0004879F File Offset: 0x0004699F
 		[DataSourceProperty]
 		public GroupedOptionCategoryVM VideoOptions
 		{
@@ -1057,9 +973,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000755 RID: 1877
-		// (get) Token: 0x06001664 RID: 5732 RVA: 0x000487A7 File Offset: 0x000469A7
-		// (set) Token: 0x06001665 RID: 5733 RVA: 0x000487AF File Offset: 0x000469AF
 		[DataSourceProperty]
 		public BrightnessOptionVM BrightnessPopUp
 		{
@@ -1077,9 +990,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x06001666 RID: 5734 RVA: 0x000487CD File Offset: 0x000469CD
-		// (set) Token: 0x06001667 RID: 5735 RVA: 0x000487D5 File Offset: 0x000469D5
 		[DataSourceProperty]
 		public ExposureOptionVM ExposurePopUp
 		{
@@ -1097,33 +1007,26 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x06001668 RID: 5736 RVA: 0x000487F3 File Offset: 0x000469F3
 		public void SetDoneInputKey(HotKey hotkey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x06001669 RID: 5737 RVA: 0x00048802 File Offset: 0x00046A02
 		public void SetCancelInputKey(HotKey hotkey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x0600166A RID: 5738 RVA: 0x00048811 File Offset: 0x00046A11
 		public void SetPreviousTabInputKey(HotKey hotkey)
 		{
 			this.PreviousTabInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x0600166B RID: 5739 RVA: 0x00048820 File Offset: 0x00046A20
 		public void SetNextTabInputKey(HotKey hotkey)
 		{
 			this.NextTabInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x17000757 RID: 1879
-		// (get) Token: 0x0600166C RID: 5740 RVA: 0x0004882F File Offset: 0x00046A2F
-		// (set) Token: 0x0600166D RID: 5741 RVA: 0x00048837 File Offset: 0x00046A37
 		public InputKeyItemVM DoneInputKey
 		{
 			get
@@ -1140,9 +1043,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000758 RID: 1880
-		// (get) Token: 0x0600166E RID: 5742 RVA: 0x00048855 File Offset: 0x00046A55
-		// (set) Token: 0x0600166F RID: 5743 RVA: 0x0004885D File Offset: 0x00046A5D
 		public InputKeyItemVM CancelInputKey
 		{
 			get
@@ -1159,9 +1059,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000759 RID: 1881
-		// (get) Token: 0x06001670 RID: 5744 RVA: 0x0004887B File Offset: 0x00046A7B
-		// (set) Token: 0x06001671 RID: 5745 RVA: 0x00048883 File Offset: 0x00046A83
 		[DataSourceProperty]
 		public InputKeyItemVM PreviousTabInputKey
 		{
@@ -1179,9 +1076,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700075A RID: 1882
-		// (get) Token: 0x06001672 RID: 5746 RVA: 0x000488A1 File Offset: 0x00046AA1
-		// (set) Token: 0x06001673 RID: 5747 RVA: 0x000488A9 File Offset: 0x00046AA9
 		[DataSourceProperty]
 		public InputKeyItemVM NextTabInputKey
 		{
@@ -1199,151 +1093,100 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x04000A88 RID: 2696
 		private readonly Action _onClose;
 
-		// Token: 0x04000A89 RID: 2697
 		private readonly Action _onBrightnessExecute;
 
-		// Token: 0x04000A8A RID: 2698
 		private readonly Action _onExposureExecute;
 
-		// Token: 0x04000A8B RID: 2699
 		private readonly StringOptionDataVM _overallOption;
 
-		// Token: 0x04000A8C RID: 2700
 		private readonly GenericOptionDataVM _dlssOption;
 
-		// Token: 0x04000A8D RID: 2701
 		private readonly List<GenericOptionDataVM> _dynamicResolutionOptions = new List<GenericOptionDataVM>();
 
-		// Token: 0x04000A8E RID: 2702
 		private readonly GenericOptionDataVM _refreshRateOption;
 
-		// Token: 0x04000A8F RID: 2703
 		private readonly GenericOptionDataVM _resolutionOption;
 
-		// Token: 0x04000A90 RID: 2704
 		private readonly GenericOptionDataVM _monitorOption;
 
-		// Token: 0x04000A91 RID: 2705
 		private readonly bool _autoHandleClose;
 
-		// Token: 0x04000A92 RID: 2706
 		protected readonly GroupedOptionCategoryVM _gameplayOptionCategory;
 
-		// Token: 0x04000A93 RID: 2707
 		private readonly GroupedOptionCategoryVM _audioOptionCategory;
 
-		// Token: 0x04000A94 RID: 2708
 		private readonly GroupedOptionCategoryVM _videoOptionCategory;
 
-		// Token: 0x04000A95 RID: 2709
 		protected readonly GameKeyOptionCategoryVM _gameKeyCategory;
 
-		// Token: 0x04000A96 RID: 2710
 		private readonly GamepadOptionCategoryVM _gamepadCategory;
 
-		// Token: 0x04000A97 RID: 2711
 		private bool _isInitialized;
 
-		// Token: 0x04000A98 RID: 2712
 		private Action<KeyOptionVM> _onKeybindRequest;
 
-		// Token: 0x04000A99 RID: 2713
 		protected readonly GroupedOptionCategoryVM _performanceOptionCategory;
 
-		// Token: 0x04000A9A RID: 2714
 		private readonly int _overallConfigCount = NativeSelectionOptionData.GetOptionsLimit(NativeOptions.NativeOptionsType.OverAll) - 1;
 
-		// Token: 0x04000A9B RID: 2715
 		private bool _isCancelling;
 
-		// Token: 0x04000A9C RID: 2716
 		private readonly IEnumerable<IOptionData> _performanceManagedOptions;
 
-		// Token: 0x04000A9D RID: 2717
 		protected readonly List<GroupedOptionCategoryVM> _groupedCategories;
 
-		// Token: 0x04000A9E RID: 2718
 		private readonly List<ViewModel> _categories;
 
-		// Token: 0x04000A9F RID: 2719
 		private int _categoryIndex;
 
-		// Token: 0x04000AA0 RID: 2720
 		private string _optionsLbl;
 
-		// Token: 0x04000AA1 RID: 2721
 		private string _cancelLbl;
 
-		// Token: 0x04000AA2 RID: 2722
 		private string _doneLbl;
 
-		// Token: 0x04000AA3 RID: 2723
 		private string _resetLbl;
 
-		// Token: 0x04000AA4 RID: 2724
 		private string _gameVersionText;
 
-		// Token: 0x04000AA5 RID: 2725
 		private bool _isDevelopmentMode;
 
-		// Token: 0x04000AA6 RID: 2726
 		private bool _isConsole;
 
-		// Token: 0x04000AA7 RID: 2727
 		private float _videoMemoryUsageNormalized;
 
-		// Token: 0x04000AA8 RID: 2728
 		private string _videoMemoryUsageName;
 
-		// Token: 0x04000AA9 RID: 2729
 		private string _videoMemoryUsageText;
 
-		// Token: 0x04000AAA RID: 2730
 		private BrightnessOptionVM _brightnessPopUp;
 
-		// Token: 0x04000AAB RID: 2731
 		private ExposureOptionVM _exposurePopUp;
 
-		// Token: 0x04000AAC RID: 2732
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x04000AAD RID: 2733
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x04000AAE RID: 2734
 		private InputKeyItemVM _previousTabInputKey;
 
-		// Token: 0x04000AAF RID: 2735
 		private InputKeyItemVM _nextTabInputKey;
 
-		// Token: 0x02000245 RID: 581
 		public enum OptionsDataType
 		{
-			// Token: 0x04000F04 RID: 3844
 			None = -1,
-			// Token: 0x04000F05 RID: 3845
 			BooleanOption,
-			// Token: 0x04000F06 RID: 3846
 			NumericOption,
-			// Token: 0x04000F07 RID: 3847
 			MultipleSelectionOption = 3,
-			// Token: 0x04000F08 RID: 3848
 			InputOption,
-			// Token: 0x04000F09 RID: 3849
 			ActionOption
 		}
 
-		// Token: 0x02000246 RID: 582
 		public enum OptionsMode
 		{
-			// Token: 0x04000F0B RID: 3851
 			MainMenu,
-			// Token: 0x04000F0C RID: 3852
 			Singleplayer,
-			// Token: 0x04000F0D RID: 3853
 			Multiplayer
 		}
 	}

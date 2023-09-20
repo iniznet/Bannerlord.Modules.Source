@@ -11,18 +11,15 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x02000035 RID: 53
 	[OverrideView(typeof(MissionSingleplayerEscapeMenu))]
 	public class MissionGauntletSingleplayerEscapeMenu : MissionGauntletEscapeMenuBase
 	{
-		// Token: 0x06000280 RID: 640 RVA: 0x0000DEF5 File Offset: 0x0000C0F5
 		public MissionGauntletSingleplayerEscapeMenu(bool isIronmanMode)
 			: base("EscapeMenu")
 		{
 			this._isIronmanMode = isIronmanMode;
 		}
 
-		// Token: 0x06000281 RID: 641 RVA: 0x0000DF0C File Offset: 0x0000C10C
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -31,14 +28,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x06000282 RID: 642 RVA: 0x0000DF5D File Offset: 0x0000C15D
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x06000283 RID: 643 RVA: 0x0000DF85 File Offset: 0x0000C185
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
 			if (changedManagedOptionsType == 41)
@@ -52,7 +47,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000284 RID: 644 RVA: 0x0000DFA4 File Offset: 0x0000C1A4
 		public override void OnFocusChangeOnGameWindow(bool focusGained)
 		{
 			base.OnFocusChangeOnGameWindow(focusGained);
@@ -62,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000285 RID: 645 RVA: 0x0000DFF1 File Offset: 0x0000C1F1
 		public override void OnSceneRenderingStarted()
 		{
 			base.OnSceneRenderingStarted();
@@ -77,7 +70,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000286 RID: 646 RVA: 0x0000E028 File Offset: 0x0000C228
 		protected override List<EscapeMenuItemVM> GetEscapeMenuItems()
 		{
 			TextObject ironmanDisabledReason = GameTexts.FindText("str_pause_menu_disabled_hint", "IronmanMode");
@@ -149,7 +141,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return list;
 		}
 
-		// Token: 0x06000287 RID: 647 RVA: 0x0000E190 File Offset: 0x0000C390
 		private Tuple<bool, TextObject> GetIsPhotoModeDisabled()
 		{
 			if (base.MissionScreen.IsDeploymentActive)
@@ -171,7 +162,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return new Tuple<bool, TextObject>(false, TextObject.Empty);
 		}
 
-		// Token: 0x06000288 RID: 648 RVA: 0x0000E223 File Offset: 0x0000C423
 		private void OnExitToMainMenu()
 		{
 			base.OnEscapeMenuToggled(false);
@@ -179,10 +169,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			MBGameManager.EndGame();
 		}
 
-		// Token: 0x04000149 RID: 329
 		private MissionOptionsComponent _missionOptionsComponent;
 
-		// Token: 0x0400014A RID: 330
 		private bool _isIronmanMode;
 	}
 }

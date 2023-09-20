@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200014B RID: 331
 	public class DefaultVillageProductionCalculatorModel : VillageProductionCalculatorModel
 	{
-		// Token: 0x0600180C RID: 6156 RVA: 0x000799F4 File Offset: 0x00077BF4
 		public override float CalculateDailyProductionAmount(Village village, ItemObject item)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
@@ -67,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x0600180D RID: 6157 RVA: 0x00079CB8 File Offset: 0x00077EB8
 		public override float CalculateDailyFoodProductionAmount(Village village)
 		{
 			if (village.VillageState != Village.VillageStates.Normal)
@@ -83,7 +80,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600180E RID: 6158 RVA: 0x00079CF4 File Offset: 0x00077EF4
 		private bool GetIssueEffectOnFoodProduction(Settlement settlement, out float issueEffect)
 		{
 			issueEffect = 1f;
@@ -104,7 +100,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return !issueEffect.ApproximatelyEqualsTo(1f, 1E-05f);
 		}
 
-		// Token: 0x0600180F RID: 6159 RVA: 0x00079D94 File Offset: 0x00077F94
 		public override float CalculateProductionSpeedOfItemCategory(ItemCategory item)
 		{
 			float num = 0f;

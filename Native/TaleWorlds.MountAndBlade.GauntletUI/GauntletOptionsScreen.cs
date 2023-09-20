@@ -17,17 +17,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x0200000C RID: 12
 	[OverrideView(typeof(OptionsScreen))]
 	public class GauntletOptionsScreen : ScreenBase
 	{
-		// Token: 0x06000049 RID: 73 RVA: 0x00003671 File Offset: 0x00001871
 		public GauntletOptionsScreen(bool isFromMainMenu)
 		{
 			this._isFromMainMenu = isFromMainMenu;
 		}
 
-		// Token: 0x0600004A RID: 74 RVA: 0x00003680 File Offset: 0x00001880
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -67,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			game.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(13));
 		}
 
-		// Token: 0x0600004B RID: 75 RVA: 0x000038D7 File Offset: 0x00001AD7
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -82,13 +78,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			game.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00003915 File Offset: 0x00001B15
 		protected override void OnDeactivate()
 		{
 			LoadingWindow.EnableGlobalLoadingWindow();
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x0000391C File Offset: 0x00001B1C
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -136,14 +130,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._keybindingPopup.Tick();
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x00003AC5 File Offset: 0x00001CC5
 		private void OnKeybindRequest(KeyOptionVM requestedHotKeyToChange)
 		{
 			this._currentKey = requestedHotKeyToChange;
 			this._keybindingPopup.OnToggle(true);
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x00003ADC File Offset: 0x00001CDC
 		private void SetHotKey(Key key)
 		{
 			GameKeyOptionVM gameKey;
@@ -193,25 +185,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._keybindingPopup.OnToggle(false);
 		}
 
-		// Token: 0x0400002E RID: 46
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400002F RID: 47
 		private OptionsVM _dataSource;
 
-		// Token: 0x04000030 RID: 48
 		private IGauntletMovie _gauntletMovie;
 
-		// Token: 0x04000031 RID: 49
 		private KeybindingPopup _keybindingPopup;
 
-		// Token: 0x04000032 RID: 50
 		private KeyOptionVM _currentKey;
 
-		// Token: 0x04000033 RID: 51
 		private SpriteCategory _optionsSpriteCategory;
 
-		// Token: 0x04000034 RID: 52
 		private bool _isFromMainMenu;
 	}
 }

@@ -11,20 +11,12 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomGame
 {
-	// Token: 0x0200008C RID: 140
 	public class MPCustomGameItemVM : ViewModel
 	{
-		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06000CC8 RID: 3272 RVA: 0x0002CDFB File Offset: 0x0002AFFB
-		// (set) Token: 0x06000CC9 RID: 3273 RVA: 0x0002CE03 File Offset: 0x0002B003
 		public GameServerEntry GameServerInfo { get; private set; }
 
-		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06000CCA RID: 3274 RVA: 0x0002CE0C File Offset: 0x0002B00C
-		// (set) Token: 0x06000CCB RID: 3275 RVA: 0x0002CE14 File Offset: 0x0002B014
 		public PremadeGameEntry PremadeGameInfo { get; private set; }
 
-		// Token: 0x06000CCC RID: 3276 RVA: 0x0002CE20 File Offset: 0x0002B020
 		public MPCustomGameItemVM(GameServerEntry gameServerInfo, Action onJoin, Action<GameServerEntry> onRequestActions)
 		{
 			this._onJoin = onJoin;
@@ -36,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			this.UpdateGameServerInfo();
 		}
 
-		// Token: 0x06000CCD RID: 3277 RVA: 0x0002CE8C File Offset: 0x0002B08C
 		public MPCustomGameItemVM(PremadeGameEntry premadeGameInfo, Action onJoin)
 		{
 			this._onJoin = onJoin;
@@ -48,7 +39,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			this.UpdatePremadeGameInfo();
 		}
 
-		// Token: 0x06000CCE RID: 3278 RVA: 0x0002CEE8 File Offset: 0x0002B0E8
 		private async void UpdateGameServerInfo()
 		{
 			this.IsPasswordProtected = this.GameServerInfo.PasswordProtected;
@@ -68,7 +58,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			await this.UpdatePingText();
 		}
 
-		// Token: 0x06000CCF RID: 3279 RVA: 0x0002CF24 File Offset: 0x0002B124
 		private async Task UpdatePingText()
 		{
 			if (this.IsPingInfoAvailable)
@@ -82,7 +71,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x06000CD0 RID: 3280 RVA: 0x0002CF6C File Offset: 0x0002B16C
 		private void UpdatePremadeGameInfo()
 		{
 			this.IsPasswordProtected = this.PremadeGameInfo.IsPasswordProtected;
@@ -104,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x06000CD1 RID: 3281 RVA: 0x0002D090 File Offset: 0x0002B290
 		private List<TooltipProperty> GetLoadedModulesTooltipProperties()
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -141,13 +128,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			return list;
 		}
 
-		// Token: 0x06000CD2 RID: 3282 RVA: 0x0002D24C File Offset: 0x0002B44C
 		private void ExecuteJoin()
 		{
 			this._onJoin();
 		}
 
-		// Token: 0x06000CD3 RID: 3283 RVA: 0x0002D259 File Offset: 0x0002B459
 		private void ExecuteViewHostOptions()
 		{
 			if (this._onRequestActions != null)
@@ -157,9 +142,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06000CD4 RID: 3284 RVA: 0x0002D27F File Offset: 0x0002B47F
-		// (set) Token: 0x06000CD5 RID: 3285 RVA: 0x0002D287 File Offset: 0x0002B487
 		[DataSourceProperty]
 		public bool IsPasswordProtected
 		{
@@ -177,9 +159,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06000CD6 RID: 3286 RVA: 0x0002D2A4 File Offset: 0x0002B4A4
-		// (set) Token: 0x06000CD7 RID: 3287 RVA: 0x0002D2AC File Offset: 0x0002B4AC
 		[DataSourceProperty]
 		public bool IsClanMatchItem
 		{
@@ -197,9 +176,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06000CD8 RID: 3288 RVA: 0x0002D2C9 File Offset: 0x0002B4C9
-		// (set) Token: 0x06000CD9 RID: 3289 RVA: 0x0002D2D1 File Offset: 0x0002B4D1
 		[DataSourceProperty]
 		public bool IsOfficialServer
 		{
@@ -217,9 +193,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x06000CDA RID: 3290 RVA: 0x0002D2EE File Offset: 0x0002B4EE
-		// (set) Token: 0x06000CDB RID: 3291 RVA: 0x0002D2F6 File Offset: 0x0002B4F6
 		[DataSourceProperty]
 		public bool IsByOfficialServerProvider
 		{
@@ -237,9 +210,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x06000CDC RID: 3292 RVA: 0x0002D313 File Offset: 0x0002B513
-		// (set) Token: 0x06000CDD RID: 3293 RVA: 0x0002D31B File Offset: 0x0002B51B
 		[DataSourceProperty]
 		public bool IsCommunityServer
 		{
@@ -257,9 +227,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06000CDE RID: 3294 RVA: 0x0002D338 File Offset: 0x0002B538
-		// (set) Token: 0x06000CDF RID: 3295 RVA: 0x0002D340 File Offset: 0x0002B540
 		[DataSourceProperty]
 		public bool IsPingInfoAvailable
 		{
@@ -277,9 +244,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x06000CE0 RID: 3296 RVA: 0x0002D35D File Offset: 0x0002B55D
-		// (set) Token: 0x06000CE1 RID: 3297 RVA: 0x0002D365 File Offset: 0x0002B565
 		[DataSourceProperty]
 		public int PlayerCount
 		{
@@ -297,9 +261,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000408 RID: 1032
-		// (get) Token: 0x06000CE2 RID: 3298 RVA: 0x0002D382 File Offset: 0x0002B582
-		// (set) Token: 0x06000CE3 RID: 3299 RVA: 0x0002D38A File Offset: 0x0002B58A
 		[DataSourceProperty]
 		public int MaxPlayerCount
 		{
@@ -317,9 +278,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000409 RID: 1033
-		// (get) Token: 0x06000CE4 RID: 3300 RVA: 0x0002D3A7 File Offset: 0x0002B5A7
-		// (set) Token: 0x06000CE5 RID: 3301 RVA: 0x0002D3AF File Offset: 0x0002B5AF
 		[DataSourceProperty]
 		public string HostText
 		{
@@ -337,9 +295,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040A RID: 1034
-		// (get) Token: 0x06000CE6 RID: 3302 RVA: 0x0002D3D1 File Offset: 0x0002B5D1
-		// (set) Token: 0x06000CE7 RID: 3303 RVA: 0x0002D3D9 File Offset: 0x0002B5D9
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -357,9 +312,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040B RID: 1035
-		// (get) Token: 0x06000CE8 RID: 3304 RVA: 0x0002D3FB File Offset: 0x0002B5FB
-		// (set) Token: 0x06000CE9 RID: 3305 RVA: 0x0002D403 File Offset: 0x0002B603
 		[DataSourceProperty]
 		public string GameTypeText
 		{
@@ -377,9 +329,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040C RID: 1036
-		// (get) Token: 0x06000CEA RID: 3306 RVA: 0x0002D425 File Offset: 0x0002B625
-		// (set) Token: 0x06000CEB RID: 3307 RVA: 0x0002D42D File Offset: 0x0002B62D
 		[DataSourceProperty]
 		public string PlayerCountText
 		{
@@ -397,9 +346,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040D RID: 1037
-		// (get) Token: 0x06000CEC RID: 3308 RVA: 0x0002D44F File Offset: 0x0002B64F
-		// (set) Token: 0x06000CED RID: 3309 RVA: 0x0002D457 File Offset: 0x0002B657
 		[DataSourceProperty]
 		public string PingText
 		{
@@ -417,9 +363,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040E RID: 1038
-		// (get) Token: 0x06000CEE RID: 3310 RVA: 0x0002D479 File Offset: 0x0002B679
-		// (set) Token: 0x06000CEF RID: 3311 RVA: 0x0002D481 File Offset: 0x0002B681
 		[DataSourceProperty]
 		public string FirstFactionName
 		{
@@ -437,9 +380,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x1700040F RID: 1039
-		// (get) Token: 0x06000CF0 RID: 3312 RVA: 0x0002D4A3 File Offset: 0x0002B6A3
-		// (set) Token: 0x06000CF1 RID: 3313 RVA: 0x0002D4AB File Offset: 0x0002B6AB
 		[DataSourceProperty]
 		public string SecondFactionName
 		{
@@ -457,9 +397,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x06000CF2 RID: 3314 RVA: 0x0002D4CD File Offset: 0x0002B6CD
-		// (set) Token: 0x06000CF3 RID: 3315 RVA: 0x0002D4D5 File Offset: 0x0002B6D5
 		[DataSourceProperty]
 		public string RegionName
 		{
@@ -477,9 +414,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x06000CF4 RID: 3316 RVA: 0x0002D4F7 File Offset: 0x0002B6F7
-		// (set) Token: 0x06000CF5 RID: 3317 RVA: 0x0002D4FF File Offset: 0x0002B6FF
 		[DataSourceProperty]
 		public string PremadeMatchTypeText
 		{
@@ -497,9 +431,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x06000CF6 RID: 3318 RVA: 0x0002D521 File Offset: 0x0002B721
-		// (set) Token: 0x06000CF7 RID: 3319 RVA: 0x0002D529 File Offset: 0x0002B729
 		[DataSourceProperty]
 		public BasicTooltipViewModel LoadedModulesHint
 		{
@@ -517,76 +448,52 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.CustomG
 			}
 		}
 
-		// Token: 0x0400061D RID: 1565
 		public const string PingTimeoutText = "-";
 
-		// Token: 0x0400061E RID: 1566
 		public static Action<PlayerId> OnPlayerProfileRequested;
 
-		// Token: 0x0400061F RID: 1567
 		private Action _onJoin;
 
-		// Token: 0x04000620 RID: 1568
 		private Action<GameServerEntry> _onRequestActions;
 
-		// Token: 0x04000623 RID: 1571
 		private string _randomString;
 
-		// Token: 0x04000624 RID: 1572
 		public static readonly string OfficialServerHostName = "TaleWorlds";
 
-		// Token: 0x04000625 RID: 1573
 		private bool _isPasswordProtected;
 
-		// Token: 0x04000626 RID: 1574
 		private bool _isClanMatchItem;
 
-		// Token: 0x04000627 RID: 1575
 		private bool _isOfficialServer;
 
-		// Token: 0x04000628 RID: 1576
 		private bool _isByOfficialServerProvider;
 
-		// Token: 0x04000629 RID: 1577
 		private bool _isCommunityServer;
 
-		// Token: 0x0400062A RID: 1578
 		private bool _isPingInfoAvailable;
 
-		// Token: 0x0400062B RID: 1579
 		private int _playerCount;
 
-		// Token: 0x0400062C RID: 1580
 		private int _maxPlayerCount;
 
-		// Token: 0x0400062D RID: 1581
 		private string _hostText;
 
-		// Token: 0x0400062E RID: 1582
 		private string _nameText;
 
-		// Token: 0x0400062F RID: 1583
 		private string _gameTypeText;
 
-		// Token: 0x04000630 RID: 1584
 		private string _playerCountText;
 
-		// Token: 0x04000631 RID: 1585
 		private string _pingText;
 
-		// Token: 0x04000632 RID: 1586
 		private string _firstFactionName;
 
-		// Token: 0x04000633 RID: 1587
 		private string _secondFactionName;
 
-		// Token: 0x04000634 RID: 1588
 		private string _regionName;
 
-		// Token: 0x04000635 RID: 1589
 		private string _premadeMatchTypeText;
 
-		// Token: 0x04000636 RID: 1590
 		private BasicTooltipViewModel _loadedModulesHint;
 	}
 }

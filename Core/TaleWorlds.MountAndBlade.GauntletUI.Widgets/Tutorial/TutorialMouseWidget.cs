@@ -7,46 +7,25 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 {
-	// Token: 0x02000041 RID: 65
 	public class TutorialMouseWidget : Widget
 	{
-		// Token: 0x1700012E RID: 302
-		// (get) Token: 0x06000360 RID: 864 RVA: 0x0000AD32 File Offset: 0x00008F32
-		// (set) Token: 0x06000361 RID: 865 RVA: 0x0000AD3A File Offset: 0x00008F3A
 		public Widget GhostMouseVisualWidget { get; set; }
 
-		// Token: 0x1700012F RID: 303
-		// (get) Token: 0x06000362 RID: 866 RVA: 0x0000AD43 File Offset: 0x00008F43
-		// (set) Token: 0x06000363 RID: 867 RVA: 0x0000AD4B File Offset: 0x00008F4B
 		public Widget LeftMouseClickVisualWidget { get; set; }
 
-		// Token: 0x17000130 RID: 304
-		// (get) Token: 0x06000364 RID: 868 RVA: 0x0000AD54 File Offset: 0x00008F54
-		// (set) Token: 0x06000365 RID: 869 RVA: 0x0000AD5C File Offset: 0x00008F5C
 		public Widget RightMouseClickVisualWidget { get; set; }
 
-		// Token: 0x17000131 RID: 305
-		// (get) Token: 0x06000366 RID: 870 RVA: 0x0000AD65 File Offset: 0x00008F65
-		// (set) Token: 0x06000367 RID: 871 RVA: 0x0000AD6D File Offset: 0x00008F6D
 		public Widget MiddleMouseClickVisualWidget { get; set; }
 
-		// Token: 0x17000132 RID: 306
-		// (get) Token: 0x06000368 RID: 872 RVA: 0x0000AD76 File Offset: 0x00008F76
-		// (set) Token: 0x06000369 RID: 873 RVA: 0x0000AD7E File Offset: 0x00008F7E
 		public Widget HorizontalArrowWidget { get; set; }
 
-		// Token: 0x17000133 RID: 307
-		// (get) Token: 0x0600036A RID: 874 RVA: 0x0000AD87 File Offset: 0x00008F87
-		// (set) Token: 0x0600036B RID: 875 RVA: 0x0000AD8F File Offset: 0x00008F8F
 		public Widget VerticalArrowWidget { get; set; }
 
-		// Token: 0x0600036C RID: 876 RVA: 0x0000AD98 File Offset: 0x00008F98
 		public TutorialMouseWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x0000ADAC File Offset: 0x00008FAC
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -70,7 +49,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x0000AE5C File Offset: 0x0000905C
 		private void Reset()
 		{
 			this._animQueue.Clear();
@@ -85,7 +63,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			base.ParentWidget.ParentWidget.AlphaFactor = 0f;
 		}
 
-		// Token: 0x0600036F RID: 879 RVA: 0x0000AEFC File Offset: 0x000090FC
 		private void UpdateAnimQueue()
 		{
 			this.Reset();
@@ -216,9 +193,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x17000134 RID: 308
-		// (get) Token: 0x06000370 RID: 880 RVA: 0x0000B55E File Offset: 0x0000975E
-		// (set) Token: 0x06000371 RID: 881 RVA: 0x0000B566 File Offset: 0x00009766
 		[Editor(false)]
 		public int CurrentObjectiveType
 		{
@@ -237,31 +211,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x04000168 RID: 360
 		private const float LongStayTime = 1f;
 
-		// Token: 0x04000169 RID: 361
 		private const float ShortStayTime = 0.1f;
 
-		// Token: 0x0400016A RID: 362
 		private const float FadeInTime = 0.15f;
 
-		// Token: 0x0400016B RID: 363
 		private const float FadeOutTime = 0.15f;
 
-		// Token: 0x0400016C RID: 364
 		private const float SingleMovementDirection = 20f;
 
-		// Token: 0x0400016D RID: 365
 		private const float MovementTime = 0.15f;
 
-		// Token: 0x0400016E RID: 366
 		private const float ParentActiveAlpha = 0.1f;
 
-		// Token: 0x04000175 RID: 373
 		private Queue<List<MouseAnimStage>> _animQueue = new Queue<List<MouseAnimStage>>();
 
-		// Token: 0x04000176 RID: 374
 		private int _currentObjectiveType;
 	}
 }

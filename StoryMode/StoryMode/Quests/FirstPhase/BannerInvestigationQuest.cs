@@ -12,11 +12,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.FirstPhase
 {
-	// Token: 0x02000031 RID: 49
 	public class BannerInvestigationQuest : StoryModeQuestBase
 	{
-		// Token: 0x1700009F RID: 159
-		// (get) Token: 0x060002AB RID: 683 RVA: 0x0000E704 File Offset: 0x0000C904
 		private TextObject _startQuestLog
 		{
 			get
@@ -25,8 +22,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A0 RID: 160
-		// (get) Token: 0x060002AC RID: 684 RVA: 0x0000E711 File Offset: 0x0000C911
 		private TextObject _endQuestLog
 		{
 			get
@@ -35,8 +30,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A1 RID: 161
-		// (get) Token: 0x060002AD RID: 685 RVA: 0x0000E71E File Offset: 0x0000C91E
 		public override TextObject Title
 		{
 			get
@@ -45,8 +38,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A2 RID: 162
-		// (get) Token: 0x060002AE RID: 686 RVA: 0x0000E72B File Offset: 0x0000C92B
 		public override bool IsRemainingTimeHidden
 		{
 			get
@@ -55,20 +46,17 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002AF RID: 687 RVA: 0x0000E72E File Offset: 0x0000C92E
 		public BannerInvestigationQuest()
 			: base("investigate_neretzes_banner_quest", null, StoryModeManager.Current.MainStoryLine.FirstPhase.FirstPhaseEndTime)
 		{
 			this._allNoblesDead = false;
 		}
 
-		// Token: 0x060002B0 RID: 688 RVA: 0x0000E757 File Offset: 0x0000C957
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this.SetDialogs();
 		}
 
-		// Token: 0x060002B1 RID: 689 RVA: 0x0000E760 File Offset: 0x0000C960
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
@@ -76,7 +64,6 @@ namespace StoryMode.Quests.FirstPhase
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartySpawned));
 		}
 
-		// Token: 0x060002B2 RID: 690 RVA: 0x0000E7B4 File Offset: 0x0000C9B4
 		private void InitializeNotablesToTalkList()
 		{
 			this._noblesToTalk = new Dictionary<Hero, bool>();
@@ -185,7 +172,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002B3 RID: 691 RVA: 0x0000EB88 File Offset: 0x0000CD88
 		protected override void OnStartQuest()
 		{
 			this.InitializeNotablesToTalkList();
@@ -193,7 +179,6 @@ namespace StoryMode.Quests.FirstPhase
 			this._talkedNotablesQuestLog = base.AddDiscreteLog(this._startQuestLog, new TextObject("{=T8naYoGH}Nobles to Talk to", null), 0, 10, null, false);
 		}
 
-		// Token: 0x060002B4 RID: 692 RVA: 0x0000EBB8 File Offset: 0x0000CDB8
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			if (!this._allNoblesDead && this._noblesToTalk.ContainsKey(victim))
@@ -206,7 +191,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002B5 RID: 693 RVA: 0x0000EBE8 File Offset: 0x0000CDE8
 		private void UpdateAllNoblesDead()
 		{
 			int num = 0;
@@ -233,7 +217,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002B6 RID: 694 RVA: 0x0000EC80 File Offset: 0x0000CE80
 		protected override void SetDialogs()
 		{
 			this.SetNobleDialogs();
@@ -253,13 +236,11 @@ namespace StoryMode.Quests.FirstPhase
 				.GotoDialogState("lord_pretalk"), this);
 		}
 
-		// Token: 0x060002B7 RID: 695 RVA: 0x0000EDBC File Offset: 0x0000CFBC
 		private bool talk_with_any_noble_condition()
 		{
 			return this._battleSummarized && Hero.OneToOneConversationHero != null && CharacterObject.OneToOneConversationCharacter.Occupation == 3 && Hero.OneToOneConversationHero.Clan != Hero.MainHero.Clan && !this._noblesToTalk.ContainsKey(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x060002B8 RID: 696 RVA: 0x0000EE10 File Offset: 0x0000D010
 		private bool talk_with_any_noble_continue_condition()
 		{
 			TextObject textObject;
@@ -287,14 +268,12 @@ namespace StoryMode.Quests.FirstPhase
 			return true;
 		}
 
-		// Token: 0x060002B9 RID: 697 RVA: 0x0000EF1A File Offset: 0x0000D11A
 		private void BattleSummarized()
 		{
 			this._battleSummarized = true;
 			Campaign.Current.ConversationManager.ConversationEndOneShot += this.UpdateAllNoblesDead;
 		}
 
-		// Token: 0x060002BA RID: 698 RVA: 0x0000EF3E File Offset: 0x0000D13E
 		private void talk_with_any_noble_consequence()
 		{
 			if (this._allNoblesDead)
@@ -304,7 +283,6 @@ namespace StoryMode.Quests.FirstPhase
 			Campaign.Current.ConversationManager.ConversationEndOneShot += this.UpdateAllNoblesDead;
 		}
 
-		// Token: 0x060002BB RID: 699 RVA: 0x0000EF6C File Offset: 0x0000D16C
 		private void SetNobleDialogs()
 		{
 			foreach (KeyValuePair<Hero, bool> keyValuePair in this._noblesToTalk)
@@ -453,7 +431,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002BC RID: 700 RVA: 0x0000F5D8 File Offset: 0x0000D7D8
 		private void CreateNobleDialog(Hero noble, TextObject answer1, TextObject answer2, TextObject answer3, TextObject answer4)
 		{
 			DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("hero_main_options", 150).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=6UIa4784}Can you tell me anything about the battle of Pendraic?", null), null)
@@ -475,7 +452,6 @@ namespace StoryMode.Quests.FirstPhase
 			Campaign.Current.ConversationManager.AddDialogFlow(dialogFlow, this);
 		}
 
-		// Token: 0x060002BD RID: 701 RVA: 0x0000F708 File Offset: 0x0000D908
 		private bool talk_about_mentors_condition()
 		{
 			StringHelpers.SetCharacterProperties("IMPERIAL_MENTOR", StoryModeHeroes.ImperialMentor.CharacterObject, null, false);
@@ -485,13 +461,11 @@ namespace StoryMode.Quests.FirstPhase
 			return true;
 		}
 
-		// Token: 0x060002BE RID: 702 RVA: 0x0000F782 File Offset: 0x0000D982
 		private bool talk_with_quest_noble_condition()
 		{
 			return Hero.OneToOneConversationHero != null && this._battleSummarized && this._noblesToTalk.ContainsKey(Hero.OneToOneConversationHero) && !this._noblesToTalk[Hero.OneToOneConversationHero];
 		}
 
-		// Token: 0x060002BF RID: 703 RVA: 0x0000F7BC File Offset: 0x0000D9BC
 		private void talk_with_quest_noble_consequence()
 		{
 			this._noblesToTalk[Hero.OneToOneConversationHero] = true;
@@ -512,7 +486,6 @@ namespace StoryMode.Quests.FirstPhase
 			Campaign.Current.ConversationManager.ConversationEndOneShot += this.UpdateAllNoblesDead;
 		}
 
-		// Token: 0x060002C0 RID: 704 RVA: 0x0000F897 File Offset: 0x0000DA97
 		private void OnPartyRemoved(PartyBase party)
 		{
 			if (party.IsMobile && base.IsTracked(party.MobileParty))
@@ -521,7 +494,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002C1 RID: 705 RVA: 0x0000F8BB File Offset: 0x0000DABB
 		private void OnPartySpawned(MobileParty spawnedParty)
 		{
 			if (spawnedParty.IsLordParty && spawnedParty.LeaderHero != null && this._noblesToTalk.ContainsKey(spawnedParty.LeaderHero) && !this._noblesToTalk[spawnedParty.LeaderHero])
@@ -530,20 +502,17 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002C2 RID: 706 RVA: 0x0000F8FA File Offset: 0x0000DAFA
 		protected override void OnCompleteWithSuccess()
 		{
 			this._noblesToTalk.Clear();
 			base.AddLog(this._endQuestLog, false);
 		}
 
-		// Token: 0x060002C3 RID: 707 RVA: 0x0000F915 File Offset: 0x0000DB15
 		internal static void AutoGeneratedStaticCollectObjectsBannerInvestigationQuest(object o, List<object> collectedObjects)
 		{
 			((BannerInvestigationQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x060002C4 RID: 708 RVA: 0x0000F923 File Offset: 0x0000DB23
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -551,103 +520,75 @@ namespace StoryMode.Quests.FirstPhase
 			collectedObjects.Add(this._talkedNotablesQuestLog);
 		}
 
-		// Token: 0x060002C5 RID: 709 RVA: 0x0000F944 File Offset: 0x0000DB44
 		internal static object AutoGeneratedGetMemberValue_noblesToTalk(object o)
 		{
 			return ((BannerInvestigationQuest)o)._noblesToTalk;
 		}
 
-		// Token: 0x060002C6 RID: 710 RVA: 0x0000F951 File Offset: 0x0000DB51
 		internal static object AutoGeneratedGetMemberValue_allNoblesDead(object o)
 		{
 			return ((BannerInvestigationQuest)o)._allNoblesDead;
 		}
 
-		// Token: 0x060002C7 RID: 711 RVA: 0x0000F963 File Offset: 0x0000DB63
 		internal static object AutoGeneratedGetMemberValue_battleSummarized(object o)
 		{
 			return ((BannerInvestigationQuest)o)._battleSummarized;
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x0000F975 File Offset: 0x0000DB75
 		internal static object AutoGeneratedGetMemberValue_talkedNotablesQuestLog(object o)
 		{
 			return ((BannerInvestigationQuest)o)._talkedNotablesQuestLog;
 		}
 
-		// Token: 0x040000D0 RID: 208
 		private const int NotablesToTalkAmount = 10;
 
-		// Token: 0x040000D1 RID: 209
 		private const string MonchugStringId = "lord_6_1";
 
-		// Token: 0x040000D2 RID: 210
 		private const string MesuiStringId = "lord_6_4";
 
-		// Token: 0x040000D3 RID: 211
 		private const string HurunagStringId = "lord_6_16";
 
-		// Token: 0x040000D4 RID: 212
 		private const string CaladogStringId = "lord_5_1";
 
-		// Token: 0x040000D5 RID: 213
 		private const string ErgeonStringId = "lord_5_3";
 
-		// Token: 0x040000D6 RID: 214
 		private const string MelidirStringId = "lord_5_5";
 
-		// Token: 0x040000D7 RID: 215
 		private const string DerthertStringId = "lord_4_1";
 
-		// Token: 0x040000D8 RID: 216
 		private const string UntheryStringId = "lord_4_5";
 
-		// Token: 0x040000D9 RID: 217
 		private const string IngaltherStringId = "lord_4_16";
 
-		// Token: 0x040000DA RID: 218
 		private const string UnqidStringId = "lord_3_1";
 
-		// Token: 0x040000DB RID: 219
 		private const string AdramStringId = "lord_3_3";
 
-		// Token: 0x040000DC RID: 220
 		private const string TaisStringId = "lord_3_5";
 
-		// Token: 0x040000DD RID: 221
 		private const string RaganvadStringId = "lord_2_1";
 
-		// Token: 0x040000DE RID: 222
 		private const string OlekStringId = "lord_2_3";
 
-		// Token: 0x040000DF RID: 223
 		private const string GodunStringId = "lord_2_5";
 
-		// Token: 0x040000E0 RID: 224
 		private const string LuconStringId = "lord_1_1";
 
-		// Token: 0x040000E1 RID: 225
 		private const string PentonStringId = "lord_1_5";
 
-		// Token: 0x040000E2 RID: 226
 		private const string GariosStringId = "lord_1_7";
 
-		// Token: 0x040000E3 RID: 227
 		private const string RhagaeaStringId = "lord_1_14";
 
-		// Token: 0x040000E4 RID: 228
 		[SaveableField(1)]
 		private Dictionary<Hero, bool> _noblesToTalk;
 
-		// Token: 0x040000E5 RID: 229
 		[SaveableField(2)]
 		private bool _allNoblesDead;
 
-		// Token: 0x040000E6 RID: 230
 		[SaveableField(3)]
 		private bool _battleSummarized;
 
-		// Token: 0x040000E7 RID: 231
 		[SaveableField(4)]
 		private JournalLog _talkedNotablesQuestLog;
 	}

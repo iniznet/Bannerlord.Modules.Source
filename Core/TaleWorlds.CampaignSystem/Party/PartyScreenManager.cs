@@ -13,16 +13,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Party
 {
-	// Token: 0x020002B2 RID: 690
 	public class PartyScreenManager
 	{
-		// Token: 0x170009C9 RID: 2505
-		// (get) Token: 0x06002748 RID: 10056 RVA: 0x000A76D0 File Offset: 0x000A58D0
-		// (set) Token: 0x06002749 RID: 10057 RVA: 0x000A76D8 File Offset: 0x000A58D8
 		public bool IsDonating { get; private set; }
 
-		// Token: 0x170009CA RID: 2506
-		// (get) Token: 0x0600274A RID: 10058 RVA: 0x000A76E1 File Offset: 0x000A58E1
 		public PartyScreenMode CurrentMode
 		{
 			get
@@ -31,8 +25,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009CB RID: 2507
-		// (get) Token: 0x0600274B RID: 10059 RVA: 0x000A76E9 File Offset: 0x000A58E9
 		public static PartyScreenManager Instance
 		{
 			get
@@ -41,8 +33,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009CC RID: 2508
-		// (get) Token: 0x0600274C RID: 10060 RVA: 0x000A76F5 File Offset: 0x000A58F5
 		public static PartyScreenLogic PartyScreenLogic
 		{
 			get
@@ -51,7 +41,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x0600274D RID: 10061 RVA: 0x000A7704 File Offset: 0x000A5904
 		private void OpenPartyScreen()
 		{
 			Game game = Game.Current;
@@ -94,13 +83,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			game.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x0600274E RID: 10062 RVA: 0x000A789A File Offset: 0x000A5A9A
 		public static void CloseScreen(bool isForced, bool fromCancel = false)
 		{
 			PartyScreenManager.Instance.ClosePartyPresentation(isForced, fromCancel);
 		}
 
-		// Token: 0x0600274F RID: 10063 RVA: 0x000A78A8 File Offset: 0x000A5AA8
 		private void ClosePartyPresentation(bool isForced, bool fromCancel)
 		{
 			bool flag = true;
@@ -116,7 +103,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002750 RID: 10064 RVA: 0x000A78F0 File Offset: 0x000A5AF0
 		public static void OpenScreenAsCheat()
 		{
 			if (!Game.Current.CheatMode)
@@ -165,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			game.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002751 RID: 10065 RVA: 0x000A7AC8 File Offset: 0x000A5CC8
 		private static TroopRoster GetRosterWithAllGameTroops()
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -188,7 +173,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return troopRoster;
 		}
 
-		// Token: 0x06002752 RID: 10066 RVA: 0x000A7B87 File Offset: 0x000A5D87
 		public static void OpenScreenAsNormal()
 		{
 			if (Game.Current.CheatMode)
@@ -200,7 +184,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			PartyScreenManager.Instance.OpenPartyScreen();
 		}
 
-		// Token: 0x06002753 RID: 10067 RVA: 0x000A7BB0 File Offset: 0x000A5DB0
 		public static void OpenScreenAsRansom()
 		{
 			PartyScreenManager.Instance._currentMode = PartyScreenMode.Ransom;
@@ -222,7 +205,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002754 RID: 10068 RVA: 0x000A7C78 File Offset: 0x000A5E78
 		public static void OpenScreenAsLoot(TroopRoster leftMemberRoster, TroopRoster leftPrisonerRoster, TextObject leftPartyName, int leftPartySizeLimit, PartyScreenClosedDelegate partyScreenClosedDelegate = null)
 		{
 			PartyScreenManager.Instance._currentMode = PartyScreenMode.Loot;
@@ -241,7 +223,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002755 RID: 10069 RVA: 0x000A7D30 File Offset: 0x000A5F30
 		public static void OpenScreenAsManageTroopsAndPrisoners(MobileParty leftParty, PartyScreenClosedDelegate onPartyScreenClosed = null)
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -259,7 +240,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002756 RID: 10070 RVA: 0x000A7DDC File Offset: 0x000A5FDC
 		public static void OpenScreenAsReceiveTroops(TroopRoster leftMemberParty, TextObject leftPartyName, PartyScreenClosedDelegate partyScreenClosedDelegate = null)
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -280,7 +260,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002757 RID: 10071 RVA: 0x000A7E9C File Offset: 0x000A609C
 		public static void OpenScreenAsManageTroops(MobileParty leftParty)
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -293,7 +272,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002758 RID: 10072 RVA: 0x000A7F3C File Offset: 0x000A613C
 		public static void OpenScreenAsDonateTroops(MobileParty leftParty)
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -311,7 +289,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002759 RID: 10073 RVA: 0x000A7FFC File Offset: 0x000A61FC
 		public static void OpenScreenAsDonateGarrisonWithCurrentSettlement()
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -340,7 +317,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x0600275A RID: 10074 RVA: 0x000A8114 File Offset: 0x000A6314
 		public static void OpenScreenAsDonatePrisoners()
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -372,7 +348,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x0600275B RID: 10075 RVA: 0x000A8260 File Offset: 0x000A6460
 		private static Tuple<bool, TextObject> DonateDonePossibleDelegate(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, int leftLimitNum, int rightLimitNum)
 		{
 			if (PartyScreenManager.PartyScreenLogic.CurrentData.TransferredPrisonersHistory.Any((Tuple<CharacterObject, int> p) => p.Item2 > 0))
@@ -394,13 +369,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			return new Tuple<bool, TextObject>(true, TextObject.Empty);
 		}
 
-		// Token: 0x0600275C RID: 10076 RVA: 0x000A833B File Offset: 0x000A653B
 		public static bool DonatePrisonerTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return side == PartyScreenLogic.PartyRosterSide.Right && type == PartyScreenLogic.TroopType.Prisoner;
 		}
 
-		// Token: 0x0600275D RID: 10077 RVA: 0x000A8348 File Offset: 0x000A6548
 		public static void OpenScreenAsManagePrisoners()
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -426,7 +399,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x0600275E RID: 10078 RVA: 0x000A8454 File Offset: 0x000A6654
 		public static bool TroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase leftOwnerParty)
 		{
 			Hero hero = ((leftOwnerParty != null) ? leftOwnerParty.LeaderHero : null);
@@ -451,25 +423,21 @@ namespace TaleWorlds.CampaignSystem.Party
 			return !character.IsHero || (character.IsHero && character.HeroObject.Clan != Clan.PlayerClan && (!character.HeroObject.IsPlayerCompanion || (character.HeroObject.IsPlayerCompanion && flag2)));
 		}
 
-		// Token: 0x0600275F RID: 10079 RVA: 0x000A8522 File Offset: 0x000A6722
 		public static bool ClanManageTroopAndPrisonerTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return !character.IsHero || character.HeroObject.IsPrisoner;
 		}
 
-		// Token: 0x06002760 RID: 10080 RVA: 0x000A8539 File Offset: 0x000A6739
 		public static bool ClanManageTroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return !character.IsHero;
 		}
 
-		// Token: 0x06002761 RID: 10081 RVA: 0x000A8544 File Offset: 0x000A6744
 		public static bool DonateModeTroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return !character.IsHero && side == PartyScreenLogic.PartyRosterSide.Right;
 		}
 
-		// Token: 0x06002762 RID: 10082 RVA: 0x000A8554 File Offset: 0x000A6754
 		public static void OpenScreenWithCondition(IsTroopTransferableDelegate isTroopTransferable, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyPresentationDoneButtonDelegate onDoneClicked, PartyPresentationCancelButtonDelegate onCancelClicked, PartyScreenLogic.TransferState memberTransferState, PartyScreenLogic.TransferState prisonerTransferState, TextObject leftPartyName, int limit, bool showProgressBar, bool isDonating, PartyScreenMode screenMode = PartyScreenMode.Normal)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -483,7 +451,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002763 RID: 10083 RVA: 0x000A860C File Offset: 0x000A680C
 		public static void OpenScreenForManagingAlley(TroopRoster memberRosterLeft, IsTroopTransferableDelegate isTroopTransferable, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyPresentationDoneButtonDelegate onDoneClicked, TextObject leftPartyName, PartyPresentationCancelButtonDelegate onCancelButtonClicked)
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
@@ -494,7 +461,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002764 RID: 10084 RVA: 0x000A86A0 File Offset: 0x000A68A0
 		public static void OpenScreenAsQuest(TroopRoster leftMemberRoster, TextObject leftPartyName, int leftPartySizeLimit, int questDaysMultiplier, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyScreenClosedDelegate onPartyScreenClosed, IsTroopTransferableDelegate isTroopTransferable, PartyPresentationCancelButtonActivateDelegate partyPresentationCancelButtonActivateDelegate = null)
 		{
 			Debug.Print("PartyScreenManager::OpenScreenAsQuest", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -514,7 +480,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002765 RID: 10085 RVA: 0x000A8774 File Offset: 0x000A6974
 		public static void OpenScreenWithDummyRoster(TroopRoster leftMemberRoster, TroopRoster leftPrisonerRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonerRoster, TextObject leftPartyName, TextObject rightPartyName, int leftPartySizeLimit, int rightPartySizeLimit, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyScreenClosedDelegate onPartyScreenClosed, IsTroopTransferableDelegate isTroopTransferable, PartyPresentationCancelButtonActivateDelegate partyPresentationCancelButtonActivateDelegate = null)
 		{
 			Debug.Print("PartyScreenManager::OpenScreenWithDummyRoster", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -558,14 +523,12 @@ namespace TaleWorlds.CampaignSystem.Party
 			Game.Current.GameStateManager.PushState(partyState, 0);
 		}
 
-		// Token: 0x06002766 RID: 10086 RVA: 0x000A890C File Offset: 0x000A6B0C
 		public static void OpenScreenWithDummyRosterWithMainParty(TroopRoster leftMemberRoster, TroopRoster leftPrisonerRoster, TextObject leftPartyName, int leftPartySizeLimit, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyScreenClosedDelegate onPartyScreenClosed, IsTroopTransferableDelegate isTroopTransferable, PartyPresentationCancelButtonActivateDelegate partyPresentationCancelButtonActivateDelegate = null)
 		{
 			Debug.Print("PartyScreenManager::OpenScreenWithDummyRosterWithMainParty", 0, Debug.DebugColor.White, 17592186044416UL);
 			PartyScreenManager.OpenScreenWithDummyRoster(leftMemberRoster, leftPrisonerRoster, MobileParty.MainParty.MemberRoster, MobileParty.MainParty.PrisonRoster, leftPartyName, MobileParty.MainParty.Name, leftPartySizeLimit, MobileParty.MainParty.Party.PartySizeLimit, doneButtonCondition, onPartyScreenClosed, isTroopTransferable, partyPresentationCancelButtonActivateDelegate);
 		}
 
-		// Token: 0x06002767 RID: 10087 RVA: 0x000A8970 File Offset: 0x000A6B70
 		public static void OpenScreenAsCreateClanPartyForHero(Hero hero, PartyScreenClosedDelegate onScreenClosed = null, IsTroopTransferableDelegate isTroopTransferable = null)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -579,7 +542,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			PartyScreenManager.OpenScreenWithDummyRoster(troopRoster, troopRoster2, troopRoster3, troopRoster4, textObject, MobileParty.MainParty.Name, Campaign.Current.Models.PartySizeLimitModel.GetAssumedPartySizeForLordParty(hero, hero.Clan.MapFaction, hero.Clan), MobileParty.MainParty.LimitedPartySize, null, onScreenClosed ?? new PartyScreenClosedDelegate(PartyScreenManager.OpenScreenAsCreateClanPartyForHeroPartyScreenClosed), isTroopTransferable ?? new IsTroopTransferableDelegate(PartyScreenManager.OpenScreenAsCreateClanPartyForHeroTroopTransferableDelegate), null);
 		}
 
-		// Token: 0x06002768 RID: 10088 RVA: 0x000A8A54 File Offset: 0x000A6C54
 		private static void OpenScreenAsCreateClanPartyForHeroPartyScreenClosed(PartyBase leftOwnerParty, TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, PartyBase rightOwnerParty, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, bool fromCancel)
 		{
 			if (!fromCancel)
@@ -610,20 +572,17 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002769 RID: 10089 RVA: 0x000A8BC4 File Offset: 0x000A6DC4
 		private static bool OpenScreenAsCreateClanPartyForHeroTroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return !character.IsHero;
 		}
 
-		// Token: 0x0600276A RID: 10090 RVA: 0x000A8BCF File Offset: 0x000A6DCF
 		private static bool SellPrisonersDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			SellPrisonersAction.ApplyForSelectedPrisoners(MobileParty.MainParty, leftPrisonRoster, Hero.MainHero.CurrentSettlement);
 			return true;
 		}
 
-		// Token: 0x0600276B RID: 10091 RVA: 0x000A8BE8 File Offset: 0x000A6DE8
 		private static bool DonateGarrisonDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			Settlement currentSettlement = Hero.MainHero.CurrentSettlement;
@@ -645,7 +604,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return true;
 		}
 
-		// Token: 0x0600276C RID: 10092 RVA: 0x000A8C70 File Offset: 0x000A6E70
 		private static bool DonatePrisonersDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster leftSideTransferredPrisonerRoster, FlattenedTroopRoster rightSideTransferredPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			if (!rightSideTransferredPrisonerRoster.IsEmpty<FlattenedTroopRosterElement>())
@@ -663,7 +621,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return true;
 		}
 
-		// Token: 0x0600276D RID: 10093 RVA: 0x000A8CF4 File Offset: 0x000A6EF4
 		private static bool ManageGarrisonDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			Settlement currentSettlement = Hero.MainHero.CurrentSettlement;
@@ -686,20 +643,17 @@ namespace TaleWorlds.CampaignSystem.Party
 			return true;
 		}
 
-		// Token: 0x0600276E RID: 10094 RVA: 0x000A8D7E File Offset: 0x000A6F7E
 		private static bool ManageTroopsAndPrisonersDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			return true;
 		}
 
-		// Token: 0x0600276F RID: 10095 RVA: 0x000A8D81 File Offset: 0x000A6F81
 		private static bool DefaultDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			PartyScreenManager.HandleReleasedAndTakenPrisoners(takenPrisonerRoster, releasedPrisonerRoster);
 			return true;
 		}
 
-		// Token: 0x06002770 RID: 10096 RVA: 0x000A8D8D File Offset: 0x000A6F8D
 		private static void HandleReleasedAndTakenPrisoners(FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster)
 		{
 			if (!releasedPrisonerRoster.IsEmpty<FlattenedTroopRosterElement>())
@@ -712,13 +666,10 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x04000C22 RID: 3106
 		private PartyScreenMode _currentMode;
 
-		// Token: 0x04000C23 RID: 3107
 		private PartyScreenLogic _partyScreenLogic;
 
-		// Token: 0x04000C24 RID: 3108
 		private static readonly int _countToAddForEachTroopCheatMode = 10;
 	}
 }

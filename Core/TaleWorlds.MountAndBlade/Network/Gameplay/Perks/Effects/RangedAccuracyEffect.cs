@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CB RID: 971
 	public class RangedAccuracyEffect : MPPerkEffect
 	{
-		// Token: 0x060033E0 RID: 13280 RVA: 0x000D7168 File Offset: 0x000D5368
 		protected RangedAccuracyEffect()
 		{
 		}
 
-		// Token: 0x060033E1 RID: 13281 RVA: 0x000D7170 File Offset: 0x000D5370
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -60,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033E2 RID: 13282 RVA: 0x000D7214 File Offset: 0x000D5414
 		public override void OnUpdate(Agent agent, bool newState)
 		{
 			agent = ((agent != null && agent.IsMount) ? agent.RiderAgent : agent);
@@ -70,16 +66,13 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033E3 RID: 13283 RVA: 0x000D7235 File Offset: 0x000D5435
 		public override float GetRangedAccuracy()
 		{
 			return this._value;
 		}
 
-		// Token: 0x04001613 RID: 5651
 		protected static string StringType = "RangedAccuracy";
 
-		// Token: 0x04001614 RID: 5652
 		private float _value;
 	}
 }

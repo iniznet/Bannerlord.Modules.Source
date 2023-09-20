@@ -6,17 +6,13 @@ using Newtonsoft.Json;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x02000012 RID: 18
 	public class MetaData
 	{
-		// Token: 0x06000050 RID: 80 RVA: 0x00002BE9 File Offset: 0x00000DE9
 		public void Add(string key, string value)
 		{
 			this._list.Add(key, value);
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x06000051 RID: 81 RVA: 0x00002BF8 File Offset: 0x00000DF8
 		[JsonIgnore]
 		public int Count
 		{
@@ -26,13 +22,11 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00002C05 File Offset: 0x00000E05
 		public bool TryGetValue(string key, out string value)
 		{
 			return this._list.TryGetValue(key, out value);
 		}
 
-		// Token: 0x1700000E RID: 14
 		public string this[string key]
 		{
 			get
@@ -49,8 +43,6 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x06000055 RID: 85 RVA: 0x00002C41 File Offset: 0x00000E41
 		[JsonIgnore]
 		public Dictionary<string, string>.KeyCollection Keys
 		{
@@ -60,7 +52,6 @@ namespace TaleWorlds.SaveSystem
 			}
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x00002C50 File Offset: 0x00000E50
 		public void Serialize(Stream stream)
 		{
 			byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
@@ -68,7 +59,6 @@ namespace TaleWorlds.SaveSystem
 			stream.Write(bytes, 0, bytes.Length);
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00002C8C File Offset: 0x00000E8C
 		public static MetaData Deserialize(Stream stream)
 		{
 			MetaData metaData;
@@ -88,7 +78,6 @@ namespace TaleWorlds.SaveSystem
 			return metaData;
 		}
 
-		// Token: 0x04000019 RID: 25
 		[JsonProperty("List")]
 		private Dictionary<string, string> _list = new Dictionary<string, string>();
 	}

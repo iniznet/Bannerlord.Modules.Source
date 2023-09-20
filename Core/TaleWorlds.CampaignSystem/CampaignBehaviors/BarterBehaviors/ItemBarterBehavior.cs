@@ -9,21 +9,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 {
-	// Token: 0x020003F9 RID: 1017
 	public class ItemBarterBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D0A RID: 15626 RVA: 0x001226A1 File Offset: 0x001208A1
 		public override void RegisterEvents()
 		{
 			CampaignEvents.BarterablesRequested.AddNonSerializedListener(this, new Action<BarterData>(this.CheckForBarters));
 		}
 
-		// Token: 0x06003D0B RID: 15627 RVA: 0x001226BA File Offset: 0x001208BA
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D0C RID: 15628 RVA: 0x001226BC File Offset: 0x001208BC
 		public void CheckForBarters(BarterData args)
 		{
 			Vec2 vec;
@@ -65,7 +61,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			}
 		}
 
-		// Token: 0x06003D0D RID: 15629 RVA: 0x00122868 File Offset: 0x00120A68
 		private int CalculateAverageItemValueInNearbySettlements(EquipmentElement itemRosterElement, PartyBase involvedParty, List<Settlement> nearbySettlements)
 		{
 			int num = 0;
@@ -80,16 +75,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			return num;
 		}
 
-		// Token: 0x0400125D RID: 4701
 		private const int ItemValueThreshold = 100;
 
-		// Token: 0x0400125E RID: 4702
 		private ItemBarterBehavior.SettlementDistanceCache _distanceCache = new ItemBarterBehavior.SettlementDistanceCache();
 
-		// Token: 0x02000748 RID: 1864
 		private class SettlementDistanceCache
 		{
-			// Token: 0x06005680 RID: 22144 RVA: 0x0016E6A8 File Offset: 0x0016C8A8
 			public SettlementDistanceCache()
 			{
 				this._latestHeroPosition = new Vec2(-1f, -1f);
@@ -97,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 				this._closestSettlements = new List<Settlement>(3);
 			}
 
-			// Token: 0x06005681 RID: 22145 RVA: 0x0016E6E0 File Offset: 0x0016C8E0
 			public List<Settlement> GetClosestSettlements(Vec2 position)
 			{
 				if (!position.NearlyEquals(this._latestHeroPosition, 1E-05f))
@@ -123,26 +113,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 				return this._closestSettlements;
 			}
 
-			// Token: 0x04001E01 RID: 7681
 			private Vec2 _latestHeroPosition;
 
-			// Token: 0x04001E02 RID: 7682
 			private List<ItemBarterBehavior.SettlementDistanceCache.SettlementDistancePair> _sortedSettlements;
 
-			// Token: 0x04001E03 RID: 7683
 			private List<Settlement> _closestSettlements;
 
-			// Token: 0x020007BC RID: 1980
 			private struct SettlementDistancePair : IComparable<ItemBarterBehavior.SettlementDistanceCache.SettlementDistancePair>
 			{
-				// Token: 0x060057C5 RID: 22469 RVA: 0x0017010C File Offset: 0x0016E30C
 				public SettlementDistancePair(float distance, Settlement settlement)
 				{
 					this._distance = distance;
 					this.Settlement = settlement;
 				}
 
-				// Token: 0x060057C6 RID: 22470 RVA: 0x0017011C File Offset: 0x0016E31C
 				public int CompareTo(ItemBarterBehavior.SettlementDistanceCache.SettlementDistancePair other)
 				{
 					if (this._distance == other._distance)
@@ -156,10 +140,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 					return -1;
 				}
 
-				// Token: 0x04001F4D RID: 8013
 				private float _distance;
 
-				// Token: 0x04001F4E RID: 8014
 				public Settlement Settlement;
 			}
 		}

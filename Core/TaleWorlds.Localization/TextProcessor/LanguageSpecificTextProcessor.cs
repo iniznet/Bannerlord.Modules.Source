@@ -5,25 +5,18 @@ using System.Text;
 
 namespace TaleWorlds.Localization.TextProcessor
 {
-	// Token: 0x0200002C RID: 44
 	public abstract class LanguageSpecificTextProcessor
 	{
-		// Token: 0x06000119 RID: 281
 		public abstract void ProcessToken(string sourceText, ref int cursorPos, string token, StringBuilder outputString);
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x0600011A RID: 282
 		public abstract CultureInfo CultureInfoForLanguage { get; }
 
-		// Token: 0x0600011B RID: 283
 		public abstract void ClearTemporaryData();
 
-		// Token: 0x0600011C RID: 284 RVA: 0x00005F20 File Offset: 0x00004120
 		public LanguageSpecificTextProcessor()
 		{
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x00005F34 File Offset: 0x00004134
 		public string Process(string text)
 		{
 			if (text == null)
@@ -65,7 +58,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x00005FCC File Offset: 0x000041CC
 		private void ProcessTokenInternal(string sourceText, ref int cursorPos, string token, StringBuilder outputString)
 		{
 			CultureInfo cultureInfoForLanguage = this.CultureInfoForLanguage;
@@ -109,7 +101,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			}
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x000060D4 File Offset: 0x000042D4
 		private void ProcessLowerCaseMarkers(StringBuilder stringBuilder)
 		{
 			if (this._lowerMarkers.Count > 0)
@@ -148,7 +139,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x000061E4 File Offset: 0x000043E4
 		private static int FindNextLetter(string sourceText, int cursorPos)
 		{
 			int i = cursorPos;
@@ -174,13 +164,11 @@ namespace TaleWorlds.Localization.TextProcessor
 			return i;
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x0000626A File Offset: 0x0000446A
 		private static bool IsPostProcessToken(string token)
 		{
 			return token.Length > 1 && token[0] == '.';
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x00006284 File Offset: 0x00004484
 		private static string ReadFirstToken(string text, ref int i)
 		{
 			int num = i;
@@ -196,7 +184,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return text.Substring(num + 1, num2);
 		}
 
-		// Token: 0x04000060 RID: 96
 		private List<int> _lowerMarkers = new List<int>();
 	}
 }

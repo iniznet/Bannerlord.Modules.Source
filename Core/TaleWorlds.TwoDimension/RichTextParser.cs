@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x0200000D RID: 13
 	public class RichTextParser
 	{
-		// Token: 0x0600007A RID: 122 RVA: 0x0000459C File Offset: 0x0000279C
 		public static List<TextToken> Parse(string text)
 		{
 			int i = 0;

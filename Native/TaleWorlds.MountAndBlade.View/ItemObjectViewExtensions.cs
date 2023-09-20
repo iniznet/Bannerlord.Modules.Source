@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000010 RID: 16
 	public static class ItemObjectViewExtensions
 	{
-		// Token: 0x0600006D RID: 109 RVA: 0x00005138 File Offset: 0x00003338
 		public static MetaMesh GetCraftedMultiMesh(this ItemObject itemObject, bool needBatchedVersion)
 		{
 			CraftedDataView craftedDataView = CraftedDataViewManager.GetCraftedDataView(itemObject.WeaponDesign);
@@ -30,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600006E RID: 110 RVA: 0x00005178 File Offset: 0x00003378
 		public static MetaMesh GetMultiMeshCopy(this ItemObject itemObject)
 		{
 			MetaMesh craftedMultiMesh = itemObject.GetCraftedMultiMesh(true);
@@ -45,7 +42,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return MetaMesh.GetCopy(itemObject.MultiMeshName, true, false);
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x000051B4 File Offset: 0x000033B4
 		public static MetaMesh GetMultiMeshCopyWithGenderData(this ItemObject itemObject, bool isFemale, bool hasGloves, bool needBatchedVersion)
 		{
 			MetaMesh craftedMultiMesh = itemObject.GetCraftedMultiMesh(needBatchedVersion);
@@ -84,7 +80,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return null;
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x00005284 File Offset: 0x00003484
 		public static MatrixFrame GetScaledFrame(this ItemObject itemObject, Mat3 rotationMatrix, MetaMesh metaMesh, float scaleFactor, Vec3 positionShift)
 		{
 			MatrixFrame identity = MatrixFrame.Identity;

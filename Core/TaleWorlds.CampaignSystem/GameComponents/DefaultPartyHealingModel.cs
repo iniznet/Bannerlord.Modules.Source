@@ -9,10 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000122 RID: 290
 	public class DefaultPartyHealingModel : PartyHealingModel
 	{
-		// Token: 0x06001657 RID: 5719 RVA: 0x0006B010 File Offset: 0x00069210
 		public override float GetSurgeryChance(PartyBase party, CharacterObject character)
 		{
 			MobileParty mobileParty = party.MobileParty;
@@ -30,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0.0015f * (float)num2;
 		}
 
-		// Token: 0x06001658 RID: 5720 RVA: 0x0006B074 File Offset: 0x00069274
 		public override float GetSiegeBombardmentHitSurgeryChance(PartyBase party)
 		{
 			float num = 0f;
@@ -41,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001659 RID: 5721 RVA: 0x0006B0B4 File Offset: 0x000692B4
 		public override float GetSurvivalChance(PartyBase party, CharacterObject character, DamageTypes damageType, PartyBase enemyParty = null)
 		{
 			if (damageType == DamageTypes.Blunt || (character.IsHero && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.VeryEasy) || (character.IsPlayerCharacter && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.Easy))
@@ -99,13 +95,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600165A RID: 5722 RVA: 0x0006B2ED File Offset: 0x000694ED
 		public override int GetSkillXpFromHealingTroop(PartyBase party)
 		{
 			return 5;
 		}
 
-		// Token: 0x0600165B RID: 5723 RVA: 0x0006B2F0 File Offset: 0x000694F0
 		public override ExplainedNumber GetDailyHealingForRegulars(MobileParty party, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -192,7 +186,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600165C RID: 5724 RVA: 0x0006B614 File Offset: 0x00069814
 		public override ExplainedNumber GetDailyHealingHpForHeroes(MobileParty party, bool includeDescriptions = false)
 		{
 			if (party.Party.IsStarving && party.CurrentSettlement == null)
@@ -237,7 +230,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600165D RID: 5725 RVA: 0x0006B7A8 File Offset: 0x000699A8
 		public override int GetHeroesEffectedHealingAmount(Hero hero, float healingRate)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(healingRate, false, null);
@@ -250,7 +242,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)resultNumber;
 		}
 
-		// Token: 0x0600165E RID: 5726 RVA: 0x0006B7F0 File Offset: 0x000699F0
 		public override int GetBattleEndHealingAmount(MobileParty party, CharacterObject character)
 		{
 			float num = 0f;
@@ -269,34 +260,24 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(num);
 		}
 
-		// Token: 0x040007C6 RID: 1990
 		private const int StarvingEffectHeroes = -19;
 
-		// Token: 0x040007C7 RID: 1991
 		private const int FortificationEffectForHeroes = 8;
 
-		// Token: 0x040007C8 RID: 1992
 		private const int FortificationEffectForRegulars = 10;
 
-		// Token: 0x040007C9 RID: 1993
 		private const int BaseDailyHealingForHeroes = 11;
 
-		// Token: 0x040007CA RID: 1994
 		private const int BaseDailyHealingForTroops = 5;
 
-		// Token: 0x040007CB RID: 1995
 		private const int SkillEXPFromHealingTroops = 5;
 
-		// Token: 0x040007CC RID: 1996
 		private const float StarvingWoundedEffectRatio = 0.25f;
 
-		// Token: 0x040007CD RID: 1997
 		private const float StarvingWoundedEffectRatioForGarrison = 0.1f;
 
-		// Token: 0x040007CE RID: 1998
 		private static readonly TextObject _starvingText = new TextObject("{=jZYUdkXF}Starving", null);
 
-		// Token: 0x040007CF RID: 1999
 		private static readonly TextObject _settlementText = new TextObject("{=M0Gpl0dH}In Settlement", null);
 	}
 }

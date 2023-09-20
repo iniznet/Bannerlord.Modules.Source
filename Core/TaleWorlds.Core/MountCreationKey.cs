@@ -3,40 +3,20 @@ using System.Globalization;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x020000B5 RID: 181
 	public class MountCreationKey
 	{
-		// Token: 0x17000312 RID: 786
-		// (get) Token: 0x0600092D RID: 2349 RVA: 0x0001EA3A File Offset: 0x0001CC3A
-		// (set) Token: 0x0600092E RID: 2350 RVA: 0x0001EA42 File Offset: 0x0001CC42
 		public byte _leftFrontLegColorIndex { get; private set; }
 
-		// Token: 0x17000313 RID: 787
-		// (get) Token: 0x0600092F RID: 2351 RVA: 0x0001EA4B File Offset: 0x0001CC4B
-		// (set) Token: 0x06000930 RID: 2352 RVA: 0x0001EA53 File Offset: 0x0001CC53
 		public byte _rightFrontLegColorIndex { get; private set; }
 
-		// Token: 0x17000314 RID: 788
-		// (get) Token: 0x06000931 RID: 2353 RVA: 0x0001EA5C File Offset: 0x0001CC5C
-		// (set) Token: 0x06000932 RID: 2354 RVA: 0x0001EA64 File Offset: 0x0001CC64
 		public byte _leftBackLegColorIndex { get; private set; }
 
-		// Token: 0x17000315 RID: 789
-		// (get) Token: 0x06000933 RID: 2355 RVA: 0x0001EA6D File Offset: 0x0001CC6D
-		// (set) Token: 0x06000934 RID: 2356 RVA: 0x0001EA75 File Offset: 0x0001CC75
 		public byte _rightBackLegColorIndex { get; private set; }
 
-		// Token: 0x17000316 RID: 790
-		// (get) Token: 0x06000935 RID: 2357 RVA: 0x0001EA7E File Offset: 0x0001CC7E
-		// (set) Token: 0x06000936 RID: 2358 RVA: 0x0001EA86 File Offset: 0x0001CC86
 		public byte MaterialIndex { get; private set; }
 
-		// Token: 0x17000317 RID: 791
-		// (get) Token: 0x06000937 RID: 2359 RVA: 0x0001EA8F File Offset: 0x0001CC8F
-		// (set) Token: 0x06000938 RID: 2360 RVA: 0x0001EA97 File Offset: 0x0001CC97
 		public byte MeshMultiplierIndex { get; private set; }
 
-		// Token: 0x06000939 RID: 2361 RVA: 0x0001EAA0 File Offset: 0x0001CCA0
 		public MountCreationKey(byte leftFrontLegColorIndex, byte rightFrontLegColorIndex, byte leftBackLegColorIndex, byte rightBackLegColorIndex, byte materialIndex, byte meshMultiplierIndex)
 		{
 			if (leftFrontLegColorIndex == 3 || rightFrontLegColorIndex == 3)
@@ -52,7 +32,6 @@ namespace TaleWorlds.Core
 			this.MeshMultiplierIndex = meshMultiplierIndex;
 		}
 
-		// Token: 0x0600093A RID: 2362 RVA: 0x0001EAF0 File Offset: 0x0001CCF0
 		public static MountCreationKey FromString(string str)
 		{
 			if (str != null)
@@ -69,7 +48,6 @@ namespace TaleWorlds.Core
 			return new MountCreationKey(0, 0, 0, 0, 0, 0);
 		}
 
-		// Token: 0x0600093B RID: 2363 RVA: 0x0001EB64 File Offset: 0x0001CD64
 		public override string ToString()
 		{
 			uint num = 0U;
@@ -82,7 +60,6 @@ namespace TaleWorlds.Core
 			return num.ToString("X");
 		}
 
-		// Token: 0x0600093C RID: 2364 RVA: 0x0001EBDC File Offset: 0x0001CDDC
 		private static int GetBitsFromKey(uint numericKey, int startingBit, int numBits)
 		{
 			int num = (int)(numericKey >> startingBit);
@@ -90,20 +67,17 @@ namespace TaleWorlds.Core
 			return num & (int)num2;
 		}
 
-		// Token: 0x0600093D RID: 2365 RVA: 0x0001EBF8 File Offset: 0x0001CDF8
 		private void SetBits(ref uint numericKey, int value, int startingBit)
 		{
 			uint num = (uint)((uint)value << startingBit);
 			numericKey |= num;
 		}
 
-		// Token: 0x0600093E RID: 2366 RVA: 0x0001EC14 File Offset: 0x0001CE14
 		public static string GetRandomMountKeyString(ItemObject mountItem, int randomSeed)
 		{
 			return MountCreationKey.GetRandomMountKey(mountItem, randomSeed).ToString();
 		}
 
-		// Token: 0x0600093F RID: 2367 RVA: 0x0001EC24 File Offset: 0x0001CE24
 		public static MountCreationKey GetRandomMountKey(ItemObject mountItem, int randomSeed)
 		{
 			MBFastRandom mbfastRandom = new MBFastRandom((uint)randomSeed);
@@ -133,7 +107,6 @@ namespace TaleWorlds.Core
 			return new MountCreationKey((byte)mbfastRandom.Next(4), (byte)mbfastRandom.Next(4), (byte)mbfastRandom.Next(4), (byte)mbfastRandom.Next(4), 0, 0);
 		}
 
-		// Token: 0x0400054B RID: 1355
 		private const int NumLegColors = 4;
 	}
 }

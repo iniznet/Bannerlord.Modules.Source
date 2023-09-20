@@ -6,18 +6,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia
 {
-	// Token: 0x0200015A RID: 346
 	public class EncyclopediaFilterGroup : ViewModel
 	{
-		// Token: 0x0600184F RID: 6223 RVA: 0x0007B345 File Offset: 0x00079545
 		public EncyclopediaFilterGroup(List<EncyclopediaFilterItem> filters, TextObject name)
 		{
 			this.Filters = filters;
 			this.Name = name;
 		}
 
-		// Token: 0x1700066A RID: 1642
-		// (get) Token: 0x06001850 RID: 6224 RVA: 0x0007B35B File Offset: 0x0007955B
 		public Predicate<object> Predicate
 		{
 			get
@@ -40,10 +36,8 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia
 			}
 		}
 
-		// Token: 0x04000891 RID: 2193
 		public readonly List<EncyclopediaFilterItem> Filters;
 
-		// Token: 0x04000892 RID: 2194
 		public readonly TextObject Name;
 	}
 }

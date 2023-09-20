@@ -18,10 +18,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D3 RID: 979
 	public class SiegeAftermathCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003AED RID: 15085 RVA: 0x00113F18 File Offset: 0x00112118
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -31,13 +29,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 		}
 
-		// Token: 0x06003AEE RID: 15086 RVA: 0x00113F98 File Offset: 0x00112198
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06003AEF RID: 15087 RVA: 0x00113FA4 File Offset: 0x001121A4
 		private void AddGameMenus(CampaignGameStarter gameSystemInitializer)
 		{
 			gameSystemInitializer.AddGameMenu("menu_settlement_taken", "", new OnInitDelegate(this.menu_settlement_taken_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -53,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			gameSystemInitializer.AddGameMenuOption("siege_aftermath_contextual_summary", "menu_settlement_taken_continue", "{=veWOovVv}Continue...", new GameMenuOption.OnConditionDelegate(this.continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.menu_settlement_taken_continue_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x06003AF0 RID: 15088 RVA: 0x00114174 File Offset: 0x00112374
 		private void OnMapEventEnded(MapEvent mapEvent)
 		{
 			if ((mapEvent.IsSiegeAssault || mapEvent.IsSiegeOutside) && mapEvent.WinningSide == BattleSideEnum.Attacker && mapEvent.MapEventSettlement != null)
@@ -103,7 +98,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AF1 RID: 15089 RVA: 0x0011437C File Offset: 0x0011257C
 		private void OnSiegeAftermathApplied(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType, Clan previousSettlementOwner, Dictionary<MobileParty, float> partyContributions)
 		{
 			float siegeAftermathInfluenceCost = this.GetSiegeAftermathInfluenceCost(attackerParty, settlement, aftermathType);
@@ -167,7 +161,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AF2 RID: 15090 RVA: 0x0011460C File Offset: 0x0011280C
 		private SiegeAftermathAction.SiegeAftermath DetermineSiegeAftermathOnEncounterLeaderDeath(MobileParty attackerParty, Settlement settlement)
 		{
 			if (attackerParty.MapFaction.Culture != settlement.Culture)
@@ -177,13 +170,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return SiegeAftermathAction.SiegeAftermath.ShowMercy;
 		}
 
-		// Token: 0x06003AF3 RID: 15091 RVA: 0x00114624 File Offset: 0x00112824
 		private bool IsMobilePartyLeaderAliveForSiegeAftermath(MobileParty attackerParty)
 		{
 			return attackerParty.LeaderHero != null && attackerParty.LeaderHero.IsAlive && attackerParty.LeaderHero.DeathMark != KillCharacterAction.KillCharacterActionDetail.DiedInBattle && attackerParty.LeaderHero.DeathMark != KillCharacterAction.KillCharacterActionDetail.WoundedInBattle;
 		}
 
-		// Token: 0x06003AF4 RID: 15092 RVA: 0x0011465C File Offset: 0x0011285C
 		private SiegeAftermathAction.SiegeAftermath DetermineAISiegeAftermath(MobileParty attackerParty, Settlement settlement)
 		{
 			if (!this.IsMobilePartyLeaderAliveForSiegeAftermath(attackerParty))
@@ -251,7 +242,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x06003AF5 RID: 15093 RVA: 0x00114820 File Offset: 0x00112A20
 		private void OnBuildingLevelChanged(Town town, Building building, int level)
 		{
 			if (town.Settlement == PlayerEncounter.EncounterSettlement && level < 0)
@@ -265,7 +255,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AF6 RID: 15094 RVA: 0x00114874 File Offset: 0x00112A74
 		private void HandlePlayerDeathDuringSiegeAftermath()
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -274,7 +263,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("siege_aftermath_contextual_summary");
 		}
 
-		// Token: 0x06003AF7 RID: 15095 RVA: 0x001148B8 File Offset: 0x00112AB8
 		private void menu_settlement_taken_on_init(MenuCallbackArgs args)
 		{
 			MobileParty besiegerParty = this._besiegerParty;
@@ -303,7 +291,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AF8 RID: 15096 RVA: 0x0011492C File Offset: 0x00112B2C
 		private void menu_settlement_taken_player_leader_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.GameMenu.GetText().SetTextVariable("SETTLEMENT_TAKEN_TEXT", new TextObject("{=QvyFYn1b}The defenders are routed, and it's clear that {TOWN_NAME} is yours. It's time for you to determine the fate of the {?IS_CITY}city{?}fortress{\\?}.", null));
@@ -312,7 +299,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("encounter_win");
 		}
 
-		// Token: 0x06003AF9 RID: 15097 RVA: 0x001149A0 File Offset: 0x00112BA0
 		private void menu_settlement_taken_player_army_member_on_init(MenuCallbackArgs args)
 		{
 			bool flag = this._besiegerParty.Army != null && this._besiegerParty.Army.Parties.Contains(MobileParty.MainParty);
@@ -374,7 +360,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("encounter_win");
 		}
 
-		// Token: 0x06003AFA RID: 15098 RVA: 0x00114BE0 File Offset: 0x00112DE0
 		private void menu_settlement_taken_player_participant_on_init(MenuCallbackArgs args)
 		{
 			TextObject textObject = new TextObject("{=C2KeQd0a}{ENCOUNTER_LEADER.LINK} thanks you for helping in the siege of {SETTLEMENT}. You were able to loot your fallen foes, but you do not participate in the sack of the {?IS_TOWN}town{?}castle{\\?} as you are not part of the army that took it.", null);
@@ -385,13 +370,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("encounter_win");
 		}
 
-		// Token: 0x06003AFB RID: 15099 RVA: 0x00114C79 File Offset: 0x00112E79
 		private void menu_settlement_taken_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003AFC RID: 15100 RVA: 0x00114C80 File Offset: 0x00112E80
 		private bool menu_settlement_taken_devastate_on_condition(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -429,7 +412,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003AFD RID: 15101 RVA: 0x00114EBC File Offset: 0x001130BC
 		private void menu_settlement_taken_devastate_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -439,14 +421,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("siege_aftermath_contextual_summary");
 		}
 
-		// Token: 0x06003AFE RID: 15102 RVA: 0x00114EFE File Offset: 0x001130FE
 		private bool continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003AFF RID: 15103 RVA: 0x00114F0C File Offset: 0x0011310C
 		private bool menu_settlement_taken_pillage_on_condition(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -462,7 +442,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B00 RID: 15104 RVA: 0x00114FA0 File Offset: 0x001131A0
 		private void menu_settlement_taken_pillage_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -472,7 +451,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("siege_aftermath_contextual_summary");
 		}
 
-		// Token: 0x06003B01 RID: 15105 RVA: 0x00114FE4 File Offset: 0x001131E4
 		private bool menu_settlement_taken_show_mercy_on_condition(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -509,7 +487,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B02 RID: 15106 RVA: 0x00115214 File Offset: 0x00113414
 		private void menu_settlement_taken_show_mercy_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -519,7 +496,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("siege_aftermath_contextual_summary");
 		}
 
-		// Token: 0x06003B03 RID: 15107 RVA: 0x00115258 File Offset: 0x00113458
 		private TextObject GetSiegeAftermathConsequencesText(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermath, bool isTooltip)
 		{
 			TextObject textObject = new TextObject("{=!}{PROSPERITY_TEXT}{TOWN_PROJECTS_TEXT}{LOYALTY_TEXT}{NOTABLE_POWER_TEXT}{PARTY_MORALE_TEXT}{ARMY_GOLD_TEXT}{PARTY_GOLD_TEXT}{OWNER_RELATION_TEXT}", null);
@@ -604,7 +580,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return textObject;
 		}
 
-		// Token: 0x06003B04 RID: 15108 RVA: 0x0011570C File Offset: 0x0011390C
 		private void siege_aftermath_contextual_summary_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -639,7 +614,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("encounter_win");
 		}
 
-		// Token: 0x06003B05 RID: 15109 RVA: 0x0011586C File Offset: 0x00113A6C
 		private float GetSiegeAftermathProsperityPenalty(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			int num = attackerParty.MemberRoster.TotalHealthyCount;
@@ -660,7 +634,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num3;
 		}
 
-		// Token: 0x06003B06 RID: 15110 RVA: 0x00115904 File Offset: 0x00113B04
 		private int GetSiegeAftermathProjectsLoss(MobileParty attackerParty, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			int num = attackerParty.MemberRoster.TotalHealthyCount;
@@ -681,7 +654,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num3;
 		}
 
-		// Token: 0x06003B07 RID: 15111 RVA: 0x0011596C File Offset: 0x00113B6C
 		private float GetSiegeAftermathLoyaltyPenalty(SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			float num = 0f;
@@ -696,7 +668,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003B08 RID: 15112 RVA: 0x00115998 File Offset: 0x00113B98
 		private float GetSiegeAftermathNotablePowerModifierForAftermath(SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			float num = 0f;
@@ -711,7 +682,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003B09 RID: 15113 RVA: 0x001159C4 File Offset: 0x00113BC4
 		private float GetSiegeAftermathPartyMoraleBonus(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			int num = 0;
@@ -730,7 +700,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (float)num;
 		}
 
-		// Token: 0x06003B0A RID: 15114 RVA: 0x00115A00 File Offset: 0x00113C00
 		private int GetSiegeAftermathArmyGoldGain(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			float num = -1f * this.GetSiegeAftermathProsperityPenalty(attackerParty, settlement, aftermathType);
@@ -742,13 +711,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MathF.Floor(num2);
 		}
 
-		// Token: 0x06003B0B RID: 15115 RVA: 0x00115A38 File Offset: 0x00113C38
 		private int GetSiegeAftermathPartyGoldGain(float totalArmyGoldGain, float partyContributionPercentage)
 		{
 			return MathF.Floor(totalArmyGoldGain * partyContributionPercentage / 100f);
 		}
 
-		// Token: 0x06003B0C RID: 15116 RVA: 0x00115A48 File Offset: 0x00113C48
 		private int GetSiegeAftermathRelationChangeWithLord(Hero hero, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			if (hero.GetTraitLevel(DefaultTraits.Mercy) > 0)
@@ -762,7 +729,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 0;
 		}
 
-		// Token: 0x06003B0D RID: 15117 RVA: 0x00115A7C File Offset: 0x00113C7C
 		private int GetSiegeAftermathRelationChangeWithMercifulLord(SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			int num = 0;
@@ -777,7 +743,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003B0E RID: 15118 RVA: 0x00115A9C File Offset: 0x00113C9C
 		private int GetSiegeAftermathRelationPenaltyWithSettlementOwner(SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			int num = 0;
@@ -792,7 +757,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003B0F RID: 15119 RVA: 0x00115ABC File Offset: 0x00113CBC
 		private float GetSiegeAftermathInfluenceCost(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			float num = 0f;
@@ -812,7 +776,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003B10 RID: 15120 RVA: 0x00115B7C File Offset: 0x00113D7C
 		private bool IsSiegeAftermathPossible(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType)
 		{
 			float siegeAftermathInfluenceCost = this.GetSiegeAftermathInfluenceCost(attackerParty, settlement, aftermathType);
@@ -834,7 +797,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag3;
 		}
 
-		// Token: 0x06003B11 RID: 15121 RVA: 0x00115BDC File Offset: 0x00113DDC
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (settlement.IsFortification && detail == ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.BySiege && capturerHero != null && settlement.OwnerClan != null && settlement.OwnerClan != Clan.PlayerClan && !oldOwner.IsDead)
@@ -847,7 +809,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B12 RID: 15122 RVA: 0x00115C88 File Offset: 0x00113E88
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<MobileParty>("_besiegerParty", ref this._besiegerParty);
@@ -858,25 +819,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<Dictionary<Building, int>>("_playerEncounterAftermathDamagedBuildings", ref this._playerEncounterAftermathDamagedBuildings);
 		}
 
-		// Token: 0x04001210 RID: 4624
 		private MobileParty _besiegerParty;
 
-		// Token: 0x04001211 RID: 4625
 		private Clan _prevSettlementOwnerClan;
 
-		// Token: 0x04001212 RID: 4626
 		private SiegeAftermathAction.SiegeAftermath _playerEncounterAftermath;
 
-		// Token: 0x04001213 RID: 4627
 		private Dictionary<MobileParty, float> _siegeEventPartyContributions = new Dictionary<MobileParty, float>();
 
-		// Token: 0x04001214 RID: 4628
 		private Dictionary<Building, int> _playerEncounterAftermathDamagedBuildings = new Dictionary<Building, int>();
 
-		// Token: 0x04001215 RID: 4629
 		private bool _wasPlayerArmyMember;
 
-		// Token: 0x04001216 RID: 4630
 		private float _settlementProsperityCache = -1f;
 	}
 }

@@ -10,10 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003A6 RID: 934
 	public class ItemConsumptionBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060037B4 RID: 14260 RVA: 0x000FAB58 File Offset: 0x000F8D58
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedFollowUp));
@@ -21,7 +19,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.DailyTickTownEvent.AddNonSerializedListener(this, new Action<Town>(this.DailyTickTown));
 		}
 
-		// Token: 0x060037B5 RID: 14261 RVA: 0x000FABAA File Offset: 0x000F8DAA
 		private void OnNewGameCreatedFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i < 2)
@@ -30,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037B6 RID: 14262 RVA: 0x000FABB8 File Offset: 0x000F8DB8
 		private void OnNewGameCreatedFollowUpEnd(CampaignGameStarter starter)
 		{
 			Dictionary<ItemCategory, float> dictionary = new Dictionary<ItemCategory, float>();
@@ -44,19 +40,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037B7 RID: 14263 RVA: 0x000FAC24 File Offset: 0x000F8E24
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060037B8 RID: 14264 RVA: 0x000FAC28 File Offset: 0x000F8E28
 		private void DailyTickTown(Town town)
 		{
 			Dictionary<ItemCategory, int> dictionary = new Dictionary<ItemCategory, int>();
 			this.MakeConsumptionInTown(town, dictionary);
 		}
 
-		// Token: 0x060037B9 RID: 14265 RVA: 0x000FAC44 File Offset: 0x000F8E44
 		private void MakeConsumptionAllTowns()
 		{
 			foreach (Town town in Town.AllTowns)
@@ -65,8 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CD1 RID: 3281
-		// (get) Token: 0x060037BA RID: 14266 RVA: 0x000FAC98 File Offset: 0x000F8E98
 		private ItemConsumptionBehavior.CategoryItems CategoryItemsCache
 		{
 			get
@@ -79,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037BB RID: 14267 RVA: 0x000FACB4 File Offset: 0x000F8EB4
 		private void MakeConsumptionInTown(Town town, Dictionary<ItemCategory, int> saleLog)
 		{
 			Dictionary<ItemCategory, float> dictionary = new Dictionary<ItemCategory, float>();
@@ -92,14 +82,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.UpdateTownGold(town);
 		}
 
-		// Token: 0x060037BC RID: 14268 RVA: 0x000FACFC File Offset: 0x000F8EFC
 		private void UpdateTownGold(Town town)
 		{
 			int townGoldChange = Campaign.Current.Models.SettlementConsumptionModel.GetTownGoldChange(town);
 			town.ChangeGold(townGoldChange);
 		}
 
-		// Token: 0x060037BD RID: 14269 RVA: 0x000FAD28 File Offset: 0x000F8F28
 		private void DeleteOverproducedItems(Town town)
 		{
 			ItemRoster itemRoster = town.Owner.ItemRoster;
@@ -119,7 +107,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037BE RID: 14270 RVA: 0x000FADCC File Offset: 0x000F8FCC
 		private static void GetFoodFromMarket(Town town, Dictionary<ItemCategory, int> saleLog)
 		{
 			float foodChange = town.FoodChange;
@@ -132,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037BF RID: 14271 RVA: 0x000FAE28 File Offset: 0x000F9028
 		private void UpdateSellLog(Town town, Dictionary<ItemCategory, int> saleLog)
 		{
 			List<Town.SellLog> list = new List<Town.SellLog>();
@@ -146,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			town.SetSoldItems(list);
 		}
 
-		// Token: 0x060037C0 RID: 14272 RVA: 0x000FAEA0 File Offset: 0x000F90A0
 		private static void GetFoodFromMarketInternal(Town town, int amount, Dictionary<ItemCategory, int> saleLog)
 		{
 			ItemRoster itemRoster = town.Owner.ItemRoster;
@@ -168,7 +153,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037C1 RID: 14273 RVA: 0x000FAF4C File Offset: 0x000F914C
 		private static void MakeConsumption(Town town, Dictionary<ItemCategory, float> categoryDemand, Dictionary<ItemCategory, int> saleLog)
 		{
 			saleLog.Clear();
@@ -205,13 +189,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037C2 RID: 14274 RVA: 0x000FB052 File Offset: 0x000F9252
 		private static float CalculateBudget(Town town, float demand, ItemCategory category)
 		{
 			return demand * MathF.Pow(town.GetItemCategoryPriceIndex(category), 0.3f);
 		}
 
-		// Token: 0x060037C3 RID: 14275 RVA: 0x000FB068 File Offset: 0x000F9268
 		private void UpdateDemandShift(Town town, Dictionary<ItemCategory, float> categoryBudget)
 		{
 			TownMarketData marketData = town.MarketData;
@@ -242,7 +224,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037C4 RID: 14276 RVA: 0x000FB1E4 File Offset: 0x000F93E4
 		private static void UpdateSupplyAndDemand(Town town)
 		{
 			TownMarketData marketData = town.MarketData;
@@ -258,13 +239,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04001189 RID: 4489
 		private ItemConsumptionBehavior.CategoryItems _categoryItems;
 
-		// Token: 0x020006FA RID: 1786
 		private class CategoryItems
 		{
-			// Token: 0x06005542 RID: 21826 RVA: 0x0016CD00 File Offset: 0x0016AF00
 			public CategoryItems()
 			{
 				this.ItemDict = new Dictionary<ItemCategory, List<ItemObject>>();
@@ -281,7 +259,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005543 RID: 21827 RVA: 0x0016CD94 File Offset: 0x0016AF94
 			public List<ItemObject> GetItemListOfCategory(ItemCategory category)
 			{
 				List<ItemObject> list;
@@ -289,7 +266,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return list;
 			}
 
-			// Token: 0x04001CC1 RID: 7361
 			private Dictionary<ItemCategory, List<ItemObject>> ItemDict;
 		}
 	}

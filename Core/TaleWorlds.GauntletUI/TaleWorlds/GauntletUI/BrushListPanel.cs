@@ -6,12 +6,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI
 {
-	// Token: 0x02000012 RID: 18
 	public class BrushListPanel : ListPanel
 	{
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x06000114 RID: 276 RVA: 0x00006F0C File Offset: 0x0000510C
-		// (set) Token: 0x06000115 RID: 277 RVA: 0x00006F96 File Offset: 0x00005196
 		[Editor(false)]
 		public Brush Brush
 		{
@@ -48,8 +44,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000058 RID: 88
-		// (get) Token: 0x06000116 RID: 278 RVA: 0x00006FC1 File Offset: 0x000051C1
 		public Brush ReadOnlyBrush
 		{
 			get
@@ -66,9 +60,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x06000117 RID: 279 RVA: 0x00006FF1 File Offset: 0x000051F1
-		// (set) Token: 0x06000118 RID: 280 RVA: 0x0000700D File Offset: 0x0000520D
 		[Editor(false)]
 		public new Sprite Sprite
 		{
@@ -82,18 +73,13 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x0000702A File Offset: 0x0000522A
 		public void ForceUseBrush(Brush brush)
 		{
 			this._clonedBrush = brush;
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x0600011A RID: 282 RVA: 0x00007033 File Offset: 0x00005233
-		// (set) Token: 0x0600011B RID: 283 RVA: 0x0000703B File Offset: 0x0000523B
 		public BrushRenderer BrushRenderer { get; private set; }
 
-		// Token: 0x0600011C RID: 284 RVA: 0x00007044 File Offset: 0x00005244
 		public BrushListPanel(UIContext context)
 			: base(context)
 		{
@@ -101,7 +87,6 @@ namespace TaleWorlds.GauntletUI
 			base.EventFire += this.BrushWidget_EventFire;
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x0000706C File Offset: 0x0000526C
 		private void BrushWidget_EventFire(Widget arg1, string eventName, object[] arg3)
 		{
 			if (this.ReadOnlyBrush != null)
@@ -114,7 +99,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x000070CC File Offset: 0x000052CC
 		public override void UpdateBrushes(float dt)
 		{
 			if (base.IsVisible)
@@ -133,7 +117,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x00007194 File Offset: 0x00005394
 		private void UpdateBrushRendererInternal(float dt)
 		{
 			this.BrushRenderer.ForcePixelPerfectPlacement = base.ForcePixelPerfectRenderPlacement;
@@ -154,7 +137,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x0000723C File Offset: 0x0000543C
 		public override void SetState(string stateName)
 		{
 			if (base.CurrentState != stateName)
@@ -179,14 +161,12 @@ namespace TaleWorlds.GauntletUI
 			base.SetState(stateName);
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x0000730D File Offset: 0x0000550D
 		protected override void RefreshState()
 		{
 			base.RefreshState();
 			this.RegisterUpdateBrushes();
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x0000731C File Offset: 0x0000551C
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			if (!this._isInsideCache || this.BrushRenderer.IsUpdateNeeded())
@@ -196,7 +176,6 @@ namespace TaleWorlds.GauntletUI
 			this.BrushRenderer.Render(drawContext, this._cachedGlobalPosition, base.Size, base._scaleToUse, base.Context.ContextAlpha, default(Vector2));
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x00007376 File Offset: 0x00005576
 		protected void HandleUpdateNeededOnRender()
 		{
 			this.UpdateBrushRendererInternal(base.EventManager.CachedDt);
@@ -207,14 +186,12 @@ namespace TaleWorlds.GauntletUI
 			this._isInsideCache = true;
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x000073A3 File Offset: 0x000055A3
 		protected override void OnConnectedToRoot()
 		{
 			base.OnConnectedToRoot();
 			this.BrushRenderer.SetSeed(this._seed);
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x000073BC File Offset: 0x000055BC
 		public override void UpdateAnimationPropertiesSubTask(float alphaFactor)
 		{
 			this.Brush.GlobalAlphaFactor = alphaFactor;
@@ -224,34 +201,27 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x0000741C File Offset: 0x0000561C
 		public virtual void OnBrushChanged()
 		{
 			this.RegisterUpdateBrushes();
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x00007424 File Offset: 0x00005624
 		private void RegisterUpdateBrushes()
 		{
 			base.EventManager.RegisterWidgetForEvent(WidgetContainer.ContainerType.UpdateBrushes, this);
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x00007433 File Offset: 0x00005633
 		private void UnRegisterUpdateBrushes()
 		{
 			base.EventManager.UnRegisterWidgetForEvent(WidgetContainer.ContainerType.UpdateBrushes, this);
 		}
 
-		// Token: 0x04000071 RID: 113
 		private Brush _originalBrush;
 
-		// Token: 0x04000072 RID: 114
 		private Brush _clonedBrush;
 
-		// Token: 0x04000074 RID: 116
 		private bool _animRestarted;
 
-		// Token: 0x04000075 RID: 117
 		private bool _isInsideCache;
 	}
 }

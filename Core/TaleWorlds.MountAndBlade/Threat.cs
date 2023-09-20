@@ -4,17 +4,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200017A RID: 378
 	public class Threat
 	{
-		// Token: 0x0600136C RID: 4972 RVA: 0x0004C50C File Offset: 0x0004A70C
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
 
-		// Token: 0x1700043C RID: 1084
-		// (get) Token: 0x0600136D RID: 4973 RVA: 0x0004C514 File Offset: 0x0004A714
 		public string Name
 		{
 			get
@@ -36,8 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700043D RID: 1085
-		// (get) Token: 0x0600136E RID: 4974 RVA: 0x0004C584 File Offset: 0x0004A784
 		public Vec3 Position
 		{
 			get
@@ -59,8 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700043E RID: 1086
-		// (get) Token: 0x0600136F RID: 4975 RVA: 0x0004C630 File Offset: 0x0004A830
 		public Vec3 BoundingBoxMin
 		{
 			get
@@ -82,8 +74,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700043F RID: 1087
-		// (get) Token: 0x06001370 RID: 4976 RVA: 0x0004C6AC File Offset: 0x0004A8AC
 		public Vec3 BoundingBoxMax
 		{
 			get
@@ -105,7 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001371 RID: 4977 RVA: 0x0004C728 File Offset: 0x0004A928
 		public Vec3 GetVelocity()
 		{
 			if (this.WeaponEntity != null)
@@ -120,29 +109,23 @@ namespace TaleWorlds.MountAndBlade
 			return Vec3.Zero;
 		}
 
-		// Token: 0x06001372 RID: 4978 RVA: 0x0004C764 File Offset: 0x0004A964
 		public override bool Equals(object obj)
 		{
 			Threat threat;
 			return (threat = obj as Threat) != null && this.WeaponEntity == threat.WeaponEntity && this.Formation == threat.Formation;
 		}
 
-		// Token: 0x06001373 RID: 4979 RVA: 0x0004C79B File Offset: 0x0004A99B
 		[Conditional("DEBUG")]
 		public void DisplayDebugInfo()
 		{
 		}
 
-		// Token: 0x04000593 RID: 1427
 		public ITargetable WeaponEntity;
 
-		// Token: 0x04000594 RID: 1428
 		public Formation Formation;
 
-		// Token: 0x04000595 RID: 1429
 		public Agent Agent;
 
-		// Token: 0x04000596 RID: 1430
 		public float ThreatValue;
 	}
 }

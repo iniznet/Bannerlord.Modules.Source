@@ -8,11 +8,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x02000037 RID: 55
 	[OverrideView(typeof(MissionSpectatorControlView))]
 	public class MissionGauntletSpectatorControl : MissionView
 	{
-		// Token: 0x060002B3 RID: 691 RVA: 0x0000F55C File Offset: 0x0000D75C
 		public override void EarlyStart()
 		{
 			base.EarlyStart();
@@ -27,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.MissionScreen.OnSpectateAgentFocusOut += this._dataSource.OnSpectatedAgentFocusOut;
 		}
 
-		// Token: 0x060002B4 RID: 692 RVA: 0x0000F638 File Offset: 0x0000D838
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -54,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x060002B5 RID: 693 RVA: 0x0000F72C File Offset: 0x0000D92C
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
@@ -63,10 +59,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource.OnFinalize();
 		}
 
-		// Token: 0x04000162 RID: 354
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000163 RID: 355
 		private MissionSpectatorControlVM _dataSource;
 	}
 }

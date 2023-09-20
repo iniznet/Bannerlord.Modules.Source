@@ -7,16 +7,13 @@ using TaleWorlds.PlatformService;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200022C RID: 556
 	public sealed class LobbyGameStatePlayerBasedCustomServer : LobbyGameState
 	{
-		// Token: 0x06001E58 RID: 7768 RVA: 0x0006D075 File Offset: 0x0006B275
 		public void SetStartingParameters(LobbyGameClientHandler lobbyGameClientHandler)
 		{
 			this._gameClient = lobbyGameClientHandler.GameClient;
 		}
 
-		// Token: 0x06001E59 RID: 7769 RVA: 0x0006D083 File Offset: 0x0006B283
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -26,13 +23,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001E5A RID: 7770 RVA: 0x0006D0B9 File Offset: 0x0006B2B9
 		protected override void StartMultiplayer()
 		{
 			this.HandleServerStartMultiplayer();
 		}
 
-		// Token: 0x06001E5B RID: 7771 RVA: 0x0006D0C4 File Offset: 0x0006B2C4
 		private async void HandleServerStartMultiplayer()
 		{
 			GameNetwork.PreStartMultiplayerOnServer();
@@ -68,7 +63,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000B38 RID: 2872
 		private LobbyClient _gameClient;
 	}
 }

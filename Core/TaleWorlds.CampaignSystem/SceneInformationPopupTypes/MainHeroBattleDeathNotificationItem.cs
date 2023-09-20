@@ -5,19 +5,12 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000BD RID: 189
 	public class MainHeroBattleDeathNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000520 RID: 1312
-		// (get) Token: 0x06001228 RID: 4648 RVA: 0x00052F6C File Offset: 0x0005116C
 		public Hero DeadHero { get; }
 
-		// Token: 0x17000521 RID: 1313
-		// (get) Token: 0x06001229 RID: 4649 RVA: 0x00052F74 File Offset: 0x00051174
 		public CultureObject KillerCulture { get; }
 
-		// Token: 0x17000522 RID: 1314
-		// (get) Token: 0x0600122A RID: 4650 RVA: 0x00052F7C File Offset: 0x0005117C
 		public override string SceneID
 		{
 			get
@@ -26,8 +19,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x17000523 RID: 1315
-		// (get) Token: 0x0600122B RID: 4651 RVA: 0x00052F84 File Offset: 0x00051184
 		public override TextObject TitleText
 		{
 			get
@@ -39,7 +30,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x0600122C RID: 4652 RVA: 0x00052FE0 File Offset: 0x000511E0
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -57,7 +47,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x0600122D RID: 4653 RVA: 0x000530AA File Offset: 0x000512AA
 		public MainHeroBattleDeathNotificationItem(Hero deadHero, CultureObject killerCulture = null)
 		{
 			this.DeadHero = deadHero;
@@ -65,10 +54,8 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x0400065E RID: 1630
 		private const int NumberOfCorpses = 23;
 
-		// Token: 0x04000661 RID: 1633
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

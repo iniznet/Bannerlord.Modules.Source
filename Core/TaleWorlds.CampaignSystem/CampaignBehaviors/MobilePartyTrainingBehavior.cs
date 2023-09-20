@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003AE RID: 942
 	public class MobilePartyTrainingBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003855 RID: 14421 RVA: 0x000FFE8C File Offset: 0x000FE08C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.HourlyTickParty));
@@ -19,13 +17,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.PlayerUpgradedTroopsEvent.AddNonSerializedListener(this, new Action<CharacterObject, CharacterObject, int>(this.OnPlayerUpgradedTroops));
 		}
 
-		// Token: 0x06003856 RID: 14422 RVA: 0x000FFEDE File Offset: 0x000FE0DE
 		private void OnPlayerUpgradedTroops(CharacterObject troop, CharacterObject upgrade, int number)
 		{
 			SkillLevelingManager.OnUpgradeTroops(PartyBase.MainParty, troop, upgrade, number);
 		}
 
-		// Token: 0x06003857 RID: 14423 RVA: 0x000FFEF0 File Offset: 0x000FE0F0
 		private void HourlyTickParty(MobileParty mobileParty)
 		{
 			if (mobileParty.LeaderHero != null)
@@ -45,7 +41,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003858 RID: 14424 RVA: 0x000FFF4C File Offset: 0x000FE14C
 		private void OnDailyTickParty(MobileParty mobileParty)
 		{
 			foreach (TroopRosterElement troopRosterElement in mobileParty.MemberRoster.GetTroopRoster())
@@ -79,7 +74,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003859 RID: 14425 RVA: 0x001000A8 File Offset: 0x000FE2A8
 		private void CheckScouting(MobileParty mobileParty)
 		{
 			if (mobileParty.EffectiveScout != null && mobileParty.IsMoving)
@@ -93,7 +87,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600385A RID: 14426 RVA: 0x001000FC File Offset: 0x000FE2FC
 		private void WorkSkills(MobileParty mobileParty)
 		{
 			if (mobileParty.IsMoving)
@@ -106,7 +99,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600385B RID: 14427 RVA: 0x00100134 File Offset: 0x000FE334
 		private void CheckMovementSkills(MobileParty mobileParty)
 		{
 			if (mobileParty == MobileParty.MainParty)
@@ -142,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600385C RID: 14428 RVA: 0x00100230 File Offset: 0x000FE430
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

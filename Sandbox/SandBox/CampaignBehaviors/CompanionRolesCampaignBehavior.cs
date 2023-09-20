@@ -22,11 +22,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000098 RID: 152
 	public class CompanionRolesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000075 RID: 117
-		// (get) Token: 0x0600073C RID: 1852 RVA: 0x000394FB File Offset: 0x000376FB
 		private static CompanionRolesCampaignBehavior CurrentBehavior
 		{
 			get
@@ -35,7 +32,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600073D RID: 1853 RVA: 0x00039508 File Offset: 0x00037708
 		public override void RegisterEvents()
 		{
 			CampaignEvents.CompanionRemoved.AddNonSerializedListener(this, new Action<Hero, RemoveCompanionAction.RemoveCompanionDetail>(this.OnCompanionRemoved));
@@ -43,13 +39,11 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.HeroRelationChanged.AddNonSerializedListener(this, new Action<Hero, Hero, int, bool, ChangeRelationAction.ChangeRelationDetail, Hero, Hero>(this.OnHeroRelationChanged));
 		}
 
-		// Token: 0x0600073E RID: 1854 RVA: 0x0003955A File Offset: 0x0003775A
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<int>>("_alreadyUsedIconIdsForNewClans", ref this._alreadyUsedIconIdsForNewClans);
 		}
 
-		// Token: 0x0600073F RID: 1855 RVA: 0x00039570 File Offset: 0x00037770
 		private void OnHeroRelationChanged(Hero effectiveHero, Hero effectiveHeroGainedRelationWith, int relationChange, bool showNotification, ChangeRelationAction.ChangeRelationDetail detail, Hero originalHero, Hero originalGainedRelationWith)
 		{
 			if (((effectiveHero == Hero.MainHero && effectiveHeroGainedRelationWith.IsPlayerCompanion) || (effectiveHero.IsPlayerCompanion && effectiveHeroGainedRelationWith == Hero.MainHero)) && relationChange < 0 && effectiveHero.GetRelation(effectiveHeroGainedRelationWith) < -10)
@@ -58,13 +52,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000740 RID: 1856 RVA: 0x000395BF File Offset: 0x000377BF
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06000741 RID: 1857 RVA: 0x000395C8 File Offset: 0x000377C8
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddPlayerLine("companion_rejoin_after_emprisonment_role", "hero_main_options", "companion_rejoin", "{=!}{COMPANION_REJOIN_LINE}", new ConversationSentence.OnConditionDelegate(this.companion_rejoin_after_emprisonment_role_on_condition), new ConversationSentence.OnConsequenceDelegate(this.companion_rejoin_after_emprisonment_role_on_consequence), 100, null, null);
@@ -135,33 +127,28 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("default_conversation_for_wrongly_created_heroes", "start", "close_window", "{=BaeqKlQ6}I am not allowed to talk with you.", null, null, 0, null);
 		}
 
-		// Token: 0x06000742 RID: 1858 RVA: 0x0003A0A4 File Offset: 0x000382A4
 		private static bool turn_companion_to_lord_no_fief_on_condition()
 		{
 			return !Hero.MainHero.Clan.Settlements.Any((Settlement x) => x.IsTown || x.IsCastle);
 		}
 
-		// Token: 0x06000743 RID: 1859 RVA: 0x0003A0DC File Offset: 0x000382DC
 		private static bool turn_companion_to_lord_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
 			return oneToOneConversationHero != null && oneToOneConversationHero.IsPlayerCompanion && Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader;
 		}
 
-		// Token: 0x06000744 RID: 1860 RVA: 0x0003A118 File Offset: 0x00038318
 		private static bool companion_is_leading_caravan_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
 			return oneToOneConversationHero != null && oneToOneConversationHero.IsPlayerCompanion && oneToOneConversationHero.PartyBelongedTo != null && oneToOneConversationHero.PartyBelongedTo.IsCaravan;
 		}
 
-		// Token: 0x06000745 RID: 1861 RVA: 0x0003A14B File Offset: 0x0003834B
 		private static void fief_grant_answer_consequence()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(Hero.MainHero.Clan.Settlements.Where((Settlement x) => x.IsTown || x.IsCastle).ToList<Settlement>(), 5);
 		}
 
-		// Token: 0x06000746 RID: 1862 RVA: 0x0003A18C File Offset: 0x0003838C
 		private static bool list_player_fief_clickable_condition(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
@@ -185,7 +172,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000747 RID: 1863 RVA: 0x0003A220 File Offset: 0x00038420
 		private static bool list_player_fief_on_condition()
 		{
 			Settlement settlement = ConversationSentence.CurrentProcessedRepeatObject as Settlement;
@@ -196,13 +182,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000748 RID: 1864 RVA: 0x0003A252 File Offset: 0x00038452
 		private void list_player_fief_selected_on_consequence()
 		{
 			this._selectedFief = ConversationSentence.SelectedRepeatObject as Settlement;
 		}
 
-		// Token: 0x06000749 RID: 1865 RVA: 0x0003A264 File Offset: 0x00038464
 		private static void turn_companion_to_lord_consequence()
 		{
 			TextObject textObject = new TextObject("{=ntDH7J3H}This action costs {NEEDED_GOLD_TO_GRANT_FIEF}{GOLD_ICON} and {NEEDED_INFLUENCE_TO_GRANT_FIEF}{INFLUENCE_ICON}. You will also be granting {SETTLEMENT} to {COMPANION.NAME}.", null);
@@ -215,7 +199,6 @@ namespace SandBox.CampaignBehaviors
 			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=awjomtnJ}Are you sure?", null).ToString(), textObject.ToString(), true, true, new TextObject("{=aeouhelq}Yes", null).ToString(), new TextObject("{=8OkPHu4f}No", null).ToString(), new Action(CompanionRolesCampaignBehavior.ConfirmTurningCompanionToLordConsequence), new Action(CompanionRolesCampaignBehavior.RejectTurningCompanionToLordConsequence), "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x0600074A RID: 1866 RVA: 0x0003A35C File Offset: 0x0003855C
 		private static void ConfirmTurningCompanionToLordConsequence()
 		{
 			CompanionRolesCampaignBehavior.CurrentBehavior._playerConfirmedTheAction = true;
@@ -224,14 +207,12 @@ namespace SandBox.CampaignBehaviors
 			InformationManager.ShowTextInquiry(new TextInquiryData(obj.ToString(), string.Empty, true, false, GameTexts.FindText("str_done", null).ToString(), null, new Action<string>(CompanionRolesCampaignBehavior.ClanNameSelectionIsDone), null, false, new Func<string, Tuple<bool, string>>(FactionHelper.IsClanNameApplicable), "", ""), false, false);
 		}
 
-		// Token: 0x0600074B RID: 1867 RVA: 0x0003A3E3 File Offset: 0x000385E3
 		private static void RejectTurningCompanionToLordConsequence()
 		{
 			CompanionRolesCampaignBehavior.CurrentBehavior._playerConfirmedTheAction = false;
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x0600074C RID: 1868 RVA: 0x0003A400 File Offset: 0x00038600
 		private static void ClanNameSelectionIsDone(string clanName)
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -265,7 +246,6 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x0600074D RID: 1869 RVA: 0x0003A56C File Offset: 0x0003876C
 		private static void AdjustCompanionsEquipment(Hero companionHero)
 		{
 			Equipment newEquipmentForCompanion = CompanionRolesCampaignBehavior.GetNewEquipmentForCompanion(companionHero, true);
@@ -295,7 +275,6 @@ namespace SandBox.CampaignBehaviors
 			EquipmentHelper.AssignHeroEquipmentFromEquipment(companionHero, equipment2);
 		}
 
-		// Token: 0x0600074E RID: 1870 RVA: 0x0003A6C8 File Offset: 0x000388C8
 		private static int GetRandomBannerIdForNewClan()
 		{
 			MBReadOnlyList<int> possibleClanBannerIconsIDs = Hero.MainHero.MapFaction.Culture.PossibleClanBannerIconsIDs;
@@ -334,7 +313,6 @@ namespace SandBox.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x0600074F RID: 1871 RVA: 0x0003A7A0 File Offset: 0x000389A0
 		private static void SpawnNewHeroesForNewCompanionClan(Hero companionHero, Clan clan, Settlement settlement)
 		{
 			MBReadOnlyList<CharacterObject> lordTemplates = companionHero.Culture.LordTemplates;
@@ -397,7 +375,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000750 RID: 1872 RVA: 0x0003A964 File Offset: 0x00038B64
 		private static Hero CreateNewHeroForNewCompanionClan(CharacterObject templateCharacter, Settlement settlement, Dictionary<SkillObject, int> startingSkills)
 		{
 			Hero hero = HeroCreator.CreateSpecialHero(templateCharacter, settlement, null, null, MBRandom.RandomInt(Campaign.Current.Models.AgeModel.HeroComesOfAge, 50));
@@ -408,32 +385,27 @@ namespace SandBox.CampaignBehaviors
 			return hero;
 		}
 
-		// Token: 0x06000751 RID: 1873 RVA: 0x0003A9EC File Offset: 0x00038BEC
 		private static Equipment GetNewEquipmentForCompanion(Hero companionHero, bool isCivilian)
 		{
 			return Extensions.GetRandomElement<Equipment>(Extensions.GetRandomElementInefficiently<MBEquipmentRoster>(Campaign.Current.Models.EquipmentSelectionModel.GetEquipmentRostersForCompanion(companionHero, isCivilian)).AllEquipments);
 		}
 
-		// Token: 0x06000752 RID: 1874 RVA: 0x0003AA13 File Offset: 0x00038C13
 		private static void list_player_fief_cancel_on_consequence()
 		{
 			CompanionRolesCampaignBehavior.CurrentBehavior._playerConfirmedTheAction = false;
 		}
 
-		// Token: 0x06000753 RID: 1875 RVA: 0x0003AA20 File Offset: 0x00038C20
 		private static bool fief_selected_on_condition()
 		{
 			MBTextManager.SetTextVariable("SETTLEMENT_NAME", CompanionRolesCampaignBehavior.CurrentBehavior._selectedFief.Name, false);
 			return true;
 		}
 
-		// Token: 0x06000754 RID: 1876 RVA: 0x0003AA3D File Offset: 0x00038C3D
 		private static bool companion_thanks_on_condition()
 		{
 			return CompanionRolesCampaignBehavior.CurrentBehavior._playerConfirmedTheAction;
 		}
 
-		// Token: 0x06000755 RID: 1877 RVA: 0x0003AA4C File Offset: 0x00038C4C
 		private static bool fief_selected_confirm_clickable_on_condition(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
@@ -464,7 +436,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000756 RID: 1878 RVA: 0x0003AB43 File Offset: 0x00038D43
 		private static void companion_talk_done_on_consequence()
 		{
 			if (PlayerEncounter.Current != null)
@@ -473,7 +444,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000757 RID: 1879 RVA: 0x0003AB54 File Offset: 0x00038D54
 		private static void companion_fire_on_consequence()
 		{
 			Agent oneToOneConversationAgent = ConversationMission.OneToOneConversationAgent;
@@ -495,7 +465,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000758 RID: 1880 RVA: 0x0003ABE4 File Offset: 0x00038DE4
 		private bool companion_rejoin_after_emprisonment_role_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && !Hero.OneToOneConversationHero.IsPartyLeader && Hero.OneToOneConversationHero.IsPlayerCompanion && Hero.OneToOneConversationHero.PartyBelongedTo != MobileParty.MainParty && (Hero.OneToOneConversationHero.PartyBelongedTo == null || !Hero.OneToOneConversationHero.PartyBelongedTo.IsCaravan))
@@ -513,13 +482,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000759 RID: 1881 RVA: 0x0003AC83 File Offset: 0x00038E83
 		private void companion_rejoin_after_emprisonment_role_on_consequence()
 		{
 			AddHeroToPartyAction.Apply(Hero.OneToOneConversationHero, MobileParty.MainParty, true);
 		}
 
-		// Token: 0x0600075A RID: 1882 RVA: 0x0003AC95 File Offset: 0x00038E95
 		private void OnCompanionRemoved(Hero companion, RemoveCompanionAction.RemoveCompanionDetail detail)
 		{
 			if (LocationComplex.Current != null)
@@ -532,14 +499,12 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600075B RID: 1883 RVA: 0x0003ACBB File Offset: 0x00038EBB
 		private bool companion_agrees_to_leave_on_condition()
 		{
 			MBTextManager.SetTextVariable("AGREE_TO_LEAVE", new TextObject("{=0geP718k}Well... I don't know what to say. Goodbye, then.", null), false);
 			return true;
 		}
 
-		// Token: 0x0600075C RID: 1884 RVA: 0x0003ACD4 File Offset: 0x00038ED4
 		private static bool companion_has_role_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -556,19 +521,16 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600075D RID: 1885 RVA: 0x0003AD47 File Offset: 0x00038F47
 		private static bool companion_role_discuss_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.Clan == Clan.PlayerClan;
 		}
 
-		// Token: 0x0600075E RID: 1886 RVA: 0x0003AD63 File Offset: 0x00038F63
 		private static bool companion_assign_role_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.Clan == Clan.PlayerClan && Hero.OneToOneConversationHero.PartyBelongedTo != null;
 		}
 
-		// Token: 0x0600075F RID: 1887 RVA: 0x0003AD8C File Offset: 0x00038F8C
 		private static bool companion_becomes_engineer_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -586,13 +548,11 @@ namespace SandBox.CampaignBehaviors
 			return roleHolder != oneToOneConversationHero && MobilePartyHelper.IsHeroAssignableForEngineerInParty(oneToOneConversationHero, oneToOneConversationHero.PartyBelongedTo);
 		}
 
-		// Token: 0x06000760 RID: 1888 RVA: 0x0003ADFE File Offset: 0x00038FFE
 		private static void companion_becomes_engineer_on_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.SetPartyEngineer(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000761 RID: 1889 RVA: 0x0003AE14 File Offset: 0x00039014
 		private static bool companion_becomes_surgeon_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -610,13 +570,11 @@ namespace SandBox.CampaignBehaviors
 			return roleHolder != oneToOneConversationHero && MobilePartyHelper.IsHeroAssignableForSurgeonInParty(oneToOneConversationHero, oneToOneConversationHero.PartyBelongedTo);
 		}
 
-		// Token: 0x06000762 RID: 1890 RVA: 0x0003AE86 File Offset: 0x00039086
 		private static void companion_becomes_surgeon_on_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.SetPartySurgeon(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000763 RID: 1891 RVA: 0x0003AE9C File Offset: 0x0003909C
 		private static bool companion_becomes_quartermaster_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -635,13 +593,11 @@ namespace SandBox.CampaignBehaviors
 			return roleHolder != oneToOneConversationHero && MobilePartyHelper.IsHeroAssignableForQuartermasterInParty(oneToOneConversationHero2, Hero.OneToOneConversationHero.PartyBelongedTo);
 		}
 
-		// Token: 0x06000764 RID: 1892 RVA: 0x0003AF19 File Offset: 0x00039119
 		private static void companion_becomes_quartermaster_on_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.SetPartyQuartermaster(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000765 RID: 1893 RVA: 0x0003AF30 File Offset: 0x00039130
 		private static bool companion_becomes_scout_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -659,43 +615,36 @@ namespace SandBox.CampaignBehaviors
 			return roleHolder != oneToOneConversationHero && MobilePartyHelper.IsHeroAssignableForScoutInParty(oneToOneConversationHero, oneToOneConversationHero.PartyBelongedTo);
 		}
 
-		// Token: 0x06000766 RID: 1894 RVA: 0x0003AFA3 File Offset: 0x000391A3
 		private static void companion_becomes_scout_on_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.SetPartyScout(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000767 RID: 1895 RVA: 0x0003AFB9 File Offset: 0x000391B9
 		private static void companion_delete_party_role_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.RemoveHeroPerkRole(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000768 RID: 1896 RVA: 0x0003AFCF File Offset: 0x000391CF
 		private static bool companion_fire_engineer_on_condition()
 		{
 			return Hero.OneToOneConversationHero.PartyBelongedTo.GetRoleHolder(8) == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero != Hero.OneToOneConversationHero.PartyBelongedTo.LeaderHero;
 		}
 
-		// Token: 0x06000769 RID: 1897 RVA: 0x0003B003 File Offset: 0x00039203
 		private static bool companion_fire_surgeon_on_condition()
 		{
 			return Hero.OneToOneConversationHero.PartyBelongedTo.GetRoleHolder(7) == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero != Hero.OneToOneConversationHero.PartyBelongedTo.LeaderHero;
 		}
 
-		// Token: 0x0600076A RID: 1898 RVA: 0x0003B037 File Offset: 0x00039237
 		private static bool companion_fire_quartermaster_on_condition()
 		{
 			return Hero.OneToOneConversationHero.PartyBelongedTo.GetRoleHolder(10) == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero != Hero.OneToOneConversationHero.PartyBelongedTo.LeaderHero;
 		}
 
-		// Token: 0x0600076B RID: 1899 RVA: 0x0003B06C File Offset: 0x0003926C
 		private static bool companion_fire_scout_on_condition()
 		{
 			return Hero.OneToOneConversationHero.PartyBelongedTo.GetRoleHolder(9) == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero != Hero.OneToOneConversationHero.PartyBelongedTo.LeaderHero;
 		}
 
-		// Token: 0x0600076C RID: 1900 RVA: 0x0003B0A4 File Offset: 0x000392A4
 		private bool companion_rescue_start_condition()
 		{
 			if (Campaign.Current.CurrentConversationContext == 2)
@@ -710,7 +659,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600076D RID: 1901 RVA: 0x0003B113 File Offset: 0x00039313
 		private void companion_rescue_answer_options_join_party_consequence()
 		{
 			EndCaptivityAction.ApplyByReleasedAfterBattle(Hero.OneToOneConversationHero);
@@ -718,7 +666,6 @@ namespace SandBox.CampaignBehaviors
 			MobileParty.MainParty.AddElementToMemberRoster(CharacterObject.OneToOneConversationCharacter, 1, false);
 		}
 
-		// Token: 0x0600076E RID: 1902 RVA: 0x0003B13C File Offset: 0x0003933C
 		private bool lead_a_party_clickable_condition(out TextObject reason)
 		{
 			bool flag = Clan.PlayerClan.CommanderLimit > Clan.PlayerClan.WarPartyComponents.Count;
@@ -730,13 +677,11 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x0600076F RID: 1903 RVA: 0x0003B170 File Offset: 0x00039370
 		private void companion_rescue_answer_options_lead_party_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += this.OpenPartyScreenForRescue;
 		}
 
-		// Token: 0x06000770 RID: 1904 RVA: 0x0003B190 File Offset: 0x00039390
 		private void OpenPartyScreenForRescue()
 		{
 			TroopRoster.CreateDummyTroopRoster().AddToCounts(CharacterObject.OneToOneConversationCharacter, 1, false, 0, 0, true, -1);
@@ -746,7 +691,6 @@ namespace SandBox.CampaignBehaviors
 			this._partyScreenOpenedForPartyCreationAfterRescue = true;
 		}
 
-		// Token: 0x06000771 RID: 1905 RVA: 0x0003B200 File Offset: 0x00039400
 		private void PartyScreenClosed(PartyBase leftOwnerParty, TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, PartyBase rightOwnerParty, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, bool fromCancel)
 		{
 			if (!fromCancel)
@@ -771,13 +715,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000772 RID: 1906 RVA: 0x0003B2F8 File Offset: 0x000394F8
 		private bool TroopTransferableDelegate(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
 		{
 			return !character.IsHero;
 		}
 
-		// Token: 0x06000773 RID: 1907 RVA: 0x0003B303 File Offset: 0x00039503
 		private bool party_screen_continue_conversation_condition()
 		{
 			if (this._partyScreenOpenedForPartyCreationAfterRescue && Campaign.Current.CurrentConversationContext == 2)
@@ -791,25 +733,21 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000774 RID: 1908 RVA: 0x0003B342 File Offset: 0x00039542
 		private bool party_screen_opened_but_party_is_not_created_after_rescue_condition()
 		{
 			return !this._partyCreatedAfterRescueForCompanion && this._partyScreenOpenedForPartyCreationAfterRescue;
 		}
 
-		// Token: 0x06000775 RID: 1909 RVA: 0x0003B354 File Offset: 0x00039554
 		private void party_screen_opened_but_party_is_not_created_after_rescue_consequence()
 		{
 			this._partyScreenOpenedForPartyCreationAfterRescue = false;
 		}
 
-		// Token: 0x06000776 RID: 1910 RVA: 0x0003B35D File Offset: 0x0003955D
 		private bool party_screen_opened_and_party_is_created_after_rescue_condition()
 		{
 			return this._partyCreatedAfterRescueForCompanion && this._partyScreenOpenedForPartyCreationAfterRescue;
 		}
 
-		// Token: 0x06000777 RID: 1911 RVA: 0x0003B36F File Offset: 0x0003956F
 		private void end_rescue_companion()
 		{
 			this._partyCreatedAfterRescueForCompanion = false;
@@ -820,40 +758,28 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04000305 RID: 773
 		private const int CompanionRelationLimit = -10;
 
-		// Token: 0x04000306 RID: 774
 		private const int NeededGoldToGrantFief = 20000;
 
-		// Token: 0x04000307 RID: 775
 		private const int NeededInfluenceToGrantFief = 500;
 
-		// Token: 0x04000308 RID: 776
 		private const int RelationGainWhenCompanionToLordAction = 50;
 
-		// Token: 0x04000309 RID: 777
 		private const int NewCreatedHeroForCompanionClanMaxAge = 50;
 
-		// Token: 0x0400030A RID: 778
 		private const int NewHeroSkillUpperLimit = 175;
 
-		// Token: 0x0400030B RID: 779
 		private const int NewHeroSkillLowerLimit = 125;
 
-		// Token: 0x0400030C RID: 780
 		private Settlement _selectedFief;
 
-		// Token: 0x0400030D RID: 781
 		private bool _playerConfirmedTheAction;
 
-		// Token: 0x0400030E RID: 782
 		private List<int> _alreadyUsedIconIdsForNewClans = new List<int>();
 
-		// Token: 0x0400030F RID: 783
 		private bool _partyCreatedAfterRescueForCompanion;
 
-		// Token: 0x04000310 RID: 784
 		private bool _partyScreenOpenedForPartyCreationAfterRescue;
 	}
 }

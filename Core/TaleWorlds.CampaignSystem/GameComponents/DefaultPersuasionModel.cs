@@ -7,16 +7,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200012B RID: 299
 	public class DefaultPersuasionModel : PersuasionModel
 	{
-		// Token: 0x060016BE RID: 5822 RVA: 0x0006F7D8 File Offset: 0x0006D9D8
 		public override int GetSkillXpFromPersuasion(PersuasionDifficulty difficulty, int argumentDifficultyBonusCoefficient)
 		{
 			return (difficulty - PersuasionDifficulty.VeryEasy) / 1 * 5 * argumentDifficultyBonusCoefficient;
 		}
 
-		// Token: 0x060016BF RID: 5823 RVA: 0x0006F7E4 File Offset: 0x0006D9E4
 		public override void GetChances(PersuasionOptionArgs optionArgs, out float successChance, out float critSuccessChance, out float critFailChance, out float failChance, float difficultyMultiplier)
 		{
 			float defaultSuccessChance = this.GetDefaultSuccessChance(optionArgs, difficultyMultiplier);
@@ -66,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			failChance = 1f - critSuccessChance - successChance - critFailChance;
 		}
 
-		// Token: 0x060016C0 RID: 5824 RVA: 0x0006F958 File Offset: 0x0006DB58
 		private float GetDefaultSuccessChance(PersuasionOptionArgs optionArgs, float difficultyMultiplier)
 		{
 			int skillValue = Hero.MainHero.GetSkillValue(optionArgs.SkillUsed);
@@ -88,7 +84,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Clamp((100f - difficultyMultiplier / (0.01f * (100f + (float)skillValue * num2))) / 100f, 0.1f, 1f);
 		}
 
-		// Token: 0x060016C1 RID: 5825 RVA: 0x0006FA48 File Offset: 0x0006DC48
 		private float GetBonusSuccessChance(PersuasionOptionArgs optionArgs)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(1f, false, null);
@@ -105,7 +100,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060016C2 RID: 5826 RVA: 0x0006FB04 File Offset: 0x0006DD04
 		public override void GetEffectChances(PersuasionOptionArgs option, out float moveToNextStageChance, out float blockRandomOptionChance, float difficultyMultiplier)
 		{
 			moveToNextStageChance = 0f;
@@ -117,7 +111,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060016C3 RID: 5827 RVA: 0x0006FB5C File Offset: 0x0006DD5C
 		public override PersuasionArgumentStrength GetArgumentStrengthBasedOnTargetTraits(CharacterObject character, Tuple<TraitObject, int>[] traitCorrelations)
 		{
 			float num = 0f;
@@ -148,7 +141,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return PersuasionArgumentStrength.Normal;
 		}
 
-		// Token: 0x060016C4 RID: 5828 RVA: 0x0006FC10 File Offset: 0x0006DE10
 		public override float CalculateInitialPersuasionProgress(CharacterObject character, float goalValue, float successValue)
 		{
 			float num;
@@ -163,7 +155,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060016C5 RID: 5829 RVA: 0x0006FC5C File Offset: 0x0006DE5C
 		public override float CalculatePersuasionGoalValue(CharacterObject oneToOneConversationCharacter, float baseGoalValue)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(baseGoalValue, false, null);
@@ -182,7 +173,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060016C6 RID: 5830 RVA: 0x0006FD34 File Offset: 0x0006DF34
 		public override float GetDifficulty(PersuasionDifficulty difficulty)
 		{
 			switch (difficulty)

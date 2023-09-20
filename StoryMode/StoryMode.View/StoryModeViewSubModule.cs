@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace StoryMode.View
 {
-	// Token: 0x02000003 RID: 3
 	public class StoryModeViewSubModule : MBSubModuleBase
 	{
-		// Token: 0x06000002 RID: 2 RVA: 0x00002058 File Offset: 0x00000258
 		protected override void OnSubModuleLoad()
 		{
 			base.OnSubModuleLoad();
@@ -24,19 +22,16 @@ namespace StoryMode.View
 			Module.CurrentModule.ImguiProfilerTick += this.OnImguiProfilerTick;
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x000020E3 File Offset: 0x000002E3
 		protected virtual void FillDataForCampaign()
 		{
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x000020E5 File Offset: 0x000002E5
 		protected override void OnSubModuleUnloaded()
 		{
 			Module.CurrentModule.ImguiProfilerTick -= this.OnImguiProfilerTick;
 			base.OnSubModuleUnloaded();
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x00002104 File Offset: 0x00000304
 		private void OnImguiProfilerTick()
 		{
 			if (Campaign.Current == null)

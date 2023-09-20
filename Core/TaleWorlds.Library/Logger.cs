@@ -7,21 +7,15 @@ using System.Threading;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000058 RID: 88
 	public class Logger
 	{
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x06000277 RID: 631 RVA: 0x00006C52 File Offset: 0x00004E52
-		// (set) Token: 0x06000278 RID: 632 RVA: 0x00006C5A File Offset: 0x00004E5A
 		public bool LogOnlyErrors { get; set; }
 
-		// Token: 0x0600027A RID: 634 RVA: 0x00006CB5 File Offset: 0x00004EB5
 		public Logger(string name)
 			: this(name, false, false, false, 1, -1, false)
 		{
 		}
 
-		// Token: 0x0600027B RID: 635 RVA: 0x00006CC4 File Offset: 0x00004EC4
 		public Logger(string name, bool writeErrorsToDifferentFile, bool logOnlyErrors, bool doNotUseProcessId, int numFiles = 1, int totalFileSize = -1, bool overwrite = false)
 		{
 			string text = AppDomain.CurrentDomain.FriendlyName;
@@ -66,7 +60,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x0600027C RID: 636 RVA: 0x00006E24 File Offset: 0x00005024
 		private static void ThreadMain()
 		{
 			while (Logger._running)
@@ -83,7 +76,6 @@ namespace TaleWorlds.Library
 			Logger._isOver = true;
 		}
 
-		// Token: 0x0600027D RID: 637 RVA: 0x00006E70 File Offset: 0x00005070
 		private static void Printer()
 		{
 			while ((Logger._running || Logger._printedOnThisCycle) && Logger._loggers.Count > 0)
@@ -110,7 +102,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x0600027E RID: 638 RVA: 0x00006F20 File Offset: 0x00005120
 		private bool DoLoggingJob()
 		{
 			bool flag = false;
@@ -137,13 +128,11 @@ namespace TaleWorlds.Library
 			return flag;
 		}
 
-		// Token: 0x0600027F RID: 639 RVA: 0x00006FD8 File Offset: 0x000051D8
 		public void Print(string log, HTMLDebugCategory debugInfo = HTMLDebugCategory.General)
 		{
 			this.Print(log, debugInfo, true);
 		}
 
-		// Token: 0x06000280 RID: 640 RVA: 0x00006FE4 File Offset: 0x000051E4
 		public void Print(string log, HTMLDebugCategory debugInfo, bool printOnGlobal)
 		{
 			if (!this.LogOnlyErrors || (this.LogOnlyErrors && debugInfo == HTMLDebugCategory.Error) || (this.LogOnlyErrors && debugInfo == HTMLDebugCategory.Warning))
@@ -161,7 +150,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x06000281 RID: 641 RVA: 0x00007068 File Offset: 0x00005268
 		public static void FinishAndCloseAll()
 		{
 			List<Logger> loggers = Logger._loggers;
@@ -175,43 +163,30 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x040000E4 RID: 228
 		private Queue<HTMLDebugData> _logQueue;
 
-		// Token: 0x040000E5 RID: 229
 		private static Encoding _logFileEncoding = Encoding.UTF8;
 
-		// Token: 0x040000E6 RID: 230
 		private string _name;
 
-		// Token: 0x040000E7 RID: 231
 		private bool _writeErrorsToDifferentFile;
 
-		// Token: 0x040000E9 RID: 233
 		private static List<Logger> _loggers = new List<Logger>();
 
-		// Token: 0x040000EA RID: 234
 		private Logger.FileManager _fileManager;
 
-		// Token: 0x040000EB RID: 235
 		private static Thread _thread;
 
-		// Token: 0x040000EC RID: 236
 		private static bool _running = true;
 
-		// Token: 0x040000ED RID: 237
 		private static bool _printedOnThisCycle = false;
 
-		// Token: 0x040000EE RID: 238
 		private static bool _isOver = false;
 
-		// Token: 0x040000EF RID: 239
 		public static string LogsFolder = Environment.CurrentDirectory + "\\logs";
 
-		// Token: 0x020000C6 RID: 198
 		private class FileManager
 		{
-			// Token: 0x060006BE RID: 1726 RVA: 0x000148D4 File Offset: 0x00012AD4
 			public FileManager(string path, string name, int numFiles, int maxTotalSize, bool overwrite, bool logErrorsToDifferentFile)
 			{
 				if (maxTotalSize < numFiles * 64 * 1024)
@@ -267,19 +242,16 @@ namespace TaleWorlds.Library
 				}
 			}
 
-			// Token: 0x060006BF RID: 1727 RVA: 0x00014AC8 File Offset: 0x00012CC8
 			public FileStream GetFileStream()
 			{
 				return this._streams[this._currentStreamIndex];
 			}
 
-			// Token: 0x060006C0 RID: 1728 RVA: 0x00014AD7 File Offset: 0x00012CD7
 			public FileStream GetErrorFileStream()
 			{
 				return this._errorStream;
 			}
 
-			// Token: 0x060006C1 RID: 1729 RVA: 0x00014AE0 File Offset: 0x00012CE0
 			public void CheckForFileSize()
 			{
 				if (this._isCheckingFileSize && this._streams[this._currentStreamIndex].Length > (long)this._maxFileSize)
@@ -289,7 +261,6 @@ namespace TaleWorlds.Library
 				}
 			}
 
-			// Token: 0x060006C2 RID: 1730 RVA: 0x00014B38 File Offset: 0x00012D38
 			public void ShutDown()
 			{
 				for (int i = 0; i < this._numFiles; i++)
@@ -304,7 +275,6 @@ namespace TaleWorlds.Library
 				}
 			}
 
-			// Token: 0x060006C3 RID: 1731 RVA: 0x00014B88 File Offset: 0x00012D88
 			private void FillEmptyStream(FileStream stream)
 			{
 				if (stream.Length == 0L)
@@ -315,29 +285,22 @@ namespace TaleWorlds.Library
 				}
 			}
 
-			// Token: 0x060006C4 RID: 1732 RVA: 0x00014BBA File Offset: 0x00012DBA
 			private void ResetFileStream(FileStream stream)
 			{
 				stream.SetLength(0L);
 				this.FillEmptyStream(stream);
 			}
 
-			// Token: 0x04000265 RID: 613
 			private bool _isCheckingFileSize;
 
-			// Token: 0x04000266 RID: 614
 			private int _maxFileSize;
 
-			// Token: 0x04000267 RID: 615
 			private int _numFiles;
 
-			// Token: 0x04000268 RID: 616
 			private FileStream[] _streams;
 
-			// Token: 0x04000269 RID: 617
 			private int _currentStreamIndex;
 
-			// Token: 0x0400026A RID: 618
 			private FileStream _errorStream;
 		}
 	}

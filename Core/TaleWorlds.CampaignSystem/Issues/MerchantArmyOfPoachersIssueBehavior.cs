@@ -22,17 +22,13 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.Issues
 {
-	// Token: 0x02000319 RID: 793
 	public class MerchantArmyOfPoachersIssueBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06002D30 RID: 11568 RVA: 0x000BC98A File Offset: 0x000BAB8A
 		private void engage_poachers_consequence(MenuCallbackArgs args)
 		{
 			MerchantArmyOfPoachersIssueBehavior.Instance.StartQuestBattle();
 		}
 
-		// Token: 0x17000AD4 RID: 2772
-		// (get) Token: 0x06002D31 RID: 11569 RVA: 0x000BC998 File Offset: 0x000BAB98
 		private static MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest Instance
 		{
 			get
@@ -58,20 +54,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x06002D32 RID: 11570 RVA: 0x000BCA30 File Offset: 0x000BAC30
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnCheckForIssueEvent.AddNonSerializedListener(this, new Action<Hero>(this.OnCheckForIssue));
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x06002D33 RID: 11571 RVA: 0x000BCA60 File Offset: 0x000BAC60
 		private bool poachers_menu_back_condition(MenuCallbackArgs args)
 		{
 			return Hero.MainHero.IsWounded;
 		}
 
-		// Token: 0x06002D34 RID: 11572 RVA: 0x000BCA6C File Offset: 0x000BAC6C
 		private void OnSessionLaunched(CampaignGameStarter gameStarter)
 		{
 			gameStarter.AddGameMenu("army_of_poachers_village", "{=eaQxeRh6}A boy runs out of the village and asks you to talk to the leader of the poachers. The villagers want to avoid a fight outside their homes.", new OnInitDelegate(this.army_of_poachers_village_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -80,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			gameStarter.AddGameMenuOption("army_of_poachers_village", "back_poachers", "{=E1OwmQFb}Back", new GameMenuOption.OnConditionDelegate(this.poachers_menu_back_condition), new GameMenuOption.OnConsequenceDelegate(this.poachers_menu_back_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x06002D35 RID: 11573 RVA: 0x000BCB2C File Offset: 0x000BAD2C
 		private void army_of_poachers_village_on_init(MenuCallbackArgs args)
 		{
 			if (MerchantArmyOfPoachersIssueBehavior.Instance != null && MerchantArmyOfPoachersIssueBehavior.Instance.IsOngoing)
@@ -125,7 +117,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x06002D36 RID: 11574 RVA: 0x000BCC6B File Offset: 0x000BAE6B
 		private bool engage_poachers_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
@@ -137,12 +128,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return true;
 		}
 
-		// Token: 0x06002D37 RID: 11575 RVA: 0x000BCC99 File Offset: 0x000BAE99
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06002D38 RID: 11576 RVA: 0x000BCC9B File Offset: 0x000BAE9B
 		private bool talk_to_leader_of_poachers_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -154,14 +143,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return true;
 		}
 
-		// Token: 0x06002D39 RID: 11577 RVA: 0x000BCCCA File Offset: 0x000BAECA
 		private void poachers_menu_back_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveSettlement();
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06002D3A RID: 11578 RVA: 0x000BCCD8 File Offset: 0x000BAED8
 		private bool ConditionsHold(Hero issueGiver, out Village questVillage)
 		{
 			questVillage = null;
@@ -178,13 +165,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return false;
 		}
 
-		// Token: 0x06002D3B RID: 11579 RVA: 0x000BCD6C File Offset: 0x000BAF6C
 		private void talk_to_leader_of_poachers_consequence(MenuCallbackArgs args)
 		{
 			CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, PartyBase.MainParty, false, false, false, false, false, false), new ConversationCharacterData(ConversationHelper.GetConversationCharacterPartyLeader(MerchantArmyOfPoachersIssueBehavior.Instance._poachersParty.Party), MerchantArmyOfPoachersIssueBehavior.Instance._poachersParty.Party, false, false, false, false, false, false));
 		}
 
-		// Token: 0x06002D3C RID: 11580 RVA: 0x000BCDC4 File Offset: 0x000BAFC4
 		public void OnCheckForIssue(Hero hero)
 		{
 			Village village;
@@ -196,43 +181,34 @@ namespace TaleWorlds.CampaignSystem.Issues
 			Campaign.Current.IssueManager.AddPotentialIssueData(hero, new PotentialIssueData(typeof(MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssue), IssueBase.IssueFrequency.Common));
 		}
 
-		// Token: 0x06002D3D RID: 11581 RVA: 0x000BCE2C File Offset: 0x000BB02C
 		private IssueBase OnSelected(in PotentialIssueData pid, Hero issueOwner)
 		{
 			PotentialIssueData potentialIssueData = pid;
 			return new MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssue(issueOwner, potentialIssueData.RelatedObject as Village);
 		}
 
-		// Token: 0x04000D9E RID: 3486
 		private const IssueBase.IssueFrequency ArmyOfPoachersIssueFrequency = IssueBase.IssueFrequency.Common;
 
-		// Token: 0x04000D9F RID: 3487
 		private MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest _cachedQuest;
 
-		// Token: 0x0200064F RID: 1615
 		public class MerchantArmyOfPoachersIssue : IssueBase
 		{
-			// Token: 0x06004F02 RID: 20226 RVA: 0x0015E88A File Offset: 0x0015CA8A
 			internal static void AutoGeneratedStaticCollectObjectsMerchantArmyOfPoachersIssue(object o, List<object> collectedObjects)
 			{
 				((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssue)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06004F03 RID: 20227 RVA: 0x0015E898 File Offset: 0x0015CA98
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 				collectedObjects.Add(this._questVillage);
 			}
 
-			// Token: 0x06004F04 RID: 20228 RVA: 0x0015E8AD File Offset: 0x0015CAAD
 			internal static object AutoGeneratedGetMemberValue_questVillage(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssue)o)._questVillage;
 			}
 
-			// Token: 0x170010E4 RID: 4324
-			// (get) Token: 0x06004F05 RID: 20229 RVA: 0x0015E8BA File Offset: 0x0015CABA
 			public override int AlternativeSolutionBaseNeededMenCount
 			{
 				get
@@ -241,8 +217,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010E5 RID: 4325
-			// (get) Token: 0x06004F06 RID: 20230 RVA: 0x0015E8D0 File Offset: 0x0015CAD0
 			protected override int AlternativeSolutionBaseDurationInDaysInternal
 			{
 				get
@@ -251,8 +225,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010E6 RID: 4326
-			// (get) Token: 0x06004F07 RID: 20231 RVA: 0x0015E8E5 File Offset: 0x0015CAE5
 			protected override int RewardGold
 			{
 				get
@@ -261,8 +233,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010E7 RID: 4327
-			// (get) Token: 0x06004F08 RID: 20232 RVA: 0x0015E8FA File Offset: 0x0015CAFA
 			public override IssueBase.AlternativeSolutionScaleFlag AlternativeSolutionScaleFlags
 			{
 				get
@@ -271,8 +241,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010E8 RID: 4328
-			// (get) Token: 0x06004F09 RID: 20233 RVA: 0x0015E8FE File Offset: 0x0015CAFE
 			public override TextObject IssueBriefByIssueGiver
 			{
 				get
@@ -281,8 +249,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010E9 RID: 4329
-			// (get) Token: 0x06004F0A RID: 20234 RVA: 0x0015E90B File Offset: 0x0015CB0B
 			public override TextObject IssueAcceptByPlayer
 			{
 				get
@@ -291,8 +257,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010EA RID: 4330
-			// (get) Token: 0x06004F0B RID: 20235 RVA: 0x0015E918 File Offset: 0x0015CB18
 			public override TextObject IssueQuestSolutionExplanationByIssueGiver
 			{
 				get
@@ -303,8 +267,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010EB RID: 4331
-			// (get) Token: 0x06004F0C RID: 20236 RVA: 0x0015E941 File Offset: 0x0015CB41
 			public override TextObject IssueAlternativeSolutionExplanationByIssueGiver
 			{
 				get
@@ -315,8 +277,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010EC RID: 4332
-			// (get) Token: 0x06004F0D RID: 20237 RVA: 0x0015E960 File Offset: 0x0015CB60
 			public override TextObject IssueQuestSolutionAcceptByPlayer
 			{
 				get
@@ -325,8 +285,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010ED RID: 4333
-			// (get) Token: 0x06004F0E RID: 20238 RVA: 0x0015E96D File Offset: 0x0015CB6D
 			public override TextObject IssueAlternativeSolutionAcceptByPlayer
 			{
 				get
@@ -335,8 +293,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010EE RID: 4334
-			// (get) Token: 0x06004F0F RID: 20239 RVA: 0x0015E97A File Offset: 0x0015CB7A
 			public override TextObject IssueAlternativeSolutionResponseByIssueGiver
 			{
 				get
@@ -345,8 +301,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010EF RID: 4335
-			// (get) Token: 0x06004F10 RID: 20240 RVA: 0x0015E987 File Offset: 0x0015CB87
 			public override TextObject IssueDiscussAlternativeSolution
 			{
 				get
@@ -355,8 +309,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F0 RID: 4336
-			// (get) Token: 0x06004F11 RID: 20241 RVA: 0x0015E994 File Offset: 0x0015CB94
 			public override bool IsThereAlternativeSolution
 			{
 				get
@@ -365,8 +317,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F1 RID: 4337
-			// (get) Token: 0x06004F12 RID: 20242 RVA: 0x0015E997 File Offset: 0x0015CB97
 			public override bool IsThereLordSolution
 			{
 				get
@@ -375,8 +325,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F2 RID: 4338
-			// (get) Token: 0x06004F13 RID: 20243 RVA: 0x0015E99C File Offset: 0x0015CB9C
 			protected override TextObject AlternativeSolutionStartLog
 			{
 				get
@@ -392,8 +340,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F3 RID: 4339
-			// (get) Token: 0x06004F14 RID: 20244 RVA: 0x0015EA49 File Offset: 0x0015CC49
 			public override TextObject Title
 			{
 				get
@@ -402,8 +348,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F4 RID: 4340
-			// (get) Token: 0x06004F15 RID: 20245 RVA: 0x0015EA56 File Offset: 0x0015CC56
 			public override TextObject Description
 			{
 				get
@@ -414,14 +358,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F16 RID: 20246 RVA: 0x0015EA7B File Offset: 0x0015CC7B
 			public MerchantArmyOfPoachersIssue(Hero issueOwner, Village questVillage)
 				: base(issueOwner, CampaignTime.DaysFromNow(15f))
 			{
 				this._questVillage = questVillage;
 			}
 
-			// Token: 0x06004F17 RID: 20247 RVA: 0x0015EA95 File Offset: 0x0015CC95
 			protected override float GetIssueEffectAmountInternal(IssueEffect issueEffect)
 			{
 				if (issueEffect == DefaultIssueEffects.SettlementProsperity)
@@ -443,20 +385,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return 0f;
 			}
 
-			// Token: 0x06004F18 RID: 20248 RVA: 0x0015EAD4 File Offset: 0x0015CCD4
 			public override bool DoTroopsSatisfyAlternativeSolution(TroopRoster troopRoster, out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(troopRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06004F19 RID: 20249 RVA: 0x0015EAEC File Offset: 0x0015CCEC
 			public override bool IsTroopTypeNeededByAlternativeSolution(CharacterObject character)
 			{
 				return character.Tier >= 2;
 			}
 
-			// Token: 0x06004F1A RID: 20250 RVA: 0x0015EAFC File Offset: 0x0015CCFC
 			public override ValueTuple<SkillObject, int> GetAlternativeSolutionSkill(Hero hero)
 			{
 				int skillValue = hero.GetSkillValue(DefaultSkills.Bow);
@@ -469,26 +408,22 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return new ValueTuple<SkillObject, int>((skillValue2 >= skillValue3) ? DefaultSkills.Crossbow : DefaultSkills.Throwing, 150);
 			}
 
-			// Token: 0x06004F1B RID: 20251 RVA: 0x0015EB5F File Offset: 0x0015CD5F
 			public override bool AlternativeSolutionCondition(out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(MobileParty.MainParty.MemberRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06004F1C RID: 20252 RVA: 0x0015EB80 File Offset: 0x0015CD80
 			public override IssueBase.IssueFrequency GetFrequency()
 			{
 				return IssueBase.IssueFrequency.Common;
 			}
 
-			// Token: 0x06004F1D RID: 20253 RVA: 0x0015EB84 File Offset: 0x0015CD84
 			public override bool IssueStayAliveConditions()
 			{
 				return !this._questVillage.Settlement.IsUnderRaid && !this._questVillage.Settlement.IsRaided && base.IssueOwner.CurrentSettlement.Town.Security <= 90f;
 			}
 
-			// Token: 0x06004F1E RID: 20254 RVA: 0x0015EBD8 File Offset: 0x0015CDD8
 			protected override bool CanPlayerTakeQuestConditions(Hero issueGiver, out IssueBase.PreconditionFlags flag, out Hero relationHero, out SkillObject skill)
 			{
 				skill = null;
@@ -510,24 +445,19 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return flag == IssueBase.PreconditionFlags.None;
 			}
 
-			// Token: 0x06004F1F RID: 20255 RVA: 0x0015EC45 File Offset: 0x0015CE45
 			protected override void OnGameLoad()
 			{
 			}
 
-			// Token: 0x06004F20 RID: 20256 RVA: 0x0015EC47 File Offset: 0x0015CE47
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(20f), this._questVillage, base.IssueDifficultyMultiplier, this.RewardGold);
 			}
 
-			// Token: 0x06004F21 RID: 20257 RVA: 0x0015EC71 File Offset: 0x0015CE71
 			protected override void CompleteIssueWithTimedOutConsequences()
 			{
 			}
 
-			// Token: 0x170010F5 RID: 4341
-			// (get) Token: 0x06004F22 RID: 20258 RVA: 0x0015EC73 File Offset: 0x0015CE73
 			protected override int CompanionSkillRewardXP
 			{
 				get
@@ -536,7 +466,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F23 RID: 20259 RVA: 0x0015EC88 File Offset: 0x0015CE88
 			protected override void AlternativeSolutionEndWithSuccessConsequence()
 			{
 				this.RelationshipChangeWithIssueOwner = 5;
@@ -544,7 +473,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.IssueOwner.CurrentSettlement.Prosperity += 50f;
 			}
 
-			// Token: 0x06004F24 RID: 20260 RVA: 0x0015ECC0 File Offset: 0x0015CEC0
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				this.RelationshipChangeWithIssueOwner = -5;
@@ -557,36 +485,27 @@ namespace TaleWorlds.CampaignSystem.Issues
 				});
 			}
 
-			// Token: 0x04001A73 RID: 6771
 			private const int AlternativeSolutionTroopTierRequirement = 2;
 
-			// Token: 0x04001A74 RID: 6772
 			private const int CompanionRequiredSkillLevel = 150;
 
-			// Token: 0x04001A75 RID: 6773
 			private const int MinimumRequiredMenCount = 15;
 
-			// Token: 0x04001A76 RID: 6774
 			private const int IssueDuration = 15;
 
-			// Token: 0x04001A77 RID: 6775
 			private const int QuestTimeLimit = 20;
 
-			// Token: 0x04001A78 RID: 6776
 			[SaveableField(10)]
 			private Village _questVillage;
 		}
 
-		// Token: 0x02000650 RID: 1616
 		public class MerchantArmyOfPoachersIssueQuest : QuestBase
 		{
-			// Token: 0x06004F25 RID: 20261 RVA: 0x0015ED42 File Offset: 0x0015CF42
 			internal static void AutoGeneratedStaticCollectObjectsMerchantArmyOfPoachersIssueQuest(object o, List<object> collectedObjects)
 			{
 				((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06004F26 RID: 20262 RVA: 0x0015ED50 File Offset: 0x0015CF50
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -594,50 +513,41 @@ namespace TaleWorlds.CampaignSystem.Issues
 				collectedObjects.Add(this._questVillage);
 			}
 
-			// Token: 0x06004F27 RID: 20263 RVA: 0x0015ED71 File Offset: 0x0015CF71
 			internal static object AutoGeneratedGetMemberValue_poachersParty(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._poachersParty;
 			}
 
-			// Token: 0x06004F28 RID: 20264 RVA: 0x0015ED7E File Offset: 0x0015CF7E
 			internal static object AutoGeneratedGetMemberValue_questVillage(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._questVillage;
 			}
 
-			// Token: 0x06004F29 RID: 20265 RVA: 0x0015ED8B File Offset: 0x0015CF8B
 			internal static object AutoGeneratedGetMemberValue_talkedToPoachersBattleWillStart(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._talkedToPoachersBattleWillStart;
 			}
 
-			// Token: 0x06004F2A RID: 20266 RVA: 0x0015ED9D File Offset: 0x0015CF9D
 			internal static object AutoGeneratedGetMemberValue_isReadyToBeFinalized(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._isReadyToBeFinalized;
 			}
 
-			// Token: 0x06004F2B RID: 20267 RVA: 0x0015EDAF File Offset: 0x0015CFAF
 			internal static object AutoGeneratedGetMemberValue_persuasionTriedOnce(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._persuasionTriedOnce;
 			}
 
-			// Token: 0x06004F2C RID: 20268 RVA: 0x0015EDC1 File Offset: 0x0015CFC1
 			internal static object AutoGeneratedGetMemberValue_difficultyMultiplier(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._difficultyMultiplier;
 			}
 
-			// Token: 0x06004F2D RID: 20269 RVA: 0x0015EDD3 File Offset: 0x0015CFD3
 			internal static object AutoGeneratedGetMemberValue_rewardGold(object o)
 			{
 				return ((MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest)o)._rewardGold;
 			}
 
-			// Token: 0x170010F6 RID: 4342
-			// (get) Token: 0x06004F2E RID: 20270 RVA: 0x0015EDE5 File Offset: 0x0015CFE5
 			public override TextObject Title
 			{
 				get
@@ -646,8 +556,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F7 RID: 4343
-			// (get) Token: 0x06004F2F RID: 20271 RVA: 0x0015EDF2 File Offset: 0x0015CFF2
 			public override bool IsRemainingTimeHidden
 			{
 				get
@@ -656,8 +564,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F8 RID: 4344
-			// (get) Token: 0x06004F30 RID: 20272 RVA: 0x0015EDF8 File Offset: 0x0015CFF8
 			private TextObject _questStartedLogText
 			{
 				get
@@ -670,8 +576,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010F9 RID: 4345
-			// (get) Token: 0x06004F31 RID: 20273 RVA: 0x0015EE62 File Offset: 0x0015D062
 			private TextObject _questCanceledTargetVillageRaided
 			{
 				get
@@ -682,8 +586,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FA RID: 4346
-			// (get) Token: 0x06004F32 RID: 20274 RVA: 0x0015EE8C File Offset: 0x0015D08C
 			private TextObject _questCanceledWarDeclared
 			{
 				get
@@ -694,8 +596,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FB RID: 4347
-			// (get) Token: 0x06004F33 RID: 20275 RVA: 0x0015EEC0 File Offset: 0x0015D0C0
 			private TextObject _playerDeclaredWarQuestLogText
 			{
 				get
@@ -706,8 +606,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FC RID: 4348
-			// (get) Token: 0x06004F34 RID: 20276 RVA: 0x0015EEF4 File Offset: 0x0015D0F4
 			private TextObject _questFailedAfterTalkingWithProachers
 			{
 				get
@@ -718,8 +616,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FD RID: 4349
-			// (get) Token: 0x06004F35 RID: 20277 RVA: 0x0015EF26 File Offset: 0x0015D126
 			private TextObject _questSuccessPlayerComesToAnAgreementWithPoachers
 			{
 				get
@@ -728,8 +624,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FE RID: 4350
-			// (get) Token: 0x06004F36 RID: 20278 RVA: 0x0015EF34 File Offset: 0x0015D134
 			private TextObject _questFailWithPlayerDefeatedAgainstPoachers
 			{
 				get
@@ -740,8 +634,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x170010FF RID: 4351
-			// (get) Token: 0x06004F37 RID: 20279 RVA: 0x0015EF68 File Offset: 0x0015D168
 			private TextObject _questSuccessWithPlayerDefeatedPoachers
 			{
 				get
@@ -752,8 +644,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001100 RID: 4352
-			// (get) Token: 0x06004F38 RID: 20280 RVA: 0x0015EF9A File Offset: 0x0015D19A
 			private TextObject _questFailedWithTimeOutLogText
 			{
 				get
@@ -762,7 +652,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F39 RID: 20281 RVA: 0x0015EFA7 File Offset: 0x0015D1A7
 			public MerchantArmyOfPoachersIssueQuest(string questId, Hero giverHero, CampaignTime duration, Village questVillage, float difficultyMultiplier, int rewardGold)
 				: base(questId, giverHero, duration, rewardGold)
 			{
@@ -775,7 +664,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.InitializeQuestOnCreation();
 			}
 
-			// Token: 0x06004F3A RID: 20282 RVA: 0x0015EFE8 File Offset: 0x0015D1E8
 			private bool SetStartDialogOnCondition()
 			{
 				if (this._poachersParty != null && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._poachersParty.Party))
@@ -790,7 +678,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F3B RID: 20283 RVA: 0x0015F040 File Offset: 0x0015D240
 			private DialogFlow GetPoacherPartyDialogFlow()
 			{
 				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=!}{POACHER_PARTY_START_LINE}", null, null).Condition(() => this.SetStartDialogOnCondition())
@@ -827,7 +714,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return dialogFlow;
 			}
 
-			// Token: 0x06004F3C RID: 20284 RVA: 0x0015F130 File Offset: 0x0015D330
 			private void AddPersuasionDialogs(DialogFlow dialog)
 			{
 				dialog.AddDialogLine("poachers_persuasion_check_accepted", "start_poachers_persuasion", "poachers_persuasion_start_reservation", "{=6P1ruzsC}Maybe...", new ConversationSentence.OnConditionDelegate(this.persuasion_start_with_poachers_on_condition), new ConversationSentence.OnConsequenceDelegate(this.persuasion_start_with_poachers_on_consequence), this, 100, null, null, null);
@@ -882,19 +768,16 @@ namespace TaleWorlds.CampaignSystem.Issues
 				dialog.AddDialogLine("poachers_persuasion_select_option_reaction", "poachers_persuasion_selected_option_response", "poachers_persuasion_start_reservation", "{=!}{PERSUASION_REACTION}", new ConversationSentence.OnConditionDelegate(this.poachers_persuasion_selected_option_response_on_condition), new ConversationSentence.OnConsequenceDelegate(this.poachers_persuasion_selected_option_response_on_consequence), this, 100, null, null, null);
 			}
 
-			// Token: 0x06004F3D RID: 20285 RVA: 0x0015F3F6 File Offset: 0x0015D5F6
 			private void persuasion_start_with_poachers_on_consequence()
 			{
 				ConversationManager.StartPersuasion(2f, 1f, 0f, 2f, 2f, 0f, PersuasionDifficulty.MediumHard);
 			}
 
-			// Token: 0x06004F3E RID: 20286 RVA: 0x0015F41C File Offset: 0x0015D61C
 			private bool persuasion_start_with_poachers_on_condition()
 			{
 				return this._poachersParty != null && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._poachersParty.Party);
 			}
 
-			// Token: 0x06004F3F RID: 20287 RVA: 0x0015F440 File Offset: 0x0015D640
 			private PersuasionTask GetPersuasionTask()
 			{
 				PersuasionTask persuasionTask = new PersuasionTask(0);
@@ -917,7 +800,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return persuasionTask;
 			}
 
-			// Token: 0x06004F40 RID: 20288 RVA: 0x0015F578 File Offset: 0x0015D778
 			private bool poachers_persuasion_selected_option_response_on_condition()
 			{
 				PersuasionOptionResult item = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>().Item2;
@@ -929,7 +811,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return true;
 			}
 
-			// Token: 0x06004F41 RID: 20289 RVA: 0x0015F5B8 File Offset: 0x0015D7B8
 			private void poachers_persuasion_selected_option_response_on_consequence()
 			{
 				Tuple<PersuasionOptionArgs, PersuasionOptionResult> tuple = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>();
@@ -940,7 +821,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._task.ApplyEffects(num, num2);
 			}
 
-			// Token: 0x06004F42 RID: 20290 RVA: 0x0015F614 File Offset: 0x0015D814
 			private bool poachers_persuasion_select_option_1_on_condition()
 			{
 				if (this._task.Options.Count > 0)
@@ -954,7 +834,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F43 RID: 20291 RVA: 0x0015F694 File Offset: 0x0015D894
 			private bool poachers_persuasion_select_option_2_on_condition()
 			{
 				if (this._task.Options.Count > 1)
@@ -968,7 +847,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F44 RID: 20292 RVA: 0x0015F714 File Offset: 0x0015D914
 			private bool poachers_persuasion_select_option_3_on_condition()
 			{
 				if (this._task.Options.Count > 2)
@@ -982,7 +860,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F45 RID: 20293 RVA: 0x0015F794 File Offset: 0x0015D994
 			private bool poachers_persuasion_select_option_4_on_condition()
 			{
 				if (this._task.Options.Count > 3)
@@ -996,7 +873,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F46 RID: 20294 RVA: 0x0015F814 File Offset: 0x0015DA14
 			private bool poachers_persuasion_select_option_5_on_condition()
 			{
 				if (this._task.Options.Count > 4)
@@ -1010,7 +886,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F47 RID: 20295 RVA: 0x0015F894 File Offset: 0x0015DA94
 			private void poachers_persuasion_select_option_1_on_consequence()
 			{
 				if (this._task.Options.Count > 0)
@@ -1019,7 +894,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F48 RID: 20296 RVA: 0x0015F8C0 File Offset: 0x0015DAC0
 			private void poachers_persuasion_select_option_2_on_consequence()
 			{
 				if (this._task.Options.Count > 1)
@@ -1028,7 +902,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F49 RID: 20297 RVA: 0x0015F8EC File Offset: 0x0015DAEC
 			private void poachers_persuasion_select_option_3_on_consequence()
 			{
 				if (this._task.Options.Count > 2)
@@ -1037,7 +910,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F4A RID: 20298 RVA: 0x0015F918 File Offset: 0x0015DB18
 			private void poachers_persuasion_select_option_4_on_consequence()
 			{
 				if (this._task.Options.Count > 3)
@@ -1046,7 +918,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F4B RID: 20299 RVA: 0x0015F944 File Offset: 0x0015DB44
 			private void poachers_persuasion_select_option_5_on_consequence()
 			{
 				if (this._task.Options.Count > 4)
@@ -1055,7 +926,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F4C RID: 20300 RVA: 0x0015F970 File Offset: 0x0015DB70
 			private bool persuasion_failed_with_poachers_on_condition()
 			{
 				if (this._task.Options.All((PersuasionOptionArgs x) => x.IsBlocked) && !ConversationManager.GetPersuasionProgressSatisfied())
@@ -1066,37 +936,31 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F4D RID: 20301 RVA: 0x0015F9CE File Offset: 0x0015DBCE
 			private PersuasionOptionArgs poachers_persuasion_setup_option_1()
 			{
 				return this._task.Options.ElementAt(0);
 			}
 
-			// Token: 0x06004F4E RID: 20302 RVA: 0x0015F9E1 File Offset: 0x0015DBE1
 			private PersuasionOptionArgs poachers_persuasion_setup_option_2()
 			{
 				return this._task.Options.ElementAt(1);
 			}
 
-			// Token: 0x06004F4F RID: 20303 RVA: 0x0015F9F4 File Offset: 0x0015DBF4
 			private PersuasionOptionArgs poachers_persuasion_setup_option_3()
 			{
 				return this._task.Options.ElementAt(2);
 			}
 
-			// Token: 0x06004F50 RID: 20304 RVA: 0x0015FA07 File Offset: 0x0015DC07
 			private PersuasionOptionArgs poachers_persuasion_setup_option_4()
 			{
 				return this._task.Options.ElementAt(3);
 			}
 
-			// Token: 0x06004F51 RID: 20305 RVA: 0x0015FA1A File Offset: 0x0015DC1A
 			private PersuasionOptionArgs poachers_persuasion_setup_option_5()
 			{
 				return this._task.Options.ElementAt(4);
 			}
 
-			// Token: 0x06004F52 RID: 20306 RVA: 0x0015FA30 File Offset: 0x0015DC30
 			private bool poachers_persuasion_clickable_option_1_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1108,7 +972,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F53 RID: 20307 RVA: 0x0015FA9C File Offset: 0x0015DC9C
 			private bool poachers_persuasion_clickable_option_2_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1120,7 +983,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F54 RID: 20308 RVA: 0x0015FB08 File Offset: 0x0015DD08
 			private bool poachers_persuasion_clickable_option_3_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1132,7 +994,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F55 RID: 20309 RVA: 0x0015FB74 File Offset: 0x0015DD74
 			private bool poachers_persuasion_clickable_option_4_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1144,7 +1005,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F56 RID: 20310 RVA: 0x0015FBE0 File Offset: 0x0015DDE0
 			private bool poachers_persuasion_clickable_option_5_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1156,14 +1016,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06004F57 RID: 20311 RVA: 0x0015FC4B File Offset: 0x0015DE4B
 			private void persuasion_rejected_with_poachers_on_consequence()
 			{
 				PlayerEncounter.LeaveEncounter = false;
 				ConversationManager.EndPersuasion();
 			}
 
-			// Token: 0x06004F58 RID: 20312 RVA: 0x0015FC58 File Offset: 0x0015DE58
 			private void persuasion_complete_with_poachers_on_consequence()
 			{
 				PlayerEncounter.LeaveEncounter = true;
@@ -1172,7 +1030,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				Campaign.Current.ConversationManager.ConversationEndOneShot += this.QuestSuccessPlayerComesToAnAgreementWithPoachers;
 			}
 
-			// Token: 0x06004F59 RID: 20313 RVA: 0x0015FC94 File Offset: 0x0015DE94
 			internal void StartQuestBattle()
 			{
 				PlayerEncounter.RestartPlayerEncounter(PartyBase.MainParty, this._poachersParty.Party, false);
@@ -1184,13 +1041,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._isReadyToBeFinalized = true;
 			}
 
-			// Token: 0x06004F5A RID: 20314 RVA: 0x0015FCFB File Offset: 0x0015DEFB
 			private bool DialogCondition()
 			{
 				return Hero.OneToOneConversationHero == base.QuestGiver;
 			}
 
-			// Token: 0x06004F5B RID: 20315 RVA: 0x0015FD0C File Offset: 0x0015DF0C
 			protected override void SetDialogs()
 			{
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=IefM6uAy}Thank you. You'll be paid well. Also you can keep their illegally obtained leather.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
@@ -1210,7 +1065,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.QuestCharacterDialogFlow = this.GetPoacherPartyDialogFlow();
 			}
 
-			// Token: 0x06004F5C RID: 20316 RVA: 0x0015FE24 File Offset: 0x0015E024
 			internal void CreatePoachersParty()
 			{
 				this._poachersParty = MobileParty.CreateParty("poachers_party", null, null);
@@ -1228,7 +1082,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._poachersParty.Ai.DisableAi();
 			}
 
-			// Token: 0x06004F5D RID: 20317 RVA: 0x0015FF5A File Offset: 0x0015E15A
 			private void QuestAcceptedConsequences()
 			{
 				base.StartQuest();
@@ -1236,7 +1089,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddTrackedObject(this._questVillage.Settlement);
 			}
 
-			// Token: 0x06004F5E RID: 20318 RVA: 0x0015FF84 File Offset: 0x0015E184
 			internal void QuestFailedAfterTalkingWithPoachers()
 			{
 				base.AddLog(this._questFailedAfterTalkingWithProachers, false);
@@ -1252,7 +1104,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithFail(null);
 			}
 
-			// Token: 0x06004F5F RID: 20319 RVA: 0x0016002C File Offset: 0x0015E22C
 			internal void QuestSuccessPlayerComesToAnAgreementWithPoachers()
 			{
 				base.AddLog(this._questSuccessPlayerComesToAnAgreementWithPoachers, false);
@@ -1270,7 +1121,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			// Token: 0x06004F60 RID: 20320 RVA: 0x001600F4 File Offset: 0x0015E2F4
 			internal void QuestFailWithPlayerDefeatedAgainstPoachers()
 			{
 				base.AddLog(this._questFailWithPlayerDefeatedAgainstPoachers, false);
@@ -1285,7 +1135,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithFail(null);
 			}
 
-			// Token: 0x06004F61 RID: 20321 RVA: 0x0016018C File Offset: 0x0015E38C
 			internal void QuestSuccessWithPlayerDefeatedPoachers()
 			{
 				base.AddLog(this._questSuccessWithPlayerDefeatedPoachers, false);
@@ -1300,7 +1149,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			// Token: 0x06004F62 RID: 20322 RVA: 0x00160214 File Offset: 0x0015E414
 			protected override void OnTimedOut()
 			{
 				base.AddLog(this._questFailedWithTimeOutLogText, false);
@@ -1314,14 +1162,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.QuestGiver.CurrentSettlement.Town.Security -= 5f;
 			}
 
-			// Token: 0x06004F63 RID: 20323 RVA: 0x001602A4 File Offset: 0x0015E4A4
 			private void QuestCanceledTargetVillageRaided()
 			{
 				base.AddLog(this._questCanceledTargetVillageRaided, false);
 				base.CompleteQuestWithFail(null);
 			}
 
-			// Token: 0x06004F64 RID: 20324 RVA: 0x001602BC File Offset: 0x0015E4BC
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventCheck));
@@ -1333,7 +1179,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.CanHeroBecomePrisonerEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, bool>(this.OnCanHeroBecomePrisonerInfoIsRequested));
 			}
 
-			// Token: 0x06004F65 RID: 20325 RVA: 0x0016036A File Offset: 0x0015E56A
 			private void OnCanHeroBecomePrisonerInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == Hero.MainHero && this._isReadyToBeFinalized)
@@ -1342,7 +1187,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F66 RID: 20326 RVA: 0x00160380 File Offset: 0x0015E580
 			private void OnHourlyTick()
 			{
 				if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting && PlayerEncounter.EncounterSettlement == this._questVillage.Settlement && CampaignTime.Now.IsNightTime && !this._isReadyToBeFinalized && base.IsOngoing)
@@ -1352,7 +1196,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F67 RID: 20327 RVA: 0x001603F0 File Offset: 0x0015E5F0
 			private void GameMenuOpened(MenuCallbackArgs obj)
 			{
 				if (obj.MenuContext.GameMenu.StringId == "village" && CampaignTime.Now.IsNightTime && Settlement.CurrentSettlement == this._questVillage.Settlement && !this._isReadyToBeFinalized)
@@ -1365,7 +1208,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F68 RID: 20328 RVA: 0x00160497 File Offset: 0x0015E697
 			private void MapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 			{
 				this.MapEventCheck(mapEvent);
@@ -1375,7 +1217,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F69 RID: 20329 RVA: 0x001604B1 File Offset: 0x0015E6B1
 			private void MapEventCheck(MapEvent mapEvent)
 			{
 				if (mapEvent.IsRaid && mapEvent.MapEventSettlement == this._questVillage.Settlement)
@@ -1384,7 +1225,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F6A RID: 20330 RVA: 0x001604D4 File Offset: 0x0015E6D4
 			private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 			{
 				if (base.QuestGiver.CurrentSettlement.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
@@ -1393,13 +1233,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F6B RID: 20331 RVA: 0x00160503 File Offset: 0x0015E703
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
 				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared);
 			}
 
-			// Token: 0x06004F6C RID: 20332 RVA: 0x0016051A File Offset: 0x0015E71A
 			protected override void OnFinalize()
 			{
 				if (this._poachersParty != null && this._poachersParty.IsActive)
@@ -1412,57 +1250,44 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06004F6D RID: 20333 RVA: 0x00160554 File Offset: 0x0015E754
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
 			}
 
-			// Token: 0x04001A79 RID: 6777
 			[SaveableField(10)]
 			internal MobileParty _poachersParty;
 
-			// Token: 0x04001A7A RID: 6778
 			[SaveableField(20)]
 			internal Village _questVillage;
 
-			// Token: 0x04001A7B RID: 6779
 			[SaveableField(30)]
 			internal bool _talkedToPoachersBattleWillStart;
 
-			// Token: 0x04001A7C RID: 6780
 			[SaveableField(40)]
 			internal bool _isReadyToBeFinalized;
 
-			// Token: 0x04001A7D RID: 6781
 			[SaveableField(50)]
 			internal bool _persuasionTriedOnce;
 
-			// Token: 0x04001A7E RID: 6782
 			[SaveableField(60)]
 			internal float _difficultyMultiplier;
 
-			// Token: 0x04001A7F RID: 6783
 			[SaveableField(70)]
 			internal int _rewardGold;
 
-			// Token: 0x04001A80 RID: 6784
 			private PersuasionTask _task;
 
-			// Token: 0x04001A81 RID: 6785
 			private const PersuasionDifficulty Difficulty = PersuasionDifficulty.MediumHard;
 		}
 
-		// Token: 0x02000651 RID: 1617
 		public class MerchantArmyOfPoachersIssueBehaviorTypeDefiner : SaveableTypeDefiner
 		{
-			// Token: 0x06004F75 RID: 20341 RVA: 0x001605CB File Offset: 0x0015E7CB
 			public MerchantArmyOfPoachersIssueBehaviorTypeDefiner()
 				: base(800000)
 			{
 			}
 
-			// Token: 0x06004F76 RID: 20342 RVA: 0x001605D8 File Offset: 0x0015E7D8
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssue), 1, null);

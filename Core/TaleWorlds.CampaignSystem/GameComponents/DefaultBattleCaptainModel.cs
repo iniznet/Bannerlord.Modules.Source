@@ -7,10 +7,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F2 RID: 242
 	public class DefaultBattleCaptainModel : BattleCaptainModel
 	{
-		// Token: 0x06001481 RID: 5249 RVA: 0x0005B56C File Offset: 0x0005976C
 		public override float GetCaptainRatingForTroopClasses(Hero hero, TroopClassFlag flag, out List<PerkObject> compatiblePerks)
 		{
 			float num = 0f;

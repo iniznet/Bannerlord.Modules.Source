@@ -8,14 +8,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDesign
 {
-	// Token: 0x020000E8 RID: 232
 	public class WeaponDesignSelectorVM : ViewModel
 	{
-		// Token: 0x1700072E RID: 1838
-		// (get) Token: 0x0600153F RID: 5439 RVA: 0x0004F343 File Offset: 0x0004D543
 		public WeaponDesign Design { get; }
 
-		// Token: 0x06001540 RID: 5440 RVA: 0x0004F34C File Offset: 0x0004D54C
 		public WeaponDesignSelectorVM(WeaponDesign design, Action<WeaponDesignSelectorVM> onSelection)
 		{
 			this._onSelection = onSelection;
@@ -32,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.Hint = new BasicTooltipViewModel(() => this.GetHint());
 		}
 
-		// Token: 0x06001541 RID: 5441 RVA: 0x0004F434 File Offset: 0x0004D634
 		private List<TooltipProperty> GetHint()
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -47,7 +42,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			return list;
 		}
 
-		// Token: 0x06001542 RID: 5442 RVA: 0x0004F504 File Offset: 0x0004D704
 		public void ExecuteSelect()
 		{
 			Action<WeaponDesignSelectorVM> onSelection = this._onSelection;
@@ -58,16 +52,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			onSelection(this);
 		}
 
-		// Token: 0x06001543 RID: 5443 RVA: 0x0004F517 File Offset: 0x0004D717
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			MBObjectManager.Instance.UnregisterObject(this._generatedVisualItem);
 		}
 
-		// Token: 0x1700072F RID: 1839
-		// (get) Token: 0x06001544 RID: 5444 RVA: 0x0004F52F File Offset: 0x0004D72F
-		// (set) Token: 0x06001545 RID: 5445 RVA: 0x0004F537 File Offset: 0x0004D737
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -85,9 +75,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000730 RID: 1840
-		// (get) Token: 0x06001546 RID: 5446 RVA: 0x0004F555 File Offset: 0x0004D755
-		// (set) Token: 0x06001547 RID: 5447 RVA: 0x0004F55D File Offset: 0x0004D75D
 		[DataSourceProperty]
 		public string Name
 		{
@@ -105,9 +92,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000731 RID: 1841
-		// (get) Token: 0x06001548 RID: 5448 RVA: 0x0004F580 File Offset: 0x0004D780
-		// (set) Token: 0x06001549 RID: 5449 RVA: 0x0004F588 File Offset: 0x0004D788
 		[DataSourceProperty]
 		public string WeaponTypeCode
 		{
@@ -125,9 +109,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000732 RID: 1842
-		// (get) Token: 0x0600154A RID: 5450 RVA: 0x0004F5AB File Offset: 0x0004D7AB
-		// (set) Token: 0x0600154B RID: 5451 RVA: 0x0004F5B3 File Offset: 0x0004D7B3
 		[DataSourceProperty]
 		public ImageIdentifierVM Visual
 		{
@@ -145,9 +126,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000733 RID: 1843
-		// (get) Token: 0x0600154C RID: 5452 RVA: 0x0004F5D1 File Offset: 0x0004D7D1
-		// (set) Token: 0x0600154D RID: 5453 RVA: 0x0004F5D9 File Offset: 0x0004D7D9
 		[DataSourceProperty]
 		public BasicTooltipViewModel Hint
 		{
@@ -165,25 +143,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x040009F0 RID: 2544
 		private Action<WeaponDesignSelectorVM> _onSelection;
 
-		// Token: 0x040009F1 RID: 2545
 		private ItemObject _generatedVisualItem;
 
-		// Token: 0x040009F2 RID: 2546
 		private bool _isSelected;
 
-		// Token: 0x040009F3 RID: 2547
 		private string _name;
 
-		// Token: 0x040009F4 RID: 2548
 		private string _weaponTypeCode;
 
-		// Token: 0x040009F5 RID: 2549
 		private ImageIdentifierVM _visual;
 
-		// Token: 0x040009F6 RID: 2550
 		private BasicTooltipViewModel _hint;
 	}
 }

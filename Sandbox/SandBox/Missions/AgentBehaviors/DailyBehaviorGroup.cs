@@ -7,16 +7,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.AgentBehaviors
 {
-	// Token: 0x0200006F RID: 111
 	public class DailyBehaviorGroup : AgentBehaviorGroup
 	{
-		// Token: 0x060004CE RID: 1230 RVA: 0x00022528 File Offset: 0x00020728
 		public DailyBehaviorGroup(AgentNavigator navigator, Mission mission)
 			: base(navigator, mission)
 		{
 		}
 
-		// Token: 0x060004CF RID: 1231 RVA: 0x00022534 File Offset: 0x00020734
 		public override void Tick(float dt, bool isSimulation)
 		{
 			if (base.ScriptedBehavior != null)
@@ -34,7 +31,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this.TickActiveBehaviors(dt, isSimulation);
 		}
 
-		// Token: 0x060004D0 RID: 1232 RVA: 0x0002259C File Offset: 0x0002079C
 		public override void ConversationTick()
 		{
 			foreach (AgentBehavior agentBehavior in this.Behaviors)
@@ -46,7 +42,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004D1 RID: 1233 RVA: 0x000225F8 File Offset: 0x000207F8
 		private void Think(bool isSimulation)
 		{
 			float num = 0f;
@@ -84,7 +79,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004D2 RID: 1234 RVA: 0x000226D4 File Offset: 0x000208D4
 		private void TickActiveBehaviors(float dt, bool isSimulation)
 		{
 			foreach (AgentBehavior agentBehavior in this.Behaviors)
@@ -96,7 +90,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004D3 RID: 1235 RVA: 0x00022730 File Offset: 0x00020930
 		private void SetCheckBehaviorTimer(float time)
 		{
 			if (this.CheckBehaviorTimer == null)
@@ -107,13 +100,11 @@ namespace SandBox.Missions.AgentBehaviors
 			this.CheckBehaviorTimer.Reset(base.Mission.CurrentTime, time);
 		}
 
-		// Token: 0x060004D4 RID: 1236 RVA: 0x0002276A File Offset: 0x0002096A
 		public override float GetScore(bool isSimulation)
 		{
 			return 0.5f;
 		}
 
-		// Token: 0x060004D5 RID: 1237 RVA: 0x00022774 File Offset: 0x00020974
 		public override void OnAgentRemoved(Agent agent)
 		{
 			foreach (AgentBehavior agentBehavior in this.Behaviors)
@@ -125,7 +116,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004D6 RID: 1238 RVA: 0x000227D0 File Offset: 0x000209D0
 		protected override void OnActivate()
 		{
 			LocationCharacter locationCharacter = CampaignMission.Current.Location.GetLocationCharacter(base.OwnerAgent.Origin);
@@ -138,14 +128,12 @@ namespace SandBox.Missions.AgentBehaviors
 			this.Navigator.SetSpecialItem();
 		}
 
-		// Token: 0x060004D7 RID: 1239 RVA: 0x0002285A File Offset: 0x00020A5A
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
 			this.CheckBehaviorTimer = null;
 		}
 
-		// Token: 0x060004D8 RID: 1240 RVA: 0x00022869 File Offset: 0x00020A69
 		public override void ForceThink(float inSeconds)
 		{
 			if (MathF.Abs(inSeconds) < 1E-45f)

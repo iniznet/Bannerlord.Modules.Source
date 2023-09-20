@@ -14,10 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000383 RID: 899
 	public class ClanVariablesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600349D RID: 13469 RVA: 0x000DFD98 File Offset: 0x000DDF98
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.DailyTickClan));
@@ -29,12 +27,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
 		}
 
-		// Token: 0x0600349E RID: 13470 RVA: 0x000DFE46 File Offset: 0x000DE046
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600349F RID: 13471 RVA: 0x000DFE48 File Offset: 0x000DE048
 		public void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (!settlement.IsHideout)
@@ -56,13 +52,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A0 RID: 13472 RVA: 0x000DFF28 File Offset: 0x000DE128
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			clan.UpdateHomeSettlement(null);
 		}
 
-		// Token: 0x060034A1 RID: 13473 RVA: 0x000DFF34 File Offset: 0x000DE134
 		private void UpdateGovernorsOfClan(Clan clan)
 		{
 			List<Tuple<Town, float>> list = new List<Tuple<Town, float>>();
@@ -124,13 +118,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A2 RID: 13474 RVA: 0x000E021C File Offset: 0x000DE41C
 		private bool IsTeleportable(Hero h)
 		{
 			return h.Clan != Clan.PlayerClan && !h.IsTemplate && h.IsAlive && !h.IsHumanPlayerCharacter && !h.IsPartyLeader && !h.IsPrisoner;
 		}
 
-		// Token: 0x060034A3 RID: 13475 RVA: 0x000E0258 File Offset: 0x000DE458
 		public void OnNewGameCreated(CampaignGameStarter starter)
 		{
 			foreach (Clan clan in Clan.All)
@@ -156,7 +148,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A4 RID: 13476 RVA: 0x000E0394 File Offset: 0x000DE594
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 17949))
@@ -213,7 +204,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A5 RID: 13477 RVA: 0x000E0634 File Offset: 0x000DE834
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949))
@@ -244,7 +234,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A6 RID: 13478 RVA: 0x000E0780 File Offset: 0x000DE980
 		private void MakeClanFinancialEvaluation(Clan clan)
 		{
 			int num = (clan.IsMinorFaction ? 10000 : 30000);
@@ -289,7 +278,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A7 RID: 13479 RVA: 0x000E0948 File Offset: 0x000DEB48
 		private void DailyTickClan(Clan clan)
 		{
 			if (!clan.IsNeutralClan && !Clan.BanditFactions.Contains(clan))
@@ -345,7 +333,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A8 RID: 13480 RVA: 0x000E0C18 File Offset: 0x000DEE18
 		private void UpdateClanSettlementAutoRecruitment(Clan clan)
 		{
 			if (clan.MapFaction != null && clan.MapFaction.IsKingdomFaction)
@@ -360,7 +347,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034A9 RID: 13481 RVA: 0x000E0CB8 File Offset: 0x000DEEB8
 		private void UpdateClanSettlementsPaymentLimit(Clan clan)
 		{
 			float averageWage = Campaign.Current.AverageWage;
@@ -379,7 +365,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034AA RID: 13482 RVA: 0x000E0DD0 File Offset: 0x000DEFD0
 		private void DailyTickHero(Hero hero)
 		{
 			if (hero.IsActive && hero.IsNotable)
@@ -388,7 +373,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034AB RID: 13483 RVA: 0x000E0E00 File Offset: 0x000DF000
 		private void DetermineBasicTroopsForMinorFactions()
 		{
 			foreach (Clan clan in Clan.All)

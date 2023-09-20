@@ -10,10 +10,8 @@ using TaleWorlds.CampaignSystem.Siege;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200042D RID: 1069
 	public static class ChangeKingdomAction
 	{
-		// Token: 0x06003EA0 RID: 16032 RVA: 0x0012B2F0 File Offset: 0x001294F0
 		private static void ApplyInternal(Clan clan, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, int awardMultiplier = 0, bool byRebellion = false, bool showNotification = true)
 		{
 			Kingdom kingdom = clan.Kingdom;
@@ -136,61 +134,51 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003EA1 RID: 16033 RVA: 0x0012B728 File Offset: 0x00129928
 		public static void ApplyByJoinToKingdom(Clan clan, Kingdom newKingdom, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail.JoinKingdom, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA2 RID: 16034 RVA: 0x0012B735 File Offset: 0x00129935
 		public static void ApplyByJoinToKingdomByDefection(Clan clan, Kingdom newKingdom, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail.JoinKingdomByDefection, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA3 RID: 16035 RVA: 0x0012B742 File Offset: 0x00129942
 		public static void ApplyByCreateKingdom(Clan clan, Kingdom newKingdom, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail.CreateKingdom, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA4 RID: 16036 RVA: 0x0012B74F File Offset: 0x0012994F
 		public static void ApplyByLeaveKingdom(Clan clan, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA5 RID: 16037 RVA: 0x0012B75C File Offset: 0x0012995C
 		public static void ApplyByLeaveWithRebellionAgainstKingdom(Clan clan, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA6 RID: 16038 RVA: 0x0012B769 File Offset: 0x00129969
 		public static void ApplyByJoinFactionAsMercenary(Clan clan, Kingdom newKingdom, int awardMultiplier = 50, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail.JoinAsMercenary, awardMultiplier, false, showNotification);
 		}
 
-		// Token: 0x06003EA7 RID: 16039 RVA: 0x0012B776 File Offset: 0x00129976
 		public static void ApplyByLeaveKingdomAsMercenary(Clan mercenaryClan, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(mercenaryClan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA8 RID: 16040 RVA: 0x0012B783 File Offset: 0x00129983
 		public static void ApplyByLeaveKingdomByClanDestruction(Clan clan, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByClanDestruction, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EA9 RID: 16041 RVA: 0x0012B790 File Offset: 0x00129990
 		public static void ApplyByLeaveKingdomAsMercenaryWithKingDecision(Clan mercenaryClan, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(mercenaryClan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary, 0, false, showNotification);
 		}
 
-		// Token: 0x06003EAA RID: 16042 RVA: 0x0012B7A0 File Offset: 0x001299A0
 		private static void CheckIfPartyIconIsDirty(Clan clan, Kingdom oldKingdom)
 		{
 			IFaction faction;
@@ -218,7 +206,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003EAB RID: 16043 RVA: 0x0012B8EC File Offset: 0x00129AEC
 		private static void CheckEventsAndHandleMenu(bool thereWasAPlayerSiege, bool thereWasAPlayerMapEvent, bool thereWasAPlayerEncounter, ChangeKingdomAction.ChangeKingdomActionDetail detail)
 		{
 			if ((thereWasAPlayerSiege && PlayerSiege.PlayerSiegeEvent == null) || (thereWasAPlayerMapEvent && MobileParty.MainParty.MapEvent == null) || (thereWasAPlayerEncounter && PlayerEncounter.Current == null))
@@ -235,39 +222,25 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x040012BE RID: 4798
 		public const float PotentialSettlementsPerNobleEffect = 0.2f;
 
-		// Token: 0x040012BF RID: 4799
 		public const float NewGainedFiefsValueForKingdomConstant = 0.1f;
 
-		// Token: 0x040012C0 RID: 4800
 		public const float LordsUnitStrengthValue = 20f;
 
-		// Token: 0x040012C1 RID: 4801
 		public const float MercenaryUnitStrengthValue = 5f;
 
-		// Token: 0x040012C2 RID: 4802
 		public const float MinimumNeededGoldForRecruitingMercenaries = 20000f;
 
-		// Token: 0x02000756 RID: 1878
 		public enum ChangeKingdomActionDetail
 		{
-			// Token: 0x04001E17 RID: 7703
 			JoinAsMercenary,
-			// Token: 0x04001E18 RID: 7704
 			JoinKingdom,
-			// Token: 0x04001E19 RID: 7705
 			JoinKingdomByDefection,
-			// Token: 0x04001E1A RID: 7706
 			LeaveKingdom,
-			// Token: 0x04001E1B RID: 7707
 			LeaveWithRebellion,
-			// Token: 0x04001E1C RID: 7708
 			LeaveAsMercenary,
-			// Token: 0x04001E1D RID: 7709
 			LeaveByClanDestruction,
-			// Token: 0x04001E1E RID: 7710
 			CreateKingdom
 		}
 	}

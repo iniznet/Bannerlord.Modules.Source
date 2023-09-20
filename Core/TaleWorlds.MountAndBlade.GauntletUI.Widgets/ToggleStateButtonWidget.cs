@@ -4,16 +4,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x0200003B RID: 59
 	public class ToggleStateButtonWidget : ButtonWidget
 	{
-		// Token: 0x0600032A RID: 810 RVA: 0x0000A248 File Offset: 0x00008448
 		public ToggleStateButtonWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x0600032B RID: 811 RVA: 0x0000A260 File Offset: 0x00008460
 		protected override void HandleClick()
 		{
 			foreach (Action<Widget> action in this.ClickEventHandlers)
@@ -47,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			this._lastClickTime = base.Context.EventManager.Time;
 		}
 
-		// Token: 0x0600032C RID: 812 RVA: 0x0000A39C File Offset: 0x0000859C
 		protected override void RefreshState()
 		{
 			base.RefreshState();
@@ -61,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x0600032D RID: 813 RVA: 0x0000A3CC File Offset: 0x000085CC
 		private void UpdateChildrenStatesRecursively(Widget parent)
 		{
 			parent.SetState(base.CurrentState);
@@ -74,9 +69,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700011C RID: 284
-		// (get) Token: 0x0600032E RID: 814 RVA: 0x0000A434 File Offset: 0x00008634
-		// (set) Token: 0x0600032F RID: 815 RVA: 0x0000A43C File Offset: 0x0000863C
 		[Editor(false)]
 		public Widget WidgetToClose
 		{
@@ -98,9 +90,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700011D RID: 285
-		// (get) Token: 0x06000330 RID: 816 RVA: 0x0000A473 File Offset: 0x00008673
-		// (set) Token: 0x06000331 RID: 817 RVA: 0x0000A47B File Offset: 0x0000867B
 		[Editor(false)]
 		public bool AllowSwitchOff
 		{
@@ -118,9 +107,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700011E RID: 286
-		// (get) Token: 0x06000332 RID: 818 RVA: 0x0000A499 File Offset: 0x00008699
-		// (set) Token: 0x06000333 RID: 819 RVA: 0x0000A4A1 File Offset: 0x000086A1
 		[Editor(false)]
 		public bool NotifyParentForSelection
 		{
@@ -138,13 +124,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x0400014D RID: 333
 		private Widget _widgetToClose;
 
-		// Token: 0x0400014E RID: 334
 		private bool _allowSwitchOff = true;
 
-		// Token: 0x0400014F RID: 335
 		private bool _notifyParentForSelection = true;
 	}
 }

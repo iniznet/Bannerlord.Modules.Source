@@ -5,20 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.Scripts
 {
-	// Token: 0x0200003B RID: 59
 	public class CharacterDebugSpawner : ScriptComponentBehavior
 	{
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060002AD RID: 685 RVA: 0x00017E67 File Offset: 0x00016067
-		// (set) Token: 0x060002AE RID: 686 RVA: 0x00017E6F File Offset: 0x0001606F
 		public uint ClothColor1 { get; private set; }
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x060002AF RID: 687 RVA: 0x00017E78 File Offset: 0x00016078
-		// (set) Token: 0x060002B0 RID: 688 RVA: 0x00017E80 File Offset: 0x00016080
 		public uint ClothColor2 { get; private set; }
 
-		// Token: 0x060002B1 RID: 689 RVA: 0x00017E89 File Offset: 0x00016089
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -26,7 +18,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.ClothColor2 = uint.MaxValue;
 		}
 
-		// Token: 0x060002B2 RID: 690 RVA: 0x00017E9F File Offset: 0x0001609F
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -37,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			CharacterDebugSpawner._editorGameManagerRefCount++;
 		}
 
-		// Token: 0x060002B3 RID: 691 RVA: 0x00017EC4 File Offset: 0x000160C4
 		protected override void OnEditorTick(float dt)
 		{
 			if (!CharacterDebugSpawner.isFinished && CharacterDebugSpawner.gameTickFrameNo != Utilities.EngineFrameNo)
@@ -76,7 +66,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002B4 RID: 692 RVA: 0x000180A5 File Offset: 0x000162A5
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -89,7 +78,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002B5 RID: 693 RVA: 0x000180D4 File Offset: 0x000162D4
 		protected override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -120,14 +108,12 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			agentVisuals.SetAction(this.PoseAction, 0f, true);
 		}
 
-		// Token: 0x060002B6 RID: 694 RVA: 0x000181CB File Offset: 0x000163CB
 		public void SetClothColors(uint color1, uint color2)
 		{
 			this.ClothColor1 = color1;
 			this.ClothColor2 = color2;
 		}
 
-		// Token: 0x060002B7 RID: 695 RVA: 0x000181DC File Offset: 0x000163DC
 		public void SpawnCharacter()
 		{
 			BasicCharacterObject @object = Game.Current.ObjectManager.GetObject<BasicCharacterObject>(this.LordName);
@@ -138,7 +124,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002B8 RID: 696 RVA: 0x00018210 File Offset: 0x00016410
 		public void Reset()
 		{
 			AgentVisuals agentVisuals = this._agentVisuals;
@@ -149,7 +134,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			agentVisuals.Reset();
 		}
 
-		// Token: 0x060002B9 RID: 697 RVA: 0x00018224 File Offset: 0x00016424
 		public void InitWithCharacter(CharacterCode characterCode)
 		{
 			GameEntity gameEntity = GameEntity.CreateEmpty(base.GameEntity.Scene, false);
@@ -173,7 +157,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this._agentVisuals.GetVisuals().GetSkeleton().TickAnimationsAndForceUpdate(0.1f, this._agentVisuals.GetVisuals().GetGlobalFrame(), true);
 		}
 
-		// Token: 0x060002BA RID: 698 RVA: 0x00018370 File Offset: 0x00016570
 		public void WieldWeapon(CharacterCode characterCode)
 		{
 			if (this.IsWeaponWielded)
@@ -205,7 +188,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x040001CA RID: 458
 		private readonly ActionIndexCache[] _actionIndices = new ActionIndexCache[]
 		{
 			ActionIndexCache.Create("act_start_conversation"),
@@ -307,55 +289,38 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			ActionIndexCache.Create("act_sit_conversation")
 		};
 
-		// Token: 0x040001CB RID: 459
 		private readonly ActionIndexCache act_inventory_idle_start = ActionIndexCache.Create("act_inventory_idle_start");
 
-		// Token: 0x040001CC RID: 460
 		public readonly ActionIndexCache PoseAction = ActionIndexCache.Create("act_walk_idle_unarmed");
 
-		// Token: 0x040001CD RID: 461
 		public string LordName = "main_hero";
 
-		// Token: 0x040001CE RID: 462
 		public bool IsWeaponWielded;
 
-		// Token: 0x040001D1 RID: 465
 		private Vec2 MovementDirection;
 
-		// Token: 0x040001D2 RID: 466
 		private float MovementSpeed;
 
-		// Token: 0x040001D3 RID: 467
 		private float PhaseDiff;
 
-		// Token: 0x040001D4 RID: 468
 		private float Time;
 
-		// Token: 0x040001D5 RID: 469
 		private float ActionSetTimer;
 
-		// Token: 0x040001D6 RID: 470
 		private float ActionChangeInterval;
 
-		// Token: 0x040001D7 RID: 471
 		private float MovementDirectionChange;
 
-		// Token: 0x040001D8 RID: 472
 		private static MBGameManager _editorGameManager = null;
 
-		// Token: 0x040001D9 RID: 473
 		private static int _editorGameManagerRefCount = 0;
 
-		// Token: 0x040001DA RID: 474
 		private static bool isFinished = false;
 
-		// Token: 0x040001DB RID: 475
 		private static int gameTickFrameNo = -1;
 
-		// Token: 0x040001DC RID: 476
 		private bool CreateFaceImmediately = true;
 
-		// Token: 0x040001DD RID: 477
 		private AgentVisuals _agentVisuals;
 	}
 }

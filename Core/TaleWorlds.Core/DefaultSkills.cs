@@ -3,11 +3,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000051 RID: 81
 	public class DefaultSkills
 	{
-		// Token: 0x17000228 RID: 552
-		// (get) Token: 0x060005F9 RID: 1529 RVA: 0x00015F87 File Offset: 0x00014187
 		private static DefaultSkills Instance
 		{
 			get
@@ -16,8 +13,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000229 RID: 553
-		// (get) Token: 0x060005FA RID: 1530 RVA: 0x00015F93 File Offset: 0x00014193
 		public static SkillObject OneHanded
 		{
 			get
@@ -26,8 +21,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022A RID: 554
-		// (get) Token: 0x060005FB RID: 1531 RVA: 0x00015F9F File Offset: 0x0001419F
 		public static SkillObject TwoHanded
 		{
 			get
@@ -36,8 +29,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022B RID: 555
-		// (get) Token: 0x060005FC RID: 1532 RVA: 0x00015FAB File Offset: 0x000141AB
 		public static SkillObject Polearm
 		{
 			get
@@ -46,8 +37,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022C RID: 556
-		// (get) Token: 0x060005FD RID: 1533 RVA: 0x00015FB7 File Offset: 0x000141B7
 		public static SkillObject Bow
 		{
 			get
@@ -56,8 +45,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022D RID: 557
-		// (get) Token: 0x060005FE RID: 1534 RVA: 0x00015FC3 File Offset: 0x000141C3
 		public static SkillObject Crossbow
 		{
 			get
@@ -66,8 +53,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022E RID: 558
-		// (get) Token: 0x060005FF RID: 1535 RVA: 0x00015FCF File Offset: 0x000141CF
 		public static SkillObject Throwing
 		{
 			get
@@ -76,8 +61,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700022F RID: 559
-		// (get) Token: 0x06000600 RID: 1536 RVA: 0x00015FDB File Offset: 0x000141DB
 		public static SkillObject Riding
 		{
 			get
@@ -86,8 +69,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000230 RID: 560
-		// (get) Token: 0x06000601 RID: 1537 RVA: 0x00015FE7 File Offset: 0x000141E7
 		public static SkillObject Athletics
 		{
 			get
@@ -96,8 +77,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000231 RID: 561
-		// (get) Token: 0x06000602 RID: 1538 RVA: 0x00015FF3 File Offset: 0x000141F3
 		public static SkillObject Crafting
 		{
 			get
@@ -106,8 +85,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000232 RID: 562
-		// (get) Token: 0x06000603 RID: 1539 RVA: 0x00015FFF File Offset: 0x000141FF
 		public static SkillObject Tactics
 		{
 			get
@@ -116,8 +93,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000233 RID: 563
-		// (get) Token: 0x06000604 RID: 1540 RVA: 0x0001600B File Offset: 0x0001420B
 		public static SkillObject Scouting
 		{
 			get
@@ -126,8 +101,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000234 RID: 564
-		// (get) Token: 0x06000605 RID: 1541 RVA: 0x00016017 File Offset: 0x00014217
 		public static SkillObject Roguery
 		{
 			get
@@ -136,8 +109,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000235 RID: 565
-		// (get) Token: 0x06000606 RID: 1542 RVA: 0x00016023 File Offset: 0x00014223
 		public static SkillObject Charm
 		{
 			get
@@ -146,8 +117,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000236 RID: 566
-		// (get) Token: 0x06000607 RID: 1543 RVA: 0x0001602F File Offset: 0x0001422F
 		public static SkillObject Leadership
 		{
 			get
@@ -156,8 +125,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000237 RID: 567
-		// (get) Token: 0x06000608 RID: 1544 RVA: 0x0001603B File Offset: 0x0001423B
 		public static SkillObject Trade
 		{
 			get
@@ -166,8 +133,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000238 RID: 568
-		// (get) Token: 0x06000609 RID: 1545 RVA: 0x00016047 File Offset: 0x00014247
 		public static SkillObject Steward
 		{
 			get
@@ -176,8 +141,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000239 RID: 569
-		// (get) Token: 0x0600060A RID: 1546 RVA: 0x00016053 File Offset: 0x00014253
 		public static SkillObject Medicine
 		{
 			get
@@ -186,8 +149,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700023A RID: 570
-		// (get) Token: 0x0600060B RID: 1547 RVA: 0x0001605F File Offset: 0x0001425F
 		public static SkillObject Engineering
 		{
 			get
@@ -196,13 +157,11 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x0600060C RID: 1548 RVA: 0x0001606B File Offset: 0x0001426B
 		private SkillObject Create(string stringId)
 		{
 			return Game.Current.ObjectManager.RegisterPresumedObject<SkillObject>(new SkillObject(stringId));
 		}
 
-		// Token: 0x0600060D RID: 1549 RVA: 0x00016084 File Offset: 0x00014284
 		private void InitializeAll()
 		{
 			this._skillOneHanded.Initialize(new TextObject("{=PiHpR4QL}One Handed", null), new TextObject("{=yEkSSqIm}Mastery of fighting with one-handed weapons either with a shield or without.", null), SkillObject.SkillTypeEnum.Personal).SetAttribute(DefaultCharacterAttributes.Vigor);
@@ -225,13 +184,11 @@ namespace TaleWorlds.Core
 			this._skillEngineering.Initialize(new TextObject("{=engineeringskill}Engineering", null), new TextObject("{=hbaMnpVR}Knowledge of how to make things that can withstand powerful forces without collapsing. Useful for building both structures and the devices that knock them down.", null), SkillObject.SkillTypeEnum.Party).SetAttribute(DefaultCharacterAttributes.Intelligence);
 		}
 
-		// Token: 0x0600060E RID: 1550 RVA: 0x000163A9 File Offset: 0x000145A9
 		public DefaultSkills()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x0600060F RID: 1551 RVA: 0x000163B8 File Offset: 0x000145B8
 		private void RegisterAll()
 		{
 			this._skillOneHanded = this.Create("OneHanded");
@@ -255,61 +212,42 @@ namespace TaleWorlds.Core
 			this.InitializeAll();
 		}
 
-		// Token: 0x04000301 RID: 769
 		public const int MaxAssumedValue = 250;
 
-		// Token: 0x04000302 RID: 770
 		private SkillObject _skillEngineering;
 
-		// Token: 0x04000303 RID: 771
 		private SkillObject _skillMedicine;
 
-		// Token: 0x04000304 RID: 772
 		private SkillObject _skillLeadership;
 
-		// Token: 0x04000305 RID: 773
 		private SkillObject _skillSteward;
 
-		// Token: 0x04000306 RID: 774
 		private SkillObject _skillTrade;
 
-		// Token: 0x04000307 RID: 775
 		private SkillObject _skillCharm;
 
-		// Token: 0x04000308 RID: 776
 		private SkillObject _skillRoguery;
 
-		// Token: 0x04000309 RID: 777
 		private SkillObject _skillScouting;
 
-		// Token: 0x0400030A RID: 778
 		private SkillObject _skillTactics;
 
-		// Token: 0x0400030B RID: 779
 		private SkillObject _skillCrafting;
 
-		// Token: 0x0400030C RID: 780
 		private SkillObject _skillAthletics;
 
-		// Token: 0x0400030D RID: 781
 		private SkillObject _skillRiding;
 
-		// Token: 0x0400030E RID: 782
 		private SkillObject _skillThrowing;
 
-		// Token: 0x0400030F RID: 783
 		private SkillObject _skillCrossbow;
 
-		// Token: 0x04000310 RID: 784
 		private SkillObject _skillBow;
 
-		// Token: 0x04000311 RID: 785
 		private SkillObject _skillPolearm;
 
-		// Token: 0x04000312 RID: 786
 		private SkillObject _skillTwoHanded;
 
-		// Token: 0x04000313 RID: 787
 		private SkillObject _skillOneHanded;
 	}
 }

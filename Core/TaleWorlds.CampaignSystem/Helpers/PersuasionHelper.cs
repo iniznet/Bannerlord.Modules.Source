@@ -5,16 +5,13 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x0200001B RID: 27
 	public static class PersuasionHelper
 	{
-		// Token: 0x060000EE RID: 238 RVA: 0x0000C1AD File Offset: 0x0000A3AD
 		public static TextObject ShowSuccess(PersuasionOptionArgs optionArgs, bool showToPlayer = true)
 		{
 			return TextObject.Empty;
 		}
 
-		// Token: 0x060000EF RID: 239 RVA: 0x0000C1B4 File Offset: 0x0000A3B4
 		public static TextObject GetDefaultPersuasionOptionReaction(PersuasionOptionResult optionResult)
 		{
 			TextObject textObject;

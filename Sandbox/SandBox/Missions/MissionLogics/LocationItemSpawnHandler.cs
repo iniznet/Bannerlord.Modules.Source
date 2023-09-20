@@ -9,10 +9,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000041 RID: 65
 	public class LocationItemSpawnHandler : MissionLogic
 	{
-		// Token: 0x06000317 RID: 791 RVA: 0x0001476C File Offset: 0x0001296C
 		public override void AfterStart()
 		{
 			if (CampaignMission.Current.Location != null && CampaignMission.Current.Location.SpecialItems.Count != 0)
@@ -21,7 +19,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x00014798 File Offset: 0x00012998
 		private void SpawnSpecialItems()
 		{
 			this._spawnedEntities = new Dictionary<ItemObject, GameEntity>();
@@ -40,7 +37,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x0001485C File Offset: 0x00012A5C
 		public override void OnEntityRemoved(GameEntity entity)
 		{
 			if (this._spawnedEntities != null)
@@ -55,7 +51,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x04000198 RID: 408
 		private Dictionary<ItemObject, GameEntity> _spawnedEntities;
 	}
 }

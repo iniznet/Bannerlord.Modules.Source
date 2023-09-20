@@ -8,21 +8,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000389 RID: 905
 	public class DesertionCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003546 RID: 13638 RVA: 0x000E5C3A File Offset: 0x000E3E3A
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.DailyTickParty));
 		}
 
-		// Token: 0x06003547 RID: 13639 RVA: 0x000E5C53 File Offset: 0x000E3E53
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003548 RID: 13640 RVA: 0x000E5C58 File Offset: 0x000E3E58
 		public void DailyTickParty(MobileParty mobileParty)
 		{
 			if (!Campaign.Current.DesertionEnabled)
@@ -48,7 +44,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003549 RID: 13641 RVA: 0x000E5CF8 File Offset: 0x000E3EF8
 		private void PartiesCheckForTroopDesertionEffectiveMorale(MobileParty party, int stackNo, int desertIfMoraleIsLessThanValue, out int numberOfDeserters, out int numberOfWoundedDeserters)
 		{
 			int num = 0;
@@ -77,7 +72,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			numberOfWoundedDeserters = num2;
 		}
 
-		// Token: 0x0600354A RID: 13642 RVA: 0x000E5DB8 File Offset: 0x000E3FB8
 		private void PartiesCheckDesertionDueToPartySizeExceedsPaymentRatio(MobileParty mobileParty, ref TroopRoster desertedTroopList)
 		{
 			int partySizeLimit = mobileParty.Party.PartySizeLimit;
@@ -141,7 +135,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600354B RID: 13643 RVA: 0x000E5FD0 File Offset: 0x000E41D0
 		private bool PartiesCheckDesertionDueToMorale(MobileParty party, ref TroopRoster desertedTroopList)
 		{
 			int moraleThresholdForTroopDesertion = Campaign.Current.Models.PartyDesertionModel.GetMoraleThresholdForTroopDesertion(party);
@@ -170,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x04001145 RID: 4421
 		private int _numberOfDesertersFromLordParty;
 	}
 }

@@ -15,11 +15,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Conversation.MissionLogics
 {
-	// Token: 0x0200008F RID: 143
 	public class ConversationMissionLogic : MissionLogic
 	{
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x060005E4 RID: 1508 RVA: 0x0002CADE File Offset: 0x0002ACDE
 		private bool IsReadyForConversation
 		{
 			get
@@ -28,7 +25,6 @@ namespace SandBox.Conversation.MissionLogics
 			}
 		}
 
-		// Token: 0x060005E5 RID: 1509 RVA: 0x0002CAFB File Offset: 0x0002ACFB
 		public ConversationMissionLogic(ConversationCharacterData playerCharacterData, ConversationCharacterData otherCharacterData)
 		{
 			this._playerConversationData = playerCharacterData;
@@ -38,7 +34,6 @@ namespace SandBox.Conversation.MissionLogics
 			this._addBloodToAgents = new List<Agent>();
 		}
 
-		// Token: 0x060005E6 RID: 1510 RVA: 0x0002CB34 File Offset: 0x0002AD34
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -103,7 +98,6 @@ namespace SandBox.Conversation.MissionLogics
 			this.SpawnOtherSide(this._otherSideConversationData, matrixFrame2, flag, !base.Mission.PlayerTeam.IsDefender);
 		}
 
-		// Token: 0x060005E7 RID: 1511 RVA: 0x0002CD20 File Offset: 0x0002AF20
 		private void SpawnPlayer(ConversationCharacterData playerConversationData, MatrixFrame initialFrame)
 		{
 			MatrixFrame matrixFrame;
@@ -112,7 +106,6 @@ namespace SandBox.Conversation.MissionLogics
 			this.SpawnCharacter(CharacterObject.PlayerCharacter, playerConversationData, matrixFrame, ConversationMissionLogic.act_conversation_normal_loop);
 		}
 
-		// Token: 0x060005E8 RID: 1512 RVA: 0x0002CD60 File Offset: 0x0002AF60
 		private void SpawnOtherSide(ConversationCharacterData characterData, MatrixFrame initialFrame, bool spawnWithHorse, bool isDefenderSide)
 		{
 			MatrixFrame matrixFrame;
@@ -185,7 +178,6 @@ namespace SandBox.Conversation.MissionLogics
 			}
 		}
 
-		// Token: 0x060005E9 RID: 1513 RVA: 0x0002CFF8 File Offset: 0x0002B1F8
 		private MatrixFrame GetDefenderSideSpawnFrame()
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -201,7 +193,6 @@ namespace SandBox.Conversation.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x060005EA RID: 1514 RVA: 0x0002D06C File Offset: 0x0002B26C
 		private MatrixFrame GetAttackerSideSpawnFrame(bool hasHorse)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -222,7 +213,6 @@ namespace SandBox.Conversation.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x060005EB RID: 1515 RVA: 0x0002D0FC File Offset: 0x0002B2FC
 		private MatrixFrame GetPlayerSideSpawnFrameInSettlement()
 		{
 			GameEntity gameEntity;
@@ -236,7 +226,6 @@ namespace SandBox.Conversation.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x060005EC RID: 1516 RVA: 0x0002D174 File Offset: 0x0002B374
 		private MatrixFrame GetOtherSideSpawnFrameInSettlement(MatrixFrame playerFrame)
 		{
 			MatrixFrame matrixFrame = playerFrame;
@@ -248,21 +237,18 @@ namespace SandBox.Conversation.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x060005ED RID: 1517 RVA: 0x0002D1D1 File Offset: 0x0002B3D1
 		public override void OnRenderingStarted()
 		{
 			this._isRenderingStarted = true;
 			Debug.Print("\n ConversationMissionLogic::OnRenderingStarted\n", 0, 7, 64UL);
 		}
 
-		// Token: 0x060005EE RID: 1518 RVA: 0x0002D1E9 File Offset: 0x0002B3E9
 		private void InitializeAfterCreation(Agent conversationPartnerAgent, PartyBase conversationPartnerParty)
 		{
 			Campaign.Current.ConversationManager.SetupAndStartMapConversation((conversationPartnerParty != null) ? conversationPartnerParty.MobileParty : null, conversationPartnerAgent, Mission.Current.MainAgentServer);
 			base.Mission.SetMissionMode(1, true);
 		}
 
-		// Token: 0x060005EF RID: 1519 RVA: 0x0002D220 File Offset: 0x0002B420
 		public override void OnMissionTick(float dt)
 		{
 			if (this._addBloodToAgents.Count > 0)
@@ -297,7 +283,6 @@ namespace SandBox.Conversation.MissionLogics
 			}
 		}
 
-		// Token: 0x060005F0 RID: 1520 RVA: 0x0002D34C File Offset: 0x0002B54C
 		private void SpawnBodyguards(bool isDefenderSide)
 		{
 			int num = 2;
@@ -370,7 +355,6 @@ namespace SandBox.Conversation.MissionLogics
 			goto IL_D4;
 		}
 
-		// Token: 0x060005F1 RID: 1521 RVA: 0x0002D5E4 File Offset: 0x0002B7E4
 		private void SpawnCharacter(CharacterObject character, ConversationCharacterData characterData, MatrixFrame initialFrame, ActionIndexCache conversationAction)
 		{
 			Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(character.Race, "_settlement");
@@ -431,7 +415,6 @@ namespace SandBox.Conversation.MissionLogics
 			}
 		}
 
-		// Token: 0x060005F2 RID: 1522 RVA: 0x0002D81C File Offset: 0x0002BA1C
 		private MatrixFrame GetBodyguardSpawnFrame(bool spawnWithHorse, bool isDefenderSide)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -472,47 +455,34 @@ namespace SandBox.Conversation.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x060005F3 RID: 1523 RVA: 0x0002D950 File Offset: 0x0002BB50
 		protected override void OnEndMission()
 		{
 			this._conversationSet = null;
 			base.Mission.CameraIsFirstPerson = this._realCameraController;
 		}
 
-		// Token: 0x040002BB RID: 699
 		private static readonly ActionIndexCache act_conversation_normal_loop = ActionIndexCache.Create("act_conversation_normal_loop");
 
-		// Token: 0x040002BC RID: 700
 		private ConversationCharacterData _otherSideConversationData;
 
-		// Token: 0x040002BD RID: 701
 		private ConversationCharacterData _playerConversationData;
 
-		// Token: 0x040002BE RID: 702
 		private readonly List<Agent> _addBloodToAgents;
 
-		// Token: 0x040002BF RID: 703
 		private Agent _curConversationPartnerAgent;
 
-		// Token: 0x040002C0 RID: 704
 		private bool _isRenderingStarted;
 
-		// Token: 0x040002C1 RID: 705
 		private bool _conversationStarted;
 
-		// Token: 0x040002C2 RID: 706
 		private bool _isCivilianEquipmentRequiredForLeader;
 
-		// Token: 0x040002C3 RID: 707
 		private bool _isCivilianEquipmentRequiredForBodyGuards;
 
-		// Token: 0x040002C4 RID: 708
 		private List<GameEntity> _usedSpawnPoints;
 
-		// Token: 0x040002C5 RID: 709
 		private GameEntity _conversationSet;
 
-		// Token: 0x040002C6 RID: 710
 		private bool _realCameraController;
 	}
 }

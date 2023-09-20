@@ -11,15 +11,10 @@ using TaleWorlds.MountAndBlade.Launcher.Library.UserDatas;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x02000010 RID: 16
 	public class LauncherModsDLLManager
 	{
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000080 RID: 128 RVA: 0x00003AB8 File Offset: 0x00001CB8
-		// (set) Token: 0x06000081 RID: 129 RVA: 0x00003AC0 File Offset: 0x00001CC0
 		public bool ShouldUpdateSaveData { get; private set; }
 
-		// Token: 0x06000082 RID: 130 RVA: 0x00003ACC File Offset: 0x00001CCC
 		public LauncherModsDLLManager(UserData userData, List<SubModuleInfo> allSubmodules)
 		{
 			Debug.Print("Init LauncherModsDLLManager", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.ShouldUpdateSaveData = list.Count > 0;
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x00003C34 File Offset: 0x00001E34
 		private void UpdateUserDataLatestValues()
 		{
 			foreach (KeyValuePair<SubModuleInfo, LauncherDLLData> keyValuePair in this._subModulesWithDLLs)
@@ -72,7 +66,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x00003CEC File Offset: 0x00001EEC
 		private void VerifySubModules(List<SubModuleInfo> subModulesToVerify)
 		{
 			if (subModulesToVerify.Count > 0)
@@ -100,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x00003E7C File Offset: 0x0000207C
 		private ResultData GetDLLVerifyReport(string[] dlls)
 		{
 			ResultData resultData;
@@ -174,7 +166,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return resultData;
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00004144 File Offset: 0x00002344
 		public LauncherDLLData GetSubModuleVerifyData(SubModuleInfo subModuleInfo)
 		{
 			if (this._subModulesWithDLLs.ContainsKey(subModuleInfo))
@@ -184,10 +175,8 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return null;
 		}
 
-		// Token: 0x04000046 RID: 70
 		private Dictionary<SubModuleInfo, LauncherDLLData> _subModulesWithDLLs;
 
-		// Token: 0x04000047 RID: 71
 		private UserData _userData;
 	}
 }

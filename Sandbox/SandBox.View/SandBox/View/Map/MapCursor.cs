@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000045 RID: 69
 	public class MapCursor
 	{
-		// Token: 0x06000247 RID: 583 RVA: 0x000152A8 File Offset: 0x000134A8
 		public void Initialize(MapScreen parentMapScreen)
 		{
 			this._targetCircleRotationStartTime = 0f;
@@ -34,7 +32,6 @@ namespace SandBox.View.Map
 			this._mapCursorDecal.SetFrame(frame);
 		}
 
-		// Token: 0x06000248 RID: 584 RVA: 0x00015398 File Offset: 0x00013598
 		public void BeforeTick(float dt)
 		{
 			SceneLayer sceneLayer = this._mapScreen.SceneLayer;
@@ -87,7 +84,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000249 RID: 585 RVA: 0x000156A4 File Offset: 0x000138A4
 		public void SetVisible(bool value)
 		{
 			if (value)
@@ -121,19 +117,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600024A RID: 586 RVA: 0x000157B3 File Offset: 0x000139B3
 		protected internal void OnMapTerrainClick()
 		{
 			this._targetCircleRotationStartTime = MBCommon.GetApplicationTime();
 		}
 
-		// Token: 0x0600024B RID: 587 RVA: 0x000157C0 File Offset: 0x000139C0
 		protected internal void OnAnotherEntityHighlighted()
 		{
 			this._anotherEntityHiglighted = true;
 		}
 
-		// Token: 0x0600024C RID: 588 RVA: 0x000157CC File Offset: 0x000139CC
 		protected internal void SetAlpha(float alpha)
 		{
 			Color color = Color.FromUint(this._mapCursorDecal.GetFactor1());
@@ -142,7 +135,6 @@ namespace SandBox.View.Map
 			this._mapCursorDecal.SetFactor1(color2.ToUnsignedInteger());
 		}
 
-		// Token: 0x0600024D RID: 589 RVA: 0x00015818 File Offset: 0x00013A18
 		private int GetCircleIndex()
 		{
 			int num = (int)((MBCommon.GetApplicationTime() - this._targetCircleRotationStartTime) / 0.033f);
@@ -158,52 +150,36 @@ namespace SandBox.View.Map
 			return num2;
 		}
 
-		// Token: 0x04000138 RID: 312
 		private const string GameCursorValidDecalMaterialName = "map_cursor_valid_decal";
 
-		// Token: 0x04000139 RID: 313
 		private const string GameCursorInvalidDecalMaterialName = "map_cursor_invalid_decal";
 
-		// Token: 0x0400013A RID: 314
 		private const float CursorDecalBaseScale = 0.38f;
 
-		// Token: 0x0400013B RID: 315
 		private GameEntity _mapCursorDecalEntity;
 
-		// Token: 0x0400013C RID: 316
 		private Decal _mapCursorDecal;
 
-		// Token: 0x0400013D RID: 317
 		private MapScreen _mapScreen;
 
-		// Token: 0x0400013E RID: 318
 		private Material _gameCursorValidDecalMaterial;
 
-		// Token: 0x0400013F RID: 319
 		private Material _gameCursorInvalidDecalMaterial;
 
-		// Token: 0x04000140 RID: 320
 		private Vec3 _smoothRotationNormalStart;
 
-		// Token: 0x04000141 RID: 321
 		private Vec3 _smoothRotationNormalEnd;
 
-		// Token: 0x04000142 RID: 322
 		private Vec3 _smoothRotationNormalCurrent;
 
-		// Token: 0x04000143 RID: 323
 		private float _smoothRotationAlpha;
 
-		// Token: 0x04000144 RID: 324
 		private int _smallAtlasTextureIndex;
 
-		// Token: 0x04000145 RID: 325
 		private float _targetCircleRotationStartTime;
 
-		// Token: 0x04000146 RID: 326
 		private bool _gameCursorActive;
 
-		// Token: 0x04000147 RID: 327
 		private bool _anotherEntityHiglighted;
 	}
 }

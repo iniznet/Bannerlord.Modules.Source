@@ -10,17 +10,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D0 RID: 976
 	public class SallyOutsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003ADF RID: 15071 RVA: 0x00113849 File Offset: 0x00111A49
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.HourlyTickSettlement));
 			CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 		}
 
-		// Token: 0x06003AE0 RID: 15072 RVA: 0x00113879 File Offset: 0x00111A79
 		private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 		{
 			if (defenderParty.SiegeEvent != null)
@@ -29,18 +26,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AE1 RID: 15073 RVA: 0x00113895 File Offset: 0x00111A95
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003AE2 RID: 15074 RVA: 0x00113897 File Offset: 0x00111A97
 		public void HourlyTickSettlement(Settlement settlement)
 		{
 			this.CheckForSettlementSallyOut(settlement, false);
 		}
 
-		// Token: 0x06003AE3 RID: 15075 RVA: 0x001138A4 File Offset: 0x00111AA4
 		private void CheckForSettlementSallyOut(Settlement settlement, bool forceForCheck = false)
 		{
 			if (settlement.IsFortification && settlement.SiegeEvent != null && settlement.Party.MapEvent == null && settlement.Town.GarrisonParty != null && settlement.Town.GarrisonParty.MapEvent == null)
@@ -93,13 +87,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0400120D RID: 4621
 		private const int SallyOutCheckPeriodInHours = 4;
 
-		// Token: 0x0400120E RID: 4622
 		private const float SallyOutPowerRatioForHelpingReliefForce = 1.5f;
 
-		// Token: 0x0400120F RID: 4623
 		private const float SallyOutPowerRatio = 2f;
 	}
 }

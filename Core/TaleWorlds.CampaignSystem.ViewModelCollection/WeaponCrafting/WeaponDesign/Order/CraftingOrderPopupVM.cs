@@ -10,11 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDesign.Order
 {
-	// Token: 0x020000EB RID: 235
 	public class CraftingOrderPopupVM : ViewModel
 	{
-		// Token: 0x1700077C RID: 1916
-		// (get) Token: 0x06001621 RID: 5665 RVA: 0x00052BEA File Offset: 0x00050DEA
 		public bool HasOrders
 		{
 			get
@@ -23,7 +20,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x06001622 RID: 5666 RVA: 0x00052BFA File Offset: 0x00050DFA
 		public CraftingOrderPopupVM(Action<CraftingOrderItemVM> onDoneAction, Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero, Func<CraftingOrder, IEnumerable<CraftingStatData>> getOrderStatDatas)
 		{
 			this._onDoneAction = onDoneAction;
@@ -33,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CraftingOrders = new MBBindingList<CraftingOrderItemVM>();
 		}
 
-		// Token: 0x06001623 RID: 5667 RVA: 0x00052C34 File Offset: 0x00050E34
 		public void RefreshOrders()
 		{
 			this.CraftingOrders.Clear();
@@ -65,7 +60,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.OrderCountText = textObject.ToString();
 		}
 
-		// Token: 0x06001624 RID: 5668 RVA: 0x00052DD0 File Offset: 0x00050FD0
 		public void SelectOrder(CraftingOrderItemVM order)
 		{
 			if (this.SelectedCraftingOrder != null)
@@ -78,21 +72,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.IsVisible = false;
 		}
 
-		// Token: 0x06001625 RID: 5669 RVA: 0x00052E0C File Offset: 0x0005100C
 		public void ExecuteOpenPopup()
 		{
 			this.IsVisible = true;
 		}
 
-		// Token: 0x06001626 RID: 5670 RVA: 0x00052E15 File Offset: 0x00051015
 		public void ExecuteCloseWithoutSelection()
 		{
 			this.IsVisible = false;
 		}
 
-		// Token: 0x1700077D RID: 1917
-		// (get) Token: 0x06001627 RID: 5671 RVA: 0x00052E1E File Offset: 0x0005101E
-		// (set) Token: 0x06001628 RID: 5672 RVA: 0x00052E26 File Offset: 0x00051026
 		[DataSourceProperty]
 		public bool IsVisible
 		{
@@ -116,9 +105,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700077E RID: 1918
-		// (get) Token: 0x06001629 RID: 5673 RVA: 0x00052E63 File Offset: 0x00051063
-		// (set) Token: 0x0600162A RID: 5674 RVA: 0x00052E6B File Offset: 0x0005106B
 		[DataSourceProperty]
 		public CraftingOrderItemVM SelectedCraftingOrder
 		{
@@ -136,9 +122,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x1700077F RID: 1919
-		// (get) Token: 0x0600162B RID: 5675 RVA: 0x00052E89 File Offset: 0x00051089
-		// (set) Token: 0x0600162C RID: 5676 RVA: 0x00052E91 File Offset: 0x00051091
 		[DataSourceProperty]
 		public string OrderCountText
 		{
@@ -156,9 +139,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x17000780 RID: 1920
-		// (get) Token: 0x0600162D RID: 5677 RVA: 0x00052EB4 File Offset: 0x000510B4
-		// (set) Token: 0x0600162E RID: 5678 RVA: 0x00052EBC File Offset: 0x000510BC
 		[DataSourceProperty]
 		public MBBindingList<CraftingOrderItemVM> CraftingOrders
 		{
@@ -176,28 +156,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
-		// Token: 0x04000A5D RID: 2653
 		private Action<CraftingOrderItemVM> _onDoneAction;
 
-		// Token: 0x04000A5E RID: 2654
 		private Func<CraftingAvailableHeroItemVM> _getCurrentCraftingHero;
 
-		// Token: 0x04000A5F RID: 2655
 		private Func<CraftingOrder, IEnumerable<CraftingStatData>> _getOrderStatDatas;
 
-		// Token: 0x04000A60 RID: 2656
 		private readonly ICraftingCampaignBehavior _craftingBehavior;
 
-		// Token: 0x04000A61 RID: 2657
 		private string _orderCountText;
 
-		// Token: 0x04000A62 RID: 2658
 		private MBBindingList<CraftingOrderItemVM> _craftingOrders;
 
-		// Token: 0x04000A63 RID: 2659
 		private CraftingOrderItemVM _selectedCraftingOrder;
 
-		// Token: 0x04000A64 RID: 2660
 		private bool _isVisible;
 	}
 }

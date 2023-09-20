@@ -4,10 +4,8 @@ using TaleWorlds.Localization.Expressions;
 
 namespace TaleWorlds.Localization.TextProcessor
 {
-	// Token: 0x0200002B RID: 43
 	public static class TextGrammarProcessor
 	{
-		// Token: 0x06000118 RID: 280 RVA: 0x00005E90 File Offset: 0x00004090
 		public static string Process(MBTextModel dataRepresentation, TextProcessingContext textContext, TextObject parent = null)
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);

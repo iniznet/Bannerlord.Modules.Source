@@ -14,11 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000EE RID: 238
 	public class DefaultArmyManagementCalculationModel : ArmyManagementCalculationModel
 	{
-		// Token: 0x170005B7 RID: 1463
-		// (get) Token: 0x06001458 RID: 5208 RVA: 0x0005A4BE File Offset: 0x000586BE
 		public override int InfluenceValuePerGold
 		{
 			get
@@ -27,8 +24,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B8 RID: 1464
-		// (get) Token: 0x06001459 RID: 5209 RVA: 0x0005A4C2 File Offset: 0x000586C2
 		public override int AverageCallToArmyCost
 		{
 			get
@@ -37,8 +32,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B9 RID: 1465
-		// (get) Token: 0x0600145A RID: 5210 RVA: 0x0005A4C6 File Offset: 0x000586C6
 		public override int CohesionThresholdForDispersion
 		{
 			get
@@ -47,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600145B RID: 5211 RVA: 0x0005A4CC File Offset: 0x000586CC
 		public override float DailyBeingAtArmyInfluenceAward(MobileParty armyMemberParty)
 		{
 			float num = (armyMemberParty.Party.TotalStrength + 20f) / 200f;
@@ -58,7 +50,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600145C RID: 5212 RVA: 0x0005A514 File Offset: 0x00058714
 		public override int CalculatePartyInfluenceCost(MobileParty armyLeaderParty, MobileParty party)
 		{
 			if (armyLeaderParty.LeaderHero != null && party.LeaderHero != null && armyLeaderParty.LeaderHero.Clan == party.LeaderHero.Clan)
@@ -121,7 +112,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)(0.65f * num3 * num4 * num7 * num6 * num5 * num8 * num9 * num10 * (float)this.AverageCallToArmyCost);
 		}
 
-		// Token: 0x0600145D RID: 5213 RVA: 0x0005A840 File Offset: 0x00058A40
 		public override List<MobileParty> GetMobilePartiesToCallToArmy(MobileParty leaderParty)
 		{
 			List<MobileParty> list = new List<MobileParty>();
@@ -210,7 +200,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x0600145E RID: 5214 RVA: 0x0005AC84 File Offset: 0x00058E84
 		public override int CalculateTotalInfluenceCost(Army army, float percentage)
 		{
 			int num = 0;
@@ -230,13 +219,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Ceiling(explainedNumber.ResultNumber * percentage / 100f);
 		}
 
-		// Token: 0x0600145F RID: 5215 RVA: 0x0005AD88 File Offset: 0x00058F88
 		public override float GetPartySizeScore(MobileParty party)
 		{
 			return MathF.Min(1f, party.PartySizeRatio);
 		}
 
-		// Token: 0x06001460 RID: 5216 RVA: 0x0005AD9C File Offset: 0x00058F9C
 		public override ExplainedNumber CalculateDailyCohesionChange(Army army, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(-2f, includeDescriptions, null);
@@ -258,7 +245,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001461 RID: 5217 RVA: 0x0005AE7C File Offset: 0x0005907C
 		private void CalculateCohesionChangeInternal(Army army, ref ExplainedNumber cohesionChange)
 		{
 			int num = 0;
@@ -287,7 +273,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			cohesionChange.Add((float)(-(float)((num3 + 1) / 2)), DefaultArmyManagementCalculationModel._numberOfLessMemberPartiesText, null);
 		}
 
-		// Token: 0x06001462 RID: 5218 RVA: 0x0005AF58 File Offset: 0x00059158
 		public override int CalculateNewCohesion(Army army, PartyBase newParty, int calculatedCohesion, int sign)
 		{
 			if (army == null)
@@ -308,19 +293,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x06001463 RID: 5219 RVA: 0x0005AFB1 File Offset: 0x000591B1
 		public override int GetCohesionBoostInfluenceCost(Army army, int percentageToBoost = 100)
 		{
 			return this.CalculateTotalInfluenceCost(army, (float)percentageToBoost);
 		}
 
-		// Token: 0x06001464 RID: 5220 RVA: 0x0005AFBC File Offset: 0x000591BC
 		public override int GetCohesionBoostGoldCost(Army army, float percentageToBoost = 100f)
 		{
 			return this.CalculateTotalInfluenceCost(army, percentageToBoost) * this.InfluenceValuePerGold;
 		}
 
-		// Token: 0x06001465 RID: 5221 RVA: 0x0005AFCD File Offset: 0x000591CD
 		public override int GetPartyRelation(Hero hero)
 		{
 			if (hero == null)
@@ -334,37 +316,28 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return Hero.MainHero.GetRelation(hero);
 		}
 
-		// Token: 0x06001466 RID: 5222 RVA: 0x0005AFEB File Offset: 0x000591EB
 		public override int GetPartyStrength(PartyBase party)
 		{
 			return MathF.Round(party.TotalStrength);
 		}
 
-		// Token: 0x06001467 RID: 5223 RVA: 0x0005AFF8 File Offset: 0x000591F8
 		public override bool CheckPartyEligibility(MobileParty party)
 		{
 			return party.Army == null && this.GetPartySizeScore(party) > this._minimumPartySizeScoreNeeded && party.MapEvent == null && party.SiegeEvent == null;
 		}
 
-		// Token: 0x04000727 RID: 1831
 		private const float MobilePartySizeRatioToCallToArmy = 0.6f;
 
-		// Token: 0x04000728 RID: 1832
 		private const float MinimumNeededFoodInDaysToCallToArmy = 5f;
 
-		// Token: 0x04000729 RID: 1833
 		private static readonly TextObject _numberOfPartiesText = GameTexts.FindText("str_number_of_parties", null);
 
-		// Token: 0x0400072A RID: 1834
 		private static readonly TextObject _numberOfStarvingPartiesText = GameTexts.FindText("str_number_of_starving_parties", null);
 
-		// Token: 0x0400072B RID: 1835
 		private static readonly TextObject _numberOfLowMoralePartiesText = GameTexts.FindText("str_number_of_low_morale_parties", null);
 
-		// Token: 0x0400072C RID: 1836
 		private static readonly TextObject _numberOfLessMemberPartiesText = GameTexts.FindText("str_number_of_less_member_parties", null);
 
-		// Token: 0x0400072D RID: 1837
 		private float _minimumPartySizeScoreNeeded = 0.4f;
 	}
 }

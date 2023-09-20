@@ -7,16 +7,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000130 RID: 304
 	public class DefaultPrisonerRecruitmentCalculationModel : PrisonerRecruitmentCalculationModel
 	{
-		// Token: 0x060016DB RID: 5851 RVA: 0x00070303 File Offset: 0x0006E503
 		public override int GetConformityNeededToRecruitPrisoner(CharacterObject character)
 		{
 			return (character.Level + 6) * (character.Level + 6) - 10;
 		}
 
-		// Token: 0x060016DC RID: 5852 RVA: 0x0007031C File Offset: 0x0006E51C
 		public override int GetConformityChangePerHour(PartyBase party, CharacterObject troopToBoost)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(10f, false, null);
@@ -51,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x060016DD RID: 5853 RVA: 0x00070480 File Offset: 0x0006E680
 		public override int GetPrisonerRecruitmentMoraleEffect(PartyBase party, CharacterObject character, int num)
 		{
 			CultureObject culture = character.Culture;
@@ -84,7 +80,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num2 * num;
 		}
 
-		// Token: 0x060016DE RID: 5854 RVA: 0x000704FC File Offset: 0x0006E6FC
 		public override bool IsPrisonerRecruitable(PartyBase party, CharacterObject character, out int conformityNeeded)
 		{
 			if (!character.IsRegular || character.Tier > Campaign.Current.Models.CharacterStatsModel.MaxCharacterTier)
@@ -97,13 +92,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return elementXp >= conformityNeeded;
 		}
 
-		// Token: 0x060016DF RID: 5855 RVA: 0x00070554 File Offset: 0x0006E754
 		public override bool ShouldPartyRecruitPrisoners(PartyBase party)
 		{
 			return (party.MobileParty.Morale > 30f || party.MobileParty.HasPerk(DefaultPerks.Leadership.Presence, true)) && party.PartySizeLimit > party.MobileParty.MemberRoster.TotalManCount;
 		}
 
-		// Token: 0x060016E0 RID: 5856 RVA: 0x000705A0 File Offset: 0x0006E7A0
 		public override int CalculateRecruitableNumber(PartyBase party, CharacterObject character)
 		{
 			if (character.IsHero || party.PrisonRoster.Count == 0 || party.PrisonRoster.TotalRegulars <= 0)

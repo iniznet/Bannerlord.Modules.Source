@@ -9,16 +9,13 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Tournaments.AgentControllers
 {
-	// Token: 0x0200001F RID: 31
 	public class ArcheryTournamentAgentController : AgentController
 	{
-		// Token: 0x06000175 RID: 373 RVA: 0x0000AF36 File Offset: 0x00009136
 		public override void OnInitialize()
 		{
 			this._missionController = Mission.Current.GetMissionBehavior<TournamentArcheryMissionController>();
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x0000AF48 File Offset: 0x00009148
 		public void OnTick()
 		{
 			if (!base.Owner.IsAIControlled)
@@ -28,14 +25,12 @@ namespace SandBox.Tournaments.AgentControllers
 			this.UpdateTarget();
 		}
 
-		// Token: 0x06000177 RID: 375 RVA: 0x0000AF5E File Offset: 0x0000915E
 		public void SetTargets(List<DestructableComponent> targetList)
 		{
 			this._targetList = targetList;
 			this._target = null;
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x0000AF6E File Offset: 0x0000916E
 		private void UpdateTarget()
 		{
 			if (this._target == null || this._target.IsDestroyed)
@@ -44,7 +39,6 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000AF8C File Offset: 0x0000918C
 		private void SelectNewTarget()
 		{
 			List<KeyValuePair<float, DestructableComponent>> list = new List<KeyValuePair<float, DestructableComponent>>();
@@ -75,7 +69,6 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x0600017A RID: 378 RVA: 0x0000B0B8 File Offset: 0x000092B8
 		private float GetScore(DestructableComponent target)
 		{
 			if (!target.IsDestroyed)
@@ -85,7 +78,6 @@ namespace SandBox.Tournaments.AgentControllers
 			return 0f;
 		}
 
-		// Token: 0x0600017B RID: 379 RVA: 0x0000B0F7 File Offset: 0x000092F7
 		public void OnTargetHit(Agent agent, DestructableComponent target)
 		{
 			if (agent == base.Owner || target == this._target)
@@ -94,13 +86,10 @@ namespace SandBox.Tournaments.AgentControllers
 			}
 		}
 
-		// Token: 0x0400009C RID: 156
 		private List<DestructableComponent> _targetList;
 
-		// Token: 0x0400009D RID: 157
 		private DestructableComponent _target;
 
-		// Token: 0x0400009E RID: 158
 		private TournamentArcheryMissionController _missionController;
 	}
 }

@@ -3,10 +3,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x0200004F RID: 79
 	public class DefaultRidingModel : RidingModel
 	{
-		// Token: 0x060005E4 RID: 1508 RVA: 0x00015D18 File Offset: 0x00013F18
 		public override float CalculateAcceleration(in EquipmentElement mountElement, in EquipmentElement harnessElement, int ridingSkill)
 		{
 			EquipmentElement equipmentElement = mountElement;

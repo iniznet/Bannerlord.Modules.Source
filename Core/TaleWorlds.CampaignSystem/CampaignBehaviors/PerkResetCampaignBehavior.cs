@@ -15,11 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003BD RID: 957
 	public class PerkResetCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CDC RID: 3292
-		// (get) Token: 0x060038DB RID: 14555 RVA: 0x001038A2 File Offset: 0x00101AA2
 		public int PerkResetCost
 		{
 			get
@@ -32,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CDD RID: 3293
-		// (get) Token: 0x060038DC RID: 14556 RVA: 0x001038C2 File Offset: 0x00101AC2
 		public bool HasEnoughSkillValueForReset
 		{
 			get
@@ -42,26 +37,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038DD RID: 14557 RVA: 0x001038E6 File Offset: 0x00101AE6
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 		}
 
-		// Token: 0x060038DE RID: 14558 RVA: 0x00103916 File Offset: 0x00101B16
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<CampaignTime>("_warningTime", ref this._warningTime);
 		}
 
-		// Token: 0x060038DF RID: 14559 RVA: 0x0010392A File Offset: 0x00101B2A
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060038E0 RID: 14560 RVA: 0x00103934 File Offset: 0x00101B34
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("arena_intro_7", "arena_intro_perk_reset", "arena_intro_4", "{=ocIutUyu}Also, here at the arena, we think a lot about the arts of war - and many other related skills as well. Often you pick up certain habits while learning your skills. If you need to change those, to practice one of your skills in a certain way, we can help you.", null, null, 100, null);
@@ -89,20 +80,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("arena_master_perk_reset_final3", "arena_master_perk_reset_final", "arena_master_pre_talk", "{=Dz7E79QP}You have already helped enough. Thank you.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_arena_finish_perk_reset_dialogs_on_consequence), 100, null, null);
 		}
 
-		// Token: 0x060038E1 RID: 14561 RVA: 0x00103D3D File Offset: 0x00101F3D
 		private void conversation_player_has_single_clan_member_on_consequence()
 		{
 			this._heroForPerkReset = this.GetClanMembersInParty()[0];
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038E2 RID: 14562 RVA: 0x00103D57 File Offset: 0x00101F57
 		private void conversation_arena_skill_not_developed_enough_on_consequence()
 		{
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038E3 RID: 14563 RVA: 0x00103D60 File Offset: 0x00101F60
 		private bool conversation_arena_skill_not_developed_enough_on_condition()
 		{
 			TextObject textObject;
@@ -119,7 +107,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !this.HasEnoughSkillValueForReset;
 		}
 
-		// Token: 0x060038E4 RID: 14564 RVA: 0x00103DC0 File Offset: 0x00101FC0
 		private void conversation_arena_finish_perk_reset_dialogs_on_consequence()
 		{
 			this._heroForPerkReset = null;
@@ -127,26 +114,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._selectedSkillForReset = null;
 		}
 
-		// Token: 0x060038E5 RID: 14565 RVA: 0x00103DD7 File Offset: 0x00101FD7
 		private void conversation_arena_train_another_skill_on_condition()
 		{
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038E6 RID: 14566 RVA: 0x00103DDF File Offset: 0x00101FDF
 		private void conversation_arena_train_another_clan_member_on_condition()
 		{
 			this.SetHeroesForDialog();
 		}
 
-		// Token: 0x060038E7 RID: 14567 RVA: 0x00103DE7 File Offset: 0x00101FE7
 		private void conversation_arena_player_accept_perk_reset_on_consequence()
 		{
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, this.PerkResetCost, false);
 			this.ResetPerkTreeForHero(this._heroForPerkReset, this._selectedSkillForReset);
 		}
 
-		// Token: 0x060038E8 RID: 14568 RVA: 0x00103E10 File Offset: 0x00102010
 		private bool conversation_arena_player_accept_price(out TextObject explanation)
 		{
 			if (Hero.MainHero.Gold < this.PerkResetCost)
@@ -159,13 +142,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060038E9 RID: 14569 RVA: 0x00103E5F File Offset: 0x0010205F
 		private void conversation_arena_player_select_skill_on_consequence()
 		{
 			this._selectedSkillForReset = ConversationSentence.SelectedRepeatObject as SkillObject;
 		}
 
-		// Token: 0x060038EA RID: 14570 RVA: 0x00103E71 File Offset: 0x00102071
 		private bool conversation_arena_ask_price_on_condition()
 		{
 			if (this.HasEnoughSkillValueForReset)
@@ -177,7 +158,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060038EB RID: 14571 RVA: 0x00103EA0 File Offset: 0x001020A0
 		private bool conversation_arena_player_select_skill_on_condition()
 		{
 			SkillObject skillObject = ConversationSentence.CurrentProcessedRepeatObject as SkillObject;
@@ -189,26 +169,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060038EC RID: 14572 RVA: 0x00103ED4 File Offset: 0x001020D4
 		private void conversation_arena_set_skills_for_reset_on_consequence()
 		{
 			this.SetSkillsForDialog();
 		}
 
-		// Token: 0x060038ED RID: 14573 RVA: 0x00103EDC File Offset: 0x001020DC
 		private void conversation_arena_list_perks_on_condition()
 		{
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038EE RID: 14574 RVA: 0x00103EE4 File Offset: 0x001020E4
 		private void conversation_arena_player_select_attribute_on_consequence()
 		{
 			this._attributeForPerkReset = ConversationSentence.SelectedRepeatObject as CharacterAttribute;
 			this.SetSkillsForDialog();
 		}
 
-		// Token: 0x060038EF RID: 14575 RVA: 0x00103EFC File Offset: 0x001020FC
 		private bool conversation_arena_player_select_attribute_on_condition()
 		{
 			CharacterAttribute characterAttribute = ConversationSentence.CurrentProcessedRepeatObject as CharacterAttribute;
@@ -220,27 +196,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060038F0 RID: 14576 RVA: 0x00103F30 File Offset: 0x00102130
 		private void conversation_arena_player_select_clan_member_for_perk_reset_on_consequence()
 		{
 			this._heroForPerkReset = ConversationSentence.SelectedRepeatObject as Hero;
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038F1 RID: 14577 RVA: 0x00103F48 File Offset: 0x00102148
 		private void conversation_arena_player_select_player_for_perk_reset_on_consequence()
 		{
 			this._heroForPerkReset = Hero.MainHero;
 			this.SetAttributesForDialog();
 		}
 
-		// Token: 0x060038F2 RID: 14578 RVA: 0x00103F5B File Offset: 0x0010215B
 		private void conversation_arena_list_clan_members_on_condition()
 		{
 			this.SetHeroesForDialog();
 		}
 
-		// Token: 0x060038F3 RID: 14579 RVA: 0x00103F64 File Offset: 0x00102164
 		private bool conversation_arena_player_select_clan_member_multiple_on_condition()
 		{
 			Hero hero = ConversationSentence.CurrentProcessedRepeatObject as Hero;
@@ -252,13 +224,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060038F4 RID: 14580 RVA: 0x00103F98 File Offset: 0x00102198
 		private bool conversation_player_has_multiple_clan_members_on_condition()
 		{
 			return this.GetClanMembersInParty().Count > 1;
 		}
 
-		// Token: 0x060038F5 RID: 14581 RVA: 0x00103FA8 File Offset: 0x001021A8
 		private bool conversation_player_has_single_clan_member_on_condition()
 		{
 			List<Hero> clanMembersInParty = this.GetClanMembersInParty();
@@ -270,7 +240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060038F6 RID: 14582 RVA: 0x00103FE4 File Offset: 0x001021E4
 		private void DailyTick()
 		{
 			if (Clan.PlayerClan.Companions.Count > Clan.PlayerClan.CompanionLimit)
@@ -292,31 +261,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038F7 RID: 14583 RVA: 0x00104049 File Offset: 0x00102249
 		private void SetHeroesForDialog()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(this.GetClanMembersInParty(), 5);
 		}
 
-		// Token: 0x060038F8 RID: 14584 RVA: 0x00104057 File Offset: 0x00102257
 		private void SetAttributesForDialog()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(Attributes.All.ToList<CharacterAttribute>(), 5);
 		}
 
-		// Token: 0x060038F9 RID: 14585 RVA: 0x00104069 File Offset: 0x00102269
 		private void SetSkillsForDialog()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(this._attributeForPerkReset.Skills.ToList<SkillObject>(), 5);
 		}
 
-		// Token: 0x060038FA RID: 14586 RVA: 0x00104081 File Offset: 0x00102281
 		private void ResetPerkTreeForHero(Hero hero, SkillObject skill)
 		{
 			this.ClearkPerksForSkill(hero, skill);
 		}
 
-		// Token: 0x060038FB RID: 14587 RVA: 0x0010408C File Offset: 0x0010228C
 		private void ClearPermanentBonusesIfExists(Hero hero, PerkObject perk)
 		{
 			if (!hero.GetPerkValue(perk))
@@ -360,7 +324,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038FC RID: 14588 RVA: 0x0010416C File Offset: 0x0010236C
 		private void ClearkPerksForSkill(Hero hero, SkillObject skill)
 		{
 			foreach (PerkObject perkObject in PerkObject.All)
@@ -375,7 +338,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			hero.HitPoints = MathF.Min(hero.HitPoints, hero.MaxHitPoints);
 		}
 
-		// Token: 0x060038FD RID: 14589 RVA: 0x001041F8 File Offset: 0x001023F8
 		private void RemoveACompanionFromPlayerParty()
 		{
 			int count = Clan.PlayerClan.Companions.Count;
@@ -397,14 +359,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038FE RID: 14590 RVA: 0x00104291 File Offset: 0x00102491
 		private void WarnPlayerAboutCompanionLimit()
 		{
 			MBInformationManager.AddQuickInformation(new TextObject("{=xDikJxbO}Your party is above your companion limits. Due to that some of the companions might leave soon.", null), 0, null, "event:/ui/notification/relation");
 			this._warningTime = CampaignTime.Now;
 		}
 
-		// Token: 0x060038FF RID: 14591 RVA: 0x001042B8 File Offset: 0x001024B8
 		private List<Hero> GetClanMembersInParty()
 		{
 			return (from m in PartyBase.MainParty.MemberRoster.GetTroopRoster()
@@ -413,16 +373,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				select t.Character.HeroObject).ToList<Hero>();
 		}
 
-		// Token: 0x040011BD RID: 4541
 		private Hero _heroForPerkReset;
 
-		// Token: 0x040011BE RID: 4542
 		private CharacterAttribute _attributeForPerkReset;
 
-		// Token: 0x040011BF RID: 4543
 		private SkillObject _selectedSkillForReset;
 
-		// Token: 0x040011C0 RID: 4544
 		private CampaignTime _warningTime;
 	}
 }

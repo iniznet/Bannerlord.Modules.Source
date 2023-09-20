@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 {
-	// Token: 0x020003E6 RID: 998
 	public class TeamDeathmatchMissionRepresentative : MissionRepresentativeBase
 	{
-		// Token: 0x0600348B RID: 13451 RVA: 0x000D9D69 File Offset: 0x000D7F69
 		public override void OnAgentSpawned()
 		{
 			this._currentGoldGains = (GoldGainFlags)0;
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			this._assistCountOnSpawn = base.MissionPeer.AssistCount;
 		}
 
-		// Token: 0x0600348C RID: 13452 RVA: 0x000D9D94 File Offset: 0x000D7F94
 		public int GetGoldGainsFromKillDataAndUpdateFlags(MPPerkObject.MPPerkHandler killerPerkHandler, MPPerkObject.MPPerkHandler assistingHitterPerkHandler, MultiplayerClassDivisions.MPHeroClass victimClass, bool isAssist, bool isRanged, bool isFriendly)
 		{
 			int num = 0;
@@ -131,7 +128,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return num;
 		}
 
-		// Token: 0x0600348D RID: 13453 RVA: 0x000DA140 File Offset: 0x000D8340
 		public int GetGoldGainsFromAllyDeathReward(int baseAmount)
 		{
 			if (baseAmount > 0 && !base.Peer.Communicator.IsServerPeer && base.Peer.Communicator.IsConnectionActive)
@@ -146,34 +142,24 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return baseAmount;
 		}
 
-		// Token: 0x04001666 RID: 5734
 		private const int FirstRangedKillGold = 10;
 
-		// Token: 0x04001667 RID: 5735
 		private const int FirstMeleeKillGold = 10;
 
-		// Token: 0x04001668 RID: 5736
 		private const int FirstAssistGold = 10;
 
-		// Token: 0x04001669 RID: 5737
 		private const int SecondAssistGold = 10;
 
-		// Token: 0x0400166A RID: 5738
 		private const int ThirdAssistGold = 10;
 
-		// Token: 0x0400166B RID: 5739
 		private const int FifthKillGold = 20;
 
-		// Token: 0x0400166C RID: 5740
 		private const int TenthKillGold = 30;
 
-		// Token: 0x0400166D RID: 5741
 		private GoldGainFlags _currentGoldGains;
 
-		// Token: 0x0400166E RID: 5742
 		private int _killCountOnSpawn;
 
-		// Token: 0x0400166F RID: 5743
 		private int _assistCountOnSpawn;
 	}
 }

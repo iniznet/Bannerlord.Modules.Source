@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000036 RID: 54
 	public class BattleSurgeonLogic : MissionLogic
 	{
-		// Token: 0x0600027F RID: 639 RVA: 0x00010ED4 File Offset: 0x0000F0D4
 		protected override void OnGetAgentState(Agent agent, bool usedSurgery)
 		{
 			if (usedSurgery)
@@ -24,7 +22,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000280 RID: 640 RVA: 0x00010F30 File Offset: 0x0000F130
 		public override void OnAgentCreated(Agent agent)
 		{
 			base.OnAgentCreated(agent);
@@ -50,7 +47,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x04000145 RID: 325
 		private Dictionary<string, Agent> _surgeonAgents = new Dictionary<string, Agent>();
 	}
 }

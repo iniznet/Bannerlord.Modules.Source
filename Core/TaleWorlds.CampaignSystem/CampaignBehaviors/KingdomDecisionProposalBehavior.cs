@@ -11,10 +11,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003A9 RID: 937
 	public class KingdomDecisionProposalBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060037D5 RID: 14293 RVA: 0x000FB644 File Offset: 0x000F9844
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.SessionLaunched));
@@ -25,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 		}
 
-		// Token: 0x060037D6 RID: 14294 RVA: 0x000FB6DC File Offset: 0x000F98DC
 		private void DailyTickClan(Clan clan)
 		{
 			if ((float)((int)Campaign.Current.CampaignStartTime.ElapsedDaysUntilNow) < 5f)
@@ -128,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037D7 RID: 14295 RVA: 0x000FBAA4 File Offset: 0x000F9CA4
 		private void HourlyTick()
 		{
 			if (Clan.PlayerClan.Kingdom != null)
@@ -137,7 +133,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037D8 RID: 14296 RVA: 0x000FBAC4 File Offset: 0x000F9CC4
 		private void DailyTick()
 		{
 			if (this._kingdomDecisionsList != null)
@@ -155,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037D9 RID: 14297 RVA: 0x000FBB28 File Offset: 0x000F9D28
 		public void UpdateKingdomDecisions(Kingdom kingdom)
 		{
 			List<KingdomDecision> list = new List<KingdomDecision>();
@@ -192,19 +186,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037DA RID: 14298 RVA: 0x000FBC80 File Offset: 0x000F9E80
 		private void OnPeaceMade(IFaction side1Faction, IFaction side2Faction, MakePeaceAction.MakePeaceDetail detail)
 		{
 			this.HandleDiplomaticChangeBetweenFactions(side1Faction, side2Faction);
 		}
 
-		// Token: 0x060037DB RID: 14299 RVA: 0x000FBC8A File Offset: 0x000F9E8A
 		private void OnWarDeclared(IFaction side1Faction, IFaction side2Faction, DeclareWarAction.DeclareWarDetail detail)
 		{
 			this.HandleDiplomaticChangeBetweenFactions(side1Faction, side2Faction);
 		}
 
-		// Token: 0x060037DC RID: 14300 RVA: 0x000FBC94 File Offset: 0x000F9E94
 		private void HandleDiplomaticChangeBetweenFactions(IFaction side1Faction, IFaction side2Faction)
 		{
 			if (side1Faction.IsKingdomFaction && side2Faction.IsKingdomFaction)
@@ -214,7 +205,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037DD RID: 14301 RVA: 0x000FBCC0 File Offset: 0x000F9EC0
 		private KingdomDecision GetRandomWarDecision(Clan clan)
 		{
 			KingdomDecision kingdomDecision = null;
@@ -231,7 +221,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return kingdomDecision;
 		}
 
-		// Token: 0x060037DE RID: 14302 RVA: 0x000FBD48 File Offset: 0x000F9F48
 		private KingdomDecision GetRandomPeaceDecision(Clan clan)
 		{
 			KingdomDecision kingdomDecision = null;
@@ -249,7 +238,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return kingdomDecision;
 		}
 
-		// Token: 0x060037DF RID: 14303 RVA: 0x000FBDD4 File Offset: 0x000F9FD4
 		private bool ConsiderWar(Clan clan, Kingdom kingdom, IFaction otherFaction)
 		{
 			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(kingdom) / 2;
@@ -269,13 +257,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037E0 RID: 14304 RVA: 0x000FBE3A File Offset: 0x000FA03A
 		private float GetKingdomSupportForWar(Clan clan, Kingdom kingdom, IFaction otherFaction)
 		{
 			return new KingdomElection(new DeclareWarDecision(clan, otherFaction)).GetLikelihoodForSponsor(clan);
 		}
 
-		// Token: 0x060037E1 RID: 14305 RVA: 0x000FBE50 File Offset: 0x000FA050
 		private bool ConsiderPeace(Clan clan, Clan otherClan, Kingdom kingdom, IFaction otherFaction, out MakePeaceKingdomDecision decision)
 		{
 			decision = null;
@@ -368,7 +354,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037E2 RID: 14306 RVA: 0x000FC120 File Offset: 0x000FA320
 		private float GetKingdomSupportForPeace(Clan clan, Clan otherClan, Kingdom kingdom, IFaction otherFaction)
 		{
 			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace() / 2;
@@ -385,7 +370,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new KingdomElection(new MakePeaceKingdomDecision(clan, otherFaction, dailyTributeForValue, true)).GetLikelihoodForSponsor(clan);
 		}
 
-		// Token: 0x060037E3 RID: 14307 RVA: 0x000FC1B4 File Offset: 0x000FA3B4
 		private KingdomDecision GetRandomPolicyDecision(Clan clan)
 		{
 			KingdomDecision kingdomDecision = null;
@@ -407,7 +391,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return kingdomDecision;
 		}
 
-		// Token: 0x060037E4 RID: 14308 RVA: 0x000FC238 File Offset: 0x000FA438
 		private bool ConsiderPolicy(Clan clan, Kingdom kingdom, PolicyObject policy, bool invert)
 		{
 			int influenceCostOfPolicyProposalAndDisavowal = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
@@ -427,14 +410,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037E5 RID: 14309 RVA: 0x000FC29D File Offset: 0x000FA49D
 		private float GetKingdomSupportForPolicy(Clan clan, Kingdom kingdom, PolicyObject policy, bool invert)
 		{
 			Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
 			return new KingdomElection(new KingdomPolicyDecision(clan, policy, invert)).GetLikelihoodForSponsor(clan);
 		}
 
-		// Token: 0x060037E6 RID: 14310 RVA: 0x000FC2C8 File Offset: 0x000FA4C8
 		private KingdomDecision GetRandomAnnexationDecision(Clan clan)
 		{
 			KingdomDecision kingdomDecision = null;
@@ -463,7 +444,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return kingdomDecision;
 		}
 
-		// Token: 0x060037E7 RID: 14311 RVA: 0x000FC370 File Offset: 0x000FA570
 		private bool ConsiderAnnex(Clan clan, Kingdom kingdom, Clan targetClan, Town targetSettlement)
 		{
 			int influenceCostOfAnnexation = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(kingdom);
@@ -483,37 +463,28 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037E8 RID: 14312 RVA: 0x000FC3DA File Offset: 0x000FA5DA
 		private float GetKingdomSupportForDecision(KingdomDecision decision)
 		{
 			return new KingdomElection(decision).GetLikelihoodForOutcome(0);
 		}
 
-		// Token: 0x060037E9 RID: 14313 RVA: 0x000FC3E8 File Offset: 0x000FA5E8
 		private void SessionLaunched(CampaignGameStarter starter)
 		{
 		}
 
-		// Token: 0x060037EA RID: 14314 RVA: 0x000FC3EA File Offset: 0x000FA5EA
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<KingdomDecision>>("_kingdomDecisionsList", ref this._kingdomDecisionsList);
 		}
 
-		// Token: 0x0400118A RID: 4490
 		private const int KingdomDecisionProposalCooldownInDays = 1;
 
-		// Token: 0x0400118B RID: 4491
 		private const float ClanInterestModifier = 1f;
 
-		// Token: 0x0400118C RID: 4492
 		private const float DecisionSuccessChanceModifier = 1f;
 
-		// Token: 0x0400118D RID: 4493
 		private List<KingdomDecision> _kingdomDecisionsList;
 
-		// Token: 0x020006FD RID: 1789
-		// (Invoke) Token: 0x06005549 RID: 21833
 		private delegate KingdomDecision KingdomDecisionCreatorDelegate(Clan sponsorClan);
 	}
 }

@@ -14,10 +14,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000014 RID: 20
 	public class MissionCampaignView : MissionView
 	{
-		// Token: 0x06000072 RID: 114 RVA: 0x00005120 File Offset: 0x00003320
 		public override void OnMissionScreenPreLoad()
 		{
 			this._mapScreen = MapScreen.Instance;
@@ -28,7 +26,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x0000515F File Offset: 0x0000335F
 		public override void OnMissionScreenFinalize()
 		{
 			MapScreen mapScreen = this._mapScreen;
@@ -39,7 +36,6 @@ namespace SandBox.View.Missions
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x0000519C File Offset: 0x0000339C
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_face_and_helmet_info_of_followed_agent", "mission")]
 		public static string GetFaceAndHelmetInfoOfFollowedAgent(List<string> strings)
 		{
@@ -73,7 +69,6 @@ namespace SandBox.View.Missions
 			return "Copied to clipboard:\n" + text;
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00005278 File Offset: 0x00003478
 		public override void EarlyStart()
 		{
 			base.EarlyStart();
@@ -86,16 +81,13 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x000052D7 File Offset: 0x000034D7
 		public override void OnRenderingStarted()
 		{
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(8));
 		}
 
-		// Token: 0x0400003A RID: 58
 		private MapScreen _mapScreen;
 
-		// Token: 0x0400003B RID: 59
 		private MissionMainAgentController _missionMainAgentController;
 	}
 }

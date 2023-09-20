@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TroopSelection
 {
-	// Token: 0x0200008B RID: 139
 	public class TroopItemComparer : IComparer<TroopSelectionItemVM>
 	{
-		// Token: 0x06000DBC RID: 3516 RVA: 0x000376D0 File Offset: 0x000358D0
 		public int Compare(TroopSelectionItemVM x, TroopSelectionItemVM y)
 		{
 			int num;

@@ -9,11 +9,8 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200035C RID: 860
 	public class SiegeWeaponMovementComponent : UsableMissionObjectComponent
 	{
-		// Token: 0x17000871 RID: 2161
-		// (get) Token: 0x06002EDF RID: 11999 RVA: 0x000BE3F5 File Offset: 0x000BC5F5
 		public bool HasApproachedTarget
 		{
 			get
@@ -22,12 +19,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000872 RID: 2162
-		// (get) Token: 0x06002EE0 RID: 12000 RVA: 0x000BE418 File Offset: 0x000BC618
-		// (set) Token: 0x06002EE1 RID: 12001 RVA: 0x000BE420 File Offset: 0x000BC620
 		public Vec3 Velocity { get; private set; }
 
-		// Token: 0x06002EE2 RID: 12002 RVA: 0x000BE42C File Offset: 0x000BC62C
 		protected internal override void OnAdded(Scene scene)
 		{
 			base.OnAdded(scene);
@@ -52,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Velocity = Vec3.Zero;
 		}
 
-		// Token: 0x06002EE3 RID: 12003 RVA: 0x000BE554 File Offset: 0x000BC754
 		public void HighlightPath()
 		{
 			MatrixFrame[] array = new MatrixFrame[this._path.NumberOfPoints];
@@ -63,7 +55,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EE4 RID: 12004 RVA: 0x000BE5A4 File Offset: 0x000BC7A4
 		public void SetupGhostEntity()
 		{
 			Path pathWithName = this.MainObject.Scene.GetPathWithName(this.PathEntityName);
@@ -74,8 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			this._wheels = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("wheel");
 		}
 
-		// Token: 0x17000873 RID: 2163
-		// (get) Token: 0x06002EE5 RID: 12005 RVA: 0x000BE637 File Offset: 0x000BC837
 		public bool HasArrivedAtTarget
 		{
 			get
@@ -84,7 +73,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EE6 RID: 12006 RVA: 0x000BE654 File Offset: 0x000BC854
 		private void SetPath()
 		{
 			Path pathWithName = this.MainObject.Scene.GetPathWithName(this.PathEntityName);
@@ -95,38 +83,18 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateGhostObject(0f);
 		}
 
-		// Token: 0x17000874 RID: 2164
-		// (get) Token: 0x06002EE7 RID: 12007 RVA: 0x000BE6D7 File Offset: 0x000BC8D7
-		// (set) Token: 0x06002EE8 RID: 12008 RVA: 0x000BE6DF File Offset: 0x000BC8DF
 		public float CurrentSpeed { get; private set; }
 
-		// Token: 0x17000875 RID: 2165
-		// (get) Token: 0x06002EE9 RID: 12009 RVA: 0x000BE6E8 File Offset: 0x000BC8E8
-		// (set) Token: 0x06002EEA RID: 12010 RVA: 0x000BE6F0 File Offset: 0x000BC8F0
 		public int MovementSoundCodeID { get; set; }
 
-		// Token: 0x17000876 RID: 2166
-		// (get) Token: 0x06002EEB RID: 12011 RVA: 0x000BE6F9 File Offset: 0x000BC8F9
-		// (set) Token: 0x06002EEC RID: 12012 RVA: 0x000BE701 File Offset: 0x000BC901
 		public float MinSpeed { get; set; }
 
-		// Token: 0x17000877 RID: 2167
-		// (get) Token: 0x06002EED RID: 12013 RVA: 0x000BE70A File Offset: 0x000BC90A
-		// (set) Token: 0x06002EEE RID: 12014 RVA: 0x000BE712 File Offset: 0x000BC912
 		public float MaxSpeed { get; set; }
 
-		// Token: 0x17000878 RID: 2168
-		// (get) Token: 0x06002EEF RID: 12015 RVA: 0x000BE71B File Offset: 0x000BC91B
-		// (set) Token: 0x06002EF0 RID: 12016 RVA: 0x000BE723 File Offset: 0x000BC923
 		public string PathEntityName { get; set; }
 
-		// Token: 0x17000879 RID: 2169
-		// (get) Token: 0x06002EF1 RID: 12017 RVA: 0x000BE72C File Offset: 0x000BC92C
-		// (set) Token: 0x06002EF2 RID: 12018 RVA: 0x000BE734 File Offset: 0x000BC934
 		public float GhostEntitySpeedMultiplier { get; set; }
 
-		// Token: 0x1700087A RID: 2170
-		// (set) Token: 0x06002EF3 RID: 12019 RVA: 0x000BE73D File Offset: 0x000BC93D
 		public float WheelDiameter
 		{
 			set
@@ -136,32 +104,25 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700087B RID: 2171
-		// (get) Token: 0x06002EF4 RID: 12020 RVA: 0x000BE758 File Offset: 0x000BC958
-		// (set) Token: 0x06002EF5 RID: 12021 RVA: 0x000BE760 File Offset: 0x000BC960
 		public SynchedMissionObject MainObject { get; set; }
 
-		// Token: 0x06002EF6 RID: 12022 RVA: 0x000BE769 File Offset: 0x000BC969
 		protected internal override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
 			this.UpdateGhostObject(dt);
 		}
 
-		// Token: 0x06002EF7 RID: 12023 RVA: 0x000BE779 File Offset: 0x000BC979
 		public void SetGhostVisibility(bool isVisible)
 		{
 			this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("ghost_object").FirstOrDefault<GameEntity>().SetVisibilityExcludeParents(isVisible);
 		}
 
-		// Token: 0x06002EF8 RID: 12024 RVA: 0x000BE79B File Offset: 0x000BC99B
 		public void OnEditorInit()
 		{
 			this.SetPath();
 			this._wheels = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("wheel");
 		}
 
-		// Token: 0x06002EF9 RID: 12025 RVA: 0x000BE7C0 File Offset: 0x000BC9C0
 		private void UpdateGhostObject(float dt)
 		{
 			if (this._pathTracker.HasChanged)
@@ -226,7 +187,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EFA RID: 12026 RVA: 0x000BE9A0 File Offset: 0x000BCBA0
 		private void RotateWheels(float angleInRadian)
 		{
 			foreach (GameEntity gameEntity in this._wheels)
@@ -238,7 +198,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EFB RID: 12027 RVA: 0x000BEA18 File Offset: 0x000BCC18
 		private MatrixFrame LinearInterpolatedIK(ref PathTracker pathTracker)
 		{
 			MatrixFrame matrixFrame;
@@ -248,19 +207,16 @@ namespace TaleWorlds.MountAndBlade
 			return MatrixFrame.Lerp(matrixFrame, matrixFrame2, vec.x);
 		}
 
-		// Token: 0x06002EFC RID: 12028 RVA: 0x000BEA46 File Offset: 0x000BCC46
 		public void SetDistanceTraveledAsClient(float distance)
 		{
 			this._advancementError = distance - this._pathTracker.TotalDistanceTraveled;
 		}
 
-		// Token: 0x06002EFD RID: 12029 RVA: 0x000BEA5B File Offset: 0x000BCC5B
 		public override bool IsOnTickRequired()
 		{
 			return true;
 		}
 
-		// Token: 0x06002EFE RID: 12030 RVA: 0x000BEA60 File Offset: 0x000BCC60
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -282,7 +238,6 @@ namespace TaleWorlds.MountAndBlade
 			this.TickSound();
 		}
 
-		// Token: 0x06002EFF RID: 12031 RVA: 0x000BEAFC File Offset: 0x000BCCFC
 		public void TickParallelManually(float dt)
 		{
 			if (this._pathTracker.PathExists() && !this._pathTracker.HasReachedEnd)
@@ -389,7 +344,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F00 RID: 12032 RVA: 0x000BEFA4 File Offset: 0x000BD1A4
 		public MatrixFrame GetInitialFrame()
 		{
 			PathTracker pathTracker = new PathTracker(this._path, Vec3.One);
@@ -397,7 +351,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.LinearInterpolatedIK(ref pathTracker);
 		}
 
-		// Token: 0x06002F01 RID: 12033 RVA: 0x000BEFD0 File Offset: 0x000BD1D0
 		private void SetTargetFrame()
 		{
 			if (!this._pathTracker.PathExists())
@@ -412,7 +365,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Velocity = (gameEntity.GlobalPosition - this.Velocity).NormalizedCopy() * this.CurrentSpeed;
 		}
 
-		// Token: 0x06002F02 RID: 12034 RVA: 0x000BF048 File Offset: 0x000BD248
 		public MatrixFrame GetTargetFrame()
 		{
 			float totalDistanceTraveled = this._pathTracker.TotalDistanceTraveled;
@@ -423,7 +375,6 @@ namespace TaleWorlds.MountAndBlade
 			return currentFrame;
 		}
 
-		// Token: 0x06002F03 RID: 12035 RVA: 0x000BF093 File Offset: 0x000BD293
 		public void SetDestinationNavMeshIdState(bool enabled)
 		{
 			if (this.NavMeshIdToDisableOnDestination != -1)
@@ -432,7 +383,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F04 RID: 12036 RVA: 0x000BF0B4 File Offset: 0x000BD2B4
 		public void MoveToTargetAsClient()
 		{
 			if (this._pathTracker.IsValid)
@@ -445,7 +395,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F05 RID: 12037 RVA: 0x000BF118 File Offset: 0x000BD318
 		private void TickSound()
 		{
 			if (this.CurrentSpeed > 0f)
@@ -456,7 +405,6 @@ namespace TaleWorlds.MountAndBlade
 			this.StopMovementSound();
 		}
 
-		// Token: 0x06002F06 RID: 12038 RVA: 0x000BF134 File Offset: 0x000BD334
 		private void PlayMovementSound()
 		{
 			if (!this._isMoveSoundPlaying)
@@ -468,7 +416,6 @@ namespace TaleWorlds.MountAndBlade
 			this._movementSound.SetPosition(this.MainObject.GameEntity.GlobalPosition);
 		}
 
-		// Token: 0x06002F07 RID: 12039 RVA: 0x000BF198 File Offset: 0x000BD398
 		private void StopMovementSound()
 		{
 			if (this._isMoveSoundPlaying)
@@ -478,7 +425,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F08 RID: 12040 RVA: 0x000BF1B4 File Offset: 0x000BD3B4
 		protected internal override void OnMissionReset()
 		{
 			base.OnMissionReset();
@@ -489,7 +435,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SetTargetFrame();
 		}
 
-		// Token: 0x06002F09 RID: 12041 RVA: 0x000BF1F0 File Offset: 0x000BD3F0
 		protected internal override bool ReadFromNetwork()
 		{
 			bool flag = true;
@@ -504,19 +449,16 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002F0A RID: 12042 RVA: 0x000BF246 File Offset: 0x000BD446
 		protected internal override void WriteToNetwork()
 		{
 			GameNetworkMessage.WriteFloatToPacket(this._pathTracker.TotalDistanceTraveled, CompressionBasic.PositionCompressionInfo);
 		}
 
-		// Token: 0x06002F0B RID: 12043 RVA: 0x000BF25D File Offset: 0x000BD45D
 		private MatrixFrame FindGroundFrameForWheels(ref MatrixFrame frame)
 		{
 			return SiegeWeaponMovementComponent.FindGroundFrameForWheelsStatic(ref frame, this.AxleLength, this._wheelDiameter, this.MainObject.GameEntity, this._wheels, this.MainObject.Scene);
 		}
 
-		// Token: 0x06002F0C RID: 12044 RVA: 0x000BF290 File Offset: 0x000BD490
 		public static MatrixFrame FindGroundFrameForWheelsStatic(ref MatrixFrame frame, float axleLength, float wheelDiameter, GameEntity gameEntity, List<GameEntity> wheels, Scene scene)
 		{
 			Vec3.StackArray8Vec3 stackArray8Vec = default(Vec3.StackArray8Vec3);
@@ -578,64 +520,44 @@ namespace TaleWorlds.MountAndBlade
 			return matrixFrame;
 		}
 
-		// Token: 0x0400132B RID: 4907
 		public const string GhostObjectTag = "ghost_object";
 
-		// Token: 0x0400132C RID: 4908
 		private static readonly ActionIndexCache act_strike_bent_over = ActionIndexCache.Create("act_strike_bent_over");
 
-		// Token: 0x0400132D RID: 4909
 		private static readonly ActionIndexCache act_usage_siege_machine_push = ActionIndexCache.Create("act_usage_siege_machine_push");
 
-		// Token: 0x0400132E RID: 4910
 		private const string WheelTag = "wheel";
 
-		// Token: 0x0400132F RID: 4911
 		public const string MoveStandingPointTag = "move";
 
-		// Token: 0x04001330 RID: 4912
 		public float AxleLength = 2.45f;
 
-		// Token: 0x04001331 RID: 4913
 		public int NavMeshIdToDisableOnDestination = -1;
 
-		// Token: 0x04001332 RID: 4914
 		private float _ghostObjectPos;
 
-		// Token: 0x04001333 RID: 4915
 		private List<GameEntity> _wheels;
 
-		// Token: 0x04001334 RID: 4916
 		private List<StandingPoint> _standingPoints;
 
-		// Token: 0x04001335 RID: 4917
 		private MatrixFrame[] _standingPointLocalIKFrames;
 
-		// Token: 0x04001336 RID: 4918
 		private SoundEvent _movementSound;
 
-		// Token: 0x04001337 RID: 4919
 		private float _wheelCircumference;
 
-		// Token: 0x04001338 RID: 4920
 		private bool _isMoveSoundPlaying;
 
-		// Token: 0x04001339 RID: 4921
 		private float _wheelDiameter;
 
-		// Token: 0x0400133A RID: 4922
 		private Path _path;
 
-		// Token: 0x0400133B RID: 4923
 		private PathTracker _pathTracker;
 
-		// Token: 0x0400133C RID: 4924
 		private PathTracker _ghostEntityPathTracker;
 
-		// Token: 0x0400133D RID: 4925
 		private float _advancementError;
 
-		// Token: 0x0400133E RID: 4926
 		private float _lastSynchronizedDistance;
 	}
 }

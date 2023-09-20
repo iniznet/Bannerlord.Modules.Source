@@ -7,15 +7,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CA RID: 970
 	public class RandomEquipmentEffect : MPRandomOnSpawnPerkEffect
 	{
-		// Token: 0x060033DC RID: 13276 RVA: 0x000D6EC9 File Offset: 0x000D50C9
 		protected RandomEquipmentEffect()
 		{
 		}
 
-		// Token: 0x060033DD RID: 13277 RVA: 0x000D6ED4 File Offset: 0x000D50D4
 		protected override void Deserialize(XmlNode node)
 		{
 			base.Deserialize(node);
@@ -57,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033DE RID: 13278 RVA: 0x000D708C File Offset: 0x000D528C
 		public override List<ValueTuple<EquipmentIndex, EquipmentElement>> GetAlternativeEquipments(bool isPlayer, List<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments, bool getAll)
 		{
 			if (getAll)
@@ -96,10 +92,8 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return alternativeEquipments;
 		}
 
-		// Token: 0x04001611 RID: 5649
 		protected static string StringType = "RandomEquipmentOnSpawn";
 
-		// Token: 0x04001612 RID: 5650
 		private MBList<List<ValueTuple<EquipmentIndex, EquipmentElement>>> _groups;
 	}
 }

@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200011A RID: 282
 	public class BehaviorSergeantMPMountedRanged : BehaviorComponent
 	{
-		// Token: 0x06000D62 RID: 3426 RVA: 0x00022304 File Offset: 0x00020504
 		public BehaviorSergeantMPMountedRanged(Formation formation)
 			: base(formation)
 		{
@@ -20,7 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D63 RID: 3427 RVA: 0x00022360 File Offset: 0x00020560
 		private MovementOrder UncapturedFlagMoveOrder()
 		{
 			if (this._flagpositions.Any((FlagCapturePoint fp) => this._flagDominationGameMode.GetFlagOwnerTeam(fp) != base.Formation.Team))
@@ -36,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			return MovementOrder.MovementOrderStop;
 		}
 
-		// Token: 0x06000D64 RID: 3428 RVA: 0x00022450 File Offset: 0x00020650
 		protected override void CalculateCurrentOrder()
 		{
 			if (base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation == null || base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation.MedianPosition.AsVec2.DistanceSquared(base.Formation.QuerySystem.AveragePosition) > 2500f)
@@ -83,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec);
 		}
 
-		// Token: 0x06000D65 RID: 3429 RVA: 0x000226E4 File Offset: 0x000208E4
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -97,7 +92,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 		}
 
-		// Token: 0x06000D66 RID: 3430 RVA: 0x00022774 File Offset: 0x00020974
 		protected override void OnBehaviorActivatedAux()
 		{
 			this._flagpositions.RemoveAll((FlagCapturePoint fp) => fp.IsDeactivated);
@@ -110,7 +104,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D67 RID: 3431 RVA: 0x00022814 File Offset: 0x00020A14
 		protected override float GetAiWeight()
 		{
 			if (base.Formation.QuerySystem.IsRangedCavalryFormation)
@@ -120,10 +113,8 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x0400033E RID: 830
 		private List<FlagCapturePoint> _flagpositions;
 
-		// Token: 0x0400033F RID: 831
 		private MissionMultiplayerFlagDomination _flagDominationGameMode;
 	}
 }

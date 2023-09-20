@@ -9,16 +9,13 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002CA RID: 714
 	public class FlagDominationSpawningBehavior : SpawningBehaviorBase
 	{
-		// Token: 0x06002712 RID: 10002 RVA: 0x000940E3 File Offset: 0x000922E3
 		public FlagDominationSpawningBehavior()
 		{
 			this._enforcedSpawnTimers = new List<KeyValuePair<MissionPeer, Timer>>();
 		}
 
-		// Token: 0x06002713 RID: 10003 RVA: 0x000940F8 File Offset: 0x000922F8
 		public override void Initialize(SpawnComponent spawnComponent)
 		{
 			base.Initialize(spawnComponent);
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnPeerSpawnedFromVisuals += this.OnPeerSpawnedFromVisuals;
 		}
 
-		// Token: 0x06002714 RID: 10004 RVA: 0x000941B0 File Offset: 0x000923B0
 		public override void Clear()
 		{
 			base.Clear();
@@ -46,7 +42,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnPeerSpawnedFromVisuals -= this.OnPeerSpawnedFromVisuals;
 		}
 
-		// Token: 0x06002715 RID: 10005 RVA: 0x00094230 File Offset: 0x00092430
 		public override void OnTick(float dt)
 		{
 			if (this._spawningTimerTicking)
@@ -79,7 +74,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnTick(dt);
 		}
 
-		// Token: 0x06002716 RID: 10006 RVA: 0x00094338 File Offset: 0x00092538
 		public override void RequestStartSpawnSession()
 		{
 			if (!this.IsSpawningEnabled)
@@ -93,7 +87,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002717 RID: 10007 RVA: 0x00094370 File Offset: 0x00092570
 		protected override void SpawnAgents()
 		{
 			BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
@@ -287,7 +280,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002718 RID: 10008 RVA: 0x00094CCC File Offset: 0x00092ECC
 		private new void OnPeerSpawnedFromVisuals(MissionPeer peer)
 		{
 			if (peer.ControlledFormation != null)
@@ -296,7 +288,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002719 RID: 10009 RVA: 0x00094CF4 File Offset: 0x00092EF4
 		private new void OnAllAgentsFromPeerSpawnedFromVisuals(MissionPeer peer)
 		{
 			if (peer.ControlledFormation != null)
@@ -333,7 +324,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600271A RID: 10010 RVA: 0x00094E84 File Offset: 0x00093084
 		private void BotFormationSpawned(Team team)
 		{
 			if (team == base.Mission.AttackerTeam)
@@ -347,7 +337,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600271B RID: 10011 RVA: 0x00094ED4 File Offset: 0x000930D4
 		private void AllBotFormationsSpawned()
 		{
 			if (base.Mission.NumOfFormationsSpawnedTeamOne != 0 || base.Mission.NumOfFormationsSpawnedTeamTwo != 0)
@@ -358,7 +347,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600271C RID: 10012 RVA: 0x00094F28 File Offset: 0x00093128
 		public override bool AllowEarlyAgentVisualsDespawning(MissionPeer lobbyPeer)
 		{
 			if (MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) != 0)
@@ -376,13 +364,11 @@ namespace TaleWorlds.MountAndBlade
 			return lobbyPeer.HasSpawnTimerExpired;
 		}
 
-		// Token: 0x0600271D RID: 10013 RVA: 0x00094F7C File Offset: 0x0009317C
 		protected override bool IsRoundInProgress()
 		{
 			return this._roundController.IsRoundInProgress;
 		}
 
-		// Token: 0x0600271E RID: 10014 RVA: 0x00094F8C File Offset: 0x0009318C
 		private void CreateEnforcedSpawnTimerForPeer(MissionPeer peer, int durationInSeconds)
 		{
 			if (this._enforcedSpawnTimers.Any((KeyValuePair<MissionPeer, Timer> pair) => pair.Key == peer))
@@ -393,7 +379,6 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print(string.Concat(new object[] { "EST for ", peer.Name, " set to ", durationInSeconds, " seconds." }), 0, Debug.DebugColor.Yellow, 64UL);
 		}
 
-		// Token: 0x0600271F RID: 10015 RVA: 0x00095030 File Offset: 0x00093230
 		private bool CheckIfEnforcedSpawnTimerExpiredForPeer(MissionPeer peer)
 		{
 			KeyValuePair<MissionPeer, Timer> keyValuePair = this._enforcedSpawnTimers.FirstOrDefault((KeyValuePair<MissionPeer, Timer> pr) => pr.Key == peer);
@@ -418,7 +403,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002720 RID: 10016 RVA: 0x00095132 File Offset: 0x00093332
 		public override void OnClearScene()
 		{
 			base.OnClearScene();
@@ -426,7 +410,6 @@ namespace TaleWorlds.MountAndBlade
 			this._roundInitialSpawnOver = false;
 		}
 
-		// Token: 0x06002721 RID: 10017 RVA: 0x0009514C File Offset: 0x0009334C
 		protected void SpawnBotInBotFormation(int visualsIndex, Team agentTeam, BasicCultureObject cultureLimit, BasicCharacterObject character, Formation formation)
 		{
 			AgentBuildData agentBuildData = new AgentBuildData(character).Team(agentTeam).TroopOrigin(new BasicBattleAgentOrigin(character)).VisualsIndex(visualsIndex)
@@ -440,7 +423,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Mission.SpawnAgent(agentBuildData, false).AIStateFlags |= Agent.AIStateFlag.Alarmed;
 		}
 
-		// Token: 0x06002722 RID: 10018 RVA: 0x00095268 File Offset: 0x00093468
 		protected void SpawnBotVisualsInPlayerFormation(MissionPeer missionPeer, int visualsIndex, Team agentTeam, BasicCultureObject cultureLimit, string troopName, Formation formation, bool updateExistingAgentVisuals, int totalCount, IEnumerable<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments)
 		{
 			BasicCharacterObject @object = MBObjectManager.Instance.GetObject<BasicCharacterObject>(troopName);
@@ -469,28 +451,20 @@ namespace TaleWorlds.MountAndBlade
 			this.GameMode.HandleAgentVisualSpawning(networkPeer, agentBuildData, totalCount, false);
 		}
 
-		// Token: 0x04000E7F RID: 3711
 		private const int EnforcedSpawnTimeInSeconds = 15;
 
-		// Token: 0x04000E80 RID: 3712
 		private float _spawningTimer;
 
-		// Token: 0x04000E81 RID: 3713
 		private bool _spawningTimerTicking;
 
-		// Token: 0x04000E82 RID: 3714
 		private bool _haveBotsBeenSpawned;
 
-		// Token: 0x04000E83 RID: 3715
 		private bool _roundInitialSpawnOver;
 
-		// Token: 0x04000E84 RID: 3716
 		private MissionMultiplayerFlagDomination _flagDominationMissionController;
 
-		// Token: 0x04000E85 RID: 3717
 		private MultiplayerRoundController _roundController;
 
-		// Token: 0x04000E86 RID: 3718
 		private List<KeyValuePair<MissionPeer, Timer>> _enforcedSpawnTimers;
 	}
 }

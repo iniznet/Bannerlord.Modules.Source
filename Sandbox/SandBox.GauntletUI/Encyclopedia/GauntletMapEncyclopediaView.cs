@@ -10,11 +10,9 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI.Encyclopedia
 {
-	// Token: 0x02000036 RID: 54
 	[OverrideView(typeof(MapEncyclopediaView))]
 	public class GauntletMapEncyclopediaView : MapEncyclopediaView
 	{
-		// Token: 0x060001E2 RID: 482 RVA: 0x0000DB58 File Offset: 0x0000BD58
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -29,7 +27,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			game.AfterTick = (Action<float>)Delegate.Combine(game.AfterTick, new Action<float>(this.OnTick));
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x0000DC0E File Offset: 0x0000BE0E
 		internal void OnTick(float dt)
 		{
 			EncyclopediaData encyclopediaData = this._encyclopediaData;
@@ -40,7 +37,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			encyclopediaData.OnTick();
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x0000DC20 File Offset: 0x0000BE20
 		private EncyclopediaPageVM ExecuteLink(string pageId, object obj, bool needsRefresh)
 		{
 			this._navigatorDatasource.NavBarString = string.Empty;
@@ -62,7 +58,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			return this._encyclopediaData.ExecuteLink(pageId, obj, needsRefresh);
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x0000DCC0 File Offset: 0x0000BEC0
 		protected override void OnFinalize()
 		{
 			Game game = this._game;
@@ -75,7 +70,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			base.OnFinalize();
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x0000DD21 File Offset: 0x0000BF21
 		public override void CloseEncyclopedia()
 		{
 			this._encyclopediaData.CloseEncyclopedia();
@@ -83,22 +77,16 @@ namespace SandBox.GauntletUI.Encyclopedia
 			base.IsEncyclopediaOpen = false;
 		}
 
-		// Token: 0x040000FF RID: 255
 		private EncyclopediaHomeVM _homeDatasource;
 
-		// Token: 0x04000100 RID: 256
 		private EncyclopediaNavigatorVM _navigatorDatasource;
 
-		// Token: 0x04000101 RID: 257
 		private EncyclopediaData _encyclopediaData;
 
-		// Token: 0x04000102 RID: 258
 		public EncyclopediaListViewDataController ListViewDataController;
 
-		// Token: 0x04000103 RID: 259
 		private SpriteCategory _spriteCategory;
 
-		// Token: 0x04000104 RID: 260
 		private Game _game;
 	}
 }

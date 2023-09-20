@@ -8,15 +8,10 @@ using TaleWorlds.Core;
 
 namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.SettlementNotificationTypes
 {
-	// Token: 0x0200001D RID: 29
 	public class CaravanTransactionNotificationItemVM : SettlementNotificationItemBaseVM
 	{
-		// Token: 0x170000DE RID: 222
-		// (get) Token: 0x060002B1 RID: 689 RVA: 0x0000D356 File Offset: 0x0000B556
-		// (set) Token: 0x060002B2 RID: 690 RVA: 0x0000D35E File Offset: 0x0000B55E
 		public MobileParty CaravanParty { get; private set; }
 
-		// Token: 0x060002B3 RID: 691 RVA: 0x0000D368 File Offset: 0x0000B568
 		public CaravanTransactionNotificationItemVM(Action<SettlementNotificationItemBaseVM> onRemove, MobileParty caravanParty, List<ValueTuple<EquipmentElement, int>> items, int createdTick)
 			: base(onRemove, createdTick)
 		{
@@ -54,7 +49,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002B4 RID: 692 RVA: 0x0000D4C0 File Offset: 0x0000B6C0
 		public void AddNewItems(List<ValueTuple<EquipmentElement, int>> newItems)
 		{
 			CaravanTransactionNotificationItemVM.<>c__DisplayClass7_0 CS$<>8__locals1 = new CaravanTransactionNotificationItemVM.<>c__DisplayClass7_0();
@@ -79,10 +73,8 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			base.Text = SandBoxUIHelper.GetItemsTradedNotificationText(this._items, this._isSelling);
 		}
 
-		// Token: 0x04000159 RID: 345
 		private List<ValueTuple<EquipmentElement, int>> _items;
 
-		// Token: 0x0400015A RID: 346
 		private bool _isSelling;
 	}
 }

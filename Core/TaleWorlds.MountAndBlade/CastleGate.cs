@@ -10,16 +10,10 @@ using TaleWorlds.MountAndBlade.Source.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200034A RID: 842
 	public class CastleGate : UsableMachine, IPointDefendable, ICastleKeyPosition, ITargetable
 	{
-		// Token: 0x17000811 RID: 2065
-		// (get) Token: 0x06002CFD RID: 11517 RVA: 0x000AF0F9 File Offset: 0x000AD2F9
-		// (set) Token: 0x06002CFE RID: 11518 RVA: 0x000AF101 File Offset: 0x000AD301
 		public TacticalPosition MiddlePosition { get; private set; }
 
-		// Token: 0x17000812 RID: 2066
-		// (get) Token: 0x06002CFF RID: 11519 RVA: 0x000AF10A File Offset: 0x000AD30A
 		private static int BatteringRamHitSoundIdCache
 		{
 			get
@@ -32,13 +26,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000813 RID: 2067
-		// (get) Token: 0x06002D00 RID: 11520 RVA: 0x000AF128 File Offset: 0x000AD328
-		// (set) Token: 0x06002D01 RID: 11521 RVA: 0x000AF130 File Offset: 0x000AD330
 		public TacticalPosition WaitPosition { get; private set; }
 
-		// Token: 0x17000814 RID: 2068
-		// (get) Token: 0x06002D02 RID: 11522 RVA: 0x000AF139 File Offset: 0x000AD339
 		public override FocusableObjectType FocusableObjectType
 		{
 			get
@@ -47,13 +36,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000815 RID: 2069
-		// (get) Token: 0x06002D03 RID: 11523 RVA: 0x000AF13C File Offset: 0x000AD33C
-		// (set) Token: 0x06002D04 RID: 11524 RVA: 0x000AF144 File Offset: 0x000AD344
 		public CastleGate.GateState State { get; private set; }
 
-		// Token: 0x17000816 RID: 2070
-		// (get) Token: 0x06002D05 RID: 11525 RVA: 0x000AF14D File Offset: 0x000AD34D
 		public bool IsGateOpen
 		{
 			get
@@ -62,29 +46,20 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000817 RID: 2071
-		// (get) Token: 0x06002D06 RID: 11526 RVA: 0x000AF15F File Offset: 0x000AD35F
-		// (set) Token: 0x06002D07 RID: 11527 RVA: 0x000AF167 File Offset: 0x000AD367
 		public IPrimarySiegeWeapon AttackerSiegeWeapon { get; set; }
 
-		// Token: 0x17000818 RID: 2072
-		// (get) Token: 0x06002D08 RID: 11528 RVA: 0x000AF170 File Offset: 0x000AD370
-		// (set) Token: 0x06002D09 RID: 11529 RVA: 0x000AF178 File Offset: 0x000AD378
 		public IEnumerable<DefencePoint> DefencePoints { get; protected set; }
 
-		// Token: 0x06002D0A RID: 11530 RVA: 0x000AF184 File Offset: 0x000AD384
 		public CastleGate()
 		{
 			this._attackOnlyDoorColliders = new List<GameEntity>();
 		}
 
-		// Token: 0x06002D0B RID: 11531 RVA: 0x000AF242 File Offset: 0x000AD442
 		public Vec3 GetPosition()
 		{
 			return base.GameEntity.GlobalPosition;
 		}
 
-		// Token: 0x06002D0C RID: 11532 RVA: 0x000AF24F File Offset: 0x000AD44F
 		public override OrderType GetOrder(BattleSideEnum side)
 		{
 			if (base.IsDestroyed)
@@ -98,13 +73,8 @@ namespace TaleWorlds.MountAndBlade
 			return OrderType.AttackEntity;
 		}
 
-		// Token: 0x17000819 RID: 2073
-		// (get) Token: 0x06002D0D RID: 11533 RVA: 0x000AF264 File Offset: 0x000AD464
-		// (set) Token: 0x06002D0E RID: 11534 RVA: 0x000AF26C File Offset: 0x000AD46C
 		public FormationAI.BehaviorSide DefenseSide { get; private set; }
 
-		// Token: 0x1700081A RID: 2074
-		// (get) Token: 0x06002D0F RID: 11535 RVA: 0x000AF275 File Offset: 0x000AD475
 		public WorldFrame MiddleFrame
 		{
 			get
@@ -113,8 +83,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700081B RID: 2075
-		// (get) Token: 0x06002D10 RID: 11536 RVA: 0x000AF27D File Offset: 0x000AD47D
 		public WorldFrame DefenseWaitFrame
 		{
 			get
@@ -123,7 +91,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D11 RID: 11537 RVA: 0x000AF288 File Offset: 0x000AD488
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -221,7 +188,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnCheckForProblems();
 		}
 
-		// Token: 0x06002D12 RID: 11538 RVA: 0x000AF5F0 File Offset: 0x000AD7F0
 		public void SetUsableTeam(Team team)
 		{
 			using (List<StandingPoint>.Enumerator enumerator = base.StandingPoints.GetEnumerator())
@@ -237,7 +203,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D13 RID: 11539 RVA: 0x000AF64C File Offset: 0x000AD84C
 		public override void AfterMissionStart()
 		{
 			this._afterMissionStartTriggered = true;
@@ -259,7 +224,6 @@ namespace TaleWorlds.MountAndBlade
 			this._pathChecker = new AgentPathNavMeshChecker(Mission.Current, base.GameEntity.GetGlobalFrame(), 2f, this.NavigationMeshId, BattleSideEnum.Defender, AgentPathNavMeshChecker.Direction.BothDirections, 14f, 3f);
 		}
 
-		// Token: 0x06002D14 RID: 11540 RVA: 0x000AF6F0 File Offset: 0x000AD8F0
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -277,7 +241,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D15 RID: 11541 RVA: 0x000AF777 File Offset: 0x000AD977
 		protected internal override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -287,7 +250,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D16 RID: 11542 RVA: 0x000AF7AD File Offset: 0x000AD9AD
 		protected internal override void OnMissionReset()
 		{
 			Action destructibleComponentOnMissionReset = this.DestructibleComponentOnMissionReset;
@@ -301,7 +263,6 @@ namespace TaleWorlds.MountAndBlade
 			this._previousAnimationProgress = -1f;
 		}
 
-		// Token: 0x06002D17 RID: 11543 RVA: 0x000AF7E0 File Offset: 0x000AD9E0
 		private void SetInitialStateOfGate()
 		{
 			if (!GameNetwork.IsClientOrReplay && this.NavigationMeshIdToDisableOnOpen != -1)
@@ -332,13 +293,11 @@ namespace TaleWorlds.MountAndBlade
 			firstScriptOfType.SetDisabled(false);
 		}
 
-		// Token: 0x06002D18 RID: 11544 RVA: 0x000AF8AD File Offset: 0x000ADAAD
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			return new TextObject("{=6wZUG0ev}Gate", null).ToString();
 		}
 
-		// Token: 0x06002D19 RID: 11545 RVA: 0x000AF8C0 File Offset: 0x000ADAC0
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject = new TextObject(usableGameObject.GameEntity.HasTag("open") ? "{=5oozsaIb}{KEY} Open" : "{=TJj71hPO}{KEY} Close", null);
@@ -346,19 +305,16 @@ namespace TaleWorlds.MountAndBlade
 			return textObject;
 		}
 
-		// Token: 0x06002D1A RID: 11546 RVA: 0x000AF90E File Offset: 0x000ADB0E
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new CastleGateAI(this);
 		}
 
-		// Token: 0x06002D1B RID: 11547 RVA: 0x000AF916 File Offset: 0x000ADB16
 		public void OpenDoorAndDisableGateForCivilianMission()
 		{
 			this._civilianMission = true;
 		}
 
-		// Token: 0x06002D1C RID: 11548 RVA: 0x000AF920 File Offset: 0x000ADB20
 		public void OpenDoor()
 		{
 			if (!base.IsDisabled)
@@ -388,7 +344,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D1D RID: 11549 RVA: 0x000AF9B4 File Offset: 0x000ADBB4
 		public void CloseDoor()
 		{
 			if (!base.IsDisabled)
@@ -412,7 +367,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D1E RID: 11550 RVA: 0x000AFA34 File Offset: 0x000ADC34
 		private void UpdateDoorBodies(bool updateAnyway)
 		{
 			if (this._attackOnlyDoorColliders.Count == 2)
@@ -538,7 +492,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D1F RID: 11551 RVA: 0x000AFE6C File Offset: 0x000AE06C
 		private void SetGateNavMeshState(bool isEnabled)
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -552,7 +505,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D20 RID: 11552 RVA: 0x000AFEC0 File Offset: 0x000AE0C0
 		private void SetGateNavMeshStateForEnemies(bool isEnabled)
 		{
 			Team attackerTeam = Mission.Current.AttackerTeam;
@@ -568,7 +520,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D21 RID: 11553 RVA: 0x000AFF34 File Offset: 0x000AE134
 		public void SetAutoOpenState(bool isEnabled)
 		{
 			this.AutoOpen = isEnabled;
@@ -589,7 +540,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SetGateNavMeshStateForEnemies(true);
 		}
 
-		// Token: 0x06002D22 RID: 11554 RVA: 0x000AFF85 File Offset: 0x000AE185
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.GameEntity.IsVisibleIncludeParents())
@@ -599,7 +549,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002D23 RID: 11555 RVA: 0x000AFFA4 File Offset: 0x000AE1A4
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -671,7 +620,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D24 RID: 11556 RVA: 0x000B0140 File Offset: 0x000AE340
 		protected override bool IsAgentOnInconvenientNavmesh(Agent agent, StandingPoint standingPoint)
 		{
 			if (Mission.Current.MissionTeamAIType != Mission.MissionTeamAITypeEnum.Siege)
@@ -711,7 +659,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002D25 RID: 11557 RVA: 0x000B0268 File Offset: 0x000AE468
 		private void ServerTick(float dt)
 		{
 			if (!this.IsDeactivated)
@@ -782,7 +729,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D26 RID: 11558 RVA: 0x000B047C File Offset: 0x000AE67C
 		public TargetFlags GetTargetFlags()
 		{
 			TargetFlags targetFlags = TargetFlags.None;
@@ -798,31 +744,26 @@ namespace TaleWorlds.MountAndBlade
 			return targetFlags;
 		}
 
-		// Token: 0x06002D27 RID: 11559 RVA: 0x000B04AD File Offset: 0x000AE6AD
 		public float GetTargetValue(List<Vec3> weaponPos)
 		{
 			return 10f;
 		}
 
-		// Token: 0x06002D28 RID: 11560 RVA: 0x000B04B4 File Offset: 0x000AE6B4
 		public GameEntity GetTargetEntity()
 		{
 			return base.GameEntity;
 		}
 
-		// Token: 0x06002D29 RID: 11561 RVA: 0x000B04BC File Offset: 0x000AE6BC
 		public BattleSideEnum GetSide()
 		{
 			return BattleSideEnum.Defender;
 		}
 
-		// Token: 0x06002D2A RID: 11562 RVA: 0x000B04BF File Offset: 0x000AE6BF
 		public GameEntity Entity()
 		{
 			return base.GameEntity;
 		}
 
-		// Token: 0x06002D2B RID: 11563 RVA: 0x000B04C8 File Offset: 0x000AE6C8
 		protected void CollectGameEntities(bool calledFromOnInit)
 		{
 			this.CollectDynamicGameEntities(calledFromOnInit);
@@ -836,14 +777,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D2C RID: 11564 RVA: 0x000B050E File Offset: 0x000AE70E
 		protected void OnNextDestructionState()
 		{
 			this.CollectDynamicGameEntities(false);
 			this.UpdateDoorBodies(true);
 		}
 
-		// Token: 0x06002D2D RID: 11565 RVA: 0x000B0520 File Offset: 0x000AE720
 		protected void CollectDynamicGameEntities(bool calledFromOnInit)
 		{
 			this._attackOnlyDoorColliders.Clear();
@@ -981,7 +920,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D2E RID: 11566 RVA: 0x000B0948 File Offset: 0x000AEB48
 		private void InitializeExtraColliderPositions()
 		{
 			if (this._extraColliderLeft != null)
@@ -1011,7 +949,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D2F RID: 11567 RVA: 0x000B0A48 File Offset: 0x000AEC48
 		private void OnHitTaken(DestructableComponent hitComponent, Agent hitterAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			if (!GameNetwork.IsClientOrReplay && inflictedDamage >= 200 && this.State == CastleGate.GateState.Closed && attackerScriptComponentBehavior is BatteringRam)
@@ -1026,7 +963,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D30 RID: 11568 RVA: 0x000B0ACC File Offset: 0x000AECCC
 		private void OnDestroyed(DestructableComponent destroyedComponent, Agent destroyerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -1048,7 +984,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D31 RID: 11569 RVA: 0x000B0B60 File Offset: 0x000AED60
 		private int OnCalculateDestructionStateIndex(int destructionStateIndex, int inflictedDamage, int destructionStateCount)
 		{
 			if (inflictedDamage < 200)
@@ -1058,7 +993,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Min(destructionStateIndex, destructionStateCount - 1);
 		}
 
-		// Token: 0x06002D32 RID: 11570 RVA: 0x000B0B78 File Offset: 0x000AED78
 		protected internal override bool OnCheckForProblems()
 		{
 			bool flag = base.OnCheckForProblems();
@@ -1118,183 +1052,124 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002D33 RID: 11571 RVA: 0x000B0DBF File Offset: 0x000AEFBF
 		public Vec3 GetTargetingOffset()
 		{
 			return Vec3.Zero;
 		}
 
-		// Token: 0x04001173 RID: 4467
 		public const string OuterGateTag = "outer_gate";
 
-		// Token: 0x04001174 RID: 4468
 		public const string InnerGateTag = "inner_gate";
 
-		// Token: 0x04001175 RID: 4469
 		private const float ExtraColliderScaleFactor = 1.1f;
 
-		// Token: 0x04001176 RID: 4470
 		private const string LeftDoorBodyTag = "collider_l";
 
-		// Token: 0x04001177 RID: 4471
 		private const string RightDoorBodyTag = "collider_r";
 
-		// Token: 0x04001178 RID: 4472
 		private const string RightDoorAgentOnlyBodyTag = "collider_agent_r";
 
-		// Token: 0x04001179 RID: 4473
 		private const string OpenTag = "open";
 
-		// Token: 0x0400117A RID: 4474
 		private const string CloseTag = "close";
 
-		// Token: 0x0400117B RID: 4475
 		private const string MiddlePositionTag = "middle_pos";
 
-		// Token: 0x0400117C RID: 4476
 		private const string WaitPositionTag = "wait_pos";
 
-		// Token: 0x0400117D RID: 4477
 		private const string LeftDoorAgentOnlyBodyTag = "collider_agent_l";
 
-		// Token: 0x0400117E RID: 4478
 		private const int HeavyBlowDamageLimit = 200;
 
-		// Token: 0x04001180 RID: 4480
 		private static int _batteringRamHitSoundId = -1;
 
-		// Token: 0x04001182 RID: 4482
 		public CastleGate.DoorOwnership OwningTeam;
 
-		// Token: 0x04001183 RID: 4483
 		public string OpeningAnimationName = "castle_gate_a_opening";
 
-		// Token: 0x04001184 RID: 4484
 		public string ClosingAnimationName = "castle_gate_a_closing";
 
-		// Token: 0x04001185 RID: 4485
 		public string HitAnimationName = "castle_gate_a_hit";
 
-		// Token: 0x04001186 RID: 4486
 		public string PlankHitAnimationName = "castle_gate_a_plank_hit";
 
-		// Token: 0x04001187 RID: 4487
 		public string HitMeleeAnimationName = "castle_gate_a_hit_melee";
 
-		// Token: 0x04001188 RID: 4488
 		public string DestroyAnimationName = "castle_gate_a_break";
 
-		// Token: 0x04001189 RID: 4489
 		public int NavigationMeshId = 1000;
 
-		// Token: 0x0400118A RID: 4490
 		public int NavigationMeshIdToDisableOnOpen = -1;
 
-		// Token: 0x0400118B RID: 4491
 		public string LeftDoorBoneName = "bn_bottom_l";
 
-		// Token: 0x0400118C RID: 4492
 		public string RightDoorBoneName = "bn_bottom_r";
 
-		// Token: 0x0400118D RID: 4493
 		public string ExtraCollisionObjectTagRight = "extra_collider_r";
 
-		// Token: 0x0400118E RID: 4494
 		public string ExtraCollisionObjectTagLeft = "extra_collider_l";
 
-		// Token: 0x0400118F RID: 4495
 		private int _openingAnimationIndex = -1;
 
-		// Token: 0x04001190 RID: 4496
 		private int _closingAnimationIndex = -1;
 
-		// Token: 0x04001191 RID: 4497
 		private bool _leftExtraColliderDisabled;
 
-		// Token: 0x04001192 RID: 4498
 		private bool _rightExtraColliderDisabled;
 
-		// Token: 0x04001193 RID: 4499
 		private bool _civilianMission;
 
-		// Token: 0x04001194 RID: 4500
 		public bool ActivateExtraColliders = true;
 
-		// Token: 0x04001195 RID: 4501
 		public string SideTag;
 
-		// Token: 0x04001197 RID: 4503
 		private bool _openNavMeshIdDisabled;
 
-		// Token: 0x04001198 RID: 4504
 		private SynchedMissionObject _door;
 
-		// Token: 0x04001199 RID: 4505
 		private Skeleton _doorSkeleton;
 
-		// Token: 0x0400119A RID: 4506
 		private GameEntity _extraColliderRight;
 
-		// Token: 0x0400119B RID: 4507
 		private GameEntity _extraColliderLeft;
 
-		// Token: 0x0400119C RID: 4508
 		private readonly List<GameEntity> _attackOnlyDoorColliders;
 
-		// Token: 0x0400119D RID: 4509
 		private float _previousAnimationProgress = -1f;
 
-		// Token: 0x0400119E RID: 4510
 		private GameEntity _agentColliderRight;
 
-		// Token: 0x0400119F RID: 4511
 		private GameEntity _agentColliderLeft;
 
-		// Token: 0x040011A0 RID: 4512
 		private LadderQueueManager _queueManager;
 
-		// Token: 0x040011A1 RID: 4513
 		private bool _afterMissionStartTriggered;
 
-		// Token: 0x040011A2 RID: 4514
 		private sbyte _rightDoorBoneIndex;
 
-		// Token: 0x040011A3 RID: 4515
 		private sbyte _leftDoorBoneIndex;
 
-		// Token: 0x040011A6 RID: 4518
 		private AgentPathNavMeshChecker _pathChecker;
 
-		// Token: 0x040011A7 RID: 4519
 		public bool AutoOpen;
 
-		// Token: 0x040011A8 RID: 4520
 		private SynchedMissionObject _plank;
 
-		// Token: 0x040011AA RID: 4522
 		private WorldFrame _middleFrame;
 
-		// Token: 0x040011AB RID: 4523
 		private WorldFrame _defenseWaitFrame;
 
-		// Token: 0x040011AC RID: 4524
 		private Action DestructibleComponentOnMissionReset;
 
-		// Token: 0x0200064F RID: 1615
 		public enum DoorOwnership
 		{
-			// Token: 0x04002074 RID: 8308
 			Defenders,
-			// Token: 0x04002075 RID: 8309
 			Attackers
 		}
 
-		// Token: 0x02000650 RID: 1616
 		public enum GateState
 		{
-			// Token: 0x04002077 RID: 8311
 			Open,
-			// Token: 0x04002078 RID: 8312
 			Closed
 		}
 	}

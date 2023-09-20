@@ -15,12 +15,8 @@ using Newtonsoft.Json;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000021 RID: 33
 	public static class Common
 	{
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x060000BE RID: 190 RVA: 0x00004609 File Offset: 0x00002809
-		// (set) Token: 0x060000BF RID: 191 RVA: 0x00004610 File Offset: 0x00002810
 		public static IPlatformFileHelper PlatformFileHelper
 		{
 			get
@@ -33,7 +29,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060000C0 RID: 192 RVA: 0x00004618 File Offset: 0x00002818
 		public static byte[] CombineBytes(byte[] arr1, byte[] arr2, byte[] arr3 = null, byte[] arr4 = null, byte[] arr5 = null)
 		{
 			byte[] array = new byte[arr1.Length + arr2.Length + ((arr3 != null) ? arr3.Length : 0) + ((arr4 != null) ? arr4.Length : 0) + ((arr5 != null) ? arr5.Length : 0)];
@@ -65,7 +60,6 @@ namespace TaleWorlds.Library
 			return array;
 		}
 
-		// Token: 0x060000C1 RID: 193 RVA: 0x000046CC File Offset: 0x000028CC
 		public static string CalculateMD5Hash(string input)
 		{
 			MD5 md = MD5.Create();
@@ -81,7 +75,6 @@ namespace TaleWorlds.Library
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x060000C2 RID: 194 RVA: 0x0000473C File Offset: 0x0000293C
 		public static string ToRoman(int number)
 		{
 			if (number < 0 || number > 3999)
@@ -148,7 +141,6 @@ namespace TaleWorlds.Library
 			return "";
 		}
 
-		// Token: 0x060000C3 RID: 195 RVA: 0x000048E8 File Offset: 0x00002AE8
 		public static int GetDJB2(string str)
 		{
 			int num = 5381;
@@ -159,14 +151,12 @@ namespace TaleWorlds.Library
 			return num;
 		}
 
-		// Token: 0x060000C4 RID: 196 RVA: 0x0000491C File Offset: 0x00002B1C
 		public static byte[] SerializeObjectAsJson(object o)
 		{
 			string text = JsonConvert.SerializeObject(o, Formatting.Indented);
 			return Encoding.UTF8.GetBytes(text);
 		}
 
-		// Token: 0x060000C5 RID: 197 RVA: 0x0000493C File Offset: 0x00002B3C
 		public static byte[] SerializeObject(object sObject)
 		{
 			MemoryStream memoryStream = new MemoryStream();
@@ -182,13 +172,11 @@ namespace TaleWorlds.Library
 			return memoryStream.ToArray();
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x00004990 File Offset: 0x00002B90
 		public static object DeserializeObject(byte[] serializeData)
 		{
 			return Common.DeserializeObject(serializeData, 0, serializeData.Length);
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x0000499C File Offset: 0x00002B9C
 		public static object DeserializeObject(byte[] serializeData, int index, int length)
 		{
 			MemoryStream memoryStream = new MemoryStream(serializeData, index, length, false);
@@ -205,8 +193,6 @@ namespace TaleWorlds.Library
 			return obj;
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x060000C8 RID: 200 RVA: 0x000049D8 File Offset: 0x00002BD8
 		public static string ConfigName
 		{
 			get
@@ -215,7 +201,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x000049EC File Offset: 0x00002BEC
 		public static Type FindType(string typeName)
 		{
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -230,14 +215,12 @@ namespace TaleWorlds.Library
 			return null;
 		}
 
-		// Token: 0x060000CA RID: 202 RVA: 0x00004A2A File Offset: 0x00002C2A
 		public static void MemoryCleanupGC(bool forceTimer = false)
 		{
 			GC.Collect();
 			Common.lastGCTime = DateTime.Now;
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x00004A3C File Offset: 0x00002C3C
 		public static object DynamicInvokeWithLog(this Delegate method, params object[] args)
 		{
 			object obj = null;
@@ -254,7 +237,6 @@ namespace TaleWorlds.Library
 			return obj;
 		}
 
-		// Token: 0x060000CC RID: 204 RVA: 0x00004A7C File Offset: 0x00002C7C
 		public static object InvokeWithLog(this MethodInfo methodInfo, object obj, params object[] args)
 		{
 			object obj2 = null;
@@ -271,7 +253,6 @@ namespace TaleWorlds.Library
 			return obj2;
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x00004AB4 File Offset: 0x00002CB4
 		public static object InvokeWithLog(this ConstructorInfo constructorInfo, params object[] args)
 		{
 			object obj = null;
@@ -289,7 +270,6 @@ namespace TaleWorlds.Library
 			return obj;
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x00004B68 File Offset: 0x00002D68
 		private static string GetStackTraceRaw(Exception e, int skipCount = 0)
 		{
 			StackTrace stackTrace = new StackTrace(e, 0, false);
@@ -318,7 +298,6 @@ namespace TaleWorlds.Library
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x00004C54 File Offset: 0x00002E54
 		private static void WalkInnerExceptionRecursive(Exception InnerException, ref string StackStr)
 		{
 			if (InnerException == null)
@@ -332,7 +311,6 @@ namespace TaleWorlds.Library
 			StackStr += Environment.NewLine;
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00004CA0 File Offset: 0x00002EA0
 		private static void PrintDynamicInvokeDebugInfo(Exception e, MethodInfo methodInfo, object obj, params object[] args)
 		{
 			string text = "Exception occurred inside invoke: " + methodInfo.Name;
@@ -371,20 +349,17 @@ namespace TaleWorlds.Library
 			Debug.Print(text, 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x00004D8C File Offset: 0x00002F8C
 		public static bool TextContainsSpecialCharacters(string text)
 		{
 			return text.Any((char x) => !char.IsWhiteSpace(x) && !char.IsLetterOrDigit(x) && !char.IsPunctuation(x));
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x00004DB4 File Offset: 0x00002FB4
 		public static uint ParseIpAddress(string address)
 		{
 			byte[] addressBytes = IPAddress.Parse(address).GetAddressBytes();
 			return (uint)(((int)addressBytes[0] << 24) + ((int)addressBytes[1] << 16) + ((int)addressBytes[2] << 8) + (int)addressBytes[3]);
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x00004DE4 File Offset: 0x00002FE4
 		public static bool IsAllLetters(string text)
 		{
 			if (text == null)
@@ -401,7 +376,6 @@ namespace TaleWorlds.Library
 			return true;
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x00004E1C File Offset: 0x0000301C
 		public static bool IsAllLettersOrWhiteSpaces(string text)
 		{
 			if (text == null)
@@ -418,13 +392,11 @@ namespace TaleWorlds.Library
 			return true;
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x00004E5C File Offset: 0x0000305C
 		public static bool IsCharAsian(char character)
 		{
 			return (character >= '一' && character <= '\u9fff') || (character >= '㐀' && character <= '䶿') || (character >= '㐀' && character <= '䶿') || ((int)character >= 131072 && (int)character <= 183983) || (character >= '⺀' && character <= '\u31ef') || (character >= '豈' && character <= '\ufaff') || (character >= '︰' && character <= '\ufe4f') || ((int)character >= 993280 && (int)character <= 195103);
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x00004EF0 File Offset: 0x000030F0
 		public static void SetInvariantCulture()
 		{
 			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
@@ -433,25 +405,21 @@ namespace TaleWorlds.Library
 			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00004F24 File Offset: 0x00003124
 		public static MethodInfo GetMethodInfo(Expression<Action> expression)
 		{
 			return Common.GetMethodInfo(expression);
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00004F2C File Offset: 0x0000312C
 		public static MethodInfo GetMethodInfo<T>(Expression<Action<T>> expression)
 		{
 			return Common.GetMethodInfo(expression);
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x00004F34 File Offset: 0x00003134
 		public static MethodInfo GetMethodInfo<T, TResult>(Expression<Func<T, TResult>> expression)
 		{
 			return Common.GetMethodInfo(expression);
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x00004F3C File Offset: 0x0000313C
 		public static MethodInfo GetMethodInfo(LambdaExpression expression)
 		{
 			MethodCallExpression methodCallExpression = expression.Body as MethodCallExpression;
@@ -462,8 +430,6 @@ namespace TaleWorlds.Library
 			return methodCallExpression.Method;
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x060000DB RID: 219 RVA: 0x00004F5C File Offset: 0x0000315C
 		public static ParallelOptions ParallelOptions
 		{
 			get
@@ -477,13 +443,10 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x04000068 RID: 104
 		private static IPlatformFileHelper _fileHelper = null;
 
-		// Token: 0x04000069 RID: 105
 		private static DateTime lastGCTime = DateTime.Now;
 
-		// Token: 0x0400006A RID: 106
 		private static ParallelOptions _parallelOptions = null;
 	}
 }

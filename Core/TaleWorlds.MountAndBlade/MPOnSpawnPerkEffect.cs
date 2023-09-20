@@ -7,10 +7,8 @@ using System.Xml;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000312 RID: 786
 	public abstract class MPOnSpawnPerkEffect : MPOnSpawnPerkEffectBase
 	{
-		// Token: 0x06002A77 RID: 10871 RVA: 0x000A5774 File Offset: 0x000A3974
 		static MPOnSpawnPerkEffect()
 		{
 			foreach (Type type in from t in Assembly.GetAssembly(typeof(MPOnSpawnPerkEffect)).GetTypes()
@@ -23,7 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002A78 RID: 10872 RVA: 0x000A5814 File Offset: 0x000A3A14
 		public static MPOnSpawnPerkEffect CreateFrom(XmlNode node)
 		{
 			string text;
@@ -50,7 +47,6 @@ namespace TaleWorlds.MountAndBlade
 			return mponSpawnPerkEffect;
 		}
 
-		// Token: 0x04001044 RID: 4164
 		protected static Dictionary<string, Type> Registered = new Dictionary<string, Type>();
 	}
 }

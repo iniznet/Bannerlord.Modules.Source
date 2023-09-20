@@ -3,11 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 {
-	// Token: 0x0200034F RID: 847
 	public class DefaultPerks
 	{
-		// Token: 0x17000B4F RID: 2895
-		// (get) Token: 0x06002F5F RID: 12127 RVA: 0x000C22B1 File Offset: 0x000C04B1
 		private static DefaultPerks Instance
 		{
 			get
@@ -16,13 +13,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F60 RID: 12128 RVA: 0x000C22BD File Offset: 0x000C04BD
 		public DefaultPerks()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x06002F61 RID: 12129 RVA: 0x000C22CC File Offset: 0x000C04CC
 		private void RegisterAll()
 		{
 			this._oneHandedWrappedHandles = this.Create("OneHandedWrappedHandles");
@@ -402,7 +397,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this.InitializeAll();
 		}
 
-		// Token: 0x06002F62 RID: 12130 RVA: 0x000C3BB8 File Offset: 0x000C1DB8
 		private void InitializeAll()
 		{
 			this._oneHandedWrappedHandles.Initialize("{=looKU9Gl}Wrapped Handles", DefaultSkills.OneHanded, this.GetTierCost(1), this._oneHandedBasher, "{=dY3GOmTN}{VALUE}% handling to one handed weapons.", SkillEffect.PerkRole.Personal, 0.2f, SkillEffect.EffectIncrementType.AddFactor, "{=0mBHB7mA}{VALUE} combat skill to troops in your formation.", SkillEffect.PerkRole.Captain, 30f, SkillEffect.EffectIncrementType.Add, TroopClassFlag.None, (TroopClassFlag)4294967295U);
@@ -781,1152 +775,772 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this._engineeringMasterwork.Initialize("{=SNsAlN4R}Masterwork", DefaultSkills.Engineering, this.GetTierCost(11), null, "{=RP2Jn3J4}{VALUE}% damage for each engineering skill point over 250 for siege engines in siege bombardment.", SkillEffect.PerkRole.Engineer, 0.01f, SkillEffect.EffectIncrementType.AddFactor, "", SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Invalid, TroopClassFlag.None, TroopClassFlag.None);
 		}
 
-		// Token: 0x06002F63 RID: 12131 RVA: 0x000C95CA File Offset: 0x000C77CA
 		private int GetTierCost(int tierIndex)
 		{
 			return DefaultPerks._tierSkillRequirements[tierIndex - 1];
 		}
 
-		// Token: 0x06002F64 RID: 12132 RVA: 0x000C95D5 File Offset: 0x000C77D5
 		private PerkObject Create(string stringId)
 		{
 			return Game.Current.ObjectManager.RegisterPresumedObject<PerkObject>(new PerkObject(stringId));
 		}
 
-		// Token: 0x04000E2A RID: 3626
 		private static readonly int[] _tierSkillRequirements = new int[]
 		{
 			25, 50, 75, 100, 125, 150, 175, 200, 225, 250,
 			275, 300
 		};
 
-		// Token: 0x04000E2B RID: 3627
 		private PerkObject _oneHandedBasher;
 
-		// Token: 0x04000E2C RID: 3628
 		private PerkObject _oneHandedToBeBlunt;
 
-		// Token: 0x04000E2D RID: 3629
 		private PerkObject _oneHandedSteelCoreShields;
 
-		// Token: 0x04000E2E RID: 3630
 		private PerkObject _oneHandedFleetOfFoot;
 
-		// Token: 0x04000E2F RID: 3631
 		private PerkObject _oneHandedDeadlyPurpose;
 
-		// Token: 0x04000E30 RID: 3632
 		private PerkObject _oneHandedUnwaveringDefense;
 
-		// Token: 0x04000E31 RID: 3633
 		private PerkObject _oneHandedWrappedHandles;
 
-		// Token: 0x04000E32 RID: 3634
 		private PerkObject _oneHandedWayOfTheSword;
 
-		// Token: 0x04000E33 RID: 3635
 		private PerkObject _oneHandedPrestige;
 
-		// Token: 0x04000E34 RID: 3636
 		private PerkObject _oneHandedChinkInTheArmor;
 
-		// Token: 0x04000E35 RID: 3637
 		private PerkObject _oneHandedStandUnited;
 
-		// Token: 0x04000E36 RID: 3638
 		private PerkObject _oneHandedLeadByExample;
 
-		// Token: 0x04000E37 RID: 3639
 		private PerkObject _oneHandedMilitaryTradition;
 
-		// Token: 0x04000E38 RID: 3640
 		private PerkObject _oneHandedCorpsACorps;
 
-		// Token: 0x04000E39 RID: 3641
 		private PerkObject _oneHandedShieldWall;
 
-		// Token: 0x04000E3A RID: 3642
 		private PerkObject _oneHandedArrowCatcher;
 
-		// Token: 0x04000E3B RID: 3643
 		private PerkObject _oneHandedShieldBearer;
 
-		// Token: 0x04000E3C RID: 3644
 		private PerkObject _oneHandedTrainer;
 
-		// Token: 0x04000E3D RID: 3645
 		private PerkObject _oneHandedDuelist;
 
-		// Token: 0x04000E3E RID: 3646
 		private PerkObject _oneHandedSwiftStrike;
 
-		// Token: 0x04000E3F RID: 3647
 		private PerkObject _oneHandedCavalry;
 
-		// Token: 0x04000E40 RID: 3648
 		private PerkObject _twoHandedWoodChopper;
 
-		// Token: 0x04000E41 RID: 3649
 		private PerkObject _twoHandedWayOfTheGreatAxe;
 
-		// Token: 0x04000E42 RID: 3650
 		private PerkObject _twoHandedStrongGrip;
 
-		// Token: 0x04000E43 RID: 3651
 		private PerkObject _twoHandedOnTheEdge;
 
-		// Token: 0x04000E44 RID: 3652
 		private PerkObject _twoHandedHeadBasher;
 
-		// Token: 0x04000E45 RID: 3653
 		private PerkObject _twoHandedShowOfStrength;
 
-		// Token: 0x04000E46 RID: 3654
 		private PerkObject _twoHandedBeastSlayer;
 
-		// Token: 0x04000E47 RID: 3655
 		private PerkObject _twoHandedBaptisedInBlood;
 
-		// Token: 0x04000E48 RID: 3656
 		private PerkObject _twoHandedShieldBreaker;
 
-		// Token: 0x04000E49 RID: 3657
 		private PerkObject _twoHandedConfidence;
 
-		// Token: 0x04000E4A RID: 3658
 		private PerkObject _twoHandedBerserker;
 
-		// Token: 0x04000E4B RID: 3659
 		private PerkObject _twoHandedProjectileDeflection;
 
-		// Token: 0x04000E4C RID: 3660
 		private PerkObject _twoHandedTerror;
 
-		// Token: 0x04000E4D RID: 3661
 		private PerkObject _twoHandedHope;
 
-		// Token: 0x04000E4E RID: 3662
 		private PerkObject _twoHandedThickHides;
 
-		// Token: 0x04000E4F RID: 3663
 		private PerkObject _twoHandedRecklessCharge;
 
-		// Token: 0x04000E50 RID: 3664
 		private PerkObject _twoHandedBladeMaster;
 
-		// Token: 0x04000E51 RID: 3665
 		private PerkObject _twoHandedVandal;
 
-		// Token: 0x04000E52 RID: 3666
 		public PerkObject _polearmPikeman;
 
-		// Token: 0x04000E53 RID: 3667
 		public PerkObject _polearmCavalry;
 
-		// Token: 0x04000E54 RID: 3668
 		public PerkObject _polearmBraced;
 
-		// Token: 0x04000E55 RID: 3669
 		public PerkObject _polearmKeepAtBay;
 
-		// Token: 0x04000E56 RID: 3670
 		public PerkObject _polearmSwiftSwing;
 
-		// Token: 0x04000E57 RID: 3671
 		public PerkObject _polearmCleanThrust;
 
-		// Token: 0x04000E58 RID: 3672
 		public PerkObject _polearmFootwork;
 
-		// Token: 0x04000E59 RID: 3673
 		public PerkObject _polearmHardKnock;
 
-		// Token: 0x04000E5A RID: 3674
 		public PerkObject _polearmSteedKiller;
 
-		// Token: 0x04000E5B RID: 3675
 		public PerkObject _polearmLancer;
 
-		// Token: 0x04000E5C RID: 3676
 		public PerkObject _polearmGuards;
 
-		// Token: 0x04000E5D RID: 3677
 		public PerkObject _polearmSkewer;
 
-		// Token: 0x04000E5E RID: 3678
 		public PerkObject _polearmStandardBearer;
 
-		// Token: 0x04000E5F RID: 3679
 		public PerkObject _polearmPhalanx;
 
-		// Token: 0x04000E60 RID: 3680
 		public PerkObject _polearmHardyFrontline;
 
-		// Token: 0x04000E61 RID: 3681
 		public PerkObject _polearmDrills;
 
-		// Token: 0x04000E62 RID: 3682
 		public PerkObject _polearmSureFooted;
 
-		// Token: 0x04000E63 RID: 3683
 		public PerkObject _polearmUnstoppableForce;
 
-		// Token: 0x04000E64 RID: 3684
 		public PerkObject _polearmCounterweight;
 
-		// Token: 0x04000E65 RID: 3685
 		public PerkObject _polearmWayOfTheSpear;
 
-		// Token: 0x04000E66 RID: 3686
 		public PerkObject _polearmSharpenTheTip;
 
-		// Token: 0x04000E67 RID: 3687
 		public PerkObject _bowDeadAim;
 
-		// Token: 0x04000E68 RID: 3688
 		public PerkObject _bowBodkin;
 
-		// Token: 0x04000E69 RID: 3689
 		public PerkObject _bowRangersSwiftness;
 
-		// Token: 0x04000E6A RID: 3690
 		public PerkObject _bowRapidFire;
 
-		// Token: 0x04000E6B RID: 3691
 		public PerkObject _bowQuickAdjustments;
 
-		// Token: 0x04000E6C RID: 3692
 		public PerkObject _bowMerryMen;
 
-		// Token: 0x04000E6D RID: 3693
 		public PerkObject _bowMountedArchery;
 
-		// Token: 0x04000E6E RID: 3694
 		public PerkObject _bowTrainer;
 
-		// Token: 0x04000E6F RID: 3695
 		public PerkObject _bowStrongBows;
 
-		// Token: 0x04000E70 RID: 3696
 		public PerkObject _bowDiscipline;
 
-		// Token: 0x04000E71 RID: 3697
 		public PerkObject _bowHunterClan;
 
-		// Token: 0x04000E72 RID: 3698
 		public PerkObject _bowSkirmishPhaseMaster;
 
-		// Token: 0x04000E73 RID: 3699
 		public PerkObject _bowEagleEye;
 
-		// Token: 0x04000E74 RID: 3700
 		public PerkObject _bowBullsEye;
 
-		// Token: 0x04000E75 RID: 3701
 		public PerkObject _bowRenownedArcher;
 
-		// Token: 0x04000E76 RID: 3702
 		public PerkObject _bowHorseMaster;
 
-		// Token: 0x04000E77 RID: 3703
 		public PerkObject _bowDeepQuivers;
 
-		// Token: 0x04000E78 RID: 3704
 		public PerkObject _bowQuickDraw;
 
-		// Token: 0x04000E79 RID: 3705
 		public PerkObject _bowNockingPoint;
 
-		// Token: 0x04000E7A RID: 3706
 		public PerkObject _bowBowControl;
 
-		// Token: 0x04000E7B RID: 3707
 		public PerkObject _bowDeadshot;
 
-		// Token: 0x04000E7C RID: 3708
 		public PerkObject _crossbowMarksmen;
 
-		// Token: 0x04000E7D RID: 3709
 		public PerkObject _crossbowUnhorser;
 
-		// Token: 0x04000E7E RID: 3710
 		public PerkObject _crossbowWindWinder;
 
-		// Token: 0x04000E7F RID: 3711
 		public PerkObject _crossbowDonkeysSwiftness;
 
-		// Token: 0x04000E80 RID: 3712
 		public PerkObject _crossbowSheriff;
 
-		// Token: 0x04000E81 RID: 3713
 		public PerkObject _crossbowPeasantLeader;
 
-		// Token: 0x04000E82 RID: 3714
 		public PerkObject _crossbowRenownMarksmen;
 
-		// Token: 0x04000E83 RID: 3715
 		public PerkObject _crossbowFletcher;
 
-		// Token: 0x04000E84 RID: 3716
 		public PerkObject _crossbowPuncture;
 
-		// Token: 0x04000E85 RID: 3717
 		public PerkObject _crossbowLooseAndMove;
 
-		// Token: 0x04000E86 RID: 3718
 		public PerkObject _crossbowDeftHands;
 
-		// Token: 0x04000E87 RID: 3719
 		public PerkObject _crossbowCounterFire;
 
-		// Token: 0x04000E88 RID: 3720
 		public PerkObject _crossbowMountedCrossbowman;
 
-		// Token: 0x04000E89 RID: 3721
 		public PerkObject _crossbowSteady;
 
-		// Token: 0x04000E8A RID: 3722
 		public PerkObject _crossbowLongShots;
 
-		// Token: 0x04000E8B RID: 3723
 		public PerkObject _crossbowHammerBolts;
 
-		// Token: 0x04000E8C RID: 3724
 		public PerkObject _crossbowPavise;
 
-		// Token: 0x04000E8D RID: 3725
 		public PerkObject _crossbowTerror;
 
-		// Token: 0x04000E8E RID: 3726
 		public PerkObject _crossbowPickedShots;
 
-		// Token: 0x04000E8F RID: 3727
 		public PerkObject _crossbowPiercer;
 
-		// Token: 0x04000E90 RID: 3728
 		public PerkObject _crossbowMightyPull;
 
-		// Token: 0x04000E91 RID: 3729
 		private PerkObject _throwingShieldBreaker;
 
-		// Token: 0x04000E92 RID: 3730
 		private PerkObject _throwingHunter;
 
-		// Token: 0x04000E93 RID: 3731
 		private PerkObject _throwingFlexibleFighter;
 
-		// Token: 0x04000E94 RID: 3732
 		private PerkObject _throwingMountedSkirmisher;
 
-		// Token: 0x04000E95 RID: 3733
 		private PerkObject _throwingPerfectTechnique;
 
-		// Token: 0x04000E96 RID: 3734
 		private PerkObject _throwingRunningThrow;
 
-		// Token: 0x04000E97 RID: 3735
 		private PerkObject _throwingKnockOff;
 
-		// Token: 0x04000E98 RID: 3736
 		private PerkObject _throwingWellPrepared;
 
-		// Token: 0x04000E99 RID: 3737
 		private PerkObject _throwingSkirmisher;
 
-		// Token: 0x04000E9A RID: 3738
 		private PerkObject _throwingFocus;
 
-		// Token: 0x04000E9B RID: 3739
 		private PerkObject _throwingLastHit;
 
-		// Token: 0x04000E9C RID: 3740
 		private PerkObject _throwingHeadHunter;
 
-		// Token: 0x04000E9D RID: 3741
 		private PerkObject _throwingThrowingCompetitions;
 
-		// Token: 0x04000E9E RID: 3742
 		private PerkObject _throwingSaddlebags;
 
-		// Token: 0x04000E9F RID: 3743
 		private PerkObject _throwingSplinters;
 
-		// Token: 0x04000EA0 RID: 3744
 		private PerkObject _throwingResourceful;
 
-		// Token: 0x04000EA1 RID: 3745
 		private PerkObject _throwingLongReach;
 
-		// Token: 0x04000EA2 RID: 3746
 		private PerkObject _throwingWeakSpot;
 
-		// Token: 0x04000EA3 RID: 3747
 		private PerkObject _throwingQuickDraw;
 
-		// Token: 0x04000EA4 RID: 3748
 		private PerkObject _throwingImpale;
 
-		// Token: 0x04000EA5 RID: 3749
 		private PerkObject _throwingUnstoppableForce;
 
-		// Token: 0x04000EA6 RID: 3750
 		private PerkObject _ridingNimbleSteed;
 
-		// Token: 0x04000EA7 RID: 3751
 		private PerkObject _ridingWellStraped;
 
-		// Token: 0x04000EA8 RID: 3752
 		private PerkObject _ridingVeterinary;
 
-		// Token: 0x04000EA9 RID: 3753
 		private PerkObject _ridingNomadicTraditions;
 
-		// Token: 0x04000EAA RID: 3754
 		private PerkObject _ridingDeeperSacks;
 
-		// Token: 0x04000EAB RID: 3755
 		private PerkObject _ridingSagittarius;
 
-		// Token: 0x04000EAC RID: 3756
 		private PerkObject _ridingSweepingWind;
 
-		// Token: 0x04000EAD RID: 3757
 		private PerkObject _ridingReliefForce;
 
-		// Token: 0x04000EAE RID: 3758
 		private PerkObject _ridingMountedWarrior;
 
-		// Token: 0x04000EAF RID: 3759
 		private PerkObject _ridingHorseArcher;
 
-		// Token: 0x04000EB0 RID: 3760
 		private PerkObject _ridingShepherd;
 
-		// Token: 0x04000EB1 RID: 3761
 		private PerkObject _ridingBreeder;
 
-		// Token: 0x04000EB2 RID: 3762
 		private PerkObject _ridingThunderousCharge;
 
-		// Token: 0x04000EB3 RID: 3763
 		private PerkObject _ridingAnnoyingBuzz;
 
-		// Token: 0x04000EB4 RID: 3764
 		private PerkObject _ridingMountedPatrols;
 
-		// Token: 0x04000EB5 RID: 3765
 		private PerkObject _ridingCavalryTactics;
 
-		// Token: 0x04000EB6 RID: 3766
 		private PerkObject _ridingDauntlessSteed;
 
-		// Token: 0x04000EB7 RID: 3767
 		private PerkObject _ridingToughSteed;
 
-		// Token: 0x04000EB8 RID: 3768
 		private PerkObject _ridingFullSpeed;
 
-		// Token: 0x04000EB9 RID: 3769
 		private PerkObject _ridingTheWayOfTheSaddle;
 
-		// Token: 0x04000EBA RID: 3770
 		private PerkObject _athleticsFormFittingArmor;
 
-		// Token: 0x04000EBB RID: 3771
 		private PerkObject _athleticsImposingStature;
 
-		// Token: 0x04000EBC RID: 3772
 		private PerkObject _athleticsStamina;
 
-		// Token: 0x04000EBD RID: 3773
 		private PerkObject _athleticsSprint;
 
-		// Token: 0x04000EBE RID: 3774
 		private PerkObject _athleticsPowerful;
 
-		// Token: 0x04000EBF RID: 3775
 		private PerkObject _athleticsSurgingBlow;
 
-		// Token: 0x04000EC0 RID: 3776
 		private PerkObject _athleticsWellBuilt;
 
-		// Token: 0x04000EC1 RID: 3777
 		private PerkObject _athleticsFury;
 
-		// Token: 0x04000EC2 RID: 3778
 		private PerkObject _athleticsBraced;
 
-		// Token: 0x04000EC3 RID: 3779
 		private PerkObject _athleticsAGoodDaysRest;
 
-		// Token: 0x04000EC4 RID: 3780
 		private PerkObject _athleticsDurable;
 
-		// Token: 0x04000EC5 RID: 3781
 		private PerkObject _athleticsEnergetic;
 
-		// Token: 0x04000EC6 RID: 3782
 		private PerkObject _athleticsSteady;
 
-		// Token: 0x04000EC7 RID: 3783
 		private PerkObject _athleticsStrong;
 
-		// Token: 0x04000EC8 RID: 3784
 		private PerkObject _athleticsStrongLegs;
 
-		// Token: 0x04000EC9 RID: 3785
 		private PerkObject _athleticsStrongArms;
 
-		// Token: 0x04000ECA RID: 3786
 		private PerkObject _athleticsSpartan;
 
-		// Token: 0x04000ECB RID: 3787
 		private PerkObject _athleticsMorningExercise;
 
-		// Token: 0x04000ECC RID: 3788
 		private PerkObject _athleticsIgnorePain;
 
-		// Token: 0x04000ECD RID: 3789
 		private PerkObject _athleticsWalkItOff;
 
-		// Token: 0x04000ECE RID: 3790
 		private PerkObject _athleticsMightyBlow;
 
-		// Token: 0x04000ECF RID: 3791
 		private PerkObject _craftingSteelMaker2;
 
-		// Token: 0x04000ED0 RID: 3792
 		private PerkObject _craftingSteelMaker3;
 
-		// Token: 0x04000ED1 RID: 3793
 		private PerkObject _craftingCharcoalMaker;
 
-		// Token: 0x04000ED2 RID: 3794
 		private PerkObject _craftingSteelMaker;
 
-		// Token: 0x04000ED3 RID: 3795
 		private PerkObject _craftingCuriousSmelter;
 
-		// Token: 0x04000ED4 RID: 3796
 		private PerkObject _craftingCuriousSmith;
 
-		// Token: 0x04000ED5 RID: 3797
 		private PerkObject _craftingPracticalSmelter;
 
-		// Token: 0x04000ED6 RID: 3798
 		private PerkObject _craftingPracticalRefiner;
 
-		// Token: 0x04000ED7 RID: 3799
 		private PerkObject _craftingPracticalSmith;
 
-		// Token: 0x04000ED8 RID: 3800
 		private PerkObject _craftingArtisanSmith;
 
-		// Token: 0x04000ED9 RID: 3801
 		private PerkObject _craftingExperiencedSmith;
 
-		// Token: 0x04000EDA RID: 3802
 		private PerkObject _craftingMasterSmith;
 
-		// Token: 0x04000EDB RID: 3803
 		private PerkObject _craftingLegendarySmith;
 
-		// Token: 0x04000EDC RID: 3804
 		private PerkObject _craftingVigorousSmith;
 
-		// Token: 0x04000EDD RID: 3805
 		private PerkObject _craftingStrongSmith;
 
-		// Token: 0x04000EDE RID: 3806
 		private PerkObject _craftingEnduringSmith;
 
-		// Token: 0x04000EDF RID: 3807
 		private PerkObject _craftingIronMaker;
 
-		// Token: 0x04000EE0 RID: 3808
 		private PerkObject _craftingFencerSmith;
 
-		// Token: 0x04000EE1 RID: 3809
 		private PerkObject _craftingSharpenedEdge;
 
-		// Token: 0x04000EE2 RID: 3810
 		private PerkObject _craftingSharpenedTip;
 
-		// Token: 0x04000EE3 RID: 3811
 		private PerkObject _tacticsSmallUnitTactics;
 
-		// Token: 0x04000EE4 RID: 3812
 		private PerkObject _tacticsHordeLeader;
 
-		// Token: 0x04000EE5 RID: 3813
 		private PerkObject _tacticsLawKeeper;
 
-		// Token: 0x04000EE6 RID: 3814
 		private PerkObject _tacticsLooseFormations;
 
-		// Token: 0x04000EE7 RID: 3815
 		private PerkObject _tacticsSwiftRegroup;
 
-		// Token: 0x04000EE8 RID: 3816
 		private PerkObject _tacticsExtendedSkirmish;
 
-		// Token: 0x04000EE9 RID: 3817
 		private PerkObject _tacticsDecisiveBattle;
 
-		// Token: 0x04000EEA RID: 3818
 		private PerkObject _tacticsCoaching;
 
-		// Token: 0x04000EEB RID: 3819
 		private PerkObject _tacticsImproviser;
 
-		// Token: 0x04000EEC RID: 3820
 		private PerkObject _tacticsOnTheMarch;
 
-		// Token: 0x04000EED RID: 3821
 		private PerkObject _tacticsCallToArms;
 
-		// Token: 0x04000EEE RID: 3822
 		private PerkObject _tacticsPickThemOfTheWalls;
 
-		// Token: 0x04000EEF RID: 3823
 		private PerkObject _tacticsMakeThemPay;
 
-		// Token: 0x04000EF0 RID: 3824
 		private PerkObject _tacticsEliteReserves;
 
-		// Token: 0x04000EF1 RID: 3825
 		private PerkObject _tacticsEncirclement;
 
-		// Token: 0x04000EF2 RID: 3826
 		private PerkObject _tacticsPreBattleManeuvers;
 
-		// Token: 0x04000EF3 RID: 3827
 		private PerkObject _tacticsBesieged;
 
-		// Token: 0x04000EF4 RID: 3828
 		private PerkObject _tacticsCounteroffensive;
 
-		// Token: 0x04000EF5 RID: 3829
 		private PerkObject _tacticsGensdarmes;
 
-		// Token: 0x04000EF6 RID: 3830
 		private PerkObject _tacticsTightFormations;
 
-		// Token: 0x04000EF7 RID: 3831
 		private PerkObject _tacticsTacticalMastery;
 
-		// Token: 0x04000EF8 RID: 3832
 		private PerkObject _scoutingNightRunner;
 
-		// Token: 0x04000EF9 RID: 3833
 		private PerkObject _scoutingWaterDiviner;
 
-		// Token: 0x04000EFA RID: 3834
 		private PerkObject _scoutingForestKin;
 
-		// Token: 0x04000EFB RID: 3835
 		private PerkObject _scoutingForcedMarch;
 
-		// Token: 0x04000EFC RID: 3836
 		private PerkObject _scoutingDesertBorn;
 
-		// Token: 0x04000EFD RID: 3837
 		private PerkObject _scoutingPathfinder;
 
-		// Token: 0x04000EFE RID: 3838
 		private PerkObject _scoutingUnburdened;
 
-		// Token: 0x04000EFF RID: 3839
 		private PerkObject _scoutingTracker;
 
-		// Token: 0x04000F00 RID: 3840
 		private PerkObject _scoutingRanger;
 
-		// Token: 0x04000F01 RID: 3841
 		private PerkObject _scoutingMountedScouts;
 
-		// Token: 0x04000F02 RID: 3842
 		private PerkObject _scoutingPatrols;
 
-		// Token: 0x04000F03 RID: 3843
 		private PerkObject _scoutingForagers;
 
-		// Token: 0x04000F04 RID: 3844
 		private PerkObject _scoutingBeastWhisperer;
 
-		// Token: 0x04000F05 RID: 3845
 		private PerkObject _scoutingVillageNetwork;
 
-		// Token: 0x04000F06 RID: 3846
 		private PerkObject _scoutingRumourNetwork;
 
-		// Token: 0x04000F07 RID: 3847
 		private PerkObject _scoutingVantagePoint;
 
-		// Token: 0x04000F08 RID: 3848
 		private PerkObject _scoutingKeenSight;
 
-		// Token: 0x04000F09 RID: 3849
 		private PerkObject _scoutingVanguard;
 
-		// Token: 0x04000F0A RID: 3850
 		private PerkObject _scoutingRearguard;
 
-		// Token: 0x04000F0B RID: 3851
 		private PerkObject _scoutingDayTraveler;
 
-		// Token: 0x04000F0C RID: 3852
 		private PerkObject _scoutingUncannyInsight;
 
-		// Token: 0x04000F0D RID: 3853
 		private PerkObject _rogueryTwoFaced;
 
-		// Token: 0x04000F0E RID: 3854
 		private PerkObject _rogueryDeepPockets;
 
-		// Token: 0x04000F0F RID: 3855
 		private PerkObject _rogueryInBestLight;
 
-		// Token: 0x04000F10 RID: 3856
 		private PerkObject _roguerySweetTalker;
 
-		// Token: 0x04000F11 RID: 3857
 		private PerkObject _rogueryKnowHow;
 
-		// Token: 0x04000F12 RID: 3858
 		private PerkObject _rogueryManhunter;
 
-		// Token: 0x04000F13 RID: 3859
 		private PerkObject _rogueryPromises;
 
-		// Token: 0x04000F14 RID: 3860
 		private PerkObject _rogueryScarface;
 
-		// Token: 0x04000F15 RID: 3861
 		private PerkObject _rogueryWhiteLies;
 
-		// Token: 0x04000F16 RID: 3862
 		private PerkObject _roguerySmugglerConnections;
 
-		// Token: 0x04000F17 RID: 3863
 		private PerkObject _rogueryPartnersInCrime;
 
-		// Token: 0x04000F18 RID: 3864
 		private PerkObject _rogueryOneOfTheFamily;
 
-		// Token: 0x04000F19 RID: 3865
 		private PerkObject _roguerySaltTheEarth;
 
-		// Token: 0x04000F1A RID: 3866
 		private PerkObject _rogueryCarver;
 
-		// Token: 0x04000F1B RID: 3867
 		private PerkObject _rogueryRansomBroker;
 
-		// Token: 0x04000F1C RID: 3868
 		private PerkObject _rogueryArmsDealer;
 
-		// Token: 0x04000F1D RID: 3869
 		private PerkObject _rogueryDirtyFighting;
 
-		// Token: 0x04000F1E RID: 3870
 		private PerkObject _rogueryDashAndSlash;
 
-		// Token: 0x04000F1F RID: 3871
 		private PerkObject _rogueryFleetFooted;
 
-		// Token: 0x04000F20 RID: 3872
 		private PerkObject _rogueryNoRestForTheWicked;
 
-		// Token: 0x04000F21 RID: 3873
 		private PerkObject _rogueryRogueExtraordinaire;
 
-		// Token: 0x04000F22 RID: 3874
 		private PerkObject _leadershipFerventAttacker;
 
-		// Token: 0x04000F23 RID: 3875
 		private PerkObject _leadershipStoutDefender;
 
-		// Token: 0x04000F24 RID: 3876
 		private PerkObject _leadershipAuthority;
 
-		// Token: 0x04000F25 RID: 3877
 		private PerkObject _leadershipHeroicLeader;
 
-		// Token: 0x04000F26 RID: 3878
 		private PerkObject _leadershipLoyaltyAndHonor;
 
-		// Token: 0x04000F27 RID: 3879
 		private PerkObject _leadershipFamousCommander;
 
-		// Token: 0x04000F28 RID: 3880
 		private PerkObject _leadershipRaiseTheMeek;
 
-		// Token: 0x04000F29 RID: 3881
 		private PerkObject _leadershipPresence;
 
-		// Token: 0x04000F2A RID: 3882
 		private PerkObject _leadershipVeteransRespect;
 
-		// Token: 0x04000F2B RID: 3883
 		private PerkObject _leadershipLeaderOfTheMasses;
 
-		// Token: 0x04000F2C RID: 3884
 		private PerkObject _leadershipInspiringLeader;
 
-		// Token: 0x04000F2D RID: 3885
 		private PerkObject _leadershipUpliftingSpirit;
 
-		// Token: 0x04000F2E RID: 3886
 		private PerkObject _leadershipMakeADifference;
 
-		// Token: 0x04000F2F RID: 3887
 		private PerkObject _leadershipLeadByExample;
 
-		// Token: 0x04000F30 RID: 3888
 		private PerkObject _leadershipTrustedCommander;
 
-		// Token: 0x04000F31 RID: 3889
 		private PerkObject _leadershipGreatLeader;
 
-		// Token: 0x04000F32 RID: 3890
 		private PerkObject _leadershipWePledgeOurSwords;
 
-		// Token: 0x04000F33 RID: 3891
 		private PerkObject _leadershipUltimateLeader;
 
-		// Token: 0x04000F34 RID: 3892
 		private PerkObject _leadershipTalentMagnet;
 
-		// Token: 0x04000F35 RID: 3893
 		private PerkObject _leadershipCitizenMilitia;
 
-		// Token: 0x04000F36 RID: 3894
 		private PerkObject _leadershipCombatTips;
 
-		// Token: 0x04000F37 RID: 3895
 		private PerkObject _charmVirile;
 
-		// Token: 0x04000F38 RID: 3896
 		private PerkObject _charmSelfPromoter;
 
-		// Token: 0x04000F39 RID: 3897
 		private PerkObject _charmOratory;
 
-		// Token: 0x04000F3A RID: 3898
 		private PerkObject _charmWarlord;
 
-		// Token: 0x04000F3B RID: 3899
 		private PerkObject _charmForgivableGrievances;
 
-		// Token: 0x04000F3C RID: 3900
 		private PerkObject _charmMeaningfulFavors;
 
-		// Token: 0x04000F3D RID: 3901
 		private PerkObject _charmInBloom;
 
-		// Token: 0x04000F3E RID: 3902
 		private PerkObject _charmYoungAndRespectful;
 
-		// Token: 0x04000F3F RID: 3903
 		private PerkObject _charmFirebrand;
 
-		// Token: 0x04000F40 RID: 3904
 		private PerkObject _charmFlexibleEthics;
 
-		// Token: 0x04000F41 RID: 3905
 		private PerkObject _charmEffortForThePeople;
 
-		// Token: 0x04000F42 RID: 3906
 		private PerkObject _charmSlickNegotiator;
 
-		// Token: 0x04000F43 RID: 3907
 		private PerkObject _charmGoodNatured;
 
-		// Token: 0x04000F44 RID: 3908
 		private PerkObject _charmTribute;
 
-		// Token: 0x04000F45 RID: 3909
 		private PerkObject _charmMoralLeader;
 
-		// Token: 0x04000F46 RID: 3910
 		private PerkObject _charmNaturalLeader;
 
-		// Token: 0x04000F47 RID: 3911
 		private PerkObject _charmPublicSpeaker;
 
-		// Token: 0x04000F48 RID: 3912
 		private PerkObject _charmParade;
 
-		// Token: 0x04000F49 RID: 3913
 		private PerkObject _charmCamaraderie;
 
-		// Token: 0x04000F4A RID: 3914
 		private PerkObject _charmImmortalCharm;
 
-		// Token: 0x04000F4B RID: 3915
 		private PerkObject _tradeTravelingRumors;
 
-		// Token: 0x04000F4C RID: 3916
 		private PerkObject _tradeLocalConnection;
 
-		// Token: 0x04000F4D RID: 3917
 		private PerkObject _tradeDistributedGoods;
 
-		// Token: 0x04000F4E RID: 3918
 		private PerkObject _tradeTollgates;
 
-		// Token: 0x04000F4F RID: 3919
 		private PerkObject _tradeArtisanCommunity;
 
-		// Token: 0x04000F50 RID: 3920
 		private PerkObject _tradeGreatInvestor;
 
-		// Token: 0x04000F51 RID: 3921
 		private PerkObject _tradeMercenaryConnections;
 
-		// Token: 0x04000F52 RID: 3922
 		private PerkObject _tradeContentTrades;
 
-		// Token: 0x04000F53 RID: 3923
 		private PerkObject _tradeInsurancePlans;
 
-		// Token: 0x04000F54 RID: 3924
 		private PerkObject _tradeRapidDevelopment;
 
-		// Token: 0x04000F55 RID: 3925
 		private PerkObject _tradeGranaryAccountant;
 
-		// Token: 0x04000F56 RID: 3926
 		private PerkObject _tradeTradeyardForeman;
 
-		// Token: 0x04000F57 RID: 3927
 		private PerkObject _tradeWholeSeller;
 
-		// Token: 0x04000F58 RID: 3928
 		private PerkObject _tradeCaravanMaster;
 
-		// Token: 0x04000F59 RID: 3929
 		private PerkObject _tradeMarketDealer;
 
-		// Token: 0x04000F5A RID: 3930
 		private PerkObject _tradeSwordForBarter;
 
-		// Token: 0x04000F5B RID: 3931
 		private PerkObject _tradeTrickleDown;
 
-		// Token: 0x04000F5C RID: 3932
 		private PerkObject _tradeManOfMeans;
 
-		// Token: 0x04000F5D RID: 3933
 		private PerkObject _tradeSpringOfGold;
 
-		// Token: 0x04000F5E RID: 3934
 		private PerkObject _tradeSilverTongue;
 
-		// Token: 0x04000F5F RID: 3935
 		private PerkObject _tradeSelfMadeMan;
 
-		// Token: 0x04000F60 RID: 3936
 		private PerkObject _tradeAppraiser;
 
-		// Token: 0x04000F61 RID: 3937
 		private PerkObject _tradeEverythingHasAPrice;
 
-		// Token: 0x04000F62 RID: 3938
 		private PerkObject _medicinePreventiveMedicine;
 
-		// Token: 0x04000F63 RID: 3939
 		private PerkObject _medicineTriageTent;
 
-		// Token: 0x04000F64 RID: 3940
 		private PerkObject _medicineWalkItOff;
 
-		// Token: 0x04000F65 RID: 3941
 		private PerkObject _medicineSledges;
 
-		// Token: 0x04000F66 RID: 3942
 		private PerkObject _medicineDoctorsOath;
 
-		// Token: 0x04000F67 RID: 3943
 		private PerkObject _medicineBestMedicine;
 
-		// Token: 0x04000F68 RID: 3944
 		private PerkObject _medicineGoodLodging;
 
-		// Token: 0x04000F69 RID: 3945
 		private PerkObject _medicineSiegeMedic;
 
-		// Token: 0x04000F6A RID: 3946
 		private PerkObject _medicineVeterinarian;
 
-		// Token: 0x04000F6B RID: 3947
 		private PerkObject _medicinePristineStreets;
 
-		// Token: 0x04000F6C RID: 3948
 		private PerkObject _medicineBushDoctor;
 
-		// Token: 0x04000F6D RID: 3949
 		private PerkObject _medicinePerfectHealth;
 
-		// Token: 0x04000F6E RID: 3950
 		private PerkObject _medicineHealthAdvise;
 
-		// Token: 0x04000F6F RID: 3951
 		private PerkObject _medicinePhysicianOfPeople;
 
-		// Token: 0x04000F70 RID: 3952
 		private PerkObject _medicineCleanInfrastructure;
 
-		// Token: 0x04000F71 RID: 3953
 		private PerkObject _medicineCheatDeath;
 
-		// Token: 0x04000F72 RID: 3954
 		private PerkObject _medicineHelpingHands;
 
-		// Token: 0x04000F73 RID: 3955
 		private PerkObject _medicineFortitudeTonic;
 
-		// Token: 0x04000F74 RID: 3956
 		private PerkObject _medicineBattleHardened;
 
-		// Token: 0x04000F75 RID: 3957
 		private PerkObject _medicineMinisterOfHealth;
 
-		// Token: 0x04000F76 RID: 3958
 		private PerkObject _medicineSelfMedication;
 
-		// Token: 0x04000F77 RID: 3959
 		private PerkObject _stewardFrugal;
 
-		// Token: 0x04000F78 RID: 3960
 		private PerkObject _stewardSevenVeterans;
 
-		// Token: 0x04000F79 RID: 3961
 		private PerkObject _stewardDrillSergant;
 
-		// Token: 0x04000F7A RID: 3962
 		private PerkObject _stewardSweatshops;
 
-		// Token: 0x04000F7B RID: 3963
 		private PerkObject _stewardEfficientCampaigner;
 
-		// Token: 0x04000F7C RID: 3964
 		private PerkObject _stewardGivingHands;
 
-		// Token: 0x04000F7D RID: 3965
 		private PerkObject _stewardLogistician;
 
-		// Token: 0x04000F7E RID: 3966
 		private PerkObject _stewardStiffUpperLip;
 
-		// Token: 0x04000F7F RID: 3967
 		private PerkObject _stewardPaidInPromise;
 
-		// Token: 0x04000F80 RID: 3968
 		private PerkObject _stewardRelocation;
 
-		// Token: 0x04000F81 RID: 3969
 		private PerkObject _stewardAidCorps;
 
-		// Token: 0x04000F82 RID: 3970
 		private PerkObject _stewardGourmet;
 
-		// Token: 0x04000F83 RID: 3971
 		private PerkObject _stewardSoundReserves;
 
-		// Token: 0x04000F84 RID: 3972
 		private PerkObject _stewardArenicosMules;
 
-		// Token: 0x04000F85 RID: 3973
 		private PerkObject _stewardForcedLabor;
 
-		// Token: 0x04000F86 RID: 3974
 		private PerkObject _stewardPriceOfLoyalty;
 
-		// Token: 0x04000F87 RID: 3975
 		private PerkObject _stewardContractors;
 
-		// Token: 0x04000F88 RID: 3976
 		private PerkObject _stewardMasterOfWarcraft;
 
-		// Token: 0x04000F89 RID: 3977
 		private PerkObject _stewardMasterOfPlanning;
 
-		// Token: 0x04000F8A RID: 3978
 		private PerkObject _stewardWarriorsDiet;
 
-		// Token: 0x04000F8B RID: 3979
 		private PerkObject _stewardArenicosHorses;
 
-		// Token: 0x04000F8C RID: 3980
 		private PerkObject _engineeringSiegeWorks;
 
-		// Token: 0x04000F8D RID: 3981
 		private PerkObject _engineeringCarpenters;
 
-		// Token: 0x04000F8E RID: 3982
 		private PerkObject _engineeringDungeonArchitect;
 
-		// Token: 0x04000F8F RID: 3983
 		private PerkObject _engineeringMilitaryPlanner;
 
-		// Token: 0x04000F90 RID: 3984
 		private PerkObject _engineeringDreadfulSieger;
 
-		// Token: 0x04000F91 RID: 3985
 		private PerkObject _engineeringTorsionEngines;
 
-		// Token: 0x04000F92 RID: 3986
 		private PerkObject _engineeringSalvager;
 
-		// Token: 0x04000F93 RID: 3987
 		private PerkObject _engineeringForeman;
 
-		// Token: 0x04000F94 RID: 3988
 		private PerkObject _engineeringWallBreaker;
 
-		// Token: 0x04000F95 RID: 3989
 		private PerkObject _engineeringStonecutters;
 
-		// Token: 0x04000F96 RID: 3990
 		private PerkObject _engineeringSiegeEngineer;
 
-		// Token: 0x04000F97 RID: 3991
 		private PerkObject _engineeringCampBuilding;
 
-		// Token: 0x04000F98 RID: 3992
 		private PerkObject _engineeringBattlements;
 
-		// Token: 0x04000F99 RID: 3993
 		private PerkObject _engineeringEngineeringGuilds;
 
-		// Token: 0x04000F9A RID: 3994
 		private PerkObject _engineeringApprenticeship;
 
-		// Token: 0x04000F9B RID: 3995
 		private PerkObject _engineeringMetallurgy;
 
-		// Token: 0x04000F9C RID: 3996
 		private PerkObject _engineeringImprovedTools;
 
-		// Token: 0x04000F9D RID: 3997
 		private PerkObject _engineeringClockwork;
 
-		// Token: 0x04000F9E RID: 3998
 		private PerkObject _engineeringArchitecturalCommisions;
 
-		// Token: 0x04000F9F RID: 3999
 		private PerkObject _engineeringScaffolds;
 
-		// Token: 0x04000FA0 RID: 4000
 		private PerkObject _engineeringMasterwork;
 
-		// Token: 0x0200067B RID: 1659
 		public static class OneHanded
 		{
-			// Token: 0x170011CB RID: 4555
-			// (get) Token: 0x060051EB RID: 20971 RVA: 0x00167CC2 File Offset: 0x00165EC2
 			public static PerkObject WrappedHandles
 			{
 				get
@@ -1935,8 +1549,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011CC RID: 4556
-			// (get) Token: 0x060051EC RID: 20972 RVA: 0x00167CCE File Offset: 0x00165ECE
 			public static PerkObject Basher
 			{
 				get
@@ -1945,8 +1557,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011CD RID: 4557
-			// (get) Token: 0x060051ED RID: 20973 RVA: 0x00167CDA File Offset: 0x00165EDA
 			public static PerkObject ToBeBlunt
 			{
 				get
@@ -1955,8 +1565,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011CE RID: 4558
-			// (get) Token: 0x060051EE RID: 20974 RVA: 0x00167CE6 File Offset: 0x00165EE6
 			public static PerkObject SwiftStrike
 			{
 				get
@@ -1965,8 +1573,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011CF RID: 4559
-			// (get) Token: 0x060051EF RID: 20975 RVA: 0x00167CF2 File Offset: 0x00165EF2
 			public static PerkObject Cavalry
 			{
 				get
@@ -1975,8 +1581,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D0 RID: 4560
-			// (get) Token: 0x060051F0 RID: 20976 RVA: 0x00167CFE File Offset: 0x00165EFE
 			public static PerkObject ShieldBearer
 			{
 				get
@@ -1985,8 +1589,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D1 RID: 4561
-			// (get) Token: 0x060051F1 RID: 20977 RVA: 0x00167D0A File Offset: 0x00165F0A
 			public static PerkObject Trainer
 			{
 				get
@@ -1995,8 +1597,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D2 RID: 4562
-			// (get) Token: 0x060051F2 RID: 20978 RVA: 0x00167D16 File Offset: 0x00165F16
 			public static PerkObject Duelist
 			{
 				get
@@ -2005,8 +1605,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D3 RID: 4563
-			// (get) Token: 0x060051F3 RID: 20979 RVA: 0x00167D22 File Offset: 0x00165F22
 			public static PerkObject ShieldWall
 			{
 				get
@@ -2015,8 +1613,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D4 RID: 4564
-			// (get) Token: 0x060051F4 RID: 20980 RVA: 0x00167D2E File Offset: 0x00165F2E
 			public static PerkObject ArrowCatcher
 			{
 				get
@@ -2025,8 +1621,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D5 RID: 4565
-			// (get) Token: 0x060051F5 RID: 20981 RVA: 0x00167D3A File Offset: 0x00165F3A
 			public static PerkObject MilitaryTradition
 			{
 				get
@@ -2035,8 +1629,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D6 RID: 4566
-			// (get) Token: 0x060051F6 RID: 20982 RVA: 0x00167D46 File Offset: 0x00165F46
 			public static PerkObject CorpsACorps
 			{
 				get
@@ -2045,8 +1637,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D7 RID: 4567
-			// (get) Token: 0x060051F7 RID: 20983 RVA: 0x00167D52 File Offset: 0x00165F52
 			public static PerkObject StandUnited
 			{
 				get
@@ -2055,8 +1645,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D8 RID: 4568
-			// (get) Token: 0x060051F8 RID: 20984 RVA: 0x00167D5E File Offset: 0x00165F5E
 			public static PerkObject LeadByExample
 			{
 				get
@@ -2065,8 +1653,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011D9 RID: 4569
-			// (get) Token: 0x060051F9 RID: 20985 RVA: 0x00167D6A File Offset: 0x00165F6A
 			public static PerkObject SteelCoreShields
 			{
 				get
@@ -2075,8 +1661,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DA RID: 4570
-			// (get) Token: 0x060051FA RID: 20986 RVA: 0x00167D76 File Offset: 0x00165F76
 			public static PerkObject FleetOfFoot
 			{
 				get
@@ -2085,8 +1669,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DB RID: 4571
-			// (get) Token: 0x060051FB RID: 20987 RVA: 0x00167D82 File Offset: 0x00165F82
 			public static PerkObject DeadlyPurpose
 			{
 				get
@@ -2095,8 +1677,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DC RID: 4572
-			// (get) Token: 0x060051FC RID: 20988 RVA: 0x00167D8E File Offset: 0x00165F8E
 			public static PerkObject UnwaveringDefense
 			{
 				get
@@ -2105,8 +1685,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DD RID: 4573
-			// (get) Token: 0x060051FD RID: 20989 RVA: 0x00167D9A File Offset: 0x00165F9A
 			public static PerkObject Prestige
 			{
 				get
@@ -2115,8 +1693,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DE RID: 4574
-			// (get) Token: 0x060051FE RID: 20990 RVA: 0x00167DA6 File Offset: 0x00165FA6
 			public static PerkObject WayOfTheSword
 			{
 				get
@@ -2125,8 +1701,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011DF RID: 4575
-			// (get) Token: 0x060051FF RID: 20991 RVA: 0x00167DB2 File Offset: 0x00165FB2
 			public static PerkObject ChinkInTheArmor
 			{
 				get
@@ -2136,11 +1710,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200067C RID: 1660
 		public static class TwoHanded
 		{
-			// Token: 0x170011E0 RID: 4576
-			// (get) Token: 0x06005200 RID: 20992 RVA: 0x00167DBE File Offset: 0x00165FBE
 			public static PerkObject StrongGrip
 			{
 				get
@@ -2149,8 +1720,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E1 RID: 4577
-			// (get) Token: 0x06005201 RID: 20993 RVA: 0x00167DCA File Offset: 0x00165FCA
 			public static PerkObject WoodChopper
 			{
 				get
@@ -2159,8 +1728,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E2 RID: 4578
-			// (get) Token: 0x06005202 RID: 20994 RVA: 0x00167DD6 File Offset: 0x00165FD6
 			public static PerkObject OnTheEdge
 			{
 				get
@@ -2169,8 +1736,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E3 RID: 4579
-			// (get) Token: 0x06005203 RID: 20995 RVA: 0x00167DE2 File Offset: 0x00165FE2
 			public static PerkObject HeadBasher
 			{
 				get
@@ -2179,8 +1744,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E4 RID: 4580
-			// (get) Token: 0x06005204 RID: 20996 RVA: 0x00167DEE File Offset: 0x00165FEE
 			public static PerkObject ShowOfStrength
 			{
 				get
@@ -2189,8 +1752,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E5 RID: 4581
-			// (get) Token: 0x06005205 RID: 20997 RVA: 0x00167DFA File Offset: 0x00165FFA
 			public static PerkObject BaptisedInBlood
 			{
 				get
@@ -2199,8 +1760,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E6 RID: 4582
-			// (get) Token: 0x06005206 RID: 20998 RVA: 0x00167E06 File Offset: 0x00166006
 			public static PerkObject BeastSlayer
 			{
 				get
@@ -2209,8 +1768,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E7 RID: 4583
-			// (get) Token: 0x06005207 RID: 20999 RVA: 0x00167E12 File Offset: 0x00166012
 			public static PerkObject ShieldBreaker
 			{
 				get
@@ -2219,8 +1776,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E8 RID: 4584
-			// (get) Token: 0x06005208 RID: 21000 RVA: 0x00167E1E File Offset: 0x0016601E
 			public static PerkObject Confidence
 			{
 				get
@@ -2229,8 +1784,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011E9 RID: 4585
-			// (get) Token: 0x06005209 RID: 21001 RVA: 0x00167E2A File Offset: 0x0016602A
 			public static PerkObject Berserker
 			{
 				get
@@ -2239,8 +1792,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011EA RID: 4586
-			// (get) Token: 0x0600520A RID: 21002 RVA: 0x00167E36 File Offset: 0x00166036
 			public static PerkObject ProjectileDeflection
 			{
 				get
@@ -2249,8 +1800,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011EB RID: 4587
-			// (get) Token: 0x0600520B RID: 21003 RVA: 0x00167E42 File Offset: 0x00166042
 			public static PerkObject Terror
 			{
 				get
@@ -2259,8 +1808,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011EC RID: 4588
-			// (get) Token: 0x0600520C RID: 21004 RVA: 0x00167E4E File Offset: 0x0016604E
 			public static PerkObject Hope
 			{
 				get
@@ -2269,8 +1816,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011ED RID: 4589
-			// (get) Token: 0x0600520D RID: 21005 RVA: 0x00167E5A File Offset: 0x0016605A
 			public static PerkObject RecklessCharge
 			{
 				get
@@ -2279,8 +1824,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011EE RID: 4590
-			// (get) Token: 0x0600520E RID: 21006 RVA: 0x00167E66 File Offset: 0x00166066
 			public static PerkObject ThickHides
 			{
 				get
@@ -2289,8 +1832,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011EF RID: 4591
-			// (get) Token: 0x0600520F RID: 21007 RVA: 0x00167E72 File Offset: 0x00166072
 			public static PerkObject BladeMaster
 			{
 				get
@@ -2299,8 +1840,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F0 RID: 4592
-			// (get) Token: 0x06005210 RID: 21008 RVA: 0x00167E7E File Offset: 0x0016607E
 			public static PerkObject Vandal
 			{
 				get
@@ -2309,8 +1848,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F1 RID: 4593
-			// (get) Token: 0x06005211 RID: 21009 RVA: 0x00167E8A File Offset: 0x0016608A
 			public static PerkObject WayOfTheGreatAxe
 			{
 				get
@@ -2320,11 +1857,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200067D RID: 1661
 		public static class Polearm
 		{
-			// Token: 0x170011F2 RID: 4594
-			// (get) Token: 0x06005212 RID: 21010 RVA: 0x00167E96 File Offset: 0x00166096
 			public static PerkObject Pikeman
 			{
 				get
@@ -2333,8 +1867,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F3 RID: 4595
-			// (get) Token: 0x06005213 RID: 21011 RVA: 0x00167EA2 File Offset: 0x001660A2
 			public static PerkObject Cavalry
 			{
 				get
@@ -2343,8 +1875,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F4 RID: 4596
-			// (get) Token: 0x06005214 RID: 21012 RVA: 0x00167EAE File Offset: 0x001660AE
 			public static PerkObject Braced
 			{
 				get
@@ -2353,8 +1883,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F5 RID: 4597
-			// (get) Token: 0x06005215 RID: 21013 RVA: 0x00167EBA File Offset: 0x001660BA
 			public static PerkObject KeepAtBay
 			{
 				get
@@ -2363,8 +1891,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F6 RID: 4598
-			// (get) Token: 0x06005216 RID: 21014 RVA: 0x00167EC6 File Offset: 0x001660C6
 			public static PerkObject SwiftSwing
 			{
 				get
@@ -2373,8 +1899,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F7 RID: 4599
-			// (get) Token: 0x06005217 RID: 21015 RVA: 0x00167ED2 File Offset: 0x001660D2
 			public static PerkObject CleanThrust
 			{
 				get
@@ -2383,8 +1907,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F8 RID: 4600
-			// (get) Token: 0x06005218 RID: 21016 RVA: 0x00167EDE File Offset: 0x001660DE
 			public static PerkObject Footwork
 			{
 				get
@@ -2393,8 +1915,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011F9 RID: 4601
-			// (get) Token: 0x06005219 RID: 21017 RVA: 0x00167EEA File Offset: 0x001660EA
 			public static PerkObject HardKnock
 			{
 				get
@@ -2403,8 +1923,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FA RID: 4602
-			// (get) Token: 0x0600521A RID: 21018 RVA: 0x00167EF6 File Offset: 0x001660F6
 			public static PerkObject SteedKiller
 			{
 				get
@@ -2413,8 +1931,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FB RID: 4603
-			// (get) Token: 0x0600521B RID: 21019 RVA: 0x00167F02 File Offset: 0x00166102
 			public static PerkObject Lancer
 			{
 				get
@@ -2423,8 +1939,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FC RID: 4604
-			// (get) Token: 0x0600521C RID: 21020 RVA: 0x00167F0E File Offset: 0x0016610E
 			public static PerkObject Skewer
 			{
 				get
@@ -2433,8 +1947,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FD RID: 4605
-			// (get) Token: 0x0600521D RID: 21021 RVA: 0x00167F1A File Offset: 0x0016611A
 			public static PerkObject Guards
 			{
 				get
@@ -2443,8 +1955,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FE RID: 4606
-			// (get) Token: 0x0600521E RID: 21022 RVA: 0x00167F26 File Offset: 0x00166126
 			public static PerkObject StandardBearer
 			{
 				get
@@ -2453,8 +1963,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170011FF RID: 4607
-			// (get) Token: 0x0600521F RID: 21023 RVA: 0x00167F32 File Offset: 0x00166132
 			public static PerkObject Phalanx
 			{
 				get
@@ -2463,8 +1971,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001200 RID: 4608
-			// (get) Token: 0x06005220 RID: 21024 RVA: 0x00167F3E File Offset: 0x0016613E
 			public static PerkObject HardyFrontline
 			{
 				get
@@ -2473,8 +1979,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001201 RID: 4609
-			// (get) Token: 0x06005221 RID: 21025 RVA: 0x00167F4A File Offset: 0x0016614A
 			public static PerkObject Drills
 			{
 				get
@@ -2483,8 +1987,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001202 RID: 4610
-			// (get) Token: 0x06005222 RID: 21026 RVA: 0x00167F56 File Offset: 0x00166156
 			public static PerkObject SureFooted
 			{
 				get
@@ -2493,8 +1995,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001203 RID: 4611
-			// (get) Token: 0x06005223 RID: 21027 RVA: 0x00167F62 File Offset: 0x00166162
 			public static PerkObject UnstoppableForce
 			{
 				get
@@ -2503,8 +2003,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001204 RID: 4612
-			// (get) Token: 0x06005224 RID: 21028 RVA: 0x00167F6E File Offset: 0x0016616E
 			public static PerkObject CounterWeight
 			{
 				get
@@ -2513,8 +2011,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001205 RID: 4613
-			// (get) Token: 0x06005225 RID: 21029 RVA: 0x00167F7A File Offset: 0x0016617A
 			public static PerkObject SharpenTheTip
 			{
 				get
@@ -2523,8 +2019,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001206 RID: 4614
-			// (get) Token: 0x06005226 RID: 21030 RVA: 0x00167F86 File Offset: 0x00166186
 			public static PerkObject WayOfTheSpear
 			{
 				get
@@ -2534,11 +2028,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200067E RID: 1662
 		public static class Bow
 		{
-			// Token: 0x17001207 RID: 4615
-			// (get) Token: 0x06005227 RID: 21031 RVA: 0x00167F92 File Offset: 0x00166192
 			public static PerkObject BowControl
 			{
 				get
@@ -2547,8 +2038,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001208 RID: 4616
-			// (get) Token: 0x06005228 RID: 21032 RVA: 0x00167F9E File Offset: 0x0016619E
 			public static PerkObject DeadAim
 			{
 				get
@@ -2557,8 +2046,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001209 RID: 4617
-			// (get) Token: 0x06005229 RID: 21033 RVA: 0x00167FAA File Offset: 0x001661AA
 			public static PerkObject Bodkin
 			{
 				get
@@ -2567,8 +2054,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120A RID: 4618
-			// (get) Token: 0x0600522A RID: 21034 RVA: 0x00167FB6 File Offset: 0x001661B6
 			public static PerkObject RangersSwiftness
 			{
 				get
@@ -2577,8 +2062,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120B RID: 4619
-			// (get) Token: 0x0600522B RID: 21035 RVA: 0x00167FC2 File Offset: 0x001661C2
 			public static PerkObject RapidFire
 			{
 				get
@@ -2587,8 +2070,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120C RID: 4620
-			// (get) Token: 0x0600522C RID: 21036 RVA: 0x00167FCE File Offset: 0x001661CE
 			public static PerkObject QuickAdjustments
 			{
 				get
@@ -2597,8 +2078,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120D RID: 4621
-			// (get) Token: 0x0600522D RID: 21037 RVA: 0x00167FDA File Offset: 0x001661DA
 			public static PerkObject MerryMen
 			{
 				get
@@ -2607,8 +2086,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120E RID: 4622
-			// (get) Token: 0x0600522E RID: 21038 RVA: 0x00167FE6 File Offset: 0x001661E6
 			public static PerkObject MountedArchery
 			{
 				get
@@ -2617,8 +2094,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700120F RID: 4623
-			// (get) Token: 0x0600522F RID: 21039 RVA: 0x00167FF2 File Offset: 0x001661F2
 			public static PerkObject Trainer
 			{
 				get
@@ -2627,8 +2102,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001210 RID: 4624
-			// (get) Token: 0x06005230 RID: 21040 RVA: 0x00167FFE File Offset: 0x001661FE
 			public static PerkObject StrongBows
 			{
 				get
@@ -2637,8 +2110,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001211 RID: 4625
-			// (get) Token: 0x06005231 RID: 21041 RVA: 0x0016800A File Offset: 0x0016620A
 			public static PerkObject Discipline
 			{
 				get
@@ -2647,8 +2118,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001212 RID: 4626
-			// (get) Token: 0x06005232 RID: 21042 RVA: 0x00168016 File Offset: 0x00166216
 			public static PerkObject HunterClan
 			{
 				get
@@ -2657,8 +2126,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001213 RID: 4627
-			// (get) Token: 0x06005233 RID: 21043 RVA: 0x00168022 File Offset: 0x00166222
 			public static PerkObject SkirmishPhaseMaster
 			{
 				get
@@ -2667,8 +2134,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001214 RID: 4628
-			// (get) Token: 0x06005234 RID: 21044 RVA: 0x0016802E File Offset: 0x0016622E
 			public static PerkObject EagleEye
 			{
 				get
@@ -2677,8 +2142,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001215 RID: 4629
-			// (get) Token: 0x06005235 RID: 21045 RVA: 0x0016803A File Offset: 0x0016623A
 			public static PerkObject BullsEye
 			{
 				get
@@ -2687,8 +2150,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001216 RID: 4630
-			// (get) Token: 0x06005236 RID: 21046 RVA: 0x00168046 File Offset: 0x00166246
 			public static PerkObject RenownedArcher
 			{
 				get
@@ -2697,8 +2158,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001217 RID: 4631
-			// (get) Token: 0x06005237 RID: 21047 RVA: 0x00168052 File Offset: 0x00166252
 			public static PerkObject HorseMaster
 			{
 				get
@@ -2707,8 +2166,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001218 RID: 4632
-			// (get) Token: 0x06005238 RID: 21048 RVA: 0x0016805E File Offset: 0x0016625E
 			public static PerkObject DeepQuivers
 			{
 				get
@@ -2717,8 +2174,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001219 RID: 4633
-			// (get) Token: 0x06005239 RID: 21049 RVA: 0x0016806A File Offset: 0x0016626A
 			public static PerkObject QuickDraw
 			{
 				get
@@ -2727,8 +2182,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700121A RID: 4634
-			// (get) Token: 0x0600523A RID: 21050 RVA: 0x00168076 File Offset: 0x00166276
 			public static PerkObject NockingPoint
 			{
 				get
@@ -2737,8 +2190,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700121B RID: 4635
-			// (get) Token: 0x0600523B RID: 21051 RVA: 0x00168082 File Offset: 0x00166282
 			public static PerkObject Deadshot
 			{
 				get
@@ -2748,11 +2199,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200067F RID: 1663
 		public static class Crossbow
 		{
-			// Token: 0x1700121C RID: 4636
-			// (get) Token: 0x0600523C RID: 21052 RVA: 0x0016808E File Offset: 0x0016628E
 			public static PerkObject Piercer
 			{
 				get
@@ -2761,8 +2209,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700121D RID: 4637
-			// (get) Token: 0x0600523D RID: 21053 RVA: 0x0016809A File Offset: 0x0016629A
 			public static PerkObject Marksmen
 			{
 				get
@@ -2771,8 +2217,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700121E RID: 4638
-			// (get) Token: 0x0600523E RID: 21054 RVA: 0x001680A6 File Offset: 0x001662A6
 			public static PerkObject Unhorser
 			{
 				get
@@ -2781,8 +2225,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700121F RID: 4639
-			// (get) Token: 0x0600523F RID: 21055 RVA: 0x001680B2 File Offset: 0x001662B2
 			public static PerkObject WindWinder
 			{
 				get
@@ -2791,8 +2233,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001220 RID: 4640
-			// (get) Token: 0x06005240 RID: 21056 RVA: 0x001680BE File Offset: 0x001662BE
 			public static PerkObject DonkeysSwiftness
 			{
 				get
@@ -2801,8 +2241,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001221 RID: 4641
-			// (get) Token: 0x06005241 RID: 21057 RVA: 0x001680CA File Offset: 0x001662CA
 			public static PerkObject Sheriff
 			{
 				get
@@ -2811,8 +2249,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001222 RID: 4642
-			// (get) Token: 0x06005242 RID: 21058 RVA: 0x001680D6 File Offset: 0x001662D6
 			public static PerkObject PeasantLeader
 			{
 				get
@@ -2821,8 +2257,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001223 RID: 4643
-			// (get) Token: 0x06005243 RID: 21059 RVA: 0x001680E2 File Offset: 0x001662E2
 			public static PerkObject RenownMarksmen
 			{
 				get
@@ -2831,8 +2265,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001224 RID: 4644
-			// (get) Token: 0x06005244 RID: 21060 RVA: 0x001680EE File Offset: 0x001662EE
 			public static PerkObject Fletcher
 			{
 				get
@@ -2841,8 +2273,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001225 RID: 4645
-			// (get) Token: 0x06005245 RID: 21061 RVA: 0x001680FA File Offset: 0x001662FA
 			public static PerkObject Puncture
 			{
 				get
@@ -2851,8 +2281,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001226 RID: 4646
-			// (get) Token: 0x06005246 RID: 21062 RVA: 0x00168106 File Offset: 0x00166306
 			public static PerkObject LooseAndMove
 			{
 				get
@@ -2861,8 +2289,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001227 RID: 4647
-			// (get) Token: 0x06005247 RID: 21063 RVA: 0x00168112 File Offset: 0x00166312
 			public static PerkObject DeftHands
 			{
 				get
@@ -2871,8 +2297,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001228 RID: 4648
-			// (get) Token: 0x06005248 RID: 21064 RVA: 0x0016811E File Offset: 0x0016631E
 			public static PerkObject CounterFire
 			{
 				get
@@ -2881,8 +2305,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001229 RID: 4649
-			// (get) Token: 0x06005249 RID: 21065 RVA: 0x0016812A File Offset: 0x0016632A
 			public static PerkObject MountedCrossbowman
 			{
 				get
@@ -2891,8 +2313,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122A RID: 4650
-			// (get) Token: 0x0600524A RID: 21066 RVA: 0x00168136 File Offset: 0x00166336
 			public static PerkObject Steady
 			{
 				get
@@ -2901,8 +2321,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122B RID: 4651
-			// (get) Token: 0x0600524B RID: 21067 RVA: 0x00168142 File Offset: 0x00166342
 			public static PerkObject LongShots
 			{
 				get
@@ -2911,8 +2329,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122C RID: 4652
-			// (get) Token: 0x0600524C RID: 21068 RVA: 0x0016814E File Offset: 0x0016634E
 			public static PerkObject HammerBolts
 			{
 				get
@@ -2921,8 +2337,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122D RID: 4653
-			// (get) Token: 0x0600524D RID: 21069 RVA: 0x0016815A File Offset: 0x0016635A
 			public static PerkObject Pavise
 			{
 				get
@@ -2931,8 +2345,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122E RID: 4654
-			// (get) Token: 0x0600524E RID: 21070 RVA: 0x00168166 File Offset: 0x00166366
 			public static PerkObject Terror
 			{
 				get
@@ -2941,8 +2353,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700122F RID: 4655
-			// (get) Token: 0x0600524F RID: 21071 RVA: 0x00168172 File Offset: 0x00166372
 			public static PerkObject PickedShots
 			{
 				get
@@ -2951,8 +2361,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001230 RID: 4656
-			// (get) Token: 0x06005250 RID: 21072 RVA: 0x0016817E File Offset: 0x0016637E
 			public static PerkObject MightyPull
 			{
 				get
@@ -2962,11 +2370,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000680 RID: 1664
 		public static class Throwing
 		{
-			// Token: 0x17001231 RID: 4657
-			// (get) Token: 0x06005251 RID: 21073 RVA: 0x0016818A File Offset: 0x0016638A
 			public static PerkObject QuickDraw
 			{
 				get
@@ -2975,8 +2380,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001232 RID: 4658
-			// (get) Token: 0x06005252 RID: 21074 RVA: 0x00168196 File Offset: 0x00166396
 			public static PerkObject ShieldBreaker
 			{
 				get
@@ -2985,8 +2388,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001233 RID: 4659
-			// (get) Token: 0x06005253 RID: 21075 RVA: 0x001681A2 File Offset: 0x001663A2
 			public static PerkObject Hunter
 			{
 				get
@@ -2995,8 +2396,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001234 RID: 4660
-			// (get) Token: 0x06005254 RID: 21076 RVA: 0x001681AE File Offset: 0x001663AE
 			public static PerkObject FlexibleFighter
 			{
 				get
@@ -3005,8 +2404,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001235 RID: 4661
-			// (get) Token: 0x06005255 RID: 21077 RVA: 0x001681BA File Offset: 0x001663BA
 			public static PerkObject MountedSkirmisher
 			{
 				get
@@ -3015,8 +2412,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001236 RID: 4662
-			// (get) Token: 0x06005256 RID: 21078 RVA: 0x001681C6 File Offset: 0x001663C6
 			public static PerkObject PerfectTechnique
 			{
 				get
@@ -3025,8 +2420,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001237 RID: 4663
-			// (get) Token: 0x06005257 RID: 21079 RVA: 0x001681D2 File Offset: 0x001663D2
 			public static PerkObject RunningThrow
 			{
 				get
@@ -3035,8 +2428,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001238 RID: 4664
-			// (get) Token: 0x06005258 RID: 21080 RVA: 0x001681DE File Offset: 0x001663DE
 			public static PerkObject KnockOff
 			{
 				get
@@ -3045,8 +2436,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001239 RID: 4665
-			// (get) Token: 0x06005259 RID: 21081 RVA: 0x001681EA File Offset: 0x001663EA
 			public static PerkObject WellPrepared
 			{
 				get
@@ -3055,8 +2444,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123A RID: 4666
-			// (get) Token: 0x0600525A RID: 21082 RVA: 0x001681F6 File Offset: 0x001663F6
 			public static PerkObject Skirmisher
 			{
 				get
@@ -3065,8 +2452,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123B RID: 4667
-			// (get) Token: 0x0600525B RID: 21083 RVA: 0x00168202 File Offset: 0x00166402
 			public static PerkObject Focus
 			{
 				get
@@ -3075,8 +2460,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123C RID: 4668
-			// (get) Token: 0x0600525C RID: 21084 RVA: 0x0016820E File Offset: 0x0016640E
 			public static PerkObject LastHit
 			{
 				get
@@ -3085,8 +2468,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123D RID: 4669
-			// (get) Token: 0x0600525D RID: 21085 RVA: 0x0016821A File Offset: 0x0016641A
 			public static PerkObject HeadHunter
 			{
 				get
@@ -3095,8 +2476,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123E RID: 4670
-			// (get) Token: 0x0600525E RID: 21086 RVA: 0x00168226 File Offset: 0x00166426
 			public static PerkObject ThrowingCompetitions
 			{
 				get
@@ -3105,8 +2484,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700123F RID: 4671
-			// (get) Token: 0x0600525F RID: 21087 RVA: 0x00168232 File Offset: 0x00166432
 			public static PerkObject Saddlebags
 			{
 				get
@@ -3115,8 +2492,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001240 RID: 4672
-			// (get) Token: 0x06005260 RID: 21088 RVA: 0x0016823E File Offset: 0x0016643E
 			public static PerkObject Splinters
 			{
 				get
@@ -3125,8 +2500,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001241 RID: 4673
-			// (get) Token: 0x06005261 RID: 21089 RVA: 0x0016824A File Offset: 0x0016644A
 			public static PerkObject Resourceful
 			{
 				get
@@ -3135,8 +2508,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001242 RID: 4674
-			// (get) Token: 0x06005262 RID: 21090 RVA: 0x00168256 File Offset: 0x00166456
 			public static PerkObject LongReach
 			{
 				get
@@ -3145,8 +2516,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001243 RID: 4675
-			// (get) Token: 0x06005263 RID: 21091 RVA: 0x00168262 File Offset: 0x00166462
 			public static PerkObject WeakSpot
 			{
 				get
@@ -3155,8 +2524,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001244 RID: 4676
-			// (get) Token: 0x06005264 RID: 21092 RVA: 0x0016826E File Offset: 0x0016646E
 			public static PerkObject Impale
 			{
 				get
@@ -3165,8 +2532,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001245 RID: 4677
-			// (get) Token: 0x06005265 RID: 21093 RVA: 0x0016827A File Offset: 0x0016647A
 			public static PerkObject UnstoppableForce
 			{
 				get
@@ -3176,11 +2541,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000681 RID: 1665
 		public static class Riding
 		{
-			// Token: 0x17001246 RID: 4678
-			// (get) Token: 0x06005266 RID: 21094 RVA: 0x00168286 File Offset: 0x00166486
 			public static PerkObject FullSpeed
 			{
 				get
@@ -3189,8 +2551,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001247 RID: 4679
-			// (get) Token: 0x06005267 RID: 21095 RVA: 0x00168292 File Offset: 0x00166492
 			public static PerkObject NimbleSteed
 			{
 				get
@@ -3199,8 +2559,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001248 RID: 4680
-			// (get) Token: 0x06005268 RID: 21096 RVA: 0x0016829E File Offset: 0x0016649E
 			public static PerkObject WellStraped
 			{
 				get
@@ -3209,8 +2567,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001249 RID: 4681
-			// (get) Token: 0x06005269 RID: 21097 RVA: 0x001682AA File Offset: 0x001664AA
 			public static PerkObject Veterinary
 			{
 				get
@@ -3219,8 +2575,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124A RID: 4682
-			// (get) Token: 0x0600526A RID: 21098 RVA: 0x001682B6 File Offset: 0x001664B6
 			public static PerkObject NomadicTraditions
 			{
 				get
@@ -3229,8 +2583,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124B RID: 4683
-			// (get) Token: 0x0600526B RID: 21099 RVA: 0x001682C2 File Offset: 0x001664C2
 			public static PerkObject DeeperSacks
 			{
 				get
@@ -3239,8 +2591,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124C RID: 4684
-			// (get) Token: 0x0600526C RID: 21100 RVA: 0x001682CE File Offset: 0x001664CE
 			public static PerkObject Sagittarius
 			{
 				get
@@ -3249,8 +2599,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124D RID: 4685
-			// (get) Token: 0x0600526D RID: 21101 RVA: 0x001682DA File Offset: 0x001664DA
 			public static PerkObject SweepingWind
 			{
 				get
@@ -3259,8 +2607,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124E RID: 4686
-			// (get) Token: 0x0600526E RID: 21102 RVA: 0x001682E6 File Offset: 0x001664E6
 			public static PerkObject ReliefForce
 			{
 				get
@@ -3269,8 +2615,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700124F RID: 4687
-			// (get) Token: 0x0600526F RID: 21103 RVA: 0x001682F2 File Offset: 0x001664F2
 			public static PerkObject MountedWarrior
 			{
 				get
@@ -3279,8 +2623,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001250 RID: 4688
-			// (get) Token: 0x06005270 RID: 21104 RVA: 0x001682FE File Offset: 0x001664FE
 			public static PerkObject HorseArcher
 			{
 				get
@@ -3289,8 +2631,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001251 RID: 4689
-			// (get) Token: 0x06005271 RID: 21105 RVA: 0x0016830A File Offset: 0x0016650A
 			public static PerkObject Shepherd
 			{
 				get
@@ -3299,8 +2639,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001252 RID: 4690
-			// (get) Token: 0x06005272 RID: 21106 RVA: 0x00168316 File Offset: 0x00166516
 			public static PerkObject Breeder
 			{
 				get
@@ -3309,8 +2647,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001253 RID: 4691
-			// (get) Token: 0x06005273 RID: 21107 RVA: 0x00168322 File Offset: 0x00166522
 			public static PerkObject ThunderousCharge
 			{
 				get
@@ -3319,8 +2655,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001254 RID: 4692
-			// (get) Token: 0x06005274 RID: 21108 RVA: 0x0016832E File Offset: 0x0016652E
 			public static PerkObject AnnoyingBuzz
 			{
 				get
@@ -3329,8 +2663,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001255 RID: 4693
-			// (get) Token: 0x06005275 RID: 21109 RVA: 0x0016833A File Offset: 0x0016653A
 			public static PerkObject MountedPatrols
 			{
 				get
@@ -3339,8 +2671,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001256 RID: 4694
-			// (get) Token: 0x06005276 RID: 21110 RVA: 0x00168346 File Offset: 0x00166546
 			public static PerkObject CavalryTactics
 			{
 				get
@@ -3349,8 +2679,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001257 RID: 4695
-			// (get) Token: 0x06005277 RID: 21111 RVA: 0x00168352 File Offset: 0x00166552
 			public static PerkObject DauntlessSteed
 			{
 				get
@@ -3359,8 +2687,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001258 RID: 4696
-			// (get) Token: 0x06005278 RID: 21112 RVA: 0x0016835E File Offset: 0x0016655E
 			public static PerkObject ToughSteed
 			{
 				get
@@ -3369,8 +2695,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001259 RID: 4697
-			// (get) Token: 0x06005279 RID: 21113 RVA: 0x0016836A File Offset: 0x0016656A
 			public static PerkObject TheWayOfTheSaddle
 			{
 				get
@@ -3380,11 +2704,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000682 RID: 1666
 		public static class Athletics
 		{
-			// Token: 0x1700125A RID: 4698
-			// (get) Token: 0x0600527A RID: 21114 RVA: 0x00168376 File Offset: 0x00166576
 			public static PerkObject MorningExercise
 			{
 				get
@@ -3393,8 +2714,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700125B RID: 4699
-			// (get) Token: 0x0600527B RID: 21115 RVA: 0x00168382 File Offset: 0x00166582
 			public static PerkObject WellBuilt
 			{
 				get
@@ -3403,8 +2722,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700125C RID: 4700
-			// (get) Token: 0x0600527C RID: 21116 RVA: 0x0016838E File Offset: 0x0016658E
 			public static PerkObject Fury
 			{
 				get
@@ -3413,8 +2730,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700125D RID: 4701
-			// (get) Token: 0x0600527D RID: 21117 RVA: 0x0016839A File Offset: 0x0016659A
 			public static PerkObject FormFittingArmor
 			{
 				get
@@ -3423,8 +2738,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700125E RID: 4702
-			// (get) Token: 0x0600527E RID: 21118 RVA: 0x001683A6 File Offset: 0x001665A6
 			public static PerkObject ImposingStature
 			{
 				get
@@ -3433,8 +2746,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700125F RID: 4703
-			// (get) Token: 0x0600527F RID: 21119 RVA: 0x001683B2 File Offset: 0x001665B2
 			public static PerkObject Stamina
 			{
 				get
@@ -3443,8 +2754,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001260 RID: 4704
-			// (get) Token: 0x06005280 RID: 21120 RVA: 0x001683BE File Offset: 0x001665BE
 			public static PerkObject Sprint
 			{
 				get
@@ -3453,8 +2762,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001261 RID: 4705
-			// (get) Token: 0x06005281 RID: 21121 RVA: 0x001683CA File Offset: 0x001665CA
 			public static PerkObject Powerful
 			{
 				get
@@ -3463,8 +2770,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001262 RID: 4706
-			// (get) Token: 0x06005282 RID: 21122 RVA: 0x001683D6 File Offset: 0x001665D6
 			public static PerkObject SurgingBlow
 			{
 				get
@@ -3473,8 +2778,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001263 RID: 4707
-			// (get) Token: 0x06005283 RID: 21123 RVA: 0x001683E2 File Offset: 0x001665E2
 			public static PerkObject Braced
 			{
 				get
@@ -3483,8 +2786,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001264 RID: 4708
-			// (get) Token: 0x06005284 RID: 21124 RVA: 0x001683EE File Offset: 0x001665EE
 			public static PerkObject WalkItOff
 			{
 				get
@@ -3493,8 +2794,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001265 RID: 4709
-			// (get) Token: 0x06005285 RID: 21125 RVA: 0x001683FA File Offset: 0x001665FA
 			public static PerkObject AGoodDaysRest
 			{
 				get
@@ -3503,8 +2802,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001266 RID: 4710
-			// (get) Token: 0x06005286 RID: 21126 RVA: 0x00168406 File Offset: 0x00166606
 			public static PerkObject Durable
 			{
 				get
@@ -3513,8 +2810,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001267 RID: 4711
-			// (get) Token: 0x06005287 RID: 21127 RVA: 0x00168412 File Offset: 0x00166612
 			public static PerkObject Energetic
 			{
 				get
@@ -3523,8 +2818,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001268 RID: 4712
-			// (get) Token: 0x06005288 RID: 21128 RVA: 0x0016841E File Offset: 0x0016661E
 			public static PerkObject Steady
 			{
 				get
@@ -3533,8 +2826,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001269 RID: 4713
-			// (get) Token: 0x06005289 RID: 21129 RVA: 0x0016842A File Offset: 0x0016662A
 			public static PerkObject Strong
 			{
 				get
@@ -3543,8 +2834,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700126A RID: 4714
-			// (get) Token: 0x0600528A RID: 21130 RVA: 0x00168436 File Offset: 0x00166636
 			public static PerkObject StrongLegs
 			{
 				get
@@ -3553,8 +2842,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700126B RID: 4715
-			// (get) Token: 0x0600528B RID: 21131 RVA: 0x00168442 File Offset: 0x00166642
 			public static PerkObject StrongArms
 			{
 				get
@@ -3563,8 +2850,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700126C RID: 4716
-			// (get) Token: 0x0600528C RID: 21132 RVA: 0x0016844E File Offset: 0x0016664E
 			public static PerkObject Spartan
 			{
 				get
@@ -3573,8 +2858,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700126D RID: 4717
-			// (get) Token: 0x0600528D RID: 21133 RVA: 0x0016845A File Offset: 0x0016665A
 			public static PerkObject IgnorePain
 			{
 				get
@@ -3583,8 +2866,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700126E RID: 4718
-			// (get) Token: 0x0600528E RID: 21134 RVA: 0x00168466 File Offset: 0x00166666
 			public static PerkObject MightyBlow
 			{
 				get
@@ -3594,11 +2875,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000683 RID: 1667
 		public static class Crafting
 		{
-			// Token: 0x1700126F RID: 4719
-			// (get) Token: 0x0600528F RID: 21135 RVA: 0x00168472 File Offset: 0x00166672
 			public static PerkObject IronMaker
 			{
 				get
@@ -3607,8 +2885,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001270 RID: 4720
-			// (get) Token: 0x06005290 RID: 21136 RVA: 0x0016847E File Offset: 0x0016667E
 			public static PerkObject CharcoalMaker
 			{
 				get
@@ -3617,8 +2893,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001271 RID: 4721
-			// (get) Token: 0x06005291 RID: 21137 RVA: 0x0016848A File Offset: 0x0016668A
 			public static PerkObject SteelMaker
 			{
 				get
@@ -3627,8 +2901,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001272 RID: 4722
-			// (get) Token: 0x06005292 RID: 21138 RVA: 0x00168496 File Offset: 0x00166696
 			public static PerkObject SteelMaker2
 			{
 				get
@@ -3637,8 +2909,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001273 RID: 4723
-			// (get) Token: 0x06005293 RID: 21139 RVA: 0x001684A2 File Offset: 0x001666A2
 			public static PerkObject SteelMaker3
 			{
 				get
@@ -3647,8 +2917,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001274 RID: 4724
-			// (get) Token: 0x06005294 RID: 21140 RVA: 0x001684AE File Offset: 0x001666AE
 			public static PerkObject CuriousSmelter
 			{
 				get
@@ -3657,8 +2925,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001275 RID: 4725
-			// (get) Token: 0x06005295 RID: 21141 RVA: 0x001684BA File Offset: 0x001666BA
 			public static PerkObject CuriousSmith
 			{
 				get
@@ -3667,8 +2933,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001276 RID: 4726
-			// (get) Token: 0x06005296 RID: 21142 RVA: 0x001684C6 File Offset: 0x001666C6
 			public static PerkObject PracticalRefiner
 			{
 				get
@@ -3677,8 +2941,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001277 RID: 4727
-			// (get) Token: 0x06005297 RID: 21143 RVA: 0x001684D2 File Offset: 0x001666D2
 			public static PerkObject PracticalSmelter
 			{
 				get
@@ -3687,8 +2949,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001278 RID: 4728
-			// (get) Token: 0x06005298 RID: 21144 RVA: 0x001684DE File Offset: 0x001666DE
 			public static PerkObject PracticalSmith
 			{
 				get
@@ -3697,8 +2957,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001279 RID: 4729
-			// (get) Token: 0x06005299 RID: 21145 RVA: 0x001684EA File Offset: 0x001666EA
 			public static PerkObject ArtisanSmith
 			{
 				get
@@ -3707,8 +2965,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127A RID: 4730
-			// (get) Token: 0x0600529A RID: 21146 RVA: 0x001684F6 File Offset: 0x001666F6
 			public static PerkObject ExperiencedSmith
 			{
 				get
@@ -3717,8 +2973,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127B RID: 4731
-			// (get) Token: 0x0600529B RID: 21147 RVA: 0x00168502 File Offset: 0x00166702
 			public static PerkObject MasterSmith
 			{
 				get
@@ -3727,8 +2981,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127C RID: 4732
-			// (get) Token: 0x0600529C RID: 21148 RVA: 0x0016850E File Offset: 0x0016670E
 			public static PerkObject LegendarySmith
 			{
 				get
@@ -3737,8 +2989,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127D RID: 4733
-			// (get) Token: 0x0600529D RID: 21149 RVA: 0x0016851A File Offset: 0x0016671A
 			public static PerkObject VigorousSmith
 			{
 				get
@@ -3747,8 +2997,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127E RID: 4734
-			// (get) Token: 0x0600529E RID: 21150 RVA: 0x00168526 File Offset: 0x00166726
 			public static PerkObject StrongSmith
 			{
 				get
@@ -3757,8 +3005,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700127F RID: 4735
-			// (get) Token: 0x0600529F RID: 21151 RVA: 0x00168532 File Offset: 0x00166732
 			public static PerkObject EnduringSmith
 			{
 				get
@@ -3767,8 +3013,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001280 RID: 4736
-			// (get) Token: 0x060052A0 RID: 21152 RVA: 0x0016853E File Offset: 0x0016673E
 			public static PerkObject WeaponMasterSmith
 			{
 				get
@@ -3777,8 +3021,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001281 RID: 4737
-			// (get) Token: 0x060052A1 RID: 21153 RVA: 0x0016854A File Offset: 0x0016674A
 			public static PerkObject SharpenedEdge
 			{
 				get
@@ -3787,8 +3029,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001282 RID: 4738
-			// (get) Token: 0x060052A2 RID: 21154 RVA: 0x00168556 File Offset: 0x00166756
 			public static PerkObject SharpenedTip
 			{
 				get
@@ -3798,11 +3038,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000684 RID: 1668
 		public static class Scouting
 		{
-			// Token: 0x17001283 RID: 4739
-			// (get) Token: 0x060052A3 RID: 21155 RVA: 0x00168562 File Offset: 0x00166762
 			public static PerkObject DayTraveler
 			{
 				get
@@ -3811,8 +3048,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001284 RID: 4740
-			// (get) Token: 0x060052A4 RID: 21156 RVA: 0x0016856E File Offset: 0x0016676E
 			public static PerkObject Pathfinder
 			{
 				get
@@ -3821,8 +3056,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001285 RID: 4741
-			// (get) Token: 0x060052A5 RID: 21157 RVA: 0x0016857A File Offset: 0x0016677A
 			public static PerkObject NightRunner
 			{
 				get
@@ -3831,8 +3064,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001286 RID: 4742
-			// (get) Token: 0x060052A6 RID: 21158 RVA: 0x00168586 File Offset: 0x00166786
 			public static PerkObject WaterDiviner
 			{
 				get
@@ -3841,8 +3072,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001287 RID: 4743
-			// (get) Token: 0x060052A7 RID: 21159 RVA: 0x00168592 File Offset: 0x00166792
 			public static PerkObject ForestKin
 			{
 				get
@@ -3851,8 +3080,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001288 RID: 4744
-			// (get) Token: 0x060052A8 RID: 21160 RVA: 0x0016859E File Offset: 0x0016679E
 			public static PerkObject DesertBorn
 			{
 				get
@@ -3861,8 +3088,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001289 RID: 4745
-			// (get) Token: 0x060052A9 RID: 21161 RVA: 0x001685AA File Offset: 0x001667AA
 			public static PerkObject ForcedMarch
 			{
 				get
@@ -3871,8 +3096,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128A RID: 4746
-			// (get) Token: 0x060052AA RID: 21162 RVA: 0x001685B6 File Offset: 0x001667B6
 			public static PerkObject Unburdened
 			{
 				get
@@ -3881,8 +3104,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128B RID: 4747
-			// (get) Token: 0x060052AB RID: 21163 RVA: 0x001685C2 File Offset: 0x001667C2
 			public static PerkObject Tracker
 			{
 				get
@@ -3891,8 +3112,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128C RID: 4748
-			// (get) Token: 0x060052AC RID: 21164 RVA: 0x001685CE File Offset: 0x001667CE
 			public static PerkObject Ranger
 			{
 				get
@@ -3901,8 +3120,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128D RID: 4749
-			// (get) Token: 0x060052AD RID: 21165 RVA: 0x001685DA File Offset: 0x001667DA
 			public static PerkObject MountedScouts
 			{
 				get
@@ -3911,8 +3128,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128E RID: 4750
-			// (get) Token: 0x060052AE RID: 21166 RVA: 0x001685E6 File Offset: 0x001667E6
 			public static PerkObject Patrols
 			{
 				get
@@ -3921,8 +3136,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700128F RID: 4751
-			// (get) Token: 0x060052AF RID: 21167 RVA: 0x001685F2 File Offset: 0x001667F2
 			public static PerkObject Foragers
 			{
 				get
@@ -3931,8 +3144,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001290 RID: 4752
-			// (get) Token: 0x060052B0 RID: 21168 RVA: 0x001685FE File Offset: 0x001667FE
 			public static PerkObject BeastWhisperer
 			{
 				get
@@ -3941,8 +3152,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001291 RID: 4753
-			// (get) Token: 0x060052B1 RID: 21169 RVA: 0x0016860A File Offset: 0x0016680A
 			public static PerkObject VillageNetwork
 			{
 				get
@@ -3951,8 +3160,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001292 RID: 4754
-			// (get) Token: 0x060052B2 RID: 21170 RVA: 0x00168616 File Offset: 0x00166816
 			public static PerkObject RumourNetwork
 			{
 				get
@@ -3961,8 +3168,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001293 RID: 4755
-			// (get) Token: 0x060052B3 RID: 21171 RVA: 0x00168622 File Offset: 0x00166822
 			public static PerkObject VantagePoint
 			{
 				get
@@ -3971,8 +3176,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001294 RID: 4756
-			// (get) Token: 0x060052B4 RID: 21172 RVA: 0x0016862E File Offset: 0x0016682E
 			public static PerkObject KeenSight
 			{
 				get
@@ -3981,8 +3184,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001295 RID: 4757
-			// (get) Token: 0x060052B5 RID: 21173 RVA: 0x0016863A File Offset: 0x0016683A
 			public static PerkObject Vanguard
 			{
 				get
@@ -3991,8 +3192,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001296 RID: 4758
-			// (get) Token: 0x060052B6 RID: 21174 RVA: 0x00168646 File Offset: 0x00166846
 			public static PerkObject Rearguard
 			{
 				get
@@ -4001,8 +3200,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001297 RID: 4759
-			// (get) Token: 0x060052B7 RID: 21175 RVA: 0x00168652 File Offset: 0x00166852
 			public static PerkObject UncannyInsight
 			{
 				get
@@ -4012,11 +3209,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000685 RID: 1669
 		public static class Tactics
 		{
-			// Token: 0x17001298 RID: 4760
-			// (get) Token: 0x060052B8 RID: 21176 RVA: 0x0016865E File Offset: 0x0016685E
 			public static PerkObject TightFormations
 			{
 				get
@@ -4025,8 +3219,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001299 RID: 4761
-			// (get) Token: 0x060052B9 RID: 21177 RVA: 0x0016866A File Offset: 0x0016686A
 			public static PerkObject LooseFormations
 			{
 				get
@@ -4035,8 +3227,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129A RID: 4762
-			// (get) Token: 0x060052BA RID: 21178 RVA: 0x00168676 File Offset: 0x00166876
 			public static PerkObject ExtendedSkirmish
 			{
 				get
@@ -4045,8 +3235,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129B RID: 4763
-			// (get) Token: 0x060052BB RID: 21179 RVA: 0x00168682 File Offset: 0x00166882
 			public static PerkObject DecisiveBattle
 			{
 				get
@@ -4055,8 +3243,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129C RID: 4764
-			// (get) Token: 0x060052BC RID: 21180 RVA: 0x0016868E File Offset: 0x0016688E
 			public static PerkObject SmallUnitTactics
 			{
 				get
@@ -4065,8 +3251,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129D RID: 4765
-			// (get) Token: 0x060052BD RID: 21181 RVA: 0x0016869A File Offset: 0x0016689A
 			public static PerkObject HordeLeader
 			{
 				get
@@ -4075,8 +3259,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129E RID: 4766
-			// (get) Token: 0x060052BE RID: 21182 RVA: 0x001686A6 File Offset: 0x001668A6
 			public static PerkObject LawKeeper
 			{
 				get
@@ -4085,8 +3267,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700129F RID: 4767
-			// (get) Token: 0x060052BF RID: 21183 RVA: 0x001686B2 File Offset: 0x001668B2
 			public static PerkObject Coaching
 			{
 				get
@@ -4095,8 +3275,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A0 RID: 4768
-			// (get) Token: 0x060052C0 RID: 21184 RVA: 0x001686BE File Offset: 0x001668BE
 			public static PerkObject SwiftRegroup
 			{
 				get
@@ -4105,8 +3283,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A1 RID: 4769
-			// (get) Token: 0x060052C1 RID: 21185 RVA: 0x001686CA File Offset: 0x001668CA
 			public static PerkObject Improviser
 			{
 				get
@@ -4115,8 +3291,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A2 RID: 4770
-			// (get) Token: 0x060052C2 RID: 21186 RVA: 0x001686D6 File Offset: 0x001668D6
 			public static PerkObject OnTheMarch
 			{
 				get
@@ -4125,8 +3299,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A3 RID: 4771
-			// (get) Token: 0x060052C3 RID: 21187 RVA: 0x001686E2 File Offset: 0x001668E2
 			public static PerkObject CallToArms
 			{
 				get
@@ -4135,8 +3307,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A4 RID: 4772
-			// (get) Token: 0x060052C4 RID: 21188 RVA: 0x001686EE File Offset: 0x001668EE
 			public static PerkObject PickThemOfTheWalls
 			{
 				get
@@ -4145,8 +3315,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A5 RID: 4773
-			// (get) Token: 0x060052C5 RID: 21189 RVA: 0x001686FA File Offset: 0x001668FA
 			public static PerkObject MakeThemPay
 			{
 				get
@@ -4155,8 +3323,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A6 RID: 4774
-			// (get) Token: 0x060052C6 RID: 21190 RVA: 0x00168706 File Offset: 0x00166906
 			public static PerkObject EliteReserves
 			{
 				get
@@ -4165,8 +3331,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A7 RID: 4775
-			// (get) Token: 0x060052C7 RID: 21191 RVA: 0x00168712 File Offset: 0x00166912
 			public static PerkObject Encirclement
 			{
 				get
@@ -4175,8 +3339,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A8 RID: 4776
-			// (get) Token: 0x060052C8 RID: 21192 RVA: 0x0016871E File Offset: 0x0016691E
 			public static PerkObject PreBattleManeuvers
 			{
 				get
@@ -4185,8 +3347,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012A9 RID: 4777
-			// (get) Token: 0x060052C9 RID: 21193 RVA: 0x0016872A File Offset: 0x0016692A
 			public static PerkObject Besieged
 			{
 				get
@@ -4195,8 +3355,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012AA RID: 4778
-			// (get) Token: 0x060052CA RID: 21194 RVA: 0x00168736 File Offset: 0x00166936
 			public static PerkObject Counteroffensive
 			{
 				get
@@ -4205,8 +3363,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012AB RID: 4779
-			// (get) Token: 0x060052CB RID: 21195 RVA: 0x00168742 File Offset: 0x00166942
 			public static PerkObject Gensdarmes
 			{
 				get
@@ -4215,8 +3371,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012AC RID: 4780
-			// (get) Token: 0x060052CC RID: 21196 RVA: 0x0016874E File Offset: 0x0016694E
 			public static PerkObject TacticalMastery
 			{
 				get
@@ -4226,11 +3380,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000686 RID: 1670
 		public static class Roguery
 		{
-			// Token: 0x170012AD RID: 4781
-			// (get) Token: 0x060052CD RID: 21197 RVA: 0x0016875A File Offset: 0x0016695A
 			public static PerkObject NoRestForTheWicked
 			{
 				get
@@ -4239,8 +3390,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012AE RID: 4782
-			// (get) Token: 0x060052CE RID: 21198 RVA: 0x00168766 File Offset: 0x00166966
 			public static PerkObject SweetTalker
 			{
 				get
@@ -4249,8 +3398,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012AF RID: 4783
-			// (get) Token: 0x060052CF RID: 21199 RVA: 0x00168772 File Offset: 0x00166972
 			public static PerkObject TwoFaced
 			{
 				get
@@ -4259,8 +3406,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B0 RID: 4784
-			// (get) Token: 0x060052D0 RID: 21200 RVA: 0x0016877E File Offset: 0x0016697E
 			public static PerkObject DeepPockets
 			{
 				get
@@ -4269,8 +3414,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B1 RID: 4785
-			// (get) Token: 0x060052D1 RID: 21201 RVA: 0x0016878A File Offset: 0x0016698A
 			public static PerkObject InBestLight
 			{
 				get
@@ -4279,8 +3422,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B2 RID: 4786
-			// (get) Token: 0x060052D2 RID: 21202 RVA: 0x00168796 File Offset: 0x00166996
 			public static PerkObject KnowHow
 			{
 				get
@@ -4289,8 +3430,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B3 RID: 4787
-			// (get) Token: 0x060052D3 RID: 21203 RVA: 0x001687A2 File Offset: 0x001669A2
 			public static PerkObject Promises
 			{
 				get
@@ -4299,8 +3438,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B4 RID: 4788
-			// (get) Token: 0x060052D4 RID: 21204 RVA: 0x001687AE File Offset: 0x001669AE
 			public static PerkObject Manhunter
 			{
 				get
@@ -4309,8 +3446,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B5 RID: 4789
-			// (get) Token: 0x060052D5 RID: 21205 RVA: 0x001687BA File Offset: 0x001669BA
 			public static PerkObject Scarface
 			{
 				get
@@ -4319,8 +3454,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B6 RID: 4790
-			// (get) Token: 0x060052D6 RID: 21206 RVA: 0x001687C6 File Offset: 0x001669C6
 			public static PerkObject WhiteLies
 			{
 				get
@@ -4329,8 +3462,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B7 RID: 4791
-			// (get) Token: 0x060052D7 RID: 21207 RVA: 0x001687D2 File Offset: 0x001669D2
 			public static PerkObject SmugglerConnections
 			{
 				get
@@ -4339,8 +3470,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B8 RID: 4792
-			// (get) Token: 0x060052D8 RID: 21208 RVA: 0x001687DE File Offset: 0x001669DE
 			public static PerkObject PartnersInCrime
 			{
 				get
@@ -4349,8 +3478,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012B9 RID: 4793
-			// (get) Token: 0x060052D9 RID: 21209 RVA: 0x001687EA File Offset: 0x001669EA
 			public static PerkObject OneOfTheFamily
 			{
 				get
@@ -4359,8 +3486,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BA RID: 4794
-			// (get) Token: 0x060052DA RID: 21210 RVA: 0x001687F6 File Offset: 0x001669F6
 			public static PerkObject SaltTheEarth
 			{
 				get
@@ -4369,8 +3494,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BB RID: 4795
-			// (get) Token: 0x060052DB RID: 21211 RVA: 0x00168802 File Offset: 0x00166A02
 			public static PerkObject Carver
 			{
 				get
@@ -4379,8 +3502,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BC RID: 4796
-			// (get) Token: 0x060052DC RID: 21212 RVA: 0x0016880E File Offset: 0x00166A0E
 			public static PerkObject RansomBroker
 			{
 				get
@@ -4389,8 +3510,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BD RID: 4797
-			// (get) Token: 0x060052DD RID: 21213 RVA: 0x0016881A File Offset: 0x00166A1A
 			public static PerkObject ArmsDealer
 			{
 				get
@@ -4399,8 +3518,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BE RID: 4798
-			// (get) Token: 0x060052DE RID: 21214 RVA: 0x00168826 File Offset: 0x00166A26
 			public static PerkObject DirtyFighting
 			{
 				get
@@ -4409,8 +3526,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012BF RID: 4799
-			// (get) Token: 0x060052DF RID: 21215 RVA: 0x00168832 File Offset: 0x00166A32
 			public static PerkObject DashAndSlash
 			{
 				get
@@ -4419,8 +3534,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C0 RID: 4800
-			// (get) Token: 0x060052E0 RID: 21216 RVA: 0x0016883E File Offset: 0x00166A3E
 			public static PerkObject FleetFooted
 			{
 				get
@@ -4429,8 +3542,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C1 RID: 4801
-			// (get) Token: 0x060052E1 RID: 21217 RVA: 0x0016884A File Offset: 0x00166A4A
 			public static PerkObject RogueExtraordinaire
 			{
 				get
@@ -4440,11 +3551,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000687 RID: 1671
 		public static class Charm
 		{
-			// Token: 0x170012C2 RID: 4802
-			// (get) Token: 0x060052E2 RID: 21218 RVA: 0x00168856 File Offset: 0x00166A56
 			public static PerkObject Virile
 			{
 				get
@@ -4453,8 +3561,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C3 RID: 4803
-			// (get) Token: 0x060052E3 RID: 21219 RVA: 0x00168862 File Offset: 0x00166A62
 			public static PerkObject SelfPromoter
 			{
 				get
@@ -4463,8 +3569,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C4 RID: 4804
-			// (get) Token: 0x060052E4 RID: 21220 RVA: 0x0016886E File Offset: 0x00166A6E
 			public static PerkObject Oratory
 			{
 				get
@@ -4473,8 +3577,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C5 RID: 4805
-			// (get) Token: 0x060052E5 RID: 21221 RVA: 0x0016887A File Offset: 0x00166A7A
 			public static PerkObject Warlord
 			{
 				get
@@ -4483,8 +3585,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C6 RID: 4806
-			// (get) Token: 0x060052E6 RID: 21222 RVA: 0x00168886 File Offset: 0x00166A86
 			public static PerkObject ForgivableGrievances
 			{
 				get
@@ -4493,8 +3593,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C7 RID: 4807
-			// (get) Token: 0x060052E7 RID: 21223 RVA: 0x00168892 File Offset: 0x00166A92
 			public static PerkObject MeaningfulFavors
 			{
 				get
@@ -4503,8 +3601,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C8 RID: 4808
-			// (get) Token: 0x060052E8 RID: 21224 RVA: 0x0016889E File Offset: 0x00166A9E
 			public static PerkObject InBloom
 			{
 				get
@@ -4513,8 +3609,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012C9 RID: 4809
-			// (get) Token: 0x060052E9 RID: 21225 RVA: 0x001688AA File Offset: 0x00166AAA
 			public static PerkObject YoungAndRespectful
 			{
 				get
@@ -4523,8 +3617,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CA RID: 4810
-			// (get) Token: 0x060052EA RID: 21226 RVA: 0x001688B6 File Offset: 0x00166AB6
 			public static PerkObject Firebrand
 			{
 				get
@@ -4533,8 +3625,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CB RID: 4811
-			// (get) Token: 0x060052EB RID: 21227 RVA: 0x001688C2 File Offset: 0x00166AC2
 			public static PerkObject FlexibleEthics
 			{
 				get
@@ -4543,8 +3633,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CC RID: 4812
-			// (get) Token: 0x060052EC RID: 21228 RVA: 0x001688CE File Offset: 0x00166ACE
 			public static PerkObject EffortForThePeople
 			{
 				get
@@ -4553,8 +3641,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CD RID: 4813
-			// (get) Token: 0x060052ED RID: 21229 RVA: 0x001688DA File Offset: 0x00166ADA
 			public static PerkObject SlickNegotiator
 			{
 				get
@@ -4563,8 +3649,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CE RID: 4814
-			// (get) Token: 0x060052EE RID: 21230 RVA: 0x001688E6 File Offset: 0x00166AE6
 			public static PerkObject GoodNatured
 			{
 				get
@@ -4573,8 +3657,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012CF RID: 4815
-			// (get) Token: 0x060052EF RID: 21231 RVA: 0x001688F2 File Offset: 0x00166AF2
 			public static PerkObject Tribute
 			{
 				get
@@ -4583,8 +3665,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D0 RID: 4816
-			// (get) Token: 0x060052F0 RID: 21232 RVA: 0x001688FE File Offset: 0x00166AFE
 			public static PerkObject MoralLeader
 			{
 				get
@@ -4593,8 +3673,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D1 RID: 4817
-			// (get) Token: 0x060052F1 RID: 21233 RVA: 0x0016890A File Offset: 0x00166B0A
 			public static PerkObject NaturalLeader
 			{
 				get
@@ -4603,8 +3681,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D2 RID: 4818
-			// (get) Token: 0x060052F2 RID: 21234 RVA: 0x00168916 File Offset: 0x00166B16
 			public static PerkObject PublicSpeaker
 			{
 				get
@@ -4613,8 +3689,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D3 RID: 4819
-			// (get) Token: 0x060052F3 RID: 21235 RVA: 0x00168922 File Offset: 0x00166B22
 			public static PerkObject Parade
 			{
 				get
@@ -4623,8 +3697,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D4 RID: 4820
-			// (get) Token: 0x060052F4 RID: 21236 RVA: 0x0016892E File Offset: 0x00166B2E
 			public static PerkObject Camaraderie
 			{
 				get
@@ -4633,8 +3705,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D5 RID: 4821
-			// (get) Token: 0x060052F5 RID: 21237 RVA: 0x0016893A File Offset: 0x00166B3A
 			public static PerkObject ImmortalCharm
 			{
 				get
@@ -4644,11 +3714,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000688 RID: 1672
 		public static class Leadership
 		{
-			// Token: 0x170012D6 RID: 4822
-			// (get) Token: 0x060052F6 RID: 21238 RVA: 0x00168946 File Offset: 0x00166B46
 			public static PerkObject CombatTips
 			{
 				get
@@ -4657,8 +3724,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D7 RID: 4823
-			// (get) Token: 0x060052F7 RID: 21239 RVA: 0x00168952 File Offset: 0x00166B52
 			public static PerkObject RaiseTheMeek
 			{
 				get
@@ -4667,8 +3732,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D8 RID: 4824
-			// (get) Token: 0x060052F8 RID: 21240 RVA: 0x0016895E File Offset: 0x00166B5E
 			public static PerkObject FerventAttacker
 			{
 				get
@@ -4677,8 +3740,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012D9 RID: 4825
-			// (get) Token: 0x060052F9 RID: 21241 RVA: 0x0016896A File Offset: 0x00166B6A
 			public static PerkObject StoutDefender
 			{
 				get
@@ -4687,8 +3748,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DA RID: 4826
-			// (get) Token: 0x060052FA RID: 21242 RVA: 0x00168976 File Offset: 0x00166B76
 			public static PerkObject Authority
 			{
 				get
@@ -4697,8 +3756,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DB RID: 4827
-			// (get) Token: 0x060052FB RID: 21243 RVA: 0x00168982 File Offset: 0x00166B82
 			public static PerkObject HeroicLeader
 			{
 				get
@@ -4707,8 +3764,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DC RID: 4828
-			// (get) Token: 0x060052FC RID: 21244 RVA: 0x0016898E File Offset: 0x00166B8E
 			public static PerkObject LoyaltyAndHonor
 			{
 				get
@@ -4717,8 +3772,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DD RID: 4829
-			// (get) Token: 0x060052FD RID: 21245 RVA: 0x0016899A File Offset: 0x00166B9A
 			public static PerkObject Presence
 			{
 				get
@@ -4727,8 +3780,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DE RID: 4830
-			// (get) Token: 0x060052FE RID: 21246 RVA: 0x001689A6 File Offset: 0x00166BA6
 			public static PerkObject FamousCommander
 			{
 				get
@@ -4737,8 +3788,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012DF RID: 4831
-			// (get) Token: 0x060052FF RID: 21247 RVA: 0x001689B2 File Offset: 0x00166BB2
 			public static PerkObject LeaderOfMasses
 			{
 				get
@@ -4747,8 +3796,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E0 RID: 4832
-			// (get) Token: 0x06005300 RID: 21248 RVA: 0x001689BE File Offset: 0x00166BBE
 			public static PerkObject VeteransRespect
 			{
 				get
@@ -4757,8 +3804,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E1 RID: 4833
-			// (get) Token: 0x06005301 RID: 21249 RVA: 0x001689CA File Offset: 0x00166BCA
 			public static PerkObject CitizenMilitia
 			{
 				get
@@ -4767,8 +3812,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E2 RID: 4834
-			// (get) Token: 0x06005302 RID: 21250 RVA: 0x001689D6 File Offset: 0x00166BD6
 			public static PerkObject InspiringLeader
 			{
 				get
@@ -4777,8 +3820,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E3 RID: 4835
-			// (get) Token: 0x06005303 RID: 21251 RVA: 0x001689E2 File Offset: 0x00166BE2
 			public static PerkObject UpliftingSpirit
 			{
 				get
@@ -4787,8 +3828,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E4 RID: 4836
-			// (get) Token: 0x06005304 RID: 21252 RVA: 0x001689EE File Offset: 0x00166BEE
 			public static PerkObject MakeADifference
 			{
 				get
@@ -4797,8 +3836,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E5 RID: 4837
-			// (get) Token: 0x06005305 RID: 21253 RVA: 0x001689FA File Offset: 0x00166BFA
 			public static PerkObject LeadByExample
 			{
 				get
@@ -4807,8 +3844,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E6 RID: 4838
-			// (get) Token: 0x06005306 RID: 21254 RVA: 0x00168A06 File Offset: 0x00166C06
 			public static PerkObject TrustedCommander
 			{
 				get
@@ -4817,8 +3852,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E7 RID: 4839
-			// (get) Token: 0x06005307 RID: 21255 RVA: 0x00168A12 File Offset: 0x00166C12
 			public static PerkObject GreatLeader
 			{
 				get
@@ -4827,8 +3860,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E8 RID: 4840
-			// (get) Token: 0x06005308 RID: 21256 RVA: 0x00168A1E File Offset: 0x00166C1E
 			public static PerkObject WePledgeOurSwords
 			{
 				get
@@ -4837,8 +3868,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012E9 RID: 4841
-			// (get) Token: 0x06005309 RID: 21257 RVA: 0x00168A2A File Offset: 0x00166C2A
 			public static PerkObject TalentMagnet
 			{
 				get
@@ -4847,8 +3876,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012EA RID: 4842
-			// (get) Token: 0x0600530A RID: 21258 RVA: 0x00168A36 File Offset: 0x00166C36
 			public static PerkObject UltimateLeader
 			{
 				get
@@ -4858,11 +3885,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x02000689 RID: 1673
 		public static class Trade
 		{
-			// Token: 0x170012EB RID: 4843
-			// (get) Token: 0x0600530B RID: 21259 RVA: 0x00168A42 File Offset: 0x00166C42
 			public static PerkObject Appraiser
 			{
 				get
@@ -4871,8 +3895,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012EC RID: 4844
-			// (get) Token: 0x0600530C RID: 21260 RVA: 0x00168A4E File Offset: 0x00166C4E
 			public static PerkObject WholeSeller
 			{
 				get
@@ -4881,8 +3903,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012ED RID: 4845
-			// (get) Token: 0x0600530D RID: 21261 RVA: 0x00168A5A File Offset: 0x00166C5A
 			public static PerkObject CaravanMaster
 			{
 				get
@@ -4891,8 +3911,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012EE RID: 4846
-			// (get) Token: 0x0600530E RID: 21262 RVA: 0x00168A66 File Offset: 0x00166C66
 			public static PerkObject MarketDealer
 			{
 				get
@@ -4901,8 +3919,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012EF RID: 4847
-			// (get) Token: 0x0600530F RID: 21263 RVA: 0x00168A72 File Offset: 0x00166C72
 			public static PerkObject TravelingRumors
 			{
 				get
@@ -4911,8 +3927,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F0 RID: 4848
-			// (get) Token: 0x06005310 RID: 21264 RVA: 0x00168A7E File Offset: 0x00166C7E
 			public static PerkObject LocalConnection
 			{
 				get
@@ -4921,8 +3935,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F1 RID: 4849
-			// (get) Token: 0x06005311 RID: 21265 RVA: 0x00168A8A File Offset: 0x00166C8A
 			public static PerkObject DistributedGoods
 			{
 				get
@@ -4931,8 +3943,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F2 RID: 4850
-			// (get) Token: 0x06005312 RID: 21266 RVA: 0x00168A96 File Offset: 0x00166C96
 			public static PerkObject Tollgates
 			{
 				get
@@ -4941,8 +3951,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F3 RID: 4851
-			// (get) Token: 0x06005313 RID: 21267 RVA: 0x00168AA2 File Offset: 0x00166CA2
 			public static PerkObject ArtisanCommunity
 			{
 				get
@@ -4951,8 +3959,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F4 RID: 4852
-			// (get) Token: 0x06005314 RID: 21268 RVA: 0x00168AAE File Offset: 0x00166CAE
 			public static PerkObject GreatInvestor
 			{
 				get
@@ -4961,8 +3967,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F5 RID: 4853
-			// (get) Token: 0x06005315 RID: 21269 RVA: 0x00168ABA File Offset: 0x00166CBA
 			public static PerkObject MercenaryConnections
 			{
 				get
@@ -4971,8 +3975,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F6 RID: 4854
-			// (get) Token: 0x06005316 RID: 21270 RVA: 0x00168AC6 File Offset: 0x00166CC6
 			public static PerkObject ContentTrades
 			{
 				get
@@ -4981,8 +3983,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F7 RID: 4855
-			// (get) Token: 0x06005317 RID: 21271 RVA: 0x00168AD2 File Offset: 0x00166CD2
 			public static PerkObject InsurancePlans
 			{
 				get
@@ -4991,8 +3991,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F8 RID: 4856
-			// (get) Token: 0x06005318 RID: 21272 RVA: 0x00168ADE File Offset: 0x00166CDE
 			public static PerkObject RapidDevelopment
 			{
 				get
@@ -5001,8 +3999,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012F9 RID: 4857
-			// (get) Token: 0x06005319 RID: 21273 RVA: 0x00168AEA File Offset: 0x00166CEA
 			public static PerkObject GranaryAccountant
 			{
 				get
@@ -5011,8 +4007,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FA RID: 4858
-			// (get) Token: 0x0600531A RID: 21274 RVA: 0x00168AF6 File Offset: 0x00166CF6
 			public static PerkObject TradeyardForeman
 			{
 				get
@@ -5021,8 +4015,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FB RID: 4859
-			// (get) Token: 0x0600531B RID: 21275 RVA: 0x00168B02 File Offset: 0x00166D02
 			public static PerkObject SwordForBarter
 			{
 				get
@@ -5031,8 +4023,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FC RID: 4860
-			// (get) Token: 0x0600531C RID: 21276 RVA: 0x00168B0E File Offset: 0x00166D0E
 			public static PerkObject SelfMadeMan
 			{
 				get
@@ -5041,8 +4031,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FD RID: 4861
-			// (get) Token: 0x0600531D RID: 21277 RVA: 0x00168B1A File Offset: 0x00166D1A
 			public static PerkObject SilverTongue
 			{
 				get
@@ -5051,8 +4039,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FE RID: 4862
-			// (get) Token: 0x0600531E RID: 21278 RVA: 0x00168B26 File Offset: 0x00166D26
 			public static PerkObject SpringOfGold
 			{
 				get
@@ -5061,8 +4047,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x170012FF RID: 4863
-			// (get) Token: 0x0600531F RID: 21279 RVA: 0x00168B32 File Offset: 0x00166D32
 			public static PerkObject ManOfMeans
 			{
 				get
@@ -5071,8 +4055,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001300 RID: 4864
-			// (get) Token: 0x06005320 RID: 21280 RVA: 0x00168B3E File Offset: 0x00166D3E
 			public static PerkObject TrickleDown
 			{
 				get
@@ -5081,8 +4063,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001301 RID: 4865
-			// (get) Token: 0x06005321 RID: 21281 RVA: 0x00168B4A File Offset: 0x00166D4A
 			public static PerkObject EverythingHasAPrice
 			{
 				get
@@ -5092,11 +4072,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200068A RID: 1674
 		public static class Steward
 		{
-			// Token: 0x17001302 RID: 4866
-			// (get) Token: 0x06005322 RID: 21282 RVA: 0x00168B56 File Offset: 0x00166D56
 			public static PerkObject WarriorsDiet
 			{
 				get
@@ -5105,8 +4082,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001303 RID: 4867
-			// (get) Token: 0x06005323 RID: 21283 RVA: 0x00168B62 File Offset: 0x00166D62
 			public static PerkObject Frugal
 			{
 				get
@@ -5115,8 +4090,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001304 RID: 4868
-			// (get) Token: 0x06005324 RID: 21284 RVA: 0x00168B6E File Offset: 0x00166D6E
 			public static PerkObject SevenVeterans
 			{
 				get
@@ -5125,8 +4098,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001305 RID: 4869
-			// (get) Token: 0x06005325 RID: 21285 RVA: 0x00168B7A File Offset: 0x00166D7A
 			public static PerkObject DrillSergant
 			{
 				get
@@ -5135,8 +4106,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001306 RID: 4870
-			// (get) Token: 0x06005326 RID: 21286 RVA: 0x00168B86 File Offset: 0x00166D86
 			public static PerkObject Sweatshops
 			{
 				get
@@ -5145,8 +4114,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001307 RID: 4871
-			// (get) Token: 0x06005327 RID: 21287 RVA: 0x00168B92 File Offset: 0x00166D92
 			public static PerkObject StiffUpperLip
 			{
 				get
@@ -5155,8 +4122,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001308 RID: 4872
-			// (get) Token: 0x06005328 RID: 21288 RVA: 0x00168B9E File Offset: 0x00166D9E
 			public static PerkObject PaidInPromise
 			{
 				get
@@ -5165,8 +4130,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001309 RID: 4873
-			// (get) Token: 0x06005329 RID: 21289 RVA: 0x00168BAA File Offset: 0x00166DAA
 			public static PerkObject EfficientCampaigner
 			{
 				get
@@ -5175,8 +4138,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130A RID: 4874
-			// (get) Token: 0x0600532A RID: 21290 RVA: 0x00168BB6 File Offset: 0x00166DB6
 			public static PerkObject GivingHands
 			{
 				get
@@ -5185,8 +4146,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130B RID: 4875
-			// (get) Token: 0x0600532B RID: 21291 RVA: 0x00168BC2 File Offset: 0x00166DC2
 			public static PerkObject Logistician
 			{
 				get
@@ -5195,8 +4154,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130C RID: 4876
-			// (get) Token: 0x0600532C RID: 21292 RVA: 0x00168BCE File Offset: 0x00166DCE
 			public static PerkObject Relocation
 			{
 				get
@@ -5205,8 +4162,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130D RID: 4877
-			// (get) Token: 0x0600532D RID: 21293 RVA: 0x00168BDA File Offset: 0x00166DDA
 			public static PerkObject AidCorps
 			{
 				get
@@ -5215,8 +4170,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130E RID: 4878
-			// (get) Token: 0x0600532E RID: 21294 RVA: 0x00168BE6 File Offset: 0x00166DE6
 			public static PerkObject Gourmet
 			{
 				get
@@ -5225,8 +4178,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700130F RID: 4879
-			// (get) Token: 0x0600532F RID: 21295 RVA: 0x00168BF2 File Offset: 0x00166DF2
 			public static PerkObject SoundReserves
 			{
 				get
@@ -5235,8 +4186,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001310 RID: 4880
-			// (get) Token: 0x06005330 RID: 21296 RVA: 0x00168BFE File Offset: 0x00166DFE
 			public static PerkObject ForcedLabor
 			{
 				get
@@ -5245,8 +4194,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001311 RID: 4881
-			// (get) Token: 0x06005331 RID: 21297 RVA: 0x00168C0A File Offset: 0x00166E0A
 			public static PerkObject Contractors
 			{
 				get
@@ -5255,8 +4202,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001312 RID: 4882
-			// (get) Token: 0x06005332 RID: 21298 RVA: 0x00168C16 File Offset: 0x00166E16
 			public static PerkObject ArenicosMules
 			{
 				get
@@ -5265,8 +4210,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001313 RID: 4883
-			// (get) Token: 0x06005333 RID: 21299 RVA: 0x00168C22 File Offset: 0x00166E22
 			public static PerkObject ArenicosHorses
 			{
 				get
@@ -5275,8 +4218,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001314 RID: 4884
-			// (get) Token: 0x06005334 RID: 21300 RVA: 0x00168C2E File Offset: 0x00166E2E
 			public static PerkObject MasterOfPlanning
 			{
 				get
@@ -5285,8 +4226,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001315 RID: 4885
-			// (get) Token: 0x06005335 RID: 21301 RVA: 0x00168C3A File Offset: 0x00166E3A
 			public static PerkObject MasterOfWarcraft
 			{
 				get
@@ -5295,8 +4234,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001316 RID: 4886
-			// (get) Token: 0x06005336 RID: 21302 RVA: 0x00168C46 File Offset: 0x00166E46
 			public static PerkObject PriceOfLoyalty
 			{
 				get
@@ -5306,11 +4243,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200068B RID: 1675
 		public static class Medicine
 		{
-			// Token: 0x17001317 RID: 4887
-			// (get) Token: 0x06005337 RID: 21303 RVA: 0x00168C52 File Offset: 0x00166E52
 			public static PerkObject SelfMedication
 			{
 				get
@@ -5319,8 +4253,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001318 RID: 4888
-			// (get) Token: 0x06005338 RID: 21304 RVA: 0x00168C5E File Offset: 0x00166E5E
 			public static PerkObject PreventiveMedicine
 			{
 				get
@@ -5329,8 +4261,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001319 RID: 4889
-			// (get) Token: 0x06005339 RID: 21305 RVA: 0x00168C6A File Offset: 0x00166E6A
 			public static PerkObject TriageTent
 			{
 				get
@@ -5339,8 +4269,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131A RID: 4890
-			// (get) Token: 0x0600533A RID: 21306 RVA: 0x00168C76 File Offset: 0x00166E76
 			public static PerkObject WalkItOff
 			{
 				get
@@ -5349,8 +4277,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131B RID: 4891
-			// (get) Token: 0x0600533B RID: 21307 RVA: 0x00168C82 File Offset: 0x00166E82
 			public static PerkObject Sledges
 			{
 				get
@@ -5359,8 +4285,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131C RID: 4892
-			// (get) Token: 0x0600533C RID: 21308 RVA: 0x00168C8E File Offset: 0x00166E8E
 			public static PerkObject DoctorsOath
 			{
 				get
@@ -5369,8 +4293,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131D RID: 4893
-			// (get) Token: 0x0600533D RID: 21309 RVA: 0x00168C9A File Offset: 0x00166E9A
 			public static PerkObject BestMedicine
 			{
 				get
@@ -5379,8 +4301,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131E RID: 4894
-			// (get) Token: 0x0600533E RID: 21310 RVA: 0x00168CA6 File Offset: 0x00166EA6
 			public static PerkObject GoodLogdings
 			{
 				get
@@ -5389,8 +4309,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700131F RID: 4895
-			// (get) Token: 0x0600533F RID: 21311 RVA: 0x00168CB2 File Offset: 0x00166EB2
 			public static PerkObject SiegeMedic
 			{
 				get
@@ -5399,8 +4317,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001320 RID: 4896
-			// (get) Token: 0x06005340 RID: 21312 RVA: 0x00168CBE File Offset: 0x00166EBE
 			public static PerkObject Veterinarian
 			{
 				get
@@ -5409,8 +4325,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001321 RID: 4897
-			// (get) Token: 0x06005341 RID: 21313 RVA: 0x00168CCA File Offset: 0x00166ECA
 			public static PerkObject PristineStreets
 			{
 				get
@@ -5419,8 +4333,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001322 RID: 4898
-			// (get) Token: 0x06005342 RID: 21314 RVA: 0x00168CD6 File Offset: 0x00166ED6
 			public static PerkObject BushDoctor
 			{
 				get
@@ -5429,8 +4341,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001323 RID: 4899
-			// (get) Token: 0x06005343 RID: 21315 RVA: 0x00168CE2 File Offset: 0x00166EE2
 			public static PerkObject PerfectHealth
 			{
 				get
@@ -5439,8 +4349,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001324 RID: 4900
-			// (get) Token: 0x06005344 RID: 21316 RVA: 0x00168CEE File Offset: 0x00166EEE
 			public static PerkObject HealthAdvise
 			{
 				get
@@ -5449,8 +4357,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001325 RID: 4901
-			// (get) Token: 0x06005345 RID: 21317 RVA: 0x00168CFA File Offset: 0x00166EFA
 			public static PerkObject PhysicianOfPeople
 			{
 				get
@@ -5459,8 +4365,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001326 RID: 4902
-			// (get) Token: 0x06005346 RID: 21318 RVA: 0x00168D06 File Offset: 0x00166F06
 			public static PerkObject CleanInfrastructure
 			{
 				get
@@ -5469,8 +4373,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001327 RID: 4903
-			// (get) Token: 0x06005347 RID: 21319 RVA: 0x00168D12 File Offset: 0x00166F12
 			public static PerkObject CheatDeath
 			{
 				get
@@ -5479,8 +4381,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001328 RID: 4904
-			// (get) Token: 0x06005348 RID: 21320 RVA: 0x00168D1E File Offset: 0x00166F1E
 			public static PerkObject FortitudeTonic
 			{
 				get
@@ -5489,8 +4389,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001329 RID: 4905
-			// (get) Token: 0x06005349 RID: 21321 RVA: 0x00168D2A File Offset: 0x00166F2A
 			public static PerkObject HelpingHands
 			{
 				get
@@ -5499,8 +4397,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700132A RID: 4906
-			// (get) Token: 0x0600534A RID: 21322 RVA: 0x00168D36 File Offset: 0x00166F36
 			public static PerkObject BattleHardened
 			{
 				get
@@ -5509,8 +4405,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700132B RID: 4907
-			// (get) Token: 0x0600534B RID: 21323 RVA: 0x00168D42 File Offset: 0x00166F42
 			public static PerkObject MinisterOfHealth
 			{
 				get
@@ -5520,11 +4414,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x0200068C RID: 1676
 		public static class Engineering
 		{
-			// Token: 0x1700132C RID: 4908
-			// (get) Token: 0x0600534C RID: 21324 RVA: 0x00168D4E File Offset: 0x00166F4E
 			public static PerkObject Scaffolds
 			{
 				get
@@ -5533,8 +4424,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700132D RID: 4909
-			// (get) Token: 0x0600534D RID: 21325 RVA: 0x00168D5A File Offset: 0x00166F5A
 			public static PerkObject TorsionEngines
 			{
 				get
@@ -5543,8 +4432,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700132E RID: 4910
-			// (get) Token: 0x0600534E RID: 21326 RVA: 0x00168D66 File Offset: 0x00166F66
 			public static PerkObject SiegeWorks
 			{
 				get
@@ -5553,8 +4440,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700132F RID: 4911
-			// (get) Token: 0x0600534F RID: 21327 RVA: 0x00168D72 File Offset: 0x00166F72
 			public static PerkObject DungeonArchitect
 			{
 				get
@@ -5563,8 +4448,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001330 RID: 4912
-			// (get) Token: 0x06005350 RID: 21328 RVA: 0x00168D7E File Offset: 0x00166F7E
 			public static PerkObject Carpenters
 			{
 				get
@@ -5573,8 +4456,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001331 RID: 4913
-			// (get) Token: 0x06005351 RID: 21329 RVA: 0x00168D8A File Offset: 0x00166F8A
 			public static PerkObject MilitaryPlanner
 			{
 				get
@@ -5583,8 +4464,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001332 RID: 4914
-			// (get) Token: 0x06005352 RID: 21330 RVA: 0x00168D96 File Offset: 0x00166F96
 			public static PerkObject WallBreaker
 			{
 				get
@@ -5593,8 +4472,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001333 RID: 4915
-			// (get) Token: 0x06005353 RID: 21331 RVA: 0x00168DA2 File Offset: 0x00166FA2
 			public static PerkObject DreadfulSieger
 			{
 				get
@@ -5603,8 +4480,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001334 RID: 4916
-			// (get) Token: 0x06005354 RID: 21332 RVA: 0x00168DAE File Offset: 0x00166FAE
 			public static PerkObject Salvager
 			{
 				get
@@ -5613,8 +4488,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001335 RID: 4917
-			// (get) Token: 0x06005355 RID: 21333 RVA: 0x00168DBA File Offset: 0x00166FBA
 			public static PerkObject Foreman
 			{
 				get
@@ -5623,8 +4496,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001336 RID: 4918
-			// (get) Token: 0x06005356 RID: 21334 RVA: 0x00168DC6 File Offset: 0x00166FC6
 			public static PerkObject Stonecutters
 			{
 				get
@@ -5633,8 +4504,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001337 RID: 4919
-			// (get) Token: 0x06005357 RID: 21335 RVA: 0x00168DD2 File Offset: 0x00166FD2
 			public static PerkObject SiegeEngineer
 			{
 				get
@@ -5643,8 +4512,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001338 RID: 4920
-			// (get) Token: 0x06005358 RID: 21336 RVA: 0x00168DDE File Offset: 0x00166FDE
 			public static PerkObject CampBuilding
 			{
 				get
@@ -5653,8 +4520,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001339 RID: 4921
-			// (get) Token: 0x06005359 RID: 21337 RVA: 0x00168DEA File Offset: 0x00166FEA
 			public static PerkObject Battlements
 			{
 				get
@@ -5663,8 +4528,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133A RID: 4922
-			// (get) Token: 0x0600535A RID: 21338 RVA: 0x00168DF6 File Offset: 0x00166FF6
 			public static PerkObject EngineeringGuilds
 			{
 				get
@@ -5673,8 +4536,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133B RID: 4923
-			// (get) Token: 0x0600535B RID: 21339 RVA: 0x00168E02 File Offset: 0x00167002
 			public static PerkObject Apprenticeship
 			{
 				get
@@ -5683,8 +4544,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133C RID: 4924
-			// (get) Token: 0x0600535C RID: 21340 RVA: 0x00168E0E File Offset: 0x0016700E
 			public static PerkObject Metallurgy
 			{
 				get
@@ -5693,8 +4552,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133D RID: 4925
-			// (get) Token: 0x0600535D RID: 21341 RVA: 0x00168E1A File Offset: 0x0016701A
 			public static PerkObject ImprovedTools
 			{
 				get
@@ -5703,8 +4560,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133E RID: 4926
-			// (get) Token: 0x0600535E RID: 21342 RVA: 0x00168E26 File Offset: 0x00167026
 			public static PerkObject Clockwork
 			{
 				get
@@ -5713,8 +4568,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x1700133F RID: 4927
-			// (get) Token: 0x0600535F RID: 21343 RVA: 0x00168E32 File Offset: 0x00167032
 			public static PerkObject ArchitecturalCommisions
 			{
 				get
@@ -5723,8 +4576,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				}
 			}
 
-			// Token: 0x17001340 RID: 4928
-			// (get) Token: 0x06005360 RID: 21344 RVA: 0x00168E3E File Offset: 0x0016703E
 			public static PerkObject Masterwork
 			{
 				get

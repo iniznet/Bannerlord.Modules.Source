@@ -10,11 +10,9 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace StoryMode.GauntletUI.Missions
 {
-	// Token: 0x02000040 RID: 64
 	[OverrideView(typeof(MissionTrainingFieldObjectiveView))]
 	public class MissionGauntletTrainingFieldObjectiveView : MissionView
 	{
-		// Token: 0x060001C1 RID: 449 RVA: 0x00006EA8 File Offset: 0x000050A8
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -32,7 +30,6 @@ namespace StoryMode.GauntletUI.Missions
 			missionBehavior.CurrentMouseObjectiveTick = new Action<TrainingFieldMissionController.MouseObjectives>(this._dataSource.UpdateCurrentMouseObjective);
 		}
 
-		// Token: 0x060001C2 RID: 450 RVA: 0x00006FA0 File Offset: 0x000051A0
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -42,14 +39,12 @@ namespace StoryMode.GauntletUI.Missions
 			}
 		}
 
-		// Token: 0x060001C3 RID: 451 RVA: 0x00006FE6 File Offset: 0x000051E6
 		private void BeginTimer()
 		{
 			this._isTimerActive = true;
 			this._beginningTime = base.Mission.CurrentTime;
 		}
 
-		// Token: 0x060001C4 RID: 452 RVA: 0x00007000 File Offset: 0x00005200
 		private float EndTimer()
 		{
 			this._isTimerActive = false;
@@ -57,7 +52,6 @@ namespace StoryMode.GauntletUI.Missions
 			return base.Mission.CurrentTime - this._beginningTime;
 		}
 
-		// Token: 0x060001C5 RID: 453 RVA: 0x0000702B File Offset: 0x0000522B
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
@@ -66,30 +60,24 @@ namespace StoryMode.GauntletUI.Missions
 			this._layer = null;
 		}
 
-		// Token: 0x060001C6 RID: 454 RVA: 0x00007052 File Offset: 0x00005252
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
 			this._layer._gauntletUIContext.ContextAlpha = 0f;
 		}
 
-		// Token: 0x060001C7 RID: 455 RVA: 0x0000706F File Offset: 0x0000526F
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
 			this._layer._gauntletUIContext.ContextAlpha = 1f;
 		}
 
-		// Token: 0x0400006D RID: 109
 		private TrainingFieldObjectivesVM _dataSource;
 
-		// Token: 0x0400006E RID: 110
 		private GauntletLayer _layer;
 
-		// Token: 0x0400006F RID: 111
 		private float _beginningTime;
 
-		// Token: 0x04000070 RID: 112
 		private bool _isTimerActive;
 	}
 }

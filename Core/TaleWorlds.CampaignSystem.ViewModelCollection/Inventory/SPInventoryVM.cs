@@ -22,10 +22,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 {
-	// Token: 0x0200007E RID: 126
 	public class SPInventoryVM : ViewModel, IInventoryStateHandler
 	{
-		// Token: 0x06000B67 RID: 2919 RVA: 0x0002E6BC File Offset: 0x0002C8BC
 		public SPInventoryVM(InventoryLogic inventoryLogic, bool isInCivilianModeByDefault, Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> getItemUsageSetFlags, string fiveStackShortcutkeyText, string entireStackShortcutkeyText)
 		{
 			this._usageType = InventoryManager.Instance.CurrentMode;
@@ -126,7 +124,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000B68 RID: 2920 RVA: 0x0002ED74 File Offset: 0x0002CF74
 		private void AddApplicableCharactersToListFromRoster(MBList<TroopRosterElement> roster)
 		{
 			for (int i = 0; i < roster.Count; i++)
@@ -143,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B69 RID: 2921 RVA: 0x0002EE0C File Offset: 0x0002D00C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -227,7 +223,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			otherInventorySortController.RefreshValues();
 		}
 
-		// Token: 0x06000B6A RID: 2922 RVA: 0x0002F2B8 File Offset: 0x0002D4B8
 		public override void OnFinalize()
 		{
 			ItemVM.ProcessEquipItem = null;
@@ -266,7 +261,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000B6B RID: 2923 RVA: 0x0002F3D8 File Offset: 0x0002D5D8
 		public void RefreshCallbacks()
 		{
 			ItemVM.ProcessEquipItem = new Action<ItemVM>(this.ProcessEquipItem);
@@ -282,13 +276,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			SPItemVM.OnFocus = new Action<SPItemVM>(this.OnItemFocus);
 		}
 
-		// Token: 0x06000B6C RID: 2924 RVA: 0x0002F4A0 File Offset: 0x0002D6A0
 		private bool CanSelectHero(Hero hero)
 		{
 			return hero.IsAlive && hero.CanHeroEquipmentBeChanged() && hero.Clan == Clan.PlayerClan && hero.HeroState != Hero.CharacterStates.Disabled && !hero.IsChild;
 		}
 
-		// Token: 0x06000B6D RID: 2925 RVA: 0x0002F4D3 File Offset: 0x0002D6D3
 		private void SetPreviousCharacterHint()
 		{
 			this.PreviousCharacterHint = new BasicTooltipViewModel(delegate
@@ -299,7 +291,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			});
 		}
 
-		// Token: 0x06000B6E RID: 2926 RVA: 0x0002F4EC File Offset: 0x0002D6EC
 		private void SetNextCharacterHint()
 		{
 			this.NextCharacterHint = new BasicTooltipViewModel(delegate
@@ -310,7 +301,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			});
 		}
 
-		// Token: 0x06000B6F RID: 2927 RVA: 0x0002F508 File Offset: 0x0002D708
 		private void SetBuyAllHint()
 		{
 			TextObject buyAllHintText;
@@ -330,7 +320,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			});
 		}
 
-		// Token: 0x06000B70 RID: 2928 RVA: 0x0002F568 File Offset: 0x0002D768
 		private void SetSellAllHint()
 		{
 			TextObject sellAllHintText;
@@ -354,7 +343,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			});
 		}
 
-		// Token: 0x06000B71 RID: 2929 RVA: 0x0002F5EC File Offset: 0x0002D7EC
 		private void OnCharacterSelected(SelectorVM<InventoryCharacterSelectorItemVM> selector)
 		{
 			if (this._inventoryLogic == null || selector.SelectedItem == null)
@@ -382,8 +370,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B0 RID: 944
-		// (get) Token: 0x06000B72 RID: 2930 RVA: 0x0002F69E File Offset: 0x0002D89E
 		private Equipment ActiveEquipment
 		{
 			get
@@ -396,19 +382,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B73 RID: 2931 RVA: 0x0002F6BF File Offset: 0x0002D8BF
 		public void ExecuteShowRecap()
 		{
 			InformationManager.ShowTooltip(typeof(InventoryLogic), new object[] { this._inventoryLogic });
 		}
 
-		// Token: 0x06000B74 RID: 2932 RVA: 0x0002F6DF File Offset: 0x0002D8DF
 		public void ExecuteCancelRecap()
 		{
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x06000B75 RID: 2933 RVA: 0x0002F6E8 File Offset: 0x0002D8E8
 		public void ExecuteRemoveZeroCounts()
 		{
 			List<SPItemVM> list = this.LeftItemListVM.ToList<SPItemVM>();
@@ -429,26 +412,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B76 RID: 2934 RVA: 0x0002F78B File Offset: 0x0002D98B
 		private void ProcessPreviewItem(ItemVM item)
 		{
 			this._inventoryLogic.IsPreviewingItem = true;
 			this.ItemPreview.Open(item.ItemRosterElement.EquipmentElement);
 		}
 
-		// Token: 0x06000B77 RID: 2935 RVA: 0x0002F7AF File Offset: 0x0002D9AF
 		public void ClosePreview()
 		{
 			this.ItemPreview.Close();
 		}
 
-		// Token: 0x06000B78 RID: 2936 RVA: 0x0002F7BC File Offset: 0x0002D9BC
 		private void OnPreviewClosed()
 		{
 			this._inventoryLogic.IsPreviewingItem = false;
 		}
 
-		// Token: 0x06000B79 RID: 2937 RVA: 0x0002F7CC File Offset: 0x0002D9CC
 		private void ProcessEquipItem(ItemVM draggedItem)
 		{
 			SPItemVM spitemVM = draggedItem as SPItemVM;
@@ -463,7 +442,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B7A RID: 2938 RVA: 0x0002F812 File Offset: 0x0002DA12
 		private void ProcessUnequipItem(ItemVM draggedItem)
 		{
 			this.IsRefreshed = false;
@@ -472,7 +450,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B7B RID: 2939 RVA: 0x0002F834 File Offset: 0x0002DA34
 		private void ProcessBuyItem(ItemVM itemBase, bool cameFromTradeData)
 		{
 			this.IsRefreshed = false;
@@ -501,7 +478,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B7C RID: 2940 RVA: 0x0002F8FC File Offset: 0x0002DAFC
 		private void ProcessSellItem(SPItemVM item, bool cameFromTradeData)
 		{
 			this.IsRefreshed = false;
@@ -529,7 +505,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B7D RID: 2941 RVA: 0x0002F9B4 File Offset: 0x0002DBB4
 		private void ProcessLockItem(SPItemVM item, bool isLocked)
 		{
 			if (isLocked && item.InventorySide == InventoryLogic.InventorySide.PlayerInventory && !this._lockedItemIDs.Contains(item.StringId))
@@ -543,7 +518,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B7E RID: 2942 RVA: 0x0002FA24 File Offset: 0x0002DC24
 		private ItemVM ProcessCompareItem(ItemVM item, int alternativeUsageIndex = 0)
 		{
 			this._selectedEquipmentIndex = 0;
@@ -603,14 +577,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return spitemVM;
 		}
 
-		// Token: 0x06000B7F RID: 2943 RVA: 0x0002FBD4 File Offset: 0x0002DDD4
 		private void ResetComparedItems(ItemVM item, int alternativeUsageIndex)
 		{
 			ItemVM itemVM = this.ProcessCompareItem(item, alternativeUsageIndex);
 			this.ItemMenu.SetItem(this._selectedItem, itemVM, this._currentCharacter, alternativeUsageIndex);
 		}
 
-		// Token: 0x06000B80 RID: 2944 RVA: 0x0002FC04 File Offset: 0x0002DE04
 		private void SortComparedItems(ItemVM selectedItem)
 		{
 			List<ItemVM> list = new List<ItemVM>();
@@ -650,7 +622,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._comparedItemList = list;
 		}
 
-		// Token: 0x06000B81 RID: 2945 RVA: 0x0002FE90 File Offset: 0x0002E090
 		public void ProcessItemTooltip(ItemVM item)
 		{
 			if (item == null || string.IsNullOrEmpty(item.StringId))
@@ -664,13 +635,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._selectedItem.UpdateCanBeSlaughtered();
 		}
 
-		// Token: 0x06000B82 RID: 2946 RVA: 0x0002FEEE File Offset: 0x0002E0EE
 		public void ResetSelectedItem()
 		{
 			this._selectedItem = null;
 		}
 
-		// Token: 0x06000B83 RID: 2947 RVA: 0x0002FEF8 File Offset: 0x0002E0F8
 		private void ProcessItemSlaughter(SPItemVM item)
 		{
 			this.IsRefreshed = false;
@@ -687,7 +656,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B84 RID: 2948 RVA: 0x0002FF44 File Offset: 0x0002E144
 		private void ProcessItemDonate(SPItemVM item)
 		{
 			this.IsRefreshed = false;
@@ -704,19 +672,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000B85 RID: 2949 RVA: 0x0002FF90 File Offset: 0x0002E190
 		private void OnItemFocus(SPItemVM item)
 		{
 			this.CurrentFocusedItem = item;
 		}
 
-		// Token: 0x06000B86 RID: 2950 RVA: 0x0002FF99 File Offset: 0x0002E199
 		private void ProcessItemSelect(ItemVM item)
 		{
 			this.ExecuteRemoveZeroCounts();
 		}
 
-		// Token: 0x06000B87 RID: 2951 RVA: 0x0002FFA4 File Offset: 0x0002E1A4
 		private void RefreshTransactionCost(int transactionCount = 1)
 		{
 			if (this._selectedItem != null && this.IsTrading)
@@ -727,7 +692,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B88 RID: 2952 RVA: 0x0002FFF8 File Offset: 0x0002E1F8
 		public void RefreshComparedItem()
 		{
 			this._lastComparedItemIndex++;
@@ -741,7 +705,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B89 RID: 2953 RVA: 0x00030080 File Offset: 0x0002E280
 		private void AfterReset(InventoryLogic itemRoster, bool fromCancel)
 		{
 			this._inventoryLogic = itemRoster;
@@ -785,7 +748,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B8A RID: 2954 RVA: 0x000301AC File Offset: 0x0002E3AC
 		private void OnTotalAmountChange(int newTotalAmount)
 		{
 			MBTextManager.SetTextVariable("PAY_OR_GET", (this._inventoryLogic.TotalAmount < 0) ? 1 : 0);
@@ -797,7 +759,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.LeftInventoryOwnerGold = (((inventoryListener != null) ? new int?(inventoryListener.GetGold()) : null) + this._inventoryLogic.TotalAmount) ?? 0;
 		}
 
-		// Token: 0x06000B8B RID: 2955 RVA: 0x000302BC File Offset: 0x0002E4BC
 		private void OnDonationXpChange()
 		{
 			int num = (int)this._inventoryLogic.XpGainFromDonations;
@@ -813,7 +774,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.ExperienceLbl = ((num == 0) ? "" : GameTexts.FindText("str_inventory_donation_label", null).ToString());
 		}
 
-		// Token: 0x06000B8C RID: 2956 RVA: 0x00030328 File Offset: 0x0002E528
 		private void AfterTransfer(InventoryLogic inventoryLogic, List<TransferCommandResult> results)
 		{
 			this._isCharacterEquipmentDirty = false;
@@ -905,7 +865,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B8D RID: 2957 RVA: 0x00030858 File Offset: 0x0002EA58
 		private void UpdateCostOfItemsInCategory(HashSet<ItemCategory> categories)
 		{
 			foreach (SPItemVM spitemVM in this.LeftItemListVM)
@@ -924,7 +883,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B8E RID: 2958 RVA: 0x00030944 File Offset: 0x0002EB44
 		private void CheckEquipAfterTransferStack()
 		{
 			while (this._equipAfterTransferStack.Count > 0)
@@ -935,7 +893,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B8F RID: 2959 RVA: 0x00030980 File Offset: 0x0002EB80
 		private void RefreshInformationValues()
 		{
 			int inventoryCapacity = PartyBase.MainParty.InventoryCapacity;
@@ -973,7 +930,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.UpdateIsDoneDisabled();
 		}
 
-		// Token: 0x06000B90 RID: 2960 RVA: 0x00030AC8 File Offset: 0x0002ECC8
 		public bool IsItemEquipmentPossible(SPItemVM itemVM)
 		{
 			if (itemVM == null)
@@ -1057,19 +1013,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return true;
 		}
 
-		// Token: 0x06000B91 RID: 2961 RVA: 0x00030D60 File Offset: 0x0002EF60
 		private bool CanCharacterUserItemBasedOnUsability(ItemRosterElement itemRosterElement)
 		{
 			return !itemRosterElement.EquipmentElement.Item.HasHorseComponent || itemRosterElement.EquipmentElement.Item.HorseComponent.IsRideable;
 		}
 
-		// Token: 0x06000B92 RID: 2962 RVA: 0x00030DA1 File Offset: 0x0002EFA1
 		private bool CanCharacterUseItemBasedOnSkills(ItemRosterElement itemRosterElement)
 		{
 			return CharacterHelper.CanUseItemBasedOnSkill(this._currentCharacter, itemRosterElement.EquipmentElement);
 		}
 
-		// Token: 0x06000B93 RID: 2963 RVA: 0x00030DB8 File Offset: 0x0002EFB8
 		private void EquipEquipment(SPItemVM itemVM)
 		{
 			if (itemVM == null || string.IsNullOrEmpty(itemVM.StringId))
@@ -1137,7 +1090,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._inventoryLogic.AddTransferCommands(list);
 		}
 
-		// Token: 0x06000B94 RID: 2964 RVA: 0x00030FDC File Offset: 0x0002F1DC
 		private void UnequipEquipment(SPItemVM itemVM)
 		{
 			if (itemVM == null || string.IsNullOrEmpty(itemVM.StringId))
@@ -1148,7 +1100,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._inventoryLogic.AddTransferCommand(transferCommand);
 		}
 
-		// Token: 0x06000B95 RID: 2965 RVA: 0x00031030 File Offset: 0x0002F230
 		private void UpdateEquipment(Equipment equipment, SPItemVM itemVM, EquipmentIndex itemType)
 		{
 			if (this.ActiveEquipment == equipment)
@@ -1158,7 +1109,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			equipment[itemType] = ((itemVM == null) ? default(EquipmentElement) : itemVM.ItemRosterElement.EquipmentElement);
 		}
 
-		// Token: 0x06000B96 RID: 2966 RVA: 0x00031070 File Offset: 0x0002F270
 		private void UnequipEquipmentWithEquipmentIndex(EquipmentIndex slotType)
 		{
 			switch (slotType)
@@ -1210,7 +1160,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B97 RID: 2967 RVA: 0x00031174 File Offset: 0x0002F374
 		protected void RefreshEquipment(SPItemVM itemVM, EquipmentIndex itemType)
 		{
 			switch (itemType)
@@ -1258,7 +1207,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B98 RID: 2968 RVA: 0x00031268 File Offset: 0x0002F468
 		private bool UpdateCurrentCharacterIfPossible(int characterIndex, bool isFromRightSide)
 		{
 			CharacterObject character = (isFromRightSide ? this._rightTroopRoster : this._leftTroopRoster).GetElementCopyAtIndex(characterIndex).Character;
@@ -1303,7 +1251,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return false;
 		}
 
-		// Token: 0x06000B99 RID: 2969 RVA: 0x0003138C File Offset: 0x0002F58C
 		private bool DoesCompanionExist()
 		{
 			for (int i = 1; i < this._rightTroopRoster.Count; i++)
@@ -1317,7 +1264,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return false;
 		}
 
-		// Token: 0x06000B9A RID: 2970 RVA: 0x000313E8 File Offset: 0x0002F5E8
 		private void UpdateLeftCharacter()
 		{
 			this.IsTradingWithSettlement = false;
@@ -1353,7 +1299,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B9B RID: 2971 RVA: 0x0003151C File Offset: 0x0002F71C
 		private void UpdateRightCharacter()
 		{
 			this.UpdateCharacterEquipment();
@@ -1364,7 +1309,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.RightInventoryOwnerGold = Hero.MainHero.Gold - this._inventoryLogic.TotalAmount;
 		}
 
-		// Token: 0x06000B9C RID: 2972 RVA: 0x00031574 File Offset: 0x0002F774
 		private SPItemVM InitializeCharacterEquipmentSlot(ItemRosterElement itemRosterElement, EquipmentIndex equipmentIndex)
 		{
 			SPItemVM spitemVM;
@@ -1380,7 +1324,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return spitemVM;
 		}
 
-		// Token: 0x06000B9D RID: 2973 RVA: 0x000315E4 File Offset: 0x0002F7E4
 		private void UpdateCharacterEquipment()
 		{
 			this.CharacterHelmSlot = this.InitializeCharacterEquipmentSlot(new ItemRosterElement(this.ActiveEquipment.GetEquipmentFromSlot(EquipmentIndex.NumAllWeaponSlots), 1), EquipmentIndex.NumAllWeaponSlots);
@@ -1398,7 +1341,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.MainCharacter.SetEquipment(this.ActiveEquipment);
 		}
 
-		// Token: 0x06000B9E RID: 2974 RVA: 0x0003177C File Offset: 0x0002F97C
 		private void UpdateCharacterArmorValues()
 		{
 			this.CurrentCharacterArmArmor = this._currentCharacter.GetArmArmorSum(!this.IsInWarSet);
@@ -1408,7 +1350,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CurrentCharacterHorseArmor = this._currentCharacter.GetHorseArmorSum(!this.IsInWarSet);
 		}
 
-		// Token: 0x06000B9F RID: 2975 RVA: 0x0003180C File Offset: 0x0002FA0C
 		private void RefreshCharacterTotalWeight()
 		{
 			CharacterObject currentCharacter = this._currentCharacter;
@@ -1416,7 +1357,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CurrentCharacterTotalEncumbrance = MathF.Round(this.ActiveEquipment.GetTotalWeightOfWeapons() + this.ActiveEquipment.GetTotalWeightOfArmor(true) * num, 1).ToString("0.0");
 		}
 
-		// Token: 0x06000BA0 RID: 2976 RVA: 0x00031884 File Offset: 0x0002FA84
 		private void RefreshCharacterCanUseItem()
 		{
 			for (int i = 0; i < this.RightItemListVM.Count; i++)
@@ -1429,7 +1369,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BA1 RID: 2977 RVA: 0x00031910 File Offset: 0x0002FB10
 		private void InitializeInventory()
 		{
 			this.IsRefreshed = false;
@@ -1492,7 +1431,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000BA2 RID: 2978 RVA: 0x00031BCC File Offset: 0x0002FDCC
 		private bool IsItemLocked(ItemRosterElement item)
 		{
 			string text = item.EquipmentElement.Item.StringId;
@@ -1503,14 +1441,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this._lockedItemIDs.Contains(text);
 		}
 
-		// Token: 0x06000BA3 RID: 2979 RVA: 0x00031C26 File Offset: 0x0002FE26
 		public void CompareNextItem()
 		{
 			this.CycleBetweenWeaponSlots();
 			this.RefreshComparedItem();
 		}
 
-		// Token: 0x06000BA4 RID: 2980 RVA: 0x00031C34 File Offset: 0x0002FE34
 		private void BuyItem(SPItemVM item)
 		{
 			if (this.TargetEquipmentType != EquipmentIndex.None && item.ItemType != this.TargetEquipmentType && (this.TargetEquipmentType < EquipmentIndex.WeaponItemBeginSlot || this.TargetEquipmentType > EquipmentIndex.ExtraWeaponSlot || item.ItemType < EquipmentIndex.WeaponItemBeginSlot || item.ItemType > EquipmentIndex.ExtraWeaponSlot))
@@ -1542,7 +1478,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BA5 RID: 2981 RVA: 0x00031D58 File Offset: 0x0002FF58
 		private void SellItem(SPItemVM item)
 		{
 			InventoryLogic.InventorySide inventorySide = item.InventorySide;
@@ -1560,7 +1495,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._inventoryLogic.AddTransferCommand(transferCommand);
 		}
 
-		// Token: 0x06000BA6 RID: 2982 RVA: 0x00031DEC File Offset: 0x0002FFEC
 		private void SlaughterItem(SPItemVM item)
 		{
 			int num = 1;
@@ -1578,7 +1512,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BA7 RID: 2983 RVA: 0x00031E40 File Offset: 0x00030040
 		private void DonateItem(SPItemVM item)
 		{
 			if (this.IsFiveStackModifierActive)
@@ -1593,7 +1526,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._inventoryLogic.DonateItem(item.ItemRosterElement);
 		}
 
-		// Token: 0x06000BA8 RID: 2984 RVA: 0x00031E94 File Offset: 0x00030094
 		private void TransferAll(bool isBuy)
 		{
 			this.IsRefreshed = false;
@@ -1663,19 +1595,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000BA9 RID: 2985 RVA: 0x000321A4 File Offset: 0x000303A4
 		public void ExecuteBuyAllItems()
 		{
 			this.TransferAll(true);
 		}
 
-		// Token: 0x06000BAA RID: 2986 RVA: 0x000321AD File Offset: 0x000303AD
 		public void ExecuteSellAllItems()
 		{
 			this.TransferAll(false);
 		}
 
-		// Token: 0x06000BAB RID: 2987 RVA: 0x000321B8 File Offset: 0x000303B8
 		public void ExecuteBuyItemTest()
 		{
 			this.TransactionCount = 1;
@@ -1695,7 +1624,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BAC RID: 2988 RVA: 0x0003225C File Offset: 0x0003045C
 		public void ExecuteResetTranstactions()
 		{
 			this._inventoryLogic.Reset(false);
@@ -1703,7 +1631,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CurrentFocusedItem = null;
 		}
 
-		// Token: 0x06000BAD RID: 2989 RVA: 0x0003228C File Offset: 0x0003048C
 		public void ExecuteResetAndCompleteTranstactions()
 		{
 			if (InventoryManager.Instance.CurrentMode == InventoryMode.Loot)
@@ -1722,7 +1649,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			InventoryManager.Instance.CloseInventoryPresentation(true);
 		}
 
-		// Token: 0x06000BAE RID: 2990 RVA: 0x0003231C File Offset: 0x0003051C
 		public void ExecuteCompleteTranstactions()
 		{
 			if (InventoryManager.Instance.CurrentMode == InventoryMode.Loot && !this._inventoryLogic.IsThereAnyChanges() && this._inventoryLogic.GetElementsInInitialRoster(InventoryLogic.InventorySide.OtherInventory).Any<ItemRosterElement>())
@@ -1733,7 +1659,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.HandleDone();
 		}
 
-		// Token: 0x06000BAF RID: 2991 RVA: 0x000323BC File Offset: 0x000305BC
 		private void HandleDone()
 		{
 			if (!this._isFinalized)
@@ -1767,19 +1692,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BB0 RID: 2992 RVA: 0x00032555 File Offset: 0x00030755
 		private void SaveItemLockStates()
 		{
 			this._viewDataTracker.SetInventoryLocks(this._lockedItemIDs);
 		}
 
-		// Token: 0x06000BB1 RID: 2993 RVA: 0x00032568 File Offset: 0x00030768
 		private void SaveItemSortStates()
 		{
 			this._viewDataTracker.InventorySetSortPreference((int)this._usageType, (int)this.PlayerInventorySortController.CurrentSortOption.Value, (int)this.PlayerInventorySortController.CurrentSortState.Value);
 		}
 
-		// Token: 0x06000BB2 RID: 2994 RVA: 0x000325AC File Offset: 0x000307AC
 		public void ExecuteTransferWithParameters(SPItemVM item, int index, string targetTag)
 		{
 			if (targetTag == "OverCharacter")
@@ -1841,13 +1763,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BB3 RID: 2995 RVA: 0x000326EA File Offset: 0x000308EA
 		private void UpdateIsDoneDisabled()
 		{
 			this.IsDoneDisabled = !this._inventoryLogic.CanPlayerCompleteTransaction();
 		}
 
-		// Token: 0x06000BB4 RID: 2996 RVA: 0x00032700 File Offset: 0x00030900
 		private void ProcessFilter(SPInventoryVM.Filters filterIndex)
 		{
 			this.ActiveFilterIndex = (int)filterIndex;
@@ -1869,7 +1789,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000BB5 RID: 2997 RVA: 0x000327A4 File Offset: 0x000309A4
 		private void UpdateFilteredStatusOfItem(SPItemVM item)
 		{
 			bool flag = !this._filters[this._activeFilterIndex].Contains(item.TypeId);
@@ -1885,7 +1804,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			item.IsFiltered = flag || flag2;
 		}
 
-		// Token: 0x06000BB6 RID: 2998 RVA: 0x0003282F File Offset: 0x00030A2F
 		private void OnSearchTextChanged(bool isLeft)
 		{
 			if (this.IsSearchAvailable)
@@ -1897,49 +1815,42 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BB7 RID: 2999 RVA: 0x0003285B File Offset: 0x00030A5B
 		public void ExecuteFilterNone()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.All);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.All));
 		}
 
-		// Token: 0x06000BB8 RID: 3000 RVA: 0x00032879 File Offset: 0x00030A79
 		public void ExecuteFilterWeapons()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.Weapons);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.Weapons));
 		}
 
-		// Token: 0x06000BB9 RID: 3001 RVA: 0x00032897 File Offset: 0x00030A97
 		public void ExecuteFilterArmors()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.Armors);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.Armors));
 		}
 
-		// Token: 0x06000BBA RID: 3002 RVA: 0x000328B5 File Offset: 0x00030AB5
 		public void ExecuteFilterShieldsAndRanged()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.ShieldsAndRanged);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.ShieldsAndRanged));
 		}
 
-		// Token: 0x06000BBB RID: 3003 RVA: 0x000328D3 File Offset: 0x00030AD3
 		public void ExecuteFilterMounts()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.Mounts);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.Mounts));
 		}
 
-		// Token: 0x06000BBC RID: 3004 RVA: 0x000328F1 File Offset: 0x00030AF1
 		public void ExecuteFilterMisc()
 		{
 			this.ProcessFilter(SPInventoryVM.Filters.Miscellaneous);
 			Game.Current.EventManager.TriggerEvent<InventoryFilterChangedEvent>(new InventoryFilterChangedEvent(SPInventoryVM.Filters.Miscellaneous));
 		}
 
-		// Token: 0x06000BBD RID: 3005 RVA: 0x00032910 File Offset: 0x00030B10
 		public void CycleBetweenWeaponSlots()
 		{
 			EquipmentIndex selectedEquipmentIndex = (EquipmentIndex)this._selectedEquipmentIndex;
@@ -1961,7 +1872,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BBE RID: 3006 RVA: 0x0003297C File Offset: 0x00030B7C
 		private SPItemVM GetItemFromIndex(EquipmentIndex itemType)
 		{
 			switch (itemType)
@@ -1995,7 +1905,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BBF RID: 3007 RVA: 0x00032A18 File Offset: 0x00030C18
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
 		{
 			if (obj.NewNotificationElementID != this._latestTutorialElementID)
@@ -2069,7 +1978,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BC0 RID: 3008 RVA: 0x00032BD8 File Offset: 0x00030DD8
 		private void SetFoodTransferButtonHighlightState(bool state)
 		{
 			for (int i = 0; i < this.LeftItemListVM.Count; i++)
@@ -2082,7 +1990,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000BC1 RID: 3009 RVA: 0x00032C2C File Offset: 0x00030E2C
 		private void SetBannerItemsHighlightState(bool state)
 		{
 			for (int i = 0; i < this.LeftItemListVM.Count; i++)
@@ -2095,9 +2002,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B1 RID: 945
-		// (get) Token: 0x06000BC2 RID: 3010 RVA: 0x00032C7D File Offset: 0x00030E7D
-		// (set) Token: 0x06000BC3 RID: 3011 RVA: 0x00032C85 File Offset: 0x00030E85
 		[DataSourceProperty]
 		public HintViewModel ResetHint
 		{
@@ -2115,9 +2019,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B2 RID: 946
-		// (get) Token: 0x06000BC4 RID: 3012 RVA: 0x00032CA3 File Offset: 0x00030EA3
-		// (set) Token: 0x06000BC5 RID: 3013 RVA: 0x00032CAB File Offset: 0x00030EAB
 		[DataSourceProperty]
 		public string LeftInventoryLabel
 		{
@@ -2135,9 +2036,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B3 RID: 947
-		// (get) Token: 0x06000BC6 RID: 3014 RVA: 0x00032CCE File Offset: 0x00030ECE
-		// (set) Token: 0x06000BC7 RID: 3015 RVA: 0x00032CD6 File Offset: 0x00030ED6
 		[DataSourceProperty]
 		public string RightInventoryLabel
 		{
@@ -2155,9 +2053,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x06000BC8 RID: 3016 RVA: 0x00032CF9 File Offset: 0x00030EF9
-		// (set) Token: 0x06000BC9 RID: 3017 RVA: 0x00032D01 File Offset: 0x00030F01
 		[DataSourceProperty]
 		public string DoneLbl
 		{
@@ -2175,9 +2070,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x06000BCA RID: 3018 RVA: 0x00032D24 File Offset: 0x00030F24
-		// (set) Token: 0x06000BCB RID: 3019 RVA: 0x00032D2C File Offset: 0x00030F2C
 		[DataSourceProperty]
 		public bool IsDoneDisabled
 		{
@@ -2195,9 +2087,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x06000BCC RID: 3020 RVA: 0x00032D4A File Offset: 0x00030F4A
-		// (set) Token: 0x06000BCD RID: 3021 RVA: 0x00032D52 File Offset: 0x00030F52
 		[DataSourceProperty]
 		public bool IsSearchAvailable
 		{
@@ -2220,9 +2109,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x06000BCE RID: 3022 RVA: 0x00032D89 File Offset: 0x00030F89
-		// (set) Token: 0x06000BCF RID: 3023 RVA: 0x00032D91 File Offset: 0x00030F91
 		[DataSourceProperty]
 		public bool IsOtherInventoryGoldRelevant
 		{
@@ -2240,9 +2126,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B8 RID: 952
-		// (get) Token: 0x06000BD0 RID: 3024 RVA: 0x00032DAF File Offset: 0x00030FAF
-		// (set) Token: 0x06000BD1 RID: 3025 RVA: 0x00032DB7 File Offset: 0x00030FB7
 		[DataSourceProperty]
 		public string CancelLbl
 		{
@@ -2260,9 +2143,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003B9 RID: 953
-		// (get) Token: 0x06000BD2 RID: 3026 RVA: 0x00032DDA File Offset: 0x00030FDA
-		// (set) Token: 0x06000BD3 RID: 3027 RVA: 0x00032DE2 File Offset: 0x00030FE2
 		[DataSourceProperty]
 		public string ResetLbl
 		{
@@ -2280,9 +2160,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BA RID: 954
-		// (get) Token: 0x06000BD4 RID: 3028 RVA: 0x00032E05 File Offset: 0x00031005
-		// (set) Token: 0x06000BD5 RID: 3029 RVA: 0x00032E0D File Offset: 0x0003100D
 		[DataSourceProperty]
 		public string TypeText
 		{
@@ -2300,9 +2177,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BB RID: 955
-		// (get) Token: 0x06000BD6 RID: 3030 RVA: 0x00032E30 File Offset: 0x00031030
-		// (set) Token: 0x06000BD7 RID: 3031 RVA: 0x00032E38 File Offset: 0x00031038
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -2320,9 +2194,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BC RID: 956
-		// (get) Token: 0x06000BD8 RID: 3032 RVA: 0x00032E5B File Offset: 0x0003105B
-		// (set) Token: 0x06000BD9 RID: 3033 RVA: 0x00032E63 File Offset: 0x00031063
 		[DataSourceProperty]
 		public string QuantityText
 		{
@@ -2340,9 +2211,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BD RID: 957
-		// (get) Token: 0x06000BDA RID: 3034 RVA: 0x00032E86 File Offset: 0x00031086
-		// (set) Token: 0x06000BDB RID: 3035 RVA: 0x00032E8E File Offset: 0x0003108E
 		[DataSourceProperty]
 		public string CostText
 		{
@@ -2360,9 +2228,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BE RID: 958
-		// (get) Token: 0x06000BDC RID: 3036 RVA: 0x00032EB1 File Offset: 0x000310B1
-		// (set) Token: 0x06000BDD RID: 3037 RVA: 0x00032EB9 File Offset: 0x000310B9
 		[DataSourceProperty]
 		public string SearchPlaceholderText
 		{
@@ -2380,9 +2245,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003BF RID: 959
-		// (get) Token: 0x06000BDE RID: 3038 RVA: 0x00032EDC File Offset: 0x000310DC
-		// (set) Token: 0x06000BDF RID: 3039 RVA: 0x00032EE4 File Offset: 0x000310E4
 		[DataSourceProperty]
 		public BasicTooltipViewModel ProductionTooltip
 		{
@@ -2400,9 +2262,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C0 RID: 960
-		// (get) Token: 0x06000BE0 RID: 3040 RVA: 0x00032F02 File Offset: 0x00031102
-		// (set) Token: 0x06000BE1 RID: 3041 RVA: 0x00032F0A File Offset: 0x0003110A
 		[DataSourceProperty]
 		public BasicTooltipViewModel EquipmentMaxCountHint
 		{
@@ -2420,9 +2279,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C1 RID: 961
-		// (get) Token: 0x06000BE2 RID: 3042 RVA: 0x00032F28 File Offset: 0x00031128
-		// (set) Token: 0x06000BE3 RID: 3043 RVA: 0x00032F30 File Offset: 0x00031130
 		[DataSourceProperty]
 		public BasicTooltipViewModel CurrentCharacterSkillsTooltip
 		{
@@ -2440,9 +2296,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C2 RID: 962
-		// (get) Token: 0x06000BE4 RID: 3044 RVA: 0x00032F4E File Offset: 0x0003114E
-		// (set) Token: 0x06000BE5 RID: 3045 RVA: 0x00032F56 File Offset: 0x00031156
 		[DataSourceProperty]
 		public HintViewModel NoSaddleHint
 		{
@@ -2460,9 +2313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C3 RID: 963
-		// (get) Token: 0x06000BE6 RID: 3046 RVA: 0x00032F74 File Offset: 0x00031174
-		// (set) Token: 0x06000BE7 RID: 3047 RVA: 0x00032F7C File Offset: 0x0003117C
 		[DataSourceProperty]
 		public HintViewModel DonationLblHint
 		{
@@ -2480,9 +2330,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C4 RID: 964
-		// (get) Token: 0x06000BE8 RID: 3048 RVA: 0x00032F9A File Offset: 0x0003119A
-		// (set) Token: 0x06000BE9 RID: 3049 RVA: 0x00032FA2 File Offset: 0x000311A2
 		[DataSourceProperty]
 		public HintViewModel ArmArmorHint
 		{
@@ -2500,9 +2347,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C5 RID: 965
-		// (get) Token: 0x06000BEA RID: 3050 RVA: 0x00032FC0 File Offset: 0x000311C0
-		// (set) Token: 0x06000BEB RID: 3051 RVA: 0x00032FC8 File Offset: 0x000311C8
 		[DataSourceProperty]
 		public HintViewModel BodyArmorHint
 		{
@@ -2520,9 +2364,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C6 RID: 966
-		// (get) Token: 0x06000BEC RID: 3052 RVA: 0x00032FE6 File Offset: 0x000311E6
-		// (set) Token: 0x06000BED RID: 3053 RVA: 0x00032FEE File Offset: 0x000311EE
 		[DataSourceProperty]
 		public HintViewModel HeadArmorHint
 		{
@@ -2540,9 +2381,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C7 RID: 967
-		// (get) Token: 0x06000BEE RID: 3054 RVA: 0x0003300C File Offset: 0x0003120C
-		// (set) Token: 0x06000BEF RID: 3055 RVA: 0x00033014 File Offset: 0x00031214
 		[DataSourceProperty]
 		public HintViewModel LegArmorHint
 		{
@@ -2560,9 +2398,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C8 RID: 968
-		// (get) Token: 0x06000BF0 RID: 3056 RVA: 0x00033032 File Offset: 0x00031232
-		// (set) Token: 0x06000BF1 RID: 3057 RVA: 0x0003303A File Offset: 0x0003123A
 		[DataSourceProperty]
 		public HintViewModel HorseArmorHint
 		{
@@ -2580,9 +2415,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003C9 RID: 969
-		// (get) Token: 0x06000BF2 RID: 3058 RVA: 0x00033058 File Offset: 0x00031258
-		// (set) Token: 0x06000BF3 RID: 3059 RVA: 0x00033060 File Offset: 0x00031260
 		[DataSourceProperty]
 		public HintViewModel FilterAllHint
 		{
@@ -2600,9 +2432,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CA RID: 970
-		// (get) Token: 0x06000BF4 RID: 3060 RVA: 0x0003307E File Offset: 0x0003127E
-		// (set) Token: 0x06000BF5 RID: 3061 RVA: 0x00033086 File Offset: 0x00031286
 		[DataSourceProperty]
 		public HintViewModel FilterWeaponHint
 		{
@@ -2620,9 +2449,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CB RID: 971
-		// (get) Token: 0x06000BF6 RID: 3062 RVA: 0x000330A4 File Offset: 0x000312A4
-		// (set) Token: 0x06000BF7 RID: 3063 RVA: 0x000330AC File Offset: 0x000312AC
 		[DataSourceProperty]
 		public HintViewModel FilterArmorHint
 		{
@@ -2640,9 +2466,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CC RID: 972
-		// (get) Token: 0x06000BF8 RID: 3064 RVA: 0x000330CA File Offset: 0x000312CA
-		// (set) Token: 0x06000BF9 RID: 3065 RVA: 0x000330D2 File Offset: 0x000312D2
 		[DataSourceProperty]
 		public HintViewModel FilterShieldAndRangedHint
 		{
@@ -2660,9 +2483,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CD RID: 973
-		// (get) Token: 0x06000BFA RID: 3066 RVA: 0x000330F0 File Offset: 0x000312F0
-		// (set) Token: 0x06000BFB RID: 3067 RVA: 0x000330F8 File Offset: 0x000312F8
 		[DataSourceProperty]
 		public HintViewModel FilterMountAndHarnessHint
 		{
@@ -2680,9 +2500,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CE RID: 974
-		// (get) Token: 0x06000BFC RID: 3068 RVA: 0x00033116 File Offset: 0x00031316
-		// (set) Token: 0x06000BFD RID: 3069 RVA: 0x0003311E File Offset: 0x0003131E
 		[DataSourceProperty]
 		public HintViewModel FilterMiscHint
 		{
@@ -2700,9 +2517,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003CF RID: 975
-		// (get) Token: 0x06000BFE RID: 3070 RVA: 0x0003313C File Offset: 0x0003133C
-		// (set) Token: 0x06000BFF RID: 3071 RVA: 0x00033144 File Offset: 0x00031344
 		[DataSourceProperty]
 		public HintViewModel CivilianOutfitHint
 		{
@@ -2720,9 +2534,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D0 RID: 976
-		// (get) Token: 0x06000C00 RID: 3072 RVA: 0x00033162 File Offset: 0x00031362
-		// (set) Token: 0x06000C01 RID: 3073 RVA: 0x0003316A File Offset: 0x0003136A
 		[DataSourceProperty]
 		public HintViewModel BattleOutfitHint
 		{
@@ -2740,9 +2551,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D1 RID: 977
-		// (get) Token: 0x06000C02 RID: 3074 RVA: 0x00033188 File Offset: 0x00031388
-		// (set) Token: 0x06000C03 RID: 3075 RVA: 0x00033190 File Offset: 0x00031390
 		[DataSourceProperty]
 		public HintViewModel EquipmentHelmSlotHint
 		{
@@ -2760,9 +2568,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D2 RID: 978
-		// (get) Token: 0x06000C04 RID: 3076 RVA: 0x000331AE File Offset: 0x000313AE
-		// (set) Token: 0x06000C05 RID: 3077 RVA: 0x000331B6 File Offset: 0x000313B6
 		[DataSourceProperty]
 		public HintViewModel EquipmentArmorSlotHint
 		{
@@ -2780,9 +2585,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D3 RID: 979
-		// (get) Token: 0x06000C06 RID: 3078 RVA: 0x000331D4 File Offset: 0x000313D4
-		// (set) Token: 0x06000C07 RID: 3079 RVA: 0x000331DC File Offset: 0x000313DC
 		[DataSourceProperty]
 		public HintViewModel EquipmentBootSlotHint
 		{
@@ -2800,9 +2602,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D4 RID: 980
-		// (get) Token: 0x06000C08 RID: 3080 RVA: 0x000331FA File Offset: 0x000313FA
-		// (set) Token: 0x06000C09 RID: 3081 RVA: 0x00033202 File Offset: 0x00031402
 		[DataSourceProperty]
 		public HintViewModel EquipmentCloakSlotHint
 		{
@@ -2820,9 +2619,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D5 RID: 981
-		// (get) Token: 0x06000C0A RID: 3082 RVA: 0x00033220 File Offset: 0x00031420
-		// (set) Token: 0x06000C0B RID: 3083 RVA: 0x00033228 File Offset: 0x00031428
 		[DataSourceProperty]
 		public HintViewModel EquipmentGloveSlotHint
 		{
@@ -2840,9 +2636,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D6 RID: 982
-		// (get) Token: 0x06000C0C RID: 3084 RVA: 0x00033246 File Offset: 0x00031446
-		// (set) Token: 0x06000C0D RID: 3085 RVA: 0x0003324E File Offset: 0x0003144E
 		[DataSourceProperty]
 		public HintViewModel EquipmentHarnessSlotHint
 		{
@@ -2860,9 +2653,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D7 RID: 983
-		// (get) Token: 0x06000C0E RID: 3086 RVA: 0x0003326C File Offset: 0x0003146C
-		// (set) Token: 0x06000C0F RID: 3087 RVA: 0x00033274 File Offset: 0x00031474
 		[DataSourceProperty]
 		public HintViewModel EquipmentMountSlotHint
 		{
@@ -2880,9 +2670,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D8 RID: 984
-		// (get) Token: 0x06000C10 RID: 3088 RVA: 0x00033292 File Offset: 0x00031492
-		// (set) Token: 0x06000C11 RID: 3089 RVA: 0x0003329A File Offset: 0x0003149A
 		[DataSourceProperty]
 		public HintViewModel EquipmentWeaponSlotHint
 		{
@@ -2900,9 +2687,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003D9 RID: 985
-		// (get) Token: 0x06000C12 RID: 3090 RVA: 0x000332B8 File Offset: 0x000314B8
-		// (set) Token: 0x06000C13 RID: 3091 RVA: 0x000332C0 File Offset: 0x000314C0
 		[DataSourceProperty]
 		public HintViewModel EquipmentBannerSlotHint
 		{
@@ -2920,9 +2704,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DA RID: 986
-		// (get) Token: 0x06000C14 RID: 3092 RVA: 0x000332DE File Offset: 0x000314DE
-		// (set) Token: 0x06000C15 RID: 3093 RVA: 0x000332E6 File Offset: 0x000314E6
 		[DataSourceProperty]
 		public BasicTooltipViewModel BuyAllHint
 		{
@@ -2940,9 +2721,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DB RID: 987
-		// (get) Token: 0x06000C16 RID: 3094 RVA: 0x00033304 File Offset: 0x00031504
-		// (set) Token: 0x06000C17 RID: 3095 RVA: 0x0003330C File Offset: 0x0003150C
 		[DataSourceProperty]
 		public BasicTooltipViewModel SellAllHint
 		{
@@ -2960,9 +2738,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DC RID: 988
-		// (get) Token: 0x06000C18 RID: 3096 RVA: 0x0003332A File Offset: 0x0003152A
-		// (set) Token: 0x06000C19 RID: 3097 RVA: 0x00033332 File Offset: 0x00031532
 		[DataSourceProperty]
 		public BasicTooltipViewModel PreviousCharacterHint
 		{
@@ -2980,9 +2755,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DD RID: 989
-		// (get) Token: 0x06000C1A RID: 3098 RVA: 0x00033350 File Offset: 0x00031550
-		// (set) Token: 0x06000C1B RID: 3099 RVA: 0x00033358 File Offset: 0x00031558
 		[DataSourceProperty]
 		public BasicTooltipViewModel NextCharacterHint
 		{
@@ -3000,9 +2772,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DE RID: 990
-		// (get) Token: 0x06000C1C RID: 3100 RVA: 0x00033376 File Offset: 0x00031576
-		// (set) Token: 0x06000C1D RID: 3101 RVA: 0x0003337E File Offset: 0x0003157E
 		[DataSourceProperty]
 		public HintViewModel WeightHint
 		{
@@ -3020,9 +2789,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003DF RID: 991
-		// (get) Token: 0x06000C1E RID: 3102 RVA: 0x0003339C File Offset: 0x0003159C
-		// (set) Token: 0x06000C1F RID: 3103 RVA: 0x000333A4 File Offset: 0x000315A4
 		[DataSourceProperty]
 		public HintViewModel PreviewHint
 		{
@@ -3040,9 +2806,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E0 RID: 992
-		// (get) Token: 0x06000C20 RID: 3104 RVA: 0x000333C2 File Offset: 0x000315C2
-		// (set) Token: 0x06000C21 RID: 3105 RVA: 0x000333CA File Offset: 0x000315CA
 		[DataSourceProperty]
 		public HintViewModel EquipHint
 		{
@@ -3060,9 +2823,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06000C22 RID: 3106 RVA: 0x000333E8 File Offset: 0x000315E8
-		// (set) Token: 0x06000C23 RID: 3107 RVA: 0x000333F0 File Offset: 0x000315F0
 		[DataSourceProperty]
 		public HintViewModel UnequipHint
 		{
@@ -3080,9 +2840,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06000C24 RID: 3108 RVA: 0x0003340E File Offset: 0x0003160E
-		// (set) Token: 0x06000C25 RID: 3109 RVA: 0x00033416 File Offset: 0x00031616
 		[DataSourceProperty]
 		public HintViewModel SellHint
 		{
@@ -3100,9 +2857,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E3 RID: 995
-		// (get) Token: 0x06000C26 RID: 3110 RVA: 0x00033434 File Offset: 0x00031634
-		// (set) Token: 0x06000C27 RID: 3111 RVA: 0x0003343C File Offset: 0x0003163C
 		[DataSourceProperty]
 		public HintViewModel CapacityExceededHint
 		{
@@ -3120,9 +2874,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E4 RID: 996
-		// (get) Token: 0x06000C28 RID: 3112 RVA: 0x0003345A File Offset: 0x0003165A
-		// (set) Token: 0x06000C29 RID: 3113 RVA: 0x00033462 File Offset: 0x00031662
 		[DataSourceProperty]
 		public SelectorVM<InventoryCharacterSelectorItemVM> CharacterList
 		{
@@ -3140,9 +2891,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E5 RID: 997
-		// (get) Token: 0x06000C2A RID: 3114 RVA: 0x00033480 File Offset: 0x00031680
-		// (set) Token: 0x06000C2B RID: 3115 RVA: 0x00033488 File Offset: 0x00031688
 		[DataSourceProperty]
 		public SPInventorySortControllerVM PlayerInventorySortController
 		{
@@ -3160,9 +2908,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E6 RID: 998
-		// (get) Token: 0x06000C2C RID: 3116 RVA: 0x000334A6 File Offset: 0x000316A6
-		// (set) Token: 0x06000C2D RID: 3117 RVA: 0x000334AE File Offset: 0x000316AE
 		[DataSourceProperty]
 		public SPInventorySortControllerVM OtherInventorySortController
 		{
@@ -3180,9 +2925,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E7 RID: 999
-		// (get) Token: 0x06000C2E RID: 3118 RVA: 0x000334CC File Offset: 0x000316CC
-		// (set) Token: 0x06000C2F RID: 3119 RVA: 0x000334D4 File Offset: 0x000316D4
 		[DataSourceProperty]
 		public ItemPreviewVM ItemPreview
 		{
@@ -3200,9 +2942,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E8 RID: 1000
-		// (get) Token: 0x06000C30 RID: 3120 RVA: 0x000334F2 File Offset: 0x000316F2
-		// (set) Token: 0x06000C31 RID: 3121 RVA: 0x000334FA File Offset: 0x000316FA
 		[DataSourceProperty]
 		public int ActiveFilterIndex
 		{
@@ -3220,9 +2959,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003E9 RID: 1001
-		// (get) Token: 0x06000C32 RID: 3122 RVA: 0x00033518 File Offset: 0x00031718
-		// (set) Token: 0x06000C33 RID: 3123 RVA: 0x00033520 File Offset: 0x00031720
 		[DataSourceProperty]
 		public bool CompanionExists
 		{
@@ -3240,9 +2976,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06000C34 RID: 3124 RVA: 0x0003353E File Offset: 0x0003173E
-		// (set) Token: 0x06000C35 RID: 3125 RVA: 0x00033546 File Offset: 0x00031746
 		[DataSourceProperty]
 		public bool IsTradingWithSettlement
 		{
@@ -3260,9 +2993,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06000C36 RID: 3126 RVA: 0x00033564 File Offset: 0x00031764
-		// (set) Token: 0x06000C37 RID: 3127 RVA: 0x0003356C File Offset: 0x0003176C
 		[DataSourceProperty]
 		public bool IsInWarSet
 		{
@@ -3282,9 +3012,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06000C38 RID: 3128 RVA: 0x000335A5 File Offset: 0x000317A5
-		// (set) Token: 0x06000C39 RID: 3129 RVA: 0x000335AD File Offset: 0x000317AD
 		[DataSourceProperty]
 		public bool IsMicsFilterHighlightEnabled
 		{
@@ -3302,9 +3029,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06000C3A RID: 3130 RVA: 0x000335CB File Offset: 0x000317CB
-		// (set) Token: 0x06000C3B RID: 3131 RVA: 0x000335D3 File Offset: 0x000317D3
 		[DataSourceProperty]
 		public bool IsCivilianFilterHighlightEnabled
 		{
@@ -3322,9 +3046,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06000C3C RID: 3132 RVA: 0x000335F1 File Offset: 0x000317F1
-		// (set) Token: 0x06000C3D RID: 3133 RVA: 0x000335F9 File Offset: 0x000317F9
 		[DataSourceProperty]
 		public ItemMenuVM ItemMenu
 		{
@@ -3342,9 +3063,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06000C3E RID: 3134 RVA: 0x00033617 File Offset: 0x00031817
-		// (set) Token: 0x06000C3F RID: 3135 RVA: 0x0003361F File Offset: 0x0003181F
 		[DataSourceProperty]
 		public string CapacityExceededText
 		{
@@ -3362,9 +3080,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F0 RID: 1008
-		// (get) Token: 0x06000C40 RID: 3136 RVA: 0x00033642 File Offset: 0x00031842
-		// (set) Token: 0x06000C41 RID: 3137 RVA: 0x0003364A File Offset: 0x0003184A
 		[DataSourceProperty]
 		public string LeftSearchText
 		{
@@ -3383,9 +3098,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F1 RID: 1009
-		// (get) Token: 0x06000C42 RID: 3138 RVA: 0x00033674 File Offset: 0x00031874
-		// (set) Token: 0x06000C43 RID: 3139 RVA: 0x0003367C File Offset: 0x0003187C
 		[DataSourceProperty]
 		public string RightSearchText
 		{
@@ -3404,9 +3116,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F2 RID: 1010
-		// (get) Token: 0x06000C44 RID: 3140 RVA: 0x000336A6 File Offset: 0x000318A6
-		// (set) Token: 0x06000C45 RID: 3141 RVA: 0x000336AE File Offset: 0x000318AE
 		[DataSourceProperty]
 		public bool HasGainedExperience
 		{
@@ -3424,9 +3133,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F3 RID: 1011
-		// (get) Token: 0x06000C46 RID: 3142 RVA: 0x000336CC File Offset: 0x000318CC
-		// (set) Token: 0x06000C47 RID: 3143 RVA: 0x000336D4 File Offset: 0x000318D4
 		[DataSourceProperty]
 		public bool IsDonationXpGainExceedsMax
 		{
@@ -3444,9 +3150,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F4 RID: 1012
-		// (get) Token: 0x06000C48 RID: 3144 RVA: 0x000336F2 File Offset: 0x000318F2
-		// (set) Token: 0x06000C49 RID: 3145 RVA: 0x000336FA File Offset: 0x000318FA
 		[DataSourceProperty]
 		public bool EquipmentCountWarned
 		{
@@ -3464,9 +3167,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F5 RID: 1013
-		// (get) Token: 0x06000C4A RID: 3146 RVA: 0x00033718 File Offset: 0x00031918
-		// (set) Token: 0x06000C4B RID: 3147 RVA: 0x00033720 File Offset: 0x00031920
 		[DataSourceProperty]
 		public bool NoSaddleWarned
 		{
@@ -3484,9 +3184,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F6 RID: 1014
-		// (get) Token: 0x06000C4C RID: 3148 RVA: 0x0003373E File Offset: 0x0003193E
-		// (set) Token: 0x06000C4D RID: 3149 RVA: 0x00033746 File Offset: 0x00031946
 		[DataSourceProperty]
 		public string EquipmentCountText
 		{
@@ -3504,9 +3201,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F7 RID: 1015
-		// (get) Token: 0x06000C4E RID: 3150 RVA: 0x00033769 File Offset: 0x00031969
-		// (set) Token: 0x06000C4F RID: 3151 RVA: 0x00033771 File Offset: 0x00031971
 		[DataSourceProperty]
 		public string NoSaddleText
 		{
@@ -3524,9 +3218,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F8 RID: 1016
-		// (get) Token: 0x06000C50 RID: 3152 RVA: 0x00033794 File Offset: 0x00031994
-		// (set) Token: 0x06000C51 RID: 3153 RVA: 0x0003379C File Offset: 0x0003199C
 		[DataSourceProperty]
 		public int TargetEquipmentIndex
 		{
@@ -3544,9 +3235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003F9 RID: 1017
-		// (get) Token: 0x06000C52 RID: 3154 RVA: 0x000337BA File Offset: 0x000319BA
-		// (set) Token: 0x06000C53 RID: 3155 RVA: 0x000337C2 File Offset: 0x000319C2
 		public EquipmentIndex TargetEquipmentType
 		{
 			get
@@ -3563,9 +3251,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FA RID: 1018
-		// (get) Token: 0x06000C54 RID: 3156 RVA: 0x000337DF File Offset: 0x000319DF
-		// (set) Token: 0x06000C55 RID: 3157 RVA: 0x000337E7 File Offset: 0x000319E7
 		[DataSourceProperty]
 		public int TransactionCount
 		{
@@ -3584,9 +3269,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FB RID: 1019
-		// (get) Token: 0x06000C56 RID: 3158 RVA: 0x0003380C File Offset: 0x00031A0C
-		// (set) Token: 0x06000C57 RID: 3159 RVA: 0x00033814 File Offset: 0x00031A14
 		[DataSourceProperty]
 		public bool IsTrading
 		{
@@ -3604,9 +3286,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FC RID: 1020
-		// (get) Token: 0x06000C58 RID: 3160 RVA: 0x00033832 File Offset: 0x00031A32
-		// (set) Token: 0x06000C59 RID: 3161 RVA: 0x0003383A File Offset: 0x00031A3A
 		[DataSourceProperty]
 		public bool EquipAfterBuy
 		{
@@ -3624,9 +3303,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FD RID: 1021
-		// (get) Token: 0x06000C5A RID: 3162 RVA: 0x00033858 File Offset: 0x00031A58
-		// (set) Token: 0x06000C5B RID: 3163 RVA: 0x00033860 File Offset: 0x00031A60
 		[DataSourceProperty]
 		public string TradeLbl
 		{
@@ -3644,9 +3320,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FE RID: 1022
-		// (get) Token: 0x06000C5C RID: 3164 RVA: 0x00033883 File Offset: 0x00031A83
-		// (set) Token: 0x06000C5D RID: 3165 RVA: 0x0003388B File Offset: 0x00031A8B
 		[DataSourceProperty]
 		public string ExperienceLbl
 		{
@@ -3664,9 +3337,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06000C5E RID: 3166 RVA: 0x000338AE File Offset: 0x00031AAE
-		// (set) Token: 0x06000C5F RID: 3167 RVA: 0x000338B6 File Offset: 0x00031AB6
 		[DataSourceProperty]
 		public string CurrentCharacterName
 		{
@@ -3684,9 +3354,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06000C60 RID: 3168 RVA: 0x000338D9 File Offset: 0x00031AD9
-		// (set) Token: 0x06000C61 RID: 3169 RVA: 0x000338E1 File Offset: 0x00031AE1
 		[DataSourceProperty]
 		public string RightInventoryOwnerName
 		{
@@ -3704,9 +3371,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06000C62 RID: 3170 RVA: 0x00033904 File Offset: 0x00031B04
-		// (set) Token: 0x06000C63 RID: 3171 RVA: 0x0003390C File Offset: 0x00031B0C
 		[DataSourceProperty]
 		public string LeftInventoryOwnerName
 		{
@@ -3724,9 +3388,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06000C64 RID: 3172 RVA: 0x0003392F File Offset: 0x00031B2F
-		// (set) Token: 0x06000C65 RID: 3173 RVA: 0x00033937 File Offset: 0x00031B37
 		[DataSourceProperty]
 		public int RightInventoryOwnerGold
 		{
@@ -3744,9 +3405,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06000C66 RID: 3174 RVA: 0x00033955 File Offset: 0x00031B55
-		// (set) Token: 0x06000C67 RID: 3175 RVA: 0x0003395D File Offset: 0x00031B5D
 		[DataSourceProperty]
 		public int LeftInventoryOwnerGold
 		{
@@ -3764,9 +3422,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000404 RID: 1028
-		// (get) Token: 0x06000C68 RID: 3176 RVA: 0x0003397B File Offset: 0x00031B7B
-		// (set) Token: 0x06000C69 RID: 3177 RVA: 0x00033983 File Offset: 0x00031B83
 		[DataSourceProperty]
 		public int ItemCountToBuy
 		{
@@ -3784,9 +3439,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000405 RID: 1029
-		// (get) Token: 0x06000C6A RID: 3178 RVA: 0x000339A1 File Offset: 0x00031BA1
-		// (set) Token: 0x06000C6B RID: 3179 RVA: 0x000339A9 File Offset: 0x00031BA9
 		[DataSourceProperty]
 		public string CurrentCharacterTotalEncumbrance
 		{
@@ -3804,9 +3456,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06000C6C RID: 3180 RVA: 0x000339CC File Offset: 0x00031BCC
-		// (set) Token: 0x06000C6D RID: 3181 RVA: 0x000339D4 File Offset: 0x00031BD4
 		[DataSourceProperty]
 		public float CurrentCharacterLegArmor
 		{
@@ -3824,9 +3473,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x06000C6E RID: 3182 RVA: 0x000339FD File Offset: 0x00031BFD
-		// (set) Token: 0x06000C6F RID: 3183 RVA: 0x00033A05 File Offset: 0x00031C05
 		[DataSourceProperty]
 		public float CurrentCharacterHeadArmor
 		{
@@ -3844,9 +3490,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000408 RID: 1032
-		// (get) Token: 0x06000C70 RID: 3184 RVA: 0x00033A2E File Offset: 0x00031C2E
-		// (set) Token: 0x06000C71 RID: 3185 RVA: 0x00033A36 File Offset: 0x00031C36
 		[DataSourceProperty]
 		public float CurrentCharacterBodyArmor
 		{
@@ -3864,9 +3507,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000409 RID: 1033
-		// (get) Token: 0x06000C72 RID: 3186 RVA: 0x00033A5F File Offset: 0x00031C5F
-		// (set) Token: 0x06000C73 RID: 3187 RVA: 0x00033A67 File Offset: 0x00031C67
 		[DataSourceProperty]
 		public float CurrentCharacterArmArmor
 		{
@@ -3884,9 +3524,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040A RID: 1034
-		// (get) Token: 0x06000C74 RID: 3188 RVA: 0x00033A90 File Offset: 0x00031C90
-		// (set) Token: 0x06000C75 RID: 3189 RVA: 0x00033A98 File Offset: 0x00031C98
 		[DataSourceProperty]
 		public float CurrentCharacterHorseArmor
 		{
@@ -3904,9 +3541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040B RID: 1035
-		// (get) Token: 0x06000C76 RID: 3190 RVA: 0x00033AC1 File Offset: 0x00031CC1
-		// (set) Token: 0x06000C77 RID: 3191 RVA: 0x00033AC9 File Offset: 0x00031CC9
 		[DataSourceProperty]
 		public bool IsRefreshed
 		{
@@ -3924,9 +3558,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040C RID: 1036
-		// (get) Token: 0x06000C78 RID: 3192 RVA: 0x00033AE7 File Offset: 0x00031CE7
-		// (set) Token: 0x06000C79 RID: 3193 RVA: 0x00033AEF File Offset: 0x00031CEF
 		[DataSourceProperty]
 		public bool IsExtendedEquipmentControlsEnabled
 		{
@@ -3944,9 +3575,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040D RID: 1037
-		// (get) Token: 0x06000C7A RID: 3194 RVA: 0x00033B0D File Offset: 0x00031D0D
-		// (set) Token: 0x06000C7B RID: 3195 RVA: 0x00033B15 File Offset: 0x00031D15
 		[DataSourceProperty]
 		public bool IsFocusedOnItemList
 		{
@@ -3964,9 +3592,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040E RID: 1038
-		// (get) Token: 0x06000C7C RID: 3196 RVA: 0x00033B33 File Offset: 0x00031D33
-		// (set) Token: 0x06000C7D RID: 3197 RVA: 0x00033B3B File Offset: 0x00031D3B
 		[DataSourceProperty]
 		public SPItemVM CurrentFocusedItem
 		{
@@ -3984,9 +3609,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700040F RID: 1039
-		// (get) Token: 0x06000C7E RID: 3198 RVA: 0x00033B59 File Offset: 0x00031D59
-		// (set) Token: 0x06000C7F RID: 3199 RVA: 0x00033B61 File Offset: 0x00031D61
 		[DataSourceProperty]
 		public SPItemVM CharacterHelmSlot
 		{
@@ -4004,9 +3626,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x06000C80 RID: 3200 RVA: 0x00033B7F File Offset: 0x00031D7F
-		// (set) Token: 0x06000C81 RID: 3201 RVA: 0x00033B87 File Offset: 0x00031D87
 		[DataSourceProperty]
 		public SPItemVM CharacterCloakSlot
 		{
@@ -4024,9 +3643,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x06000C82 RID: 3202 RVA: 0x00033BA5 File Offset: 0x00031DA5
-		// (set) Token: 0x06000C83 RID: 3203 RVA: 0x00033BAD File Offset: 0x00031DAD
 		[DataSourceProperty]
 		public SPItemVM CharacterTorsoSlot
 		{
@@ -4044,9 +3660,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x06000C84 RID: 3204 RVA: 0x00033BCB File Offset: 0x00031DCB
-		// (set) Token: 0x06000C85 RID: 3205 RVA: 0x00033BD3 File Offset: 0x00031DD3
 		[DataSourceProperty]
 		public SPItemVM CharacterGloveSlot
 		{
@@ -4064,9 +3677,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000413 RID: 1043
-		// (get) Token: 0x06000C86 RID: 3206 RVA: 0x00033BF1 File Offset: 0x00031DF1
-		// (set) Token: 0x06000C87 RID: 3207 RVA: 0x00033BF9 File Offset: 0x00031DF9
 		[DataSourceProperty]
 		public SPItemVM CharacterBootSlot
 		{
@@ -4084,9 +3694,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000414 RID: 1044
-		// (get) Token: 0x06000C88 RID: 3208 RVA: 0x00033C17 File Offset: 0x00031E17
-		// (set) Token: 0x06000C89 RID: 3209 RVA: 0x00033C1F File Offset: 0x00031E1F
 		[DataSourceProperty]
 		public SPItemVM CharacterMountSlot
 		{
@@ -4104,9 +3711,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000415 RID: 1045
-		// (get) Token: 0x06000C8A RID: 3210 RVA: 0x00033C3D File Offset: 0x00031E3D
-		// (set) Token: 0x06000C8B RID: 3211 RVA: 0x00033C45 File Offset: 0x00031E45
 		[DataSourceProperty]
 		public SPItemVM CharacterMountArmorSlot
 		{
@@ -4124,9 +3728,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000416 RID: 1046
-		// (get) Token: 0x06000C8C RID: 3212 RVA: 0x00033C63 File Offset: 0x00031E63
-		// (set) Token: 0x06000C8D RID: 3213 RVA: 0x00033C6B File Offset: 0x00031E6B
 		[DataSourceProperty]
 		public SPItemVM CharacterWeapon1Slot
 		{
@@ -4144,9 +3745,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000417 RID: 1047
-		// (get) Token: 0x06000C8E RID: 3214 RVA: 0x00033C89 File Offset: 0x00031E89
-		// (set) Token: 0x06000C8F RID: 3215 RVA: 0x00033C91 File Offset: 0x00031E91
 		[DataSourceProperty]
 		public SPItemVM CharacterWeapon2Slot
 		{
@@ -4164,9 +3762,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000418 RID: 1048
-		// (get) Token: 0x06000C90 RID: 3216 RVA: 0x00033CAF File Offset: 0x00031EAF
-		// (set) Token: 0x06000C91 RID: 3217 RVA: 0x00033CB7 File Offset: 0x00031EB7
 		[DataSourceProperty]
 		public SPItemVM CharacterWeapon3Slot
 		{
@@ -4184,9 +3779,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000419 RID: 1049
-		// (get) Token: 0x06000C92 RID: 3218 RVA: 0x00033CD5 File Offset: 0x00031ED5
-		// (set) Token: 0x06000C93 RID: 3219 RVA: 0x00033CDD File Offset: 0x00031EDD
 		[DataSourceProperty]
 		public SPItemVM CharacterWeapon4Slot
 		{
@@ -4204,9 +3796,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700041A RID: 1050
-		// (get) Token: 0x06000C94 RID: 3220 RVA: 0x00033CFB File Offset: 0x00031EFB
-		// (set) Token: 0x06000C95 RID: 3221 RVA: 0x00033D03 File Offset: 0x00031F03
 		[DataSourceProperty]
 		public SPItemVM CharacterBannerSlot
 		{
@@ -4224,9 +3813,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700041B RID: 1051
-		// (get) Token: 0x06000C96 RID: 3222 RVA: 0x00033D21 File Offset: 0x00031F21
-		// (set) Token: 0x06000C97 RID: 3223 RVA: 0x00033D29 File Offset: 0x00031F29
 		[DataSourceProperty]
 		public HeroViewModel MainCharacter
 		{
@@ -4244,9 +3830,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700041C RID: 1052
-		// (get) Token: 0x06000C98 RID: 3224 RVA: 0x00033D47 File Offset: 0x00031F47
-		// (set) Token: 0x06000C99 RID: 3225 RVA: 0x00033D4F File Offset: 0x00031F4F
 		[DataSourceProperty]
 		public MBBindingList<SPItemVM> RightItemListVM
 		{
@@ -4264,9 +3847,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700041D RID: 1053
-		// (get) Token: 0x06000C9A RID: 3226 RVA: 0x00033D6D File Offset: 0x00031F6D
-		// (set) Token: 0x06000C9B RID: 3227 RVA: 0x00033D75 File Offset: 0x00031F75
 		[DataSourceProperty]
 		public MBBindingList<SPItemVM> LeftItemListVM
 		{
@@ -4284,7 +3864,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000C9C RID: 3228 RVA: 0x00033D93 File Offset: 0x00031F93
 		private TextObject GetPreviousCharacterKeyText()
 		{
 			if (this.PreviousCharacterInputKey == null || this._getKeyTextFromKeyId == null)
@@ -4294,7 +3873,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this._getKeyTextFromKeyId(this.PreviousCharacterInputKey.KeyID);
 		}
 
-		// Token: 0x06000C9D RID: 3229 RVA: 0x00033DC1 File Offset: 0x00031FC1
 		private TextObject GetNextCharacterKeyText()
 		{
 			if (this.NextCharacterInputKey == null || this._getKeyTextFromKeyId == null)
@@ -4304,7 +3882,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this._getKeyTextFromKeyId(this.NextCharacterInputKey.KeyID);
 		}
 
-		// Token: 0x06000C9E RID: 3230 RVA: 0x00033DEF File Offset: 0x00031FEF
 		private TextObject GetBuyAllKeyText()
 		{
 			if (this.BuyAllInputKey == null || this._getKeyTextFromKeyId == null)
@@ -4314,7 +3891,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this._getKeyTextFromKeyId(this.BuyAllInputKey.KeyID);
 		}
 
-		// Token: 0x06000C9F RID: 3231 RVA: 0x00033E1D File Offset: 0x0003201D
 		private TextObject GetSellAllKeyText()
 		{
 			if (this.SellAllInputKey == null || this._getKeyTextFromKeyId == null)
@@ -4324,61 +3900,50 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this._getKeyTextFromKeyId(this.SellAllInputKey.KeyID);
 		}
 
-		// Token: 0x06000CA0 RID: 3232 RVA: 0x00033E4B File Offset: 0x0003204B
 		public void SetResetInputKey(HotKey hotkey)
 		{
 			this.ResetInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x06000CA1 RID: 3233 RVA: 0x00033E5A File Offset: 0x0003205A
 		public void SetCancelInputKey(HotKey gameKey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(gameKey, true);
 		}
 
-		// Token: 0x06000CA2 RID: 3234 RVA: 0x00033E69 File Offset: 0x00032069
 		public void SetDoneInputKey(HotKey hotKey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06000CA3 RID: 3235 RVA: 0x00033E78 File Offset: 0x00032078
 		public void SetPreviousCharacterInputKey(HotKey hotKey)
 		{
 			this.PreviousCharacterInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 			this.SetPreviousCharacterHint();
 		}
 
-		// Token: 0x06000CA4 RID: 3236 RVA: 0x00033E8D File Offset: 0x0003208D
 		public void SetNextCharacterInputKey(HotKey hotKey)
 		{
 			this.NextCharacterInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 			this.SetNextCharacterHint();
 		}
 
-		// Token: 0x06000CA5 RID: 3237 RVA: 0x00033EA2 File Offset: 0x000320A2
 		public void SetBuyAllInputKey(HotKey hotKey)
 		{
 			this.BuyAllInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 			this.SetBuyAllHint();
 		}
 
-		// Token: 0x06000CA6 RID: 3238 RVA: 0x00033EB7 File Offset: 0x000320B7
 		public void SetSellAllInputKey(HotKey hotKey)
 		{
 			this.SellAllInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 			this.SetSellAllHint();
 		}
 
-		// Token: 0x06000CA7 RID: 3239 RVA: 0x00033ECC File Offset: 0x000320CC
 		public void SetGetKeyTextFromKeyIDFunc(Func<string, TextObject> getKeyTextFromKeyId)
 		{
 			this._getKeyTextFromKeyId = getKeyTextFromKeyId;
 		}
 
-		// Token: 0x1700041E RID: 1054
-		// (get) Token: 0x06000CA8 RID: 3240 RVA: 0x00033ED5 File Offset: 0x000320D5
-		// (set) Token: 0x06000CA9 RID: 3241 RVA: 0x00033EDD File Offset: 0x000320DD
 		[DataSourceProperty]
 		public InputKeyItemVM ResetInputKey
 		{
@@ -4396,9 +3961,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700041F RID: 1055
-		// (get) Token: 0x06000CAA RID: 3242 RVA: 0x00033EFB File Offset: 0x000320FB
-		// (set) Token: 0x06000CAB RID: 3243 RVA: 0x00033F03 File Offset: 0x00032103
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -4416,9 +3978,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000420 RID: 1056
-		// (get) Token: 0x06000CAC RID: 3244 RVA: 0x00033F21 File Offset: 0x00032121
-		// (set) Token: 0x06000CAD RID: 3245 RVA: 0x00033F29 File Offset: 0x00032129
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -4436,9 +3995,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000421 RID: 1057
-		// (get) Token: 0x06000CAE RID: 3246 RVA: 0x00033F47 File Offset: 0x00032147
-		// (set) Token: 0x06000CAF RID: 3247 RVA: 0x00033F4F File Offset: 0x0003214F
 		[DataSourceProperty]
 		public InputKeyItemVM PreviousCharacterInputKey
 		{
@@ -4456,9 +4012,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000422 RID: 1058
-		// (get) Token: 0x06000CB0 RID: 3248 RVA: 0x00033F6D File Offset: 0x0003216D
-		// (set) Token: 0x06000CB1 RID: 3249 RVA: 0x00033F75 File Offset: 0x00032175
 		[DataSourceProperty]
 		public InputKeyItemVM NextCharacterInputKey
 		{
@@ -4476,9 +4029,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000423 RID: 1059
-		// (get) Token: 0x06000CB2 RID: 3250 RVA: 0x00033F93 File Offset: 0x00032193
-		// (set) Token: 0x06000CB3 RID: 3251 RVA: 0x00033F9B File Offset: 0x0003219B
 		[DataSourceProperty]
 		public InputKeyItemVM BuyAllInputKey
 		{
@@ -4496,9 +4046,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000424 RID: 1060
-		// (get) Token: 0x06000CB4 RID: 3252 RVA: 0x00033FB9 File Offset: 0x000321B9
-		// (set) Token: 0x06000CB5 RID: 3253 RVA: 0x00033FC1 File Offset: 0x000321C1
 		[DataSourceProperty]
 		public InputKeyItemVM SellAllInputKey
 		{
@@ -4516,19 +4063,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000CB6 RID: 3254 RVA: 0x00033FDF File Offset: 0x000321DF
 		void IInventoryStateHandler.ExecuteLootingScript()
 		{
 			this.ExecuteBuyAllItems();
 		}
 
-		// Token: 0x06000CB7 RID: 3255 RVA: 0x00033FE7 File Offset: 0x000321E7
 		void IInventoryStateHandler.ExecuteBuyConsumableItem()
 		{
 			this.ExecuteBuyItemTest();
 		}
 
-		// Token: 0x06000CB8 RID: 3256 RVA: 0x00033FF0 File Offset: 0x000321F0
 		void IInventoryStateHandler.ExecuteSellAllLoot()
 		{
 			for (int i = this.RightItemListVM.Count - 1; i >= 0; i--)
@@ -4541,7 +4085,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x00034032 File Offset: 0x00032232
 		void IInventoryStateHandler.FilterInventoryAtOpening(InventoryManager.InventoryCategoryType inventoryCategoryType)
 		{
 			switch (inventoryCategoryType)
@@ -4565,88 +4108,60 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x04000545 RID: 1349
 		private readonly PlayerUpdateTracker _playerUpdateTracker;
 
-		// Token: 0x04000546 RID: 1350
 		private readonly IViewDataTracker _viewDataTracker;
 
-		// Token: 0x04000547 RID: 1351
 		public bool DoNotSync;
 
-		// Token: 0x04000548 RID: 1352
 		private TroopRoster _rightTroopRoster;
 
-		// Token: 0x04000549 RID: 1353
 		private TroopRoster _leftTroopRoster;
 
-		// Token: 0x0400054A RID: 1354
 		private bool _isFinalized;
 
-		// Token: 0x0400054B RID: 1355
 		public bool IsFiveStackModifierActive;
 
-		// Token: 0x0400054C RID: 1356
 		public bool IsEntireStackModifierActive;
 
-		// Token: 0x0400054D RID: 1357
 		private readonly int _donationMaxShareableXp;
 
-		// Token: 0x0400054E RID: 1358
 		private readonly Stack<SPItemVM> _equipAfterTransferStack;
 
-		// Token: 0x0400054F RID: 1359
 		private bool _isTrading;
 
-		// Token: 0x04000550 RID: 1360
 		private InventoryLogic _inventoryLogic;
 
-		// Token: 0x04000551 RID: 1361
 		private bool _isCharacterEquipmentDirty;
 
-		// Token: 0x04000552 RID: 1362
 		private CharacterObject _currentCharacter;
 
-		// Token: 0x04000553 RID: 1363
 		private int _currentInventoryCharacterIndex;
 
-		// Token: 0x04000554 RID: 1364
 		private string _selectedTooltipItemStringID = "";
 
-		// Token: 0x04000555 RID: 1365
 		private string _comparedTooltipItemStringID = "";
 
-		// Token: 0x04000556 RID: 1366
 		private SPItemVM _selectedItem;
 
-		// Token: 0x04000557 RID: 1367
 		private int _lastComparedItemIndex;
 
-		// Token: 0x04000558 RID: 1368
 		private float _equipmentCount;
 
-		// Token: 0x04000559 RID: 1369
 		private readonly Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
 
-		// Token: 0x0400055A RID: 1370
 		private List<ItemVM> _comparedItemList;
 
-		// Token: 0x0400055B RID: 1371
 		private Func<string, TextObject> _getKeyTextFromKeyId;
 
-		// Token: 0x0400055C RID: 1372
 		private InventoryMode _usageType = InventoryMode.Trade;
 
-		// Token: 0x0400055D RID: 1373
 		private string _fiveStackShortcutkeyText;
 
-		// Token: 0x0400055E RID: 1374
 		private string _entireStackShortcutkeyText;
 
-		// Token: 0x0400055F RID: 1375
 		private List<string> _lockedItemIDs;
 
-		// Token: 0x04000560 RID: 1376
 		private readonly List<int> _everyItemType = new List<int>
 		{
 			1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -4654,392 +4169,261 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			21, 22, 23, 24
 		};
 
-		// Token: 0x04000561 RID: 1377
 		private readonly List<int> _weaponItemTypes = new List<int> { 2, 3, 4 };
 
-		// Token: 0x04000562 RID: 1378
 		private readonly List<int> _armorItemTypes = new List<int> { 12, 13, 14, 15, 21, 22 };
 
-		// Token: 0x04000563 RID: 1379
 		private readonly List<int> _mountItemTypes = new List<int> { 1, 23 };
 
-		// Token: 0x04000564 RID: 1380
 		private readonly List<int> _shieldAndRangedItemTypes = new List<int> { 7, 5, 6, 8, 9, 10, 16, 17, 18 };
 
-		// Token: 0x04000565 RID: 1381
 		private readonly List<int> _miscellaneousItemTypes = new List<int> { 11, 19, 20, 24 };
 
-		// Token: 0x04000566 RID: 1382
 		private readonly Dictionary<SPInventoryVM.Filters, List<int>> _filters;
 
-		// Token: 0x04000567 RID: 1383
 		private int _selectedEquipmentIndex;
 
-		// Token: 0x04000568 RID: 1384
 		private bool _isFoodTransferButtonHighlightApplied;
 
-		// Token: 0x04000569 RID: 1385
 		private bool _isBannerItemsHighlightApplied;
 
-		// Token: 0x0400056A RID: 1386
 		private string _latestTutorialElementID;
 
-		// Token: 0x0400056B RID: 1387
 		private string _leftInventoryLabel;
 
-		// Token: 0x0400056C RID: 1388
 		private string _rightInventoryLabel;
 
-		// Token: 0x0400056D RID: 1389
 		private bool _isDoneDisabled;
 
-		// Token: 0x0400056E RID: 1390
 		private bool _isSearchAvailable;
 
-		// Token: 0x0400056F RID: 1391
 		private bool _isOtherInventoryGoldRelevant;
 
-		// Token: 0x04000570 RID: 1392
 		private string _doneLbl;
 
-		// Token: 0x04000571 RID: 1393
 		private string _cancelLbl;
 
-		// Token: 0x04000572 RID: 1394
 		private string _resetLbl;
 
-		// Token: 0x04000573 RID: 1395
 		private string _typeText;
 
-		// Token: 0x04000574 RID: 1396
 		private string _nameText;
 
-		// Token: 0x04000575 RID: 1397
 		private string _quantityText;
 
-		// Token: 0x04000576 RID: 1398
 		private string _costText;
 
-		// Token: 0x04000577 RID: 1399
 		private string _searchPlaceholderText;
 
-		// Token: 0x04000578 RID: 1400
 		private HintViewModel _resetHint;
 
-		// Token: 0x04000579 RID: 1401
 		private HintViewModel _filterAllHint;
 
-		// Token: 0x0400057A RID: 1402
 		private HintViewModel _filterWeaponHint;
 
-		// Token: 0x0400057B RID: 1403
 		private HintViewModel _filterArmorHint;
 
-		// Token: 0x0400057C RID: 1404
 		private HintViewModel _filterShieldAndRangedHint;
 
-		// Token: 0x0400057D RID: 1405
 		private HintViewModel _filterMountAndHarnessHint;
 
-		// Token: 0x0400057E RID: 1406
 		private HintViewModel _filterMiscHint;
 
-		// Token: 0x0400057F RID: 1407
 		private HintViewModel _civilianOutfitHint;
 
-		// Token: 0x04000580 RID: 1408
 		private HintViewModel _battleOutfitHint;
 
-		// Token: 0x04000581 RID: 1409
 		private HintViewModel _equipmentHelmSlotHint;
 
-		// Token: 0x04000582 RID: 1410
 		private HintViewModel _equipmentArmorSlotHint;
 
-		// Token: 0x04000583 RID: 1411
 		private HintViewModel _equipmentBootSlotHint;
 
-		// Token: 0x04000584 RID: 1412
 		private HintViewModel _equipmentCloakSlotHint;
 
-		// Token: 0x04000585 RID: 1413
 		private HintViewModel _equipmentGloveSlotHint;
 
-		// Token: 0x04000586 RID: 1414
 		private HintViewModel _equipmentHarnessSlotHint;
 
-		// Token: 0x04000587 RID: 1415
 		private HintViewModel _equipmentMountSlotHint;
 
-		// Token: 0x04000588 RID: 1416
 		private HintViewModel _equipmentWeaponSlotHint;
 
-		// Token: 0x04000589 RID: 1417
 		private HintViewModel _equipmentBannerSlotHint;
 
-		// Token: 0x0400058A RID: 1418
 		private BasicTooltipViewModel _buyAllHint;
 
-		// Token: 0x0400058B RID: 1419
 		private BasicTooltipViewModel _sellAllHint;
 
-		// Token: 0x0400058C RID: 1420
 		private BasicTooltipViewModel _previousCharacterHint;
 
-		// Token: 0x0400058D RID: 1421
 		private BasicTooltipViewModel _nextCharacterHint;
 
-		// Token: 0x0400058E RID: 1422
 		private HintViewModel _weightHint;
 
-		// Token: 0x0400058F RID: 1423
 		private HintViewModel _armArmorHint;
 
-		// Token: 0x04000590 RID: 1424
 		private HintViewModel _bodyArmorHint;
 
-		// Token: 0x04000591 RID: 1425
 		private HintViewModel _headArmorHint;
 
-		// Token: 0x04000592 RID: 1426
 		private HintViewModel _legArmorHint;
 
-		// Token: 0x04000593 RID: 1427
 		private HintViewModel _horseArmorHint;
 
-		// Token: 0x04000594 RID: 1428
 		private HintViewModel _previewHint;
 
-		// Token: 0x04000595 RID: 1429
 		private HintViewModel _equipHint;
 
-		// Token: 0x04000596 RID: 1430
 		private HintViewModel _unequipHint;
 
-		// Token: 0x04000597 RID: 1431
 		private HintViewModel _sellHint;
 
-		// Token: 0x04000598 RID: 1432
 		private HintViewModel _capacityExceededHint;
 
-		// Token: 0x04000599 RID: 1433
 		private HintViewModel _noSaddleHint;
 
-		// Token: 0x0400059A RID: 1434
 		private HintViewModel _donationLblHint;
 
-		// Token: 0x0400059B RID: 1435
 		private BasicTooltipViewModel _equipmentMaxCountHint;
 
-		// Token: 0x0400059C RID: 1436
 		private BasicTooltipViewModel _currentCharacterSkillsTooltip;
 
-		// Token: 0x0400059D RID: 1437
 		private BasicTooltipViewModel _productionTooltip;
 
-		// Token: 0x0400059E RID: 1438
 		private HeroViewModel _mainCharacter;
 
-		// Token: 0x0400059F RID: 1439
 		private bool _isExtendedEquipmentControlsEnabled;
 
-		// Token: 0x040005A0 RID: 1440
 		private bool _isFocusedOnItemList;
 
-		// Token: 0x040005A1 RID: 1441
 		private SPItemVM _currentFocusedItem;
 
-		// Token: 0x040005A2 RID: 1442
 		private bool _equipAfterBuy;
 
-		// Token: 0x040005A3 RID: 1443
 		private MBBindingList<SPItemVM> _leftItemListVM;
 
-		// Token: 0x040005A4 RID: 1444
 		private MBBindingList<SPItemVM> _rightItemListVM;
 
-		// Token: 0x040005A5 RID: 1445
 		private ItemMenuVM _itemMenu;
 
-		// Token: 0x040005A6 RID: 1446
 		private SPItemVM _characterHelmSlot;
 
-		// Token: 0x040005A7 RID: 1447
 		private SPItemVM _characterCloakSlot;
 
-		// Token: 0x040005A8 RID: 1448
 		private SPItemVM _characterTorsoSlot;
 
-		// Token: 0x040005A9 RID: 1449
 		private SPItemVM _characterGloveSlot;
 
-		// Token: 0x040005AA RID: 1450
 		private SPItemVM _characterBootSlot;
 
-		// Token: 0x040005AB RID: 1451
 		private SPItemVM _characterMountSlot;
 
-		// Token: 0x040005AC RID: 1452
 		private SPItemVM _characterMountArmorSlot;
 
-		// Token: 0x040005AD RID: 1453
 		private SPItemVM _characterWeapon1Slot;
 
-		// Token: 0x040005AE RID: 1454
 		private SPItemVM _characterWeapon2Slot;
 
-		// Token: 0x040005AF RID: 1455
 		private SPItemVM _characterWeapon3Slot;
 
-		// Token: 0x040005B0 RID: 1456
 		private SPItemVM _characterWeapon4Slot;
 
-		// Token: 0x040005B1 RID: 1457
 		private SPItemVM _characterBannerSlot;
 
-		// Token: 0x040005B2 RID: 1458
 		private EquipmentIndex _targetEquipmentIndex = EquipmentIndex.None;
 
-		// Token: 0x040005B3 RID: 1459
 		private int _transactionCount = -1;
 
-		// Token: 0x040005B4 RID: 1460
 		private bool _isRefreshed;
 
-		// Token: 0x040005B5 RID: 1461
 		private string _tradeLbl = "";
 
-		// Token: 0x040005B6 RID: 1462
 		private string _experienceLbl = "";
 
-		// Token: 0x040005B7 RID: 1463
 		private bool _hasGainedExperience;
 
-		// Token: 0x040005B8 RID: 1464
 		private bool _isDonationXpGainExceedsMax;
 
-		// Token: 0x040005B9 RID: 1465
 		private bool _equipmentCountWarned;
 
-		// Token: 0x040005BA RID: 1466
 		private bool _noSaddleWarned;
 
-		// Token: 0x040005BB RID: 1467
 		private bool _isTradingWithSettlement;
 
-		// Token: 0x040005BC RID: 1468
 		private string _equipmentCountText;
 
-		// Token: 0x040005BD RID: 1469
 		private string _noSaddleText;
 
-		// Token: 0x040005BE RID: 1470
 		private string _capacityExceededText;
 
-		// Token: 0x040005BF RID: 1471
 		private string _leftSearchText = "";
 
-		// Token: 0x040005C0 RID: 1472
 		private string _rightSearchText = "";
 
-		// Token: 0x040005C1 RID: 1473
 		private bool _isInWarSet = true;
 
-		// Token: 0x040005C2 RID: 1474
 		private bool _companionExists;
 
-		// Token: 0x040005C3 RID: 1475
 		private SPInventoryVM.Filters _activeFilterIndex;
 
-		// Token: 0x040005C4 RID: 1476
 		private bool _isMicsFilterHighlightEnabled;
 
-		// Token: 0x040005C5 RID: 1477
 		private bool _isCivilianFilterHighlightEnabled;
 
-		// Token: 0x040005C6 RID: 1478
 		private ItemPreviewVM _itemPreview;
 
-		// Token: 0x040005C7 RID: 1479
 		private SelectorVM<InventoryCharacterSelectorItemVM> _characterList;
 
-		// Token: 0x040005C8 RID: 1480
 		private SPInventorySortControllerVM _otherInventorySortController;
 
-		// Token: 0x040005C9 RID: 1481
 		private SPInventorySortControllerVM _playerInventorySortController;
 
-		// Token: 0x040005CA RID: 1482
 		private string _leftInventoryOwnerName;
 
-		// Token: 0x040005CB RID: 1483
 		private int _leftInventoryOwnerGold;
 
-		// Token: 0x040005CC RID: 1484
 		private string _rightInventoryOwnerName;
 
-		// Token: 0x040005CD RID: 1485
 		private string _currentCharacterName;
 
-		// Token: 0x040005CE RID: 1486
 		private int _rightInventoryOwnerGold;
 
-		// Token: 0x040005CF RID: 1487
 		private int _itemCountToBuy;
 
-		// Token: 0x040005D0 RID: 1488
 		private float _currentCharacterArmArmor;
 
-		// Token: 0x040005D1 RID: 1489
 		private float _currentCharacterBodyArmor;
 
-		// Token: 0x040005D2 RID: 1490
 		private float _currentCharacterHeadArmor;
 
-		// Token: 0x040005D3 RID: 1491
 		private float _currentCharacterLegArmor;
 
-		// Token: 0x040005D4 RID: 1492
 		private float _currentCharacterHorseArmor;
 
-		// Token: 0x040005D5 RID: 1493
 		private string _currentCharacterTotalEncumbrance;
 
-		// Token: 0x040005D6 RID: 1494
 		private InputKeyItemVM _resetInputKey;
 
-		// Token: 0x040005D7 RID: 1495
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x040005D8 RID: 1496
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x040005D9 RID: 1497
 		private InputKeyItemVM _previousCharacterInputKey;
 
-		// Token: 0x040005DA RID: 1498
 		private InputKeyItemVM _nextCharacterInputKey;
 
-		// Token: 0x040005DB RID: 1499
 		private InputKeyItemVM _buyAllInputKey;
 
-		// Token: 0x040005DC RID: 1500
 		private InputKeyItemVM _sellAllInputKey;
 
-		// Token: 0x020001BF RID: 447
 		public enum Filters
 		{
-			// Token: 0x04000F85 RID: 3973
 			All,
-			// Token: 0x04000F86 RID: 3974
 			Weapons,
-			// Token: 0x04000F87 RID: 3975
 			ShieldsAndRanged,
-			// Token: 0x04000F88 RID: 3976
 			Armors,
-			// Token: 0x04000F89 RID: 3977
 			Mounts,
-			// Token: 0x04000F8A RID: 3978
 			Miscellaneous
 		}
 	}

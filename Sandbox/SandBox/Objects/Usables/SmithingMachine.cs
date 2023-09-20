@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Objects.Usables
 {
-	// Token: 0x0200002A RID: 42
 	public class SmithingMachine : UsableMachine
 	{
-		// Token: 0x060001E2 RID: 482 RVA: 0x0000CC9C File Offset: 0x0000AE9C
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -44,13 +42,11 @@ namespace SandBox.Objects.Usables
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x0000CDF0 File Offset: 0x0000AFF0
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			return new TextObject("{=OCRafO5h}Bellows", null).ToString();
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x0000CE02 File Offset: 0x0000B002
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject = new TextObject("{=fEQAPJ2e}{KEY} Use", null);
@@ -58,13 +54,11 @@ namespace SandBox.Objects.Usables
 			return textObject;
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x0000CE2C File Offset: 0x0000B02C
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return 2 | base.GetTickRequirement();
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x0000CE38 File Offset: 0x0000B038
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -183,60 +177,41 @@ namespace SandBox.Objects.Usables
 			}
 		}
 
-		// Token: 0x060001E7 RID: 487 RVA: 0x0000D29B File Offset: 0x0000B49B
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new UsablePlaceAI(this);
 		}
 
-		// Token: 0x040000C5 RID: 197
 		private const string MachineIdleAnimationName = "anim_merchant_smithing_machine_idle";
 
-		// Token: 0x040000C6 RID: 198
 		private const string MachineIdleWithBlendInAnimationName = "anim_merchant_smithing_machine_idle_with_blend_in";
 
-		// Token: 0x040000C7 RID: 199
 		private const string MachineUseAnimationName = "anim_merchant_smithing_machine_loop";
 
-		// Token: 0x040000C8 RID: 200
 		private readonly ActionIndexCache CharacterReadyActionIndex = ActionIndexCache.Create("act_use_smithing_machine_ready");
 
-		// Token: 0x040000C9 RID: 201
 		private readonly ActionIndexCache CharacterUseActionIndex = ActionIndexCache.Create("act_use_smithing_machine_loop");
 
-		// Token: 0x040000CA RID: 202
 		private AnimationPoint _anvilUsePoint;
 
-		// Token: 0x040000CB RID: 203
 		private AnimationPoint _machineUsePoint;
 
-		// Token: 0x040000CC RID: 204
 		private SmithingMachine.State _state;
 
-		// Token: 0x040000CD RID: 205
 		private Timer _disableTimer;
 
-		// Token: 0x040000CE RID: 206
 		private float _remainingTimeToReset;
 
-		// Token: 0x040000CF RID: 207
 		private List<ActionIndexCache> _actionsWithoutLeftHandItem;
 
-		// Token: 0x040000D0 RID: 208
 		private bool _leftItemIsVisible;
 
-		// Token: 0x02000105 RID: 261
 		private enum State
 		{
-			// Token: 0x04000510 RID: 1296
 			Stable,
-			// Token: 0x04000511 RID: 1297
 			Preparation,
-			// Token: 0x04000512 RID: 1298
 			Working,
-			// Token: 0x04000513 RID: 1299
 			Paused,
-			// Token: 0x04000514 RID: 1300
 			UseAnvilPoint
 		}
 	}

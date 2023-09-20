@@ -3,21 +3,15 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.GauntletUI.ExtraWidgets
 {
-	// Token: 0x0200000B RID: 11
 	public class InputKeyVisualWidget : Widget
 	{
-		// Token: 0x17000046 RID: 70
-		// (get) Token: 0x060000A8 RID: 168 RVA: 0x00003B2C File Offset: 0x00001D2C
-		// (set) Token: 0x060000A9 RID: 169 RVA: 0x00003B34 File Offset: 0x00001D34
 		public bool HideIfNone { get; set; }
 
-		// Token: 0x060000AA RID: 170 RVA: 0x00003B3D File Offset: 0x00001D3D
 		public InputKeyVisualWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x00003B5C File Offset: 0x00001D5C
 		private string GetKeyVisualName(string keyID)
 		{
 			string text = "None";
@@ -1583,7 +1577,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			return text;
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x0000519C File Offset: 0x0000339C
 		private void SetKeyVisual(string visualName)
 		{
 			if (visualName == "None" && this.HideIfNone)
@@ -1595,9 +1588,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			base.Sprite = base.Context.SpriteData.GetSprite(text);
 		}
 
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x060000AD RID: 173 RVA: 0x000051EF File Offset: 0x000033EF
-		// (set) Token: 0x060000AE RID: 174 RVA: 0x000051F7 File Offset: 0x000033F7
 		public string KeyID
 		{
 			get
@@ -1615,9 +1605,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x060000AF RID: 175 RVA: 0x00005227 File Offset: 0x00003427
-		// (set) Token: 0x060000B0 RID: 176 RVA: 0x0000522F File Offset: 0x0000342F
 		public string IconsPath
 		{
 			get
@@ -1634,13 +1621,10 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x04000048 RID: 72
 		private string _visualName = "None";
 
-		// Token: 0x04000049 RID: 73
 		private string _keyID;
 
-		// Token: 0x0400004A RID: 74
 		private string _iconsPath = "General\\InputKeys";
 	}
 }

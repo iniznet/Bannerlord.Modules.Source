@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003C2 RID: 962
 	public class GoldRecoveryEffect : MPPerkEffect
 	{
-		// Token: 0x1700091A RID: 2330
-		// (get) Token: 0x060033B7 RID: 13239 RVA: 0x000D66BE File Offset: 0x000D48BE
 		public override bool IsTickRequired
 		{
 			get
@@ -17,12 +14,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033B8 RID: 13240 RVA: 0x000D66C1 File Offset: 0x000D48C1
 		protected GoldRecoveryEffect()
 		{
 		}
 
-		// Token: 0x060033B9 RID: 13241 RVA: 0x000D66CC File Offset: 0x000D48CC
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -93,7 +88,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033BA RID: 13242 RVA: 0x000D67CC File Offset: 0x000D49CC
 		public override void OnTick(Agent agent, int tickCount)
 		{
 			agent = ((agent != null && agent.IsMount) ? agent.RiderAgent : agent);
@@ -110,13 +104,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x040015FE RID: 5630
 		protected static string StringType = "GoldRecovery";
 
-		// Token: 0x040015FF RID: 5631
 		private int _value;
 
-		// Token: 0x04001600 RID: 5632
 		private int _period;
 	}
 }

@@ -20,10 +20,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000004 RID: 4
 	public static class MenuHelper
 	{
-		// Token: 0x06000003 RID: 3 RVA: 0x00002058 File Offset: 0x00000258
 		public static bool SetOptionProperties(MenuCallbackArgs args, bool canPlayerDo, bool shouldBeDisabled, TextObject disabledText)
 		{
 			if (canPlayerDo)
@@ -39,7 +37,6 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x00002074 File Offset: 0x00000274
 		public static void SetIssueAndQuestDataForHero(MenuCallbackArgs args, Hero hero)
 		{
 			if (hero.Issue != null && hero.Issue.IssueQuest == null)
@@ -119,7 +116,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x00002310 File Offset: 0x00000510
 		public static void SetIssueAndQuestDataForLocations(MenuCallbackArgs args, List<Location> locations)
 		{
 			GameMenuOption.IssueQuestFlags issueQuestFlags = Campaign.Current.IssueManager.CheckIssueForMenuLocations(locations, true);
@@ -127,7 +123,6 @@ namespace Helpers
 			args.OptionQuestData |= Campaign.Current.QuestManager.CheckQuestForMenuLocations(locations);
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x0000235C File Offset: 0x0000055C
 		public static void DecideMenuState()
 		{
 			string genericStateMenu = Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu();
@@ -139,7 +134,6 @@ namespace Helpers
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06000007 RID: 7 RVA: 0x00002394 File Offset: 0x00000594
 		public static bool EncounterAttackCondition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
@@ -162,7 +156,6 @@ namespace Helpers
 			return flag;
 		}
 
-		// Token: 0x06000008 RID: 8 RVA: 0x00002448 File Offset: 0x00000648
 		public static bool EncounterCaptureEnemyCondition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
@@ -174,7 +167,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x06000009 RID: 9 RVA: 0x000024A0 File Offset: 0x000006A0
 		public static void EncounterAttackConsequence(MenuCallbackArgs args)
 		{
 			MapEvent battle = PlayerEncounter.Battle;
@@ -290,7 +282,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x0600000A RID: 10 RVA: 0x00002990 File Offset: 0x00000B90
 		private static void LordsHallTroopRosterManageDone(TroopRoster selectedTroops)
 		{
 			MapEvent.PlayerMapEvent.ResetBattleState();
@@ -298,13 +289,11 @@ namespace Helpers
 			CampaignMission.OpenSiegeLordsHallFightMission(PlayerSiege.BesiegedSettlement.LocationComplex.GetLocationWithId("lordshall").GetSceneName(wallLevel), selectedTroops.ToFlattenedRoster());
 		}
 
-		// Token: 0x0600000B RID: 11 RVA: 0x000029DD File Offset: 0x00000BDD
 		private static void LordsHallTroopRosterManageDoneForSimulation(TroopRoster selectedTroops)
 		{
 			MenuHelper.EncounterOrderAttack(selectedTroops);
 		}
 
-		// Token: 0x0600000C RID: 12 RVA: 0x000029E8 File Offset: 0x00000BE8
 		private static void EncounterOrderAttack(TroopRoster selectedTroopsForPlayerSide)
 		{
 			MapEvent battle = PlayerEncounter.Battle;
@@ -346,7 +335,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x00002B50 File Offset: 0x00000D50
 		public static void EncounterOrderAttackConsequence(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.BesiegedSettlement != null && PlayerSiege.BesiegedSettlement.CurrentSiegeState == Settlement.SiegeState.InTheLordsHall)
@@ -370,14 +358,12 @@ namespace Helpers
 			MenuHelper.EncounterOrderAttack(null);
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x00002CFC File Offset: 0x00000EFC
 		public static void EncounterCaptureTheEnemyOnConsequence(MenuCallbackArgs args)
 		{
 			MapEvent.PlayerMapEvent.SetOverrideWinner(MapEvent.PlayerMapEvent.PlayerSide);
 			PlayerEncounter.Update();
 		}
 
-		// Token: 0x0600000F RID: 15 RVA: 0x00002D18 File Offset: 0x00000F18
 		public static void EncounterLeaveConsequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = MobileParty.MainParty.CurrentSettlement;

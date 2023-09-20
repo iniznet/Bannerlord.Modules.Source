@@ -10,31 +10,19 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A5 RID: 677
 	public class MultiplayerMissionAgentVisualSpawnComponent : MissionNetwork
 	{
-		// Token: 0x14000057 RID: 87
-		// (add) Token: 0x06002564 RID: 9572 RVA: 0x0008D248 File Offset: 0x0008B448
-		// (remove) Token: 0x06002565 RID: 9573 RVA: 0x0008D280 File Offset: 0x0008B480
 		public event Action OnMyAgentVisualSpawned;
 
-		// Token: 0x14000058 RID: 88
-		// (add) Token: 0x06002566 RID: 9574 RVA: 0x0008D2B8 File Offset: 0x0008B4B8
-		// (remove) Token: 0x06002567 RID: 9575 RVA: 0x0008D2F0 File Offset: 0x0008B4F0
 		public event Action OnMyAgentSpawnedFromVisual;
 
-		// Token: 0x14000059 RID: 89
-		// (add) Token: 0x06002568 RID: 9576 RVA: 0x0008D328 File Offset: 0x0008B528
-		// (remove) Token: 0x06002569 RID: 9577 RVA: 0x0008D360 File Offset: 0x0008B560
 		public event Action OnMyAgentVisualRemoved;
 
-		// Token: 0x0600256A RID: 9578 RVA: 0x0008D395 File Offset: 0x0008B595
 		public MultiplayerMissionAgentVisualSpawnComponent()
 		{
 			this._mpTroops = MBObjectManager.Instance.GetObjectTypeList<MultiplayerClassDivisions.MPHeroClass>();
 		}
 
-		// Token: 0x0600256B RID: 9579 RVA: 0x0008D3B0 File Offset: 0x0008B5B0
 		public Dictionary<string, string> GetUsedCosmeticsFromPeer(MissionPeer missionPeer, BasicCharacterObject selectedTroopCharacter)
 		{
 			if (missionPeer.Peer.UsedCosmetics != null)
@@ -70,7 +58,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x0600256C RID: 9580 RVA: 0x0008D528 File Offset: 0x0008B728
 		public void AddCosmeticItemsToEquipment(Equipment equipment, Dictionary<string, string> choosenCosmetics)
 		{
 			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.ArmorItemEndSlot; equipmentIndex++)
@@ -128,7 +115,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600256D RID: 9581 RVA: 0x0008D640 File Offset: 0x0008B840
 		private int GetTroopIndexFromCharacter(BasicCharacterObject character)
 		{
 			for (int i = 0; i < this._mpTroops.Count; i++)
@@ -141,7 +127,6 @@ namespace TaleWorlds.MountAndBlade
 			return -1;
 		}
 
-		// Token: 0x0600256E RID: 9582 RVA: 0x0008D690 File Offset: 0x0008B890
 		public void SpawnAgentVisualsForPeer(MissionPeer missionPeer, AgentBuildData buildData, int selectedEquipmentSetIndex = -1, bool isBot = false, int totalTroopCount = 0)
 		{
 			NetworkCommunicator myPeer = GameNetwork.MyPeer;
@@ -298,7 +283,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600256F RID: 9583 RVA: 0x0008DBE0 File Offset: 0x0008BDE0
 		public void RemoveAgentVisuals(MissionPeer missionPeer, bool sync = false)
 		{
 			missionPeer.ClearAllVisuals(false);
@@ -320,7 +304,6 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("Removed visuals for " + missionPeer.Name + ".", 0, Debug.DebugColor.White, 17179869184UL);
 		}
 
-		// Token: 0x06002570 RID: 9584 RVA: 0x0008DC88 File Offset: 0x0008BE88
 		public void RemoveAgentVisualsWithVisualIndex(MissionPeer missionPeer, int visualsIndex, bool sync = false)
 		{
 			missionPeer.ClearVisuals(visualsIndex);
@@ -341,7 +324,6 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("Removed visuals.", 0, Debug.DebugColor.BrightWhite, 64UL);
 		}
 
-		// Token: 0x06002571 RID: 9585 RVA: 0x0008DD1F File Offset: 0x0008BF1F
 		public void OnMyAgentSpawned()
 		{
 			Action onMyAgentSpawnedFromVisual = this.OnMyAgentSpawnedFromVisual;
@@ -352,7 +334,6 @@ namespace TaleWorlds.MountAndBlade
 			onMyAgentSpawnedFromVisual();
 		}
 
-		// Token: 0x06002572 RID: 9586 RVA: 0x0008DD31 File Offset: 0x0008BF31
 		public override void OnPreMissionTick(float dt)
 		{
 			if (!GameNetwork.IsDedicatedServer && this._spawnFrameSelectionHelper == null && Mission.Current != null && GameNetwork.MyPeer != null)
@@ -361,16 +342,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000DC9 RID: 3529
 		private MultiplayerMissionAgentVisualSpawnComponent.VisualSpawnFrameSelectionHelper _spawnFrameSelectionHelper;
 
-		// Token: 0x04000DCA RID: 3530
 		private MBReadOnlyList<MultiplayerClassDivisions.MPHeroClass> _mpTroops;
 
-		// Token: 0x020005C8 RID: 1480
 		private class VisualSpawnFrameSelectionHelper
 		{
-			// Token: 0x06003BDF RID: 15327 RVA: 0x000F03E8 File Offset: 0x000EE5E8
 			public VisualSpawnFrameSelectionHelper()
 			{
 				this._visualSpawnPoints = new GameEntity[6];
@@ -398,7 +375,6 @@ namespace TaleWorlds.MountAndBlade
 				this._visualSpawnPointUsers[0] = GameNetwork.MyPeer.VirtualPlayer;
 			}
 
-			// Token: 0x06003BE0 RID: 15328 RVA: 0x000F0508 File Offset: 0x000EE708
 			public MatrixFrame GetSpawnPointFrameForPlayer(VirtualPlayer player, BattleSideEnum side, int agentVisualIndex, int totalTroopCount, bool isMounted = false)
 			{
 				if (agentVisualIndex == 0)
@@ -453,7 +429,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003BE1 RID: 15329 RVA: 0x000F067C File Offset: 0x000EE87C
 			public void FreeSpawnPointFromPlayer(VirtualPlayer player)
 			{
 				for (int i = 0; i < this._visualSpawnPointUsers.Length; i++)
@@ -466,31 +441,22 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001E27 RID: 7719
 			private const string SpawnPointTagPrefix = "sp_visual_";
 
-			// Token: 0x04001E28 RID: 7720
 			private const string AttackerSpawnPointTagPrefix = "sp_visual_attacker_";
 
-			// Token: 0x04001E29 RID: 7721
 			private const string DefenderSpawnPointTagPrefix = "sp_visual_defender_";
 
-			// Token: 0x04001E2A RID: 7722
 			private const int NumberOfSpawnPoints = 6;
 
-			// Token: 0x04001E2B RID: 7723
 			private const int PlayerSpawnPointIndex = 0;
 
-			// Token: 0x04001E2C RID: 7724
 			private GameEntity[] _visualSpawnPoints;
 
-			// Token: 0x04001E2D RID: 7725
 			private GameEntity[] _visualAttackerSpawnPoints;
 
-			// Token: 0x04001E2E RID: 7726
 			private GameEntity[] _visualDefenderSpawnPoints;
 
-			// Token: 0x04001E2F RID: 7727
 			private VirtualPlayer[] _visualSpawnPointUsers;
 		}
 	}

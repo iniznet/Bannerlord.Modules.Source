@@ -10,11 +10,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Menu
 {
-	// Token: 0x0200001D RID: 29
 	[OverrideView(typeof(MenuTownManagementView))]
 	public class GauntletMenuTownManagementView : MenuView
 	{
-		// Token: 0x06000128 RID: 296 RVA: 0x000092E8 File Offset: 0x000074E8
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -42,7 +40,6 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x06000129 RID: 297 RVA: 0x00009400 File Offset: 0x00007600
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -61,7 +58,6 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFinalize();
 		}
 
-		// Token: 0x0600012A RID: 298 RVA: 0x00009478 File Offset: 0x00007678
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -105,10 +101,8 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x04000086 RID: 134
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x04000087 RID: 135
 		private TownManagementVM _dataSource;
 	}
 }

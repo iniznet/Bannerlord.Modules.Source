@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003CD RID: 973
 	public class RecruitPrisonersCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003A7D RID: 14973 RVA: 0x0010F758 File Offset: 0x0010D958
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnMainPartyPrisonerRecruitedEvent.AddNonSerializedListener(this, new Action<FlattenedTroopRoster>(this.OnMainPartyPrisonerRecruited));
@@ -17,7 +15,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTickMainParty));
 		}
 
-		// Token: 0x06003A7E RID: 14974 RVA: 0x0010F7AC File Offset: 0x0010D9AC
 		private void HourlyTickMainParty()
 		{
 			MobileParty mainParty = MobileParty.MainParty;
@@ -49,7 +46,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A7F RID: 14975 RVA: 0x0010F898 File Offset: 0x0010DA98
 		private void DailyTickAIMobileParty(MobileParty mobileParty)
 		{
 			TroopRoster prisonRoster = mobileParty.PrisonRoster;
@@ -92,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A80 RID: 14976 RVA: 0x0010F9EC File Offset: 0x0010DBEC
 		private bool GenerateConformityForTroop(MobileParty mobileParty, CharacterObject troop, int hours = 1)
 		{
 			int num = Campaign.Current.Models.PrisonerRecruitmentCalculationModel.GetConformityChangePerHour(mobileParty.Party, troop) * hours;
@@ -100,14 +95,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003A81 RID: 14977 RVA: 0x0010FA28 File Offset: 0x0010DC28
 		private void ApplyPrisonerRecruitmentEffects(MobileParty mobileParty, CharacterObject troop, int num)
 		{
 			int prisonerRecruitmentMoraleEffect = Campaign.Current.Models.PrisonerRecruitmentCalculationModel.GetPrisonerRecruitmentMoraleEffect(mobileParty.Party, troop, num);
 			mobileParty.RecentEventsMorale += (float)prisonerRecruitmentMoraleEffect;
 		}
 
-		// Token: 0x06003A82 RID: 14978 RVA: 0x0010FA64 File Offset: 0x0010DC64
 		private void RecruitPrisonersAi(MobileParty mobileParty, CharacterObject troop, int num, int conformityCost)
 		{
 			mobileParty.PrisonRoster.GetElementNumber(troop);
@@ -118,13 +111,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.ApplyPrisonerRecruitmentEffects(mobileParty, troop, num);
 		}
 
-		// Token: 0x06003A83 RID: 14979 RVA: 0x0010FAD3 File Offset: 0x0010DCD3
 		private bool IsPrisonerRecruitable(MobileParty mobileParty, CharacterObject character, out int conformityNeeded)
 		{
 			return Campaign.Current.Models.PrisonerRecruitmentCalculationModel.IsPrisonerRecruitable(mobileParty.Party, character, out conformityNeeded);
 		}
 
-		// Token: 0x06003A84 RID: 14980 RVA: 0x0010FAF4 File Offset: 0x0010DCF4
 		private void OnMainPartyPrisonerRecruited(FlattenedTroopRoster flattenedTroopRosters)
 		{
 			foreach (CharacterObject characterObject in flattenedTroopRosters.Troops)
@@ -134,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A85 RID: 14981 RVA: 0x0010FB54 File Offset: 0x0010DD54
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

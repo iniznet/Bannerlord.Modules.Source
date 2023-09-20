@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x02000031 RID: 49
 	public class RainbowRichTextWidget : RichTextWidget
 	{
-		// Token: 0x060002B5 RID: 693 RVA: 0x00008F86 File Offset: 0x00007186
 		public RainbowRichTextWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060002B6 RID: 694 RVA: 0x00008F9C File Offset: 0x0000719C
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -27,7 +24,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x04000117 RID: 279
 		private Color targetColor = Color.White;
 	}
 }

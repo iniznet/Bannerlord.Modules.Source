@@ -4,10 +4,8 @@ using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200001E RID: 30
 	public static class WeaponComponentViewExtensions
 	{
-		// Token: 0x060000F7 RID: 247 RVA: 0x00007E78 File Offset: 0x00006078
 		public static MetaMesh GetFlyingMeshCopy(this WeaponComponentData weaponComponentData, ItemObject item)
 		{
 			if (item.WeaponDesign != null)
@@ -33,7 +31,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000F8 RID: 248 RVA: 0x00007EE4 File Offset: 0x000060E4
 		public static MetaMesh GetFlyingMeshIfExists(this WeaponComponentData weaponComponentData, ItemObject item)
 		{
 			if (item.WeaponDesign != null && weaponComponentData.IsRangedWeapon && weaponComponentData.IsConsumable)

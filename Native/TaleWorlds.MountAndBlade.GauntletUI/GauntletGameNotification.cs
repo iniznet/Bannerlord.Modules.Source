@@ -8,15 +8,10 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x02000007 RID: 7
 	public class GauntletGameNotification : GlobalLayer
 	{
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000023 RID: 35 RVA: 0x00002CAC File Offset: 0x00000EAC
-		// (set) Token: 0x06000024 RID: 36 RVA: 0x00002CB3 File Offset: 0x00000EB3
 		public static GauntletGameNotification Current { get; private set; }
 
-		// Token: 0x06000025 RID: 37 RVA: 0x00002CBC File Offset: 0x00000EBC
 		private GauntletGameNotification()
 		{
 			this._dataSource = new GameNotificationVM();
@@ -27,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._layer.InputRestrictions.SetInputRestrictions(false, 3);
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x00002D2C File Offset: 0x00000F2C
 		private void OnReceiveNewNotification(GameNotificationItemVM notification)
 		{
 			if (!string.IsNullOrEmpty(notification.NotificationSoundId))
@@ -36,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x00002D47 File Offset: 0x00000F47
 		public static void Initialize()
 		{
 			if (GauntletGameNotification.Current == null)
@@ -46,7 +39,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x00002D65 File Offset: 0x00000F65
 		public static void OnFinalize()
 		{
 			GauntletGameNotification gauntletGameNotification = GauntletGameNotification.Current;
@@ -62,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			dataSource.ClearNotifications();
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00002D80 File Offset: 0x00000F80
 		public void LoadMovie(bool forMultiplayer)
 		{
 			if (this._movie != null)
@@ -77,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._movie = this._layer.LoadMovie("GameNotificationUI", this._dataSource);
 		}
 
-		// Token: 0x0600002A RID: 42 RVA: 0x00002DE4 File Offset: 0x00000FE4
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -98,16 +88,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x04000014 RID: 20
 		private GameNotificationVM _dataSource;
 
-		// Token: 0x04000015 RID: 21
 		private GauntletLayer _layer;
 
-		// Token: 0x04000016 RID: 22
 		private IGauntletMovie _movie;
 
-		// Token: 0x04000018 RID: 24
 		private bool _isSuspended;
 	}
 }

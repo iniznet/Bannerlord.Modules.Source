@@ -6,10 +6,8 @@ using TaleWorlds.TwoDimension.Standalone.Native.Windows;
 
 namespace TaleWorlds.TwoDimension.Standalone
 {
-	// Token: 0x02000007 RID: 7
 	public class LayeredWindowController
 	{
-		// Token: 0x06000054 RID: 84 RVA: 0x000036F4 File Offset: 0x000018F4
 		public LayeredWindowController(IntPtr windowHandle, int width, int height)
 		{
 			this._windowHandle = windowHandle;
@@ -19,7 +17,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this.SetSize(width, height);
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00003764 File Offset: 0x00001964
 		private void CreateBitmapInfo()
 		{
 			BitmapInfoHeader bitmapInfoHeader;
@@ -41,7 +38,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this._bitmapInfo.a = 0;
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x00003828 File Offset: 0x00001A28
 		public void SetSize(int width, int height)
 		{
 			this._windowSize = new Size(width, height);
@@ -52,7 +48,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this.CreateBitmapInfo();
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00003888 File Offset: 0x00001A88
 		public void PostRender()
 		{
 			if (this._windowSize.Width <= 0 || this._windowSize.Height <= 0)
@@ -75,41 +70,30 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x000039D9 File Offset: 0x00001BD9
 		public void OnFinalize()
 		{
 			User32.ReleaseDC(IntPtr.Zero, this._screenDC);
 			Gdi32.DeleteDC(this._memoryDC);
 		}
 
-		// Token: 0x04000029 RID: 41
 		private const int GwlExStyle = -20;
 
-		// Token: 0x0400002A RID: 42
 		private const uint WsExLayered = 524288U;
 
-		// Token: 0x0400002B RID: 43
 		private readonly IntPtr _windowHandle;
 
-		// Token: 0x0400002C RID: 44
 		private readonly IntPtr _screenDC;
 
-		// Token: 0x0400002D RID: 45
 		private readonly IntPtr _memoryDC;
 
-		// Token: 0x0400002E RID: 46
 		private Size _windowSize;
 
-		// Token: 0x0400002F RID: 47
 		private byte[] _pixelData;
 
-		// Token: 0x04000030 RID: 48
 		private BlendFunction _blendFunction = BlendFunction.Default;
 
-		// Token: 0x04000031 RID: 49
 		private Point _localOriginPoint = new Point(0, 0);
 
-		// Token: 0x04000032 RID: 50
 		private BitmapInfo _bitmapInfo;
 	}
 }

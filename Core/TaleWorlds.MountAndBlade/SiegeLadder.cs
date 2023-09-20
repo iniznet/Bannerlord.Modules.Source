@@ -13,26 +13,17 @@ using TaleWorlds.MountAndBlade.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000358 RID: 856
 	public class SiegeLadder : SiegeWeapon, IPrimarySiegeWeapon, IOrderableWithInteractionArea, IOrderable, ISpawnable
 	{
-		// Token: 0x17000855 RID: 2133
-		// (get) Token: 0x06002E4C RID: 11852 RVA: 0x000B8A3E File Offset: 0x000B6C3E
-		// (set) Token: 0x06002E4D RID: 11853 RVA: 0x000B8A46 File Offset: 0x000B6C46
 		public GameEntity InitialWaitPosition { get; private set; }
 
-		// Token: 0x17000856 RID: 2134
-		// (get) Token: 0x06002E4E RID: 11854 RVA: 0x000B8A4F File Offset: 0x000B6C4F
-		// (set) Token: 0x06002E4F RID: 11855 RVA: 0x000B8A57 File Offset: 0x000B6C57
 		public int OnWallNavMeshId { get; private set; }
 
-		// Token: 0x06002E50 RID: 11856 RVA: 0x000B8A60 File Offset: 0x000B6C60
 		public override SiegeEngineType GetSiegeEngineType()
 		{
 			return DefaultSiegeEngineTypes.Ladder;
 		}
 
-		// Token: 0x06002E51 RID: 11857 RVA: 0x000B8A68 File Offset: 0x000B6C68
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -190,7 +181,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E52 RID: 11858 RVA: 0x000B9258 File Offset: 0x000B7458
 		private float GetCurrentLadderAngularSpeed(int animationIndex)
 		{
 			float animationParameterAtChannel = this._ladderSkeleton.GetAnimationParameterAtChannel(0);
@@ -207,7 +197,6 @@ namespace TaleWorlds.MountAndBlade
 			return (vec.RotationInRadians - vec2.RotationInRadians) / (MBAnimation.GetAnimationDuration(animationIndex) * 0.01f);
 		}
 
-		// Token: 0x06002E53 RID: 11859 RVA: 0x000B9338 File Offset: 0x000B7538
 		private void OnLadderStateChange()
 		{
 			GameEntity gameEntity = this._ladderObject.GameEntity;
@@ -343,7 +332,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E54 RID: 11860 RVA: 0x000B9770 File Offset: 0x000B7970
 		private void SetVisibilityOfAIBarriers(bool visibility)
 		{
 			foreach (GameEntity gameEntity in this._aiBarriers)
@@ -352,8 +340,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000857 RID: 2135
-		// (get) Token: 0x06002E55 RID: 11861 RVA: 0x000B97C4 File Offset: 0x000B79C4
 		public int OverTheWallNavMeshID
 		{
 			get
@@ -362,7 +348,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E56 RID: 11862 RVA: 0x000B97C8 File Offset: 0x000B79C8
 		public override OrderType GetOrder(BattleSideEnum side)
 		{
 			if (side != BattleSideEnum.Attacker)
@@ -372,9 +357,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetOrder(side);
 		}
 
-		// Token: 0x17000858 RID: 2136
-		// (get) Token: 0x06002E57 RID: 11863 RVA: 0x000B97D7 File Offset: 0x000B79D7
-		// (set) Token: 0x06002E58 RID: 11864 RVA: 0x000B97DF File Offset: 0x000B79DF
 		public SiegeLadder.LadderState State
 		{
 			get
@@ -398,7 +380,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E59 RID: 11865 RVA: 0x000B9820 File Offset: 0x000B7A20
 		private void CalculateNavigationAndPhysics()
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -439,8 +420,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000859 RID: 2137
-		// (get) Token: 0x06002E5A RID: 11866 RVA: 0x000B99CA File Offset: 0x000B7BCA
 		public MissionObject TargetCastlePosition
 		{
 			get
@@ -449,19 +428,13 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E5B RID: 11867 RVA: 0x000B99D2 File Offset: 0x000B7BD2
 		public bool HasCompletedAction()
 		{
 			return this.State == SiegeLadder.LadderState.OnWall;
 		}
 
-		// Token: 0x1700085A RID: 2138
-		// (get) Token: 0x06002E5C RID: 11868 RVA: 0x000B99DD File Offset: 0x000B7BDD
-		// (set) Token: 0x06002E5D RID: 11869 RVA: 0x000B99E5 File Offset: 0x000B7BE5
 		public FormationAI.BehaviorSide WeaponSide { get; private set; }
 
-		// Token: 0x1700085B RID: 2139
-		// (get) Token: 0x06002E5E RID: 11870 RVA: 0x000B99EE File Offset: 0x000B7BEE
 		public float SiegeWeaponPriority
 		{
 			get
@@ -470,7 +443,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E5F RID: 11871 RVA: 0x000B99F8 File Offset: 0x000B7BF8
 		private ActionIndexCache GetActionCodeToUseForStandingPoint(StandingPoint standingPoint)
 		{
 			GameEntity gameEntity = standingPoint.GameEntity;
@@ -492,7 +464,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E60 RID: 11872 RVA: 0x000B9A50 File Offset: 0x000B7C50
 		public override bool IsDisabledForBattleSide(BattleSideEnum sideEnum)
 		{
 			if (sideEnum == BattleSideEnum.Attacker)
@@ -502,7 +473,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.State == SiegeLadder.LadderState.OnLand || this.State == SiegeLadder.LadderState.FallToLand || this.State == SiegeLadder.LadderState.BeingRaised || this.State == SiegeLadder.LadderState.BeingRaisedStartFromGround || this.State == SiegeLadder.LadderState.FallToWall;
 		}
 
-		// Token: 0x06002E61 RID: 11873 RVA: 0x000B9AD4 File Offset: 0x000B7CD4
 		protected override float GetDetachmentWeightAux(BattleSideEnum side)
 		{
 			if (side == BattleSideEnum.Attacker)
@@ -554,8 +524,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0.01f;
 		}
 
-		// Token: 0x1700085C RID: 2140
-		// (get) Token: 0x06002E62 RID: 11874 RVA: 0x000B9BC6 File Offset: 0x000B7DC6
 		public bool HoldLadders
 		{
 			get
@@ -564,14 +532,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E63 RID: 11875 RVA: 0x000B9BC9 File Offset: 0x000B7DC9
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return base.GetTickRequirement() | ScriptComponentBehavior.TickRequirement.Tick | ScriptComponentBehavior.TickRequirement.TickParallel;
 		}
 
-		// Token: 0x1700085D RID: 2141
-		// (get) Token: 0x06002E64 RID: 11876 RVA: 0x000B9BD5 File Offset: 0x000B7DD5
 		public bool SendLadders
 		{
 			get
@@ -580,7 +545,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E65 RID: 11877 RVA: 0x000B9BE0 File Offset: 0x000B7DE0
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -920,7 +884,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateNavigationAndPhysics();
 		}
 
-		// Token: 0x06002E66 RID: 11878 RVA: 0x000BAAE4 File Offset: 0x000B8CE4
 		protected internal override void OnTickParallel(float dt)
 		{
 			base.OnTickParallel(dt);
@@ -940,7 +903,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E67 RID: 11879 RVA: 0x000BAB84 File Offset: 0x000B8D84
 		private void TickRare()
 		{
 			if (!GameNetwork.IsReplay)
@@ -970,19 +932,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E68 RID: 11880 RVA: 0x000BACAC File Offset: 0x000B8EAC
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new SiegeLadderAI(this);
 		}
 
-		// Token: 0x06002E69 RID: 11881 RVA: 0x000BACB4 File Offset: 0x000B8EB4
 		public void SetUpStateVisibility(bool isVisible)
 		{
 			base.GameEntity.CollectChildrenEntitiesWithTag(this.upStateEntityTag)[0].SetVisibilityExcludeParents(isVisible);
 		}
 
-		// Token: 0x06002E6A RID: 11882 RVA: 0x000BACD3 File Offset: 0x000B8ED3
 		private void FlushQueueManager()
 		{
 			LadderQueueManager queueManagerForAttackers = this._queueManagerForAttackers;
@@ -993,7 +952,6 @@ namespace TaleWorlds.MountAndBlade
 			queueManagerForAttackers.FlushQueueManager();
 		}
 
-		// Token: 0x06002E6B RID: 11883 RVA: 0x000BACE8 File Offset: 0x000B8EE8
 		private void FlushNeighborQueueManagers()
 		{
 			foreach (SiegeLadder siegeLadder in (from sl in Mission.Current.ActiveMissionObjects.FindAllWithType<SiegeLadder>()
@@ -1007,7 +965,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E6C RID: 11884 RVA: 0x000BAD60 File Offset: 0x000B8F60
 		private void InformNeighborQueueManagers(LadderQueueManager ladderQueueManager)
 		{
 			foreach (SiegeLadder siegeLadder in (from sl in Mission.Current.ActiveMissionObjects.FindAllWithType<SiegeLadder>()
@@ -1026,7 +983,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E6D RID: 11885 RVA: 0x000BADFC File Offset: 0x000B8FFC
 		public override void SetAbilityOfFaces(bool enabled)
 		{
 			base.SetAbilityOfFaces(enabled);
@@ -1049,7 +1005,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E6E RID: 11886 RVA: 0x000BAE5C File Offset: 0x000B905C
 		protected internal override void OnMissionReset()
 		{
 			this._ladderSkeleton.SetAnimationAtChannel(-1, 0, 1f, -1f, 0f);
@@ -1071,7 +1026,6 @@ namespace TaleWorlds.MountAndBlade
 			this._ladderObject.GameEntity.RecomputeBoundingBox();
 		}
 
-		// Token: 0x06002E6F RID: 11887 RVA: 0x000BAEF6 File Offset: 0x000B90F6
 		public override string GetDescriptionText(GameEntity gameEntity)
 		{
 			if (!gameEntity.HasTag(this.AmmoPickUpTag))
@@ -1081,7 +1035,6 @@ namespace TaleWorlds.MountAndBlade
 			return new TextObject("{=F9AQxCax}Fork", null).ToString();
 		}
 
-		// Token: 0x06002E70 RID: 11888 RVA: 0x000BAF28 File Offset: 0x000B9128
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject;
@@ -1097,7 +1050,6 @@ namespace TaleWorlds.MountAndBlade
 			return textObject;
 		}
 
-		// Token: 0x06002E71 RID: 11889 RVA: 0x000BAFA0 File Offset: 0x000B91A0
 		public override bool ReadFromNetwork()
 		{
 			bool flag = base.ReadFromNetwork();
@@ -1134,7 +1086,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002E72 RID: 11890 RVA: 0x000BB0CC File Offset: 0x000B92CC
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
@@ -1152,14 +1103,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E73 RID: 11891 RVA: 0x000BB170 File Offset: 0x000B9370
 		bool IOrderableWithInteractionArea.IsPointInsideInteractionArea(Vec3 point)
 		{
 			GameEntity gameEntity = base.GameEntity.CollectChildrenEntitiesWithTag("ui_interaction").FirstOrDefault<GameEntity>();
 			return !(gameEntity == null) && gameEntity.GlobalPosition.AsVec2.DistanceSquared(point.AsVec2) < 25f;
 		}
 
-		// Token: 0x06002E74 RID: 11892 RVA: 0x000BB1C4 File Offset: 0x000B93C4
 		public override TargetFlags GetTargetFlags()
 		{
 			TargetFlags targetFlags = TargetFlags.None;
@@ -1173,13 +1122,11 @@ namespace TaleWorlds.MountAndBlade
 			return targetFlags;
 		}
 
-		// Token: 0x06002E75 RID: 11893 RVA: 0x000BB1F6 File Offset: 0x000B93F6
 		public override float GetTargetValue(List<Vec3> weaponPos)
 		{
 			return 10f * base.GetUserMultiplierOfWeapon() * this.GetDistanceMultiplierOfWeapon(weaponPos[0]);
 		}
 
-		// Token: 0x06002E76 RID: 11894 RVA: 0x000BB212 File Offset: 0x000B9412
 		protected override float GetDistanceMultiplierOfWeapon(Vec3 weaponPos)
 		{
 			if (this.GetMinimumDistanceBetweenPositions(weaponPos) >= 10f)
@@ -1189,7 +1136,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06002E77 RID: 11895 RVA: 0x000BB230 File Offset: 0x000B9430
 		protected override StandingPoint GetSuitableStandingPointFor(BattleSideEnum side, Agent agent = null, List<Agent> agents = null, List<ValueTuple<Agent, float>> agentValuePairs = null)
 		{
 			if (side == BattleSideEnum.Attacker)
@@ -1203,13 +1149,11 @@ namespace TaleWorlds.MountAndBlade
 			return this._pushingWithForkStandingPoint;
 		}
 
-		// Token: 0x06002E78 RID: 11896 RVA: 0x000BB2A8 File Offset: 0x000B94A8
 		public void SetSpawnedFromSpawner()
 		{
 			this._spawnedFromSpawner = true;
 		}
 
-		// Token: 0x06002E79 RID: 11897 RVA: 0x000BB2B1 File Offset: 0x000B94B1
 		public void AssignParametersFromSpawner(string sideTag, string targetWallSegment, int onWallNavMeshId, float downStateRotationRadian, float upperStateRotationRadian, string barrierTagToRemove, string indestructibleMerlonsTag)
 		{
 			this._sideTag = sideTag;
@@ -1221,14 +1165,12 @@ namespace TaleWorlds.MountAndBlade
 			this.IndestructibleMerlonsTag = indestructibleMerlonsTag;
 		}
 
-		// Token: 0x06002E7A RID: 11898 RVA: 0x000BB2E8 File Offset: 0x000B94E8
 		public bool GetNavmeshFaceIds(out List<int> navmeshFaceIds)
 		{
 			navmeshFaceIds = new List<int> { this.OnWallNavMeshId };
 			return true;
 		}
 
-		// Token: 0x06002E7D RID: 11901 RVA: 0x000BB4D0 File Offset: 0x000B96D0
 		[CompilerGenerated]
 		private bool <OnTick>g__GetIsSomeoneOver|113_0(ref SiegeLadder.<>c__DisplayClass113_0 A_1, ref SiegeLadder.<>c__DisplayClass113_1 A_2)
 		{
@@ -1256,265 +1198,174 @@ namespace TaleWorlds.MountAndBlade
 			return A_2.someoneOver.Value;
 		}
 
-		// Token: 0x04001296 RID: 4758
 		private static readonly ActionIndexCache act_usage_ladder_lift_from_left_1_start = ActionIndexCache.Create("act_usage_ladder_lift_from_left_1_start");
 
-		// Token: 0x04001297 RID: 4759
 		private static readonly ActionIndexCache act_usage_ladder_lift_from_left_2_start = ActionIndexCache.Create("act_usage_ladder_lift_from_left_2_start");
 
-		// Token: 0x04001298 RID: 4760
 		public const float ClimbingLimitRadian = -0.20135832f;
 
-		// Token: 0x04001299 RID: 4761
 		private static readonly ActionIndexCache act_usage_ladder_lift_from_right_1_start = ActionIndexCache.Create("act_usage_ladder_lift_from_right_1_start");
 
-		// Token: 0x0400129A RID: 4762
 		public const float ClimbingLimitDegree = -11.536982f;
 
-		// Token: 0x0400129B RID: 4763
 		private static readonly ActionIndexCache act_usage_ladder_lift_from_right_2_start = ActionIndexCache.Create("act_usage_ladder_lift_from_right_2_start");
 
-		// Token: 0x0400129C RID: 4764
 		public const float AutomaticUseActivationRange = 20f;
 
-		// Token: 0x0400129D RID: 4765
 		private static readonly ActionIndexCache act_usage_ladder_pick_up_fork_begin = ActionIndexCache.Create("act_usage_ladder_pick_up_fork_begin");
 
-		// Token: 0x0400129E RID: 4766
 		private static readonly ActionIndexCache act_usage_ladder_pick_up_fork_end = ActionIndexCache.Create("act_usage_ladder_pick_up_fork_end");
 
-		// Token: 0x0400129F RID: 4767
 		private static readonly ActionIndexCache act_usage_ladder_push_back = ActionIndexCache.Create("act_usage_ladder_push_back");
 
-		// Token: 0x040012A0 RID: 4768
 		private static readonly ActionIndexCache act_usage_ladder_push_back_stopped = ActionIndexCache.Create("act_usage_ladder_push_back_stopped");
 
-		// Token: 0x040012A1 RID: 4769
 		public string AttackerTag = "attacker";
 
-		// Token: 0x040012A2 RID: 4770
 		public string DefenderTag = "defender";
 
-		// Token: 0x040012A3 RID: 4771
 		public string downStateEntityTag = "ladderDown";
 
-		// Token: 0x040012A4 RID: 4772
 		public string IdleAnimation = "siege_ladder_idle";
 
-		// Token: 0x040012A5 RID: 4773
 		public int _idleAnimationIndex = -1;
 
-		// Token: 0x040012A6 RID: 4774
 		public string RaiseAnimation = "siege_ladder_rise";
 
-		// Token: 0x040012A7 RID: 4775
 		public string RaiseAnimationWithoutRootBone = "siege_ladder_rise_wo_rootbone";
 
-		// Token: 0x040012A8 RID: 4776
 		public int _raiseAnimationWithoutRootBoneIndex = -1;
 
-		// Token: 0x040012A9 RID: 4777
 		public string PushBackAnimation = "siege_ladder_push_back";
 
-		// Token: 0x040012AA RID: 4778
 		public int _pushBackAnimationIndex = -1;
 
-		// Token: 0x040012AB RID: 4779
 		public string PushBackAnimationWithoutRootBone = "siege_ladder_push_back_wo_rootbone";
 
-		// Token: 0x040012AC RID: 4780
 		public int _pushBackAnimationWithoutRootBoneIndex = -1;
 
-		// Token: 0x040012AD RID: 4781
 		public string TrembleWallHeavyAnimation = "siege_ladder_stop_wall_heavy";
 
-		// Token: 0x040012AE RID: 4782
 		public string TrembleWallLightAnimation = "siege_ladder_stop_wall_light";
 
-		// Token: 0x040012AF RID: 4783
 		public string TrembleGroundAnimation = "siege_ladder_stop_ground_heavy";
 
-		// Token: 0x040012B0 RID: 4784
 		public string RightStandingPointTag = "right";
 
-		// Token: 0x040012B1 RID: 4785
 		public string LeftStandingPointTag = "left";
 
-		// Token: 0x040012B2 RID: 4786
 		public string FrontStandingPointTag = "front";
 
-		// Token: 0x040012B3 RID: 4787
 		public string PushForkItemID = "push_fork";
 
-		// Token: 0x040012B4 RID: 4788
 		public string upStateEntityTag = "ladderUp";
 
-		// Token: 0x040012B5 RID: 4789
 		public string BodyTag = "ladder_body";
 
-		// Token: 0x040012B6 RID: 4790
 		public string CollisionBodyTag = "ladder_collision_body";
 
-		// Token: 0x040012B7 RID: 4791
 		public string InitialWaitPositionTag = "initialwaitposition";
 
-		// Token: 0x040012B8 RID: 4792
 		private string _targetWallSegmentTag = "";
 
-		// Token: 0x040012B9 RID: 4793
 		private WallSegment _targetWallSegment;
 
-		// Token: 0x040012BA RID: 4794
 		private string _sideTag;
 
-		// Token: 0x040012BB RID: 4795
 		private int _trembleWallLightAnimationIndex = -1;
 
-		// Token: 0x040012BC RID: 4796
 		public string BarrierTagToRemove = "barrier";
 
-		// Token: 0x040012BD RID: 4797
 		private int _trembleGroundAnimationIndex = -1;
 
-		// Token: 0x040012BE RID: 4798
 		public SiegeLadder.LadderState initialState;
 
-		// Token: 0x040012BF RID: 4799
 		private int _trembleWallHeavyAnimationIndex = -1;
 
-		// Token: 0x040012C0 RID: 4800
 		public string IndestructibleMerlonsTag = string.Empty;
 
-		// Token: 0x040012C1 RID: 4801
 		private int _raiseAnimationIndex = -1;
 
-		// Token: 0x040012C2 RID: 4802
 		private bool _isNavigationMeshDisabled;
 
-		// Token: 0x040012C3 RID: 4803
 		private bool _isLadderPhysicsDisabled;
 
-		// Token: 0x040012C4 RID: 4804
 		private bool _isLadderCollisionPhysicsDisabled;
 
-		// Token: 0x040012C5 RID: 4805
 		private Timer _tickOccasionallyTimer;
 
-		// Token: 0x040012C6 RID: 4806
 		private float _upStateRotationRadian;
 
-		// Token: 0x040012C7 RID: 4807
 		private float _downStateRotationRadian;
 
-		// Token: 0x040012C8 RID: 4808
 		private float _fallAngularSpeed;
 
-		// Token: 0x040012C9 RID: 4809
 		private MatrixFrame _ladderDownFrame;
 
-		// Token: 0x040012CA RID: 4810
 		private MatrixFrame _ladderUpFrame;
 
-		// Token: 0x040012CB RID: 4811
 		private SiegeLadder.LadderAnimationState _animationState;
 
-		// Token: 0x040012CC RID: 4812
 		private int _currentActionAgentCount;
 
-		// Token: 0x040012CD RID: 4813
 		private SiegeLadder.LadderState _state;
 
-		// Token: 0x040012CE RID: 4814
 		private List<GameEntity> _aiBarriers;
 
-		// Token: 0x040012CF RID: 4815
 		private List<StandingPoint> _attackerStandingPoints;
 
-		// Token: 0x040012D0 RID: 4816
 		private StandingPointWithWeaponRequirement _pushingWithForkStandingPoint;
 
-		// Token: 0x040012D1 RID: 4817
 		private StandingPointWithWeaponRequirement _forkPickUpStandingPoint;
 
-		// Token: 0x040012D2 RID: 4818
 		private ItemObject _forkItem;
 
-		// Token: 0x040012D3 RID: 4819
 		private MatrixFrame[] _attackerStandingPointLocalIKFrames;
 
-		// Token: 0x040012D4 RID: 4820
 		private MatrixFrame _ladderInitialGlobalFrame;
 
-		// Token: 0x040012D5 RID: 4821
 		private SynchedMissionObject _ladderParticleObject;
 
-		// Token: 0x040012D6 RID: 4822
 		private SynchedMissionObject _ladderBodyObject;
 
-		// Token: 0x040012D7 RID: 4823
 		private SynchedMissionObject _ladderCollisionBodyObject;
 
-		// Token: 0x040012D8 RID: 4824
 		private SynchedMissionObject _ladderObject;
 
-		// Token: 0x040012D9 RID: 4825
 		private Skeleton _ladderSkeleton;
 
-		// Token: 0x040012DA RID: 4826
 		private float _lastDotProductOfAnimationAndTargetRotation;
 
-		// Token: 0x040012DB RID: 4827
 		private LadderQueueManager _queueManagerForAttackers;
 
-		// Token: 0x040012DC RID: 4828
 		private LadderQueueManager _queueManagerForDefenders;
 
-		// Token: 0x040012DE RID: 4830
 		private Timer _forkReappearingTimer;
 
-		// Token: 0x040012DF RID: 4831
 		private float _forkReappearingDelay = 10f;
 
-		// Token: 0x040012E1 RID: 4833
 		private SynchedMissionObject _forkEntity;
 
-		// Token: 0x02000668 RID: 1640
 		public enum LadderState
 		{
-			// Token: 0x040020CB RID: 8395
 			OnLand,
-			// Token: 0x040020CC RID: 8396
 			FallToLand,
-			// Token: 0x040020CD RID: 8397
 			BeingRaised,
-			// Token: 0x040020CE RID: 8398
 			BeingRaisedStartFromGround,
-			// Token: 0x040020CF RID: 8399
 			BeingRaisedStopped,
-			// Token: 0x040020D0 RID: 8400
 			OnWall,
-			// Token: 0x040020D1 RID: 8401
 			FallToWall,
-			// Token: 0x040020D2 RID: 8402
 			BeingPushedBack,
-			// Token: 0x040020D3 RID: 8403
 			BeingPushedBackStartFromWall,
-			// Token: 0x040020D4 RID: 8404
 			BeingPushedBackStopped,
-			// Token: 0x040020D5 RID: 8405
 			NumberOfStates
 		}
 
-		// Token: 0x02000669 RID: 1641
 		public enum LadderAnimationState
 		{
-			// Token: 0x040020D7 RID: 8407
 			Static,
-			// Token: 0x040020D8 RID: 8408
 			Animated,
-			// Token: 0x040020D9 RID: 8409
 			PhysicallyDynamic,
-			// Token: 0x040020DA RID: 8410
 			NumberOfStates
 		}
 	}

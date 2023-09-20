@@ -14,17 +14,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003BF RID: 959
 	public class PlayerCaptivityCampaignBehavior : CampaignBehaviorBase, ICaptivityCampaignBehavior
 	{
-		// Token: 0x06003919 RID: 14617 RVA: 0x00104CF7 File Offset: 0x00102EF7
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<bool>("_isPlayerExecuted", ref this._isMainHeroExecuted);
 			dataStore.SyncData<Hero>("_mainHeroExecuter", ref this._mainHeroExecuter);
 		}
 
-		// Token: 0x0600391A RID: 14618 RVA: 0x00104D20 File Offset: 0x00102F20
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -32,13 +29,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 		}
 
-		// Token: 0x0600391B RID: 14619 RVA: 0x00104D72 File Offset: 0x00102F72
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x0600391C RID: 14620 RVA: 0x00104D7B File Offset: 0x00102F7B
 		private void OnGameMenuOpened(MenuCallbackArgs args)
 		{
 			if (this._isMainHeroExecuted)
@@ -48,7 +43,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600391D RID: 14621 RVA: 0x00104DA0 File Offset: 0x00102FA0
 		private void OnPrisonerTaken(PartyBase capturer, Hero prisoner)
 		{
 			if (prisoner == Hero.MainHero && capturer.LeaderHero != null && (float)capturer.LeaderHero.GetRelation(prisoner) < -30f && MBRandom.RandomFloat <= 0.02f)
@@ -58,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600391E RID: 14622 RVA: 0x00104DF0 File Offset: 0x00102FF0
 		private Hero FindEnemyPrisonerToSwapWithPlayer()
 		{
 			IFaction mapFaction = Hero.MainHero.MapFaction;
@@ -76,7 +69,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x0600391F RID: 14623 RVA: 0x00104EA4 File Offset: 0x001030A4
 		private void AddGameMenus(CampaignGameStarter gameSystemInitializer)
 		{
 			gameSystemInitializer.AddGameMenu("menu_captivity_end_no_more_enemies", "{=gOsori1b}Your captors have no more use for you and aren't in a murderous mood, so they let you go.", new OnInitDelegate(this.game_menu_captivity_escape_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -210,31 +202,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}, false, -1, false, null);
 		}
 
-		// Token: 0x06003920 RID: 14624 RVA: 0x001054C9 File Offset: 0x001036C9
 		private void game_menu_captivity_escape_on_init(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x06003921 RID: 14625 RVA: 0x001054CB File Offset: 0x001036CB
 		private void game_menu_captivity_end_by_deal_on_init(MenuCallbackArgs args)
 		{
 			StringHelpers.SetCharacterProperties("PRISONER_LORD", this.FindEnemyPrisonerToSwapWithPlayer().CharacterObject, null, false);
 		}
 
-		// Token: 0x06003922 RID: 14626 RVA: 0x001054E5 File Offset: 0x001036E5
 		private void game_menu_captivity_end_by_ransom_on_init(MenuCallbackArgs args)
 		{
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, Campaign.Current.PlayerCaptivity.CurrentRansomAmount, false);
 			PlayerCaptivity.EndCaptivity();
 		}
 
-		// Token: 0x06003923 RID: 14627 RVA: 0x00105507 File Offset: 0x00103707
 		private void menu_captivity_end_propose_ransom_on_init(MenuCallbackArgs args)
 		{
 			MBTextManager.SetTextVariable("MONEY_AMOUNT", Campaign.Current.PlayerCaptivity.CurrentRansomAmount);
 		}
 
-		// Token: 0x06003924 RID: 14628 RVA: 0x00105524 File Offset: 0x00103724
 		public void CheckCaptivityChange(float dt)
 		{
 			if (PlayerCaptivity.CaptorParty.IsMobile && !PlayerCaptivity.CaptorParty.MobileParty.IsActive)
@@ -362,7 +349,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003925 RID: 14629 RVA: 0x00105A2C File Offset: 0x00103C2C
 		private bool CheckTimeElapsedMoreThanHours(CampaignTime eventBeginTime, float hoursToWait)
 		{
 			float elapsedHoursUntilNow = eventBeginTime.ElapsedHoursUntilNow;
@@ -370,19 +356,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (double)hoursToWait * (0.5 + (double)randomNumber) < (double)elapsedHoursUntilNow;
 		}
 
-		// Token: 0x040011C4 RID: 4548
 		private const float PlayerExecutionProbability = 0.02f;
 
-		// Token: 0x040011C5 RID: 4549
 		private const float PlayerExecutionRelationLimit = -30f;
 
-		// Token: 0x040011C6 RID: 4550
 		private const int MaxDaysOfImprisonment = 7;
 
-		// Token: 0x040011C7 RID: 4551
 		private bool _isMainHeroExecuted;
 
-		// Token: 0x040011C8 RID: 4552
 		private Hero _mainHeroExecuter;
 	}
 }

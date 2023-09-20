@@ -7,20 +7,12 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.Layout
 {
-	// Token: 0x0200003F RID: 63
 	public class StackLayout : ILayout
 	{
-		// Token: 0x17000121 RID: 289
-		// (get) Token: 0x060003AF RID: 943 RVA: 0x0000F9EC File Offset: 0x0000DBEC
-		// (set) Token: 0x060003B0 RID: 944 RVA: 0x0000F9F4 File Offset: 0x0000DBF4
 		public ContainerItemDescription DefaultItemDescription { get; private set; }
 
-		// Token: 0x17000122 RID: 290
-		// (get) Token: 0x060003B1 RID: 945 RVA: 0x0000F9FD File Offset: 0x0000DBFD
-		// (set) Token: 0x060003B2 RID: 946 RVA: 0x0000FA05 File Offset: 0x0000DC05
 		public LayoutMethod LayoutMethod { get; set; }
 
-		// Token: 0x060003B3 RID: 947 RVA: 0x0000FA0E File Offset: 0x0000DC0E
 		public StackLayout()
 		{
 			this.DefaultItemDescription = new ContainerItemDescription();
@@ -28,7 +20,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			this._parallelMeasureBasicChildDelegate = new TWParallel.ParallelForAuxPredicate(this.ParallelMeasureBasicChild);
 		}
 
-		// Token: 0x060003B4 RID: 948 RVA: 0x0000FA40 File Offset: 0x0000DC40
 		public ContainerItemDescription GetItemDescription(Widget owner, Widget child, int childIndex)
 		{
 			Container container;
@@ -39,7 +30,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return this.DefaultItemDescription;
 		}
 
-		// Token: 0x060003B5 RID: 949 RVA: 0x0000FA6C File Offset: 0x0000DC6C
 		public Vector2 MeasureChildren(Widget widget, Vector2 measureSpec, SpriteData spriteData, float renderScale)
 		{
 			Container container = widget as Container;
@@ -66,7 +56,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return vector;
 		}
 
-		// Token: 0x060003B6 RID: 950 RVA: 0x0000FB20 File Offset: 0x0000DD20
 		public void OnLayout(Widget widget, float left, float bottom, float right, float top)
 		{
 			if (this.LayoutMethod == LayoutMethod.HorizontalLeftToRight || this.LayoutMethod == LayoutMethod.HorizontalRightToLeft || this.LayoutMethod == LayoutMethod.HorizontalCentered || this.LayoutMethod == LayoutMethod.HorizontalSpaced)
@@ -80,7 +69,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			}
 		}
 
-		// Token: 0x060003B7 RID: 951 RVA: 0x0000FB86 File Offset: 0x0000DD86
 		private static float GetData(Vector2 vector2, int row)
 		{
 			if (row == 0)
@@ -90,7 +78,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return vector2.Y;
 		}
 
-		// Token: 0x060003B8 RID: 952 RVA: 0x0000FB98 File Offset: 0x0000DD98
 		private static void SetData(ref Vector2 vector2, int row, float data)
 		{
 			if (row == 0)
@@ -100,7 +87,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			vector2.Y = data;
 		}
 
-		// Token: 0x060003B9 RID: 953 RVA: 0x0000FBAC File Offset: 0x0000DDAC
 		public int GetIndexForDrop(Container widget, Vector2 draggedWidgetPosition)
 		{
 			int num = 0;
@@ -144,7 +130,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return num2;
 		}
 
-		// Token: 0x060003BA RID: 954 RVA: 0x0000FC8C File Offset: 0x0000DE8C
 		private void ParallelMeasureBasicChild(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -175,7 +160,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			}
 		}
 
-		// Token: 0x060003BB RID: 955 RVA: 0x0000FD2C File Offset: 0x0000DF2C
 		private Vector2 MeasureLinear(Widget widget, Vector2 measureSpec, AlignmentAxis alignmentAxis)
 		{
 			this._parallelMeasureBasicChildWidget = widget;
@@ -300,7 +284,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return new Vector2(num10, num11);
 		}
 
-		// Token: 0x060003BC RID: 956 RVA: 0x00010090 File Offset: 0x0000E290
 		private void ParallelUpdateLayouts(Widget widget)
 		{
 			StackLayout.<>c__DisplayClass23_0 CS$<>8__locals1 = new StackLayout.<>c__DisplayClass23_0();
@@ -309,7 +292,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			TWParallel.For(0, CS$<>8__locals1.widget.ChildCount, new TWParallel.ParallelForAuxPredicate(CS$<>8__locals1.<ParallelUpdateLayouts>g__UpdateChildLayoutMT|0), 16);
 		}
 
-		// Token: 0x060003BD RID: 957 RVA: 0x000100D0 File Offset: 0x0000E2D0
 		private void LayoutLinearHorizontalLocal(Widget widget, float left, float bottom, float right, float top)
 		{
 			Container container = widget as Container;
@@ -428,7 +410,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			}
 		}
 
-		// Token: 0x060003BE RID: 958 RVA: 0x00010414 File Offset: 0x0000E614
 		private void LayoutLinearVertical(Widget widget, float left, float bottom, float right, float top)
 		{
 			Container container = widget as Container;
@@ -509,7 +490,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			}
 		}
 
-		// Token: 0x060003BF RID: 959 RVA: 0x00010600 File Offset: 0x0000E800
 		public Vector2 GetDropGizmoPosition(Container widget, Vector2 draggedWidgetPosition)
 		{
 			int num = 0;
@@ -560,22 +540,16 @@ namespace TaleWorlds.GauntletUI.Layout
 			return new Vector2((globalPosition.X + globalPosition2.X) / 2f, (globalPosition.Y + globalPosition2.Y) / 2f);
 		}
 
-		// Token: 0x040001E9 RID: 489
 		private const int DragHoverAperture = 20;
 
-		// Token: 0x040001EA RID: 490
 		private readonly Dictionary<int, LayoutBox> _layoutBoxes;
 
-		// Token: 0x040001EB RID: 491
 		private Widget _parallelMeasureBasicChildWidget;
 
-		// Token: 0x040001EC RID: 492
 		private Vector2 _parallelMeasureBasicChildMeasureSpec;
 
-		// Token: 0x040001ED RID: 493
 		private AlignmentAxis _parallelMeasureBasicChildAlignmentAxis;
 
-		// Token: 0x040001EE RID: 494
 		private TWParallel.ParallelForAuxPredicate _parallelMeasureBasicChildDelegate;
 	}
 }

@@ -14,11 +14,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Tournaments.MissionLogics
 {
-	// Token: 0x0200001B RID: 27
 	public class TournamentBehavior : MissionLogic, ICameraModeLogic
 	{
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x06000102 RID: 258 RVA: 0x00007DAB File Offset: 0x00005FAB
 		public TournamentGame TournamentGame
 		{
 			get
@@ -27,12 +24,8 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000103 RID: 259 RVA: 0x00007DB3 File Offset: 0x00005FB3
-		// (set) Token: 0x06000104 RID: 260 RVA: 0x00007DBB File Offset: 0x00005FBB
 		public TournamentRound[] Rounds { get; private set; }
 
-		// Token: 0x06000105 RID: 261 RVA: 0x00007DC4 File Offset: 0x00005FC4
 		public SpectatorCameraTypes GetMissionCameraLockMode(bool lockedToMainPlayer)
 		{
 			if (!this.IsPlayerParticipating)
@@ -42,23 +35,12 @@ namespace SandBox.Tournaments.MissionLogics
 			return -1;
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x06000106 RID: 262 RVA: 0x00007DD1 File Offset: 0x00005FD1
-		// (set) Token: 0x06000107 RID: 263 RVA: 0x00007DD9 File Offset: 0x00005FD9
 		public bool IsPlayerEliminated { get; private set; }
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000108 RID: 264 RVA: 0x00007DE2 File Offset: 0x00005FE2
-		// (set) Token: 0x06000109 RID: 265 RVA: 0x00007DEA File Offset: 0x00005FEA
 		public int CurrentRoundIndex { get; private set; }
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x0600010A RID: 266 RVA: 0x00007DF3 File Offset: 0x00005FF3
-		// (set) Token: 0x0600010B RID: 267 RVA: 0x00007DFB File Offset: 0x00005FFB
 		public TournamentMatch LastMatch { get; private set; }
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x0600010C RID: 268 RVA: 0x00007E04 File Offset: 0x00006004
 		public TournamentRound CurrentRound
 		{
 			get
@@ -67,8 +49,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x0600010D RID: 269 RVA: 0x00007E13 File Offset: 0x00006013
 		public TournamentRound NextRound
 		{
 			get
@@ -81,8 +61,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x0600010E RID: 270 RVA: 0x00007E2F File Offset: 0x0000602F
 		public TournamentMatch CurrentMatch
 		{
 			get
@@ -91,22 +69,12 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x0600010F RID: 271 RVA: 0x00007E3C File Offset: 0x0000603C
-		// (set) Token: 0x06000110 RID: 272 RVA: 0x00007E44 File Offset: 0x00006044
 		public TournamentParticipant Winner { get; private set; }
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000111 RID: 273 RVA: 0x00007E4D File Offset: 0x0000604D
-		// (set) Token: 0x06000112 RID: 274 RVA: 0x00007E55 File Offset: 0x00006055
 		public bool IsPlayerParticipating { get; private set; }
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000113 RID: 275 RVA: 0x00007E5E File Offset: 0x0000605E
-		// (set) Token: 0x06000114 RID: 276 RVA: 0x00007E66 File Offset: 0x00006066
 		public Settlement Settlement { get; private set; }
 
-		// Token: 0x06000115 RID: 277 RVA: 0x00007E70 File Offset: 0x00006070
 		public TournamentBehavior(TournamentGame tournamentGame, Settlement settlement, ITournamentGameBehavior gameBehavior, bool isPlayerParticipating)
 		{
 			this.Settlement = settlement;
@@ -120,13 +88,11 @@ namespace SandBox.Tournaments.MissionLogics
 			this.IsPlayerParticipating = isPlayerParticipating;
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x00007EC9 File Offset: 0x000060C9
 		public MBList<CharacterObject> GetAllPossibleParticipants()
 		{
 			return this._tournamentGame.GetParticipantCharacters(this.Settlement, true);
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x00007EE0 File Offset: 0x000060E0
 		private void CreateParticipants(bool includePlayer)
 		{
 			this._participants = new TournamentParticipant[this._tournamentGame.MaximumParticipantCount];
@@ -140,7 +106,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000118 RID: 280 RVA: 0x00007F58 File Offset: 0x00006158
 		public static void DeleteTournamentSetsExcept(GameEntity selectedSetEntity)
 		{
 			List<GameEntity> list = Mission.Current.Scene.FindEntitiesWithTag("arena_set").ToList<GameEntity>();
@@ -151,7 +116,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x00007FC8 File Offset: 0x000061C8
 		public static void DeleteAllTournamentSets()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("arena_set").ToList<GameEntity>())
@@ -160,7 +124,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x00008030 File Offset: 0x00006230
 		public override void AfterStart()
 		{
 			this.CurrentRoundIndex = 0;
@@ -169,7 +132,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this.CalculateBet();
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x00008056 File Offset: 0x00006256
 		public override void OnMissionTick(float dt)
 		{
 			if (this.CurrentMatch != null && this.CurrentMatch.State == 1 && this._gameBehavior.IsMatchEnded())
@@ -178,7 +140,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x00008084 File Offset: 0x00006284
 		public void StartMatch()
 		{
 			if (this.CurrentMatch.IsPlayerParticipating())
@@ -191,7 +152,6 @@ namespace SandBox.Tournaments.MissionLogics
 			CampaignEventDispatcher.Instance.OnPlayerStartedTournamentMatch(this.Settlement.Town);
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x000080FF File Offset: 0x000062FF
 		public void SkipMatch(bool isLeave = false)
 		{
 			this.CurrentMatch.Start();
@@ -199,7 +159,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this.EndCurrentMatch(isLeave);
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x00008124 File Offset: 0x00006324
 		private void EndCurrentMatch(bool isLeave)
 		{
 			this.LastMatch = this.CurrentMatch;
@@ -268,7 +227,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x00008380 File Offset: 0x00006580
 		public void EndTournamentViaLeave()
 		{
 			while (this.CurrentMatch != null)
@@ -277,7 +235,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x00008394 File Offset: 0x00006594
 		private void OnPlayerEliminated()
 		{
 			this.IsPlayerEliminated = true;
@@ -290,13 +247,11 @@ namespace SandBox.Tournaments.MissionLogics
 			CampaignEventDispatcher.Instance.OnPlayerEliminatedFromTournament(this.CurrentRoundIndex, this.Settlement.Town);
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x000083F0 File Offset: 0x000065F0
 		private void OnPlayerWinMatch()
 		{
 			Campaign.Current.TournamentManager.OnPlayerWinMatch(this._tournamentGame.GetType());
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x0000840C File Offset: 0x0000660C
 		private void OnPlayerWinTournament()
 		{
 			if (Campaign.Current.GameMode != 1)
@@ -314,7 +269,6 @@ namespace SandBox.Tournaments.MissionLogics
 			Campaign.Current.TournamentManager.OnPlayerWinTournament(this._tournamentGame.GetType());
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x00008494 File Offset: 0x00006694
 		private void CreateTournamentTree()
 		{
 			int num = 16;
@@ -331,7 +285,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x00008568 File Offset: 0x00006768
 		private void FillParticipants(List<TournamentParticipant> participants)
 		{
 			foreach (TournamentParticipant tournamentParticipant in participants)
@@ -340,7 +293,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x000085C4 File Offset: 0x000067C4
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
 		{
 			InquiryData inquiryData = null;
@@ -348,13 +300,8 @@ namespace SandBox.Tournaments.MissionLogics
 			return inquiryData;
 		}
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x06000126 RID: 294 RVA: 0x000085CA File Offset: 0x000067CA
-		// (set) Token: 0x06000127 RID: 295 RVA: 0x000085D2 File Offset: 0x000067D2
 		public float BetOdd { get; private set; }
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x06000128 RID: 296 RVA: 0x000085DB File Offset: 0x000067DB
 		public int MaximumBetInstance
 		{
 			get
@@ -363,18 +310,10 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x06000129 RID: 297 RVA: 0x000085ED File Offset: 0x000067ED
-		// (set) Token: 0x0600012A RID: 298 RVA: 0x000085F5 File Offset: 0x000067F5
 		public int BettedDenars { get; private set; }
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x0600012B RID: 299 RVA: 0x000085FE File Offset: 0x000067FE
-		// (set) Token: 0x0600012C RID: 300 RVA: 0x00008606 File Offset: 0x00006806
 		public int OverallExpectedDenars { get; private set; }
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x0600012D RID: 301 RVA: 0x0000860F File Offset: 0x0000680F
 		public int PlayerDenars
 		{
 			get
@@ -383,7 +322,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x0000861B File Offset: 0x0000681B
 		public void PlaceABet(int bet)
 		{
 			this.BettedDenars += bet;
@@ -391,13 +329,11 @@ namespace SandBox.Tournaments.MissionLogics
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, bet, true);
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x0000864C File Offset: 0x0000684C
 		public int GetExpectedDenarsForBet(int bet)
 		{
 			return (int)(this.BetOdd * (float)bet);
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x00008658 File Offset: 0x00006858
 		public int GetMaximumBet()
 		{
 			int num = 150;
@@ -408,7 +344,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return num;
 		}
 
-		// Token: 0x06000131 RID: 305 RVA: 0x0000868C File Offset: 0x0000688C
 		private void CalculateBet()
 		{
 			if (this.IsPlayerParticipating)
@@ -501,36 +436,24 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x14000002 RID: 2
-		// (add) Token: 0x06000132 RID: 306 RVA: 0x00008AA8 File Offset: 0x00006CA8
-		// (remove) Token: 0x06000133 RID: 307 RVA: 0x00008AE0 File Offset: 0x00006CE0
 		public event Action TournamentEnd;
 
-		// Token: 0x0400005D RID: 93
 		public const int RoundCount = 4;
 
-		// Token: 0x0400005E RID: 94
 		public const int ParticipantCount = 16;
 
-		// Token: 0x0400005F RID: 95
 		public const float EndMatchTimerDuration = 6f;
 
-		// Token: 0x04000060 RID: 96
 		public const float CheerTimerDuration = 1f;
 
-		// Token: 0x04000061 RID: 97
 		private TournamentGame _tournamentGame;
 
-		// Token: 0x04000062 RID: 98
 		private ITournamentGameBehavior _gameBehavior;
 
-		// Token: 0x04000064 RID: 100
 		private TournamentParticipant[] _participants;
 
-		// Token: 0x0400006C RID: 108
 		private const int MaximumBet = 150;
 
-		// Token: 0x0400006D RID: 109
 		public const float MaximumOdd = 4f;
 	}
 }

@@ -12,15 +12,10 @@ using TaleWorlds.SaveSystem.Load;
 
 namespace SandBox
 {
-	// Token: 0x02000015 RID: 21
 	public static class SandBoxSaveHelper
 	{
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x060000D4 RID: 212 RVA: 0x00006A68 File Offset: 0x00004C68
-		// (remove) Token: 0x060000D5 RID: 213 RVA: 0x00006A9C File Offset: 0x00004C9C
 		public static event Action<SandBoxSaveHelper.SaveHelperState> OnStateChange;
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x00006AD0 File Offset: 0x00004CD0
 		public static void TryLoadSave(SaveGameFileInfo saveInfo, Action<LoadResult> onStartGame, Action onCancel = null)
 		{
 			SandBoxSaveHelper._newlineTextObject.SetTextVariable("newline", "\n");
@@ -116,7 +111,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00006E3C File Offset: 0x0000503C
 		private static List<SandBoxSaveHelper.ModuleCheckResult> CheckModules(MetaData fileMetaData)
 		{
 			List<ModuleInfo> moduleInfos = ModuleHelper.GetModuleInfos(Utilities.GetModulesNames());
@@ -149,7 +143,6 @@ namespace SandBox
 			return list;
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00006F80 File Offset: 0x00005180
 		private static void LoadGameAction(SaveGameFileInfo saveInfo, Action<LoadResult> onStartGame, Action onCancel)
 		{
 			Action<SandBoxSaveHelper.SaveHelperState> onStateChange = SandBoxSaveHelper.OnStateChange;
@@ -189,55 +182,39 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x0400004A RID: 74
 		private static readonly ApplicationVersion SaveResetVersion = new ApplicationVersion(2, 1, 7, 0, 0);
 
-		// Token: 0x0400004B RID: 75
 		private static readonly TextObject _stringSpaceStringTextObject = new TextObject("{=7AFlpaem}{STR1} {STR2}", null);
 
-		// Token: 0x0400004C RID: 76
 		private static readonly TextObject _newlineTextObject = new TextObject("{=ol0rBSrb}{STR1}{newline}{STR2}", null);
 
-		// Token: 0x0400004D RID: 77
 		private static readonly TextObject _moduleMissmatchInquiryTitle = new TextObject("{=r7xdYj4q}Module Mismatch", null);
 
-		// Token: 0x0400004E RID: 78
 		private static readonly TextObject _errorTitle = new TextObject("{=oZrVNUOk}Error", null);
 
-		// Token: 0x0400004F RID: 79
 		private static readonly TextObject _saveLoadingProblemText = new TextObject("{=onLDP7mP}A problem occured while trying to load the saved game.", null);
 
-		// Token: 0x04000050 RID: 80
 		private static readonly TextObject _saveResetVersionProblemText = new TextObject("{=5hbSkbQg}This save file is from a game version that is older than e1.7.0. Please switch your game version to e1.7.0, load the save file and save the game. This will allow it to work on newer versions beyond e1.7.0.", null);
 
-		// Token: 0x04000051 RID: 81
 		private static bool _isInquiryActive;
 
-		// Token: 0x020000EA RID: 234
 		public enum SaveHelperState
 		{
-			// Token: 0x040004C2 RID: 1218
 			Start,
-			// Token: 0x040004C3 RID: 1219
 			Inquiry,
-			// Token: 0x040004C4 RID: 1220
 			LoadGame
 		}
 
-		// Token: 0x020000EB RID: 235
 		private readonly struct ModuleCheckResult
 		{
-			// Token: 0x06000C5F RID: 3167 RVA: 0x00061563 File Offset: 0x0005F763
 			public ModuleCheckResult(string moduleName, ModuleCheckResultType type)
 			{
 				this.ModuleName = moduleName;
 				this.Type = type;
 			}
 
-			// Token: 0x040004C5 RID: 1221
 			public readonly string ModuleName;
 
-			// Token: 0x040004C6 RID: 1222
 			public readonly ModuleCheckResultType Type;
 		}
 	}

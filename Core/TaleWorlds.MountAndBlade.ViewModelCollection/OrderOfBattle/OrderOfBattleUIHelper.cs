@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 {
-	// Token: 0x02000030 RID: 48
 	internal static class OrderOfBattleUIHelper
 	{
-		// Token: 0x060003BE RID: 958 RVA: 0x000101AC File Offset: 0x0000E3AC
 		internal static Team.TroopFilter GetTroopFilterForClass(params FormationClass[] formationClasses)
 		{
 			Team.TroopFilter troopFilter = Team.TroopFilter.Melee;
@@ -47,7 +45,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return troopFilter;
 		}
 
-		// Token: 0x060003BF RID: 959 RVA: 0x00010208 File Offset: 0x0000E408
 		internal static Team.TroopFilter GetTroopFilterForFormationFilter(params FormationFilterType[] filterTypes)
 		{
 			if (filterTypes.Length == 0)
@@ -82,7 +79,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return troopFilter;
 		}
 
-		// Token: 0x060003C0 RID: 960 RVA: 0x00010328 File Offset: 0x0000E528
 		internal static List<Agent> GetExcludedAgentsForTransfer(OrderOfBattleFormationItemVM formationVM, FormationClass formationClass)
 		{
 			List<Agent> list = new List<Agent>();
@@ -107,21 +103,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return list.Distinct<Agent>().ToList<Agent>();
 		}
 
-		// Token: 0x060003C1 RID: 961 RVA: 0x00010400 File Offset: 0x0000E600
 		internal static Tuple<Formation, int, Team.TroopFilter, List<Agent>> CreateMassTransferData(OrderOfBattleFormationClassVM affectedClass, FormationClass formationClass, Team.TroopFilter filter, int unitCount)
 		{
 			List<Agent> excludedAgentsForTransfer = OrderOfBattleUIHelper.GetExcludedAgentsForTransfer(affectedClass.BelongedFormationItem, formationClass);
 			return new Tuple<Formation, int, Team.TroopFilter, List<Agent>>(affectedClass.BelongedFormationItem.Formation, unitCount, filter, excludedAgentsForTransfer);
 		}
 
-		// Token: 0x060003C2 RID: 962 RVA: 0x00010430 File Offset: 0x0000E630
 		internal static Tuple<Formation, int, Team.TroopFilter, List<Agent>> CreateMassTransferData(OrderOfBattleFormationItemVM affectedFormation, FormationClass formationClass, Team.TroopFilter filter, int unitCount)
 		{
 			List<Agent> excludedAgentsForTransfer = OrderOfBattleUIHelper.GetExcludedAgentsForTransfer(affectedFormation, formationClass);
 			return new Tuple<Formation, int, Team.TroopFilter, List<Agent>>(affectedFormation.Formation, unitCount, filter, excludedAgentsForTransfer);
 		}
 
-		// Token: 0x060003C3 RID: 963 RVA: 0x00010454 File Offset: 0x0000E654
 		internal static ValueTuple<int, bool, bool> GetRelevantTroopTransferParameters(OrderOfBattleFormationClassVM classVM)
 		{
 			if (classVM == null)
@@ -134,7 +127,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return new ValueTuple<int, bool, bool>(OrderOfBattleUIHelper.GetTotalCountOfUnitsInClass(classVM.BelongedFormationItem.Formation, classVM.Class), flag, flag2);
 		}
 
-		// Token: 0x060003C4 RID: 964 RVA: 0x000104B0 File Offset: 0x0000E6B0
 		internal static OrderOfBattleFormationClassVM GetFormationClassWithExtremumWeight(List<OrderOfBattleFormationClassVM> classes, bool isMinimum)
 		{
 			if (classes.Count == 0)
@@ -156,7 +148,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return orderOfBattleFormationClassVM;
 		}
 
-		// Token: 0x060003C5 RID: 965 RVA: 0x00010528 File Offset: 0x0000E728
 		internal static List<OrderOfBattleFormationClassVM> GetMatchingClasses(List<OrderOfBattleFormationItemVM> formationList, OrderOfBattleFormationClassVM formationClass, Func<OrderOfBattleFormationClassVM, bool> predicate = null)
 		{
 			List<OrderOfBattleFormationClassVM> list = new List<OrderOfBattleFormationClassVM>();
@@ -175,7 +166,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return list;
 		}
 
-		// Token: 0x060003C6 RID: 966 RVA: 0x0001059D File Offset: 0x0000E79D
 		internal static bool IsAgentInFormationClass(Agent agent, FormationClass fc)
 		{
 			switch (fc)
@@ -193,7 +183,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			}
 		}
 
-		// Token: 0x060003C7 RID: 967 RVA: 0x000105D4 File Offset: 0x0000E7D4
 		private static List<Agent> GetBannerBearersOfFormation(Formation formation)
 		{
 			Mission mission = Mission.Current;
@@ -215,7 +204,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return new List<Agent>();
 		}
 
-		// Token: 0x060003C8 RID: 968 RVA: 0x0001060C File Offset: 0x0000E80C
 		private static int GetCountOfUnitsInClass(OrderOfBattleFormationClassVM classVM, bool includeHeroes, bool includeBannerBearers)
 		{
 			Formation formation = classVM.BelongedFormationItem.Formation;
@@ -223,7 +211,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			return formation.GetCountOfUnitsWithCondition((Agent agent) => (includeHeroes || !agent.IsHero) && (includeBannerBearers || agent.Banner == null) && OrderOfBattleUIHelper.IsAgentInFormationClass(agent, fc));
 		}
 
-		// Token: 0x060003C9 RID: 969 RVA: 0x00010658 File Offset: 0x0000E858
 		internal static int GetTotalCountOfUnitsInClass(Formation formation, FormationClass fc)
 		{
 			switch (fc)
@@ -241,13 +228,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			}
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x000106E2 File Offset: 0x0000E8E2
 		internal static int GetCountOfRealUnitsInClass(OrderOfBattleFormationClassVM classVM)
 		{
 			return OrderOfBattleUIHelper.GetTotalCountOfUnitsInClass(classVM.BelongedFormationItem.Formation, classVM.Class);
 		}
 
-		// Token: 0x060003CB RID: 971 RVA: 0x000106FC File Offset: 0x0000E8FC
 		internal static int GetVisibleCountOfUnitsInClass(OrderOfBattleFormationClassVM classVM)
 		{
 			OrderOfBattleFormationItemVM belongedFormationItem = classVM.BelongedFormationItem;

@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000381 RID: 897
 	public class CharacterRelationCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003485 RID: 13445 RVA: 0x000DEB50 File Offset: 0x000DCD50
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
@@ -33,13 +31,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnHeroUnregisteredEvent.AddNonSerializedListener(this, new Action<Hero>(this.OnHeroUnregistered));
 		}
 
-		// Token: 0x06003486 RID: 13446 RVA: 0x000DEC43 File Offset: 0x000DCE43
 		private void OnHeroUnregistered(Hero hero)
 		{
 			Campaign.Current.CharacterRelationManager.RemoveHero(hero);
 		}
 
-		// Token: 0x06003487 RID: 13447 RVA: 0x000DEC55 File Offset: 0x000DCE55
 		private void OnHeroRelationChanged(Hero effectiveHero, Hero effectiveHeroGainedRelationWith, int relationChange, bool showNotification, ChangeRelationAction.ChangeRelationDetail detail, Hero originalHero, Hero originalGainedRelationWith)
 		{
 			if (relationChange > 0)
@@ -48,7 +44,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003488 RID: 13448 RVA: 0x000DEC68 File Offset: 0x000DCE68
 		private void MapEventEnded(MapEvent mapEvent)
 		{
 			if ((mapEvent.EventType == MapEvent.BattleTypes.FieldBattle || mapEvent.EventType == MapEvent.BattleTypes.Siege || mapEvent.EventType == MapEvent.BattleTypes.SiegeOutside) && mapEvent.HasWinner)
@@ -96,7 +91,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003489 RID: 13449 RVA: 0x000DEDF8 File Offset: 0x000DCFF8
 		private void OnPrisonerDonatedToSettlement(MobileParty donatingParty, FlattenedTroopRoster donatedPrisoners, Settlement donatedSettlement)
 		{
 			if (donatingParty.IsMainParty)
@@ -115,12 +109,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600348A RID: 13450 RVA: 0x000DEE98 File Offset: 0x000DD098
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600348B RID: 13451 RVA: 0x000DEE9C File Offset: 0x000DD09C
 		private void UpdateFriendshipAndEnemies(CampaignGameStarter campaignGameStarter)
 		{
 			List<Hero> list = new List<Hero>(Campaign.Current.AliveHeroes.Count + Campaign.Current.DeadOrDisabledHeroes.Count);
@@ -186,7 +178,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600348C RID: 13452 RVA: 0x000DF154 File Offset: 0x000DD354
 		private void DetermineRelation(Hero hero1, Hero hero2, float randomValue)
 		{
 			float num = 0.3f;
@@ -210,7 +201,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600348D RID: 13453 RVA: 0x000DF1C8 File Offset: 0x000DD3C8
 		private void DailyTickParty(MobileParty mobileParty)
 		{
 			if (mobileParty.LeaderHero != null)
@@ -261,7 +251,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600348E RID: 13454 RVA: 0x000DF38C File Offset: 0x000DD58C
 		private void DailyTick()
 		{
 			if (Settlement.CurrentSettlement != null && Hero.MainHero.GetPerkValue(DefaultPerks.Charm.ForgivableGrievances) && MBRandom.RandomFloat < DefaultPerks.Charm.ForgivableGrievances.SecondaryBonus)
@@ -351,7 +340,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600348F RID: 13455 RVA: 0x000DF7A8 File Offset: 0x000DD9A8
 		public void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if ((detail == ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.BySiege || detail == ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByBarter || detail == ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByRevolt) && oldOwner != null && oldOwner.MapFaction != null && oldOwner.MapFaction.Leader != oldOwner && oldOwner.IsAlive && oldOwner.MapFaction.Leader != Hero.MainHero)
@@ -370,7 +358,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003490 RID: 13456 RVA: 0x000DF8C4 File Offset: 0x000DDAC4
 		private void OnRaidCompleted(BattleSideEnum winnerSide, RaidEventComponent raidEvent)
 		{
 			MapEvent mapEvent = raidEvent.MapEvent;
@@ -399,16 +386,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003491 RID: 13457 RVA: 0x000DF9FC File Offset: 0x000DDBFC
 		private static void OnHeroesMarried(Hero firstHero, Hero secondHero, bool showNotification)
 		{
 			ChangeRelationAction.ApplyRelationChangeBetweenHeroes(firstHero, secondHero, 30, false);
 		}
 
-		// Token: 0x04001117 RID: 4375
 		private const int RelationPenaltyFactor = 6;
 
-		// Token: 0x04001118 RID: 4376
 		private const int RelationIncreaseBetweenHeroesAfterMarriage = 30;
 	}
 }

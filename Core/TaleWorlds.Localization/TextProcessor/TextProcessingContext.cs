@@ -8,16 +8,13 @@ using TaleWorlds.Localization.Expressions;
 
 namespace TaleWorlds.Localization.TextProcessor
 {
-	// Token: 0x0200002D RID: 45
 	public class TextProcessingContext
 	{
-		// Token: 0x06000123 RID: 291 RVA: 0x000062D3 File Offset: 0x000044D3
 		internal void SetTextVariable(string variableName, TextObject data)
 		{
 			this._variables[variableName] = data;
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x000062E4 File Offset: 0x000044E4
 		internal TextObject GetRawTextVariable(string variableName, TextObject parent)
 		{
 			TextObject textObject = null;
@@ -32,7 +29,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return this._variables[variableName];
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x00006324 File Offset: 0x00004524
 		internal MultiStatement GetVariableValue(string variableName, TextObject parent)
 		{
 			TextObject textObject = null;
@@ -56,7 +52,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new MultiStatement(mbtextModel.RootExpressions);
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x000063B8 File Offset: 0x000045B8
 		internal ValueTuple<TextObject, bool> GetVariableValueAsTextObject(string variableName, TextObject parent)
 		{
 			TextObject textObject = null;
@@ -79,7 +74,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new ValueTuple<TextObject, bool>(new TextObject("{=!}ERROR: " + variableName + " variable has not been set before.", null), false);
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x00006434 File Offset: 0x00004634
 		internal MultiStatement GetArrayAccess(string variableName, int index)
 		{
 			string text = variableName + ":" + index;
@@ -91,7 +85,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return null;
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x00006484 File Offset: 0x00004684
 		private int CountMarkerOccurancesInString(string searchedIdentifier, TextObject parent)
 		{
 			Regex regex = new Regex("{." + searchedIdentifier + "}");
@@ -109,7 +102,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return 0;
 		}
 
-		// Token: 0x06000129 RID: 297 RVA: 0x00006500 File Offset: 0x00004700
 		internal string GetParameterWithMarkerOccurance(string token, TextObject parent)
 		{
 			int num = token.IndexOf('!');
@@ -128,7 +120,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return "";
 		}
 
-		// Token: 0x0600012A RID: 298 RVA: 0x0000659C File Offset: 0x0000479C
 		internal string GetParameterWithMarkerOccurances(string token, TextObject parent)
 		{
 			int num = token.IndexOf('!');
@@ -157,32 +148,27 @@ namespace TaleWorlds.Localization.TextProcessor
 			return "";
 		}
 
-		// Token: 0x0600012B RID: 299 RVA: 0x0000667F File Offset: 0x0000487F
 		internal static bool IsDeclaration(string token)
 		{
 			return token.Length > 1 && token[0] == '@';
 		}
 
-		// Token: 0x0600012C RID: 300 RVA: 0x00006697 File Offset: 0x00004897
 		internal static bool IsLinkToken(string token)
 		{
 			return token == ".link" || token == "LINK";
 		}
 
-		// Token: 0x0600012D RID: 301 RVA: 0x000066B3 File Offset: 0x000048B3
 		internal static bool IsDeclarationFinalizer(string token)
 		{
 			return token.Length == 2 && (token[0] == '\\' || token[0] == '/') && token[1] == '@';
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x000066E4 File Offset: 0x000048E4
 		private static TextObject FindNestedFieldValue(string text, string identifier, TextObject parent)
 		{
 			string[] array = identifier.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
 			return new TextObject(TextProcessingContext.GetFieldValue(text, array, parent), null);
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x00006714 File Offset: 0x00004914
 		[return: TupleElementNames(new string[] { "value", "doesValueExist" })]
 		internal ValueTuple<TextObject, bool> GetQualifiedVariableValue(string token, TextObject parent)
 		{
@@ -228,7 +214,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new ValueTuple<TextObject, bool>(TextObject.Empty, false);
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x000068B0 File Offset: 0x00004AB0
 		private static string GetFieldValue(string text, string[] fieldNames, TextObject parent)
 		{
 			int i = 0;
@@ -289,7 +274,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x06000131 RID: 305 RVA: 0x000069D8 File Offset: 0x00004BD8
 		private static string GetFieldValuesFromLinks(string[] fieldNames, TextObject value, ref MBStringBuilder targetString)
 		{
 			TextObject textObject;
@@ -302,7 +286,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return targetString.ToStringAndRelease();
 		}
 
-		// Token: 0x06000132 RID: 306 RVA: 0x00006A28 File Offset: 0x00004C28
 		internal static string ReadFirstToken(string text, ref int i)
 		{
 			int num = i;
@@ -314,7 +297,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return text.Substring(num + 1, num2 - 1);
 		}
 
-		// Token: 0x06000133 RID: 307 RVA: 0x00006A68 File Offset: 0x00004C68
 		internal TextObject CallFunction(string functionName, List<TextExpression> functionParams, TextObject parent)
 		{
 			TextObject[] array = new TextObject[functionParams.Count];
@@ -351,19 +333,16 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new TextObject(text, null);
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x00006B88 File Offset: 0x00004D88
 		public void SetFunction(string functionName, MBTextModel functionBody)
 		{
 			this._functions[functionName] = functionBody;
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x00006B97 File Offset: 0x00004D97
 		public void ResetFunctions()
 		{
 			this._functions.Clear();
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x00006BA4 File Offset: 0x00004DA4
 		public MBTextModel GetFunctionBody(string functionName)
 		{
 			MBTextModel mbtextModel;
@@ -371,7 +350,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return mbtextModel;
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x00006BC4 File Offset: 0x00004DC4
 		public TextObject GetFunctionParam(string rawValue)
 		{
 			int num;
@@ -386,7 +364,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new TextObject("Can't find parameter:" + rawValue, null);
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00006C24 File Offset: 0x00004E24
 		public TextObject GetFunctionParamWithoutEvaluate(string rawValue)
 		{
 			int num;
@@ -401,22 +378,17 @@ namespace TaleWorlds.Localization.TextProcessor
 			return new TextObject("Can't find parameter:" + rawValue, null);
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00006C84 File Offset: 0x00004E84
 		internal void ClearAll()
 		{
 			this._variables.Clear();
 		}
 
-		// Token: 0x04000061 RID: 97
 		private readonly Dictionary<string, TextObject> _variables = new Dictionary<string, TextObject>(new CaseInsensitiveComparer());
 
-		// Token: 0x04000062 RID: 98
 		private readonly Dictionary<string, MBTextModel> _functions = new Dictionary<string, MBTextModel>();
 
-		// Token: 0x04000063 RID: 99
 		private readonly Stack<TextObject[]> _curParams = new Stack<TextObject[]>();
 
-		// Token: 0x04000064 RID: 100
 		private readonly Stack<TextObject[]> _curParamsWithoutEvaluate = new Stack<TextObject[]>();
 	}
 }

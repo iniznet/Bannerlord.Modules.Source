@@ -9,16 +9,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.Data
 {
-	// Token: 0x0200000A RID: 10
 	public class PrefabDatabindingExtension : PrefabExtension
 	{
-		// Token: 0x0600007F RID: 127 RVA: 0x00003A3E File Offset: 0x00001C3E
 		private static WidgetAttributeTemplate GetDataSource(WidgetTemplate widgetTemplate)
 		{
 			return widgetTemplate.GetFirstAttributeIfExist<WidgetAttributeKeyTypeDataSource>();
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x00003A48 File Offset: 0x00001C48
 		protected override void RegisterAttributeTypes(WidgetAttributeContext widgetAttributeContext)
 		{
 			WidgetAttributeKeyTypeDataSource widgetAttributeKeyTypeDataSource = new WidgetAttributeKeyTypeDataSource();
@@ -33,7 +30,6 @@ namespace TaleWorlds.GauntletUI.Data
 			widgetAttributeContext.RegisterValueType(widgetAttributeValueTypeBinding);
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x00003A98 File Offset: 0x00001C98
 		protected override void OnWidgetCreated(WidgetCreationData widgetCreationData, WidgetInstantiationResult widgetInstantiationResult, int childCount)
 		{
 			GauntletMovie extensionData = widgetCreationData.GetExtensionData<GauntletMovie>();
@@ -58,7 +54,6 @@ namespace TaleWorlds.GauntletUI.Data
 			}
 		}
 
-		// Token: 0x06000082 RID: 130 RVA: 0x00003B0C File Offset: 0x00001D0C
 		protected override void OnSave(PrefabExtensionContext prefabExtensionContext, XmlNode node, WidgetTemplate widgetTemplate)
 		{
 			ItemTemplateUsage extensionData = widgetTemplate.GetExtensionData<ItemTemplateUsage>();
@@ -89,7 +84,6 @@ namespace TaleWorlds.GauntletUI.Data
 			}
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x00003BF4 File Offset: 0x00001DF4
 		protected override void OnAttributesSet(WidgetCreationData widgetCreationData, WidgetInstantiationResult widgetInstantiationResult, Dictionary<string, WidgetAttributeTemplate> parameters)
 		{
 			if (widgetInstantiationResult.Template.GetExtensionData<ItemTemplateUsage>() != null)
@@ -104,7 +98,6 @@ namespace TaleWorlds.GauntletUI.Data
 			}
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x00003C74 File Offset: 0x00001E74
 		protected override void DoLoading(PrefabExtensionContext prefabExtensionContext, WidgetAttributeContext widgetAttributeContext, WidgetTemplate template, XmlNode node)
 		{
 			XmlNodeList xmlNodeList = node.SelectNodes("ItemTemplate");
@@ -143,13 +136,11 @@ namespace TaleWorlds.GauntletUI.Data
 			}
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x00003DDC File Offset: 0x00001FDC
 		protected override void OnLoadingFinished(WidgetPrefab widgetPrefab)
 		{
 			this.SetRootTemplate(widgetPrefab.RootTemplate, widgetPrefab);
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00003DEC File Offset: 0x00001FEC
 		private void SetRootTemplate(WidgetTemplate widgetTemplate, WidgetPrefab prefab)
 		{
 			ItemTemplateUsage extensionData = widgetTemplate.GetExtensionData<ItemTemplateUsage>();
@@ -178,7 +169,6 @@ namespace TaleWorlds.GauntletUI.Data
 			}
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x00003E88 File Offset: 0x00002088
 		protected override void AfterAttributesSet(WidgetCreationData widgetCreationData, WidgetInstantiationResult widgetInstantiationResult, Dictionary<string, WidgetAttributeTemplate> parameters)
 		{
 			WidgetTemplate template = widgetInstantiationResult.Template;

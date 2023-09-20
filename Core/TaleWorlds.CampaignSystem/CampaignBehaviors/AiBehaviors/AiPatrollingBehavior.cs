@@ -7,21 +7,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x02000405 RID: 1029
 	public class AiPatrollingBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D45 RID: 15685 RVA: 0x00124F6B File Offset: 0x0012316B
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
 		}
 
-		// Token: 0x06003D46 RID: 15686 RVA: 0x00124F84 File Offset: 0x00123184
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D47 RID: 15687 RVA: 0x00124F88 File Offset: 0x00123188
 		private static void CalculatePatrollingScoreForSettlement(Settlement settlement, PartyThinkParams p, float patrollingScoreAdjustment)
 		{
 			MobileParty mobilePartyOf = p.MobilePartyOf;
@@ -38,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			p.AddBehaviorScore(valueTuple);
 		}
 
-		// Token: 0x06003D48 RID: 15688 RVA: 0x00124FEC File Offset: 0x001231EC
 		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (mobileParty.IsMilitia || mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsBandit || mobileParty.IsDisbanding || (!mobileParty.MapFaction.IsMinorFaction && !mobileParty.MapFaction.IsKingdomFaction && !mobileParty.MapFaction.Leader.IsLord))

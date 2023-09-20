@@ -5,22 +5,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 {
-	// Token: 0x02000094 RID: 148
 	public class MultiplayerLobbyCosmeticAnimationControllerWidget : Widget
 	{
-		// Token: 0x060007C0 RID: 1984 RVA: 0x00016F4B File Offset: 0x0001514B
 		private double GetRandomDoubleBetween(double min, double max)
 		{
 			return base.Context.UIRandom.NextDouble() * (max - min) + max;
 		}
 
-		// Token: 0x060007C1 RID: 1985 RVA: 0x00016F64 File Offset: 0x00015164
 		public MultiplayerLobbyCosmeticAnimationControllerWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060007C2 RID: 1986 RVA: 0x00016FBA File Offset: 0x000151BA
 		private void RestartAllAnimations()
 		{
 			this.SetAllAnimationPartColors();
@@ -28,25 +24,21 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			this.StartAllAnimations();
 		}
 
-		// Token: 0x060007C3 RID: 1987 RVA: 0x00016FCE File Offset: 0x000151CE
 		private void SetAllAnimationPartColors()
 		{
 			this.ApplyActionOnAllAnimations(new Action<MultiplayerLobbyCosmeticAnimationPartWidget>(this.SetColorOfPart));
 		}
 
-		// Token: 0x060007C4 RID: 1988 RVA: 0x00016FE2 File Offset: 0x000151E2
 		private void StartAllAnimations()
 		{
 			this.ApplyActionOnAllAnimations(new Action<MultiplayerLobbyCosmeticAnimationPartWidget>(this.StartAnimationOfPart));
 		}
 
-		// Token: 0x060007C5 RID: 1989 RVA: 0x00016FF6 File Offset: 0x000151F6
 		private void StopAllAnimations()
 		{
 			this.ApplyActionOnAllAnimations(new Action<MultiplayerLobbyCosmeticAnimationPartWidget>(this.StopAnimationOfPart));
 		}
 
-		// Token: 0x060007C6 RID: 1990 RVA: 0x0001700C File Offset: 0x0001520C
 		private void StartAnimationOfPart(MultiplayerLobbyCosmeticAnimationPartWidget part)
 		{
 			double randomDoubleBetween = this.GetRandomDoubleBetween((double)this.MinAlphaChangeDuration, (double)this.MaxAlphaChangeDuration);
@@ -55,13 +47,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			part.StartAnimation((float)randomDoubleBetween, (float)randomDoubleBetween2, (float)randomDoubleBetween3);
 		}
 
-		// Token: 0x060007C7 RID: 1991 RVA: 0x00017064 File Offset: 0x00015264
 		private void StopAnimationOfPart(MultiplayerLobbyCosmeticAnimationPartWidget part)
 		{
 			part.StopAnimation();
 		}
 
-		// Token: 0x060007C8 RID: 1992 RVA: 0x0001706C File Offset: 0x0001526C
 		private void SetColorOfPart(MultiplayerLobbyCosmeticAnimationPartWidget part)
 		{
 			switch (this.CosmeticRarity)
@@ -82,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x060007C9 RID: 1993 RVA: 0x000170CC File Offset: 0x000152CC
 		private void ApplyActionOnAllAnimations(Action<MultiplayerLobbyCosmeticAnimationPartWidget> action)
 		{
 			BasicContainer animationPartContainer = this.AnimationPartContainer;
@@ -96,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			});
 		}
 
-		// Token: 0x060007CA RID: 1994 RVA: 0x00017108 File Offset: 0x00015308
 		private void OnAnimationPartAdded(Widget parent, Widget child)
 		{
 			MultiplayerLobbyCosmeticAnimationPartWidget multiplayerLobbyCosmeticAnimationPartWidget = child as MultiplayerLobbyCosmeticAnimationPartWidget;
@@ -104,9 +92,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			this.StartAnimationOfPart(multiplayerLobbyCosmeticAnimationPartWidget);
 		}
 
-		// Token: 0x170002BA RID: 698
-		// (get) Token: 0x060007CB RID: 1995 RVA: 0x0001712A File Offset: 0x0001532A
-		// (set) Token: 0x060007CC RID: 1996 RVA: 0x00017132 File Offset: 0x00015332
 		[Editor(false)]
 		public int CosmeticRarity
 		{
@@ -125,9 +110,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002BB RID: 699
-		// (get) Token: 0x060007CD RID: 1997 RVA: 0x00017156 File Offset: 0x00015356
-		// (set) Token: 0x060007CE RID: 1998 RVA: 0x0001715E File Offset: 0x0001535E
 		[Editor(false)]
 		public float MinAlphaChangeDuration
 		{
@@ -146,9 +128,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002BC RID: 700
-		// (get) Token: 0x060007CF RID: 1999 RVA: 0x00017182 File Offset: 0x00015382
-		// (set) Token: 0x060007D0 RID: 2000 RVA: 0x0001718A File Offset: 0x0001538A
 		[Editor(false)]
 		public float MaxAlphaChangeDuration
 		{
@@ -167,9 +146,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002BD RID: 701
-		// (get) Token: 0x060007D1 RID: 2001 RVA: 0x000171AE File Offset: 0x000153AE
-		// (set) Token: 0x060007D2 RID: 2002 RVA: 0x000171B6 File Offset: 0x000153B6
 		[Editor(false)]
 		public float MinAlphaLowerBound
 		{
@@ -188,9 +164,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002BE RID: 702
-		// (get) Token: 0x060007D3 RID: 2003 RVA: 0x000171DA File Offset: 0x000153DA
-		// (set) Token: 0x060007D4 RID: 2004 RVA: 0x000171E2 File Offset: 0x000153E2
 		[Editor(false)]
 		public float MinAlphaUpperBound
 		{
@@ -209,9 +182,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002BF RID: 703
-		// (get) Token: 0x060007D5 RID: 2005 RVA: 0x00017206 File Offset: 0x00015406
-		// (set) Token: 0x060007D6 RID: 2006 RVA: 0x0001720E File Offset: 0x0001540E
 		[Editor(false)]
 		public float MaxAlphaLowerBound
 		{
@@ -230,9 +200,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002C0 RID: 704
-		// (get) Token: 0x060007D7 RID: 2007 RVA: 0x00017232 File Offset: 0x00015432
-		// (set) Token: 0x060007D8 RID: 2008 RVA: 0x0001723A File Offset: 0x0001543A
 		[Editor(false)]
 		public float MaxAlphaUpperBound
 		{
@@ -251,9 +218,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002C1 RID: 705
-		// (get) Token: 0x060007D9 RID: 2009 RVA: 0x0001725E File Offset: 0x0001545E
-		// (set) Token: 0x060007DA RID: 2010 RVA: 0x00017266 File Offset: 0x00015466
 		[Editor(false)]
 		public Color RarityCommonColor
 		{
@@ -272,9 +236,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002C2 RID: 706
-		// (get) Token: 0x060007DB RID: 2011 RVA: 0x0001728F File Offset: 0x0001548F
-		// (set) Token: 0x060007DC RID: 2012 RVA: 0x00017297 File Offset: 0x00015497
 		[Editor(false)]
 		public Color RarityRareColor
 		{
@@ -293,9 +254,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002C3 RID: 707
-		// (get) Token: 0x060007DD RID: 2013 RVA: 0x000172C0 File Offset: 0x000154C0
-		// (set) Token: 0x060007DE RID: 2014 RVA: 0x000172C8 File Offset: 0x000154C8
 		[Editor(false)]
 		public Color RarityUniqueColor
 		{
@@ -314,9 +272,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x170002C4 RID: 708
-		// (get) Token: 0x060007DF RID: 2015 RVA: 0x000172F1 File Offset: 0x000154F1
-		// (set) Token: 0x060007E0 RID: 2016 RVA: 0x000172FC File Offset: 0x000154FC
 		[Editor(false)]
 		public BasicContainer AnimationPartContainer
 		{
@@ -343,40 +298,28 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby
 			}
 		}
 
-		// Token: 0x0400038F RID: 911
 		private static readonly Color DefaultColor = Color.FromUint(0U);
 
-		// Token: 0x04000390 RID: 912
 		private int _cosmeticRarity;
 
-		// Token: 0x04000391 RID: 913
 		private float _minAlphaChangeDuration = 1.5f;
 
-		// Token: 0x04000392 RID: 914
 		private float _maxAlphaChangeDuration = 2.5f;
 
-		// Token: 0x04000393 RID: 915
 		private float _minAlphaLowerBound = 0.4f;
 
-		// Token: 0x04000394 RID: 916
 		private float _minAlphaUpperBound = 0.6f;
 
-		// Token: 0x04000395 RID: 917
 		private float _maxAlphaLowerBound = 0.6f;
 
-		// Token: 0x04000396 RID: 918
 		private float _maxAlphaUpperBound = 0.8f;
 
-		// Token: 0x04000397 RID: 919
 		private Color _rarityCommonColor;
 
-		// Token: 0x04000398 RID: 920
 		private Color _rarityRareColor;
 
-		// Token: 0x04000399 RID: 921
 		private Color _rarityUniqueColor;
 
-		// Token: 0x0400039A RID: 922
 		private BasicContainer _animationPartContainer;
 	}
 }

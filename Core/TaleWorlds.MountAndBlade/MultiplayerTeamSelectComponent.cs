@@ -12,35 +12,18 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002AE RID: 686
 	public class MultiplayerTeamSelectComponent : MissionNetwork
 	{
-		// Token: 0x14000066 RID: 102
-		// (add) Token: 0x060025E4 RID: 9700 RVA: 0x0008F654 File Offset: 0x0008D854
-		// (remove) Token: 0x060025E5 RID: 9701 RVA: 0x0008F68C File Offset: 0x0008D88C
 		public event MultiplayerTeamSelectComponent.OnSelectingTeamDelegate OnSelectingTeam;
 
-		// Token: 0x14000067 RID: 103
-		// (add) Token: 0x060025E6 RID: 9702 RVA: 0x0008F6C4 File Offset: 0x0008D8C4
-		// (remove) Token: 0x060025E7 RID: 9703 RVA: 0x0008F6FC File Offset: 0x0008D8FC
 		public event Action OnMyTeamChange;
 
-		// Token: 0x14000068 RID: 104
-		// (add) Token: 0x060025E8 RID: 9704 RVA: 0x0008F734 File Offset: 0x0008D934
-		// (remove) Token: 0x060025E9 RID: 9705 RVA: 0x0008F76C File Offset: 0x0008D96C
 		public event Action OnUpdateTeams;
 
-		// Token: 0x14000069 RID: 105
-		// (add) Token: 0x060025EA RID: 9706 RVA: 0x0008F7A4 File Offset: 0x0008D9A4
-		// (remove) Token: 0x060025EB RID: 9707 RVA: 0x0008F7DC File Offset: 0x0008D9DC
 		public event Action OnUpdateFriendsPerTeam;
 
-		// Token: 0x170006F3 RID: 1779
-		// (get) Token: 0x060025EC RID: 9708 RVA: 0x0008F811 File Offset: 0x0008DA11
-		// (set) Token: 0x060025ED RID: 9709 RVA: 0x0008F819 File Offset: 0x0008DA19
 		public bool TeamSelectionEnabled { get; private set; }
 
-		// Token: 0x060025EF RID: 9711 RVA: 0x0008F82A File Offset: 0x0008DA2A
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -54,7 +37,6 @@ namespace TaleWorlds.MountAndBlade
 			this.TeamSelectionEnabled = true;
 		}
 
-		// Token: 0x060025F0 RID: 9712 RVA: 0x0008F86A File Offset: 0x0008DA6A
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			if (GameNetwork.IsServer)
@@ -63,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F1 RID: 9713 RVA: 0x0008F888 File Offset: 0x0008DA88
 		private void OnMyClientSynchronized()
 		{
 			base.Mission.GetMissionBehavior<MissionNetworkComponent>().OnMyClientSynchronized -= this.OnMyClientSynchronized;
@@ -73,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F2 RID: 9714 RVA: 0x0008F8DC File Offset: 0x0008DADC
 		public override void AfterStart()
 		{
 			this._platformFriends = new HashSet<PlayerId>();
@@ -93,7 +73,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F3 RID: 9715 RVA: 0x0008F984 File Offset: 0x0008DB84
 		public override void OnRemoveBehavior()
 		{
 			MissionPeer.OnTeamChanged -= this.UpdateTeams;
@@ -101,7 +80,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x060025F4 RID: 9716 RVA: 0x0008F9A4 File Offset: 0x0008DBA4
 		private bool HandleClientEventTeamChange(NetworkCommunicator peer, TeamChange message)
 		{
 			if (this.TeamSelectionEnabled)
@@ -118,7 +96,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060025F5 RID: 9717 RVA: 0x0008F9D0 File Offset: 0x0008DBD0
 		public void SelectTeam()
 		{
 			if (this.OnSelectingTeam != null)
@@ -128,7 +105,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F6 RID: 9718 RVA: 0x0008F9F8 File Offset: 0x0008DBF8
 		public void UpdateTeams(NetworkCommunicator peer, Team oldTeam, Team newTeam)
 		{
 			if (this.OnUpdateTeams != null)
@@ -148,7 +124,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F7 RID: 9719 RVA: 0x0008FA48 File Offset: 0x0008DC48
 		public static int GetAutoTeamBalanceDifference(AutoTeamBalanceLimits limit)
 		{
 			switch (limit)
@@ -171,7 +146,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025F8 RID: 9720 RVA: 0x0008FAA0 File Offset: 0x0008DCA0
 		public List<Team> GetDisabledTeams()
 		{
 			List<Team> list = new List<Team>();
@@ -212,7 +186,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x060025F9 RID: 9721 RVA: 0x0008FB8C File Offset: 0x0008DD8C
 		public void ChangeTeamServer(NetworkCommunicator networkPeer, Team team)
 		{
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
@@ -254,7 +227,6 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateTeams(networkPeer, team2, team);
 		}
 
-		// Token: 0x060025FA RID: 9722 RVA: 0x0008FD14 File Offset: 0x0008DF14
 		public void ChangeTeam(Team team)
 		{
 			if (team != GameNetwork.MyPeer.GetComponent<MissionPeer>().Team)
@@ -285,7 +257,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025FB RID: 9723 RVA: 0x0008FDC8 File Offset: 0x0008DFC8
 		public int GetPlayerCountForTeam(Team team)
 		{
 			int num = 0;
@@ -300,7 +271,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x060025FC RID: 9724 RVA: 0x0008FE30 File Offset: 0x0008E030
 		private void CacheFriendsForTeams()
 		{
 			this._friendsPerTeam.Clear();
@@ -335,7 +305,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025FD RID: 9725 RVA: 0x0008FF74 File Offset: 0x0008E174
 		public IEnumerable<VirtualPlayer> GetFriendsForTeam(Team team)
 		{
 			if (this._friendsPerTeam.ContainsKey(team))
@@ -345,7 +314,6 @@ namespace TaleWorlds.MountAndBlade
 			return new List<VirtualPlayer>();
 		}
 
-		// Token: 0x060025FE RID: 9726 RVA: 0x0008FF98 File Offset: 0x0008E198
 		public void BalanceTeams()
 		{
 			if (MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) != 0)
@@ -391,7 +359,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060025FF RID: 9727 RVA: 0x0009015C File Offset: 0x0008E35C
 		public void AutoAssignTeam(NetworkCommunicator peer)
 		{
 			if (!GameNetwork.IsServer)
@@ -449,20 +416,14 @@ namespace TaleWorlds.MountAndBlade
 			this.ChangeTeam(team);
 		}
 
-		// Token: 0x04000E13 RID: 3603
 		private MissionNetworkComponent _missionNetworkComponent;
 
-		// Token: 0x04000E14 RID: 3604
 		private MissionMultiplayerGameModeBase _gameModeServer;
 
-		// Token: 0x04000E15 RID: 3605
 		private HashSet<PlayerId> _platformFriends;
 
-		// Token: 0x04000E16 RID: 3606
 		private Dictionary<Team, IEnumerable<VirtualPlayer>> _friendsPerTeam;
 
-		// Token: 0x020005CE RID: 1486
-		// (Invoke) Token: 0x06003C06 RID: 15366
 		public delegate void OnSelectingTeamDelegate(List<Team> disableTeams);
 	}
 }

@@ -5,10 +5,8 @@ using TaleWorlds.SaveSystem.Resolvers;
 
 namespace TaleWorlds.CampaignSystem.SaveCompability
 {
-	// Token: 0x020000C6 RID: 198
 	public class EndCaptivityDetailEnumResolver : IEnumResolver
 	{
-		// Token: 0x0600125F RID: 4703 RVA: 0x0005437C File Offset: 0x0005257C
 		public string ResolveObject(string originalObject)
 		{
 			if (string.IsNullOrEmpty(originalObject))

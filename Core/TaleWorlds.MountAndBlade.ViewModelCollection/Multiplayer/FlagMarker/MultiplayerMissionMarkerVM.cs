@@ -11,10 +11,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 {
-	// Token: 0x020000BC RID: 188
 	public class MultiplayerMissionMarkerVM : ViewModel
 	{
-		// Token: 0x06001214 RID: 4628 RVA: 0x0003B694 File Offset: 0x00039894
 		public MultiplayerMissionMarkerVM(Camera missionCamera)
 		{
 			this._missionCamera = missionCamera;
@@ -44,7 +42,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x06001215 RID: 4629 RVA: 0x0003B7B8 File Offset: 0x000399B8
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -60,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			MissionPeer.OnTeamChanged -= this.OnTeamChanged;
 		}
 
-		// Token: 0x06001216 RID: 4630 RVA: 0x0003B834 File Offset: 0x00039A34
 		public void Tick(float dt)
 		{
 			this.OnRefreshPeerMarkers();
@@ -94,7 +90,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			this._prevEnabledState = this.IsEnabled;
 		}
 
-		// Token: 0x06001217 RID: 4631 RVA: 0x0003B8C8 File Offset: 0x00039AC8
 		private void OnCapturePointRemainingMoraleGainsChanged(int[] remainingMoraleGainsArr)
 		{
 			foreach (MissionFlagMarkerTargetVM missionFlagMarkerTargetVM in this.FlagTargets)
@@ -108,7 +103,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			Debug.Print("OnCapturePointRemainingMoraleGainsChanged: " + remainingMoraleGainsArr.Length, 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06001218 RID: 4632 RVA: 0x0003B950 File Offset: 0x00039B50
 		private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
 		{
 			if (this._commanderInfo != null)
@@ -129,7 +123,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x06001219 RID: 4633 RVA: 0x0003B9E0 File Offset: 0x00039BE0
 		private void UpdateTargetScreenPositions()
 		{
 			this.PeerTargets.ApplyActionOnAllItems(delegate(MissionPeerMarkerTargetVM pt)
@@ -149,7 +142,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			this.SiegeEngineTargets.Sort(this._distanceComparer);
 		}
 
-		// Token: 0x0600121A RID: 4634 RVA: 0x0003BA68 File Offset: 0x00039C68
 		private void UpdateAlwaysVisibleTargetScreenPosition()
 		{
 			foreach (MissionAlwaysVisibleMarkerTargetVM missionAlwaysVisibleMarkerTargetVM in this.AlwaysVisibleTargets)
@@ -158,14 +150,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x0600121B RID: 4635 RVA: 0x0003BAB8 File Offset: 0x00039CB8
 		private void OnFlagNumberChangedEvent()
 		{
 			this.ResetCapturePointLists();
 			this.InitCapturePoints();
 		}
 
-		// Token: 0x0600121C RID: 4636 RVA: 0x0003BAC8 File Offset: 0x00039CC8
 		private void InitCapturePoints()
 		{
 			if (this._commanderInfo != null)
@@ -179,13 +169,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x0600121D RID: 4637 RVA: 0x0003BB49 File Offset: 0x00039D49
 		private void ResetCapturePointLists()
 		{
 			this.FlagTargets.Clear();
 		}
 
-		// Token: 0x0600121E RID: 4638 RVA: 0x0003BB58 File Offset: 0x00039D58
 		private void OnCapturePointOwnerChangedEvent(FlagCapturePoint flag, Team team)
 		{
 			foreach (MissionFlagMarkerTargetVM missionFlagMarkerTargetVM in this.FlagTargets)
@@ -197,7 +185,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x0600121F RID: 4639 RVA: 0x0003BBB0 File Offset: 0x00039DB0
 		private void OnRefreshPeerMarkers()
 		{
 			if (GameNetwork.MyPeer == null)
@@ -268,13 +255,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x06001220 RID: 4640 RVA: 0x0003BE3C File Offset: 0x0003A03C
 		public void OnRemoveAlwaysVisibleMarker(MissionAlwaysVisibleMarkerTargetVM marker)
 		{
 			this.AlwaysVisibleTargets.Remove(marker);
 		}
 
-		// Token: 0x06001221 RID: 4641 RVA: 0x0003BE4C File Offset: 0x0003A04C
 		private void UpdateTargetStates(bool state)
 		{
 			this.PeerTargets.ApplyActionOnAllItems(delegate(MissionPeerMarkerTargetVM pt)
@@ -291,9 +276,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			});
 		}
 
-		// Token: 0x170005E3 RID: 1507
-		// (get) Token: 0x06001222 RID: 4642 RVA: 0x0003BEAB File Offset: 0x0003A0AB
-		// (set) Token: 0x06001223 RID: 4643 RVA: 0x0003BEB3 File Offset: 0x0003A0B3
 		[DataSourceProperty]
 		public MBBindingList<MissionFlagMarkerTargetVM> FlagTargets
 		{
@@ -311,9 +293,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x170005E4 RID: 1508
-		// (get) Token: 0x06001224 RID: 4644 RVA: 0x0003BED1 File Offset: 0x0003A0D1
-		// (set) Token: 0x06001225 RID: 4645 RVA: 0x0003BED9 File Offset: 0x0003A0D9
 		[DataSourceProperty]
 		public MBBindingList<MissionPeerMarkerTargetVM> PeerTargets
 		{
@@ -331,9 +310,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x170005E5 RID: 1509
-		// (get) Token: 0x06001226 RID: 4646 RVA: 0x0003BEF7 File Offset: 0x0003A0F7
-		// (set) Token: 0x06001227 RID: 4647 RVA: 0x0003BEFF File Offset: 0x0003A0FF
 		[DataSourceProperty]
 		public MBBindingList<MissionSiegeEngineMarkerTargetVM> SiegeEngineTargets
 		{
@@ -351,9 +327,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x170005E6 RID: 1510
-		// (get) Token: 0x06001228 RID: 4648 RVA: 0x0003BF1D File Offset: 0x0003A11D
-		// (set) Token: 0x06001229 RID: 4649 RVA: 0x0003BF25 File Offset: 0x0003A125
 		[DataSourceProperty]
 		public MBBindingList<MissionAlwaysVisibleMarkerTargetVM> AlwaysVisibleTargets
 		{
@@ -371,9 +344,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x170005E7 RID: 1511
-		// (get) Token: 0x0600122A RID: 4650 RVA: 0x0003BF43 File Offset: 0x0003A143
-		// (set) Token: 0x0600122B RID: 4651 RVA: 0x0003BF4B File Offset: 0x0003A14B
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -392,52 +362,36 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker
 			}
 		}
 
-		// Token: 0x040008A1 RID: 2209
 		private readonly Camera _missionCamera;
 
-		// Token: 0x040008A2 RID: 2210
 		private bool _prevEnabledState;
 
-		// Token: 0x040008A3 RID: 2211
 		private bool _fadeOutTimerStarted;
 
-		// Token: 0x040008A4 RID: 2212
 		private float _fadeOutTimer;
 
-		// Token: 0x040008A5 RID: 2213
 		private MultiplayerMissionMarkerVM.MarkerDistanceComparer _distanceComparer;
 
-		// Token: 0x040008A6 RID: 2214
 		private readonly ICommanderInfo _commanderInfo;
 
-		// Token: 0x040008A7 RID: 2215
 		private readonly Dictionary<MissionPeer, MissionPeerMarkerTargetVM> _teammateDictionary;
 
-		// Token: 0x040008A8 RID: 2216
 		private readonly MissionMultiplayerSiegeClient _siegeClient;
 
-		// Token: 0x040008A9 RID: 2217
 		private readonly List<PlayerId> _friendIDs;
 
-		// Token: 0x040008AA RID: 2218
 		private MBBindingList<MissionFlagMarkerTargetVM> _flagTargets;
 
-		// Token: 0x040008AB RID: 2219
 		private MBBindingList<MissionPeerMarkerTargetVM> _peerTargets;
 
-		// Token: 0x040008AC RID: 2220
 		private MBBindingList<MissionSiegeEngineMarkerTargetVM> _siegeEngineTargets;
 
-		// Token: 0x040008AD RID: 2221
 		private MBBindingList<MissionAlwaysVisibleMarkerTargetVM> _alwaysVisibleTargets;
 
-		// Token: 0x040008AE RID: 2222
 		private bool _isEnabled;
 
-		// Token: 0x02000218 RID: 536
 		public class MarkerDistanceComparer : IComparer<MissionMarkerTargetVM>
 		{
-			// Token: 0x06001AEE RID: 6894 RVA: 0x000572A4 File Offset: 0x000554A4
 			public int Compare(MissionMarkerTargetVM x, MissionMarkerTargetVM y)
 			{
 				return y.Distance.CompareTo(x.Distance);

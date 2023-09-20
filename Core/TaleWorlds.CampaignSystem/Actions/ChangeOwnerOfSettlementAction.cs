@@ -8,10 +8,8 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200042E RID: 1070
 	public static class ChangeOwnerOfSettlementAction
 	{
-		// Token: 0x06003EAC RID: 16044 RVA: 0x0012B95C File Offset: 0x00129B5C
 		private static void ApplyInternal(Settlement settlement, Hero newOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			Clan ownerClan = settlement.OwnerClan;
@@ -110,13 +108,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnSettlementOwnerChanged(settlement, flag, newOwner, hero, capturerHero, detail);
 		}
 
-		// Token: 0x06003EAD RID: 16045 RVA: 0x0012BE14 File Offset: 0x0012A014
 		public static void ApplyByDefault(Hero hero, Settlement settlement)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, hero, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.Default);
 		}
 
-		// Token: 0x06003EAE RID: 16046 RVA: 0x0012BE1F File Offset: 0x0012A01F
 		public static void ApplyByKingDecision(Hero hero, Settlement settlement)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, hero, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByKingDecision);
@@ -126,7 +122,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003EAF RID: 16047 RVA: 0x0012BE3E File Offset: 0x0012A03E
 		public static void ApplyBySiege(Hero newOwner, Hero capturerHero, Settlement settlement)
 		{
 			if (settlement.Town != null)
@@ -136,56 +131,41 @@ namespace TaleWorlds.CampaignSystem.Actions
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, newOwner, capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.BySiege);
 		}
 
-		// Token: 0x06003EB0 RID: 16048 RVA: 0x0012BE62 File Offset: 0x0012A062
 		public static void ApplyByLeaveFaction(Hero hero, Settlement settlement)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, hero, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByLeaveFaction);
 		}
 
-		// Token: 0x06003EB1 RID: 16049 RVA: 0x0012BE6D File Offset: 0x0012A06D
 		public static void ApplyByBarter(Hero hero, Settlement settlement)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, hero, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByBarter);
 		}
 
-		// Token: 0x06003EB2 RID: 16050 RVA: 0x0012BE78 File Offset: 0x0012A078
 		public static void ApplyByRebellion(Hero hero, Settlement settlement)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, hero, hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByRebellion);
 		}
 
-		// Token: 0x06003EB3 RID: 16051 RVA: 0x0012BE83 File Offset: 0x0012A083
 		public static void ApplyByDestroyClan(Settlement settlement, Hero newOwner)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, newOwner, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByClanDestruction);
 		}
 
-		// Token: 0x06003EB4 RID: 16052 RVA: 0x0012BE8E File Offset: 0x0012A08E
 		public static void ApplyByGift(Settlement settlement, Hero newOwner)
 		{
 			ChangeOwnerOfSettlementAction.ApplyInternal(settlement, newOwner, null, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail.ByGift);
 		}
 
-		// Token: 0x02000757 RID: 1879
 		public enum ChangeOwnerOfSettlementDetail
 		{
-			// Token: 0x04001E20 RID: 7712
 			Default,
-			// Token: 0x04001E21 RID: 7713
 			BySiege,
-			// Token: 0x04001E22 RID: 7714
 			ByBarter,
-			// Token: 0x04001E23 RID: 7715
 			ByRevolt,
-			// Token: 0x04001E24 RID: 7716
 			ByLeaveFaction,
-			// Token: 0x04001E25 RID: 7717
 			ByKingDecision,
-			// Token: 0x04001E26 RID: 7718
 			ByGift,
-			// Token: 0x04001E27 RID: 7719
 			ByRebellion,
-			// Token: 0x04001E28 RID: 7720
 			ByClanDestruction
 		}
 	}

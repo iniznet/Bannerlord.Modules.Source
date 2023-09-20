@@ -24,16 +24,13 @@ using TaleWorlds.SaveSystem;
 
 namespace SandBox.Issues
 {
-	// Token: 0x02000080 RID: 128
 	public class SnareTheWealthyIssueBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000573 RID: 1395 RVA: 0x00026B80 File Offset: 0x00024D80
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnCheckForIssueEvent.AddNonSerializedListener(this, new Action<Hero>(this.OnCheckForIssue));
 		}
 
-		// Token: 0x06000574 RID: 1396 RVA: 0x00026B9C File Offset: 0x00024D9C
 		private void OnCheckForIssue(Hero hero)
 		{
 			if (this.ConditionsHold(hero))
@@ -44,13 +41,11 @@ namespace SandBox.Issues
 			Campaign.Current.IssueManager.AddPotentialIssueData(hero, new PotentialIssueData(typeof(SnareTheWealthyIssueBehavior.SnareTheWealthyIssue), 2));
 		}
 
-		// Token: 0x06000575 RID: 1397 RVA: 0x00026C00 File Offset: 0x00024E00
 		private bool ConditionsHold(Hero issueGiver)
 		{
 			return issueGiver.IsGangLeader && issueGiver.CurrentSettlement != null && issueGiver.CurrentSettlement.IsTown && issueGiver.CurrentSettlement.Town.Security <= 50f && this.GetTargetMerchant(issueGiver) != null;
 		}
 
-		// Token: 0x06000576 RID: 1398 RVA: 0x00026C50 File Offset: 0x00024E50
 		private Hero GetTargetMerchant(Hero issueOwner)
 		{
 			Hero hero = null;
@@ -65,49 +60,39 @@ namespace SandBox.Issues
 			return hero;
 		}
 
-		// Token: 0x06000577 RID: 1399 RVA: 0x00026D44 File Offset: 0x00024F44
 		private IssueBase OnStartIssue(in PotentialIssueData pid, Hero issueOwner)
 		{
 			Hero targetMerchant = this.GetTargetMerchant(issueOwner);
 			return new SnareTheWealthyIssueBehavior.SnareTheWealthyIssue(issueOwner, targetMerchant.CharacterObject);
 		}
 
-		// Token: 0x06000578 RID: 1400 RVA: 0x00026D65 File Offset: 0x00024F65
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x040002AB RID: 683
 		private const IssueBase.IssueFrequency SnareTheWealthyIssueFrequency = 2;
 
-		// Token: 0x0200015E RID: 350
 		public class SnareTheWealthyIssueTypeDefiner : SaveableTypeDefiner
 		{
-			// Token: 0x06001038 RID: 4152 RVA: 0x0006F129 File Offset: 0x0006D329
 			public SnareTheWealthyIssueTypeDefiner()
 				: base(340000)
 			{
 			}
 
-			// Token: 0x06001039 RID: 4153 RVA: 0x0006F136 File Offset: 0x0006D336
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(SnareTheWealthyIssueBehavior.SnareTheWealthyIssue), 1, null);
 				base.AddClassDefinition(typeof(SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest), 2, null);
 			}
 
-			// Token: 0x0600103A RID: 4154 RVA: 0x0006F15C File Offset: 0x0006D35C
 			protected override void DefineEnumTypes()
 			{
 				base.AddEnumDefinition(typeof(SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest.SnareTheWealthyQuestChoice), 3, null);
 			}
 		}
 
-		// Token: 0x0200015F RID: 351
 		public class SnareTheWealthyIssue : IssueBase
 		{
-			// Token: 0x170001A4 RID: 420
-			// (get) Token: 0x0600103B RID: 4155 RVA: 0x0006F170 File Offset: 0x0006D370
 			private int AlternativeSolutionReward
 			{
 				get
@@ -116,15 +101,12 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600103C RID: 4156 RVA: 0x0006F189 File Offset: 0x0006D389
 			public SnareTheWealthyIssue(Hero issueOwner, CharacterObject targetMerchant)
 				: base(issueOwner, CampaignTime.DaysFromNow(30f))
 			{
 				this._targetMerchantCharacter = targetMerchant;
 			}
 
-			// Token: 0x170001A5 RID: 421
-			// (get) Token: 0x0600103D RID: 4157 RVA: 0x0006F1A4 File Offset: 0x0006D3A4
 			public override TextObject IssueBriefByIssueGiver
 			{
 				get
@@ -135,8 +117,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001A6 RID: 422
-			// (get) Token: 0x0600103E RID: 4158 RVA: 0x0006F1D1 File Offset: 0x0006D3D1
 			public override TextObject IssueAcceptByPlayer
 			{
 				get
@@ -145,8 +125,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001A7 RID: 423
-			// (get) Token: 0x0600103F RID: 4159 RVA: 0x0006F1E0 File Offset: 0x0006D3E0
 			public override TextObject IssueQuestSolutionExplanationByIssueGiver
 			{
 				get
@@ -157,8 +135,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001A8 RID: 424
-			// (get) Token: 0x06001040 RID: 4160 RVA: 0x0006F20D File Offset: 0x0006D40D
 			public override TextObject IssueQuestSolutionAcceptByPlayer
 			{
 				get
@@ -167,8 +143,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001A9 RID: 425
-			// (get) Token: 0x06001041 RID: 4161 RVA: 0x0006F21A File Offset: 0x0006D41A
 			public override TextObject IssueAlternativeSolutionExplanationByIssueGiver
 			{
 				get
@@ -179,8 +153,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AA RID: 426
-			// (get) Token: 0x06001042 RID: 4162 RVA: 0x0006F239 File Offset: 0x0006D439
 			public override TextObject IssueAlternativeSolutionAcceptByPlayer
 			{
 				get
@@ -189,8 +161,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AB RID: 427
-			// (get) Token: 0x06001043 RID: 4163 RVA: 0x0006F246 File Offset: 0x0006D446
 			public override TextObject IssueAlternativeSolutionResponseByIssueGiver
 			{
 				get
@@ -199,8 +169,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AC RID: 428
-			// (get) Token: 0x06001044 RID: 4164 RVA: 0x0006F253 File Offset: 0x0006D453
 			public override TextObject IssueDiscussAlternativeSolution
 			{
 				get
@@ -209,8 +177,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AD RID: 429
-			// (get) Token: 0x06001045 RID: 4165 RVA: 0x0006F260 File Offset: 0x0006D460
 			protected override TextObject AlternativeSolutionStartLog
 			{
 				get
@@ -224,8 +190,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AE RID: 430
-			// (get) Token: 0x06001046 RID: 4166 RVA: 0x0006F2D0 File Offset: 0x0006D4D0
 			public override bool IsThereAlternativeSolution
 			{
 				get
@@ -234,8 +198,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001AF RID: 431
-			// (get) Token: 0x06001047 RID: 4167 RVA: 0x0006F2D3 File Offset: 0x0006D4D3
 			public override bool IsThereLordSolution
 			{
 				get
@@ -244,8 +206,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B0 RID: 432
-			// (get) Token: 0x06001048 RID: 4168 RVA: 0x0006F2D6 File Offset: 0x0006D4D6
 			public override TextObject Title
 			{
 				get
@@ -254,8 +214,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B1 RID: 433
-			// (get) Token: 0x06001049 RID: 4169 RVA: 0x0006F2E4 File Offset: 0x0006D4E4
 			public override TextObject Description
 			{
 				get
@@ -267,8 +225,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B2 RID: 434
-			// (get) Token: 0x0600104A RID: 4170 RVA: 0x0006F329 File Offset: 0x0006D529
 			protected override bool IssueQuestCanBeDuplicated
 			{
 				get
@@ -277,7 +233,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600104B RID: 4171 RVA: 0x0006F32C File Offset: 0x0006D52C
 			protected override float GetIssueEffectAmountInternal(IssueEffect issueEffect)
 			{
 				if (issueEffect == DefaultIssueEffects.SettlementLoyalty)
@@ -291,8 +246,6 @@ namespace SandBox.Issues
 				return 0f;
 			}
 
-			// Token: 0x170001B3 RID: 435
-			// (get) Token: 0x0600104C RID: 4172 RVA: 0x0006F34F File Offset: 0x0006D54F
 			public override IssueBase.AlternativeSolutionScaleFlag AlternativeSolutionScaleFlags
 			{
 				get
@@ -301,8 +254,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B4 RID: 436
-			// (get) Token: 0x0600104D RID: 4173 RVA: 0x0006F354 File Offset: 0x0006D554
 			public override int AlternativeSolutionBaseNeededMenCount
 			{
 				get
@@ -311,8 +262,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B5 RID: 437
-			// (get) Token: 0x0600104E RID: 4174 RVA: 0x0006F36A File Offset: 0x0006D56A
 			protected override int AlternativeSolutionBaseDurationInDaysInternal
 			{
 				get
@@ -321,8 +270,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B6 RID: 438
-			// (get) Token: 0x0600104F RID: 4175 RVA: 0x0006F37F File Offset: 0x0006D57F
 			protected override int CompanionSkillRewardXP
 			{
 				get
@@ -331,33 +278,28 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001050 RID: 4176 RVA: 0x0006F394 File Offset: 0x0006D594
 			public override ValueTuple<SkillObject, int> GetAlternativeSolutionSkill(Hero hero)
 			{
 				return new ValueTuple<SkillObject, int>((hero.GetSkillValue(DefaultSkills.Roguery) >= hero.GetSkillValue(DefaultSkills.Tactics)) ? DefaultSkills.Roguery : DefaultSkills.Tactics, 120);
 			}
 
-			// Token: 0x06001051 RID: 4177 RVA: 0x0006F3C1 File Offset: 0x0006D5C1
 			public override bool AlternativeSolutionCondition(out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(MobileParty.MainParty.MemberRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06001052 RID: 4178 RVA: 0x0006F3E2 File Offset: 0x0006D5E2
 			public override bool IsTroopTypeNeededByAlternativeSolution(CharacterObject character)
 			{
 				return character.Tier >= 2;
 			}
 
-			// Token: 0x06001053 RID: 4179 RVA: 0x0006F3F0 File Offset: 0x0006D5F0
 			public override bool DoTroopsSatisfyAlternativeSolution(TroopRoster troopRoster, out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(troopRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06001054 RID: 4180 RVA: 0x0006F408 File Offset: 0x0006D608
 			protected override void AlternativeSolutionEndWithSuccessConsequence()
 			{
 				TraitLevelingHelper.OnIssueSolvedThroughAlternativeSolution(Hero.MainHero, new Tuple<TraitObject, int>[]
@@ -373,7 +315,6 @@ namespace SandBox.Issues
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this.AlternativeSolutionReward, false);
 			}
 
-			// Token: 0x06001055 RID: 4181 RVA: 0x0006F488 File Offset: 0x0006D688
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				TraitLevelingHelper.OnIssueSolvedThroughAlternativeSolution(Hero.MainHero, new Tuple<TraitObject, int>[]
@@ -388,18 +329,15 @@ namespace SandBox.Issues
 				ChangeRelationAction.ApplyPlayerRelation(this._targetMerchantCharacter.HeroObject, -10, true, true);
 			}
 
-			// Token: 0x06001056 RID: 4182 RVA: 0x0006F4F6 File Offset: 0x0006D6F6
 			protected override void OnGameLoad()
 			{
 			}
 
-			// Token: 0x06001057 RID: 4183 RVA: 0x0006F4F8 File Offset: 0x0006D6F8
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest(questId, base.IssueOwner, this._targetMerchantCharacter, base.IssueDifficultyMultiplier, CampaignTime.DaysFromNow(10f));
 			}
 
-			// Token: 0x06001058 RID: 4184 RVA: 0x0006F51C File Offset: 0x0006D71C
 			protected override void OnIssueFinalized()
 			{
 				if (base.IsSolvingWithQuest)
@@ -410,13 +348,11 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001059 RID: 4185 RVA: 0x0006F5F9 File Offset: 0x0006D7F9
 			public override IssueBase.IssueFrequency GetFrequency()
 			{
 				return 2;
 			}
 
-			// Token: 0x0600105A RID: 4186 RVA: 0x0006F5FC File Offset: 0x0006D7FC
 			protected override bool CanPlayerTakeQuestConditions(Hero issueGiver, out IssueBase.PreconditionFlags flag, out Hero relationHero, out SkillObject skill)
 			{
 				flag = 0;
@@ -438,18 +374,15 @@ namespace SandBox.Issues
 				return flag == 0U;
 			}
 
-			// Token: 0x0600105B RID: 4187 RVA: 0x0006F667 File Offset: 0x0006D867
 			public override bool IssueStayAliveConditions()
 			{
 				return base.IssueOwner.IsAlive && base.IssueOwner.CurrentSettlement.Town.Security <= 80f && this._targetMerchantCharacter.HeroObject.IsAlive;
 			}
 
-			// Token: 0x0600105C RID: 4188 RVA: 0x0006F6A4 File Offset: 0x0006D8A4
 			protected override void CompleteIssueWithTimedOutConsequences()
 			{
 			}
 
-			// Token: 0x0600105D RID: 4189 RVA: 0x0006F6A6 File Offset: 0x0006D8A6
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == this._targetMerchantCharacter.HeroObject)
@@ -458,53 +391,40 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600105E RID: 4190 RVA: 0x0006F6B9 File Offset: 0x0006D8B9
 			internal static void AutoGeneratedStaticCollectObjectsSnareTheWealthyIssue(object o, List<object> collectedObjects)
 			{
 				((SnareTheWealthyIssueBehavior.SnareTheWealthyIssue)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x0600105F RID: 4191 RVA: 0x0006F6C7 File Offset: 0x0006D8C7
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 				collectedObjects.Add(this._targetMerchantCharacter);
 			}
 
-			// Token: 0x06001060 RID: 4192 RVA: 0x0006F6DC File Offset: 0x0006D8DC
 			internal static object AutoGeneratedGetMemberValue_targetMerchantCharacter(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssue)o)._targetMerchantCharacter;
 			}
 
-			// Token: 0x04000688 RID: 1672
 			private const int IssueDuration = 30;
 
-			// Token: 0x04000689 RID: 1673
 			private const int IssueQuestDuration = 10;
 
-			// Token: 0x0400068A RID: 1674
 			private const int MinimumRequiredMenCount = 20;
 
-			// Token: 0x0400068B RID: 1675
 			private const int MinimumRequiredRelationWithIssueGiver = -10;
 
-			// Token: 0x0400068C RID: 1676
 			private const int AlternativeSolutionMinimumTroopTier = 2;
 
-			// Token: 0x0400068D RID: 1677
 			private const int CompanionRoguerySkillValueThreshold = 120;
 
-			// Token: 0x0400068E RID: 1678
 			[SaveableField(1)]
 			private readonly CharacterObject _targetMerchantCharacter;
 		}
 
-		// Token: 0x02000160 RID: 352
 		public class SnareTheWealthyIssueQuest : QuestBase
 		{
-			// Token: 0x170001B7 RID: 439
-			// (get) Token: 0x06001061 RID: 4193 RVA: 0x0006F6E9 File Offset: 0x0006D8E9
 			private int CaravanPartyTroopCount
 			{
 				get
@@ -513,8 +433,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B8 RID: 440
-			// (get) Token: 0x06001062 RID: 4194 RVA: 0x0006F6FF File Offset: 0x0006D8FF
 			private int GangPartyTroopCount
 			{
 				get
@@ -523,8 +441,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001B9 RID: 441
-			// (get) Token: 0x06001063 RID: 4195 RVA: 0x0006F715 File Offset: 0x0006D915
 			private int Reward1
 			{
 				get
@@ -533,8 +449,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001BA RID: 442
-			// (get) Token: 0x06001064 RID: 4196 RVA: 0x0006F72E File Offset: 0x0006D92E
 			private int Reward2
 			{
 				get
@@ -543,7 +457,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001065 RID: 4197 RVA: 0x0006F742 File Offset: 0x0006D942
 			public SnareTheWealthyIssueQuest(string questId, Hero questGiver, CharacterObject targetMerchantCharacter, float questDifficulty, CampaignTime duration)
 				: base(questId, questGiver, duration, 0)
 			{
@@ -554,8 +467,6 @@ namespace SandBox.Issues
 				base.InitializeQuestOnCreation();
 			}
 
-			// Token: 0x170001BB RID: 443
-			// (get) Token: 0x06001066 RID: 4198 RVA: 0x0006F77D File Offset: 0x0006D97D
 			public override TextObject Title
 			{
 				get
@@ -564,8 +475,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001BC RID: 444
-			// (get) Token: 0x06001067 RID: 4199 RVA: 0x0006F78A File Offset: 0x0006D98A
 			public override bool IsRemainingTimeHidden
 			{
 				get
@@ -574,8 +483,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001BD RID: 445
-			// (get) Token: 0x06001068 RID: 4200 RVA: 0x0006F790 File Offset: 0x0006D990
 			private TextObject _questStartedLogText
 			{
 				get
@@ -588,8 +495,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001BE RID: 446
-			// (get) Token: 0x06001069 RID: 4201 RVA: 0x0006F7EC File Offset: 0x0006D9EC
 			private TextObject _success1LogText
 			{
 				get
@@ -601,8 +506,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001BF RID: 447
-			// (get) Token: 0x0600106A RID: 4202 RVA: 0x0006F834 File Offset: 0x0006DA34
 			private TextObject _sidedWithGangLogText
 			{
 				get
@@ -613,8 +516,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C0 RID: 448
-			// (get) Token: 0x0600106B RID: 4203 RVA: 0x0006F868 File Offset: 0x0006DA68
 			private TextObject _timedOutWithoutTalkingToMerchantText
 			{
 				get
@@ -626,8 +527,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C1 RID: 449
-			// (get) Token: 0x0600106C RID: 4204 RVA: 0x0006F8AD File Offset: 0x0006DAAD
 			private TextObject _fail1LogText
 			{
 				get
@@ -636,8 +535,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C2 RID: 450
-			// (get) Token: 0x0600106D RID: 4205 RVA: 0x0006F8BA File Offset: 0x0006DABA
 			private TextObject _fail2LogText
 			{
 				get
@@ -646,8 +543,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C3 RID: 451
-			// (get) Token: 0x0600106E RID: 4206 RVA: 0x0006F8C8 File Offset: 0x0006DAC8
 			private TextObject _fail2OutcomeLogText
 			{
 				get
@@ -658,8 +553,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C4 RID: 452
-			// (get) Token: 0x0600106F RID: 4207 RVA: 0x0006F8F5 File Offset: 0x0006DAF5
 			private TextObject _fail3LogText
 			{
 				get
@@ -668,8 +561,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C5 RID: 453
-			// (get) Token: 0x06001070 RID: 4208 RVA: 0x0006F902 File Offset: 0x0006DB02
 			private TextObject _fail3OutcomeLogText
 			{
 				get
@@ -678,8 +569,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C6 RID: 454
-			// (get) Token: 0x06001071 RID: 4209 RVA: 0x0006F910 File Offset: 0x0006DB10
 			private TextObject _fail4LogText
 			{
 				get
@@ -690,8 +579,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C7 RID: 455
-			// (get) Token: 0x06001072 RID: 4210 RVA: 0x0006F944 File Offset: 0x0006DB44
 			private TextObject _fail5LogText
 			{
 				get
@@ -702,8 +589,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C8 RID: 456
-			// (get) Token: 0x06001073 RID: 4211 RVA: 0x0006F978 File Offset: 0x0006DB78
 			private TextObject _fail6LogText
 			{
 				get
@@ -714,8 +599,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001C9 RID: 457
-			// (get) Token: 0x06001074 RID: 4212 RVA: 0x0006F9AA File Offset: 0x0006DBAA
 			private TextObject _playerCapturedQuestSettlementLogText
 			{
 				get
@@ -724,8 +607,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001CA RID: 458
-			// (get) Token: 0x06001075 RID: 4213 RVA: 0x0006F9B8 File Offset: 0x0006DBB8
 			private TextObject _questSettlementWasCapturedLogText
 			{
 				get
@@ -737,8 +618,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001CB RID: 459
-			// (get) Token: 0x06001076 RID: 4214 RVA: 0x0006FA08 File Offset: 0x0006DC08
 			private TextObject _warDeclaredBetweenPlayerAndQuestGiverLogText
 			{
 				get
@@ -749,8 +628,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001CC RID: 460
-			// (get) Token: 0x06001077 RID: 4215 RVA: 0x0006FA3C File Offset: 0x0006DC3C
 			private TextObject _targetSettlementRaidedLogText
 			{
 				get
@@ -762,8 +639,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x170001CD RID: 461
-			// (get) Token: 0x06001078 RID: 4216 RVA: 0x0006FA88 File Offset: 0x0006DC88
 			private TextObject _talkedToMerchantLogText
 			{
 				get
@@ -776,7 +651,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001079 RID: 4217 RVA: 0x0006FAE4 File Offset: 0x0006DCE4
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
@@ -786,7 +660,6 @@ namespace SandBox.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetDialogueWithGangWithoutCaravan(), this);
 			}
 
-			// Token: 0x0600107A RID: 4218 RVA: 0x0006FB50 File Offset: 0x0006DD50
 			private Settlement GetTargetSettlement()
 			{
 				MapDistanceModel model = Campaign.Current.Models.MapDistanceModel;
@@ -796,7 +669,6 @@ namespace SandBox.Issues
 					select t).ElementAt(0).BoundVillages).Settlement;
 			}
 
-			// Token: 0x0600107B RID: 4219 RVA: 0x0006FBBC File Offset: 0x0006DDBC
 			protected override void SetDialogs()
 			{
 				TextObject discussIntroDialogue = new TextObject("{=lOFR5sq6}Have you talked with {TARGET_MERCHANT.NAME}? It would be a damned waste if we waited too long and word of our plans leaked out.", null);
@@ -821,7 +693,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x0600107C RID: 4220 RVA: 0x0006FCC0 File Offset: 0x0006DEC0
 			private DialogFlow GetDialogueWithMerchant()
 			{
 				TextObject textObject = new TextObject("{=OJtUNAbN}Very well. You'll find the caravan getting ready outside the gates. You will get your payment after the job. Good luck, friend.", null);
@@ -855,7 +726,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x0600107D RID: 4221 RVA: 0x0006FDA8 File Offset: 0x0006DFA8
 			private DialogFlow GetDialogueWithCaravan()
 			{
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=Xs7Qweuw}Lead the way, {PLAYER.NAME}.", null, null).Condition(() => MobileParty.ConversationParty == this._caravanParty && this._caravanParty != null && !this._canEncounterConversationStart)
@@ -866,7 +736,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x0600107E RID: 4222 RVA: 0x0006FE08 File Offset: 0x0006E008
 			private DialogFlow GetDialogueWithGangWithoutCaravan()
 			{
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=F44s8kPB}Where is the caravan? My men can't wait here for too long.", null, null).Condition(() => MobileParty.ConversationParty == this._gangParty && this._gangParty != null && !this._canEncounterConversationStart)
@@ -878,7 +747,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x0600107F RID: 4223 RVA: 0x0006FE6C File Offset: 0x0006E06C
 			private DialogFlow GetEncounterDialogue()
 			{
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=vVH7wT07}Who are these men? Be on your guard {PLAYER.NAME}, I smell trouble!", null, null).Condition(() => MobileParty.ConversationParty == this._caravanParty && this._caravanParty != null && this._canEncounterConversationStart)
@@ -946,7 +814,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x06001080 RID: 4224 RVA: 0x000700F0 File Offset: 0x0006E2F0
 			private void OnQuestAccepted()
 			{
 				base.StartQuest();
@@ -958,7 +825,6 @@ namespace SandBox.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetDialogueWithGangWithoutCaravan(), this);
 			}
 
-			// Token: 0x06001081 RID: 4225 RVA: 0x0007017C File Offset: 0x0006E37C
 			public void GetMountAndHarnessVisualIdsForQuestCaravan(CultureObject culture, out string mountStringId, out string harnessStringId)
 			{
 				if (culture.StringId == "khuzait" || culture.StringId == "aserai")
@@ -971,7 +837,6 @@ namespace SandBox.Issues
 				harnessStringId = "mule_load_c";
 			}
 
-			// Token: 0x06001082 RID: 4226 RVA: 0x000701CC File Offset: 0x0006E3CC
 			private void SpawnQuestParties()
 			{
 				TextObject textObject = new TextObject("{=Bh4sZo9o}Caravan of {TARGET_MERCHANT}", null);
@@ -1006,7 +871,6 @@ namespace SandBox.Issues
 				base.AddLog(this._talkedToMerchantLogText, false);
 			}
 
-			// Token: 0x06001083 RID: 4227 RVA: 0x000704E4 File Offset: 0x0006E6E4
 			private void StartBattle(SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest.SnareTheWealthyQuestChoice playerChoice)
 			{
 				this._playerChoice = playerChoice;
@@ -1037,7 +901,6 @@ namespace SandBox.Issues
 				this._gangParty.MapEventSide = PartyBase.MainParty.MapEventSide;
 			}
 
-			// Token: 0x06001084 RID: 4228 RVA: 0x00070624 File Offset: 0x0006E824
 			private void StartEncounterDialogue()
 			{
 				LeaveSettlementAction.ApplyForParty(this._gangParty);
@@ -1049,7 +912,6 @@ namespace SandBox.Issues
 				CampaignMission.OpenConversationMission(conversationCharacterData, conversationCharacterData2, "", "");
 			}
 
-			// Token: 0x06001085 RID: 4229 RVA: 0x00070698 File Offset: 0x0006E898
 			private void StartDialogueWithoutCaravan()
 			{
 				PlayerEncounter.Finish(true);
@@ -1059,7 +921,6 @@ namespace SandBox.Issues
 				CampaignMission.OpenConversationMission(conversationCharacterData, conversationCharacterData2, "", "");
 			}
 
-			// Token: 0x06001086 RID: 4230 RVA: 0x000706FC File Offset: 0x0006E8FC
 			private void HourlyTick()
 			{
 				if (this._caravanParty != null)
@@ -1083,7 +944,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001087 RID: 4231 RVA: 0x000707A0 File Offset: 0x0006E9A0
 			private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 			{
 				if (settlement == base.QuestGiver.CurrentSettlement)
@@ -1097,7 +957,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001088 RID: 4232 RVA: 0x000707CA File Offset: 0x0006E9CA
 			public void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail reason)
 			{
 				if ((faction1 == base.QuestGiver.MapFaction && faction2 == Hero.MainHero.MapFaction) || (faction2 == base.QuestGiver.MapFaction && faction1 == Hero.MainHero.MapFaction))
@@ -1106,7 +965,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001089 RID: 4233 RVA: 0x00070808 File Offset: 0x0006EA08
 			public void OnVillageStateChanged(Village village, Village.VillageStates oldState, Village.VillageStates newState, MobileParty raiderParty)
 			{
 				if (village == this._targetSettlement.Village && newState != null)
@@ -1115,7 +973,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108A RID: 4234 RVA: 0x00070824 File Offset: 0x0006EA24
 			public void OnMapEventEnded(MapEvent mapEvent)
 			{
 				if (mapEvent.IsPlayerMapEvent && this._caravanParty != null)
@@ -1165,7 +1022,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108B RID: 4235 RVA: 0x000708E0 File Offset: 0x0006EAE0
 			private void OnPartyJoinedArmy(MobileParty mobileParty)
 			{
 				if (mobileParty == MobileParty.MainParty && this._caravanParty != null)
@@ -1174,7 +1030,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108C RID: 4236 RVA: 0x000708F8 File Offset: 0x0006EAF8
 			private void OnGameMenuOpened(MenuCallbackArgs args)
 			{
 				if (this._startConversationDelegate != null && MobileParty.MainParty.CurrentSettlement == this._targetSettlement && this._caravanParty != null)
@@ -1184,7 +1039,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108D RID: 4237 RVA: 0x00070930 File Offset: 0x0006EB30
 			public void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 			{
 				if (party == MobileParty.MainParty && settlement == this._targetSettlement && this._caravanParty != null)
@@ -1198,7 +1052,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108E RID: 4238 RVA: 0x000709A0 File Offset: 0x0006EBA0
 			public void OnSettlementLeft(MobileParty party, Settlement settlement)
 			{
 				if (party == MobileParty.MainParty && this._caravanParty != null)
@@ -1207,7 +1060,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x0600108F RID: 4239 RVA: 0x000709C2 File Offset: 0x0006EBC2
 			private void CanHeroBecomePrisoner(Hero hero, ref bool result)
 			{
 				if (hero == Hero.MainHero && this._playerChoice != SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest.SnareTheWealthyQuestChoice.None)
@@ -1216,7 +1068,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001090 RID: 4240 RVA: 0x000709D8 File Offset: 0x0006EBD8
 			protected override void OnFinalize()
 			{
 				if (this._caravanParty != null && this._caravanParty.IsActive)
@@ -1229,7 +1080,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06001091 RID: 4241 RVA: 0x00070A28 File Offset: 0x0006EC28
 			private void OnSuccess1()
 			{
 				base.AddLog(this._success1LogText, false);
@@ -1248,7 +1098,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			// Token: 0x06001092 RID: 4242 RVA: 0x00070ACB File Offset: 0x0006ECCB
 			private void OnTimedOutWithoutTalkingToMerchant()
 			{
 				base.AddLog(this._timedOutWithoutTalkingToMerchantText, false);
@@ -1259,14 +1108,12 @@ namespace SandBox.Issues
 				ChangeRelationAction.ApplyPlayerRelation(base.QuestGiver, -5, true, true);
 			}
 
-			// Token: 0x06001093 RID: 4243 RVA: 0x00070B09 File Offset: 0x0006ED09
 			private void OnFail1()
 			{
 				this.ApplyFail1Consequences();
 				base.CompleteQuestWithFail(null);
 			}
 
-			// Token: 0x06001094 RID: 4244 RVA: 0x00070B18 File Offset: 0x0006ED18
 			private void ApplyFail1Consequences()
 			{
 				base.AddLog(this._fail1LogText, false);
@@ -1278,7 +1125,6 @@ namespace SandBox.Issues
 				ChangeRelationAction.ApplyPlayerRelation(this._targetMerchantCharacter.HeroObject, -5, true, true);
 			}
 
-			// Token: 0x06001095 RID: 4245 RVA: 0x00070B78 File Offset: 0x0006ED78
 			private void OnFail2()
 			{
 				base.AddLog(this._fail2OutcomeLogText, false);
@@ -1292,7 +1138,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithBetrayal(null);
 			}
 
-			// Token: 0x06001096 RID: 4246 RVA: 0x00070BF0 File Offset: 0x0006EDF0
 			private void OnFail3()
 			{
 				base.AddLog(this._fail3OutcomeLogText, false);
@@ -1309,7 +1154,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithBetrayal(null);
 			}
 
-			// Token: 0x06001097 RID: 4247 RVA: 0x00070C78 File Offset: 0x0006EE78
 			private void OnFail4()
 			{
 				base.AddLog(this._fail4LogText, false);
@@ -1326,7 +1170,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithFail(null);
 			}
 
-			// Token: 0x06001098 RID: 4248 RVA: 0x00070CFC File Offset: 0x0006EEFC
 			private void OnFail5()
 			{
 				base.AddLog(this._fail5LogText, false);
@@ -1343,7 +1186,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithBetrayal(null);
 			}
 
-			// Token: 0x06001099 RID: 4249 RVA: 0x00070D80 File Offset: 0x0006EF80
 			private void OnFail6()
 			{
 				base.AddLog(this._fail6LogText, false);
@@ -1360,7 +1202,6 @@ namespace SandBox.Issues
 				base.CompleteQuestWithBetrayal(null);
 			}
 
-			// Token: 0x0600109A RID: 4250 RVA: 0x00070E06 File Offset: 0x0006F006
 			protected override void OnTimedOut()
 			{
 				if (this._caravanParty == null)
@@ -1371,28 +1212,24 @@ namespace SandBox.Issues
 				this.ApplyFail1Consequences();
 			}
 
-			// Token: 0x0600109B RID: 4251 RVA: 0x00070E1D File Offset: 0x0006F01D
 			private void OnCancel1()
 			{
 				base.AddLog(this._warDeclaredBetweenPlayerAndQuestGiverLogText, false);
 				base.CompleteQuestWithCancel(null);
 			}
 
-			// Token: 0x0600109C RID: 4252 RVA: 0x00070E34 File Offset: 0x0006F034
 			private void OnCancel2()
 			{
 				base.AddLog(this._questSettlementWasCapturedLogText, false);
 				base.CompleteQuestWithCancel(null);
 			}
 
-			// Token: 0x0600109D RID: 4253 RVA: 0x00070E4B File Offset: 0x0006F04B
 			private void OnCancel3()
 			{
 				base.AddLog(this._targetSettlementRaidedLogText, false);
 				base.CompleteQuestWithCancel(null);
 			}
 
-			// Token: 0x0600109E RID: 4254 RVA: 0x00070E62 File Offset: 0x0006F062
 			private void OnCancel4()
 			{
 				base.AddLog(this._playerCapturedQuestSettlementLogText, false);
@@ -1401,25 +1238,21 @@ namespace SandBox.Issues
 				base.CompleteQuestWithCancel(null);
 			}
 
-			// Token: 0x0600109F RID: 4255 RVA: 0x00070E98 File Offset: 0x0006F098
 			private bool IsGangPartyLeader(IAgent agent)
 			{
 				return agent.Character == ConversationHelper.GetConversationCharacterPartyLeader(this._gangParty.Party);
 			}
 
-			// Token: 0x060010A0 RID: 4256 RVA: 0x00070EB2 File Offset: 0x0006F0B2
 			private bool IsCaravanMaster(IAgent agent)
 			{
 				return agent.Character == ConversationHelper.GetConversationCharacterPartyLeader(this._caravanParty.Party);
 			}
 
-			// Token: 0x060010A1 RID: 4257 RVA: 0x00070ECC File Offset: 0x0006F0CC
 			private bool IsMainHero(IAgent agent)
 			{
 				return agent.Character == CharacterObject.PlayerCharacter;
 			}
 
-			// Token: 0x060010A2 RID: 4258 RVA: 0x00070EDB File Offset: 0x0006F0DB
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == this._targetMerchantCharacter.HeroObject)
@@ -1428,7 +1261,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x060010A3 RID: 4259 RVA: 0x00070EF0 File Offset: 0x0006F0F0
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
@@ -1444,13 +1276,11 @@ namespace SandBox.Issues
 				CampaignEvents.CanHaveQuestsOrIssuesEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, bool>(this.OnHeroCanHaveQuestOrIssueInfoIsRequested));
 			}
 
-			// Token: 0x060010A4 RID: 4260 RVA: 0x00070FFB File Offset: 0x0006F1FB
 			internal static void AutoGeneratedStaticCollectObjectsSnareTheWealthyIssueQuest(object o, List<object> collectedObjects)
 			{
 				((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x060010A5 RID: 4261 RVA: 0x00071009 File Offset: 0x0006F209
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -1460,107 +1290,82 @@ namespace SandBox.Issues
 				collectedObjects.Add(this._gangParty);
 			}
 
-			// Token: 0x060010A6 RID: 4262 RVA: 0x00071042 File Offset: 0x0006F242
 			internal static object AutoGeneratedGetMemberValue_targetMerchantCharacter(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._targetMerchantCharacter;
 			}
 
-			// Token: 0x060010A7 RID: 4263 RVA: 0x0007104F File Offset: 0x0006F24F
 			internal static object AutoGeneratedGetMemberValue_targetSettlement(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._targetSettlement;
 			}
 
-			// Token: 0x060010A8 RID: 4264 RVA: 0x0007105C File Offset: 0x0006F25C
 			internal static object AutoGeneratedGetMemberValue_caravanParty(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._caravanParty;
 			}
 
-			// Token: 0x060010A9 RID: 4265 RVA: 0x00071069 File Offset: 0x0006F269
 			internal static object AutoGeneratedGetMemberValue_gangParty(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._gangParty;
 			}
 
-			// Token: 0x060010AA RID: 4266 RVA: 0x00071076 File Offset: 0x0006F276
 			internal static object AutoGeneratedGetMemberValue_questDifficulty(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._questDifficulty;
 			}
 
-			// Token: 0x060010AB RID: 4267 RVA: 0x00071088 File Offset: 0x0006F288
 			internal static object AutoGeneratedGetMemberValue_playerChoice(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._playerChoice;
 			}
 
-			// Token: 0x060010AC RID: 4268 RVA: 0x0007109A File Offset: 0x0006F29A
 			internal static object AutoGeneratedGetMemberValue_canEncounterConversationStart(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._canEncounterConversationStart;
 			}
 
-			// Token: 0x060010AD RID: 4269 RVA: 0x000710AC File Offset: 0x0006F2AC
 			internal static object AutoGeneratedGetMemberValue_isCaravanFollowing(object o)
 			{
 				return ((SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest)o)._isCaravanFollowing;
 			}
 
-			// Token: 0x0400068F RID: 1679
 			private const float CaravanEncounterStartDistance = 20f;
 
-			// Token: 0x04000690 RID: 1680
 			private SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest.QuestEndDelegate _startConversationDelegate;
 
-			// Token: 0x04000691 RID: 1681
 			[SaveableField(1)]
 			private CharacterObject _targetMerchantCharacter;
 
-			// Token: 0x04000692 RID: 1682
 			[SaveableField(2)]
 			private Settlement _targetSettlement;
 
-			// Token: 0x04000693 RID: 1683
 			[SaveableField(3)]
 			private MobileParty _caravanParty;
 
-			// Token: 0x04000694 RID: 1684
 			[SaveableField(4)]
 			private MobileParty _gangParty;
 
-			// Token: 0x04000695 RID: 1685
 			[SaveableField(5)]
 			private readonly float _questDifficulty;
 
-			// Token: 0x04000696 RID: 1686
 			[SaveableField(6)]
 			private SnareTheWealthyIssueBehavior.SnareTheWealthyIssueQuest.SnareTheWealthyQuestChoice _playerChoice;
 
-			// Token: 0x04000697 RID: 1687
 			[SaveableField(7)]
 			private bool _canEncounterConversationStart;
 
-			// Token: 0x04000698 RID: 1688
 			[SaveableField(8)]
 			private bool _isCaravanFollowing = true;
 
-			// Token: 0x020001D6 RID: 470
 			internal enum SnareTheWealthyQuestChoice
 			{
-				// Token: 0x0400086B RID: 2155
 				None,
-				// Token: 0x0400086C RID: 2156
 				SidedWithCaravan,
-				// Token: 0x0400086D RID: 2157
 				SidedWithGang,
-				// Token: 0x0400086E RID: 2158
 				BetrayedBoth
 			}
 
-			// Token: 0x020001D7 RID: 471
-			// (Invoke) Token: 0x06001300 RID: 4864
 			private delegate void QuestEndDelegate();
 		}
 	}

@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace SandBox.Objects
 {
-	// Token: 0x02000022 RID: 34
 	public class DefaultMusicInstrumentData
 	{
-		// Token: 0x06000192 RID: 402 RVA: 0x0000BAE0 File Offset: 0x00009CE0
 		public DefaultMusicInstrumentData()
 		{
 			InstrumentData instrumentData = Game.Current.ObjectManager.RegisterPresumedObject<InstrumentData>(new InstrumentData("cheerful"));

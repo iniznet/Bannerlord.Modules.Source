@@ -6,11 +6,9 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000206 RID: 518
 	[EngineStruct("Face_generation_params")]
 	public struct FaceGenerationParams
 	{
-		// Token: 0x06001C9D RID: 7325 RVA: 0x00065BDC File Offset: 0x00063DDC
 		public static FaceGenerationParams Create()
 		{
 			FaceGenerationParams faceGenerationParams;
@@ -47,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			return faceGenerationParams;
 		}
 
-		// Token: 0x06001C9E RID: 7326 RVA: 0x00065D10 File Offset: 0x00063F10
 		public void SetRaceGenderAndAdjustParams(int race, int gender, int curAge)
 		{
 			this._currentGender = gender;
@@ -71,7 +68,6 @@ namespace TaleWorlds.MountAndBlade
 			this._curEyebrow = MBMath.ClampInt(this._curEyebrow, 0, num5 - 1);
 		}
 
-		// Token: 0x06001C9F RID: 7327 RVA: 0x00065E0C File Offset: 0x0006400C
 		public void SetRandomParamsExceptKeys(int race, int gender, int minAge, out float scale)
 		{
 			int num = 0;
@@ -98,98 +94,68 @@ namespace TaleWorlds.MountAndBlade
 			this._heightMultiplier = MBRandom.RandomFloat;
 		}
 
-		// Token: 0x04000957 RID: 2391
 		public int seed_;
 
-		// Token: 0x04000958 RID: 2392
 		public int _curBeard;
 
-		// Token: 0x04000959 RID: 2393
 		public int _currentHair;
 
-		// Token: 0x0400095A RID: 2394
 		public int _curEyebrow;
 
-		// Token: 0x0400095B RID: 2395
 		public int _currentRace;
 
-		// Token: 0x0400095C RID: 2396
 		public int _currentGender;
 
-		// Token: 0x0400095D RID: 2397
 		public int _curFaceTexture;
 
-		// Token: 0x0400095E RID: 2398
 		public int _curMouthTexture;
 
-		// Token: 0x0400095F RID: 2399
 		public int _curFaceTattoo;
 
-		// Token: 0x04000960 RID: 2400
 		public int _currentVoice;
 
-		// Token: 0x04000961 RID: 2401
 		public int hair_filter_;
 
-		// Token: 0x04000962 RID: 2402
 		public int beard_filter_;
 
-		// Token: 0x04000963 RID: 2403
 		public int tattoo_filter_;
 
-		// Token: 0x04000964 RID: 2404
 		public int face_texture_filter_;
 
-		// Token: 0x04000965 RID: 2405
 		public float _tattooZeroProbability;
 
-		// Token: 0x04000966 RID: 2406
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 320)]
 		public float[] KeyWeights;
 
-		// Token: 0x04000967 RID: 2407
 		public float _curAge;
 
-		// Token: 0x04000968 RID: 2408
 		public float _curWeight;
 
-		// Token: 0x04000969 RID: 2409
 		public float _curBuild;
 
-		// Token: 0x0400096A RID: 2410
 		public float _curSkinColorOffset;
 
-		// Token: 0x0400096B RID: 2411
 		public float _curHairColorOffset;
 
-		// Token: 0x0400096C RID: 2412
 		public float _curEyeColorOffset;
 
-		// Token: 0x0400096D RID: 2413
 		public float face_dirt_amount_;
 
-		// Token: 0x0400096E RID: 2414
 		public float _curFaceTattooColorOffset1;
 
-		// Token: 0x0400096F RID: 2415
 		public float _heightMultiplier;
 
-		// Token: 0x04000970 RID: 2416
 		public float _voicePitch;
 
-		// Token: 0x04000971 RID: 2417
 		[MarshalAs(UnmanagedType.I1)]
 		public bool _isHairFlipped;
 
-		// Token: 0x04000972 RID: 2418
 		[MarshalAs(UnmanagedType.I1)]
 		public bool _useCache;
 
-		// Token: 0x04000973 RID: 2419
 		[MarshalAs(UnmanagedType.I1)]
 		public bool _useGpuMorph;
 
-		// Token: 0x04000974 RID: 2420
 		[MarshalAs(UnmanagedType.I1)]
 		public bool _padding2;
 	}

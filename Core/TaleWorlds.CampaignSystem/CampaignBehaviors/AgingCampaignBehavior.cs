@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000376 RID: 886
 	public class AgingCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060033A8 RID: 13224 RVA: 0x000D56CC File Offset: 0x000D38CC
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickHeroEvent.AddNonSerializedListener(this, new Action<Hero>(this.DailyTickHero));
@@ -27,14 +25,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 		}
 
-		// Token: 0x060033A9 RID: 13225 RVA: 0x000D5791 File Offset: 0x000D3991
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, int>>("_extraLivesContainer", ref this._extraLivesContainer);
 			dataStore.SyncData<Dictionary<Hero, int>>("_heroesYoungerThanHeroComesOfAge", ref this._heroesYoungerThanHeroComesOfAge);
 		}
 
-		// Token: 0x060033AA RID: 13226 RVA: 0x000D57B8 File Offset: 0x000D39B8
 		private void OnHeroCreated(Hero hero, bool isBornNaturally)
 		{
 			int num = (int)hero.Age;
@@ -44,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033AB RID: 13227 RVA: 0x000D57F1 File Offset: 0x000D39F1
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			if (this._heroesYoungerThanHeroComesOfAge.ContainsKey(victim))
@@ -53,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033AC RID: 13228 RVA: 0x000D5810 File Offset: 0x000D3A10
 		private void AddExtraLife(Hero hero)
 		{
 			if (hero.IsAlive)
@@ -68,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033AD RID: 13229 RVA: 0x000D585C File Offset: 0x000D3A5C
 		private void OnPerkOpened(Hero hero, PerkObject perk)
 		{
 			if (perk == DefaultPerks.Medicine.CheatDeath)
@@ -88,7 +81,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033AE RID: 13230 RVA: 0x000D5900 File Offset: 0x000D3B00
 		private void DailyTickHero(Hero hero)
 		{
 			bool flag = (int)CampaignTime.Now.ToDays == this._gameStartDay;
@@ -164,7 +156,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033AF RID: 13231 RVA: 0x000D5B2B File Offset: 0x000D3D2B
 		private void KillMainHeroWithIllness()
 		{
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
@@ -172,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			KillCharacterAction.ApplyByOldAge(Hero.MainHero, true);
 		}
 
-		// Token: 0x060033B0 RID: 13232 RVA: 0x000D5B50 File Offset: 0x000D3D50
 		private void OnCharacterCreationIsOver()
 		{
 			this._gameStartDay = (int)CampaignTime.Now.ToDays;
@@ -182,7 +172,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B1 RID: 13233 RVA: 0x000D5B7E File Offset: 0x000D3D7E
 		private void OnHeroGrowsOutOfInfancy(Hero hero)
 		{
 			if (hero.Clan != Clan.PlayerClan)
@@ -191,7 +180,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B2 RID: 13234 RVA: 0x000D5B9C File Offset: 0x000D3D9C
 		private void OnHeroReachesTeenAge(Hero hero)
 		{
 			MBEquipmentRoster randomElementInefficiently = Campaign.Current.Models.EquipmentSelectionModel.GetEquipmentRostersForHeroReachesTeenAge(hero).GetRandomElementInefficiently<MBEquipmentRoster>();
@@ -254,7 +242,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B3 RID: 13235 RVA: 0x000D5DB8 File Offset: 0x000D3FB8
 		private void OnHeroComesOfAge(Hero hero)
 		{
 			if (hero.HeroState != Hero.CharacterStates.Active)
@@ -289,7 +276,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B4 RID: 13236 RVA: 0x000D5FA4 File Offset: 0x000D41A4
 		private void IsItTimeOfDeath(Hero hero)
 		{
 			if (hero.IsAlive && hero.Age >= (float)Campaign.Current.Models.AgeModel.BecomeOldAge && !CampaignOptions.IsLifeDeathCycleDisabled && hero.DeathMark == KillCharacterAction.KillCharacterActionDetail.None && MBRandom.RandomFloat < hero.ProbabilityOfDeath)
@@ -321,7 +307,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B5 RID: 13237 RVA: 0x000D60D4 File Offset: 0x000D42D4
 		private void MainHeroHealCheck()
 		{
 			if (MBRandom.RandomFloat <= 0.05f && Hero.MainHero.IsAlive)
@@ -332,7 +317,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033B6 RID: 13238 RVA: 0x000D6164 File Offset: 0x000D4364
 		private void InitializeHeroesYoungerThanHeroComesOfAge()
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -345,13 +329,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040010F6 RID: 4342
 		private Dictionary<Hero, int> _extraLivesContainer = new Dictionary<Hero, int>();
 
-		// Token: 0x040010F7 RID: 4343
 		private Dictionary<Hero, int> _heroesYoungerThanHeroComesOfAge = new Dictionary<Hero, int>();
 
-		// Token: 0x040010F8 RID: 4344
 		private int _gameStartDay;
 	}
 }

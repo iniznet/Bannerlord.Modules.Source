@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000285 RID: 645
 	public static class MissionReinforcementsHelper
 	{
-		// Token: 0x0600223E RID: 8766 RVA: 0x0007D0C4 File Offset: 0x0007B2C4
 		public static void OnMissionStart()
 		{
 			Mission mission = Mission.Current;
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			MissionReinforcementsHelper._localInitTime = 0U;
 		}
 
-		// Token: 0x0600223F RID: 8767 RVA: 0x0007D154 File Offset: 0x0007B354
 		[return: TupleElementNames(new string[] { "origin", "formationIndex" })]
 		public unsafe static List<ValueTuple<IAgentOriginBase, int>> GetReinforcementAssignments(BattleSideEnum battleSide, List<IAgentOriginBase> troopOrigins)
 		{
@@ -72,13 +69,11 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06002240 RID: 8768 RVA: 0x0007D33C File Offset: 0x0007B53C
 		public static void OnMissionEnd()
 		{
 			MissionReinforcementsHelper._reinforcementFormationsData = null;
 		}
 
-		// Token: 0x06002241 RID: 8769 RVA: 0x0007D344 File Offset: 0x0007B544
 		private static Formation FindBestFormationAmong(PriorityQueue<MissionReinforcementsHelper.ReinforcementFormationPriority, Formation> matchingFormations)
 		{
 			Formation formation = null;
@@ -115,7 +110,6 @@ namespace TaleWorlds.MountAndBlade
 			return formation;
 		}
 
-		// Token: 0x06002242 RID: 8770 RVA: 0x0007D3F8 File Offset: 0x0007B5F8
 		private static float GetFormationReinforcementScore(Formation formation)
 		{
 			Mission mission = Mission.Current;
@@ -133,39 +127,26 @@ namespace TaleWorlds.MountAndBlade
 			return 0.4f * num2 + 0.6f * num3;
 		}
 
-		// Token: 0x04000CD0 RID: 3280
 		private const float DominantClassThreshold = 0.5f;
 
-		// Token: 0x04000CD1 RID: 3281
 		private const float CommonClassThreshold = 0.25f;
 
-		// Token: 0x04000CD2 RID: 3282
 		private static uint _localInitTime;
 
-		// Token: 0x04000CD3 RID: 3283
 		private static MissionReinforcementsHelper.ReinforcementFormationData[,] _reinforcementFormationsData;
 
-		// Token: 0x02000590 RID: 1424
 		public enum ReinforcementFormationPriority
 		{
-			// Token: 0x04001D96 RID: 7574
 			Dominant = 5,
-			// Token: 0x04001D97 RID: 7575
 			Common = 4,
-			// Token: 0x04001D98 RID: 7576
 			Empty = 3,
-			// Token: 0x04001D99 RID: 7577
 			AlternativeDominant = 2,
-			// Token: 0x04001D9A RID: 7578
 			AlternativeCommon = 1,
-			// Token: 0x04001D9B RID: 7579
 			Default = 0
 		}
 
-		// Token: 0x02000591 RID: 1425
 		public class ReinforcementFormationPreferenceComparer : IComparer<MissionReinforcementsHelper.ReinforcementFormationPriority>
 		{
-			// Token: 0x06003B1E RID: 15134 RVA: 0x000EE208 File Offset: 0x000EC408
 			public int Compare(MissionReinforcementsHelper.ReinforcementFormationPriority left, MissionReinforcementsHelper.ReinforcementFormationPriority right)
 			{
 				if (right < left)
@@ -180,10 +161,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x02000592 RID: 1426
 		public class ReinforcementFormationData
 		{
-			// Token: 0x06003B20 RID: 15136 RVA: 0x000EE22E File Offset: 0x000EC42E
 			public ReinforcementFormationData()
 			{
 				this._initTime = 0U;
@@ -193,7 +172,6 @@ namespace TaleWorlds.MountAndBlade
 				this._troopClasses = new bool[4];
 			}
 
-			// Token: 0x06003B21 RID: 15137 RVA: 0x000EE264 File Offset: 0x000EC464
 			public void Initialize(Formation formation, uint initTime)
 			{
 				int countOfUnits = formation.CountOfUnits;
@@ -206,7 +184,6 @@ namespace TaleWorlds.MountAndBlade
 				this._initTime = initTime;
 			}
 
-			// Token: 0x06003B22 RID: 15138 RVA: 0x000EE2EC File Offset: 0x000EC4EC
 			public void AddProspectiveTroop(FormationClass troopClass)
 			{
 				this._expectedTroopCountPerClass[(int)troopClass]++;
@@ -214,13 +191,11 @@ namespace TaleWorlds.MountAndBlade
 				this._isClassified = false;
 			}
 
-			// Token: 0x06003B23 RID: 15139 RVA: 0x000EE321 File Offset: 0x000EC521
 			public bool IsInitialized(uint initTime)
 			{
 				return initTime == this._initTime;
 			}
 
-			// Token: 0x06003B24 RID: 15140 RVA: 0x000EE32C File Offset: 0x000EC52C
 			public MissionReinforcementsHelper.ReinforcementFormationPriority GetPriority(FormationClass troopClass)
 			{
 				if (this._expectedTotalTroopCount == 0)
@@ -255,7 +230,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003B25 RID: 15141 RVA: 0x000EE380 File Offset: 0x000EC580
 			private void Classify()
 			{
 				if (this._expectedTotalTroopCount > 0)
@@ -285,7 +259,6 @@ namespace TaleWorlds.MountAndBlade
 				this._isClassified = true;
 			}
 
-			// Token: 0x06003B26 RID: 15142 RVA: 0x000EE3FC File Offset: 0x000EC5FC
 			private bool HasTroopClass(FormationClass troopClass, out bool isDominant)
 			{
 				int num = 0;
@@ -300,7 +273,6 @@ namespace TaleWorlds.MountAndBlade
 				return num >= 1;
 			}
 
-			// Token: 0x06003B27 RID: 15143 RVA: 0x000EE438 File Offset: 0x000EC638
 			private void ResetClassAssignments()
 			{
 				int num = 4;
@@ -310,19 +282,14 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001D9C RID: 7580
 			private uint _initTime;
 
-			// Token: 0x04001D9D RID: 7581
 			private bool _isClassified;
 
-			// Token: 0x04001D9E RID: 7582
 			private int[] _expectedTroopCountPerClass;
 
-			// Token: 0x04001D9F RID: 7583
 			private int _expectedTotalTroopCount;
 
-			// Token: 0x04001DA0 RID: 7584
 			private bool[] _troopClasses;
 		}
 	}

@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000255 RID: 597
 	public static class MissionCombatMechanicsHelper
 	{
-		// Token: 0x06002040 RID: 8256 RVA: 0x00071720 File Offset: 0x0006F920
 		public static bool DecideAgentShrugOffBlow(Agent victimAgent, AttackCollisionData collisionData, in Blow blow)
 		{
 			bool flag = false;
@@ -40,7 +38,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002041 RID: 8257 RVA: 0x000717DC File Offset: 0x0006F9DC
 		public static bool DecideAgentDismountedByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			bool flag = false;
@@ -64,7 +61,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002042 RID: 8258 RVA: 0x00071888 File Offset: 0x0006FA88
 		public static bool DecideAgentKnockedBackByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			bool flag = false;
@@ -100,7 +96,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002043 RID: 8259 RVA: 0x00071968 File Offset: 0x0006FB68
 		public static bool DecideAgentKnockedDownByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			bool flag = false;
@@ -124,7 +119,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002044 RID: 8260 RVA: 0x00071A00 File Offset: 0x0006FC00
 		public static bool DecideMountRearedByBlow(Agent attackerAgent, Agent victimAgent, in AttackCollisionData collisionData, WeaponComponentData attackerWeapon, in Blow blow)
 		{
 			float damageMultiplierOfCombatDifficulty = Mission.Current.GetDamageMultiplierOfCombatDifficulty(victimAgent, attackerAgent);
@@ -143,7 +137,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002045 RID: 8261 RVA: 0x00071B08 File Offset: 0x0006FD08
 		public static bool IsCollisionBoneDifferentThanWeaponAttachBone(in AttackCollisionData collisionData, int weaponAttachBoneIndex)
 		{
 			AttackCollisionData attackCollisionData = collisionData;
@@ -155,7 +148,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002046 RID: 8262 RVA: 0x00071B40 File Offset: 0x0006FD40
 		public static bool DecideSweetSpotCollision(in AttackCollisionData collisionData)
 		{
 			AttackCollisionData attackCollisionData = collisionData;
@@ -167,7 +159,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002047 RID: 8263 RVA: 0x00071B7C File Offset: 0x0006FD7C
 		public static void GetAttackCollisionResults(in AttackInformation attackInformation, bool crushedThrough, float momentumRemaining, in MissionWeapon attackerWeapon, bool cancelDamage, ref AttackCollisionData attackCollisionData, out CombatLogData combatLog, out int speedBonus)
 		{
 			float num = 0f;
@@ -228,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002048 RID: 8264 RVA: 0x00071EA8 File Offset: 0x000700A8
 		internal static void GetDefendCollisionResults(Agent attackerAgent, Agent defenderAgent, CombatCollisionResult collisionResult, int attackerWeaponSlotIndex, bool isAlternativeAttack, StrikeType strikeType, Agent.UsageDirection attackDirection, float collisionDistanceOnWeapon, float attackProgress, bool attackIsParried, bool isPassiveUsageHit, bool isHeavyAttack, ref float defenderStunPeriod, ref float attackerStunPeriod, ref bool crushedThrough, ref bool chamber)
 		{
 			MissionWeapon missionWeapon = ((attackerWeaponSlotIndex >= 0) ? attackerAgent.Equipment[attackerWeaponSlotIndex] : MissionWeapon.Invalid);
@@ -325,7 +315,6 @@ namespace TaleWorlds.MountAndBlade
 			crushedThrough = !chamber && MissionGameModels.Current.AgentApplyDamageModel.DecideCrushedThrough(attackerAgent, defenderAgent, num, attackDirection, strikeType, weaponComponentData2, isPassiveUsageHit);
 		}
 
-		// Token: 0x06002049 RID: 8265 RVA: 0x00072200 File Offset: 0x00070400
 		private static bool DecideWeaponKnockDown(Agent attackerAgent, Agent victimAgent, WeaponComponentData attackerWeapon, in AttackCollisionData collisionData, in Blow blow)
 		{
 			if (MissionGameModels.Current.AgentApplyDamageModel.CanWeaponKnockDown(attackerAgent, victimAgent, attackerWeapon, blow, collisionData))
@@ -337,14 +326,12 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x0600204A RID: 8266 RVA: 0x00072268 File Offset: 0x00070468
 		private static bool DecideCombatEffect(float inflictedDamage, float victimMaxHealth, float victimResistance, float attackPenetration)
 		{
 			float num = victimMaxHealth * Math.Max(0f, victimResistance - attackPenetration);
 			return inflictedDamage >= num;
 		}
 
-		// Token: 0x0600204B RID: 8267 RVA: 0x0007228C File Offset: 0x0007048C
 		private static float ChargeDamageDotProduct(in Vec3 victimPosition, in Vec2 chargerMovementDirection, in Vec3 collisionPoint)
 		{
 			Vec3 vec = victimPosition;
@@ -354,7 +341,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Max(0f, num);
 		}
 
-		// Token: 0x0600204C RID: 8268 RVA: 0x000722DC File Offset: 0x000704DC
 		private static float SpeedGraphFunction(float progress, StrikeType strikeType, Agent.UsageDirection attackDir)
 		{
 			bool flag = strikeType == StrikeType.Thrust;
@@ -404,13 +390,11 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x0600204D RID: 8269 RVA: 0x0007239E File Offset: 0x0007059E
 		private static float ConvertBaseAttackMagnitude(WeaponComponentData weapon, StrikeType strikeType, float baseMagnitude)
 		{
 			return baseMagnitude * ((strikeType == StrikeType.Thrust) ? weapon.ThrustDamageFactor : weapon.SwingDamageFactor);
 		}
 
-		// Token: 0x0600204E RID: 8270 RVA: 0x000723B4 File Offset: 0x000705B4
 		private static Vec2 GetAgentVelocityContribution(bool hasAgentMountAgent, Vec2 agentMovementVelocity, Vec2 agentMountMovementDirection, float agentMovementDirectionAsAngle)
 		{
 			Vec2 vec = Vec2.Zero;
@@ -426,7 +410,6 @@ namespace TaleWorlds.MountAndBlade
 			return vec;
 		}
 
-		// Token: 0x0600204F RID: 8271 RVA: 0x000723E4 File Offset: 0x000705E4
 		private static float GetEntityDamageMultiplier(bool isAttackerAgentDoingPassiveAttack, WeaponComponentData weapon, DamageTypes damageType, bool isWoodenBody)
 		{
 			float num = 1f;
@@ -457,13 +440,11 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06002050 RID: 8272 RVA: 0x00072465 File Offset: 0x00070665
 		private static float ComputeSpeedBonus(float baseMagnitude, float baseMagnitudeWithoutSpeedBonus)
 		{
 			return baseMagnitude / baseMagnitudeWithoutSpeedBonus - 1f;
 		}
 
-		// Token: 0x06002051 RID: 8273 RVA: 0x00072470 File Offset: 0x00070670
 		private static float ComputeRelativeSpeedDiffOfAgents(Agent agentA, Agent agentB)
 		{
 			Vec2 vec = Vec2.Zero;
@@ -489,7 +470,6 @@ namespace TaleWorlds.MountAndBlade
 			return (vec - vec2).Length;
 		}
 
-		// Token: 0x06002052 RID: 8274 RVA: 0x00072518 File Offset: 0x00070718
 		private static void ComputeBlowDamage(in AttackInformation attackInformation, in AttackCollisionData attackCollisionData, WeaponComponentData attackerWeapon, DamageTypes damageType, float magnitude, int speedBonus, bool cancelDamage, out int inflictedDamage, out int absorbedByArmor)
 		{
 			float armorAmountFloat = attackInformation.ArmorAmountFloat;
@@ -533,7 +513,6 @@ namespace TaleWorlds.MountAndBlade
 			absorbedByArmor = num5 - inflictedDamage;
 		}
 
-		// Token: 0x06002053 RID: 8275 RVA: 0x00072680 File Offset: 0x00070880
 		private static void ComputeBlowDamageOnShield(in AttackInformation attackInformation, in AttackCollisionData attackCollisionData, WeaponComponentData attackerWeapon, float blowMagnitude, out int inflictedDamage)
 		{
 			inflictedDamage = 0;
@@ -602,7 +581,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002054 RID: 8276 RVA: 0x00072818 File Offset: 0x00070A18
 		public static float CalculateBaseMeleeBlowMagnitude(in AttackInformation attackInformation, in MissionWeapon weapon, StrikeType strikeType, float progressEffect, float impactPointAsPercent, float exraLinearSpeed, bool doesAttackerHaveMount)
 		{
 			MissionWeapon missionWeapon = weapon;
@@ -652,7 +630,6 @@ namespace TaleWorlds.MountAndBlade
 			return num4;
 		}
 
-		// Token: 0x06002055 RID: 8277 RVA: 0x00072990 File Offset: 0x00070B90
 		private static void ComputeBlowMagnitude(in AttackCollisionData acd, in AttackInformation attackInformation, MissionWeapon weapon, float momentumRemaining, bool cancelDamage, bool hitWithAnotherBone, Vec2 attackerVelocity, Vec2 victimVelocity, out float baseMagnitude, out float specialMagnitude, out float movementSpeedDamageModifier, out int speedBonusInt)
 		{
 			AttackCollisionData attackCollisionData = acd;
@@ -690,7 +667,6 @@ namespace TaleWorlds.MountAndBlade
 			specialMagnitude = MBMath.ClampFloat(specialMagnitude, 0f, 500f);
 		}
 
-		// Token: 0x06002056 RID: 8278 RVA: 0x00072A7C File Offset: 0x00070C7C
 		private static void ComputeBlowMagnitudeMelee(in AttackInformation attackInformation, in AttackCollisionData acd, float momentumRemaining, bool cancelDamage, bool hitWithAnotherBone, StrikeType strikeType, Agent.UsageDirection attackDirection, in MissionWeapon weapon, bool attackerIsDoingPassiveAttack, Vec2 attackerVelocity, Vec2 victimVelocity, out float baseMagnitude, out float specialMagnitude, out float movementSpeedDamageModifier, out int speedBonusInt)
 		{
 			Vec3 attackerAgentCurrentWeaponOffset = attackInformation.AttackerAgentCurrentWeaponOffset;
@@ -789,7 +765,6 @@ namespace TaleWorlds.MountAndBlade
 			specialMagnitude = MissionCombatMechanicsHelper.ConvertBaseAttackMagnitude(currentUsageItem, strikeType, baseMagnitude);
 		}
 
-		// Token: 0x06002057 RID: 8279 RVA: 0x00072D54 File Offset: 0x00070F54
 		private static void ComputeBlowMagnitudeFromHorseCharge(in AttackInformation attackInformation, in AttackCollisionData acd, Vec2 attackerAgentVelocity, Vec2 victimAgentVelocity, out float baseMagnitude, out float specialMagnitude)
 		{
 			Vec2 attackerAgentMovementDirection = attackInformation.AttackerAgentMovementDirection;
@@ -803,7 +778,6 @@ namespace TaleWorlds.MountAndBlade
 			specialMagnitude = baseMagnitude;
 		}
 
-		// Token: 0x06002058 RID: 8280 RVA: 0x00072DC4 File Offset: 0x00070FC4
 		private static void ComputeBlowMagnitudeMissile(in AttackInformation attackInformation, in AttackCollisionData acd, in MissionWeapon weapon, float momentumRemaining, in Vec2 victimVelocity, out float baseMagnitude, out float specialMagnitude)
 		{
 			AttackCollisionData attackCollisionData = acd;
@@ -846,7 +820,6 @@ namespace TaleWorlds.MountAndBlade
 			specialMagnitude = baseMagnitude;
 		}
 
-		// Token: 0x06002059 RID: 8281 RVA: 0x00072EEC File Offset: 0x000710EC
 		private static void ComputeBlowMagnitudeFromFall(in AttackInformation attackInformation, in AttackCollisionData acd, out float baseMagnitude, out float specialMagnitude)
 		{
 			float victimAgentScale = attackInformation.VictimAgentScale;
@@ -875,10 +848,8 @@ namespace TaleWorlds.MountAndBlade
 			specialMagnitude = baseMagnitude;
 		}
 
-		// Token: 0x04000BDC RID: 3036
 		private const float SpeedBonusFactorForSwing = 0.7f;
 
-		// Token: 0x04000BDD RID: 3037
 		private const float SpeedBonusFactorForThrust = 0.5f;
 	}
 }

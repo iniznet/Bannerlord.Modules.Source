@@ -11,17 +11,14 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x02000023 RID: 35
 	[OverrideView(typeof(BattleSimulationMapView))]
 	public class GauntletMapBattleSimulationView : MapView
 	{
-		// Token: 0x0600014F RID: 335 RVA: 0x0000A533 File Offset: 0x00008733
 		public GauntletMapBattleSimulationView(BattleSimulation battleSimulation)
 		{
 			this._battleSimulation = battleSimulation;
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x0000A544 File Offset: 0x00008744
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -46,7 +43,6 @@ namespace SandBox.GauntletUI.Map
 			ScreenManager.TrySetFocus(base.Layer);
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x0000A69C File Offset: 0x0000889C
 		protected override void OnFinalize()
 		{
 			this._dataSource.OnFinalize();
@@ -59,7 +55,6 @@ namespace SandBox.GauntletUI.Map
 			this._gauntletMovie = null;
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x0000A704 File Offset: 0x00008904
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -78,16 +73,12 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x040000AB RID: 171
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x040000AC RID: 172
 		private IGauntletMovie _gauntletMovie;
 
-		// Token: 0x040000AD RID: 173
 		private SPScoreboardVM _dataSource;
 
-		// Token: 0x040000AE RID: 174
 		private readonly BattleSimulation _battleSimulation;
 	}
 }

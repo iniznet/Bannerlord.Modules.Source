@@ -6,19 +6,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000B8 RID: 184
 	public class HeirComingOfAgeSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000502 RID: 1282
-		// (get) Token: 0x060011F8 RID: 4600 RVA: 0x00052292 File Offset: 0x00050492
 		public Hero MentorHero { get; }
 
-		// Token: 0x17000503 RID: 1283
-		// (get) Token: 0x060011F9 RID: 4601 RVA: 0x0005229A File Offset: 0x0005049A
 		public Hero HeroCameOfAge { get; }
 
-		// Token: 0x17000504 RID: 1284
-		// (get) Token: 0x060011FA RID: 4602 RVA: 0x000522A2 File Offset: 0x000504A2
 		public override string SceneID
 		{
 			get
@@ -27,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x17000505 RID: 1285
-		// (get) Token: 0x060011FB RID: 4603 RVA: 0x000522AC File Offset: 0x000504AC
 		public override TextObject TitleText
 		{
 			get
@@ -40,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x060011FC RID: 4604 RVA: 0x00052308 File Offset: 0x00050508
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -59,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x060011FD RID: 4605 RVA: 0x0005244D File Offset: 0x0005064D
 		public HeirComingOfAgeSceneNotificationItem(Hero mentorHero, Hero heroCameOfAge)
 		{
 			this.MentorHero = mentorHero;
@@ -67,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x04000647 RID: 1607
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

@@ -14,11 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003DD RID: 989
 	public class VassalAndMercenaryOfferCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CEE RID: 3310
-		// (get) Token: 0x06003BC6 RID: 15302 RVA: 0x0011B062 File Offset: 0x00119262
 		private static TextObject DecisionPopUpTitleText
 		{
 			get
@@ -27,8 +24,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CEF RID: 3311
-		// (get) Token: 0x06003BC7 RID: 15303 RVA: 0x0011B06F File Offset: 0x0011926F
 		private static TextObject DecisionPopUpAffirmativeText
 		{
 			get
@@ -37,8 +32,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CF0 RID: 3312
-		// (get) Token: 0x06003BC8 RID: 15304 RVA: 0x0011B07C File Offset: 0x0011927C
 		private static TextObject DecisionPopUpNegativeText
 		{
 			get
@@ -47,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BC9 RID: 15305 RVA: 0x0011B08C File Offset: 0x0011928C
 		public override void RegisterEvents()
 		{
 			if (!this._stopOffers)
@@ -65,7 +57,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BCA RID: 15306 RVA: 0x0011B18A File Offset: 0x0011938A
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Tuple<Kingdom, CampaignTime>>("_currentMercenaryOffer", ref this._currentMercenaryOffer);
@@ -73,13 +64,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<bool>("_stopOffers", ref this._stopOffers);
 		}
 
-		// Token: 0x06003BCB RID: 15307 RVA: 0x0011B1C2 File Offset: 0x001193C2
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddVassalDialogues(campaignGameStarter);
 		}
 
-		// Token: 0x06003BCC RID: 15308 RVA: 0x0011B1CC File Offset: 0x001193CC
 		private void DailyTick()
 		{
 			if (!this._stopOffers && Clan.PlayerClan.Tier > Campaign.Current.Models.ClanTierModel.MinClanTier)
@@ -116,7 +105,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BCD RID: 15309 RVA: 0x0011B2BC File Offset: 0x001194BC
 		private bool VassalKingdomSelectionConditionsHold(Kingdom kingdom)
 		{
 			List<IFaction> list;
@@ -124,7 +112,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !this._vassalOffers.ContainsKey(kingdom) && FactionHelper.CanPlayerOfferVassalage(kingdom, out list, out list2);
 		}
 
-		// Token: 0x06003BCE RID: 15310 RVA: 0x0011B2E4 File Offset: 0x001194E4
 		private bool MercenaryKingdomSelectionConditionsHold(Kingdom kingdom)
 		{
 			List<IFaction> list;
@@ -132,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return FactionHelper.CanPlayerOfferMercenaryService(kingdom, out list, out list2);
 		}
 
-		// Token: 0x06003BCF RID: 15311 RVA: 0x0011B2FB File Offset: 0x001194FB
 		private void OnHeroPrisonerTaken(PartyBase captor, Hero prisoner)
 		{
 			if (prisoner == Hero.MainHero && this._currentMercenaryOffer != null)
@@ -141,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD0 RID: 15312 RVA: 0x0011B324 File Offset: 0x00119524
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			if (clan == Clan.PlayerClan && newKingdom != null)
@@ -166,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD1 RID: 15313 RVA: 0x0011B438 File Offset: 0x00119638
 		private void OnVassalOrMercenaryServiceOfferedToPlayer(Kingdom kingdom)
 		{
 			if (this._currentMercenaryOffer != null && this._currentMercenaryOffer.Item1 == kingdom)
@@ -175,13 +159,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD2 RID: 15314 RVA: 0x0011B457 File Offset: 0x00119657
 		private void OnVassalOrMercenaryServiceOfferCanceled(Kingdom kingdom)
 		{
 			this.ClearKingdomOffer(kingdom);
 		}
 
-		// Token: 0x06003BD3 RID: 15315 RVA: 0x0011B460 File Offset: 0x00119660
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 		{
 			if ((faction1 == Clan.PlayerClan || faction2 == Clan.PlayerClan) && this._currentMercenaryOffer != null && !this.MercenaryKingdomSelectionConditionsHold(this._currentMercenaryOffer.Item1))
@@ -190,7 +172,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD4 RID: 15316 RVA: 0x0011B4B0 File Offset: 0x001196B0
 		private void OnHeroRelationChanged(Hero effectiveHero, Hero effectiveHeroGainedRelationWith, int relationChange, bool showNotification, ChangeRelationAction.ChangeRelationDetail detail, Hero originalHero, Hero originalGainedRelationWith)
 		{
 			if ((effectiveHero == Hero.MainHero || effectiveHeroGainedRelationWith == Hero.MainHero) && this._currentMercenaryOffer != null && !this.MercenaryKingdomSelectionConditionsHold(this._currentMercenaryOffer.Item1))
@@ -199,7 +180,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD5 RID: 15317 RVA: 0x0011B4FD File Offset: 0x001196FD
 		private void OnKingdomDestroyed(Kingdom destroyedKingdom)
 		{
 			if ((this._currentMercenaryOffer != null && this._currentMercenaryOffer.Item1 == destroyedKingdom) || this._vassalOffers.ContainsKey(destroyedKingdom))
@@ -208,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD6 RID: 15318 RVA: 0x0011B530 File Offset: 0x00119730
 		private void OnPlayerCharacterChanged(Hero oldPlayer, Hero newPlayer, MobileParty newMainParty, bool isMainPartyChanged)
 		{
 			if (this._currentMercenaryOffer != null)
@@ -227,7 +206,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD7 RID: 15319 RVA: 0x0011B5C0 File Offset: 0x001197C0
 		private void ClearKingdomOffer(Kingdom kingdom)
 		{
 			if (this._currentMercenaryOffer != null && this._currentMercenaryOffer.Item1 == kingdom)
@@ -241,13 +219,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BD8 RID: 15320 RVA: 0x0011B5F9 File Offset: 0x001197F9
 		private bool CanPlayerClanReceiveMercenaryOffer()
 		{
 			return Clan.PlayerClan.Kingdom == null && Clan.PlayerClan.Tier == Campaign.Current.Models.ClanTierModel.MercenaryEligibleTier;
 		}
 
-		// Token: 0x06003BD9 RID: 15321 RVA: 0x0011B62C File Offset: 0x0011982C
 		private void CreateMercenaryOffer(Kingdom kingdom)
 		{
 			this._currentMercenaryOffer = new Tuple<Kingdom, CampaignTime>(kingdom, CampaignTime.Now);
@@ -255,7 +231,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new MercenaryOfferMapNotification(kingdom, VassalAndMercenaryOfferCampaignBehavior.MercenaryOfferPanelNotificationText));
 		}
 
-		// Token: 0x06003BDA RID: 15322 RVA: 0x0011B680 File Offset: 0x00119880
 		private void CreateMercenaryOfferDecisionPopUp(Kingdom kingdom)
 		{
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
@@ -265,7 +240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			InformationManager.ShowInquiry(new InquiryData(VassalAndMercenaryOfferCampaignBehavior.DecisionPopUpTitleText.ToString(), VassalAndMercenaryOfferCampaignBehavior.MercenaryOfferDecisionPopUpExplanationText.ToString(), true, true, VassalAndMercenaryOfferCampaignBehavior.DecisionPopUpAffirmativeText.ToString(), VassalAndMercenaryOfferCampaignBehavior.DecisionPopUpNegativeText.ToString(), new Action(this.MercenaryOfferAccepted), new Action(this.MercenaryOfferDeclined), "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x06003BDB RID: 15323 RVA: 0x0011B738 File Offset: 0x00119938
 		private void MercenaryOfferAccepted()
 		{
 			Kingdom item = this._currentMercenaryOffer.Item1;
@@ -274,19 +248,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ChangeKingdomAction.ApplyByJoinFactionAsMercenary(Clan.PlayerClan, item, mercenaryAwardFactorToJoinKingdom, true);
 		}
 
-		// Token: 0x06003BDC RID: 15324 RVA: 0x0011B78B File Offset: 0x0011998B
 		private void MercenaryOfferDeclined()
 		{
 			this.ClearKingdomOffer(this._currentMercenaryOffer.Item1);
 		}
 
-		// Token: 0x06003BDD RID: 15325 RVA: 0x0011B79E File Offset: 0x0011999E
 		private bool CanPlayerClanReceiveVassalOffer()
 		{
 			return (Clan.PlayerClan.Kingdom == null || Clan.PlayerClan.IsUnderMercenaryService) && Clan.PlayerClan.Tier >= Campaign.Current.Models.ClanTierModel.VassalEligibleTier;
 		}
 
-		// Token: 0x06003BDE RID: 15326 RVA: 0x0011B7E0 File Offset: 0x001199E0
 		private void CreateVassalOffer(Kingdom kingdom)
 		{
 			this._vassalOffers.Add(kingdom, CampaignTime.Now);
@@ -294,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new VassalOfferMapNotification(kingdom, VassalAndMercenaryOfferCampaignBehavior.VassalOfferPanelNotificationText));
 		}
 
-		// Token: 0x06003BDF RID: 15327 RVA: 0x0011B834 File Offset: 0x00119A34
 		private void AddVassalDialogues(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("valid_vassal_offer_start", "start", "valid_vassal_offer_player_response", "{=aDABE6Md}Greetings, {PLAYER.NAME}. I am glad that you received my message. Are you interested in my offer?", new ConversationSentence.OnConditionDelegate(this.valid_vassal_offer_start_condition), null, int.MaxValue, null);
@@ -318,7 +288,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("vassal_offer_player_accepts_response", "invalid_vassal_offer_player_response", "lord_start", "{=AmBEgOyq}I see...", null, new ConversationSentence.OnConsequenceDelegate(this.vassal_conversation_end_consequence), 100, null, null);
 		}
 
-		// Token: 0x06003BE0 RID: 15328 RVA: 0x0011BAF4 File Offset: 0x00119CF4
 		private bool valid_vassal_offer_start_condition()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -348,7 +317,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003BE1 RID: 15329 RVA: 0x0011BBE8 File Offset: 0x00119DE8
 		private bool conversation_set_oath_phrases_on_condition()
 		{
 			Hero leader = Hero.OneToOneConversationHero.MapFaction.Leader;
@@ -443,7 +411,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003BE2 RID: 15330 RVA: 0x0011BEDC File Offset: 0x0011A0DC
 		private bool invalid_vassal_offer_start_condition()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -490,37 +457,27 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003BE3 RID: 15331 RVA: 0x0011C0C0 File Offset: 0x0011A2C0
 		private void vassal_conversation_end_consequence()
 		{
 			CampaignEventDispatcher.Instance.OnVassalOrMercenaryServiceOfferCanceled((Kingdom)Hero.OneToOneConversationHero.MapFaction);
 		}
 
-		// Token: 0x04001232 RID: 4658
 		private const float MercenaryOfferCreationChance = 0.02f;
 
-		// Token: 0x04001233 RID: 4659
 		private const float VassalOfferCreationChance = 0.01f;
 
-		// Token: 0x04001234 RID: 4660
 		private const int MercenaryOfferCancelTimeInHours = 48;
 
-		// Token: 0x04001235 RID: 4661
 		private static readonly TextObject MercenaryOfferDecisionPopUpExplanationText = new TextObject("{=TENbJKpP}The {OFFERED_KINGDOM_NAME} is offering you work as a mercenary, paying {GOLD_AMOUNT}{GOLD_ICON} per influence point that you would gain from fighting on their behalf. Do you accept?", null);
 
-		// Token: 0x04001236 RID: 4662
 		private static readonly TextObject MercenaryOfferPanelNotificationText = new TextObject("{=FA2QZc7Q}A courier arrives, bearing a message from {OFFERED_KINGDOM_LEADER.NAME}. {?OFFERED_KINGDOM_LEADER.GENDER}She{?}He{\\?} is offering you a contract as a mercenary.", null);
 
-		// Token: 0x04001237 RID: 4663
 		private static readonly TextObject VassalOfferPanelNotificationText = new TextObject("{=7ouzFASf}A courier arrives, bearing a message from {OFFERED_KINGDOM_LEADER.NAME}. {?OFFERED_KINGDOM_LEADER.GENDER}She{?}He{\\?} remarks on your growing reputation, and asks if you would consider pledging yourself as a vassal of the {OFFERED_KINGDOM_LEADER.NAME}. You should speak in person if you are interested.", null);
 
-		// Token: 0x04001238 RID: 4664
 		private Tuple<Kingdom, CampaignTime> _currentMercenaryOffer;
 
-		// Token: 0x04001239 RID: 4665
 		private Dictionary<Kingdom, CampaignTime> _vassalOffers = new Dictionary<Kingdom, CampaignTime>();
 
-		// Token: 0x0400123A RID: 4666
 		private bool _stopOffers;
 	}
 }

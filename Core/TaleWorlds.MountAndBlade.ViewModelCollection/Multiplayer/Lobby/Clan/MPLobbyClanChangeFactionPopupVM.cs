@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 {
-	// Token: 0x02000093 RID: 147
 	public class MPLobbyClanChangeFactionPopupVM : ViewModel
 	{
-		// Token: 0x06000DBE RID: 3518 RVA: 0x0002F493 File Offset: 0x0002D693
 		public MPLobbyClanChangeFactionPopupVM()
 		{
 			this.PrepareFactionsList();
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000DBF RID: 3519 RVA: 0x0002F4AE File Offset: 0x0002D6AE
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			this.ApplyText = new TextObject("{=BAaS5Dkc}Apply", null).ToString();
 		}
 
-		// Token: 0x06000DC0 RID: 3520 RVA: 0x0002F4E4 File Offset: 0x0002D6E4
 		private void PrepareFactionsList()
 		{
 			this._selectedFaction = null;
@@ -41,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			};
 		}
 
-		// Token: 0x06000DC1 RID: 3521 RVA: 0x0002F624 File Offset: 0x0002D824
 		private void OnFactionSelection(MPCultureItemVM faction)
 		{
 			if (faction != this._selectedFaction)
@@ -59,19 +54,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x06000DC2 RID: 3522 RVA: 0x0002F670 File Offset: 0x0002D870
 		public void ExecuteOpenPopup()
 		{
 			this.IsSelected = true;
 		}
 
-		// Token: 0x06000DC3 RID: 3523 RVA: 0x0002F679 File Offset: 0x0002D879
 		public void ExecuteClosePopup()
 		{
 			this.IsSelected = false;
 		}
 
-		// Token: 0x06000DC4 RID: 3524 RVA: 0x0002F684 File Offset: 0x0002D884
 		public void ExecuteChangeFaction()
 		{
 			BasicCultureObject @object = Game.Current.ObjectManager.GetObject<BasicCultureObject>(this._selectedFaction.CultureCode);
@@ -83,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			this.ExecuteClosePopup();
 		}
 
-		// Token: 0x06000DC5 RID: 3525 RVA: 0x0002F704 File Offset: 0x0002D904
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -100,21 +91,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			doneInputKey.OnFinalize();
 		}
 
-		// Token: 0x06000DC6 RID: 3526 RVA: 0x0002F72D File Offset: 0x0002D92D
 		public void SetCancelInputKey(HotKey hotKey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06000DC7 RID: 3527 RVA: 0x0002F73C File Offset: 0x0002D93C
 		public void SetDoneInputKey(HotKey hotKey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x1700045E RID: 1118
-		// (get) Token: 0x06000DC8 RID: 3528 RVA: 0x0002F74B File Offset: 0x0002D94B
-		// (set) Token: 0x06000DC9 RID: 3529 RVA: 0x0002F753 File Offset: 0x0002D953
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -132,9 +118,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x1700045F RID: 1119
-		// (get) Token: 0x06000DCA RID: 3530 RVA: 0x0002F770 File Offset: 0x0002D970
-		// (set) Token: 0x06000DCB RID: 3531 RVA: 0x0002F778 File Offset: 0x0002D978
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -152,9 +135,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x17000460 RID: 1120
-		// (get) Token: 0x06000DCC RID: 3532 RVA: 0x0002F795 File Offset: 0x0002D995
-		// (set) Token: 0x06000DCD RID: 3533 RVA: 0x0002F79D File Offset: 0x0002D99D
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -172,9 +152,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x17000461 RID: 1121
-		// (get) Token: 0x06000DCE RID: 3534 RVA: 0x0002F7BA File Offset: 0x0002D9BA
-		// (set) Token: 0x06000DCF RID: 3535 RVA: 0x0002F7C2 File Offset: 0x0002D9C2
 		[DataSourceProperty]
 		public bool CanChangeFaction
 		{
@@ -192,9 +169,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x17000462 RID: 1122
-		// (get) Token: 0x06000DD0 RID: 3536 RVA: 0x0002F7DF File Offset: 0x0002D9DF
-		// (set) Token: 0x06000DD1 RID: 3537 RVA: 0x0002F7E7 File Offset: 0x0002D9E7
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -212,9 +186,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x17000463 RID: 1123
-		// (get) Token: 0x06000DD2 RID: 3538 RVA: 0x0002F809 File Offset: 0x0002DA09
-		// (set) Token: 0x06000DD3 RID: 3539 RVA: 0x0002F811 File Offset: 0x0002DA11
 		[DataSourceProperty]
 		public string ApplyText
 		{
@@ -232,9 +203,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x17000464 RID: 1124
-		// (get) Token: 0x06000DD4 RID: 3540 RVA: 0x0002F833 File Offset: 0x0002DA33
-		// (set) Token: 0x06000DD5 RID: 3541 RVA: 0x0002F83B File Offset: 0x0002DA3B
 		[DataSourceProperty]
 		public MBBindingList<MPCultureItemVM> FactionsList
 		{
@@ -252,28 +220,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Clan
 			}
 		}
 
-		// Token: 0x04000696 RID: 1686
 		private MPCultureItemVM _selectedFaction;
 
-		// Token: 0x04000697 RID: 1687
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x04000698 RID: 1688
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x04000699 RID: 1689
 		private bool _isSelected;
 
-		// Token: 0x0400069A RID: 1690
 		private bool _canChangeFaction;
 
-		// Token: 0x0400069B RID: 1691
 		private string _titleText;
 
-		// Token: 0x0400069C RID: 1692
 		private string _applyText;
 
-		// Token: 0x0400069D RID: 1693
 		private MBBindingList<MPCultureItemVM> _factionsList;
 	}
 }

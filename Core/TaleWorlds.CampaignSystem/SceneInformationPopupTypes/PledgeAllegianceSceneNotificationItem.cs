@@ -6,19 +6,12 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000C3 RID: 195
 	public class PledgeAllegianceSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000539 RID: 1337
-		// (get) Token: 0x06001250 RID: 4688 RVA: 0x00053F58 File Offset: 0x00052158
 		public Hero PlayerHero { get; }
 
-		// Token: 0x1700053A RID: 1338
-		// (get) Token: 0x06001251 RID: 4689 RVA: 0x00053F60 File Offset: 0x00052160
 		public bool PlayerWantsToRestore { get; }
 
-		// Token: 0x1700053B RID: 1339
-		// (get) Token: 0x06001252 RID: 4690 RVA: 0x00053F68 File Offset: 0x00052168
 		public override string SceneID
 		{
 			get
@@ -27,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x1700053C RID: 1340
-		// (get) Token: 0x06001253 RID: 4691 RVA: 0x00053F70 File Offset: 0x00052170
 		public override TextObject TitleText
 		{
 			get
@@ -42,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x06001254 RID: 4692 RVA: 0x00053FF8 File Offset: 0x000521F8
 		public override IEnumerable<Banner> GetBanners()
 		{
 			List<Banner> list = new List<Banner>();
@@ -52,7 +42,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x06001255 RID: 4693 RVA: 0x0005406C File Offset: 0x0005226C
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			ItemObject itemObject = null;
@@ -89,7 +78,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x06001256 RID: 4694 RVA: 0x00054221 File Offset: 0x00052421
 		public PledgeAllegianceSceneNotificationItem(Hero playerHero, bool playerWantsToRestore)
 		{
 			this.PlayerHero = playerHero;
@@ -97,10 +85,8 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x04000675 RID: 1653
 		private const int NumberOfTroops = 24;
 
-		// Token: 0x04000678 RID: 1656
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

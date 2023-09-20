@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000310 RID: 784
 	public abstract class MPCombatPerkEffect : MPPerkEffect
 	{
-		// Token: 0x06002A68 RID: 10856 RVA: 0x000A4BD0 File Offset: 0x000A2DD0
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -123,7 +121,6 @@ namespace TaleWorlds.MountAndBlade
 			this.WeaponClass = null;
 		}
 
-		// Token: 0x06002A69 RID: 10857 RVA: 0x000A4D94 File Offset: 0x000A2F94
 		protected bool IsSatisfied(WeaponComponentData attackerWeapon, DamageTypes damageType)
 		{
 			if (this.DamageType == null || this.DamageType.Value == damageType)
@@ -150,29 +147,21 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002A6A RID: 10858 RVA: 0x000A4E32 File Offset: 0x000A3032
 		protected bool IsWeaponRanged(WeaponComponentData attackerWeapon)
 		{
 			return attackerWeapon != null && (attackerWeapon.IsConsumable || attackerWeapon.IsRangedWeapon);
 		}
 
-		// Token: 0x0400103F RID: 4159
 		protected MPCombatPerkEffect.HitType EffectHitType;
 
-		// Token: 0x04001040 RID: 4160
 		protected DamageTypes? DamageType;
 
-		// Token: 0x04001041 RID: 4161
 		protected WeaponClass? WeaponClass;
 
-		// Token: 0x0200062D RID: 1581
 		protected enum HitType
 		{
-			// Token: 0x0400200E RID: 8206
 			Any,
-			// Token: 0x0400200F RID: 8207
 			Melee,
-			// Token: 0x04002010 RID: 8208
 			Ranged
 		}
 	}

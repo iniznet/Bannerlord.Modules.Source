@@ -5,20 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200016C RID: 364
 	public class ArcherPosition
 	{
-		// Token: 0x17000417 RID: 1047
-		// (get) Token: 0x060012B7 RID: 4791 RVA: 0x00048AD0 File Offset: 0x00046CD0
 		public GameEntity Entity { get; }
 
-		// Token: 0x17000418 RID: 1048
-		// (get) Token: 0x060012B8 RID: 4792 RVA: 0x00048AD8 File Offset: 0x00046CD8
 		public TacticalPosition TacticalArcherPosition { get; }
 
-		// Token: 0x17000419 RID: 1049
-		// (get) Token: 0x060012B9 RID: 4793 RVA: 0x00048AE0 File Offset: 0x00046CE0
-		// (set) Token: 0x060012BA RID: 4794 RVA: 0x00048AE8 File Offset: 0x00046CE8
 		public int ConnectedSides
 		{
 			get
@@ -31,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012BB RID: 4795 RVA: 0x00048AF1 File Offset: 0x00046CF1
 		public Formation GetLastAssignedFormation(int teamIndex)
 		{
 			if (teamIndex >= 0)
@@ -41,7 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x060012BC RID: 4796 RVA: 0x00048B04 File Offset: 0x00046D04
 		public ArcherPosition(GameEntity _entity, SiegeQuerySystem siegeQuerySystem, BattleSideEnum battleSide)
 		{
 			this.Entity = _entity;
@@ -51,32 +41,27 @@ namespace TaleWorlds.MountAndBlade
 			this._lastAssignedFormations = new Formation[Mission.Current.Teams.Count];
 		}
 
-		// Token: 0x060012BD RID: 4797 RVA: 0x00048B57 File Offset: 0x00046D57
 		private static int ConvertToBinaryPow(int pow)
 		{
 			return 1 << pow;
 		}
 
-		// Token: 0x060012BE RID: 4798 RVA: 0x00048B5F File Offset: 0x00046D5F
 		public bool IsArcherPositionRelatedToSide(FormationAI.BehaviorSide side)
 		{
 			return (ArcherPosition.ConvertToBinaryPow((int)side) & this.ConnectedSides) != 0;
 		}
 
-		// Token: 0x060012BF RID: 4799 RVA: 0x00048B71 File Offset: 0x00046D71
 		public FormationAI.BehaviorSide GetArcherPositionClosestSide()
 		{
 			return this._closestSide;
 		}
 
-		// Token: 0x060012C0 RID: 4800 RVA: 0x00048B79 File Offset: 0x00046D79
 		public void OnDeploymentFinished(SiegeQuerySystem siegeQuerySystem, BattleSideEnum battleSide)
 		{
 			this._siegeQuerySystem = siegeQuerySystem;
 			this.DetermineArcherPositionSide(battleSide);
 		}
 
-		// Token: 0x060012C1 RID: 4801 RVA: 0x00048B8C File Offset: 0x00046D8C
 		private void DetermineArcherPositionSide(BattleSideEnum battleSide)
 		{
 			this.ConnectedSides = 0;
@@ -100,7 +85,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012C2 RID: 4802 RVA: 0x00048C28 File Offset: 0x00046E28
 		private static void CalculateArcherPositionSideUsingAttackerRegions(SiegeQuerySystem siegeQuerySystem, Vec3 position, out FormationAI.BehaviorSide _closestSide, out int ConnectedSides)
 		{
 			float num = position.DistanceSquared(siegeQuerySystem.LeftAttackerOrigin);
@@ -160,7 +144,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012C3 RID: 4803 RVA: 0x00048EA0 File Offset: 0x000470A0
 		private static void CalculateArcherPositionSideUsingDefenderLanes(SiegeQuerySystem siegeQuerySystem, Vec3 position, out FormationAI.BehaviorSide _closestSide, out int ConnectedSides)
 		{
 			float num = position.DistanceSquared(siegeQuerySystem.LeftDefenderOrigin);
@@ -213,7 +196,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060012C4 RID: 4804 RVA: 0x00048FEB File Offset: 0x000471EB
 		public void SetLastAssignedFormation(int teamIndex, Formation formation)
 		{
 			if (teamIndex >= 0)
@@ -222,16 +204,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0400053C RID: 1340
 		private FormationAI.BehaviorSide _closestSide;
 
-		// Token: 0x0400053D RID: 1341
 		private int _connectedSides;
 
-		// Token: 0x0400053E RID: 1342
 		private SiegeQuerySystem _siegeQuerySystem;
 
-		// Token: 0x0400053F RID: 1343
 		private readonly Formation[] _lastAssignedFormations;
 	}
 }

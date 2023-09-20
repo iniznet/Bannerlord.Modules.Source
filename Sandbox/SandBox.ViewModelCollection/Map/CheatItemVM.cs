@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace SandBox.ViewModelCollection.Map
 {
-	// Token: 0x0200002A RID: 42
 	public class CheatItemVM : StringItemWithActionVM
 	{
-		// Token: 0x06000333 RID: 819 RVA: 0x0000F9BC File Offset: 0x0000DBBC
 		public CheatItemVM(string name, string cheatCode, bool closeOnExecute, Action executeClose)
 			: base(null, name, null)
 		{
@@ -38,13 +36,10 @@ namespace SandBox.ViewModelCollection.Map
 			};
 		}
 
-		// Token: 0x040001A5 RID: 421
 		private readonly string[] _cheats;
 
-		// Token: 0x040001A6 RID: 422
 		private bool _closeOnExecute;
 
-		// Token: 0x040001A7 RID: 423
 		private Action _executeClose;
 	}
 }

@@ -11,15 +11,10 @@ using TaleWorlds.Library;
 
 namespace SandBox.ViewModelCollection.Nameplate
 {
-	// Token: 0x02000016 RID: 22
 	public class SettlementNameplateEventsVM : ViewModel
 	{
-		// Token: 0x170000BE RID: 190
-		// (get) Token: 0x06000224 RID: 548 RVA: 0x0000AF29 File Offset: 0x00009129
-		// (set) Token: 0x06000225 RID: 549 RVA: 0x0000AF31 File Offset: 0x00009131
 		public bool IsEventsRegistered { get; private set; }
 
-		// Token: 0x06000226 RID: 550 RVA: 0x0000AF3A File Offset: 0x0000913A
 		public SettlementNameplateEventsVM(Settlement settlement)
 		{
 			this._settlement = settlement;
@@ -32,7 +27,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000227 RID: 551 RVA: 0x0000AF78 File Offset: 0x00009178
 		public void Tick()
 		{
 			if (this._areQuestsDirty)
@@ -42,7 +36,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000228 RID: 552 RVA: 0x0000AF8F File Offset: 0x0000918F
 		private void PopulateEventList()
 		{
 			if (Campaign.Current.TournamentManager.GetTournamentGame(this._settlement.Town) != null)
@@ -51,7 +44,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000229 RID: 553 RVA: 0x0000AFC0 File Offset: 0x000091C0
 		public void RegisterEvents()
 		{
 			if (!this.IsEventsRegistered)
@@ -73,7 +65,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0600022A RID: 554 RVA: 0x0000B0E8 File Offset: 0x000092E8
 		public void UnloadEvents()
 		{
 			if (this.IsEventsRegistered)
@@ -103,7 +94,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x0000B1C0 File Offset: 0x000093C0
 		private void OnTournamentStarted(Town town)
 		{
 			if (this._settlement.Town != null && town == this._settlement.Town)
@@ -124,19 +114,16 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0000B22B File Offset: 0x0000942B
 		private void OnTournamentFinished(CharacterObject winner, MBReadOnlyList<CharacterObject> participants, Town town, ItemObject prize)
 		{
 			this.RemoveTournament(town);
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x0000B234 File Offset: 0x00009434
 		private void OnTournamentCancelled(Town town)
 		{
 			this.RemoveTournament(town);
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x0000B240 File Offset: 0x00009440
 		private void RemoveTournament(Town town)
 		{
 			if (this._settlement.Town != null && town == this._settlement.Town)
@@ -162,7 +149,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x0000B2F4 File Offset: 0x000094F4
 		private void RefreshQuestCounts()
 		{
 			this._relatedQuests.Clear();
@@ -224,7 +210,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			this.HandleIssueCount(num3, SettlementNameplateEventItemVM.SettlementEventType.TrackedStoryQuest);
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x0000B504 File Offset: 0x00009704
 		private void OnNewIssueCreated(IssueBase issue)
 		{
 			if (issue.IssueSettlement != this._settlement)
@@ -238,7 +223,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			this._areQuestsDirty = true;
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x0000B535 File Offset: 0x00009735
 		private void OnIssueUpdated(IssueBase issue, IssueBase.IssueUpdateDetails details, Hero hero)
 		{
 			if (issue.IssueSettlement == this._settlement && issue.IssueQuest == null)
@@ -247,7 +231,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x0000B554 File Offset: 0x00009754
 		private void OnQuestStarted(QuestBase quest)
 		{
 			if (this.IsQuestRelated(quest))
@@ -256,7 +239,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x0000B566 File Offset: 0x00009766
 		private void OnQuestLogAdded(QuestBase quest, bool hideInformation)
 		{
 			if (this.IsQuestRelated(quest))
@@ -265,7 +247,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000234 RID: 564 RVA: 0x0000B578 File Offset: 0x00009778
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails details)
 		{
 			if (this.IsQuestRelated(quest))
@@ -274,7 +255,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000235 RID: 565 RVA: 0x0000B58A File Offset: 0x0000978A
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			if (settlement == this._settlement)
@@ -283,7 +263,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x0000B59C File Offset: 0x0000979C
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (settlement == this._settlement)
@@ -292,7 +271,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x0000B5AE File Offset: 0x000097AE
 		private void OnHeroTakenPrisoner(PartyBase capturer, Hero prisoner)
 		{
 			if (prisoner.CurrentSettlement == this._settlement)
@@ -301,7 +279,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x0000B5C8 File Offset: 0x000097C8
 		private void AddPrimaryProductionIcon()
 		{
 			string stringId = this._settlement.Village.VillageType.PrimaryProduction.StringId;
@@ -309,7 +286,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			this.EventsList.Add(new SettlementNameplateEventItemVM(text));
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x0000B638 File Offset: 0x00009838
 		private void HandleIssueCount(int count, SettlementNameplateEventItemVM.SettlementEventType eventType)
 		{
 			SettlementNameplateEventItemVM settlementNameplateEventItemVM = this.EventsList.FirstOrDefault((SettlementNameplateEventItemVM e) => e.EventType == eventType);
@@ -324,16 +300,12 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x0000B69C File Offset: 0x0000989C
 		private bool IsQuestRelated(QuestBase quest)
 		{
 			IssueBase issueOfQuest = IssueManager.GetIssueOfQuest(quest);
 			return (issueOfQuest != null && issueOfQuest.IssueSettlement == this._settlement) || this._relatedQuests.Contains(quest) || SandBoxUIHelper.IsQuestRelatedToSettlement(quest, this._settlement);
 		}
 
-		// Token: 0x170000BF RID: 191
-		// (get) Token: 0x0600023B RID: 571 RVA: 0x0000B6DD File Offset: 0x000098DD
-		// (set) Token: 0x0600023C RID: 572 RVA: 0x0000B6E5 File Offset: 0x000098E5
 		[DataSourceProperty]
 		public MBBindingList<QuestMarkerVM> TrackQuests
 		{
@@ -351,9 +323,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x170000C0 RID: 192
-		// (get) Token: 0x0600023D RID: 573 RVA: 0x0000B703 File Offset: 0x00009903
-		// (set) Token: 0x0600023E RID: 574 RVA: 0x0000B70B File Offset: 0x0000990B
 		public MBBindingList<SettlementNameplateEventItemVM> EventsList
 		{
 			get
@@ -370,19 +339,14 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x0400010D RID: 269
 		private List<QuestBase> _relatedQuests;
 
-		// Token: 0x0400010E RID: 270
 		private Settlement _settlement;
 
-		// Token: 0x0400010F RID: 271
 		private bool _areQuestsDirty;
 
-		// Token: 0x04000110 RID: 272
 		private MBBindingList<QuestMarkerVM> _trackQuests;
 
-		// Token: 0x04000111 RID: 273
 		private MBBindingList<SettlementNameplateEventItemVM> _eventsList;
 	}
 }

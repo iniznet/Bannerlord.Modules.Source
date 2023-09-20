@@ -13,10 +13,8 @@ using TaleWorlds.Library;
 
 namespace StoryMode
 {
-	// Token: 0x02000010 RID: 16
 	public static class StoryModeCheats
 	{
-		// Token: 0x0600006F RID: 111 RVA: 0x00003F19 File Offset: 0x00002119
 		public static bool CheckGameMode(out string message)
 		{
 			message = string.Empty;
@@ -28,7 +26,6 @@ namespace StoryMode
 			return true;
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x00003F34 File Offset: 0x00002134
 		[CommandLineFunctionality.CommandLineArgumentFunction("activate_conspiracy_quest", "storymode")]
 		public static string ActivateConspiracyQuest(List<string> strings)
 		{
@@ -57,7 +54,6 @@ namespace StoryMode
 			return "Player is not in a kingdom";
 		}
 
-		// Token: 0x06000071 RID: 113 RVA: 0x00004014 File Offset: 0x00002214
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_family_members", "storymode")]
 		public static string AddFamilyMembers(List<string> strings)
 		{
@@ -79,7 +75,6 @@ namespace StoryMode
 			return "Success";
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x000040A8 File Offset: 0x000022A8
 		[CommandLineFunctionality.CommandLineArgumentFunction("weaken_kingdom", "storymode")]
 		public static string WeakenKingdom(List<string> strings)
 		{
@@ -130,7 +125,6 @@ namespace StoryMode
 			return "Cant find kingdom";
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x000042E4 File Offset: 0x000024E4
 		[CommandLineFunctionality.CommandLineArgumentFunction("reinforce_kingdom", "storymode")]
 		public static string ReinforceKingdom(List<string> strings)
 		{

@@ -12,11 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000124 RID: 292
 	public class DefaultPartyMoraleModel : PartyMoraleModel
 	{
-		// Token: 0x1700060B RID: 1547
-		// (get) Token: 0x06001667 RID: 5735 RVA: 0x0006B9EE File Offset: 0x00069BEE
 		public override float HighMoraleValue
 		{
 			get
@@ -25,49 +22,41 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001668 RID: 5736 RVA: 0x0006B9F5 File Offset: 0x00069BF5
 		public override int GetDailyStarvationMoralePenalty(PartyBase party)
 		{
 			return -5;
 		}
 
-		// Token: 0x06001669 RID: 5737 RVA: 0x0006B9F9 File Offset: 0x00069BF9
 		public override int GetDailyNoWageMoralePenalty(MobileParty party)
 		{
 			return -3;
 		}
 
-		// Token: 0x0600166A RID: 5738 RVA: 0x0006B9FD File Offset: 0x00069BFD
 		private int GetStarvationMoralePenalty(MobileParty party)
 		{
 			return -30;
 		}
 
-		// Token: 0x0600166B RID: 5739 RVA: 0x0006BA01 File Offset: 0x00069C01
 		private int GetNoWageMoralePenalty(MobileParty party)
 		{
 			return -20;
 		}
 
-		// Token: 0x0600166C RID: 5740 RVA: 0x0006BA05 File Offset: 0x00069C05
 		public override float GetStandardBaseMorale(PartyBase party)
 		{
 			return 50f;
 		}
 
-		// Token: 0x0600166D RID: 5741 RVA: 0x0006BA0C File Offset: 0x00069C0C
 		public override float GetVictoryMoraleChange(PartyBase party)
 		{
 			return 20f;
 		}
 
-		// Token: 0x0600166E RID: 5742 RVA: 0x0006BA13 File Offset: 0x00069C13
 		public override float GetDefeatMoraleChange(PartyBase party)
 		{
 			return -20f;
 		}
 
-		// Token: 0x0600166F RID: 5743 RVA: 0x0006BA1C File Offset: 0x00069C1C
 		private void CalculateFoodVarietyMoraleBonus(MobileParty party, ref ExplainedNumber result)
 		{
 			if (!party.Party.IsStarving)
@@ -131,7 +120,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001670 RID: 5744 RVA: 0x0006BB60 File Offset: 0x00069D60
 		private void GetPartySizeMoraleEffect(MobileParty mobileParty, ref ExplainedNumber result)
 		{
 			if (!mobileParty.IsMilitia && !mobileParty.IsVillager)
@@ -144,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001671 RID: 5745 RVA: 0x0006BBB4 File Offset: 0x00069DB4
 		private static void CheckPerkEffectOnPartyMorale(MobileParty party, PerkObject perk, bool isInfoNeeded, TextObject newInfo, int perkEffect, out TextObject outNewInfo, out int outPerkEffect)
 		{
 			outNewInfo = newInfo;
@@ -163,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001672 RID: 5746 RVA: 0x0006BC3C File Offset: 0x00069E3C
 		private void GetMoraleEffectsFromPerks(MobileParty party, ref ExplainedNumber bonus)
 		{
 			if (party.HasPerk(DefaultPerks.Crossbow.PeasantLeader, false))
@@ -194,7 +180,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001673 RID: 5747 RVA: 0x0006BD38 File Offset: 0x00069F38
 		private float CalculateTroopTierRatio(MobileParty party)
 		{
 			int totalManCount = party.MemberRoster.TotalManCount;
@@ -209,7 +194,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num / (float)totalManCount;
 		}
 
-		// Token: 0x06001674 RID: 5748 RVA: 0x0006BDB8 File Offset: 0x00069FB8
 		private void GetMoraleEffectsFromSkill(MobileParty party, ref ExplainedNumber bonus)
 		{
 			CharacterObject effectivePartyLeaderForSkill = SkillHelper.GetEffectivePartyLeaderForSkill(party.Party);
@@ -219,7 +203,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001675 RID: 5749 RVA: 0x0006BDF8 File Offset: 0x00069FF8
 		public override ExplainedNumber GetEffectivePartyMorale(MobileParty mobileParty, bool includeDescription = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(50f, includeDescription, null);
@@ -253,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001676 RID: 5750 RVA: 0x0006BEFC File Offset: 0x0006A0FC
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_party_morale_detail", "campaign")]
 		public static string ShowPartyMoraleDetail(List<string> strings)
 		{
@@ -276,22 +258,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return "Couldn't find the party: " + text;
 		}
 
-		// Token: 0x040007D2 RID: 2002
 		private const float BaseMoraleValue = 50f;
 
-		// Token: 0x040007D3 RID: 2003
 		private readonly TextObject _recentEventsText = GameTexts.FindText("str_recent_events", null);
 
-		// Token: 0x040007D4 RID: 2004
 		private readonly TextObject _starvationMoraleText = GameTexts.FindText("str_starvation_morale", null);
 
-		// Token: 0x040007D5 RID: 2005
 		private readonly TextObject _noWageMoraleText = GameTexts.FindText("str_no_wage_morale", null);
 
-		// Token: 0x040007D6 RID: 2006
 		private readonly TextObject _foodBonusMoraleText = GameTexts.FindText("str_food_bonus_morale", null);
 
-		// Token: 0x040007D7 RID: 2007
 		private readonly TextObject _partySizeMoraleText = GameTexts.FindText("str_party_size_morale", null);
 	}
 }

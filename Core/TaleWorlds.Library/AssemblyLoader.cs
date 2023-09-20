@@ -4,10 +4,8 @@ using System.Reflection;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x0200000B RID: 11
 	public static class AssemblyLoader
 	{
-		// Token: 0x06000026 RID: 38 RVA: 0x0000256C File Offset: 0x0000076C
 		static AssemblyLoader()
 		{
 			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -17,12 +15,10 @@ namespace TaleWorlds.Library
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyLoader.OnAssemblyResolve;
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x000025C1 File Offset: 0x000007C1
 		public static void Initialize()
 		{
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x000025C4 File Offset: 0x000007C4
 		public static Assembly LoadFrom(string assemblyFile, bool show_error = true)
 		{
 			Assembly assembly = null;
@@ -71,7 +67,6 @@ namespace TaleWorlds.Library
 			return assembly;
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00002700 File Offset: 0x00000900
 		private static Assembly OnAssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -88,7 +83,6 @@ namespace TaleWorlds.Library
 			return null;
 		}
 
-		// Token: 0x04000029 RID: 41
 		private static List<Assembly> _loadedAssemblies = new List<Assembly>();
 	}
 }

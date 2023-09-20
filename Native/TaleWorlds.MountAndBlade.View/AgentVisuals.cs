@@ -6,11 +6,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000005 RID: 5
 	public class AgentVisuals : IAgentVisual
 	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000005 RID: 5 RVA: 0x0000206D File Offset: 0x0000026D
 		public bool IsFemale
 		{
 			get
@@ -19,67 +16,56 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x000020A9 File Offset: 0x000002A9
 		public MBAgentVisuals GetVisuals()
 		{
 			return this._data.AgentVisuals;
 		}
 
-		// Token: 0x06000007 RID: 7 RVA: 0x000020B6 File Offset: 0x000002B6
 		public void Reset()
 		{
 			this._data.AgentVisuals.Reset();
 		}
 
-		// Token: 0x06000008 RID: 8 RVA: 0x000020C8 File Offset: 0x000002C8
 		public void ResetNextFrame()
 		{
 			this._data.AgentVisuals.ResetNextFrame();
 		}
 
-		// Token: 0x06000009 RID: 9 RVA: 0x000020DA File Offset: 0x000002DA
 		public MatrixFrame GetFrame()
 		{
 			return this._data.FrameData;
 		}
 
-		// Token: 0x0600000A RID: 10 RVA: 0x000020E7 File Offset: 0x000002E7
 		public BodyProperties GetBodyProperties()
 		{
 			return this._data.BodyPropertiesData;
 		}
 
-		// Token: 0x0600000B RID: 11 RVA: 0x000020F4 File Offset: 0x000002F4
 		public void SetBodyProperties(BodyProperties bodyProperties)
 		{
 			this._data.BodyProperties(bodyProperties);
 		}
 
-		// Token: 0x0600000C RID: 12 RVA: 0x00002103 File Offset: 0x00000303
 		public bool GetIsFemale()
 		{
 			return this.IsFemale;
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x0000210B File Offset: 0x0000030B
 		public string GetCharacterObjectID()
 		{
 			return this._data.CharacterObjectStringIdData;
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x00002118 File Offset: 0x00000318
 		public void SetCharacterObjectID(string id)
 		{
 			this._data.CharacterObjectStringId(id);
 		}
 
-		// Token: 0x0600000F RID: 15 RVA: 0x00002127 File Offset: 0x00000327
 		public Equipment GetEquipment()
 		{
 			return this._data.EquipmentData;
 		}
 
-		// Token: 0x06000010 RID: 16 RVA: 0x00002134 File Offset: 0x00000334
 		private AgentVisuals(AgentVisualsData data, string name, bool isRandomProgress, bool needBatchedVersionForWeaponMeshes, bool forceUseFaceCache)
 		{
 			this._data = data;
@@ -92,61 +78,51 @@ namespace TaleWorlds.MountAndBlade.View
 			this.Refresh(needBatchedVersionForWeaponMeshes, false, null, isRandomProgress, forceUseFaceCache);
 		}
 
-		// Token: 0x06000011 RID: 17 RVA: 0x000021D0 File Offset: 0x000003D0
 		public AgentVisualsData GetCopyAgentVisualsData()
 		{
 			return new AgentVisualsData(this._data);
 		}
 
-		// Token: 0x06000012 RID: 18 RVA: 0x000021DD File Offset: 0x000003DD
 		public GameEntity GetEntity()
 		{
 			return this._data.AgentVisuals.GetEntity();
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x000021EF File Offset: 0x000003EF
 		public void SetVisible(bool value)
 		{
 			this._data.AgentVisuals.SetVisible(value);
 		}
 
-		// Token: 0x06000014 RID: 20 RVA: 0x00002202 File Offset: 0x00000402
 		public Vec3 GetGlobalStableEyePoint(bool isHumanoid)
 		{
 			return this._data.AgentVisuals.GetGlobalStableEyePoint(isHumanoid);
 		}
 
-		// Token: 0x06000015 RID: 21 RVA: 0x00002215 File Offset: 0x00000415
 		public Vec3 GetGlobalStableNeckPoint(bool isHumanoid)
 		{
 			return this._data.AgentVisuals.GetGlobalStableNeckPoint(isHumanoid);
 		}
 
-		// Token: 0x06000016 RID: 22 RVA: 0x00002228 File Offset: 0x00000428
 		public CompositeComponent AddPrefabToAgentVisualBoneByBoneType(string prefabName, HumanBone boneType)
 		{
 			return this._data.AgentVisuals.AddPrefabToAgentVisualBoneByBoneType(prefabName, boneType);
 		}
 
-		// Token: 0x06000017 RID: 23 RVA: 0x0000223C File Offset: 0x0000043C
 		public CompositeComponent AddPrefabToAgentVisualBoneByRealBoneIndex(string prefabName, sbyte realBoneIndex)
 		{
 			return this._data.AgentVisuals.AddPrefabToAgentVisualBoneByRealBoneIndex(prefabName, realBoneIndex);
 		}
 
-		// Token: 0x06000018 RID: 24 RVA: 0x00002250 File Offset: 0x00000450
 		public void SetAgentLodZeroOrMax(bool value)
 		{
 			this._data.AgentVisuals.SetAgentLodZeroOrMax(value);
 		}
 
-		// Token: 0x06000019 RID: 25 RVA: 0x00002263 File Offset: 0x00000463
 		public float GetScale()
 		{
 			return this._scale;
 		}
 
-		// Token: 0x0600001A RID: 26 RVA: 0x0000226C File Offset: 0x0000046C
 		public void SetAction(ActionIndexCache actionIndex, float startProgress = 0f, bool forceFaceMorphRestart = true)
 		{
 			if (this._data.AgentVisuals != null)
@@ -160,7 +136,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600001B RID: 27 RVA: 0x000022BC File Offset: 0x000004BC
 		public bool DoesActionContinueWithCurrentAction(ActionIndexCache actionIndex)
 		{
 			bool flag = false;
@@ -175,7 +150,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return flag;
 		}
 
-		// Token: 0x0600001C RID: 28 RVA: 0x00002304 File Offset: 0x00000504
 		public float GetAnimationParameterAtChannel(int channelIndex)
 		{
 			float num = 0f;
@@ -186,7 +160,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return num;
 		}
 
-		// Token: 0x0600001D RID: 29 RVA: 0x0000235C File Offset: 0x0000055C
 		public void Refresh(bool needBatchedVersionForWeaponMeshes, AgentVisualsData data, bool forceUseFaceCache = false)
 		{
 			AgentVisualsData data2 = this._data;
@@ -196,13 +169,11 @@ namespace TaleWorlds.MountAndBlade.View
 			this.Refresh(needBatchedVersionForWeaponMeshes, flag, equipmentData, false, forceUseFaceCache);
 		}
 
-		// Token: 0x0600001E RID: 30 RVA: 0x000023A3 File Offset: 0x000005A3
 		public void SetClothWindToWeaponAtIndex(Vec3 localWindDirection, bool isLocal, EquipmentIndex weaponIndex)
 		{
 			this._data.AgentVisuals.SetClothWindToWeaponAtIndex(localWindDirection, isLocal, weaponIndex);
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x000023B8 File Offset: 0x000005B8
 		private void Refresh(bool needBatchedVersionForWeaponMeshes, bool removeSkeleton = false, Equipment oldEquipment = null, bool isRandomProgress = false, bool forceUseFaceCache = false)
 		{
 			float num = 0f;
@@ -287,7 +258,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x000026F4 File Offset: 0x000008F4
 		public void TickVisuals()
 		{
 			if (this._data.ActionSetData.IsValid)
@@ -296,25 +266,21 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x0000272B File Offset: 0x0000092B
 		public void Tick(AgentVisuals parentAgentVisuals, float dt, bool entityMoving = false, float speed = 0f)
 		{
 			this._data.AgentVisuals.Tick((parentAgentVisuals != null) ? parentAgentVisuals._data.AgentVisuals : null, dt, entityMoving, speed);
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x00002752 File Offset: 0x00000952
 		public static AgentVisuals Create(AgentVisualsData data, string name, bool isRandomProgress, bool needBatchedVersionForWeaponMeshes, bool forceUseFaceCache)
 		{
 			return new AgentVisuals(data, name, isRandomProgress, needBatchedVersionForWeaponMeshes, forceUseFaceCache);
 		}
 
-		// Token: 0x06000023 RID: 35 RVA: 0x0000275F File Offset: 0x0000095F
 		public static float GetRandomGlossFactor(Random randomGenerator)
 		{
 			return 1f + (Extensions.NextFloat(randomGenerator) * 2f - 1f) * 0.05f;
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00002780 File Offset: 0x00000980
 		public static void GetRandomClothingColors(int seed, Color inputColor1, Color inputColor2, out Color color1, out Color color2)
 		{
 			MBFastRandom mbfastRandom = new MBFastRandom((uint)seed);
@@ -322,7 +288,6 @@ namespace TaleWorlds.MountAndBlade.View
 			color2 = ColorExtensions.AddFactorInHSB(inputColor2, (2f * mbfastRandom.NextFloat() - 1f) * 8f, (2f * mbfastRandom.NextFloat() - 1f) * 0.5f, (2f * mbfastRandom.NextFloat() - 1f) * 0.3f);
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x00002840 File Offset: 0x00000A40
 		private void AddSkinArmorWeaponMultiMeshesToEntity(uint teamColor1, uint teamColor2, bool needBatchedVersion, bool forceUseFaceCache = false)
 		{
 			this.AddSkinMeshesToEntity(MBEquipmentMissionExtensions.GetSkinMeshesMask(this._data.EquipmentData), !needBatchedVersion, forceUseFaceCache);
@@ -360,7 +325,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x00002A34 File Offset: 0x00000C34
 		private void AddSkinMeshesToEntity(int mask, bool useGPUMorph, bool forceUseFaceCache = false)
 		{
 			SkinGenerationParams skinGenerationParams;
@@ -382,43 +346,36 @@ namespace TaleWorlds.MountAndBlade.View
 			this._data.AgentVisuals.AddSkinMeshes(skinGenerationParams, this._data.BodyPropertiesData, useGPUMorph, flag2);
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x00002BB4 File Offset: 0x00000DB4
 		public void SetFaceGenerationParams(FaceGenerationParams faceGenerationParams)
 		{
 			this._data.AgentVisuals.SetFaceGenerationParams(faceGenerationParams);
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x00002BC7 File Offset: 0x00000DC7
 		public void SetVoiceDefinitionIndex(int voiceDefinitionIndex, float voicePitch)
 		{
 			this._data.AgentVisuals.SetVoiceDefinitionIndex(voiceDefinitionIndex, voicePitch);
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00002BDB File Offset: 0x00000DDB
 		public void StartRhubarbRecord(string path, int soundId)
 		{
 			this._data.AgentVisuals.StartRhubarbRecord(path, soundId);
 		}
 
-		// Token: 0x0600002A RID: 42 RVA: 0x00002BEF File Offset: 0x00000DEF
 		public void SetAgentLodZeroOrMaxExternal(bool makeZero)
 		{
 			this._data.AgentVisuals.SetAgentLodZeroOrMax(makeZero);
 		}
 
-		// Token: 0x0600002B RID: 43 RVA: 0x00002C02 File Offset: 0x00000E02
 		public void SetAgentLocalSpeed(Vec2 speed)
 		{
 			this._data.AgentVisuals.SetAgentLocalSpeed(speed);
 		}
 
-		// Token: 0x0600002C RID: 44 RVA: 0x00002C15 File Offset: 0x00000E15
 		public void SetLookDirection(Vec3 direction)
 		{
 			this._data.AgentVisuals.SetLookDirection(direction);
 		}
 
-		// Token: 0x0600002D RID: 45 RVA: 0x00002C28 File Offset: 0x00000E28
 		public void AddArmorMultiMeshesToAgentEntity(uint teamColor1, uint teamColor2)
 		{
 			Random random = null;
@@ -508,7 +465,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00002F58 File Offset: 0x00001158
 		private void ApplyBannerTextureToMesh(Mesh armorMesh, Texture bannerTexture)
 		{
 			if (armorMesh != null)
@@ -522,7 +478,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600002F RID: 47 RVA: 0x00002FB0 File Offset: 0x000011B0
 		public void MakeRandomVoiceForFacegen()
 		{
 			GameEntity entity = this._data.AgentVisuals.GetEntity();
@@ -548,7 +503,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this._data.AgentVisuals.MakeVoice(index, vec);
 		}
 
-		// Token: 0x06000030 RID: 48 RVA: 0x000030D8 File Offset: 0x000012D8
 		private bool ClearAndAddChangedVisualComponentsOfWeapons(Equipment oldEquipment, bool needBatchedVersionForMeshes)
 		{
 			int num = 0;
@@ -615,54 +569,41 @@ namespace TaleWorlds.MountAndBlade.View
 			return flag;
 		}
 
-		// Token: 0x06000031 RID: 49 RVA: 0x000033AB File Offset: 0x000015AB
 		public void SetClothingColors(uint color1, uint color2)
 		{
 			this._data.ClothColor1(color1);
 			this._data.ClothColor2(color2);
 		}
 
-		// Token: 0x06000032 RID: 50 RVA: 0x000033C7 File Offset: 0x000015C7
 		public void GetClothingColors(out uint color1, out uint color2)
 		{
 			color1 = this._data.ClothColor1Data;
 			color2 = this._data.ClothColor2Data;
 		}
 
-		// Token: 0x06000033 RID: 51 RVA: 0x000033E3 File Offset: 0x000015E3
 		public void SetEntity(GameEntity entity)
 		{
 			this._data.AgentVisuals.SetEntity(entity);
 		}
 
-		// Token: 0x04000001 RID: 1
 		public const float RandomGlossinessRange = 0.05f;
 
-		// Token: 0x04000002 RID: 2
 		public const float RandomClothingColor1HueRange = 4f;
 
-		// Token: 0x04000003 RID: 3
 		public const float RandomClothingColor1SaturationRange = 0.2f;
 
-		// Token: 0x04000004 RID: 4
 		public const float RandomClothingColor1BrightnessRange = 0.2f;
 
-		// Token: 0x04000005 RID: 5
 		public const float RandomClothingColor2HueRange = 8f;
 
-		// Token: 0x04000006 RID: 6
 		public const float RandomClothingColor2SaturationRange = 0.5f;
 
-		// Token: 0x04000007 RID: 7
 		public const float RandomClothingColor2BrightnessRange = 0.3f;
 
-		// Token: 0x04000008 RID: 8
 		private static readonly ActionIndexCache act_command_leftstance_cached = ActionIndexCache.Create("act_command_leftstance");
 
-		// Token: 0x04000009 RID: 9
 		private AgentVisualsData _data;
 
-		// Token: 0x0400000A RID: 10
 		private float _scale;
 	}
 }

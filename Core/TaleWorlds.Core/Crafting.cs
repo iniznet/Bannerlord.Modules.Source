@@ -9,10 +9,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x0200003C RID: 60
 	public class Crafting
 	{
-		// Token: 0x0600048C RID: 1164 RVA: 0x00010F05 File Offset: 0x0000F105
 		public Crafting(CraftingTemplate craftingTemplate, BasicCultureObject culture, TextObject name)
 		{
 			this.CraftedWeaponName = name;
@@ -20,30 +18,16 @@ namespace TaleWorlds.Core
 			this.CurrentCulture = culture;
 		}
 
-		// Token: 0x17000193 RID: 403
-		// (get) Token: 0x0600048D RID: 1165 RVA: 0x00010F22 File Offset: 0x0000F122
 		public BasicCultureObject CurrentCulture { get; }
 
-		// Token: 0x17000194 RID: 404
-		// (get) Token: 0x0600048E RID: 1166 RVA: 0x00010F2A File Offset: 0x0000F12A
 		public CraftingTemplate CurrentCraftingTemplate { get; }
 
-		// Token: 0x17000195 RID: 405
-		// (get) Token: 0x0600048F RID: 1167 RVA: 0x00010F32 File Offset: 0x0000F132
-		// (set) Token: 0x06000490 RID: 1168 RVA: 0x00010F3A File Offset: 0x0000F13A
 		public WeaponDesign CurrentWeaponDesign { get; private set; }
 
-		// Token: 0x17000196 RID: 406
-		// (get) Token: 0x06000491 RID: 1169 RVA: 0x00010F43 File Offset: 0x0000F143
-		// (set) Token: 0x06000492 RID: 1170 RVA: 0x00010F4B File Offset: 0x0000F14B
 		public ItemModifierGroup CurrentItemModifierGroup { get; private set; }
 
-		// Token: 0x17000197 RID: 407
-		// (get) Token: 0x06000493 RID: 1171 RVA: 0x00010F54 File Offset: 0x0000F154
-		// (set) Token: 0x06000494 RID: 1172 RVA: 0x00010F5C File Offset: 0x0000F15C
 		public TextObject CraftedWeaponName { get; private set; }
 
-		// Token: 0x06000495 RID: 1173 RVA: 0x00010F68 File Offset: 0x0000F168
 		public void SetCraftedWeaponName(string name)
 		{
 			if (!name.Equals(this.CraftedWeaponName.ToString()))
@@ -53,7 +37,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x06000496 RID: 1174 RVA: 0x00010FC8 File Offset: 0x0000F1C8
 		public void Init()
 		{
 			this._history = new List<WeaponDesign>();
@@ -90,13 +73,8 @@ namespace TaleWorlds.Core
 			this._history.Add(this.CurrentWeaponDesign);
 		}
 
-		// Token: 0x17000198 RID: 408
-		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00011118 File Offset: 0x0000F318
-		// (set) Token: 0x06000498 RID: 1176 RVA: 0x00011120 File Offset: 0x0000F320
 		public List<WeaponDesignElement>[] UsablePiecesList { get; private set; }
 
-		// Token: 0x17000199 RID: 409
-		// (get) Token: 0x06000499 RID: 1177 RVA: 0x00011129 File Offset: 0x0000F329
 		public WeaponDesignElement[] SelectedPieces
 		{
 			get
@@ -105,7 +83,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x0600049A RID: 1178 RVA: 0x00011138 File Offset: 0x0000F338
 		public WeaponDesignElement GetRandomPieceOfType(CraftingPiece.PieceTypes pieceType, bool randomScale)
 		{
 			if (!this.CurrentCraftingTemplate.IsPieceTypeUsable(pieceType))
@@ -120,7 +97,6 @@ namespace TaleWorlds.Core
 			return copy;
 		}
 
-		// Token: 0x0600049B RID: 1179 RVA: 0x0001119C File Offset: 0x0000F39C
 		public void SwitchToCraftedItem(ItemObject item)
 		{
 			WeaponDesignElement[] usedPieces = item.WeaponDesign.UsedPieces;
@@ -133,7 +109,6 @@ namespace TaleWorlds.Core
 			this.ReIndex(false);
 		}
 
-		// Token: 0x0600049C RID: 1180 RVA: 0x00011200 File Offset: 0x0000F400
 		public void Randomize()
 		{
 			WeaponDesignElement[] array = new WeaponDesignElement[4];
@@ -145,7 +120,6 @@ namespace TaleWorlds.Core
 			this.ReIndex(false);
 		}
 
-		// Token: 0x0600049D RID: 1181 RVA: 0x00011258 File Offset: 0x0000F458
 		public void SwitchToPiece(WeaponDesignElement piece)
 		{
 			this.SelectedPieces[(int)piece.CraftingPiece.PieceType].SetScale(100);
@@ -170,7 +144,6 @@ namespace TaleWorlds.Core
 			this.ReIndex(false);
 		}
 
-		// Token: 0x0600049E RID: 1182 RVA: 0x00011310 File Offset: 0x0000F510
 		public void ScaleThePiece(CraftingPiece.PieceTypes scalingPieceType, int percentage)
 		{
 			WeaponDesignElement[] array = new WeaponDesignElement[4];
@@ -187,7 +160,6 @@ namespace TaleWorlds.Core
 			this.ReIndex(false);
 		}
 
-		// Token: 0x0600049F RID: 1183 RVA: 0x00011398 File Offset: 0x0000F598
 		public void ReIndex(bool enforceReCreation = false)
 		{
 			if (!TextObject.IsNullOrEmpty(this.CurrentWeaponDesign.WeaponName) && !this.CurrentWeaponDesign.WeaponName.ToString().Equals(this.CraftedWeaponName.ToString()))
@@ -201,7 +173,6 @@ namespace TaleWorlds.Core
 			this.SetItemObject(null, null);
 		}
 
-		// Token: 0x060004A0 RID: 1184 RVA: 0x0001142B File Offset: 0x0000F62B
 		public bool Undo()
 		{
 			if (this._currentHistoryIndex <= 0)
@@ -214,7 +185,6 @@ namespace TaleWorlds.Core
 			return true;
 		}
 
-		// Token: 0x060004A1 RID: 1185 RVA: 0x00011468 File Offset: 0x0000F668
 		public bool Redo()
 		{
 			if (this._currentHistoryIndex + 1 >= this._history.Count)
@@ -227,7 +197,6 @@ namespace TaleWorlds.Core
 			return true;
 		}
 
-		// Token: 0x060004A2 RID: 1186 RVA: 0x000114BC File Offset: 0x0000F6BC
 		public void UpdateHistory()
 		{
 			if (this._currentHistoryIndex < this._history.Count - 1)
@@ -247,13 +216,11 @@ namespace TaleWorlds.Core
 			this._currentHistoryIndex = this._history.Count - 1;
 		}
 
-		// Token: 0x060004A3 RID: 1187 RVA: 0x000115A3 File Offset: 0x0000F7A3
 		public TextObject GetRandomCraftName()
 		{
 			return new TextObject("{=!}RANDOM_NAME", null);
 		}
 
-		// Token: 0x060004A4 RID: 1188 RVA: 0x000115B0 File Offset: 0x0000F7B0
 		public static void GenerateItem(WeaponDesign weaponDesignTemplate, TextObject name, BasicCultureObject culture, ItemModifierGroup itemModifierGroup, ref ItemObject itemObject, Crafting.OverrideData overridenData)
 		{
 			if (itemObject == null)
@@ -288,13 +255,11 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x060004A5 RID: 1189 RVA: 0x0001172A File Offset: 0x0000F92A
 		private static ItemFlags GetItemFlags(WeaponDesign weaponDesign)
 		{
 			return weaponDesign.UsedPieces[0].CraftingPiece.AdditionalItemFlags;
 		}
 
-		// Token: 0x060004A6 RID: 1190 RVA: 0x0001173E File Offset: 0x0000F93E
 		private void SetItemObject(Crafting.OverrideData overridenData, ItemObject itemObject = null)
 		{
 			if (itemObject == null)
@@ -305,7 +270,6 @@ namespace TaleWorlds.Core
 			this._craftedItemObject = itemObject;
 		}
 
-		// Token: 0x060004A7 RID: 1191 RVA: 0x00011771 File Offset: 0x0000F971
 		public ItemObject GetCurrentCraftedItemObject(bool forceReCreate = false, Crafting.OverrideData overrideData = null)
 		{
 			if (forceReCreate)
@@ -315,7 +279,6 @@ namespace TaleWorlds.Core
 			return this._craftedItemObject;
 		}
 
-		// Token: 0x060004A8 RID: 1192 RVA: 0x00011784 File Offset: 0x0000F984
 		public static IEnumerable<CraftingStatData> GetStatDatasFromTemplate(int usageIndex, ItemObject craftedItemObject, CraftingTemplate template)
 		{
 			WeaponComponentData weapon = craftedItemObject.GetWeaponWithUsageIndex(usageIndex);
@@ -360,7 +323,6 @@ namespace TaleWorlds.Core
 			yield break;
 		}
 
-		// Token: 0x060004A9 RID: 1193 RVA: 0x000117A4 File Offset: 0x0000F9A4
 		private static float GetValueForCraftingStatForWeaponOfUsageIndex(CraftingTemplate.CraftingStatTypes craftingStatType, ItemObject item, WeaponComponentData weapon)
 		{
 			switch (craftingStatType)
@@ -392,7 +354,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x060004AA RID: 1194 RVA: 0x0001184E File Offset: 0x0000FA4E
 		public IEnumerable<CraftingStatData> GetStatDatas(int usageIndex)
 		{
 			WeaponComponentData weapon = this._craftedItemObject.GetWeaponWithUsageIndex(usageIndex);
@@ -436,7 +397,6 @@ namespace TaleWorlds.Core
 			yield break;
 		}
 
-		// Token: 0x060004AB RID: 1195 RVA: 0x00011868 File Offset: 0x0000FA68
 		public string GetXmlCodeForCurrentItem(ItemObject item)
 		{
 			string text = "";
@@ -488,7 +448,6 @@ namespace TaleWorlds.Core
 			return text + "</CraftedItem>";
 		}
 
-		// Token: 0x060004AC RID: 1196 RVA: 0x00011A34 File Offset: 0x0000FC34
 		public bool TryGetWeaponPropertiesFromXmlCode(string xmlCode, out CraftingTemplate craftingTemplate, out ValueTuple<CraftingPiece, int>[] pieces)
 		{
 			bool flag;
@@ -538,7 +497,6 @@ namespace TaleWorlds.Core
 			return flag;
 		}
 
-		// Token: 0x060004AD RID: 1197 RVA: 0x00011C2C File Offset: 0x0000FE2C
 		public static ItemObject CreatePreCraftedWeapon(ItemObject itemObject, WeaponDesignElement[] usedPieces, string templateId, TextObject weaponName, Crafting.OverrideData overridenData, ItemModifierGroup itemModifierGroup)
 		{
 			for (int i = 0; i < usedPieces.Length; i++)
@@ -558,7 +516,6 @@ namespace TaleWorlds.Core
 			return crafting._craftedItemObject;
 		}
 
-		// Token: 0x060004AE RID: 1198 RVA: 0x00011CB6 File Offset: 0x0000FEB6
 		public static ItemObject InitializePreCraftedWeaponOnLoad(ItemObject itemObject, WeaponDesign craftedData, TextObject itemName, BasicCultureObject culture, Crafting.OverrideData overrideData = null)
 		{
 			Crafting crafting = new Crafting(craftedData.Template, culture, itemName);
@@ -568,7 +525,6 @@ namespace TaleWorlds.Core
 			return crafting._craftedItemObject;
 		}
 
-		// Token: 0x060004AF RID: 1199 RVA: 0x00011CEC File Offset: 0x0000FEEC
 		public static ItemObject CreateRandomCraftedItem(BasicCultureObject culture)
 		{
 			CraftingTemplate randomElement = CraftingTemplate.All.GetRandomElement<CraftingTemplate>();
@@ -587,85 +543,65 @@ namespace TaleWorlds.Core
 			return itemObject;
 		}
 
-		// Token: 0x0400023F RID: 575
 		public const int WeightOfCrudeIron = 1;
 
-		// Token: 0x04000240 RID: 576
 		public const int WeightOfIron = 2;
 
-		// Token: 0x04000241 RID: 577
 		public const int WeightOfCompositeIron = 3;
 
-		// Token: 0x04000242 RID: 578
 		public const int WeightOfSteel = 4;
 
-		// Token: 0x04000243 RID: 579
 		public const int WeightOfRefinedSteel = 5;
 
-		// Token: 0x04000244 RID: 580
 		public const int WeightOfCalradianSteel = 6;
 
-		// Token: 0x0400024B RID: 587
 		private List<WeaponDesign> _history;
 
-		// Token: 0x0400024C RID: 588
 		private int _currentHistoryIndex;
 
-		// Token: 0x0400024D RID: 589
 		private ItemObject _craftedItemObject;
 
-		// Token: 0x020000EC RID: 236
 		public class OverrideData
 		{
-			// Token: 0x060009ED RID: 2541 RVA: 0x000205AE File Offset: 0x0001E7AE
 			internal static void AutoGeneratedStaticCollectObjectsOverrideData(object o, List<object> collectedObjects)
 			{
 				((Crafting.OverrideData)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x060009EE RID: 2542 RVA: 0x000205BC File Offset: 0x0001E7BC
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 			}
 
-			// Token: 0x060009EF RID: 2543 RVA: 0x000205BE File Offset: 0x0001E7BE
 			internal static object AutoGeneratedGetMemberValueWeightOverriden(object o)
 			{
 				return ((Crafting.OverrideData)o).WeightOverriden;
 			}
 
-			// Token: 0x060009F0 RID: 2544 RVA: 0x000205D0 File Offset: 0x0001E7D0
 			internal static object AutoGeneratedGetMemberValueSwingSpeedOverriden(object o)
 			{
 				return ((Crafting.OverrideData)o).SwingSpeedOverriden;
 			}
 
-			// Token: 0x060009F1 RID: 2545 RVA: 0x000205E2 File Offset: 0x0001E7E2
 			internal static object AutoGeneratedGetMemberValueThrustSpeedOverriden(object o)
 			{
 				return ((Crafting.OverrideData)o).ThrustSpeedOverriden;
 			}
 
-			// Token: 0x060009F2 RID: 2546 RVA: 0x000205F4 File Offset: 0x0001E7F4
 			internal static object AutoGeneratedGetMemberValueSwingDamageOverriden(object o)
 			{
 				return ((Crafting.OverrideData)o).SwingDamageOverriden;
 			}
 
-			// Token: 0x060009F3 RID: 2547 RVA: 0x00020606 File Offset: 0x0001E806
 			internal static object AutoGeneratedGetMemberValueThrustDamageOverriden(object o)
 			{
 				return ((Crafting.OverrideData)o).ThrustDamageOverriden;
 			}
 
-			// Token: 0x060009F4 RID: 2548 RVA: 0x00020618 File Offset: 0x0001E818
 			internal static object AutoGeneratedGetMemberValueHandling(object o)
 			{
 				return ((Crafting.OverrideData)o).Handling;
 			}
 
-			// Token: 0x17000343 RID: 835
-			// (get) Token: 0x060009F5 RID: 2549 RVA: 0x0002062A File Offset: 0x0001E82A
 			public static Crafting.OverrideData Invalid
 			{
 				get
@@ -674,7 +610,6 @@ namespace TaleWorlds.Core
 				}
 			}
 
-			// Token: 0x060009F6 RID: 2550 RVA: 0x0002063A File Offset: 0x0001E83A
 			public OverrideData(float weightOverriden = 0f, int swingSpeedOverriden = 0, int thrustSpeedOverriden = 0, int swingDamageOverriden = 0, int thrustDamageOverriden = 0)
 			{
 				this.WeightOverriden = weightOverriden;
@@ -684,35 +619,27 @@ namespace TaleWorlds.Core
 				this.ThrustDamageOverriden = thrustDamageOverriden;
 			}
 
-			// Token: 0x04000682 RID: 1666
 			[SaveableField(10)]
 			public float WeightOverriden;
 
-			// Token: 0x04000683 RID: 1667
 			[SaveableField(20)]
 			public int SwingSpeedOverriden;
 
-			// Token: 0x04000684 RID: 1668
 			[SaveableField(30)]
 			public int ThrustSpeedOverriden;
 
-			// Token: 0x04000685 RID: 1669
 			[SaveableField(40)]
 			public int SwingDamageOverriden;
 
-			// Token: 0x04000686 RID: 1670
 			[SaveableField(50)]
 			public int ThrustDamageOverriden;
 
-			// Token: 0x04000687 RID: 1671
 			[SaveableField(60)]
 			public int Handling;
 		}
 
-		// Token: 0x020000ED RID: 237
 		public class RefiningFormula
 		{
-			// Token: 0x060009F7 RID: 2551 RVA: 0x00020668 File Offset: 0x0001E868
 			public RefiningFormula(CraftingMaterials input1, int input1Count, CraftingMaterials input2, int input2Count, CraftingMaterials output, int outputCount = 1, CraftingMaterials output2 = CraftingMaterials.IronOre, int output2Count = 0)
 			{
 				this.Output = output;
@@ -725,43 +652,25 @@ namespace TaleWorlds.Core
 				this.Input2Count = input2Count;
 			}
 
-			// Token: 0x17000344 RID: 836
-			// (get) Token: 0x060009F8 RID: 2552 RVA: 0x000206B8 File Offset: 0x0001E8B8
 			public CraftingMaterials Output { get; }
 
-			// Token: 0x17000345 RID: 837
-			// (get) Token: 0x060009F9 RID: 2553 RVA: 0x000206C0 File Offset: 0x0001E8C0
 			public int OutputCount { get; }
 
-			// Token: 0x17000346 RID: 838
-			// (get) Token: 0x060009FA RID: 2554 RVA: 0x000206C8 File Offset: 0x0001E8C8
 			public CraftingMaterials Output2 { get; }
 
-			// Token: 0x17000347 RID: 839
-			// (get) Token: 0x060009FB RID: 2555 RVA: 0x000206D0 File Offset: 0x0001E8D0
 			public int Output2Count { get; }
 
-			// Token: 0x17000348 RID: 840
-			// (get) Token: 0x060009FC RID: 2556 RVA: 0x000206D8 File Offset: 0x0001E8D8
 			public CraftingMaterials Input1 { get; }
 
-			// Token: 0x17000349 RID: 841
-			// (get) Token: 0x060009FD RID: 2557 RVA: 0x000206E0 File Offset: 0x0001E8E0
 			public int Input1Count { get; }
 
-			// Token: 0x1700034A RID: 842
-			// (get) Token: 0x060009FE RID: 2558 RVA: 0x000206E8 File Offset: 0x0001E8E8
 			public CraftingMaterials Input2 { get; }
 
-			// Token: 0x1700034B RID: 843
-			// (get) Token: 0x060009FF RID: 2559 RVA: 0x000206F0 File Offset: 0x0001E8F0
 			public int Input2Count { get; }
 		}
 
-		// Token: 0x020000EE RID: 238
 		private static class CraftedItemGenerationHelper
 		{
-			// Token: 0x06000A00 RID: 2560 RVA: 0x000206F8 File Offset: 0x0001E8F8
 			public static ItemObject GenerateCraftedItem(ItemObject item, WeaponDesign craftedData, ItemModifierGroup itemModifierGroup, Crafting.OverrideData overridenData)
 			{
 				foreach (WeaponDesignElement weaponDesignElement in craftedData.UsedPieces)
@@ -806,10 +715,8 @@ namespace TaleWorlds.Core
 				return item;
 			}
 
-			// Token: 0x0200011A RID: 282
 			private struct CraftingStats
 			{
-				// Token: 0x06000A77 RID: 2679 RVA: 0x00021C14 File Offset: 0x0001FE14
 				public static void FillWeapon(ItemObject item, WeaponComponentData weapon, WeaponDescription weaponDescription, bool isAlternative, Crafting.OverrideData overridenData)
 				{
 					Crafting.CraftedItemGenerationHelper.CraftingStats craftingStats = new Crafting.CraftedItemGenerationHelper.CraftingStats
@@ -821,7 +728,6 @@ namespace TaleWorlds.Core
 					craftingStats.SetWeaponData(weapon, isAlternative);
 				}
 
-				// Token: 0x06000A78 RID: 2680 RVA: 0x00021C54 File Offset: 0x0001FE54
 				private void CalculateStats(Crafting.OverrideData overridenData)
 				{
 					WeaponDesign craftedData = this._craftedData;
@@ -880,7 +786,6 @@ namespace TaleWorlds.Core
 					this._currentWeaponWeight += overridenData.WeightOverriden;
 				}
 
-				// Token: 0x06000A79 RID: 2681 RVA: 0x00021F78 File Offset: 0x00020178
 				private void SetWeaponData(WeaponComponentData weapon, bool isAlternative)
 				{
 					BladeData bladeData = this._craftedData.UsedPieces[0].CraftingPiece.BladeData;
@@ -962,7 +867,6 @@ namespace TaleWorlds.Core
 					weapon.SetFrame(new MatrixFrame(identity3, identity3.TransformToParent(vec)));
 				}
 
-				// Token: 0x06000A7A RID: 2682 RVA: 0x00022340 File Offset: 0x00020540
 				private float CalculateSweetSpot()
 				{
 					float num = -1f;
@@ -980,7 +884,6 @@ namespace TaleWorlds.Core
 					return num2;
 				}
 
-				// Token: 0x06000A7B RID: 2683 RVA: 0x000223A8 File Offset: 0x000205A8
 				private float CalculateCenterOfMass()
 				{
 					float num = 0f;
@@ -1010,7 +913,6 @@ namespace TaleWorlds.Core
 					return num / this._currentWeaponWeight - (this._craftedData.UsedPieces[2].ScaledDistanceToPreviousPiece - this._craftedData.UsedPieces[2].ScaledPieceOffset);
 				}
 
-				// Token: 0x06000A7C RID: 2684 RVA: 0x000224AC File Offset: 0x000206AC
 				private float CalculateWeaponInertia()
 				{
 					float num = -this._currentWeaponCenterOfMass;
@@ -1028,7 +930,6 @@ namespace TaleWorlds.Core
 					return num2;
 				}
 
-				// Token: 0x06000A7D RID: 2685 RVA: 0x0002252C File Offset: 0x0002072C
 				private float CalculateSwingSpeed()
 				{
 					double num = 1.0 * (double)this._currentWeaponInertiaAroundShoulder + 0.9;
@@ -1072,7 +973,6 @@ namespace TaleWorlds.Core
 					return (float)(20.8 / num13);
 				}
 
-				// Token: 0x06000A7E RID: 2686 RVA: 0x00022700 File Offset: 0x00020900
 				private float CalculateThrustSpeed()
 				{
 					double num = 1.8 + (double)this._currentWeaponWeight + (double)this._currentWeaponInertiaAroundGrip * 0.2;
@@ -1109,7 +1009,6 @@ namespace TaleWorlds.Core
 					return (float)(3.8500000000000005 / num12);
 				}
 
-				// Token: 0x06000A7F RID: 2687 RVA: 0x000228AC File Offset: 0x00020AAC
 				private void CalculateSwingBaseDamage(out float damage)
 				{
 					float num = 0f;
@@ -1124,14 +1023,12 @@ namespace TaleWorlds.Core
 					damage = num * this._swingDamageFactor;
 				}
 
-				// Token: 0x06000A80 RID: 2688 RVA: 0x00022914 File Offset: 0x00020B14
 				private void CalculateThrustBaseDamage(out float damage, bool isThrown = false)
 				{
 					float num = CombatStatCalculator.CalculateStrikeMagnitudeForThrust(this._currentWeaponThrustSpeed, this._currentWeaponWeight, 0f, isThrown);
 					damage = num * this._thrustDamageFactor;
 				}
 
-				// Token: 0x06000A81 RID: 2689 RVA: 0x00022944 File Offset: 0x00020B44
 				private void CalculateMissileDamage(out float damage)
 				{
 					switch (this._weaponDescription.WeaponClass)
@@ -1155,7 +1052,6 @@ namespace TaleWorlds.Core
 					}
 				}
 
-				// Token: 0x06000A82 RID: 2690 RVA: 0x000229CC File Offset: 0x00020BCC
 				private WeaponComponentData.WeaponTiers CalculateWeaponTier()
 				{
 					int num = 0;
@@ -1174,7 +1070,6 @@ namespace TaleWorlds.Core
 					return WeaponComponentData.WeaponTiers.Tier1;
 				}
 
-				// Token: 0x06000A83 RID: 2691 RVA: 0x00022A8C File Offset: 0x00020C8C
 				private string GetItemUsage()
 				{
 					List<string> list = this._weaponDescription.ItemUsageFeatures.Split(new char[] { ':' }).ToList<string>();
@@ -1200,7 +1095,6 @@ namespace TaleWorlds.Core
 					return text2;
 				}
 
-				// Token: 0x06000A84 RID: 2692 RVA: 0x00022BA4 File Offset: 0x00020DA4
 				private float CalculateMissileSpeed()
 				{
 					if (this._weaponDescription.WeaponClass == WeaponClass.ThrowingAxe)
@@ -1219,7 +1113,6 @@ namespace TaleWorlds.Core
 					return 10f;
 				}
 
-				// Token: 0x06000A85 RID: 2693 RVA: 0x00022C24 File Offset: 0x00020E24
 				private int CalculateAgility()
 				{
 					float num = this._currentWeaponInertiaAroundGrip;
@@ -1242,13 +1135,11 @@ namespace TaleWorlds.Core
 					return MathF.Round(100f * num2);
 				}
 
-				// Token: 0x06000A86 RID: 2694 RVA: 0x00022CB4 File Offset: 0x00020EB4
 				private float GetWeaponBalance()
 				{
 					return MBMath.ClampFloat((this._currentWeaponSwingSpeed * 4.5454545f - 70f) / 30f, 0f, 1f);
 				}
 
-				// Token: 0x06000A87 RID: 2695 RVA: 0x00022CDD File Offset: 0x00020EDD
 				private int GetWeaponHandArmorBonus()
 				{
 					WeaponDesignElement weaponDesignElement = this._craftedData.UsedPieces[1];
@@ -1259,7 +1150,6 @@ namespace TaleWorlds.Core
 					return weaponDesignElement.CraftingPiece.ArmorBonus;
 				}
 
-				// Token: 0x06000A88 RID: 2696 RVA: 0x00022CFC File Offset: 0x00020EFC
 				private WeaponClass GetAmmoClass()
 				{
 					if (this._weaponDescription.WeaponClass != WeaponClass.ThrowingKnife && this._weaponDescription.WeaponClass != WeaponClass.ThrowingAxe && this._weaponDescription.WeaponClass != WeaponClass.Javelin)
@@ -1269,7 +1159,6 @@ namespace TaleWorlds.Core
 					return this._weaponDescription.WeaponClass;
 				}
 
-				// Token: 0x06000A89 RID: 2697 RVA: 0x00022D38 File Offset: 0x00020F38
 				private static float ParallelAxis(WeaponDesignElement selectedPiece, float offset, float weightMultiplier)
 				{
 					float inertia = selectedPiece.CraftingPiece.Inertia;
@@ -1278,13 +1167,11 @@ namespace TaleWorlds.Core
 					return Crafting.CraftedItemGenerationHelper.CraftingStats.ParallelAxis(inertia, num2, num);
 				}
 
-				// Token: 0x06000A8A RID: 2698 RVA: 0x00022D6E File Offset: 0x00020F6E
 				private static float ParallelAxis(float inertiaAroundCm, float mass, float offsetFromCm)
 				{
 					return inertiaAroundCm + mass * offsetFromCm * offsetFromCm;
 				}
 
-				// Token: 0x06000A8B RID: 2699 RVA: 0x00022D78 File Offset: 0x00020F78
 				private void SimulateSwingLayer(double angleSpan, double usablePower, double maxUsableTorque, double inertia, out double finalSpeed, out double finalTime)
 				{
 					double num = 0.0;
@@ -1308,7 +1195,6 @@ namespace TaleWorlds.Core
 					finalTime = num3;
 				}
 
-				// Token: 0x06000A8C RID: 2700 RVA: 0x00022E34 File Offset: 0x00021034
 				private void SimulateThrustLayer(double distance, double usablePower, double maxUsableForce, double mass, out double finalSpeed, out double finalTime)
 				{
 					double num = 0.0;
@@ -1330,61 +1216,42 @@ namespace TaleWorlds.Core
 					finalTime = num3;
 				}
 
-				// Token: 0x04000727 RID: 1831
 				private WeaponDesign _craftedData;
 
-				// Token: 0x04000728 RID: 1832
 				private WeaponDescription _weaponDescription;
 
-				// Token: 0x04000729 RID: 1833
 				private float _stoppingTorque;
 
-				// Token: 0x0400072A RID: 1834
 				private float _armInertia;
 
-				// Token: 0x0400072B RID: 1835
 				private float _swingDamageFactor;
 
-				// Token: 0x0400072C RID: 1836
 				private float _thrustDamageFactor;
 
-				// Token: 0x0400072D RID: 1837
 				private float _currentWeaponWeight;
 
-				// Token: 0x0400072E RID: 1838
 				private float _currentWeaponReach;
 
-				// Token: 0x0400072F RID: 1839
 				private float _currentWeaponSweetSpot;
 
-				// Token: 0x04000730 RID: 1840
 				private float _currentWeaponCenterOfMass;
 
-				// Token: 0x04000731 RID: 1841
 				private float _currentWeaponInertia;
 
-				// Token: 0x04000732 RID: 1842
 				private float _currentWeaponInertiaAroundShoulder;
 
-				// Token: 0x04000733 RID: 1843
 				private float _currentWeaponInertiaAroundGrip;
 
-				// Token: 0x04000734 RID: 1844
 				private float _currentWeaponSwingSpeed;
 
-				// Token: 0x04000735 RID: 1845
 				private float _currentWeaponThrustSpeed;
 
-				// Token: 0x04000736 RID: 1846
 				private float _currentWeaponHandling;
 
-				// Token: 0x04000737 RID: 1847
 				private float _currentWeaponSwingDamage;
 
-				// Token: 0x04000738 RID: 1848
 				private float _currentWeaponThrustDamage;
 
-				// Token: 0x04000739 RID: 1849
 				private WeaponComponentData.WeaponTiers _currentWeaponTier;
 			}
 		}

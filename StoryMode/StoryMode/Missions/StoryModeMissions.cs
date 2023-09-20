@@ -10,11 +10,9 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers;
 
 namespace StoryMode.Missions
 {
-	// Token: 0x02000037 RID: 55
 	[MissionManager]
 	public static class StoryModeMissions
 	{
-		// Token: 0x06000345 RID: 837 RVA: 0x00011C2C File Offset: 0x0000FE2C
 		[MissionMethod]
 		public static Mission OpenTrainingFieldMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = null)
 		{

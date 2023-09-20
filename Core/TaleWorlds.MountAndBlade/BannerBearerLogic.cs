@@ -9,26 +9,17 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200025C RID: 604
 	public class BannerBearerLogic : MissionLogic
 	{
-		// Token: 0x1400002D RID: 45
-		// (add) Token: 0x06002089 RID: 8329 RVA: 0x00074300 File Offset: 0x00072500
-		// (remove) Token: 0x0600208A RID: 8330 RVA: 0x00074338 File Offset: 0x00072538
 		public event Action<Formation> OnBannerBearersUpdated;
 
-		// Token: 0x0600208B RID: 8331 RVA: 0x0007436D File Offset: 0x0007256D
 		public BannerBearerLogic()
 		{
 			this._bannerSearcherUpdateTimer = new BasicMissionTimer();
 		}
 
-		// Token: 0x1700064A RID: 1610
-		// (get) Token: 0x0600208C RID: 8332 RVA: 0x000743A1 File Offset: 0x000725A1
-		// (set) Token: 0x0600208D RID: 8333 RVA: 0x000743A9 File Offset: 0x000725A9
 		public MissionAgentSpawnLogic AgentSpawnLogic { get; private set; }
 
-		// Token: 0x0600208E RID: 8334 RVA: 0x000743B4 File Offset: 0x000725B4
 		public bool IsFormationBanner(Formation formation, SpawnedItemEntity spawnedItem)
 		{
 			if (!BannerBearerLogic.IsBannerItem(spawnedItem.WeaponCopy.Item))
@@ -39,14 +30,12 @@ namespace TaleWorlds.MountAndBlade
 			return formationControllerFromBannerEntity != null && formationControllerFromBannerEntity.Formation == formation;
 		}
 
-		// Token: 0x0600208F RID: 8335 RVA: 0x000743F4 File Offset: 0x000725F4
 		public bool HasBannerOnGround(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
 			return formationControllerFromFormation != null && formationControllerFromFormation.HasBannerOnGround();
 		}
 
-		// Token: 0x06002090 RID: 8336 RVA: 0x00074414 File Offset: 0x00072614
 		public BannerComponent GetActiveBanner(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
@@ -61,7 +50,6 @@ namespace TaleWorlds.MountAndBlade
 			return formationControllerFromFormation.BannerItem.BannerComponent;
 		}
 
-		// Token: 0x06002091 RID: 8337 RVA: 0x00074444 File Offset: 0x00072644
 		public List<Agent> GetFormationBannerBearers(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
@@ -72,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			return new List<Agent>();
 		}
 
-		// Token: 0x06002092 RID: 8338 RVA: 0x00074468 File Offset: 0x00072668
 		public ItemObject GetFormationBanner(Formation formation)
 		{
 			ItemObject itemObject = null;
@@ -84,7 +71,6 @@ namespace TaleWorlds.MountAndBlade
 			return itemObject;
 		}
 
-		// Token: 0x06002093 RID: 8339 RVA: 0x0007448C File Offset: 0x0007268C
 		public bool IsBannerSearchingAgent(Agent agent)
 		{
 			if (agent.Formation != null)
@@ -98,7 +84,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002094 RID: 8340 RVA: 0x000744BC File Offset: 0x000726BC
 		public int GetMissingBannerCount(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
@@ -114,7 +99,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06002095 RID: 8341 RVA: 0x000744F8 File Offset: 0x000726F8
 		public Formation GetFormationFromBanner(SpawnedItemEntity spawnedItem)
 		{
 			GameEntity gameEntity = spawnedItem.GameEntity;
@@ -127,7 +111,6 @@ namespace TaleWorlds.MountAndBlade
 			return formationControllerFromBannerEntity.Formation;
 		}
 
-		// Token: 0x06002096 RID: 8342 RVA: 0x00074538 File Offset: 0x00072738
 		public void SetFormationBanner(Formation formation, ItemObject newBanner)
 		{
 			if (newBanner != null)
@@ -150,7 +133,6 @@ namespace TaleWorlds.MountAndBlade
 			formationBannerController.UpdateBannerBearersForDeployment();
 		}
 
-		// Token: 0x06002097 RID: 8343 RVA: 0x00074591 File Offset: 0x00072791
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -158,7 +140,6 @@ namespace TaleWorlds.MountAndBlade
 			this.AgentSpawnLogic = base.Mission.GetMissionBehavior<MissionAgentSpawnLogic>();
 		}
 
-		// Token: 0x06002098 RID: 8344 RVA: 0x000745BA File Offset: 0x000727BA
 		protected override void OnEndMission()
 		{
 			base.OnEndMission();
@@ -167,7 +148,6 @@ namespace TaleWorlds.MountAndBlade
 			this._isMissionEnded = true;
 		}
 
-		// Token: 0x06002099 RID: 8345 RVA: 0x000745E0 File Offset: 0x000727E0
 		public override void OnMissionTick(float dt)
 		{
 			if (this._bannerSearcherUpdateTimer.ElapsedTime >= 3f)
@@ -188,7 +168,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600209A RID: 8346 RVA: 0x000746B8 File Offset: 0x000728B8
 		public override void OnItemPickup(Agent agent, SpawnedItemEntity spawnedItem)
 		{
 			if (!BannerBearerLogic.IsBannerItem(spawnedItem.WeaponCopy.Item))
@@ -204,7 +183,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600209B RID: 8347 RVA: 0x00074704 File Offset: 0x00072904
 		public override void OnItemDrop(Agent agent, SpawnedItemEntity spawnedItem)
 		{
 			if (!BannerBearerLogic.IsBannerItem(spawnedItem.WeaponCopy.Item))
@@ -219,7 +197,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600209C RID: 8348 RVA: 0x0007474C File Offset: 0x0007294C
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (affectedAgent.Banner != null && agentState == AgentState.Routed)
@@ -234,7 +211,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600209D RID: 8349 RVA: 0x00074787 File Offset: 0x00072987
 		public override void OnAgentPanicked(Agent affectedAgent)
 		{
 			if (affectedAgent.Banner != null)
@@ -243,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600209E RID: 8350 RVA: 0x00074798 File Offset: 0x00072998
 		public Agent RespawnAsBannerBearer(Agent agent, bool isAlarmed, bool wieldInitialWeapons, bool forceDismounted, string specialActionSetSuffix = null, bool useTroopClassForSpawn = false)
 		{
 			Formation formation = agent.Formation;
@@ -257,7 +232,6 @@ namespace TaleWorlds.MountAndBlade
 			return agent2;
 		}
 
-		// Token: 0x0600209F RID: 8351 RVA: 0x000747F8 File Offset: 0x000729F8
 		public Agent SpawnBannerBearer(IAgentOriginBase troopOrigin, bool isPlayerSide, Formation formation, bool spawnWithHorse, bool isReinforcement, int formationTroopCount, int formationTroopIndex, bool isAlarmed, bool wieldInitialWeapons, bool forceDismounted, Vec3? initialPosition, Vec2? initialDirection, string specialActionSetSuffix = null, bool useTroopClassForSpawn = false)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
@@ -270,27 +244,23 @@ namespace TaleWorlds.MountAndBlade
 			return agent;
 		}
 
-		// Token: 0x060020A0 RID: 8352 RVA: 0x00074866 File Offset: 0x00072A66
 		public static bool IsBannerItem(ItemObject item)
 		{
 			return item != null && item.IsBannerItem && item.BannerComponent != null;
 		}
 
-		// Token: 0x060020A1 RID: 8353 RVA: 0x0007487E File Offset: 0x00072A7E
 		private void AddBannerEntity(BannerBearerLogic.FormationBannerController formationBannerController, GameEntity bannerEntity)
 		{
 			this._bannerToFormationMap.Add(bannerEntity.Pointer, formationBannerController);
 			formationBannerController.AddBannerEntity(bannerEntity);
 		}
 
-		// Token: 0x060020A2 RID: 8354 RVA: 0x00074899 File Offset: 0x00072A99
 		private void RemoveBannerEntity(BannerBearerLogic.FormationBannerController formationBannerController, GameEntity bannerEntity)
 		{
 			this._bannerToFormationMap.Remove(bannerEntity.Pointer);
 			formationBannerController.RemoveBannerEntity(bannerEntity);
 		}
 
-		// Token: 0x060020A3 RID: 8355 RVA: 0x000748B4 File Offset: 0x00072AB4
 		private BannerBearerLogic.FormationBannerController GetFormationControllerFromFormation(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationBannerController;
@@ -301,7 +271,6 @@ namespace TaleWorlds.MountAndBlade
 			return formationBannerController;
 		}
 
-		// Token: 0x060020A4 RID: 8356 RVA: 0x000748D4 File Offset: 0x00072AD4
 		private BannerBearerLogic.FormationBannerController GetFormationControllerFromBannerEntity(GameEntity bannerEntity)
 		{
 			BannerBearerLogic.FormationBannerController formationBannerController;
@@ -312,7 +281,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x060020A5 RID: 8357 RVA: 0x000748F9 File Offset: 0x00072AF9
 		private static void ForceDropAgentBanner(Agent agent)
 		{
 			if (agent != null)
@@ -322,42 +290,26 @@ namespace TaleWorlds.MountAndBlade
 			agent.DropItem(EquipmentIndex.ExtraWeaponSlot, WeaponClass.Undefined);
 		}
 
-		// Token: 0x04000BF5 RID: 3061
 		public const float DefaultBannerBearerAgentDefensiveness = 1f;
 
-		// Token: 0x04000BF6 RID: 3062
 		public const float BannerSearcherUpdatePeriod = 3f;
 
-		// Token: 0x04000BF9 RID: 3065
 		private readonly Dictionary<UIntPtr, BannerBearerLogic.FormationBannerController> _bannerToFormationMap = new Dictionary<UIntPtr, BannerBearerLogic.FormationBannerController>();
 
-		// Token: 0x04000BFA RID: 3066
 		private readonly Dictionary<Formation, BannerBearerLogic.FormationBannerController> _formationBannerData = new Dictionary<Formation, BannerBearerLogic.FormationBannerController>();
 
-		// Token: 0x04000BFB RID: 3067
 		private readonly BasicMissionTimer _bannerSearcherUpdateTimer;
 
-		// Token: 0x04000BFC RID: 3068
 		private readonly List<BannerBearerLogic.FormationBannerController> _playerFormationsRequiringUpdate = new List<BannerBearerLogic.FormationBannerController>();
 
-		// Token: 0x04000BFD RID: 3069
 		private bool _isMissionEnded;
 
-		// Token: 0x02000569 RID: 1385
 		private class FormationBannerController
 		{
-			// Token: 0x1700097E RID: 2430
-			// (get) Token: 0x06003A66 RID: 14950 RVA: 0x000EBB13 File Offset: 0x000E9D13
-			// (set) Token: 0x06003A67 RID: 14951 RVA: 0x000EBB1B File Offset: 0x000E9D1B
 			public Formation Formation { get; private set; }
 
-			// Token: 0x1700097F RID: 2431
-			// (get) Token: 0x06003A68 RID: 14952 RVA: 0x000EBB24 File Offset: 0x000E9D24
-			// (set) Token: 0x06003A69 RID: 14953 RVA: 0x000EBB2C File Offset: 0x000E9D2C
 			public ItemObject BannerItem { get; private set; }
 
-			// Token: 0x17000980 RID: 2432
-			// (get) Token: 0x06003A6A RID: 14954 RVA: 0x000EBB35 File Offset: 0x000E9D35
 			public bool HasBanner
 			{
 				get
@@ -366,8 +318,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000981 RID: 2433
-			// (get) Token: 0x06003A6B RID: 14955 RVA: 0x000EBB40 File Offset: 0x000E9D40
 			public List<Agent> BannerBearers
 			{
 				get
@@ -378,8 +328,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000982 RID: 2434
-			// (get) Token: 0x06003A6C RID: 14956 RVA: 0x000EBBA8 File Offset: 0x000E9DA8
 			public List<GameEntity> BannersOnGround
 			{
 				get
@@ -390,8 +338,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000983 RID: 2435
-			// (get) Token: 0x06003A6D RID: 14957 RVA: 0x000EBC0D File Offset: 0x000E9E0D
 			public int NumberOfBannerBearers
 			{
 				get
@@ -400,8 +346,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000984 RID: 2436
-			// (get) Token: 0x06003A6E RID: 14958 RVA: 0x000EBC3E File Offset: 0x000E9E3E
 			public int NumberOfBanners
 			{
 				get
@@ -410,8 +354,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000985 RID: 2437
-			// (get) Token: 0x06003A6F RID: 14959 RVA: 0x000EBC4B File Offset: 0x000E9E4B
 			public static float BannerSearchDistance
 			{
 				get
@@ -420,7 +362,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A70 RID: 14960 RVA: 0x000EBC54 File Offset: 0x000E9E54
 			public FormationBannerController(Formation formation, ItemObject bannerItem, BannerBearerLogic bannerLogic, Mission mission)
 			{
 				this.Formation = formation;
@@ -437,7 +378,6 @@ namespace TaleWorlds.MountAndBlade
 				this.SetBannerItem(bannerItem);
 			}
 
-			// Token: 0x06003A71 RID: 14961 RVA: 0x000EBD0F File Offset: 0x000E9F0F
 			public void SetBannerItem(ItemObject bannerItem)
 			{
 				if (bannerItem != null)
@@ -447,13 +387,11 @@ namespace TaleWorlds.MountAndBlade
 				this.BannerItem = bannerItem;
 			}
 
-			// Token: 0x06003A72 RID: 14962 RVA: 0x000EBD25 File Offset: 0x000E9F25
 			public bool HasBannerEntity(GameEntity bannerEntity)
 			{
 				return bannerEntity != null && this._bannerInstances.Keys.Contains(bannerEntity.Pointer);
 			}
 
-			// Token: 0x06003A73 RID: 14963 RVA: 0x000EBD48 File Offset: 0x000E9F48
 			public bool HasBannerOnGround()
 			{
 				if (this.HasBanner)
@@ -463,19 +401,16 @@ namespace TaleWorlds.MountAndBlade
 				return false;
 			}
 
-			// Token: 0x06003A74 RID: 14964 RVA: 0x000EBD7E File Offset: 0x000E9F7E
 			public bool HasActiveBannerBearers()
 			{
 				return this.GetNumberOfActiveBannerBearers() > 0;
 			}
 
-			// Token: 0x06003A75 RID: 14965 RVA: 0x000EBD89 File Offset: 0x000E9F89
 			public bool IsBannerSearchingAgent(Agent agent)
 			{
 				return this._bannerSearchers.Keys.Contains(agent);
 			}
 
-			// Token: 0x06003A76 RID: 14966 RVA: 0x000EBD9C File Offset: 0x000E9F9C
 			public int GetNumberOfActiveBannerBearers()
 			{
 				int num = 0;
@@ -487,7 +422,6 @@ namespace TaleWorlds.MountAndBlade
 				return num;
 			}
 
-			// Token: 0x06003A77 RID: 14967 RVA: 0x000EBDEE File Offset: 0x000E9FEE
 			public void UpdateAgentStats(bool forceUpdate = false)
 			{
 				if (forceUpdate || this._requiresAgentStatUpdate)
@@ -505,7 +439,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A78 RID: 14968 RVA: 0x000EBE30 File Offset: 0x000EA030
 			public unsafe void RepositionFormation()
 			{
 				this.Formation.SetMovementOrder(*this.Formation.GetReadonlyMovementOrderReference());
@@ -515,7 +448,6 @@ namespace TaleWorlds.MountAndBlade
 				}, null);
 			}
 
-			// Token: 0x06003A79 RID: 14969 RVA: 0x000EBE84 File Offset: 0x000EA084
 			public void UpdateBannerSearchers()
 			{
 				List<GameEntity> bannersOnGround = this.BannersOnGround;
@@ -601,7 +533,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A7A RID: 14970 RVA: 0x000EC0E8 File Offset: 0x000EA2E8
 			public void UpdateBannerBearersForDeployment()
 			{
 				List<Agent> bannerBearers = this.BannerBearers;
@@ -699,7 +630,6 @@ namespace TaleWorlds.MountAndBlade
 				onBannerBearersUpdated(this.Formation);
 			}
 
-			// Token: 0x06003A7B RID: 14971 RVA: 0x000EC3B8 File Offset: 0x000EA5B8
 			public void AddBannerEntity(GameEntity entity)
 			{
 				if (!this._bannerInstances.ContainsKey(entity.Pointer))
@@ -708,7 +638,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A7C RID: 14972 RVA: 0x000EC3E6 File Offset: 0x000EA5E6
 			public void RemoveBannerEntity(GameEntity entity)
 			{
 				this._bannerInstances.Remove(entity.Pointer);
@@ -716,7 +645,6 @@ namespace TaleWorlds.MountAndBlade
 				this.CheckRequiresAgentStatUpdate();
 			}
 
-			// Token: 0x06003A7D RID: 14973 RVA: 0x000EC406 File Offset: 0x000EA606
 			public void OnBannerEntityPickedUp(GameEntity entity, Agent agent)
 			{
 				this._bannerInstances[entity.Pointer] = new BannerBearerLogic.FormationBannerController.BannerInstance(agent, entity, BannerBearerLogic.FormationBannerController.BannerState.OnAgent);
@@ -729,7 +657,6 @@ namespace TaleWorlds.MountAndBlade
 				this.CheckRequiresAgentStatUpdate();
 			}
 
-			// Token: 0x06003A7E RID: 14974 RVA: 0x000EC446 File Offset: 0x000EA646
 			public void OnBannerEntityDropped(GameEntity entity)
 			{
 				this._bannerInstances[entity.Pointer] = new BannerBearerLogic.FormationBannerController.BannerInstance(null, entity, BannerBearerLogic.FormationBannerController.BannerState.OnGround);
@@ -737,7 +664,6 @@ namespace TaleWorlds.MountAndBlade
 				this.CheckRequiresAgentStatUpdate();
 			}
 
-			// Token: 0x06003A7F RID: 14975 RVA: 0x000EC46D File Offset: 0x000EA66D
 			public void OnBeforeFormationMovementOrderApplied(Formation formation, MovementOrder.MovementOrderEnum orderType)
 			{
 				if (formation == this.Formation)
@@ -746,7 +672,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A80 RID: 14976 RVA: 0x000EC47E File Offset: 0x000EA67E
 			public void OnAfterArrangementOrderApplied(Formation formation, ArrangementOrder.ArrangementOrderEnum orderEnum)
 			{
 				if (formation == this.Formation)
@@ -755,7 +680,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A81 RID: 14977 RVA: 0x000EC490 File Offset: 0x000EA690
 			private Agent FindBestSearcherForBanner(GameEntity banner, out float distance)
 			{
 				distance = float.MaxValue;
@@ -778,7 +702,6 @@ namespace TaleWorlds.MountAndBlade
 				return agent;
 			}
 
-			// Token: 0x06003A82 RID: 14978 RVA: 0x000EC578 File Offset: 0x000EA778
 			private List<Agent> FindBannerBearableAgents(int count)
 			{
 				List<Agent> list = new List<Agent>();
@@ -801,7 +724,6 @@ namespace TaleWorlds.MountAndBlade
 				return list;
 			}
 
-			// Token: 0x06003A83 RID: 14979 RVA: 0x000EC62C File Offset: 0x000EA82C
 			private void UpdateBannerBearerArrangementPositions()
 			{
 				List<Agent> list = (from instance in this._bannerInstances.Values
@@ -854,7 +776,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A84 RID: 14980 RVA: 0x000EC7BC File Offset: 0x000EA9BC
 			private void OnAgentAdded(Formation formation, Agent agent)
 			{
 				if (this.Formation == formation)
@@ -875,7 +796,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A85 RID: 14981 RVA: 0x000EC850 File Offset: 0x000EAA50
 			private void OnAgentRemoved(Formation formation, Agent agent)
 			{
 				if (this.Formation == formation)
@@ -896,7 +816,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A86 RID: 14982 RVA: 0x000EC8E8 File Offset: 0x000EAAE8
 			private void CheckRequiresAgentStatUpdate()
 			{
 				if (!this._requiresAgentStatUpdate)
@@ -910,7 +829,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003A87 RID: 14983 RVA: 0x000EC92A File Offset: 0x000EAB2A
 			private void AddBannerSearcher(Agent searcher, GameEntity banner, float distance)
 			{
 				this._bannerSearchers.Add(searcher, new ValueTuple<GameEntity, float>(banner, distance));
@@ -922,7 +840,6 @@ namespace TaleWorlds.MountAndBlade
 				humanAIComponent.DisablePickUpForAgentIfNeeded();
 			}
 
-			// Token: 0x06003A88 RID: 14984 RVA: 0x000EC94F File Offset: 0x000EAB4F
 			private void RemoveBannerSearcher(Agent searcher)
 			{
 				this._bannerSearchers.Remove(searcher);
@@ -937,44 +854,30 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001D01 RID: 7425
 			private int _lastActiveBannerBearerCount;
 
-			// Token: 0x04001D02 RID: 7426
 			private bool _requiresAgentStatUpdate;
 
-			// Token: 0x04001D03 RID: 7427
 			private BannerBearerLogic _bannerLogic;
 
-			// Token: 0x04001D04 RID: 7428
 			private Mission _mission;
 
-			// Token: 0x04001D05 RID: 7429
 			[TupleElementNames(new string[] { "bannerEntity", "lastDistance" })]
 			private Dictionary<Agent, ValueTuple<GameEntity, float>> _bannerSearchers;
 
-			// Token: 0x04001D06 RID: 7430
 			private readonly Dictionary<UIntPtr, BannerBearerLogic.FormationBannerController.BannerInstance> _bannerInstances;
 
-			// Token: 0x04001D07 RID: 7431
 			private MBList<Agent> _nearbyAllyAgentsListCache = new MBList<Agent>();
 
-			// Token: 0x020006F5 RID: 1781
 			public enum BannerState
 			{
-				// Token: 0x04002324 RID: 8996
 				Initialized,
-				// Token: 0x04002325 RID: 8997
 				OnAgent,
-				// Token: 0x04002326 RID: 8998
 				OnGround
 			}
 
-			// Token: 0x020006F6 RID: 1782
 			public struct BannerInstance
 			{
-				// Token: 0x17000A20 RID: 2592
-				// (get) Token: 0x06004055 RID: 16469 RVA: 0x000F9DE6 File Offset: 0x000F7FE6
 				public bool IsOnGround
 				{
 					get
@@ -983,8 +886,6 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 
-				// Token: 0x17000A21 RID: 2593
-				// (get) Token: 0x06004056 RID: 16470 RVA: 0x000F9DF1 File Offset: 0x000F7FF1
 				public bool IsOnAgent
 				{
 					get
@@ -993,7 +894,6 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 
-				// Token: 0x06004057 RID: 16471 RVA: 0x000F9DFC File Offset: 0x000F7FFC
 				public BannerInstance(Agent bannerBearer, GameEntity entity, BannerBearerLogic.FormationBannerController.BannerState state)
 				{
 					this.BannerBearer = bannerBearer;
@@ -1001,13 +901,10 @@ namespace TaleWorlds.MountAndBlade
 					this.State = state;
 				}
 
-				// Token: 0x04002327 RID: 8999
 				public readonly Agent BannerBearer;
 
-				// Token: 0x04002328 RID: 9000
 				public readonly GameEntity Entity;
 
-				// Token: 0x04002329 RID: 9001
 				private readonly BannerBearerLogic.FormationBannerController.BannerState State;
 			}
 		}

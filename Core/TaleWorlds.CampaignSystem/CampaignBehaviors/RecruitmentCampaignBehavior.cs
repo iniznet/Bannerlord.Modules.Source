@@ -17,10 +17,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003CC RID: 972
 	public class RecruitmentCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003A4F RID: 14927 RVA: 0x0010D9F0 File Offset: 0x0010BBF0
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -36,20 +34,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, new Action<Hero, Settlement, Hero, CharacterObject, int>(this.OnTroopRecruited));
 		}
 
-		// Token: 0x06003A50 RID: 14928 RVA: 0x0010DAFA File Offset: 0x0010BCFA
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			this.UpdateVolunteersOfNotablesInSettlement(settlement);
 		}
 
-		// Token: 0x06003A51 RID: 14929 RVA: 0x0010DB03 File Offset: 0x0010BD03
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<CharacterObject>("_selectedTroop", ref this._selectedTroop);
 			dataStore.SyncData<Dictionary<Town, RecruitmentCampaignBehavior.TownMercenaryData>>("_townMercenaryData", ref this._townMercenaryData);
 		}
 
-		// Token: 0x06003A52 RID: 14930 RVA: 0x0010DB2C File Offset: 0x0010BD2C
 		private RecruitmentCampaignBehavior.TownMercenaryData GetMercenaryData(Town town)
 		{
 			RecruitmentCampaignBehavior.TownMercenaryData townMercenaryData;
@@ -61,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return townMercenaryData;
 		}
 
-		// Token: 0x06003A53 RID: 14931 RVA: 0x0010DB60 File Offset: 0x0010BD60
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			foreach (Town town in Town.AllTowns)
@@ -74,7 +68,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A54 RID: 14932 RVA: 0x0010DBF4 File Offset: 0x0010BDF4
 		private void OnTroopRecruited(Hero recruiter, Settlement settlement, Hero recruitmentSource, CharacterObject troop, int count)
 		{
 			if (recruiter != null && recruiter.PartyBelongedTo != null && recruiter.GetPerkValue(DefaultPerks.Leadership.FamousCommander))
@@ -88,7 +81,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A55 RID: 14933 RVA: 0x0010DC70 File Offset: 0x0010BE70
 		private void OnUnitRecruited(CharacterObject troop, int count)
 		{
 			if (Hero.MainHero.GetPerkValue(DefaultPerks.Leadership.FamousCommander))
@@ -102,32 +94,27 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A56 RID: 14934 RVA: 0x0010DCD4 File Offset: 0x0010BED4
 		private void DailyTickTown(Town town)
 		{
 			this.UpdateCurrentMercenaryTroopAndCount(town, (int)CampaignTime.Now.ToDays % 2 == 0);
 		}
 
-		// Token: 0x06003A57 RID: 14935 RVA: 0x0010DCFB File Offset: 0x0010BEFB
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06003A58 RID: 14936 RVA: 0x0010DD0B File Offset: 0x0010BF0B
 		private void OnMercenaryNumberChanged(Town town, int oldNumber, int newNumber)
 		{
 			this.CheckIfMercenaryCharacterNeedsToRefresh(town.Owner.Settlement, this.GetMercenaryData(town).TroopType);
 		}
 
-		// Token: 0x06003A59 RID: 14937 RVA: 0x0010DD2A File Offset: 0x0010BF2A
 		private void OnMercenaryTroopChanged(Town town, CharacterObject oldTroopType, CharacterObject newTroopType)
 		{
 			this.CheckIfMercenaryCharacterNeedsToRefresh(town.Owner.Settlement, oldTroopType);
 		}
 
-		// Token: 0x06003A5A RID: 14938 RVA: 0x0010DD40 File Offset: 0x0010BF40
 		private void UpdateVolunteersOfNotablesInSettlement(Settlement settlement)
 		{
 			if ((settlement.IsTown && !settlement.Town.InRebelliousState) || (settlement.IsVillage && !settlement.Village.Bound.Town.InRebelliousState))
@@ -201,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A5B RID: 14939 RVA: 0x0010DF9C File Offset: 0x0010C19C
 		public void HourlyTickParty(MobileParty mobileParty)
 		{
 			if ((mobileParty.IsCaravan || mobileParty.IsLordParty) && mobileParty.MapEvent == null && mobileParty != MobileParty.MainParty)
@@ -247,7 +233,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A5C RID: 14940 RVA: 0x0010E1EC File Offset: 0x0010C3EC
 		private void UpdateCurrentMercenaryTroopAndCount(Town town, bool forceUpdate = false)
 		{
 			RecruitmentCampaignBehavior.TownMercenaryData mercenaryData = this.GetMercenaryData(town);
@@ -280,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A5D RID: 14941 RVA: 0x0010E2F8 File Offset: 0x0010C4F8
 		private float FindTotalMercenaryProbability(CharacterObject mercenaryTroop, float probabilityOfTroop)
 		{
 			float num = probabilityOfTroop;
@@ -291,7 +275,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003A5E RID: 14942 RVA: 0x0010E334 File Offset: 0x0010C534
 		private float FindRandomMercenaryTroop(CharacterObject mercenaryTroop, float probabilityOfTroop, float randomValueRemaining)
 		{
 			randomValueRemaining -= probabilityOfTroop;
@@ -310,7 +293,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x06003A5F RID: 14943 RVA: 0x0010E39C File Offset: 0x0010C59C
 		private int FindNumberOfMercenariesWillBeAdded(CharacterObject character, bool dailyUpdate = false)
 		{
 			int tier = Campaign.Current.Models.CharacterStatsModel.GetTier(character);
@@ -322,7 +304,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MBRandom.RoundRandomized(MBMath.ClampFloat((randomFloat * randomFloat2 * (float)(num2 - num) + (float)num) * (dailyUpdate ? 0.1f : 1f), 1f, (float)num2));
 		}
 
-		// Token: 0x06003A60 RID: 14944 RVA: 0x0010E414 File Offset: 0x0010C614
 		private void CheckIfMercenaryCharacterNeedsToRefresh(Settlement settlement, CharacterObject oldTroopType)
 		{
 			if (settlement.IsTown && settlement == Settlement.CurrentSettlement && PlayerEncounter.LocationEncounter != null && settlement.LocationComplex != null && (CampaignMission.Current == null || GameStateManager.Current.ActiveState != CampaignMission.Current.State))
@@ -335,7 +316,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A61 RID: 14945 RVA: 0x0010E4A0 File Offset: 0x0010C6A0
 		private void AddMercenaryCharacterToTavern(Settlement settlement)
 		{
 			if (settlement.LocationComplex != null && settlement.IsTown && this.GetMercenaryData(settlement.Town).HasAvailableMercenary(Occupation.NotAssigned))
@@ -348,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A62 RID: 14946 RVA: 0x0010E504 File Offset: 0x0010C704
 		private void CheckRecruiting(MobileParty mobileParty, Settlement settlement)
 		{
 			if (settlement.IsTown && mobileParty.IsCaravan)
@@ -431,7 +410,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A63 RID: 14947 RVA: 0x0010E91C File Offset: 0x0010CB1C
 		private void RecruitVolunteersFromNotable(MobileParty mobileParty, Settlement settlement)
 		{
 			if (((float)mobileParty.Party.NumberOfAllMembers + 0.5f) / (float)mobileParty.LimitedPartySize <= 1f)
@@ -481,7 +459,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A64 RID: 14948 RVA: 0x0010EB18 File Offset: 0x0010CD18
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null && mobileParty.MapEvent == null)
@@ -529,7 +506,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A65 RID: 14949 RVA: 0x0010ECC0 File Offset: 0x0010CEC0
 		private void ApplyInternal(MobileParty side1Party, Settlement settlement, Hero individual, CharacterObject troop, int number, int bitCode, RecruitmentCampaignBehavior.RecruitingDetail detail)
 		{
 			int troopRecruitmentCost = Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(troop, side1Party.LeaderHero, false);
@@ -566,31 +542,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnTroopRecruited(side1Party.LeaderHero, settlement, individual, troop, number);
 		}
 
-		// Token: 0x06003A66 RID: 14950 RVA: 0x0010EDCF File Offset: 0x0010CFCF
 		private void ApplyRecruitMercenary(MobileParty side1Party, Settlement side2Party, CharacterObject subject, int number)
 		{
 			this.ApplyInternal(side1Party, side2Party, null, subject, number, -1, RecruitmentCampaignBehavior.RecruitingDetail.MercenaryFromTavern);
 		}
 
-		// Token: 0x06003A67 RID: 14951 RVA: 0x0010EDDF File Offset: 0x0010CFDF
 		private void GetRecruitVolunteerFromMap(MobileParty side1Party, CharacterObject subject, int number)
 		{
 			this.ApplyInternal(side1Party, null, null, subject, number, -1, RecruitmentCampaignBehavior.RecruitingDetail.VolunteerFromMap);
 		}
 
-		// Token: 0x06003A68 RID: 14952 RVA: 0x0010EDEE File Offset: 0x0010CFEE
 		private void GetRecruitVolunteerFromIndividual(MobileParty side1Party, CharacterObject subject, Hero individual, int bitCode)
 		{
 			this.ApplyInternal(side1Party, individual.CurrentSettlement, individual, subject, 1, bitCode, RecruitmentCampaignBehavior.RecruitingDetail.VolunteerFromIndividual);
 		}
 
-		// Token: 0x06003A69 RID: 14953 RVA: 0x0010EE03 File Offset: 0x0010D003
 		private void GetRecruitVolunteerFromIndividualToGarrison(MobileParty side1Party, CharacterObject subject, Hero individual, int bitCode)
 		{
 			this.ApplyInternal(side1Party, null, individual, subject, 1, bitCode, RecruitmentCampaignBehavior.RecruitingDetail.VolunteerFromIndividualToGarrison);
 		}
 
-		// Token: 0x06003A6A RID: 14954 RVA: 0x0010EE14 File Offset: 0x0010D014
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -601,7 +572,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A6B RID: 14955 RVA: 0x0010EE54 File Offset: 0x0010D054
 		private LocationCharacter CreateMercenary(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject troopType = this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).TroopType;
@@ -609,7 +579,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(troopType, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).NoHorses(true), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "spawnpoint_mercenary", true, relation, null, false, false, null, false, false, true);
 		}
 
-		// Token: 0x06003A6C RID: 14956 RVA: 0x0010EED4 File Offset: 0x0010D0D4
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenuOption("town_backstreet", "recruit_mercenaries", "{=NwO0CVzn}Recruit {MEN_COUNT} {MERCENARY_NAME} ({TOTAL_AMOUNT}{GOLD_ICON})", new GameMenuOption.OnConditionDelegate(this.buy_mercenaries_condition), delegate(MenuCallbackArgs x)
@@ -618,7 +587,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}, false, 2, false, null);
 		}
 
-		// Token: 0x06003A6D RID: 14957 RVA: 0x0010EF14 File Offset: 0x0010D114
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("mercenary_recruit_start", "start", "mercenary_tavern_talk", "{=I0StkXlK}Do you have a need for fighters, {?PLAYER.GENDER}madam{?}sir{\\?}? Me and {?PLURAL}{MERCENARY_COUNT} of my mates{?}one of my mates{\\?} are looking for a master. You might call us mercenaries, like. We'll join you for {GOLD_AMOUNT}{GOLD_ICON}", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruit_plural_start_on_condition), null, 100, null);
@@ -631,7 +599,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("mercenary_recruit_start", "start", "close_window", "{=Jhj437BV}Don't worry, I'll be ready. Just having a last drink for the road.", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruited_on_condition), null, 100, null);
 		}
 
-		// Token: 0x06003A6E RID: 14958 RVA: 0x0010F094 File Offset: 0x0010D294
 		private bool buy_mercenaries_condition(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement.IsTown && this.GetMercenaryData(MobileParty.MainParty.CurrentSettlement.Town).Number > 0)
@@ -660,7 +627,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003A6F RID: 14959 RVA: 0x0010F1C8 File Offset: 0x0010D3C8
 		private void buy_mercenaries_on_consequence()
 		{
 			if (MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement.IsTown && this.GetMercenaryData(MobileParty.MainParty.CurrentSettlement.Town).Number > 0)
@@ -678,7 +644,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A70 RID: 14960 RVA: 0x0010F2B4 File Offset: 0x0010D4B4
 		private bool conversation_mercenary_recruit_plural_start_on_condition()
 		{
 			if (PlayerEncounter.EncounterSettlement == null || !PlayerEncounter.EncounterSettlement.IsTown)
@@ -697,7 +662,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06003A71 RID: 14961 RVA: 0x0010F390 File Offset: 0x0010D590
 		private bool conversation_mercenary_recruit_single_start_on_condition()
 		{
 			if (PlayerEncounter.EncounterSettlement == null || !PlayerEncounter.EncounterSettlement.IsTown)
@@ -714,7 +678,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06003A72 RID: 14962 RVA: 0x0010F444 File Offset: 0x0010D644
 		private bool conversation_mercenary_recruit_accept_on_condition()
 		{
 			RecruitmentCampaignBehavior.TownMercenaryData mercenaryData = this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town);
@@ -723,13 +686,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return Hero.MainHero.Gold >= mercenaryData.Number * troopRecruitmentCost;
 		}
 
-		// Token: 0x06003A73 RID: 14963 RVA: 0x0010F4B1 File Offset: 0x0010D6B1
 		private bool conversation_mercenary_recruited_on_condition()
 		{
 			return (CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Mercenary || CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.CaravanGuard || CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Gangster) && PlayerEncounter.EncounterSettlement != null;
 		}
 
-		// Token: 0x06003A74 RID: 14964 RVA: 0x0010F4E8 File Offset: 0x0010D6E8
 		private void BuyMercenaries()
 		{
 			this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).ChangeMercenaryCount(-this._selectedMercenaryCount);
@@ -740,14 +701,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnUnitRecruited(CharacterObject.OneToOneConversationCharacter, this._selectedMercenaryCount);
 		}
 
-		// Token: 0x06003A75 RID: 14965 RVA: 0x0010F583 File Offset: 0x0010D783
 		private void conversation_mercenary_recruit_accept_on_consequence()
 		{
 			this._selectedMercenaryCount = this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).Number;
 			this.BuyMercenaries();
 		}
 
-		// Token: 0x06003A76 RID: 14966 RVA: 0x0010F5A8 File Offset: 0x0010D7A8
 		private bool conversation_mercenary_recruit_accept_some_on_condition()
 		{
 			int troopRecruitmentCost = Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).TroopType, Hero.MainHero, false);
@@ -765,86 +724,66 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003A77 RID: 14967 RVA: 0x0010F667 File Offset: 0x0010D867
 		private void conversation_mercenary_recruit_accept_some_on_consequence()
 		{
 			this.BuyMercenaries();
 		}
 
-		// Token: 0x06003A78 RID: 14968 RVA: 0x0010F670 File Offset: 0x0010D870
 		private bool conversation_mercenary_recruit_reject_gold_on_condition()
 		{
 			int troopRecruitmentCost = Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).TroopType, Hero.MainHero, false);
 			return Hero.MainHero.Gold < troopRecruitmentCost;
 		}
 
-		// Token: 0x06003A79 RID: 14969 RVA: 0x0010F6BC File Offset: 0x0010D8BC
 		private bool conversation_mercenary_recruit_dont_need_men_on_condition()
 		{
 			int troopRecruitmentCost = Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(this.GetMercenaryData(PlayerEncounter.EncounterSettlement.Town).TroopType, Hero.MainHero, false);
 			return Hero.MainHero.Gold >= troopRecruitmentCost;
 		}
 
-		// Token: 0x06003A7A RID: 14970 RVA: 0x0010F70C File Offset: 0x0010D90C
 		private bool conversation_mercenary_recruit_end_on_condition()
 		{
 			MBTextManager.SetTextVariable("RANDOM_HIRE_SENTENCE", GameTexts.FindText("str_mercenary_tavern_talk_hire", MBRandom.RandomInt(4).ToString()), false);
 			return true;
 		}
 
-		// Token: 0x040011FF RID: 4607
 		private Dictionary<Town, RecruitmentCampaignBehavior.TownMercenaryData> _townMercenaryData = new Dictionary<Town, RecruitmentCampaignBehavior.TownMercenaryData>();
 
-		// Token: 0x04001200 RID: 4608
 		private int _selectedMercenaryCount;
 
-		// Token: 0x04001201 RID: 4609
 		private CharacterObject _selectedTroop;
 
-		// Token: 0x02000718 RID: 1816
 		public class RecruitmentCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x060055DF RID: 21983 RVA: 0x0016D9DC File Offset: 0x0016BBDC
 			public RecruitmentCampaignBehaviorTypeDefiner()
 				: base(881200)
 			{
 			}
 
-			// Token: 0x060055E0 RID: 21984 RVA: 0x0016D9E9 File Offset: 0x0016BBE9
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(RecruitmentCampaignBehavior.TownMercenaryData), 1, null);
 			}
 
-			// Token: 0x060055E1 RID: 21985 RVA: 0x0016D9FD File Offset: 0x0016BBFD
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(Dictionary<Town, RecruitmentCampaignBehavior.TownMercenaryData>));
 			}
 		}
 
-		// Token: 0x02000719 RID: 1817
 		internal class TownMercenaryData
 		{
-			// Token: 0x17001365 RID: 4965
-			// (get) Token: 0x060055E2 RID: 21986 RVA: 0x0016DA0F File Offset: 0x0016BC0F
-			// (set) Token: 0x060055E3 RID: 21987 RVA: 0x0016DA17 File Offset: 0x0016BC17
 			[SaveableProperty(202)]
 			public CharacterObject TroopType { get; private set; }
 
-			// Token: 0x17001366 RID: 4966
-			// (get) Token: 0x060055E4 RID: 21988 RVA: 0x0016DA20 File Offset: 0x0016BC20
-			// (set) Token: 0x060055E5 RID: 21989 RVA: 0x0016DA28 File Offset: 0x0016BC28
 			[SaveableProperty(203)]
 			public int Number { get; private set; }
 
-			// Token: 0x060055E6 RID: 21990 RVA: 0x0016DA31 File Offset: 0x0016BC31
 			public TownMercenaryData(Town currentTown)
 			{
 				this._currentTown = currentTown;
 			}
 
-			// Token: 0x060055E7 RID: 21991 RVA: 0x0016DA40 File Offset: 0x0016BC40
 			public void ChangeMercenaryType(CharacterObject troopType, int number)
 			{
 				if (troopType != this.TroopType)
@@ -862,7 +801,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x060055E8 RID: 21992 RVA: 0x0016DA9C File Offset: 0x0016BC9C
 			public void ChangeMercenaryCount(int difference)
 			{
 				if (difference != 0)
@@ -873,58 +811,46 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x060055E9 RID: 21993 RVA: 0x0016DAD8 File Offset: 0x0016BCD8
 			public bool HasAvailableMercenary(Occupation occupation = Occupation.NotAssigned)
 			{
 				return this.TroopType != null && this.Number > 0 && (occupation == Occupation.NotAssigned || this.TroopType.Occupation == occupation);
 			}
 
-			// Token: 0x060055EA RID: 21994 RVA: 0x0016DB00 File Offset: 0x0016BD00
 			internal static void AutoGeneratedStaticCollectObjectsTownMercenaryData(object o, List<object> collectedObjects)
 			{
 				((RecruitmentCampaignBehavior.TownMercenaryData)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x060055EB RID: 21995 RVA: 0x0016DB0E File Offset: 0x0016BD0E
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this._currentTown);
 				collectedObjects.Add(this.TroopType);
 			}
 
-			// Token: 0x060055EC RID: 21996 RVA: 0x0016DB28 File Offset: 0x0016BD28
 			internal static object AutoGeneratedGetMemberValueTroopType(object o)
 			{
 				return ((RecruitmentCampaignBehavior.TownMercenaryData)o).TroopType;
 			}
 
-			// Token: 0x060055ED RID: 21997 RVA: 0x0016DB35 File Offset: 0x0016BD35
 			internal static object AutoGeneratedGetMemberValueNumber(object o)
 			{
 				return ((RecruitmentCampaignBehavior.TownMercenaryData)o).Number;
 			}
 
-			// Token: 0x060055EE RID: 21998 RVA: 0x0016DB47 File Offset: 0x0016BD47
 			internal static object AutoGeneratedGetMemberValue_currentTown(object o)
 			{
 				return ((RecruitmentCampaignBehavior.TownMercenaryData)o)._currentTown;
 			}
 
-			// Token: 0x04001D41 RID: 7489
 			[SaveableField(204)]
 			private readonly Town _currentTown;
 		}
 
-		// Token: 0x0200071A RID: 1818
 		public enum RecruitingDetail
 		{
-			// Token: 0x04001D43 RID: 7491
 			MercenaryFromTavern,
-			// Token: 0x04001D44 RID: 7492
 			VolunteerFromIndividual,
-			// Token: 0x04001D45 RID: 7493
 			VolunteerFromIndividualToGarrison,
-			// Token: 0x04001D46 RID: 7494
 			VolunteerFromMap
 		}
 	}

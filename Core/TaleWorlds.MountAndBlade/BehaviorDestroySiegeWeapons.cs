@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000104 RID: 260
 	public class BehaviorDestroySiegeWeapons : BehaviorComponent
 	{
-		// Token: 0x06000CC5 RID: 3269 RVA: 0x0001C998 File Offset: 0x0001AB98
 		private void DetermineTargetWeapons()
 		{
 			this._targetWeapons = this._allWeapons.Where((SiegeWeapon w) => w is IPrimarySiegeWeapon && (w as IPrimarySiegeWeapon).WeaponSide == this._behaviorSide && w.IsDestructible && !w.IsDestroyed && !w.IsDisabled).ToList<SiegeWeapon>();
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			this._isTargetPrimaryWeapon = true;
 		}
 
-		// Token: 0x06000CC6 RID: 3270 RVA: 0x0001CA18 File Offset: 0x0001AC18
 		public BehaviorDestroySiegeWeapons(Formation formation)
 			: base(formation)
 		{
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = MovementOrder.MovementOrderCharge;
 		}
 
-		// Token: 0x06000CC7 RID: 3271 RVA: 0x0001CA9C File Offset: 0x0001AC9C
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -45,14 +41,12 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000CC8 RID: 3272 RVA: 0x0001CAF6 File Offset: 0x0001ACF6
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this.DetermineTargetWeapons();
 		}
 
-		// Token: 0x06000CC9 RID: 3273 RVA: 0x0001CB04 File Offset: 0x0001AD04
 		public override void TickOccasionally()
 		{
 			base.TickOccasionally();
@@ -85,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CCA RID: 3274 RVA: 0x0001CC00 File Offset: 0x0001AE00
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.DetermineTargetWeapons();
@@ -96,8 +89,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x17000314 RID: 788
-		// (get) Token: 0x06000CCB RID: 3275 RVA: 0x0001CC8E File Offset: 0x0001AE8E
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -106,7 +97,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CCC RID: 3276 RVA: 0x0001CC95 File Offset: 0x0001AE95
 		protected override float GetAiWeight()
 		{
 			if (this._targetWeapons.IsEmpty<SiegeWeapon>())
@@ -120,16 +110,12 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x0400030F RID: 783
 		private readonly List<SiegeWeapon> _allWeapons;
 
-		// Token: 0x04000310 RID: 784
 		private List<SiegeWeapon> _targetWeapons;
 
-		// Token: 0x04000311 RID: 785
 		public SiegeWeapon LastTargetWeapon;
 
-		// Token: 0x04000312 RID: 786
 		private bool _isTargetPrimaryWeapon;
 	}
 }

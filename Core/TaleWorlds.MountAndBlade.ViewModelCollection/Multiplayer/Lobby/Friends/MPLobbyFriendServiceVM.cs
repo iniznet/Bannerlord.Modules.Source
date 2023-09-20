@@ -12,11 +12,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 {
-	// Token: 0x02000082 RID: 130
 	public class MPLobbyFriendServiceVM : ViewModel
 	{
-		// Token: 0x17000384 RID: 900
-		// (get) Token: 0x06000B52 RID: 2898 RVA: 0x00027ECC File Offset: 0x000260CC
 		public IEnumerable<MPLobbyPlayerBaseVM> AllFriends
 		{
 			get
@@ -25,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B53 RID: 2899 RVA: 0x00027EFC File Offset: 0x000260FC
 		public MPLobbyFriendServiceVM(IFriendListService friendListService, Action<PlayerId> onFriendRequestAnswered, Action<MPLobbyPlayerBaseVM> activatePlayerActions)
 		{
 			this.FriendListService = friendListService;
@@ -48,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			this.UpdateCanInviteOtherPlayersToParty();
 		}
 
-		// Token: 0x06000B54 RID: 2900 RVA: 0x00028004 File Offset: 0x00026204
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -63,7 +58,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			this.PendingRequests.RefreshValues();
 		}
 
-		// Token: 0x06000B55 RID: 2901 RVA: 0x000280A8 File Offset: 0x000262A8
 		public override void OnFinalize()
 		{
 			PlatformServices.Instance.OnBlockedUserListUpdated -= this.BlockedUserListChanged;
@@ -73,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000B56 RID: 2902 RVA: 0x00028116 File Offset: 0x00026316
 		public void OnStateActivate()
 		{
 			this._isPartyAvailable = NetworkMain.GameClient.PartySystemAvailable;
@@ -81,7 +74,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			this.GetFriends();
 		}
 
-		// Token: 0x06000B57 RID: 2903 RVA: 0x0002814C File Offset: 0x0002634C
 		private async void GetFriends()
 		{
 			IEnumerable<PlayerId> allFriends = this.FriendListService.GetAllFriends();
@@ -101,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B58 RID: 2904 RVA: 0x00028188 File Offset: 0x00026388
 		public void OnTick(float dt)
 		{
 			this.UpdateFriendStates(dt);
@@ -142,7 +133,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			pendingRequests.Tick();
 		}
 
-		// Token: 0x06000B59 RID: 2905 RVA: 0x0002822C File Offset: 0x0002642C
 		private void TimeoutProcessedFriendRequests()
 		{
 			foreach (PlayerId playerId in MPLobbyFriendServiceVM._friendRequestsInProcess.Keys.ToArray<PlayerId>())
@@ -154,14 +144,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B5A RID: 2906 RVA: 0x00028288 File Offset: 0x00026488
 		private void BlockFriendRequest(PlayerId friendId)
 		{
 			bool flag = BannerlordConfig.EnableGenericNames && !NetworkMain.GameClient.IsKnownPlayer(friendId);
 			NetworkMain.GameClient.RespondToFriendRequest(friendId, flag, false, true);
 		}
 
-		// Token: 0x06000B5B RID: 2907 RVA: 0x000282BC File Offset: 0x000264BC
 		private void ProcessFriendRequest(PlayerId friendId)
 		{
 			if (MPLobbyFriendServiceVM._friendRequestsInProcess.ContainsKey(friendId))
@@ -202,7 +190,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			});
 		}
 
-		// Token: 0x06000B5C RID: 2908 RVA: 0x00028320 File Offset: 0x00026520
 		private void AddFriendRequestItem(PlayerId playerID)
 		{
 			MPLobbyFriendItemVM mplobbyFriendItemVM = new MPLobbyFriendItemVM(playerID, this._activatePlayerActions, null, this._onFriendRequestAnswered);
@@ -211,7 +198,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			this.FriendRequests.AddFriend(mplobbyFriendItemVM);
 		}
 
-		// Token: 0x06000B5D RID: 2909 RVA: 0x0002835C File Offset: 0x0002655C
 		private void TickFriendOperations(float dt)
 		{
 			IEnumerable<PlayerId> receivedRequests = this.FriendListService.GetReceivedRequests();
@@ -278,7 +264,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			this.GotAnyPendingRequests = false;
 		}
 
-		// Token: 0x06000B5E RID: 2910 RVA: 0x000285AC File Offset: 0x000267AC
 		private void UpdateFriendStates(float dt)
 		{
 			if (!NetworkMain.GameClient.AtLobby || this._isStateRequestActive)
@@ -297,7 +282,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B5F RID: 2911 RVA: 0x000286A4 File Offset: 0x000268A4
 		private async void UpdatePlayerStates(List<PlayerId> players)
 		{
 			if (players != null && players.Count > 0)
@@ -349,37 +333,31 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B60 RID: 2912 RVA: 0x000286E5 File Offset: 0x000268E5
 		private void BlockedUserListChanged()
 		{
 			this.GetFriends();
 		}
 
-		// Token: 0x06000B61 RID: 2913 RVA: 0x000286ED File Offset: 0x000268ED
 		private void FriendListChanged()
 		{
 			this.GetFriends();
 		}
 
-		// Token: 0x06000B62 RID: 2914 RVA: 0x000286F5 File Offset: 0x000268F5
 		public void ForceRefresh()
 		{
 			this.GetFriends();
 		}
 
-		// Token: 0x06000B63 RID: 2915 RVA: 0x00028700 File Offset: 0x00026900
 		private async void UserOnlineStatusChanged(PlayerId providedId)
 		{
 			await this.CreateAndAddFriendToList(providedId);
 		}
 
-		// Token: 0x06000B64 RID: 2916 RVA: 0x00028741 File Offset: 0x00026941
 		private void FriendRemoved(PlayerId providedId)
 		{
 			this.RemoveFriend(providedId);
 		}
 
-		// Token: 0x06000B65 RID: 2917 RVA: 0x0002874C File Offset: 0x0002694C
 		private void RemoveFriend(PlayerId providedId)
 		{
 			MPLobbyFriendItemVM mplobbyFriendItemVM = this.InGameFriends.FriendList.FirstOrDefault((MPLobbyFriendItemVM p) => p.ProvidedID == providedId);
@@ -405,7 +383,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B66 RID: 2918 RVA: 0x000287F4 File Offset: 0x000269F4
 		private async Task CreateAndAddFriendToList(PlayerId playerId)
 		{
 			if (!MultiplayerPlayerHelper.IsBlocked(playerId))
@@ -443,7 +420,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B67 RID: 2919 RVA: 0x00028844 File Offset: 0x00026A44
 		private MPLobbyPlayerBaseVM GetFriendWithID(PlayerId playerId)
 		{
 			MPLobbyFriendItemVM mplobbyFriendItemVM = this._onlineFriends.FriendList.FirstOrDefault((MPLobbyFriendItemVM p) => p.ProvidedID == playerId);
@@ -464,7 +440,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			return null;
 		}
 
-		// Token: 0x06000B68 RID: 2920 RVA: 0x000288C8 File Offset: 0x00026AC8
 		public void UpdateCanInviteOtherPlayersToParty()
 		{
 			this.OfflineFriends.FriendList.ApplyActionOnAllItems(delegate(MPLobbyFriendItemVM f)
@@ -489,7 +464,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			});
 		}
 
-		// Token: 0x06000B69 RID: 2921 RVA: 0x0002899C File Offset: 0x00026B9C
 		public void OnFriendListUpdated(bool updateForced = false)
 		{
 			if (!this._populatingFriends)
@@ -517,7 +491,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x06000B6A RID: 2922 RVA: 0x00028A50 File Offset: 0x00026C50
 		private async Task<MPLobbyPlayerBaseVM.OnlineStatus> GetOnlineStatus(PlayerId playerId)
 		{
 			bool flag = await this.FriendListService.GetUserOnlineStatus(playerId);
@@ -546,7 +519,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			return onlineStatus;
 		}
 
-		// Token: 0x06000B6B RID: 2923 RVA: 0x00028AA0 File Offset: 0x00026CA0
 		private Action<PlayerId> GetOnInvite(PlayerId playerId, MPLobbyPlayerBaseVM.OnlineStatus onlineStatus, AnotherPlayerState state)
 		{
 			Action<PlayerId> action = null;
@@ -569,7 +541,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			return action;
 		}
 
-		// Token: 0x06000B6C RID: 2924 RVA: 0x00028B0C File Offset: 0x00026D0C
 		private void ExecuteInviteToParty(PlayerId providedId)
 		{
 			bool dontUseNameForUnknownPlayer = BannerlordConfig.EnableGenericNames && !NetworkMain.GameClient.IsKnownPlayer(providedId);
@@ -612,7 +583,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			});
 		}
 
-		// Token: 0x06000B6D RID: 2925 RVA: 0x00028B64 File Offset: 0x00026D64
 		private void ExecuteInviteToPlatformSession(PlayerId providedId)
 		{
 			MPLobbyFriendServiceVM.<>c__DisplayClass43_0 CS$<>8__locals1 = new MPLobbyFriendServiceVM.<>c__DisplayClass43_0();
@@ -647,7 +617,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			});
 		}
 
-		// Token: 0x06000B6E RID: 2926 RVA: 0x00028BB4 File Offset: 0x00026DB4
 		private void ExecuteInviteToClan(PlayerId providedId)
 		{
 			PlatformServices.Instance.CheckPrivilege(Privilege.Clan, true, delegate(bool result)
@@ -660,9 +629,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			});
 		}
 
-		// Token: 0x17000385 RID: 901
-		// (get) Token: 0x06000B6F RID: 2927 RVA: 0x00028BE6 File Offset: 0x00026DE6
-		// (set) Token: 0x06000B70 RID: 2928 RVA: 0x00028BEE File Offset: 0x00026DEE
 		[DataSourceProperty]
 		public bool IsInGameStatusActive
 		{
@@ -680,9 +646,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x06000B71 RID: 2929 RVA: 0x00028C0C File Offset: 0x00026E0C
-		// (set) Token: 0x06000B72 RID: 2930 RVA: 0x00028C14 File Offset: 0x00026E14
 		[DataSourceProperty]
 		public MPLobbyFriendGroupVM InGameFriends
 		{
@@ -700,9 +663,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x06000B73 RID: 2931 RVA: 0x00028C32 File Offset: 0x00026E32
-		// (set) Token: 0x06000B74 RID: 2932 RVA: 0x00028C3A File Offset: 0x00026E3A
 		[DataSourceProperty]
 		public MPLobbyFriendGroupVM OnlineFriends
 		{
@@ -720,9 +680,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000388 RID: 904
-		// (get) Token: 0x06000B75 RID: 2933 RVA: 0x00028C58 File Offset: 0x00026E58
-		// (set) Token: 0x06000B76 RID: 2934 RVA: 0x00028C60 File Offset: 0x00026E60
 		[DataSourceProperty]
 		public MPLobbyFriendGroupVM OfflineFriends
 		{
@@ -740,9 +697,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000389 RID: 905
-		// (get) Token: 0x06000B77 RID: 2935 RVA: 0x00028C7E File Offset: 0x00026E7E
-		// (set) Token: 0x06000B78 RID: 2936 RVA: 0x00028C86 File Offset: 0x00026E86
 		[DataSourceProperty]
 		public string InGameText
 		{
@@ -760,9 +714,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038A RID: 906
-		// (get) Token: 0x06000B79 RID: 2937 RVA: 0x00028CA9 File Offset: 0x00026EA9
-		// (set) Token: 0x06000B7A RID: 2938 RVA: 0x00028CB1 File Offset: 0x00026EB1
 		[DataSourceProperty]
 		public string OnlineText
 		{
@@ -780,9 +731,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038B RID: 907
-		// (get) Token: 0x06000B7B RID: 2939 RVA: 0x00028CD4 File Offset: 0x00026ED4
-		// (set) Token: 0x06000B7C RID: 2940 RVA: 0x00028CDC File Offset: 0x00026EDC
 		[DataSourceProperty]
 		public string OfflineText
 		{
@@ -800,9 +748,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038C RID: 908
-		// (get) Token: 0x06000B7D RID: 2941 RVA: 0x00028CFF File Offset: 0x00026EFF
-		// (set) Token: 0x06000B7E RID: 2942 RVA: 0x00028D07 File Offset: 0x00026F07
 		[DataSourceProperty]
 		public string ServiceName
 		{
@@ -820,9 +765,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038D RID: 909
-		// (get) Token: 0x06000B7F RID: 2943 RVA: 0x00028D2A File Offset: 0x00026F2A
-		// (set) Token: 0x06000B80 RID: 2944 RVA: 0x00028D32 File Offset: 0x00026F32
 		[DataSourceProperty]
 		public MPLobbyFriendGroupVM FriendRequests
 		{
@@ -840,9 +782,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038E RID: 910
-		// (get) Token: 0x06000B81 RID: 2945 RVA: 0x00028D50 File Offset: 0x00026F50
-		// (set) Token: 0x06000B82 RID: 2946 RVA: 0x00028D58 File Offset: 0x00026F58
 		[DataSourceProperty]
 		public bool GotAnyFriendRequests
 		{
@@ -860,9 +799,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x1700038F RID: 911
-		// (get) Token: 0x06000B83 RID: 2947 RVA: 0x00028D76 File Offset: 0x00026F76
-		// (set) Token: 0x06000B84 RID: 2948 RVA: 0x00028D7E File Offset: 0x00026F7E
 		[DataSourceProperty]
 		public MPLobbyFriendGroupVM PendingRequests
 		{
@@ -880,9 +816,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000390 RID: 912
-		// (get) Token: 0x06000B85 RID: 2949 RVA: 0x00028D9C File Offset: 0x00026F9C
-		// (set) Token: 0x06000B86 RID: 2950 RVA: 0x00028DA4 File Offset: 0x00026FA4
 		[DataSourceProperty]
 		public bool GotAnyPendingRequests
 		{
@@ -900,9 +833,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x17000391 RID: 913
-		// (get) Token: 0x06000B87 RID: 2951 RVA: 0x00028DC2 File Offset: 0x00026FC2
-		// (set) Token: 0x06000B88 RID: 2952 RVA: 0x00028DCA File Offset: 0x00026FCA
 		[DataSourceProperty]
 		public HintViewModel ServiceNameHint
 		{
@@ -920,94 +850,64 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 			}
 		}
 
-		// Token: 0x0400056F RID: 1391
 		private const string _inviteFailedSoundEvent = "event:/ui/notification/quest_update";
 
-		// Token: 0x04000570 RID: 1392
 		public readonly IFriendListService FriendListService;
 
-		// Token: 0x04000571 RID: 1393
 		private readonly Action<MPLobbyPlayerBaseVM> _activatePlayerActions;
 
-		// Token: 0x04000572 RID: 1394
 		private bool _populatingFriends;
 
-		// Token: 0x04000573 RID: 1395
 		private bool _isInGameFriendsRelevant;
 
-		// Token: 0x04000574 RID: 1396
 		private const float UpdateInterval = 2f;
 
-		// Token: 0x04000575 RID: 1397
 		private float _lastUpdateTimePassed;
 
-		// Token: 0x04000576 RID: 1398
 		private const float StateRequestInterval = 10f;
 
-		// Token: 0x04000577 RID: 1399
 		private float _lastStateRequestTimePassed;
 
-		// Token: 0x04000578 RID: 1400
 		private bool _isStateRequestActive;
 
-		// Token: 0x04000579 RID: 1401
 		private readonly MPLobbyFriendServiceVM.PlayerStateComparer _playerStateComparer;
 
-		// Token: 0x0400057A RID: 1402
 		private Action<PlayerId> _onFriendRequestAnswered;
 
-		// Token: 0x0400057B RID: 1403
 		private bool _isPartyAvailable;
 
-		// Token: 0x0400057C RID: 1404
 		private static Dictionary<PlayerId, long> _friendRequestsInProcess = new Dictionary<PlayerId, long>();
 
-		// Token: 0x0400057D RID: 1405
 		private const int BlockedFriendRequestTimeout = 10000;
 
-		// Token: 0x0400057E RID: 1406
 		private bool _isInGameStatusActive;
 
-		// Token: 0x0400057F RID: 1407
 		private MPLobbyFriendGroupVM _inGameFriends;
 
-		// Token: 0x04000580 RID: 1408
 		private MPLobbyFriendGroupVM _onlineFriends;
 
-		// Token: 0x04000581 RID: 1409
 		private MPLobbyFriendGroupVM _offlineFriends;
 
-		// Token: 0x04000582 RID: 1410
 		private string _inGameText;
 
-		// Token: 0x04000583 RID: 1411
 		private string _onlineText;
 
-		// Token: 0x04000584 RID: 1412
 		private string _offlineText;
 
-		// Token: 0x04000585 RID: 1413
 		private string _serviceName;
 
-		// Token: 0x04000586 RID: 1414
 		private HintViewModel _serviceNameHint;
 
-		// Token: 0x04000587 RID: 1415
 		private MPLobbyFriendGroupVM _friendRequests;
 
-		// Token: 0x04000588 RID: 1416
 		private bool _gotAnyFriendRequests;
 
-		// Token: 0x04000589 RID: 1417
 		private MPLobbyFriendGroupVM _pendingRequests;
 
-		// Token: 0x0400058A RID: 1418
 		private bool _gotAnyPendingRequests;
 
-		// Token: 0x020001AB RID: 427
 		private class PlayerStateComparer : IComparer<MPLobbyPlayerBaseVM>
 		{
-			// Token: 0x060019E6 RID: 6630 RVA: 0x00053800 File Offset: 0x00051A00
 			public int Compare(MPLobbyPlayerBaseVM x, MPLobbyPlayerBaseVM y)
 			{
 				int stateImportanceOrder = this.GetStateImportanceOrder(x.State);
@@ -1019,7 +919,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Friends
 				return x.Name.CompareTo(y.Name);
 			}
 
-			// Token: 0x060019E7 RID: 6631 RVA: 0x00053845 File Offset: 0x00051A45
 			private int GetStateImportanceOrder(AnotherPlayerState state)
 			{
 				switch (state)

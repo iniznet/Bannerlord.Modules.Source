@@ -5,24 +5,20 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.Core.ViewModelCollection.Selector
 {
-	// Token: 0x02000011 RID: 17
 	public class SelectorItemVM : ViewModel
 	{
-		// Token: 0x060000BA RID: 186 RVA: 0x0000326A File Offset: 0x0000146A
 		public SelectorItemVM(TextObject s)
 		{
 			this._s = s;
 			this.RefreshValues();
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x00003286 File Offset: 0x00001486
 		public SelectorItemVM(string s)
 		{
 			this._stringItem = s;
 			this.RefreshValues();
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x000032A2 File Offset: 0x000014A2
 		public SelectorItemVM(TextObject s, TextObject hint)
 		{
 			this._s = s;
@@ -30,7 +26,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			this.RefreshValues();
 		}
 
-		// Token: 0x060000BD RID: 189 RVA: 0x000032C5 File Offset: 0x000014C5
 		public SelectorItemVM(string s, TextObject hint)
 		{
 			this._stringItem = s;
@@ -38,7 +33,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			this.RefreshValues();
 		}
 
-		// Token: 0x060000BE RID: 190 RVA: 0x000032E8 File Offset: 0x000014E8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -57,9 +51,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			}
 		}
 
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x060000BF RID: 191 RVA: 0x00003348 File Offset: 0x00001548
-		// (set) Token: 0x060000C0 RID: 192 RVA: 0x00003350 File Offset: 0x00001550
 		[DataSourceProperty]
 		public string StringItem
 		{
@@ -77,9 +68,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			}
 		}
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x060000C1 RID: 193 RVA: 0x00003373 File Offset: 0x00001573
-		// (set) Token: 0x060000C2 RID: 194 RVA: 0x0000337B File Offset: 0x0000157B
 		[DataSourceProperty]
 		public bool CanBeSelected
 		{
@@ -97,9 +85,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			}
 		}
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x060000C3 RID: 195 RVA: 0x00003399 File Offset: 0x00001599
-		// (set) Token: 0x060000C4 RID: 196 RVA: 0x000033A1 File Offset: 0x000015A1
 		[DataSourceProperty]
 		public HintViewModel Hint
 		{
@@ -117,9 +102,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			}
 		}
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x060000C5 RID: 197 RVA: 0x000033BF File Offset: 0x000015BF
-		// (set) Token: 0x060000C6 RID: 198 RVA: 0x000033C7 File Offset: 0x000015C7
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -137,22 +119,16 @@ namespace TaleWorlds.Core.ViewModelCollection.Selector
 			}
 		}
 
-		// Token: 0x04000049 RID: 73
 		private TextObject _s;
 
-		// Token: 0x0400004A RID: 74
 		private TextObject _hintObj;
 
-		// Token: 0x0400004B RID: 75
 		private string _stringItem;
 
-		// Token: 0x0400004C RID: 76
 		private HintViewModel _hint;
 
-		// Token: 0x0400004D RID: 77
 		private bool _canBeSelected = true;
 
-		// Token: 0x0400004E RID: 78
 		private bool _isSelected;
 	}
 }

@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x02000086 RID: 134
 	public class SandboxAgentDecideKilledOrUnconsciousModel : AgentDecideKilledOrUnconsciousModel
 	{
-		// Token: 0x060005AB RID: 1451 RVA: 0x00028A88 File Offset: 0x00026C88
 		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, out float useSurgeryProbability)
 		{
 			useSurgeryProbability = 1f;

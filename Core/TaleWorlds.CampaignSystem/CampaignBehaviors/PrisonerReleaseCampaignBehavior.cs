@@ -11,10 +11,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003C9 RID: 969
 	public class PrisonerReleaseCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003A14 RID: 14868 RVA: 0x0010B36C File Offset: 0x0010956C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
@@ -25,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 		}
 
-		// Token: 0x06003A15 RID: 14869 RVA: 0x0010B404 File Offset: 0x00109604
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949))
@@ -56,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A16 RID: 14870 RVA: 0x0010B510 File Offset: 0x00109710
 		private void ClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			if (detail != ChangeKingdomAction.ChangeKingdomActionDetail.CreateKingdom)
@@ -74,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A17 RID: 14871 RVA: 0x0010B538 File Offset: 0x00109738
 		private void OnAfterClanJoinedKingdom(Clan clan, Kingdom newKingdom)
 		{
 			foreach (Kingdom kingdom in Kingdom.All)
@@ -86,20 +81,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A18 RID: 14872 RVA: 0x0010B5A4 File Offset: 0x001097A4
 		private void OnMakePeaceEvent(IFaction side1Faction, IFaction side2Faction, MakePeaceAction.MakePeaceDetail detail)
 		{
 			this.OnMakePeace(side1Faction, side2Faction);
 		}
 
-		// Token: 0x06003A19 RID: 14873 RVA: 0x0010B5AE File Offset: 0x001097AE
 		private void OnMakePeace(IFaction side1Faction, IFaction side2Faction)
 		{
 			PrisonerReleaseCampaignBehavior.ReleasePrisonersInternal(side1Faction);
 			PrisonerReleaseCampaignBehavior.ReleasePrisonersInternal(side2Faction);
 		}
 
-		// Token: 0x06003A1A RID: 14874 RVA: 0x0010B5BC File Offset: 0x001097BC
 		private static void ReleasePrisonersInternal(IFaction faction)
 		{
 			foreach (Settlement settlement in faction.Settlements)
@@ -133,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A1B RID: 14875 RVA: 0x0010B744 File Offset: 0x00109944
 		private static void ReleasePrisonersForClan(Clan clan, IFaction faction)
 		{
 			foreach (Hero hero in clan.Lords)
@@ -167,7 +158,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A1C RID: 14876 RVA: 0x0010B934 File Offset: 0x00109B34
 		private static void ReleasePartyPrisoners(MobileParty mobileParty, IFaction faction)
 		{
 			for (int i = mobileParty.PrisonRoster.Count - 1; i >= 0; i--)
@@ -190,12 +180,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A1D RID: 14877 RVA: 0x0010BA10 File Offset: 0x00109C10
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003A1E RID: 14878 RVA: 0x0010BA14 File Offset: 0x00109C14
 		private void DailyHeroTick(Hero hero)
 		{
 			if (hero.IsPrisoner && hero.PartyBelongedToAsPrisoner != null && hero != Hero.MainHero)
@@ -255,7 +243,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A1F RID: 14879 RVA: 0x0010BCF8 File Offset: 0x00109EF8
 		private void HourlyPartyTick(MobileParty mobileParty)
 		{
 			int prisonerSizeLimit = mobileParty.Party.PrisonerSizeLimit;
@@ -285,7 +272,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A20 RID: 14880 RVA: 0x0010BE18 File Offset: 0x0010A018
 		private void ApplyEscapeChanceToExceededPrisoners(CharacterObject character, MobileParty capturerParty)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0.1f, false, null);
@@ -308,7 +294,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003A21 RID: 14881 RVA: 0x0010BEA8 File Offset: 0x0010A0A8
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			foreach (TroopRosterElement troopRosterElement in settlement.Party.PrisonRoster.GetTroopRoster())

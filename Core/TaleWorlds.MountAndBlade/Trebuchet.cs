@@ -10,11 +10,8 @@ using TaleWorlds.MountAndBlade.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000367 RID: 871
 	public class Trebuchet : RangedSiegeWeapon, ISpawnable
 	{
-		// Token: 0x17000886 RID: 2182
-		// (get) Token: 0x06002F6E RID: 12142 RVA: 0x000C1880 File Offset: 0x000BFA80
 		public override float DirectionRestriction
 		{
 			get
@@ -23,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F6F RID: 12143 RVA: 0x000C1888 File Offset: 0x000BFA88
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject;
@@ -51,7 +47,6 @@ namespace TaleWorlds.MountAndBlade
 			return textObject;
 		}
 
-		// Token: 0x06002F70 RID: 12144 RVA: 0x000C194A File Offset: 0x000BFB4A
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			if (!gameEntity.HasTag(this.AmmoPickUpTag))
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			return new TextObject("{=pzfbPbWW}Boulder", null).ToString();
 		}
 
-		// Token: 0x06002F71 RID: 12145 RVA: 0x000C197C File Offset: 0x000BFB7C
 		protected override void RegisterAnimationParameters()
 		{
 			this.SkeletonOwnerObjects = new SynchedMissionObject[3];
@@ -94,13 +88,11 @@ namespace TaleWorlds.MountAndBlade
 			this.SetUpAnimationIndices[2] = MBAnimation.GetAnimationIndexWithName(this.RopeSetUpAnimation);
 		}
 
-		// Token: 0x06002F72 RID: 12146 RVA: 0x000C1B3C File Offset: 0x000BFD3C
 		public override SiegeEngineType GetSiegeEngineType()
 		{
 			return DefaultSiegeEngineTypes.Trebuchet;
 		}
 
-		// Token: 0x06002F73 RID: 12147 RVA: 0x000C1B43 File Offset: 0x000BFD43
 		protected override void GetSoundEventIndices()
 		{
 			this.MoveSoundIndex = SoundEvent.GetEventIdFromString("event:/mission/siege/trebuchet/move");
@@ -108,8 +100,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ReloadEndSoundIndex = SoundEvent.GetEventIdFromString("event:/mission/siege/trebuchet/reload_end");
 		}
 
-		// Token: 0x17000887 RID: 2183
-		// (get) Token: 0x06002F74 RID: 12148 RVA: 0x000C1B75 File Offset: 0x000BFD75
 		protected override float ShootingSpeed
 		{
 			get
@@ -118,13 +108,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F75 RID: 12149 RVA: 0x000C1B7D File Offset: 0x000BFD7D
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new TrebuchetAI(this);
 		}
 
-		// Token: 0x06002F76 RID: 12150 RVA: 0x000C1B88 File Offset: 0x000BFD88
 		protected internal override void OnInit()
 		{
 			List<SynchedMissionObject> list = base.GameEntity.CollectObjectsWithTag("body");
@@ -177,7 +165,6 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateProjectilePosition();
 		}
 
-		// Token: 0x06002F77 RID: 12151 RVA: 0x000C1E40 File Offset: 0x000C0040
 		public override void AfterMissionStart()
 		{
 			if (this.AmmoPickUpStandingPoints != null)
@@ -196,7 +183,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F78 RID: 12152 RVA: 0x000C1EE4 File Offset: 0x000C00E4
 		protected override void OnRangedSiegeWeaponStateChange()
 		{
 			base.OnRangedSiegeWeaponStateChange();
@@ -239,8 +225,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000888 RID: 2184
-		// (get) Token: 0x06002F79 RID: 12153 RVA: 0x000C1F65 File Offset: 0x000C0165
 		protected override float HorizontalAimSensitivity
 		{
 			get
@@ -249,8 +233,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000889 RID: 2185
-		// (get) Token: 0x06002F7A RID: 12154 RVA: 0x000C1F6C File Offset: 0x000C016C
 		protected override float VerticalAimSensitivity
 		{
 			get
@@ -259,8 +241,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700088A RID: 2186
-		// (get) Token: 0x06002F7B RID: 12155 RVA: 0x000C1F74 File Offset: 0x000C0174
 		protected override Vec3 ShootingDirection
 		{
 			get
@@ -271,8 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700088B RID: 2187
-		// (get) Token: 0x06002F7C RID: 12156 RVA: 0x000C1FC8 File Offset: 0x000C01C8
 		protected override Vec3 VisualizationShootingDirection
 		{
 			get
@@ -283,9 +261,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700088C RID: 2188
-		// (get) Token: 0x06002F7D RID: 12157 RVA: 0x000C2019 File Offset: 0x000C0219
-		// (set) Token: 0x06002F7E RID: 12158 RVA: 0x000C2045 File Offset: 0x000C0245
 		protected override bool HasAmmo
 		{
 			get
@@ -298,7 +273,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F7F RID: 12159 RVA: 0x000C2050 File Offset: 0x000C0250
 		public override float ProcessTargetValue(float baseValue, TargetFlags flags)
 		{
 			if (flags.HasAnyFlag(TargetFlags.NotAThreat))
@@ -324,7 +298,6 @@ namespace TaleWorlds.MountAndBlade
 			return baseValue;
 		}
 
-		// Token: 0x06002F80 RID: 12160 RVA: 0x000C20BC File Offset: 0x000C02BC
 		public override TargetFlags GetTargetFlags()
 		{
 			TargetFlags targetFlags = TargetFlags.None;
@@ -346,19 +319,16 @@ namespace TaleWorlds.MountAndBlade
 			return targetFlags;
 		}
 
-		// Token: 0x06002F81 RID: 12161 RVA: 0x000C211F File Offset: 0x000C031F
 		public override float GetTargetValue(List<Vec3> weaponPos)
 		{
 			return 40f * base.GetUserMultiplierOfWeapon() * this.GetDistanceMultiplierOfWeapon(weaponPos[0]) * base.GetHitPointMultiplierOfWeapon();
 		}
 
-		// Token: 0x06002F82 RID: 12162 RVA: 0x000C2142 File Offset: 0x000C0342
 		protected override bool CanRotate()
 		{
 			return base.State == RangedSiegeWeapon.WeaponState.Idle || base.State == RangedSiegeWeapon.WeaponState.LoadingAmmo || base.State == RangedSiegeWeapon.WeaponState.WaitingBeforeIdle;
 		}
 
-		// Token: 0x06002F83 RID: 12163 RVA: 0x000C2160 File Offset: 0x000C0360
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.GameEntity.IsVisibleIncludeParents())
@@ -368,7 +338,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002F84 RID: 12164 RVA: 0x000C2180 File Offset: 0x000C0380
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -515,7 +484,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F85 RID: 12165 RVA: 0x000C2674 File Offset: 0x000C0874
 		protected internal override void OnTickParallel(float dt)
 		{
 			base.OnTickParallel(dt);
@@ -634,7 +602,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F86 RID: 12166 RVA: 0x000C2C4C File Offset: 0x000C0E4C
 		protected override void SetActivationLoadAmmoPoint(bool activate)
 		{
 			foreach (StandingPointWithWeaponRequirement standingPointWithWeaponRequirement in this._ammoLoadPoints)
@@ -643,158 +610,111 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F87 RID: 12167 RVA: 0x000C2CA0 File Offset: 0x000C0EA0
 		protected override void UpdateProjectilePosition()
 		{
 			MatrixFrame boneEntitialFrameWithIndex = this._sling.GameEntity.GetBoneEntitialFrameWithIndex(this._missileBoneIndex);
 			base.Projectile.GameEntity.SetFrame(ref boneEntitialFrameWithIndex);
 		}
 
-		// Token: 0x06002F88 RID: 12168 RVA: 0x000C2CD6 File Offset: 0x000C0ED6
 		protected internal override bool IsStandingPointNotUsedOnAccountOfBeingAmmoLoad(StandingPoint standingPoint)
 		{
 			return (this._ammoLoadPoints.Contains(standingPoint) && this.LoadAmmoStandingPoint != standingPoint) || base.IsStandingPointNotUsedOnAccountOfBeingAmmoLoad(standingPoint);
 		}
 
-		// Token: 0x06002F89 RID: 12169 RVA: 0x000C2CF8 File Offset: 0x000C0EF8
 		protected override float GetDetachmentWeightAux(BattleSideEnum side)
 		{
 			return base.GetDetachmentWeightAuxForExternalAmmoWeapons(side);
 		}
 
-		// Token: 0x06002F8A RID: 12170 RVA: 0x000C2D01 File Offset: 0x000C0F01
 		public void SetSpawnedFromSpawner()
 		{
 			this._spawnedFromSpawner = true;
 		}
 
-		// Token: 0x04001377 RID: 4983
 		private static readonly ActionIndexCache act_usage_trebuchet_idle = ActionIndexCache.Create("act_usage_trebuchet_idle");
 
-		// Token: 0x04001378 RID: 4984
 		public const float TrebuchetDirectionRestriction = 1.3962635f;
 
-		// Token: 0x04001379 RID: 4985
 		private static readonly ActionIndexCache act_usage_trebuchet_reload = ActionIndexCache.Create("act_usage_trebuchet_reload");
 
-		// Token: 0x0400137A RID: 4986
 		private static readonly ActionIndexCache act_usage_trebuchet_reload_2 = ActionIndexCache.Create("act_usage_trebuchet_reload_2");
 
-		// Token: 0x0400137B RID: 4987
 		private static readonly ActionIndexCache act_usage_trebuchet_reload_idle = ActionIndexCache.Create("act_usage_trebuchet_reload_idle");
 
-		// Token: 0x0400137C RID: 4988
 		private static readonly ActionIndexCache act_usage_trebuchet_reload_2_idle = ActionIndexCache.Create("act_usage_trebuchet_reload_2_idle");
 
-		// Token: 0x0400137D RID: 4989
 		private static readonly ActionIndexCache act_usage_trebuchet_load_ammo = ActionIndexCache.Create("act_usage_trebuchet_load_ammo");
 
-		// Token: 0x0400137E RID: 4990
 		private static readonly ActionIndexCache act_usage_trebuchet_shoot = ActionIndexCache.Create("act_usage_trebuchet_shoot");
 
-		// Token: 0x0400137F RID: 4991
 		private static readonly ActionIndexCache act_strike_bent_over = ActionIndexCache.Create("act_strike_bent_over");
 
-		// Token: 0x04001380 RID: 4992
 		private static readonly ActionIndexCache act_pickup_boulder_begin = ActionIndexCache.Create("act_pickup_boulder_begin");
 
-		// Token: 0x04001381 RID: 4993
 		private static readonly ActionIndexCache act_pickup_boulder_end = ActionIndexCache.Create("act_pickup_boulder_end");
 
-		// Token: 0x04001382 RID: 4994
 		private const string BodyTag = "body";
 
-		// Token: 0x04001383 RID: 4995
 		private const string SlideTag = "slide";
 
-		// Token: 0x04001384 RID: 4996
 		private const string SlingTag = "sling";
 
-		// Token: 0x04001385 RID: 4997
 		private const string RopeTag = "rope";
 
-		// Token: 0x04001386 RID: 4998
 		private const string RotateTag = "rotate";
 
-		// Token: 0x04001387 RID: 4999
 		private const string VerticalAdjusterTag = "vertical_adjuster";
 
-		// Token: 0x04001388 RID: 5000
 		private const string MissileBoneName = "bn_projectile_holder";
 
-		// Token: 0x04001389 RID: 5001
 		private const string LeftTag = "left";
 
-		// Token: 0x0400138A RID: 5002
 		private const string _rotateObjectTag = "rotate_entity";
 
-		// Token: 0x0400138B RID: 5003
 		public float ProjectileSpeed = 45f;
 
-		// Token: 0x0400138C RID: 5004
 		public string AIAmmoLoadTag = "ammoload_ai";
 
-		// Token: 0x0400138D RID: 5005
 		private SynchedMissionObject _body;
 
-		// Token: 0x0400138E RID: 5006
 		private SynchedMissionObject _sling;
 
-		// Token: 0x0400138F RID: 5007
 		private SynchedMissionObject _rope;
 
-		// Token: 0x04001390 RID: 5008
 		public string IdleWithAmmoAnimation;
 
-		// Token: 0x04001391 RID: 5009
 		public string IdleEmptyAnimation;
 
-		// Token: 0x04001392 RID: 5010
 		public string BodyFireAnimation;
 
-		// Token: 0x04001393 RID: 5011
 		public string BodySetUpAnimation;
 
-		// Token: 0x04001394 RID: 5012
 		public string SlingFireAnimation;
 
-		// Token: 0x04001395 RID: 5013
 		public string SlingSetUpAnimation;
 
-		// Token: 0x04001396 RID: 5014
 		public string RopeFireAnimation;
 
-		// Token: 0x04001397 RID: 5015
 		public string RopeSetUpAnimation;
 
-		// Token: 0x04001398 RID: 5016
 		public string VerticalAdjusterAnimation;
 
-		// Token: 0x04001399 RID: 5017
 		public float TimeGapBetweenShootActionAndProjectileLeaving = 1.6f;
 
-		// Token: 0x0400139A RID: 5018
 		private GameEntity _verticalAdjuster;
 
-		// Token: 0x0400139B RID: 5019
 		private Skeleton _verticalAdjusterSkeleton;
 
-		// Token: 0x0400139C RID: 5020
 		private MatrixFrame _verticalAdjusterStartingLocalFrame;
 
-		// Token: 0x0400139D RID: 5021
 		private float _timeElapsedAfterLoading;
 
-		// Token: 0x0400139E RID: 5022
 		private bool _shootAnimPlayed;
 
-		// Token: 0x0400139F RID: 5023
 		private MatrixFrame[] _standingPointLocalIKFrames;
 
-		// Token: 0x040013A0 RID: 5024
 		private List<StandingPointWithWeaponRequirement> _ammoLoadPoints;
 
-		// Token: 0x040013A1 RID: 5025
 		private sbyte _missileBoneIndex;
 	}
 }

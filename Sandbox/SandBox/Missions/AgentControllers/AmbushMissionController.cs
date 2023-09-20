@@ -11,12 +11,8 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace SandBox.Missions.AgentControllers
 {
-	// Token: 0x02000068 RID: 104
 	public class AmbushMissionController : BaseBattleMissionController
 	{
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x06000472 RID: 1138 RVA: 0x00020A7C File Offset: 0x0001EC7C
-		// (set) Token: 0x06000473 RID: 1139 RVA: 0x00020A84 File Offset: 0x0001EC84
 		public bool IsPlayerAmbusher
 		{
 			get
@@ -28,7 +24,6 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x06000474 RID: 1140 RVA: 0x00020A86 File Offset: 0x0001EC86
 		public AmbushMissionController(bool isPlayerAttacker)
 			: base(isPlayerAttacker)
 		{
@@ -36,7 +31,6 @@ namespace SandBox.Missions.AgentControllers
 			this._defenderSpawnPoints = new List<GameEntity>();
 		}
 
-		// Token: 0x06000475 RID: 1141 RVA: 0x00020AAC File Offset: 0x0001ECAC
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -44,7 +38,6 @@ namespace SandBox.Missions.AgentControllers
 			this._ambushIntroLogic = base.Mission.GetMissionBehavior<AmbushIntroLogic>();
 		}
 
-		// Token: 0x06000476 RID: 1142 RVA: 0x00020AD8 File Offset: 0x0001ECD8
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -91,7 +84,6 @@ namespace SandBox.Missions.AgentControllers
 			Agent.Main.Controller = 1;
 		}
 
-		// Token: 0x06000477 RID: 1143 RVA: 0x00020C8C File Offset: 0x0001EE8C
 		public override void OnMissionTick(float dt)
 		{
 			if (this._firstTick)
@@ -107,20 +99,17 @@ namespace SandBox.Missions.AgentControllers
 			this.UpdateAgents();
 		}
 
-		// Token: 0x06000478 RID: 1144 RVA: 0x00020CD8 File Offset: 0x0001EED8
 		protected override void CreateDefenderTroops()
 		{
 			this.CreateTroop("guard", base.Mission.DefenderTeam, 30, false);
 		}
 
-		// Token: 0x06000479 RID: 1145 RVA: 0x00020CF3 File Offset: 0x0001EEF3
 		protected override void CreateAttackerTroops()
 		{
 			this.CreateTroop("guard", base.Mission.AttackerTeam, 10, false);
 			this.CreateTroop("archer", base.Mission.AttackerTeam, 15, false);
 		}
 
-		// Token: 0x0600047A RID: 1146 RVA: 0x00020D28 File Offset: 0x0001EF28
 		protected override void CreateTroop(string troopName, Team troopTeam, int troopCount, bool isReinforcement = false)
 		{
 			if (troopTeam.Side == 1)
@@ -159,7 +148,6 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x0600047B RID: 1147 RVA: 0x00020F20 File Offset: 0x0001F120
 		public void OnPlayerDeploymentFinish(bool doDebugPause = false)
 		{
 			if (base.Mission.PlayerTeam.Side == 1)
@@ -176,7 +164,6 @@ namespace SandBox.Missions.AgentControllers
 			Agent.Main.SetTeam(this._playerSoloTeam, true);
 		}
 
-		// Token: 0x0600047C RID: 1148 RVA: 0x00020FA1 File Offset: 0x0001F1A1
 		public void OnIntroductionFinish()
 		{
 			if (!base.IsPlayerAttacker)
@@ -190,7 +177,6 @@ namespace SandBox.Missions.AgentControllers
 			Agent.Main.Controller = 2;
 		}
 
-		// Token: 0x0600047D RID: 1149 RVA: 0x00020FD0 File Offset: 0x0001F1D0
 		private void UpdateAgents()
 		{
 			int num = 0;
@@ -261,7 +247,6 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x0600047E RID: 1150 RVA: 0x0002124C File Offset: 0x0001F44C
 		private void StartFighting()
 		{
 			base.Mission.AttackerTeam.SetIsEnemyOf(base.Mission.DefenderTeam, true);
@@ -303,41 +288,26 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x1400000A RID: 10
-		// (add) Token: 0x0600047F RID: 1151 RVA: 0x00021440 File Offset: 0x0001F640
-		// (remove) Token: 0x06000480 RID: 1152 RVA: 0x00021478 File Offset: 0x0001F678
 		public event AmbushMissionEventDelegate PlayerDeploymentFinish;
 
-		// Token: 0x1400000B RID: 11
-		// (add) Token: 0x06000481 RID: 1153 RVA: 0x000214B0 File Offset: 0x0001F6B0
-		// (remove) Token: 0x06000482 RID: 1154 RVA: 0x000214E8 File Offset: 0x0001F6E8
 		public event AmbushMissionEventDelegate IntroFinish;
 
-		// Token: 0x04000228 RID: 552
 		private AmbushBattleDeploymentHandler _ambushDeploymentHandler;
 
-		// Token: 0x04000229 RID: 553
 		private AmbushIntroLogic _ambushIntroLogic;
 
-		// Token: 0x0400022A RID: 554
 		private readonly List<GameEntity> _checkPoints;
 
-		// Token: 0x0400022B RID: 555
 		private readonly List<GameEntity> _defenderSpawnPoints;
 
-		// Token: 0x0400022C RID: 556
 		private int _currentPositionIndex;
 
-		// Token: 0x0400022D RID: 557
 		private int _columns;
 
-		// Token: 0x0400022E RID: 558
 		private const float UnitSpread = 1f;
 
-		// Token: 0x0400022F RID: 559
 		private Team _playerSoloTeam;
 
-		// Token: 0x04000230 RID: 560
 		private bool _firstTick = true;
 	}
 }

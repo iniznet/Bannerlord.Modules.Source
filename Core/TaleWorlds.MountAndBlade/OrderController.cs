@@ -9,16 +9,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200013E RID: 318
 	public class OrderController
 	{
-		// Token: 0x17000381 RID: 897
-		// (get) Token: 0x06000FE9 RID: 4073 RVA: 0x0002FEC8 File Offset: 0x0002E0C8
-		// (set) Token: 0x06000FEA RID: 4074 RVA: 0x0002FED0 File Offset: 0x0002E0D0
 		public SiegeWeaponController SiegeWeaponController { get; private set; }
 
-		// Token: 0x17000382 RID: 898
-		// (get) Token: 0x06000FEB RID: 4075 RVA: 0x0002FED9 File Offset: 0x0002E0D9
 		public MBReadOnlyList<Formation> SelectedFormations
 		{
 			get
@@ -27,22 +21,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1400000A RID: 10
-		// (add) Token: 0x06000FEC RID: 4076 RVA: 0x0002FEE4 File Offset: 0x0002E0E4
-		// (remove) Token: 0x06000FED RID: 4077 RVA: 0x0002FF1C File Offset: 0x0002E11C
 		public event OnOrderIssuedDelegate OnOrderIssued;
 
-		// Token: 0x1400000B RID: 11
-		// (add) Token: 0x06000FEE RID: 4078 RVA: 0x0002FF54 File Offset: 0x0002E154
-		// (remove) Token: 0x06000FEF RID: 4079 RVA: 0x0002FF8C File Offset: 0x0002E18C
 		public event Action OnSelectedFormationsChanged;
 
-		// Token: 0x17000383 RID: 899
-		// (get) Token: 0x06000FF0 RID: 4080 RVA: 0x0002FFC1 File Offset: 0x0002E1C1
-		// (set) Token: 0x06000FF1 RID: 4081 RVA: 0x0002FFC9 File Offset: 0x0002E1C9
 		public Dictionary<Formation, Formation> simulationFormations { get; private set; }
 
-		// Token: 0x06000FF2 RID: 4082 RVA: 0x0002FFD4 File Offset: 0x0002E1D4
 		public OrderController(Mission mission, Team team, Agent owner)
 		{
 			this._mission = mission;
@@ -69,19 +53,16 @@ namespace TaleWorlds.MountAndBlade
 			this.CreateDefaultOrderOverrides();
 		}
 
-		// Token: 0x06000FF3 RID: 4083 RVA: 0x00030100 File Offset: 0x0002E300
 		private void Formation_OnUnitSpacingChanged(Formation formation)
 		{
 			this.actualUnitSpacings.Remove(formation);
 		}
 
-		// Token: 0x06000FF4 RID: 4084 RVA: 0x0003010F File Offset: 0x0002E30F
 		private void Formation_OnWidthChanged(Formation formation)
 		{
 			this.actualWidths.Remove(formation);
 		}
 
-		// Token: 0x06000FF5 RID: 4085 RVA: 0x00030120 File Offset: 0x0002E320
 		private void OnSelectedFormationsCollectionChanged()
 		{
 			Action onSelectedFormationsChanged = this.OnSelectedFormationsChanged;
@@ -95,7 +76,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FF6 RID: 4086 RVA: 0x0003019C File Offset: 0x0002E39C
 		private void SelectFormation(Formation formation, Agent selectorAgent)
 		{
 			if (!this._selectedFormations.Contains(formation) && this.IsFormationSelectable(formation, selectorAgent))
@@ -118,13 +98,11 @@ namespace TaleWorlds.MountAndBlade
 			Debug.FailedAssert("Formation already selected or is not selectable", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SelectFormation", 208);
 		}
 
-		// Token: 0x06000FF7 RID: 4087 RVA: 0x0003025C File Offset: 0x0002E45C
 		public void SelectFormation(Formation formation)
 		{
 			this.SelectFormation(formation, this.Owner);
 		}
 
-		// Token: 0x06000FF8 RID: 4088 RVA: 0x0003026C File Offset: 0x0002E46C
 		public void DeselectFormation(Formation formation)
 		{
 			if (this._selectedFormations.Contains(formation))
@@ -143,19 +121,16 @@ namespace TaleWorlds.MountAndBlade
 			Debug.FailedAssert("Trying to deselect an unselected formation", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "DeselectFormation", 234);
 		}
 
-		// Token: 0x06000FF9 RID: 4089 RVA: 0x0003030E File Offset: 0x0002E50E
 		public bool IsFormationListening(Formation formation)
 		{
 			return this.SelectedFormations.Contains(formation);
 		}
 
-		// Token: 0x06000FFA RID: 4090 RVA: 0x0003031C File Offset: 0x0002E51C
 		public bool IsFormationSelectable(Formation formation)
 		{
 			return this.IsFormationSelectable(formation, this.Owner);
 		}
 
-		// Token: 0x06000FFB RID: 4091 RVA: 0x0003032B File Offset: 0x0002E52B
 		public bool BackupAndDisableGesturesEnabled()
 		{
 			bool gesturesEnabled = this._gesturesEnabled;
@@ -163,25 +138,21 @@ namespace TaleWorlds.MountAndBlade
 			return gesturesEnabled;
 		}
 
-		// Token: 0x06000FFC RID: 4092 RVA: 0x0003033A File Offset: 0x0002E53A
 		public void RestoreGesturesEnabled(bool oldValue)
 		{
 			this._gesturesEnabled = oldValue;
 		}
 
-		// Token: 0x06000FFD RID: 4093 RVA: 0x00030343 File Offset: 0x0002E543
 		private bool IsFormationSelectable(Formation formation, Agent selectorAgent)
 		{
 			return (selectorAgent == null || formation.PlayerOwner == selectorAgent) && formation.CountOfUnits > 0;
 		}
 
-		// Token: 0x06000FFE RID: 4094 RVA: 0x0003035C File Offset: 0x0002E55C
 		private bool AreGesturesEnabled()
 		{
 			return this._gesturesEnabled && this._mission.IsOrderGesturesEnabled() && !GameNetwork.IsClientOrReplay;
 		}
 
-		// Token: 0x06000FFF RID: 4095 RVA: 0x00030380 File Offset: 0x0002E580
 		private void SelectAllFormations(Agent selectorAgent, bool uiFeedback)
 		{
 			if (GameNetwork.IsClient)
@@ -211,13 +182,11 @@ namespace TaleWorlds.MountAndBlade
 			this.OnSelectedFormationsCollectionChanged();
 		}
 
-		// Token: 0x06001000 RID: 4096 RVA: 0x0003049C File Offset: 0x0002E69C
 		public void SelectAllFormations(bool uiFeedback = false)
 		{
 			this.SelectAllFormations(this.Owner, uiFeedback);
 		}
 
-		// Token: 0x06001001 RID: 4097 RVA: 0x000304AC File Offset: 0x0002E6AC
 		public void ClearSelectedFormations()
 		{
 			if (GameNetwork.IsClient)
@@ -231,7 +200,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnSelectedFormationsCollectionChanged();
 		}
 
-		// Token: 0x06001002 RID: 4098 RVA: 0x000304FC File Offset: 0x0002E6FC
 		public void ReleaseFormationsFromAI()
 		{
 			foreach (Formation formation in this.SelectedFormations)
@@ -240,7 +208,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001003 RID: 4099 RVA: 0x0003054C File Offset: 0x0002E74C
 		public unsafe void SetOrder(OrderType orderType)
 		{
 			MBDebug.Print("SetOrder " + orderType + "on team", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -634,7 +601,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001004 RID: 4100 RVA: 0x0003101C File Offset: 0x0002F21C
 		private static void PlayOrderGestures(OrderType orderType, Agent agent, MBList<Formation> selectedFormations)
 		{
 			switch (orderType)
@@ -774,7 +740,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001005 RID: 4101 RVA: 0x00031568 File Offset: 0x0002F768
 		private static void PlayFormationSelectedGesture(Formation formation, Agent agent)
 		{
 			if (formation.SecondaryClasses.Any<FormationClass>())
@@ -806,7 +771,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001006 RID: 4102 RVA: 0x0003160C File Offset: 0x0002F80C
 		private unsafe void AfterSetOrder(OrderType orderType)
 		{
 			MBDebug.Print("After set order called, number of selected formations: " + this.SelectedFormations.Count, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -833,7 +797,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001007 RID: 4103 RVA: 0x000317EC File Offset: 0x0002F9EC
 		private void BeforeSetOrder(OrderType orderType)
 		{
 			foreach (Formation formation in this.SelectedFormations.Where((Formation f) => !this.IsFormationSelectable(f, this.Owner)).ToList<Formation>())
@@ -846,7 +809,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001008 RID: 4104 RVA: 0x0003186C File Offset: 0x0002FA6C
 		public void SetOrderWithAgent(OrderType orderType, Agent agent)
 		{
 			MBDebug.Print(string.Concat(new object[] { "SetOrderWithAgent ", orderType, " ", agent.Name, "on team" }), 0, Debug.DebugColor.White, 17592186044416UL);
@@ -897,7 +859,6 @@ namespace TaleWorlds.MountAndBlade
 			onOrderIssued(orderType, this.SelectedFormations, new object[] { agent });
 		}
 
-		// Token: 0x06001009 RID: 4105 RVA: 0x000319C0 File Offset: 0x0002FBC0
 		public void SetOrderWithPosition(OrderType orderType, WorldPosition orderPosition)
 		{
 			MBDebug.Print(string.Concat(new object[] { "SetOrderWithPosition ", orderType, " ", orderPosition, "on team" }), 0, Debug.DebugColor.White, 17592186044416UL);
@@ -962,7 +923,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600100A RID: 4106 RVA: 0x00031B98 File Offset: 0x0002FD98
 		public void SetOrderWithFormation(OrderType orderType, Formation orderFormation)
 		{
 			MBDebug.Print(string.Concat(new object[] { "SetOrderWithFormation ", orderType, " ", orderFormation, "on team" }), 0, Debug.DebugColor.White, 17592186044416UL);
@@ -994,7 +954,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600100B RID: 4107 RVA: 0x00031CA0 File Offset: 0x0002FEA0
 		public void SetOrderWithFormationAndPercentage(OrderType orderType, Formation orderFormation, float percentage)
 		{
 			int num = (int)(percentage * 100f);
@@ -1014,7 +973,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600100C RID: 4108 RVA: 0x00031D38 File Offset: 0x0002FF38
 		public void TransferUnitWithPriorityFunction(Formation orderFormation, int number, bool hasShield, bool hasSpear, bool hasThrown, bool isHeavy, bool isRanged, bool isMounted, bool excludeBannerman, List<Agent> excludedAgents)
 		{
 			OrderController.<>c__DisplayClass74_0 CS$<>8__locals1 = new OrderController.<>c__DisplayClass74_0();
@@ -1081,13 +1039,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600100D RID: 4109 RVA: 0x00031F48 File Offset: 0x00030148
 		public void RearrangeFormationsAccordingToFilters(Team team, List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> MassTransferData)
 		{
 			team.RearrangeFormationsAccordingToFilters(MassTransferData);
 		}
 
-		// Token: 0x0600100E RID: 4110 RVA: 0x00031F54 File Offset: 0x00030154
 		public void SetOrderWithFormationAndNumber(OrderType orderType, Formation orderFormation, int number)
 		{
 			this.BeforeSetOrder(orderType);
@@ -1154,7 +1110,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600100F RID: 4111 RVA: 0x00032158 File Offset: 0x00030358
 		public void SetOrderWithTwoPositions(OrderType orderType, WorldPosition position1, WorldPosition position2)
 		{
 			MBDebug.Print(string.Concat(new object[] { "SetOrderWithTwoPositions ", orderType, " ", position1, " ", position2, "on team" }), 0, Debug.DebugColor.White, 17592186044416UL);
@@ -1185,7 +1140,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001010 RID: 4112 RVA: 0x000322A0 File Offset: 0x000304A0
 		public void SetOrderWithOrderableObject(IOrderable target)
 		{
 			BattleSideEnum side = this.SelectedFormations[0].Team.Side;
@@ -1301,7 +1255,6 @@ namespace TaleWorlds.MountAndBlade
 			onOrderIssued(order, this.SelectedFormations, new object[] { target });
 		}
 
-		// Token: 0x06001011 RID: 4113 RVA: 0x00032678 File Offset: 0x00030878
 		public unsafe static OrderType GetActiveMovementOrderOf(Formation formation)
 		{
 			MovementOrder movementOrder = *formation.GetReadonlyMovementOrderReference();
@@ -1352,7 +1305,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001012 RID: 4114 RVA: 0x00032728 File Offset: 0x00030928
 		public static OrderType GetActiveFacingOrderOf(Formation formation)
 		{
 			if (formation.FacingOrder.OrderType == OrderType.LookAtDirection)
@@ -1362,7 +1314,6 @@ namespace TaleWorlds.MountAndBlade
 			return OrderType.LookAtEnemy;
 		}
 
-		// Token: 0x06001013 RID: 4115 RVA: 0x0003274C File Offset: 0x0003094C
 		public static OrderType GetActiveRidingOrderOf(Formation formation)
 		{
 			OrderType orderType = formation.RidingOrder.OrderType;
@@ -1373,31 +1324,26 @@ namespace TaleWorlds.MountAndBlade
 			return orderType;
 		}
 
-		// Token: 0x06001014 RID: 4116 RVA: 0x00032774 File Offset: 0x00030974
 		public static OrderType GetActiveArrangementOrderOf(Formation formation)
 		{
 			return formation.ArrangementOrder.OrderType;
 		}
 
-		// Token: 0x06001015 RID: 4117 RVA: 0x00032790 File Offset: 0x00030990
 		public static OrderType GetActiveFormOrderOf(Formation formation)
 		{
 			return formation.FormOrder.OrderType;
 		}
 
-		// Token: 0x06001016 RID: 4118 RVA: 0x000327AC File Offset: 0x000309AC
 		public static OrderType GetActiveWeaponUsageOrderOf(Formation formation)
 		{
 			return formation.WeaponUsageOrder.OrderType;
 		}
 
-		// Token: 0x06001017 RID: 4119 RVA: 0x000327C8 File Offset: 0x000309C8
 		public static OrderType GetActiveFiringOrderOf(Formation formation)
 		{
 			return formation.FiringOrder.OrderType;
 		}
 
-		// Token: 0x06001018 RID: 4120 RVA: 0x000327E3 File Offset: 0x000309E3
 		public static OrderType GetActiveAIControlOrderOf(Formation formation)
 		{
 			if (formation.IsAIControlled)
@@ -1407,7 +1353,6 @@ namespace TaleWorlds.MountAndBlade
 			return OrderType.AIControlOff;
 		}
 
-		// Token: 0x06001019 RID: 4121 RVA: 0x000327F4 File Offset: 0x000309F4
 		public void SimulateNewOrderWithPositionAndDirection(WorldPosition formationLineBegin, WorldPosition formationLineEnd, out List<WorldPosition> simulationAgentFrames, bool isFormationLayoutVertical)
 		{
 			IEnumerable<Formation> enumerable = this.SelectedFormations.Where((Formation f) => f.CountOfUnitsWithoutDetachedOnes > 0);
@@ -1419,7 +1364,6 @@ namespace TaleWorlds.MountAndBlade
 			simulationAgentFrames = new List<WorldPosition>();
 		}
 
-		// Token: 0x0600101A RID: 4122 RVA: 0x00032850 File Offset: 0x00030A50
 		public void SimulateNewFacingOrder(Vec2 direction, out List<WorldPosition> simulationAgentFrames)
 		{
 			IEnumerable<Formation> enumerable = this.SelectedFormations.Where((Formation f) => f.CountOfUnitsWithoutDetachedOnes > 0);
@@ -1431,7 +1375,6 @@ namespace TaleWorlds.MountAndBlade
 			simulationAgentFrames = new List<WorldPosition>();
 		}
 
-		// Token: 0x0600101B RID: 4123 RVA: 0x000328A8 File Offset: 0x00030AA8
 		public void SimulateNewCustomWidthOrder(float width, out List<WorldPosition> simulationAgentFrames)
 		{
 			IEnumerable<Formation> enumerable = this.SelectedFormations.Where((Formation f) => f.CountOfUnitsWithoutDetachedOnes > 0);
@@ -1443,7 +1386,6 @@ namespace TaleWorlds.MountAndBlade
 			simulationAgentFrames = new List<WorldPosition>();
 		}
 
-		// Token: 0x0600101C RID: 4124 RVA: 0x00032900 File Offset: 0x00030B00
 		private static void SimulateNewOrderWithPositionAndDirectionAux(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition formationLineBegin, WorldPosition formationLineEnd, bool isSimulatingAgentFrames, out List<WorldPosition> simulationAgentFrames, bool isSimulatingFormationChanges, out List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> simulationFormationChanges, out bool isLineShort, bool isFormationLayoutVertical = true)
 		{
 			float length = (formationLineEnd.AsVec2 - formationLineBegin.AsVec2).Length;
@@ -1498,7 +1440,6 @@ namespace TaleWorlds.MountAndBlade
 			OrderController.SimulateNewOrderWithHorizontalLayout(formations, simulationFormations, formationLineBegin, formationLineEnd, isSimulatingAgentFrames, out simulationAgentFrames, isSimulatingFormationChanges, out simulationFormationChanges);
 		}
 
-		// Token: 0x0600101D RID: 4125 RVA: 0x00032AF4 File Offset: 0x00030CF4
 		private static Formation GetSimulationFormation(Formation formation, Dictionary<Formation, Formation> simulationFormations)
 		{
 			if (simulationFormations == null)
@@ -1508,7 +1449,6 @@ namespace TaleWorlds.MountAndBlade
 			return simulationFormations[formation];
 		}
 
-		// Token: 0x0600101E RID: 4126 RVA: 0x00032B04 File Offset: 0x00030D04
 		private static void SimulateNewFacingOrder(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, Vec2 direction, out List<WorldPosition> simulationAgentFrames)
 		{
 			simulationAgentFrames = new List<WorldPosition>();
@@ -1523,7 +1463,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600101F RID: 4127 RVA: 0x00032B8C File Offset: 0x00030D8C
 		private static void SimulateNewCustomWidthOrder(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, float width, out List<WorldPosition> simulationAgentFrames)
 		{
 			simulationAgentFrames = new List<WorldPosition>();
@@ -1563,7 +1502,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001020 RID: 4128 RVA: 0x00032CB4 File Offset: 0x00030EB4
 		public static void SimulateNewOrderWithPositionAndDirection(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition formationLineBegin, WorldPosition formationLineEnd, out List<WorldPosition> simulationAgentFrames, bool isFormationLayoutVertical = true)
 		{
 			List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> list;
@@ -1571,14 +1509,12 @@ namespace TaleWorlds.MountAndBlade
 			OrderController.SimulateNewOrderWithPositionAndDirectionAux(formations, simulationFormations, formationLineBegin, formationLineEnd, true, out simulationAgentFrames, false, out list, out flag, isFormationLayoutVertical);
 		}
 
-		// Token: 0x06001021 RID: 4129 RVA: 0x00032CD4 File Offset: 0x00030ED4
 		public static void SimulateNewOrderWithPositionAndDirection(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition formationLineBegin, WorldPosition formationLineEnd, out List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> formationChanges, out bool isLineShort, bool isFormationLayoutVertical = true)
 		{
 			List<WorldPosition> list;
 			OrderController.SimulateNewOrderWithPositionAndDirectionAux(formations, simulationFormations, formationLineBegin, formationLineEnd, false, out list, true, out formationChanges, out isLineShort, isFormationLayoutVertical);
 		}
 
-		// Token: 0x06001022 RID: 4130 RVA: 0x00032CF4 File Offset: 0x00030EF4
 		private static void SimulateNewOrderWithVerticalLayout(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition formationLineBegin, WorldPosition formationLineEnd, bool isSimulatingAgentFrames, out List<WorldPosition> simulationAgentFrames, bool isSimulatingFormationChanges, out List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> simulationFormationChanges)
 		{
 			simulationAgentFrames = ((!isSimulatingAgentFrames) ? null : new List<WorldPosition>());
@@ -1612,7 +1548,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001023 RID: 4131 RVA: 0x00032EF0 File Offset: 0x000310F0
 		private static void DecreaseUnitSpacingAndWidthIfNotAllUnitsFit(Formation formation, Formation simulationFormation, in WorldPosition formationPosition, in Vec2 formationDirection, ref float formationWidth, ref int unitSpacingReduction)
 		{
 			if (simulationFormation.UnitSpacing != formation.UnitSpacing)
@@ -1640,7 +1575,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001024 RID: 4132 RVA: 0x00032F78 File Offset: 0x00031178
 		private static float GetGapBetweenLinesOfFormation(Formation f, float unitSpacing)
 		{
 			float num = 0f;
@@ -1653,7 +1587,6 @@ namespace TaleWorlds.MountAndBlade
 			return num + unitSpacing * num2;
 		}
 
-		// Token: 0x06001025 RID: 4133 RVA: 0x00032FBC File Offset: 0x000311BC
 		private static void SimulateNewOrderWithHorizontalLayout(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition formationLineBegin, WorldPosition formationLineEnd, bool isSimulatingAgentFrames, out List<WorldPosition> simulationAgentFrames, bool isSimulatingFormationChanges, out List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> simulationFormationChanges)
 		{
 			simulationAgentFrames = ((!isSimulatingAgentFrames) ? null : new List<WorldPosition>());
@@ -1681,7 +1614,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001026 RID: 4134 RVA: 0x00033130 File Offset: 0x00031330
 		private static void SimulateNewOrderWithFrameAndWidth(Formation formation, Formation simulationFormation, List<WorldPosition> simulationAgentFrames, List<ValueTuple<Formation, int, float, WorldPosition, Vec2>> simulationFormationChanges, in WorldPosition formationPosition, in Vec2 formationDirection, float formationWidth, int unitSpacingReduction, bool simulateFormationDepth, out float simulatedFormationDepth)
 		{
 			int num = 0;
@@ -1742,7 +1674,6 @@ namespace TaleWorlds.MountAndBlade
 			simulatedFormationDepth = num2 + formation.UnitDiameter;
 		}
 
-		// Token: 0x06001027 RID: 4135 RVA: 0x000332F0 File Offset: 0x000314F0
 		public void SimulateDestinationFrames(out List<WorldPosition> simulationAgentFrames, float minDistance = 3f)
 		{
 			List<Formation> selectedFormations = this.SelectedFormations;
@@ -1779,7 +1710,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001028 RID: 4136 RVA: 0x00033380 File Offset: 0x00031580
 		private void ToggleSideOrderUse(IEnumerable<Formation> formations, UsableMachine usable)
 		{
 			IEnumerable<Formation> enumerable = formations.Where(new Func<Formation, bool>(usable.IsUsedByFormation));
@@ -1809,7 +1739,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001029 RID: 4137 RVA: 0x00033460 File Offset: 0x00031660
 		private static int GetLineOrderByClass(FormationClass formationClass)
 		{
 			return Array.IndexOf<FormationClass>(new FormationClass[]
@@ -1825,13 +1754,11 @@ namespace TaleWorlds.MountAndBlade
 			}, formationClass);
 		}
 
-		// Token: 0x0600102A RID: 4138 RVA: 0x00033479 File Offset: 0x00031679
 		public static IEnumerable<Formation> SortFormationsForHorizontalLayout(IEnumerable<Formation> formations)
 		{
 			return formations.OrderBy((Formation f) => OrderController.GetLineOrderByClass(f.FormationIndex));
 		}
 
-		// Token: 0x0600102B RID: 4139 RVA: 0x000334A0 File Offset: 0x000316A0
 		private static IEnumerable<Formation> GetSortedFormations(IEnumerable<Formation> formations, bool isFormationLayoutVertical)
 		{
 			if (isFormationLayoutVertical)
@@ -1841,7 +1768,6 @@ namespace TaleWorlds.MountAndBlade
 			return OrderController.SortFormationsForHorizontalLayout(formations);
 		}
 
-		// Token: 0x0600102C RID: 4140 RVA: 0x000334B0 File Offset: 0x000316B0
 		private static void MoveToLineSegment(IEnumerable<Formation> formations, Dictionary<Formation, Formation> simulationFormations, WorldPosition TargetLineSegmentBegin, WorldPosition TargetLineSegmentEnd, OnOrderIssuedDelegate OnOrderIssued, Dictionary<Formation, float> actualWidths, Dictionary<Formation, int> actualUnitSpacings, bool isFormationLayoutVertical = true)
 		{
 			foreach (Formation formation in formations)
@@ -1937,7 +1863,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600102D RID: 4141 RVA: 0x00033820 File Offset: 0x00031A20
 		public static Vec2 GetOrderLookAtDirection(IEnumerable<Formation> formations, Vec2 target)
 		{
 			if (!formations.Any<Formation>())
@@ -1949,13 +1874,11 @@ namespace TaleWorlds.MountAndBlade
 			return (target - formation.OrderPosition).Normalized();
 		}
 
-		// Token: 0x0600102E RID: 4142 RVA: 0x00033890 File Offset: 0x00031A90
 		public static float GetOrderFormCustomWidth(IEnumerable<Formation> formations, Vec3 orderPosition)
 		{
 			return (Agent.Main.Position - orderPosition).Length;
 		}
 
-		// Token: 0x0600102F RID: 4143 RVA: 0x000338B8 File Offset: 0x00031AB8
 		public void TransferUnits(Formation source, Formation target, int count)
 		{
 			source.TransferUnitsAux(target, count, false, count < source.CountOfUnits && target.CountOfUnits > 0);
@@ -1967,7 +1890,6 @@ namespace TaleWorlds.MountAndBlade
 			onOrderIssued(OrderType.Transfer, new MBList<Formation> { source }, new object[] { target, count });
 		}
 
-		// Token: 0x06001030 RID: 4144 RVA: 0x00033914 File Offset: 0x00031B14
 		public IEnumerable<Formation> SplitFormation(Formation formation, int count = 2)
 		{
 			if (!formation.IsSplittableByAI || formation.CountOfUnitsWithoutDetachedOnes < count)
@@ -2011,13 +1933,11 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001031 RID: 4145 RVA: 0x00033A1E File Offset: 0x00031C1E
 		[Conditional("DEBUG")]
 		public void TickDebug()
 		{
 		}
 
-		// Token: 0x06001032 RID: 4146 RVA: 0x00033A20 File Offset: 0x00031C20
 		public void AddOrderOverride(Func<Formation, MovementOrder, MovementOrder> orderOverride)
 		{
 			if (this.orderOverrides == null)
@@ -2028,7 +1948,6 @@ namespace TaleWorlds.MountAndBlade
 			this.orderOverrides.Add(orderOverride);
 		}
 
-		// Token: 0x06001033 RID: 4147 RVA: 0x00033A4C File Offset: 0x00031C4C
 		public OrderType GetOverridenOrderType(Formation formation)
 		{
 			if (this.overridenOrders == null)
@@ -2043,7 +1962,6 @@ namespace TaleWorlds.MountAndBlade
 			return OrderType.None;
 		}
 
-		// Token: 0x06001034 RID: 4148 RVA: 0x00033A98 File Offset: 0x00031C98
 		private void CreateDefaultOrderOverrides()
 		{
 			this.AddOrderOverride(delegate(Formation formation, MovementOrder order)
@@ -2060,7 +1978,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x06001035 RID: 4149 RVA: 0x00033AC0 File Offset: 0x00031CC0
 		private static void TryCancelStopOrder(Formation formation)
 		{
 			if (!GameNetwork.IsClientOrReplay && formation.GetReadonlyMovementOrderReference().OrderEnum == MovementOrder.MovementOrderEnum.Stop)
@@ -2073,100 +1990,68 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040003E8 RID: 1000
 		private static readonly ActionIndexCache act_command = ActionIndexCache.Create("act_command");
 
-		// Token: 0x040003E9 RID: 1001
 		private static readonly ActionIndexCache act_command_leftstance = ActionIndexCache.Create("act_command_leftstance");
 
-		// Token: 0x040003EA RID: 1002
 		private static readonly ActionIndexCache act_command_unarmed = ActionIndexCache.Create("act_command_unarmed");
 
-		// Token: 0x040003EB RID: 1003
 		private static readonly ActionIndexCache act_command_unarmed_leftstance = ActionIndexCache.Create("act_command_unarmed_leftstance");
 
-		// Token: 0x040003EC RID: 1004
 		private static readonly ActionIndexCache act_command_2h = ActionIndexCache.Create("act_command_2h");
 
-		// Token: 0x040003ED RID: 1005
 		private static readonly ActionIndexCache act_command_2h_leftstance = ActionIndexCache.Create("act_command_2h_leftstance");
 
-		// Token: 0x040003EE RID: 1006
 		private static readonly ActionIndexCache act_command_bow = ActionIndexCache.Create("act_command_bow");
 
-		// Token: 0x040003EF RID: 1007
 		private static readonly ActionIndexCache act_command_follow = ActionIndexCache.Create("act_command_follow");
 
-		// Token: 0x040003F0 RID: 1008
 		private static readonly ActionIndexCache act_command_follow_leftstance = ActionIndexCache.Create("act_command_follow_leftstance");
 
-		// Token: 0x040003F1 RID: 1009
 		private static readonly ActionIndexCache act_command_follow_unarmed = ActionIndexCache.Create("act_command_follow_unarmed");
 
-		// Token: 0x040003F2 RID: 1010
 		private static readonly ActionIndexCache act_command_follow_unarmed_leftstance = ActionIndexCache.Create("act_command_follow_unarmed_leftstance");
 
-		// Token: 0x040003F3 RID: 1011
 		private static readonly ActionIndexCache act_command_follow_2h = ActionIndexCache.Create("act_command_follow_2h");
 
-		// Token: 0x040003F4 RID: 1012
 		private static readonly ActionIndexCache act_command_follow_2h_leftstance = ActionIndexCache.Create("act_command_follow_2h_leftstance");
 
-		// Token: 0x040003F5 RID: 1013
 		private static readonly ActionIndexCache act_command_follow_bow = ActionIndexCache.Create("act_command_follow_bow");
 
-		// Token: 0x040003F6 RID: 1014
 		private static readonly ActionIndexCache act_horse_command = ActionIndexCache.Create("act_horse_command");
 
-		// Token: 0x040003F7 RID: 1015
 		private static readonly ActionIndexCache act_horse_command_unarmed = ActionIndexCache.Create("act_horse_command_unarmed");
 
-		// Token: 0x040003F8 RID: 1016
 		private static readonly ActionIndexCache act_horse_command_2h = ActionIndexCache.Create("act_horse_command_2h");
 
-		// Token: 0x040003F9 RID: 1017
 		private static readonly ActionIndexCache act_horse_command_bow = ActionIndexCache.Create("act_horse_command_bow");
 
-		// Token: 0x040003FA RID: 1018
 		private static readonly ActionIndexCache act_horse_command_follow = ActionIndexCache.Create("act_horse_command_follow");
 
-		// Token: 0x040003FB RID: 1019
 		private static readonly ActionIndexCache act_horse_command_follow_unarmed = ActionIndexCache.Create("act_horse_command_follow_unarmed");
 
-		// Token: 0x040003FC RID: 1020
 		private static readonly ActionIndexCache act_horse_command_follow_2h = ActionIndexCache.Create("act_horse_command_follow_2h");
 
-		// Token: 0x040003FD RID: 1021
 		private static readonly ActionIndexCache act_horse_command_follow_bow = ActionIndexCache.Create("act_horse_command_follow_bow");
 
-		// Token: 0x040003FE RID: 1022
 		public const float FormationGapInLine = 1.5f;
 
-		// Token: 0x040003FF RID: 1023
 		private readonly Mission _mission;
 
-		// Token: 0x04000400 RID: 1024
 		private readonly Team _team;
 
-		// Token: 0x04000401 RID: 1025
 		public Agent Owner;
 
-		// Token: 0x04000403 RID: 1027
 		private readonly MBList<Formation> _selectedFormations;
 
-		// Token: 0x04000407 RID: 1031
 		private Dictionary<Formation, float> actualWidths;
 
-		// Token: 0x04000408 RID: 1032
 		private Dictionary<Formation, int> actualUnitSpacings;
 
-		// Token: 0x04000409 RID: 1033
 		private List<Func<Formation, MovementOrder, MovementOrder>> orderOverrides;
 
-		// Token: 0x0400040A RID: 1034
 		private List<ValueTuple<Formation, OrderType>> overridenOrders;
 
-		// Token: 0x0400040B RID: 1035
 		private bool _gesturesEnabled;
 	}
 }

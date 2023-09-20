@@ -12,16 +12,13 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 {
-	// Token: 0x020000A3 RID: 163
 	public class GameMenuPartyItemVM : ViewModel
 	{
-		// Token: 0x06001023 RID: 4131 RVA: 0x0003FB67 File Offset: 0x0003DD67
 		public GameMenuPartyItemVM()
 		{
 			this.Visual = new ImageIdentifierVM(ImageIdentifierType.Null);
 		}
 
-		// Token: 0x06001024 RID: 4132 RVA: 0x0003FB8C File Offset: 0x0003DD8C
 		public GameMenuPartyItemVM(Action<GameMenuPartyItemVM> onSetAsContextMenuActiveItem, Settlement settlement)
 		{
 			this._onSetAsContextMenuActiveItem = onSetAsContextMenuActiveItem;
@@ -40,7 +37,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshProperties();
 		}
 
-		// Token: 0x06001025 RID: 4133 RVA: 0x0003FC40 File Offset: 0x0003DE40
 		public GameMenuPartyItemVM(Action<GameMenuPartyItemVM> onSetAsContextMenuActiveItem, PartyBase item, bool canShowQuest)
 		{
 			this._onSetAsContextMenuActiveItem = onSetAsContextMenuActiveItem;
@@ -60,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshProperties();
 		}
 
-		// Token: 0x06001026 RID: 4134 RVA: 0x0003FCBC File Offset: 0x0003DEBC
 		public GameMenuPartyItemVM(Action<GameMenuPartyItemVM> onSetAsContextMenuActiveItem, CharacterObject character, bool useCivilianEquipment)
 		{
 			this._onSetAsContextMenuActiveItem = onSetAsContextMenuActiveItem;
@@ -79,14 +74,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshProperties();
 		}
 
-		// Token: 0x06001027 RID: 4135 RVA: 0x0003FDCE File Offset: 0x0003DFCE
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
 			this.RefreshProperties();
 		}
 
-		// Token: 0x06001028 RID: 4136 RVA: 0x0003FDDC File Offset: 0x0003DFDC
 		public void ExecuteSetAsContextMenuItem()
 		{
 			Action<GameMenuPartyItemVM> onSetAsContextMenuActiveItem = this._onSetAsContextMenuActiveItem;
@@ -97,7 +90,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			onSetAsContextMenuActiveItem(this);
 		}
 
-		// Token: 0x06001029 RID: 4137 RVA: 0x0003FDF0 File Offset: 0x0003DFF0
 		public void ExecuteOpenEncyclopedia()
 		{
 			if (this.Character != null)
@@ -125,13 +117,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600102A RID: 4138 RVA: 0x0003FEA6 File Offset: 0x0003E0A6
 		public void ExecuteCloseTooltip()
 		{
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x0600102B RID: 4139 RVA: 0x0003FEB0 File Offset: 0x0003E0B0
 		public void ExecuteOpenTooltip()
 		{
 			PartyBase party = this.Party;
@@ -157,7 +147,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			});
 		}
 
-		// Token: 0x0600102C RID: 4140 RVA: 0x0003FF64 File Offset: 0x0003E164
 		public void RefreshProperties()
 		{
 			if (this.Party != null)
@@ -234,7 +223,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.RefreshRelationStatus();
 		}
 
-		// Token: 0x0600102D RID: 4141 RVA: 0x00040314 File Offset: 0x0003E514
 		public void RefreshQuestStatus()
 		{
 			this.Quests.Clear();
@@ -286,7 +274,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.Quests.Sort(new GameMenuPartyItemVM.QuestMarkerComparer());
 		}
 
-		// Token: 0x0600102E RID: 4142 RVA: 0x00040524 File Offset: 0x0003E724
 		private void RefreshRelationStatus()
 		{
 			this.IsEnemy = false;
@@ -362,7 +349,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.IsNeutral = true;
 		}
 
-		// Token: 0x0600102F RID: 4143 RVA: 0x0004065C File Offset: 0x0003E85C
 		public void RefreshVisual()
 		{
 			if (this.Visual.IsEmpty)
@@ -387,7 +373,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06001030 RID: 4144 RVA: 0x000406D8 File Offset: 0x0003E8D8
 		public string GetPartyDescriptionTextFromValues()
 		{
 			GameTexts.SetVariable("newline", "\n");
@@ -412,9 +397,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return GameTexts.FindText("str_string_newline_string", null).ToString();
 		}
 
-		// Token: 0x17000550 RID: 1360
-		// (get) Token: 0x06001031 RID: 4145 RVA: 0x00040885 File Offset: 0x0003EA85
-		// (set) Token: 0x06001032 RID: 4146 RVA: 0x0004088D File Offset: 0x0003EA8D
 		[DataSourceProperty]
 		public int Relation
 		{
@@ -432,9 +414,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000551 RID: 1361
-		// (get) Token: 0x06001033 RID: 4147 RVA: 0x000408AB File Offset: 0x0003EAAB
-		// (set) Token: 0x06001034 RID: 4148 RVA: 0x000408B3 File Offset: 0x0003EAB3
 		[DataSourceProperty]
 		public MBBindingList<QuestMarkerVM> Quests
 		{
@@ -452,9 +431,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000552 RID: 1362
-		// (get) Token: 0x06001035 RID: 4149 RVA: 0x000408D1 File Offset: 0x0003EAD1
-		// (set) Token: 0x06001036 RID: 4150 RVA: 0x000408D9 File Offset: 0x0003EAD9
 		[DataSourceProperty]
 		public bool IsHighlightEnabled
 		{
@@ -472,9 +448,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000553 RID: 1363
-		// (get) Token: 0x06001037 RID: 4151 RVA: 0x000408F7 File Offset: 0x0003EAF7
-		// (set) Token: 0x06001038 RID: 4152 RVA: 0x000408FF File Offset: 0x0003EAFF
 		[DataSourceProperty]
 		public bool IsCharacterInPrison
 		{
@@ -492,9 +465,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000554 RID: 1364
-		// (get) Token: 0x06001039 RID: 4153 RVA: 0x0004091D File Offset: 0x0003EB1D
-		// (set) Token: 0x0600103A RID: 4154 RVA: 0x00040925 File Offset: 0x0003EB25
 		[DataSourceProperty]
 		public bool IsIdle
 		{
@@ -512,9 +482,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000555 RID: 1365
-		// (get) Token: 0x0600103B RID: 4155 RVA: 0x00040943 File Offset: 0x0003EB43
-		// (set) Token: 0x0600103C RID: 4156 RVA: 0x0004094B File Offset: 0x0003EB4B
 		[DataSourceProperty]
 		public bool IsPlayer
 		{
@@ -532,9 +499,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000556 RID: 1366
-		// (get) Token: 0x0600103D RID: 4157 RVA: 0x00040968 File Offset: 0x0003EB68
-		// (set) Token: 0x0600103E RID: 4158 RVA: 0x00040970 File Offset: 0x0003EB70
 		[DataSourceProperty]
 		public bool IsEnemy
 		{
@@ -552,9 +516,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000557 RID: 1367
-		// (get) Token: 0x0600103F RID: 4159 RVA: 0x0004098E File Offset: 0x0003EB8E
-		// (set) Token: 0x06001040 RID: 4160 RVA: 0x00040996 File Offset: 0x0003EB96
 		[DataSourceProperty]
 		public bool IsAlly
 		{
@@ -572,9 +533,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000558 RID: 1368
-		// (get) Token: 0x06001041 RID: 4161 RVA: 0x000409B4 File Offset: 0x0003EBB4
-		// (set) Token: 0x06001042 RID: 4162 RVA: 0x000409BC File Offset: 0x0003EBBC
 		[DataSourceProperty]
 		public bool IsNeutral
 		{
@@ -592,9 +550,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000559 RID: 1369
-		// (get) Token: 0x06001043 RID: 4163 RVA: 0x000409DA File Offset: 0x0003EBDA
-		// (set) Token: 0x06001044 RID: 4164 RVA: 0x000409E2 File Offset: 0x0003EBE2
 		[DataSourceProperty]
 		public bool IsMergedWithArmy
 		{
@@ -612,9 +567,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055A RID: 1370
-		// (get) Token: 0x06001045 RID: 4165 RVA: 0x00040A00 File Offset: 0x0003EC00
-		// (set) Token: 0x06001046 RID: 4166 RVA: 0x00040A08 File Offset: 0x0003EC08
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -632,9 +584,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055B RID: 1371
-		// (get) Token: 0x06001047 RID: 4167 RVA: 0x00040A2B File Offset: 0x0003EC2B
-		// (set) Token: 0x06001048 RID: 4168 RVA: 0x00040A33 File Offset: 0x0003EC33
 		[DataSourceProperty]
 		public string SettlementPath
 		{
@@ -652,9 +601,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055C RID: 1372
-		// (get) Token: 0x06001049 RID: 4169 RVA: 0x00040A56 File Offset: 0x0003EC56
-		// (set) Token: 0x0600104A RID: 4170 RVA: 0x00040A5E File Offset: 0x0003EC5E
 		[DataSourceProperty]
 		public string LocationText
 		{
@@ -672,9 +618,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055D RID: 1373
-		// (get) Token: 0x0600104B RID: 4171 RVA: 0x00040A81 File Offset: 0x0003EC81
-		// (set) Token: 0x0600104C RID: 4172 RVA: 0x00040A89 File Offset: 0x0003EC89
 		[DataSourceProperty]
 		public string PowerText
 		{
@@ -692,9 +635,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055E RID: 1374
-		// (get) Token: 0x0600104D RID: 4173 RVA: 0x00040AAC File Offset: 0x0003ECAC
-		// (set) Token: 0x0600104E RID: 4174 RVA: 0x00040AB4 File Offset: 0x0003ECB4
 		[DataSourceProperty]
 		public string DescriptionText
 		{
@@ -712,9 +652,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700055F RID: 1375
-		// (get) Token: 0x0600104F RID: 4175 RVA: 0x00040AD7 File Offset: 0x0003ECD7
-		// (set) Token: 0x06001050 RID: 4176 RVA: 0x00040ADF File Offset: 0x0003ECDF
 		[DataSourceProperty]
 		public string ProfessionText
 		{
@@ -732,9 +669,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000560 RID: 1376
-		// (get) Token: 0x06001051 RID: 4177 RVA: 0x00040B02 File Offset: 0x0003ED02
-		// (set) Token: 0x06001052 RID: 4178 RVA: 0x00040B0A File Offset: 0x0003ED0A
 		[DataSourceProperty]
 		public ImageIdentifierVM Visual
 		{
@@ -752,9 +686,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000561 RID: 1377
-		// (get) Token: 0x06001053 RID: 4179 RVA: 0x00040B28 File Offset: 0x0003ED28
-		// (set) Token: 0x06001054 RID: 4180 RVA: 0x00040B30 File Offset: 0x0003ED30
 		[DataSourceProperty]
 		public ImageIdentifierVM Banner_9
 		{
@@ -772,9 +703,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000562 RID: 1378
-		// (get) Token: 0x06001055 RID: 4181 RVA: 0x00040B4E File Offset: 0x0003ED4E
-		// (set) Token: 0x06001056 RID: 4182 RVA: 0x00040B56 File Offset: 0x0003ED56
 		[DataSourceProperty]
 		public int PartySize
 		{
@@ -792,9 +720,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000563 RID: 1379
-		// (get) Token: 0x06001057 RID: 4183 RVA: 0x00040B74 File Offset: 0x0003ED74
-		// (set) Token: 0x06001058 RID: 4184 RVA: 0x00040B7C File Offset: 0x0003ED7C
 		[DataSourceProperty]
 		public int PartyWoundedSize
 		{
@@ -812,9 +737,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000564 RID: 1380
-		// (get) Token: 0x06001059 RID: 4185 RVA: 0x00040B9A File Offset: 0x0003ED9A
-		// (set) Token: 0x0600105A RID: 4186 RVA: 0x00040BA2 File Offset: 0x0003EDA2
 		[DataSourceProperty]
 		public string PartySizeLbl
 		{
@@ -832,9 +754,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000565 RID: 1381
-		// (get) Token: 0x0600105B RID: 4187 RVA: 0x00040BC5 File Offset: 0x0003EDC5
-		// (set) Token: 0x0600105C RID: 4188 RVA: 0x00040BCD File Offset: 0x0003EDCD
 		[DataSourceProperty]
 		public bool IsLeader
 		{
@@ -852,94 +771,64 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0400077D RID: 1917
 		public CharacterObject Character;
 
-		// Token: 0x0400077E RID: 1918
 		public PartyBase Party;
 
-		// Token: 0x0400077F RID: 1919
 		public Settlement Settlement;
 
-		// Token: 0x04000780 RID: 1920
 		private readonly bool _canShowQuest = true;
 
-		// Token: 0x04000781 RID: 1921
 		private readonly bool _useCivilianEquipment;
 
-		// Token: 0x04000782 RID: 1922
 		private readonly Action<GameMenuPartyItemVM> _onSetAsContextMenuActiveItem;
 
-		// Token: 0x04000783 RID: 1923
 		private MBBindingList<QuestMarkerVM> _quests;
 
-		// Token: 0x04000784 RID: 1924
 		private int _partySize;
 
-		// Token: 0x04000785 RID: 1925
 		private int _partyWoundedSize;
 
-		// Token: 0x04000786 RID: 1926
 		private int _relation = -101;
 
-		// Token: 0x04000787 RID: 1927
 		private ImageIdentifierVM _visual;
 
-		// Token: 0x04000788 RID: 1928
 		private ImageIdentifierVM _banner_9;
 
-		// Token: 0x04000789 RID: 1929
 		private string _settlementPath;
 
-		// Token: 0x0400078A RID: 1930
 		private string _partySizeLbl;
 
-		// Token: 0x0400078B RID: 1931
 		private string _nameText;
 
-		// Token: 0x0400078C RID: 1932
 		private string _locationText;
 
-		// Token: 0x0400078D RID: 1933
 		private string _descriptionText;
 
-		// Token: 0x0400078E RID: 1934
 		private string _professionText;
 
-		// Token: 0x0400078F RID: 1935
 		private string _powerText;
 
-		// Token: 0x04000790 RID: 1936
 		private bool _isIdle;
 
-		// Token: 0x04000791 RID: 1937
 		private bool _isPlayer;
 
-		// Token: 0x04000792 RID: 1938
 		private bool _isEnemy;
 
-		// Token: 0x04000793 RID: 1939
 		private bool _isAlly;
 
-		// Token: 0x04000794 RID: 1940
 		private bool _isNeutral;
 
-		// Token: 0x04000795 RID: 1941
 		private bool _isHighlightEnabled;
 
-		// Token: 0x04000796 RID: 1942
 		private bool _isLeader;
 
-		// Token: 0x04000797 RID: 1943
 		private bool _isMergedWithArmy;
 
-		// Token: 0x04000798 RID: 1944
 		private bool _isCharacterInPrison;
 
-		// Token: 0x020001E2 RID: 482
 		private class QuestMarkerComparer : IComparer<QuestMarkerVM>
 		{
-			// Token: 0x06002063 RID: 8291 RVA: 0x0006FA80 File Offset: 0x0006DC80
 			public int Compare(QuestMarkerVM x, QuestMarkerVM y)
 			{
 				return x.QuestMarkerType.CompareTo(y.QuestMarkerType);

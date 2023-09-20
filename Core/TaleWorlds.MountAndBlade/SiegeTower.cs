@@ -12,11 +12,8 @@ using TaleWorlds.MountAndBlade.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000359 RID: 857
 	public class SiegeTower : SiegeWeapon, IPathHolder, IPrimarySiegeWeapon, IMoveableSiegeWeapon, ISpawnable
 	{
-		// Token: 0x1700085E RID: 2142
-		// (get) Token: 0x06002E80 RID: 11904 RVA: 0x000BB5BF File Offset: 0x000B97BF
 		public MissionObject TargetCastlePosition
 		{
 			get
@@ -25,9 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700085F RID: 2143
-		// (get) Token: 0x06002E81 RID: 11905 RVA: 0x000BB5C7 File Offset: 0x000B97C7
-		// (set) Token: 0x06002E82 RID: 11906 RVA: 0x000BB5E4 File Offset: 0x000B97E4
 		private GameEntity CleanState
 		{
 			get
@@ -44,18 +38,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000860 RID: 2144
-		// (get) Token: 0x06002E83 RID: 11907 RVA: 0x000BB5ED File Offset: 0x000B97ED
-		// (set) Token: 0x06002E84 RID: 11908 RVA: 0x000BB5F5 File Offset: 0x000B97F5
 		public FormationAI.BehaviorSide WeaponSide { get; private set; }
 
-		// Token: 0x17000861 RID: 2145
-		// (get) Token: 0x06002E85 RID: 11909 RVA: 0x000BB5FE File Offset: 0x000B97FE
-		// (set) Token: 0x06002E86 RID: 11910 RVA: 0x000BB606 File Offset: 0x000B9806
 		public string PathEntity { get; private set; }
 
-		// Token: 0x17000862 RID: 2146
-		// (get) Token: 0x06002E87 RID: 11911 RVA: 0x000BB60F File Offset: 0x000B980F
 		public bool EditorGhostEntityMove
 		{
 			get
@@ -64,14 +50,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E88 RID: 11912 RVA: 0x000BB617 File Offset: 0x000B9817
 		public bool HasCompletedAction()
 		{
 			return !base.IsDisabled && this.IsDeactivated && !base.IsDestroyed;
 		}
 
-		// Token: 0x17000863 RID: 2147
-		// (get) Token: 0x06002E89 RID: 11913 RVA: 0x000BB634 File Offset: 0x000B9834
 		public float SiegeWeaponPriority
 		{
 			get
@@ -80,8 +63,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000864 RID: 2148
-		// (get) Token: 0x06002E8A RID: 11914 RVA: 0x000BB63B File Offset: 0x000B983B
 		public int OverTheWallNavMeshID
 		{
 			get
@@ -90,13 +71,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000865 RID: 2149
-		// (get) Token: 0x06002E8B RID: 11915 RVA: 0x000BB643 File Offset: 0x000B9843
-		// (set) Token: 0x06002E8C RID: 11916 RVA: 0x000BB64B File Offset: 0x000B984B
 		public SiegeWeaponMovementComponent MovementComponent { get; private set; }
 
-		// Token: 0x17000866 RID: 2150
-		// (get) Token: 0x06002E8D RID: 11917 RVA: 0x000BB654 File Offset: 0x000B9854
 		public bool HoldLadders
 		{
 			get
@@ -105,8 +81,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000867 RID: 2151
-		// (get) Token: 0x06002E8E RID: 11918 RVA: 0x000BB664 File Offset: 0x000B9864
 		public bool SendLadders
 		{
 			get
@@ -115,7 +89,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E8F RID: 11919 RVA: 0x000BB671 File Offset: 0x000B9871
 		public int GetGateNavMeshId()
 		{
 			if (this.GateNavMeshId != 0)
@@ -129,7 +102,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.DynamicNavmeshIdStart + 3;
 		}
 
-		// Token: 0x06002E90 RID: 11920 RVA: 0x000BB694 File Offset: 0x000B9894
 		public List<int> CollectGetDifficultNavmeshIDs()
 		{
 			List<int> list = new List<int>();
@@ -144,7 +116,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06002E91 RID: 11921 RVA: 0x000BB6EC File Offset: 0x000B98EC
 		public List<int> CollectGetDifficultNavmeshIDsForAttackers()
 		{
 			List<int> list = new List<int>();
@@ -157,7 +128,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06002E92 RID: 11922 RVA: 0x000BB720 File Offset: 0x000B9920
 		public List<int> CollectGetDifficultNavmeshIDsForDefenders()
 		{
 			List<int> list = new List<int>();
@@ -170,9 +140,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x17000868 RID: 2152
-		// (get) Token: 0x06002E93 RID: 11923 RVA: 0x000BB753 File Offset: 0x000B9953
-		// (set) Token: 0x06002E94 RID: 11924 RVA: 0x000BB75C File Offset: 0x000B995C
 		public bool HasArrivedAtTarget
 		{
 			get
@@ -226,9 +193,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000869 RID: 2153
-		// (get) Token: 0x06002E95 RID: 11925 RVA: 0x000BB870 File Offset: 0x000B9A70
-		// (set) Token: 0x06002E96 RID: 11926 RVA: 0x000BB878 File Offset: 0x000B9A78
 		public SiegeTower.GateState State
 		{
 			get
@@ -251,7 +215,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E97 RID: 11927 RVA: 0x000BB8B0 File Offset: 0x000B9AB0
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			if (gameEntity == null || !gameEntity.HasScriptOfType<UsableMissionObject>() || gameEntity.HasTag("move"))
@@ -261,7 +224,6 @@ namespace TaleWorlds.MountAndBlade
 			return new TextObject("{=6wZUG0ev}Gate", null).ToString();
 		}
 
-		// Token: 0x06002E98 RID: 11928 RVA: 0x000BB8FC File Offset: 0x000B9AFC
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject = (usableGameObject.GameEntity.HasTag("move") ? new TextObject("{=rwZAZSvX}{KEY} Move", null) : new TextObject("{=5oozsaIb}{KEY} Open", null));
@@ -269,7 +231,6 @@ namespace TaleWorlds.MountAndBlade
 			return textObject;
 		}
 
-		// Token: 0x06002E99 RID: 11929 RVA: 0x000BB950 File Offset: 0x000B9B50
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
@@ -278,7 +239,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteFloatToPacket(this._fallAngularSpeed, CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo);
 		}
 
-		// Token: 0x06002E9A RID: 11930 RVA: 0x000BB984 File Offset: 0x000B9B84
 		public override bool ReadFromNetwork()
 		{
 			bool flag = base.ReadFromNetwork();
@@ -306,7 +266,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002E9B RID: 11931 RVA: 0x000BBA4F File Offset: 0x000B9C4F
 		public override OrderType GetOrder(BattleSideEnum side)
 		{
 			if (base.IsDestroyed)
@@ -324,7 +283,6 @@ namespace TaleWorlds.MountAndBlade
 			return OrderType.FollowEntity;
 		}
 
-		// Token: 0x06002E9C RID: 11932 RVA: 0x000BBA70 File Offset: 0x000B9C70
 		public override TargetFlags GetTargetFlags()
 		{
 			TargetFlags targetFlags = TargetFlags.None;
@@ -345,13 +303,11 @@ namespace TaleWorlds.MountAndBlade
 			return targetFlags | TargetFlags.IsSiegeTower;
 		}
 
-		// Token: 0x06002E9D RID: 11933 RVA: 0x000BBAD4 File Offset: 0x000B9CD4
 		public override float GetTargetValue(List<Vec3> weaponPos)
 		{
 			return 90f * base.GetUserMultiplierOfWeapon() * this.GetDistanceMultiplierOfWeapon(weaponPos[0]) * base.GetHitPointMultiplierOfWeapon();
 		}
 
-		// Token: 0x06002E9E RID: 11934 RVA: 0x000BBAF8 File Offset: 0x000B9CF8
 		public override void Disable()
 		{
 			base.Disable();
@@ -366,20 +322,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002E9F RID: 11935 RVA: 0x000BBB78 File Offset: 0x000B9D78
 		public override SiegeEngineType GetSiegeEngineType()
 		{
 			return DefaultSiegeEngineTypes.SiegeTower;
 		}
 
-		// Token: 0x06002EA0 RID: 11936 RVA: 0x000BBB7F File Offset: 0x000B9D7F
 		public override UsableMachineAIBase CreateAIBehaviorObject()
 		{
 			return new SiegeTowerAI(this);
 		}
 
-		// Token: 0x1700086A RID: 2154
-		// (get) Token: 0x06002EA1 RID: 11937 RVA: 0x000BBB87 File Offset: 0x000B9D87
 		public override bool IsDeactivated
 		{
 			get
@@ -388,7 +340,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EA2 RID: 11938 RVA: 0x000BBBA8 File Offset: 0x000B9DA8
 		protected internal override void OnDeploymentStateChanged(bool isDeployed)
 		{
 			base.OnDeploymentStateChanged(isDeployed);
@@ -456,7 +407,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EA3 RID: 11939 RVA: 0x000BBE38 File Offset: 0x000BA038
 		protected override void AttachDynamicNavmeshToEntity()
 		{
 			if (this.NavMeshPrefabName.Length > 0)
@@ -472,13 +422,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EA4 RID: 11940 RVA: 0x000BBF06 File Offset: 0x000BA106
 		protected override GameEntity GetEntityToAttachNavMeshFaces()
 		{
 			return this.CleanState;
 		}
 
-		// Token: 0x06002EA5 RID: 11941 RVA: 0x000BBF0E File Offset: 0x000BA10E
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -490,7 +438,6 @@ namespace TaleWorlds.MountAndBlade
 			movementComponent.OnRemoved();
 		}
 
-		// Token: 0x06002EA6 RID: 11942 RVA: 0x000BBF28 File Offset: 0x000BA128
 		public override void SetAbilityOfFaces(bool enabled)
 		{
 			base.SetAbilityOfFaces(enabled);
@@ -504,7 +451,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EA7 RID: 11943 RVA: 0x000BBFA4 File Offset: 0x000BA1A4
 		protected override float GetDistanceMultiplierOfWeapon(Vec3 weaponPos)
 		{
 			float minimumDistanceBetweenPositions = this.GetMinimumDistanceBetweenPositions(weaponPos);
@@ -519,13 +465,11 @@ namespace TaleWorlds.MountAndBlade
 			return 0.6f;
 		}
 
-		// Token: 0x06002EA8 RID: 11944 RVA: 0x000BBFDC File Offset: 0x000BA1DC
 		private bool IsNavmeshOnThisTowerAttackerDifficultNavmeshIDs(int testedNavmeshID)
 		{
 			return this._hasLadders && (testedNavmeshID == this.DynamicNavmeshIdStart + 1 || testedNavmeshID == this.DynamicNavmeshIdStart + 5 || testedNavmeshID == this.DynamicNavmeshIdStart + 6 || testedNavmeshID == this.DynamicNavmeshIdStart + 7 || testedNavmeshID == this.DynamicNavmeshIdStart + 3);
 		}
 
-		// Token: 0x06002EA9 RID: 11945 RVA: 0x000BC02C File Offset: 0x000BA22C
 		protected override bool IsAgentOnInconvenientNavmesh(Agent agent, StandingPoint standingPoint)
 		{
 			if (Mission.Current.MissionTeamAIType != Mission.MissionTeamAITypeEnum.Siege)
@@ -556,7 +500,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002EAA RID: 11946 RVA: 0x000BC0E8 File Offset: 0x000BA2E8
 		protected internal override void OnInit()
 		{
 			this.CleanState = base.GameEntity.GetFirstChildEntityWithTag("body");
@@ -749,7 +692,6 @@ namespace TaleWorlds.MountAndBlade
 			Mission.Current.AddToWeaponListForFriendlyFirePreventing(this);
 		}
 
-		// Token: 0x06002EAB RID: 11947 RVA: 0x000BC950 File Offset: 0x000BAB50
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.GameEntity.IsVisibleIncludeParents())
@@ -759,7 +701,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002EAC RID: 11948 RVA: 0x000BC970 File Offset: 0x000BAB70
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -863,7 +804,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EAD RID: 11949 RVA: 0x000BCC9C File Offset: 0x000BAE9C
 		protected internal override void OnTickParallel(float dt)
 		{
 			base.OnTickParallel(dt);
@@ -886,7 +826,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EAE RID: 11950 RVA: 0x000BCD1C File Offset: 0x000BAF1C
 		protected internal override void OnMissionReset()
 		{
 			base.OnMissionReset();
@@ -917,7 +856,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EAF RID: 11951 RVA: 0x000BCE7C File Offset: 0x000BB07C
 		public void OnDestroyed(DestructableComponent destroyedComponent, Agent destroyerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			bool flag = false;
@@ -944,13 +882,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EB0 RID: 11952 RVA: 0x000BCF34 File Offset: 0x000BB134
 		public void HighlightPath()
 		{
 			this.MovementComponent.HighlightPath();
 		}
 
-		// Token: 0x06002EB1 RID: 11953 RVA: 0x000BCF44 File Offset: 0x000BB144
 		public void SwitchGhostEntityMovementMode(bool isGhostEnabled)
 		{
 			if (isGhostEnabled)
@@ -976,7 +912,6 @@ namespace TaleWorlds.MountAndBlade
 			this._isGhostMovementOn = false;
 		}
 
-		// Token: 0x06002EB2 RID: 11954 RVA: 0x000BCFD5 File Offset: 0x000BB1D5
 		public MatrixFrame GetInitialFrame()
 		{
 			SiegeWeaponMovementComponent movementComponent = this.MovementComponent;
@@ -987,7 +922,6 @@ namespace TaleWorlds.MountAndBlade
 			return movementComponent.GetInitialFrame();
 		}
 
-		// Token: 0x06002EB3 RID: 11955 RVA: 0x000BCFF4 File Offset: 0x000BB1F4
 		private void OnSiegeTowerGateStateChange()
 		{
 			switch (this.State)
@@ -1056,7 +990,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EB4 RID: 11956 RVA: 0x000BD258 File Offset: 0x000BB458
 		private void AddRegularMovementComponent()
 		{
 			this.MovementComponent = new SiegeWeaponMovementComponent
@@ -1073,7 +1006,6 @@ namespace TaleWorlds.MountAndBlade
 			base.AddComponent(this.MovementComponent);
 		}
 
-		// Token: 0x06002EB5 RID: 11957 RVA: 0x000BD2DC File Offset: 0x000BB4DC
 		private void SetUpGhostEntity()
 		{
 			PathLastNodeFixer pathLastNodeFixer = new PathLastNodeFixer
@@ -1091,7 +1023,6 @@ namespace TaleWorlds.MountAndBlade
 			this.MovementComponent.SetupGhostEntity();
 		}
 
-		// Token: 0x06002EB6 RID: 11958 RVA: 0x000BD340 File Offset: 0x000BB540
 		private void UpdateGhostEntity()
 		{
 			List<GameEntity> list = this.CleanState.CollectChildrenEntitiesWithTag("ghost_object");
@@ -1108,13 +1039,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EB7 RID: 11959 RVA: 0x000BD39E File Offset: 0x000BB59E
 		public void SetSpawnedFromSpawner()
 		{
 			this._spawnedFromSpawner = true;
 		}
 
-		// Token: 0x06002EB8 RID: 11960 RVA: 0x000BD3A8 File Offset: 0x000BB5A8
 		public void AssignParametersFromSpawner(string pathEntityName, string targetWallSegment, string sideTag, int soilNavMeshID1, int soilNavMeshID2, int ditchNavMeshID1, int ditchNavMeshID2, int groundToSoilNavMeshID1, int groundToSoilNavMeshID2, int soilGenericNavMeshID, int groundGenericNavMeshID, Mat3 openStateRotation, string barrierTagToRemove)
 		{
 			this.PathEntity = pathEntityName;
@@ -1132,7 +1061,6 @@ namespace TaleWorlds.MountAndBlade
 			this.BarrierTagToRemove = barrierTagToRemove;
 		}
 
-		// Token: 0x06002EB9 RID: 11961 RVA: 0x000BD41C File Offset: 0x000BB61C
 		public bool GetNavmeshFaceIds(out List<int> navmeshFaceIds)
 		{
 			navmeshFaceIds = new List<int>
@@ -1146,186 +1074,124 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x040012E3 RID: 4835
 		private const int LeftLadderNavMeshIdLocal = 5;
 
-		// Token: 0x040012E4 RID: 4836
 		private const int MiddleLadderNavMeshIdLocal = 6;
 
-		// Token: 0x040012E5 RID: 4837
 		private const int RightLadderNavMeshIdLocal = 7;
 
-		// Token: 0x040012E6 RID: 4838
 		private const string BreakableWallTag = "breakable_wall";
 
-		// Token: 0x040012E7 RID: 4839
 		private const string DestroyedWallTag = "destroyed";
 
-		// Token: 0x040012E8 RID: 4840
 		private const string NonDestroyedWallTag = "non_destroyed";
 
-		// Token: 0x040012E9 RID: 4841
 		private const string LadderTag = "ladder";
 
-		// Token: 0x040012EA RID: 4842
 		private const string BattlementDestroyedParticleTag = "particle_spawnpoint";
 
-		// Token: 0x040012EB RID: 4843
 		public string GateTag = "gate";
 
-		// Token: 0x040012EC RID: 4844
 		public string GateOpenTag = "gateOpen";
 
-		// Token: 0x040012ED RID: 4845
 		public string HandleTag = "handle";
 
-		// Token: 0x040012EE RID: 4846
 		public string GateHandleIdleAnimation = "siegetower_handle_idle";
 
-		// Token: 0x040012EF RID: 4847
 		private int _gateHandleIdleAnimationIndex = -1;
 
-		// Token: 0x040012F0 RID: 4848
 		public string GateTrembleAnimation = "siegetower_door_stop";
 
-		// Token: 0x040012F1 RID: 4849
 		private int _gateTrembleAnimationIndex = -1;
 
-		// Token: 0x040012F2 RID: 4850
 		public string BattlementDestroyedParticle = "psys_adobe_battlement_destroyed";
 
-		// Token: 0x040012F3 RID: 4851
 		private string _targetWallSegmentTag;
 
-		// Token: 0x040012F4 RID: 4852
 		public bool GhostEntityMove = true;
 
-		// Token: 0x040012F5 RID: 4853
 		public float GhostEntitySpeedMultiplier = 1f;
 
-		// Token: 0x040012F6 RID: 4854
 		private string _sideTag;
 
-		// Token: 0x040012F7 RID: 4855
 		private bool _hasLadders;
 
-		// Token: 0x040012F8 RID: 4856
 		public float WheelDiameter = 1.3f;
 
-		// Token: 0x040012F9 RID: 4857
 		public float MinSpeed = 0.5f;
 
-		// Token: 0x040012FA RID: 4858
 		public float MaxSpeed = 1f;
 
-		// Token: 0x040012FB RID: 4859
 		public int GateNavMeshId;
 
-		// Token: 0x040012FC RID: 4860
 		public int NavMeshIdToDisableOnDestination = -1;
 
-		// Token: 0x040012FD RID: 4861
 		private int _soilNavMeshID1;
 
-		// Token: 0x040012FE RID: 4862
 		private int _soilNavMeshID2;
 
-		// Token: 0x040012FF RID: 4863
 		private int _ditchNavMeshID1;
 
-		// Token: 0x04001300 RID: 4864
 		private int _ditchNavMeshID2;
 
-		// Token: 0x04001301 RID: 4865
 		private int _groundToSoilNavMeshID1;
 
-		// Token: 0x04001302 RID: 4866
 		private int _groundToSoilNavMeshID2;
 
-		// Token: 0x04001303 RID: 4867
 		private int _soilGenericNavMeshID;
 
-		// Token: 0x04001304 RID: 4868
 		private int _groundGenericNavMeshID;
 
-		// Token: 0x04001305 RID: 4869
 		public string BarrierTagToRemove = "barrier";
 
-		// Token: 0x04001306 RID: 4870
 		private List<GameEntity> _aiBarriers;
 
-		// Token: 0x04001307 RID: 4871
 		private bool _isGhostMovementOn;
 
-		// Token: 0x04001308 RID: 4872
 		private bool _hasArrivedAtTarget;
 
-		// Token: 0x04001309 RID: 4873
 		private SiegeTower.GateState _state;
 
-		// Token: 0x0400130A RID: 4874
 		private SynchedMissionObject _gateObject;
 
-		// Token: 0x0400130B RID: 4875
 		private SynchedMissionObject _handleObject;
 
-		// Token: 0x0400130C RID: 4876
 		private SoundEvent _gateOpenSound;
 
-		// Token: 0x0400130D RID: 4877
 		private int _gateOpenSoundIndex = -1;
 
-		// Token: 0x0400130E RID: 4878
 		private Mat3 _openStateRotation;
 
-		// Token: 0x0400130F RID: 4879
 		private Mat3 _closedStateRotation;
 
-		// Token: 0x04001310 RID: 4880
 		private float _fallAngularSpeed;
 
-		// Token: 0x04001311 RID: 4881
 		private GameEntity _cleanState;
 
-		// Token: 0x04001312 RID: 4882
 		private GameEntity _destroyedWallEntity;
 
-		// Token: 0x04001313 RID: 4883
 		private GameEntity _nonDestroyedWallEntity;
 
-		// Token: 0x04001314 RID: 4884
 		private GameEntity _battlementDestroyedParticle;
 
-		// Token: 0x04001315 RID: 4885
 		private StandingPoint _gateStandingPoint;
 
-		// Token: 0x04001316 RID: 4886
 		private MatrixFrame _gateStandingPointLocalIKFrame;
 
-		// Token: 0x04001317 RID: 4887
 		private SynchedMissionObject _ditchFillDebris;
 
-		// Token: 0x04001318 RID: 4888
 		private List<LadderQueueManager> _queueManagers;
 
-		// Token: 0x04001319 RID: 4889
 		private WallSegment _targetWallSegment;
 
-		// Token: 0x0400131A RID: 4890
 		private List<SiegeLadder> _sameSideSiegeLadders;
 
-		// Token: 0x0200066D RID: 1645
 		public enum GateState
 		{
-			// Token: 0x040020E0 RID: 8416
 			Closed,
-			// Token: 0x040020E1 RID: 8417
 			Open,
-			// Token: 0x040020E2 RID: 8418
 			GateFalling,
-			// Token: 0x040020E3 RID: 8419
 			GateFallingWallDestroyed,
-			// Token: 0x040020E4 RID: 8420
 			NumberOfStates
 		}
 	}

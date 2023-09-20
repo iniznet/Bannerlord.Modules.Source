@@ -6,17 +6,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 {
-	// Token: 0x020000DD RID: 221
 	public class NameMarkerScreenWidget : Widget
 	{
-		// Token: 0x06000B6B RID: 2923 RVA: 0x0001F9F7 File Offset: 0x0001DBF7
 		public NameMarkerScreenWidget(UIContext context)
 			: base(context)
 		{
 			this._markers = new List<NameMarkerListPanel>();
 		}
 
-		// Token: 0x06000B6C RID: 2924 RVA: 0x0001FA0C File Offset: 0x0001DC0C
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -78,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x06000B6D RID: 2925 RVA: 0x0001FCDC File Offset: 0x0001DEDC
 		private void OnMarkersChanged(Widget widget, string eventName, object[] args)
 		{
 			NameMarkerListPanel nameMarkerListPanel;
@@ -96,9 +92,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x17000416 RID: 1046
-		// (get) Token: 0x06000B6E RID: 2926 RVA: 0x0001FD2F File Offset: 0x0001DF2F
-		// (set) Token: 0x06000B6F RID: 2927 RVA: 0x0001FD37 File Offset: 0x0001DF37
 		public bool IsMarkersEnabled
 		{
 			get
@@ -115,9 +108,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x17000417 RID: 1047
-		// (get) Token: 0x06000B70 RID: 2928 RVA: 0x0001FD55 File Offset: 0x0001DF55
-		// (set) Token: 0x06000B71 RID: 2929 RVA: 0x0001FD5D File Offset: 0x0001DF5D
 		public float TargetAlphaValue
 		{
 			get
@@ -134,9 +124,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x17000418 RID: 1048
-		// (get) Token: 0x06000B72 RID: 2930 RVA: 0x0001FD7B File Offset: 0x0001DF7B
-		// (set) Token: 0x06000B73 RID: 2931 RVA: 0x0001FD84 File Offset: 0x0001DF84
 		[Editor(false)]
 		public Widget MarkersContainer
 		{
@@ -162,22 +149,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x04000538 RID: 1336
 		private const float MinDistanceToFocusSquared = 3600f;
 
-		// Token: 0x04000539 RID: 1337
 		private List<NameMarkerListPanel> _markers;
 
-		// Token: 0x0400053A RID: 1338
 		private NameMarkerListPanel _lastFocusedWidget;
 
-		// Token: 0x0400053B RID: 1339
 		private bool _isMarkersEnabled;
 
-		// Token: 0x0400053C RID: 1340
 		private float _targetAlphaValue;
 
-		// Token: 0x0400053D RID: 1341
 		private Widget _markersContainer;
 	}
 }

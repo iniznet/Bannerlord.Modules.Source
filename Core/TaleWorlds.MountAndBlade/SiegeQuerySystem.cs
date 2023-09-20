@@ -6,11 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200016A RID: 362
 	public class SiegeQuerySystem
 	{
-		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x0600126A RID: 4714 RVA: 0x000474B1 File Offset: 0x000456B1
 		public int LeftRegionMemberCount
 		{
 			get
@@ -19,8 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E3 RID: 995
-		// (get) Token: 0x0600126B RID: 4715 RVA: 0x000474BE File Offset: 0x000456BE
 		public int LeftCloseAttackerCount
 		{
 			get
@@ -29,8 +24,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E4 RID: 996
-		// (get) Token: 0x0600126C RID: 4716 RVA: 0x000474CB File Offset: 0x000456CB
 		public int MiddleRegionMemberCount
 		{
 			get
@@ -39,8 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E5 RID: 997
-		// (get) Token: 0x0600126D RID: 4717 RVA: 0x000474D8 File Offset: 0x000456D8
 		public int MiddleCloseAttackerCount
 		{
 			get
@@ -49,8 +40,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E6 RID: 998
-		// (get) Token: 0x0600126E RID: 4718 RVA: 0x000474E5 File Offset: 0x000456E5
 		public int RightRegionMemberCount
 		{
 			get
@@ -59,8 +48,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E7 RID: 999
-		// (get) Token: 0x0600126F RID: 4719 RVA: 0x000474F2 File Offset: 0x000456F2
 		public int RightCloseAttackerCount
 		{
 			get
@@ -69,8 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E8 RID: 1000
-		// (get) Token: 0x06001270 RID: 4720 RVA: 0x000474FF File Offset: 0x000456FF
 		public int InsideAttackerCount
 		{
 			get
@@ -79,8 +64,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E9 RID: 1001
-		// (get) Token: 0x06001271 RID: 4721 RVA: 0x0004750C File Offset: 0x0004570C
 		public int LeftDefenderCount
 		{
 			get
@@ -89,8 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06001272 RID: 4722 RVA: 0x00047519 File Offset: 0x00045719
 		public int MiddleDefenderCount
 		{
 			get
@@ -99,8 +80,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06001273 RID: 4723 RVA: 0x00047526 File Offset: 0x00045726
 		public int RightDefenderCount
 		{
 			get
@@ -109,7 +88,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001274 RID: 4724 RVA: 0x00047534 File Offset: 0x00045734
 		public SiegeQuerySystem(Team team, IEnumerable<SiegeLane> lanes)
 		{
 			Mission mission = Mission.Current;
@@ -150,7 +128,6 @@ namespace TaleWorlds.MountAndBlade
 			this.InitializeTelemetryScopeNames();
 		}
 
-		// Token: 0x06001275 RID: 4725 RVA: 0x00047AA8 File Offset: 0x00045CA8
 		private int LocateAttackers(SiegeQuerySystem.RegionEnum region)
 		{
 			int num = 0;
@@ -243,7 +220,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001276 RID: 4726 RVA: 0x00047EB0 File Offset: 0x000460B0
 		public void Expire()
 		{
 			this._leftRegionMemberCount.Expire();
@@ -258,12 +234,10 @@ namespace TaleWorlds.MountAndBlade
 			this._rightDefenderCount.Expire();
 		}
 
-		// Token: 0x06001277 RID: 4727 RVA: 0x00047F2B File Offset: 0x0004612B
 		private void InitializeTelemetryScopeNames()
 		{
 		}
 
-		// Token: 0x06001278 RID: 4728 RVA: 0x00047F30 File Offset: 0x00046130
 		public int DeterminePositionAssociatedSide(Vec3 position)
 		{
 			float num = position.AsVec2.DistanceSquared(this.LeftDefenderOrigin.AsVec2);
@@ -316,13 +290,11 @@ namespace TaleWorlds.MountAndBlade
 			return num4;
 		}
 
-		// Token: 0x06001279 RID: 4729 RVA: 0x000480AE File Offset: 0x000462AE
 		public static bool AreSidesRelated(FormationAI.BehaviorSide side, int connectedSides)
 		{
 			return ((1 << (int)side) & connectedSides) != 0;
 		}
 
-		// Token: 0x0600127A RID: 4730 RVA: 0x000480BC File Offset: 0x000462BC
 		public static int SideDistance(int connectedSides, int side)
 		{
 			while (connectedSides != 0 && side != 0)
@@ -344,104 +316,62 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x0600127B RID: 4731 RVA: 0x000480FA File Offset: 0x000462FA
 		public Vec3 LeftDefenderOrigin { get; }
 
-		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x0600127C RID: 4732 RVA: 0x00048102 File Offset: 0x00046302
 		public Vec3 MidDefenderOrigin { get; }
 
-		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x0600127D RID: 4733 RVA: 0x0004810A File Offset: 0x0004630A
 		public Vec3 RightDefenderOrigin { get; }
 
-		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x0600127E RID: 4734 RVA: 0x00048112 File Offset: 0x00046312
 		public Vec3 LeftAttackerOrigin { get; }
 
-		// Token: 0x170003F0 RID: 1008
-		// (get) Token: 0x0600127F RID: 4735 RVA: 0x0004811A File Offset: 0x0004631A
 		public Vec3 MiddleAttackerOrigin { get; }
 
-		// Token: 0x170003F1 RID: 1009
-		// (get) Token: 0x06001280 RID: 4736 RVA: 0x00048122 File Offset: 0x00046322
 		public Vec3 RightAttackerOrigin { get; }
 
-		// Token: 0x170003F2 RID: 1010
-		// (get) Token: 0x06001281 RID: 4737 RVA: 0x0004812A File Offset: 0x0004632A
 		public Vec2 LeftToMidDir { get; }
 
-		// Token: 0x170003F3 RID: 1011
-		// (get) Token: 0x06001282 RID: 4738 RVA: 0x00048132 File Offset: 0x00046332
 		public Vec2 MidToLeftDir { get; }
 
-		// Token: 0x170003F4 RID: 1012
-		// (get) Token: 0x06001283 RID: 4739 RVA: 0x0004813A File Offset: 0x0004633A
 		public Vec2 MidToRightDir { get; }
 
-		// Token: 0x170003F5 RID: 1013
-		// (get) Token: 0x06001284 RID: 4740 RVA: 0x00048142 File Offset: 0x00046342
 		public Vec2 RightToMidDir { get; }
 
-		// Token: 0x04000502 RID: 1282
 		private const float LaneProximityDistance = 15f;
 
-		// Token: 0x04000503 RID: 1283
 		private readonly Team _attackerTeam;
 
-		// Token: 0x04000504 RID: 1284
 		public Vec2 DefenderLeftToDefenderMidDir;
 
-		// Token: 0x04000505 RID: 1285
 		public Vec2 DefenderMidToDefenderRightDir;
 
-		// Token: 0x04000506 RID: 1286
 		private readonly QueryData<int> _leftRegionMemberCount;
 
-		// Token: 0x04000507 RID: 1287
 		private readonly QueryData<int> _leftCloseAttackerCount;
 
-		// Token: 0x04000508 RID: 1288
 		private readonly QueryData<int> _middleRegionMemberCount;
 
-		// Token: 0x04000509 RID: 1289
 		private readonly QueryData<int> _middleCloseAttackerCount;
 
-		// Token: 0x0400050A RID: 1290
 		private readonly QueryData<int> _rightRegionMemberCount;
 
-		// Token: 0x0400050B RID: 1291
 		private readonly QueryData<int> _rightCloseAttackerCount;
 
-		// Token: 0x0400050C RID: 1292
 		private readonly QueryData<int> _insideAttackerCount;
 
-		// Token: 0x0400050D RID: 1293
 		private readonly QueryData<int> _leftDefenderCount;
 
-		// Token: 0x0400050E RID: 1294
 		private readonly QueryData<int> _middleDefenderCount;
 
-		// Token: 0x0400050F RID: 1295
 		private readonly QueryData<int> _rightDefenderCount;
 
-		// Token: 0x020004DC RID: 1244
 		private enum RegionEnum
 		{
-			// Token: 0x04001AF6 RID: 6902
 			Left,
-			// Token: 0x04001AF7 RID: 6903
 			LeftClose,
-			// Token: 0x04001AF8 RID: 6904
 			Middle,
-			// Token: 0x04001AF9 RID: 6905
 			MiddleClose,
-			// Token: 0x04001AFA RID: 6906
 			Right,
-			// Token: 0x04001AFB RID: 6907
 			RightClose,
-			// Token: 0x04001AFC RID: 6908
 			Inside
 		}
 	}

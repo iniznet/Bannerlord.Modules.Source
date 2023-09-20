@@ -8,17 +8,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000129 RID: 297
 	public class FormationAI
 	{
-		// Token: 0x14000003 RID: 3
-		// (add) Token: 0x06000DD9 RID: 3545 RVA: 0x00026F48 File Offset: 0x00025148
-		// (remove) Token: 0x06000DDA RID: 3546 RVA: 0x00026F80 File Offset: 0x00025180
 		public event Action<Formation> OnActiveBehaviorChanged;
 
-		// Token: 0x17000326 RID: 806
-		// (get) Token: 0x06000DDB RID: 3547 RVA: 0x00026FB5 File Offset: 0x000251B5
-		// (set) Token: 0x06000DDC RID: 3548 RVA: 0x00026FC0 File Offset: 0x000251C0
 		public BehaviorComponent ActiveBehavior
 		{
 			get
@@ -46,9 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000327 RID: 807
-		// (get) Token: 0x06000DDD RID: 3549 RVA: 0x00027040 File Offset: 0x00025240
-		// (set) Token: 0x06000DDE RID: 3550 RVA: 0x00027048 File Offset: 0x00025248
 		public FormationAI.BehaviorSide Side
 		{
 			get
@@ -71,12 +61,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000328 RID: 808
-		// (get) Token: 0x06000DDF RID: 3551 RVA: 0x000270B4 File Offset: 0x000252B4
-		// (set) Token: 0x06000DE0 RID: 3552 RVA: 0x000270BC File Offset: 0x000252BC
 		public bool IsMainFormation { get; set; }
 
-		// Token: 0x06000DE1 RID: 3553 RVA: 0x000270C8 File Offset: 0x000252C8
 		public FormationAI(Formation formation)
 		{
 			this._formation = formation;
@@ -95,7 +81,6 @@ namespace TaleWorlds.MountAndBlade
 			this._specialBehaviorData = new List<FormationAI.BehaviorData>();
 		}
 
-		// Token: 0x06000DE2 RID: 3554 RVA: 0x00027170 File Offset: 0x00025370
 		public T SetBehaviorWeight<T>(float w) where T : BehaviorComponent
 		{
 			using (List<BehaviorComponent>.Enumerator enumerator = this._behaviors.GetEnumerator())
@@ -113,13 +98,11 @@ namespace TaleWorlds.MountAndBlade
 			throw new MBException("Behavior weight could not be set.");
 		}
 
-		// Token: 0x06000DE3 RID: 3555 RVA: 0x000271EC File Offset: 0x000253EC
 		public void AddAiBehavior(BehaviorComponent behaviorComponent)
 		{
 			this._behaviors.Add(behaviorComponent);
 		}
 
-		// Token: 0x06000DE4 RID: 3556 RVA: 0x000271FC File Offset: 0x000253FC
 		public T GetBehavior<T>() where T : BehaviorComponent
 		{
 			using (List<BehaviorComponent>.Enumerator enumerator = this._behaviors.GetEnumerator())
@@ -147,7 +130,6 @@ namespace TaleWorlds.MountAndBlade
 			return default(T);
 		}
 
-		// Token: 0x06000DE5 RID: 3557 RVA: 0x000272C4 File Offset: 0x000254C4
 		public void AddSpecialBehavior(BehaviorComponent behavior, bool purgePreviousSpecialBehaviors = false)
 		{
 			if (purgePreviousSpecialBehaviors)
@@ -160,7 +142,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x06000DE6 RID: 3558 RVA: 0x000272EC File Offset: 0x000254EC
 		private bool FindBestBehavior()
 		{
 			BehaviorComponent behaviorComponent = null;
@@ -203,7 +184,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06000DE7 RID: 3559 RVA: 0x0002741C File Offset: 0x0002561C
 		private void PreprocessBehaviors()
 		{
 			if (this._formation.HasAnyEnemyFormationsThatIsNotEmpty())
@@ -223,7 +203,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DE8 RID: 3560 RVA: 0x000274E4 File Offset: 0x000256E4
 		public void Tick()
 		{
 			if (Mission.Current.AllowAiTicking && (Mission.Current.ForceTickOccasionally || this._tickTimer.Check(Mission.Current.CurrentTime)))
@@ -232,7 +211,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DE9 RID: 3561 RVA: 0x00027534 File Offset: 0x00025734
 		private void TickOccasionally(float dt)
 		{
 			this._formation.IsAITickedAfterSplit = true;
@@ -287,7 +265,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DEA RID: 3562 RVA: 0x000276F8 File Offset: 0x000258F8
 		[Conditional("DEBUG")]
 		public void DebugMore()
 		{
@@ -303,7 +280,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DEB RID: 3563 RVA: 0x000277AC File Offset: 0x000259AC
 		[Conditional("DEBUG")]
 		public void DebugScores()
 		{
@@ -328,7 +304,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DEC RID: 3564 RVA: 0x000278F4 File Offset: 0x00025AF4
 		public void ResetBehaviorWeights()
 		{
 			foreach (BehaviorComponent behaviorComponent in this._behaviors)
@@ -337,58 +312,39 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000373 RID: 883
 		private const float BehaviorPreserveTime = 5f;
 
-		// Token: 0x04000375 RID: 885
 		private readonly Formation _formation;
 
-		// Token: 0x04000376 RID: 886
 		private readonly List<FormationAI.BehaviorData> _specialBehaviorData;
 
-		// Token: 0x04000377 RID: 887
 		private readonly List<BehaviorComponent> _behaviors = new List<BehaviorComponent>();
 
-		// Token: 0x04000378 RID: 888
 		private BehaviorComponent _activeBehavior;
 
-		// Token: 0x04000379 RID: 889
 		private FormationAI.BehaviorSide _side = FormationAI.BehaviorSide.Middle;
 
-		// Token: 0x0400037A RID: 890
 		private readonly Timer _tickTimer;
 
-		// Token: 0x0200045F RID: 1119
 		public class BehaviorData
 		{
-			// Token: 0x040018B8 RID: 6328
 			public BehaviorComponent Behavior;
 
-			// Token: 0x040018B9 RID: 6329
 			public float Preference = 1f;
 
-			// Token: 0x040018BA RID: 6330
 			public float Weight;
 
-			// Token: 0x040018BB RID: 6331
 			public bool IsRemovedOnCancel;
 
-			// Token: 0x040018BC RID: 6332
 			public bool IsPreprocessed;
 		}
 
-		// Token: 0x02000460 RID: 1120
 		public enum BehaviorSide
 		{
-			// Token: 0x040018BE RID: 6334
 			Left,
-			// Token: 0x040018BF RID: 6335
 			Middle,
-			// Token: 0x040018C0 RID: 6336
 			Right,
-			// Token: 0x040018C1 RID: 6337
 			BehaviorSideNotSet,
-			// Token: 0x040018C2 RID: 6338
 			ValidBehaviorSideCount = 3
 		}
 	}

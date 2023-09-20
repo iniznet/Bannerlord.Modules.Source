@@ -9,10 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 {
-	// Token: 0x020000CE RID: 206
 	public class EducationGainedPropertiesVM : ViewModel
 	{
-		// Token: 0x06001356 RID: 4950 RVA: 0x0004A174 File Offset: 0x00048374
 		public EducationGainedPropertiesVM(Hero child, int pageCount)
 		{
 			this._child = child;
@@ -29,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			this.UpdateWithSelections(new List<string>(), -1);
 		}
 
-		// Token: 0x06001357 RID: 4951 RVA: 0x0004A22C File Offset: 0x0004842C
 		internal void UpdateWithSelections(List<string> selectedOptions, int currentPageIndex)
 		{
 			this._affectedAttributesMap.Clear();
@@ -55,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x06001358 RID: 4952 RVA: 0x0004A3C8 File Offset: 0x000485C8
 		private void PopulateInitialValues()
 		{
 			foreach (SkillObject skillObject in Skills.All)
@@ -96,7 +92,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x06001359 RID: 4953 RVA: 0x0004A570 File Offset: 0x00048770
 		private void PopulateGainedAttributeValues(List<string> selectedOptions, int currentPageIndex)
 		{
 			bool flag = currentPageIndex == this._pageCount - 1;
@@ -145,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x0600135A RID: 4954 RVA: 0x0004A7D4 File Offset: 0x000489D4
 		private EducationGainedAttributeItemVM GetItemFromAttribute(CharacterAttribute attribute)
 		{
 			EducationGainGroupItemVM educationGainGroupItemVM = this.GainGroups.SingleOrDefault((EducationGainGroupItemVM g) => g.AttributeObj == attribute);
@@ -156,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			return educationGainGroupItemVM.Attribute;
 		}
 
-		// Token: 0x0600135B RID: 4955 RVA: 0x0004A810 File Offset: 0x00048A10
 		private EducationGainedSkillItemVM GetItemFromSkill(SkillObject skill)
 		{
 			Func<EducationGainedSkillItemVM, bool> <>9__2;
@@ -177,9 +170,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			return educationGainGroupItemVM.Skills.SingleOrDefault((EducationGainedSkillItemVM s) => s.SkillObj == skill);
 		}
 
-		// Token: 0x17000676 RID: 1654
-		// (get) Token: 0x0600135C RID: 4956 RVA: 0x0004A85D File Offset: 0x00048A5D
-		// (set) Token: 0x0600135D RID: 4957 RVA: 0x0004A865 File Offset: 0x00048A65
 		[DataSourceProperty]
 		public MBBindingList<EducationGainGroupItemVM> GainGroups
 		{
@@ -197,25 +187,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Education
 			}
 		}
 
-		// Token: 0x040008F3 RID: 2291
 		private readonly Hero _child;
 
-		// Token: 0x040008F4 RID: 2292
 		private readonly int _pageCount;
 
-		// Token: 0x040008F5 RID: 2293
 		private readonly IEducationLogic _educationBehavior;
 
-		// Token: 0x040008F6 RID: 2294
 		private readonly Dictionary<CharacterAttribute, Tuple<int, int>> _affectedAttributesMap;
 
-		// Token: 0x040008F7 RID: 2295
 		private readonly Dictionary<SkillObject, Tuple<int, int>> _affectedSkillFocusMap;
 
-		// Token: 0x040008F8 RID: 2296
 		private readonly Dictionary<SkillObject, Tuple<int, int>> _affectedSkillValueMap;
 
-		// Token: 0x040008F9 RID: 2297
 		private MBBindingList<EducationGainGroupItemVM> _gainGroups;
 	}
 }

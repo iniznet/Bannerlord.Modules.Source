@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 {
-	// Token: 0x02000150 RID: 336
 	public class ConversationScreenButtonWidget : ButtonWidget
 	{
-		// Token: 0x0600116D RID: 4461 RVA: 0x00030146 File Offset: 0x0002E346
 		public ConversationScreenButtonWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x0600116E RID: 4462 RVA: 0x0003015C File Offset: 0x0002E35C
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -25,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x0600116F RID: 4463 RVA: 0x000301B4 File Offset: 0x0002E3B4
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -41,12 +37,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x06001170 RID: 4464 RVA: 0x00030280 File Offset: 0x0002E480
 		private void OnOptionSelection(Widget obj)
 		{
 		}
 
-		// Token: 0x06001171 RID: 4465 RVA: 0x00030284 File Offset: 0x0002E484
 		private void OnOptionRemoved(Widget obj, Widget child)
 		{
 			ConversationOptionListPanel conversationOptionListPanel;
@@ -56,15 +50,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x06001172 RID: 4466 RVA: 0x000302B8 File Offset: 0x0002E4B8
 		private void OnNewOptionAdded(Widget parent, Widget child)
 		{
 			this._newlyAddedItems.Add(child as ConversationOptionListPanel);
 		}
 
-		// Token: 0x1700062A RID: 1578
-		// (get) Token: 0x06001173 RID: 4467 RVA: 0x000302CB File Offset: 0x0002E4CB
-		// (set) Token: 0x06001174 RID: 4468 RVA: 0x000302D4 File Offset: 0x0002E4D4
 		[Editor(false)]
 		public ListPanel AnswerList
 		{
@@ -92,9 +82,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x1700062B RID: 1579
-		// (get) Token: 0x06001175 RID: 4469 RVA: 0x00030366 File Offset: 0x0002E566
-		// (set) Token: 0x06001176 RID: 4470 RVA: 0x0003036E File Offset: 0x0002E56E
 		[Editor(false)]
 		public ButtonWidget ContinueButton
 		{
@@ -112,9 +99,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x1700062C RID: 1580
-		// (get) Token: 0x06001177 RID: 4471 RVA: 0x0003038C File Offset: 0x0002E58C
-		// (set) Token: 0x06001178 RID: 4472 RVA: 0x00030394 File Offset: 0x0002E594
 		[Editor(false)]
 		public bool IsPersuasionActive
 		{
@@ -132,16 +116,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Conversation
 			}
 		}
 
-		// Token: 0x040007FB RID: 2043
 		private List<ConversationOptionListPanel> _newlyAddedItems = new List<ConversationOptionListPanel>();
 
-		// Token: 0x040007FC RID: 2044
 		private ListPanel _answerList;
 
-		// Token: 0x040007FD RID: 2045
 		private ButtonWidget _continueButton;
 
-		// Token: 0x040007FE RID: 2046
 		private bool _isPersuasionActive;
 	}
 }

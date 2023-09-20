@@ -6,15 +6,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia
 {
-	// Token: 0x0200015D RID: 349
 	public class EncyclopediaManager
 	{
-		// Token: 0x1700066B RID: 1643
-		// (get) Token: 0x06001854 RID: 6228 RVA: 0x0007B458 File Offset: 0x00079658
-		// (set) Token: 0x06001855 RID: 6229 RVA: 0x0007B460 File Offset: 0x00079660
 		public IViewDataTracker ViewDataTracker { get; private set; }
 
-		// Token: 0x06001856 RID: 6230 RVA: 0x0007B46C File Offset: 0x0007966C
 		public void CreateEncyclopediaPages()
 		{
 			this._pages = new Dictionary<Type, EncyclopediaPage>();
@@ -82,25 +77,21 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia
 			}
 		}
 
-		// Token: 0x06001857 RID: 6231 RVA: 0x0007B708 File Offset: 0x00079908
 		public IEnumerable<EncyclopediaPage> GetEncyclopediaPages()
 		{
 			return this._pages.Values.Distinct<EncyclopediaPage>();
 		}
 
-		// Token: 0x06001858 RID: 6232 RVA: 0x0007B71A File Offset: 0x0007991A
 		public EncyclopediaPage GetPageOf(Type type)
 		{
 			return this._pages[type];
 		}
 
-		// Token: 0x06001859 RID: 6233 RVA: 0x0007B728 File Offset: 0x00079928
 		public string GetIdentifier(Type type)
 		{
 			return this._pages[type].GetIdentifier(type);
 		}
 
-		// Token: 0x0600185A RID: 6234 RVA: 0x0007B73C File Offset: 0x0007993C
 		public void GoToLink(string pageType, string stringID)
 		{
 			if (this._executeLink == null || string.IsNullOrEmpty(pageType))
@@ -126,32 +117,25 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia
 			}
 		}
 
-		// Token: 0x0600185B RID: 6235 RVA: 0x0007B848 File Offset: 0x00079A48
 		public void GoToLink(string link)
 		{
 			string[] array = link.ToString().Split(new char[] { '-' });
 			this.GoToLink(array[0], array[1]);
 		}
 
-		// Token: 0x0600185C RID: 6236 RVA: 0x0007B878 File Offset: 0x00079A78
 		public void SetLinkCallback(Action<string, object> ExecuteLink)
 		{
 			this._executeLink = ExecuteLink;
 		}
 
-		// Token: 0x0400089D RID: 2205
 		private Dictionary<Type, EncyclopediaPage> _pages;
 
-		// Token: 0x0400089F RID: 2207
 		public const string HOME_ID = "Home";
 
-		// Token: 0x040008A0 RID: 2208
 		public const string LIST_PAGE_ID = "ListPage";
 
-		// Token: 0x040008A1 RID: 2209
 		public const string LAST_PAGE_ID = "LastPage";
 
-		// Token: 0x040008A2 RID: 2210
 		private Action<string, object> _executeLink;
 	}
 }

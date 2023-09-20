@@ -6,15 +6,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions
 {
-	// Token: 0x020003F1 RID: 1009
 	public class DebugAgentTeleporterMissionController : MissionLogic
 	{
-		// Token: 0x060034C7 RID: 13511 RVA: 0x000DB710 File Offset: 0x000D9910
 		public override void AfterStart()
 		{
 		}
 
-		// Token: 0x060034C8 RID: 13512 RVA: 0x000DB714 File Offset: 0x000D9914
 		public override void OnMissionTick(float dt)
 		{
 			Agent agent = null;

@@ -4,16 +4,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 {
-	// Token: 0x0200011F RID: 287
 	public abstract class InventoryItemButtonWidget : ButtonWidget
 	{
-		// Token: 0x06000E93 RID: 3731 RVA: 0x00028759 File Offset: 0x00026959
 		protected InventoryItemButtonWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000E94 RID: 3732 RVA: 0x00028762 File Offset: 0x00026962
 		protected override void OnDragBegin()
 		{
 			InventoryScreenWidget screenWidget = this.ScreenWidget;
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			base.OnDragBegin();
 		}
 
-		// Token: 0x06000E95 RID: 3733 RVA: 0x0002877C File Offset: 0x0002697C
 		protected override bool OnDrop()
 		{
 			InventoryScreenWidget screenWidget = this.ScreenWidget;
@@ -35,37 +31,31 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return base.OnDrop();
 		}
 
-		// Token: 0x06000E96 RID: 3734 RVA: 0x00028796 File Offset: 0x00026996
 		public virtual void ResetIsSelected()
 		{
 			base.IsSelected = false;
 		}
 
-		// Token: 0x06000E97 RID: 3735 RVA: 0x0002879F File Offset: 0x0002699F
 		public void PreviewItem()
 		{
 			base.EventFired("PreviewItem", Array.Empty<object>());
 		}
 
-		// Token: 0x06000E98 RID: 3736 RVA: 0x000287B1 File Offset: 0x000269B1
 		public void SellItem()
 		{
 			base.EventFired("SellItem", Array.Empty<object>());
 		}
 
-		// Token: 0x06000E99 RID: 3737 RVA: 0x000287C3 File Offset: 0x000269C3
 		public void EquipItem()
 		{
 			base.EventFired("EquipItem", Array.Empty<object>());
 		}
 
-		// Token: 0x06000E9A RID: 3738 RVA: 0x000287D5 File Offset: 0x000269D5
 		public void UnequipItem()
 		{
 			base.EventFired("UnequipItem", Array.Empty<object>());
 		}
 
-		// Token: 0x06000E9B RID: 3739 RVA: 0x000287E8 File Offset: 0x000269E8
 		private void AssignScreenWidget()
 		{
 			Widget widget = this;
@@ -82,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000E9C RID: 3740 RVA: 0x0002882C File Offset: 0x00026A2C
 		private void ItemTypeUpdated()
 		{
 			AudioProperty audioProperty = base.Brush.SoundProperties.GetEventAudioProperty("DragEnd");
@@ -94,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			audioProperty.AudioName = this.GetSound(this.ItemType);
 		}
 
-		// Token: 0x06000E9D RID: 3741 RVA: 0x00028880 File Offset: 0x00026A80
 		private string GetSound(int typeID)
 		{
 			switch (typeID)
@@ -146,9 +134,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return "inventory/leather";
 		}
 
-		// Token: 0x17000526 RID: 1318
-		// (get) Token: 0x06000E9E RID: 3742 RVA: 0x0002897C File Offset: 0x00026B7C
-		// (set) Token: 0x06000E9F RID: 3743 RVA: 0x00028984 File Offset: 0x00026B84
 		[Editor(false)]
 		public bool IsRightSide
 		{
@@ -166,9 +151,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000527 RID: 1319
-		// (get) Token: 0x06000EA0 RID: 3744 RVA: 0x000289A2 File Offset: 0x00026BA2
-		// (set) Token: 0x06000EA1 RID: 3745 RVA: 0x000289AA File Offset: 0x00026BAA
 		[Editor(false)]
 		public int ItemType
 		{
@@ -187,9 +169,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000528 RID: 1320
-		// (get) Token: 0x06000EA2 RID: 3746 RVA: 0x000289CE File Offset: 0x00026BCE
-		// (set) Token: 0x06000EA3 RID: 3747 RVA: 0x000289D6 File Offset: 0x00026BD6
 		[Editor(false)]
 		public int EquipmentIndex
 		{
@@ -207,8 +186,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000529 RID: 1321
-		// (get) Token: 0x06000EA4 RID: 3748 RVA: 0x000289F4 File Offset: 0x00026BF4
 		public InventoryScreenWidget ScreenWidget
 		{
 			get
@@ -221,16 +198,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x040006AC RID: 1708
 		private bool _isRightSide;
 
-		// Token: 0x040006AD RID: 1709
 		private int _itemType;
 
-		// Token: 0x040006AE RID: 1710
 		private int _equipmentIndex;
 
-		// Token: 0x040006AF RID: 1711
 		private InventoryScreenWidget _screenWidget;
 	}
 }

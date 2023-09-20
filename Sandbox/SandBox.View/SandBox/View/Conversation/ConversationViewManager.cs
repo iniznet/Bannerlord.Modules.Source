@@ -7,11 +7,8 @@ using TaleWorlds.MountAndBlade.View.Screens;
 
 namespace SandBox.View.Conversation
 {
-	// Token: 0x0200005A RID: 90
 	public class ConversationViewManager
 	{
-		// Token: 0x17000072 RID: 114
-		// (get) Token: 0x060003E9 RID: 1001 RVA: 0x00021FBF File Offset: 0x000201BF
 		public static ConversationViewManager Instance
 		{
 			get
@@ -20,7 +17,6 @@ namespace SandBox.View.Conversation
 			}
 		}
 
-		// Token: 0x060003EA RID: 1002 RVA: 0x00021FC8 File Offset: 0x000201C8
 		public ConversationViewManager()
 		{
 			this.FillEventHandlers();
@@ -28,7 +24,6 @@ namespace SandBox.View.Conversation
 			Campaign.Current.ConversationManager.ConsequenceRunned += this.OnConsequence;
 		}
 
-		// Token: 0x060003EB RID: 1003 RVA: 0x00022018 File Offset: 0x00020218
 		private void FillEventHandlers()
 		{
 			this._conditionEventHandlers = new Dictionary<string, ConversationViewEventHandlerDelegate>();
@@ -41,7 +36,6 @@ namespace SandBox.View.Conversation
 			}
 		}
 
-		// Token: 0x060003EC RID: 1004 RVA: 0x00022074 File Offset: 0x00020274
 		private void FillEventHandlersWith(Assembly assembly)
 		{
 			Type[] types = assembly.GetTypes();
@@ -83,7 +77,6 @@ namespace SandBox.View.Conversation
 			}
 		}
 
-		// Token: 0x060003ED RID: 1005 RVA: 0x000221B8 File Offset: 0x000203B8
 		private void OnConsequence(ConversationSentence sentence)
 		{
 			ConversationViewEventHandlerDelegate conversationViewEventHandlerDelegate;
@@ -93,7 +86,6 @@ namespace SandBox.View.Conversation
 			}
 		}
 
-		// Token: 0x060003EE RID: 1006 RVA: 0x000221E0 File Offset: 0x000203E0
 		private void OnCondition(ConversationSentence sentence)
 		{
 			ConversationViewEventHandlerDelegate conversationViewEventHandlerDelegate;
@@ -103,10 +95,8 @@ namespace SandBox.View.Conversation
 			}
 		}
 
-		// Token: 0x04000218 RID: 536
 		private Dictionary<string, ConversationViewEventHandlerDelegate> _conditionEventHandlers;
 
-		// Token: 0x04000219 RID: 537
 		private Dictionary<string, ConversationViewEventHandlerDelegate> _consequenceEventHandlers;
 	}
 }

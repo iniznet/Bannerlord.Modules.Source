@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000013 RID: 19
 	public static class FactionHelper
 	{
-		// Token: 0x060000A5 RID: 165 RVA: 0x00008BC0 File Offset: 0x00006DC0
 		public static float FindPotentialStrength(IFaction faction)
 		{
 			float num = 0f;
@@ -44,7 +42,6 @@ namespace Helpers
 			return num * 2f;
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x00008CAC File Offset: 0x00006EAC
 		public static float GetPowerRatioToEnemies(Kingdom kingdom)
 		{
 			float totalStrength = kingdom.TotalStrength;
@@ -52,7 +49,6 @@ namespace Helpers
 			return totalStrength / (totalEnemyKingdomPower + 0.0001f);
 		}
 
-		// Token: 0x060000A7 RID: 167 RVA: 0x00008CD0 File Offset: 0x00006ED0
 		private static List<TextObject> IsFactionNameApplicable(string name)
 		{
 			List<TextObject> list = new List<TextObject>();
@@ -76,7 +72,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x060000A8 RID: 168 RVA: 0x00008D8C File Offset: 0x00006F8C
 		public static Tuple<bool, string> IsClanNameApplicable(string name)
 		{
 			string text = string.Empty;
@@ -102,7 +97,6 @@ namespace Helpers
 			return new Tuple<bool, string>(flag, text);
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x00008E70 File Offset: 0x00007070
 		public static Tuple<bool, string> IsKingdomNameApplicable(string name)
 		{
 			string text = string.Empty;
@@ -128,7 +122,6 @@ namespace Helpers
 			return new Tuple<bool, string>(flag, text);
 		}
 
-		// Token: 0x060000AA RID: 170 RVA: 0x00008F54 File Offset: 0x00007154
 		public static float GetPowerRatioToTributePayedKingdoms(Kingdom kingdom)
 		{
 			float totalStrength = kingdom.TotalStrength;
@@ -136,13 +129,11 @@ namespace Helpers
 			return totalStrength / (totalTributePayedKingdomsPower + 0.0001f);
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x00008F76 File Offset: 0x00007176
 		public static bool CanClanBeGrantedFief(Clan clan)
 		{
 			return clan != Clan.PlayerClan && !clan.IsUnderMercenaryService;
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x00008F8C File Offset: 0x0000718C
 		public static bool CanPlayerEnterFaction(bool asVassal = false)
 		{
 			float num = Campaign.Current.Settlements.Where((Settlement settlement) => (settlement.IsVillage || settlement.IsTown || settlement.IsCastle) && settlement.OwnerClan.Leader == Hero.MainHero).Sum((Settlement settlement) => settlement.GetSettlementValueForFaction(Hero.OneToOneConversationHero.MapFaction));
@@ -155,7 +146,6 @@ namespace Helpers
 			return num3 > 150f;
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x00009088 File Offset: 0x00007288
 		public static float GetTotalEnemyKingdomPower(Kingdom kingdom)
 		{
 			float num = 0f;
@@ -166,7 +156,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x000090E0 File Offset: 0x000072E0
 		public static float GetTotalTributePayedKingdomsPower(Kingdom kingdom)
 		{
 			float num = 0f;
@@ -186,7 +175,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x00009184 File Offset: 0x00007384
 		public static IEnumerable<Army> GetKingdomArmies(IFaction mapFaction)
 		{
 			if (!mapFaction.IsKingdomFaction)
@@ -196,13 +184,11 @@ namespace Helpers
 			return ((Kingdom)mapFaction).Armies;
 		}
 
-		// Token: 0x060000B0 RID: 176 RVA: 0x0000919F File Offset: 0x0000739F
 		public static float SettlementProsperityEffectOnGarrisonSizeConstant(Settlement settlement)
 		{
 			return 2.2f * (0.1f + 0.9f * MathF.Sqrt(MathF.Min(MathF.Max(0f, settlement.Prosperity), 5000f) / 5000f));
 		}
 
-		// Token: 0x060000B1 RID: 177 RVA: 0x000091D8 File Offset: 0x000073D8
 		public static float SettlementFoodPotentialEffectOnGarrisonSizeConstant(Settlement settlement)
 		{
 			int num = 0;
@@ -216,7 +202,6 @@ namespace Helpers
 			return 0.5f + 0.5f * (float)MathF.Min(50, num) / 50f;
 		}
 
-		// Token: 0x060000B2 RID: 178 RVA: 0x00009274 File Offset: 0x00007474
 		public static float OwnerClanEconomyEffectOnGarrisonSizeConstant(Clan clan)
 		{
 			if (clan == null || clan.Leader == null)
@@ -238,7 +223,6 @@ namespace Helpers
 			return 1f;
 		}
 
-		// Token: 0x060000B3 RID: 179 RVA: 0x0000935C File Offset: 0x0000755C
 		public static float FindIdealGarrisonStrengthPerWalledCenter(Kingdom kingdom, Clan clan = null)
 		{
 			if (kingdom == null && clan == null)
@@ -276,7 +260,6 @@ namespace Helpers
 			return 5f + (num10 + num11) / 2f;
 		}
 
-		// Token: 0x060000B4 RID: 180 RVA: 0x00009494 File Offset: 0x00007694
 		public static void FinishAllRelatedHostileActionsOfNobleToFaction(Hero noble, IFaction faction)
 		{
 			if (noble.PartyBelongedTo != null && noble.PartyBelongedTo.MapEvent != null && ((noble.PartyBelongedTo.MapEvent.AttackerSide.LeaderParty == noble.PartyBelongedTo.Party && ((faction.IsKingdomFaction && noble.PartyBelongedTo.MapEvent.DefenderSide.LeaderParty.MapFaction == faction) || (!faction.IsKingdomFaction && noble.PartyBelongedTo.MapEvent.DefenderSide.LeaderParty.Owner != null && noble.PartyBelongedTo.MapEvent.DefenderSide.LeaderParty.Owner.Clan == faction))) || (noble.PartyBelongedTo.MapEvent.DefenderSide.LeaderParty == noble.PartyBelongedTo.Party && ((faction.IsKingdomFaction && noble.PartyBelongedTo.MapEvent.AttackerSide.LeaderParty.MapFaction == faction) || (!faction.IsKingdomFaction && noble.PartyBelongedTo.MapEvent.AttackerSide.LeaderParty.Owner != null && noble.PartyBelongedTo.MapEvent.AttackerSide.LeaderParty.Owner.Clan == faction)))))
@@ -338,7 +321,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000B5 RID: 181 RVA: 0x000098DC File Offset: 0x00007ADC
 		public static void FinishAllRelatedHostileActionsOfFactionToFaction(IFaction faction1, IFaction faction2)
 		{
 			foreach (Hero hero in faction1.Lords)
@@ -347,7 +329,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000B6 RID: 182 RVA: 0x00009930 File Offset: 0x00007B30
 		public static void FinishAllRelatedHostileActions(Clan clan1, Clan clan2)
 		{
 			foreach (Hero hero in clan1.Lords)
@@ -360,7 +341,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000B7 RID: 183 RVA: 0x000099C4 File Offset: 0x00007BC4
 		public static void FinishAllRelatedHostileActions(Kingdom kingdom1, Kingdom kingdom2)
 		{
 			foreach (Clan clan in kingdom1.Clans)
@@ -373,7 +353,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000B8 RID: 184 RVA: 0x00009A58 File Offset: 0x00007C58
 		public static void AdjustFactionStancesForClanJoiningKingdom(Clan joiningClan, Kingdom kingdomToJoin)
 		{
 			foreach (StanceLink stanceLink in joiningClan.Stances)
@@ -398,7 +377,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000B9 RID: 185 RVA: 0x00009AF0 File Offset: 0x00007CF0
 		public static TextObject GetTermUsedByOtherFaction(IFaction faction, IFaction otherFaction, bool pejorative)
 		{
 			if (faction.IsMinorFaction)
@@ -430,25 +408,21 @@ namespace Helpers
 			return textObject3;
 		}
 
-		// Token: 0x060000BA RID: 186 RVA: 0x00009C28 File Offset: 0x00007E28
 		public static TextObject GetFormalNameForFactionCulture(CultureObject factionCulture)
 		{
 			return GameTexts.FindText("str_faction_formal_name_for_culture", factionCulture.StringId);
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x00009C3A File Offset: 0x00007E3A
 		public static TextObject GetInformalNameForFactionCulture(CultureObject factionCulture)
 		{
 			return GameTexts.FindText("str_faction_informal_name_for_culture", factionCulture.StringId);
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x00009C4C File Offset: 0x00007E4C
 		public static TextObject GetAdjectiveForFactionCulture(CultureObject factionCulture)
 		{
 			return GameTexts.FindText("str_adjective_for_culture", factionCulture.StringId);
 		}
 
-		// Token: 0x060000BD RID: 189 RVA: 0x00009C5E File Offset: 0x00007E5E
 		public static TextObject GetAdjectiveForFaction(IFaction faction)
 		{
 			if (faction is Kingdom)
@@ -458,7 +432,6 @@ namespace Helpers
 			return faction.Name;
 		}
 
-		// Token: 0x060000BE RID: 190 RVA: 0x00009C80 File Offset: 0x00007E80
 		public static TextObject GenerateClanNameforPlayer()
 		{
 			CultureObject culture = CharacterObject.PlayerCharacter.Culture;
@@ -474,7 +447,6 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x060000BF RID: 191 RVA: 0x00009CC8 File Offset: 0x00007EC8
 		public static float GetDistanceToClosestNonAllyFortificationOfFaction(IFaction faction)
 		{
 			float num = float.MaxValue;
@@ -493,7 +465,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x060000C0 RID: 192 RVA: 0x00009D4C File Offset: 0x00007F4C
 		public static Settlement FactionMidSettlement(IFaction faction)
 		{
 			Settlement settlement = null;
@@ -545,7 +516,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x060000C1 RID: 193 RVA: 0x00009E94 File Offset: 0x00008094
 		public static List<IFaction> GetPossibleKingdomsToDeclareWar(Kingdom kingdom)
 		{
 			List<IFaction> list = new List<IFaction>();
@@ -559,7 +529,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x060000C2 RID: 194 RVA: 0x00009EFC File Offset: 0x000080FC
 		public static List<IFaction> GetPossibleKingdomsToDeclarePeace(Kingdom kingdom)
 		{
 			List<IFaction> list = new List<IFaction>();
@@ -573,13 +542,11 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x060000C3 RID: 195 RVA: 0x00009F64 File Offset: 0x00008164
 		public static IEnumerable<Clan> GetAllyMinorFactions(CharacterObject otherCharacter)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x060000C4 RID: 196 RVA: 0x00009F6C File Offset: 0x0000816C
 		public static Clan ChooseHeirClanForFiefs(Clan oldClan)
 		{
 			Clan clan = null;
@@ -642,7 +609,6 @@ namespace Helpers
 			return clan;
 		}
 
-		// Token: 0x060000C5 RID: 197 RVA: 0x0000A0C4 File Offset: 0x000082C4
 		private static bool IsMainClanMemberAvailableForRelocate(Hero hero, out TextObject explanation)
 		{
 			if (hero.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge)
@@ -700,7 +666,6 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x0000A274 File Offset: 0x00008474
 		public static bool CanPlayerOfferMercenaryService(Kingdom offerKingdom, out List<IFaction> playerWars, out List<IFaction> warsOfFactionToJoin)
 		{
 			playerWars = new List<IFaction>();
@@ -723,7 +688,6 @@ namespace Helpers
 			return Clan.PlayerClan.Kingdom == null && !Clan.PlayerClan.IsAtWarWith(offerKingdom) && Clan.PlayerClan.Tier >= Campaign.Current.Models.ClanTierModel.MercenaryEligibleTier && offerKingdom.Leader.GetRelationWithPlayer() >= (float)Campaign.Current.Models.DiplomacyModel.MinimumRelationWithConversationCharacterToJoinKingdom && warsOfFactionToJoin.Intersect(playerWars).Count<IFaction>() == playerWars.Count && Clan.PlayerClan.Settlements.IsEmpty<Settlement>();
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x0000A3D4 File Offset: 0x000085D4
 		public static bool CanPlayerOfferVassalage(Kingdom offerKingdom, out List<IFaction> playerWars, out List<IFaction> warsOfFactionToJoin)
 		{
 			playerWars = new List<IFaction>();
@@ -746,7 +710,6 @@ namespace Helpers
 			return (Clan.PlayerClan.Kingdom == null || Clan.PlayerClan.IsUnderMercenaryService) && !Clan.PlayerClan.IsAtWarWith(offerKingdom) && Clan.PlayerClan.Tier >= Campaign.Current.Models.ClanTierModel.VassalEligibleTier && offerKingdom.Leader.GetRelationWithPlayer() >= (float)Campaign.Current.Models.DiplomacyModel.MinimumRelationWithConversationCharacterToJoinKingdom && warsOfFactionToJoin.Intersect(playerWars).Count<IFaction>() == playerWars.Count;
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x0000A534 File Offset: 0x00008734
 		public static bool IsMainClanMemberAvailableForRecall(Hero hero, MobileParty targetParty, out TextObject explanation)
 		{
 			if (!FactionHelper.IsMainClanMemberAvailableForRelocate(hero, out explanation))
@@ -782,7 +745,6 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x0000A658 File Offset: 0x00008858
 		public static bool IsMainClanMemberAvailableForPartyLeaderChange(Hero hero, bool isSend, MobileParty targetParty, out TextObject explanation)
 		{
 			if (!FactionHelper.IsMainClanMemberAvailableForRelocate(hero, out explanation))
@@ -829,7 +791,6 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x060000CA RID: 202 RVA: 0x0000A7C8 File Offset: 0x000089C8
 		public static bool IsMainClanMemberAvailableForSendingSettlement(Hero hero, Settlement targetSettlement, out TextObject explanation)
 		{
 			if (!FactionHelper.IsMainClanMemberAvailableForRelocate(hero, out explanation))
@@ -860,7 +821,6 @@ namespace Helpers
 			return true;
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x0000A8C8 File Offset: 0x00008AC8
 		public static bool IsMainClanMemberAvailableForSendingSettlementAsGovernor(Hero hero, Settlement settlementOfGovernor, out TextObject explanation)
 		{
 			if (!FactionHelper.IsMainClanMemberAvailableForRelocate(hero, out explanation))

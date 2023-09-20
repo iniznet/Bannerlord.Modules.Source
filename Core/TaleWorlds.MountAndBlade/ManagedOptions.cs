@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000389 RID: 905
 	public static class ManagedOptions
 	{
-		// Token: 0x060031B1 RID: 12721 RVA: 0x000CE404 File Offset: 0x000CC604
 		public static float GetConfig(ManagedOptions.ManagedOptionsType type)
 		{
 			switch (type)
@@ -112,7 +110,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031B2 RID: 12722 RVA: 0x000CE6EC File Offset: 0x000CC8EC
 		public static float GetDefaultConfig(ManagedOptions.ManagedOptionsType type)
 		{
 			switch (type)
@@ -215,21 +212,18 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031B3 RID: 12723 RVA: 0x000CE909 File Offset: 0x000CCB09
 		[MBCallback]
 		internal static int GetConfigCount()
 		{
 			return 46;
 		}
 
-		// Token: 0x060031B4 RID: 12724 RVA: 0x000CE90D File Offset: 0x000CCB0D
 		[MBCallback]
 		internal static float GetConfigValue(int type)
 		{
 			return ManagedOptions.GetConfig((ManagedOptions.ManagedOptionsType)type);
 		}
 
-		// Token: 0x060031B5 RID: 12725 RVA: 0x000CE918 File Offset: 0x000CCB18
 		public static void SetConfig(ManagedOptions.ManagedOptionsType type, float value)
 		{
 			switch (type)
@@ -403,116 +397,64 @@ namespace TaleWorlds.MountAndBlade
 			onManagedOptionChanged(type);
 		}
 
-		// Token: 0x060031B6 RID: 12726 RVA: 0x000CED9D File Offset: 0x000CCF9D
 		public static SaveResult SaveConfig()
 		{
 			return BannerlordConfig.Save();
 		}
 
-		// Token: 0x040014E1 RID: 5345
 		public static ManagedOptions.OnManagedOptionChangedDelegate OnManagedOptionChanged;
 
-		// Token: 0x02000694 RID: 1684
 		public enum ManagedOptionsType
 		{
-			// Token: 0x04002167 RID: 8551
 			Language,
-			// Token: 0x04002168 RID: 8552
 			ControlBlockDirection,
-			// Token: 0x04002169 RID: 8553
 			ControlAttackDirection,
-			// Token: 0x0400216A RID: 8554
 			NumberOfCorpses,
-			// Token: 0x0400216B RID: 8555
 			BattleSize,
-			// Token: 0x0400216C RID: 8556
 			ReinforcementWaveCount,
-			// Token: 0x0400216D RID: 8557
 			TurnCameraWithHorseInFirstPerson,
-			// Token: 0x0400216E RID: 8558
 			ShowBlood,
-			// Token: 0x0400216F RID: 8559
 			ShowAttackDirection,
-			// Token: 0x04002170 RID: 8560
 			ShowTargetingReticle,
-			// Token: 0x04002171 RID: 8561
 			AutoSaveInterval,
-			// Token: 0x04002172 RID: 8562
 			FriendlyTroopsBannerOpacity,
-			// Token: 0x04002173 RID: 8563
 			ReportDamage,
-			// Token: 0x04002174 RID: 8564
 			ReportBark,
-			// Token: 0x04002175 RID: 8565
 			LockTarget,
-			// Token: 0x04002176 RID: 8566
 			EnableTutorialHints,
-			// Token: 0x04002177 RID: 8567
 			ReportCasualtiesType,
-			// Token: 0x04002178 RID: 8568
 			ReportExperience,
-			// Token: 0x04002179 RID: 8569
 			ReportPersonalDamage,
-			// Token: 0x0400217A RID: 8570
 			FirstPersonFov,
-			// Token: 0x0400217B RID: 8571
 			CombatCameraDistance,
-			// Token: 0x0400217C RID: 8572
 			EnableDamageTakenVisuals,
-			// Token: 0x0400217D RID: 8573
 			EnableVoiceChat,
-			// Token: 0x0400217E RID: 8574
 			EnableDeathIcon,
-			// Token: 0x0400217F RID: 8575
 			EnableNetworkAlertIcons,
-			// Token: 0x04002180 RID: 8576
 			ForceVSyncInMenus,
-			// Token: 0x04002181 RID: 8577
 			EnableVerticalAimCorrection,
-			// Token: 0x04002182 RID: 8578
 			UIScale,
-			// Token: 0x04002183 RID: 8579
 			CrosshairType,
-			// Token: 0x04002184 RID: 8580
 			EnableGenericAvatars,
-			// Token: 0x04002185 RID: 8581
 			EnableGenericNames,
-			// Token: 0x04002186 RID: 8582
 			OrderType,
-			// Token: 0x04002187 RID: 8583
 			OrderLayoutType,
-			// Token: 0x04002188 RID: 8584
 			AutoTrackAttackedSettlements,
-			// Token: 0x04002189 RID: 8585
 			StopGameOnFocusLost,
-			// Token: 0x0400218A RID: 8586
 			SlowDownOnOrder,
-			// Token: 0x0400218B RID: 8587
 			HideFullServers,
-			// Token: 0x0400218C RID: 8588
 			HideEmptyServers,
-			// Token: 0x0400218D RID: 8589
 			HidePasswordProtectedServers,
-			// Token: 0x0400218E RID: 8590
 			HideUnofficialServers,
-			// Token: 0x0400218F RID: 8591
 			HideModuleIncompatibleServers,
-			// Token: 0x04002190 RID: 8592
 			HideBattleUI,
-			// Token: 0x04002191 RID: 8593
 			UnitSpawnPrioritization,
-			// Token: 0x04002192 RID: 8594
 			EnableSingleplayerChatBox,
-			// Token: 0x04002193 RID: 8595
 			EnableMultiplayerChatBox,
-			// Token: 0x04002194 RID: 8596
 			VoiceLanguage,
-			// Token: 0x04002195 RID: 8597
 			ManagedOptionTypeCount
 		}
 
-		// Token: 0x02000695 RID: 1685
-		// (Invoke) Token: 0x06003EDB RID: 16091
 		public delegate void OnManagedOptionChangedDelegate(ManagedOptions.ManagedOptionsType changedManagedOptionsType);
 	}
 }

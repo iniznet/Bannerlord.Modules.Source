@@ -10,16 +10,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 {
-	// Token: 0x02000125 RID: 293
 	public class InventoryScreenWidget : Widget
 	{
-		// Token: 0x06000F25 RID: 3877 RVA: 0x00029FD3 File Offset: 0x000281D3
 		public InventoryScreenWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000F26 RID: 3878 RVA: 0x00029FE4 File Offset: 0x000281E4
 		private T IsWidgetChildOfType<T>(Widget currentWidget) where T : Widget
 		{
 			while (currentWidget != null)
@@ -33,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return default(T);
 		}
 
-		// Token: 0x06000F27 RID: 3879 RVA: 0x0002A016 File Offset: 0x00028216
 		private bool IsWidgetChildOf(Widget parentWidget, Widget currentWidget)
 		{
 			while (currentWidget != null)
@@ -47,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return false;
 		}
 
-		// Token: 0x06000F28 RID: 3880 RVA: 0x0002A02C File Offset: 0x0002822C
 		private bool IsWidgetChildOfId(string parentId, Widget currentWidget)
 		{
 			while (currentWidget != null)
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return false;
 		}
 
-		// Token: 0x06000F29 RID: 3881 RVA: 0x0002A04C File Offset: 0x0002824C
 		private InventoryListPanel GetCurrentHoveredListPanel()
 		{
 			for (int i = 0; i < base.EventManager.MouseOveredViews.Count; i++)
@@ -75,7 +69,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return null;
 		}
 
-		// Token: 0x06000F2A RID: 3882 RVA: 0x0002A094 File Offset: 0x00028294
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -156,7 +149,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this.UpdateControllerTransferKeyVisuals();
 		}
 
-		// Token: 0x06000F2B RID: 3883 RVA: 0x0002A250 File Offset: 0x00028450
 		private void UpdateControllerTransferKeyVisuals()
 		{
 			InventoryListPanel currentHoveredListPanel = this.GetCurrentHoveredListPanel();
@@ -196,7 +188,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this.TransferInputKeyVisualWidget.IsVisible = false;
 		}
 
-		// Token: 0x06000F2C RID: 3884 RVA: 0x0002A410 File Offset: 0x00028610
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -221,7 +212,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this.UpdateTooltipPosition();
 		}
 
-		// Token: 0x06000F2D RID: 3885 RVA: 0x0002A4CC File Offset: 0x000286CC
 		private void UpdateTooltipPosition()
 		{
 			if (base.EventManager.DraggedWidget != null)
@@ -254,7 +244,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this._lastDisplayedTooltipItem = this._currentHoveredItemWidget;
 		}
 
-		// Token: 0x06000F2E RID: 3886 RVA: 0x0002A658 File Offset: 0x00028858
 		public void SetCurrentTuple(InventoryItemButtonWidget itemWidget, bool isLeftSide)
 		{
 			this._focusLostThisFrame = itemWidget == null;
@@ -352,7 +341,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this.UpdateScrollTarget(isLeftSide);
 		}
 
-		// Token: 0x06000F2F RID: 3887 RVA: 0x0002A938 File Offset: 0x00028B38
 		private void OnEquipmentControlsHidden()
 		{
 			this._currentSelectedItemWidget = null;
@@ -364,13 +352,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this._currentSelectedOtherItemWidget = null;
 		}
 
-		// Token: 0x06000F30 RID: 3888 RVA: 0x0002A989 File Offset: 0x00028B89
 		private void OnTransferItemRequested(InventoryItemTupleWidget owner)
 		{
 			this.UpdateScrollTarget(!owner.IsRightSide);
 		}
 
-		// Token: 0x06000F31 RID: 3889 RVA: 0x0002A99A File Offset: 0x00028B9A
 		private void TradeLabelOnPropertyChanged(PropertyOwnerObject owner, string propertyName, object value)
 		{
 			if (propertyName == "Text")
@@ -379,13 +365,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F32 RID: 3890 RVA: 0x0002A9C4 File Offset: 0x00028BC4
 		private void EquippedItemControlsOnPreviewClick(Widget itemwidget)
 		{
 			this.ItemPreviewWidget.SetLastFocusedItem(null);
 		}
 
-		// Token: 0x06000F33 RID: 3891 RVA: 0x0002A9D4 File Offset: 0x00028BD4
 		private void ItemWidgetHoverBegin(InventoryItemButtonWidget itemWidget)
 		{
 			if (this._currentHoveredItemWidget != itemWidget)
@@ -406,7 +390,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F34 RID: 3892 RVA: 0x0002AA49 File Offset: 0x00028C49
 		private void ItemWidgetHoverEnd(InventoryItemButtonWidget itemWidget)
 		{
 			if (this._currentHoveredItemWidget != null && itemWidget == null)
@@ -417,7 +400,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F35 RID: 3893 RVA: 0x0002AA7C File Offset: 0x00028C7C
 		public void ItemWidgetDragBegin(InventoryItemButtonWidget itemWidget)
 		{
 			InventoryEquippedItemControlsBrushWidget equippedItemControls = this.EquippedItemControls;
@@ -435,7 +417,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			this.TargetEquipmentIndex = itemWidget.EquipmentIndex;
 		}
 
-		// Token: 0x06000F36 RID: 3894 RVA: 0x0002AAC4 File Offset: 0x00028CC4
 		public void ItemWidgetDrop(InventoryItemButtonWidget itemWidget)
 		{
 			if (this._currentDraggedItemWidget == itemWidget)
@@ -445,7 +426,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F37 RID: 3895 RVA: 0x0002AAE0 File Offset: 0x00028CE0
 		private void OtherInventoryGoldTextOnPropertyChanged(PropertyOwnerObject owner, string propertyName, int value)
 		{
 			if (propertyName == "IntText")
@@ -456,7 +436,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F38 RID: 3896 RVA: 0x0002AB24 File Offset: 0x00028D24
 		private void UpdateScrollTarget(bool isLeftSide)
 		{
 			if (this._currentSelectedOtherItemWidget != null)
@@ -470,9 +449,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000554 RID: 1364
-		// (get) Token: 0x06000F39 RID: 3897 RVA: 0x0002AB93 File Offset: 0x00028D93
-		// (set) Token: 0x06000F3A RID: 3898 RVA: 0x0002AB9B File Offset: 0x00028D9B
 		[Editor(false)]
 		public InputKeyVisualWidget TransferInputKeyVisualWidget
 		{
@@ -490,9 +466,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000555 RID: 1365
-		// (get) Token: 0x06000F3B RID: 3899 RVA: 0x0002ABB9 File Offset: 0x00028DB9
-		// (set) Token: 0x06000F3C RID: 3900 RVA: 0x0002ABC4 File Offset: 0x00028DC4
 		public Widget PreviousCharacterInputVisualParent
 		{
 			get
@@ -512,9 +485,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000556 RID: 1366
-		// (get) Token: 0x06000F3D RID: 3901 RVA: 0x0002AC23 File Offset: 0x00028E23
-		// (set) Token: 0x06000F3E RID: 3902 RVA: 0x0002AC2C File Offset: 0x00028E2C
 		public Widget NextCharacterInputVisualParent
 		{
 			get
@@ -534,9 +504,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000557 RID: 1367
-		// (get) Token: 0x06000F3F RID: 3903 RVA: 0x0002AC8B File Offset: 0x00028E8B
-		// (set) Token: 0x06000F40 RID: 3904 RVA: 0x0002AC94 File Offset: 0x00028E94
 		[Editor(false)]
 		public RichTextWidget TradeLabel
 		{
@@ -562,9 +529,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000558 RID: 1368
-		// (get) Token: 0x06000F41 RID: 3905 RVA: 0x0002ACFB File Offset: 0x00028EFB
-		// (set) Token: 0x06000F42 RID: 3906 RVA: 0x0002AD04 File Offset: 0x00028F04
 		[Editor(false)]
 		public InventoryEquippedItemControlsBrushWidget EquippedItemControls
 		{
@@ -592,9 +556,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000559 RID: 1369
-		// (get) Token: 0x06000F43 RID: 3907 RVA: 0x0002AD99 File Offset: 0x00028F99
-		// (set) Token: 0x06000F44 RID: 3908 RVA: 0x0002ADA1 File Offset: 0x00028FA1
 		[Editor(false)]
 		public Widget InventoryTooltip
 		{
@@ -612,9 +573,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055A RID: 1370
-		// (get) Token: 0x06000F45 RID: 3909 RVA: 0x0002ADBF File Offset: 0x00028FBF
-		// (set) Token: 0x06000F46 RID: 3910 RVA: 0x0002ADC7 File Offset: 0x00028FC7
 		[Editor(false)]
 		public InventoryItemPreviewWidget ItemPreviewWidget
 		{
@@ -632,9 +590,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055B RID: 1371
-		// (get) Token: 0x06000F47 RID: 3911 RVA: 0x0002ADE5 File Offset: 0x00028FE5
-		// (set) Token: 0x06000F48 RID: 3912 RVA: 0x0002ADED File Offset: 0x00028FED
 		[Editor(false)]
 		public int TransactionCount
 		{
@@ -652,9 +607,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055C RID: 1372
-		// (get) Token: 0x06000F49 RID: 3913 RVA: 0x0002AE0B File Offset: 0x0002900B
-		// (set) Token: 0x06000F4A RID: 3914 RVA: 0x0002AE13 File Offset: 0x00029013
 		[Editor(false)]
 		public bool IsInWarSet
 		{
@@ -672,9 +624,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055D RID: 1373
-		// (get) Token: 0x06000F4B RID: 3915 RVA: 0x0002AE31 File Offset: 0x00029031
-		// (set) Token: 0x06000F4C RID: 3916 RVA: 0x0002AE39 File Offset: 0x00029039
 		[Editor(false)]
 		public int TargetEquipmentIndex
 		{
@@ -692,9 +641,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055E RID: 1374
-		// (get) Token: 0x06000F4D RID: 3917 RVA: 0x0002AE57 File Offset: 0x00029057
-		// (set) Token: 0x06000F4E RID: 3918 RVA: 0x0002AE60 File Offset: 0x00029060
 		[Editor(false)]
 		public TextWidget OtherInventoryGoldText
 		{
@@ -720,9 +666,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x1700055F RID: 1375
-		// (get) Token: 0x06000F4F RID: 3919 RVA: 0x0002AEC7 File Offset: 0x000290C7
-		// (set) Token: 0x06000F50 RID: 3920 RVA: 0x0002AECF File Offset: 0x000290CF
 		[Editor(false)]
 		public Widget OtherInventoryGoldImage
 		{
@@ -740,9 +683,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000560 RID: 1376
-		// (get) Token: 0x06000F51 RID: 3921 RVA: 0x0002AEED File Offset: 0x000290ED
-		// (set) Token: 0x06000F52 RID: 3922 RVA: 0x0002AEF5 File Offset: 0x000290F5
 		[Editor(false)]
 		public ScrollablePanel OtherInventoryListWidget
 		{
@@ -760,9 +700,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000561 RID: 1377
-		// (get) Token: 0x06000F53 RID: 3923 RVA: 0x0002AF13 File Offset: 0x00029113
-		// (set) Token: 0x06000F54 RID: 3924 RVA: 0x0002AF1B File Offset: 0x0002911B
 		[Editor(false)]
 		public ScrollablePanel PlayerInventoryListWidget
 		{
@@ -780,9 +717,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x17000562 RID: 1378
-		// (get) Token: 0x06000F55 RID: 3925 RVA: 0x0002AF39 File Offset: 0x00029139
-		// (set) Token: 0x06000F56 RID: 3926 RVA: 0x0002AF41 File Offset: 0x00029141
 		[Editor(false)]
 		public bool IsFocusedOnItemList
 		{
@@ -800,7 +734,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x06000F57 RID: 3927 RVA: 0x0002AF60 File Offset: 0x00029160
 		private void OnNewInventoryItemAdded(Widget parentWidget, Widget addedWidget)
 		{
 			InventoryItemTupleWidget inventoryItemTupleWidget;
@@ -810,85 +743,58 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
-		// Token: 0x040006E8 RID: 1768
 		private readonly int TooltipHideFrameLength = 2;
 
-		// Token: 0x040006E9 RID: 1769
 		private InventoryItemButtonWidget _currentSelectedItemWidget;
 
-		// Token: 0x040006EA RID: 1770
 		private InventoryItemButtonWidget _currentSelectedOtherItemWidget;
 
-		// Token: 0x040006EB RID: 1771
 		private InventoryItemButtonWidget _currentHoveredItemWidget;
 
-		// Token: 0x040006EC RID: 1772
 		private InventoryItemButtonWidget _currentDraggedItemWidget;
 
-		// Token: 0x040006ED RID: 1773
 		private InventoryItemButtonWidget _lastDisplayedTooltipItem;
 
-		// Token: 0x040006EE RID: 1774
 		private int _tooltipHiddenFrameCount;
 
-		// Token: 0x040006EF RID: 1775
 		private bool _eventsRegistered;
 
-		// Token: 0x040006F0 RID: 1776
 		private InputKeyVisualWidget _previousCharacterInputKeyVisual;
 
-		// Token: 0x040006F1 RID: 1777
 		private InputKeyVisualWidget _nextCharacterInputKeyVisual;
 
-		// Token: 0x040006F2 RID: 1778
 		private InventoryItemTupleWidget _newAddedItem;
 
-		// Token: 0x040006F3 RID: 1779
 		private Widget _previousCharacterInputVisualParent;
 
-		// Token: 0x040006F4 RID: 1780
 		private Widget _nextCharacterInputVisualParent;
 
-		// Token: 0x040006F5 RID: 1781
 		private InputKeyVisualWidget _transferInputKeyVisualWidget;
 
-		// Token: 0x040006F6 RID: 1782
 		private RichTextWidget _tradeLabel;
 
-		// Token: 0x040006F7 RID: 1783
 		private Widget _inventoryTooltip;
 
-		// Token: 0x040006F8 RID: 1784
 		private InventoryEquippedItemControlsBrushWidget _equippedItemControls;
 
-		// Token: 0x040006F9 RID: 1785
 		private InventoryItemPreviewWidget _itemPreviewWidget;
 
-		// Token: 0x040006FA RID: 1786
 		private int _transactionCount;
 
-		// Token: 0x040006FB RID: 1787
 		private bool _isInWarSet;
 
-		// Token: 0x040006FC RID: 1788
 		private int _targetEquipmentIndex;
 
-		// Token: 0x040006FD RID: 1789
 		private TextWidget _otherInventoryGoldText;
 
-		// Token: 0x040006FE RID: 1790
 		private Widget _otherInventoryGoldImage;
 
-		// Token: 0x040006FF RID: 1791
 		private ScrollablePanel _otherInventoryListWidget;
 
-		// Token: 0x04000700 RID: 1792
 		private ScrollablePanel _playerInventoryListWidget;
 
-		// Token: 0x04000701 RID: 1793
 		private bool _focusLostThisFrame;
 
-		// Token: 0x04000702 RID: 1794
 		private bool _isFocusedOnItemList;
 	}
 }

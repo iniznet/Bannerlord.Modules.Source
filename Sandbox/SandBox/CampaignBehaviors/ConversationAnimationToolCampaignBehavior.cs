@@ -12,21 +12,17 @@ using TaleWorlds.Library;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x0200009A RID: 154
 	public class ConversationAnimationToolCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600078D RID: 1933 RVA: 0x0003B825 File Offset: 0x00039A25
 		public override void RegisterEvents()
 		{
 			CampaignEvents.TickEvent.AddNonSerializedListener(this, new Action<float>(this.Tick));
 		}
 
-		// Token: 0x0600078E RID: 1934 RVA: 0x0003B83E File Offset: 0x00039A3E
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600078F RID: 1935 RVA: 0x0003B840 File Offset: 0x00039A40
 		private void Tick(float dt)
 		{
 			if (ConversationAnimationToolCampaignBehavior._isToolEnabled)
@@ -72,7 +68,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000790 RID: 1936 RVA: 0x0003B9E8 File Offset: 0x00039BE8
 		[CommandLineFunctionality.CommandLineArgumentFunction("enable_conversation_animation_test_tool", "campaign")]
 		public static string EnableConversationAnimationTool(List<string> strings)
 		{
@@ -101,7 +96,6 @@ namespace SandBox.CampaignBehaviors
 			return "'Conversation Animation Test Tool' is " + ((num == 1) ? "enabled." : "disabled.\nCampaign time must be passed to keep the tool open.");
 		}
 
-		// Token: 0x06000791 RID: 1937 RVA: 0x0003BA76 File Offset: 0x00039C76
 		private static void CloseConversationAnimationTool()
 		{
 			ConversationAnimationToolCampaignBehavior._isToolEnabled = false;
@@ -115,7 +109,6 @@ namespace SandBox.CampaignBehaviors
 			ConversationAnimationToolCampaignBehavior._personaType = -1;
 		}
 
-		// Token: 0x06000792 RID: 1938 RVA: 0x0003BAB0 File Offset: 0x00039CB0
 		private static void StartConversation()
 		{
 			bool flag = true;
@@ -279,21 +272,18 @@ namespace SandBox.CampaignBehaviors
 			ConversationAnimationToolCampaignBehavior.CloseConversationAnimationTool();
 		}
 
-		// Token: 0x06000793 RID: 1939 RVA: 0x0003BDC8 File Offset: 0x00039FC8
 		private static void StartImGUIWindow(string str)
 		{
 			Imgui.BeginMainThreadScope();
 			Imgui.Begin(str);
 		}
 
-		// Token: 0x06000794 RID: 1940 RVA: 0x0003BDD5 File Offset: 0x00039FD5
 		private static void ImGUITextArea(string text, bool separatorNeeded, bool onSameLine)
 		{
 			Imgui.Text(text);
 			ConversationAnimationToolCampaignBehavior.ImGUISeparatorSameLineHandler(separatorNeeded, onSameLine);
 		}
 
-		// Token: 0x06000795 RID: 1941 RVA: 0x0003BDE4 File Offset: 0x00039FE4
 		private static bool ImGUIButton(string buttonText, bool smallButton)
 		{
 			if (smallButton)
@@ -303,21 +293,18 @@ namespace SandBox.CampaignBehaviors
 			return Imgui.Button(buttonText);
 		}
 
-		// Token: 0x06000796 RID: 1942 RVA: 0x0003BDF6 File Offset: 0x00039FF6
 		private static void ImGUIIntegerField(string fieldText, ref int value, bool separatorNeeded, bool onSameLine)
 		{
 			Imgui.InputInt(fieldText, ref value);
 			ConversationAnimationToolCampaignBehavior.ImGUISeparatorSameLineHandler(separatorNeeded, onSameLine);
 		}
 
-		// Token: 0x06000797 RID: 1943 RVA: 0x0003BE07 File Offset: 0x0003A007
 		private static void ImGUICheckBox(string text, ref bool is_checked, bool separatorNeeded, bool onSameLine)
 		{
 			Imgui.Checkbox(text, ref is_checked);
 			ConversationAnimationToolCampaignBehavior.ImGUISeparatorSameLineHandler(separatorNeeded, onSameLine);
 		}
 
-		// Token: 0x06000798 RID: 1944 RVA: 0x0003BE18 File Offset: 0x0003A018
 		private static void ImGUISeparatorSameLineHandler(bool separatorNeeded, bool onSameLine)
 		{
 			if (separatorNeeded)
@@ -330,50 +317,38 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000799 RID: 1945 RVA: 0x0003BE2A File Offset: 0x0003A02A
 		private static void OnSameLine()
 		{
 			Imgui.SameLine(0f, 0f);
 		}
 
-		// Token: 0x0600079A RID: 1946 RVA: 0x0003BE3B File Offset: 0x0003A03B
 		private static void Separator()
 		{
 			Imgui.Separator();
 		}
 
-		// Token: 0x0600079B RID: 1947 RVA: 0x0003BE42 File Offset: 0x0003A042
 		private static void EndImGUIWindow()
 		{
 			Imgui.End();
 			Imgui.EndMainThreadScope();
 		}
 
-		// Token: 0x04000315 RID: 789
 		private static bool _isToolEnabled = false;
 
-		// Token: 0x04000316 RID: 790
 		private static int _characterType = -1;
 
-		// Token: 0x04000317 RID: 791
 		private static int _characterState = -1;
 
-		// Token: 0x04000318 RID: 792
 		private static int _characterGender = -1;
 
-		// Token: 0x04000319 RID: 793
 		private static int _characterAge = -1;
 
-		// Token: 0x0400031A RID: 794
 		private static int _characterWoundedState = -1;
 
-		// Token: 0x0400031B RID: 795
 		private static int _equipmentType = -1;
 
-		// Token: 0x0400031C RID: 796
 		private static int _relationType = -1;
 
-		// Token: 0x0400031D RID: 797
 		private static int _personaType = -1;
 	}
 }

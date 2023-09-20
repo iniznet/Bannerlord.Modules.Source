@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000248 RID: 584
 	public abstract class MissionObject : ScriptComponentBehavior
 	{
-		// Token: 0x1700063C RID: 1596
-		// (get) Token: 0x06001FC7 RID: 8135 RVA: 0x00070A0A File Offset: 0x0006EC0A
 		private Mission Mission
 		{
 			get
@@ -20,24 +17,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700063D RID: 1597
-		// (get) Token: 0x06001FC8 RID: 8136 RVA: 0x00070A11 File Offset: 0x0006EC11
-		// (set) Token: 0x06001FC9 RID: 8137 RVA: 0x00070A19 File Offset: 0x0006EC19
 		public MissionObjectId Id { get; set; }
 
-		// Token: 0x1700063E RID: 1598
-		// (get) Token: 0x06001FCA RID: 8138 RVA: 0x00070A22 File Offset: 0x0006EC22
-		// (set) Token: 0x06001FCB RID: 8139 RVA: 0x00070A2A File Offset: 0x0006EC2A
 		public bool IsDisabled { get; private set; }
 
-		// Token: 0x06001FCC RID: 8140 RVA: 0x00070A34 File Offset: 0x0006EC34
 		public MissionObject()
 		{
 			MissionObjectId missionObjectId = new MissionObjectId(-1, false);
 			this.Id = missionObjectId;
 		}
 
-		// Token: 0x06001FCD RID: 8141 RVA: 0x00070A64 File Offset: 0x0006EC64
 		public virtual void SetAbilityOfFaces(bool enabled)
 		{
 			if (this.DynamicNavmeshIdStart > 0)
@@ -52,7 +41,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FCE RID: 8142 RVA: 0x00070B2C File Offset: 0x0006ED2C
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -63,7 +51,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FCF RID: 8143 RVA: 0x00070B64 File Offset: 0x0006ED64
 		protected virtual void AttachDynamicNavmeshToEntity()
 		{
 			if (this.NavMeshPrefabName.Length > 0)
@@ -78,13 +65,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FD0 RID: 8144 RVA: 0x00070C28 File Offset: 0x0006EE28
 		protected virtual GameEntity GetEntityToAttachNavMeshFaces()
 		{
 			return base.GameEntity;
 		}
 
-		// Token: 0x06001FD1 RID: 8145 RVA: 0x00070C30 File Offset: 0x0006EE30
 		protected internal override bool OnCheckForProblems()
 		{
 			base.OnCheckForProblems();
@@ -107,7 +92,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06001FD2 RID: 8146 RVA: 0x00070D38 File Offset: 0x0006EF38
 		protected internal override void OnPreInit()
 		{
 			base.OnPreInit();
@@ -134,30 +118,25 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.SetAsReplayEntity();
 		}
 
-		// Token: 0x06001FD3 RID: 8147 RVA: 0x00070DAC File Offset: 0x0006EFAC
 		public override int GetHashCode()
 		{
 			return this.Id.GetHashCode();
 		}
 
-		// Token: 0x06001FD4 RID: 8148 RVA: 0x00070DCD File Offset: 0x0006EFCD
 		protected internal virtual void OnMissionReset()
 		{
 		}
 
-		// Token: 0x06001FD5 RID: 8149 RVA: 0x00070DCF File Offset: 0x0006EFCF
 		public virtual void AfterMissionStart()
 		{
 		}
 
-		// Token: 0x06001FD6 RID: 8150 RVA: 0x00070DD1 File Offset: 0x0006EFD1
 		protected internal virtual bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
 		{
 			reportDamage = false;
 			return false;
 		}
 
-		// Token: 0x06001FD7 RID: 8151 RVA: 0x00070DD8 File Offset: 0x0006EFD8
 		public void SetDisabled(bool isParentObject = false)
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -179,7 +158,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsDisabled = true;
 		}
 
-		// Token: 0x06001FD8 RID: 8152 RVA: 0x00070ED4 File Offset: 0x0006F0D4
 		public void SetDisabledAndMakeInvisible(bool isParentObject = false)
 		{
 			if (isParentObject && base.GameEntity != null)
@@ -202,7 +180,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FD9 RID: 8153 RVA: 0x00070FE8 File Offset: 0x0006F1E8
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -216,13 +193,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FDA RID: 8154 RVA: 0x00071015 File Offset: 0x0006F215
 		public virtual void OnEndMission()
 		{
 		}
 
-		// Token: 0x1700063F RID: 1599
-		// (get) Token: 0x06001FDB RID: 8155 RVA: 0x00071017 File Offset: 0x0006F217
 		public bool CreatedAtRuntime
 		{
 			get
@@ -231,44 +205,33 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001FDC RID: 8156 RVA: 0x00071024 File Offset: 0x0006F224
 		protected internal override bool MovesEntity()
 		{
 			return true;
 		}
 
-		// Token: 0x06001FDD RID: 8157 RVA: 0x00071027 File Offset: 0x0006F227
 		public virtual void AddStuckMissile(GameEntity missileEntity)
 		{
 			base.GameEntity.AddChild(missileEntity, false);
 		}
 
-		// Token: 0x04000BC6 RID: 3014
 		protected const int InsideNavMeshIdLocal = 1;
 
-		// Token: 0x04000BC7 RID: 3015
 		protected const int EnterNavMeshIdLocal = 2;
 
-		// Token: 0x04000BC8 RID: 3016
 		protected const int ExitNavMeshIdLocal = 3;
 
-		// Token: 0x04000BC9 RID: 3017
 		protected const int BlockerNavMeshIdLocal = 4;
 
-		// Token: 0x04000BCA RID: 3018
 		protected const int ExtraNavMesh1IdLocal = 5;
 
-		// Token: 0x04000BCB RID: 3019
 		protected const int ExtraNavMesh2IdLocal = 6;
 
-		// Token: 0x04000BCC RID: 3020
 		protected const int ExtraNavMesh3IdLocal = 7;
 
-		// Token: 0x04000BCF RID: 3023
 		[EditableScriptComponentVariable(true)]
 		protected string NavMeshPrefabName = "";
 
-		// Token: 0x04000BD0 RID: 3024
 		protected int DynamicNavmeshIdStart;
 	}
 }

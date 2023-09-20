@@ -7,11 +7,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200010E RID: 270
 	public class DefaultHeirSelectionCalculationModel : HeirSelectionCalculationModel
 	{
-		// Token: 0x170005FA RID: 1530
-		// (get) Token: 0x060015B2 RID: 5554 RVA: 0x000668B4 File Offset: 0x00064AB4
 		public override int HighestSkillPoint
 		{
 			get
@@ -20,13 +17,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015B3 RID: 5555 RVA: 0x000668B7 File Offset: 0x00064AB7
 		public override int CalculateHeirSelectionPoint(Hero candidateHeir, Hero deadHero, ref Hero maxSkillHero)
 		{
 			return DefaultHeirSelectionCalculationModel.CalculateHeirSelectionPointInternal(candidateHeir, deadHero, ref maxSkillHero);
 		}
 
-		// Token: 0x060015B4 RID: 5556 RVA: 0x000668C4 File Offset: 0x00064AC4
 		private static int CalculateHeirSelectionPointInternal(Hero candidateHeir, Hero deadHero, ref Hero maxSkillHero)
 		{
 			int num = 0;
@@ -88,7 +83,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015B5 RID: 5557 RVA: 0x00066B0C File Offset: 0x00064D0C
 		private static bool DoesHaveSameBloodLine(IEnumerable<Hero> children, Hero candidateHeir)
 		{
 			if (!children.Any<Hero>())
@@ -109,19 +103,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return false;
 		}
 
-		// Token: 0x04000795 RID: 1941
 		private const int MaleHeirPoint = 10;
 
-		// Token: 0x04000796 RID: 1942
 		private const int EldestPoint = 5;
 
-		// Token: 0x04000797 RID: 1943
 		private const int YoungestPoint = -5;
 
-		// Token: 0x04000798 RID: 1944
 		private const int DirectDescendentPoint = 10;
 
-		// Token: 0x04000799 RID: 1945
 		private const int CollateralHeirPoint = 10;
 	}
 }

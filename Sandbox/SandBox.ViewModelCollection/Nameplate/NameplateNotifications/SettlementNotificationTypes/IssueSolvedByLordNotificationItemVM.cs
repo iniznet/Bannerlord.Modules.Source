@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.SettlementNotificationTypes
 {
-	// Token: 0x0200001E RID: 30
 	public class IssueSolvedByLordNotificationItemVM : SettlementNotificationItemBaseVM
 	{
-		// Token: 0x060002B5 RID: 693 RVA: 0x0000D5E8 File Offset: 0x0000B7E8
 		public IssueSolvedByLordNotificationItemVM(Action<SettlementNotificationItemBaseVM> onRemove, Hero hero, int createdTick)
 			: base(onRemove, createdTick)
 		{

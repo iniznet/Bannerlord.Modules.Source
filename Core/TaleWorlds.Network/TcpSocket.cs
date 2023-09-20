@@ -7,22 +7,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Network
 {
-	// Token: 0x02000025 RID: 37
 	internal class TcpSocket
 	{
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x06000112 RID: 274 RVA: 0x00004546 File Offset: 0x00002746
-		// (set) Token: 0x06000113 RID: 275 RVA: 0x0000454E File Offset: 0x0000274E
 		internal int LastMessageSentTime { get; set; }
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x06000114 RID: 276 RVA: 0x00004557 File Offset: 0x00002757
-		// (set) Token: 0x06000115 RID: 277 RVA: 0x0000455F File Offset: 0x0000275F
 		internal int LastMessageArrivalTime { get; set; }
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x06000116 RID: 278 RVA: 0x00004568 File Offset: 0x00002768
-		// (set) Token: 0x06000117 RID: 279 RVA: 0x00004570 File Offset: 0x00002770
 		internal TcpStatus Status
 		{
 			get
@@ -39,8 +29,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x06000118 RID: 280 RVA: 0x0000459C File Offset: 0x0000279C
 		internal string RemoteEndComputerName
 		{
 			get
@@ -60,8 +48,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x06000119 RID: 281 RVA: 0x00004608 File Offset: 0x00002808
 		internal string IPAddress
 		{
 			get
@@ -70,7 +56,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x00004624 File Offset: 0x00002824
 		internal TcpSocket()
 		{
 			this._uniqueSocketId = TcpSocket._socketCount;
@@ -90,7 +75,6 @@ namespace TaleWorlds.Network
 			this._disconnectMessageBuffer = new MessageBuffer(array2, array2.Length);
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x00004738 File Offset: 0x00002938
 		internal TcpSocket GetLastIncomingConnection()
 		{
 			TcpSocket tcpSocket;
@@ -102,7 +86,6 @@ namespace TaleWorlds.Network
 			return tcpSocket;
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x0000476C File Offset: 0x0000296C
 		internal void Connect(string address, int port)
 		{
 			try
@@ -134,7 +117,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x00004840 File Offset: 0x00002A40
 		internal void CheckAcceptClient()
 		{
 			if (!this._currentlyAcceptingClients)
@@ -147,7 +129,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x00004878 File Offset: 0x00002A78
 		internal void Listen(int port)
 		{
 			this._incomingConnections = new ConcurrentQueue<TcpSocket>();
@@ -157,8 +138,6 @@ namespace TaleWorlds.Network
 			this.CheckAcceptClient();
 		}
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x0600011F RID: 287 RVA: 0x000048CC File Offset: 0x00002ACC
 		internal bool IsConnected
 		{
 			get
@@ -171,7 +150,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x00004930 File Offset: 0x00002B30
 		internal void ProcessRead()
 		{
 			if (this.IsConnected && !this._processingReceive && (this.Status == TcpStatus.WaitingData || this.Status == TcpStatus.WaitingDataLength))
@@ -202,7 +180,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x00004A44 File Offset: 0x00002C44
 		internal void ProcessWrite()
 		{
 			if (this.IsConnected && this._currentlySendingMessage == null && this._writeNetworkMessageQueue.TryDequeue(out this._currentlySendingMessage))
@@ -224,7 +201,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x00004B04 File Offset: 0x00002D04
 		private void ProcessIO(object sender, SocketAsyncEventArgs e)
 		{
 			try
@@ -326,7 +302,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x00004DC8 File Offset: 0x00002FC8
 		private void AddIncomingConnection(SocketAsyncEventArgs e)
 		{
 			TcpSocket tcpSocket = new TcpSocket();
@@ -337,31 +312,26 @@ namespace TaleWorlds.Network
 			this._currentlyAcceptingClients = false;
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x00004E08 File Offset: 0x00003008
 		private void EnqueueMessage(MessageBuffer messageBuffer)
 		{
 			this._writeNetworkMessageQueue.Enqueue(messageBuffer);
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x00004E16 File Offset: 0x00003016
 		internal void SendDisconnectMessage()
 		{
 			this.EnqueueMessage(this._disconnectMessageBuffer);
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x00004E24 File Offset: 0x00003024
 		internal void SendPeerAliveMessage()
 		{
 			this.EnqueueMessage(this._peerAliveMessageBuffer);
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x00004E32 File Offset: 0x00003032
 		internal void SendMessage(MessageBuffer messageBuffer)
 		{
 			this.EnqueueMessage(messageBuffer);
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x00004E3C File Offset: 0x0000303C
 		internal void Close()
 		{
 			if (this.Status == TcpStatus.SocketClosed)
@@ -408,74 +378,48 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x14000007 RID: 7
-		// (add) Token: 0x06000129 RID: 297 RVA: 0x00004F74 File Offset: 0x00003174
-		// (remove) Token: 0x0600012A RID: 298 RVA: 0x00004FAC File Offset: 0x000031AC
 		internal event TcpMessageReceiverDelegate MessageReceived;
 
-		// Token: 0x14000008 RID: 8
-		// (add) Token: 0x0600012B RID: 299 RVA: 0x00004FE4 File Offset: 0x000031E4
-		// (remove) Token: 0x0600012C RID: 300 RVA: 0x0000501C File Offset: 0x0000321C
 		internal event TcpCloseDelegate Closed;
 
-		// Token: 0x04000054 RID: 84
 		public const int MaxMessageSize = 16777216;
 
-		// Token: 0x04000055 RID: 85
 		internal const int PeerAliveCode = -1234;
 
-		// Token: 0x04000056 RID: 86
 		internal const int DisconnectCode = -9999;
 
-		// Token: 0x04000057 RID: 87
 		private int _uniqueSocketId;
 
-		// Token: 0x04000058 RID: 88
 		private static int _socketCount;
 
-		// Token: 0x04000059 RID: 89
 		private Socket _dotNetSocket;
 
-		// Token: 0x0400005C RID: 92
 		private SocketAsyncEventArgs _socketAsyncEventArgsWrite;
 
-		// Token: 0x0400005D RID: 93
 		private SocketAsyncEventArgs _socketAsyncEventArgsListener;
 
-		// Token: 0x0400005E RID: 94
 		private SocketAsyncEventArgs _socketAsyncEventArgsRead;
 
-		// Token: 0x0400005F RID: 95
 		internal MessageBuffer LastReadMessage;
 
-		// Token: 0x04000060 RID: 96
 		private ConcurrentQueue<MessageBuffer> _writeNetworkMessageQueue;
 
-		// Token: 0x04000061 RID: 97
 		private MessageBuffer _currentlySendingMessage;
 
-		// Token: 0x04000062 RID: 98
 		private bool _currentlyAcceptingClients;
 
-		// Token: 0x04000063 RID: 99
 		private ConcurrentQueue<TcpSocket> _incomingConnections;
 
-		// Token: 0x04000064 RID: 100
 		private int _lastMessageTotalRead;
 
-		// Token: 0x04000065 RID: 101
 		private TcpStatus _status;
 
-		// Token: 0x04000066 RID: 102
 		private bool _processingReceive;
 
-		// Token: 0x04000067 RID: 103
 		private string _remoteEndComputerName;
 
-		// Token: 0x04000068 RID: 104
 		private readonly MessageBuffer _peerAliveMessageBuffer;
 
-		// Token: 0x04000069 RID: 105
 		private readonly MessageBuffer _disconnectMessageBuffer;
 	}
 }

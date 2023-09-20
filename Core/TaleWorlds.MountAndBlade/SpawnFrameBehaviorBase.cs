@@ -6,19 +6,15 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002C7 RID: 711
 	public abstract class SpawnFrameBehaviorBase
 	{
-		// Token: 0x06002705 RID: 9989 RVA: 0x00093B9D File Offset: 0x00091D9D
 		public virtual void Initialize()
 		{
 			this.SpawnPoints = Mission.Current.Scene.FindEntitiesWithTag("spawnpoint");
 		}
 
-		// Token: 0x06002706 RID: 9990
 		public abstract MatrixFrame GetSpawnFrame(Team team, bool hasMount, bool isInitialSpawn);
 
-		// Token: 0x06002707 RID: 9991 RVA: 0x00093BBC File Offset: 0x00091DBC
 		protected MatrixFrame GetSpawnFrameFromSpawnPoints(IList<GameEntity> spawnPointsList, Team team, bool hasMount)
 		{
 			float num = float.MinValue;
@@ -84,22 +80,16 @@ namespace TaleWorlds.MountAndBlade
 			return globalFrame;
 		}
 
-		// Token: 0x04000E7B RID: 3707
 		private const string ExcludeMountedTag = "exclude_mounted";
 
-		// Token: 0x04000E7C RID: 3708
 		private const string ExcludeFootmenTag = "exclude_footmen";
 
-		// Token: 0x04000E7D RID: 3709
 		protected const string SpawnPointTag = "spawnpoint";
 
-		// Token: 0x04000E7E RID: 3710
 		public IEnumerable<GameEntity> SpawnPoints;
 
-		// Token: 0x020005E4 RID: 1508
 		private struct WeightCache
 		{
-			// Token: 0x170009B6 RID: 2486
 			private float this[int index]
 			{
 				get
@@ -135,7 +125,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003CBB RID: 15547 RVA: 0x000F17FF File Offset: 0x000EF9FF
 			private WeightCache(float value1, float value2, float value3)
 			{
 				this._value1 = value1;
@@ -143,13 +132,11 @@ namespace TaleWorlds.MountAndBlade
 				this._value3 = value3;
 			}
 
-			// Token: 0x06003CBC RID: 15548 RVA: 0x000F1816 File Offset: 0x000EFA16
 			public static SpawnFrameBehaviorBase.WeightCache CreateDecreasingCache()
 			{
 				return new SpawnFrameBehaviorBase.WeightCache(float.NaN, float.NaN, float.NaN);
 			}
 
-			// Token: 0x06003CBD RID: 15549 RVA: 0x000F182C File Offset: 0x000EFA2C
 			public bool CheckAndInsertNewValueIfLower(float value, out float valueDifference)
 			{
 				int num = 0;
@@ -170,16 +157,12 @@ namespace TaleWorlds.MountAndBlade
 				return false;
 			}
 
-			// Token: 0x04001EED RID: 7917
 			private const int Length = 3;
 
-			// Token: 0x04001EEE RID: 7918
 			private float _value1;
 
-			// Token: 0x04001EEF RID: 7919
 			private float _value2;
 
-			// Token: 0x04001EF0 RID: 7920
 			private float _value3;
 		}
 	}

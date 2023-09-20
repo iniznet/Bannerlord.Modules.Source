@@ -22,11 +22,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.TutorialPhase
 {
-	// Token: 0x02000022 RID: 34
 	public class TravelToVillageTutorialQuest : StoryModeQuestBase
 	{
-		// Token: 0x17000055 RID: 85
-		// (get) Token: 0x0600017C RID: 380 RVA: 0x00008A1B File Offset: 0x00006C1B
 		private TextObject _startQuestLog
 		{
 			get
@@ -37,8 +34,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x17000056 RID: 86
-		// (get) Token: 0x0600017D RID: 381 RVA: 0x00008A3F File Offset: 0x00006C3F
 		private TextObject _endQuestLog
 		{
 			get
@@ -47,8 +42,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x0600017E RID: 382 RVA: 0x00008A4C File Offset: 0x00006C4C
 		public override TextObject Title
 		{
 			get
@@ -59,7 +52,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x00008A70 File Offset: 0x00006C70
 		public TravelToVillageTutorialQuest()
 			: base("travel_to_village_tutorial_quest", null, CampaignTime.Never)
 		{
@@ -79,13 +71,11 @@ namespace StoryMode.Quests.TutorialPhase
 			this.CreateRefugeeParties();
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x00008B68 File Offset: 0x00006D68
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this.SetDialogs();
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x00008B70 File Offset: 0x00006D70
 		protected override void SetDialogs()
 		{
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=MDtTC5j5}Don't hurt us![ib:weary][if:convo_confused_annoyed]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.news_about_raiders_condition))
@@ -100,25 +90,21 @@ namespace StoryMode.Quests.TutorialPhase
 				.CloseDialog(), this);
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x00008C74 File Offset: 0x00006E74
 		private bool news_about_raiders_condition()
 		{
 			return Settlement.CurrentSettlement == null && MobileParty.ConversationParty != null && this._refugeeParties.Contains(MobileParty.ConversationParty);
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x00008C96 File Offset: 0x00006E96
 		private void news_about_raiders_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x00008C9E File Offset: 0x00006E9E
 		private void talk_with_brother_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += base.CompleteQuestWithSuccess;
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x00008CBC File Offset: 0x00006EBC
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
@@ -127,7 +113,6 @@ namespace StoryMode.Quests.TutorialPhase
 			StoryModeEvents.OnTravelToVillageTutorialQuestStartedEvent.AddNonSerializedListener(this, new Action(this.OnTravelToVillageTutorialQuestStarted));
 		}
 
-		// Token: 0x06000186 RID: 390 RVA: 0x00008D28 File Offset: 0x00006F28
 		private void OnGameMenuOpened(MenuCallbackArgs args)
 		{
 			if (!TutorialPhase.Instance.IsCompleted && Settlement.CurrentSettlement == null && PlayerEncounter.EncounteredParty != null && args.MenuContext.GameMenu.StringId != "encounter_meeting" && args.MenuContext.GameMenu.StringId != "encounter")
@@ -142,7 +127,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x06000187 RID: 391 RVA: 0x00008E04 File Offset: 0x00007004
 		private void OnBeforeMissionOpened()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement == Settlement.Find("village_ES3_2"))
@@ -159,7 +143,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x06000188 RID: 392 RVA: 0x00008E68 File Offset: 0x00007068
 		private void DailyTick()
 		{
 			for (int i = 0; i < this._refugeeParties.Length; i++)
@@ -171,7 +154,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x00008EBC File Offset: 0x000070BC
 		private void OnTravelToVillageTutorialQuestStarted()
 		{
 			MapState mapState;
@@ -181,7 +163,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x00008EF8 File Offset: 0x000070F8
 		private void CreateRefugeeParties()
 		{
 			int i;
@@ -196,7 +177,6 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		// Token: 0x0600018B RID: 395 RVA: 0x00008F5C File Offset: 0x0000715C
 		private void OnRefugeePartyCreated(MobileParty refugeeParty, int index)
 		{
 			CharacterObject @object = MBObjectManager.Instance.GetObject<CharacterObject>("storymode_quest_refugee_female");
@@ -220,7 +200,6 @@ namespace StoryMode.Quests.TutorialPhase
 			this._refugeeParties[index] = refugeeParty;
 		}
 
-		// Token: 0x0600018C RID: 396 RVA: 0x00009084 File Offset: 0x00007284
 		protected override void OnCompleteWithSuccess()
 		{
 			foreach (MobileParty mobileParty in this._refugeeParties.ToList<MobileParty>())
@@ -231,13 +210,11 @@ namespace StoryMode.Quests.TutorialPhase
 			TutorialPhase.Instance.RemoveTutorialFocusSettlement();
 		}
 
-		// Token: 0x0600018D RID: 397 RVA: 0x000090F4 File Offset: 0x000072F4
 		internal static void AutoGeneratedStaticCollectObjectsTravelToVillageTutorialQuest(object o, List<object> collectedObjects)
 		{
 			((TravelToVillageTutorialQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x00009102 File Offset: 0x00007302
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -245,26 +222,21 @@ namespace StoryMode.Quests.TutorialPhase
 			collectedObjects.Add(this._refugeeParties);
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x00009123 File Offset: 0x00007323
 		internal static object AutoGeneratedGetMemberValue_questVillage(object o)
 		{
 			return ((TravelToVillageTutorialQuest)o)._questVillage;
 		}
 
-		// Token: 0x06000190 RID: 400 RVA: 0x00009130 File Offset: 0x00007330
 		internal static object AutoGeneratedGetMemberValue_refugeeParties(object o)
 		{
 			return ((TravelToVillageTutorialQuest)o)._refugeeParties;
 		}
 
-		// Token: 0x0400008C RID: 140
 		private const int RefugePartyCount = 4;
 
-		// Token: 0x0400008D RID: 141
 		[SaveableField(1)]
 		private Settlement _questVillage;
 
-		// Token: 0x0400008E RID: 142
 		[SaveableField(2)]
 		private readonly MobileParty[] _refugeeParties;
 	}

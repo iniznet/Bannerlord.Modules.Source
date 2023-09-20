@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000137 RID: 311
 	public class DefaultSettlementGarrisonModel : SettlementGarrisonModel
 	{
-		// Token: 0x06001712 RID: 5906 RVA: 0x00071BF4 File Offset: 0x0006FDF4
 		public override ExplainedNumber CalculateGarrisonChange(Settlement settlement, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -21,7 +19,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001713 RID: 5907 RVA: 0x00071C18 File Offset: 0x0006FE18
 		private static void CalculateGarrisonChangeInternal(Settlement settlement, ref ExplainedNumber result)
 		{
 			if (settlement.IsTown || settlement.IsCastle)
@@ -48,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			DefaultSettlementGarrisonModel.GetSettlementGarrisonChangeDueToIssues(settlement, ref result);
 		}
 
-		// Token: 0x06001714 RID: 5908 RVA: 0x00071DC8 File Offset: 0x0006FFC8
 		public override ExplainedNumber CalculateGarrisonChangeAutoRecruitment(Settlement settlement, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -56,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001715 RID: 5909 RVA: 0x00071DEC File Offset: 0x0006FFEC
 		private static void GetSettlementGarrisonDueToAutoRecruitment(Settlement settlement, ref ExplainedNumber result)
 		{
 			if (settlement.SiegeEvent == null && settlement.OwnerClan != null && settlement.IsFortification && settlement.Town.FoodChange > 0f && settlement.OwnerClan.Leader.PartyBelongedTo != null && settlement.Town.GarrisonParty != null && settlement.Town.GarrisonParty.CanPayMoreWage() && settlement.Town.GarrisonParty.Party.MemberRoster.TotalManCount < settlement.Town.GarrisonParty.LimitedPartySize && SettlementHelper.IsThereAnyVolunteerCanBeRecruitedForGarrison(settlement))
@@ -65,13 +60,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001716 RID: 5910 RVA: 0x00071EA2 File Offset: 0x000700A2
 		private static void GetSettlementGarrisonChangeDueToIssues(Settlement settlement, ref ExplainedNumber result)
 		{
 			Campaign.Current.Models.IssueModel.GetIssueEffectsOfSettlement(DefaultIssueEffects.SettlementGarrison, settlement, ref result);
 		}
 
-		// Token: 0x06001717 RID: 5911 RVA: 0x00071EC0 File Offset: 0x000700C0
 		public override int FindNumberOfTroopsToTakeFromGarrison(MobileParty mobileParty, Settlement settlement, float defaultIdealGarrisonStrengthPerWalledCenter = 0f)
 		{
 			MobileParty garrisonParty = settlement.Town.GarrisonParty;
@@ -113,7 +106,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x06001718 RID: 5912 RVA: 0x00072038 File Offset: 0x00070238
 		public override int FindNumberOfTroopsToLeaveToGarrison(MobileParty mobileParty, Settlement settlement)
 		{
 			MobileParty garrisonParty = settlement.Town.GarrisonParty;
@@ -164,43 +156,30 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x04000827 RID: 2087
 		private static readonly TextObject TownWallsText = new TextObject("{=SlmhqqH8}Town Walls", null);
 
-		// Token: 0x04000828 RID: 2088
 		private static readonly TextObject MoraleText = new TextObject("{=UjL7jVYF}Morale", null);
 
-		// Token: 0x04000829 RID: 2089
 		private static readonly TextObject FoodShortageText = new TextObject("{=qTFKvGSg}Food Shortage", null);
 
-		// Token: 0x0400082A RID: 2090
 		private static readonly TextObject SurplusFoodText = GameTexts.FindText("str_surplus_food", null);
 
-		// Token: 0x0400082B RID: 2091
 		private static readonly TextObject RecruitFromCenterNotablesText = GameTexts.FindText("str_center_notables", null);
 
-		// Token: 0x0400082C RID: 2092
 		private static readonly TextObject RecruitFromVillageNotablesText = GameTexts.FindText("str_village_notables", null);
 
-		// Token: 0x0400082D RID: 2093
 		private static readonly TextObject VillageBeingRaided = GameTexts.FindText("str_village_being_raided", null);
 
-		// Token: 0x0400082E RID: 2094
 		private static readonly TextObject VillageLooted = GameTexts.FindText("str_village_looted", null);
 
-		// Token: 0x0400082F RID: 2095
 		private static readonly TextObject TownIsUnderSiege = GameTexts.FindText("str_villages_under_siege", null);
 
-		// Token: 0x04000830 RID: 2096
 		private static readonly TextObject RetiredText = GameTexts.FindText("str_retired", null);
 
-		// Token: 0x04000831 RID: 2097
 		private static readonly TextObject PaymentIsLessText = GameTexts.FindText("str_payment_is_less", null);
 
-		// Token: 0x04000832 RID: 2098
 		private static readonly TextObject UnpaidWagesText = GameTexts.FindText("str_unpaid_wages", null);
 
-		// Token: 0x04000833 RID: 2099
 		private static readonly TextObject RebellionText = GameTexts.FindText("str_rebel_settlement", null);
 	}
 }

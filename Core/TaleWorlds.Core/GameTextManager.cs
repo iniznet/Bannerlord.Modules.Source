@@ -9,16 +9,13 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000073 RID: 115
 	public class GameTextManager
 	{
-		// Token: 0x0600074F RID: 1871 RVA: 0x000191E5 File Offset: 0x000173E5
 		public GameTextManager()
 		{
 			this._gameTexts = new Dictionary<string, GameText>();
 		}
 
-		// Token: 0x06000750 RID: 1872 RVA: 0x000191F8 File Offset: 0x000173F8
 		public GameText GetGameText(string id)
 		{
 			GameText gameText;
@@ -29,7 +26,6 @@ namespace TaleWorlds.Core
 			return null;
 		}
 
-		// Token: 0x06000751 RID: 1873 RVA: 0x00019218 File Offset: 0x00017418
 		public GameText AddGameText(string id)
 		{
 			GameText gameText;
@@ -41,7 +37,6 @@ namespace TaleWorlds.Core
 			return gameText;
 		}
 
-		// Token: 0x06000752 RID: 1874 RVA: 0x00019250 File Offset: 0x00017450
 		public bool TryGetText(string id, string variation, out TextObject text)
 		{
 			text = null;
@@ -67,7 +62,6 @@ namespace TaleWorlds.Core
 			return false;
 		}
 
-		// Token: 0x06000753 RID: 1875 RVA: 0x000192A0 File Offset: 0x000174A0
 		public TextObject FindText(string id, string variation = null)
 		{
 			TextObject textObject;
@@ -87,7 +81,6 @@ namespace TaleWorlds.Core
 			return textObject2;
 		}
 
-		// Token: 0x06000754 RID: 1876 RVA: 0x000192F0 File Offset: 0x000174F0
 		public IEnumerable<TextObject> FindAllTextVariations(string id)
 		{
 			GameText gameText;
@@ -104,7 +97,6 @@ namespace TaleWorlds.Core
 			yield break;
 		}
 
-		// Token: 0x06000755 RID: 1877 RVA: 0x00019308 File Offset: 0x00017508
 		public void LoadGameTexts()
 		{
 			Game game = Game.Current;
@@ -126,7 +118,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x06000756 RID: 1878 RVA: 0x00019384 File Offset: 0x00017584
 		public void LoadDefaultTexts()
 		{
 			string text = ModuleHelper.GetModuleFullPath("Native") + "ModuleData/global_strings.xml";
@@ -139,7 +130,6 @@ namespace TaleWorlds.Core
 			this.LoadFromXML(xmlDocument);
 		}
 
-		// Token: 0x06000757 RID: 1879 RVA: 0x000193E8 File Offset: 0x000175E8
 		private void LoadFromXML(XmlDocument doc)
 		{
 			XmlNode xmlNode = null;
@@ -201,28 +191,16 @@ namespace TaleWorlds.Core
 			goto IL_1F8;
 		}
 
-		// Token: 0x040003B3 RID: 947
 		private readonly Dictionary<string, GameText> _gameTexts;
 
-		// Token: 0x020000FE RID: 254
 		public struct ChoiceTag
 		{
-			// Token: 0x17000352 RID: 850
-			// (get) Token: 0x06000A31 RID: 2609 RVA: 0x000211FB File Offset: 0x0001F3FB
-			// (set) Token: 0x06000A32 RID: 2610 RVA: 0x00021203 File Offset: 0x0001F403
 			public string TagName { get; private set; }
 
-			// Token: 0x17000353 RID: 851
-			// (get) Token: 0x06000A33 RID: 2611 RVA: 0x0002120C File Offset: 0x0001F40C
-			// (set) Token: 0x06000A34 RID: 2612 RVA: 0x00021214 File Offset: 0x0001F414
 			public uint Weight { get; private set; }
 
-			// Token: 0x17000354 RID: 852
-			// (get) Token: 0x06000A35 RID: 2613 RVA: 0x0002121D File Offset: 0x0001F41D
-			// (set) Token: 0x06000A36 RID: 2614 RVA: 0x00021225 File Offset: 0x0001F425
 			public bool IsTagReversed { get; private set; }
 
-			// Token: 0x06000A37 RID: 2615 RVA: 0x0002122E File Offset: 0x0001F42E
 			public ChoiceTag(string tagName, int weight)
 			{
 				this = default(GameTextManager.ChoiceTag);

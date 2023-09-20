@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplomacy
 {
-	// Token: 0x02000060 RID: 96
 	public class KingdomWarItemVM : KingdomDiplomacyItemVM
 	{
-		// Token: 0x06000847 RID: 2119 RVA: 0x000231A8 File Offset: 0x000213A8
 		public KingdomWarItemVM(StanceLink war, Action<KingdomWarItemVM> onSelect, Action<KingdomWarItemVM> onAction)
 			: base(war.Faction1, war.Faction2)
 		{
@@ -43,14 +41,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x06000848 RID: 2120 RVA: 0x00023398 File Offset: 0x00021598
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
 			this.UpdateDiplomacyProperties();
 		}
 
-		// Token: 0x06000849 RID: 2121 RVA: 0x000233A6 File Offset: 0x000215A6
 		protected override void OnSelect()
 		{
 			this.UpdateDiplomacyProperties();
@@ -58,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			base.IsSelected = true;
 		}
 
-		// Token: 0x0600084A RID: 2122 RVA: 0x000233C4 File Offset: 0x000215C4
 		protected override void UpdateDiplomacyProperties()
 		{
 			base.UpdateDiplomacyProperties();
@@ -82,15 +77,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			base.Stats.Add(new KingdomWarComparableStatVM(stanceWith.GetSuccessfulRaids(this.Faction1), stanceWith.GetSuccessfulRaids(this.Faction2), GameTexts.FindText("str_war_successful_raids", null), this._faction1Color, this._faction2Color, 10, new BasicTooltipViewModel(() => CampaignUIHelper.GetWarSuccessfulRaidsTooltip(this._raidsMadeByFaction1, this.Faction1.Name)), new BasicTooltipViewModel(() => CampaignUIHelper.GetWarSuccessfulRaidsTooltip(this._raidsMadeByFaction2, this.Faction2.Name))));
 		}
 
-		// Token: 0x0600084B RID: 2123 RVA: 0x000236E6 File Offset: 0x000218E6
 		protected override void ExecuteAction()
 		{
 			this._onAction(this);
 		}
 
-		// Token: 0x1700028C RID: 652
-		// (get) Token: 0x0600084C RID: 2124 RVA: 0x000236F4 File Offset: 0x000218F4
-		// (set) Token: 0x0600084D RID: 2125 RVA: 0x000236FC File Offset: 0x000218FC
 		[DataSourceProperty]
 		public string WarName
 		{
@@ -108,9 +99,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700028D RID: 653
-		// (get) Token: 0x0600084E RID: 2126 RVA: 0x0002371F File Offset: 0x0002191F
-		// (set) Token: 0x0600084F RID: 2127 RVA: 0x00023727 File Offset: 0x00021927
 		[DataSourceProperty]
 		public string NumberOfDaysSinceWarBegan
 		{
@@ -128,9 +116,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700028E RID: 654
-		// (get) Token: 0x06000850 RID: 2128 RVA: 0x0002374A File Offset: 0x0002194A
-		// (set) Token: 0x06000851 RID: 2129 RVA: 0x00023752 File Offset: 0x00021952
 		[DataSourceProperty]
 		public bool IsBehaviorSelectionEnabled
 		{
@@ -148,9 +133,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700028F RID: 655
-		// (get) Token: 0x06000852 RID: 2130 RVA: 0x00023770 File Offset: 0x00021970
-		// (set) Token: 0x06000853 RID: 2131 RVA: 0x00023778 File Offset: 0x00021978
 		[DataSourceProperty]
 		public int Score
 		{
@@ -168,9 +150,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000290 RID: 656
-		// (get) Token: 0x06000854 RID: 2132 RVA: 0x00023796 File Offset: 0x00021996
-		// (set) Token: 0x06000855 RID: 2133 RVA: 0x0002379E File Offset: 0x0002199E
 		[DataSourceProperty]
 		public int CasualtiesOfFaction1
 		{
@@ -188,9 +167,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000291 RID: 657
-		// (get) Token: 0x06000856 RID: 2134 RVA: 0x000237BC File Offset: 0x000219BC
-		// (set) Token: 0x06000857 RID: 2135 RVA: 0x000237C4 File Offset: 0x000219C4
 		[DataSourceProperty]
 		public int CasualtiesOfFaction2
 		{
@@ -208,9 +184,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000292 RID: 658
-		// (get) Token: 0x06000858 RID: 2136 RVA: 0x000237E2 File Offset: 0x000219E2
-		// (set) Token: 0x06000859 RID: 2137 RVA: 0x000237EA File Offset: 0x000219EA
 		[DataSourceProperty]
 		public MBBindingList<KingdomWarLogItemVM> WarLog
 		{
@@ -228,58 +201,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x040003B2 RID: 946
 		private readonly Action<KingdomWarItemVM> _onSelect;
 
-		// Token: 0x040003B3 RID: 947
 		private readonly StanceLink _war;
 
-		// Token: 0x040003B4 RID: 948
 		private readonly Action<KingdomWarItemVM> _onAction;
 
-		// Token: 0x040003B5 RID: 949
 		private List<Hero> _prisonersCapturedByFaction1;
 
-		// Token: 0x040003B6 RID: 950
 		private List<Hero> _prisonersCapturedByFaction2;
 
-		// Token: 0x040003B7 RID: 951
 		private List<Settlement> _townsCapturedByFaction1;
 
-		// Token: 0x040003B8 RID: 952
 		private List<Settlement> _townsCapturedByFaction2;
 
-		// Token: 0x040003B9 RID: 953
 		private List<Settlement> _castlesCapturedByFaction1;
 
-		// Token: 0x040003BA RID: 954
 		private List<Settlement> _castlesCapturedByFaction2;
 
-		// Token: 0x040003BB RID: 955
 		private List<Settlement> _raidsMadeByFaction1;
 
-		// Token: 0x040003BC RID: 956
 		private List<Settlement> _raidsMadeByFaction2;
 
-		// Token: 0x040003BD RID: 957
 		private string _warName;
 
-		// Token: 0x040003BE RID: 958
 		private string _numberOfDaysSinceWarBegan;
 
-		// Token: 0x040003BF RID: 959
 		private int _score;
 
-		// Token: 0x040003C0 RID: 960
 		private bool _isBehaviorSelectionEnabled;
 
-		// Token: 0x040003C1 RID: 961
 		private int _casualtiesOfFaction1;
 
-		// Token: 0x040003C2 RID: 962
 		private int _casualtiesOfFaction2;
 
-		// Token: 0x040003C3 RID: 963
 		private MBBindingList<KingdomWarLogItemVM> _warLog;
 	}
 }

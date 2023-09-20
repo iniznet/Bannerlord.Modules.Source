@@ -12,10 +12,8 @@ using TaleWorlds.Library;
 
 namespace Helpers
 {
-	// Token: 0x02000009 RID: 9
 	public static class SettlementHelper
 	{
-		// Token: 0x06000027 RID: 39 RVA: 0x000039C4 File Offset: 0x00001BC4
 		public static string GetRandomStuff(bool isFemale)
 		{
 			string text;
@@ -31,7 +29,6 @@ namespace Helpers
 			return text;
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x00003A0C File Offset: 0x00001C0C
 		public static Settlement FindNearestSettlement(Func<Settlement, bool> condition, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -49,7 +46,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x00003AA4 File Offset: 0x00001CA4
 		public static Settlement FindNearestHideout(Func<Settlement, bool> condition = null, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -68,7 +64,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x0600002A RID: 42 RVA: 0x00003B38 File Offset: 0x00001D38
 		public static Settlement FindNearestTown(Func<Settlement, bool> condition = null, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -87,7 +82,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x0600002B RID: 43 RVA: 0x00003BCC File Offset: 0x00001DCC
 		public static Settlement FindNearestFortification(Func<Settlement, bool> condition = null, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -116,7 +110,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x0600002C RID: 44 RVA: 0x00003CD0 File Offset: 0x00001ED0
 		public static Settlement FindNearestCastle(Func<Settlement, bool> condition = null, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -135,7 +128,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x0600002D RID: 45 RVA: 0x00003D64 File Offset: 0x00001F64
 		public static Settlement FindNearestVillage(Func<Settlement, bool> condition = null, IMapPoint toMapPoint = null)
 		{
 			Settlement settlement = null;
@@ -154,7 +146,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00003DF8 File Offset: 0x00001FF8
 		private static SettlementComponent FindNearestSettlementToMapPointInternal(IMapPoint mapPoint, IEnumerable<SettlementComponent> settlementsToIterate, Func<Settlement, bool> condition = null)
 		{
 			SettlementComponent settlementComponent = null;
@@ -171,7 +162,6 @@ namespace Helpers
 			return settlementComponent;
 		}
 
-		// Token: 0x0600002F RID: 47 RVA: 0x00003E80 File Offset: 0x00002080
 		public static int FindNextSettlementAroundMapPoint(IMapPoint mapPoint, float maxDistance, int lastIndex)
 		{
 			for (int i = lastIndex + 1; i < Settlement.All.Count; i++)
@@ -186,7 +176,6 @@ namespace Helpers
 			return -1;
 		}
 
-		// Token: 0x06000030 RID: 48 RVA: 0x00003ED0 File Offset: 0x000020D0
 		private static Settlement FindRandomInternal(Func<Settlement, bool> condition, IEnumerable<Settlement> settlementsToIterate)
 		{
 			List<Settlement> list = new List<Settlement>();
@@ -204,19 +193,16 @@ namespace Helpers
 			return null;
 		}
 
-		// Token: 0x06000031 RID: 49 RVA: 0x00003F44 File Offset: 0x00002144
 		public static Settlement FindRandomSettlement(Func<Settlement, bool> condition = null)
 		{
 			return SettlementHelper.FindRandomInternal(condition, Settlement.All);
 		}
 
-		// Token: 0x06000032 RID: 50 RVA: 0x00003F51 File Offset: 0x00002151
 		public static Settlement FindRandomHideout(Func<Settlement, bool> condition = null)
 		{
 			return SettlementHelper.FindRandomInternal(condition, Hideout.All.Select((Hideout x) => x.Settlement));
 		}
 
-		// Token: 0x06000033 RID: 51 RVA: 0x00003F84 File Offset: 0x00002184
 		public static void TakeEnemyVillagersOutsideSettlements(Settlement settlementWhichChangedFaction)
 		{
 			if (settlementWhichChangedFaction.IsFortification)
@@ -291,7 +277,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x06000034 RID: 52 RVA: 0x000041C8 File Offset: 0x000023C8
 		public static Settlement GetRandomTown(Clan fromFaction = null)
 		{
 			int num = 0;
@@ -317,7 +302,6 @@ namespace Helpers
 			return null;
 		}
 
-		// Token: 0x06000035 RID: 53 RVA: 0x000042B8 File Offset: 0x000024B8
 		public static Settlement GetBestSettlementToSpawnAround(Hero hero)
 		{
 			Settlement settlement = null;
@@ -387,7 +371,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x06000036 RID: 54 RVA: 0x00004528 File Offset: 0x00002728
 		public static IEnumerable<Hero> GetAllHeroesOfSettlement(Settlement settlement, bool includePrisoners)
 		{
 			foreach (MobileParty mobileParty in settlement.Parties)
@@ -418,7 +401,6 @@ namespace Helpers
 			yield break;
 		}
 
-		// Token: 0x06000037 RID: 55 RVA: 0x00004540 File Offset: 0x00002740
 		public static int NumberOfVolunteersCanBeRecruitedForGarrison(Settlement settlement)
 		{
 			int num = 0;
@@ -444,7 +426,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x06000038 RID: 56 RVA: 0x0000462C File Offset: 0x0000282C
 		public static bool IsThereAnyVolunteerCanBeRecruitedForGarrison(Settlement settlement)
 		{
 			Hero leader = settlement.OwnerClan.Leader;
@@ -469,7 +450,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x06000039 RID: 57 RVA: 0x0000471C File Offset: 0x0000291C
 		public static bool IsGarrisonStarving(Settlement settlement)
 		{
 			bool flag = false;
@@ -480,7 +460,6 @@ namespace Helpers
 			return flag;
 		}
 
-		// Token: 0x0600003A RID: 58 RVA: 0x00004760 File Offset: 0x00002960
 		public static void SpawnNotablesIfNeeded(Settlement settlement)
 		{
 			if (settlement.IsTown || settlement.IsVillage)
@@ -541,13 +520,10 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x04000001 RID: 1
 		private static readonly string[] StuffToCarryForMan = new string[] { "_to_carry_foods_basket_apple", "_to_carry_merchandise_hides_b", "_to_carry_bed_convolute_g", "_to_carry_bed_convolute_a", "_to_carry_bd_fabric_c", "_to_carry_bd_basket_a", "practice_spear_t1", "simple_sparth_axe_t2" };
 
-		// Token: 0x04000002 RID: 2
 		private static readonly string[] StuffToCarryForWoman = new string[] { "_to_carry_kitchen_pot_c", "_to_carry_arm_kitchen_pot_c", "_to_carry_foods_basket_apple", "_to_carry_bd_basket_a" };
 
-		// Token: 0x04000003 RID: 3
 		private static int _stuffToCarryIndex = MBRandom.NondeterministicRandomInt % 1024;
 	}
 }

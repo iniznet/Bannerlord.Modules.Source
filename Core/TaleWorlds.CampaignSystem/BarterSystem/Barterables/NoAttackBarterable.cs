@@ -5,11 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 {
-	// Token: 0x0200041A RID: 1050
 	public class NoAttackBarterable : Barterable
 	{
-		// Token: 0x17000D24 RID: 3364
-		// (get) Token: 0x06003E13 RID: 15891 RVA: 0x00128C34 File Offset: 0x00126E34
 		public override string StringID
 		{
 			get
@@ -18,7 +15,6 @@ namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 			}
 		}
 
-		// Token: 0x06003E14 RID: 15892 RVA: 0x00128C3B File Offset: 0x00126E3B
 		public NoAttackBarterable(Hero originalOwner, Hero otherHero, PartyBase ownerParty, PartyBase otherParty, CampaignTime duration)
 			: base(originalOwner, ownerParty)
 		{
@@ -28,8 +24,6 @@ namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 			this._otherParty = otherParty;
 		}
 
-		// Token: 0x17000D25 RID: 3365
-		// (get) Token: 0x06003E15 RID: 15893 RVA: 0x00128C6C File Offset: 0x00126E6C
 		public override TextObject Name
 		{
 			get
@@ -42,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 			}
 		}
 
-		// Token: 0x06003E16 RID: 15894 RVA: 0x00128CD4 File Offset: 0x00126ED4
 		public override void Apply()
 		{
 			if (base.OriginalParty == MobileParty.MainParty.Party)
@@ -55,7 +48,6 @@ namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 			}
 		}
 
-		// Token: 0x06003E17 RID: 15895 RVA: 0x00128D34 File Offset: 0x00126F34
 		public override int GetUnitValueForFaction(IFaction faction)
 		{
 			int num = 0;
@@ -71,22 +63,17 @@ namespace TaleWorlds.CampaignSystem.BarterSystem.Barterables
 			return num;
 		}
 
-		// Token: 0x06003E18 RID: 15896 RVA: 0x00128DB7 File Offset: 0x00126FB7
 		public override ImageIdentifier GetVisualIdentifier()
 		{
 			return null;
 		}
 
-		// Token: 0x040012A0 RID: 4768
 		private readonly IFaction _otherFaction;
 
-		// Token: 0x040012A1 RID: 4769
 		private readonly CampaignTime _duration;
 
-		// Token: 0x040012A2 RID: 4770
 		private readonly Hero _otherHero;
 
-		// Token: 0x040012A3 RID: 4771
 		private readonly PartyBase _otherParty;
 	}
 }

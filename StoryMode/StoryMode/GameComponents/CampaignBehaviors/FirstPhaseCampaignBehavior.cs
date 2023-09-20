@@ -19,10 +19,8 @@ using TaleWorlds.Localization;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
-	// Token: 0x0200004B RID: 75
 	public class FirstPhaseCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000414 RID: 1044 RVA: 0x00018D48 File Offset: 0x00016F48
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
@@ -36,7 +34,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			StoryModeEvents.OnMainStoryLineSideChosenEvent.AddNonSerializedListener(this, new Action<MainStoryLineSide>(this.OnMainStoryLineSideChosen));
 		}
 
-		// Token: 0x06000415 RID: 1045 RVA: 0x00018E24 File Offset: 0x00017024
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Location>("_imperialMentorHouse", ref this._imperialMentorHouse);
@@ -44,13 +41,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			dataStore.SyncData<bool>("_popUpShowed", ref this._popUpShowed);
 		}
 
-		// Token: 0x06000416 RID: 1046 RVA: 0x00018E5C File Offset: 0x0001705C
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.SpawnMentorsIfNeeded();
 		}
 
-		// Token: 0x06000417 RID: 1047 RVA: 0x00018E64 File Offset: 0x00017064
 		private void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			Settlement settlement = Settlement.FindFirst((Settlement s) => s.IsTown && !s.IsUnderSiege && s.Culture.StringId == "empire");
@@ -60,7 +55,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			StoryModeManager.Current.MainStoryLine.SetMentorSettlements(settlement, settlement2);
 		}
 
-		// Token: 0x06000418 RID: 1048 RVA: 0x00018EF0 File Offset: 0x000170F0
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (detail == 1)
@@ -85,19 +79,16 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x00018F7D File Offset: 0x0001717D
 		private void OnGameMenuOpened(MenuCallbackArgs args)
 		{
 			this.SpawnMentorsIfNeeded();
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x00018F85 File Offset: 0x00017185
 		private void OnBeforeMissionOpened()
 		{
 			this.SpawnMentorsIfNeeded();
 		}
 
-		// Token: 0x0600041B RID: 1051 RVA: 0x00018F90 File Offset: 0x00017190
 		private void SpawnMentorsIfNeeded()
 		{
 			if (this._imperialMentorHouse != null && this._antiImperialMentorHouse != null && Settlement.CurrentSettlement != null && (StoryModeHeroes.ImperialMentor.CurrentSettlement == Settlement.CurrentSettlement || StoryModeHeroes.AntiImperialMentor.CurrentSettlement == Settlement.CurrentSettlement))
@@ -106,7 +97,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600041C RID: 1052 RVA: 0x00018FE4 File Offset: 0x000171E4
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (settlement.StringId == "tutorial_training_field" && party == MobileParty.MainParty && TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.Finalized && !this._popUpShowed && TutorialPhase.Instance.IsSkipped)
@@ -120,20 +110,17 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x00019088 File Offset: 0x00017288
 		private void OnPieceFoundAction()
 		{
 			this.SelectClanName();
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x00019090 File Offset: 0x00017290
 		private void OnStoryModeTutorialEnded()
 		{
 			new RebuildPlayerClanQuest().StartQuest();
 			new BannerInvestigationQuest().StartQuest();
 		}
 
-		// Token: 0x0600041F RID: 1055 RVA: 0x000190A8 File Offset: 0x000172A8
 		private void OnBannerPieceCollected()
 		{
 			TextObject textObject = new TextObject("{=Pus87ZW2}You've found the {BANNER_PIECE_COUNT} banner piece!", null);
@@ -152,7 +139,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 		}
 
-		// Token: 0x06000420 RID: 1056 RVA: 0x00019145 File Offset: 0x00017345
 		private void OnMainStoryLineSideChosen(MainStoryLineSide side)
 		{
 			this._imperialMentorHouse.RemoveReservation();
@@ -161,13 +147,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this._antiImperialMentorHouse = null;
 		}
 
-		// Token: 0x06000421 RID: 1057 RVA: 0x0001916C File Offset: 0x0001736C
 		private void SelectClanName()
 		{
 			InformationManager.ShowTextInquiry(new TextInquiryData(new TextObject("{=JJiKk4ow}Select your family name: ", null).ToString(), string.Empty, true, false, GameTexts.FindText("str_done", null).ToString(), null, new Action<string>(this.OnChangeClanNameDone), null, false, new Func<string, Tuple<bool, string>>(FactionHelper.IsClanNameApplicable), "", Clan.PlayerClan.Name.ToString()), false, false);
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x000191DC File Offset: 0x000173DC
 		private void OnChangeClanNameDone(string newClanName)
 		{
 			TextObject textObject = GameTexts.FindText("str_generic_clan_name", null);
@@ -176,13 +160,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this.OpenBannerSelectionScreen();
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x00019238 File Offset: 0x00017438
 		private void OpenBannerSelectionScreen()
 		{
 			Game.Current.GameStateManager.PushState(Game.Current.GameStateManager.CreateState<BannerEditorState>(), 0);
 		}
 
-		// Token: 0x06000424 RID: 1060 RVA: 0x0001925C File Offset: 0x0001745C
 		private Settlement FindSuitableHideout(Hero questGiver)
 		{
 			Settlement settlement = null;
@@ -202,7 +184,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return settlement;
 		}
 
-		// Token: 0x06000425 RID: 1061 RVA: 0x000192F8 File Offset: 0x000174F8
 		private void SpawnMentorInHouse(Settlement settlement)
 		{
 			Hero hero = ((StoryModeHeroes.ImperialMentor.CurrentSettlement == settlement) ? StoryModeHeroes.ImperialMentor : StoryModeHeroes.AntiImperialMentor);
@@ -213,7 +194,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			location.AddCharacter(locationCharacter);
 		}
 
-		// Token: 0x06000426 RID: 1062 RVA: 0x0001939C File Offset: 0x0001759C
 		private Location ReserveHouseForMentor(Hero mentor, Settlement settlement)
 		{
 			MBList<Location> mblist = new MBList<Location>();
@@ -228,13 +208,10 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return obj2;
 		}
 
-		// Token: 0x040001BB RID: 443
 		private Location _imperialMentorHouse;
 
-		// Token: 0x040001BC RID: 444
 		private Location _antiImperialMentorHouse;
 
-		// Token: 0x040001BD RID: 445
 		private bool _popUpShowed;
 	}
 }

@@ -7,11 +7,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x0200002F RID: 47
 	[OverrideView(typeof(MissionFormationMarkerUIHandler))]
 	public class MissionGauntletFormationMarker : MissionGauntletBattleUIBase
 	{
-		// Token: 0x06000241 RID: 577 RVA: 0x0000C92C File Offset: 0x0000AB2C
 		protected override void OnCreateView()
 		{
 			this._formationTargets = new List<CompassItemUpdateParams>();
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._orderHandler = base.Mission.GetMissionBehavior<MissionGauntletSingleplayerOrderUIHandler>();
 		}
 
-		// Token: 0x06000242 RID: 578 RVA: 0x0000C9B0 File Offset: 0x0000ABB0
 		protected override void OnDestroyView()
 		{
 			base.MissionScreen.RemoveLayer(this._gauntletLayer);
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource = null;
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x0000C9DC File Offset: 0x0000ABDC
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -45,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000244 RID: 580 RVA: 0x0000CA28 File Offset: 0x0000AC28
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
@@ -55,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000245 RID: 581 RVA: 0x0000CA4D File Offset: 0x0000AC4D
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
@@ -65,16 +59,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0400011E RID: 286
 		private MissionFormationMarkerVM _dataSource;
 
-		// Token: 0x0400011F RID: 287
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000120 RID: 288
 		private List<CompassItemUpdateParams> _formationTargets;
 
-		// Token: 0x04000121 RID: 289
 		private MissionGauntletSingleplayerOrderUIHandler _orderHandler;
 	}
 }

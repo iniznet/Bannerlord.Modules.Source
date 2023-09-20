@@ -4,20 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle.SelectionItem
 {
-	// Token: 0x02000022 RID: 34
 	public class MapItemVM : SelectorItemVM
 	{
-		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x060001AF RID: 431 RVA: 0x0000A425 File Offset: 0x00008625
-		// (set) Token: 0x060001B0 RID: 432 RVA: 0x0000A42D File Offset: 0x0000862D
 		public string MapName { get; private set; }
 
-		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x060001B1 RID: 433 RVA: 0x0000A436 File Offset: 0x00008636
-		// (set) Token: 0x060001B2 RID: 434 RVA: 0x0000A43E File Offset: 0x0000863E
 		public string MapId { get; private set; }
 
-		// Token: 0x060001B3 RID: 435 RVA: 0x0000A447 File Offset: 0x00008647
 		public MapItemVM(string mapName, string mapId)
 			: base(mapName)
 		{
@@ -26,7 +18,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle.SelectionItem
 			this.NameText = mapName;
 		}
 
-		// Token: 0x060001B4 RID: 436 RVA: 0x0000A468 File Offset: 0x00008668
 		public void UpdateSearchedText(string searchedText)
 		{
 			this._searchedText = searchedText;
@@ -43,9 +34,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle.SelectionItem
 			this.NameText = this.MapName;
 		}
 
-		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x060001B5 RID: 437 RVA: 0x0000A4F3 File Offset: 0x000086F3
-		// (set) Token: 0x060001B6 RID: 438 RVA: 0x0000A4FB File Offset: 0x000086FB
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -63,10 +51,8 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattle.SelectionItem
 			}
 		}
 
-		// Token: 0x04000116 RID: 278
 		private string _searchedText;
 
-		// Token: 0x04000119 RID: 281
 		public string _nameText;
 	}
 }

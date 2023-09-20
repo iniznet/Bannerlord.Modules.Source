@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 {
-	// Token: 0x02000103 RID: 259
 	public class VillageTypeVisualIconBrushWidget : BrushWidget
 	{
-		// Token: 0x06000D77 RID: 3447 RVA: 0x00025BDB File Offset: 0x00023DDB
 		public VillageTypeVisualIconBrushWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000D78 RID: 3448 RVA: 0x00025BE4 File Offset: 0x00023DE4
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -88,9 +85,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x170004CD RID: 1229
-		// (get) Token: 0x06000D79 RID: 3449 RVA: 0x00025DB4 File Offset: 0x00023FB4
-		// (set) Token: 0x06000D7A RID: 3450 RVA: 0x00025DBC File Offset: 0x00023FBC
 		[Editor(false)]
 		public int VillageType
 		{
@@ -108,10 +102,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x04000638 RID: 1592
 		private bool _initialized;
 
-		// Token: 0x04000639 RID: 1593
 		private int _villageType;
 	}
 }

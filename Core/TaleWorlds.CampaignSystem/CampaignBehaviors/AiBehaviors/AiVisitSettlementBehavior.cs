@@ -10,21 +10,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x02000406 RID: 1030
 	public class AiVisitSettlementBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D4A RID: 15690 RVA: 0x00125218 File Offset: 0x00123418
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
 		}
 
-		// Token: 0x06003D4B RID: 15691 RVA: 0x00125231 File Offset: 0x00123431
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D4C RID: 15692 RVA: 0x00125234 File Offset: 0x00123434
 		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			Settlement currentSettlement = mobileParty.CurrentSettlement;
@@ -273,7 +269,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D4D RID: 15693 RVA: 0x00125EE0 File Offset: 0x001240E0
 		public static int ApproximateNumberOfVolunteersCanBeRecruitedFromSettlement(Hero hero, Settlement settlement)
 		{
 			int num = 4;
@@ -295,7 +290,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return num2;
 		}
 
-		// Token: 0x06003D4E RID: 15694 RVA: 0x00125F60 File Offset: 0x00124160
 		private float CalculateSellItemScore(MobileParty mobileParty)
 		{
 			float num = 0f;
@@ -322,7 +316,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return num5;
 		}
 
-		// Token: 0x06003D4F RID: 15695 RVA: 0x001260B4 File Offset: 0x001242B4
 		private ValueTuple<float, float, int, int> CalculatePartyParameters(MobileParty mobileParty)
 		{
 			float num = 0f;
@@ -354,7 +347,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return new ValueTuple<float, float, int, int>(num6, num, num2, num3);
 		}
 
-		// Token: 0x06003D50 RID: 15696 RVA: 0x001261C8 File Offset: 0x001243C8
 		private void CalculateVisitHideoutScoresForBanditParty(MobileParty mobileParty, Settlement currentSettlement, PartyThinkParams p)
 		{
 			if (!mobileParty.MapFaction.Culture.CanHaveSettlement)
@@ -419,7 +411,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D51 RID: 15697 RVA: 0x00126538 File Offset: 0x00124738
 		private ValueTuple<float, float, float, float> CalculateBeingSettlementOwnerScores(MobileParty mobileParty, Settlement settlement, Settlement currentSettlement, float idealGarrisonStrengthPerWalledCenter, float distanceScorePure, float averagePartySizeRatioToMaximumSize)
 		{
 			float num = 1f;
@@ -512,7 +503,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return new ValueTuple<float, float, float, float>(num, num2, num3, num4);
 		}
 
-		// Token: 0x06003D52 RID: 15698 RVA: 0x001268A0 File Offset: 0x00124AA0
 		private float CalculateMergeScoreForDisbandingParty(MobileParty disbandParty, Settlement settlement, float distance)
 		{
 			float num = MathF.Pow(3.5f - 0.95f * (Math.Min(Campaign.MapDiagonal, distance) / Campaign.MapDiagonal), 3f);
@@ -538,7 +528,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return num6;
 		}
 
-		// Token: 0x06003D53 RID: 15699 RVA: 0x00126970 File Offset: 0x00124B70
 		private float CalculateMergeScoreForLeaderlessParty(MobileParty leaderlessParty, Settlement settlement, float distance)
 		{
 			if (settlement.IsVillage)
@@ -562,7 +551,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return num * num3 * num4 * num5;
 		}
 
-		// Token: 0x06003D54 RID: 15700 RVA: 0x00126A28 File Offset: 0x00124C28
 		private SortedList<ValueTuple<float, int>, Settlement> FindSettlementsToVisitWithDistances(MobileParty mobileParty)
 		{
 			SortedList<ValueTuple<float, int>, Settlement> sortedList = new SortedList<ValueTuple<float, int>, Settlement>();
@@ -616,7 +604,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return sortedList;
 		}
 
-		// Token: 0x06003D55 RID: 15701 RVA: 0x00126BC4 File Offset: 0x00124DC4
 		private void AddBehaviorTupleWithScore(PartyThinkParams p, Settlement settlement, float visitingNearbySettlementScore)
 		{
 			AIBehaviorTuple aibehaviorTuple = new AIBehaviorTuple(settlement, AiBehavior.GoToSettlement, false);
@@ -630,34 +617,25 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			p.AddBehaviorScore(valueTuple);
 		}
 
-		// Token: 0x06003D56 RID: 15702 RVA: 0x00126C04 File Offset: 0x00124E04
 		private bool IsSettlementSuitableForVisitingCondition(MobileParty mobileParty, Settlement settlement)
 		{
 			return settlement.Party.MapEvent == null && settlement.Party.SiegeEvent == null && (!mobileParty.Party.Owner.MapFaction.IsAtWarWith(settlement.MapFaction) || (mobileParty.Party.Owner.MapFaction.IsMinorFaction && settlement.IsVillage)) && (settlement.IsVillage || settlement.IsFortification) && (!settlement.IsVillage || settlement.Village.VillageState == Village.VillageStates.Normal);
 		}
 
-		// Token: 0x0400126D RID: 4717
 		private const float NumberOfHoursAtDay = 24f;
 
-		// Token: 0x0400126E RID: 4718
 		private const float IdealTimePeriodForVisitingOwnedSettlement = 360f;
 
-		// Token: 0x0400126F RID: 4719
 		private const float DefaultMoneyLimitForRecruiting = 2000f;
 
-		// Token: 0x04001270 RID: 4720
 		private const float MaximumMeaningfulDistance = 250f;
 
-		// Token: 0x04001271 RID: 4721
 		private const float MaximumFilteredDistance = 350f;
 
-		// Token: 0x04001272 RID: 4722
 		private const float MeaningfulScoreThreshold = 0.025f;
 
-		// Token: 0x04001273 RID: 4723
 		private const float GoodEnoughScore = 2.5f;
 
-		// Token: 0x04001274 RID: 4724
 		private const float BaseVisitScore = 1.6f;
 	}
 }

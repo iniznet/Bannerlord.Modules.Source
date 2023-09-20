@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000141 RID: 321
 	public class DefaultSiegeStrategyActionModel : SiegeStrategyActionModel
 	{
-		// Token: 0x060017B1 RID: 6065 RVA: 0x00075BC4 File Offset: 0x00073DC4
 		public override void GetLogicalActionForStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			siegeAction = SiegeStrategyActionModel.SiegeAction.Hold;
@@ -59,7 +57,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017B2 RID: 6066 RVA: 0x00075C84 File Offset: 0x00073E84
 		private bool CheckIfStrategyListSatisfied(ISiegeEventSide side, List<ValueTuple<SiegeEngineType, int>> engineList)
 		{
 			SiegeEvent.SiegeEnginesContainer siegeEngines = side.SiegeEngines;
@@ -75,7 +72,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return true;
 		}
 
-		// Token: 0x060017B3 RID: 6067 RVA: 0x00075CF8 File Offset: 0x00073EF8
 		private void GetLogicalActionToCompleteEngineList(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex, List<ValueTuple<SiegeEngineType, int>> engineList)
 		{
 			siegeAction = SiegeStrategyActionModel.SiegeAction.Hold;
@@ -209,7 +205,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017B4 RID: 6068 RVA: 0x0007614C File Offset: 0x0007434C
 		private void GetLogicalActionForPreserveStrengthStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			SiegeEvent.SiegeEnginesContainer siegeEngines = side.SiegeEngines;
@@ -243,7 +238,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			reserveIndex = -1;
 		}
 
-		// Token: 0x060017B5 RID: 6069 RVA: 0x00076220 File Offset: 0x00074420
 		private void GetLogicalActionForPrepareAssaultStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			if (this._prepareAssaultEngineList == null)
@@ -259,7 +253,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetLogicalActionToCompleteEngineList(side, out siegeAction, out siegeEngineType, out deploymentIndex, out reserveIndex, this._prepareAssaultEngineList);
 		}
 
-		// Token: 0x060017B6 RID: 6070 RVA: 0x00076298 File Offset: 0x00074498
 		private void GetLogicalActionForBreachWallsStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			if (this._breachWallsEngineList == null)
@@ -274,7 +267,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetLogicalActionToCompleteEngineList(side, out siegeAction, out siegeEngineType, out deploymentIndex, out reserveIndex, this._breachWallsEngineList);
 		}
 
-		// Token: 0x060017B7 RID: 6071 RVA: 0x00076300 File Offset: 0x00074500
 		private void GetLogicalActionForWearOutDefendersStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			if (this._wearOutDefendersEngineList == null)
@@ -289,7 +281,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetLogicalActionToCompleteEngineList(side, out siegeAction, out siegeEngineType, out deploymentIndex, out reserveIndex, this._wearOutDefendersEngineList);
 		}
 
-		// Token: 0x060017B8 RID: 6072 RVA: 0x00076368 File Offset: 0x00074568
 		private void GetLogicalActionForPrepareAgainstAssaultStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			if (this._prepareAgainstAssaultEngineList == null)
@@ -304,7 +295,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetLogicalActionToCompleteEngineList(side, out siegeAction, out siegeEngineType, out deploymentIndex, out reserveIndex, this._prepareAgainstAssaultEngineList);
 		}
 
-		// Token: 0x060017B9 RID: 6073 RVA: 0x000763D0 File Offset: 0x000745D0
 		private void GetLogicalActionForCounterBombardmentStrategy(ISiegeEventSide side, out SiegeStrategyActionModel.SiegeAction siegeAction, out SiegeEngineType siegeEngineType, out int deploymentIndex, out int reserveIndex)
 		{
 			if (this._counterBombardmentEngineList == null)
@@ -318,19 +308,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetLogicalActionToCompleteEngineList(side, out siegeAction, out siegeEngineType, out deploymentIndex, out reserveIndex, this._counterBombardmentEngineList);
 		}
 
-		// Token: 0x0400086A RID: 2154
 		private List<ValueTuple<SiegeEngineType, int>> _prepareAssaultEngineList;
 
-		// Token: 0x0400086B RID: 2155
 		private List<ValueTuple<SiegeEngineType, int>> _breachWallsEngineList;
 
-		// Token: 0x0400086C RID: 2156
 		private List<ValueTuple<SiegeEngineType, int>> _wearOutDefendersEngineList;
 
-		// Token: 0x0400086D RID: 2157
 		private List<ValueTuple<SiegeEngineType, int>> _prepareAgainstAssaultEngineList;
 
-		// Token: 0x0400086E RID: 2158
 		private List<ValueTuple<SiegeEngineType, int>> _counterBombardmentEngineList;
 	}
 }

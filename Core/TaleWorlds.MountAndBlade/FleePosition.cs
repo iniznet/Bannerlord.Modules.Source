@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200033A RID: 826
 	public class FleePosition : ScriptComponentBehavior
 	{
-		// Token: 0x06002C58 RID: 11352 RVA: 0x000ABEE8 File Offset: 0x000AA0E8
 		protected internal override void OnInit()
 		{
 			this.CollectNodes();
@@ -44,19 +42,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C59 RID: 11353 RVA: 0x000ABF96 File Offset: 0x000AA196
 		public BattleSideEnum GetSide()
 		{
 			return this._side;
 		}
 
-		// Token: 0x06002C5A RID: 11354 RVA: 0x000ABF9E File Offset: 0x000AA19E
 		protected internal override void OnEditorInit()
 		{
 			this.CollectNodes();
 		}
 
-		// Token: 0x06002C5B RID: 11355 RVA: 0x000ABFA8 File Offset: 0x000AA1A8
 		private void CollectNodes()
 		{
 			this._nodes.Clear();
@@ -72,7 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C5C RID: 11356 RVA: 0x000AC01C File Offset: 0x000AA21C
 		protected internal override void OnEditorTick(float dt)
 		{
 			this.CollectNodes();
@@ -93,7 +87,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C5D RID: 11357 RVA: 0x000AC094 File Offset: 0x000AA294
 		public Vec3 GetClosestPointToEscape(Vec2 position)
 		{
 			if (this._nodes.Count == 1)
@@ -127,19 +120,15 @@ namespace TaleWorlds.MountAndBlade
 			return vec;
 		}
 
-		// Token: 0x06002C5E RID: 11358 RVA: 0x000AC19C File Offset: 0x000AA39C
 		protected internal override bool MovesEntity()
 		{
 			return true;
 		}
 
-		// Token: 0x040010E0 RID: 4320
 		private List<Vec3> _nodes = new List<Vec3>();
 
-		// Token: 0x040010E1 RID: 4321
 		private BattleSideEnum _side;
 
-		// Token: 0x040010E2 RID: 4322
 		public string Side = "both";
 	}
 }

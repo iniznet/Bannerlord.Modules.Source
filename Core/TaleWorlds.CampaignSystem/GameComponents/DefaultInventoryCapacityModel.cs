@@ -7,16 +7,13 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000111 RID: 273
 	public class DefaultInventoryCapacityModel : InventoryCapacityModel
 	{
-		// Token: 0x060015BD RID: 5565 RVA: 0x00066E05 File Offset: 0x00065005
 		public override int GetItemAverageWeight()
 		{
 			return 10;
 		}
 
-		// Token: 0x060015BE RID: 5566 RVA: 0x00066E0C File Offset: 0x0006500C
 		public override ExplainedNumber CalculateInventoryCapacity(MobileParty mobileParty, bool includeDescriptions = false, int additionalTroops = 0, int additionalSpareMounts = 0, int additionalPackAnimals = 0, bool includeFollowers = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -68,31 +65,22 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0400079B RID: 1947
 		private const int _itemAverageWeight = 10;
 
-		// Token: 0x0400079C RID: 1948
 		private const float TroopsFactor = 2f;
 
-		// Token: 0x0400079D RID: 1949
 		private const float SpareMountsFactor = 2f;
 
-		// Token: 0x0400079E RID: 1950
 		private const float PackAnimalsFactor = 10f;
 
-		// Token: 0x0400079F RID: 1951
 		private static readonly TextObject _textTroops = new TextObject("{=5k4dxUEJ}Troops", null);
 
-		// Token: 0x040007A0 RID: 1952
 		private static readonly TextObject _textHorses = new TextObject("{=1B8ZDOLs}Horses", null);
 
-		// Token: 0x040007A1 RID: 1953
 		private static readonly TextObject _textBase = new TextObject("{=basevalue}Base", null);
 
-		// Token: 0x040007A2 RID: 1954
 		private static readonly TextObject _textSpareMounts = new TextObject("{=rCiKbsyW}Spare Mounts", null);
 
-		// Token: 0x040007A3 RID: 1955
 		private static readonly TextObject _textPackAnimals = new TextObject("{=dI1AOyqh}Pack Animals", null);
 	}
 }

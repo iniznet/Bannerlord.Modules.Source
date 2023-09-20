@@ -2,7 +2,6 @@
 
 namespace SandBox.View.Menu
 {
-	// Token: 0x02000033 RID: 51
 	public class MenuTownManagementView : MenuView
 	{
 	}

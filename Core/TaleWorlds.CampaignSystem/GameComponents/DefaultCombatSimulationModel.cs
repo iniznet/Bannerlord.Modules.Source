@@ -14,10 +14,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000FD RID: 253
 	public class DefaultCombatSimulationModel : CombatSimulationModel
 	{
-		// Token: 0x06001505 RID: 5381 RVA: 0x0005FD4C File Offset: 0x0005DF4C
 		public override int SimulateHit(CharacterObject strikerTroop, CharacterObject struckTroop, PartyBase strikerParty, PartyBase struckParty, float strikerAdvantage, MapEvent battle)
 		{
 			float troopPowerBasedOnContext = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(strikerTroop, battle.EventType, strikerParty.Side, true);
@@ -31,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x06001506 RID: 5382 RVA: 0x0005FE0C File Offset: 0x0005E00C
 		private void CalculateSimulationDamagePerkEffects(CharacterObject strikerTroop, CharacterObject struckTroop, MobileParty strikerParty, MobileParty struckParty, ref ExplainedNumber effectiveDamage, MapEvent battle)
 		{
 			if (strikerParty.HasPerk(DefaultPerks.Tactics.TightFormations, false) && strikerTroop.IsInfantry && struckTroop.IsMounted)
@@ -111,7 +108,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001507 RID: 5383 RVA: 0x00060134 File Offset: 0x0005E334
 		public override float GetMaximumSiegeEquipmentProgress(Settlement settlement)
 		{
 			float num = 0f;
@@ -128,7 +124,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001508 RID: 5384 RVA: 0x000601BC File Offset: 0x0005E3BC
 		public override int GetNumberOfEquipmentsBuilt(Settlement settlement)
 		{
 			if (settlement.SiegeEvent != null && settlement.IsFortification)
@@ -165,7 +160,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x06001509 RID: 5385 RVA: 0x000602D8 File Offset: 0x0005E4D8
 		public override float GetSettlementAdvantage(Settlement settlement)
 		{
 			if (settlement.SiegeEvent != null && settlement.IsFortification)
@@ -222,7 +216,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1f;
 		}
 
-		// Token: 0x0600150A RID: 5386 RVA: 0x000604E4 File Offset: 0x0005E6E4
 		private void CalculateSettlementAdvantagePerkEffects(Settlement settlement, ref ExplainedNumber effectiveAdvantage, ISiegeEventSide opposingSide)
 		{
 			if (opposingSide.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).Any((PartyBase x) => x.MobileParty.HasPerk(DefaultPerks.Tactics.OnTheMarch, false)))
@@ -235,7 +228,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600150B RID: 5387 RVA: 0x0006055C File Offset: 0x0005E75C
 		[return: TupleElementNames(new string[] { "defenderRounds", "attackerRounds" })]
 		public override ValueTuple<int, int> GetSimulationRoundsForBattle(MapEvent mapEvent, int numDefenders, int numAttackers)
 		{
@@ -270,7 +262,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return new ValueTuple<int, int>(num3, num4);
 		}
 
-		// Token: 0x0600150C RID: 5388 RVA: 0x00060674 File Offset: 0x0005E874
 		[return: TupleElementNames(new string[] { "defenderAdvantage", "attackerAdvantage" })]
 		public override ValueTuple<float, float> GetBattleAdvantage(PartyBase defenderParty, PartyBase attackerParty, MapEvent.BattleTypes mapEventType, Settlement settlement)
 		{
@@ -285,7 +276,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return new ValueTuple<float, float>(num3, num2);
 		}
 
-		// Token: 0x0600150D RID: 5389 RVA: 0x000606B4 File Offset: 0x0005E8B4
 		private float PartyBattleAdvantage(PartyBase party, PartyBase opposingParty)
 		{
 			float num = 1f;

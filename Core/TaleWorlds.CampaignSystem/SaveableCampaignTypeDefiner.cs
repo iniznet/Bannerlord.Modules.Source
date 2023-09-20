@@ -34,16 +34,13 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200009D RID: 157
 	public class SaveableCampaignTypeDefiner : SaveableTypeDefiner
 	{
-		// Token: 0x06001150 RID: 4432 RVA: 0x0004D840 File Offset: 0x0004BA40
 		public SaveableCampaignTypeDefiner()
 			: base(330000)
 		{
 		}
 
-		// Token: 0x06001151 RID: 4433 RVA: 0x0004D850 File Offset: 0x0004BA50
 		protected override void DefineClassTypes()
 		{
 			base.AddClassDefinition(typeof(Army), 3, null);
@@ -267,7 +264,6 @@ namespace TaleWorlds.CampaignSystem
 			base.AddClassDefinition(typeof(RaidEventComponent), 312, null);
 		}
 
-		// Token: 0x06001152 RID: 4434 RVA: 0x0004EA34 File Offset: 0x0004CC34
 		protected override void DefineStructTypes()
 		{
 			base.AddStructDefinition(typeof(CampaignTime), 1001, null);
@@ -278,7 +274,6 @@ namespace TaleWorlds.CampaignSystem
 			base.AddStructDefinition(typeof(Town.SellLog), 1009, null);
 		}
 
-		// Token: 0x06001153 RID: 4435 RVA: 0x0004EAC8 File Offset: 0x0004CCC8
 		protected override void DefineEnumTypes()
 		{
 			base.AddEnumDefinition(typeof(CampaignTimeControlMode), 2001, null);
@@ -335,7 +330,6 @@ namespace TaleWorlds.CampaignSystem
 			base.AddEnumDefinition(typeof(FormationFilterType), 2140, null);
 		}
 
-		// Token: 0x06001154 RID: 4436 RVA: 0x0004EF58 File Offset: 0x0004D158
 		protected override void DefineInterfaceTypes()
 		{
 			base.AddInterfaceDefinition(typeof(IFaction), 3001);
@@ -345,7 +339,6 @@ namespace TaleWorlds.CampaignSystem
 			base.AddInterfaceDefinition(typeof(ISpottable), 3005);
 		}
 
-		// Token: 0x06001155 RID: 4437 RVA: 0x0004EFD0 File Offset: 0x0004D1D0
 		protected override void DefineGenericClassDefinitions()
 		{
 			base.ConstructGenericClassDefinition(typeof(MBReadOnlyDictionary<Hero, short>));
@@ -361,7 +354,6 @@ namespace TaleWorlds.CampaignSystem
 			base.ConstructGenericClassDefinition(typeof(CampaignPeriodicEventManager.PeriodicTicker<Hero>));
 		}
 
-		// Token: 0x06001156 RID: 4438 RVA: 0x0004F090 File Offset: 0x0004D290
 		protected override void DefineGenericStructDefinitions()
 		{
 			base.ConstructGenericStructDefinition(typeof(ValueTuple<IFaction, IFaction>));
@@ -371,7 +363,6 @@ namespace TaleWorlds.CampaignSystem
 			base.ConstructGenericStructDefinition(typeof(KeyValuePair<Hero, CraftingOrder>));
 		}
 
-		// Token: 0x06001157 RID: 4439 RVA: 0x0004F0F0 File Offset: 0x0004D2F0
 		protected override void DefineContainerDefinitions()
 		{
 			base.ConstructContainerDefinition(typeof(VillageType[]));

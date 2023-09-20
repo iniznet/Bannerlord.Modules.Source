@@ -15,31 +15,16 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200009A RID: 154
 	public class SandBoxManager : GameHandler
 	{
-		// Token: 0x170004BE RID: 1214
-		// (get) Token: 0x06001131 RID: 4401 RVA: 0x0004C8D6 File Offset: 0x0004AAD6
-		// (set) Token: 0x06001132 RID: 4402 RVA: 0x0004C8DE File Offset: 0x0004AADE
 		public ISandBoxMissionManager SandBoxMissionManager { get; set; }
 
-		// Token: 0x170004BF RID: 1215
-		// (get) Token: 0x06001133 RID: 4403 RVA: 0x0004C8E7 File Offset: 0x0004AAE7
-		// (set) Token: 0x06001134 RID: 4404 RVA: 0x0004C8EF File Offset: 0x0004AAEF
 		public IAgentBehaviorManager AgentBehaviorManager { get; set; }
 
-		// Token: 0x170004C0 RID: 1216
-		// (get) Token: 0x06001135 RID: 4405 RVA: 0x0004C8F8 File Offset: 0x0004AAF8
-		// (set) Token: 0x06001136 RID: 4406 RVA: 0x0004C900 File Offset: 0x0004AB00
 		public IModuleManager ModuleManager { get; set; }
 
-		// Token: 0x170004C1 RID: 1217
-		// (get) Token: 0x06001137 RID: 4407 RVA: 0x0004C909 File Offset: 0x0004AB09
-		// (set) Token: 0x06001138 RID: 4408 RVA: 0x0004C911 File Offset: 0x0004AB11
 		public ISaveManager SandBoxSaveManager { get; set; }
 
-		// Token: 0x170004C2 RID: 1218
-		// (get) Token: 0x06001139 RID: 4409 RVA: 0x0004C91A File Offset: 0x0004AB1A
 		public static SandBoxManager Instance
 		{
 			get
@@ -48,12 +33,8 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170004C3 RID: 1219
-		// (get) Token: 0x0600113A RID: 4410 RVA: 0x0004C926 File Offset: 0x0004AB26
-		// (set) Token: 0x0600113B RID: 4411 RVA: 0x0004C92E File Offset: 0x0004AB2E
 		public CampaignGameStarter GameStarter { get; private set; }
 
-		// Token: 0x0600113C RID: 4412 RVA: 0x0004C938 File Offset: 0x0004AB38
 		public void Initialize(CampaignGameStarter gameStarter)
 		{
 			this.GameStarter = gameStarter;
@@ -327,7 +308,6 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddModel(new DefaultVoiceOverModel());
 		}
 
-		// Token: 0x0600113D RID: 4413 RVA: 0x0004D4CB File Offset: 0x0004B6CB
 		public void OnCampaignStart(CampaignGameStarter gameInitializer, GameManagerBase gameManager, bool isSavedCampaign)
 		{
 			gameManager.RegisterSubModuleObjects(isSavedCampaign);
@@ -338,7 +318,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600113E RID: 4414 RVA: 0x0004D4F8 File Offset: 0x0004B6F8
 		public void InitializeSandboxXMLs(bool isSavedCampaign)
 		{
 			MBObjectManager.Instance.LoadXML("NPCCharacters", false);
@@ -363,7 +342,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600113F RID: 4415 RVA: 0x0004D5B4 File Offset: 0x0004B7B4
 		public void InitializeCharactersAfterLoad(bool isSavedCampaign)
 		{
 			if (isSavedCampaign)
@@ -405,7 +383,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001140 RID: 4416 RVA: 0x0004D754 File Offset: 0x0004B954
 		private static void AddGameTests(CampaignGameStarter gameInitializer)
 		{
 			gameInitializer.AddGameMenu("leave", "{=!}You shouldn't see this.", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.AutoSelectFirst, null);
@@ -417,17 +394,14 @@ namespace TaleWorlds.CampaignSystem
 			CampaignSiegeTestStatic.AddGameMenu(gameInitializer);
 		}
 
-		// Token: 0x06001141 RID: 4417 RVA: 0x0004D7BA File Offset: 0x0004B9BA
 		protected override void OnTick(float dt)
 		{
 		}
 
-		// Token: 0x06001142 RID: 4418 RVA: 0x0004D7BC File Offset: 0x0004B9BC
 		public override void OnBeforeSave()
 		{
 		}
 
-		// Token: 0x06001143 RID: 4419 RVA: 0x0004D7BE File Offset: 0x0004B9BE
 		public override void OnAfterSave()
 		{
 		}

@@ -7,16 +7,13 @@ using TaleWorlds.MountAndBlade.Options.ManagedOptions;
 
 namespace TaleWorlds.MountAndBlade.Options
 {
-	// Token: 0x02000399 RID: 921
 	public static class OptionsProvider
 	{
-		// Token: 0x06003262 RID: 12898 RVA: 0x000D10D1 File Offset: 0x000CF2D1
 		public static OptionCategory GetVideoOptionCategory(bool isMainMenu, Action onBrightnessClick, Action onExposureClick, Action onBenchmarkClick)
 		{
 			return new OptionCategory(OptionsProvider.GetVideoGeneralOptions(isMainMenu, onBrightnessClick, onExposureClick, onBenchmarkClick), OptionsProvider.GetVideoOptionGroups());
 		}
 
-		// Token: 0x06003263 RID: 12899 RVA: 0x000D10E6 File Offset: 0x000CF2E6
 		private static IEnumerable<IOptionData> GetVideoGeneralOptions(bool isMainMenu, Action onBrightnessClick, Action onExposureClick, Action onBenchmarkClick)
 		{
 			if (isMainMenu)
@@ -37,26 +34,22 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003264 RID: 12900 RVA: 0x000D110B File Offset: 0x000CF30B
 		private static IEnumerable<IOptionData> GetPerformanceGeneralOptions(bool isMultiplayer)
 		{
 			yield return new NativeSelectionOptionData(NativeOptions.NativeOptionsType.OverAll);
 			yield break;
 		}
 
-		// Token: 0x06003265 RID: 12901 RVA: 0x000D1114 File Offset: 0x000CF314
 		private static IEnumerable<OptionGroup> GetVideoOptionGroups()
 		{
 			return null;
 		}
 
-		// Token: 0x06003266 RID: 12902 RVA: 0x000D1117 File Offset: 0x000CF317
 		public static OptionCategory GetPerformanceOptionCategory(bool isMultiplayer)
 		{
 			return new OptionCategory(OptionsProvider.GetPerformanceGeneralOptions(isMultiplayer), OptionsProvider.GetPerformanceOptionGroups(isMultiplayer));
 		}
 
-		// Token: 0x06003267 RID: 12903 RVA: 0x000D112A File Offset: 0x000CF32A
 		private static IEnumerable<OptionGroup> GetPerformanceOptionGroups(bool isMultiplayer)
 		{
 			yield return new OptionGroup(new TextObject("{=sRTd3RI5}Graphics", null), OptionsProvider.GetPerformanceGraphicsOptions(isMultiplayer));
@@ -66,7 +59,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003268 RID: 12904 RVA: 0x000D113A File Offset: 0x000CF33A
 		public static IEnumerable<IOptionData> GetPerformanceGraphicsOptions(bool isMultiplayer)
 		{
 			yield return new NativeSelectionOptionData(NativeOptions.NativeOptionsType.Antialiasing);
@@ -125,7 +117,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003269 RID: 12905 RVA: 0x000D114A File Offset: 0x000CF34A
 		public static IEnumerable<IOptionData> GetPerformanceResolutionScalingOptions(bool isMultiplayer)
 		{
 			yield return new NativeSelectionOptionData(NativeOptions.NativeOptionsType.DLSS);
@@ -135,7 +126,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x0600326A RID: 12906 RVA: 0x000D1153 File Offset: 0x000CF353
 		public static IEnumerable<IOptionData> GetPerformanceGameplayOptions(bool isMultiplayer)
 		{
 			if (!isMultiplayer)
@@ -146,14 +136,12 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x0600326B RID: 12907 RVA: 0x000D1163 File Offset: 0x000CF363
 		public static IEnumerable<IOptionData> GetPerformanceAudioOptions()
 		{
 			yield return new NativeSelectionOptionData(NativeOptions.NativeOptionsType.MaxSimultaneousSoundEventCount);
 			yield break;
 		}
 
-		// Token: 0x0600326C RID: 12908 RVA: 0x000D116C File Offset: 0x000CF36C
 		private static IEnumerable<IOptionData> GetAudioGeneralOptions(bool isMultiplayer)
 		{
 			yield return new NativeNumericOptionData(NativeOptions.NativeOptionsType.MasterVolume);
@@ -174,25 +162,21 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x0600326D RID: 12909 RVA: 0x000D117C File Offset: 0x000CF37C
 		public static OptionCategory GetAudioOptionCategory(bool isMultiplayer)
 		{
 			return new OptionCategory(OptionsProvider.GetAudioGeneralOptions(isMultiplayer), OptionsProvider.GetAudioOptionGroups(isMultiplayer));
 		}
 
-		// Token: 0x0600326E RID: 12910 RVA: 0x000D118F File Offset: 0x000CF38F
 		private static IEnumerable<OptionGroup> GetAudioOptionGroups(bool isMultiplayer)
 		{
 			return null;
 		}
 
-		// Token: 0x0600326F RID: 12911 RVA: 0x000D1192 File Offset: 0x000CF392
 		public static OptionCategory GetGameplayOptionCategory(bool isMultiplayer)
 		{
 			return new OptionCategory(OptionsProvider.GetGameplayGeneralOptions(isMultiplayer), OptionsProvider.GetGameplayOptionGroups(isMultiplayer));
 		}
 
-		// Token: 0x06003270 RID: 12912 RVA: 0x000D11A5 File Offset: 0x000CF3A5
 		private static IEnumerable<IOptionData> GetGameplayGeneralOptions(bool isMultiplayer)
 		{
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.Language);
@@ -205,7 +189,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003271 RID: 12913 RVA: 0x000D11B5 File Offset: 0x000CF3B5
 		private static IEnumerable<OptionGroup> GetGameplayOptionGroups(bool isMultiplayer)
 		{
 			yield return new OptionGroup(new TextObject("{=m9KoYCv5}Controls", null), OptionsProvider.GetGameplayControlsOptions(isMultiplayer));
@@ -219,7 +202,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003272 RID: 12914 RVA: 0x000D11C5 File Offset: 0x000CF3C5
 		private static IEnumerable<IOptionData> GetGameplayControlsOptions(bool isMultiplayer)
 		{
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.ControlBlockDirection);
@@ -237,7 +219,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003273 RID: 12915 RVA: 0x000D11D5 File Offset: 0x000CF3D5
 		private static IEnumerable<IOptionData> GetGameplayVisualOptions(bool isMultiplayer)
 		{
 			yield return new NativeNumericOptionData(NativeOptions.NativeOptionsType.TrailAmount);
@@ -246,7 +227,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003274 RID: 12916 RVA: 0x000D11DE File Offset: 0x000CF3DE
 		private static IEnumerable<IOptionData> GetGameplayCameraOptions(bool isMultiplayer)
 		{
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.TurnCameraWithHorseInFirstPerson);
@@ -256,7 +236,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003275 RID: 12917 RVA: 0x000D11E7 File Offset: 0x000CF3E7
 		private static IEnumerable<IOptionData> GetGameplayUIOptions(bool isMultiplayer)
 		{
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.CrosshairType);
@@ -291,7 +270,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003276 RID: 12918 RVA: 0x000D11F7 File Offset: 0x000CF3F7
 		private static IEnumerable<IOptionData> GetGameplayCampaignOptions()
 		{
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.AutoTrackAttackedSettlements);
@@ -299,7 +277,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003277 RID: 12919 RVA: 0x000D1200 File Offset: 0x000CF400
 		public static IEnumerable<string> GetGameKeyCategoriesList(bool isMultiplayer)
 		{
 			yield return GameKeyMainCategories.ActionCategory;
@@ -318,25 +295,21 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		// Token: 0x06003278 RID: 12920 RVA: 0x000D1210 File Offset: 0x000CF410
 		public static OptionCategory GetControllerOptionCategory()
 		{
 			return new OptionCategory(OptionsProvider.GetControllerBaseOptions(), OptionsProvider.GetControllerOptionGroups());
 		}
 
-		// Token: 0x06003279 RID: 12921 RVA: 0x000D1221 File Offset: 0x000CF421
 		private static IEnumerable<IOptionData> GetControllerBaseOptions()
 		{
 			return null;
 		}
 
-		// Token: 0x0600327A RID: 12922 RVA: 0x000D1224 File Offset: 0x000CF424
 		private static IEnumerable<OptionGroup> GetControllerOptionGroups()
 		{
 			return null;
 		}
 
-		// Token: 0x0600327B RID: 12923 RVA: 0x000D1228 File Offset: 0x000CF428
 		public static Dictionary<NativeOptions.NativeOptionsType, float[]> GetDefaultNativeOptions()
 		{
 			if (OptionsProvider._defaultNativeOptions == null)
@@ -364,7 +337,6 @@ namespace TaleWorlds.MountAndBlade.Options
 			return OptionsProvider._defaultNativeOptions;
 		}
 
-		// Token: 0x0600327C RID: 12924 RVA: 0x000D12E8 File Offset: 0x000CF4E8
 		public static Dictionary<ManagedOptions.ManagedOptionsType, float[]> GetDefaultManagedOptions()
 		{
 			if (OptionsProvider._defaultManagedOptions == null)
@@ -386,13 +358,10 @@ namespace TaleWorlds.MountAndBlade.Options
 			return OptionsProvider._defaultManagedOptions;
 		}
 
-		// Token: 0x04001549 RID: 5449
 		private static readonly int _overallConfigCount = NativeSelectionOptionData.GetOptionsLimit(NativeOptions.NativeOptionsType.OverAll) - 1;
 
-		// Token: 0x0400154A RID: 5450
 		private static Dictionary<NativeOptions.NativeOptionsType, float[]> _defaultNativeOptions;
 
-		// Token: 0x0400154B RID: 5451
 		private static Dictionary<ManagedOptions.ManagedOptionsType, float[]> _defaultManagedOptions;
 	}
 }

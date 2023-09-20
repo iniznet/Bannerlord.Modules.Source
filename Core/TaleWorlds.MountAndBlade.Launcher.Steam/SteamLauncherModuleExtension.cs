@@ -6,16 +6,13 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Steam
 {
-	// Token: 0x02000002 RID: 2
 	public class SteamLauncherModuleExtension : IPlatformModuleExtension
 	{
-		// Token: 0x06000001 RID: 1 RVA: 0x00002048 File Offset: 0x00000248
 		public SteamLauncherModuleExtension()
 		{
 			this._modulePaths = new List<string>();
 		}
 
-		// Token: 0x06000002 RID: 2 RVA: 0x0000205C File Offset: 0x0000025C
 		public void Initialize()
 		{
 			this._steamInitialized = SteamAPI.Init();
@@ -52,13 +49,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Steam
 			}
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x00002100 File Offset: 0x00000300
 		public string[] GetModulePaths()
 		{
 			return this._modulePaths.ToArray();
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x0000210D File Offset: 0x0000030D
 		public void Destroy()
 		{
 			if (this._steamInitialized)
@@ -67,10 +62,8 @@ namespace TaleWorlds.MountAndBlade.Launcher.Steam
 			}
 		}
 
-		// Token: 0x04000001 RID: 1
 		private bool _steamInitialized;
 
-		// Token: 0x04000002 RID: 2
 		private List<string> _modulePaths;
 	}
 }

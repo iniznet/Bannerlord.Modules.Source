@@ -13,10 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000FA RID: 250
 	public class DefaultClanFinanceModel : ClanFinanceModel
 	{
-		// Token: 0x060014C5 RID: 5317 RVA: 0x0005D1F4 File Offset: 0x0005B3F4
 		public override ExplainedNumber CalculateClanGoldChange(Clan clan, bool includeDescriptions = false, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -25,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014C6 RID: 5318 RVA: 0x0005D228 File Offset: 0x0005B428
 		public override ExplainedNumber CalculateClanIncome(Clan clan, bool includeDescriptions = false, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -33,7 +30,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014C7 RID: 5319 RVA: 0x0005D250 File Offset: 0x0005B450
 		private void CalculateClanIncomeInternal(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			if (clan.IsEliminated)
@@ -74,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014C8 RID: 5320 RVA: 0x0005D3A8 File Offset: 0x0005B5A8
 		public void CalculateClanExpensesInternal(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			this.AddExpensesFromPartiesAndGarrisons(clan, ref goldChange, applyWithdrawals, includeDetails);
@@ -99,7 +94,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014C9 RID: 5321 RVA: 0x0005D45C File Offset: 0x0005B65C
 		public override ExplainedNumber CalculateClanExpenses(Clan clan, bool includeDescriptions = false, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -107,7 +101,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014CA RID: 5322 RVA: 0x0005D484 File Offset: 0x0005B684
 		private void AddPaymentForDebts(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			if (clan.Kingdom != null && clan.DebtToKingdom > 0)
@@ -122,7 +115,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014CB RID: 5323 RVA: 0x0005D4E0 File Offset: 0x0005B6E0
 		private void AddRulingClanIncome(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, bool includeDetails)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
@@ -203,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014CC RID: 5324 RVA: 0x0005D820 File Offset: 0x0005BA20
 		private void AddExpensesForHiredMercenaries(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			Kingdom kingdom = clan.Kingdom;
@@ -222,7 +213,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014CD RID: 5325 RVA: 0x0005D874 File Offset: 0x0005BA74
 		private void AddExpensesForTributes(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			Kingdom kingdom = clan.Kingdom;
@@ -245,7 +235,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014CE RID: 5326 RVA: 0x0005D8DC File Offset: 0x0005BADC
 		private static void ApplyShareForExpenses(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, int expenseShare, TextObject mercenaryExpensesStr)
 		{
 			if (applyWithdrawals)
@@ -261,7 +250,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.Add((float)(-(float)expenseShare), mercenaryExpensesStr, null);
 		}
 
-		// Token: 0x060014CF RID: 5327 RVA: 0x0005D924 File Offset: 0x0005BB24
 		private void AddSettlementIncome(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, bool includeDetails)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
@@ -302,7 +290,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.AddFromExplainedNumber(explainedNumber, DefaultClanFinanceModel._settlementIncome);
 		}
 
-		// Token: 0x060014D0 RID: 5328 RVA: 0x0005DB34 File Offset: 0x0005BD34
 		private int CalculateVillageIncome(Clan clan, Village village, bool applyWithdrawals)
 		{
 			int num = ((village.VillageState == Village.VillageStates.Looted || village.VillageState == Village.VillageStates.BeingRaided) ? 0 : ((int)((float)village.TradeTaxAccumulated / this.RevenueSmoothenFraction())));
@@ -341,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060014D1 RID: 5329 RVA: 0x0005DC68 File Offset: 0x0005BE68
 		private static float CalculateShareFactor(Clan clan)
 		{
 			Kingdom kingdom = clan.Kingdom;
@@ -363,7 +349,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}) + ((clan == kingdom.RulingClan) ? 1 : 0) + 1) / (float)num;
 		}
 
-		// Token: 0x060014D2 RID: 5330 RVA: 0x0005DCF4 File Offset: 0x0005BEF4
 		private void AddMercenaryIncome(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			if (clan.IsUnderMercenaryService && clan.Leader != null && clan.Kingdom != null)
@@ -377,7 +362,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014D3 RID: 5331 RVA: 0x0005DD6C File Offset: 0x0005BF6C
 		private void AddIncomeFromKingdomBudget(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			int num = ((clan.Gold < 5000) ? 2000 : ((clan.Gold < 10000) ? 1500 : ((clan.Gold < 20000) ? 1000 : 500)));
@@ -391,7 +375,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.Add((float)num2, DefaultClanFinanceModel._kingdomSupport, null);
 		}
 
-		// Token: 0x060014D4 RID: 5332 RVA: 0x0005DE24 File Offset: 0x0005C024
 		private void AddPlayerClanIncomeFromOwnedAlleys(ref ExplainedNumber goldChange)
 		{
 			int num = 0;
@@ -402,7 +385,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.Add((float)num, DefaultClanFinanceModel._alley, null);
 		}
 
-		// Token: 0x060014D5 RID: 5333 RVA: 0x0005DE9C File Offset: 0x0005C09C
 		private void AddIncomeFromTribute(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, bool includeDetails)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
@@ -445,7 +427,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.AddFromExplainedNumber(explainedNumber, DefaultClanFinanceModel._tributeIncomes);
 		}
 
-		// Token: 0x060014D6 RID: 5334 RVA: 0x0005DFF8 File Offset: 0x0005C1F8
 		private void AddIncomeFromParties(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, bool includeDetails)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
@@ -487,7 +468,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.AddFromExplainedNumber(explainedNumber, DefaultClanFinanceModel._caravanAndPartyIncome);
 		}
 
-		// Token: 0x060014D7 RID: 5335 RVA: 0x0005E30C File Offset: 0x0005C50C
 		private int AddIncomeFromParty(MobileParty party, Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			int num = 0;
@@ -529,7 +509,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060014D8 RID: 5336 RVA: 0x0005E440 File Offset: 0x0005C640
 		private void AddExpensesFromPartiesAndGarrisons(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals, bool includeDetails)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
@@ -580,7 +559,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.AddFromExplainedNumber(explainedNumber, DefaultClanFinanceModel._garrisonAndPartyExpenses);
 		}
 
-		// Token: 0x060014D9 RID: 5337 RVA: 0x0005E73C File Offset: 0x0005C93C
 		private void AddExpensesForAutoRecruitment(Clan clan, ref ExplainedNumber goldChange, bool applyWithdrawals = false)
 		{
 			int num = clan.AutoRecruitmentExpenses / 5;
@@ -591,7 +569,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.Add((float)(-(float)num), DefaultClanFinanceModel._autoRecruitmentStr, null);
 		}
 
-		// Token: 0x060014DA RID: 5338 RVA: 0x0005E774 File Offset: 0x0005C974
 		private int AddExpenseFromLeaderParty(Clan clan, ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			Hero leader = clan.Leader;
@@ -608,7 +585,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x060014DB RID: 5339 RVA: 0x0005E7CC File Offset: 0x0005C9CC
 		private int AddPartyExpense(MobileParty party, Clan clan, ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			int num = clan.Gold + (int)goldChange.ResultNumber;
@@ -658,13 +634,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x060014DC RID: 5340 RVA: 0x0005E915 File Offset: 0x0005CB15
 		public override int CalculateOwnerIncomeFromCaravan(MobileParty caravan)
 		{
 			return (int)((float)MathF.Max(0, caravan.PartyTradeGold - 10000) / this.RevenueSmoothenFraction());
 		}
 
-		// Token: 0x060014DD RID: 5341 RVA: 0x0005E932 File Offset: 0x0005CB32
 		private void RemovePartyGold(MobileParty party, int share)
 		{
 			if (party.IsLordParty && party.LeaderHero != null)
@@ -675,19 +649,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			party.PartyTradeGold -= share;
 		}
 
-		// Token: 0x060014DE RID: 5342 RVA: 0x0005E966 File Offset: 0x0005CB66
 		public override int CalculateOwnerIncomeFromWorkshop(Workshop workshop)
 		{
 			return (int)((float)MathF.Max(0, workshop.ProfitMade) / this.RevenueSmoothenFraction());
 		}
 
-		// Token: 0x060014DF RID: 5343 RVA: 0x0005E97D File Offset: 0x0005CB7D
 		public override int CalculateOwnerExpenseFromWorkshop(Workshop workshop)
 		{
 			return (int)((float)MathF.Max(0, workshop.InitialCapital - workshop.Capital) / this.RevenueSmoothenFraction());
 		}
 
-		// Token: 0x060014E0 RID: 5344 RVA: 0x0005E99C File Offset: 0x0005CB9C
 		private void CalculateHeroIncomeFromAssets(Hero hero, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			int num = 0;
@@ -721,7 +692,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014E1 RID: 5345 RVA: 0x0005EABC File Offset: 0x0005CCBC
 		private void CalculateHeroIncomeFromWorkshops(Hero hero, ref ExplainedNumber goldChange, bool applyWithdrawals)
 		{
 			int num = 0;
@@ -760,19 +730,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014E2 RID: 5346 RVA: 0x0005EBAC File Offset: 0x0005CDAC
 		public override float RevenueSmoothenFraction()
 		{
 			return 5f;
 		}
 
-		// Token: 0x060014E3 RID: 5347 RVA: 0x0005EBB3 File Offset: 0x0005CDB3
 		public override int PartyGoldLowerTreshold()
 		{
 			return 5000;
 		}
 
-		// Token: 0x060014E4 RID: 5348 RVA: 0x0005EBBC File Offset: 0x0005CDBC
 		private int CalculatePartyWage(MobileParty mobileParty, int budget, bool applyWithdrawals)
 		{
 			int totalWage = mobileParty.TotalWage;
@@ -785,7 +752,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060014E5 RID: 5349 RVA: 0x0005EBE8 File Offset: 0x0005CDE8
 		public override int CalculateNotableDailyGoldChange(Hero hero, bool applyWithdrawals)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
@@ -793,7 +759,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060014E6 RID: 5350 RVA: 0x0005EC18 File Offset: 0x0005CE18
 		private static void ApplyMoraleEffect(MobileParty mobileParty, int wage, int paymentAmount)
 		{
 			if (paymentAmount < wage && wage > 0)
@@ -819,122 +784,81 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x04000753 RID: 1875
 		private static readonly TextObject _townTaxStr = new TextObject("{=TLuaPAIO}{A0} Taxes", null);
 
-		// Token: 0x04000754 RID: 1876
 		private static readonly TextObject _townTradeTaxStr = new TextObject("{=dfwCjiRx}Trade Tax from {A0}", null);
 
-		// Token: 0x04000755 RID: 1877
 		private static readonly TextObject _partyIncomeStr = new TextObject("{=uuyso3mg}Income from Parties", null);
 
-		// Token: 0x04000756 RID: 1878
 		private static readonly TextObject _financialHelpStr = new TextObject("{=E3BsEDav}Financial Help for Parties", null);
 
-		// Token: 0x04000757 RID: 1879
 		private static readonly TextObject _scutageTaxStr = new TextObject("{=RuHaC2Ck}Scutage Tax", null);
 
-		// Token: 0x04000758 RID: 1880
 		private static readonly TextObject _caravanIncomeStr = new TextObject("{=qyahMgD3}Caravan ({A0})", null);
 
-		// Token: 0x04000759 RID: 1881
 		private static readonly TextObject _projectsIncomeStr = new TextObject("{=uixuohBp}Settlement Projects", null);
 
-		// Token: 0x0400075A RID: 1882
 		private static readonly TextObject _partyExpensesStr = new TextObject("{=dZDFxUvU}{A0} Party Expense", null);
 
-		// Token: 0x0400075B RID: 1883
 		private static readonly TextObject _shopIncomeStr = new TextObject("{=0g7MZCAK}Workshop Income", null);
 
-		// Token: 0x0400075C RID: 1884
 		private static readonly TextObject _mercenaryStr = new TextObject("{=qcaaJLhx}Mercenary Contract", null);
 
-		// Token: 0x0400075D RID: 1885
 		private static readonly TextObject _mercenaryExpensesStr = new TextObject("{=5aElrlUt}Payment to Mercenaries", null);
 
-		// Token: 0x0400075E RID: 1886
 		private static readonly TextObject _tributeExpensesStr = new TextObject("{=AtFv5RMW}Tribute Payments", null);
 
-		// Token: 0x0400075F RID: 1887
 		private static readonly TextObject _tributeIncomeStr = new TextObject("{=rhfgzKtA}Tribute from {A0}", null);
 
-		// Token: 0x04000760 RID: 1888
 		private static readonly TextObject _tributeIncomes = new TextObject("{=tributeIncome}Tribute Income", null);
 
-		// Token: 0x04000761 RID: 1889
 		private static readonly TextObject _settlementIncome = new TextObject("{=AewK9qME}Settlement Income", null);
 
-		// Token: 0x04000762 RID: 1890
 		private static readonly TextObject _mainPartywageStr = new TextObject("{=YkZKXsIn}Main party wages", null);
 
-		// Token: 0x04000763 RID: 1891
 		private static readonly TextObject _caravanAndPartyIncome = new TextObject("{=8iLzK3Y4}Caravan and Party Income", null);
 
-		// Token: 0x04000764 RID: 1892
 		private static readonly TextObject _garrisonAndPartyExpenses = new TextObject("{=ChUDSiJw}Garrison and Party Expense", null);
 
-		// Token: 0x04000765 RID: 1893
 		private static readonly TextObject _debtStr = new TextObject("{=U3LdMEXb}Debts", null);
 
-		// Token: 0x04000766 RID: 1894
 		private static readonly TextObject _kingdomSupport = new TextObject("{=essaRvXP}King's support", null);
 
-		// Token: 0x04000767 RID: 1895
 		private static readonly TextObject _supportKing = new TextObject("{=WrJSUsBe}Support to king", null);
 
-		// Token: 0x04000768 RID: 1896
 		private static readonly TextObject _workshopExpenseStr = new TextObject("{=oNgwQTTV}Workshop Expense", null);
 
-		// Token: 0x04000769 RID: 1897
 		private static readonly TextObject _kingdomBudgetStr = new TextObject("{=7uzvI8e8}Kingdom Budget Expense", null);
 
-		// Token: 0x0400076A RID: 1898
 		private static readonly TextObject _tariffTaxStr = new TextObject("{=wVMPdc8J}{A0}'s tariff", null);
 
-		// Token: 0x0400076B RID: 1899
 		private static readonly TextObject _autoRecruitmentStr = new TextObject("{=6gvDrbe7}Recruitment Expense", null);
 
-		// Token: 0x0400076C RID: 1900
 		private static readonly TextObject _alley = new TextObject("{=UQc6zg1Q}Owned Alleys", null);
 
-		// Token: 0x0400076D RID: 1901
 		private const int PartyGoldIncomeThreshold = 10000;
 
-		// Token: 0x0400076E RID: 1902
 		private const int PartyGoldLowerThreshold = 5000;
 
-		// Token: 0x0400076F RID: 1903
 		private const int payGarrisonWagesTreshold = 8000;
 
-		// Token: 0x04000770 RID: 1904
 		private const int payClanPartiesTreshold = 4000;
 
-		// Token: 0x04000771 RID: 1905
 		private const int payLeaderPartyWageTreshold = 2000;
 
-		// Token: 0x020004FE RID: 1278
 		private enum TransactionType
 		{
-			// Token: 0x04001581 RID: 5505
 			Income = 1,
-			// Token: 0x04001582 RID: 5506
 			Both = 0,
-			// Token: 0x04001583 RID: 5507
 			Expense = -1
 		}
 
-		// Token: 0x020004FF RID: 1279
 		public enum AssetIncomeType
 		{
-			// Token: 0x04001585 RID: 5509
 			Workshop,
-			// Token: 0x04001586 RID: 5510
 			Caravan,
-			// Token: 0x04001587 RID: 5511
 			Taxes,
-			// Token: 0x04001588 RID: 5512
 			TributesEarned,
-			// Token: 0x04001589 RID: 5513
 			TributesPaid
 		}
 	}

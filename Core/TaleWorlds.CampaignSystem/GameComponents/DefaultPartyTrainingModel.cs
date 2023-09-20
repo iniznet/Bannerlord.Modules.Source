@@ -9,17 +9,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000128 RID: 296
 	public class DefaultPartyTrainingModel : PartyTrainingModel
 	{
-		// Token: 0x060016A7 RID: 5799 RVA: 0x0006E266 File Offset: 0x0006C466
 		public override int GetXpReward(CharacterObject character)
 		{
 			int num = character.Level + 6;
 			return num * num / 3;
 		}
 
-		// Token: 0x060016A8 RID: 5800 RVA: 0x0006E274 File Offset: 0x0006C474
 		public override ExplainedNumber GetEffectiveDailyExperience(MobileParty mobileParty, TroopRosterElement troop)
 		{
 			ExplainedNumber explainedNumber = default(ExplainedNumber);
@@ -104,7 +101,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060016A9 RID: 5801 RVA: 0x0006E66C File Offset: 0x0006C86C
 		private int GetPerkExperiencesForTroops(PerkObject perk)
 		{
 			if (perk == DefaultPerks.Leadership.CombatTips || perk == DefaultPerks.Leadership.RaiseTheMeek || perk == DefaultPerks.OneHanded.MilitaryTradition || perk == DefaultPerks.Crossbow.RenownMarksmen || perk == DefaultPerks.Steward.SevenVeterans || perk == DefaultPerks.Steward.DrillSergant)
@@ -118,7 +114,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x060016AA RID: 5802 RVA: 0x0006E6F4 File Offset: 0x0006C8F4
 		public override int GenerateSharedXp(CharacterObject troop, int xp, MobileParty mobileParty)
 		{
 			float num = (float)xp * 0.05f;
@@ -137,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)num;
 		}
 
-		// Token: 0x060016AB RID: 5803 RVA: 0x0006E780 File Offset: 0x0006C980
 		public override int CalculateXpGainFromBattles(FlattenedTroopRosterElement troopRosterElement, PartyBase party)
 		{
 			int num = troopRosterElement.XpGained;

@@ -3,11 +3,9 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000075 RID: 117
 	[EngineStruct("rglPhysics_contact_pair")]
 	public struct PhysicsContactPair
 	{
-		// Token: 0x17000067 RID: 103
 		public PhysicsContactInfo this[int index]
 		{
 			get
@@ -36,34 +34,24 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x0400015C RID: 348
 		public readonly PhysicsContactInfo Contact0;
 
-		// Token: 0x0400015D RID: 349
 		public readonly PhysicsContactInfo Contact1;
 
-		// Token: 0x0400015E RID: 350
 		public readonly PhysicsContactInfo Contact2;
 
-		// Token: 0x0400015F RID: 351
 		public readonly PhysicsContactInfo Contact3;
 
-		// Token: 0x04000160 RID: 352
 		public readonly PhysicsContactInfo Contact4;
 
-		// Token: 0x04000161 RID: 353
 		public readonly PhysicsContactInfo Contact5;
 
-		// Token: 0x04000162 RID: 354
 		public readonly PhysicsContactInfo Contact6;
 
-		// Token: 0x04000163 RID: 355
 		public readonly PhysicsContactInfo Contact7;
 
-		// Token: 0x04000164 RID: 356
 		public readonly PhysicsEventType ContactEventType;
 
-		// Token: 0x04000165 RID: 357
 		public readonly int NumberOfContacts;
 	}
 }

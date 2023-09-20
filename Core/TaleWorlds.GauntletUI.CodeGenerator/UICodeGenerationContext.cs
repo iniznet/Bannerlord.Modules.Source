@@ -9,35 +9,18 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.CodeGenerator
 {
-	// Token: 0x0200000E RID: 14
 	public class UICodeGenerationContext
 	{
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x060000B0 RID: 176 RVA: 0x00004485 File Offset: 0x00002685
-		// (set) Token: 0x060000B1 RID: 177 RVA: 0x0000448D File Offset: 0x0000268D
 		public ResourceDepot ResourceDepot { get; private set; }
 
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x060000B2 RID: 178 RVA: 0x00004496 File Offset: 0x00002696
-		// (set) Token: 0x060000B3 RID: 179 RVA: 0x0000449E File Offset: 0x0000269E
 		public WidgetFactory WidgetFactory { get; private set; }
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x060000B4 RID: 180 RVA: 0x000044A7 File Offset: 0x000026A7
-		// (set) Token: 0x060000B5 RID: 181 RVA: 0x000044AF File Offset: 0x000026AF
 		public FontFactory FontFactory { get; private set; }
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x060000B6 RID: 182 RVA: 0x000044B8 File Offset: 0x000026B8
-		// (set) Token: 0x060000B7 RID: 183 RVA: 0x000044C0 File Offset: 0x000026C0
 		public BrushFactory BrushFactory { get; private set; }
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060000B8 RID: 184 RVA: 0x000044C9 File Offset: 0x000026C9
-		// (set) Token: 0x060000B9 RID: 185 RVA: 0x000044D1 File Offset: 0x000026D1
 		public SpriteData SpriteData { get; private set; }
 
-		// Token: 0x060000BA RID: 186 RVA: 0x000044DA File Offset: 0x000026DA
 		public UICodeGenerationContext(string nameSpace, string outputFolder)
 		{
 			this._nameSpace = nameSpace;
@@ -45,7 +28,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			this._widgetTemplateGenerateContexts = new List<WidgetTemplateGenerateContext>();
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x000044FC File Offset: 0x000026FC
 		public void Prepare(IEnumerable<string> resourceLocations, IEnumerable<PrefabExtension> prefabExtensions)
 		{
 			this.ResourceDepot = new ResourceDepot();
@@ -68,14 +50,12 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			this.BrushFactory.Initialize();
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x00004638 File Offset: 0x00002838
 		public void AddPrefabVariant(string prefabName, string variantName, UICodeGenerationVariantExtension variantExtension, Dictionary<string, object> data)
 		{
 			WidgetTemplateGenerateContext widgetTemplateGenerateContext = WidgetTemplateGenerateContext.CreateAsRoot(this, prefabName, variantName, variantExtension, data);
 			this._widgetTemplateGenerateContexts.Add(widgetTemplateGenerateContext);
 		}
 
-		// Token: 0x060000BD RID: 189 RVA: 0x00004660 File Offset: 0x00002860
 		private static void ClearFolder(string folderName)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(folderName);
@@ -91,7 +71,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000BE RID: 190 RVA: 0x000046BC File Offset: 0x000028BC
 		public void Generate()
 		{
 			Dictionary<string, CodeGenerationContext> dictionary = new Dictionary<string, CodeGenerationContext>();
@@ -140,13 +119,10 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			File.WriteAllText(fullPath + "\\PrefabCodes.gen.cs", text3, Encoding.UTF8);
 		}
 
-		// Token: 0x0400004C RID: 76
 		private List<WidgetTemplateGenerateContext> _widgetTemplateGenerateContexts;
 
-		// Token: 0x0400004D RID: 77
 		private readonly string _nameSpace;
 
-		// Token: 0x0400004E RID: 78
 		private readonly string _outputFolder;
 	}
 }

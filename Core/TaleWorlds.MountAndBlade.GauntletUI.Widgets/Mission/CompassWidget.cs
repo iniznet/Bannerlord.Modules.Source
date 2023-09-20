@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 {
-	// Token: 0x020000C7 RID: 199
 	public class CompassWidget : Widget
 	{
-		// Token: 0x060009FC RID: 2556 RVA: 0x0001C6D9 File Offset: 0x0001A8D9
 		public CompassWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060009FD RID: 2557 RVA: 0x0001C6E2 File Offset: 0x0001A8E2
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -23,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 			this.HandleMarkerPositioning();
 		}
 
-		// Token: 0x060009FE RID: 2558 RVA: 0x0001C6F8 File Offset: 0x0001A8F8
 		private void HandleHorizontalPositioning()
 		{
 			if (this.ItemContainerPanel.ChildCount <= 0)
@@ -81,7 +77,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 			}
 		}
 
-		// Token: 0x060009FF RID: 2559 RVA: 0x0001C8E0 File Offset: 0x0001AAE0
 		private void HandleMarkerPositioning()
 		{
 			if (this.MarkerContainerPanel.ChildCount <= 0)
@@ -99,9 +94,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 			}
 		}
 
-		// Token: 0x1700037E RID: 894
-		// (get) Token: 0x06000A00 RID: 2560 RVA: 0x0001C9B1 File Offset: 0x0001ABB1
-		// (set) Token: 0x06000A01 RID: 2561 RVA: 0x0001C9B9 File Offset: 0x0001ABB9
 		[DataSourceProperty]
 		public Widget ItemContainerPanel
 		{
@@ -119,9 +111,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 			}
 		}
 
-		// Token: 0x1700037F RID: 895
-		// (get) Token: 0x06000A02 RID: 2562 RVA: 0x0001C9D7 File Offset: 0x0001ABD7
-		// (set) Token: 0x06000A03 RID: 2563 RVA: 0x0001C9DF File Offset: 0x0001ABDF
 		[DataSourceProperty]
 		public Widget MarkerContainerPanel
 		{
@@ -139,10 +128,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission
 			}
 		}
 
-		// Token: 0x0400048F RID: 1167
 		private Widget _itemContainerPanel;
 
-		// Token: 0x04000490 RID: 1168
 		private Widget _markerContainerPanel;
 	}
 }

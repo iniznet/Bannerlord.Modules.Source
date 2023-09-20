@@ -5,16 +5,13 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x02000013 RID: 19
 	public class SaveableBasicTypeDefiner : SaveableTypeDefiner
 	{
-		// Token: 0x06000059 RID: 89 RVA: 0x00002CFF File Offset: 0x00000EFF
 		public SaveableBasicTypeDefiner()
 			: base(30000)
 		{
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00002D0C File Offset: 0x00000F0C
 		protected internal override void DefineBasicTypes()
 		{
 			base.AddBasicTypeDefinition(typeof(int), 1, new IntBasicTypeSerializer());
@@ -40,7 +37,6 @@ namespace TaleWorlds.SaveSystem
 			base.AddBasicTypeDefinition(typeof(string), 21, new StringSerializer());
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x00002EF4 File Offset: 0x000010F4
 		protected internal override void DefineClassTypes()
 		{
 			base.AddClassDefinition(typeof(object), 0, null);
@@ -60,7 +56,6 @@ namespace TaleWorlds.SaveSystem
 			base.AddClassDefinition(typeof(GenericComparer<>), 106, null);
 		}
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00002FAC File Offset: 0x000011AC
 		protected internal override void DefineStructTypes()
 		{
 			base.AddStructDefinitionWithCustomFields(typeof(Nullable<>), 101, new Tuple<string, short>[]
@@ -79,7 +74,6 @@ namespace TaleWorlds.SaveSystem
 			}, null);
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x0000304C File Offset: 0x0000124C
 		protected internal override void DefineGenericStructDefinitions()
 		{
 			base.ConstructGenericStructDefinition(typeof(KeyValuePair<string, string>));
@@ -90,7 +84,6 @@ namespace TaleWorlds.SaveSystem
 			base.ConstructGenericStructDefinition(typeof(ValueTuple<string, int>));
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x000030BC File Offset: 0x000012BC
 		protected internal override void DefineGenericClassDefinitions()
 		{
 			base.ConstructGenericClassDefinition(typeof(Tuple<string, int>));
@@ -99,7 +92,6 @@ namespace TaleWorlds.SaveSystem
 			base.ConstructGenericClassDefinition(typeof(GenericComparer<float>));
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x0000310C File Offset: 0x0000130C
 		protected internal override void DefineContainerDefinitions()
 		{
 			base.ConstructContainerDefinition(typeof(List<int>));

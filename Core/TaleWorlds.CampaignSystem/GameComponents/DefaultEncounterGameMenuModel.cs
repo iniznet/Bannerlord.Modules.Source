@@ -9,10 +9,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000108 RID: 264
 	public class DefaultEncounterGameMenuModel : EncounterGameMenuModel
 	{
-		// Token: 0x0600157E RID: 5502 RVA: 0x0006548E File Offset: 0x0006368E
 		protected PartyBase GetEncounteredPartyBase(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			if (attackerParty == PartyBase.MainParty || defenderParty == PartyBase.MainParty)
@@ -33,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600157F RID: 5503 RVA: 0x000654B8 File Offset: 0x000636B8
 		public override string GetEncounterMenu(PartyBase attackerParty, PartyBase defenderParty, out bool startBattle, out bool joinBattle)
 		{
 			PartyBase encounteredPartyBase = this.GetEncounteredPartyBase(attackerParty, defenderParty);
@@ -166,13 +163,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001580 RID: 5504 RVA: 0x0006592B File Offset: 0x00063B2B
 		public override string GetRaidCompleteMenu()
 		{
 			return "village_loot_complete";
 		}
 
-		// Token: 0x06001581 RID: 5505 RVA: 0x00065934 File Offset: 0x00063B34
 		public override string GetNewPartyJoinMenu(MobileParty newParty)
 		{
 			if (!PartyBase.MainParty.MapEvent.IsRaid || PartyBase.MainParty.MapEvent.AttackerSide.LeaderParty.MapFaction == PartyBase.MainParty.MapEvent.MapEventSettlement.MapFaction)
@@ -186,7 +181,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return "join_encounter";
 		}
 
-		// Token: 0x06001582 RID: 5506 RVA: 0x000659BC File Offset: 0x00063BBC
 		public override string GetGenericStateMenu()
 		{
 			MobileParty mainParty = MobileParty.MainParty;

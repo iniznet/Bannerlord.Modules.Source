@@ -7,11 +7,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace StoryMode.StoryModeObjects
 {
-	// Token: 0x02000017 RID: 23
 	public class StoryModeHeroes
 	{
-		// Token: 0x1700002C RID: 44
-		// (get) Token: 0x060000A4 RID: 164 RVA: 0x00005016 File Offset: 0x00003216
 		public static Hero ElderBrother
 		{
 			get
@@ -20,8 +17,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x060000A5 RID: 165 RVA: 0x00005027 File Offset: 0x00003227
 		public static Hero LittleBrother
 		{
 			get
@@ -30,8 +25,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x060000A6 RID: 166 RVA: 0x00005038 File Offset: 0x00003238
 		public static Hero LittleSister
 		{
 			get
@@ -40,8 +33,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x060000A7 RID: 167 RVA: 0x00005049 File Offset: 0x00003249
 		public static Hero Tacitus
 		{
 			get
@@ -50,8 +41,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x060000A8 RID: 168 RVA: 0x0000505A File Offset: 0x0000325A
 		public static Hero Radagos
 		{
 			get
@@ -60,8 +49,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x060000A9 RID: 169 RVA: 0x0000506B File Offset: 0x0000326B
 		public static Hero ImperialMentor
 		{
 			get
@@ -70,8 +57,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x060000AA RID: 170 RVA: 0x0000507C File Offset: 0x0000327C
 		public static Hero AntiImperialMentor
 		{
 			get
@@ -80,8 +65,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x060000AB RID: 171 RVA: 0x0000508D File Offset: 0x0000328D
 		public static Hero RadagosHencman
 		{
 			get
@@ -90,8 +73,6 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x17000034 RID: 52
-		// (get) Token: 0x060000AC RID: 172 RVA: 0x0000509E File Offset: 0x0000329E
 		public static Clan RadiersClan
 		{
 			get
@@ -100,13 +81,11 @@ namespace StoryMode.StoryModeObjects
 			}
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x000050C9 File Offset: 0x000032C9
 		internal StoryModeHeroes()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x000050D8 File Offset: 0x000032D8
 		private void RegisterAll()
 		{
 			Clan clan = Campaign.Current.CampaignObjectManager.Find<Clan>("player_faction");
@@ -141,52 +120,36 @@ namespace StoryMode.StoryModeObjects
 			HeroCreator.CreateBasicHero(MBObjectManager.Instance.GetObject<CharacterObject>("radagos_henchman"), ref this._radagosHenchman, "radagos_henchman");
 		}
 
-		// Token: 0x04000031 RID: 49
 		private const string BrotherStringId = "tutorial_npc_brother";
 
-		// Token: 0x04000032 RID: 50
 		private const string LittleBrotherStringId = "storymode_little_brother";
 
-		// Token: 0x04000033 RID: 51
 		private const string LittleSisterStringId = "storymode_little_sister";
 
-		// Token: 0x04000034 RID: 52
 		private const string TacitusStringId = "tutorial_npc_tacitus";
 
-		// Token: 0x04000035 RID: 53
 		private const string RadagosStringId = "tutorial_npc_radagos";
 
-		// Token: 0x04000036 RID: 54
 		private const string IstianaStringId = "storymode_imperial_mentor_istiana";
 
-		// Token: 0x04000037 RID: 55
 		private const string ArzagosStringId = "storymode_imperial_mentor_arzagos";
 
-		// Token: 0x04000038 RID: 56
 		private const string GalterStringId = "radagos_henchman";
 
-		// Token: 0x04000039 RID: 57
 		private Hero _elderBrother;
 
-		// Token: 0x0400003A RID: 58
 		private Hero _littleBrother;
 
-		// Token: 0x0400003B RID: 59
 		private Hero _littleSister;
 
-		// Token: 0x0400003C RID: 60
 		private Hero _tacitus;
 
-		// Token: 0x0400003D RID: 61
 		private Hero _radagos;
 
-		// Token: 0x0400003E RID: 62
 		private Hero _imperialMentor;
 
-		// Token: 0x0400003F RID: 63
 		private Hero _antiImperialMentor;
 
-		// Token: 0x04000040 RID: 64
 		private Hero _radagosHenchman;
 	}
 }

@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200013F RID: 319
 	public class DefaultSiegeEventModel : SiegeEventModel
 	{
-		// Token: 0x0600178F RID: 6031 RVA: 0x000749C4 File Offset: 0x00072BC4
 		public override string GetSiegeEngineMapPrefabName(SiegeEngineType type, int wallLevel, BattleSideEnum side)
 		{
 			string text = null;
@@ -76,7 +74,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x06001790 RID: 6032 RVA: 0x00074ABC File Offset: 0x00072CBC
 		public override string GetSiegeEngineMapProjectilePrefabName(SiegeEngineType type)
 		{
 			string text = null;
@@ -99,7 +96,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x06001791 RID: 6033 RVA: 0x00074B2C File Offset: 0x00072D2C
 		public override string GetSiegeEngineMapReloadAnimationName(SiegeEngineType type, BattleSideEnum side)
 		{
 			string text = null;
@@ -138,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x06001792 RID: 6034 RVA: 0x00074BD4 File Offset: 0x00072DD4
 		public override string GetSiegeEngineMapFireAnimationName(SiegeEngineType type, BattleSideEnum side)
 		{
 			string text = null;
@@ -177,7 +172,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x06001793 RID: 6035 RVA: 0x00074C7C File Offset: 0x00072E7C
 		public override sbyte GetSiegeEngineMapProjectileBoneIndex(SiegeEngineType type, BattleSideEnum side)
 		{
 			if (type == DefaultSiegeEngineTypes.Onager || type == DefaultSiegeEngineTypes.FireOnager)
@@ -203,7 +197,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -1;
 		}
 
-		// Token: 0x06001794 RID: 6036 RVA: 0x00074CD8 File Offset: 0x00072ED8
 		public override MobileParty GetEffectiveSiegePartyForSide(SiegeEvent siegeEvent, BattleSideEnum battleSide)
 		{
 			MobileParty mobileParty = null;
@@ -232,7 +225,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return mobileParty;
 		}
 
-		// Token: 0x06001795 RID: 6037 RVA: 0x00074D58 File Offset: 0x00072F58
 		public override float GetCasualtyChance(MobileParty siegeParty, SiegeEvent siegeEvent, BattleSideEnum side)
 		{
 			float num = 1f;
@@ -255,13 +247,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001796 RID: 6038 RVA: 0x00074DED File Offset: 0x00072FED
 		public override int GetSiegeEngineDestructionCasualties(SiegeEvent siegeEvent, BattleSideEnum side, SiegeEngineType destroyedSiegeEngine)
 		{
 			return 2;
 		}
 
-		// Token: 0x06001797 RID: 6039 RVA: 0x00074DF0 File Offset: 0x00072FF0
 		public override int GetColleteralDamageCasualties(SiegeEngineType siegeEngineType, MobileParty party)
 		{
 			int num = 1;
@@ -272,7 +262,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001798 RID: 6040 RVA: 0x00074E28 File Offset: 0x00073028
 		public override float GetSiegeEngineHitChance(SiegeEngineType siegeEngineType, BattleSideEnum battleSide, SiegeBombardTargets target, Town town)
 		{
 			float num;
@@ -342,7 +331,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x06001799 RID: 6041 RVA: 0x00075024 File Offset: 0x00073224
 		public override float GetSiegeStrategyScore(SiegeEvent siege, BattleSideEnum side, SiegeStrategy strategy)
 		{
 			if (strategy == DefaultSiegeStrategies.PreserveStrength)
@@ -360,7 +348,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -100f;
 		}
 
-		// Token: 0x0600179A RID: 6042 RVA: 0x00075084 File Offset: 0x00073284
 		public override float GetConstructionProgressPerHour(SiegeEngineType type, SiegeEvent siegeEvent, ISiegeEventSide side)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
@@ -431,7 +418,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x0600179B RID: 6043 RVA: 0x00075310 File Offset: 0x00073510
 		public override float GetAvailableManDayPower(ISiegeEventSide side)
 		{
 			int num = -1;
@@ -445,7 +431,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Sqrt((float)num2);
 		}
 
-		// Token: 0x0600179C RID: 6044 RVA: 0x0007534C File Offset: 0x0007354C
 		public override IEnumerable<SiegeEngineType> GetPrebuiltSiegeEnginesOfSettlement(Settlement settlement)
 		{
 			List<SiegeEngineType> list = new List<SiegeEngineType>();
@@ -485,7 +470,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x0600179D RID: 6045 RVA: 0x00075438 File Offset: 0x00073638
 		public override IEnumerable<SiegeEngineType> GetPrebuiltSiegeEnginesOfSiegeCamp(BesiegerCamp besiegerCamp)
 		{
 			List<SiegeEngineType> list = new List<SiegeEngineType>();
@@ -496,7 +480,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x0600179E RID: 6046 RVA: 0x0007546C File Offset: 0x0007366C
 		public override float GetSiegeEngineHitPoints(SiegeEvent siegeEvent, SiegeEngineType siegeEngine, BattleSideEnum battleSide)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber((float)siegeEngine.BaseHitPoints, false, null);
@@ -520,7 +503,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x0600179F RID: 6047 RVA: 0x00075548 File Offset: 0x00073748
 		public override float GetSiegeEngineDamage(SiegeEvent siegeEvent, BattleSideEnum battleSide, SiegeEngineType siegeEngine, SiegeBombardTargets target)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber((float)siegeEngine.Damage, false, null);
@@ -559,7 +541,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060017A0 RID: 6048 RVA: 0x00075674 File Offset: 0x00073874
 		public override int GetRangedSiegeEngineReloadTime(SiegeEvent siegeEvent, BattleSideEnum side, SiegeEngineType siegeEngine)
 		{
 			float campaignRateOfFirePerDay = siegeEngine.CampaignRateOfFirePerDay;
@@ -580,7 +561,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x060017A1 RID: 6049 RVA: 0x0007572E File Offset: 0x0007392E
 		public override IEnumerable<SiegeEngineType> GetAvailableAttackerRangedSiegeEngines(PartyBase party)
 		{
 			bool hasFirePerks = party.MobileParty.HasPerk(DefaultPerks.Engineering.Stonecutters, true) || party.MobileParty.HasPerk(DefaultPerks.Engineering.SiegeEngineer, true);
@@ -598,7 +578,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			yield break;
 		}
 
-		// Token: 0x060017A2 RID: 6050 RVA: 0x0007573E File Offset: 0x0007393E
 		public override IEnumerable<SiegeEngineType> GetAvailableDefenderSiegeEngines(PartyBase party)
 		{
 			bool hasFirePerks = party.MobileParty.HasPerk(DefaultPerks.Engineering.Stonecutters, true) || party.MobileParty.HasPerk(DefaultPerks.Engineering.SiegeEngineer, true);
@@ -616,21 +595,18 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			yield break;
 		}
 
-		// Token: 0x060017A3 RID: 6051 RVA: 0x0007574E File Offset: 0x0007394E
 		public override IEnumerable<SiegeEngineType> GetAvailableAttackerRamSiegeEngines(PartyBase party)
 		{
 			yield return DefaultSiegeEngineTypes.Ram;
 			yield break;
 		}
 
-		// Token: 0x060017A4 RID: 6052 RVA: 0x00075757 File Offset: 0x00073957
 		public override IEnumerable<SiegeEngineType> GetAvailableAttackerTowerSiegeEngines(PartyBase party)
 		{
 			yield return DefaultSiegeEngineTypes.SiegeTower;
 			yield break;
 		}
 
-		// Token: 0x060017A5 RID: 6053 RVA: 0x00075760 File Offset: 0x00073960
 		public override FlattenedTroopRoster GetPriorityTroopsForSallyOutAmbush()
 		{
 			FlattenedTroopRoster flattenedTroopRoster = new FlattenedTroopRoster(4);
@@ -671,17 +647,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flattenedTroopRoster;
 		}
 
-		// Token: 0x060017A6 RID: 6054 RVA: 0x00075940 File Offset: 0x00073B40
 		private bool IsPriorityTroopForSallyOutAmbush(TroopRosterElement troop)
 		{
 			CharacterObject character = troop.Character;
 			return character.IsHero || character.HasMount();
 		}
 
-		// Token: 0x04000868 RID: 2152
 		private readonly TextObject _baseConstructionSpeedText = new TextObject("{=MhGbcXJ4}Base construction speed", null);
 
-		// Token: 0x04000869 RID: 2153
 		private readonly TextObject _constructionSpeedProjectBonusText = new TextObject("{=xoTWC8Sm}Project Bonus", null);
 	}
 }

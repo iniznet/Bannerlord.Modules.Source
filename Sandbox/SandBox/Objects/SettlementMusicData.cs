@@ -7,21 +7,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Objects
 {
-	// Token: 0x02000025 RID: 37
 	public class SettlementMusicData : MBObjectBase
 	{
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x060001B3 RID: 435 RVA: 0x0000C222 File Offset: 0x0000A422
-		// (set) Token: 0x060001B4 RID: 436 RVA: 0x0000C22A File Offset: 0x0000A42A
 		public string MusicPath { get; private set; }
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x060001B5 RID: 437 RVA: 0x0000C233 File Offset: 0x0000A433
-		// (set) Token: 0x060001B6 RID: 438 RVA: 0x0000C23B File Offset: 0x0000A43B
 		public CultureObject Culture { get; private set; }
 
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x060001B7 RID: 439 RVA: 0x0000C244 File Offset: 0x0000A444
 		public MBReadOnlyList<InstrumentData> Instruments
 		{
 			get
@@ -30,17 +21,10 @@ namespace SandBox.Objects
 			}
 		}
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x060001B8 RID: 440 RVA: 0x0000C24C File Offset: 0x0000A44C
-		// (set) Token: 0x060001B9 RID: 441 RVA: 0x0000C254 File Offset: 0x0000A454
 		public string LocationId { get; private set; }
 
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x060001BA RID: 442 RVA: 0x0000C25D File Offset: 0x0000A45D
-		// (set) Token: 0x060001BB RID: 443 RVA: 0x0000C265 File Offset: 0x0000A465
 		public int Tempo { get; private set; }
 
-		// Token: 0x060001BC RID: 444 RVA: 0x0000C270 File Offset: 0x0000A470
 		public override void Deserialize(MBObjectManager objectManager, XmlNode node)
 		{
 			base.Deserialize(objectManager, node);
@@ -83,7 +67,6 @@ namespace SandBox.Objects
 			this._instruments.Capacity = this._instruments.Count;
 		}
 
-		// Token: 0x040000B5 RID: 181
 		private MBList<InstrumentData> _instruments;
 	}
 }

@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000447 RID: 1095
 	public static class KillCharacterAction
 	{
-		// Token: 0x06003F1D RID: 16157 RVA: 0x0012D4C0 File Offset: 0x0012B6C0
 		private static void ApplyInternal(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail actionDetail, bool showNotification, bool isForced = false)
 		{
 			if (!victim.CanDie(actionDetail) && !isForced)
@@ -175,67 +173,56 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003F1E RID: 16158 RVA: 0x0012DB38 File Offset: 0x0012BD38
 		public static void ApplyByOldAge(Hero victim, bool showNotification = true)
 		{
 			KillCharacterAction.ApplyInternal(victim, null, KillCharacterAction.KillCharacterActionDetail.DiedOfOldAge, showNotification, false);
 		}
 
-		// Token: 0x06003F1F RID: 16159 RVA: 0x0012DB44 File Offset: 0x0012BD44
 		public static void ApplyByWounds(Hero victim, bool showNotification = true)
 		{
 			KillCharacterAction.ApplyInternal(victim, null, KillCharacterAction.KillCharacterActionDetail.WoundedInBattle, showNotification, false);
 		}
 
-		// Token: 0x06003F20 RID: 16160 RVA: 0x0012DB50 File Offset: 0x0012BD50
 		public static void ApplyByBattle(Hero victim, Hero killer, bool showNotification = true)
 		{
 			KillCharacterAction.ApplyInternal(victim, killer, KillCharacterAction.KillCharacterActionDetail.DiedInBattle, showNotification, false);
 		}
 
-		// Token: 0x06003F21 RID: 16161 RVA: 0x0012DB5C File Offset: 0x0012BD5C
 		public static void ApplyByMurder(Hero victim, Hero killer = null, bool showNotification = true)
 		{
 			KillCharacterAction.ApplyInternal(victim, killer, KillCharacterAction.KillCharacterActionDetail.Murdered, showNotification, false);
 		}
 
-		// Token: 0x06003F22 RID: 16162 RVA: 0x0012DB68 File Offset: 0x0012BD68
 		public static void ApplyInLabor(Hero lostMother, bool showNotification = true)
 		{
 			KillCharacterAction.ApplyInternal(lostMother, null, KillCharacterAction.KillCharacterActionDetail.DiedInLabor, showNotification, false);
 		}
 
-		// Token: 0x06003F23 RID: 16163 RVA: 0x0012DB74 File Offset: 0x0012BD74
 		public static void ApplyByExecution(Hero victim, Hero executer, bool showNotification = true, bool isForced = false)
 		{
 			KillCharacterAction.ApplyInternal(victim, executer, KillCharacterAction.KillCharacterActionDetail.Executed, showNotification, isForced);
 		}
 
-		// Token: 0x06003F24 RID: 16164 RVA: 0x0012DB80 File Offset: 0x0012BD80
 		public static void ApplyByRemove(Hero victim, bool showNotification = false, bool isForced = true)
 		{
 			KillCharacterAction.ApplyInternal(victim, null, KillCharacterAction.KillCharacterActionDetail.Lost, showNotification, isForced);
 		}
 
-		// Token: 0x06003F25 RID: 16165 RVA: 0x0012DB8C File Offset: 0x0012BD8C
 		public static void ApplyByDeathMark(Hero victim, bool showNotification = false)
 		{
 			KillCharacterAction.ApplyInternal(victim, victim.DeathMarkKillerHero, victim.DeathMark, showNotification, false);
 		}
 
-		// Token: 0x06003F26 RID: 16166 RVA: 0x0012DBA2 File Offset: 0x0012BDA2
 		public static void ApplyByDeathMarkForced(Hero victim, bool showNotification = false)
 		{
 			KillCharacterAction.ApplyInternal(victim, victim.DeathMarkKillerHero, victim.DeathMark, showNotification, true);
 		}
 
-		// Token: 0x06003F27 RID: 16167 RVA: 0x0012DBB8 File Offset: 0x0012BDB8
 		public static void ApplyByPlayerIllness()
 		{
 			KillCharacterAction.ApplyInternal(Hero.MainHero, null, KillCharacterAction.KillCharacterActionDetail.DiedOfOldAge, true, true);
 		}
 
-		// Token: 0x06003F28 RID: 16168 RVA: 0x0012DBC8 File Offset: 0x0012BDC8
 		private static void MakeDead(Hero victim, bool disbandVictimParty = true)
 		{
 			victim.ChangeState(Hero.CharacterStates.Dead);
@@ -297,7 +284,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003F29 RID: 16169 RVA: 0x0012DD6C File Offset: 0x0012BF6C
 		private static Clan SelectHeirClanForKingdom(Kingdom kingdom, bool exceptRulingClan)
 		{
 			Clan rulingClan = kingdom.RulingClan;
@@ -322,7 +308,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			return clan;
 		}
 
-		// Token: 0x06003F2A RID: 16170 RVA: 0x0012DE18 File Offset: 0x0012C018
 		private static TextObject CreateObituary(Hero hero, KillCharacterAction.KillCharacterActionDetail detail)
 		{
 			TextObject textObject;
@@ -386,24 +371,15 @@ namespace TaleWorlds.CampaignSystem.Actions
 			return textObject;
 		}
 
-		// Token: 0x02000760 RID: 1888
 		public enum KillCharacterActionDetail
 		{
-			// Token: 0x04001E56 RID: 7766
 			None,
-			// Token: 0x04001E57 RID: 7767
 			Murdered,
-			// Token: 0x04001E58 RID: 7768
 			DiedInLabor,
-			// Token: 0x04001E59 RID: 7769
 			DiedOfOldAge,
-			// Token: 0x04001E5A RID: 7770
 			DiedInBattle,
-			// Token: 0x04001E5B RID: 7771
 			WoundedInBattle,
-			// Token: 0x04001E5C RID: 7772
 			Executed,
-			// Token: 0x04001E5D RID: 7773
 			Lost
 		}
 	}

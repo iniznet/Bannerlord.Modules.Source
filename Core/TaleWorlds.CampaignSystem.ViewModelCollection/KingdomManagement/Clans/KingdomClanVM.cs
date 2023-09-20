@@ -9,10 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 {
-	// Token: 0x02000072 RID: 114
 	public class KingdomClanVM : KingdomCategoryVM
 	{
-		// Token: 0x060009FF RID: 2559 RVA: 0x00028488 File Offset: 0x00026688
 		public KingdomClanVM(Action<KingdomDecision> forceDecide)
 		{
 			this._forceDecide = forceDecide;
@@ -35,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000A00 RID: 2560 RVA: 0x00028580 File Offset: 0x00026780
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -52,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			this.ExpelActionExplanationText = GameTexts.FindText("str_expel_clan_action_explanation", null).ToString();
 		}
 
-		// Token: 0x06000A01 RID: 2561 RVA: 0x0002868C File Offset: 0x0002688C
 		private void SetCurrentSelectedClan(KingdomClanItemVM clan)
 		{
 			if (clan != this.CurrentSelectedClan)
@@ -89,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A02 RID: 2562 RVA: 0x000287FC File Offset: 0x000269FC
 		private bool GetCanSupportCurrentClanWithReason(int supportCost, out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -117,7 +112,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			return true;
 		}
 
-		// Token: 0x06000A03 RID: 2563 RVA: 0x00028884 File Offset: 0x00026A84
 		private bool GetCanExpelCurrentClanWithReason(bool isThereAPendingDecision, int expelCost, out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -155,7 +149,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			return true;
 		}
 
-		// Token: 0x06000A04 RID: 2564 RVA: 0x00028948 File Offset: 0x00026B48
 		public void RefreshClan()
 		{
 			this.RefreshClanList();
@@ -165,7 +158,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A05 RID: 2565 RVA: 0x00028998 File Offset: 0x00026B98
 		public void SelectClan(Clan clan)
 		{
 			foreach (KingdomClanItemVM kingdomClanItemVM in this.Clans)
@@ -178,7 +170,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A06 RID: 2566 RVA: 0x000289F0 File Offset: 0x00026BF0
 		private void OnClanSelection(KingdomClanItemVM clan)
 		{
 			if (this._currentSelectedClan != clan)
@@ -187,7 +178,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A07 RID: 2567 RVA: 0x00028A04 File Offset: 0x00026C04
 		private void ExecuteExpelCurrentClan()
 		{
 			if (Hero.MainHero.Clan.Influence >= (float)this.ExpelCost)
@@ -198,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A08 RID: 2568 RVA: 0x00028A5C File Offset: 0x00026C5C
 		private void ExecuteSupport()
 		{
 			if (Hero.MainHero.Clan.Influence >= (float)this.SupportCost)
@@ -210,13 +199,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A09 RID: 2569 RVA: 0x00028AB4 File Offset: 0x00026CB4
 		private int CalculateExpelLikelihood(KingdomClanItemVM clan)
 		{
 			return MathF.Round(new KingdomElection(new ExpelClanFromKingdomDecision(Clan.PlayerClan, clan.Clan)).GetLikelihoodForSponsor(Clan.PlayerClan) * 100f);
 		}
 
-		// Token: 0x06000A0A RID: 2570 RVA: 0x00028AE0 File Offset: 0x00026CE0
 		private void RefreshClanList()
 		{
 			this.Clans.Clear();
@@ -234,14 +221,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x06000A0B RID: 2571 RVA: 0x00028B90 File Offset: 0x00026D90
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			CampaignEvents.ClanChangedKingdom.ClearListeners(this);
 		}
 
-		// Token: 0x06000A0C RID: 2572 RVA: 0x00028BA3 File Offset: 0x00026DA3
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification)
 		{
 			if (clan != Clan.PlayerClan && (oldKingdom == Clan.PlayerClan.Kingdom || newKingdom == Clan.PlayerClan.Kingdom))
@@ -250,9 +235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000339 RID: 825
-		// (get) Token: 0x06000A0D RID: 2573 RVA: 0x00028BCD File Offset: 0x00026DCD
-		// (set) Token: 0x06000A0E RID: 2574 RVA: 0x00028BD5 File Offset: 0x00026DD5
 		[DataSourceProperty]
 		public KingdomClanSortControllerVM ClanSortController
 		{
@@ -270,9 +252,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033A RID: 826
-		// (get) Token: 0x06000A0F RID: 2575 RVA: 0x00028BF3 File Offset: 0x00026DF3
-		// (set) Token: 0x06000A10 RID: 2576 RVA: 0x00028BFB File Offset: 0x00026DFB
 		[DataSourceProperty]
 		public KingdomClanItemVM CurrentSelectedClan
 		{
@@ -290,9 +269,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033B RID: 827
-		// (get) Token: 0x06000A11 RID: 2577 RVA: 0x00028C19 File Offset: 0x00026E19
-		// (set) Token: 0x06000A12 RID: 2578 RVA: 0x00028C21 File Offset: 0x00026E21
 		[DataSourceProperty]
 		public string ExpelActionExplanationText
 		{
@@ -310,9 +286,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033C RID: 828
-		// (get) Token: 0x06000A13 RID: 2579 RVA: 0x00028C44 File Offset: 0x00026E44
-		// (set) Token: 0x06000A14 RID: 2580 RVA: 0x00028C4C File Offset: 0x00026E4C
 		[DataSourceProperty]
 		public string SupportActionExplanationText
 		{
@@ -330,9 +303,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033D RID: 829
-		// (get) Token: 0x06000A15 RID: 2581 RVA: 0x00028C6F File Offset: 0x00026E6F
-		// (set) Token: 0x06000A16 RID: 2582 RVA: 0x00028C77 File Offset: 0x00026E77
 		[DataSourceProperty]
 		public string BannerText
 		{
@@ -350,9 +320,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033E RID: 830
-		// (get) Token: 0x06000A17 RID: 2583 RVA: 0x00028C9A File Offset: 0x00026E9A
-		// (set) Token: 0x06000A18 RID: 2584 RVA: 0x00028CA2 File Offset: 0x00026EA2
 		[DataSourceProperty]
 		public string TypeText
 		{
@@ -370,9 +337,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700033F RID: 831
-		// (get) Token: 0x06000A19 RID: 2585 RVA: 0x00028CC5 File Offset: 0x00026EC5
-		// (set) Token: 0x06000A1A RID: 2586 RVA: 0x00028CCD File Offset: 0x00026ECD
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -390,9 +354,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000340 RID: 832
-		// (get) Token: 0x06000A1B RID: 2587 RVA: 0x00028CF0 File Offset: 0x00026EF0
-		// (set) Token: 0x06000A1C RID: 2588 RVA: 0x00028CF8 File Offset: 0x00026EF8
 		[DataSourceProperty]
 		public string InfluenceText
 		{
@@ -410,9 +371,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000341 RID: 833
-		// (get) Token: 0x06000A1D RID: 2589 RVA: 0x00028D1B File Offset: 0x00026F1B
-		// (set) Token: 0x06000A1E RID: 2590 RVA: 0x00028D23 File Offset: 0x00026F23
 		[DataSourceProperty]
 		public string FiefsText
 		{
@@ -430,9 +388,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000342 RID: 834
-		// (get) Token: 0x06000A1F RID: 2591 RVA: 0x00028D46 File Offset: 0x00026F46
-		// (set) Token: 0x06000A20 RID: 2592 RVA: 0x00028D4E File Offset: 0x00026F4E
 		[DataSourceProperty]
 		public string MembersText
 		{
@@ -450,9 +405,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000343 RID: 835
-		// (get) Token: 0x06000A21 RID: 2593 RVA: 0x00028D71 File Offset: 0x00026F71
-		// (set) Token: 0x06000A22 RID: 2594 RVA: 0x00028D79 File Offset: 0x00026F79
 		[DataSourceProperty]
 		public MBBindingList<KingdomClanItemVM> Clans
 		{
@@ -470,9 +422,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000344 RID: 836
-		// (get) Token: 0x06000A23 RID: 2595 RVA: 0x00028D97 File Offset: 0x00026F97
-		// (set) Token: 0x06000A24 RID: 2596 RVA: 0x00028D9F File Offset: 0x00026F9F
 		[DataSourceProperty]
 		public bool CanSupportCurrentClan
 		{
@@ -490,9 +439,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000345 RID: 837
-		// (get) Token: 0x06000A25 RID: 2597 RVA: 0x00028DBD File Offset: 0x00026FBD
-		// (set) Token: 0x06000A26 RID: 2598 RVA: 0x00028DC5 File Offset: 0x00026FC5
 		[DataSourceProperty]
 		public bool CanExpelCurrentClan
 		{
@@ -510,9 +456,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000346 RID: 838
-		// (get) Token: 0x06000A27 RID: 2599 RVA: 0x00028DE3 File Offset: 0x00026FE3
-		// (set) Token: 0x06000A28 RID: 2600 RVA: 0x00028DEB File Offset: 0x00026FEB
 		[DataSourceProperty]
 		public string SupportText
 		{
@@ -530,9 +473,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000347 RID: 839
-		// (get) Token: 0x06000A29 RID: 2601 RVA: 0x00028E0E File Offset: 0x0002700E
-		// (set) Token: 0x06000A2A RID: 2602 RVA: 0x00028E16 File Offset: 0x00027016
 		[DataSourceProperty]
 		public string ExpelActionText
 		{
@@ -550,9 +490,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000348 RID: 840
-		// (get) Token: 0x06000A2B RID: 2603 RVA: 0x00028E39 File Offset: 0x00027039
-		// (set) Token: 0x06000A2C RID: 2604 RVA: 0x00028E41 File Offset: 0x00027041
 		[DataSourceProperty]
 		public int SupportCost
 		{
@@ -570,9 +507,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x17000349 RID: 841
-		// (get) Token: 0x06000A2D RID: 2605 RVA: 0x00028E5F File Offset: 0x0002705F
-		// (set) Token: 0x06000A2E RID: 2606 RVA: 0x00028E67 File Offset: 0x00027067
 		[DataSourceProperty]
 		public int ExpelCost
 		{
@@ -590,9 +524,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700034A RID: 842
-		// (get) Token: 0x06000A2F RID: 2607 RVA: 0x00028E85 File Offset: 0x00027085
-		// (set) Token: 0x06000A30 RID: 2608 RVA: 0x00028E8D File Offset: 0x0002708D
 		[DataSourceProperty]
 		public HintViewModel ExpelHint
 		{
@@ -610,9 +541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x1700034B RID: 843
-		// (get) Token: 0x06000A31 RID: 2609 RVA: 0x00028EAB File Offset: 0x000270AB
-		// (set) Token: 0x06000A32 RID: 2610 RVA: 0x00028EB3 File Offset: 0x000270B3
 		[DataSourceProperty]
 		public HintViewModel SupportHint
 		{
@@ -630,67 +558,46 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			}
 		}
 
-		// Token: 0x04000484 RID: 1156
 		private Action<KingdomDecision> _forceDecide;
 
-		// Token: 0x04000485 RID: 1157
 		private bool _isThereAPendingDecisionToExpelThisClan;
 
-		// Token: 0x04000486 RID: 1158
 		private MBBindingList<KingdomClanItemVM> _clans;
 
-		// Token: 0x04000487 RID: 1159
 		private HintViewModel _expelHint;
 
-		// Token: 0x04000488 RID: 1160
 		private HintViewModel _supportHint;
 
-		// Token: 0x04000489 RID: 1161
 		private string _bannerText;
 
-		// Token: 0x0400048A RID: 1162
 		private string _nameText;
 
-		// Token: 0x0400048B RID: 1163
 		private string _influenceText;
 
-		// Token: 0x0400048C RID: 1164
 		private string _membersText;
 
-		// Token: 0x0400048D RID: 1165
 		private string _fiefsText;
 
-		// Token: 0x0400048E RID: 1166
 		private string _typeText;
 
-		// Token: 0x0400048F RID: 1167
 		private string _expelActionText;
 
-		// Token: 0x04000490 RID: 1168
 		private string _expelActionExplanationText;
 
-		// Token: 0x04000491 RID: 1169
 		private string _supportActionExplanationText;
 
-		// Token: 0x04000492 RID: 1170
 		private int _expelCost;
 
-		// Token: 0x04000493 RID: 1171
 		private string _supportText;
 
-		// Token: 0x04000494 RID: 1172
 		private int _supportCost;
 
-		// Token: 0x04000495 RID: 1173
 		private bool _canSupportCurrentClan;
 
-		// Token: 0x04000496 RID: 1174
 		private bool _canExpelCurrentClan;
 
-		// Token: 0x04000497 RID: 1175
 		private KingdomClanItemVM _currentSelectedClan;
 
-		// Token: 0x04000498 RID: 1176
 		private KingdomClanSortControllerVM _clanSortController;
 	}
 }

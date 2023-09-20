@@ -6,16 +6,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 {
-	// Token: 0x020000DA RID: 218
 	public class DuelTargetMarkerListPanel : ListPanel
 	{
-		// Token: 0x06000B09 RID: 2825 RVA: 0x0001EA2A File Offset: 0x0001CC2A
 		public DuelTargetMarkerListPanel(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000B0A RID: 2826 RVA: 0x0001EA34 File Offset: 0x0001CC34
 		protected override void OnLateUpdate(float dt)
 		{
 			if (!this.IsAvailable)
@@ -67,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			base.IsVisible = false;
 		}
 
-		// Token: 0x06000B0B RID: 2827 RVA: 0x0001ED50 File Offset: 0x0001CF50
 		private void UpdateChildrenFocusStates()
 		{
 			string text = (this.HasTargetSentDuelRequest ? "Tracked" : ((this.HasPlayerSentDuelRequest || this.IsAgentFocused) ? "Focused" : "Default"));
@@ -81,9 +77,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			troopClassBorder.SetState(text);
 		}
 
-		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06000B0C RID: 2828 RVA: 0x0001EDB2 File Offset: 0x0001CFB2
-		// (set) Token: 0x06000B0D RID: 2829 RVA: 0x0001EDBA File Offset: 0x0001CFBA
 		[Editor(false)]
 		public Vec2 Position
 		{
@@ -101,9 +94,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06000B0E RID: 2830 RVA: 0x0001EDDD File Offset: 0x0001CFDD
-		// (set) Token: 0x06000B0F RID: 2831 RVA: 0x0001EDE5 File Offset: 0x0001CFE5
 		[Editor(false)]
 		public bool IsAgentInScreenBoundaries
 		{
@@ -121,9 +111,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06000B10 RID: 2832 RVA: 0x0001EE03 File Offset: 0x0001D003
-		// (set) Token: 0x06000B11 RID: 2833 RVA: 0x0001EE0B File Offset: 0x0001D00B
 		[Editor(false)]
 		public bool IsAvailable
 		{
@@ -141,9 +128,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06000B12 RID: 2834 RVA: 0x0001EE29 File Offset: 0x0001D029
-		// (set) Token: 0x06000B13 RID: 2835 RVA: 0x0001EE31 File Offset: 0x0001D031
 		[Editor(false)]
 		public bool IsTracked
 		{
@@ -161,9 +145,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06000B14 RID: 2836 RVA: 0x0001EE4F File Offset: 0x0001D04F
-		// (set) Token: 0x06000B15 RID: 2837 RVA: 0x0001EE57 File Offset: 0x0001D057
 		[Editor(false)]
 		public bool IsAgentFocused
 		{
@@ -182,9 +163,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06000B16 RID: 2838 RVA: 0x0001EE7B File Offset: 0x0001D07B
-		// (set) Token: 0x06000B17 RID: 2839 RVA: 0x0001EE83 File Offset: 0x0001D083
 		[Editor(false)]
 		public bool HasTargetSentDuelRequest
 		{
@@ -203,9 +181,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F0 RID: 1008
-		// (get) Token: 0x06000B18 RID: 2840 RVA: 0x0001EEA7 File Offset: 0x0001D0A7
-		// (set) Token: 0x06000B19 RID: 2841 RVA: 0x0001EEAF File Offset: 0x0001D0AF
 		[Editor(false)]
 		public bool HasPlayerSentDuelRequest
 		{
@@ -224,9 +199,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F1 RID: 1009
-		// (get) Token: 0x06000B1A RID: 2842 RVA: 0x0001EED3 File Offset: 0x0001D0D3
-		// (set) Token: 0x06000B1B RID: 2843 RVA: 0x0001EEDB File Offset: 0x0001D0DB
 		[Editor(false)]
 		public int WSign
 		{
@@ -244,9 +216,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F2 RID: 1010
-		// (get) Token: 0x06000B1C RID: 2844 RVA: 0x0001EEF9 File Offset: 0x0001D0F9
-		// (set) Token: 0x06000B1D RID: 2845 RVA: 0x0001EF01 File Offset: 0x0001D101
 		[Editor(false)]
 		public RichTextWidget ActionText
 		{
@@ -264,9 +233,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F3 RID: 1011
-		// (get) Token: 0x06000B1E RID: 2846 RVA: 0x0001EF1F File Offset: 0x0001D11F
-		// (set) Token: 0x06000B1F RID: 2847 RVA: 0x0001EF27 File Offset: 0x0001D127
 		[Editor(false)]
 		public BrushWidget Background
 		{
@@ -284,9 +250,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F4 RID: 1012
-		// (get) Token: 0x06000B20 RID: 2848 RVA: 0x0001EF45 File Offset: 0x0001D145
-		// (set) Token: 0x06000B21 RID: 2849 RVA: 0x0001EF4D File Offset: 0x0001D14D
 		[Editor(false)]
 		public BrushWidget Border
 		{
@@ -304,9 +267,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x170003F5 RID: 1013
-		// (get) Token: 0x06000B22 RID: 2850 RVA: 0x0001EF6B File Offset: 0x0001D16B
-		// (set) Token: 0x06000B23 RID: 2851 RVA: 0x0001EF73 File Offset: 0x0001D173
 		[Editor(false)]
 		public BrushWidget TroopClassBorder
 		{
@@ -324,49 +284,34 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 			}
 		}
 
-		// Token: 0x04000509 RID: 1289
 		private const string DefaultState = "Default";
 
-		// Token: 0x0400050A RID: 1290
 		private const string FocusedState = "Focused";
 
-		// Token: 0x0400050B RID: 1291
 		private const string TrackedState = "Tracked";
 
-		// Token: 0x0400050C RID: 1292
 		private Vec2 _position;
 
-		// Token: 0x0400050D RID: 1293
 		private bool _isAgentInScreenBoundaries;
 
-		// Token: 0x0400050E RID: 1294
 		private bool _isAvailable;
 
-		// Token: 0x0400050F RID: 1295
 		private bool _isTracked;
 
-		// Token: 0x04000510 RID: 1296
 		private bool _isAgentFocused;
 
-		// Token: 0x04000511 RID: 1297
 		private bool _hasTargetSentDuelRequest;
 
-		// Token: 0x04000512 RID: 1298
 		private bool _hasPlayerSentDuelRequest;
 
-		// Token: 0x04000513 RID: 1299
 		private int _wSign;
 
-		// Token: 0x04000514 RID: 1300
 		private RichTextWidget _actionText;
 
-		// Token: 0x04000515 RID: 1301
 		private BrushWidget _background;
 
-		// Token: 0x04000516 RID: 1302
 		private BrushWidget _border;
 
-		// Token: 0x04000517 RID: 1303
 		private BrushWidget _troopClassBorder;
 	}
 }

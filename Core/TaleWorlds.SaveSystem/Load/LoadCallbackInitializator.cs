@@ -6,10 +6,8 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Load
 {
-	// Token: 0x02000036 RID: 54
 	internal class LoadCallbackInitializator
 	{
-		// Token: 0x060001E8 RID: 488 RVA: 0x00008E4E File Offset: 0x0000704E
 		public LoadCallbackInitializator(LoadData loadData, ObjectHeaderLoadData[] objectHeaderLoadDatas, int objectCount)
 		{
 			this._loadData = loadData;
@@ -17,7 +15,6 @@ namespace TaleWorlds.SaveSystem.Load
 			this._objectCount = objectCount;
 		}
 
-		// Token: 0x060001E9 RID: 489 RVA: 0x00008E6C File Offset: 0x0000706C
 		public void InitializeObjects()
 		{
 			using (new PerformanceTestBlock("LoadContext::Callbacks"))
@@ -60,7 +57,6 @@ namespace TaleWorlds.SaveSystem.Load
 			this.AfterInitializeObjects();
 		}
 
-		// Token: 0x060001EA RID: 490 RVA: 0x00008FE0 File Offset: 0x000071E0
 		public void AfterInitializeObjects()
 		{
 			using (new PerformanceTestBlock("LoadContext::AfterCallbacks"))
@@ -102,13 +98,10 @@ namespace TaleWorlds.SaveSystem.Load
 			GC.Collect();
 		}
 
-		// Token: 0x04000094 RID: 148
 		private ObjectHeaderLoadData[] _objectHeaderLoadDatas;
 
-		// Token: 0x04000095 RID: 149
 		private int _objectCount;
 
-		// Token: 0x04000096 RID: 150
 		private LoadData _loadData;
 	}
 }

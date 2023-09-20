@@ -7,15 +7,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000AF RID: 175
 	public class DeclareDragonBannerSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x170004E5 RID: 1253
-		// (get) Token: 0x060011C6 RID: 4550 RVA: 0x000517AE File Offset: 0x0004F9AE
 		public bool PlayerWantsToRestore { get; }
 
-		// Token: 0x170004E6 RID: 1254
-		// (get) Token: 0x060011C7 RID: 4551 RVA: 0x000517B6 File Offset: 0x0004F9B6
 		public override string SceneID
 		{
 			get
@@ -24,8 +19,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x170004E7 RID: 1255
-		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x000517C0 File Offset: 0x0004F9C0
 		public override TextObject TitleText
 		{
 			get
@@ -37,7 +30,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x060011C9 RID: 4553 RVA: 0x0005181C File Offset: 0x0004FA1C
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -53,20 +45,17 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x060011CA RID: 4554 RVA: 0x000518A5 File Offset: 0x0004FAA5
 		public override IEnumerable<Banner> GetBanners()
 		{
 			return new List<Banner> { Hero.MainHero.ClanBanner };
 		}
 
-		// Token: 0x060011CB RID: 4555 RVA: 0x000518BC File Offset: 0x0004FABC
 		public DeclareDragonBannerSceneNotificationItem(bool playerWantsToRestore)
 		{
 			this.PlayerWantsToRestore = playerWantsToRestore;
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x060011CC RID: 4556 RVA: 0x000518D8 File Offset: 0x0004FAD8
 		private SceneNotificationData.SceneNotificationCharacter GetCharacterAtIndex(int index, IOrderedEnumerable<Hero> clanHeroesPool)
 		{
 			bool flag = false;
@@ -156,10 +145,8 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return new SceneNotificationData.SceneNotificationCharacter(characterObject, equipment, default(BodyProperties), false, num2, num3, false);
 		}
 
-		// Token: 0x04000630 RID: 1584
 		private const int NumberOfCharacters = 17;
 
-		// Token: 0x04000632 RID: 1586
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

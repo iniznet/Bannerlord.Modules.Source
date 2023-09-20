@@ -12,16 +12,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003B0 RID: 944
 	public class NotablesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003866 RID: 14438 RVA: 0x0010047B File Offset: 0x000FE67B
 		public NotablesCampaignBehavior()
 		{
 			this._settlementPassedDaysForWeeklyTick = new Dictionary<Settlement, int>();
 		}
 
-		// Token: 0x06003867 RID: 14439 RVA: 0x00100490 File Offset: 0x000FE690
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
@@ -33,7 +30,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 		}
 
-		// Token: 0x06003868 RID: 14440 RVA: 0x00100540 File Offset: 0x000FE740
 		private void WeeklyTick()
 		{
 			foreach (Hero hero in Hero.DeadOrDisabledHeroes.ToList<Hero>())
@@ -45,25 +41,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003869 RID: 14441 RVA: 0x001005E4 File Offset: 0x000FE7E4
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.WeeklyTick();
 		}
 
-		// Token: 0x0600386A RID: 14442 RVA: 0x001005EC File Offset: 0x000FE7EC
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Settlement, int>>("_settlementPassedDaysForWeeklyTick", ref this._settlementPassedDaysForWeeklyTick);
 		}
 
-		// Token: 0x0600386B RID: 14443 RVA: 0x00100600 File Offset: 0x000FE800
 		public void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			this.SpawnNotablesAtGameStart();
 		}
 
-		// Token: 0x0600386C RID: 14444 RVA: 0x00100608 File Offset: 0x000FE808
 		private void DetermineRelation(Hero hero1, Hero hero2, float randomValue, float chanceOfConflict)
 		{
 			float num = 0.3f;
@@ -86,7 +78,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600386D RID: 14445 RVA: 0x0010067C File Offset: 0x000FE87C
 		public void SetInitialRelationsBetweenNotablesAndLords()
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -138,7 +129,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600386E RID: 14446 RVA: 0x00100920 File Offset: 0x000FEB20
 		public void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i == 1)
@@ -158,7 +148,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600386F RID: 14447 RVA: 0x00100994 File Offset: 0x000FEB94
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (this._settlementPassedDaysForWeeklyTick.ContainsKey(settlement))
@@ -179,7 +168,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003870 RID: 14448 RVA: 0x001009F8 File Offset: 0x000FEBF8
 		private void UpdateNotableRelations(Hero notable)
 		{
 			foreach (Clan clan in Clan.All)
@@ -207,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003871 RID: 14449 RVA: 0x00100AB8 File Offset: 0x000FECB8
 		private void UpdateNotableSupport(Hero notable)
 		{
 			if (notable.SupporterOf == null)
@@ -249,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003872 RID: 14450 RVA: 0x00100B80 File Offset: 0x000FED80
 		private void BalanceGoldAndPowerOfNotable(Hero notable)
 		{
 			if (notable.Gold > 10500)
@@ -267,7 +253,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003873 RID: 14451 RVA: 0x00100C0C File Offset: 0x000FEE0C
 		private void DailyTickHero(Hero hero)
 		{
 			if (hero.IsNotable && hero.CurrentSettlement != null)
@@ -283,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003874 RID: 14452 RVA: 0x00100C58 File Offset: 0x000FEE58
 		private void CheckAndMakeNotableDisappear(Hero notable)
 		{
 			if (notable.OwnedWorkshops.IsEmpty<Workshop>() && notable.OwnedCaravans.IsEmpty<CaravanPartyComponent>() && notable.OwnedAlleys.IsEmpty<Alley>() && notable.CanDie(KillCharacterAction.KillCharacterActionDetail.Lost) && notable.CanHaveQuestsOrIssues() && notable.Power < (float)Campaign.Current.Models.NotablePowerModel.NotableDisappearPowerLimit)
@@ -303,7 +287,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003875 RID: 14453 RVA: 0x00100CF8 File Offset: 0x000FEEF8
 		private void ManageCaravanExpensesOfNotable(Hero notable)
 		{
 			for (int i = notable.OwnedCaravans.Count - 1; i >= 0; i--)
@@ -328,13 +311,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003876 RID: 14454 RVA: 0x00100DD2 File Offset: 0x000FEFD2
 		private float GetNotableDisappearProbability(Hero hero)
 		{
 			return ((float)Campaign.Current.Models.NotablePowerModel.NotableDisappearPowerLimit - hero.Power) / (float)Campaign.Current.Models.NotablePowerModel.NotableDisappearPowerLimit * 0.02f;
 		}
 
-		// Token: 0x06003877 RID: 14455 RVA: 0x00100E0C File Offset: 0x000FF00C
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			if (victim.IsNotable)
@@ -363,7 +344,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003878 RID: 14456 RVA: 0x00100F00 File Offset: 0x000FF100
 		private void ChangeDeadNotable(Hero deadNotable, Hero newNotable, Settlement notableSettlement)
 		{
 			EnterSettlementAction.ApplyForCharacterOnly(newNotable, notableSettlement);
@@ -384,7 +364,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003879 RID: 14457 RVA: 0x00100F9C File Offset: 0x000FF19C
 		private void SpawnNotablesAtGameStart()
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -423,7 +402,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600387A RID: 14458 RVA: 0x0010110C File Offset: 0x000FF30C
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_supporters_for_main_hero", "campaign")]
 		public static string AddSupportersForMainHero(List<string> strings)
 		{
@@ -453,25 +431,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return "Please enter a number";
 		}
 
-		// Token: 0x040011A7 RID: 4519
 		private const int GoldLimitForNotablesToStartGainingPower = 10000;
 
-		// Token: 0x040011A8 RID: 4520
 		private const int GoldLimitForNotablesToStartLosingPower = 5000;
 
-		// Token: 0x040011A9 RID: 4521
 		private const int GoldNeededToGainOnePower = 500;
 
-		// Token: 0x040011AA RID: 4522
 		private const int CaravanGoldLowLimit = 5000;
 
-		// Token: 0x040011AB RID: 4523
 		private const int RemoveNotableCharacterAfterDays = 7;
 
-		// Token: 0x040011AC RID: 4524
 		private const int RemoveWandererCharacterAfterDays = 70;
 
-		// Token: 0x040011AD RID: 4525
 		private Dictionary<Settlement, int> _settlementPassedDaysForWeeklyTick;
 	}
 }

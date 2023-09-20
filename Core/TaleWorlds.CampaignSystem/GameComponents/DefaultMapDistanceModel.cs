@@ -10,15 +10,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000117 RID: 279
 	public class DefaultMapDistanceModel : MapDistanceModel
 	{
-		// Token: 0x17000600 RID: 1536
-		// (get) Token: 0x060015E6 RID: 5606 RVA: 0x00067851 File Offset: 0x00065A51
-		// (set) Token: 0x060015E7 RID: 5607 RVA: 0x00067859 File Offset: 0x00065A59
 		public override float MaximumDistanceBetweenTwoSettlements { get; set; }
 
-		// Token: 0x060015E8 RID: 5608 RVA: 0x00067864 File Offset: 0x00065A64
 		public void LoadCacheFromFile(BinaryReader reader)
 		{
 			this._settlementDistanceCache.Clear();
@@ -96,7 +91,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015E9 RID: 5609 RVA: 0x00067B6C File Offset: 0x00065D6C
 		public override float GetDistance(Settlement fromSettlement, Settlement toSettlement)
 		{
 			float num;
@@ -125,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015EA RID: 5610 RVA: 0x00067C2C File Offset: 0x00065E2C
 		public override float GetDistance(MobileParty fromParty, Settlement toSettlement)
 		{
 			float num;
@@ -145,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015EB RID: 5611 RVA: 0x00067CC8 File Offset: 0x00065EC8
 		public override float GetDistance(MobileParty fromParty, MobileParty toParty)
 		{
 			float num;
@@ -162,7 +154,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015EC RID: 5612 RVA: 0x00067D70 File Offset: 0x00065F70
 		public override bool GetDistance(Settlement fromSettlement, Settlement toSettlement, float maximumDistance, out float distance)
 		{
 			bool flag;
@@ -211,7 +202,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015ED RID: 5613 RVA: 0x00067EE4 File Offset: 0x000660E4
 		public override bool GetDistance(MobileParty fromParty, Settlement toSettlement, float maximumDistance, out float distance)
 		{
 			bool flag = false;
@@ -236,7 +226,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015EE RID: 5614 RVA: 0x00067FA8 File Offset: 0x000661A8
 		public override bool GetDistance(IMapPoint fromMapPoint, MobileParty toParty, float maximumDistance, out float distance)
 		{
 			bool flag = false;
@@ -258,7 +247,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015EF RID: 5615 RVA: 0x00068068 File Offset: 0x00066268
 		public override bool GetDistance(IMapPoint fromMapPoint, Settlement toSettlement, float maximumDistance, out float distance)
 		{
 			bool flag = false;
@@ -280,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015F0 RID: 5616 RVA: 0x00068118 File Offset: 0x00066318
 		public override bool GetDistance(IMapPoint fromMapPoint, in Vec2 toPoint, float maximumDistance, out float distance)
 		{
 			bool flag = false;
@@ -303,7 +290,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return flag;
 		}
 
-		// Token: 0x060015F1 RID: 5617 RVA: 0x000681DC File Offset: 0x000663DC
 		private float GetDistance(Vec2 pos1, Vec2 pos2, PathFaceRecord faceIndex1, PathFaceRecord faceIndex2)
 		{
 			float num;
@@ -311,7 +297,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015F2 RID: 5618 RVA: 0x0006820B File Offset: 0x0006640B
 		private bool GetDistanceWithDistanceLimit(Vec2 pos1, Vec2 pos2, PathFaceRecord faceIndex1, PathFaceRecord faceIndex2, float distanceLimit, out float distance)
 		{
 			if (pos1.DistanceSquared(pos2) > distanceLimit * distanceLimit)
@@ -322,7 +307,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return Campaign.Current.MapSceneWrapper.GetPathDistanceBetweenAIFaces(faceIndex1, faceIndex2, pos1, pos2, 0.1f, distanceLimit, out distance);
 		}
 
-		// Token: 0x060015F3 RID: 5619 RVA: 0x00068244 File Offset: 0x00066444
 		public override Settlement GetClosestSettlementForNavigationMesh(PathFaceRecord face)
 		{
 			Settlement settlement;
@@ -344,7 +328,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return settlement;
 		}
 
-		// Token: 0x060015F4 RID: 5620 RVA: 0x000682F0 File Offset: 0x000664F0
 		private void AddNewPairToDistanceCache(ValueTuple<Settlement, Settlement> pair, float distance)
 		{
 			this._settlementDistanceCache.Add(pair, distance);
@@ -355,13 +338,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x040007A8 RID: 1960
 		private readonly Dictionary<ValueTuple<Settlement, Settlement>, float> _settlementDistanceCache = new Dictionary<ValueTuple<Settlement, Settlement>, float>();
 
-		// Token: 0x040007A9 RID: 1961
 		private readonly Dictionary<int, Settlement> _navigationMeshClosestSettlementCache = new Dictionary<int, Settlement>();
 
-		// Token: 0x040007AA RID: 1962
 		private readonly List<Settlement> _settlementsToConsider = new List<Settlement>();
 	}
 }

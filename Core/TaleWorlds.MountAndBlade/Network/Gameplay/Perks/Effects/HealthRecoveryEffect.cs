@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003C3 RID: 963
 	public class HealthRecoveryEffect : MPPerkEffect
 	{
-		// Token: 0x1700091B RID: 2331
-		// (get) Token: 0x060033BC RID: 13244 RVA: 0x000D6853 File Offset: 0x000D4A53
 		public override bool IsTickRequired
 		{
 			get
@@ -17,12 +14,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033BD RID: 13245 RVA: 0x000D6856 File Offset: 0x000D4A56
 		protected HealthRecoveryEffect()
 		{
 		}
 
-		// Token: 0x060033BE RID: 13246 RVA: 0x000D6860 File Offset: 0x000D4A60
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -93,7 +88,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033BF RID: 13247 RVA: 0x000D6960 File Offset: 0x000D4B60
 		public override void OnTick(Agent agent, int tickCount)
 		{
 			agent = ((agent != null && agent.IsMount) ? agent.RiderAgent : agent);
@@ -103,13 +97,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x04001601 RID: 5633
 		protected static string StringType = "HealthRecovery";
 
-		// Token: 0x04001602 RID: 5634
 		private float _value;
 
-		// Token: 0x04001603 RID: 5635
 		private int _period;
 	}
 }

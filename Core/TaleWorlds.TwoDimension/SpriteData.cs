@@ -5,30 +5,16 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x0200002F RID: 47
 	public class SpriteData
 	{
-		// Token: 0x170000A5 RID: 165
-		// (get) Token: 0x060001F4 RID: 500 RVA: 0x00007CAB File Offset: 0x00005EAB
-		// (set) Token: 0x060001F5 RID: 501 RVA: 0x00007CB3 File Offset: 0x00005EB3
 		public Dictionary<string, SpritePart> SpritePartNames { get; private set; }
 
-		// Token: 0x170000A6 RID: 166
-		// (get) Token: 0x060001F6 RID: 502 RVA: 0x00007CBC File Offset: 0x00005EBC
-		// (set) Token: 0x060001F7 RID: 503 RVA: 0x00007CC4 File Offset: 0x00005EC4
 		public Dictionary<string, Sprite> SpriteNames { get; private set; }
 
-		// Token: 0x170000A7 RID: 167
-		// (get) Token: 0x060001F8 RID: 504 RVA: 0x00007CCD File Offset: 0x00005ECD
-		// (set) Token: 0x060001F9 RID: 505 RVA: 0x00007CD5 File Offset: 0x00005ED5
 		public Dictionary<string, SpriteCategory> SpriteCategories { get; private set; }
 
-		// Token: 0x170000A8 RID: 168
-		// (get) Token: 0x060001FA RID: 506 RVA: 0x00007CDE File Offset: 0x00005EDE
-		// (set) Token: 0x060001FB RID: 507 RVA: 0x00007CE6 File Offset: 0x00005EE6
 		public string Name { get; private set; }
 
-		// Token: 0x060001FC RID: 508 RVA: 0x00007CEF File Offset: 0x00005EEF
 		public SpriteData(string name)
 		{
 			this.Name = name;
@@ -37,7 +23,6 @@ namespace TaleWorlds.TwoDimension
 			this.SpriteCategories = new Dictionary<string, SpriteCategory>();
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x00007D20 File Offset: 0x00005F20
 		public Sprite GetSprite(string name)
 		{
 			Sprite sprite;
@@ -48,13 +33,11 @@ namespace TaleWorlds.TwoDimension
 			return null;
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x00007D40 File Offset: 0x00005F40
 		public bool SpriteExists(string spriteName)
 		{
 			return this.GetSprite(spriteName) != null;
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x00007D4C File Offset: 0x00005F4C
 		private void LoadFromDepot(ResourceDepot resourceDepot)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -136,7 +119,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x00008244 File Offset: 0x00006444
 		public void Load(ResourceDepot resourceDepot)
 		{
 			this.LoadFromDepot(resourceDepot);

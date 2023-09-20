@@ -9,36 +9,21 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Party
 {
-	// Token: 0x020002AE RID: 686
 	public class PartyScreenData : IEnumerable<ValueTuple<TroopRosterElement, bool>>, IEnumerable
 	{
-		// Token: 0x170009BE RID: 2494
-		// (get) Token: 0x06002724 RID: 10020 RVA: 0x000A63D2 File Offset: 0x000A45D2
-		// (set) Token: 0x06002725 RID: 10021 RVA: 0x000A63DA File Offset: 0x000A45DA
 		public PartyBase RightParty { get; private set; }
 
-		// Token: 0x170009BF RID: 2495
-		// (get) Token: 0x06002726 RID: 10022 RVA: 0x000A63E3 File Offset: 0x000A45E3
-		// (set) Token: 0x06002727 RID: 10023 RVA: 0x000A63EB File Offset: 0x000A45EB
 		public PartyBase LeftParty { get; private set; }
 
-		// Token: 0x170009C0 RID: 2496
-		// (get) Token: 0x06002728 RID: 10024 RVA: 0x000A63F4 File Offset: 0x000A45F4
-		// (set) Token: 0x06002729 RID: 10025 RVA: 0x000A63FC File Offset: 0x000A45FC
 		public Hero RightPartyLeaderHero { get; private set; }
 
-		// Token: 0x170009C1 RID: 2497
-		// (get) Token: 0x0600272A RID: 10026 RVA: 0x000A6405 File Offset: 0x000A4605
-		// (set) Token: 0x0600272B RID: 10027 RVA: 0x000A640D File Offset: 0x000A460D
 		public Hero LeftPartyLeaderHero { get; private set; }
 
-		// Token: 0x0600272C RID: 10028 RVA: 0x000A6416 File Offset: 0x000A4616
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
 
-		// Token: 0x0600272D RID: 10029 RVA: 0x000A6420 File Offset: 0x000A4620
 		public PartyScreenData()
 		{
 			this.PartyGoldChangeAmount = 0;
@@ -52,7 +37,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.UsedUpgradeHorsesHistory = new List<Tuple<EquipmentElement, int>>();
 		}
 
-		// Token: 0x0600272E RID: 10030 RVA: 0x000A6490 File Offset: 0x000A4690
 		public void InitializeCopyFrom(PartyBase rightParty, PartyBase leftParty)
 		{
 			if (rightParty != null)
@@ -72,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.RightItemRoster = new ItemRoster();
 		}
 
-		// Token: 0x0600272F RID: 10031 RVA: 0x000A6500 File Offset: 0x000A4700
 		public void CopyFromPartyAndRoster(TroopRoster rightPartyMemberRoster, TroopRoster rightPartyPrisonerRoster, TroopRoster leftPartyMemberRoster, TroopRoster leftPartyPrisonerRoster, PartyBase rightParty)
 		{
 			PrisonerRecruitmentCalculationModel prisonerRecruitmentCalculationModel = Campaign.Current.Models.PrisonerRecruitmentCalculationModel;
@@ -121,7 +104,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002730 RID: 10032 RVA: 0x000A6710 File Offset: 0x000A4910
 		public void CopyFromScreenData(PartyScreenData data)
 		{
 			this.RightMemberRoster.Clear();
@@ -168,7 +150,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.UsedUpgradeHorsesHistory = new List<Tuple<EquipmentElement, int>>(data.UsedUpgradeHorsesHistory);
 		}
 
-		// Token: 0x06002731 RID: 10033 RVA: 0x000A6968 File Offset: 0x000A4B68
 		public void BindRostersFrom(TroopRoster rightPartyMemberRoster, TroopRoster rightPartyPrisonerRoster, TroopRoster leftPartyMemberRoster, TroopRoster leftPartyPrisonerRoster, PartyBase rightParty, PartyBase leftParty)
 		{
 			this.RightParty = rightParty;
@@ -207,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002732 RID: 10034 RVA: 0x000A6AB0 File Offset: 0x000A4CB0
 		public void ResetUsing(PartyScreenData partyScreenData)
 		{
 			this.RightMemberRoster.Clear();
@@ -268,7 +248,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.UsedUpgradeHorsesHistory = new List<Tuple<EquipmentElement, int>>(partyScreenData.UsedUpgradeHorsesHistory);
 		}
 
-		// Token: 0x06002733 RID: 10035 RVA: 0x000A6D88 File Offset: 0x000A4F88
 		public List<TroopTradeDifference> GetTroopTradeDifferencesFromTo(PartyScreenData toPartyScreenData)
 		{
 			List<TroopTradeDifference> list = new List<TroopTradeDifference>();
@@ -339,7 +318,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return list;
 		}
 
-		// Token: 0x06002734 RID: 10036 RVA: 0x000A6FB8 File Offset: 0x000A51B8
 		private IEnumerator<ValueTuple<TroopRosterElement, bool>> EnumerateElements()
 		{
 			int num;
@@ -358,25 +336,21 @@ namespace TaleWorlds.CampaignSystem.Party
 			yield break;
 		}
 
-		// Token: 0x06002735 RID: 10037 RVA: 0x000A6FC7 File Offset: 0x000A51C7
 		public IEnumerator<ValueTuple<TroopRosterElement, bool>> GetEnumerator()
 		{
 			return this.EnumerateElements();
 		}
 
-		// Token: 0x06002736 RID: 10038 RVA: 0x000A6FCF File Offset: 0x000A51CF
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return this.EnumerateElements();
 		}
 
-		// Token: 0x06002737 RID: 10039 RVA: 0x000A6FD7 File Offset: 0x000A51D7
 		public override bool Equals(object obj)
 		{
 			return this == obj;
 		}
 
-		// Token: 0x06002738 RID: 10040 RVA: 0x000A6FE0 File Offset: 0x000A51E0
 		public static bool operator ==(PartyScreenData a, PartyScreenData b)
 		{
 			if (a == b)
@@ -441,52 +415,37 @@ namespace TaleWorlds.CampaignSystem.Party
 			return true;
 		}
 
-		// Token: 0x06002739 RID: 10041 RVA: 0x000A738C File Offset: 0x000A558C
 		public static bool operator !=(PartyScreenData first, PartyScreenData second)
 		{
 			return !(first == second);
 		}
 
-		// Token: 0x04000BEA RID: 3050
 		public TroopRoster RightMemberRoster;
 
-		// Token: 0x04000BEB RID: 3051
 		public TroopRoster LeftMemberRoster;
 
-		// Token: 0x04000BEC RID: 3052
 		public TroopRoster RightPrisonerRoster;
 
-		// Token: 0x04000BED RID: 3053
 		public TroopRoster LeftPrisonerRoster;
 
-		// Token: 0x04000BEE RID: 3054
 		public ItemRoster RightItemRoster;
 
-		// Token: 0x04000BEF RID: 3055
 		public Dictionary<CharacterObject, int> RightRecruitableData;
 
-		// Token: 0x04000BF0 RID: 3056
 		public int PartyGoldChangeAmount;
 
-		// Token: 0x04000BF1 RID: 3057
 		public ValueTuple<int, int, int> PartyInfluenceChangeAmount;
 
-		// Token: 0x04000BF2 RID: 3058
 		public int PartyMoraleChangeAmount;
 
-		// Token: 0x04000BF3 RID: 3059
 		public int PartyHorseChangeAmount;
 
-		// Token: 0x04000BF4 RID: 3060
 		public List<Tuple<CharacterObject, CharacterObject, int>> UpgradedTroopsHistory;
 
-		// Token: 0x04000BF5 RID: 3061
 		public List<Tuple<CharacterObject, int>> TransferredPrisonersHistory;
 
-		// Token: 0x04000BF6 RID: 3062
 		public List<Tuple<CharacterObject, int>> RecruitedPrisonersHistory;
 
-		// Token: 0x04000BF7 RID: 3063
 		public List<Tuple<EquipmentElement, int>> UsedUpgradeHorsesHistory;
 	}
 }

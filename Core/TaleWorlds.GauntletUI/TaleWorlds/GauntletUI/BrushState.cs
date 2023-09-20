@@ -4,10 +4,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI
 {
-	// Token: 0x02000014 RID: 20
 	public struct BrushState : IBrushAnimationState, IDataSource
 	{
-		// Token: 0x0600013E RID: 318 RVA: 0x00008904 File Offset: 0x00006B04
 		public void FillFrom(Style style)
 		{
 			this.FontColor = style.FontColor;
@@ -25,7 +23,6 @@ namespace TaleWorlds.GauntletUI
 			this.TextValueFactor = style.TextValueFactor;
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x000089B0 File Offset: 0x00006BB0
 		public void LerpFrom(BrushState start, Style end, float ratio)
 		{
 			this.FontColor = Color.Lerp(start.FontColor, end.FontColor, ratio);
@@ -43,14 +40,12 @@ namespace TaleWorlds.GauntletUI
 			this.TextValueFactor = Mathf.Lerp(start.TextValueFactor, end.TextValueFactor, ratio);
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00008AF8 File Offset: 0x00006CF8
 		void IBrushAnimationState.FillFrom(IDataSource source)
 		{
 			Style style = (Style)source;
 			this.FillFrom(style);
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x00008B14 File Offset: 0x00006D14
 		void IBrushAnimationState.LerpFrom(IBrushAnimationState start, IDataSource end, float ratio)
 		{
 			BrushState brushState = (BrushState)start;
@@ -58,7 +53,6 @@ namespace TaleWorlds.GauntletUI
 			this.LerpFrom(brushState, style, ratio);
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x00008B38 File Offset: 0x00006D38
 		public float GetValueAsFloat(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			switch (propertyType)
@@ -93,7 +87,6 @@ namespace TaleWorlds.GauntletUI
 			return 0f;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00008C08 File Offset: 0x00006E08
 		public Color GetValueAsColor(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			switch (propertyType)
@@ -121,7 +114,6 @@ namespace TaleWorlds.GauntletUI
 			return Color.Black;
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x00008CB0 File Offset: 0x00006EB0
 		public Sprite GetValueAsSprite(BrushAnimationProperty.BrushAnimationPropertyType propertyType)
 		{
 			if (propertyType == BrushAnimationProperty.BrushAnimationPropertyType.FontColor || propertyType - BrushAnimationProperty.BrushAnimationPropertyType.TextGlowColor <= 11)
@@ -133,7 +125,6 @@ namespace TaleWorlds.GauntletUI
 			return null;
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x00008D00 File Offset: 0x00006F00
 		public void SetValueAsFloat(BrushAnimationProperty.BrushAnimationPropertyType propertyType, float value)
 		{
 			switch (propertyType)
@@ -177,7 +168,6 @@ namespace TaleWorlds.GauntletUI
 			Debug.FailedAssert("Invalid BrushState property.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\Brush\\BrushState.cs", "SetValueAsFloat", 208);
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00008DD8 File Offset: 0x00006FD8
 		public void SetValueAsColor(BrushAnimationProperty.BrushAnimationPropertyType propertyType, in Color value)
 		{
 			switch (propertyType)
@@ -207,7 +197,6 @@ namespace TaleWorlds.GauntletUI
 			Debug.FailedAssert("Invalid BrushState property.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\Brush\\BrushState.cs", "SetValueAsColor", 240);
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x00008E88 File Offset: 0x00007088
 		public void SetValueAsSprite(BrushAnimationProperty.BrushAnimationPropertyType propertyType, Sprite value)
 		{
 			if (propertyType == BrushAnimationProperty.BrushAnimationPropertyType.FontColor || propertyType - BrushAnimationProperty.BrushAnimationPropertyType.TextGlowColor <= 11)
@@ -218,7 +207,6 @@ namespace TaleWorlds.GauntletUI
 			Debug.FailedAssert("Invalid BrushState property.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\Brush\\BrushState.cs", "SetValueAsSprite", 265);
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00008ED4 File Offset: 0x000070D4
 		public TextMaterial CreateTextMaterial(TwoDimensionDrawContext drawContext)
 		{
 			TextMaterial textMaterial = drawContext.CreateTextMaterial();
@@ -238,49 +226,35 @@ namespace TaleWorlds.GauntletUI
 			return textMaterial;
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x00008F83 File Offset: 0x00007183
 		void IBrushAnimationState.SetValueAsColor(BrushAnimationProperty.BrushAnimationPropertyType propertyType, in Color value)
 		{
 			this.SetValueAsColor(propertyType, value);
 		}
 
-		// Token: 0x04000086 RID: 134
 		public Color FontColor;
 
-		// Token: 0x04000087 RID: 135
 		public Color TextGlowColor;
 
-		// Token: 0x04000088 RID: 136
 		public Color TextOutlineColor;
 
-		// Token: 0x04000089 RID: 137
 		public float TextOutlineAmount;
 
-		// Token: 0x0400008A RID: 138
 		public float TextGlowRadius;
 
-		// Token: 0x0400008B RID: 139
 		public float TextBlur;
 
-		// Token: 0x0400008C RID: 140
 		public float TextShadowOffset;
 
-		// Token: 0x0400008D RID: 141
 		public float TextShadowAngle;
 
-		// Token: 0x0400008E RID: 142
 		public float TextColorFactor;
 
-		// Token: 0x0400008F RID: 143
 		public float TextAlphaFactor;
 
-		// Token: 0x04000090 RID: 144
 		public float TextHueFactor;
 
-		// Token: 0x04000091 RID: 145
 		public float TextSaturationFactor;
 
-		// Token: 0x04000092 RID: 146
 		public float TextValueFactor;
 	}
 }

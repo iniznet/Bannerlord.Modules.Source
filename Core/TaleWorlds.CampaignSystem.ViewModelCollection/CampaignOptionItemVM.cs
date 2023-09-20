@@ -8,15 +8,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x02000005 RID: 5
 	public class CampaignOptionItemVM : ViewModel
 	{
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x0600004E RID: 78 RVA: 0x00002DFA File Offset: 0x00000FFA
-		// (set) Token: 0x0600004F RID: 79 RVA: 0x00002E02 File Offset: 0x00001002
 		public ICampaignOptionData OptionData { get; private set; }
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00002E0C File Offset: 0x0000100C
 		public CampaignOptionItemVM(ICampaignOptionData optionData)
 		{
 			this.OptionData = optionData;
@@ -56,7 +51,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00002F92 File Offset: 0x00001192
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -64,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			this.RefreshDisabledStatus();
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00002FB4 File Offset: 0x000011B4
 		public void RefreshDisabledStatus()
 		{
 			string description = this.OptionData.GetDescription();
@@ -86,7 +79,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			this.Hint.HintText = textObject;
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00003071 File Offset: 0x00001271
 		public void ExecuteAction()
 		{
 			ActionCampaignOptionData optionDataAsAction = this._optionDataAsAction;
@@ -97,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			optionDataAsAction.ExecuteAction();
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00003083 File Offset: 0x00001283
 		public void OnSelectionOptionValueChanged(SelectorVM<SelectorItemVM> selector)
 		{
 			if (selector.SelectedIndex >= 0 && this._optionDataAsSelection != null)
@@ -112,7 +103,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x000030BC File Offset: 0x000012BC
 		public void SetValue(float value)
 		{
 			if (this._dataType == CampaignOptionDataType.Boolean)
@@ -131,15 +121,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x0000310A File Offset: 0x0000130A
 		public void SetOnValueChangedCallback(Action<CampaignOptionItemVM> onValueChanged)
 		{
 			this._onValueChanged = onValueChanged;
 		}
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000057 RID: 87 RVA: 0x00003113 File Offset: 0x00001313
-		// (set) Token: 0x06000058 RID: 88 RVA: 0x0000311B File Offset: 0x0000131B
 		[DataSourceProperty]
 		public bool HideOptionName
 		{
@@ -157,9 +143,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x06000059 RID: 89 RVA: 0x00003139 File Offset: 0x00001339
-		// (set) Token: 0x0600005A RID: 90 RVA: 0x00003141 File Offset: 0x00001341
 		[DataSourceProperty]
 		public string Name
 		{
@@ -177,9 +160,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x0600005B RID: 91 RVA: 0x00003164 File Offset: 0x00001364
-		// (set) Token: 0x0600005C RID: 92 RVA: 0x0000316C File Offset: 0x0000136C
 		[DataSourceProperty]
 		public HintViewModel Hint
 		{
@@ -197,9 +177,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x0600005D RID: 93 RVA: 0x0000318A File Offset: 0x0000138A
-		// (set) Token: 0x0600005E RID: 94 RVA: 0x00003192 File Offset: 0x00001392
 		[DataSourceProperty]
 		public int OptionType
 		{
@@ -217,9 +194,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x0600005F RID: 95 RVA: 0x000031B0 File Offset: 0x000013B0
-		// (set) Token: 0x06000060 RID: 96 RVA: 0x000031B8 File Offset: 0x000013B8
 		[DataSourceProperty]
 		public bool ValueAsBoolean
 		{
@@ -244,9 +218,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000024 RID: 36
-		// (get) Token: 0x06000061 RID: 97 RVA: 0x0000320C File Offset: 0x0000140C
-		// (set) Token: 0x06000062 RID: 98 RVA: 0x00003214 File Offset: 0x00001414
 		[DataSourceProperty]
 		public bool IsDiscrete
 		{
@@ -264,9 +235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000025 RID: 37
-		// (get) Token: 0x06000063 RID: 99 RVA: 0x00003232 File Offset: 0x00001432
-		// (set) Token: 0x06000064 RID: 100 RVA: 0x0000323A File Offset: 0x0000143A
 		[DataSourceProperty]
 		public bool IsDisabled
 		{
@@ -284,9 +252,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x06000065 RID: 101 RVA: 0x00003258 File Offset: 0x00001458
-		// (set) Token: 0x06000066 RID: 102 RVA: 0x00003260 File Offset: 0x00001460
 		[DataSourceProperty]
 		public float MinRange
 		{
@@ -304,9 +269,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x06000067 RID: 103 RVA: 0x0000327E File Offset: 0x0000147E
-		// (set) Token: 0x06000068 RID: 104 RVA: 0x00003286 File Offset: 0x00001486
 		[DataSourceProperty]
 		public float MaxRange
 		{
@@ -324,9 +286,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x06000069 RID: 105 RVA: 0x000032A4 File Offset: 0x000014A4
-		// (set) Token: 0x0600006A RID: 106 RVA: 0x000032AC File Offset: 0x000014AC
 		[DataSourceProperty]
 		public float ValueAsRange
 		{
@@ -352,9 +311,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000029 RID: 41
-		// (get) Token: 0x0600006B RID: 107 RVA: 0x00003304 File Offset: 0x00001504
-		// (set) Token: 0x0600006C RID: 108 RVA: 0x0000330C File Offset: 0x0000150C
 		[DataSourceProperty]
 		public string ValueAsString
 		{
@@ -372,9 +328,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x0600006D RID: 109 RVA: 0x0000332F File Offset: 0x0000152F
-		// (set) Token: 0x0600006E RID: 110 RVA: 0x00003337 File Offset: 0x00001537
 		[DataSourceProperty]
 		public SelectorVM<SelectorItemVM> SelectionSelector
 		{
@@ -392,58 +345,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0400002C RID: 44
 		private ActionCampaignOptionData _optionDataAsAction;
 
-		// Token: 0x0400002D RID: 45
 		private BooleanCampaignOptionData _optionDataAsBoolean;
 
-		// Token: 0x0400002E RID: 46
 		private NumericCampaignOptionData _optionDataAsNumeric;
 
-		// Token: 0x0400002F RID: 47
 		private SelectionCampaignOptionData _optionDataAsSelection;
 
-		// Token: 0x04000030 RID: 48
 		private Action<CampaignOptionItemVM> _onValueChanged;
 
-		// Token: 0x04000031 RID: 49
 		private CampaignOptionDataType _dataType;
 
-		// Token: 0x04000032 RID: 50
 		private bool _hideOptionName;
 
-		// Token: 0x04000033 RID: 51
 		private int _optionType;
 
-		// Token: 0x04000034 RID: 52
 		private string _name;
 
-		// Token: 0x04000035 RID: 53
 		private HintViewModel _hint;
 
-		// Token: 0x04000036 RID: 54
 		private bool _isDiscrete;
 
-		// Token: 0x04000037 RID: 55
 		private bool _isDisabled;
 
-		// Token: 0x04000038 RID: 56
 		private float _minRange;
 
-		// Token: 0x04000039 RID: 57
 		private float _maxRange;
 
-		// Token: 0x0400003A RID: 58
 		private bool _valueAsBoolean;
 
-		// Token: 0x0400003B RID: 59
 		private float _valueAsRange;
 
-		// Token: 0x0400003C RID: 60
 		private string _valueAsString;
 
-		// Token: 0x0400003D RID: 61
 		private SelectorVM<SelectorItemVM> _selectionSelector;
 	}
 }

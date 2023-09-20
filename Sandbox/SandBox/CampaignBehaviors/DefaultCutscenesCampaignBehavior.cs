@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x0200009B RID: 155
 	public class DefaultCutscenesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600079E RID: 1950 RVA: 0x0003BE90 File Offset: 0x0003A090
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HeroesMarried.AddNonSerializedListener(this, new Action<Hero, Hero, bool>(DefaultCutscenesCampaignBehavior.OnHeroesMarried));
@@ -31,7 +29,6 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnBeforeMainCharacterDiedEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnBeforeMainCharacterDied));
 		}
 
-		// Token: 0x0600079F RID: 1951 RVA: 0x0003BF58 File Offset: 0x0003A158
 		private void OnBeforeMainCharacterDied(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			SceneNotificationData sceneNotificationData = null;
@@ -69,7 +66,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A0 RID: 1952 RVA: 0x0003C004 File Offset: 0x0003A204
 		private void OnKingdomDecisionConcluded(KingdomDecision decision, DecisionOutcome chosenOutcome, bool isPlayerInvolved)
 		{
 			KingSelectionKingdomDecision.KingSelectionDecisionOutcome kingSelectionDecisionOutcome;
@@ -79,7 +75,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A1 RID: 1953 RVA: 0x0003C040 File Offset: 0x0003A240
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			SceneNotificationData sceneNotificationData = null;
@@ -97,7 +92,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A2 RID: 1954 RVA: 0x0003C08C File Offset: 0x0003A28C
 		private void OnKingdomDestroyed(Kingdom kingdom)
 		{
 			if (!kingdom.IsRebelClan)
@@ -111,7 +105,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A3 RID: 1955 RVA: 0x0003C0DE File Offset: 0x0003A2DE
 		private void OnKingdomCreated(Kingdom kingdom)
 		{
 			if (Hero.MainHero.Clan.Kingdom == kingdom)
@@ -120,7 +113,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A4 RID: 1956 RVA: 0x0003C100 File Offset: 0x0003A300
 		private void OnHeroComesOfAge(Hero hero)
 		{
 			Hero mother = hero.Mother;
@@ -138,7 +130,6 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new HeirComeOfAgeMapNotification(hero, mentorHeroForComeOfAge, textObject));
 		}
 
-		// Token: 0x060007A5 RID: 1957 RVA: 0x0003C17C File Offset: 0x0003A37C
 		private void OnMapEventEnd(MapEvent mapEvent)
 		{
 			if (mapEvent.IsPlayerMapEvent)
@@ -148,7 +139,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A6 RID: 1958 RVA: 0x0003C1D6 File Offset: 0x0003A3D6
 		private static void OnHeroesMarried(Hero firstHero, Hero secondHero, bool showNotification)
 		{
 			if (firstHero == Hero.MainHero || secondHero == Hero.MainHero)
@@ -158,12 +148,10 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A7 RID: 1959 RVA: 0x0003C205 File Offset: 0x0003A405
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060007A8 RID: 1960 RVA: 0x0003C208 File Offset: 0x0003A408
 		private static void FillAllyCharacters(bool noCompanions, ref List<CharacterObject> allyCharacters)
 		{
 			if (noCompanions)
@@ -183,7 +171,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007A9 RID: 1961 RVA: 0x0003C2CC File Offset: 0x0003A4CC
 		private Hero GetMentorHeroForComeOfAge(Hero hero)
 		{
 			Hero hero2 = Hero.MainHero;
@@ -213,10 +200,8 @@ namespace SandBox.CampaignBehaviors
 			return hero2;
 		}
 
-		// Token: 0x0400031E RID: 798
 		private bool _heroWonLastMapEVent;
 
-		// Token: 0x0400031F RID: 799
 		private CultureObject _lastEnemyCulture;
 	}
 }

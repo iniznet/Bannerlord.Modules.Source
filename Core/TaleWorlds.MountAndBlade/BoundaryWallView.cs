@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000332 RID: 818
 	public class BoundaryWallView : ScriptComponentBehavior
 	{
-		// Token: 0x06002C22 RID: 11298 RVA: 0x000AB120 File Offset: 0x000A9320
 		protected internal override void OnInit()
 		{
 			throw new Exception("This should only be used in editor.");
 		}
 
-		// Token: 0x06002C23 RID: 11299 RVA: 0x000AB12C File Offset: 0x000A932C
 		protected internal override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
@@ -68,7 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002C24 RID: 11300 RVA: 0x000AB2E0 File Offset: 0x000A94E0
 		private bool CalculateBoundaries(string vertexTag, ref List<Vec2> lastPoints)
 		{
 			IEnumerable<GameEntity> enumerable = base.Scene.FindEntitiesWithTag(vertexTag);
@@ -98,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002C25 RID: 11301 RVA: 0x000AB41C File Offset: 0x000A961C
 		public static Mesh CreateBoundaryMesh(Scene scene, ICollection<Vec2> boundaryPoints, uint meshColor = 536918784U)
 		{
 			if (boundaryPoints == null || boundaryPoints.Count < 3)
@@ -183,16 +178,12 @@ namespace TaleWorlds.MountAndBlade
 			return mesh;
 		}
 
-		// Token: 0x040010B8 RID: 4280
 		private List<Vec2> _lastPoints = new List<Vec2>();
 
-		// Token: 0x040010B9 RID: 4281
 		private List<Vec2> _lastAttackerPoints = new List<Vec2>();
 
-		// Token: 0x040010BA RID: 4282
 		private List<Vec2> _lastDefenderPoints = new List<Vec2>();
 
-		// Token: 0x040010BB RID: 4283
 		private float timer;
 	}
 }

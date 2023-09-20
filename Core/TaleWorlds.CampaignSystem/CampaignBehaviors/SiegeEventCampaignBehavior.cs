@@ -19,11 +19,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D5 RID: 981
 	public class SiegeEventCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CEB RID: 3307
-		// (get) Token: 0x06003B20 RID: 15136 RVA: 0x00116044 File Offset: 0x00114244
 		private TextObject _currentSiegeDescription
 		{
 			get
@@ -55,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B21 RID: 15137 RVA: 0x00116150 File Offset: 0x00114350
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -67,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MakePeace.AddNonSerializedListener(this, new Action<IFaction, IFaction, MakePeaceAction.MakePeaceDetail>(this.OnPeaceDeclared));
 		}
 
-		// Token: 0x06003B22 RID: 15138 RVA: 0x001161FE File Offset: 0x001143FE
 		private void OnPeaceDeclared(IFaction faction1, IFaction faction2, MakePeaceAction.MakePeaceDetail detail)
 		{
 			if (Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu() == "menu_siege_strategies")
@@ -76,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B23 RID: 15139 RVA: 0x0011622F File Offset: 0x0011442F
 		private void OnSiegeBombardmentWallHit(MobileParty party, Settlement settlement, BattleSideEnum battleSide, SiegeEngineType siegeEngine, bool isWallCracked)
 		{
 			if (isWallCracked && party != null)
@@ -85,7 +79,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B24 RID: 15140 RVA: 0x0011623E File Offset: 0x0011443E
 		private void OnSiegeEngineHit(MobileParty party, Settlement settlement, BattleSideEnum side, SiegeEngineType engine, SiegeBombardTargets target)
 		{
 			if (target == SiegeBombardTargets.RangedEngines)
@@ -94,7 +87,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B25 RID: 15141 RVA: 0x0011625C File Offset: 0x0011445C
 		private void OnSiegeEngineDestroyed(MobileParty besiegerParty, Settlement besiegedSettlement, BattleSideEnum lostSide, SiegeEngineType siegeEngine)
 		{
 			SiegeEventModel siegeEventModel = Campaign.Current.Models.SiegeEventModel;
@@ -127,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B26 RID: 15142 RVA: 0x00116368 File Offset: 0x00114568
 		private void OnSiegeEngineBuilt(SiegeEvent siegeEvent, BattleSideEnum side, SiegeEngineType siegeEngineType)
 		{
 			MobileParty effectiveSiegePartyForSide = Campaign.Current.Models.SiegeEventModel.GetEffectiveSiegePartyForSide(siegeEvent, side);
@@ -149,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B27 RID: 15143 RVA: 0x001163F8 File Offset: 0x001145F8
 		private int KillRandomTroopsOfEnemy(ISiegeEventSide siegeEventSide, int count)
 		{
 			SiegeEvent siegeEvent = siegeEventSide.SiegeEvent;
@@ -207,7 +197,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num2;
 		}
 
-		// Token: 0x06003B28 RID: 15144 RVA: 0x00116614 File Offset: 0x00114814
 		private void BombardHitEngineCasualties(ISiegeEventSide siegeEventSide, SiegeEngineType attackerEngineType)
 		{
 			SiegeEvent siegeEvent = siegeEventSide.SiegeEvent;
@@ -239,25 +228,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B29 RID: 15145 RVA: 0x0011675C File Offset: 0x0011495C
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003B2A RID: 15146 RVA: 0x0011675E File Offset: 0x0011495E
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06003B2B RID: 15147 RVA: 0x00116767 File Offset: 0x00114967
 		private void AISiegeEventStarted(SiegeEvent siegeEvent)
 		{
 			this.SetDefaultTactics(siegeEvent, BattleSideEnum.Attacker);
 			this.SetDefaultTactics(siegeEvent, BattleSideEnum.Defender);
 		}
 
-		// Token: 0x06003B2C RID: 15148 RVA: 0x0011677C File Offset: 0x0011497C
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddWaitGameMenu("menu_siege_strategies", "{=!}{CURRENT_STRATEGY}", new OnInitDelegate(this.game_menu_siege_strategies_on_init), null, null, new OnTickDelegate(this.game_menu_siege_strategies_on_tick), GameMenu.MenuAndOptionType.WaitMenuHideProgressAndHoursOption, GameOverlays.MenuOverlayType.Encounter, 0f, GameMenu.MenuFlags.None, null);
@@ -278,7 +263,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("menu_siege_safe_passage_accepted", "menu_siege_safe_passage_accepted_leave", "Leave", new GameMenuOption.OnConditionDelegate(this.leave_siege_on_condition), new GameMenuOption.OnConsequenceDelegate(SiegeEventCampaignBehavior.menu_siege_leave_on_consequence), true, -1, false, null);
 		}
 
-		// Token: 0x06003B2D RID: 15149 RVA: 0x001169EC File Offset: 0x00114BEC
 		private void game_menu_siege_strategies_on_tick(MenuCallbackArgs args, CampaignTime dt)
 		{
 			string genericStateMenu = Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu();
@@ -296,13 +280,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003B2E RID: 15150 RVA: 0x00116A66 File Offset: 0x00114C66
 		private void game_menu_siege_strategies_on_init(MenuCallbackArgs args)
 		{
 			MBTextManager.SetTextVariable("CURRENT_STRATEGY", this._currentSiegeDescription, false);
 		}
 
-		// Token: 0x06003B2F RID: 15151 RVA: 0x00116A79 File Offset: 0x00114C79
 		private static void menu_siege_strategies_lead_assault_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.IsActive)
@@ -316,7 +298,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("assault_town");
 		}
 
-		// Token: 0x06003B30 RID: 15152 RVA: 0x00116AA8 File Offset: 0x00114CA8
 		private static void menu_order_an_assault_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.IsActive)
@@ -331,7 +312,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("assault_town_order_attack");
 		}
 
-		// Token: 0x06003B31 RID: 15153 RVA: 0x00116AE6 File Offset: 0x00114CE6
 		private bool menu_siege_strategies_order_troops_on_condition(MenuCallbackArgs args)
 		{
 			args.IsEnabled = MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty;
@@ -339,21 +319,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B32 RID: 15154 RVA: 0x00116B1C File Offset: 0x00114D1C
 		private bool menu_siege_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && ((PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapFaction)) || (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker));
 		}
 
-		// Token: 0x06003B33 RID: 15155 RVA: 0x00116B9C File Offset: 0x00114D9C
 		private bool menu_siege_strategies_passive_wait_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker && (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty) && MobileParty.MainParty.BesiegedSettlement.SiegeEvent.BesiegerCamp.BesiegerParty != MobileParty.MainParty;
 		}
 
-		// Token: 0x06003B34 RID: 15156 RVA: 0x00116C0C File Offset: 0x00114E0C
 		private void menu_break_siege_on_init(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
@@ -367,21 +344,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
 		}
 
-		// Token: 0x06003B35 RID: 15157 RVA: 0x00116C63 File Offset: 0x00114E63
 		private bool return_siege_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003B36 RID: 15158 RVA: 0x00116C6E File Offset: 0x00114E6E
 		private bool leave_siege_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x06003B37 RID: 15159 RVA: 0x00116C79 File Offset: 0x00114E79
 		private void menu_siege_strategies_passive_wait_leave_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.ExitToLast();
@@ -393,7 +367,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003B38 RID: 15160 RVA: 0x00116CA4 File Offset: 0x00114EA4
 		private static bool game_menu_siege_strategies_order_assault_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.OrderTroopsToAttack;
@@ -452,7 +425,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B39 RID: 15161 RVA: 0x00116E60 File Offset: 0x00115060
 		private static bool game_menu_siege_strategies_lead_assault_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.LeadAssault;
@@ -482,7 +454,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B3A RID: 15162 RVA: 0x00116F34 File Offset: 0x00115134
 		private static void LeaveSiege()
 		{
 			MobileParty.MainParty.BesiegerCamp = null;
@@ -498,7 +469,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003B3B RID: 15163 RVA: 0x00116F94 File Offset: 0x00115194
 		private static void menu_siege_leave_on_consequence(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.BesiegerCamp == null)
@@ -529,13 +499,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B3C RID: 15164 RVA: 0x00117014 File Offset: 0x00115214
 		private static void menu_end_besieging_on_consequence(MenuCallbackArgs args)
 		{
 			SiegeEventCampaignBehavior.LeaveSiege();
 		}
 
-		// Token: 0x06003B3D RID: 15165 RVA: 0x0011701C File Offset: 0x0011521C
 		private static bool menu_defender_side_request_audience_on_condition(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSide != BattleSideEnum.Defender)
@@ -564,13 +532,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B3E RID: 15166 RVA: 0x00117110 File Offset: 0x00115310
 		private static void menu_defender_side_request_audience_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("request_meeting_with_besiegers");
 		}
 
-		// Token: 0x06003B3F RID: 15167 RVA: 0x0011711C File Offset: 0x0011531C
 		private static bool menu_sally_out_on_condition(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSide != BattleSideEnum.Defender)
@@ -600,7 +566,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B40 RID: 15168 RVA: 0x00117268 File Offset: 0x00115468
 		private static void menu_sally_out_on_consequence(MenuCallbackArgs args)
 		{
 			MobileParty besiegerParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
@@ -611,7 +576,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, besiegerParty.Party);
 		}
 
-		// Token: 0x06003B41 RID: 15169 RVA: 0x001172BC File Offset: 0x001154BC
 		private static bool menu_defender_siege_break_out_on_condition(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSide != BattleSideEnum.Defender)
@@ -641,26 +605,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return Hero.MainHero.MapFaction != siegeEvent.BesiegerCamp.BesiegerParty.MapFaction;
 		}
 
-		// Token: 0x06003B42 RID: 15170 RVA: 0x001173D1 File Offset: 0x001155D1
 		private static void menu_defender_siege_break_out_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("break_out_menu");
 		}
 
-		// Token: 0x06003B43 RID: 15171 RVA: 0x001173DD File Offset: 0x001155DD
 		private void menu_siege_select_strategy_leave_on_consequence(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			GameMenu.SwitchToMenu("menu_siege_strategies");
 		}
 
-		// Token: 0x06003B44 RID: 15172 RVA: 0x001173F1 File Offset: 0x001155F1
 		private void SetTactic(SiegeEvent siegeEvent, BattleSideEnum side, SiegeStrategy strategy)
 		{
 			siegeEvent.GetSiegeEventSide(side).SetSiegeStrategy(strategy);
 		}
 
-		// Token: 0x06003B45 RID: 15173 RVA: 0x00117400 File Offset: 0x00115600
 		private void SetDefaultTactics(SiegeEvent siegeEvent, BattleSideEnum side)
 		{
 			IEnumerable<SiegeStrategy> enumerable = ((side == BattleSideEnum.Attacker) ? DefaultSiegeStrategies.AllAttackerStrategies : DefaultSiegeStrategies.AllDefenderStrategies);
@@ -678,32 +638,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SetTactic(siegeEvent, side, siegeStrategy);
 		}
 
-		// Token: 0x06003B46 RID: 15174 RVA: 0x00117498 File Offset: 0x00115698
 		[GameMenuInitializationHandler("menu_siege_strategies")]
 		private static void game_menu_siege_strategies_background_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");
 		}
 
-		// Token: 0x04001219 RID: 4633
 		private readonly TextObject _attackerSummaryText = new TextObject("{=sbmWGPYG}You are besieging {SETTLEMENT}. {FURTHER_EXPLANATION}", null);
 
-		// Token: 0x0400121A RID: 4634
 		private readonly TextObject _defenderSummaryText = new TextObject("{=l5YipTe3}{SETTLEMENT} is under siege. {FURTHER_EXPLANATION}", null);
 
-		// Token: 0x0400121B RID: 4635
 		private readonly TextObject _removeSiegeCompletelyText = new TextObject("{=5ZDCnrDQ}This will end the siege. You cannot take your siege engines with you, and they will be destroyed.", null);
 
-		// Token: 0x0400121C RID: 4636
 		private readonly TextObject _leaveSiegeText = new TextObject("{=176K8dcb}You will end the siege if you leave. Are you sure?", null);
 
-		// Token: 0x0400121D RID: 4637
 		private static readonly TextObject _waitSiegeEquipmentsText = new TextObject("{=bCuxzp1N}You need to wait for the siege equipment to be prepared.", null);
 
-		// Token: 0x0400121E RID: 4638
 		private static readonly TextObject _woundedAssaultText = new TextObject("{=gzYuWR28}You are wounded, and in no condition to lead an assault.", null);
 
-		// Token: 0x0400121F RID: 4639
 		private static readonly TextObject _noCommandText = new TextObject("{=1Hd19nq5}You are not in command of this siege.", null);
 	}
 }

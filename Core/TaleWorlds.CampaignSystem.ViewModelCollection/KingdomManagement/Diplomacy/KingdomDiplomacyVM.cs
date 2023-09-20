@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplomacy
 {
-	// Token: 0x0200005D RID: 93
 	public class KingdomDiplomacyVM : KingdomCategoryVM
 	{
-		// Token: 0x060007EB RID: 2027 RVA: 0x00021CA8 File Offset: 0x0001FEA8
 		public KingdomDiplomacyVM(Action<KingdomDecision> forceDecision)
 		{
 			this._forceDecision = forceDecision;
@@ -27,7 +25,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.SetDefaultSelectedItem();
 		}
 
-		// Token: 0x060007EC RID: 2028 RVA: 0x00021D1C File Offset: 0x0001FF1C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -70,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			currentSelectedDiplomacyItem.RefreshValues();
 		}
 
-		// Token: 0x060007ED RID: 2029 RVA: 0x00021F00 File Offset: 0x00020100
 		public void RefreshDiplomacyList()
 		{
 			this.PlayerWars.Clear();
@@ -100,7 +96,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.SetDefaultSelectedItem();
 		}
 
-		// Token: 0x060007EE RID: 2030 RVA: 0x000220E0 File Offset: 0x000202E0
 		public void SelectKingdom(Kingdom kingdom)
 		{
 			bool flag = false;
@@ -127,7 +122,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007EF RID: 2031 RVA: 0x000221A0 File Offset: 0x000203A0
 		private void OnSetCurrentDiplomacyItem(KingdomDiplomacyItemVM item)
 		{
 			if (item is KingdomWarItemVM)
@@ -142,7 +136,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.UpdateBehaviorSelection();
 		}
 
-		// Token: 0x060007F0 RID: 2032 RVA: 0x000221DC File Offset: 0x000203DC
 		private void OnSetWarItem(KingdomWarItemVM item)
 		{
 			this._currentItemsUnresolvedDecision = Clan.PlayerClan.Kingdom.UnresolvedDecisions.FirstOrDefault(delegate(KingdomDecision d)
@@ -193,7 +186,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			base.NotificationCount = ((kingdom != null) ? kingdom.UnresolvedDecisions.Count : 0);
 		}
 
-		// Token: 0x060007F1 RID: 2033 RVA: 0x000224A0 File Offset: 0x000206A0
 		private void OnSetPeaceItem(KingdomTruceItemVM item)
 		{
 			this._currentItemsUnresolvedDecision = Clan.PlayerClan.Kingdom.UnresolvedDecisions.FirstOrDefault(delegate(KingdomDecision d)
@@ -219,7 +211,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.ProposeActionExplanationText = GameTexts.FindText("str_propose_war_explanation", null).SetTextVariable("SUPPORT", KingdomDiplomacyVM.CalculateWarSupport(item.Faction2)).ToString();
 		}
 
-		// Token: 0x060007F2 RID: 2034 RVA: 0x000225F0 File Offset: 0x000207F0
 		private bool GetActionStatusForDiplomacyItemWithReason(KingdomDiplomacyItemVM item, bool isResolve, out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -258,7 +249,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			return true;
 		}
 
-		// Token: 0x060007F3 RID: 2035 RVA: 0x000226CB File Offset: 0x000208CB
 		private void RefreshCurrentWarVisuals(KingdomDiplomacyItemVM item)
 		{
 			if (item != null)
@@ -275,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007F4 RID: 2036 RVA: 0x000226FF File Offset: 0x000208FF
 		private void OnDiplomacyItemSelection(KingdomDiplomacyItemVM item)
 		{
 			if (this.CurrentSelectedDiplomacyItem != item)
@@ -290,7 +279,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007F5 RID: 2037 RVA: 0x00022738 File Offset: 0x00020938
 		private void OnDeclareWar(KingdomTruceItemVM item)
 		{
 			if (this._currentItemsUnresolvedDecision != null)
@@ -303,7 +291,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this._forceDecision(declareWarDecision);
 		}
 
-		// Token: 0x060007F6 RID: 2038 RVA: 0x00022790 File Offset: 0x00020990
 		private void OnDeclarePeace(KingdomWarItemVM item)
 		{
 			if (this._currentItemsUnresolvedDecision != null)
@@ -316,7 +303,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this._forceDecision(makePeaceKingdomDecision);
 		}
 
-		// Token: 0x060007F7 RID: 2039 RVA: 0x000227F4 File Offset: 0x000209F4
 		private void ExecuteAction()
 		{
 			if (this.CurrentSelectedDiplomacyItem != null)
@@ -333,21 +319,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007F8 RID: 2040 RVA: 0x00022846 File Offset: 0x00020A46
 		private void ExecuteShowWarLogs()
 		{
 			this.IsDisplayingWarLogs = true;
 			this.IsDisplayingStatComparisons = false;
 		}
 
-		// Token: 0x060007F9 RID: 2041 RVA: 0x00022856 File Offset: 0x00020A56
 		private void ExecuteShowStatComparisons()
 		{
 			this.IsDisplayingWarLogs = false;
 			this.IsDisplayingStatComparisons = true;
 		}
 
-		// Token: 0x060007FA RID: 2042 RVA: 0x00022868 File Offset: 0x00020A68
 		private void SetDefaultSelectedItem()
 		{
 			KingdomDiplomacyItemVM kingdomDiplomacyItemVM = this.PlayerWars.FirstOrDefault<KingdomWarItemVM>();
@@ -355,7 +338,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.OnDiplomacyItemSelection(kingdomDiplomacyItemVM ?? kingdomDiplomacyItemVM2);
 		}
 
-		// Token: 0x060007FB RID: 2043 RVA: 0x0002289C File Offset: 0x00020A9C
 		private void UpdateBehaviorSelection()
 		{
 			if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.MapFaction.Leader == Hero.MainHero && this.CurrentSelectedDiplomacyItem != null)
@@ -365,7 +347,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x060007FC RID: 2044 RVA: 0x00022904 File Offset: 0x00020B04
 		private void OnBehaviorSelectionChanged(SelectorVM<SelectorItemVM> s)
 		{
 			if (!this._isChangingDiplomacyItem && Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.MapFaction.Leader == Hero.MainHero && this.CurrentSelectedDiplomacyItem != null)
@@ -374,9 +355,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700026D RID: 621
-		// (get) Token: 0x060007FD RID: 2045 RVA: 0x0002296D File Offset: 0x00020B6D
-		// (set) Token: 0x060007FE RID: 2046 RVA: 0x00022975 File Offset: 0x00020B75
 		[DataSourceProperty]
 		public MBBindingList<KingdomWarItemVM> PlayerWars
 		{
@@ -394,9 +372,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700026E RID: 622
-		// (get) Token: 0x060007FF RID: 2047 RVA: 0x00022993 File Offset: 0x00020B93
-		// (set) Token: 0x06000800 RID: 2048 RVA: 0x0002299B File Offset: 0x00020B9B
 		[DataSourceProperty]
 		public int ActionInfluenceCost
 		{
@@ -414,9 +389,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700026F RID: 623
-		// (get) Token: 0x06000801 RID: 2049 RVA: 0x000229B9 File Offset: 0x00020BB9
-		// (set) Token: 0x06000802 RID: 2050 RVA: 0x000229C1 File Offset: 0x00020BC1
 		[DataSourceProperty]
 		public bool IsActionEnabled
 		{
@@ -434,9 +406,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000270 RID: 624
-		// (get) Token: 0x06000803 RID: 2051 RVA: 0x000229DF File Offset: 0x00020BDF
-		// (set) Token: 0x06000804 RID: 2052 RVA: 0x000229E7 File Offset: 0x00020BE7
 		[DataSourceProperty]
 		public bool IsDisplayingWarLogs
 		{
@@ -454,9 +423,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000271 RID: 625
-		// (get) Token: 0x06000805 RID: 2053 RVA: 0x00022A05 File Offset: 0x00020C05
-		// (set) Token: 0x06000806 RID: 2054 RVA: 0x00022A0D File Offset: 0x00020C0D
 		[DataSourceProperty]
 		public bool IsDisplayingStatComparisons
 		{
@@ -474,9 +440,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000272 RID: 626
-		// (get) Token: 0x06000807 RID: 2055 RVA: 0x00022A2B File Offset: 0x00020C2B
-		// (set) Token: 0x06000808 RID: 2056 RVA: 0x00022A33 File Offset: 0x00020C33
 		[DataSourceProperty]
 		public bool IsWar
 		{
@@ -498,9 +461,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000273 RID: 627
-		// (get) Token: 0x06000809 RID: 2057 RVA: 0x00022A5A File Offset: 0x00020C5A
-		// (set) Token: 0x0600080A RID: 2058 RVA: 0x00022A62 File Offset: 0x00020C62
 		[DataSourceProperty]
 		public string ActionName
 		{
@@ -518,9 +478,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000274 RID: 628
-		// (get) Token: 0x0600080B RID: 2059 RVA: 0x00022A85 File Offset: 0x00020C85
-		// (set) Token: 0x0600080C RID: 2060 RVA: 0x00022A8D File Offset: 0x00020C8D
 		[DataSourceProperty]
 		public string ProposeActionExplanationText
 		{
@@ -538,9 +495,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000275 RID: 629
-		// (get) Token: 0x0600080D RID: 2061 RVA: 0x00022AB0 File Offset: 0x00020CB0
-		// (set) Token: 0x0600080E RID: 2062 RVA: 0x00022AB8 File Offset: 0x00020CB8
 		[DataSourceProperty]
 		public string BehaviorSelectionTitle
 		{
@@ -558,9 +512,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000276 RID: 630
-		// (get) Token: 0x0600080F RID: 2063 RVA: 0x00022ADB File Offset: 0x00020CDB
-		// (set) Token: 0x06000810 RID: 2064 RVA: 0x00022AE3 File Offset: 0x00020CE3
 		[DataSourceProperty]
 		public MBBindingList<KingdomTruceItemVM> PlayerTruces
 		{
@@ -578,9 +529,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000277 RID: 631
-		// (get) Token: 0x06000811 RID: 2065 RVA: 0x00022B01 File Offset: 0x00020D01
-		// (set) Token: 0x06000812 RID: 2066 RVA: 0x00022B09 File Offset: 0x00020D09
 		[DataSourceProperty]
 		public KingdomDiplomacyItemVM CurrentSelectedDiplomacyItem
 		{
@@ -601,9 +549,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000278 RID: 632
-		// (get) Token: 0x06000813 RID: 2067 RVA: 0x00022B44 File Offset: 0x00020D44
-		// (set) Token: 0x06000814 RID: 2068 RVA: 0x00022B4C File Offset: 0x00020D4C
 		[DataSourceProperty]
 		public KingdomWarSortControllerVM WarsSortController
 		{
@@ -621,9 +566,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000279 RID: 633
-		// (get) Token: 0x06000815 RID: 2069 RVA: 0x00022B6A File Offset: 0x00020D6A
-		// (set) Token: 0x06000816 RID: 2070 RVA: 0x00022B72 File Offset: 0x00020D72
 		[DataSourceProperty]
 		public string PlayerWarsText
 		{
@@ -641,9 +583,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027A RID: 634
-		// (get) Token: 0x06000817 RID: 2071 RVA: 0x00022B95 File Offset: 0x00020D95
-		// (set) Token: 0x06000818 RID: 2072 RVA: 0x00022B9D File Offset: 0x00020D9D
 		[DataSourceProperty]
 		public string WarsText
 		{
@@ -661,9 +600,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027B RID: 635
-		// (get) Token: 0x06000819 RID: 2073 RVA: 0x00022BC0 File Offset: 0x00020DC0
-		// (set) Token: 0x0600081A RID: 2074 RVA: 0x00022BC8 File Offset: 0x00020DC8
 		[DataSourceProperty]
 		public string NumOfPlayerWarsText
 		{
@@ -681,9 +617,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027C RID: 636
-		// (get) Token: 0x0600081B RID: 2075 RVA: 0x00022BEB File Offset: 0x00020DEB
-		// (set) Token: 0x0600081C RID: 2076 RVA: 0x00022BF3 File Offset: 0x00020DF3
 		[DataSourceProperty]
 		public string PlayerTrucesText
 		{
@@ -701,9 +634,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027D RID: 637
-		// (get) Token: 0x0600081D RID: 2077 RVA: 0x00022C16 File Offset: 0x00020E16
-		// (set) Token: 0x0600081E RID: 2078 RVA: 0x00022C1E File Offset: 0x00020E1E
 		[DataSourceProperty]
 		public string NumOfPlayerTrucesText
 		{
@@ -721,9 +651,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027E RID: 638
-		// (get) Token: 0x0600081F RID: 2079 RVA: 0x00022C41 File Offset: 0x00020E41
-		// (set) Token: 0x06000820 RID: 2080 RVA: 0x00022C49 File Offset: 0x00020E49
 		[DataSourceProperty]
 		public SelectorVM<SelectorItemVM> BehaviorSelection
 		{
@@ -741,9 +668,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x1700027F RID: 639
-		// (get) Token: 0x06000821 RID: 2081 RVA: 0x00022C67 File Offset: 0x00020E67
-		// (set) Token: 0x06000822 RID: 2082 RVA: 0x00022C6F File Offset: 0x00020E6F
 		[DataSourceProperty]
 		public HintViewModel ShowStatBarsHint
 		{
@@ -761,9 +685,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000280 RID: 640
-		// (get) Token: 0x06000823 RID: 2083 RVA: 0x00022C8D File Offset: 0x00020E8D
-		// (set) Token: 0x06000824 RID: 2084 RVA: 0x00022C95 File Offset: 0x00020E95
 		[DataSourceProperty]
 		public HintViewModel ShowWarLogsHint
 		{
@@ -781,9 +702,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x17000281 RID: 641
-		// (get) Token: 0x06000825 RID: 2085 RVA: 0x00022CB3 File Offset: 0x00020EB3
-		// (set) Token: 0x06000826 RID: 2086 RVA: 0x00022CBB File Offset: 0x00020EBB
 		[DataSourceProperty]
 		public HintViewModel ActionHint
 		{
@@ -801,94 +719,66 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x06000827 RID: 2087 RVA: 0x00022CD9 File Offset: 0x00020ED9
 		private static int CalculateWarSupport(IFaction faction)
 		{
 			return MathF.Round(new KingdomElection(new DeclareWarDecision(Clan.PlayerClan, faction)).GetLikelihoodForSponsor(Clan.PlayerClan) * 100f);
 		}
 
-		// Token: 0x06000828 RID: 2088 RVA: 0x00022D00 File Offset: 0x00020F00
 		private int CalculatePeaceSupport(KingdomWarItemVM policy, int dailyTributeToBePaid)
 		{
 			return MathF.Round(new KingdomElection(new MakePeaceKingdomDecision(Clan.PlayerClan, policy.Faction2, dailyTributeToBePaid, true)).GetLikelihoodForSponsor(Clan.PlayerClan) * 100f);
 		}
 
-		// Token: 0x0400038A RID: 906
 		private KingdomDecision _currentItemsUnresolvedDecision;
 
-		// Token: 0x0400038B RID: 907
 		private readonly Action<KingdomDecision> _forceDecision;
 
-		// Token: 0x0400038C RID: 908
 		private readonly Kingdom _playerKingdom;
 
-		// Token: 0x0400038D RID: 909
 		private int _dailyPeaceTributeToPay;
 
-		// Token: 0x0400038E RID: 910
 		private bool _isChangingDiplomacyItem;
 
-		// Token: 0x0400038F RID: 911
 		private MBBindingList<KingdomWarItemVM> _playerWars;
 
-		// Token: 0x04000390 RID: 912
 		private MBBindingList<KingdomTruceItemVM> _playerTruces;
 
-		// Token: 0x04000391 RID: 913
 		private KingdomWarSortControllerVM _warsSortController;
 
-		// Token: 0x04000392 RID: 914
 		private KingdomDiplomacyItemVM _currentSelectedItem;
 
-		// Token: 0x04000393 RID: 915
 		private SelectorVM<SelectorItemVM> _behaviorSelection;
 
-		// Token: 0x04000394 RID: 916
 		private HintViewModel _showStatBarsHint;
 
-		// Token: 0x04000395 RID: 917
 		private HintViewModel _showWarLogsHint;
 
-		// Token: 0x04000396 RID: 918
 		private HintViewModel _actionHint;
 
-		// Token: 0x04000397 RID: 919
 		private string _playerWarsText;
 
-		// Token: 0x04000398 RID: 920
 		private string _numOfPlayerWarsText;
 
-		// Token: 0x04000399 RID: 921
 		private string _otherWarsText;
 
-		// Token: 0x0400039A RID: 922
 		private string _numOfOtherWarsText;
 
-		// Token: 0x0400039B RID: 923
 		private string _warsText;
 
-		// Token: 0x0400039C RID: 924
 		private string _actionName;
 
-		// Token: 0x0400039D RID: 925
 		private string _proposeActionExplanationText;
 
-		// Token: 0x0400039E RID: 926
 		private string _behaviorSelectionTitle;
 
-		// Token: 0x0400039F RID: 927
 		private int _actionInfluenceCost;
 
-		// Token: 0x040003A0 RID: 928
 		private bool _isActionEnabled;
 
-		// Token: 0x040003A1 RID: 929
 		private bool _isDisplayingWarLogs;
 
-		// Token: 0x040003A2 RID: 930
 		private bool _isDisplayingStatComparisons;
 
-		// Token: 0x040003A3 RID: 931
 		private bool _isWar;
 	}
 }

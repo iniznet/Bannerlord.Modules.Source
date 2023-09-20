@@ -9,22 +9,18 @@ using TaleWorlds.MountAndBlade.Network;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002E7 RID: 743
 	public static class DedicatedServerConsoleCommandManager
 	{
-		// Token: 0x06002874 RID: 10356 RVA: 0x0009CD3C File Offset: 0x0009AF3C
 		static DedicatedServerConsoleCommandManager()
 		{
 			DedicatedServerConsoleCommandManager.AddType(typeof(DedicatedServerConsoleCommandManager));
 		}
 
-		// Token: 0x06002875 RID: 10357 RVA: 0x0009CD57 File Offset: 0x0009AF57
 		public static void AddType(Type type)
 		{
 			DedicatedServerConsoleCommandManager._commandHandlerTypes.Add(type);
 		}
 
-		// Token: 0x06002876 RID: 10358 RVA: 0x0009CD64 File Offset: 0x0009AF64
 		internal static void HandleConsoleCommand(string command)
 		{
 			int num = command.IndexOf(' ');
@@ -165,7 +161,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002877 RID: 10359 RVA: 0x0009D134 File Offset: 0x0009B334
 		[UsedImplicitly]
 		[ConsoleCommandMethod("list", "Displays a list of all multiplayer options, their values and other possible commands")]
 		private static void ListAllCommands()
@@ -201,7 +196,6 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("--Add '?' after a command to get a more detailed description.", 0, Debug.DebugColor.White, 17179869184UL);
 		}
 
-		// Token: 0x06002878 RID: 10360 RVA: 0x0009D274 File Offset: 0x0009B474
 		[UsedImplicitly]
 		[ConsoleCommandMethod("set_winner_team", "Sets the winner team of flag domination based multiplayer missions.")]
 		private static void SetWinnerTeam(string winnerTeamAsString)
@@ -209,7 +203,6 @@ namespace TaleWorlds.MountAndBlade
 			MissionMultiplayerFlagDomination.SetWinnerTeam(int.Parse(winnerTeamAsString));
 		}
 
-		// Token: 0x06002879 RID: 10361 RVA: 0x0009D284 File Offset: 0x0009B484
 		[UsedImplicitly]
 		[ConsoleCommandMethod("stats", "Displays some game statistics, like FPS and players on the server.")]
 		private static void ShowStats()
@@ -218,7 +211,6 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("--Active Players: " + GameNetwork.NetworkPeers.Count((NetworkCommunicator x) => x.IsSynchronized), 0, Debug.DebugColor.White, 17179869184UL);
 		}
 
-		// Token: 0x0600287A RID: 10362 RVA: 0x0009D2FF File Offset: 0x0009B4FF
 		[UsedImplicitly]
 		[ConsoleCommandMethod("open_monitor", "Opens up the monitor window with continuous data-representations on server performance and network usage.")]
 		private static void OpenMonitor()
@@ -227,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			DebugNetworkEventStatistics.OpenExternalMonitor();
 		}
 
-		// Token: 0x0600287B RID: 10363 RVA: 0x0009D30B File Offset: 0x0009B50B
 		[UsedImplicitly]
 		[ConsoleCommandMethod("crash_game", "Crashes the game process.")]
 		private static void CrashGame()
@@ -236,7 +227,6 @@ namespace TaleWorlds.MountAndBlade
 			throw new Exception("Game crashed by user command");
 		}
 
-		// Token: 0x04000F25 RID: 3877
 		private static readonly List<Type> _commandHandlerTypes = new List<Type>();
 	}
 }

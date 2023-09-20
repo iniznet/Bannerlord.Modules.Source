@@ -19,11 +19,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200037F RID: 895
 	public class CaravansCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CB9 RID: 3257
-		// (get) Token: 0x06003433 RID: 13363 RVA: 0x000DA7EB File Offset: 0x000D89EB
 		private float DistanceScoreDivider
 		{
 			get
@@ -32,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CBA RID: 3258
-		// (get) Token: 0x06003434 RID: 13364 RVA: 0x000DA804 File Offset: 0x000D8A04
 		private float DistanceLimitVeryFar
 		{
 			get
@@ -42,8 +37,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CBB RID: 3259
-		// (get) Token: 0x06003435 RID: 13365 RVA: 0x000DA81D File Offset: 0x000D8A1D
 		private float DistanceLimitFar
 		{
 			get
@@ -52,8 +45,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CBC RID: 3260
-		// (get) Token: 0x06003436 RID: 13366 RVA: 0x000DA836 File Offset: 0x000D8A36
 		private float DistanceLimitMedium
 		{
 			get
@@ -62,8 +53,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CBD RID: 3261
-		// (get) Token: 0x06003437 RID: 13367 RVA: 0x000DA84F File Offset: 0x000D8A4F
 		private float DistanceLimitClose
 		{
 			get
@@ -72,13 +61,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003438 RID: 13368 RVA: 0x000DA868 File Offset: 0x000D8A68
 		public CaravansCampaignBehavior()
 		{
 			this._tradeActionLogPool = new CaravansCampaignBehavior.TradeActionLogPool(4096);
 		}
 
-		// Token: 0x06003439 RID: 13369 RVA: 0x000DA900 File Offset: 0x000D8B00
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -95,7 +82,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.DistributeLootToPartyEvent.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, Dictionary<PartyBase, ItemRoster>>(this.OnLootCaravanParties));
 		}
 
-		// Token: 0x0600343A RID: 13370 RVA: 0x000DAA24 File Offset: 0x000D8C24
 		private void OnLootCaravanParties(MapEvent mapEvent, PartyBase party, Dictionary<PartyBase, ItemRoster> loot)
 		{
 			foreach (PartyBase partyBase in loot.Keys)
@@ -107,7 +93,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600343B RID: 13371 RVA: 0x000DAAA8 File Offset: 0x000D8CA8
 		public void OnNewGameCreatedPartialFollowUpEvent(CampaignGameStarter starter, int i)
 		{
 			List<Hero> list = new List<Hero>();
@@ -131,7 +116,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600343C RID: 13372 RVA: 0x000DAB7C File Offset: 0x000D8D7C
 		private void OnNewGameCreatedPartialFollowUpEndEvent(CampaignGameStarter obj)
 		{
 			for (int i = 0; i < 2; i++)
@@ -141,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600343D RID: 13373 RVA: 0x000DABA4 File Offset: 0x000D8DA4
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<MobileParty, CampaignTime>>("_tradeRumorTakenCaravans", ref this._tradeRumorTakenCaravans);
@@ -151,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<Dictionary<MobileParty, List<Settlement>>>("_previouslyChangedCaravanTargetsDueToEnemyOnWay", ref this._previouslyChangedCaravanTargetsDueToEnemyOnWay);
 		}
 
-		// Token: 0x0600343E RID: 13374 RVA: 0x000DAC0C File Offset: 0x000D8E0C
 		private void DoInitialTradeRuns()
 		{
 			foreach (MobileParty mobileParty in MobileParty.AllCaravanParties)
@@ -204,14 +186,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600343F RID: 13375 RVA: 0x000DAE00 File Offset: 0x000D9000
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 			this.UpdateAverageValues();
 		}
 
-		// Token: 0x06003440 RID: 13376 RVA: 0x000DAE10 File Offset: 0x000D9010
 		private void OnMapEventEnded(MapEvent mapEvent)
 		{
 			foreach (PartyBase partyBase in mapEvent.InvolvedParties)
@@ -278,13 +258,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003441 RID: 13377 RVA: 0x000DB144 File Offset: 0x000D9344
 		public bool ShouldHaveCaravan(Hero hero)
 		{
 			return hero.PartyBelongedTo == null && hero.IsMerchant && (hero.IsFugitive || hero.IsReleased || hero.IsNotSpawned || hero.IsActive) && !hero.IsTemplate && hero.CanLeadParty();
 		}
 
-		// Token: 0x06003442 RID: 13378 RVA: 0x000DB194 File Offset: 0x000D9394
 		public void SpawnCaravan(Hero hero, bool initialSpawn = false)
 		{
 			if (hero.OwnedCaravans.Count <= 0)
@@ -321,7 +299,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003443 RID: 13379 RVA: 0x000DB274 File Offset: 0x000D9474
 		private void UpdateAverageValues()
 		{
 			Dictionary<ItemCategory, ValueTuple<float, int>> dictionary = new Dictionary<ItemCategory, ValueTuple<float, int>>();
@@ -348,7 +325,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003444 RID: 13380 RVA: 0x000DB380 File Offset: 0x000D9580
 		private void CreatePriceDataCache()
 		{
 			foreach (ItemCategory itemCategory in ItemCategories.All)
@@ -369,7 +345,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003445 RID: 13381 RVA: 0x000DB44C File Offset: 0x000D964C
 		public void DailyTick()
 		{
 			this.DeleteExpiredTradeRumorTakenCaravans();
@@ -377,7 +352,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.CreatePriceDataCache();
 		}
 
-		// Token: 0x06003446 RID: 13382 RVA: 0x000DB460 File Offset: 0x000D9660
 		private void DailyTickHero(Hero hero)
 		{
 			if (hero != Hero.MainHero && this.ShouldHaveCaravan(hero))
@@ -386,7 +360,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003447 RID: 13383 RVA: 0x000DB47C File Offset: 0x000D967C
 		private void DeleteExpiredTradeRumorTakenCaravans()
 		{
 			List<MobileParty> list = new List<MobileParty>();
@@ -403,7 +376,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003448 RID: 13384 RVA: 0x000DB544 File Offset: 0x000D9744
 		private void DeleteExpiredLootedCaravans()
 		{
 			List<MobileParty> list = new List<MobileParty>();
@@ -420,7 +392,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003449 RID: 13385 RVA: 0x000DB60C File Offset: 0x000D980C
 		private Town GetDestinationForMobileParty(MobileParty party)
 		{
 			Settlement targetSettlement = party.TargetSettlement;
@@ -431,7 +402,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return targetSettlement.Town;
 		}
 
-		// Token: 0x0600344A RID: 13386 RVA: 0x000DB620 File Offset: 0x000D9820
 		public void HourlyTickParty(MobileParty caravanParty)
 		{
 			if (!Campaign.Current.GameStarted)
@@ -512,7 +482,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600344B RID: 13387 RVA: 0x000DB89C File Offset: 0x000D9A9C
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			Town town = settlement.Town;
@@ -554,7 +523,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600344C RID: 13388 RVA: 0x000DB9FC File Offset: 0x000D9BFC
 		public void OnSettlementLeft(MobileParty mobileParty, Settlement settlement)
 		{
 			if (mobileParty != null && mobileParty != MobileParty.MainParty && (mobileParty.IsCaravan || mobileParty.IsLordParty))
@@ -580,7 +548,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600344D RID: 13389 RVA: 0x000DBAA8 File Offset: 0x000D9CA8
 		private void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
 		{
 			if (this._interactedCaravans.ContainsKey(mobileParty))
@@ -603,7 +570,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600344E RID: 13390 RVA: 0x000DBB2D File Offset: 0x000D9D2D
 		private void OnMobilePartyCreated(MobileParty mobileParty)
 		{
 			if (mobileParty.IsCaravan)
@@ -612,14 +578,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600344F RID: 13391 RVA: 0x000DBB48 File Offset: 0x000D9D48
 		private Town ThinkNextDestination(MobileParty caravanParty)
 		{
 			this.RefreshTotalValueOfItemsAtCategoryForParty(caravanParty);
 			return this.FindNextDestinationForCaravan(caravanParty, true) ?? this.FindNextDestinationForCaravan(caravanParty, false);
 		}
 
-		// Token: 0x06003450 RID: 13392 RVA: 0x000DBB68 File Offset: 0x000D9D68
 		private Town FindNextDestinationForCaravan(MobileParty caravanParty, bool distanceCut)
 		{
 			float num = 0f;
@@ -642,7 +606,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return town;
 		}
 
-		// Token: 0x06003451 RID: 13393 RVA: 0x000DBC7C File Offset: 0x000D9E7C
 		private void AdjustVeryFarAddition(float distance, float minimumAddition, ref float veryFarAddition)
 		{
 			if (distance > this.DistanceLimitVeryFar)
@@ -663,7 +626,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003452 RID: 13394 RVA: 0x000DBCFC File Offset: 0x000D9EFC
 		private float GetTradeScoreForTown(MobileParty caravanParty, Town town, CampaignTime lastHomeVisitTimeOfCaravan, float caravanFullness, bool distanceCut)
 		{
 			float distance = Campaign.Current.Models.MapDistanceModel.GetDistance(caravanParty, town.Owner.Settlement);
@@ -711,7 +673,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (num4 + num6) * num7 * num2 * num3 * num8;
 		}
 
-		// Token: 0x06003453 RID: 13395 RVA: 0x000DBFD4 File Offset: 0x000DA1D4
 		private float CalculateTownSellScoreForCategory(MobileParty party, TownMarketData marketData, int i, float limitValue)
 		{
 			ItemRosterElement itemRosterElement = party.Party.ItemRoster[i];
@@ -727,7 +688,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 0f;
 		}
 
-		// Token: 0x06003454 RID: 13396 RVA: 0x000DC0B3 File Offset: 0x000DA2B3
 		private void SetPlayerInteraction(MobileParty mobileParty, CaravansCampaignBehavior.PlayerInteraction interaction)
 		{
 			if (this._interactedCaravans.ContainsKey(mobileParty))
@@ -738,7 +698,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._interactedCaravans.Add(mobileParty, interaction);
 		}
 
-		// Token: 0x06003455 RID: 13397 RVA: 0x000DC0E0 File Offset: 0x000DA2E0
 		private CaravansCampaignBehavior.PlayerInteraction GetPlayerInteraction(MobileParty mobileParty)
 		{
 			CaravansCampaignBehavior.PlayerInteraction playerInteraction;
@@ -749,7 +708,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return CaravansCampaignBehavior.PlayerInteraction.None;
 		}
 
-		// Token: 0x06003456 RID: 13398 RVA: 0x000DC100 File Offset: 0x000DA300
 		private float CalculateTownBuyScoreForCategory(TownMarketData marketData, int categoryIndex)
 		{
 			ItemCategory itemCategory = ItemCategories.All[categoryIndex];
@@ -764,7 +722,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 0f;
 		}
 
-		// Token: 0x06003457 RID: 13399 RVA: 0x000DC178 File Offset: 0x000DA378
 		private CaravansCampaignBehavior.PriceIndexData GetCategoryPriceData(ItemCategory category)
 		{
 			CaravansCampaignBehavior.PriceIndexData priceIndexData;
@@ -775,7 +732,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return priceIndexData;
 		}
 
-		// Token: 0x06003458 RID: 13400 RVA: 0x000DC1A8 File Offset: 0x000DA3A8
 		private void RefreshTotalValueOfItemsAtCategoryForParty(MobileParty caravanParty)
 		{
 			this._totalValueOfItemsAtCategory.Clear();
@@ -796,7 +752,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003459 RID: 13401 RVA: 0x000DC244 File Offset: 0x000DA444
 		private void SellGoods(MobileParty caravanParty, Town town, float priceIndexSellLimit = 1.1f, bool toLoseWeight = false)
 		{
 			int gold = town.Gold;
@@ -888,7 +843,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600345A RID: 13402 RVA: 0x000DC6C4 File Offset: 0x000DA8C4
 		private void OnSellItems(MobileParty caravanParty, ItemRosterElement rosterElement, Town soldTown)
 		{
 			int itemPrice = soldTown.GetItemPrice(rosterElement.EquipmentElement.Item, caravanParty, true);
@@ -905,7 +859,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600345B RID: 13403 RVA: 0x000DC774 File Offset: 0x000DA974
 		private void BuyGoods(MobileParty caravanParty, Town town)
 		{
 			CaravansCampaignBehavior.<>c__DisplayClass67_0 CS$<>8__locals1 = new CaravansCampaignBehavior.<>c__DisplayClass67_0();
@@ -952,20 +905,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600345C RID: 13404 RVA: 0x000DC961 File Offset: 0x000DAB61
 		private float CalculateBudgetFactor(MobileParty caravanParty)
 		{
 			return 0.1f + MathF.Clamp((float)caravanParty.PartyTradeGold / this.ReferenceBudgetValue, 0f, 1f);
 		}
 
-		// Token: 0x0600345D RID: 13405 RVA: 0x000DC988 File Offset: 0x000DAB88
 		private float CalculateCapacityFactor(MobileParty caravanParty)
 		{
 			float num = caravanParty.Party.ItemRoster.TotalWeight / ((float)caravanParty.InventoryCapacity + 1f);
 			return 1.1f - MathF.Clamp(num, 0f, 1f);
 		}
 
-		// Token: 0x0600345E RID: 13406 RVA: 0x000DC9CC File Offset: 0x000DABCC
 		private void BuyCategory(MobileParty caravanParty, Town town, ItemCategory category, float budgetFactor, float capacityFactor, List<ValueTuple<EquipmentElement, int>> boughtItems)
 		{
 			float num = this.CalculateBuyValue(category, town, budgetFactor, capacityFactor);
@@ -1062,7 +1012,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600345F RID: 13407 RVA: 0x000DCD4C File Offset: 0x000DAF4C
 		private int CaravanTotalValue(MobileParty caravanParty)
 		{
 			float num = 0f;
@@ -1074,7 +1023,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (int)num + caravanParty.PartyTradeGold;
 		}
 
-		// Token: 0x06003460 RID: 13408 RVA: 0x000DCDAC File Offset: 0x000DAFAC
 		private float CalculateBuyValue(ItemCategory category, Town town, float budgetFactor, float capacityFactor)
 		{
 			if (!category.IsTradeGood && !category.IsAnimal)
@@ -1111,7 +1059,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return ((category == DefaultItemCategories.PackAnimal) ? 1.5f : 1f) * num7 * num6 * num3 * (num4 * budgetFactor + num5 * capacityFactor);
 		}
 
-		// Token: 0x06003461 RID: 13409 RVA: 0x000DCEF0 File Offset: 0x000DB0F0
 		private float GetGlobalItemSellPrice(ItemObject item)
 		{
 			CaravansCampaignBehavior.PriceIndexData priceIndexData;
@@ -1122,7 +1069,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return priceIndexData.AverageBuySellPriceIndex * (float)item.Value;
 		}
 
-		// Token: 0x06003462 RID: 13410 RVA: 0x000DCF28 File Offset: 0x000DB128
 		protected void AddDialogs(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("caravan_companion_talk_start", "hero_main_options", "caravan_companion_talk_start", "{=q0RY0dQG}We need to talk business.", new ConversationSentence.OnConditionDelegate(this.companion_is_caravan_leader_on_condition), null, 100, null, null);
@@ -1173,19 +1119,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("caravan_surrender_leave", "caravan_end_talk_surrender", "close_window", "{=uPwKhAps}Can we leave now?", new ConversationSentence.OnConditionDelegate(this.conversation_caravan_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_caravan_surrender_leave_on_consequence), 100, null);
 		}
 
-		// Token: 0x06003463 RID: 13411 RVA: 0x000DD5EC File Offset: 0x000DB7EC
 		private bool companion_is_caravan_leader_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && MobileParty.ConversationParty != null && MobileParty.ConversationParty.Party.Owner == Hero.MainHero && MobileParty.ConversationParty.IsCaravan && (Hero.OneToOneConversationHero.IsPlayerCompanion || Hero.OneToOneConversationHero.Clan == Clan.PlayerClan);
 		}
 
-		// Token: 0x06003464 RID: 13412 RVA: 0x000DD64C File Offset: 0x000DB84C
 		private bool player_caravan_talk_start_on_condition()
 		{
 			return Hero.OneToOneConversationHero == null && MobileParty.ConversationParty != null && MobileParty.ConversationParty.Party.Owner == Hero.MainHero && MobileParty.ConversationParty.IsCaravan && PartyBase.MainParty.Side == BattleSideEnum.Attacker;
 		}
 
-		// Token: 0x06003465 RID: 13413 RVA: 0x000DD698 File Offset: 0x000DB898
 		private void player_take_prisoner_consequence()
 		{
 			if (MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerEncounter.EncounteredMobileParty.MapFaction))
@@ -1194,7 +1137,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003466 RID: 13414 RVA: 0x000DD6BC File Offset: 0x000DB8BC
 		private bool conversation_warn_player_on_condition()
 		{
 			IFaction mapFaction = MobileParty.ConversationParty.MapFaction;
@@ -1202,7 +1144,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return PlayerEncounter.Current != null && !PlayerEncounter.LeaveEncounter && !MobileParty.MainParty.MapFaction.IsAtWarWith(MobileParty.ConversationParty.MapFaction);
 		}
 
-		// Token: 0x06003467 RID: 13415 RVA: 0x000DD728 File Offset: 0x000DB928
 		private bool caravan_start_talk_on_condition()
 		{
 			if (MobileParty.ConversationParty == null || !MobileParty.ConversationParty.IsCaravan)
@@ -1235,13 +1176,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003468 RID: 13416 RVA: 0x000DD860 File Offset: 0x000DBA60
 		private bool caravan_loot_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan && MobileParty.ConversationParty.Party.MapFaction != Hero.MainHero.MapFaction && MobileParty.ConversationParty.Party.Owner != Hero.MainHero;
 		}
 
-		// Token: 0x06003469 RID: 13417 RVA: 0x000DD8B8 File Offset: 0x000DBAB8
 		private bool caravan_loot_on_clickable_condition(out TextObject explanation)
 		{
 			if (this._lootedCaravans.ContainsKey(MobileParty.ConversationParty))
@@ -1337,7 +1276,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600346A RID: 13418 RVA: 0x000DDBF8 File Offset: 0x000DBDF8
 		private bool caravan_buy_products_on_condition()
 		{
 			if (MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan)
@@ -1353,13 +1291,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600346B RID: 13419 RVA: 0x000DDC48 File Offset: 0x000DBE48
 		private void caravan_player_leave_encounter_on_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x0600346C RID: 13420 RVA: 0x000DDC50 File Offset: 0x000DBE50
 		private void caravan_ask_trade_rumors_on_consequence()
 		{
 			Town destinationForMobileParty = this.GetDestinationForMobileParty(MobileParty.ConversationParty);
@@ -1418,7 +1354,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600346D RID: 13421 RVA: 0x000DDFB8 File Offset: 0x000DC1B8
 		private void caravan_talk_leave_on_consequence()
 		{
 			if (PlayerEncounter.Current != null)
@@ -1427,7 +1362,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600346E RID: 13422 RVA: 0x000DDFC7 File Offset: 0x000DC1C7
 		private bool conversation_caravan_player_trade_end_on_condition()
 		{
 			if (MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan)
@@ -1437,38 +1371,32 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600346F RID: 13423 RVA: 0x000DDFE8 File Offset: 0x000DC1E8
 		private bool conversation_caravan_not_bribe_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan && !this.IsBribeFeasible();
 		}
 
-		// Token: 0x06003470 RID: 13424 RVA: 0x000DE008 File Offset: 0x000DC208
 		private bool conversation_caravan_not_surrender_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan && !this.IsSurrenderFeasible(MobileParty.ConversationParty, MobileParty.MainParty);
 		}
 
-		// Token: 0x06003471 RID: 13425 RVA: 0x000DE032 File Offset: 0x000DC232
 		private void conversation_caravan_fight_on_consequence()
 		{
 			this.SetPlayerInteraction(MobileParty.ConversationParty, CaravansCampaignBehavior.PlayerInteraction.Hostile);
 			PlayerEncounter.Current.IsEnemy = true;
 		}
 
-		// Token: 0x06003472 RID: 13426 RVA: 0x000DE04B File Offset: 0x000DC24B
 		private bool conversation_caravan_give_goods_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan;
 		}
 
-		// Token: 0x06003473 RID: 13427 RVA: 0x000DE060 File Offset: 0x000DC260
 		private bool conversation_caravan_looted_leave_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCaravan;
 		}
 
-		// Token: 0x06003474 RID: 13428 RVA: 0x000DE078 File Offset: 0x000DC278
 		private void conversation_caravan_looted_leave_on_consequence()
 		{
 			int num;
@@ -1490,7 +1418,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003475 RID: 13429 RVA: 0x000DE144 File Offset: 0x000DC344
 		private void conversation_caravan_surrender_leave_on_consequence()
 		{
 			ItemRoster itemRoster = new ItemRoster(MobileParty.ConversationParty.ItemRoster);
@@ -1523,7 +1450,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003476 RID: 13430 RVA: 0x000DE218 File Offset: 0x000DC418
 		private void conversation_caravan_took_prisoner_on_consequence()
 		{
 			MobileParty encounteredMobileParty = PlayerEncounter.EncounteredMobileParty;
@@ -1563,7 +1489,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003477 RID: 13431 RVA: 0x000DE35C File Offset: 0x000DC55C
 		private bool IsBribeFeasible()
 		{
 			int num = (PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.1f) ? 33 : 67);
@@ -1574,7 +1499,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MobileParty.ConversationParty.Party.RandomIntWithSeed(5U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.6f);
 		}
 
-		// Token: 0x06003478 RID: 13432 RVA: 0x000DE3E0 File Offset: 0x000DC5E0
 		private bool IsSurrenderFeasible(MobileParty conversationParty, MobileParty mainParty)
 		{
 			int num = (PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.1f) ? 33 : 67);
@@ -1585,7 +1509,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return conversationParty.Party.RandomIntWithSeed(7U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.1f);
 		}
 
-		// Token: 0x06003479 RID: 13433 RVA: 0x000DE460 File Offset: 0x000DC660
 		private void BribeAmount(PartyBase party, out int gold, out ItemRoster items)
 		{
 			int num = 0;
@@ -1638,73 +1561,52 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			items = itemRoster;
 		}
 
-		// Token: 0x04001106 RID: 4358
 		private const float AverageCaravanWaitAtSettlement = 3f;
 
-		// Token: 0x04001107 RID: 4359
 		private const int MaxMoneyToSpendOnSingleCategory = 1500;
 
-		// Token: 0x04001108 RID: 4360
 		private const int MaxNumberOfItemsToBuyFromSingleCategory = 100;
 
-		// Token: 0x04001109 RID: 4361
 		public const int InitialCaravanGold = 10000;
 
-		// Token: 0x0400110A RID: 4362
 		private const float ProfitRateRumorThreshold = 1.2f;
 
-		// Token: 0x0400110B RID: 4363
 		private float ReferenceBudgetValue = 5000f;
 
-		// Token: 0x0400110C RID: 4364
 		private Dictionary<MobileParty, CampaignTime> _tradeRumorTakenCaravans = new Dictionary<MobileParty, CampaignTime>();
 
-		// Token: 0x0400110D RID: 4365
 		private Dictionary<MobileParty, CampaignTime> _caravanLastHomeTownVisitTime = new Dictionary<MobileParty, CampaignTime>();
 
-		// Token: 0x0400110E RID: 4366
 		private Dictionary<MobileParty, CampaignTime> _lootedCaravans = new Dictionary<MobileParty, CampaignTime>();
 
-		// Token: 0x0400110F RID: 4367
 		private Dictionary<MobileParty, CaravansCampaignBehavior.PlayerInteraction> _interactedCaravans = new Dictionary<MobileParty, CaravansCampaignBehavior.PlayerInteraction>();
 
-		// Token: 0x04001110 RID: 4368
 		private Dictionary<MobileParty, List<CaravansCampaignBehavior.TradeActionLog>> _tradeActionLogs = new Dictionary<MobileParty, List<CaravansCampaignBehavior.TradeActionLog>>();
 
-		// Token: 0x04001111 RID: 4369
 		private Dictionary<MobileParty, List<Settlement>> _previouslyChangedCaravanTargetsDueToEnemyOnWay = new Dictionary<MobileParty, List<Settlement>>();
 
-		// Token: 0x04001112 RID: 4370
 		private CaravansCampaignBehavior.TradeActionLogPool _tradeActionLogPool;
 
-		// Token: 0x04001113 RID: 4371
 		private int _packAnimalCategoryIndex = -1;
 
-		// Token: 0x04001114 RID: 4372
 		private readonly Dictionary<ItemCategory, float> _averageValuesCached = new Dictionary<ItemCategory, float>();
 
-		// Token: 0x04001115 RID: 4373
 		private readonly Dictionary<ItemCategory, CaravansCampaignBehavior.PriceIndexData> _priceDictionary = new Dictionary<ItemCategory, CaravansCampaignBehavior.PriceIndexData>();
 
-		// Token: 0x04001116 RID: 4374
 		private readonly Dictionary<ItemCategory, int> _totalValueOfItemsAtCategory = new Dictionary<ItemCategory, int>();
 
-		// Token: 0x020006B6 RID: 1718
 		public class CaravansCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x0600540E RID: 21518 RVA: 0x0016A50B File Offset: 0x0016870B
 			public CaravansCampaignBehaviorTypeDefiner()
 				: base(60000)
 			{
 			}
 
-			// Token: 0x0600540F RID: 21519 RVA: 0x0016A518 File Offset: 0x00168718
 			protected override void DefineEnumTypes()
 			{
 				base.AddEnumDefinition(typeof(CaravansCampaignBehavior.PlayerInteraction), 1, null);
 			}
 
-			// Token: 0x06005410 RID: 21520 RVA: 0x0016A52C File Offset: 0x0016872C
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, CaravansCampaignBehavior.PlayerInteraction>));
@@ -1712,48 +1614,35 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, List<CaravansCampaignBehavior.TradeActionLog>>));
 			}
 
-			// Token: 0x06005411 RID: 21521 RVA: 0x0016A55E File Offset: 0x0016875E
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(CaravansCampaignBehavior.TradeActionLog), 2, null);
 			}
 		}
 
-		// Token: 0x020006B7 RID: 1719
 		private enum PlayerInteraction
 		{
-			// Token: 0x04001BBB RID: 7099
 			None,
-			// Token: 0x04001BBC RID: 7100
 			Friendly,
-			// Token: 0x04001BBD RID: 7101
 			TradedWith,
-			// Token: 0x04001BBE RID: 7102
 			Hostile
 		}
 
-		// Token: 0x020006B8 RID: 1720
 		private struct PriceIndexData
 		{
-			// Token: 0x06005412 RID: 21522 RVA: 0x0016A572 File Offset: 0x00168772
 			public PriceIndexData(float averageBuySellPriceIndex, float minBuySellPriceIndex)
 			{
 				this.AverageBuySellPriceIndex = averageBuySellPriceIndex;
 				this.MinBuySellPriceIndex = minBuySellPriceIndex;
 			}
 
-			// Token: 0x04001BBF RID: 7103
 			internal readonly float AverageBuySellPriceIndex;
 
-			// Token: 0x04001BC0 RID: 7104
 			internal readonly float MinBuySellPriceIndex;
 		}
 
-		// Token: 0x020006B9 RID: 1721
 		internal class TradeActionLog
 		{
-			// Token: 0x1700135A RID: 4954
-			// (get) Token: 0x06005413 RID: 21523 RVA: 0x0016A582 File Offset: 0x00168782
 			public float ProfitRate
 			{
 				get
@@ -1762,14 +1651,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005414 RID: 21524 RVA: 0x0016A593 File Offset: 0x00168793
 			public void OnSellAction(Settlement soldSettlement, int sellPrice)
 			{
 				this.SellPrice = sellPrice;
 				this.SoldSettlement = soldSettlement;
 			}
 
-			// Token: 0x06005415 RID: 21525 RVA: 0x0016A5A3 File Offset: 0x001687A3
 			public void Reset()
 			{
 				this.BoughtSettlement = null;
@@ -1778,13 +1665,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.BuyPrice = 0;
 			}
 
-			// Token: 0x06005416 RID: 21526 RVA: 0x0016A5C1 File Offset: 0x001687C1
 			internal static void AutoGeneratedStaticCollectObjectsTradeActionLog(object o, List<object> collectedObjects)
 			{
 				((CaravansCampaignBehavior.TradeActionLog)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005417 RID: 21527 RVA: 0x0016A5CF File Offset: 0x001687CF
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.BoughtSettlement);
@@ -1793,72 +1678,57 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				CampaignTime.AutoGeneratedStaticCollectObjectsCampaignTime(this.BoughtTime, collectedObjects);
 			}
 
-			// Token: 0x06005418 RID: 21528 RVA: 0x0016A60B File Offset: 0x0016880B
 			internal static object AutoGeneratedGetMemberValueBoughtSettlement(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).BoughtSettlement;
 			}
 
-			// Token: 0x06005419 RID: 21529 RVA: 0x0016A618 File Offset: 0x00168818
 			internal static object AutoGeneratedGetMemberValueBuyPrice(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).BuyPrice;
 			}
 
-			// Token: 0x0600541A RID: 21530 RVA: 0x0016A62A File Offset: 0x0016882A
 			internal static object AutoGeneratedGetMemberValueSellPrice(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).SellPrice;
 			}
 
-			// Token: 0x0600541B RID: 21531 RVA: 0x0016A63C File Offset: 0x0016883C
 			internal static object AutoGeneratedGetMemberValueItemRosterElement(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).ItemRosterElement;
 			}
 
-			// Token: 0x0600541C RID: 21532 RVA: 0x0016A64E File Offset: 0x0016884E
 			internal static object AutoGeneratedGetMemberValueSoldSettlement(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).SoldSettlement;
 			}
 
-			// Token: 0x0600541D RID: 21533 RVA: 0x0016A65B File Offset: 0x0016885B
 			internal static object AutoGeneratedGetMemberValueBoughtTime(object o)
 			{
 				return ((CaravansCampaignBehavior.TradeActionLog)o).BoughtTime;
 			}
 
-			// Token: 0x04001BC1 RID: 7105
 			[SaveableField(0)]
 			public Settlement BoughtSettlement;
 
-			// Token: 0x04001BC2 RID: 7106
 			[SaveableField(1)]
 			public int BuyPrice;
 
-			// Token: 0x04001BC3 RID: 7107
 			[SaveableField(2)]
 			public int SellPrice;
 
-			// Token: 0x04001BC4 RID: 7108
 			[SaveableField(3)]
 			public ItemRosterElement ItemRosterElement;
 
-			// Token: 0x04001BC5 RID: 7109
 			[SaveableField(4)]
 			public Settlement SoldSettlement;
 
-			// Token: 0x04001BC6 RID: 7110
 			[SaveableField(5)]
 			public CampaignTime BoughtTime;
 		}
 
-		// Token: 0x020006BA RID: 1722
 		internal class TradeActionLogPool
 		{
-			// Token: 0x1700135B RID: 4955
-			// (get) Token: 0x0600541F RID: 21535 RVA: 0x0016A675 File Offset: 0x00168875
 			public int Size
 			{
 				get
@@ -1872,11 +1742,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x1700135C RID: 4956
-			// (get) Token: 0x06005420 RID: 21536 RVA: 0x0016A688 File Offset: 0x00168888
 			private int MaxSize { get; }
 
-			// Token: 0x06005421 RID: 21537 RVA: 0x0016A690 File Offset: 0x00168890
 			public TradeActionLogPool(int size)
 			{
 				this.MaxSize = size;
@@ -1887,7 +1754,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005422 RID: 21538 RVA: 0x0016A6D4 File Offset: 0x001688D4
 			public CaravansCampaignBehavior.TradeActionLog CreateNewLog(Settlement boughtSettlement, int buyPrice, ItemRosterElement itemRosterElement)
 			{
 				CaravansCampaignBehavior.TradeActionLog tradeActionLog = ((this._stack.Count > 0) ? this._stack.Pop() : new CaravansCampaignBehavior.TradeActionLog());
@@ -1898,7 +1764,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return tradeActionLog;
 			}
 
-			// Token: 0x06005423 RID: 21539 RVA: 0x0016A721 File Offset: 0x00168921
 			public void ReleaseLog(CaravansCampaignBehavior.TradeActionLog log)
 			{
 				log.Reset();
@@ -1908,13 +1773,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005424 RID: 21540 RVA: 0x0016A748 File Offset: 0x00168948
 			public override string ToString()
 			{
 				return string.Format("TrackPool: {0}", this.Size);
 			}
 
-			// Token: 0x04001BC8 RID: 7112
 			private Stack<CaravansCampaignBehavior.TradeActionLog> _stack;
 		}
 	}

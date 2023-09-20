@@ -4,22 +4,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001E9 RID: 489
 	public class MultiplayerAgentStatCalculateModel : AgentStatCalculateModel
 	{
-		// Token: 0x06001B76 RID: 7030 RVA: 0x00060F39 File Offset: 0x0005F139
 		public override float GetDifficultyModifier()
 		{
 			return 0.5f;
 		}
 
-		// Token: 0x06001B77 RID: 7031 RVA: 0x00060F40 File Offset: 0x0005F140
 		public override bool CanAgentRideMount(Agent agent, Agent targetMount)
 		{
 			return agent.CheckSkillForMounting(targetMount);
 		}
 
-		// Token: 0x06001B78 RID: 7032 RVA: 0x00060F49 File Offset: 0x0005F149
 		public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
 		{
 			agentDrivenProperties.ArmorEncumbrance = spawnEquipment.GetTotalWeightOfArmor(agent.IsHuman);
@@ -31,7 +27,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties = this.InitializeHumanAgentStats(agent, agentDrivenProperties, agentBuildData);
 		}
 
-		// Token: 0x06001B79 RID: 7033 RVA: 0x00060F7C File Offset: 0x0005F17C
 		public override float GetWeaponInaccuracy(Agent agent, WeaponComponentData weapon, int weaponSkill)
 		{
 			float num = 0f;
@@ -50,7 +45,6 @@ namespace TaleWorlds.MountAndBlade
 			return Math.Max(num, 0f);
 		}
 
-		// Token: 0x06001B7A RID: 7034 RVA: 0x00060FF8 File Offset: 0x0005F1F8
 		private AgentDrivenProperties InitializeHumanAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
 		{
 			MultiplayerClassDivisions.MPHeroClass mpheroClassForCharacter = MultiplayerClassDivisions.GetMPHeroClassForCharacter(agent.Character);
@@ -72,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			return agentDrivenProperties;
 		}
 
-		// Token: 0x06001B7B RID: 7035 RVA: 0x0006108C File Offset: 0x0005F28C
 		private static void InitializeHorseAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties)
 		{
 			agentDrivenProperties.AiSpeciesIndex = agent.Monster.FamilyType;
@@ -99,19 +92,16 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.MountDifficulty = (float)equipmentElement2.Item.Difficulty;
 		}
 
-		// Token: 0x06001B7C RID: 7036 RVA: 0x00061163 File Offset: 0x0005F363
 		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06001B7D RID: 7037 RVA: 0x0006116A File Offset: 0x0005F36A
 		public override float GetKnockBackResistance(Agent agent)
 		{
 			return 0.25f;
 		}
 
-		// Token: 0x06001B7E RID: 7038 RVA: 0x00061174 File Offset: 0x0005F374
 		public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = StrikeType.Invalid)
 		{
 			float num = 0.5f;
@@ -126,13 +116,11 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001B7F RID: 7039 RVA: 0x000611A6 File Offset: 0x0005F3A6
 		public override float GetDismountResistance(Agent agent)
 		{
 			return 0.5f;
 		}
 
-		// Token: 0x06001B80 RID: 7040 RVA: 0x000611AD File Offset: 0x0005F3AD
 		public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			if (agent.IsHuman)
@@ -146,7 +134,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001B81 RID: 7041 RVA: 0x000611D0 File Offset: 0x0005F3D0
 		private void UpdateMountAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			MPPerkObject.MPPerkHandler perkHandler = MPPerkObject.GetPerkHandler(agent.RiderAgent);
@@ -163,7 +150,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.MountDashAccelerationMultiplier = ((num2 > 200f) ? ((num2 < 300f) ? (1f - (num2 - 200f) / 111f) : 0.1f) : 1f);
 		}
 
-		// Token: 0x06001B82 RID: 7042 RVA: 0x00061330 File Offset: 0x0005F530
 		public override int GetEffectiveSkillForWeapon(Agent agent, WeaponComponentData weapon)
 		{
 			int num = base.GetEffectiveSkillForWeapon(agent, weapon);
@@ -178,7 +164,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001B83 RID: 7043 RVA: 0x00061374 File Offset: 0x0005F574
 		private void UpdateHumanAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			MPPerkObject.MPPerkHandler perkHandler = MPPerkObject.GetPerkHandler(agent);
@@ -333,7 +318,6 @@ namespace TaleWorlds.MountAndBlade
 			base.SetAiRelatedProperties(agent, agentDrivenProperties, weaponComponentData, weaponComponentData2);
 		}
 
-		// Token: 0x06001B84 RID: 7044 RVA: 0x00061A68 File Offset: 0x0005FC68
 		private void FillAgentStatsFromData(ref AgentDrivenProperties agentDrivenProperties, Agent agent, MultiplayerClassDivisions.MPHeroClass heroClass, MissionPeer missionPeer, MissionPeer owningMissionPeer)
 		{
 			MissionPeer missionPeer2 = missionPeer ?? owningMissionPeer;
@@ -363,13 +347,11 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.CombatMaxSpeedMultiplier = managedParameter + (managedParameter2 - managedParameter) * num2;
 		}
 
-		// Token: 0x06001B85 RID: 7045 RVA: 0x00061B71 File Offset: 0x0005FD71
 		private int GetSkillValueForItem(BasicCharacterObject characterObject, ItemObject primaryItem)
 		{
 			return characterObject.GetSkillValue((primaryItem != null) ? primaryItem.RelevantSkill : DefaultSkills.Athletics);
 		}
 
-		// Token: 0x06001B86 RID: 7046 RVA: 0x00061B8C File Offset: 0x0005FD8C
 		public static float CalculateMaximumSpeedMultiplier(Agent agent)
 		{
 			MultiplayerClassDivisions.MPHeroClass mpheroClassForCharacter = MultiplayerClassDivisions.GetMPHeroClassForCharacter(agent.Character);

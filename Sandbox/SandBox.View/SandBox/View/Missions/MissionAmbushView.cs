@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000010 RID: 16
 	public class MissionAmbushView : MissionView
 	{
-		// Token: 0x0600005C RID: 92 RVA: 0x000046D0 File Offset: 0x000028D0
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -20,7 +18,6 @@ namespace SandBox.View.Missions
 			this._ambushMissionController.IntroFinish += this.OnIntroFinish;
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x00004734 File Offset: 0x00002934
 		public override void OnMissionTick(float dt)
 		{
 			if (this._firstTick)
@@ -37,7 +34,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x0000479C File Offset: 0x0000299C
 		public void OnIntroFinish()
 		{
 			if (this._deploymentBoundaryMarkerHandler != null)
@@ -55,7 +51,6 @@ namespace SandBox.View.Missions
 			base.MissionScreen.AddMissionView(new RangedSiegeWeaponViewController());
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x00004856 File Offset: 0x00002A56
 		public void OnPlayerDeploymentFinish()
 		{
 			if (this._ambushMissionController.IsPlayerAmbusher)
@@ -64,16 +59,12 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x04000026 RID: 38
 		private AmbushMissionController _ambushMissionController;
 
-		// Token: 0x04000027 RID: 39
 		private MissionDeploymentBoundaryMarker _deploymentBoundaryMarkerHandler;
 
-		// Token: 0x04000028 RID: 40
 		private MissionAmbushDeploymentView _ambushDeploymentView;
 
-		// Token: 0x04000029 RID: 41
 		private bool _firstTick = true;
 	}
 }

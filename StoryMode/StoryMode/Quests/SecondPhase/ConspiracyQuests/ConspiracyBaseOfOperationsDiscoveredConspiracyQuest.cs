@@ -20,11 +20,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 {
-	// Token: 0x02000028 RID: 40
 	internal class ConspiracyBaseOfOperationsDiscoveredConspiracyQuest : ConspiracyQuestBase
 	{
-		// Token: 0x17000064 RID: 100
-		// (get) Token: 0x060001C2 RID: 450 RVA: 0x0000A4F1 File Offset: 0x000086F1
 		public override TextObject Title
 		{
 			get
@@ -33,8 +30,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000065 RID: 101
-		// (get) Token: 0x060001C3 RID: 451 RVA: 0x0000A500 File Offset: 0x00008700
 		public override TextObject SideNotificationText
 		{
 			get
@@ -45,8 +40,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000066 RID: 102
-		// (get) Token: 0x060001C4 RID: 452 RVA: 0x0000A534 File Offset: 0x00008734
 		public override TextObject StartMessageLogFromMentor
 		{
 			get
@@ -58,8 +51,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000067 RID: 103
-		// (get) Token: 0x060001C5 RID: 453 RVA: 0x0000A578 File Offset: 0x00008778
 		public override TextObject StartLog
 		{
 			get
@@ -71,8 +62,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000068 RID: 104
-		// (get) Token: 0x060001C6 RID: 454 RVA: 0x0000A5C1 File Offset: 0x000087C1
 		public override float ConspiracyStrengthDecreaseAmount
 		{
 			get
@@ -81,8 +70,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x17000069 RID: 105
-		// (get) Token: 0x060001C7 RID: 455 RVA: 0x0000A5CC File Offset: 0x000087CC
 		private TextObject HideoutBossName
 		{
 			get
@@ -96,8 +83,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x060001C8 RID: 456 RVA: 0x0000A637 File Offset: 0x00008837
 		private TextObject HideoutSpottedLog
 		{
 			get
@@ -106,8 +91,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006B RID: 107
-		// (get) Token: 0x060001C9 RID: 457 RVA: 0x0000A644 File Offset: 0x00008844
 		private TextObject HideoutRemovedLog
 		{
 			get
@@ -116,8 +99,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006C RID: 108
-		// (get) Token: 0x060001CA RID: 458 RVA: 0x0000A654 File Offset: 0x00008854
 		private TextObject NotDueledWithHideoutBossAndDefeatLog
 		{
 			get
@@ -129,8 +110,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006D RID: 109
-		// (get) Token: 0x060001CB RID: 459 RVA: 0x0000A698 File Offset: 0x00008898
 		private TextObject NotDueledWithHideoutBossAndDefeatedLog
 		{
 			get
@@ -141,8 +120,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x060001CC RID: 460 RVA: 0x0000A6B7 File Offset: 0x000088B7
 		private TextObject DueledWithHideoutBossAndDefeatLog
 		{
 			get
@@ -153,8 +130,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x1700006F RID: 111
-		// (get) Token: 0x060001CD RID: 461 RVA: 0x0000A6D6 File Offset: 0x000088D6
 		private TextObject DueledWithHideoutBossAndDefeatedLog
 		{
 			get
@@ -165,7 +140,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x060001CE RID: 462 RVA: 0x0000A6F8 File Offset: 0x000088F8
 		public ConspiracyBaseOfOperationsDiscoveredConspiracyQuest(string questId, Hero questGiver)
 			: base(questId, questGiver)
 		{
@@ -182,7 +156,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			this._isDone = false;
 		}
 
-		// Token: 0x060001CF RID: 463 RVA: 0x0000A798 File Offset: 0x00008998
 		private Settlement SelectHideout()
 		{
 			Settlement settlement = SettlementHelper.FindRandomHideout(delegate(Settlement s)
@@ -229,7 +202,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			return settlement;
 		}
 
-		// Token: 0x060001D0 RID: 464 RVA: 0x0000A860 File Offset: 0x00008A60
 		private MobileParty CreateRaiderParty(Settlement hideout, bool isBanditBossParty, int partyIndex)
 		{
 			MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("conspiracy_discovered_quest_raider_party_" + partyIndex, hideout.OwnerClan, hideout.Hideout, isBanditBossParty);
@@ -252,20 +224,17 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			return mobileParty;
 		}
 
-		// Token: 0x060001D1 RID: 465 RVA: 0x0000A979 File Offset: 0x00008B79
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this._baseLocation = SettlementHelper.FindNearestFortification(null, this._hideout);
 			this.SetDialogs();
 		}
 
-		// Token: 0x060001D2 RID: 466 RVA: 0x0000A993 File Offset: 0x00008B93
 		private void InitializeHideout()
 		{
 			base.AddTrackedObject(this._baseLocation);
 		}
 
-		// Token: 0x060001D3 RID: 467 RVA: 0x0000A9A4 File Offset: 0x00008BA4
 		private void ChangeHideoutParties()
 		{
 			PartyTemplateObject partyTemplateObject = (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine ? Campaign.Current.ObjectManager.GetObject<PartyTemplateObject>("conspiracy_anti_imperial_special_raider_party_template") : Campaign.Current.ObjectManager.GetObject<PartyTemplateObject>("conspiracy_imperial_special_raider_party_template"));
@@ -295,7 +264,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x060001D4 RID: 468 RVA: 0x0000AB38 File Offset: 0x00008D38
 		protected override void RegisterEvents()
 		{
 			base.RegisterEvents();
@@ -304,7 +272,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			CampaignEvents.OnHideoutSpottedEvent.AddNonSerializedListener(this, new Action<PartyBase, PartyBase>(this.OnHideoutSpotted));
 		}
 
-		// Token: 0x060001D5 RID: 469 RVA: 0x0000AB90 File Offset: 0x00008D90
 		private void OnGameMenuOpened(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement == this._hideout && !this._isDone)
@@ -338,7 +305,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x060001D6 RID: 470 RVA: 0x0000ACE8 File Offset: 0x00008EE8
 		private void OnMissionEnded(IMission mission)
 		{
 			if (Settlement.CurrentSettlement == this._hideout && PlayerEncounter.Current != null)
@@ -378,7 +344,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x060001D7 RID: 471 RVA: 0x0000AD6C File Offset: 0x00008F6C
 		private void OnHideoutSpotted(PartyBase party, PartyBase hideoutParty)
 		{
 			if (party == PartyBase.MainParty && hideoutParty.Settlement == this._hideout)
@@ -388,33 +353,28 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 		}
 
-		// Token: 0x060001D8 RID: 472 RVA: 0x0000AD9E File Offset: 0x00008F9E
 		private void NotDueledWithHideoutBossAndDefeatedCaravan()
 		{
 			base.AddLog(this.NotDueledWithHideoutBossAndDefeatLog, false);
 			this._conspiracyStrengthDecreaseAmount = 50f;
 		}
 
-		// Token: 0x060001D9 RID: 473 RVA: 0x0000ADB9 File Offset: 0x00008FB9
 		private void NotDueledWithHideoutBossAndDefeatedByCaravan()
 		{
 			base.AddLog(this.NotDueledWithHideoutBossAndDefeatedLog, false);
 		}
 
-		// Token: 0x060001DA RID: 474 RVA: 0x0000ADC9 File Offset: 0x00008FC9
 		private void DueledWithHideoutBossAndDefeatedCaravan()
 		{
 			base.AddLog(this.DueledWithHideoutBossAndDefeatLog, false);
 			this._conspiracyStrengthDecreaseAmount = 75f;
 		}
 
-		// Token: 0x060001DB RID: 475 RVA: 0x0000ADE4 File Offset: 0x00008FE4
 		private void DueledWithHideoutBossAndDefeatedByCaravan()
 		{
 			base.AddLog(this.DueledWithHideoutBossAndDefeatedLog, false);
 		}
 
-		// Token: 0x060001DC RID: 476 RVA: 0x0000ADF4 File Offset: 0x00008FF4
 		protected override void SetDialogs()
 		{
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=UdHL9YZC}Well well, isn't this the famous {PLAYER.LINK}! You have been a thorn at our side for a while now. It's good that you are here now. It spares us from searching for you.[if:idle_angry][ib:warrior]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.bandit_hideout_boss_fight_start_on_condition))
@@ -435,7 +395,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 				.CloseDialog(), this);
 		}
 
-		// Token: 0x060001DD RID: 477 RVA: 0x0000AF0C File Offset: 0x0000910C
 		private bool bandit_hideout_boss_fight_start_on_condition()
 		{
 			PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
@@ -443,28 +402,24 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			return encounteredParty != null && !encounteredParty.IsMobile && encounteredParty.MapFaction.IsBanditFaction && CharacterObject.OneToOneConversationCharacter.StringId == (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine ? "anti_imperial_conspiracy_boss" : "imperial_conspiracy_boss") && encounteredParty.MapFaction.IsBanditFaction && encounteredParty.IsSettlement && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && encounteredParty.Settlement.IsHideout;
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x0000AFBD File Offset: 0x000091BD
 		private void bandit_hideout_start_duel_fight_on_consequence()
 		{
 			this._dueledWithHideoutBoss = true;
 			Campaign.Current.ConversationManager.ConversationEndOneShot += HideoutMissionController.StartBossFightDuelMode;
 		}
 
-		// Token: 0x060001DF RID: 479 RVA: 0x0000AFE1 File Offset: 0x000091E1
 		private void bandit_hideout_continue_battle_on_consequence()
 		{
 			this._dueledWithHideoutBoss = false;
 			Campaign.Current.ConversationManager.ConversationEndOneShot += HideoutMissionController.StartBossFightBattleMode;
 		}
 
-		// Token: 0x060001E0 RID: 480 RVA: 0x0000B005 File Offset: 0x00009205
 		protected override void OnStartQuest()
 		{
 			base.OnStartQuest();
 			this.SetDialogs();
 		}
 
-		// Token: 0x060001E1 RID: 481 RVA: 0x0000B014 File Offset: 0x00009214
 		protected override void OnCompleteWithSuccess()
 		{
 			base.OnCompleteWithSuccess();
@@ -479,20 +434,17 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			this._raiderParties.Clear();
 		}
 
-		// Token: 0x060001E2 RID: 482 RVA: 0x0000B094 File Offset: 0x00009294
 		protected override void OnTimedOut()
 		{
 			base.OnTimedOut();
 			base.AddLog(new TextObject("{=S5Dn2K3m}You couldn't stop the conspiracy.", null), false);
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x0000B0AF File Offset: 0x000092AF
 		internal static void AutoGeneratedStaticCollectObjectsConspiracyBaseOfOperationsDiscoveredConspiracyQuest(object o, List<object> collectedObjects)
 		{
 			((ConspiracyBaseOfOperationsDiscoveredConspiracyQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x0000B0BD File Offset: 0x000092BD
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -500,50 +452,37 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			collectedObjects.Add(this._raiderParties);
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x0000B0DE File Offset: 0x000092DE
 		internal static object AutoGeneratedGetMemberValue_hideout(object o)
 		{
 			return ((ConspiracyBaseOfOperationsDiscoveredConspiracyQuest)o)._hideout;
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x0000B0EB File Offset: 0x000092EB
 		internal static object AutoGeneratedGetMemberValue_raiderParties(object o)
 		{
 			return ((ConspiracyBaseOfOperationsDiscoveredConspiracyQuest)o)._raiderParties;
 		}
 
-		// Token: 0x04000092 RID: 146
 		private const string AntiImperialHideoutBossStringId = "anti_imperial_conspiracy_boss";
 
-		// Token: 0x04000093 RID: 147
 		private const string ImperialHideoutBossStringId = "imperial_conspiracy_boss";
 
-		// Token: 0x04000094 RID: 148
 		private const int RaiderPartySize = 6;
 
-		// Token: 0x04000095 RID: 149
 		private const int RaiderPartyCount = 2;
 
-		// Token: 0x04000096 RID: 150
 		[SaveableField(1)]
 		private readonly Settlement _hideout;
 
-		// Token: 0x04000097 RID: 151
 		private Settlement _baseLocation;
 
-		// Token: 0x04000098 RID: 152
 		private bool _dueledWithHideoutBoss;
 
-		// Token: 0x04000099 RID: 153
 		private bool _isSuccess;
 
-		// Token: 0x0400009A RID: 154
 		private bool _isDone;
 
-		// Token: 0x0400009B RID: 155
 		private float _conspiracyStrengthDecreaseAmount;
 
-		// Token: 0x0400009C RID: 156
 		[SaveableField(2)]
 		private readonly List<MobileParty> _raiderParties;
 	}

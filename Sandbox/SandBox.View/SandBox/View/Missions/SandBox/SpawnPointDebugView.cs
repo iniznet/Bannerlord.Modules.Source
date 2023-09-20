@@ -14,10 +14,8 @@ using TaleWorlds.MountAndBlade.Source.Objects;
 
 namespace SandBox.View.Missions.SandBox
 {
-	// Token: 0x02000026 RID: 38
 	public class SpawnPointDebugView : ScriptComponentBehavior
 	{
-		// Token: 0x06000103 RID: 259 RVA: 0x0000C8EF File Offset: 0x0000AAEF
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -25,7 +23,6 @@ namespace SandBox.View.Missions.SandBox
 			this.AddSpawnPointsToList(false);
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x0000C904 File Offset: 0x0000AB04
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -34,7 +31,6 @@ namespace SandBox.View.Missions.SandBox
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x0000C925 File Offset: 0x0000AB25
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (SpawnPointDebugView.ActivateDebugUI || (MBEditor.IsEditModeOn && this.ActivateDebugUIEditor))
@@ -44,20 +40,17 @@ namespace SandBox.View.Missions.SandBox
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x0000C94C File Offset: 0x0000AB4C
 		protected override void OnTick(float dt)
 		{
 			this.ToolMainFunction();
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x0000C954 File Offset: 0x0000AB54
 		protected override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
 			this.ToolMainFunction();
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x0000C964 File Offset: 0x0000AB64
 		private void ToolMainFunction()
 		{
 			if (SpawnPointDebugView.ActivateDebugUI || (MBEditor.IsEditModeOn && this.ActivateDebugUIEditor))
@@ -103,7 +96,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000109 RID: 265 RVA: 0x0000CA8C File Offset: 0x0000AC8C
 		private void ShowRelatedEntity()
 		{
 			this.StartImGUIWindow("Entity Window");
@@ -117,7 +109,6 @@ namespace SandBox.View.Missions.SandBox
 			this.EndImGUIWindow();
 		}
 
-		// Token: 0x0600010A RID: 266 RVA: 0x0000CB14 File Offset: 0x0000AD14
 		private void ShowBasicInformationTab()
 		{
 			this.ImGUITextArea("Tool tried to detect the scene type. If scene type is not correct or not determined", !this._separatorNeeded, !this._onSameLineNeeded);
@@ -127,7 +118,6 @@ namespace SandBox.View.Missions.SandBox
 			this.HandleRadioButtons();
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x0000CBC0 File Offset: 0x0000ADC0
 		private void HandleRadioButtons()
 		{
 			if (this.ImGUIButton("Town Center", this._townCenterRadioButton))
@@ -197,7 +187,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x0600010C RID: 268 RVA: 0x0000CD88 File Offset: 0x0000AF88
 		private void ChangeTab(bool basicInformationTab, bool entityInformationTab, bool navigationMeshCheckTab)
 		{
 			this._basicInformationTab = basicInformationTab;
@@ -205,7 +194,6 @@ namespace SandBox.View.Missions.SandBox
 			this._navigationMeshCheckTab = navigationMeshCheckTab;
 		}
 
-		// Token: 0x0600010D RID: 269 RVA: 0x0000CDA0 File Offset: 0x0000AFA0
 		private void DetermineSceneType()
 		{
 			this._sceneName = base.Scene.GetName();
@@ -252,7 +240,6 @@ namespace SandBox.View.Missions.SandBox
 			this._sceneType = SpawnPointUnits.SceneType.NotDetermined;
 		}
 
-		// Token: 0x0600010E RID: 270 RVA: 0x0000CF14 File Offset: 0x0000B114
 		private void AddSpawnPointsToList(bool alreadyInitialized)
 		{
 			this._spUnitsList.Clear();
@@ -404,7 +391,6 @@ namespace SandBox.View.Missions.SandBox
 			this._invalidSpawnPointsDictionary.Add(SpawnPointDebugView.CategoryId.SemivalidChair, new List<SpawnPointDebugView.InvalidPosition>());
 		}
 
-		// Token: 0x0600010F RID: 271 RVA: 0x0000DDC0 File Offset: 0x0000BFC0
 		private List<List<string>> GetLevelCombinationsToCheck()
 		{
 			base.GameEntity.Scene.GetName();
@@ -430,7 +416,6 @@ namespace SandBox.View.Missions.SandBox
 			return list;
 		}
 
-		// Token: 0x06000110 RID: 272 RVA: 0x0000DEA8 File Offset: 0x0000C0A8
 		protected override bool OnCheckForProblems()
 		{
 			base.OnCheckForProblems();
@@ -520,7 +505,6 @@ namespace SandBox.View.Missions.SandBox
 			return flag;
 		}
 
-		// Token: 0x06000111 RID: 273 RVA: 0x0000E2F8 File Offset: 0x0000C4F8
 		private void ShowEntityInformationTab()
 		{
 			this.ImGUITextArea("This tab calculates the spawnpoint counts and warns you if", !this._separatorNeeded, !this._onSameLineNeeded);
@@ -565,7 +549,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000112 RID: 274 RVA: 0x0000E53C File Offset: 0x0000C73C
 		private void CalculateSpawnedAgentCount(SpawnPointUnits spUnit)
 		{
 			if (spUnit.SpName == "npc_common")
@@ -591,7 +574,6 @@ namespace SandBox.View.Missions.SandBox
 			this._currentTownsfolkCount += spUnit.SpawnedAgentCount;
 		}
 
-		// Token: 0x06000113 RID: 275 RVA: 0x0000E64C File Offset: 0x0000C84C
 		private void CountEntities()
 		{
 			this._currentTownsfolkCount = 0;
@@ -678,7 +660,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x0000E960 File Offset: 0x0000CB60
 		private void CheckForCommonAreas(IEnumerable<GameEntity> allGameEntitiesWithGivenTag, SpawnPointUnits spUnit)
 		{
 			foreach (GameEntity gameEntity in allGameEntitiesWithGivenTag)
@@ -744,7 +725,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x0000EBF0 File Offset: 0x0000CDF0
 		private void CheckForWorkshops(IEnumerable<GameEntity> allGameEntitiesWithGivenTag, SpawnPointUnits spUnit)
 		{
 			foreach (GameEntity gameEntity in allGameEntitiesWithGivenTag)
@@ -844,7 +824,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x0000EFA0 File Offset: 0x0000D1A0
 		private int FindValidSpawnPointCountOfUsableMachine(List<GameEntity> gameEntities)
 		{
 			int num = 0;
@@ -859,7 +838,6 @@ namespace SandBox.View.Missions.SandBox
 			return num;
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x0000EFFC File Offset: 0x0000D1FC
 		private void CountPassages(SpawnPointUnits spUnit)
 		{
 			if (spUnit.SpName.Contains("npc_passage"))
@@ -878,7 +856,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000118 RID: 280 RVA: 0x0000F178 File Offset: 0x0000D378
 		private void CalculateCurrentInvalidPointsCount()
 		{
 			this._currentInvalidPoints = 0;
@@ -908,7 +885,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x0000F234 File Offset: 0x0000D434
 		private bool DetectWhichPassage(PassageUsePoint passageUsePoint, string spName, string locationName)
 		{
 			string toLocationId = passageUsePoint.ToLocationId;
@@ -919,7 +895,6 @@ namespace SandBox.View.Missions.SandBox
 			return toLocationId == locationName && spName == "npc_passage_" + locationName;
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x0000F26F File Offset: 0x0000D46F
 		private void ShowNavigationCheckTab()
 		{
 			this.WriteNavigationMeshTabTexts();
@@ -931,7 +906,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x0000F29C File Offset: 0x0000D49C
 		private void CheckForNavigationMesh()
 		{
 			this.ClearAllLists();
@@ -947,7 +921,6 @@ namespace SandBox.View.Missions.SandBox
 			this.RemoveDuplicateValuesInLists();
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x0000F328 File Offset: 0x0000D528
 		private void CheckNavigationMeshForParticularEntity(GameEntity gameEntity, SpawnPointDebugView.CategoryId categoryId)
 		{
 			if (gameEntity.Name == "workshop_1" || gameEntity.Name == "workshop_2" || gameEntity.Name == "workshop_3")
@@ -990,7 +963,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x0000F494 File Offset: 0x0000D694
 		private void CheckSemiValidsOfChair(GameEntity gameEntity)
 		{
 			AnimationPoint firstScriptOfType = gameEntity.GetFirstScriptOfType<AnimationPoint>();
@@ -1037,7 +1009,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x0000F5D8 File Offset: 0x0000D7D8
 		private void CheckIfChairOrAnimal(SpawnPointUnits spUnit)
 		{
 			foreach (GameEntity gameEntity in base.Scene.FindEntitiesWithTag(spUnit.SpName))
@@ -1073,7 +1044,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x0000F6E8 File Offset: 0x0000D8E8
 		private void CheckIfPassage(SpawnPointUnits spUnit)
 		{
 			if (spUnit.SpName.Contains("passage"))
@@ -1092,7 +1062,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x0000F7A4 File Offset: 0x0000D9A4
 		private void RemoveDuplicateValuesInLists()
 		{
 			this._invalidSpawnPointsDictionary = this._invalidSpawnPointsDictionary.ToDictionary((KeyValuePair<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>> c) => c.Key, (KeyValuePair<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>> c) => c.Value.Distinct<SpawnPointDebugView.InvalidPosition>().ToList<SpawnPointDebugView.InvalidPosition>());
@@ -1108,7 +1077,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x0000F87C File Offset: 0x0000DA7C
 		private void AddPositionToInvalidList(SpawnPointDebugView.CategoryId categoryId, Vec3 globalPosition, GameEntity entity, bool isDisabledNavMesh, bool doNotShowWarning = false)
 		{
 			if (!entity.IsGhostObject() && entity.IsVisibleIncludeParents() && this._invalidSpawnPointsDictionary.ContainsKey(categoryId))
@@ -1125,7 +1093,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x0000F90C File Offset: 0x0000DB0C
 		private void ToggleButtons()
 		{
 			if (this._showNPCs)
@@ -1154,7 +1121,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x0000F998 File Offset: 0x0000DB98
 		private void FindAllPrefabsWithSelectedTag()
 		{
 			if (this.allPrefabsWithParticularTag != null)
@@ -1167,7 +1133,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x0000F9F0 File Offset: 0x0000DBF0
 		private void FocusCameraToMisplacedObjects(SpawnPointDebugView.CategoryId CategoryId)
 		{
 			List<SpawnPointDebugView.InvalidPosition> list;
@@ -1192,7 +1157,6 @@ namespace SandBox.View.Missions.SandBox
 			this._cameraFocusIndex = num2;
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x0000FA7C File Offset: 0x0000DC7C
 		private int GetCategoryCount(SpawnPointDebugView.CategoryId CategoryId)
 		{
 			int num = 0;
@@ -1203,7 +1167,6 @@ namespace SandBox.View.Missions.SandBox
 			return num;
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x0000FAAC File Offset: 0x0000DCAC
 		[CommandLineFunctionality.CommandLineArgumentFunction("mission_spawnpoint_count_and_mesh_checker_ui", "debug")]
 		public static string OpenToolFromConsole(List<string> strings)
 		{
@@ -1236,7 +1199,6 @@ namespace SandBox.View.Missions.SandBox
 			return " ";
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x0000FB90 File Offset: 0x0000DD90
 		private void ClearAllLists()
 		{
 			foreach (KeyValuePair<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>> keyValuePair in this._invalidSpawnPointsDictionary)
@@ -1245,7 +1207,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x0000FBE8 File Offset: 0x0000DDE8
 		private bool ImGUIButton(string buttonText, bool smallButton)
 		{
 			if (smallButton)
@@ -1255,48 +1216,41 @@ namespace SandBox.View.Missions.SandBox
 			return Imgui.Button(buttonText);
 		}
 
-		// Token: 0x06000129 RID: 297 RVA: 0x0000FBFA File Offset: 0x0000DDFA
 		private void LeaveSpaceBetweenTabs()
 		{
 			this.OnSameLine();
 			this.ImGUITextArea(" ", !this._separatorNeeded, this._onSameLineNeeded);
 		}
 
-		// Token: 0x0600012A RID: 298 RVA: 0x0000FC1C File Offset: 0x0000DE1C
 		private void EndImGUIWindow()
 		{
 			Imgui.End();
 			Imgui.EndMainThreadScope();
 		}
 
-		// Token: 0x0600012B RID: 299 RVA: 0x0000FC28 File Offset: 0x0000DE28
 		private void StartImGUIWindow(string str)
 		{
 			Imgui.BeginMainThreadScope();
 			Imgui.Begin(str);
 		}
 
-		// Token: 0x0600012C RID: 300 RVA: 0x0000FC35 File Offset: 0x0000DE35
 		private void ImGUITextArea(string text, bool separatorNeeded, bool onSameLine)
 		{
 			Imgui.Text(text);
 			this.ImGUISeparatorSameLineHandler(separatorNeeded, onSameLine);
 		}
 
-		// Token: 0x0600012D RID: 301 RVA: 0x0000FC45 File Offset: 0x0000DE45
 		private void ImGUICheckBox(string text, ref bool is_checked, bool separatorNeeded, bool onSameLine)
 		{
 			Imgui.Checkbox(text, ref is_checked);
 			this.ImGUISeparatorSameLineHandler(separatorNeeded, onSameLine);
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x0000FC58 File Offset: 0x0000DE58
 		private void ImguiSameLine(float positionX, float spacingWidth)
 		{
 			Imgui.SameLine(positionX, spacingWidth);
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x0000FC61 File Offset: 0x0000DE61
 		private void ImGUISeparatorSameLineHandler(bool separatorNeeded, bool onSameLine)
 		{
 			if (separatorNeeded)
@@ -1309,19 +1263,16 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x0000FC75 File Offset: 0x0000DE75
 		private void OnSameLine()
 		{
 			Imgui.SameLine(0f, 0f);
 		}
 
-		// Token: 0x06000131 RID: 305 RVA: 0x0000FC86 File Offset: 0x0000DE86
 		private void Separator()
 		{
 			Imgui.Separator();
 		}
 
-		// Token: 0x06000132 RID: 306 RVA: 0x0000FC90 File Offset: 0x0000DE90
 		private void WriteLineOfTableDebug(SpawnPointUnits spUnit, Vec3 Color, string type)
 		{
 			if ((type == "animal" && this._showAnimalsList) || (type == "npc" && this._showNPCsList) || (type == "passage" && this._showPassagesList) || (type == "DONTUSE" && this._showDontUseList) || (type == "other" && this._showOthersList))
@@ -1349,7 +1300,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000133 RID: 307 RVA: 0x0000FE84 File Offset: 0x0000E084
 		private void WriteNavigationMeshTabTexts()
 		{
 			this.ImGUITextArea("This tool will mark the spawn points which are not on the navigation mesh", !this._separatorNeeded, !this._onSameLineNeeded);
@@ -1488,7 +1438,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x000105B8 File Offset: 0x0000E7B8
 		private void DrawDebugLinesForInvalidSpawnPoints(SpawnPointDebugView.CategoryId CategoryId, uint color)
 		{
 			if (this._invalidSpawnPointsDictionary.ContainsKey(CategoryId))
@@ -1499,7 +1448,6 @@ namespace SandBox.View.Missions.SandBox
 			}
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x00010618 File Offset: 0x0000E818
 		private void WriteTableHeaders()
 		{
 			this.ImguiSameLine(0f, 0f);
@@ -1516,189 +1464,126 @@ namespace SandBox.View.Missions.SandBox
 			this.ImGUITextArea("List all prefabs with tag:", this._separatorNeeded, !this._onSameLineNeeded);
 		}
 
-		// Token: 0x04000087 RID: 135
 		private const string BattleSetName = "sp_battle_set";
 
-		// Token: 0x04000088 RID: 136
 		private const string CenterConversationPoint = "center_conversation_point";
 
-		// Token: 0x04000089 RID: 137
 		public static bool ActivateDebugUI;
 
-		// Token: 0x0400008A RID: 138
 		public bool ActivateDebugUIEditor;
 
-		// Token: 0x0400008B RID: 139
 		private readonly bool _separatorNeeded = true;
 
-		// Token: 0x0400008C RID: 140
 		private readonly bool _onSameLineNeeded = true;
 
-		// Token: 0x0400008D RID: 141
 		private bool _townCenterRadioButton;
 
-		// Token: 0x0400008E RID: 142
 		private bool _tavernRadioButton;
 
-		// Token: 0x0400008F RID: 143
 		private bool _arenaRadioButton;
 
-		// Token: 0x04000090 RID: 144
 		private bool _villageRadioButton;
 
-		// Token: 0x04000091 RID: 145
 		private bool _lordshallRadioButton;
 
-		// Token: 0x04000092 RID: 146
 		private bool _castleRadioButton;
 
-		// Token: 0x04000093 RID: 147
 		private bool _basicInformationTab;
 
-		// Token: 0x04000094 RID: 148
 		private bool _entityInformationTab;
 
-		// Token: 0x04000095 RID: 149
 		private bool _navigationMeshCheckTab;
 
-		// Token: 0x04000096 RID: 150
 		private bool _relatedEntityWindow;
 
-		// Token: 0x04000097 RID: 151
 		private string _relatedPrefabTag;
 
-		// Token: 0x04000098 RID: 152
 		private int _cameraFocusIndex;
 
-		// Token: 0x04000099 RID: 153
 		private bool _showNPCs;
 
-		// Token: 0x0400009A RID: 154
 		private bool _showChairs;
 
-		// Token: 0x0400009B RID: 155
 		private bool _showAnimals;
 
-		// Token: 0x0400009C RID: 156
 		private bool _showSemiValidPoints;
 
-		// Token: 0x0400009D RID: 157
 		private bool _showPassagePoints;
 
-		// Token: 0x0400009E RID: 158
 		private bool _showOutOfBoundPoints;
 
-		// Token: 0x0400009F RID: 159
 		private bool _showPassagesList;
 
-		// Token: 0x040000A0 RID: 160
 		private bool _showAnimalsList;
 
-		// Token: 0x040000A1 RID: 161
 		private bool _showNPCsList;
 
-		// Token: 0x040000A2 RID: 162
 		private bool _showDontUseList;
 
-		// Token: 0x040000A3 RID: 163
 		private bool _showOthersList;
 
-		// Token: 0x040000A4 RID: 164
 		private string _sceneName;
 
-		// Token: 0x040000A5 RID: 165
 		private SpawnPointUnits.SceneType _sceneType;
 
-		// Token: 0x040000A6 RID: 166
 		private readonly bool _normalButton;
 
-		// Token: 0x040000A7 RID: 167
 		private int _currentTownsfolkCount;
 
-		// Token: 0x040000A8 RID: 168
 		private Vec3 _redColor = new Vec3(200f, 0f, 0f, 255f);
 
-		// Token: 0x040000A9 RID: 169
 		private Vec3 _greenColor = new Vec3(0f, 200f, 0f, 255f);
 
-		// Token: 0x040000AA RID: 170
 		private Vec3 _blueColor = new Vec3(0f, 180f, 180f, 255f);
 
-		// Token: 0x040000AB RID: 171
 		private Vec3 _yellowColor = new Vec3(200f, 200f, 0f, 255f);
 
-		// Token: 0x040000AC RID: 172
 		private Vec3 _purbleColor = new Vec3(255f, 0f, 255f, 255f);
 
-		// Token: 0x040000AD RID: 173
 		private uint _npcDebugLineColor = 4294901760U;
 
-		// Token: 0x040000AE RID: 174
 		private uint _chairDebugLineColor = 4278255360U;
 
-		// Token: 0x040000AF RID: 175
 		private uint _animalDebugLineColor = 4279356620U;
 
-		// Token: 0x040000B0 RID: 176
 		private uint _semivalidChairDebugLineColor = 4294963200U;
 
-		// Token: 0x040000B1 RID: 177
 		private uint _passageDebugLineColor = 4288217241U;
 
-		// Token: 0x040000B2 RID: 178
 		private uint _missionBoundDebugLineColor = uint.MaxValue;
 
-		// Token: 0x040000B3 RID: 179
 		private int _totalInvalidPoints;
 
-		// Token: 0x040000B4 RID: 180
 		private int _currentInvalidPoints;
 
-		// Token: 0x040000B5 RID: 181
 		private int _disabledFaceId;
 
-		// Token: 0x040000B6 RID: 182
 		private int _particularfaceID;
 
-		// Token: 0x040000B7 RID: 183
 		private Dictionary<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>> _invalidSpawnPointsDictionary = new Dictionary<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>>();
 
-		// Token: 0x040000B8 RID: 184
 		private string allPrefabsWithParticularTag;
 
-		// Token: 0x040000B9 RID: 185
 		private IList<SpawnPointUnits> _spUnitsList = new List<SpawnPointUnits>();
 
-		// Token: 0x0200006D RID: 109
 		private enum CategoryId
 		{
-			// Token: 0x04000276 RID: 630
 			NPC,
-			// Token: 0x04000277 RID: 631
 			Animal,
-			// Token: 0x04000278 RID: 632
 			Chair,
-			// Token: 0x04000279 RID: 633
 			Passage,
-			// Token: 0x0400027A RID: 634
 			OutOfMissionBound,
-			// Token: 0x0400027B RID: 635
 			SemivalidChair
 		}
 
-		// Token: 0x0200006E RID: 110
 		private struct InvalidPosition
 		{
-			// Token: 0x0400027C RID: 636
 			public Vec3 position;
 
-			// Token: 0x0400027D RID: 637
 			public GameEntity entity;
 
-			// Token: 0x0400027E RID: 638
 			public bool isDisabledNavMesh;
 
-			// Token: 0x0400027F RID: 639
 			public bool doNotShowWarning;
 		}
 	}

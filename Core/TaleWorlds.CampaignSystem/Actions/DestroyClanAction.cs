@@ -9,10 +9,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000438 RID: 1080
 	public static class DestroyClanAction
 	{
-		// Token: 0x06003ED6 RID: 16086 RVA: 0x0012C468 File Offset: 0x0012A668
 		private static void ApplyInternal(Clan destroyedClan, DestroyClanAction.DestroyClanActionDetails details)
 		{
 			destroyedClan.DeactivateClan();
@@ -66,32 +64,25 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnClanDestroyed(destroyedClan);
 		}
 
-		// Token: 0x06003ED7 RID: 16087 RVA: 0x0012C684 File Offset: 0x0012A884
 		public static void Apply(Clan destroyedClan)
 		{
 			DestroyClanAction.ApplyInternal(destroyedClan, DestroyClanAction.DestroyClanActionDetails.Default);
 		}
 
-		// Token: 0x06003ED8 RID: 16088 RVA: 0x0012C68D File Offset: 0x0012A88D
 		public static void ApplyByFailedRebellion(Clan failedRebellionClan)
 		{
 			DestroyClanAction.ApplyInternal(failedRebellionClan, DestroyClanAction.DestroyClanActionDetails.RebellionFailure);
 		}
 
-		// Token: 0x06003ED9 RID: 16089 RVA: 0x0012C696 File Offset: 0x0012A896
 		public static void ApplyByClanLeaderDeath(Clan destroyedClan)
 		{
 			DestroyClanAction.ApplyInternal(destroyedClan, DestroyClanAction.DestroyClanActionDetails.ClanLeaderDeath);
 		}
 
-		// Token: 0x0200075C RID: 1884
 		private enum DestroyClanActionDetails
 		{
-			// Token: 0x04001E3C RID: 7740
 			Default,
-			// Token: 0x04001E3D RID: 7741
 			RebellionFailure,
-			// Token: 0x04001E3E RID: 7742
 			ClanLeaderDeath
 		}
 	}

@@ -4,10 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
-	// Token: 0x02000074 RID: 116
 	public class MissionSingleplayerKillNotificationUIHandler : MissionView
 	{
-		// Token: 0x0600046B RID: 1131 RVA: 0x000228F8 File Offset: 0x00020AF8
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);

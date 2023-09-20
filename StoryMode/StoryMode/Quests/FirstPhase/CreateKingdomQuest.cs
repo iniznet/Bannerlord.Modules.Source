@@ -13,11 +13,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.FirstPhase
 {
-	// Token: 0x02000032 RID: 50
 	public class CreateKingdomQuest : StoryModeQuestBase
 	{
-		// Token: 0x170000A3 RID: 163
-		// (get) Token: 0x060002CA RID: 714 RVA: 0x0000F9BC File Offset: 0x0000DBBC
 		private TextObject _onQuestStartedImperialLogText
 		{
 			get
@@ -28,8 +25,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A4 RID: 164
-		// (get) Token: 0x060002CB RID: 715 RVA: 0x0000F9F0 File Offset: 0x0000DBF0
 		private TextObject _onQuestStartedAntiImperialLogText
 		{
 			get
@@ -40,8 +35,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A5 RID: 165
-		// (get) Token: 0x060002CC RID: 716 RVA: 0x0000FA24 File Offset: 0x0000DC24
 		private TextObject _imperialKingdomCreatedLogText
 		{
 			get
@@ -52,8 +45,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A6 RID: 166
-		// (get) Token: 0x060002CD RID: 717 RVA: 0x0000FA58 File Offset: 0x0000DC58
 		private TextObject _antiImperialKingdomCreatedLogText
 		{
 			get
@@ -64,8 +55,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A7 RID: 167
-		// (get) Token: 0x060002CE RID: 718 RVA: 0x0000FA89 File Offset: 0x0000DC89
 		private TextObject _leftKingdomAfterCreatingLogText
 		{
 			get
@@ -74,8 +63,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A8 RID: 168
-		// (get) Token: 0x060002CF RID: 719 RVA: 0x0000FA96 File Offset: 0x0000DC96
 		private TextObject _clanTierRequirementLogText
 		{
 			get
@@ -86,8 +73,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000A9 RID: 169
-		// (get) Token: 0x060002D0 RID: 720 RVA: 0x0000FAC3 File Offset: 0x0000DCC3
 		private TextObject _partySizeRequirementLogText
 		{
 			get
@@ -98,8 +83,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000AA RID: 170
-		// (get) Token: 0x060002D1 RID: 721 RVA: 0x0000FADE File Offset: 0x0000DCDE
 		private TextObject _settlementOwnershipRequirementLogText
 		{
 			get
@@ -110,8 +93,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000AB RID: 171
-		// (get) Token: 0x060002D2 RID: 722 RVA: 0x0000FB03 File Offset: 0x0000DD03
 		private TextObject _clanIndependenceRequirementLogText
 		{
 			get
@@ -120,8 +101,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000AC RID: 172
-		// (get) Token: 0x060002D3 RID: 723 RVA: 0x0000FB10 File Offset: 0x0000DD10
 		private TextObject _questFailedLogText
 		{
 			get
@@ -130,8 +109,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000AD RID: 173
-		// (get) Token: 0x060002D4 RID: 724 RVA: 0x0000FB1D File Offset: 0x0000DD1D
 		public override TextObject Title
 		{
 			get
@@ -142,8 +119,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x170000AE RID: 174
-		// (get) Token: 0x060002D5 RID: 725 RVA: 0x0000FB42 File Offset: 0x0000DD42
 		public override bool IsRemainingTimeHidden
 		{
 			get
@@ -152,7 +127,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002D6 RID: 726 RVA: 0x0000FB48 File Offset: 0x0000DD48
 		public CreateKingdomQuest(Hero questGiver)
 			: base("main_storyline_create_kingdom_quest_" + ((StoryModeHeroes.ImperialMentor == questGiver) ? "1" : "0"), questGiver, StoryModeManager.Current.MainStoryLine.FirstPhase.FirstPhaseEndTime)
 		{
@@ -186,19 +160,16 @@ namespace StoryMode.Quests.FirstPhase
 			this.CheckPlayerClanDiplomaticState(Clan.PlayerClan.Kingdom);
 		}
 
-		// Token: 0x060002D7 RID: 727 RVA: 0x0000FD47 File Offset: 0x0000DF47
 		protected override void SetDialogs()
 		{
 			this.DiscussDialogFlow = this.GetMentorDialogueFlow();
 		}
 
-		// Token: 0x060002D8 RID: 728 RVA: 0x0000FD55 File Offset: 0x0000DF55
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this.SetDialogs();
 		}
 
-		// Token: 0x060002D9 RID: 729 RVA: 0x0000FD5D File Offset: 0x0000DF5D
 		private DialogFlow GetMentorDialogueFlow()
 		{
 			return DialogFlow.CreateDialogFlow("quest_discuss", 300).NpcLine("{=kbyqtszZ}I'm listening..", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
@@ -206,7 +177,6 @@ namespace StoryMode.Quests.FirstPhase
 				.CloseDialog();
 		}
 
-		// Token: 0x060002DA RID: 730 RVA: 0x0000FD9C File Offset: 0x0000DF9C
 		private void OnClanTierIncreased(Clan clan, bool showNotification)
 		{
 			if (!this._hasPlayerCreatedKingdom && clan == Clan.PlayerClan)
@@ -215,7 +185,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002DB RID: 731 RVA: 0x0000FDF0 File Offset: 0x0000DFF0
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification)
 		{
 			if (clan == Clan.PlayerClan)
@@ -224,7 +193,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002DC RID: 732 RVA: 0x0000FE04 File Offset: 0x0000E004
 		private void CheckPlayerClanDiplomaticState(Kingdom newKingdom)
 		{
 			if (newKingdom == null)
@@ -280,7 +248,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002DD RID: 733 RVA: 0x0000FF08 File Offset: 0x0000E108
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (!this._hasPlayerCreatedKingdom && (newOwner == Hero.MainHero || oldOwner == Hero.MainHero))
@@ -301,7 +268,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002DE RID: 734 RVA: 0x0000FFD8 File Offset: 0x0000E1D8
 		private void OnPartySizeChanged(PartyBase party)
 		{
 			if (!this._hasPlayerCreatedKingdom && party == PartyBase.MainParty)
@@ -311,7 +277,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x060002DF RID: 735 RVA: 0x00010033 File Offset: 0x0000E233
 		private void MainStoryLineChosen(MainStoryLineSide chosenSide)
 		{
 			if (this._hasPlayerCreatedKingdom && ((chosenSide == MainStoryLineSide.CreateImperialKingdom && this._isImperial) || (chosenSide == MainStoryLineSide.CreateAntiImperialKingdom && !this._isImperial)))
@@ -323,7 +288,6 @@ namespace StoryMode.Quests.FirstPhase
 			base.CompleteQuestWithFail(null);
 		}
 
-		// Token: 0x060002E0 RID: 736 RVA: 0x00010074 File Offset: 0x0000E274
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.ClanTierIncrease.AddNonSerializedListener(this, new Action<Clan, bool>(this.OnClanTierIncreased));
@@ -333,13 +297,11 @@ namespace StoryMode.Quests.FirstPhase
 			StoryModeEvents.OnMainStoryLineSideChosenEvent.AddNonSerializedListener(this, new Action<MainStoryLineSide>(this.MainStoryLineChosen));
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x000100F4 File Offset: 0x0000E2F4
 		internal static void AutoGeneratedStaticCollectObjectsCreateKingdomQuest(object o, List<object> collectedObjects)
 		{
 			((CreateKingdomQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x00010104 File Offset: 0x0000E304
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -351,89 +313,71 @@ namespace StoryMode.Quests.FirstPhase
 			collectedObjects.Add(this._clanIndependenceRequirementLog);
 		}
 
-		// Token: 0x060002E3 RID: 739 RVA: 0x00010160 File Offset: 0x0000E360
 		internal static object AutoGeneratedGetMemberValue_isImperial(object o)
 		{
 			return ((CreateKingdomQuest)o)._isImperial;
 		}
 
-		// Token: 0x060002E4 RID: 740 RVA: 0x00010172 File Offset: 0x0000E372
 		internal static object AutoGeneratedGetMemberValue_hasPlayerCreatedKingdom(object o)
 		{
 			return ((CreateKingdomQuest)o)._hasPlayerCreatedKingdom;
 		}
 
-		// Token: 0x060002E5 RID: 741 RVA: 0x00010184 File Offset: 0x0000E384
 		internal static object AutoGeneratedGetMemberValue_leftKingdomLog(object o)
 		{
 			return ((CreateKingdomQuest)o)._leftKingdomLog;
 		}
 
-		// Token: 0x060002E6 RID: 742 RVA: 0x00010191 File Offset: 0x0000E391
 		internal static object AutoGeneratedGetMemberValue_playerCreatedKingdom(object o)
 		{
 			return ((CreateKingdomQuest)o)._playerCreatedKingdom;
 		}
 
-		// Token: 0x060002E7 RID: 743 RVA: 0x0001019E File Offset: 0x0000E39E
 		internal static object AutoGeneratedGetMemberValue_clanTierRequirementLog(object o)
 		{
 			return ((CreateKingdomQuest)o)._clanTierRequirementLog;
 		}
 
-		// Token: 0x060002E8 RID: 744 RVA: 0x000101AB File Offset: 0x0000E3AB
 		internal static object AutoGeneratedGetMemberValue_partySizeRequirementLog(object o)
 		{
 			return ((CreateKingdomQuest)o)._partySizeRequirementLog;
 		}
 
-		// Token: 0x060002E9 RID: 745 RVA: 0x000101B8 File Offset: 0x0000E3B8
 		internal static object AutoGeneratedGetMemberValue_settlementOwnershipRequirementLog(object o)
 		{
 			return ((CreateKingdomQuest)o)._settlementOwnershipRequirementLog;
 		}
 
-		// Token: 0x060002EA RID: 746 RVA: 0x000101C5 File Offset: 0x0000E3C5
 		internal static object AutoGeneratedGetMemberValue_clanIndependenceRequirementLog(object o)
 		{
 			return ((CreateKingdomQuest)o)._clanIndependenceRequirementLog;
 		}
 
-		// Token: 0x040000E8 RID: 232
 		[SaveableField(1)]
 		private readonly bool _isImperial;
 
-		// Token: 0x040000E9 RID: 233
 		private const int PartySizeRequirement = 100;
 
-		// Token: 0x040000EA RID: 234
 		private const int SettlementCountRequirement = 1;
 
-		// Token: 0x040000EB RID: 235
 		[SaveableField(2)]
 		private bool _hasPlayerCreatedKingdom;
 
-		// Token: 0x040000EC RID: 236
 		[SaveableField(9)]
 		private JournalLog _leftKingdomLog;
 
-		// Token: 0x040000ED RID: 237
 		[SaveableField(10)]
 		private Kingdom _playerCreatedKingdom;
 
-		// Token: 0x040000EE RID: 238
 		[SaveableField(4)]
 		private readonly JournalLog _clanTierRequirementLog;
 
-		// Token: 0x040000EF RID: 239
 		[SaveableField(5)]
 		private readonly JournalLog _partySizeRequirementLog;
 
-		// Token: 0x040000F0 RID: 240
 		[SaveableField(6)]
 		private readonly JournalLog _settlementOwnershipRequirementLog;
 
-		// Token: 0x040000F1 RID: 241
 		[SaveableField(7)]
 		private readonly JournalLog _clanIndependenceRequirementLog;
 	}

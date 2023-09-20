@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 {
-	// Token: 0x020000A8 RID: 168
 	public class MPArmoryHeroPreviewVM : ViewModel
 	{
-		// Token: 0x06001026 RID: 4134 RVA: 0x00035AA8 File Offset: 0x00033CA8
 		public MPArmoryHeroPreviewVM()
 		{
 			this.HeroVisual = new CharacterViewModel();
 		}
 
-		// Token: 0x06001027 RID: 4135 RVA: 0x00035ABB File Offset: 0x00033CBB
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -23,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.ClassName = ((character != null) ? character.Name.ToString() : null) ?? "";
 		}
 
-		// Token: 0x06001028 RID: 4136 RVA: 0x00035AEC File Offset: 0x00033CEC
 		public void SetCharacter(BasicCharacterObject character, DynamicBodyProperties dynamicBodyProperties, int race, bool isFemale)
 		{
 			this._character = character;
@@ -34,7 +30,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.ClassName = character.Name.ToString();
 		}
 
-		// Token: 0x06001029 RID: 4137 RVA: 0x00035B6C File Offset: 0x00033D6C
 		public void SetCharacterClass(BasicCharacterObject classCharacter)
 		{
 			this._character = classCharacter;
@@ -55,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.ClassName = classCharacter.Name.ToString();
 		}
 
-		// Token: 0x0600102A RID: 4138 RVA: 0x00035C58 File Offset: 0x00033E58
 		public void SetCharacterPerks(List<IReadOnlyPerkObject> selectedPerks)
 		{
 			Equipment equipment = this._orgEquipmentWithoutPerks.Clone(false);
@@ -63,9 +57,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			this.HeroVisual.SetEquipment(equipment);
 		}
 
-		// Token: 0x1700052D RID: 1325
-		// (get) Token: 0x0600102B RID: 4139 RVA: 0x00035C86 File Offset: 0x00033E86
-		// (set) Token: 0x0600102C RID: 4140 RVA: 0x00035C8E File Offset: 0x00033E8E
 		[DataSourceProperty]
 		public CharacterViewModel HeroVisual
 		{
@@ -83,9 +74,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x1700052E RID: 1326
-		// (get) Token: 0x0600102D RID: 4141 RVA: 0x00035CAC File Offset: 0x00033EAC
-		// (set) Token: 0x0600102E RID: 4142 RVA: 0x00035CB4 File Offset: 0x00033EB4
 		[DataSourceProperty]
 		public string ClassName
 		{
@@ -103,16 +91,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.Armory
 			}
 		}
 
-		// Token: 0x040007A5 RID: 1957
 		private BasicCharacterObject _character;
 
-		// Token: 0x040007A6 RID: 1958
 		private Equipment _orgEquipmentWithoutPerks;
 
-		// Token: 0x040007A7 RID: 1959
 		private CharacterViewModel _heroVisual;
 
-		// Token: 0x040007A8 RID: 1960
 		private string _className;
 	}
 }

@@ -5,11 +5,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.AgentBehaviors
 {
-	// Token: 0x02000070 RID: 112
 	public class EscortAgentBehavior : AgentBehavior
 	{
-		// Token: 0x17000066 RID: 102
-		// (get) Token: 0x060004D9 RID: 1241 RVA: 0x00022887 File Offset: 0x00020A87
 		public Agent EscortedAgent
 		{
 			get
@@ -18,8 +15,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x17000067 RID: 103
-		// (get) Token: 0x060004DA RID: 1242 RVA: 0x0002288F File Offset: 0x00020A8F
 		public Agent TargetAgent
 		{
 			get
@@ -28,7 +23,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004DB RID: 1243 RVA: 0x00022897 File Offset: 0x00020A97
 		public EscortAgentBehavior(AgentBehaviorGroup behaviorGroup)
 			: base(behaviorGroup)
 		{
@@ -38,7 +32,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._initialMaxSpeedLimit = 1f;
 		}
 
-		// Token: 0x060004DC RID: 1244 RVA: 0x000228C0 File Offset: 0x00020AC0
 		public void Initialize(Agent escortedAgent, Agent targetAgent, EscortAgentBehavior.OnTargetReachedDelegate onTargetReached = null)
 		{
 			this._escortedAgent = escortedAgent;
@@ -51,7 +44,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._state = EscortAgentBehavior.State.Escorting;
 		}
 
-		// Token: 0x060004DD RID: 1245 RVA: 0x00022914 File Offset: 0x00020B14
 		public void Initialize(Agent escortedAgent, UsableMachine targetMachine, EscortAgentBehavior.OnTargetReachedDelegate onTargetReached = null)
 		{
 			this._escortedAgent = escortedAgent;
@@ -64,7 +56,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._state = EscortAgentBehavior.State.Escorting;
 		}
 
-		// Token: 0x060004DE RID: 1246 RVA: 0x00022968 File Offset: 0x00020B68
 		public void Initialize(Agent escortedAgent, Vec3? targetPosition, EscortAgentBehavior.OnTargetReachedDelegate onTargetReached = null)
 		{
 			this._escortedAgent = escortedAgent;
@@ -77,7 +68,6 @@ namespace SandBox.Missions.AgentBehaviors
 			this._state = EscortAgentBehavior.State.Escorting;
 		}
 
-		// Token: 0x060004DF RID: 1247 RVA: 0x000229B8 File Offset: 0x00020BB8
 		public override void Tick(float dt, bool isSimulation)
 		{
 			if (this._escortedAgent == null || !this._escortedAgent.IsActive() || this._targetAgent == null || !this._targetAgent.IsActive())
@@ -90,13 +80,11 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004E0 RID: 1248 RVA: 0x00022A0C File Offset: 0x00020C0C
 		public bool IsEscortFinished()
 		{
 			return this._escortFinished;
 		}
 
-		// Token: 0x060004E1 RID: 1249 RVA: 0x00022A14 File Offset: 0x00020C14
 		private void ControlMovement()
 		{
 			int nearbyEnemyAgentCount = base.Mission.GetNearbyEnemyAgentCount(this._escortedAgent.Team, this._escortedAgent.Position.AsVec2, 5f);
@@ -209,7 +197,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004E2 RID: 1250 RVA: 0x00022E3C File Offset: 0x0002103C
 		private void SetMovePos(WorldPosition targetPosition, float targetRotation, float rangeThreshold)
 		{
 			Agent.AIScriptedFrameFlags aiscriptedFrameFlags = 2;
@@ -238,13 +225,11 @@ namespace SandBox.Missions.AgentBehaviors
 			base.Navigator.SetTargetFrame(targetPosition, targetRotation, rangeThreshold, -10f, aiscriptedFrameFlags, false);
 		}
 
-		// Token: 0x060004E3 RID: 1251 RVA: 0x00022F2F File Offset: 0x0002112F
 		public override float GetAvailability(bool isSimulation)
 		{
 			return (float)((this._state == EscortAgentBehavior.State.NotEscorting) ? 0 : 1);
 		}
 
-		// Token: 0x060004E4 RID: 1252 RVA: 0x00022F40 File Offset: 0x00021140
 		protected override void OnDeactivate()
 		{
 			this._escortedAgent = null;
@@ -258,7 +243,6 @@ namespace SandBox.Missions.AgentBehaviors
 			base.Navigator.ClearTarget();
 		}
 
-		// Token: 0x060004E5 RID: 1253 RVA: 0x00022FA0 File Offset: 0x000211A0
 		public override string GetDebugInfo()
 		{
 			return string.Concat(new object[]
@@ -286,7 +270,6 @@ namespace SandBox.Missions.AgentBehaviors
 			});
 		}
 
-		// Token: 0x060004E6 RID: 1254 RVA: 0x000230C0 File Offset: 0x000212C0
 		public static void AddEscortAgentBehavior(Agent ownerAgent, Agent targetAgent, EscortAgentBehavior.OnTargetReachedDelegate onTargetReached)
 		{
 			AgentNavigator agentNavigator = ownerAgent.GetComponent<CampaignAgentComponent>().AgentNavigator;
@@ -304,7 +287,6 @@ namespace SandBox.Missions.AgentBehaviors
 			escortAgentBehavior.Initialize(Agent.Main, targetAgent, onTargetReached);
 		}
 
-		// Token: 0x060004E7 RID: 1255 RVA: 0x00023118 File Offset: 0x00021318
 		public static void RemoveEscortBehaviorOfAgent(Agent ownerAgent)
 		{
 			AgentNavigator agentNavigator = ownerAgent.GetComponent<CampaignAgentComponent>().AgentNavigator;
@@ -319,7 +301,6 @@ namespace SandBox.Missions.AgentBehaviors
 			}
 		}
 
-		// Token: 0x060004E8 RID: 1256 RVA: 0x00023150 File Offset: 0x00021350
 		public static bool CheckIfAgentIsEscortedBy(Agent ownerAgent, Agent escortedAgent)
 		{
 			AgentNavigator agentNavigator = ownerAgent.GetComponent<CampaignAgentComponent>().AgentNavigator;
@@ -328,65 +309,43 @@ namespace SandBox.Missions.AgentBehaviors
 			return escortAgentBehavior != null && escortAgentBehavior.EscortedAgent == escortedAgent;
 		}
 
-		// Token: 0x0400024A RID: 586
 		private const float StartWaitingDistanceSquared = 25f;
 
-		// Token: 0x0400024B RID: 587
 		private const float ReturnToEscortedAgentDistanceSquared = 100f;
 
-		// Token: 0x0400024C RID: 588
 		private const float EscortFinishedDistanceSquared = 16f;
 
-		// Token: 0x0400024D RID: 589
 		private const float TargetProximityThreshold = 3f;
 
-		// Token: 0x0400024E RID: 590
 		private const float MountedMoveProximityThreshold = 2.2f;
 
-		// Token: 0x0400024F RID: 591
 		private const float OnFootMoveProximityThreshold = 1.2f;
 
-		// Token: 0x04000250 RID: 592
 		private EscortAgentBehavior.State _state;
 
-		// Token: 0x04000251 RID: 593
 		private Agent _escortedAgent;
 
-		// Token: 0x04000252 RID: 594
 		private Agent _targetAgent;
 
-		// Token: 0x04000253 RID: 595
 		private UsableMachine _targetMachine;
 
-		// Token: 0x04000254 RID: 596
 		private Vec3? _targetPosition;
 
-		// Token: 0x04000255 RID: 597
 		private bool _myLastStateWasRunning;
 
-		// Token: 0x04000256 RID: 598
 		private float _initialMaxSpeedLimit;
 
-		// Token: 0x04000257 RID: 599
 		private EscortAgentBehavior.OnTargetReachedDelegate _onTargetReached;
 
-		// Token: 0x04000258 RID: 600
 		private bool _escortFinished;
 
-		// Token: 0x02000139 RID: 313
-		// (Invoke) Token: 0x06000D4B RID: 3403
 		public delegate bool OnTargetReachedDelegate(Agent agent, ref Agent escortedAgent, ref Agent targetAgent, ref UsableMachine targetMachine, ref Vec3? targetPosition);
 
-		// Token: 0x0200013A RID: 314
 		private enum State
 		{
-			// Token: 0x040005D7 RID: 1495
 			NotEscorting,
-			// Token: 0x040005D8 RID: 1496
 			ReturnToEscortedAgent,
-			// Token: 0x040005D9 RID: 1497
 			Wait,
-			// Token: 0x040005DA RID: 1498
 			Escorting
 		}
 	}

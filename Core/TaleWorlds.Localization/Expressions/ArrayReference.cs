@@ -4,17 +4,14 @@ using TaleWorlds.Localization.TextProcessor;
 
 namespace TaleWorlds.Localization.Expressions
 {
-	// Token: 0x02000021 RID: 33
 	internal class ArrayReference : TextExpression
 	{
-		// Token: 0x060000CF RID: 207 RVA: 0x00004D28 File Offset: 0x00002F28
 		public ArrayReference(string rawValue, TextExpression indexExp)
 		{
 			base.RawValue = rawValue;
 			this._indexExp = indexExp;
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00004D40 File Offset: 0x00002F40
 		internal override string EvaluateString(TextProcessingContext context, TextObject parent)
 		{
 			int num = base.EvaluateAsNumber(this._indexExp, context, parent);
@@ -32,8 +29,6 @@ namespace TaleWorlds.Localization.Expressions
 			return "";
 		}
 
-		// Token: 0x17000029 RID: 41
-		// (get) Token: 0x060000D1 RID: 209 RVA: 0x00004DE4 File Offset: 0x00002FE4
 		internal override TokenType TokenType
 		{
 			get
@@ -42,7 +37,6 @@ namespace TaleWorlds.Localization.Expressions
 			}
 		}
 
-		// Token: 0x0400004D RID: 77
 		private TextExpression _indexExp;
 	}
 }

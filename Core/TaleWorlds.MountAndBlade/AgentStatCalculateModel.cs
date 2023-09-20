@@ -5,39 +5,30 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001DB RID: 475
 	public abstract class AgentStatCalculateModel : GameModel
 	{
-		// Token: 0x06001AFA RID: 6906
 		public abstract void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData);
 
-		// Token: 0x06001AFB RID: 6907 RVA: 0x0005E13E File Offset: 0x0005C33E
 		public virtual void InitializeMissionEquipment(Agent agent)
 		{
 		}
 
-		// Token: 0x06001AFC RID: 6908
 		public abstract void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties);
 
-		// Token: 0x06001AFD RID: 6909
 		public abstract float GetDifficultyModifier();
 
-		// Token: 0x06001AFE RID: 6910
 		public abstract bool CanAgentRideMount(Agent agent, Agent targetMount);
 
-		// Token: 0x06001AFF RID: 6911 RVA: 0x0005E140 File Offset: 0x0005C340
 		public virtual bool HasHeavyArmor(Agent agent)
 		{
 			return agent.GetBaseArmorEffectivenessForBodyPart(BoneBodyPartType.Chest) >= 24f;
 		}
 
-		// Token: 0x06001B00 RID: 6912 RVA: 0x0005E153 File Offset: 0x0005C353
 		public virtual float GetEffectiveMaxHealth(Agent agent)
 		{
 			return agent.BaseHealthLimit;
 		}
 
-		// Token: 0x06001B01 RID: 6913 RVA: 0x0005E15C File Offset: 0x0005C35C
 		public virtual float GetEnvironmentSpeedFactor(Agent agent)
 		{
 			Scene scene = agent.Mission.Scene;
@@ -56,7 +47,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001B02 RID: 6914 RVA: 0x0005E1C0 File Offset: 0x0005C3C0
 		public float CalculateAIAttackOnDecideMaxValue()
 		{
 			if (this.GetDifficultyModifier() < 0.5f)
@@ -66,7 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0.96f;
 		}
 
-		// Token: 0x06001B03 RID: 6915 RVA: 0x0005E1DC File Offset: 0x0005C3DC
 		public virtual float GetWeaponInaccuracy(Agent agent, WeaponComponentData weapon, int weaponSkill)
 		{
 			float num = 0f;
@@ -81,7 +70,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Max(num, 0f);
 		}
 
-		// Token: 0x06001B04 RID: 6916 RVA: 0x0005E246 File Offset: 0x0005C446
 		public virtual float GetDetachmentCostMultiplierOfAgent(Agent agent, IDetachment detachment)
 		{
 			if (agent.Banner != null)
@@ -91,49 +79,39 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06001B05 RID: 6917 RVA: 0x0005E25B File Offset: 0x0005C45B
 		public virtual float GetInteractionDistance(Agent agent)
 		{
 			return 1.5f;
 		}
 
-		// Token: 0x06001B06 RID: 6918 RVA: 0x0005E262 File Offset: 0x0005C462
 		public virtual float GetMaxCameraZoom(Agent agent)
 		{
 			return 1f;
 		}
 
-		// Token: 0x06001B07 RID: 6919 RVA: 0x0005E269 File Offset: 0x0005C469
 		public virtual int GetEffectiveSkill(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, SkillObject skill)
 		{
 			return agentCharacter.GetSkillValue(skill);
 		}
 
-		// Token: 0x06001B08 RID: 6920 RVA: 0x0005E273 File Offset: 0x0005C473
 		public virtual int GetEffectiveSkillForWeapon(Agent agent, WeaponComponentData weapon)
 		{
 			return this.GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, weapon.RelevantSkill);
 		}
 
-		// Token: 0x06001B09 RID: 6921
 		public abstract float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon);
 
-		// Token: 0x06001B0A RID: 6922
 		public abstract float GetKnockBackResistance(Agent agent);
 
-		// Token: 0x06001B0B RID: 6923
 		public abstract float GetKnockDownResistance(Agent agent, StrikeType strikeType = StrikeType.Invalid);
 
-		// Token: 0x06001B0C RID: 6924
 		public abstract float GetDismountResistance(Agent agent);
 
-		// Token: 0x06001B0D RID: 6925 RVA: 0x0005E293 File Offset: 0x0005C493
 		public virtual string GetMissionDebugInfoForAgent(Agent agent)
 		{
 			return "Debug info not supported in this model";
 		}
 
-		// Token: 0x06001B0E RID: 6926 RVA: 0x0005E29C File Offset: 0x0005C49C
 		protected int GetMeleeSkill(Agent agent, WeaponComponentData equippedItem, WeaponComponentData secondaryItem)
 		{
 			SkillObject skillObject = DefaultSkills.Athletics;
@@ -156,14 +134,12 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, skillObject);
 		}
 
-		// Token: 0x06001B0F RID: 6927 RVA: 0x0005E308 File Offset: 0x0005C508
 		protected float CalculateAILevel(Agent agent, int relevantSkillLevel)
 		{
 			float difficultyModifier = this.GetDifficultyModifier();
 			return MBMath.ClampFloat((float)relevantSkillLevel / 350f * difficultyModifier, 0f, 1f);
 		}
 
-		// Token: 0x06001B10 RID: 6928 RVA: 0x0005E338 File Offset: 0x0005C538
 		protected void SetAiRelatedProperties(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData equippedItem, WeaponComponentData secondaryItem)
 		{
 			int meleeSkill = this.GetMeleeSkill(agent, equippedItem, secondaryItem);
@@ -223,7 +199,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.SetStat(DrivenProperty.UseRealisticBlocking, (agent.Controller != Agent.ControllerType.Player) ? 1f : 0f);
 		}
 
-		// Token: 0x06001B11 RID: 6929 RVA: 0x0005E84D File Offset: 0x0005CA4D
 		protected void SetAllWeaponInaccuracy(Agent agent, AgentDrivenProperties agentDrivenProperties, int equippedIndex, WeaponComponentData equippedWeaponComponent)
 		{
 			if (equippedWeaponComponent != null)
@@ -234,7 +209,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.WeaponInaccuracy = 0f;
 		}
 
-		// Token: 0x040008D8 RID: 2264
 		protected const float MaxHorizontalErrorRadian = 0.034906585f;
 	}
 }

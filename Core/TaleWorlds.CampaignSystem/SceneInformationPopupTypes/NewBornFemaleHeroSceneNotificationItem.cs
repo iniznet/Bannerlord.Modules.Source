@@ -6,19 +6,12 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000C1 RID: 193
 	public class NewBornFemaleHeroSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000531 RID: 1329
-		// (get) Token: 0x06001244 RID: 4676 RVA: 0x00053C55 File Offset: 0x00051E55
 		public Hero MaleHero { get; }
 
-		// Token: 0x17000532 RID: 1330
-		// (get) Token: 0x06001245 RID: 4677 RVA: 0x00053C5D File Offset: 0x00051E5D
 		public Hero FemaleHero { get; }
 
-		// Token: 0x17000533 RID: 1331
-		// (get) Token: 0x06001246 RID: 4678 RVA: 0x00053C65 File Offset: 0x00051E65
 		public override string SceneID
 		{
 			get
@@ -27,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x17000534 RID: 1332
-		// (get) Token: 0x06001247 RID: 4679 RVA: 0x00053C6C File Offset: 0x00051E6C
 		public override TextObject TitleText
 		{
 			get
@@ -40,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x06001248 RID: 4680 RVA: 0x00053CC8 File Offset: 0x00051EC8
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -57,7 +47,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x06001249 RID: 4681 RVA: 0x00053DAB File Offset: 0x00051FAB
 		public NewBornFemaleHeroSceneNotificationItem(Hero maleHero, Hero femaleHero)
 		{
 			this.MaleHero = maleHero;
@@ -65,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x04000671 RID: 1649
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

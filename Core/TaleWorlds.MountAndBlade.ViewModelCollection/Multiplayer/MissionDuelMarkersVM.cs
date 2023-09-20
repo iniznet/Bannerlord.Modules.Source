@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 {
-	// Token: 0x02000036 RID: 54
 	public class MissionDuelMarkersVM : ViewModel
 	{
-		// Token: 0x0600045E RID: 1118 RVA: 0x00013F54 File Offset: 0x00012154
 		public MissionDuelMarkersVM(Camera missionCamera, MissionMultiplayerGameModeDuelClient client)
 		{
 			this._missionCamera = missionCamera;
@@ -31,7 +29,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600045F RID: 1119 RVA: 0x00014024 File Offset: 0x00012224
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -45,13 +42,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			});
 		}
 
-		// Token: 0x06000460 RID: 1120 RVA: 0x0001408B File Offset: 0x0001228B
 		public void UpdateScreenCenter()
 		{
 			this._screenCenter = new Vec2(Screen.RealScreenResolutionWidth / 2f, Screen.RealScreenResolutionHeight / 2f);
 		}
 
-		// Token: 0x06000461 RID: 1121 RVA: 0x000140AE File Offset: 0x000122AE
 		public void Tick(float dt)
 		{
 			if (this._hasEnteredLobby && GameNetwork.MyPeer != null)
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000462 RID: 1122 RVA: 0x000140CC File Offset: 0x000122CC
 		public void RegisterEvents()
 		{
 			DuelMissionRepresentative myRepresentative = this._client.MyRepresentative;
@@ -70,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer, TroopType>)Delegate.Combine(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer, TroopType>(this.OnDuelRequested));
 		}
 
-		// Token: 0x06000463 RID: 1123 RVA: 0x00014134 File Offset: 0x00012334
 		public void UnregisterEvents()
 		{
 			DuelMissionRepresentative myRepresentative = this._client.MyRepresentative;
@@ -79,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			myRepresentative2.OnDuelRequestedEvent = (Action<MissionPeer, TroopType>)Delegate.Remove(myRepresentative2.OnDuelRequestedEvent, new Action<MissionPeer, TroopType>(this.OnDuelRequested));
 		}
 
-		// Token: 0x06000464 RID: 1124 RVA: 0x0001419C File Offset: 0x0001239C
 		private void UpdateTargets(float dt)
 		{
 			if (this._currentFocusTarget != null)
@@ -181,7 +173,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000465 RID: 1125 RVA: 0x000144FC File Offset: 0x000126FC
 		private void OnRefreshPeerMarkers()
 		{
 			List<MissionDuelPeerMarkerVM> list = this.Targets.ToList<MissionDuelPeerMarkerVM>();
@@ -217,7 +208,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000466 RID: 1126 RVA: 0x00014660 File Offset: 0x00012860
 		private void UpdateTargetsEnabled(bool isEnabled)
 		{
 			foreach (MissionDuelPeerMarkerVM missionDuelPeerMarkerVM in this.Targets)
@@ -226,7 +216,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000467 RID: 1127 RVA: 0x000146B8 File Offset: 0x000128B8
 		private void OnDuelRequestSent(MissionPeer targetPeer)
 		{
 			foreach (MissionDuelPeerMarkerVM missionDuelPeerMarkerVM in this.Targets)
@@ -238,7 +227,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000468 RID: 1128 RVA: 0x00014710 File Offset: 0x00012910
 		private void OnDuelRequested(MissionPeer targetPeer, TroopType troopType)
 		{
 			MissionDuelPeerMarkerVM missionDuelPeerMarkerVM = this.Targets.FirstOrDefault((MissionDuelPeerMarkerVM t) => t.TargetPeer == targetPeer);
@@ -249,20 +237,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x06000469 RID: 1129 RVA: 0x00014753 File Offset: 0x00012953
 		public void OnAgentSpawnedWithoutDuel()
 		{
 			this._hasEnteredLobby = true;
 			this.IsEnabled = true;
 		}
 
-		// Token: 0x0600046A RID: 1130 RVA: 0x00014763 File Offset: 0x00012963
 		public void OnAgentBuiltForTheFirstTime()
 		{
 			this._playerPreferredArenaType = (int)MultiplayerDuelVM.GetAgentDefaultPreferredArenaType(Agent.Main);
 		}
 
-		// Token: 0x0600046B RID: 1131 RVA: 0x00014778 File Offset: 0x00012978
 		public void OnDuelStarted(MissionPeer firstPeer, MissionPeer secondPeer)
 		{
 			if (this._client.MyRepresentative.MissionPeer == firstPeer || this._client.MyRepresentative.MissionPeer == secondPeer)
@@ -280,7 +265,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			this._targetPeersInDuelDictionary[secondPeer] = true;
 		}
 
-		// Token: 0x0600046C RID: 1132 RVA: 0x00014820 File Offset: 0x00012A20
 		public void SetMarkerOfPeerEnabled(MissionPeer peer, bool isEnabled)
 		{
 			if (peer != null)
@@ -297,25 +281,21 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x0600046D RID: 1133 RVA: 0x00014882 File Offset: 0x00012A82
 		public void OnPlayerPreferredZoneChanged(int playerPrefferedArenaType)
 		{
 			this._playerPreferredArenaType = playerPrefferedArenaType;
 		}
 
-		// Token: 0x0600046E RID: 1134 RVA: 0x0001488B File Offset: 0x00012A8B
 		public void OnFocusGained()
 		{
 			this._isPlayerFocused = true;
 		}
 
-		// Token: 0x0600046F RID: 1135 RVA: 0x00014894 File Offset: 0x00012A94
 		public void OnFocusLost()
 		{
 			this._isPlayerFocused = false;
 		}
 
-		// Token: 0x06000470 RID: 1136 RVA: 0x0001489D File Offset: 0x00012A9D
 		public void OnPeerEquipmentRefreshed(MissionPeer peer)
 		{
 			if (this._targetPeersToMarkersDictionary.ContainsKey(peer))
@@ -324,9 +304,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x1700014A RID: 330
-		// (get) Token: 0x06000471 RID: 1137 RVA: 0x000148BE File Offset: 0x00012ABE
-		// (set) Token: 0x06000472 RID: 1138 RVA: 0x000148C6 File Offset: 0x00012AC6
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -345,9 +322,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x1700014B RID: 331
-		// (get) Token: 0x06000473 RID: 1139 RVA: 0x000148EB File Offset: 0x00012AEB
-		// (set) Token: 0x06000474 RID: 1140 RVA: 0x000148F3 File Offset: 0x00012AF3
 		[DataSourceProperty]
 		public MBBindingList<MissionDuelPeerMarkerVM> Targets
 		{
@@ -365,9 +339,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x1700014C RID: 332
-		// (get) Token: 0x06000475 RID: 1141 RVA: 0x00014911 File Offset: 0x00012B11
-		// (set) Token: 0x06000476 RID: 1142 RVA: 0x00014919 File Offset: 0x00012B19
 		[DataSourceProperty]
 		public MBBindingList<MissionDuelLandmarkMarkerVM> Landmarks
 		{
@@ -385,67 +356,46 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer
 			}
 		}
 
-		// Token: 0x04000231 RID: 561
 		private const string ZoneLandmarkTag = "duel_zone_landmark";
 
-		// Token: 0x04000232 RID: 562
 		private const float FocusScreenDistanceThreshold = 350f;
 
-		// Token: 0x04000233 RID: 563
 		private const float LandmarkFocusDistanceThrehsold = 500f;
 
-		// Token: 0x04000234 RID: 564
 		private bool _hasEnteredLobby;
 
-		// Token: 0x04000235 RID: 565
 		private Camera _missionCamera;
 
-		// Token: 0x04000236 RID: 566
 		private MissionDuelPeerMarkerVM _previousFocusTarget;
 
-		// Token: 0x04000237 RID: 567
 		private MissionDuelPeerMarkerVM _currentFocusTarget;
 
-		// Token: 0x04000238 RID: 568
 		private MissionDuelLandmarkMarkerVM _previousLandmarkTarget;
 
-		// Token: 0x04000239 RID: 569
 		private MissionDuelLandmarkMarkerVM _currentLandmarkTarget;
 
-		// Token: 0x0400023A RID: 570
 		private MissionDuelMarkersVM.PeerMarkerDistanceComparer _distanceComparer;
 
-		// Token: 0x0400023B RID: 571
 		private readonly Dictionary<MissionPeer, MissionDuelPeerMarkerVM> _targetPeersToMarkersDictionary;
 
-		// Token: 0x0400023C RID: 572
 		private readonly MissionMultiplayerGameModeDuelClient _client;
 
-		// Token: 0x0400023D RID: 573
 		private Vec2 _screenCenter;
 
-		// Token: 0x0400023E RID: 574
 		private Dictionary<MissionPeer, bool> _targetPeersInDuelDictionary;
 
-		// Token: 0x0400023F RID: 575
 		private int _playerPreferredArenaType;
 
-		// Token: 0x04000240 RID: 576
 		private bool _isPlayerFocused;
 
-		// Token: 0x04000241 RID: 577
 		private bool _isEnabled;
 
-		// Token: 0x04000242 RID: 578
 		private MBBindingList<MissionDuelPeerMarkerVM> _targets;
 
-		// Token: 0x04000243 RID: 579
 		private MBBindingList<MissionDuelLandmarkMarkerVM> _landmarks;
 
-		// Token: 0x0200015D RID: 349
 		private class PeerMarkerDistanceComparer : IComparer<MissionDuelPeerMarkerVM>
 		{
-			// Token: 0x06001920 RID: 6432 RVA: 0x0005110C File Offset: 0x0004F30C
 			public int Compare(MissionDuelPeerMarkerVM x, MissionDuelPeerMarkerVM y)
 			{
 				return y.Distance.CompareTo(x.Distance);

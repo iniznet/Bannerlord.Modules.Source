@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions
 {
-	// Token: 0x020003F4 RID: 1012
 	public class HideoutPhasedMissionController : MissionLogic
 	{
-		// Token: 0x1700093A RID: 2362
-		// (get) Token: 0x060034CE RID: 13518 RVA: 0x000DBD13 File Offset: 0x000D9F13
 		public override MissionBehaviorType BehaviorType
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x060034CF RID: 13519 RVA: 0x000DBD18 File Offset: 0x000D9F18
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -43,20 +39,17 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x060034D0 RID: 13520 RVA: 0x000DBDE4 File Offset: 0x000D9FE4
 		protected override void OnEndMission()
 		{
 			base.Mission.AreOrderGesturesEnabled_AdditionalCondition -= this.AreOrderGesturesEnabled_AdditionalCondition;
 		}
 
-		// Token: 0x060034D1 RID: 13521 RVA: 0x000DBDFD File Offset: 0x000D9FFD
 		public override void OnBehaviorInitialize()
 		{
 			this.ReadySpawnPointLogic();
 			base.Mission.AreOrderGesturesEnabled_AdditionalCondition += this.AreOrderGesturesEnabled_AdditionalCondition;
 		}
 
-		// Token: 0x060034D2 RID: 13522 RVA: 0x000DBE1C File Offset: 0x000DA01C
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -67,8 +60,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x1700093B RID: 2363
-		// (get) Token: 0x060034D3 RID: 13523 RVA: 0x000DBE59 File Offset: 0x000DA059
 		private bool IsPhasingInitialized
 		{
 			get
@@ -77,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x060034D4 RID: 13524 RVA: 0x000DBE5C File Offset: 0x000DA05C
 		private void ReadySpawnPointLogic()
 		{
 			List<GameEntity> list = Mission.Current.GetActiveEntitiesWithScriptComponentOfType<HideoutSpawnPointGroup>().ToList<GameEntity>();
@@ -110,7 +100,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			this.CreateSpawnPoints();
 		}
 
-		// Token: 0x060034D5 RID: 13525 RVA: 0x000DBF80 File Offset: 0x000DA180
 		private void CreateSpawnPoints()
 		{
 			MatrixFrame[] array = this._spawnPointFrames.Pop();
@@ -126,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x060034D6 RID: 13526 RVA: 0x000DC014 File Offset: 0x000DA214
 		private void OnPhaseChanged()
 		{
 			if (this._spawnPointFrames.Count == 0)
@@ -145,22 +133,17 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			this._isNewlyPopulatedFormationGivenOrder = false;
 		}
 
-		// Token: 0x060034D7 RID: 13527 RVA: 0x000DC087 File Offset: 0x000DA287
 		private bool AreOrderGesturesEnabled_AdditionalCondition()
 		{
 			return false;
 		}
 
-		// Token: 0x040016A2 RID: 5794
 		public const int PhaseCount = 4;
 
-		// Token: 0x040016A3 RID: 5795
 		private GameEntity[] _spawnPoints;
 
-		// Token: 0x040016A4 RID: 5796
 		private Stack<MatrixFrame[]> _spawnPointFrames;
 
-		// Token: 0x040016A5 RID: 5797
 		private bool _isNewlyPopulatedFormationGivenOrder = true;
 	}
 }

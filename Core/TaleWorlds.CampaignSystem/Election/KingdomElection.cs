@@ -10,11 +10,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.Election
 {
-	// Token: 0x0200027B RID: 635
 	public class KingdomElection
 	{
-		// Token: 0x17000843 RID: 2115
-		// (get) Token: 0x06002118 RID: 8472 RVA: 0x0008C7BA File Offset: 0x0008A9BA
 		public MBReadOnlyList<DecisionOutcome> PossibleOutcomes
 		{
 			get
@@ -23,14 +20,9 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x17000844 RID: 2116
-		// (get) Token: 0x06002119 RID: 8473 RVA: 0x0008C7C2 File Offset: 0x0008A9C2
-		// (set) Token: 0x0600211A RID: 8474 RVA: 0x0008C7CA File Offset: 0x0008A9CA
 		[SaveableProperty(7)]
 		public bool IsCancelled { get; private set; }
 
-		// Token: 0x17000845 RID: 2117
-		// (get) Token: 0x0600211B RID: 8475 RVA: 0x0008C7D3 File Offset: 0x0008A9D3
 		public bool IsPlayerSupporter
 		{
 			get
@@ -39,8 +31,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x17000846 RID: 2118
-		// (get) Token: 0x0600211C RID: 8476 RVA: 0x0008C7DE File Offset: 0x0008A9DE
 		private Supporter PlayerAsSupporter
 		{
 			get
@@ -49,8 +39,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x17000847 RID: 2119
-		// (get) Token: 0x0600211D RID: 8477 RVA: 0x0008C80A File Offset: 0x0008AA0A
 		public bool IsPlayerChooser
 		{
 			get
@@ -59,14 +47,12 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x0600211E RID: 8478 RVA: 0x0008C81C File Offset: 0x0008AA1C
 		public KingdomElection(KingdomDecision decision)
 		{
 			this._decision = decision;
 			this.Setup();
 		}
 
-		// Token: 0x0600211F RID: 8479 RVA: 0x0008C834 File Offset: 0x0008AA34
 		private void Setup()
 		{
 			MBList<DecisionOutcome> mblist = this._decision.DetermineInitialCandidates().ToMBList<DecisionOutcome>();
@@ -87,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002120 RID: 8480 RVA: 0x0008C980 File Offset: 0x0008AB80
 		public void StartElection()
 		{
 			this.Setup();
@@ -114,7 +99,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002121 RID: 8481 RVA: 0x0008CA70 File Offset: 0x0008AC70
 		private float DetermineInitialSupport(DecisionOutcome possibleOutcome)
 		{
 			float num = 0f;
@@ -128,14 +112,12 @@ namespace TaleWorlds.CampaignSystem.Election
 			return num;
 		}
 
-		// Token: 0x06002122 RID: 8482 RVA: 0x0008CAF0 File Offset: 0x0008ACF0
 		public void StartElectionWithoutPlayer()
 		{
 			this._ignorePlayerSupport = true;
 			this.StartElection();
 		}
 
-		// Token: 0x06002123 RID: 8483 RVA: 0x0008CAFF File Offset: 0x0008ACFF
 		public float GetLikelihoodForOutcome(int outcomeNo)
 		{
 			if (outcomeNo >= 0 && outcomeNo < this._possibleOutcomes.Count)
@@ -145,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			return 0f;
 		}
 
-		// Token: 0x06002124 RID: 8484 RVA: 0x0008CB2C File Offset: 0x0008AD2C
 		public float GetLikelihoodForSponsor(Clan sponsor)
 		{
 			foreach (DecisionOutcome decisionOutcome in this._possibleOutcomes)
@@ -159,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			return -1f;
 		}
 
-		// Token: 0x06002125 RID: 8485 RVA: 0x0008CBAC File Offset: 0x0008ADAC
 		private void DetermineSupport(MBReadOnlyList<DecisionOutcome> possibleOutcomes, bool calculateRelationshipEffect)
 		{
 			foreach (Supporter supporter in this._supporters)
@@ -177,7 +157,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002126 RID: 8486 RVA: 0x0008CC24 File Offset: 0x0008AE24
 		private void UpdateSupport(MBReadOnlyList<DecisionOutcome> possibleOutcomes)
 		{
 			foreach (DecisionOutcome decisionOutcome in this._possibleOutcomes)
@@ -190,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			this.DetermineSupport(possibleOutcomes, true);
 		}
 
-		// Token: 0x06002127 RID: 8487 RVA: 0x0008CCC0 File Offset: 0x0008AEC0
 		private void ReadyToAiChoose()
 		{
 			this._chosenOutcome = this.GetAiChoice(this._possibleOutcomes);
@@ -200,7 +178,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002128 RID: 8488 RVA: 0x0008CCE8 File Offset: 0x0008AEE8
 		private void ApplyChosenOutcome()
 		{
 			this._decision.ApplyChosenOutcome(this._chosenOutcome);
@@ -247,7 +224,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			CampaignEventDispatcher.Instance.OnKingdomDecisionConcluded(this._decision, this._chosenOutcome, this.IsPlayerChooser || this._hasPlayerVoted);
 		}
 
-		// Token: 0x06002129 RID: 8489 RVA: 0x0008CF80 File Offset: 0x0008B180
 		public int GetRelationChangeWithSponsor(Hero opposerOrSupporter, Supporter.SupportWeights supportWeight, bool isOpposingSides)
 		{
 			int num = 0;
@@ -272,7 +248,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			return num2;
 		}
 
-		// Token: 0x0600212A RID: 8490 RVA: 0x0008D01C File Offset: 0x0008B21C
 		private void HandleInfluenceCosts()
 		{
 			DecisionOutcome decisionOutcome = this._possibleOutcomes[0];
@@ -307,19 +282,16 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x0600212B RID: 8491 RVA: 0x0008D160 File Offset: 0x0008B360
 		private void ApplySecondaryEffects(MBReadOnlyList<DecisionOutcome> possibleOutcomes, DecisionOutcome chosenOutcome)
 		{
 			this._decision.ApplySecondaryEffects(possibleOutcomes, chosenOutcome);
 		}
 
-		// Token: 0x0600212C RID: 8492 RVA: 0x0008D16F File Offset: 0x0008B36F
 		private int GetInfluenceRequiredToOverrideDecision(DecisionOutcome popularOutcome, DecisionOutcome overridingOutcome)
 		{
 			return Campaign.Current.Models.ClanPoliticsModel.GetInfluenceRequiredToOverrideKingdomDecision(popularOutcome, overridingOutcome, this._decision);
 		}
 
-		// Token: 0x0600212D RID: 8493 RVA: 0x0008D190 File Offset: 0x0008B390
 		private DecisionOutcome GetAiChoice(MBReadOnlyList<DecisionOutcome> possibleOutcomes)
 		{
 			this.DetermineOfficialSupport();
@@ -348,13 +320,11 @@ namespace TaleWorlds.CampaignSystem.Election
 			return decisionOutcome2;
 		}
 
-		// Token: 0x0600212E RID: 8494 RVA: 0x0008D260 File Offset: 0x0008B460
 		public TextObject GetChosenOutcomeText()
 		{
 			return this._decision.GetChosenOutcomeText(this._chosenOutcome, this._decision.SupportStatusOfFinalDecision, false);
 		}
 
-		// Token: 0x0600212F RID: 8495 RVA: 0x0008D280 File Offset: 0x0008B480
 		private KingdomDecision.SupportStatus GetSupportStatusOfDecisionOutcome(DecisionOutcome chosenOutcome)
 		{
 			KingdomDecision.SupportStatus supportStatus = KingdomDecision.SupportStatus.Equal;
@@ -371,7 +341,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			return supportStatus;
 		}
 
-		// Token: 0x06002130 RID: 8496 RVA: 0x0008D2B4 File Offset: 0x0008B4B4
 		public void DetermineOfficialSupport()
 		{
 			new List<Tuple<DecisionOutcome, float>>();
@@ -392,19 +361,16 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002131 RID: 8497 RVA: 0x0008D3BC File Offset: 0x0008B5BC
 		public int GetInfluenceCostOfOutcome(DecisionOutcome outcome, Clan supporter, Supporter.SupportWeights weight)
 		{
 			return this._decision.GetInfluenceCostOfSupport(supporter, weight);
 		}
 
-		// Token: 0x06002132 RID: 8498 RVA: 0x0008D3CB File Offset: 0x0008B5CB
 		public TextObject GetSecondaryEffects()
 		{
 			return this._decision.GetSecondaryEffects();
 		}
 
-		// Token: 0x06002133 RID: 8499 RVA: 0x0008D3D8 File Offset: 0x0008B5D8
 		public void OnPlayerSupport(DecisionOutcome decisionOutcome, Supporter.SupportWeights supportWeight)
 		{
 			if (!this.IsPlayerChooser)
@@ -427,7 +393,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002134 RID: 8500 RVA: 0x0008D460 File Offset: 0x0008B660
 		public void ApplySelection()
 		{
 			if (!this.IsCancelled)
@@ -441,19 +406,16 @@ namespace TaleWorlds.CampaignSystem.Election
 			}
 		}
 
-		// Token: 0x06002135 RID: 8501 RVA: 0x0008D484 File Offset: 0x0008B684
 		public MBList<DecisionOutcome> GetSortedDecisionOutcomes()
 		{
 			return this._decision.SortDecisionOutcomes(this._possibleOutcomes);
 		}
 
-		// Token: 0x06002136 RID: 8502 RVA: 0x0008D497 File Offset: 0x0008B697
 		public TextObject GetGeneralTitle()
 		{
 			return this._decision.GetGeneralTitle();
 		}
 
-		// Token: 0x06002137 RID: 8503 RVA: 0x0008D4A4 File Offset: 0x0008B6A4
 		public TextObject GetTitle()
 		{
 			if (this.IsPlayerChooser)
@@ -463,7 +425,6 @@ namespace TaleWorlds.CampaignSystem.Election
 			return this._decision.GetSupportTitle();
 		}
 
-		// Token: 0x06002138 RID: 8504 RVA: 0x0008D4C5 File Offset: 0x0008B6C5
 		public TextObject GetDescription()
 		{
 			if (this.IsPlayerChooser)
@@ -473,30 +434,23 @@ namespace TaleWorlds.CampaignSystem.Election
 			return this._decision.GetSupportDescription();
 		}
 
-		// Token: 0x04000A59 RID: 2649
 		[SaveableField(0)]
 		private readonly KingdomDecision _decision;
 
-		// Token: 0x04000A5A RID: 2650
 		private MBList<DecisionOutcome> _possibleOutcomes;
 
-		// Token: 0x04000A5B RID: 2651
 		[SaveableField(2)]
 		private List<Supporter> _supporters;
 
-		// Token: 0x04000A5C RID: 2652
 		[SaveableField(3)]
 		private Clan _chooser;
 
-		// Token: 0x04000A5D RID: 2653
 		[SaveableField(4)]
 		private DecisionOutcome _chosenOutcome;
 
-		// Token: 0x04000A5E RID: 2654
 		[SaveableField(5)]
 		private bool _ignorePlayerSupport;
 
-		// Token: 0x04000A5F RID: 2655
 		[SaveableField(6)]
 		private bool _hasPlayerVoted;
 	}

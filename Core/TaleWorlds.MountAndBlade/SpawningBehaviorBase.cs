@@ -8,16 +8,10 @@ using TaleWorlds.MountAndBlade.Diamond;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002CC RID: 716
 	public abstract class SpawningBehaviorBase
 	{
-		// Token: 0x17000721 RID: 1825
-		// (get) Token: 0x0600272C RID: 10028 RVA: 0x0009597A File Offset: 0x00093B7A
-		// (set) Token: 0x0600272D RID: 10029 RVA: 0x00095982 File Offset: 0x00093B82
 		public MultiplayerMissionAgentVisualSpawnComponent AgentVisualSpawnComponent { get; private set; }
 
-		// Token: 0x17000722 RID: 1826
-		// (get) Token: 0x0600272E RID: 10030 RVA: 0x0009598B File Offset: 0x00093B8B
 		protected Mission Mission
 		{
 			get
@@ -26,22 +20,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x14000070 RID: 112
-		// (add) Token: 0x0600272F RID: 10031 RVA: 0x00095998 File Offset: 0x00093B98
-		// (remove) Token: 0x06002730 RID: 10032 RVA: 0x000959D0 File Offset: 0x00093BD0
 		protected event Action<MissionPeer> OnAllAgentsFromPeerSpawnedFromVisuals;
 
-		// Token: 0x14000071 RID: 113
-		// (add) Token: 0x06002731 RID: 10033 RVA: 0x00095A08 File Offset: 0x00093C08
-		// (remove) Token: 0x06002732 RID: 10034 RVA: 0x00095A40 File Offset: 0x00093C40
 		protected event Action<MissionPeer> OnPeerSpawnedFromVisuals;
 
-		// Token: 0x14000072 RID: 114
-		// (add) Token: 0x06002733 RID: 10035 RVA: 0x00095A78 File Offset: 0x00093C78
-		// (remove) Token: 0x06002734 RID: 10036 RVA: 0x00095AB0 File Offset: 0x00093CB0
 		public event SpawningBehaviorBase.OnSpawningEndedEventDelegate OnSpawningEnded;
 
-		// Token: 0x06002735 RID: 10037 RVA: 0x00095AE8 File Offset: 0x00093CE8
 		public virtual void Initialize(SpawnComponent spawnComponent)
 		{
 			this.SpawnComponent = spawnComponent;
@@ -53,13 +37,11 @@ namespace TaleWorlds.MountAndBlade
 			this._spawnCheckTimer = new Timer(Mission.Current.CurrentTime, 0.2f, true);
 		}
 
-		// Token: 0x06002736 RID: 10038 RVA: 0x00095B72 File Offset: 0x00093D72
 		public virtual void Clear()
 		{
 			this.MissionLobbyEquipmentNetworkComponent.OnEquipmentRefreshed -= this.OnPeerEquipmentUpdated;
 		}
 
-		// Token: 0x06002737 RID: 10039 RVA: 0x00095B8C File Offset: 0x00093D8C
 		public virtual void OnTick(float dt)
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -248,13 +230,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002738 RID: 10040 RVA: 0x000963A4 File Offset: 0x000945A4
 		public bool AreAgentsSpawning()
 		{
 			return this.IsSpawningEnabled;
 		}
 
-		// Token: 0x06002739 RID: 10041 RVA: 0x000963AC File Offset: 0x000945AC
 		protected void ResetSpawnCounts()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -267,7 +247,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600273A RID: 10042 RVA: 0x00096400 File Offset: 0x00094600
 		protected void ResetSpawnTimers()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -280,7 +259,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600273B RID: 10043 RVA: 0x00096468 File Offset: 0x00094668
 		public virtual void RequestStartSpawnSession()
 		{
 			this.IsSpawningEnabled = true;
@@ -289,7 +267,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ResetSpawnCounts();
 		}
 
-		// Token: 0x0600273C RID: 10044 RVA: 0x0009648C File Offset: 0x0009468C
 		public void RequestStopSpawnSession()
 		{
 			this.IsSpawningEnabled = false;
@@ -314,7 +291,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600273D RID: 10045 RVA: 0x0009655C File Offset: 0x0009475C
 		public void SetRemainingAgentsInvulnerable()
 		{
 			foreach (Agent agent in this.Mission.Agents)
@@ -323,10 +299,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600273E RID: 10046
 		protected abstract void SpawnAgents();
 
-		// Token: 0x0600273F RID: 10047 RVA: 0x000965B4 File Offset: 0x000947B4
 		protected BodyProperties GetBodyProperties(MissionPeer missionPeer, BasicCultureObject cultureLimit)
 		{
 			NetworkCommunicator networkPeer = missionPeer.GetNetworkPeer();
@@ -351,7 +325,6 @@ namespace TaleWorlds.MountAndBlade
 			return agentBuildData2.AgentBodyProperties;
 		}
 
-		// Token: 0x06002740 RID: 10048 RVA: 0x00096748 File Offset: 0x00094948
 		protected void SpawnBot(Team agentTeam, BasicCultureObject cultureLimit)
 		{
 			BasicCharacterObject troopCharacter = MultiplayerClassDivisions.GetMPHeroClasses(cultureLimit).ToMBList<MultiplayerClassDivisions.MPHeroClass>().GetRandomElement<MultiplayerClassDivisions.MPHeroClass>()
@@ -369,7 +342,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Mission.SpawnAgent(agentBuildData2, false).AIStateFlags |= Agent.AIStateFlag.Alarmed;
 		}
 
-		// Token: 0x06002741 RID: 10049 RVA: 0x000968A4 File Offset: 0x00094AA4
 		private void OnPeerEquipmentUpdated(MissionPeer peer)
 		{
 			if (this.IsSpawningEnabled && this.CanUpdateSpawnEquipment(peer))
@@ -384,73 +356,53 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002742 RID: 10050 RVA: 0x0009690F File Offset: 0x00094B0F
 		public virtual bool CanUpdateSpawnEquipment(MissionPeer missionPeer)
 		{
 			return !missionPeer.EquipmentUpdatingExpired && !this._equipmentUpdatingExpired;
 		}
 
-		// Token: 0x06002743 RID: 10051 RVA: 0x00096924 File Offset: 0x00094B24
 		public void ToggleUpdatingSpawnEquipment(bool canUpdate)
 		{
 			this._equipmentUpdatingExpired = !canUpdate;
 		}
 
-		// Token: 0x06002744 RID: 10052
 		public abstract bool AllowEarlyAgentVisualsDespawning(MissionPeer missionPeer);
 
-		// Token: 0x06002745 RID: 10053 RVA: 0x00096930 File Offset: 0x00094B30
 		public virtual int GetMaximumReSpawnPeriodForPeer(MissionPeer peer)
 		{
 			return 3;
 		}
 
-		// Token: 0x06002746 RID: 10054
 		protected abstract bool IsRoundInProgress();
 
-		// Token: 0x06002747 RID: 10055 RVA: 0x00096933 File Offset: 0x00094B33
 		public virtual void OnClearScene()
 		{
 		}
 
-		// Token: 0x04000E88 RID: 3720
 		protected MissionMultiplayerGameModeBase GameMode;
 
-		// Token: 0x04000E89 RID: 3721
 		protected SpawnComponent SpawnComponent;
 
-		// Token: 0x04000E8A RID: 3722
 		private bool _equipmentUpdatingExpired;
 
-		// Token: 0x04000E8B RID: 3723
 		protected bool IsSpawningEnabled;
 
-		// Token: 0x04000E8C RID: 3724
 		protected Timer _spawnCheckTimer;
 
-		// Token: 0x04000E8D RID: 3725
 		protected float SpawningEndDelay = 1f;
 
-		// Token: 0x04000E8E RID: 3726
 		protected float SpawningDelayTimer;
 
-		// Token: 0x04000E8F RID: 3727
 		private bool _hasCalledSpawningEnded;
 
-		// Token: 0x04000E90 RID: 3728
 		protected MissionLobbyComponent MissionLobbyComponent;
 
-		// Token: 0x04000E91 RID: 3729
 		protected MissionLobbyEquipmentNetworkComponent MissionLobbyEquipmentNetworkComponent;
 
-		// Token: 0x04000E92 RID: 3730
 		public static readonly ActionIndexCache PoseActionInfantry = ActionIndexCache.Create("act_walk_idle_unarmed");
 
-		// Token: 0x04000E93 RID: 3731
 		public static readonly ActionIndexCache PoseActionCavalry = ActionIndexCache.Create("act_horse_stand_1");
 
-		// Token: 0x020005E9 RID: 1513
-		// (Invoke) Token: 0x06003CCB RID: 15563
 		public delegate void OnSpawningEndedEventDelegate();
 	}
 }

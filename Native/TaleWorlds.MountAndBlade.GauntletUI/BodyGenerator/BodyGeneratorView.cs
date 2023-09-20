@@ -18,11 +18,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 {
-	// Token: 0x02000049 RID: 73
 	public class BodyGeneratorView : IFaceGeneratorHandler
 	{
-		// Token: 0x17000060 RID: 96
-		// (get) Token: 0x0600035E RID: 862 RVA: 0x000131BA File Offset: 0x000113BA
 		private IInputContext DebugInput
 		{
 			get
@@ -31,27 +28,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			}
 		}
 
-		// Token: 0x17000061 RID: 97
-		// (get) Token: 0x0600035F RID: 863 RVA: 0x000131C1 File Offset: 0x000113C1
-		// (set) Token: 0x06000360 RID: 864 RVA: 0x000131C9 File Offset: 0x000113C9
 		public FaceGenVM DataSource { get; private set; }
 
-		// Token: 0x17000062 RID: 98
-		// (get) Token: 0x06000361 RID: 865 RVA: 0x000131D2 File Offset: 0x000113D2
-		// (set) Token: 0x06000362 RID: 866 RVA: 0x000131DA File Offset: 0x000113DA
 		public GauntletLayer GauntletLayer { get; private set; }
 
-		// Token: 0x17000063 RID: 99
-		// (get) Token: 0x06000363 RID: 867 RVA: 0x000131E3 File Offset: 0x000113E3
-		// (set) Token: 0x06000364 RID: 868 RVA: 0x000131EB File Offset: 0x000113EB
 		public SceneLayer SceneLayer { get; private set; }
 
-		// Token: 0x17000064 RID: 100
-		// (get) Token: 0x06000365 RID: 869 RVA: 0x000131F4 File Offset: 0x000113F4
-		// (set) Token: 0x06000366 RID: 870 RVA: 0x000131FC File Offset: 0x000113FC
 		public BodyGenerator BodyGen { get; private set; }
 
-		// Token: 0x06000367 RID: 871 RVA: 0x00013208 File Offset: 0x00011408
 		public BodyGeneratorView(ControlCharacterCreationStage affirmativeAction, TextObject affirmativeActionText, ControlCharacterCreationStage negativeAction, TextObject negativeActionText, BasicCharacterObject character, bool openedFromMultiplayer, IFaceGeneratorCustomFilter filter, Equipment dressedEquipment = null, ControlCharacterCreationStageReturnInt getCurrentStageIndexAction = null, ControlCharacterCreationStageReturnInt getTotalStageCountAction = null, ControlCharacterCreationStageReturnInt getFurthestIndexAction = null, ControlCharacterCreationStageWithInt goToIndexAction = null)
 		{
 			this._affirmativeAction = affirmativeAction;
@@ -127,7 +111,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.DataSource.SelectedGender = (this.BodyGen.IsFemale ? 1 : 0);
 		}
 
-		// Token: 0x06000368 RID: 872 RVA: 0x0001380C File Offset: 0x00011A0C
 		private void OpenScene()
 		{
 			this._facegenScene = Scene.CreateNewScene(true, false, 0, "mono_renderscene");
@@ -163,7 +146,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.SceneLayer.SceneView.SetAcceptGlobalDebugRenderObjects(true);
 		}
 
-		// Token: 0x06000369 RID: 873 RVA: 0x000139AC File Offset: 0x00011BAC
 		private void AddCharacterEntity()
 		{
 			GameEntity gameEntity = this._facegenScene.FindEntityWithTag("spawnpoint_player_1");
@@ -191,31 +173,26 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.SceneLayer.SetFocusedShadowmap(true, ref this._initialCharacterFrame.origin, 0.59999996f);
 		}
 
-		// Token: 0x0600036A RID: 874 RVA: 0x00013B53 File Offset: 0x00011D53
 		private void SetNewBodyPropertiesAndBodyGen(BodyProperties bodyProperties)
 		{
 			this.BodyGen.CurrentBodyProperties = bodyProperties;
 			this.RefreshCharacterEntity();
 		}
 
-		// Token: 0x0600036B RID: 875 RVA: 0x00013B68 File Offset: 0x00011D68
 		public void ResetFaceToDefault()
 		{
 			MBBodyProperties.ProduceNumericKeyWithDefaultValues(ref this.BodyGen.CurrentBodyProperties, this.BodyGen.Character.Equipment.EarsAreHidden, this.BodyGen.Character.Equipment.MouthIsHidden, this.BodyGen.Race, this.BodyGen.IsFemale ? 1 : 0, (int)this.BodyGen.Character.Age);
 			this.RefreshCharacterEntity();
 		}
 
-		// Token: 0x0600036C RID: 876 RVA: 0x00013BE2 File Offset: 0x00011DE2
 		private void OnHeightChanged(float sliderValue)
 		{
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x00013BE4 File Offset: 0x00011DE4
 		private void OnAgeChanged()
 		{
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x00013BE6 File Offset: 0x00011DE6
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_debug", "facegen")]
 		public static string FaceGenShowDebug(List<string> strings)
 		{
@@ -223,7 +200,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			return "FaceGen: Show Debug Values are " + (FaceGen.ShowDebugValues ? "enabled" : "disabled");
 		}
 
-		// Token: 0x0600036F RID: 879 RVA: 0x00013C12 File Offset: 0x00011E12
 		[CommandLineFunctionality.CommandLineArgumentFunction("toggle_update_deform_keys", "facegen")]
 		public static string FaceGenUpdateDeformKeys(List<string> strings)
 		{
@@ -231,13 +207,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			return "FaceGen: update deform keys is now " + (FaceGen.UpdateDeformKeys ? "enabled" : "disabled");
 		}
 
-		// Token: 0x06000370 RID: 880 RVA: 0x00013C3E File Offset: 0x00011E3E
 		public bool ReadyToRender()
 		{
 			return this.SceneLayer != null && this.SceneLayer.SceneView != null && this.SceneLayer.SceneView.ReadyToRender();
 		}
 
-		// Token: 0x06000371 RID: 881 RVA: 0x00013C70 File Offset: 0x00011E70
 		public void OnTick(float dt)
 		{
 			this.DataSource.CharacterGamepadControlsEnabled = Input.IsGamepadActive && this.SceneLayer.IsHitThisFrame;
@@ -362,7 +336,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.TickLayerInputs();
 		}
 
-		// Token: 0x06000372 RID: 882 RVA: 0x00014150 File Offset: 0x00012350
 		public void OnFinalize()
 		{
 			this._facegenCategory.Unload();
@@ -381,7 +354,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.DataSource = null;
 		}
 
-		// Token: 0x06000373 RID: 883 RVA: 0x000141D4 File Offset: 0x000123D4
 		private void TickLayerInputs()
 		{
 			if (this.IsHotKeyReleasedOnAnyLayer("Exit"))
@@ -395,7 +367,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			}
 		}
 
-		// Token: 0x06000374 RID: 884 RVA: 0x00014200 File Offset: 0x00012400
 		private void TickUserInputs(float dt)
 		{
 			if (this.SceneLayer.Input.IsHotKeyReleased("Ascend") || this.SceneLayer.Input.IsHotKeyReleased("Rotate") || this.SceneLayer.Input.IsHotKeyReleased("Zoom"))
@@ -483,19 +454,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			}
 		}
 
-		// Token: 0x06000375 RID: 885 RVA: 0x0001467F File Offset: 0x0001287F
 		private bool IsHotKeyReleasedOnAnyLayer(string hotkeyName)
 		{
 			return this.GauntletLayer.Input.IsHotKeyReleased(hotkeyName) || this.SceneLayer.Input.IsHotKeyReleased(hotkeyName);
 		}
 
-		// Token: 0x06000376 RID: 886 RVA: 0x000146A7 File Offset: 0x000128A7
 		private bool IsHotKeyPressedOnAnyLayer(string hotkeyName)
 		{
 			return this.GauntletLayer.Input.IsHotKeyPressed(hotkeyName) || this.SceneLayer.Input.IsHotKeyPressed(hotkeyName);
 		}
 
-		// Token: 0x06000377 RID: 887 RVA: 0x000146D0 File Offset: 0x000128D0
 		private void RefreshCharacterEntityAux()
 		{
 			SkeletonType skeletonType = this.SkeletonType;
@@ -532,7 +500,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._visualsBeingPrepared.Add(new KeyValuePair<AgentVisuals, int>(this._nextVisualToShow, 1));
 		}
 
-		// Token: 0x06000378 RID: 888 RVA: 0x000148C4 File Offset: 0x00012AC4
 		void IFaceGeneratorHandler.MakeVoice(int voiceIndex, float pitch)
 		{
 			if (this._makeSound)
@@ -546,13 +513,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			}
 		}
 
-		// Token: 0x06000379 RID: 889 RVA: 0x000148DE File Offset: 0x00012ADE
 		void IFaceGeneratorHandler.RefreshCharacterEntity()
 		{
 			this._refreshCharacterEntityNextFrame = true;
 		}
 
-		// Token: 0x0600037A RID: 890 RVA: 0x000148E7 File Offset: 0x00012AE7
 		void IFaceGeneratorHandler.SetFacialAnimation(string faceAnimation, bool loop)
 		{
 			this._setMorphAnimNextFrame = true;
@@ -560,7 +525,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._nextMorphAnimLoopValue = loop;
 		}
 
-		// Token: 0x0600037B RID: 891 RVA: 0x00014900 File Offset: 0x00012B00
 		private void ClearAgentVisuals()
 		{
 			if (this._visualToShow != null)
@@ -575,7 +539,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._visualsBeingPrepared.Clear();
 		}
 
-		// Token: 0x0600037C RID: 892 RVA: 0x00014980 File Offset: 0x00012B80
 		void IFaceGeneratorHandler.Done()
 		{
 			this.BodyGen.SaveCurrentCharacter();
@@ -588,14 +551,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._affirmativeAction.Invoke();
 		}
 
-		// Token: 0x0600037D RID: 893 RVA: 0x000149DA File Offset: 0x00012BDA
 		void IFaceGeneratorHandler.Cancel()
 		{
 			this._negativeAction.Invoke();
 			this.ClearAgentVisuals();
 		}
 
-		// Token: 0x0600037E RID: 894 RVA: 0x000149ED File Offset: 0x00012BED
 		void IFaceGeneratorHandler.ChangeToFaceCamera()
 		{
 			this._cameraLookMode = 1;
@@ -603,7 +564,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x0600037F RID: 895 RVA: 0x00014A0C File Offset: 0x00012C0C
 		void IFaceGeneratorHandler.ChangeToEyeCamera()
 		{
 			this._cameraLookMode = 2;
@@ -611,7 +571,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x06000380 RID: 896 RVA: 0x00014A2B File Offset: 0x00012C2B
 		void IFaceGeneratorHandler.ChangeToNoseCamera()
 		{
 			this._cameraLookMode = 3;
@@ -619,7 +578,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x06000381 RID: 897 RVA: 0x00014A4A File Offset: 0x00012C4A
 		void IFaceGeneratorHandler.ChangeToMouthCamera()
 		{
 			this._cameraLookMode = 4;
@@ -627,7 +585,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x06000382 RID: 898 RVA: 0x00014A69 File Offset: 0x00012C69
 		void IFaceGeneratorHandler.ChangeToBodyCamera()
 		{
 			this._cameraLookMode = 0;
@@ -635,7 +592,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x06000383 RID: 899 RVA: 0x00014A88 File Offset: 0x00012C88
 		void IFaceGeneratorHandler.ChangeToHairCamera()
 		{
 			this._cameraLookMode = 1;
@@ -643,21 +599,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._cameraCurrentDistanceAdder = 0f;
 		}
 
-		// Token: 0x06000384 RID: 900 RVA: 0x00014AA7 File Offset: 0x00012CA7
 		void IFaceGeneratorHandler.UndressCharacterEntity()
 		{
 			this.IsDressed = false;
 			this.RefreshCharacterEntity();
 		}
 
-		// Token: 0x06000385 RID: 901 RVA: 0x00014AB6 File Offset: 0x00012CB6
 		void IFaceGeneratorHandler.DressCharacterEntity()
 		{
 			this.IsDressed = true;
 			this.RefreshCharacterEntity();
 		}
 
-		// Token: 0x06000386 RID: 902 RVA: 0x00014AC8 File Offset: 0x00012CC8
 		void IFaceGeneratorHandler.DefaultFace()
 		{
 			FaceGenerationParams faceGenerationParams = this.BodyGen.InitBodyGenerator(false);
@@ -668,7 +621,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.DataSource.Refresh(true);
 		}
 
-		// Token: 0x06000387 RID: 903 RVA: 0x00014B11 File Offset: 0x00012D11
 		private void GoToIndex(int index)
 		{
 			this.BodyGen.SaveCurrentCharacter();
@@ -676,7 +628,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this._goToIndexAction.Invoke(index);
 		}
 
-		// Token: 0x06000388 RID: 904 RVA: 0x00014B30 File Offset: 0x00012D30
 		public static MatrixFrame InitCamera(Camera camera, Vec3 cameraPosition)
 		{
 			camera.SetFovVertical(0.7853982f, Screen.AspectRatio, 0.02f, 200f);
@@ -685,7 +636,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			return matrixFrame;
 		}
 
-		// Token: 0x06000389 RID: 905 RVA: 0x00014B70 File Offset: 0x00012D70
 		private void UpdateCamera(float dt)
 		{
 			this._characterCurrentRotation += MBMath.WrapAngle(this._characterTargetRotation - this._characterCurrentRotation) * MathF.Min(1f, 20f * dt);
@@ -743,115 +693,78 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			this.SceneLayer.SetCamera(this._camera);
 		}
 
-		// Token: 0x040001D3 RID: 467
 		private const int ViewOrderPriority = 1;
 
-		// Token: 0x040001D4 RID: 468
 		private Scene _facegenScene;
 
-		// Token: 0x040001D5 RID: 469
 		private MBAgentRendererSceneController _agentRendererSceneController;
 
-		// Token: 0x040001D6 RID: 470
 		private IGauntletMovie _viewMovie;
 
-		// Token: 0x040001DA RID: 474
 		private AgentVisuals _visualToShow;
 
-		// Token: 0x040001DB RID: 475
 		private List<KeyValuePair<AgentVisuals, int>> _visualsBeingPrepared;
 
-		// Token: 0x040001DC RID: 476
 		private readonly bool _openedFromMultiplayer;
 
-		// Token: 0x040001DD RID: 477
 		private AgentVisuals _nextVisualToShow;
 
-		// Token: 0x040001DE RID: 478
 		private int _currentAgentVisualIndex;
 
-		// Token: 0x040001DF RID: 479
 		private bool _refreshCharacterEntityNextFrame;
 
-		// Token: 0x040001E0 RID: 480
 		private MatrixFrame _initialCharacterFrame;
 
-		// Token: 0x040001E1 RID: 481
 		private bool _setMorphAnimNextFrame;
 
-		// Token: 0x040001E2 RID: 482
 		private string _nextMorphAnimToSet = "";
 
-		// Token: 0x040001E3 RID: 483
 		private bool _nextMorphAnimLoopValue;
 
-		// Token: 0x040001E4 RID: 484
 		private readonly ActionIndexCache act_inventory_idle_cached = ActionIndexCache.Create("act_inventory_idle");
 
-		// Token: 0x040001E5 RID: 485
 		private List<BodyProperties> _templateBodyProperties;
 
-		// Token: 0x040001E6 RID: 486
 		private readonly ActionIndexCache act_inventory_idle_start_cached = ActionIndexCache.Create("act_inventory_idle_start");
 
-		// Token: 0x040001E7 RID: 487
 		private readonly ActionIndexCache act_command_leftstance_cached = ActionIndexCache.Create("act_command_leftstance");
 
-		// Token: 0x040001E9 RID: 489
 		private readonly ControlCharacterCreationStage _affirmativeAction;
 
-		// Token: 0x040001EA RID: 490
 		private readonly ControlCharacterCreationStage _negativeAction;
 
-		// Token: 0x040001EB RID: 491
 		private readonly ControlCharacterCreationStageReturnInt _getTotalStageCountAction;
 
-		// Token: 0x040001EC RID: 492
 		private readonly ControlCharacterCreationStageReturnInt _getCurrentStageIndexAction;
 
-		// Token: 0x040001ED RID: 493
 		private readonly ControlCharacterCreationStageReturnInt _getFurthestIndexAction;
 
-		// Token: 0x040001EE RID: 494
 		private readonly ControlCharacterCreationStageWithInt _goToIndexAction;
 
-		// Token: 0x040001EF RID: 495
 		public bool IsDressed;
 
-		// Token: 0x040001F0 RID: 496
 		public SkeletonType SkeletonType;
 
-		// Token: 0x040001F1 RID: 497
 		private Equipment _dressedEquipment;
 
-		// Token: 0x040001F2 RID: 498
 		private bool _makeSound = true;
 
-		// Token: 0x040001F3 RID: 499
 		private Camera _camera;
 
-		// Token: 0x040001F4 RID: 500
 		private int _cameraLookMode;
 
-		// Token: 0x040001F5 RID: 501
 		private MatrixFrame _targetCameraGlobalFrame;
 
-		// Token: 0x040001F6 RID: 502
 		private MatrixFrame _defaultCameraGlobalFrame;
 
-		// Token: 0x040001F7 RID: 503
 		private float _characterCurrentRotation;
 
-		// Token: 0x040001F8 RID: 504
 		private float _characterTargetRotation;
 
-		// Token: 0x040001F9 RID: 505
 		private float _cameraCurrentDistanceAdder;
 
-		// Token: 0x040001FA RID: 506
 		private float _cameraCurrentElevationAdder;
 
-		// Token: 0x040001FB RID: 507
 		private SpriteCategory _facegenCategory;
 	}
 }

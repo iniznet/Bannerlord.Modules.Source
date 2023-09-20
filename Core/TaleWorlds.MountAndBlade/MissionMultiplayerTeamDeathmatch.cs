@@ -8,11 +8,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A3 RID: 675
 	public class MissionMultiplayerTeamDeathmatch : MissionMultiplayerGameModeBase
 	{
-		// Token: 0x170006E2 RID: 1762
-		// (get) Token: 0x0600253E RID: 9534 RVA: 0x0008C678 File Offset: 0x0008A878
 		public override bool IsGameModeHidingAllAgentVisuals
 		{
 			get
@@ -21,8 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170006E3 RID: 1763
-		// (get) Token: 0x0600253F RID: 9535 RVA: 0x0008C67B File Offset: 0x0008A87B
 		public override bool IsGameModeUsingOpposingTeams
 		{
 			get
@@ -31,20 +26,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002540 RID: 9536 RVA: 0x0008C67E File Offset: 0x0008A87E
 		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
 		{
 			return MissionLobbyComponent.MultiplayerGameType.TeamDeathmatch;
 		}
 
-		// Token: 0x06002541 RID: 9537 RVA: 0x0008C681 File Offset: 0x0008A881
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			this._missionScoreboardComponent = base.Mission.GetMissionBehavior<MissionScoreboardComponent>();
 		}
 
-		// Token: 0x06002542 RID: 9538 RVA: 0x0008C69C File Offset: 0x0008A89C
 		public override void AfterStart()
 		{
 			string strValue = MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
@@ -57,20 +49,17 @@ namespace TaleWorlds.MountAndBlade
 			base.Mission.Teams.Add(BattleSideEnum.Defender, object2.BackgroundColor2, object2.ForegroundColor2, banner2, true, false, true);
 		}
 
-		// Token: 0x06002543 RID: 9539 RVA: 0x0008C74B File Offset: 0x0008A94B
 		protected override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			networkPeer.AddComponent<TeamDeathmatchMissionRepresentative>();
 		}
 
-		// Token: 0x06002544 RID: 9540 RVA: 0x0008C754 File Offset: 0x0008A954
 		protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
 		{
 			base.ChangeCurrentGoldForPeer(networkPeer.GetComponent<MissionPeer>(), 120);
 			this.GameModeBaseClient.OnGoldAmountChangedForRepresentative(networkPeer.GetComponent<TeamDeathmatchMissionRepresentative>(), 120);
 		}
 
-		// Token: 0x06002545 RID: 9541 RVA: 0x0008C777 File Offset: 0x0008A977
 		public override void OnPeerChangedTeam(NetworkCommunicator peer, Team oldTeam, Team newTeam)
 		{
 			if (oldTeam != null && oldTeam != newTeam && oldTeam.Side != BattleSideEnum.None)
@@ -79,7 +68,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002546 RID: 9542 RVA: 0x0008C798 File Offset: 0x0008A998
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (blow.DamageType != DamageTypes.Invalid && (agentState == AgentState.Unconscious || agentState == AgentState.Killed) && affectedAgent.IsHuman)
@@ -166,14 +154,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002547 RID: 9543 RVA: 0x0008CB14 File Offset: 0x0008AD14
 		public override bool CheckForMatchEnd()
 		{
 			int minScoreToWinMatch = MultiplayerOptions.OptionType.MinScoreToWinMatch.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 			return this._missionScoreboardComponent.Sides.Any((MissionScoreboardComponent.MissionScoreboardSide side) => side.SideScore >= minScoreToWinMatch);
 		}
 
-		// Token: 0x06002548 RID: 9544 RVA: 0x0008CB54 File Offset: 0x0008AD54
 		public override Team GetWinnerTeam()
 		{
 			int intValue = MultiplayerOptions.OptionType.MinScoreToWinMatch.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
@@ -190,16 +176,12 @@ namespace TaleWorlds.MountAndBlade
 			return team;
 		}
 
-		// Token: 0x04000DC2 RID: 3522
 		public const int MaxScoreToEndMatch = 1023000;
 
-		// Token: 0x04000DC3 RID: 3523
 		private const int FirstSpawnGold = 120;
 
-		// Token: 0x04000DC4 RID: 3524
 		private const int RespawnGold = 100;
 
-		// Token: 0x04000DC5 RID: 3525
 		private MissionScoreboardComponent _missionScoreboardComponent;
 	}
 }

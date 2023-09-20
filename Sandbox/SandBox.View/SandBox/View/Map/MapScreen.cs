@@ -34,27 +34,15 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000050 RID: 80
 	[GameStateScreen(typeof(MapState))]
 	public class MapScreen : ScreenBase, IMapStateHandler, IGameStateListener
 	{
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x060002AA RID: 682 RVA: 0x000168C0 File Offset: 0x00014AC0
-		// (set) Token: 0x060002AB RID: 683 RVA: 0x000168C8 File Offset: 0x00014AC8
 		public CampaignMapSiegePrefabEntityCache PrefabEntityCache { get; private set; }
 
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x060002AC RID: 684 RVA: 0x000168D1 File Offset: 0x00014AD1
-		// (set) Token: 0x060002AD RID: 685 RVA: 0x000168D9 File Offset: 0x00014AD9
 		public MapEncyclopediaView EncyclopediaScreenManager { get; private set; }
 
-		// Token: 0x17000049 RID: 73
-		// (get) Token: 0x060002AE RID: 686 RVA: 0x000168E2 File Offset: 0x00014AE2
-		// (set) Token: 0x060002AF RID: 687 RVA: 0x000168EA File Offset: 0x00014AEA
 		public MapNotificationView MapNotificationView { get; private set; }
 
-		// Token: 0x1700004A RID: 74
-		// (get) Token: 0x060002B0 RID: 688 RVA: 0x000168F3 File Offset: 0x00014AF3
 		public bool IsInMenu
 		{
 			get
@@ -63,23 +51,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700004B RID: 75
-		// (get) Token: 0x060002B1 RID: 689 RVA: 0x000168FE File Offset: 0x00014AFE
-		// (set) Token: 0x060002B2 RID: 690 RVA: 0x00016906 File Offset: 0x00014B06
 		public bool IsEscapeMenuOpened { get; private set; }
 
-		// Token: 0x1700004C RID: 76
-		// (get) Token: 0x060002B3 RID: 691 RVA: 0x0001690F File Offset: 0x00014B0F
-		// (set) Token: 0x060002B4 RID: 692 RVA: 0x00016917 File Offset: 0x00014B17
 		public IPartyVisual CurrentVisualOfTooltip { get; private set; }
 
-		// Token: 0x1700004D RID: 77
-		// (get) Token: 0x060002B5 RID: 693 RVA: 0x00016920 File Offset: 0x00014B20
-		// (set) Token: 0x060002B6 RID: 694 RVA: 0x00016928 File Offset: 0x00014B28
 		public SceneLayer SceneLayer { get; private set; }
 
-		// Token: 0x1700004E RID: 78
-		// (get) Token: 0x060002B7 RID: 695 RVA: 0x00016931 File Offset: 0x00014B31
 		public IInputContext Input
 		{
 			get
@@ -88,8 +65,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700004F RID: 79
-		// (get) Token: 0x060002B8 RID: 696 RVA: 0x0001693E File Offset: 0x00014B3E
 		public bool IsReady
 		{
 			get
@@ -98,48 +73,22 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x060002B9 RID: 697 RVA: 0x00016946 File Offset: 0x00014B46
-		// (set) Token: 0x060002BA RID: 698 RVA: 0x0001694D File Offset: 0x00014B4D
 		public static MapScreen Instance { get; private set; }
 
-		// Token: 0x17000051 RID: 81
-		// (get) Token: 0x060002BB RID: 699 RVA: 0x00016955 File Offset: 0x00014B55
-		// (set) Token: 0x060002BC RID: 700 RVA: 0x0001695D File Offset: 0x00014B5D
 		public bool IsInBattleSimulation { get; private set; }
 
-		// Token: 0x17000052 RID: 82
-		// (get) Token: 0x060002BD RID: 701 RVA: 0x00016966 File Offset: 0x00014B66
-		// (set) Token: 0x060002BE RID: 702 RVA: 0x0001696E File Offset: 0x00014B6E
 		public bool IsInTownManagement { get; private set; }
 
-		// Token: 0x17000053 RID: 83
-		// (get) Token: 0x060002BF RID: 703 RVA: 0x00016977 File Offset: 0x00014B77
-		// (set) Token: 0x060002C0 RID: 704 RVA: 0x0001697F File Offset: 0x00014B7F
 		public bool IsInHideoutTroopManage { get; private set; }
 
-		// Token: 0x17000054 RID: 84
-		// (get) Token: 0x060002C1 RID: 705 RVA: 0x00016988 File Offset: 0x00014B88
-		// (set) Token: 0x060002C2 RID: 706 RVA: 0x00016990 File Offset: 0x00014B90
 		public bool IsInArmyManagement { get; private set; }
 
-		// Token: 0x17000055 RID: 85
-		// (get) Token: 0x060002C3 RID: 707 RVA: 0x00016999 File Offset: 0x00014B99
-		// (set) Token: 0x060002C4 RID: 708 RVA: 0x000169A1 File Offset: 0x00014BA1
 		public bool IsInRecruitment { get; private set; }
 
-		// Token: 0x17000056 RID: 86
-		// (get) Token: 0x060002C5 RID: 709 RVA: 0x000169AA File Offset: 0x00014BAA
-		// (set) Token: 0x060002C6 RID: 710 RVA: 0x000169B2 File Offset: 0x00014BB2
 		public bool IsBarExtended { get; private set; }
 
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x060002C7 RID: 711 RVA: 0x000169BB File Offset: 0x00014BBB
-		// (set) Token: 0x060002C8 RID: 712 RVA: 0x000169C3 File Offset: 0x00014BC3
 		public bool IsInCampaignOptions { get; private set; }
 
-		// Token: 0x17000058 RID: 88
-		// (get) Token: 0x060002C9 RID: 713 RVA: 0x000169CC File Offset: 0x00014BCC
 		public Dictionary<Tuple<Material, BannerCode>, Material> BannerTexturedMaterialCache
 		{
 			get
@@ -153,9 +102,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x060002CA RID: 714 RVA: 0x000169F1 File Offset: 0x00014BF1
-		// (set) Token: 0x060002CB RID: 715 RVA: 0x000169F9 File Offset: 0x00014BF9
 		public bool MapSceneCursorActive
 		{
 			get
@@ -171,22 +117,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x060002CC RID: 716 RVA: 0x00016A0B File Offset: 0x00014C0B
-		// (set) Token: 0x060002CD RID: 717 RVA: 0x00016A13 File Offset: 0x00014C13
 		public GameEntity ContourMaskEntity { get; private set; }
 
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x060002CE RID: 718 RVA: 0x00016A1C File Offset: 0x00014C1C
-		// (set) Token: 0x060002CF RID: 719 RVA: 0x00016A24 File Offset: 0x00014C24
 		public List<Mesh> InactiveLightMeshes { get; private set; }
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x060002D0 RID: 720 RVA: 0x00016A2D File Offset: 0x00014C2D
-		// (set) Token: 0x060002D1 RID: 721 RVA: 0x00016A35 File Offset: 0x00014C35
 		public List<Mesh> ActiveLightMeshes { get; private set; }
 
-		// Token: 0x060002D2 RID: 722 RVA: 0x00016A40 File Offset: 0x00014C40
 		public MapScreen(MapState mapState)
 		{
 			this._mapState = mapState;
@@ -200,7 +136,6 @@ namespace SandBox.View.Map
 			this.MapTracksCampaignBehavior = Campaign.Current.GetCampaignBehavior<IMapTracksCampaignBehavior>();
 		}
 
-		// Token: 0x060002D3 RID: 723 RVA: 0x00016BD0 File Offset: 0x00014DD0
 		public void OnHoverMapEntity(IMapEntity mapEntity)
 		{
 			uint hashCode = (uint)mapEntity.GetHashCode();
@@ -212,7 +147,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002D4 RID: 724 RVA: 0x00016C01 File Offset: 0x00014E01
 		public void SetupMapTooltipForTrack(Track track)
 		{
 			if (this._tooltipTargetObject != track)
@@ -223,7 +157,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002D5 RID: 725 RVA: 0x00016C33 File Offset: 0x00014E33
 		public void RemoveMapTooltip()
 		{
 			if (this._tooltipTargetObject != null || this._tooltipTargetHash != 0U)
@@ -234,7 +167,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002D6 RID: 726 RVA: 0x00016C58 File Offset: 0x00014E58
 		private static void PreloadTextures()
 		{
 			List<string> list = new List<string>();
@@ -254,7 +186,6 @@ namespace SandBox.View.Map
 			list.Clear();
 		}
 
-		// Token: 0x060002D7 RID: 727 RVA: 0x00016CF8 File Offset: 0x00014EF8
 		private void HandleSiegeEngineHoverEnd()
 		{
 			if (this._preSelectedSiegeEntityID != UIntPtr.Zero)
@@ -264,7 +195,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002D8 RID: 728 RVA: 0x00016D34 File Offset: 0x00014F34
 		private void SetCameraOfSceneLayer()
 		{
 			this.SceneLayer.SetCamera(this._mapCameraView.Camera);
@@ -273,7 +203,6 @@ namespace SandBox.View.Map
 			this.SceneLayer.SetFocusedShadowmap(false, ref origin, 0f);
 		}
 
-		// Token: 0x060002D9 RID: 729 RVA: 0x00016D88 File Offset: 0x00014F88
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -296,7 +225,6 @@ namespace SandBox.View.Map
 			(Campaign.Current.MapSceneWrapper as MapScene).ValidateAgentVisualsReseted();
 		}
 
-		// Token: 0x060002DA RID: 730 RVA: 0x00016E0A File Offset: 0x0001500A
 		protected override void OnPause()
 		{
 			base.OnPause();
@@ -308,7 +236,6 @@ namespace SandBox.View.Map
 			this._conversationOverThisFrame = false;
 		}
 
-		// Token: 0x060002DB RID: 731 RVA: 0x00016E3C File Offset: 0x0001503C
 		private void UpdateSoundParametersOfMainMap()
 		{
 			int num = 0;
@@ -330,7 +257,6 @@ namespace SandBox.View.Map
 			Campaign.Current.MapSceneWrapper.SetSoundParameters(CampaignTime.Now.CurrentHourInDay, num, this._mapCameraView.CameraFrame.origin.z);
 		}
 
-		// Token: 0x060002DC RID: 732 RVA: 0x00016EB4 File Offset: 0x000150B4
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -349,7 +275,6 @@ namespace SandBox.View.Map
 			visuals.SetMapIconAsDirty();
 		}
 
-		// Token: 0x060002DD RID: 733 RVA: 0x00016F2A File Offset: 0x0001512A
 		public void ClearGPUMemory()
 		{
 			if (true)
@@ -360,7 +285,6 @@ namespace SandBox.View.Map
 			this._gpuMemoryCleared = true;
 		}
 
-		// Token: 0x060002DE RID: 734 RVA: 0x00016F4C File Offset: 0x0001514C
 		protected override void OnDeactivate()
 		{
 			Game game = Game.Current;
@@ -382,7 +306,6 @@ namespace SandBox.View.Map
 			base.OnDeactivate();
 		}
 
-		// Token: 0x060002DF RID: 735 RVA: 0x00016FC0 File Offset: 0x000151C0
 		public override void OnFocusChangeOnGameWindow(bool focusGained)
 		{
 			base.OnFocusChangeOnGameWindow(focusGained);
@@ -401,7 +324,6 @@ namespace SandBox.View.Map
 			this._focusLost = !focusGained;
 		}
 
-		// Token: 0x060002E0 RID: 736 RVA: 0x0001701C File Offset: 0x0001521C
 		public MapView AddMapView<T>(params object[] parameters) where T : MapView, new()
 		{
 			MapView mapView = SandBoxViewCreator.CreateMapView<T>(parameters);
@@ -412,7 +334,6 @@ namespace SandBox.View.Map
 			return mapView;
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x00017058 File Offset: 0x00015258
 		public T GetMapView<T>() where T : MapView
 		{
 			foreach (MapView mapView in this._mapViews)
@@ -425,14 +346,12 @@ namespace SandBox.View.Map
 			return default(T);
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x000170BC File Offset: 0x000152BC
 		public void RemoveMapView(MapView mapView)
 		{
 			mapView.OnFinalize();
 			this._mapViews.Remove(mapView);
 		}
 
-		// Token: 0x060002E3 RID: 739 RVA: 0x000170D4 File Offset: 0x000152D4
 		public void AddEncounterOverlay(GameOverlays.MenuOverlayType type)
 		{
 			if (this._encounterOverlay == null)
@@ -445,7 +364,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E4 RID: 740 RVA: 0x00017130 File Offset: 0x00015330
 		public void AddArmyOverlay(GameOverlays.MapOverlayType type)
 		{
 			if (this._armyOverlay == null)
@@ -458,7 +376,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E5 RID: 741 RVA: 0x0001718C File Offset: 0x0001538C
 		public void RemoveEncounterOverlay()
 		{
 			if (this._encounterOverlay != null)
@@ -472,7 +389,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E6 RID: 742 RVA: 0x000171E0 File Offset: 0x000153E0
 		public void RemoveArmyOverlay()
 		{
 			if (this._armyOverlay != null)
@@ -486,7 +402,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E7 RID: 743 RVA: 0x00017234 File Offset: 0x00015434
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -541,7 +456,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E8 RID: 744 RVA: 0x000174AB File Offset: 0x000156AB
 		private void OnSaveOver(bool isSuccessful, string newSaveGameName)
 		{
 			if (this._exitOnSaveOver)
@@ -554,7 +468,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002E9 RID: 745 RVA: 0x000174C8 File Offset: 0x000156C8
 		protected override void OnFinalize()
 		{
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
@@ -584,7 +497,6 @@ namespace SandBox.View.Map
 			MapScreen.Instance = null;
 		}
 
-		// Token: 0x060002EA RID: 746 RVA: 0x000175C8 File Offset: 0x000157C8
 		public void OnHourlyTick()
 		{
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
@@ -604,7 +516,6 @@ namespace SandBox.View.Map
 			this._isKingdomDecisionsDirty = obj != null;
 		}
 
-		// Token: 0x060002EB RID: 747 RVA: 0x00017644 File Offset: 0x00015844
 		private void OnRenderingStateChanged(bool startedRendering)
 		{
 			if (startedRendering && this._isSceneViewEnabled && this._conversationDataCache != null)
@@ -617,7 +528,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002EC RID: 748 RVA: 0x000176C4 File Offset: 0x000158C4
 		private void ShowNextKingdomDecisionPopup()
 		{
 			Kingdom kingdom = Clan.PlayerClan.Kingdom;
@@ -645,7 +555,6 @@ namespace SandBox.View.Map
 			Debug.FailedAssert("There is no dirty decision but still demanded one", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\MapScreen.cs", "ShowNextKingdomDecisionPopup", 760);
 		}
 
-		// Token: 0x060002ED RID: 749 RVA: 0x00017790 File Offset: 0x00015990
 		void IMapStateHandler.OnMenuModeTick(float dt)
 		{
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
@@ -654,7 +563,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002EE RID: 750 RVA: 0x000177C8 File Offset: 0x000159C8
 		private void HandleIfBlockerStatesDisabled()
 		{
 			bool isReadyForRender = this._isReadyForRender;
@@ -672,7 +580,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002EF RID: 751 RVA: 0x00017850 File Offset: 0x00015A50
 		private void CheckCursorState()
 		{
 			Vec3 zero = Vec3.Zero;
@@ -688,7 +595,6 @@ namespace SandBox.View.Map
 			this.SceneLayer.ActiveCursor = (flag ? 1 : 10);
 		}
 
-		// Token: 0x060002F0 RID: 752 RVA: 0x000178D4 File Offset: 0x00015AD4
 		private void HandleIfSceneIsReady()
 		{
 			int num = Utilities.EngineFrameNo - this._activatedFrameNo;
@@ -724,13 +630,11 @@ namespace SandBox.View.Map
 			this.HandleIfBlockerStatesDisabled();
 		}
 
-		// Token: 0x060002F1 RID: 753 RVA: 0x0001797B File Offset: 0x00015B7B
 		void IMapStateHandler.StartCameraAnimation(Vec2 targetPosition, float animationStopDuration)
 		{
 			this._mapCameraView.StartCameraAnimation(targetPosition, animationStopDuration);
 		}
 
-		// Token: 0x060002F2 RID: 754 RVA: 0x0001798C File Offset: 0x00015B8C
 		void IMapStateHandler.BeforeTick(float dt)
 		{
 			this.HandleIfSceneIsReady();
@@ -959,7 +863,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002F3 RID: 755 RVA: 0x00018390 File Offset: 0x00016590
 		void IMapStateHandler.Tick(float dt)
 		{
 			this.UpdateSoundParametersOfMainMap();
@@ -1001,7 +904,6 @@ namespace SandBox.View.Map
 			this._conversationOverThisFrame = false;
 		}
 
-		// Token: 0x060002F4 RID: 756 RVA: 0x000184B4 File Offset: 0x000166B4
 		void IMapStateHandler.OnIdleTick(float dt)
 		{
 			this.HandleIfSceneIsReady();
@@ -1013,7 +915,6 @@ namespace SandBox.View.Map
 			this._conversationOverThisFrame = false;
 		}
 
-		// Token: 0x060002F5 RID: 757 RVA: 0x00018500 File Offset: 0x00016700
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -1077,7 +978,6 @@ namespace SandBox.View.Map
 			this._timeSinceCreation += dt;
 		}
 
-		// Token: 0x060002F6 RID: 758 RVA: 0x00018684 File Offset: 0x00016884
 		private void UpdateMenuView()
 		{
 			if (this._latestMenuContext == null && this.IsInMenu)
@@ -1091,7 +991,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002F7 RID: 759 RVA: 0x000186E0 File Offset: 0x000168E0
 		private void EnterMenuContext(MenuContext menuContext)
 		{
 			this._mapCameraView.SetCameraMode(MapCameraView.CameraFollowMode.FollowParty);
@@ -1112,7 +1011,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002F8 RID: 760 RVA: 0x00018754 File Offset: 0x00016954
 		private void ExitMenuContext()
 		{
 			this._menuViewContext.OnGameStateDeactivate();
@@ -1121,7 +1019,6 @@ namespace SandBox.View.Map
 			this._menuViewContext = null;
 		}
 
-		// Token: 0x060002F9 RID: 761 RVA: 0x0001877E File Offset: 0x0001697E
 		private void OpenBannerEditorScreen()
 		{
 			if (Campaign.Current.IsBannerEditorEnabled)
@@ -1131,7 +1028,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002FA RID: 762 RVA: 0x000187B4 File Offset: 0x000169B4
 		private void OpenFaceGeneratorScreen()
 		{
 			if (Campaign.Current.IsFaceGenEnabled)
@@ -1146,14 +1042,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002FB RID: 763 RVA: 0x00018806 File Offset: 0x00016A06
 		public void OnExit()
 		{
 			this._mapCameraView.OnExit();
 			MBGameManager.EndGame();
 		}
 
-		// Token: 0x060002FC RID: 764 RVA: 0x00018818 File Offset: 0x00016A18
 		private void SetMapSiegeOverlayState(bool isActive)
 		{
 			this._mapCameraView.OnSetMapSiegeOverlayState(isActive, this._mapSiegeOverlayView == null);
@@ -1174,7 +1068,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002FD RID: 765 RVA: 0x00018894 File Offset: 0x00016A94
 		private void RefreshMapSiegeOverlayRequired()
 		{
 			this._mapCameraView.OnRefreshMapSiegeOverlayRequired(this._mapSiegeOverlayView == null);
@@ -1200,7 +1093,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060002FE RID: 766 RVA: 0x00018924 File Offset: 0x00016B24
 		private void OnEscapeMenuToggled(bool isOpened = false)
 		{
 			this._mapCameraView.OnEscapeMenuToggled(isOpened);
@@ -1221,7 +1113,6 @@ namespace SandBox.View.Map
 			Game.Current.GameStateManager.UnregisterActiveStateDisableRequest(this);
 		}
 
-		// Token: 0x060002FF RID: 767 RVA: 0x000189A4 File Offset: 0x00016BA4
 		private void CheckValidityOfItems()
 		{
 			foreach (ItemObject itemObject in MBObjectManager.Instance.GetObjectTypeList<ItemObject>())
@@ -1242,13 +1133,11 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000300 RID: 768 RVA: 0x00018A84 File Offset: 0x00016C84
 		public void FastMoveCameraToPosition(Vec2 target)
 		{
 			this._mapCameraView.FastMoveCameraToPosition(target, this.IsInMenu);
 		}
 
-		// Token: 0x06000301 RID: 769 RVA: 0x00018A98 File Offset: 0x00016C98
 		public void GetCursorIntersectionPoint(ref Vec3 clippedMouseNear, ref Vec3 clippedMouseFar, out float closestDistanceSquared, out Vec3 intersectionPoint, ref PathFaceRecord currentFace, BodyFlags excludedBodyFlags = 79617)
 		{
 			(clippedMouseFar - clippedMouseNear).Normalize();
@@ -1267,7 +1156,6 @@ namespace SandBox.View.Map
 			currentFace = Campaign.Current.MapSceneWrapper.GetFaceIndex(intersectionPoint.AsVec2);
 		}
 
-		// Token: 0x06000302 RID: 770 RVA: 0x00018B64 File Offset: 0x00016D64
 		private void HandleMouse(float dt)
 		{
 			if (Campaign.Current.GameStarted)
@@ -1433,7 +1321,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000303 RID: 771 RVA: 0x00019004 File Offset: 0x00017204
 		private void HandleLeftMouseButtonClick(UIntPtr selectedSiegeEntityID, IPartyVisual visualOfSelectedEntity, Vec3 intersectionPoint, PathFaceRecord mouseOverFaceIndex)
 		{
 			this._mapCameraView.HandleLeftMouseButtonClick(this.SceneLayer.Input.GetIsMouseActive());
@@ -1525,7 +1412,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000304 RID: 772 RVA: 0x000193BC File Offset: 0x000175BC
 		private void OnTerrainClick()
 		{
 			foreach (MapView mapView in this._mapViews)
@@ -1535,7 +1421,6 @@ namespace SandBox.View.Map
 			this._mapCursor.OnMapTerrainClick();
 		}
 
-		// Token: 0x06000305 RID: 773 RVA: 0x00019414 File Offset: 0x00017614
 		private void OnSiegeEngineFrameClick(MatrixFrame siegeFrame)
 		{
 			foreach (MapView mapView in this._mapViews)
@@ -1544,7 +1429,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000306 RID: 774 RVA: 0x00019460 File Offset: 0x00017660
 		private void InitializeSiegeCircleVisuals()
 		{
 			IPartyVisual visuals = PlayerSiege.PlayerSiegeEvent.BesiegedSettlement.Party.Visuals;
@@ -1628,7 +1512,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000307 RID: 775 RVA: 0x00019890 File Offset: 0x00017A90
 		private void TickSiegeMachineCircles()
 		{
 			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
@@ -1734,7 +1617,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000308 RID: 776 RVA: 0x00019CB8 File Offset: 0x00017EB8
 		private uint GetDesiredDecalColor(bool isPrepOver, bool isHovered, bool isEnemy, bool isEmpty, bool isPlayerLeader)
 		{
 			isPrepOver = true;
@@ -1760,7 +1642,6 @@ namespace SandBox.View.Map
 			return this._normalStartSiegeEngineDecalColor;
 		}
 
-		// Token: 0x06000309 RID: 777 RVA: 0x00019D3C File Offset: 0x00017F3C
 		private string GetDesiredMaterialName(bool isRanged, bool isAttacker, bool isEmpty, bool isTower)
 		{
 			if (isRanged)
@@ -1781,7 +1662,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600030A RID: 778 RVA: 0x00019D64 File Offset: 0x00017F64
 		private void RemoveSiegeCircleVisuals()
 		{
 			if (this._playerSiegeMachineSlotMeshesAdded)
@@ -1815,7 +1695,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600030B RID: 779 RVA: 0x00019E98 File Offset: 0x00018098
 		void IMapStateHandler.AfterTick(float dt)
 		{
 			if (ScreenManager.TopScreen == this)
@@ -1830,7 +1709,6 @@ namespace SandBox.View.Map
 			base.DebugInput.IsHotKeyPressed("MapScreenHotkeyShowPos");
 		}
 
-		// Token: 0x0600030C RID: 780 RVA: 0x00019EF0 File Offset: 0x000180F0
 		void IMapStateHandler.AfterWaitTick(float dt)
 		{
 			if (!this.SceneLayer.Input.IsShiftDown() && !this.SceneLayer.Input.IsControlDown())
@@ -1896,7 +1774,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600030D RID: 781 RVA: 0x0001A114 File Offset: 0x00018314
 		void IMapStateHandler.OnRefreshState()
 		{
 			if (Game.Current.GameStateManager.ActiveState is MapState)
@@ -1920,19 +1797,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600030E RID: 782 RVA: 0x0001A1BC File Offset: 0x000183BC
 		void IMapStateHandler.OnExitingMenuMode()
 		{
 			this._latestMenuContext = null;
 		}
 
-		// Token: 0x0600030F RID: 783 RVA: 0x0001A1C5 File Offset: 0x000183C5
 		void IMapStateHandler.OnEnteringMenuMode(MenuContext menuContext)
 		{
 			this._latestMenuContext = menuContext;
 		}
 
-		// Token: 0x06000310 RID: 784 RVA: 0x0001A1D0 File Offset: 0x000183D0
 		void IMapStateHandler.OnMainPartyEncounter()
 		{
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
@@ -1941,20 +1815,17 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000311 RID: 785 RVA: 0x0001A206 File Offset: 0x00018406
 		void IMapStateHandler.OnSignalPeriodicEvents()
 		{
 			this.DeleteMarkedPeriodicEvents();
 		}
 
-		// Token: 0x06000312 RID: 786 RVA: 0x0001A20E File Offset: 0x0001840E
 		void IMapStateHandler.OnBattleSimulationStarted(BattleSimulation battleSimulation)
 		{
 			this.IsInBattleSimulation = true;
 			this._battleSimulationView = this.AddMapView<BattleSimulationMapView>(new object[] { battleSimulation });
 		}
 
-		// Token: 0x06000313 RID: 787 RVA: 0x0001A22D File Offset: 0x0001842D
 		void IMapStateHandler.OnBattleSimulationEnded()
 		{
 			this.IsInBattleSimulation = false;
@@ -1962,38 +1833,31 @@ namespace SandBox.View.Map
 			this._battleSimulationView = null;
 		}
 
-		// Token: 0x06000314 RID: 788 RVA: 0x0001A249 File Offset: 0x00018449
 		void IMapStateHandler.OnSiegeEngineClick(MatrixFrame siegeEngineFrame)
 		{
 			this._mapCameraView.SiegeEngineClick(siegeEngineFrame);
 		}
 
-		// Token: 0x06000315 RID: 789 RVA: 0x0001A257 File Offset: 0x00018457
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000316 RID: 790 RVA: 0x0001A259 File Offset: 0x00018459
 		void IMapStateHandler.OnPlayerSiegeActivated()
 		{
 		}
 
-		// Token: 0x06000317 RID: 791 RVA: 0x0001A25B File Offset: 0x0001845B
 		void IMapStateHandler.OnPlayerSiegeDeactivated()
 		{
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x0001A25D File Offset: 0x0001845D
 		void IGameStateListener.OnActivate()
 		{
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x0001A25F File Offset: 0x0001845F
 		void IGameStateListener.OnDeactivate()
 		{
 		}
 
-		// Token: 0x0600031A RID: 794 RVA: 0x0001A264 File Offset: 0x00018464
 		void IMapStateHandler.OnMapConversationStarts(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData)
 		{
 			if (this._isReadyForRender || this._conversationOverThisFrame)
@@ -2007,7 +1871,6 @@ namespace SandBox.View.Map
 			Game.Current.GameStateManager.RegisterActiveStateDisableRequest(this);
 		}
 
-		// Token: 0x0600031B RID: 795 RVA: 0x0001A2C0 File Offset: 0x000184C0
 		private void HandleMapConversationInit(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData)
 		{
 			if (this._mapConversationView == null)
@@ -2037,7 +1900,6 @@ namespace SandBox.View.Map
 			this.HandleIfSceneIsReady();
 		}
 
-		// Token: 0x0600031C RID: 796 RVA: 0x0001A37C File Offset: 0x0001857C
 		void IMapStateHandler.OnMapConversationOver()
 		{
 			this._conversationOverThisFrame = true;
@@ -2055,7 +1917,6 @@ namespace SandBox.View.Map
 			this.HandleIfSceneIsReady();
 		}
 
-		// Token: 0x0600031D RID: 797 RVA: 0x0001A3E1 File Offset: 0x000185E1
 		private void HandleMapConversationOver()
 		{
 			if (this._mapConversationView != null)
@@ -2065,7 +1926,6 @@ namespace SandBox.View.Map
 			this._mapConversationView = null;
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x0001A400 File Offset: 0x00018600
 		private void InitializeVisuals()
 		{
 			this.InactiveLightMeshes = new List<Mesh>();
@@ -2125,7 +1985,6 @@ namespace SandBox.View.Map
 			this.ContourMaskEntity.Name = "aContourMask";
 		}
 
-		// Token: 0x0600031F RID: 799 RVA: 0x0001A6B4 File Offset: 0x000188B4
 		internal void TickCircles(float realDt)
 		{
 			bool flag = false;
@@ -2311,7 +2170,6 @@ namespace SandBox.View.Map
 			this._partyOutlineEntity.SetVisibilityExcludeParents(true);
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x0001AEE4 File Offset: 0x000190E4
 		public void SetIsInTownManagement(bool isInTownManagement)
 		{
 			if (this.IsInTownManagement != isInTownManagement)
@@ -2320,7 +2178,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000321 RID: 801 RVA: 0x0001AEF6 File Offset: 0x000190F6
 		public void SetIsInHideoutTroopManage(bool isInHideoutTroopManage)
 		{
 			if (this.IsInHideoutTroopManage != isInHideoutTroopManage)
@@ -2329,7 +2186,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000322 RID: 802 RVA: 0x0001AF08 File Offset: 0x00019108
 		public void SetIsInArmyManagement(bool isInArmyManagement)
 		{
 			if (this.IsInArmyManagement != isInArmyManagement)
@@ -2347,7 +2203,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000323 RID: 803 RVA: 0x0001AF32 File Offset: 0x00019132
 		public void SetIsInRecruitment(bool isInRecruitment)
 		{
 			if (this.IsInRecruitment != isInRecruitment)
@@ -2356,7 +2211,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000324 RID: 804 RVA: 0x0001AF44 File Offset: 0x00019144
 		public void SetIsBarExtended(bool isBarExtended)
 		{
 			if (this.IsBarExtended != isBarExtended)
@@ -2365,7 +2219,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000325 RID: 805 RVA: 0x0001AF56 File Offset: 0x00019156
 		public void SetIsInCampaignOptions(bool isInCampaignOptions)
 		{
 			if (this.IsInCampaignOptions != isInCampaignOptions)
@@ -2374,7 +2227,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000326 RID: 806 RVA: 0x0001AF68 File Offset: 0x00019168
 		private void TickVisuals(float realDt)
 		{
 			if (this._campaign.CampaignDt < 1E-05f)
@@ -2415,7 +2267,6 @@ namespace SandBox.View.Map
 			MBWindowManager.PreDisplay();
 		}
 
-		// Token: 0x06000327 RID: 807 RVA: 0x0001B0B8 File Offset: 0x000192B8
 		private void TickStepSounds()
 		{
 			if (Campaign.Current.CampaignDt > 0f)
@@ -2433,7 +2284,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000328 RID: 808 RVA: 0x0001B120 File Offset: 0x00019320
 		private void StepSounds(MobileParty party)
 		{
 			if (party.IsVisible && ((PartyVisual)party.Party.Visuals).HumanAgentVisuals != null && party.MemberRoster.TotalManCount > 0)
@@ -2463,19 +2313,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000329 RID: 809 RVA: 0x0001B221 File Offset: 0x00019421
 		public void SetMouseVisible(bool value)
 		{
 			this.SceneLayer.InputRestrictions.SetMouseVisibility(value);
 		}
 
-		// Token: 0x0600032A RID: 810 RVA: 0x0001B234 File Offset: 0x00019434
 		public bool GetMouseVisible()
 		{
 			return MBMapScene.GetMouseVisible();
 		}
 
-		// Token: 0x0600032B RID: 811 RVA: 0x0001B23B File Offset: 0x0001943B
 		public void RestartAmbientSounds()
 		{
 			if (this._mapScene != null)
@@ -2484,12 +2331,10 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600032C RID: 812 RVA: 0x0001B256 File Offset: 0x00019456
 		void IGameStateListener.OnFinalize()
 		{
 		}
 
-		// Token: 0x0600032D RID: 813 RVA: 0x0001B258 File Offset: 0x00019458
 		public void PauseAmbientSounds()
 		{
 			if (this._mapScene != null)
@@ -2498,7 +2343,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600032E RID: 814 RVA: 0x0001B273 File Offset: 0x00019473
 		public void StopSoundSceneProps()
 		{
 			if (this._mapScene != null)
@@ -2507,12 +2351,10 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600032F RID: 815 RVA: 0x0001B28E File Offset: 0x0001948E
 		public void ApplySoundSceneProps(float dt)
 		{
 		}
 
-		// Token: 0x06000330 RID: 816 RVA: 0x0001B290 File Offset: 0x00019490
 		private void CollectTickableMapMeshes()
 		{
 			this._tickedMapEntities = this._mapScene.FindEntitiesWithTag("ticked_map_entity").ToArray<GameEntity>();
@@ -2523,14 +2365,11 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000331 RID: 817 RVA: 0x0001B2F3 File Offset: 0x000194F3
 		public void OnPauseTick(float dt)
 		{
 			this.ApplySoundSceneProps(dt);
 		}
 
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x06000332 RID: 818 RVA: 0x0001B2FC File Offset: 0x000194FC
 		public static Dictionary<UIntPtr, IPartyVisual> VisualsOfEntities
 		{
 			get
@@ -2539,7 +2378,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000333 RID: 819 RVA: 0x0001B304 File Offset: 0x00019504
 		public MBCampaignEvent CreatePeriodicUIEvent(CampaignTime triggerPeriod, CampaignTime initialWait)
 		{
 			MBCampaignEvent mbcampaignEvent = new MBCampaignEvent(triggerPeriod, initialWait);
@@ -2547,8 +2385,6 @@ namespace SandBox.View.Map
 			return mbcampaignEvent;
 		}
 
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x06000334 RID: 820 RVA: 0x0001B326 File Offset: 0x00019526
 		internal static Dictionary<UIntPtr, Tuple<MatrixFrame, PartyVisual>> FrameAndVisualOfEngines
 		{
 			get
@@ -2557,7 +2393,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000335 RID: 821 RVA: 0x0001B32D File Offset: 0x0001952D
 		[CommandLineFunctionality.CommandLineArgumentFunction("disable_core_game", "debug")]
 		public static string DisableCoreGame(List<string> parameters)
 		{
@@ -2565,7 +2400,6 @@ namespace SandBox.View.Map
 			return "Done";
 		}
 
-		// Token: 0x06000336 RID: 822 RVA: 0x0001B339 File Offset: 0x00019539
 		[CommandLineFunctionality.CommandLineArgumentFunction("gather_core_game_references", "items")]
 		public static string GatherCoreGameReferences(List<string> parameters)
 		{
@@ -2573,7 +2407,6 @@ namespace SandBox.View.Map
 			return "Done";
 		}
 
-		// Token: 0x06000337 RID: 823 RVA: 0x0001B34C File Offset: 0x0001954C
 		private void DeleteMarkedPeriodicEvents()
 		{
 			for (int i = this._periodicCampaignUIEvents.Count - 1; i >= 0; i--)
@@ -2585,31 +2418,26 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x0001B390 File Offset: 0x00019590
 		public void DeletePeriodicUIEvent(MBCampaignEvent campaignEvent)
 		{
 			campaignEvent.isEventDeleted = true;
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x0001B399 File Offset: 0x00019599
 		private static float CalculateCameraElevation(float cameraDistance)
 		{
 			return cameraDistance * 0.5f * 0.015f + 0.35f;
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x0001B3AE File Offset: 0x000195AE
 		public void OpenOptions()
 		{
 			ScreenManager.PushScreen(ViewCreator.CreateOptionsScreen(false));
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x0001B3BB File Offset: 0x000195BB
 		public void OpenEncyclopedia()
 		{
 			Campaign.Current.EncyclopediaManager.GoToLink("LastPage", "");
 		}
 
-		// Token: 0x0600033C RID: 828 RVA: 0x0001B3D6 File Offset: 0x000195D6
 		[CommandLineFunctionality.CommandLineArgumentFunction("export_nav_mesh_face_marks", "items")]
 		public static string ExportNavMeshFaceMarks(List<string> strings)
 		{
@@ -2620,7 +2448,6 @@ namespace SandBox.View.Map
 			return Utilities.ExportNavMeshFaceMarks(strings[0]);
 		}
 
-		// Token: 0x0600033D RID: 829 RVA: 0x0001B3F2 File Offset: 0x000195F2
 		[CommandLineFunctionality.CommandLineArgumentFunction("find_meshes_without_lods", "items")]
 		public static string FindMeshesWithoutLods(List<string> strings)
 		{
@@ -2632,26 +2459,22 @@ namespace SandBox.View.Map
 			return "Processing Asynchronously...";
 		}
 
-		// Token: 0x0600033E RID: 830 RVA: 0x0001B414 File Offset: 0x00019614
 		public void OpenSaveLoad(bool isSaving)
 		{
 			ScreenManager.PushScreen(SandBoxViewCreator.CreateSaveLoadScreen(isSaving));
 		}
 
-		// Token: 0x0600033F RID: 831 RVA: 0x0001B421 File Offset: 0x00019621
 		[CommandLineFunctionality.CommandLineArgumentFunction("take_ss_from_top", "items")]
 		public static string TakeSSFromTop(List<string> strings)
 		{
 			return Utilities.TakeSSFromTop("");
 		}
 
-		// Token: 0x06000340 RID: 832 RVA: 0x0001B42D File Offset: 0x0001962D
 		public void CloseEscapeMenu()
 		{
 			this.OnEscapeMenuToggled(false);
 		}
 
-		// Token: 0x06000341 RID: 833 RVA: 0x0001B438 File Offset: 0x00019638
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_with_generated_lods", "items")]
 		public static string PrintAllItemsWithLod(List<string> strings)
 		{
@@ -2743,13 +2566,11 @@ namespace SandBox.View.Map
 			return text3;
 		}
 
-		// Token: 0x06000342 RID: 834 RVA: 0x0001B75C File Offset: 0x0001995C
 		public void OpenEscapeMenu()
 		{
 			this.OnEscapeMenuToggled(true);
 		}
 
-		// Token: 0x06000343 RID: 835 RVA: 0x0001B768 File Offset: 0x00019968
 		[CommandLineFunctionality.CommandLineArgumentFunction("illumination", "global")]
 		private static string TryGlobalIllumination(List<string> values)
 		{
@@ -2777,7 +2598,6 @@ namespace SandBox.View.Map
 			return "";
 		}
 
-		// Token: 0x06000344 RID: 836 RVA: 0x0001B854 File Offset: 0x00019A54
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_without_lod", "items")]
 		public static string PrintAllItemsWithoutLod(List<string> strings)
 		{
@@ -2872,7 +2692,6 @@ namespace SandBox.View.Map
 			return text3;
 		}
 
-		// Token: 0x06000345 RID: 837 RVA: 0x0001BB7C File Offset: 0x00019D7C
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_without_generated_lod", "items")]
 		public static string PrintAllItemsWithoutGeneratedLod(List<string> strings)
 		{
@@ -2965,7 +2784,6 @@ namespace SandBox.View.Map
 			return text3;
 		}
 
-		// Token: 0x06000346 RID: 838 RVA: 0x0001BE94 File Offset: 0x0001A094
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_faulty_materials", "items")]
 		public static string PrintFaultyMaterials(List<string> strings)
 		{
@@ -3114,7 +2932,6 @@ namespace SandBox.View.Map
 			return text2;
 		}
 
-		// Token: 0x06000347 RID: 839 RVA: 0x0001C4A4 File Offset: 0x0001A6A4
 		public void CloseCampaignOptions()
 		{
 			if (this._campaignOptionsView != null)
@@ -3124,7 +2941,6 @@ namespace SandBox.View.Map
 			this.IsInCampaignOptions = false;
 		}
 
-		// Token: 0x06000348 RID: 840 RVA: 0x0001C4C4 File Offset: 0x0001A6C4
 		private List<EscapeMenuItemVM> GetEscapeMenuItems()
 		{
 			bool isMapConversationActive = this._mapConversationView != null;
@@ -3189,7 +3005,6 @@ namespace SandBox.View.Map
 			return list;
 		}
 
-		// Token: 0x06000349 RID: 841 RVA: 0x0001C6B8 File Offset: 0x0001A8B8
 		private Tuple<bool, TextObject> GetIsEscapeMenuOptionDisabledReason(bool isMapConversationActive, bool isIronmanMode, bool isAtSaveLimit)
 		{
 			if (isIronmanMode)
@@ -3207,7 +3022,6 @@ namespace SandBox.View.Map
 			return new Tuple<bool, TextObject>(false, TextObject.Empty);
 		}
 
-		// Token: 0x0600034A RID: 842 RVA: 0x0001C71B File Offset: 0x0001A91B
 		private void OpenParty()
 		{
 			if (Hero.MainHero.HeroState != 3 && Hero.MainHero != null)
@@ -3220,7 +3034,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600034B RID: 843 RVA: 0x0001C74C File Offset: 0x0001A94C
 		public void OpenInventory()
 		{
 			if (Hero.MainHero != null)
@@ -3233,7 +3046,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600034C RID: 844 RVA: 0x0001C774 File Offset: 0x0001A974
 		private void OpenKingdom()
 		{
 			if (Hero.MainHero != null)
@@ -3247,7 +3059,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600034D RID: 845 RVA: 0x0001C7D0 File Offset: 0x0001A9D0
 		private void OnExitToMainMenu()
 		{
 			this.OnEscapeMenuToggled(false);
@@ -3255,7 +3066,6 @@ namespace SandBox.View.Map
 			this.OnExit();
 		}
 
-		// Token: 0x0600034E RID: 846 RVA: 0x0001C7E4 File Offset: 0x0001A9E4
 		private void OpenQuestsScreen()
 		{
 			if (Hero.MainHero != null)
@@ -3268,7 +3078,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x0001C822 File Offset: 0x0001AA22
 		private void OpenClanScreen()
 		{
 			if (Hero.MainHero != null)
@@ -3281,7 +3090,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x0001C860 File Offset: 0x0001AA60
 		private void OpenCharacterDevelopmentScreen()
 		{
 			if (Hero.MainHero != null)
@@ -3294,13 +3102,11 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000351 RID: 849 RVA: 0x0001C89E File Offset: 0x0001AA9E
 		public void OpenFacegenScreenAux()
 		{
 			this.OpenFaceGeneratorScreen();
 		}
 
-		// Token: 0x06000352 RID: 850 RVA: 0x0001C8A8 File Offset: 0x0001AAA8
 		private int GetCircleIndex()
 		{
 			int num = (int)((MBCommon.GetApplicationTime() - this._targetCircleRotationStartTime) / 0.1f) % 10;
@@ -3311,7 +3117,6 @@ namespace SandBox.View.Map
 			return num;
 		}
 
-		// Token: 0x06000353 RID: 851 RVA: 0x0001C8D8 File Offset: 0x0001AAD8
 		[CommandLineFunctionality.CommandLineArgumentFunction("export_issue_statistics", "campaign")]
 		public static string ExportIssueStatistics(List<string> strings)
 		{
@@ -3415,7 +3220,6 @@ namespace SandBox.View.Map
 			return "Issue statistics successfully exported to " + platformFilePath;
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x0001CD78 File Offset: 0x0001AF78
 		[CommandLineFunctionality.CommandLineArgumentFunction("open_retirement_screen", "gameover")]
 		public static string OpenGameOverRetirement(List<string> strings)
 		{
@@ -3424,7 +3228,6 @@ namespace SandBox.View.Map
 			return "DONE";
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x0001CDBC File Offset: 0x0001AFBC
 		[CommandLineFunctionality.CommandLineArgumentFunction("open_victory_screen", "gameover")]
 		public static string OpenGameOverVictory(List<string> strings)
 		{
@@ -3433,13 +3236,11 @@ namespace SandBox.View.Map
 			return "DONE";
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x0001CDFE File Offset: 0x0001AFFE
 		public void FastMoveCameraToMainParty()
 		{
 			this._mapCameraView.FastMoveCameraToMainParty();
 		}
 
-		// Token: 0x06000357 RID: 855 RVA: 0x0001CE0C File Offset: 0x0001B00C
 		[CommandLineFunctionality.CommandLineArgumentFunction("open_clan_destroyed_screen", "gameover")]
 		public static string OpenGameOverDestroyed(List<string> strings)
 		{
@@ -3448,7 +3249,6 @@ namespace SandBox.View.Map
 			return "DONE";
 		}
 
-		// Token: 0x06000358 RID: 856 RVA: 0x0001CE4E File Offset: 0x0001B04E
 		[CommandLineFunctionality.CommandLineArgumentFunction("remove_all_circle_notifications", "campaign")]
 		public static string ClearAllCircleNotifications(List<string> strings)
 		{
@@ -3460,334 +3260,226 @@ namespace SandBox.View.Map
 			return "Cleared";
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x0001CE76 File Offset: 0x0001B076
 		public bool IsCameraLockedToPlayerParty()
 		{
 			return this._mapCameraView.IsCameraLockedToPlayerParty();
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x0001CE83 File Offset: 0x0001B083
 		public void ResetCamera(bool resetDistance, bool teleportToMainParty)
 		{
 			this._mapCameraView.ResetCamera(resetDistance, teleportToMainParty);
 		}
 
-		// Token: 0x0600035B RID: 859 RVA: 0x0001CE92 File Offset: 0x0001B092
 		public void TeleportCameraToMainParty()
 		{
 			this._mapCameraView.TeleportCameraToMainParty();
 		}
 
-		// Token: 0x0400014E RID: 334
 		private const float DoubleClickTimeLimit = 0.3f;
 
-		// Token: 0x04000152 RID: 338
 		private MenuViewContext _menuViewContext;
 
-		// Token: 0x04000153 RID: 339
 		private MenuContext _latestMenuContext;
 
-		// Token: 0x04000154 RID: 340
 		private bool _partyIconNeedsRefreshing;
 
-		// Token: 0x04000155 RID: 341
 		private uint _tooltipTargetHash;
 
-		// Token: 0x04000156 RID: 342
 		private object _tooltipTargetObject;
 
-		// Token: 0x04000157 RID: 343
 		private readonly ObservableCollection<MapView> _mapViews;
 
-		// Token: 0x04000158 RID: 344
 		private MapView[] _mapViewsCopyCache;
 
-		// Token: 0x04000159 RID: 345
 		private MapView _encounterOverlay;
 
-		// Token: 0x0400015A RID: 346
 		private MapView _armyOverlay;
 
-		// Token: 0x0400015B RID: 347
 		private MapReadyView _mapReadyView;
 
-		// Token: 0x0400015C RID: 348
 		private MapView _escapeMenuView;
 
-		// Token: 0x0400015D RID: 349
 		private MapView _battleSimulationView;
 
-		// Token: 0x0400015E RID: 350
 		private MapView _mapSiegeOverlayView;
 
-		// Token: 0x0400015F RID: 351
 		private MapView _campaignOptionsView;
 
-		// Token: 0x04000160 RID: 352
 		private MapView _mapConversationView;
 
-		// Token: 0x04000161 RID: 353
 		public MapCameraView _mapCameraView;
 
-		// Token: 0x04000162 RID: 354
 		private MapNavigationHandler _navigationHandler = new MapNavigationHandler();
 
-		// Token: 0x04000165 RID: 357
 		private const int _frameDelayAmountForRenderActivation = 5;
 
-		// Token: 0x04000166 RID: 358
 		private float _timeSinceCreation;
 
-		// Token: 0x04000167 RID: 359
 		private bool _leftButtonDraggingMode;
 
-		// Token: 0x04000168 RID: 360
 		private UIntPtr _preSelectedSiegeEntityID;
 
-		// Token: 0x04000169 RID: 361
 		private Vec2 _oldMousePosition;
 
-		// Token: 0x0400016A RID: 362
 		private Vec2 _clickedPositionPixel;
 
-		// Token: 0x0400016B RID: 363
 		private Vec3 _clickedPosition;
 
-		// Token: 0x0400016C RID: 364
 		private Ray _mouseRay;
 
-		// Token: 0x0400016D RID: 365
 		private IPartyVisual _preVisualOfSelectedEntity;
 
-		// Token: 0x0400016E RID: 366
 		private int _activatedFrameNo = Utilities.EngineFrameNo;
 
-		// Token: 0x0400016F RID: 367
 		public Dictionary<Tuple<Material, BannerCode>, Material> _characterBannerMaterialCache = new Dictionary<Tuple<Material, BannerCode>, Material>();
 
-		// Token: 0x04000170 RID: 368
 		private Tuple<ConversationCharacterData, ConversationCharacterData, MapScreen.TempConversationStateHandler> _conversationDataCache;
 
-		// Token: 0x04000171 RID: 369
 		private readonly int _displayedContextMenuType = -1;
 
-		// Token: 0x04000172 RID: 370
 		private double _lastReleaseTime;
 
-		// Token: 0x04000173 RID: 371
 		private double _lastPressTime;
 
-		// Token: 0x04000174 RID: 372
 		private double _secondLastPressTime;
 
-		// Token: 0x04000175 RID: 373
 		private bool _leftButtonDoubleClickOnSceneWidget;
 
-		// Token: 0x04000176 RID: 374
 		private float _waitForDoubleClickUntilTime;
 
-		// Token: 0x04000177 RID: 375
 		private float _timeToggleTimer = float.MaxValue;
 
-		// Token: 0x04000178 RID: 376
 		private bool _ignoreNextTimeToggle;
 
-		// Token: 0x04000179 RID: 377
 		private bool _exitOnSaveOver;
 
-		// Token: 0x0400017B RID: 379
 		private Scene _mapScene;
 
-		// Token: 0x0400017C RID: 380
 		private Campaign _campaign;
 
-		// Token: 0x0400017D RID: 381
 		private readonly MapState _mapState;
 
-		// Token: 0x0400017E RID: 382
 		private bool _isSceneViewEnabled;
 
-		// Token: 0x0400017F RID: 383
 		private bool _isReadyForRender;
 
-		// Token: 0x04000180 RID: 384
 		private bool _gpuMemoryCleared;
 
-		// Token: 0x04000181 RID: 385
 		private bool _focusLost;
 
-		// Token: 0x04000183 RID: 387
 		private bool _isKingdomDecisionsDirty;
 
-		// Token: 0x04000184 RID: 388
 		private bool _conversationOverThisFrame;
 
-		// Token: 0x0400018C RID: 396
 		private Dictionary<Tuple<Material, BannerCode>, Material> _bannerTexturedMaterialCache;
 
-		// Token: 0x0400018D RID: 397
 		private GameEntity _targetCircleEntitySmall;
 
-		// Token: 0x0400018E RID: 398
 		private GameEntity _targetCircleEntityBig;
 
-		// Token: 0x0400018F RID: 399
 		private GameEntity _targetCircleTown;
 
-		// Token: 0x04000190 RID: 400
 		private GameEntity _partyOutlineEntity;
 
-		// Token: 0x04000191 RID: 401
 		private GameEntity _townOutlineEntity;
 
-		// Token: 0x04000192 RID: 402
 		private Decal _targetDecalMeshSmall;
 
-		// Token: 0x04000193 RID: 403
 		private Decal _targetDecalMeshBig;
 
-		// Token: 0x04000194 RID: 404
 		private Decal _partyOutlineMesh;
 
-		// Token: 0x04000195 RID: 405
 		private Decal _settlementOutlineMesh;
 
-		// Token: 0x04000196 RID: 406
 		private Decal _targetTownMesh;
 
-		// Token: 0x04000197 RID: 407
 		private float _targetCircleRotationStartTime;
 
-		// Token: 0x04000198 RID: 408
 		private MapCursor _mapCursor = new MapCursor();
 
-		// Token: 0x04000199 RID: 409
 		private bool _mapSceneCursorWanted = true;
 
-		// Token: 0x0400019A RID: 410
 		private bool _mapSceneCursorActive;
 
-		// Token: 0x0400019E RID: 414
 		public IMapTracksCampaignBehavior MapTracksCampaignBehavior;
 
-		// Token: 0x0400019F RID: 415
 		private bool _isSoundOn = true;
 
-		// Token: 0x040001A0 RID: 416
 		private float _soundCalculationTime;
 
-		// Token: 0x040001A1 RID: 417
 		private const float SoundCalculationInterval = 0.2f;
 
-		// Token: 0x040001A2 RID: 418
 		private uint _enemyPartyDecalColor = 4281663744U;
 
-		// Token: 0x040001A3 RID: 419
 		private uint _allyPartyDecalColor = 4279308800U;
 
-		// Token: 0x040001A4 RID: 420
 		private uint _neutralPartyDecalColor = 4294919959U;
 
-		// Token: 0x040001A5 RID: 421
 		private MapColorGradeManager _colorGradeManager;
 
-		// Token: 0x040001A6 RID: 422
 		private bool _playerSiegeMachineSlotMeshesAdded;
 
-		// Token: 0x040001A7 RID: 423
 		private GameEntity[] _defenderMachinesCircleEntities;
 
-		// Token: 0x040001A8 RID: 424
 		private GameEntity[] _attackerRamMachinesCircleEntities;
 
-		// Token: 0x040001A9 RID: 425
 		private GameEntity[] _attackerTowerMachinesCircleEntities;
 
-		// Token: 0x040001AA RID: 426
 		private GameEntity[] _attackerRangedMachinesCircleEntities;
 
-		// Token: 0x040001AB RID: 427
 		private string _emptyAttackerRangedDecalMaterialName = "decal_siege_ranged";
 
-		// Token: 0x040001AC RID: 428
 		private string _attackerRamMachineDecalMaterialName = "decal_siege_ram";
 
-		// Token: 0x040001AD RID: 429
 		private string _attackerTowerMachineDecalMaterialName = "decal_siege_tower";
 
-		// Token: 0x040001AE RID: 430
 		private string _attackerRangedMachineDecalMaterialName = "decal_siege_ranged";
 
-		// Token: 0x040001AF RID: 431
 		private string _defenderRangedMachineDecalMaterialName = "decal_defender_ranged_siege";
 
-		// Token: 0x040001B0 RID: 432
 		private uint _preperationOrEnemySiegeEngineDecalColor = 4287064638U;
 
-		// Token: 0x040001B1 RID: 433
 		private uint _normalStartSiegeEngineDecalColor = 4278394186U;
 
-		// Token: 0x040001B2 RID: 434
 		private float _defenderMachineCircleDecalScale = 0.25f;
 
-		// Token: 0x040001B3 RID: 435
 		private float _attackerMachineDecalScale = 0.38f;
 
-		// Token: 0x040001B4 RID: 436
 		private bool _isNewDecalScaleImplementationEnabled;
 
-		// Token: 0x040001B5 RID: 437
 		private uint _normalEndSiegeEngineDecalColor = 4284320212U;
 
-		// Token: 0x040001B6 RID: 438
 		private uint _hoveredSiegeEngineDecalColor = 4293956364U;
 
-		// Token: 0x040001B7 RID: 439
 		private uint _withMachineSiegeEngineDecalColor = 4283683126U;
 
-		// Token: 0x040001B8 RID: 440
 		private float _machineDecalAnimLoopTime = 0.5f;
 
-		// Token: 0x040001B9 RID: 441
 		public bool TooltipHandlingDisabled;
 
-		// Token: 0x040001BA RID: 442
 		private readonly UIntPtr[] _intersectedEntityIDs = new UIntPtr[128];
 
-		// Token: 0x040001BB RID: 443
 		private readonly Intersection[] _intersectionInfos = new Intersection[128];
 
-		// Token: 0x040001BC RID: 444
 		private GameEntity[] _tickedMapEntities;
 
-		// Token: 0x040001BD RID: 445
 		private Mesh[] _tickedMapMeshes;
 
-		// Token: 0x040001BE RID: 446
 		private readonly List<MBCampaignEvent> _periodicCampaignUIEvents;
 
-		// Token: 0x040001BF RID: 447
 		private bool _ignoreLeftMouseRelease;
 
-		// Token: 0x0200008E RID: 142
 		private enum TerrainTypeSoundSlot
 		{
-			// Token: 0x040002F0 RID: 752
 			dismounted,
-			// Token: 0x040002F1 RID: 753
 			mounted,
-			// Token: 0x040002F2 RID: 754
 			mounted_slow,
-			// Token: 0x040002F3 RID: 755
 			caravan,
-			// Token: 0x040002F4 RID: 756
 			ambient
 		}
 
-		// Token: 0x0200008F RID: 143
 		private class TempConversationStateHandler : IConversationStateHandler
 		{
-			// Token: 0x06000461 RID: 1121 RVA: 0x00022EEB File Offset: 0x000210EB
 			void IConversationStateHandler.ExecuteConversationContinue()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3801,7 +3493,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000462 RID: 1122 RVA: 0x00022F04 File Offset: 0x00021104
 			void IConversationStateHandler.OnConversationActivate()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3815,7 +3506,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000463 RID: 1123 RVA: 0x00022F1D File Offset: 0x0002111D
 			void IConversationStateHandler.OnConversationContinue()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3829,7 +3519,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000464 RID: 1124 RVA: 0x00022F36 File Offset: 0x00021136
 			void IConversationStateHandler.OnConversationDeactivate()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3843,7 +3532,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000465 RID: 1125 RVA: 0x00022F4F File Offset: 0x0002114F
 			void IConversationStateHandler.OnConversationInstall()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3857,7 +3545,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000466 RID: 1126 RVA: 0x00022F68 File Offset: 0x00021168
 			void IConversationStateHandler.OnConversationUninstall()
 			{
 				this._actionQueue.Enqueue(delegate
@@ -3871,7 +3558,6 @@ namespace SandBox.View.Map
 				});
 			}
 
-			// Token: 0x06000467 RID: 1127 RVA: 0x00022F81 File Offset: 0x00021181
 			public void ApplyHandlerChangesTo(IConversationStateHandler newHandler)
 			{
 				this._tempHandler = newHandler;
@@ -3886,10 +3572,8 @@ namespace SandBox.View.Map
 				this._tempHandler = null;
 			}
 
-			// Token: 0x040002F5 RID: 757
 			private Queue<Action> _actionQueue = new Queue<Action>();
 
-			// Token: 0x040002F6 RID: 758
 			private IConversationStateHandler _tempHandler;
 		}
 	}

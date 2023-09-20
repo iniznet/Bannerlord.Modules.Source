@@ -4,10 +4,8 @@ using System.Reflection;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000020 RID: 32
 	public static class CommandLineFunctionality
 	{
-		// Token: 0x060000B9 RID: 185 RVA: 0x000043E8 File Offset: 0x000025E8
 		private static bool CheckAssemblyReferencesThis(Assembly assembly)
 		{
 			Assembly assembly2 = typeof(CommandLineFunctionality).Assembly;
@@ -26,7 +24,6 @@ namespace TaleWorlds.Library
 			return false;
 		}
 
-		// Token: 0x060000BA RID: 186 RVA: 0x00004458 File Offset: 0x00002658
 		public static List<string> CollectCommandLineFunctions()
 		{
 			List<string> list = new List<string>();
@@ -59,14 +56,12 @@ namespace TaleWorlds.Library
 			return list;
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x00004580 File Offset: 0x00002780
 		public static bool HasFunctionForCommand(string command)
 		{
 			CommandLineFunctionality.CommandLineFunction commandLineFunction;
 			return CommandLineFunctionality.AllFunctions.TryGetValue(command, out commandLineFunction);
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x0000459C File Offset: 0x0000279C
 		public static string CallFunction(string concatName, string concatArguments, out bool found)
 		{
 			CommandLineFunctionality.CommandLineFunction commandLineFunction;
@@ -88,46 +83,36 @@ namespace TaleWorlds.Library
 			return "Could not find the command " + concatName;
 		}
 
-		// Token: 0x04000067 RID: 103
 		private static Dictionary<string, CommandLineFunctionality.CommandLineFunction> AllFunctions = new Dictionary<string, CommandLineFunctionality.CommandLineFunction>();
 
-		// Token: 0x020000BF RID: 191
 		private class CommandLineFunction
 		{
-			// Token: 0x060006B7 RID: 1719 RVA: 0x0001485C File Offset: 0x00012A5C
 			public CommandLineFunction(Func<List<string>, string> commandlinefunc)
 			{
 				this.CommandLineFunc = commandlinefunc;
 				this.Children = new List<CommandLineFunctionality.CommandLineFunction>();
 			}
 
-			// Token: 0x060006B8 RID: 1720 RVA: 0x00014876 File Offset: 0x00012A76
 			public string Call(List<string> objects)
 			{
 				return this.CommandLineFunc(objects);
 			}
 
-			// Token: 0x0400021F RID: 543
 			public Func<List<string>, string> CommandLineFunc;
 
-			// Token: 0x04000220 RID: 544
 			public List<CommandLineFunctionality.CommandLineFunction> Children;
 		}
 
-		// Token: 0x020000C0 RID: 192
 		public class CommandLineArgumentFunction : Attribute
 		{
-			// Token: 0x060006B9 RID: 1721 RVA: 0x00014884 File Offset: 0x00012A84
 			public CommandLineArgumentFunction(string name, string groupname)
 			{
 				this.Name = name;
 				this.GroupName = groupname;
 			}
 
-			// Token: 0x04000221 RID: 545
 			public string Name;
 
-			// Token: 0x04000222 RID: 546
 			public string GroupName;
 		}
 	}

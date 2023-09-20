@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000005 RID: 5
 	public static class DiplomacyHelper
 	{
-		// Token: 0x06000010 RID: 16 RVA: 0x00002E24 File Offset: 0x00001024
 		public static bool IsWarCausedByPlayer(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail declareWarDetail)
 		{
 			switch (declareWarDetail)
@@ -30,13 +28,11 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x06000011 RID: 17 RVA: 0x00002EB8 File Offset: 0x000010B8
 		private static bool IsLogInTimeRange(LogEntry entry, CampaignTime time)
 		{
 			return entry.GameTime.NumTicks >= time.NumTicks;
 		}
 
-		// Token: 0x06000012 RID: 18 RVA: 0x00002EE0 File Offset: 0x000010E0
 		public static List<ValueTuple<LogEntry, IFaction, IFaction>> GetLogsForWar(StanceLink stance)
 		{
 			CampaignTime warStartDate = stance.WarStartDate;
@@ -55,7 +51,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x00002F64 File Offset: 0x00001164
 		public static List<Settlement> GetSuccessfullSiegesInWarForFaction(IFaction capturerFaction, StanceLink stance, Func<Settlement, bool> condition = null)
 		{
 			CampaignTime warStartDate = stance.WarStartDate;
@@ -74,7 +69,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x06000014 RID: 20 RVA: 0x0000300C File Offset: 0x0000120C
 		public static List<Settlement> GetRaidsInWar(IFaction faction, StanceLink stance, Func<Settlement, bool> condition = null)
 		{
 			CampaignTime warStartDate = stance.WarStartDate;
@@ -93,7 +87,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x06000015 RID: 21 RVA: 0x000030C8 File Offset: 0x000012C8
 		public static List<Hero> GetPrisonersOfWarTakenByFaction(IFaction capturerFaction, IFaction prisonerFaction)
 		{
 			List<Hero> list = new List<Hero>();
@@ -111,7 +104,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x06000016 RID: 22 RVA: 0x00003140 File Offset: 0x00001340
 		public static bool DidMainHeroSwornNotToAttackFaction(IFaction faction, out TextObject explanation)
 		{
 			explanation = TextObject.Empty;

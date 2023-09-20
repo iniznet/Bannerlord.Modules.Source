@@ -8,11 +8,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.HUD;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x0200002D RID: 45
 	[OverrideView(typeof(MissionAgentLockVisualizerView))]
 	public class MissionGauntletAgentLockVisualizerView : MissionGauntletBattleUIBase
 	{
-		// Token: 0x06000228 RID: 552 RVA: 0x0000BF10 File Offset: 0x0000A110
 		protected override void OnCreateView()
 		{
 			this._missionMainAgentController = base.Mission.GetMissionBehavior<MissionMainAgentController>();
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.MissionScreen.AddLayer(this._layer);
 		}
 
-		// Token: 0x06000229 RID: 553 RVA: 0x0000BFA2 File Offset: 0x0000A1A2
 		protected override void OnDestroyView()
 		{
 			base.MissionScreen.RemoveLayer(this._layer);
@@ -34,7 +31,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._missionMainAgentController = null;
 		}
 
-		// Token: 0x0600022A RID: 554 RVA: 0x0000BFD5 File Offset: 0x0000A1D5
 		private void OnPotentialLockedAgentChanged(Agent newPotentialAgent)
 		{
 			MissionAgentLockVisualizerVM dataSource = this._dataSource;
@@ -45,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x0000C004 File Offset: 0x0000A204
 		private void OnLockedAgentChanged(Agent newAgent)
 		{
 			MissionAgentLockVisualizerVM dataSource = this._dataSource;
@@ -56,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0000C034 File Offset: 0x0000A234
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -78,26 +72,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x0000C0EB File Offset: 0x0000A2EB
 		private bool IsMainAgentAvailable()
 		{
 			Agent main = Agent.Main;
 			return main != null && main.IsActive();
 		}
 
-		// Token: 0x04000112 RID: 274
 		private GauntletLayer _layer;
 
-		// Token: 0x04000113 RID: 275
 		private MissionAgentLockVisualizerVM _dataSource;
 
-		// Token: 0x04000114 RID: 276
 		private MissionMainAgentController _missionMainAgentController;
 
-		// Token: 0x04000115 RID: 277
 		private Agent _latestLockedAgent;
 
-		// Token: 0x04000116 RID: 278
 		private Agent _latestPotentialLockedAgent;
 	}
 }

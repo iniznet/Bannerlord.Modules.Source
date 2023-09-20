@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200042B RID: 1067
 	public static class ChangeCrimeRatingAction
 	{
-		// Token: 0x06003E9A RID: 16026 RVA: 0x0012B0E0 File Offset: 0x001292E0
 		private static void ApplyInternal(IFaction faction, float deltaCrimeRating, bool showNotification)
 		{
 			float num = MBMath.ClampFloat(faction.MainHeroCrimeRating + deltaCrimeRating, 0f, Campaign.Current.Models.CrimeModel.GetMaxCrimeRating());
@@ -31,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnCrimeRatingChanged(faction, deltaCrimeRating);
 		}
 
-		// Token: 0x06003E9B RID: 16027 RVA: 0x0012B21C File Offset: 0x0012941C
 		public static void Apply(IFaction faction, float deltaCrimeRating, bool showNotification = true)
 		{
 			ChangeCrimeRatingAction.ApplyInternal(faction, deltaCrimeRating, showNotification);

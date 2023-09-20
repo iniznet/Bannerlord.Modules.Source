@@ -6,10 +6,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001EF RID: 495
 	public static class CosmeticsManagerHelper
 	{
-		// Token: 0x06001B9F RID: 7071 RVA: 0x00061E90 File Offset: 0x00060090
 		public static Dictionary<int, List<int>> GetUsedIndicesFromIds(Dictionary<string, List<string>> usedCosmetics)
 		{
 			Dictionary<int, List<int>> dictionary = new Dictionary<int, List<int>>();

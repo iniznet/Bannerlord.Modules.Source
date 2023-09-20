@@ -10,15 +10,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 {
-	// Token: 0x020000D0 RID: 208
 	public class ShallowItemVM : ViewModel
 	{
-		// Token: 0x1700066B RID: 1643
-		// (get) Token: 0x06001370 RID: 4976 RVA: 0x0003FDEA File Offset: 0x0003DFEA
-		// (set) Token: 0x06001371 RID: 4977 RVA: 0x0003FDF2 File Offset: 0x0003DFF2
 		public ShallowItemVM.ItemGroup Type { get; private set; }
 
-		// Token: 0x06001372 RID: 4978 RVA: 0x0003FDFB File Offset: 0x0003DFFB
 		public ShallowItemVM(Action<ShallowItemVM> onSelect)
 		{
 			this.PropertyList = new MBBindingList<ShallowItemPropertyVM>();
@@ -26,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			this._onSelect = onSelect;
 		}
 
-		// Token: 0x06001373 RID: 4979 RVA: 0x0003FE34 File Offset: 0x0003E034
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -37,14 +31,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			});
 		}
 
-		// Token: 0x06001374 RID: 4980 RVA: 0x0003FE83 File Offset: 0x0003E083
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			this._equipment = null;
 		}
 
-		// Token: 0x06001375 RID: 4981 RVA: 0x0003FE94 File Offset: 0x0003E094
 		public void RefreshWith(EquipmentIndex equipmentIndex, Equipment equipment)
 		{
 			this._equipment = equipment;
@@ -88,7 +80,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			this._isInitialized = true;
 		}
 
-		// Token: 0x06001376 RID: 4982 RVA: 0x00040068 File Offset: 0x0003E268
 		private void OnAlternativeUsageChanged(SelectorVM<AlternativeUsageItemOptionVM> selector)
 		{
 			if (this._isInitialized && selector.SelectedIndex >= 0)
@@ -105,7 +96,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x06001377 RID: 4983 RVA: 0x000400C8 File Offset: 0x0003E2C8
 		private void RefreshItemPropertyList(EquipmentIndex equipmentIndex, Equipment equipment, int alternativeIndex)
 		{
 			ItemObject item = equipment[equipmentIndex].Item;
@@ -186,13 +176,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x06001378 RID: 4984 RVA: 0x000405C6 File Offset: 0x0003E7C6
 		private void AddProperty(TextObject name, float fraction, int value)
 		{
 			this.PropertyList.Add(new ShallowItemPropertyVM(name, MathF.Round(fraction * 1000f), value));
 		}
 
-		// Token: 0x06001379 RID: 4985 RVA: 0x000405E8 File Offset: 0x0003E7E8
 		private static ShallowItemVM.ItemGroup GetItemGroupType(ItemObject item)
 		{
 			if (item.WeaponComponent != null)
@@ -242,23 +230,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			return ShallowItemVM.ItemGroup.None;
 		}
 
-		// Token: 0x0600137A RID: 4986 RVA: 0x000406A5 File Offset: 0x0003E8A5
 		[UsedImplicitly]
 		public void OnSelect()
 		{
 			this._onSelect(this);
 		}
 
-		// Token: 0x0600137B RID: 4987 RVA: 0x000406B3 File Offset: 0x0003E8B3
 		public static bool IsItemUsageApplicable(WeaponComponentData weapon)
 		{
 			WeaponDescription weaponDescription = ((weapon != null && weapon.WeaponDescriptionId != null) ? MBObjectManager.Instance.GetObject<WeaponDescription>(weapon.WeaponDescriptionId) : null);
 			return weaponDescription != null && !weaponDescription.IsHiddenFromUI;
 		}
 
-		// Token: 0x1700066C RID: 1644
-		// (get) Token: 0x0600137C RID: 4988 RVA: 0x000406E1 File Offset: 0x0003E8E1
-		// (set) Token: 0x0600137D RID: 4989 RVA: 0x000406E9 File Offset: 0x0003E8E9
 		[DataSourceProperty]
 		public MBBindingList<ShallowItemPropertyVM> PropertyList
 		{
@@ -276,9 +259,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x1700066D RID: 1645
-		// (get) Token: 0x0600137E RID: 4990 RVA: 0x00040707 File Offset: 0x0003E907
-		// (set) Token: 0x0600137F RID: 4991 RVA: 0x0004070F File Offset: 0x0003E90F
 		[DataSourceProperty]
 		public string Name
 		{
@@ -296,9 +276,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x1700066E RID: 1646
-		// (get) Token: 0x06001380 RID: 4992 RVA: 0x00040732 File Offset: 0x0003E932
-		// (set) Token: 0x06001381 RID: 4993 RVA: 0x0004073A File Offset: 0x0003E93A
 		[DataSourceProperty]
 		public ImageIdentifierVM Icon
 		{
@@ -316,9 +293,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x1700066F RID: 1647
-		// (get) Token: 0x06001382 RID: 4994 RVA: 0x00040758 File Offset: 0x0003E958
-		// (set) Token: 0x06001383 RID: 4995 RVA: 0x00040760 File Offset: 0x0003E960
 		[DataSourceProperty]
 		public string TypeAsString
 		{
@@ -336,9 +310,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x17000670 RID: 1648
-		// (get) Token: 0x06001384 RID: 4996 RVA: 0x00040783 File Offset: 0x0003E983
-		// (set) Token: 0x06001385 RID: 4997 RVA: 0x0004078B File Offset: 0x0003E98B
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -356,9 +327,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x17000671 RID: 1649
-		// (get) Token: 0x06001386 RID: 4998 RVA: 0x000407A9 File Offset: 0x0003E9A9
-		// (set) Token: 0x06001387 RID: 4999 RVA: 0x000407B1 File Offset: 0x0003E9B1
 		[DataSourceProperty]
 		public bool HasAnyAlternativeUsage
 		{
@@ -376,9 +344,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x17000672 RID: 1650
-		// (get) Token: 0x06001388 RID: 5000 RVA: 0x000407CF File Offset: 0x0003E9CF
-		// (set) Token: 0x06001389 RID: 5001 RVA: 0x000407D7 File Offset: 0x0003E9D7
 		[DataSourceProperty]
 		public bool IsValid
 		{
@@ -396,9 +361,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x17000673 RID: 1651
-		// (get) Token: 0x0600138A RID: 5002 RVA: 0x000407F5 File Offset: 0x0003E9F5
-		// (set) Token: 0x0600138B RID: 5003 RVA: 0x000407FD File Offset: 0x0003E9FD
 		[DataSourceProperty]
 		public SelectorVM<AlternativeUsageItemOptionVM> AlternativeUsageSelector
 		{
@@ -416,75 +378,47 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.ClassLoadout
 			}
 		}
 
-		// Token: 0x04000958 RID: 2392
 		private readonly Action<ShallowItemVM> _onSelect;
 
-		// Token: 0x0400095A RID: 2394
 		private AlternativeUsageItemOptionVM _latestUsageOption;
 
-		// Token: 0x0400095B RID: 2395
 		private Equipment _equipment;
 
-		// Token: 0x0400095C RID: 2396
 		private EquipmentIndex _equipmentIndex;
 
-		// Token: 0x0400095D RID: 2397
 		private bool _isInitialized;
 
-		// Token: 0x0400095E RID: 2398
 		private ImageIdentifierVM _icon;
 
-		// Token: 0x0400095F RID: 2399
 		private string _name;
 
-		// Token: 0x04000960 RID: 2400
 		private string _typeAsString;
 
-		// Token: 0x04000961 RID: 2401
 		private bool _isValid;
 
-		// Token: 0x04000962 RID: 2402
 		private bool _isSelected;
 
-		// Token: 0x04000963 RID: 2403
 		private bool _hasAnyAlternativeUsage;
 
-		// Token: 0x04000964 RID: 2404
 		private MBBindingList<ShallowItemPropertyVM> _propertyList;
 
-		// Token: 0x04000965 RID: 2405
 		private SelectorVM<AlternativeUsageItemOptionVM> _alternativeUsageSelector;
 
-		// Token: 0x02000228 RID: 552
 		public enum ItemGroup
 		{
-			// Token: 0x04000E9E RID: 3742
 			None,
-			// Token: 0x04000E9F RID: 3743
 			Spear,
-			// Token: 0x04000EA0 RID: 3744
 			Javelin,
-			// Token: 0x04000EA1 RID: 3745
 			Bow,
-			// Token: 0x04000EA2 RID: 3746
 			Crossbow,
-			// Token: 0x04000EA3 RID: 3747
 			Sword,
-			// Token: 0x04000EA4 RID: 3748
 			Axe,
-			// Token: 0x04000EA5 RID: 3749
 			Mace,
-			// Token: 0x04000EA6 RID: 3750
 			ThrowingAxe,
-			// Token: 0x04000EA7 RID: 3751
 			ThrowingKnife,
-			// Token: 0x04000EA8 RID: 3752
 			Ammo,
-			// Token: 0x04000EA9 RID: 3753
 			Shield,
-			// Token: 0x04000EAA RID: 3754
 			Mount,
-			// Token: 0x04000EAB RID: 3755
 			Stone
 		}
 	}

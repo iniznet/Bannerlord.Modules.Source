@@ -5,11 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 {
-	// Token: 0x020003E4 RID: 996
 	public class FlagDominationMissionRepresentative : MissionRepresentativeBase
 	{
-		// Token: 0x17000935 RID: 2357
-		// (get) Token: 0x0600347D RID: 13437 RVA: 0x000D95E5 File Offset: 0x000D77E5
 		private bool Forfeited
 		{
 			get
@@ -18,7 +15,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			}
 		}
 
-		// Token: 0x0600347E RID: 13438 RVA: 0x000D95F0 File Offset: 0x000D77F0
 		public int GetGoldAmountForVisual()
 		{
 			if (base.Gold < 0)
@@ -28,13 +24,11 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return base.Gold;
 		}
 
-		// Token: 0x0600347F RID: 13439 RVA: 0x000D9604 File Offset: 0x000D7804
 		public void UpdateSelectedClassServer(Agent agent)
 		{
 			this._survivedLastRound = agent != null;
 		}
 
-		// Token: 0x06003480 RID: 13440 RVA: 0x000D9610 File Offset: 0x000D7810
 		public bool CheckIfSurvivedLastRoundAndReset()
 		{
 			bool survivedLastRound = this._survivedLastRound;
@@ -42,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return survivedLastRound;
 		}
 
-		// Token: 0x06003481 RID: 13441 RVA: 0x000D9620 File Offset: 0x000D7820
 		public int GetGoldGainsFromKillData(MPPerkObject.MPPerkHandler killerPerkHandler, MPPerkObject.MPPerkHandler assistingHitterPerkHandler, MultiplayerClassDivisions.MPHeroClass victimClass, bool isAssist, bool isFriendly)
 		{
 			if (isFriendly || this.Forfeited)
@@ -71,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return num;
 		}
 
-		// Token: 0x06003482 RID: 13442 RVA: 0x000D96CC File Offset: 0x000D78CC
 		public int GetGoldGainFromKillDataAndUpdateFlags(MultiplayerClassDivisions.MPHeroClass victimClass, bool isAssist)
 		{
 			int num = 0;
@@ -102,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return num;
 		}
 
-		// Token: 0x06003483 RID: 13443 RVA: 0x000D97A8 File Offset: 0x000D79A8
 		public int GetGoldGainsFromAllyDeathReward(int baseAmount)
 		{
 			if (this.Forfeited)
@@ -121,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 			return baseAmount;
 		}
 
-		// Token: 0x0400165B RID: 5723
 		private bool _survivedLastRound;
 	}
 }

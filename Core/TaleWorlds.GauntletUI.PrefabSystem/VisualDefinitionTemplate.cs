@@ -5,48 +5,29 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.PrefabSystem
 {
-	// Token: 0x0200000B RID: 11
 	public class VisualDefinitionTemplate
 	{
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x06000042 RID: 66 RVA: 0x000028D0 File Offset: 0x00000AD0
-		// (set) Token: 0x06000043 RID: 67 RVA: 0x000028D8 File Offset: 0x00000AD8
 		public string Name { get; set; }
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x06000044 RID: 68 RVA: 0x000028E1 File Offset: 0x00000AE1
-		// (set) Token: 0x06000045 RID: 69 RVA: 0x000028E9 File Offset: 0x00000AE9
 		public float TransitionDuration { get; set; }
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x06000046 RID: 70 RVA: 0x000028F2 File Offset: 0x00000AF2
-		// (set) Token: 0x06000047 RID: 71 RVA: 0x000028FA File Offset: 0x00000AFA
 		public float DelayOnBegin { get; set; }
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000048 RID: 72 RVA: 0x00002903 File Offset: 0x00000B03
-		// (set) Token: 0x06000049 RID: 73 RVA: 0x0000290B File Offset: 0x00000B0B
 		public bool EaseIn { get; set; }
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x0600004A RID: 74 RVA: 0x00002914 File Offset: 0x00000B14
-		// (set) Token: 0x0600004B RID: 75 RVA: 0x0000291C File Offset: 0x00000B1C
 		public Dictionary<string, VisualStateTemplate> VisualStates { get; private set; }
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00002925 File Offset: 0x00000B25
 		public VisualDefinitionTemplate()
 		{
 			this.VisualStates = new Dictionary<string, VisualStateTemplate>();
 			this.TransitionDuration = 0.2f;
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00002943 File Offset: 0x00000B43
 		public void AddVisualState(VisualStateTemplate visualState)
 		{
 			this.VisualStates.Add(visualState.State, visualState);
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x00002958 File Offset: 0x00000B58
 		public VisualDefinition CreateVisualDefinition(BrushFactory brushFactory, SpriteData spriteData, Dictionary<string, VisualDefinitionTemplate> visualDefinitionTemplates, Dictionary<string, ConstantDefinition> constants, Dictionary<string, WidgetAttributeTemplate> parameters, Dictionary<string, string> defaultParameters)
 		{
 			VisualDefinition visualDefinition = new VisualDefinition(this.Name, this.TransitionDuration, this.DelayOnBegin, this.EaseIn);
@@ -58,7 +39,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return visualDefinition;
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x000029E0 File Offset: 0x00000BE0
 		internal void Save(XmlNode rootNode)
 		{
 			XmlDocument ownerDocument = rootNode.OwnerDocument;

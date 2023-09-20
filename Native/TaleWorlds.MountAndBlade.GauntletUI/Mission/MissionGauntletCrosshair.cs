@@ -10,11 +10,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 {
-	// Token: 0x02000027 RID: 39
 	[OverrideView(typeof(MissionCrosshair))]
 	public class MissionGauntletCrosshair : MissionGauntletBattleUIBase
 	{
-		// Token: 0x060001C5 RID: 453 RVA: 0x00009604 File Offset: 0x00007804
 		protected override void OnCreateView()
 		{
 			CombatLogManager.OnGenerateCombatLog += new CombatLogManager.OnPrintCombatLogHandler(this.OnCombatLogGenerated);
@@ -27,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x060001C6 RID: 454 RVA: 0x0000968C File Offset: 0x0000788C
 		protected override void OnDestroyView()
 		{
 			CombatLogManager.OnGenerateCombatLog -= new CombatLogManager.OnPrintCombatLogHandler(this.OnCombatLogGenerated);
@@ -40,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._layer = null;
 		}
 
-		// Token: 0x060001C7 RID: 455 RVA: 0x000096F0 File Offset: 0x000078F0
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -184,7 +180,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this._dataSource.IsTargetInvalid = flag2;
 		}
 
-		// Token: 0x060001C8 RID: 456 RVA: 0x00009C74 File Offset: 0x00007E74
 		private bool GetShouldCrosshairBeVisible()
 		{
 			if (base.Mission.MainAgent != null)
@@ -198,13 +193,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			return false;
 		}
 
-		// Token: 0x060001C9 RID: 457 RVA: 0x00009D17 File Offset: 0x00007F17
 		private bool IsMissionScreenUsingCustomCamera()
 		{
 			return base.MissionScreen.CustomCamera != null;
 		}
 
-		// Token: 0x060001CA RID: 458 RVA: 0x00009D2C File Offset: 0x00007F2C
 		private void OnCombatLogGenerated(CombatLogData logData)
 		{
 			bool isAttackerAgentMine = logData.IsAttackerAgentMine;
@@ -221,7 +214,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x060001CB RID: 459 RVA: 0x00009D90 File Offset: 0x00007F90
 		private void FillReloadDurationsFromActions(ref StackArray.StackArray10FloatFloatTuple reloadPhases, int reloadPhaseCount, Agent mainAgent, ActionIndexValueCache reloadAction)
 		{
 			float num = 0f;
@@ -247,7 +239,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x060001CC RID: 460 RVA: 0x00009E48 File Offset: 0x00008048
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
@@ -257,7 +248,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x060001CD RID: 461 RVA: 0x00009E6D File Offset: 0x0000806D
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
@@ -267,16 +257,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x040000D2 RID: 210
 		private GauntletLayer _layer;
 
-		// Token: 0x040000D3 RID: 211
 		private CrosshairVM _dataSource;
 
-		// Token: 0x040000D4 RID: 212
 		private IGauntletMovie _movie;
 
-		// Token: 0x040000D5 RID: 213
 		private double[] _targetGadgetOpacities = new double[4];
 	}
 }

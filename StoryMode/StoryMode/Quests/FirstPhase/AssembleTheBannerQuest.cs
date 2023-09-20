@@ -14,11 +14,8 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.FirstPhase
 {
-	// Token: 0x02000030 RID: 48
 	public class AssembleTheBannerQuest : StoryModeQuestBase
 	{
-		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x0600028B RID: 651 RVA: 0x0000DC48 File Offset: 0x0000BE48
 		private TextObject _startQuestLog
 		{
 			get
@@ -27,8 +24,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x17000097 RID: 151
-		// (get) Token: 0x0600028C RID: 652 RVA: 0x0000DC58 File Offset: 0x0000BE58
 		private TextObject _allPiecesCollectedQuestLog
 		{
 			get
@@ -41,8 +36,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x17000098 RID: 152
-		// (get) Token: 0x0600028D RID: 653 RVA: 0x0000DCC0 File Offset: 0x0000BEC0
 		private TextObject _talkedWithImperialMentorButNotWithAntiImperialMentorQuestLog
 		{
 			get
@@ -55,8 +48,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x17000099 RID: 153
-		// (get) Token: 0x0600028E RID: 654 RVA: 0x0000DD24 File Offset: 0x0000BF24
 		private TextObject _talkedWithImperialMentorQuestLog
 		{
 			get
@@ -67,8 +58,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x1700009A RID: 154
-		// (get) Token: 0x0600028F RID: 655 RVA: 0x0000DD58 File Offset: 0x0000BF58
 		private TextObject _talkedWithAntiImperialMentorButNotWithImperialMentorQuestLog
 		{
 			get
@@ -81,8 +70,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x1700009B RID: 155
-		// (get) Token: 0x06000290 RID: 656 RVA: 0x0000DDBC File Offset: 0x0000BFBC
 		private TextObject _talkedWithAntiImperialMentorQuestLog
 		{
 			get
@@ -93,8 +80,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x1700009C RID: 156
-		// (get) Token: 0x06000291 RID: 657 RVA: 0x0000DDED File Offset: 0x0000BFED
 		private TextObject _endQuestLog
 		{
 			get
@@ -103,8 +88,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x1700009D RID: 157
-		// (get) Token: 0x06000292 RID: 658 RVA: 0x0000DDFA File Offset: 0x0000BFFA
 		public override TextObject Title
 		{
 			get
@@ -113,8 +96,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x1700009E RID: 158
-		// (get) Token: 0x06000293 RID: 659 RVA: 0x0000DE07 File Offset: 0x0000C007
 		public override bool IsRemainingTimeHidden
 		{
 			get
@@ -123,7 +104,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x06000294 RID: 660 RVA: 0x0000DE0A File Offset: 0x0000C00A
 		public AssembleTheBannerQuest()
 			: base("assemble_the_banner_story_mode_quest", null, StoryModeManager.Current.MainStoryLine.FirstPhase.FirstPhaseEndTime)
 		{
@@ -131,33 +111,28 @@ namespace StoryMode.Quests.FirstPhase
 			this._talkedWithAntiImperialMentor = false;
 		}
 
-		// Token: 0x06000295 RID: 661 RVA: 0x0000DE3A File Offset: 0x0000C03A
 		protected override void InitializeQuestOnGameLoad()
 		{
 			this.SetDialogs();
 		}
 
-		// Token: 0x06000296 RID: 662 RVA: 0x0000DE42 File Offset: 0x0000C042
 		protected override void RegisterEvents()
 		{
 			StoryModeEvents.OnBannerPieceCollectedEvent.AddNonSerializedListener(this, new Action(this.OnBannerPieceCollected));
 			CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnQuestCompleted));
 		}
 
-		// Token: 0x06000297 RID: 663 RVA: 0x0000DE72 File Offset: 0x0000C072
 		protected override void OnStartQuest()
 		{
 			this.SetDialogs();
 			this._startLog = base.AddDiscreteLog(this._startQuestLog, new TextObject("{=xL3WGYsw}Collected Pieces", null), FirstPhase.Instance.CollectedBannerPieceCount, 3, null, false);
 		}
 
-		// Token: 0x06000298 RID: 664 RVA: 0x0000DEA4 File Offset: 0x0000C0A4
 		protected override void OnCompleteWithSuccess()
 		{
 			base.AddLog(this._endQuestLog, false);
 		}
 
-		// Token: 0x06000299 RID: 665 RVA: 0x0000DEB4 File Offset: 0x0000C0B4
 		private void OnBannerPieceCollected()
 		{
 			this._startLog.UpdateCurrentProgress(FirstPhase.Instance.CollectedBannerPieceCount);
@@ -177,7 +152,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x0600029A RID: 666 RVA: 0x0000DF40 File Offset: 0x0000C140
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (quest is CreateKingdomQuest || quest is SupportKingdomQuest)
@@ -202,21 +176,18 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x0600029B RID: 667 RVA: 0x0000DFD7 File Offset: 0x0000C1D7
 		public override void OnFailed()
 		{
 			base.OnFailed();
 			this.RemoveRemainingBannerPieces();
 		}
 
-		// Token: 0x0600029C RID: 668 RVA: 0x0000DFE5 File Offset: 0x0000C1E5
 		public override void OnCanceled()
 		{
 			base.OnCanceled();
 			this.RemoveRemainingBannerPieces();
 		}
 
-		// Token: 0x0600029D RID: 669 RVA: 0x0000DFF4 File Offset: 0x0000C1F4
 		private void RemoveRemainingBannerPieces()
 		{
 			ItemObject @object = Campaign.Current.ObjectManager.GetObject<ItemObject>("dragon_banner_center");
@@ -231,7 +202,6 @@ namespace StoryMode.Quests.FirstPhase
 			}
 		}
 
-		// Token: 0x0600029E RID: 670 RVA: 0x0000E0C8 File Offset: 0x0000C2C8
 		protected override void SetDialogs()
 		{
 			Campaign.Current.ConversationManager.AddDialogFlow(this.GetImperialMentorEndQuestDialog(), this);
@@ -248,7 +218,6 @@ namespace StoryMode.Quests.FirstPhase
 				.CloseDialog(), this);
 		}
 
-		// Token: 0x0600029F RID: 671 RVA: 0x0000E180 File Offset: 0x0000C380
 		private bool AssembleBannerConditionDialogCondition()
 		{
 			if ((Hero.OneToOneConversationHero == StoryModeHeroes.ImperialMentor || Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor) && !FirstPhase.Instance.AllPiecesCollected)
@@ -272,7 +241,6 @@ namespace StoryMode.Quests.FirstPhase
 			return false;
 		}
 
-		// Token: 0x060002A0 RID: 672 RVA: 0x0000E240 File Offset: 0x0000C440
 		private DialogFlow GetAntiImperialMentorEndQuestDialog()
 		{
 			string text;
@@ -304,7 +272,6 @@ namespace StoryMode.Quests.FirstPhase
 				.CloseDialog();
 		}
 
-		// Token: 0x060002A1 RID: 673 RVA: 0x0000E3D8 File Offset: 0x0000C5D8
 		private void GetAntiImperialQuests()
 		{
 			this._talkedWithAntiImperialMentor = true;
@@ -324,7 +291,6 @@ namespace StoryMode.Quests.FirstPhase
 			new SupportKingdomQuest(StoryModeHeroes.AntiImperialMentor).StartQuest();
 		}
 
-		// Token: 0x060002A2 RID: 674 RVA: 0x0000E454 File Offset: 0x0000C654
 		private DialogFlow GetImperialMentorEndQuestDialog()
 		{
 			string text;
@@ -356,7 +322,6 @@ namespace StoryMode.Quests.FirstPhase
 				.CloseDialog();
 		}
 
-		// Token: 0x060002A3 RID: 675 RVA: 0x0000E5EC File Offset: 0x0000C7EC
 		private void GetImperialQuests()
 		{
 			this._talkedWithImperialMentor = true;
@@ -376,46 +341,38 @@ namespace StoryMode.Quests.FirstPhase
 			new SupportKingdomQuest(StoryModeHeroes.ImperialMentor).StartQuest();
 		}
 
-		// Token: 0x060002A4 RID: 676 RVA: 0x0000E666 File Offset: 0x0000C866
 		internal static void AutoGeneratedStaticCollectObjectsAssembleTheBannerQuest(object o, List<object> collectedObjects)
 		{
 			((AssembleTheBannerQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x060002A5 RID: 677 RVA: 0x0000E674 File Offset: 0x0000C874
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 			collectedObjects.Add(this._startLog);
 		}
 
-		// Token: 0x060002A6 RID: 678 RVA: 0x0000E689 File Offset: 0x0000C889
 		internal static object AutoGeneratedGetMemberValue_startLog(object o)
 		{
 			return ((AssembleTheBannerQuest)o)._startLog;
 		}
 
-		// Token: 0x060002A7 RID: 679 RVA: 0x0000E696 File Offset: 0x0000C896
 		internal static object AutoGeneratedGetMemberValue_talkedWithImperialMentor(object o)
 		{
 			return ((AssembleTheBannerQuest)o)._talkedWithImperialMentor;
 		}
 
-		// Token: 0x060002A8 RID: 680 RVA: 0x0000E6A8 File Offset: 0x0000C8A8
 		internal static object AutoGeneratedGetMemberValue_talkedWithAntiImperialMentor(object o)
 		{
 			return ((AssembleTheBannerQuest)o)._talkedWithAntiImperialMentor;
 		}
 
-		// Token: 0x040000CD RID: 205
 		[SaveableField(1)]
 		private JournalLog _startLog;
 
-		// Token: 0x040000CE RID: 206
 		[SaveableField(2)]
 		private bool _talkedWithImperialMentor;
 
-		// Token: 0x040000CF RID: 207
 		[SaveableField(3)]
 		private bool _talkedWithAntiImperialMentor;
 	}

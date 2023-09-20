@@ -12,17 +12,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x0200000D RID: 13
 	[GameStateScreen(typeof(QuestsState))]
 	public class GauntletQuestsScreen : ScreenBase, IGameStateListener
 	{
-		// Token: 0x0600009B RID: 155 RVA: 0x000067F7 File Offset: 0x000049F7
 		public GauntletQuestsScreen(QuestsState questsState)
 		{
 			this._questsState = questsState;
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00006808 File Offset: 0x00004A08
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -33,7 +30,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00006870 File Offset: 0x00004A70
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -69,7 +65,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
-		// Token: 0x0600009E RID: 158 RVA: 0x00006A28 File Offset: 0x00004C28
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -80,12 +75,10 @@ namespace SandBox.GauntletUI
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(0));
 		}
 
-		// Token: 0x0600009F RID: 159 RVA: 0x00006A7E File Offset: 0x00004C7E
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00006A80 File Offset: 0x00004C80
 		void IGameStateListener.OnFinalize()
 		{
 			QuestsVM dataSource = this._dataSource;
@@ -97,25 +90,19 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00006AA1 File Offset: 0x00004CA1
 		private void CloseQuestsScreen()
 		{
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x0400004A RID: 74
 		private const string _panelOpenSound = "event:/ui/panels/panel_quest_open";
 
-		// Token: 0x0400004B RID: 75
 		private QuestsVM _dataSource;
 
-		// Token: 0x0400004C RID: 76
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400004D RID: 77
 		private SpriteCategory _questCategory;
 
-		// Token: 0x0400004E RID: 78
 		private readonly QuestsState _questsState;
 	}
 }

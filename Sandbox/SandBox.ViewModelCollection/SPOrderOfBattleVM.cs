@@ -14,16 +14,13 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle;
 
 namespace SandBox.ViewModelCollection
 {
-	// Token: 0x02000005 RID: 5
 	public class SPOrderOfBattleVM : OrderOfBattleVM
 	{
-		// Token: 0x0600001F RID: 31 RVA: 0x000032E2 File Offset: 0x000014E2
 		public SPOrderOfBattleVM()
 		{
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x000032F0 File Offset: 0x000014F0
 		protected override void LoadConfiguration()
 		{
 			base.LoadConfiguration();
@@ -152,7 +149,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x000038EC File Offset: 0x00001AEC
 		protected override void SaveConfiguration()
 		{
 			base.SaveConfiguration();
@@ -190,7 +186,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x00003AF8 File Offset: 0x00001CF8
 		protected override List<TooltipProperty> GetAgentTooltip(Agent agent)
 		{
 			List<TooltipProperty> agentTooltip = base.GetAgentTooltip(agent);
@@ -303,7 +298,6 @@ namespace SandBox.ViewModelCollection
 			return agentTooltip;
 		}
 
-		// Token: 0x04000006 RID: 6
 		private OrderOfBattleCampaignBehavior _orderOfBattleBehavior;
 	}
 }

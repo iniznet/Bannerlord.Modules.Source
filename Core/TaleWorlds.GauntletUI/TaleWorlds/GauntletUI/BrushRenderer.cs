@@ -6,11 +6,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI
 {
-	// Token: 0x02000013 RID: 19
 	public class BrushRenderer
 	{
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x0600012A RID: 298 RVA: 0x00007457 File Offset: 0x00005657
 		private float _brushTimer
 		{
 			get
@@ -23,13 +20,8 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x0600012B RID: 299 RVA: 0x0000746E File Offset: 0x0000566E
-		// (set) Token: 0x0600012C RID: 300 RVA: 0x00007476 File Offset: 0x00005676
 		public bool ForcePixelPerfectPlacement { get; set; }
 
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x0600012D RID: 301 RVA: 0x0000747F File Offset: 0x0000567F
 		public Style CurrentStyle
 		{
 			get
@@ -38,9 +30,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x0600012E RID: 302 RVA: 0x00007487 File Offset: 0x00005687
-		// (set) Token: 0x0600012F RID: 303 RVA: 0x00007490 File Offset: 0x00005690
 		public Brush Brush
 		{
 			get
@@ -87,9 +76,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x1700005F RID: 95
-		// (get) Token: 0x06000130 RID: 304 RVA: 0x000075E8 File Offset: 0x000057E8
-		// (set) Token: 0x06000131 RID: 305 RVA: 0x000075F0 File Offset: 0x000057F0
 		public string CurrentState
 		{
 			get
@@ -130,7 +116,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x06000132 RID: 306 RVA: 0x000076F4 File Offset: 0x000058F4
 		public BrushRenderer()
 		{
 			this._startBrushState = default(BrushState);
@@ -143,7 +128,6 @@ namespace TaleWorlds.GauntletUI
 			this._randomYOffset = -1f;
 		}
 
-		// Token: 0x06000133 RID: 307 RVA: 0x00007760 File Offset: 0x00005960
 		private float GetRandomXOffset()
 		{
 			if (this._randomXOffset < 0f)
@@ -155,7 +139,6 @@ namespace TaleWorlds.GauntletUI
 			return this._randomXOffset;
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x000077B4 File Offset: 0x000059B4
 		private float GetRandomYOffset()
 		{
 			if (this._randomYOffset < 0f)
@@ -167,7 +150,6 @@ namespace TaleWorlds.GauntletUI
 			return this._randomYOffset;
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x00007808 File Offset: 0x00005A08
 		public void Update(float globalAnimTime, float dt)
 		{
 			this._globalTime = globalAnimTime;
@@ -251,7 +233,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x00007B28 File Offset: 0x00005D28
 		private BrushLayerState AnimateBrushLayerState(BrushAnimation animation, BrushLayerAnimation layerAnimation, float brushStateTimer, bool isFirstCycle, BrushLayerState startState, IBrushLayerData source)
 		{
 			BrushLayerState brushLayerState = default(BrushLayerState);
@@ -420,13 +401,11 @@ namespace TaleWorlds.GauntletUI
 			return brushLayerState;
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x00007F2C File Offset: 0x0000612C
 		public bool IsUpdateNeeded()
 		{
 			return this._brushRendererAnimationState == BrushRenderer.BrushRendererAnimationState.PlayingBasicTranisition || this._brushRendererAnimationState == BrushRenderer.BrushRendererAnimationState.PlayingAnimation || (this._styleOfCurrentState != null && this._styleOfCurrentState.Version != this._latestStyleVersion);
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00007F64 File Offset: 0x00006164
 		private BrushState AnimateBrushState(BrushAnimation animation, BrushLayerAnimation layerAnimation, float brushStateTimer, bool isFirstCycle, BrushState startState, Style source)
 		{
 			BrushState brushState = default(BrushState);
@@ -589,7 +568,6 @@ namespace TaleWorlds.GauntletUI
 			return brushState;
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00008370 File Offset: 0x00006570
 		private void EndAnimation()
 		{
 			if (this.Brush != null)
@@ -614,7 +592,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x00008444 File Offset: 0x00006644
 		public void Render(TwoDimensionDrawContext drawContext, Vector2 targetPosition, Vector2 targetSize, float scale, float contextAlpha, Vector2 overlayOffset = default(Vector2))
 		{
 			if (this.Brush != null)
@@ -752,7 +729,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x00008838 File Offset: 0x00006A38
 		public TextMaterial CreateTextMaterial(TwoDimensionDrawContext drawContext)
 		{
 			TextMaterial textMaterial = this._currentBrushState.CreateTextMaterial(drawContext);
@@ -765,7 +741,6 @@ namespace TaleWorlds.GauntletUI
 			return textMaterial;
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x000088A8 File Offset: 0x00006AA8
 		public void RestartAnimation()
 		{
 			if (this.Brush != null)
@@ -788,67 +763,46 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x000088FA File Offset: 0x00006AFA
 		public void SetSeed(int seed)
 		{
 			this._offsetSeed = seed;
 		}
 
-		// Token: 0x04000076 RID: 118
 		private BrushState _startBrushState;
 
-		// Token: 0x04000077 RID: 119
 		private BrushState _currentBrushState;
 
-		// Token: 0x04000078 RID: 120
 		private Dictionary<string, BrushLayerState> _startBrushLayerState;
 
-		// Token: 0x04000079 RID: 121
 		private Dictionary<string, BrushLayerState> _currentBrushLayerState;
 
-		// Token: 0x0400007A RID: 122
 		public bool UseLocalTimer;
 
-		// Token: 0x0400007B RID: 123
 		private float _brushLocalTimer;
 
-		// Token: 0x0400007C RID: 124
 		private float _globalTime;
 
-		// Token: 0x0400007D RID: 125
 		private int _offsetSeed;
 
-		// Token: 0x0400007E RID: 126
 		private float _randomXOffset;
 
-		// Token: 0x0400007F RID: 127
 		private float _randomYOffset;
 
-		// Token: 0x04000080 RID: 128
 		private BrushRenderer.BrushRendererAnimationState _brushRendererAnimationState;
 
-		// Token: 0x04000082 RID: 130
 		private Brush _brush;
 
-		// Token: 0x04000083 RID: 131
 		private long _latestStyleVersion;
 
-		// Token: 0x04000084 RID: 132
 		private string _currentState;
 
-		// Token: 0x04000085 RID: 133
 		private Style _styleOfCurrentState;
 
-		// Token: 0x02000074 RID: 116
 		public enum BrushRendererAnimationState
 		{
-			// Token: 0x040003F8 RID: 1016
 			None,
-			// Token: 0x040003F9 RID: 1017
 			PlayingAnimation,
-			// Token: 0x040003FA RID: 1018
 			PlayingBasicTranisition,
-			// Token: 0x040003FB RID: 1019
 			Ended
 		}
 	}

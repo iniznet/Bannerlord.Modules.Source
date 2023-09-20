@@ -9,11 +9,9 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x0200002B RID: 43
 	[OverrideView(typeof(MapEventVisualsView))]
 	public class GauntletMapEventVisualsView : MapView, IGauntletMapEventVisualHandler
 	{
-		// Token: 0x06000190 RID: 400 RVA: 0x0000BA94 File Offset: 0x00009C94
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -33,14 +31,12 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000191 RID: 401 RVA: 0x0000BB84 File Offset: 0x00009D84
 		protected override void OnMapScreenUpdate(float dt)
 		{
 			base.OnMapScreenUpdate(dt);
 			this._dataSource.Update(dt);
 		}
 
-		// Token: 0x06000192 RID: 402 RVA: 0x0000BB9C File Offset: 0x00009D9C
 		protected override void OnFinalize()
 		{
 			GauntletMapEventVisualCreator gauntletMapEventVisualCreator;
@@ -57,7 +53,6 @@ namespace SandBox.GauntletUI.Map
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000193 RID: 403 RVA: 0x0000BC0C File Offset: 0x00009E0C
 		private Vec3 GetRealPositionOfMapEvent(Vec2 mapEventPosition)
 		{
 			float num = 0f;
@@ -65,37 +60,30 @@ namespace SandBox.GauntletUI.Map
 			return new Vec3(mapEventPosition.x, mapEventPosition.y, num, -1f);
 		}
 
-		// Token: 0x06000194 RID: 404 RVA: 0x0000BC58 File Offset: 0x00009E58
 		void IGauntletMapEventVisualHandler.OnNewEventStarted(GauntletMapEventVisual newEvent)
 		{
 			this._dataSource.OnMapEventStarted(newEvent.MapEvent);
 		}
 
-		// Token: 0x06000195 RID: 405 RVA: 0x0000BC6B File Offset: 0x00009E6B
 		void IGauntletMapEventVisualHandler.OnInitialized(GauntletMapEventVisual newEvent)
 		{
 			this._dataSource.OnMapEventStarted(newEvent.MapEvent);
 		}
 
-		// Token: 0x06000196 RID: 406 RVA: 0x0000BC7E File Offset: 0x00009E7E
 		void IGauntletMapEventVisualHandler.OnEventEnded(GauntletMapEventVisual newEvent)
 		{
 			this._dataSource.OnMapEventEnded(newEvent.MapEvent);
 		}
 
-		// Token: 0x06000197 RID: 407 RVA: 0x0000BC91 File Offset: 0x00009E91
 		void IGauntletMapEventVisualHandler.OnEventVisibilityChanged(GauntletMapEventVisual visibilityChangedEvent)
 		{
 			this._dataSource.OnMapEventVisibilityChanged(visibilityChangedEvent.MapEvent);
 		}
 
-		// Token: 0x040000D0 RID: 208
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x040000D1 RID: 209
 		private IGauntletMovie _movie;
 
-		// Token: 0x040000D2 RID: 210
 		private MapEventVisualsVM _dataSource;
 	}
 }

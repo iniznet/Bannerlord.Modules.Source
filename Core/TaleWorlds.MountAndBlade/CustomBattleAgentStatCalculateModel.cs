@@ -5,22 +5,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001DD RID: 477
 	public class CustomBattleAgentStatCalculateModel : AgentStatCalculateModel
 	{
-		// Token: 0x06001B2A RID: 6954 RVA: 0x0005EEDD File Offset: 0x0005D0DD
 		public override float GetDifficultyModifier()
 		{
 			return 1f;
 		}
 
-		// Token: 0x06001B2B RID: 6955 RVA: 0x0005EEE4 File Offset: 0x0005D0E4
 		public override bool CanAgentRideMount(Agent agent, Agent targetMount)
 		{
 			return agent.CheckSkillForMounting(targetMount);
 		}
 
-		// Token: 0x06001B2C RID: 6956 RVA: 0x0005EEF0 File Offset: 0x0005D0F0
 		public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
 		{
 			agentDrivenProperties.ArmorEncumbrance = spawnEquipment.GetTotalWeightOfArmor(agent.IsHuman);
@@ -54,7 +50,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001B2D RID: 6957 RVA: 0x0005F031 File Offset: 0x0005D231
 		public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			if (agent.IsHuman)
@@ -65,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateHorseStats(agent, agentDrivenProperties);
 		}
 
-		// Token: 0x06001B2E RID: 6958 RVA: 0x0005F04C File Offset: 0x0005D24C
 		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
 		{
 			float num = 1f;
@@ -101,7 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			return Math.Max(0f, num);
 		}
 
-		// Token: 0x06001B2F RID: 6959 RVA: 0x0005F11C File Offset: 0x0005D31C
 		public override float GetKnockBackResistance(Agent agent)
 		{
 			BasicCharacterObject character;
@@ -114,7 +107,6 @@ namespace TaleWorlds.MountAndBlade
 			return float.MaxValue;
 		}
 
-		// Token: 0x06001B30 RID: 6960 RVA: 0x0005F174 File Offset: 0x0005D374
 		public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = StrikeType.Invalid)
 		{
 			BasicCharacterObject character;
@@ -135,7 +127,6 @@ namespace TaleWorlds.MountAndBlade
 			return float.MaxValue;
 		}
 
-		// Token: 0x06001B31 RID: 6961 RVA: 0x0005F1EC File Offset: 0x0005D3EC
 		public override float GetDismountResistance(Agent agent)
 		{
 			BasicCharacterObject character;
@@ -148,13 +139,11 @@ namespace TaleWorlds.MountAndBlade
 			return float.MaxValue;
 		}
 
-		// Token: 0x06001B32 RID: 6962 RVA: 0x0005F244 File Offset: 0x0005D444
 		private int GetSkillValueForItem(Agent agent, ItemObject primaryItem)
 		{
 			return this.GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, (primaryItem != null) ? primaryItem.RelevantSkill : DefaultSkills.Athletics);
 		}
 
-		// Token: 0x06001B33 RID: 6963 RVA: 0x0005F270 File Offset: 0x0005D470
 		private void UpdateHumanStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			BasicCharacterObject character = agent.Character;
@@ -314,7 +303,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.AiShooterError *= num14;
 		}
 
-		// Token: 0x06001B34 RID: 6964 RVA: 0x0005FA18 File Offset: 0x0005DC18
 		private void UpdateHorseStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			Equipment spawnEquipment = agent.SpawnEquipment;
@@ -351,7 +339,6 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.TopSpeedReachDuration = Game.Current.BasicModels.RidingModel.CalculateAcceleration(equipmentElement, equipmentElement2, num2);
 		}
 
-		// Token: 0x06001B35 RID: 6965 RVA: 0x0005FBD0 File Offset: 0x0005DDD0
 		private void GetBannerEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
 		{
 			BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(agent.Formation);

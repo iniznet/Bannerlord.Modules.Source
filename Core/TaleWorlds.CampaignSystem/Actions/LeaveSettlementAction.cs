@@ -6,10 +6,8 @@ using TaleWorlds.CampaignSystem.Settlements.Locations;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000448 RID: 1096
 	public static class LeaveSettlementAction
 	{
-		// Token: 0x06003F2B RID: 16171 RVA: 0x0012DFC0 File Offset: 0x0012C1C0
 		public static void ApplyForParty(MobileParty mobileParty)
 		{
 			Settlement currentSettlement = mobileParty.CurrentSettlement;
@@ -44,7 +42,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnSettlementLeft(mobileParty, currentSettlement);
 		}
 
-		// Token: 0x06003F2C RID: 16172 RVA: 0x0012E120 File Offset: 0x0012C320
 		public static void ApplyForCharacterOnly(Hero hero)
 		{
 			Settlement currentSettlement = hero.CurrentSettlement;

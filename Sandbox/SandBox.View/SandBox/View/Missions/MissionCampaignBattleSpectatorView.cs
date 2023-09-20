@@ -9,16 +9,13 @@ using TaleWorlds.MountAndBlade.View.Screens;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000013 RID: 19
 	public class MissionCampaignBattleSpectatorView : MissionView
 	{
-		// Token: 0x0600006E RID: 110 RVA: 0x00004F76 File Offset: 0x00003176
 		public override void AfterStart()
 		{
 			base.MissionScreen.SetCustomAgentListToSpectateGatherer(new MissionScreen.GatherCustomAgentListToSpectateDelegate(this.SpectateListGatherer));
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x00004F90 File Offset: 0x00003190
 		private int CalculateAgentScore(Agent agent)
 		{
 			Mission mission = agent.Mission;
@@ -65,7 +62,6 @@ namespace SandBox.View.Missions
 			return num;
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x000050CC File Offset: 0x000032CC
 		private List<Agent> SpectateListGatherer(Agent forcedAgentToInclude)
 		{
 			return LinQuick.WhereQ<Agent>(base.Mission.AllAgents, (Agent x) => x.IsCameraAttachable() || x == forcedAgentToInclude).OrderByDescending(new Func<Agent, int>(this.CalculateAgentScore)).ToList<Agent>();

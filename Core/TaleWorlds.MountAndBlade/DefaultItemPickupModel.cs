@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001E6 RID: 486
 	public class DefaultItemPickupModel : ItemPickupModel
 	{
-		// Token: 0x06001B59 RID: 7001 RVA: 0x0006076C File Offset: 0x0005E96C
 		public override float GetItemScoreForAgent(SpawnedItemEntity item, Agent agent)
 		{
 			if (!item.WeaponCopy.Item.ItemFlags.HasAnyFlag(ItemFlags.CannotBePickedUp))
@@ -46,7 +44,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x06001B5A RID: 7002 RVA: 0x00060874 File Offset: 0x0005EA74
 		public override bool IsItemAvailableForAgent(SpawnedItemEntity item, Agent agent, EquipmentIndex slotToPickUp)
 		{
 			if (!agent.CanReachAndUseObject(item, 0f) || !agent.ObjectHasVacantPosition(item) || item.HasAIMovingTo)
@@ -75,7 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001B5B RID: 7003 RVA: 0x000609B8 File Offset: 0x0005EBB8
 		public override bool IsAgentEquipmentSuitableForPickUpAvailability(Agent agent)
 		{
 			if (agent.HasLostShield())

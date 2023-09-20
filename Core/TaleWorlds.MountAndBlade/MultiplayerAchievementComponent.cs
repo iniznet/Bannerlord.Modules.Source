@@ -5,10 +5,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000279 RID: 633
 	public class MultiplayerAchievementComponent : MissionLogic
 	{
-		// Token: 0x060021BE RID: 8638 RVA: 0x0007B00A File Offset: 0x0007920A
 		public override void OnBehaviorInitialize()
 		{
 			this._missionLobbyComponent = Mission.Current.GetMissionBehavior<MissionLobbyComponent>();
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CacheAndInitializeAchievementVariables();
 		}
 
-		// Token: 0x060021BF RID: 8639 RVA: 0x0007B032 File Offset: 0x00079232
 		public override void EarlyStart()
 		{
 			if (this._multiplayerRoundComponent != null)
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade
 			this._recentBoulderKills.Clear();
 		}
 
-		// Token: 0x060021C0 RID: 8640 RVA: 0x0007B072 File Offset: 0x00079272
 		protected override void OnEndMission()
 		{
 			if (this._multiplayerRoundComponent != null)
@@ -44,7 +40,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C1 RID: 8641 RVA: 0x0007B0A8 File Offset: 0x000792A8
 		public override void OnMissionTick(float dt)
 		{
 			if (this._recentBoulderKills != null)
@@ -61,7 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C2 RID: 8642 RVA: 0x0007B0FE File Offset: 0x000792FE
 		private void OnRoundStarted()
 		{
 			this._singleRoundKillsWithMeleeOnFoot = 0;
@@ -73,7 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			this._hasStolenMount = false;
 		}
 
-		// Token: 0x060021C3 RID: 8643 RVA: 0x0007B134 File Offset: 0x00079334
 		public override void OnAgentMount(Agent agent)
 		{
 			if (agent.IsMine && agent.SpawnEquipment.Horse.IsEmpty)
@@ -83,7 +76,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C4 RID: 8644 RVA: 0x0007B16C File Offset: 0x0007936C
 		public override void OnAgentDismount(Agent agent)
 		{
 			if (agent.IsMine)
@@ -93,7 +85,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C5 RID: 8645 RVA: 0x0007B184 File Offset: 0x00079384
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			if (agent.IsMine)
@@ -103,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C6 RID: 8646 RVA: 0x0007B19C File Offset: 0x0007939C
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (affectedAgent != null && !affectedAgent.IsMount)
@@ -219,7 +209,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C7 RID: 8647 RVA: 0x0007B4F4 File Offset: 0x000796F4
 		private async void CacheAndInitializeAchievementVariables()
 		{
 			int[] array = await AchievementManager.GetStats(new string[] { "MaxMultiKillsWithSingleMangonelShot", "KillsWithBoulder", "KillsWithChainAttack", "KillsWithRangedHeadshots", "KillsWithRangedMounted", "KillsWithCouchedLance", "KillsWithHorseCharge", "KillCountCaptain", "KillsWithStolenHorse" });
@@ -265,115 +254,80 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021C8 RID: 8648 RVA: 0x0007B52D File Offset: 0x0007972D
 		private void SetStatInternal(string statId, int value)
 		{
 			AchievementManager.SetStat(statId, value);
 		}
 
-		// Token: 0x04000C7F RID: 3199
 		private const float SingleMangonelShotTimeout = 4f;
 
-		// Token: 0x04000C80 RID: 3200
 		private const string MaxMultiKillsWithSingleMangonelShotStatID = "MaxMultiKillsWithSingleMangonelShot";
 
-		// Token: 0x04000C81 RID: 3201
 		private const string KillsWithBoulderStatID = "KillsWithBoulder";
 
-		// Token: 0x04000C82 RID: 3202
 		private const string KillsWithChainAttackStatID = "KillsWithChainAttack";
 
-		// Token: 0x04000C83 RID: 3203
 		private const string KillsWithRangedHeadShotsStatID = "KillsWithRangedHeadshots";
 
-		// Token: 0x04000C84 RID: 3204
 		private const string KillsWithRangedMountedStatID = "KillsWithRangedMounted";
 
-		// Token: 0x04000C85 RID: 3205
 		private const string KillsWithCouchedLanceStatID = "KillsWithCouchedLance";
 
-		// Token: 0x04000C86 RID: 3206
 		private const string KillsWithHorseChargeStatID = "KillsWithHorseCharge";
 
-		// Token: 0x04000C87 RID: 3207
 		private const string KillCountCaptainStatID = "KillCountCaptain";
 
-		// Token: 0x04000C88 RID: 3208
 		private const string KillsWithStolenHorse = "KillsWithStolenHorse";
 
-		// Token: 0x04000C89 RID: 3209
 		private const string SatisfiedJackOfAllTradesStatID = "SatisfiedJackOfAllTrades";
 
-		// Token: 0x04000C8A RID: 3210
 		private const string PushedSomeoneOffLedgeStatID = "PushedSomeoneOffLedge";
 
-		// Token: 0x04000C8B RID: 3211
 		private int _cachedMaxMultiKillsWithSingleMangonelShot;
 
-		// Token: 0x04000C8C RID: 3212
 		private int _cachedKillsWithBoulder;
 
-		// Token: 0x04000C8D RID: 3213
 		private int _cachedKillsWithChainAttack;
 
-		// Token: 0x04000C8E RID: 3214
 		private int _cachedKillsWithRangedHeadShots;
 
-		// Token: 0x04000C8F RID: 3215
 		private int _cachedKillsWithRangedMounted;
 
-		// Token: 0x04000C90 RID: 3216
 		private int _cachedKillsWithCouchedLance;
 
-		// Token: 0x04000C91 RID: 3217
 		private int _cachedKillsWithHorseCharge;
 
-		// Token: 0x04000C92 RID: 3218
 		private int _cachedKillCountCaptain;
 
-		// Token: 0x04000C93 RID: 3219
 		private int _cachedKillsWithStolenHorse;
 
-		// Token: 0x04000C94 RID: 3220
 		private int _singleRoundKillsWithMeleeOnFoot;
 
-		// Token: 0x04000C95 RID: 3221
 		private int _singleRoundKillsWithMeleeMounted;
 
-		// Token: 0x04000C96 RID: 3222
 		private int _singleRoundKillsWithRangedOnFoot;
 
-		// Token: 0x04000C97 RID: 3223
 		private int _singleRoundKillsWithRangedMounted;
 
-		// Token: 0x04000C98 RID: 3224
 		private int _singleRoundKillsWithCouchedLance;
 
-		// Token: 0x04000C99 RID: 3225
 		private int _killsWithAStolenHorse;
 
-		// Token: 0x04000C9A RID: 3226
 		private bool _hasStolenMount;
 
-		// Token: 0x04000C9B RID: 3227
 		private MissionLobbyComponent _missionLobbyComponent;
 
-		// Token: 0x04000C9C RID: 3228
 		private MultiplayerRoundComponent _multiplayerRoundComponent;
 
-		// Token: 0x04000C9D RID: 3229
 		private Queue<MultiplayerAchievementComponent.BoulderKillRecord> _recentBoulderKills;
 
-		// Token: 0x02000586 RID: 1414
 		private struct BoulderKillRecord
 		{
-			// Token: 0x06003B08 RID: 15112 RVA: 0x000EDEE3 File Offset: 0x000EC0E3
 			public BoulderKillRecord(float time)
 			{
 				this.time = time;
 			}
 
-			// Token: 0x04001D73 RID: 7539
 			public readonly float time;
 		}
 	}

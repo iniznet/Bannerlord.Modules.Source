@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000120 RID: 288
 	public class BehaviorSkirmishLine : BehaviorComponent
 	{
-		// Token: 0x06000D97 RID: 3479 RVA: 0x00024550 File Offset: 0x00022750
 		public BehaviorSkirmishLine(Formation formation)
 			: base(formation)
 		{
@@ -19,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D98 RID: 3480 RVA: 0x000245A8 File Offset: 0x000227A8
 		protected override void CalculateCurrentOrder()
 		{
 			this._targetFormation = base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation ?? base.Formation.QuerySystem.ClosestEnemyFormation;
@@ -62,7 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000D99 RID: 3481 RVA: 0x000248A4 File Offset: 0x00022AA4
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -74,14 +70,12 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000D9A RID: 3482 RVA: 0x0002491C File Offset: 0x00022B1C
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this._mainFormation = base.Formation.Team.FormationsIncludingEmpty.FirstOrDefaultQ((Formation f) => f.CountOfUnits > 0 && f.AI.IsMainFormation);
 		}
 
-		// Token: 0x06000D9B RID: 3483 RVA: 0x0002496C File Offset: 0x00022B6C
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -93,7 +87,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000D9C RID: 3484 RVA: 0x000249E8 File Offset: 0x00022BE8
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -105,7 +98,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D9D RID: 3485 RVA: 0x00024A60 File Offset: 0x00022C60
 		protected override float GetAiWeight()
 		{
 			if (this._mainFormation == null || !this._mainFormation.AI.IsMainFormation)
@@ -127,10 +119,8 @@ namespace TaleWorlds.MountAndBlade
 			return num * querySystem.MainFormationReliabilityFactor * num3;
 		}
 
-		// Token: 0x0400034F RID: 847
 		private Formation _mainFormation;
 
-		// Token: 0x04000350 RID: 848
 		private FormationQuerySystem _targetFormation;
 	}
 }

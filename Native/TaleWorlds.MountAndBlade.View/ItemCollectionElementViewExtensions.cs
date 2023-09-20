@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200000F RID: 15
 	public static class ItemCollectionElementViewExtensions
 	{
-		// Token: 0x0600005D RID: 93 RVA: 0x000046B8 File Offset: 0x000028B8
 		public static string GetMaterialCacheID(object o)
 		{
 			ItemRosterElement itemRosterElement = (ItemRosterElement)o;
@@ -20,7 +18,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return "";
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00004708 File Offset: 0x00002908
 		public static MetaMesh GetMultiMesh(this ItemObject item, bool isFemale, bool hasGloves, bool needBatchedVersion)
 		{
 			MetaMesh metaMesh = null;
@@ -40,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return metaMesh;
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x00004755 File Offset: 0x00002955
 		public static MetaMesh GetMultiMesh(this EquipmentElement equipmentElement, bool isFemale, bool hasGloves, bool needBatchedVersion)
 		{
 			if (equipmentElement.CosmeticItem == null)
@@ -50,13 +46,11 @@ namespace TaleWorlds.MountAndBlade.View
 			return equipmentElement.CosmeticItem.GetMultiMesh(isFemale, hasGloves, needBatchedVersion);
 		}
 
-		// Token: 0x06000060 RID: 96 RVA: 0x0000477D File Offset: 0x0000297D
 		public static MetaMesh GetMultiMesh(this MissionWeapon weapon, bool isFemale, bool hasGloves, bool needBatchedVersion)
 		{
 			return weapon.Item.GetMultiMesh(isFemale, hasGloves, needBatchedVersion);
 		}
 
-		// Token: 0x06000061 RID: 97 RVA: 0x00004790 File Offset: 0x00002990
 		public static MetaMesh GetItemMeshForInventory(this ItemRosterElement rosterElement, bool isFemale = false)
 		{
 			if (rosterElement.EquipmentElement.Item.ItemType != 5 && rosterElement.EquipmentElement.Item.ItemType != 6)
@@ -66,7 +60,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return rosterElement.EquipmentElement.Item.GetHolsterMeshCopy();
 		}
 
-		// Token: 0x06000062 RID: 98 RVA: 0x000047F0 File Offset: 0x000029F0
 		public static MetaMesh GetHolsterMeshCopy(this ItemObject item)
 		{
 			if (item.WeaponDesign != null)
@@ -88,7 +81,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000063 RID: 99 RVA: 0x0000484A File Offset: 0x00002A4A
 		public static MetaMesh GetHolsterMeshIfExists(this ItemObject item)
 		{
 			if (!(item.WeaponDesign != null))
@@ -98,7 +90,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return CraftedDataViewManager.GetCraftedDataView(item.WeaponDesign).HolsterMesh;
 		}
 
-		// Token: 0x06000064 RID: 100 RVA: 0x0000486C File Offset: 0x00002A6C
 		public static MetaMesh GetHolsterWithWeaponMeshCopy(this ItemObject item, bool needBatchedVersion)
 		{
 			if (item.WeaponDesign != null)
@@ -121,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000065 RID: 101 RVA: 0x000048D3 File Offset: 0x00002AD3
 		public static MetaMesh GetHolsterWithWeaponMeshIfExists(this ItemObject item)
 		{
 			if (!(item.WeaponDesign != null))
@@ -131,7 +121,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return CraftedDataViewManager.GetCraftedDataView(item.WeaponDesign).HolsterMeshWithWeapon;
 		}
 
-		// Token: 0x06000066 RID: 102 RVA: 0x000048F8 File Offset: 0x00002AF8
 		public static MetaMesh GetFlyingMeshCopy(this ItemObject item, bool needBatchedVersion)
 		{
 			WeaponComponent weaponComponent = item.WeaponComponent;
@@ -160,7 +149,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000067 RID: 103 RVA: 0x00004987 File Offset: 0x00002B87
 		public static MetaMesh GetFlyingMeshIfExists(this ItemObject item)
 		{
 			if (item == null)
@@ -175,7 +163,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return weaponComponent.PrimaryWeapon.GetFlyingMeshIfExists(item);
 		}
 
-		// Token: 0x06000068 RID: 104 RVA: 0x000049A8 File Offset: 0x00002BA8
 		internal static Material GetTableauMaterial(this ItemObject item, Banner banner)
 		{
 			Material tableauMaterial = null;
@@ -252,13 +239,11 @@ namespace TaleWorlds.MountAndBlade.View
 			return tableauMaterial;
 		}
 
-		// Token: 0x06000069 RID: 105 RVA: 0x00004B55 File Offset: 0x00002D55
 		public static MatrixFrame GetCameraFrameForInventory(this ItemRosterElement itemRosterElement)
 		{
 			return MatrixFrame.Identity;
 		}
 
-		// Token: 0x0600006A RID: 106 RVA: 0x00004B5C File Offset: 0x00002D5C
 		public static MatrixFrame GetItemFrameForInventory(this ItemRosterElement itemRosterElement)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -344,7 +329,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return matrixFrame;
 		}
 
-		// Token: 0x0600006B RID: 107 RVA: 0x00004E38 File Offset: 0x00003038
 		public static MatrixFrame GetItemFrameForItemTooltip(this ItemRosterElement itemRosterElement)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -419,7 +403,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return matrixFrame;
 		}
 
-		// Token: 0x0600006C RID: 108 RVA: 0x000050B0 File Offset: 0x000032B0
 		public static void OnGetWeaponData(ref WeaponData weaponData, MissionWeapon weapon, bool isFemale, Banner banner, bool needBatchedVersion)
 		{
 			MetaMesh multiMesh = weapon.GetMultiMesh(isFemale, false, needBatchedVersion);

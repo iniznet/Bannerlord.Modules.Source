@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporters
 {
-	// Token: 0x0200010B RID: 267
 	public class ClanSupporterGroupVM : ViewModel
 	{
-		// Token: 0x06001991 RID: 6545 RVA: 0x0005C7B7 File Offset: 0x0005A9B7
 		public ClanSupporterGroupVM(TextObject groupName, float influenceBonus, Action<ClanSupporterGroupVM> onSelection)
 		{
 			this._groupNameText = groupName;
@@ -19,14 +17,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			this.RefreshValues();
 		}
 
-		// Token: 0x06001992 RID: 6546 RVA: 0x0005C7E5 File Offset: 0x0005A9E5
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
 			this.Refresh();
 		}
 
-		// Token: 0x06001993 RID: 6547 RVA: 0x0005C7F4 File Offset: 0x0005A9F4
 		public void AddSupporter(Hero hero)
 		{
 			if (!this.Supporters.Any((ClanSupporterItemVM x) => x.Hero.Hero == hero))
@@ -35,7 +31,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x06001994 RID: 6548 RVA: 0x0005C840 File Offset: 0x0005AA40
 		public void Refresh()
 		{
 			TextObject textObject = GameTexts.FindText("str_amount_with_influence_icon", null);
@@ -58,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			this.InfluenceBonusDescription = textObject5.ToString();
 		}
 
-		// Token: 0x06001995 RID: 6549 RVA: 0x0005C9A6 File Offset: 0x0005ABA6
 		public void ExecuteSelect()
 		{
 			Action<ClanSupporterGroupVM> onSelection = this._onSelection;
@@ -69,9 +63,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			onSelection(this);
 		}
 
-		// Token: 0x170008C6 RID: 2246
-		// (get) Token: 0x06001996 RID: 6550 RVA: 0x0005C9B9 File Offset: 0x0005ABB9
-		// (set) Token: 0x06001997 RID: 6551 RVA: 0x0005C9C1 File Offset: 0x0005ABC1
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -89,9 +80,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x170008C7 RID: 2247
-		// (get) Token: 0x06001998 RID: 6552 RVA: 0x0005C9E4 File Offset: 0x0005ABE4
-		// (set) Token: 0x06001999 RID: 6553 RVA: 0x0005C9EC File Offset: 0x0005ABEC
 		[DataSourceProperty]
 		public string InfluenceBonusDescription
 		{
@@ -109,9 +97,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x170008C8 RID: 2248
-		// (get) Token: 0x0600199A RID: 6554 RVA: 0x0005CA0F File Offset: 0x0005AC0F
-		// (set) Token: 0x0600199B RID: 6555 RVA: 0x0005CA17 File Offset: 0x0005AC17
 		[DataSourceProperty]
 		public string Name
 		{
@@ -129,9 +114,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x170008C9 RID: 2249
-		// (get) Token: 0x0600199C RID: 6556 RVA: 0x0005CA3A File Offset: 0x0005AC3A
-		// (set) Token: 0x0600199D RID: 6557 RVA: 0x0005CA42 File Offset: 0x0005AC42
 		[DataSourceProperty]
 		public string TotalInfluence
 		{
@@ -149,9 +131,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x170008CA RID: 2250
-		// (get) Token: 0x0600199E RID: 6558 RVA: 0x0005CA65 File Offset: 0x0005AC65
-		// (set) Token: 0x0600199F RID: 6559 RVA: 0x0005CA6D File Offset: 0x0005AC6D
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -169,9 +148,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x170008CB RID: 2251
-		// (get) Token: 0x060019A0 RID: 6560 RVA: 0x0005CA8B File Offset: 0x0005AC8B
-		// (set) Token: 0x060019A1 RID: 6561 RVA: 0x0005CA93 File Offset: 0x0005AC93
 		[DataSourceProperty]
 		public MBBindingList<ClanSupporterItemVM> Supporters
 		{
@@ -189,31 +165,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 			}
 		}
 
-		// Token: 0x04000C24 RID: 3108
 		private TextObject _groupNameText;
 
-		// Token: 0x04000C25 RID: 3109
 		private float _influenceBonus;
 
-		// Token: 0x04000C26 RID: 3110
 		private Action<ClanSupporterGroupVM> _onSelection;
 
-		// Token: 0x04000C27 RID: 3111
 		private string _titleText;
 
-		// Token: 0x04000C28 RID: 3112
 		private string _influenceBonusDescription;
 
-		// Token: 0x04000C29 RID: 3113
 		private string _name;
 
-		// Token: 0x04000C2A RID: 3114
 		private string _totalInfluence;
 
-		// Token: 0x04000C2B RID: 3115
 		private bool _isSelected;
 
-		// Token: 0x04000C2C RID: 3116
 		private MBBindingList<ClanSupporterItemVM> _supporters;
 	}
 }

@@ -11,10 +11,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Arena
 {
-	// Token: 0x02000064 RID: 100
 	public class ArenaDuelMissionController : MissionLogic
 	{
-		// Token: 0x06000439 RID: 1081 RVA: 0x0001F1E2 File Offset: 0x0001D3E2
 		public ArenaDuelMissionController(CharacterObject duelCharacter, bool requireCivilianEquipment, bool spawnBothSideWithHorses, Action<CharacterObject> onDuelEnd, float customAgentHealth)
 		{
 			this._duelCharacter = duelCharacter;
@@ -24,7 +22,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			ArenaDuelMissionController._onDuelEnd = onDuelEnd;
 		}
 
-		// Token: 0x0600043A RID: 1082 RVA: 0x0001F210 File Offset: 0x0001D410
 		public override void AfterStart()
 		{
 			this._duelHasEnded = false;
@@ -47,7 +44,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			this._duelAgent.Defensiveness = 1f;
 		}
 
-		// Token: 0x0600043B RID: 1083 RVA: 0x0001F310 File Offset: 0x0001D510
 		private void InitializeMissionTeams()
 		{
 			base.Mission.Teams.Add(0, Hero.MainHero.MapFaction.Color, Hero.MainHero.MapFaction.Color2, null, true, false, true);
@@ -55,13 +51,11 @@ namespace SandBox.Missions.MissionLogics.Arena
 			base.Mission.PlayerTeam = base.Mission.Teams.Defender;
 		}
 
-		// Token: 0x0600043C RID: 1084 RVA: 0x0001F3A2 File Offset: 0x0001D5A2
 		private void DeactivateOtherTournamentSets()
 		{
 			TournamentBehavior.DeleteTournamentSetsExcept(base.Mission.Scene.FindEntityWithTag("tournament_fight"));
 		}
 
-		// Token: 0x0600043D RID: 1085 RVA: 0x0001F3C0 File Offset: 0x0001D5C0
 		private Agent SpawnAgent(CharacterObject character, MatrixFrame spawnFrame)
 		{
 			AgentBuildData agentBuildData = new AgentBuildData(character);
@@ -87,7 +81,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return agent;
 		}
 
-		// Token: 0x0600043E RID: 1086 RVA: 0x0001F4CC File Offset: 0x0001D6CC
 		public override void OnMissionTick(float dt)
 		{
 			if (this._duelHasEnded && this._duelEndTimer.ElapsedTime > 4f)
@@ -98,7 +91,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x0600043F RID: 1087 RVA: 0x0001F530 File Offset: 0x0001D730
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (ArenaDuelMissionController._onDuelEnd != null)
@@ -110,7 +102,6 @@ namespace SandBox.Missions.MissionLogics.Arena
 			}
 		}
 
-		// Token: 0x06000440 RID: 1088 RVA: 0x0001F57C File Offset: 0x0001D77C
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
 		{
 			canPlayerLeave = true;
@@ -122,31 +113,22 @@ namespace SandBox.Missions.MissionLogics.Arena
 			return null;
 		}
 
-		// Token: 0x040001FC RID: 508
 		private CharacterObject _duelCharacter;
 
-		// Token: 0x040001FD RID: 509
 		private bool _requireCivilianEquipment;
 
-		// Token: 0x040001FE RID: 510
 		private bool _spawnBothSideWithHorses;
 
-		// Token: 0x040001FF RID: 511
 		private bool _duelHasEnded;
 
-		// Token: 0x04000200 RID: 512
 		private Agent _duelAgent;
 
-		// Token: 0x04000201 RID: 513
 		private float _customAgentHealth;
 
-		// Token: 0x04000202 RID: 514
 		private BasicMissionTimer _duelEndTimer;
 
-		// Token: 0x04000203 RID: 515
 		private MBList<MatrixFrame> _initialSpawnFrames;
 
-		// Token: 0x04000204 RID: 516
 		private static Action<CharacterObject> _onDuelEnd;
 	}
 }

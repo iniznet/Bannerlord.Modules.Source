@@ -10,10 +10,8 @@ using TaleWorlds.MountAndBlade.CustomBattle.CustomBattle;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000008 RID: 8
 	public class ArmyCompositionItemVM : ViewModel
 	{
-		// Token: 0x06000036 RID: 54 RVA: 0x00005478 File Offset: 0x00003678
 		public ArmyCompositionItemVM(ArmyCompositionItemVM.CompositionType type, List<BasicCharacterObject> allCharacterObjects, MBReadOnlyList<SkillObject> allSkills, Action<int, int> onCompositionValueChanged, TroopTypeSelectionPopUpVM troopTypeSelectionPopUp, int[] compositionValues)
 		{
 			this._allCharacterObjects = allCharacterObjects;
@@ -28,13 +26,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.AddTroopTypeHint = new HintViewModel(new TextObject("{=eMbuGGus}Select troops to spawn in formation.", null), null);
 		}
 
-		// Token: 0x06000037 RID: 55 RVA: 0x000054FE File Offset: 0x000036FE
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
 		}
 
-		// Token: 0x06000038 RID: 56 RVA: 0x00005506 File Offset: 0x00003706
 		public void SetCurrentSelectedCulture(BasicCultureObject culture)
 		{
 			this.IsLocked = false;
@@ -42,7 +38,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.PopulateTroopTypes();
 		}
 
-		// Token: 0x06000039 RID: 57 RVA: 0x0000551C File Offset: 0x0000371C
 		public void ExecuteRandomize(int compositionValue)
 		{
 			this.IsValid = true;
@@ -59,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x0600003A RID: 58 RVA: 0x000055C4 File Offset: 0x000037C4
 		public void ExecuteAddTroopTypes()
 		{
 			string text = GameTexts.FindText("str_custom_battle_choose_troop", this._type.ToString()).ToString();
@@ -71,13 +65,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			troopTypeSelectionPopUp.OpenPopUp(text, this.TroopTypes);
 		}
 
-		// Token: 0x0600003B RID: 59 RVA: 0x00005609 File Offset: 0x00003809
 		public void RefreshCompositionValue()
 		{
 			base.OnPropertyChanged("CompositionValue");
 		}
 
-		// Token: 0x0600003C RID: 60 RVA: 0x00005616 File Offset: 0x00003816
 		private void OnValidityChanged(bool value)
 		{
 			this.IsLocked = false;
@@ -88,7 +80,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.IsLocked = !value;
 		}
 
-		// Token: 0x0600003D RID: 61 RVA: 0x00005634 File Offset: 0x00003834
 		private void PopulateTroopTypes()
 		{
 			this.TroopTypes.Clear();
@@ -114,7 +105,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			});
 		}
 
-		// Token: 0x0600003E RID: 62 RVA: 0x00005758 File Offset: 0x00003958
 		private bool IsValidUnitItem(BasicCharacterObject o)
 		{
 			if (o == null || this._culture != o.Culture)
@@ -136,7 +126,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x0600003F RID: 63 RVA: 0x000057E0 File Offset: 0x000039E0
 		private MBReadOnlyList<BasicCharacterObject> GetDefaultCharacters()
 		{
 			MBList<BasicCharacterObject> mblist = new MBList<BasicCharacterObject>();
@@ -160,7 +149,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return mblist;
 		}
 
-		// Token: 0x06000040 RID: 64 RVA: 0x00005838 File Offset: 0x00003A38
 		public static StringItemWithHintVM GetTroopTypeIconData(ArmyCompositionItemVM.CompositionType type, bool isBig = false)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -189,9 +177,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return new StringItemWithHintVM("General\\TroopTypeIcons\\icon_troop_type_" + text, new TextObject("{=!}" + textObject.ToString(), null));
 		}
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000041 RID: 65 RVA: 0x00005924 File Offset: 0x00003B24
-		// (set) Token: 0x06000042 RID: 66 RVA: 0x0000592C File Offset: 0x00003B2C
 		[DataSourceProperty]
 		public MBBindingList<CustomBattleTroopTypeVM> TroopTypes
 		{
@@ -209,9 +194,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x06000043 RID: 67 RVA: 0x0000594A File Offset: 0x00003B4A
-		// (set) Token: 0x06000044 RID: 68 RVA: 0x00005952 File Offset: 0x00003B52
 		[DataSourceProperty]
 		public HintViewModel InvalidHint
 		{
@@ -229,9 +211,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x06000045 RID: 69 RVA: 0x00005970 File Offset: 0x00003B70
-		// (set) Token: 0x06000046 RID: 70 RVA: 0x00005978 File Offset: 0x00003B78
 		[DataSourceProperty]
 		public HintViewModel AddTroopTypeHint
 		{
@@ -249,9 +228,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x06000047 RID: 71 RVA: 0x00005996 File Offset: 0x00003B96
-		// (set) Token: 0x06000048 RID: 72 RVA: 0x0000599E File Offset: 0x00003B9E
 		[DataSourceProperty]
 		public bool IsLocked
 		{
@@ -269,9 +245,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x06000049 RID: 73 RVA: 0x000059BC File Offset: 0x00003BBC
-		// (set) Token: 0x0600004A RID: 74 RVA: 0x000059C4 File Offset: 0x00003BC4
 		[DataSourceProperty]
 		public bool IsValid
 		{
@@ -290,9 +263,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x0600004B RID: 75 RVA: 0x000059E9 File Offset: 0x00003BE9
-		// (set) Token: 0x0600004C RID: 76 RVA: 0x000059F8 File Offset: 0x00003BF8
 		[DataSourceProperty]
 		public int CompositionValue
 		{
@@ -309,55 +279,37 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x0400003A RID: 58
 		private readonly MBReadOnlyList<SkillObject> _allSkills;
 
-		// Token: 0x0400003B RID: 59
 		private readonly List<BasicCharacterObject> _allCharacterObjects;
 
-		// Token: 0x0400003C RID: 60
 		private readonly Action<int, int> _onCompositionValueChanged;
 
-		// Token: 0x0400003D RID: 61
 		private readonly TroopTypeSelectionPopUpVM _troopTypeSelectionPopUp;
 
-		// Token: 0x0400003E RID: 62
 		private BasicCultureObject _culture;
 
-		// Token: 0x0400003F RID: 63
 		private readonly StringItemWithHintVM _typeIconData;
 
-		// Token: 0x04000040 RID: 64
 		private readonly ArmyCompositionItemVM.CompositionType _type;
 
-		// Token: 0x04000041 RID: 65
 		private readonly int[] _compositionValues;
 
-		// Token: 0x04000042 RID: 66
 		private MBBindingList<CustomBattleTroopTypeVM> _troopTypes;
 
-		// Token: 0x04000043 RID: 67
 		private HintViewModel _invalidHint;
 
-		// Token: 0x04000044 RID: 68
 		private HintViewModel _addTroopTypeHint;
 
-		// Token: 0x04000045 RID: 69
 		private bool _isLocked;
 
-		// Token: 0x04000046 RID: 70
 		private bool _isValid;
 
-		// Token: 0x02000031 RID: 49
 		public enum CompositionType
 		{
-			// Token: 0x0400014F RID: 335
 			MeleeInfantry,
-			// Token: 0x04000150 RID: 336
 			RangedInfantry,
-			// Token: 0x04000151 RID: 337
 			MeleeCavalry,
-			// Token: 0x04000152 RID: 338
 			RangedCavalry
 		}
 	}

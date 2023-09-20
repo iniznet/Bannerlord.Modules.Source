@@ -6,21 +6,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x02000400 RID: 1024
 	public class AiEngagePartyBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D25 RID: 15653 RVA: 0x00122F04 File Offset: 0x00121104
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
 		}
 
-		// Token: 0x06003D26 RID: 15654 RVA: 0x00122F1D File Offset: 0x0012111D
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D27 RID: 15655 RVA: 0x00122F20 File Offset: 0x00121120
 		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (mobileParty.CurrentSettlement != null && mobileParty.CurrentSettlement.SiegeEvent != null)

@@ -10,11 +10,9 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 {
-	// Token: 0x02000045 RID: 69
 	[OverrideView(typeof(MissionScoreboardUIHandler))]
 	public class MissionGauntletMultiplayerScoreboard : MissionView
 	{
-		// Token: 0x06000333 RID: 819 RVA: 0x000121D3 File Offset: 0x000103D3
 		[UsedImplicitly]
 		public MissionGauntletMultiplayerScoreboard(bool isSingleTeam)
 		{
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this.ViewOrderPriority = 25;
 		}
 
-		// Token: 0x06000334 RID: 820 RVA: 0x000121EC File Offset: 0x000103EC
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -51,7 +48,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x06000335 RID: 821 RVA: 0x00012320 File Offset: 0x00010520
 		public override void OnMissionScreenFinalize()
 		{
 			base.MissionScreen.OnSpectateAgentFocusIn -= this.HandleSpectateAgentFocusIn;
@@ -67,7 +63,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x06000336 RID: 822 RVA: 0x000123C8 File Offset: 0x000105C8
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -107,7 +102,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this.SetMouseState(flag4);
 		}
 
-		// Token: 0x06000337 RID: 823 RVA: 0x00012560 File Offset: 0x00010760
 		private void ToggleScoreboard(bool isActive)
 		{
 			if (this._isActive != isActive)
@@ -128,7 +122,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x000125C4 File Offset: 0x000107C4
 		private void SetMouseState(bool isMouseVisible)
 		{
 			if (this._isMouseVisible != isMouseVisible)
@@ -151,7 +144,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x00012624 File Offset: 0x00010824
 		private void HandleSpectateAgentFocusOut(Agent followedAgent)
 		{
 			if (followedAgent.MissionPeer != null)
@@ -161,7 +153,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x00012654 File Offset: 0x00010854
 		private void HandleSpectateAgentFocusIn(Agent followedAgent)
 		{
 			if (followedAgent.MissionPeer != null)
@@ -171,13 +162,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x00012681 File Offset: 0x00010881
 		private void MissionLobbyComponentOnCurrentMultiplayerStateChanged(MissionLobbyComponent.MultiplayerGameState newState)
 		{
 			this._isMissionEnding = newState == 2;
 		}
 
-		// Token: 0x0600033C RID: 828 RVA: 0x0001268D File Offset: 0x0001088D
 		private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
 		{
 			if (peer.IsMine)
@@ -187,7 +176,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x0600033D RID: 829 RVA: 0x000126A3 File Offset: 0x000108A3
 		private void FinalizeLayer()
 		{
 			this._dataSource.OnFinalize();
@@ -197,7 +185,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this._isActive = false;
 		}
 
-		// Token: 0x0600033E RID: 830 RVA: 0x000126D8 File Offset: 0x000108D8
 		private void InitializeLayer()
 		{
 			this._dataSource = new MissionScoreboardVM(this._isSingleTeam, base.Mission);
@@ -209,52 +196,38 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this._dataSource.IsActive = this._isActive;
 		}
 
-		// Token: 0x0600033F RID: 831 RVA: 0x00012780 File Offset: 0x00010980
 		private void OnSelectingTeam(List<Team> disableTeams)
 		{
 			this.ToggleScoreboard(false);
 		}
 
-		// Token: 0x06000340 RID: 832 RVA: 0x00012789 File Offset: 0x00010989
 		private void OnCultureSelectionRequested()
 		{
 			this.ToggleScoreboard(false);
 		}
 
-		// Token: 0x040001B5 RID: 437
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x040001B6 RID: 438
 		private MissionScoreboardVM _dataSource;
 
-		// Token: 0x040001B7 RID: 439
 		private bool _isSingleTeam;
 
-		// Token: 0x040001B8 RID: 440
 		private bool _isActive;
 
-		// Token: 0x040001B9 RID: 441
 		private bool _isMissionEnding;
 
-		// Token: 0x040001BA RID: 442
 		private bool _mouseRequstedWhileScoreboardActive;
 
-		// Token: 0x040001BB RID: 443
 		private bool _isMouseVisible;
 
-		// Token: 0x040001BC RID: 444
 		private MissionLobbyComponent _missionLobbyComponent;
 
-		// Token: 0x040001BD RID: 445
 		private MultiplayerTeamSelectComponent _teamSelectComponent;
 
-		// Token: 0x040001BE RID: 446
 		public Action<bool> OnScoreboardToggled;
 
-		// Token: 0x040001BF RID: 447
 		private float _scoreboardStayDuration;
 
-		// Token: 0x040001C0 RID: 448
 		private float _scoreboardStayTimeElapsed;
 	}
 }

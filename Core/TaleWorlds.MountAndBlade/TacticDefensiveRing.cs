@@ -7,22 +7,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200015C RID: 348
 	public class TacticDefensiveRing : TacticComponent
 	{
-		// Token: 0x060011B4 RID: 4532 RVA: 0x00040D7B File Offset: 0x0003EF7B
 		public TacticDefensiveRing(Team team)
 			: base(team)
 		{
 		}
 
-		// Token: 0x060011B5 RID: 4533 RVA: 0x00040D84 File Offset: 0x0003EF84
 		protected override void ManageFormationCounts()
 		{
 			base.AssignTacticFormations1121();
 		}
 
-		// Token: 0x060011B6 RID: 4534 RVA: 0x00040D8C File Offset: 0x0003EF8C
 		private void Defend()
 		{
 			if (base.Team.IsPlayerTeam && !base.Team.IsPlayerGeneral && base.Team.IsPlayerSergeant)
@@ -65,7 +61,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060011B7 RID: 4535 RVA: 0x00040F5C File Offset: 0x0003F15C
 		protected override bool CheckAndSetAvailableFormationsChanged()
 		{
 			int aicontrolledFormationCount = base.Team.GetAIControlledFormationCount();
@@ -78,7 +73,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag || (this._mainInfantry != null && (this._mainInfantry.CountOfUnits == 0 || !this._mainInfantry.QuerySystem.IsInfantryFormation)) || (this._archers != null && (this._archers.CountOfUnits == 0 || !this._archers.QuerySystem.IsRangedFormation)) || (this._leftCavalry != null && (this._leftCavalry.CountOfUnits == 0 || !this._leftCavalry.QuerySystem.IsCavalryFormation)) || (this._rightCavalry != null && (this._rightCavalry.CountOfUnits == 0 || !this._rightCavalry.QuerySystem.IsCavalryFormation)) || (this._rangedCavalry != null && (this._rangedCavalry.CountOfUnits == 0 || !this._rangedCavalry.QuerySystem.IsRangedCavalryFormation));
 		}
 
-		// Token: 0x060011B8 RID: 4536 RVA: 0x0004106C File Offset: 0x0003F26C
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -94,14 +88,12 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x060011B9 RID: 4537 RVA: 0x000410A0 File Offset: 0x0003F2A0
 		protected internal override bool ResetTacticalPositions()
 		{
 			this.DetermineRingPosition();
 			return true;
 		}
 
-		// Token: 0x060011BA RID: 4538 RVA: 0x000410AC File Offset: 0x0003F2AC
 		protected internal override float GetTacticWeight()
 		{
 			if (base.Team.TeamAI.IsDefenseApplicable)
@@ -132,7 +124,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x060011BB RID: 4539 RVA: 0x0004123C File Offset: 0x0003F43C
 		private bool IsTacticalPositionEligible(TacticalPosition tacticalPosition)
 		{
 			Formation mainInfantry = this._mainInfantry;
@@ -155,7 +146,6 @@ namespace TaleWorlds.MountAndBlade
 			return (num2 <= 20f || num2 <= num3 * 0.5f) && tacticalPosition.IsInsurmountable;
 		}
 
-		// Token: 0x060011BC RID: 4540 RVA: 0x000412F8 File Offset: 0x0003F4F8
 		private float GetTacticalPositionScore(TacticalPosition tacticalPosition)
 		{
 			if (base.CheckAndDetermineFormation(ref this._mainInfantry, (Formation f) => f.CountOfUnits > 0 && f.QuerySystem.IsInfantryFormation))
@@ -176,7 +166,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x060011BD RID: 4541 RVA: 0x000414A8 File Offset: 0x0003F6A8
 		private List<TacticalPosition> ExtractPossibleTacticalPositionsFromTacticalRegion(TacticalRegion tacticalRegion)
 		{
 			List<TacticalPosition> list = new List<TacticalPosition>();
@@ -196,7 +185,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x060011BE RID: 4542 RVA: 0x00041574 File Offset: 0x0003F774
 		private float GetCavalryFactor(TacticalPosition tacticalPosition)
 		{
 			if (tacticalPosition.TacticalRegionMembership == TacticalRegion.TacticalRegionTypeEnum.Opening)
@@ -217,7 +205,6 @@ namespace TaleWorlds.MountAndBlade
 			return num / num2 / base.Team.QuerySystem.RemainingPowerRatio;
 		}
 
-		// Token: 0x060011BF RID: 4543 RVA: 0x00041678 File Offset: 0x0003F878
 		private void DetermineRingPosition()
 		{
 			IEnumerable<ValueTuple<TacticalPosition, float>> enumerable = from tp in base.Team.TeamAI.TacticalPositions
@@ -244,10 +231,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040004AE RID: 1198
 		private const float DefendersAdvantage = 1.5f;
 
-		// Token: 0x040004AF RID: 1199
 		private TacticalPosition _mainRingPosition;
 	}
 }

@@ -2,10 +2,8 @@
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x0200004D RID: 77
 	public class DefaultItemCategorySelector : ItemCategorySelector
 	{
-		// Token: 0x060005CF RID: 1487 RVA: 0x000152B4 File Offset: 0x000134B4
 		public override ItemCategory GetItemCategoryForItem(ItemObject itemObject)
 		{
 			if (itemObject.PrimaryWeapon != null)

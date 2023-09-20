@@ -13,11 +13,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 {
-	// Token: 0x020000BA RID: 186
 	[EncyclopediaViewModel(typeof(CharacterObject))]
 	public class EncyclopediaUnitPageVM : EncyclopediaContentPageVM
 	{
-		// Token: 0x0600127A RID: 4730 RVA: 0x00047D88 File Offset: 0x00045F88
 		public EncyclopediaUnitPageVM(EncyclopediaPageArgs args)
 			: base(args)
 		{
@@ -36,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600127B RID: 4731 RVA: 0x00047E50 File Offset: 0x00046050
 		private bool DoesCharacterHaveCircularUpgradePaths(CharacterObject baseCharacter, CharacterObject character = null)
 		{
 			bool flag = false;
@@ -57,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			return flag;
 		}
 
-		// Token: 0x0600127C RID: 4732 RVA: 0x00047EC0 File Offset: 0x000460C0
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -108,7 +104,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			base.UpdateBookmarkHintText();
 		}
 
-		// Token: 0x0600127D RID: 4733 RVA: 0x00048104 File Offset: 0x00046304
 		private void OnEquipmentSetChange(SelectorVM<EncyclopediaUnitEquipmentSetSelectorItemVM> selector)
 		{
 			this.CurrentSelectedEquipmentSet = selector.SelectedItem;
@@ -118,19 +113,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			this.EquipmentSetText = this._equipmentSetTextObj.ToString();
 		}
 
-		// Token: 0x0600127E RID: 4734 RVA: 0x00048179 File Offset: 0x00046379
 		public override string GetName()
 		{
 			return this._character.Name.ToString();
 		}
 
-		// Token: 0x0600127F RID: 4735 RVA: 0x0004818C File Offset: 0x0004638C
 		public override string GetNavigationBarURL()
 		{
 			return HyperlinkTexts.GetGenericHyperlinkText("Home", GameTexts.FindText("str_encyclopedia_home", null).ToString()) + " \\ " + HyperlinkTexts.GetGenericHyperlinkText("ListPage-Units", GameTexts.FindText("str_encyclopedia_troops", null).ToString()) + " \\ " + this.GetName();
 		}
 
-		// Token: 0x06001280 RID: 4736 RVA: 0x000481F4 File Offset: 0x000463F4
 		public override void ExecuteSwitchBookmarkedState()
 		{
 			base.ExecuteSwitchBookmarkedState();
@@ -142,9 +134,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			Campaign.Current.EncyclopediaManager.ViewDataTracker.RemoveEncyclopediaBookmarkFromItem(this._character);
 		}
 
-		// Token: 0x1700062E RID: 1582
-		// (get) Token: 0x06001281 RID: 4737 RVA: 0x00048244 File Offset: 0x00046444
-		// (set) Token: 0x06001282 RID: 4738 RVA: 0x0004824C File Offset: 0x0004644C
 		[DataSourceProperty]
 		public MBBindingList<EncyclopediaSkillVM> Skills
 		{
@@ -162,9 +151,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x1700062F RID: 1583
-		// (get) Token: 0x06001283 RID: 4739 RVA: 0x0004826A File Offset: 0x0004646A
-		// (set) Token: 0x06001284 RID: 4740 RVA: 0x00048272 File Offset: 0x00046472
 		[DataSourceProperty]
 		public MBBindingList<StringItemWithHintVM> PropertiesList
 		{
@@ -182,9 +168,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000630 RID: 1584
-		// (get) Token: 0x06001285 RID: 4741 RVA: 0x00048290 File Offset: 0x00046490
-		// (set) Token: 0x06001286 RID: 4742 RVA: 0x00048298 File Offset: 0x00046498
 		[DataSourceProperty]
 		public SelectorVM<EncyclopediaUnitEquipmentSetSelectorItemVM> EquipmentSetSelector
 		{
@@ -202,9 +185,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000631 RID: 1585
-		// (get) Token: 0x06001287 RID: 4743 RVA: 0x000482B6 File Offset: 0x000464B6
-		// (set) Token: 0x06001288 RID: 4744 RVA: 0x000482BE File Offset: 0x000464BE
 		[DataSourceProperty]
 		public EncyclopediaUnitEquipmentSetSelectorItemVM CurrentSelectedEquipmentSet
 		{
@@ -222,9 +202,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000632 RID: 1586
-		// (get) Token: 0x06001289 RID: 4745 RVA: 0x000482DC File Offset: 0x000464DC
-		// (set) Token: 0x0600128A RID: 4746 RVA: 0x000482E4 File Offset: 0x000464E4
 		[DataSourceProperty]
 		public CharacterViewModel UnitCharacter
 		{
@@ -242,9 +219,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000633 RID: 1587
-		// (get) Token: 0x0600128B RID: 4747 RVA: 0x00048302 File Offset: 0x00046502
-		// (set) Token: 0x0600128C RID: 4748 RVA: 0x0004830A File Offset: 0x0004650A
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -262,9 +236,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000634 RID: 1588
-		// (get) Token: 0x0600128D RID: 4749 RVA: 0x0004832D File Offset: 0x0004652D
-		// (set) Token: 0x0600128E RID: 4750 RVA: 0x00048335 File Offset: 0x00046535
 		[DataSourceProperty]
 		public string DescriptionText
 		{
@@ -282,9 +253,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000635 RID: 1589
-		// (get) Token: 0x0600128F RID: 4751 RVA: 0x00048358 File Offset: 0x00046558
-		// (set) Token: 0x06001290 RID: 4752 RVA: 0x00048360 File Offset: 0x00046560
 		[DataSourceProperty]
 		public EncyclopediaTroopTreeNodeVM Tree
 		{
@@ -302,9 +270,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000636 RID: 1590
-		// (get) Token: 0x06001291 RID: 4753 RVA: 0x0004837E File Offset: 0x0004657E
-		// (set) Token: 0x06001292 RID: 4754 RVA: 0x00048386 File Offset: 0x00046586
 		[DataSourceProperty]
 		public string TreeDisplayErrorText
 		{
@@ -322,9 +287,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000637 RID: 1591
-		// (get) Token: 0x06001293 RID: 4755 RVA: 0x000483A9 File Offset: 0x000465A9
-		// (set) Token: 0x06001294 RID: 4756 RVA: 0x000483B1 File Offset: 0x000465B1
 		[DataSourceProperty]
 		public string EquipmentSetText
 		{
@@ -342,9 +304,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x17000638 RID: 1592
-		// (get) Token: 0x06001295 RID: 4757 RVA: 0x000483D4 File Offset: 0x000465D4
-		// (set) Token: 0x06001296 RID: 4758 RVA: 0x000483DC File Offset: 0x000465DC
 		[DataSourceProperty]
 		public bool HasErrors
 		{
@@ -362,43 +321,30 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			}
 		}
 
-		// Token: 0x04000895 RID: 2197
 		private readonly CharacterObject _character;
 
-		// Token: 0x04000896 RID: 2198
 		private TextObject _equipmentSetTextObj;
 
-		// Token: 0x04000897 RID: 2199
 		private MBBindingList<EncyclopediaSkillVM> _skills;
 
-		// Token: 0x04000898 RID: 2200
 		private MBBindingList<StringItemWithHintVM> _propertiesList;
 
-		// Token: 0x04000899 RID: 2201
 		private SelectorVM<EncyclopediaUnitEquipmentSetSelectorItemVM> _equipmentSetSelector;
 
-		// Token: 0x0400089A RID: 2202
 		private EncyclopediaUnitEquipmentSetSelectorItemVM _currentSelectedEquipmentSet;
 
-		// Token: 0x0400089B RID: 2203
 		private EncyclopediaTroopTreeNodeVM _tree;
 
-		// Token: 0x0400089C RID: 2204
 		private string _descriptionText;
 
-		// Token: 0x0400089D RID: 2205
 		private CharacterViewModel _unitCharacter;
 
-		// Token: 0x0400089E RID: 2206
 		private string _nameText;
 
-		// Token: 0x0400089F RID: 2207
 		private string _treeDisplayErrorText;
 
-		// Token: 0x040008A0 RID: 2208
 		private string _equipmentSetText;
 
-		// Token: 0x040008A1 RID: 2209
 		private bool _hasErrors;
 	}
 }

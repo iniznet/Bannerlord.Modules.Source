@@ -5,16 +5,13 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions.Sound.Components
 {
-	// Token: 0x0200002C RID: 44
 	public class MusicMissionTournamentComponent : MusicMissionActionComponent
 	{
-		// Token: 0x06000162 RID: 354 RVA: 0x00010F14 File Offset: 0x0000F114
 		public MusicMissionTournamentComponent()
 		{
 			this.TrackUpdateInterval = 1f;
 		}
 
-		// Token: 0x06000163 RID: 355 RVA: 0x00010F28 File Offset: 0x0000F128
 		public override void PreInitialize()
 		{
 			base.PreInitialize();
@@ -31,7 +28,6 @@ namespace SandBox.View.Missions.Sound.Components
 			this.CurrentMood = 6;
 		}
 
-		// Token: 0x06000164 RID: 356 RVA: 0x00010FEC File Offset: 0x0000F1EC
 		protected override MBMusicManagerOld.MusicMood HandleNormalTrackSelection(bool forceUpdate = false)
 		{
 			MBMusicManagerOld.MusicMood musicMood;
@@ -50,31 +46,26 @@ namespace SandBox.View.Missions.Sound.Components
 			return musicMood;
 		}
 
-		// Token: 0x06000165 RID: 357 RVA: 0x00011028 File Offset: 0x0000F228
 		protected override float CalculateIntensityFromDamageFromPlayer()
 		{
 			return MathF.Pow(base.CalculateIntensityFromDamageFromPlayer(), 0.75f);
 		}
 
-		// Token: 0x06000166 RID: 358 RVA: 0x0001103A File Offset: 0x0000F23A
 		protected override float CalculateIntensityFromDamageToPlayer()
 		{
 			return MathF.Pow(base.CalculateIntensityFromDamageToPlayer(), 0.75f);
 		}
 
-		// Token: 0x06000167 RID: 359 RVA: 0x0001104C File Offset: 0x0000F24C
 		protected override float CalculateIntensityFromEnemiesInDuelRange()
 		{
 			return MathF.Pow(base.CalculateIntensityFromEnemiesInDuelRange(), 0.55f);
 		}
 
-		// Token: 0x06000168 RID: 360 RVA: 0x0001105E File Offset: 0x0000F25E
 		protected override float CalculateIntensityFromEnemiesAround()
 		{
 			return MathF.Pow(base.CalculateIntensityFromEnemiesAround(), 1.5f);
 		}
 
-		// Token: 0x06000169 RID: 361 RVA: 0x00011070 File Offset: 0x0000F270
 		protected override float CalculateIntensityMisc()
 		{
 			float num = 0f;

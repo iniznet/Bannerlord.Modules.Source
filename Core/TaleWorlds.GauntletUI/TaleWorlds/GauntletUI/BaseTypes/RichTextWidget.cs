@@ -6,11 +6,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x02000062 RID: 98
 	public class RichTextWidget : BrushWidget
 	{
-		// Token: 0x170001C5 RID: 453
-		// (get) Token: 0x06000628 RID: 1576 RVA: 0x0001B48C File Offset: 0x0001968C
 		private Vector2 LocalMousePosition
 		{
 			get
@@ -23,9 +20,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001C6 RID: 454
-		// (get) Token: 0x06000629 RID: 1577 RVA: 0x0001B4CD File Offset: 0x000196CD
-		// (set) Token: 0x0600062A RID: 1578 RVA: 0x0001B4D5 File Offset: 0x000196D5
 		[Editor(false)]
 		public string LinkHoverCursorState
 		{
@@ -42,9 +36,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001C7 RID: 455
-		// (get) Token: 0x0600062B RID: 1579 RVA: 0x0001B4EC File Offset: 0x000196EC
-		// (set) Token: 0x0600062C RID: 1580 RVA: 0x0001B4FC File Offset: 0x000196FC
 		[Editor(false)]
 		public string Text
 		{
@@ -65,7 +56,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600062D RID: 1581 RVA: 0x0001B568 File Offset: 0x00019768
 		public RichTextWidget(UIContext context)
 			: base(context)
 		{
@@ -81,26 +71,22 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.AddState("Disabled");
 		}
 
-		// Token: 0x0600062E RID: 1582 RVA: 0x0001B619 File Offset: 0x00019819
 		protected override void OnParallelUpdate(float dt)
 		{
 			base.OnParallelUpdate(dt);
 			this.SetRichTextParameters();
 		}
 
-		// Token: 0x0600062F RID: 1583 RVA: 0x0001B628 File Offset: 0x00019828
 		public override void OnBrushChanged()
 		{
 			base.OnBrushChanged();
 			this.UpdateFontData();
 		}
 
-		// Token: 0x06000630 RID: 1584 RVA: 0x0001B636 File Offset: 0x00019836
 		protected virtual void SetText(string value)
 		{
 		}
 
-		// Token: 0x06000631 RID: 1585 RVA: 0x0001B638 File Offset: 0x00019838
 		private void SetRichTextParameters()
 		{
 			bool flag = false;
@@ -132,14 +118,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000632 RID: 1586 RVA: 0x0001B72F File Offset: 0x0001992F
 		protected override void RefreshState()
 		{
 			base.RefreshState();
 			this.UpdateText();
 		}
 
-		// Token: 0x06000633 RID: 1587 RVA: 0x0001B740 File Offset: 0x00019940
 		private void UpdateText()
 		{
 			if (base.IsDisabled)
@@ -160,7 +144,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.SetState("Default");
 		}
 
-		// Token: 0x06000634 RID: 1588 RVA: 0x0001B794 File Offset: 0x00019994
 		private void UpdateFontData()
 		{
 			if (this._lastFontBrush == base.ReadOnlyBrush && this._lastContextScale == base._scaleToUse && this._lastLanguageCode == base.Context.FontFactory.CurrentLangageID)
@@ -192,7 +175,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._richText.CurrentLanguage = base.Context.FontFactory.GetCurrentLanguage();
 		}
 
-		// Token: 0x06000635 RID: 1589 RVA: 0x0001B8FC File Offset: 0x00019AFC
 		private Font GetFont(Style style = null)
 		{
 			if (((style != null) ? style.Font : null) != null)
@@ -206,7 +188,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return base.Context.FontFactory.DefaultFont;
 		}
 
-		// Token: 0x06000636 RID: 1590 RVA: 0x0001B974 File Offset: 0x00019B74
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -253,7 +234,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000637 RID: 1591 RVA: 0x0001BB34 File Offset: 0x00019D34
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			base.OnRender(twoDimensionContext, drawContext);
@@ -324,7 +304,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000638 RID: 1592 RVA: 0x0001BE74 File Offset: 0x0001A074
 		protected internal override void OnMousePressed()
 		{
 			if (this._mouseState == RichTextWidget.MouseState.None)
@@ -334,7 +313,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000639 RID: 1593 RVA: 0x0001BE91 File Offset: 0x0001A091
 		protected internal override void OnMouseReleased()
 		{
 			if (this._mouseState == RichTextWidget.MouseState.Down)
@@ -343,7 +321,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600063A RID: 1594 RVA: 0x0001BEA3 File Offset: 0x0001A0A3
 		protected internal override void OnMouseAlternatePressed()
 		{
 			if (this._mouseState == RichTextWidget.MouseState.None)
@@ -353,7 +330,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600063B RID: 1595 RVA: 0x0001BEC0 File Offset: 0x0001A0C0
 		protected internal override void OnMouseAlternateReleased()
 		{
 			if (this._mouseState == RichTextWidget.MouseState.AlternateDown)
@@ -362,51 +338,34 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002EC RID: 748
 		protected readonly RichText _richText;
 
-		// Token: 0x040002ED RID: 749
 		private Brush _lastFontBrush;
 
-		// Token: 0x040002EE RID: 750
 		private string _lastLanguageCode;
 
-		// Token: 0x040002EF RID: 751
 		private float _lastContextScale;
 
-		// Token: 0x040002F0 RID: 752
 		private FontFactory _fontFactory;
 
-		// Token: 0x040002F1 RID: 753
 		private RichTextWidget.MouseState _mouseState;
 
-		// Token: 0x040002F2 RID: 754
 		private Dictionary<Texture, SimpleMaterial> _textureMaterialDict;
 
-		// Token: 0x040002F3 RID: 755
 		private Vector2 _mouseDownPosition;
 
-		// Token: 0x040002F4 RID: 756
 		private int _textHeight;
 
-		// Token: 0x040002F5 RID: 757
 		protected float _renderXOffset;
 
-		// Token: 0x040002F6 RID: 758
 		private string _linkHoverCursorState;
 
-		// Token: 0x0200008E RID: 142
 		private enum MouseState
 		{
-			// Token: 0x04000465 RID: 1125
 			None,
-			// Token: 0x04000466 RID: 1126
 			Down,
-			// Token: 0x04000467 RID: 1127
 			Up,
-			// Token: 0x04000468 RID: 1128
 			AlternateDown,
-			// Token: 0x04000469 RID: 1129
 			AlternateUp
 		}
 	}

@@ -14,10 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000FB RID: 251
 	public class DefaultClanPoliticsModel : ClanPoliticsModel
 	{
-		// Token: 0x060014E9 RID: 5353 RVA: 0x0005EE94 File Offset: 0x0005D094
 		public override ExplainedNumber CalculateInfluenceChange(Clan clan, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -25,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014EA RID: 5354 RVA: 0x0005EEBC File Offset: 0x0005D0BC
 		private void CalculateInfluenceChangeInternal(Clan clan, ref ExplainedNumber influenceChange)
 		{
 			foreach (Hero hero in clan.Heroes)
@@ -95,13 +92,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.CalculateInfluenceChangeDueToIssues(clan, ref influenceChange);
 		}
 
-		// Token: 0x060014EB RID: 5355 RVA: 0x0005F1E8 File Offset: 0x0005D3E8
 		private void CalculateInfluenceChangeDueToIssues(Clan clan, ref ExplainedNumber influenceChange)
 		{
 			Campaign.Current.Models.IssueModel.GetIssueEffectOfClan(DefaultIssueEffects.ClanInfluence, clan, ref influenceChange);
 		}
 
-		// Token: 0x060014EC RID: 5356 RVA: 0x0005F208 File Offset: 0x0005D408
 		private void CalculateInfluenceChangeDueToPolicies(Clan clan, ref ExplainedNumber influenceChange)
 		{
 			if (clan.Kingdom.ActivePolicies.Contains(DefaultPolicies.FeudalInheritance))
@@ -172,7 +167,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014ED RID: 5357 RVA: 0x0005F560 File Offset: 0x0005D760
 		public override float CalculateSupportForPolicyInClan(Clan clan, PolicyObject policy)
 		{
 			float num = 0f;
@@ -234,13 +228,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Clamp(num + (num3 + num4 + num5 + num6 + num7 + num8 + num9), -2f, 2f);
 		}
 
-		// Token: 0x060014EE RID: 5358 RVA: 0x0005F71B File Offset: 0x0005D91B
 		public override float CalculateRelationshipChangeWithSponsor(Clan clan, Clan sponsorClan)
 		{
 			return MathF.Lerp(-2f, 2f, MathF.Clamp((float)clan.Leader.GetRelation(sponsorClan.Leader) / 60f, 0f, 1f), 1E-05f);
 		}
 
-		// Token: 0x060014EF RID: 5359 RVA: 0x0005F758 File Offset: 0x0005D958
 		public override int GetInfluenceRequiredToOverrideKingdomDecision(DecisionOutcome popularOption, DecisionOutcome overridingOption, KingdomDecision decision)
 		{
 			float totalSupportPoints = popularOption.TotalSupportPoints;
@@ -281,25 +273,18 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)num2;
 		}
 
-		// Token: 0x04000772 RID: 1906
 		private static readonly TextObject _supporterStr = new TextObject("{=RzFyGnWJ}Supporters", null);
 
-		// Token: 0x04000773 RID: 1907
 		private static readonly TextObject _crimeStr = new TextObject("{=MvxW9rmf}Criminal", null);
 
-		// Token: 0x04000774 RID: 1908
 		private static readonly TextObject _armyMemberStr = new TextObject("{=XAdBVsXV}Clan members in an army", null);
 
-		// Token: 0x04000775 RID: 1909
 		private static readonly TextObject _townProjectStr = new TextObject("{=8Yb3IVvb}Settlement Buildings", null);
 
-		// Token: 0x04000776 RID: 1910
 		private static readonly TextObject _courtshipPerkStr = new TextObject("{=zgzDwZKZ}Courtship from clan parties", null);
 
-		// Token: 0x04000777 RID: 1911
 		private static readonly TextObject _mercenaryStr = new TextObject("{=qcaaJLhx}Mercenary Contract", null);
 
-		// Token: 0x04000778 RID: 1912
 		private static readonly TextObject _kingBonusStr = new TextObject("{=JNS46jsG}King bonus", null);
 	}
 }

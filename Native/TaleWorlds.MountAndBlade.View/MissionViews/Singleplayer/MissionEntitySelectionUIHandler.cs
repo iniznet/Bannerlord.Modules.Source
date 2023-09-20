@@ -5,17 +5,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
-	// Token: 0x0200006B RID: 107
 	public class MissionEntitySelectionUIHandler : MissionView
 	{
-		// Token: 0x06000459 RID: 1113 RVA: 0x0002275A File Offset: 0x0002095A
 		public MissionEntitySelectionUIHandler(Action<GameEntity> onSelect = null, Action<GameEntity> onHover = null)
 		{
 			this.onSelect = onSelect;
 			this.onHover = onHover;
 		}
 
-		// Token: 0x0600045A RID: 1114 RVA: 0x00022770 File Offset: 0x00020970
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -36,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x0600045B RID: 1115 RVA: 0x000227D0 File Offset: 0x000209D0
 		private GameEntity GetCollidedEntity()
 		{
 			Vec2 mousePositionRanged = base.Input.GetMousePositionRanged();
@@ -64,7 +60,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			return gameEntity;
 		}
 
-		// Token: 0x0600045C RID: 1116 RVA: 0x00022870 File Offset: 0x00020A70
 		public override void OnRemoveBehavior()
 		{
 			this.onSelect = null;
@@ -72,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x0600045D RID: 1117 RVA: 0x00022888 File Offset: 0x00020A88
 		[Conditional("DEBUG")]
 		public void TickDebug()
 		{
@@ -83,10 +77,8 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x040002B9 RID: 697
 		private Action<GameEntity> onSelect;
 
-		// Token: 0x040002BA RID: 698
 		private Action<GameEntity> onHover;
 	}
 }

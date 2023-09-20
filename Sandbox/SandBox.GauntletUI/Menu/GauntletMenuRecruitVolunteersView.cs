@@ -12,12 +12,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Menu
 {
-	// Token: 0x0200001B RID: 27
 	[OverrideView(typeof(MenuRecruitVolunteersView))]
 	public class GauntletMenuRecruitVolunteersView : MenuView
 	{
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x0600011F RID: 287 RVA: 0x00008DAD File Offset: 0x00006FAD
 		public override bool ShouldUpdateMenuAfterRemoved
 		{
 			get
@@ -26,7 +23,6 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x00008DB0 File Offset: 0x00006FB0
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -58,7 +54,6 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x00008F68 File Offset: 0x00007168
 		protected override void OnFinalize()
 		{
 			base.Layer.IsFocusLayer = false;
@@ -79,7 +74,6 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x00009008 File Offset: 0x00007208
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -116,13 +110,10 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x04000080 RID: 128
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x04000081 RID: 129
 		private RecruitmentVM _dataSource;
 
-		// Token: 0x04000082 RID: 130
 		private IGauntletMovie _movie;
 	}
 }

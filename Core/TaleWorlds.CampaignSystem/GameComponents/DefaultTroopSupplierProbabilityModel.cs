@@ -10,10 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000148 RID: 328
 	public class DefaultTroopSupplierProbabilityModel : TroopSupplierProbabilityModel
 	{
-		// Token: 0x060017FE RID: 6142 RVA: 0x00079364 File Offset: 0x00077564
 		public override void EnqueueTroopSpawnProbabilitiesAccordingToUnitSpawnPrioritization(MapEventParty battleParty, FlattenedTroopRoster priorityTroops, bool includePlayer, int sizeOfSide, bool forcePriorityTroops, List<ValueTuple<FlattenedTroopRosterElement, MapEventParty, float>> priorityList)
 		{
 			UnitSpawnPrioritizations unitSpawnPrioritizations = UnitSpawnPrioritizations.HighLevel;
@@ -159,7 +157,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017FF RID: 6143 RVA: 0x00079760 File Offset: 0x00077960
 		private bool IsPriorityTroop(FlattenedTroopRosterElement troop, FlattenedTroopRoster priorityTroops)
 		{
 			foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in priorityTroops)
@@ -172,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return false;
 		}
 
-		// Token: 0x06001800 RID: 6144 RVA: 0x000797B8 File Offset: 0x000779B8
 		private bool CanTroopJoinBattle(FlattenedTroopRosterElement troopRoster, bool includePlayer)
 		{
 			return !troopRoster.IsWounded && !troopRoster.IsRouted && !troopRoster.IsKilled && (includePlayer || !troopRoster.Troop.IsPlayerCharacter);

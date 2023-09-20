@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000106 RID: 262
 	public class DefaultDisguiseDetectionModel : DisguiseDetectionModel
 	{
-		// Token: 0x06001579 RID: 5497 RVA: 0x000652E8 File Offset: 0x000634E8
 		public override float CalculateDisguiseDetectionProbability(Settlement settlement)
 		{
 			float num = 0f;

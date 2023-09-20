@@ -14,10 +14,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categories
 {
-	// Token: 0x02000112 RID: 274
 	public class ClanFiefsVM : ViewModel
 	{
-		// Token: 0x060019ED RID: 6637 RVA: 0x0005DCC4 File Offset: 0x0005BEC4
 		public ClanFiefsVM(Action onRefresh, Action<ClanCardSelectionInfo> openCardSelectionPopup)
 		{
 			this._onRefresh = onRefresh;
@@ -30,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.RefreshValues();
 		}
 
-		// Token: 0x060019EE RID: 6638 RVA: 0x0005DD38 File Offset: 0x0005BF38
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -57,13 +54,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			currentSelectedFief.RefreshValues();
 		}
 
-		// Token: 0x060019EF RID: 6639 RVA: 0x0005DE44 File Offset: 0x0005C044
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 		}
 
-		// Token: 0x060019F0 RID: 6640 RVA: 0x0005DE4C File Offset: 0x0005C04C
 		public void RefreshAllLists()
 		{
 			this.Settlements.Clear();
@@ -82,7 +77,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.OnFiefSelection(this.GetDefaultMember());
 		}
 
-		// Token: 0x060019F1 RID: 6641 RVA: 0x0005DF34 File Offset: 0x0005C134
 		private ClanSettlementItemVM GetDefaultMember()
 		{
 			if (!this.Settlements.IsEmpty<ClanSettlementItemVM>())
@@ -92,7 +86,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return this.Castles.FirstOrDefault<ClanSettlementItemVM>();
 		}
 
-		// Token: 0x060019F2 RID: 6642 RVA: 0x0005DF5C File Offset: 0x0005C15C
 		public void SelectFief(Settlement settlement)
 		{
 			foreach (ClanSettlementItemVM clanSettlementItemVM in this.Settlements)
@@ -105,7 +98,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x060019F3 RID: 6643 RVA: 0x0005DFB4 File Offset: 0x0005C1B4
 		private void OnFiefSelection(ClanSettlementItemVM fief)
 		{
 			if (this.CurrentSelectedFief != null)
@@ -123,7 +115,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x060019F4 RID: 6644 RVA: 0x0005E034 File Offset: 0x0005C234
 		private bool GetCanChangeGovernor(out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -188,7 +179,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return true;
 		}
 
-		// Token: 0x060019F5 RID: 6645 RVA: 0x0005E154 File Offset: 0x0005C354
 		public void ExecuteAssignGovernor()
 		{
 			ClanSettlementItemVM currentSelectedFief = this.CurrentSelectedFief;
@@ -214,7 +204,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x060019F6 RID: 6646 RVA: 0x0005E1BC File Offset: 0x0005C3BC
 		private IEnumerable<ClanCardSelectionItemInfo> GetGovernorCandidates()
 		{
 			yield return new ClanCardSelectionItemInfo(this._noGovernorTextSource.CopyTextObject(), false, null, null);
@@ -240,7 +229,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x060019F7 RID: 6647 RVA: 0x0005E1CC File Offset: 0x0005C3CC
 		private IEnumerable<ClanCardSelectionItemPropertyInfo> GetGovernorCandidateProperties(Hero hero)
 		{
 			GameTexts.SetVariable("newline", "\n");
@@ -272,7 +260,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x060019F8 RID: 6648 RVA: 0x0005E1E4 File Offset: 0x0005C3E4
 		private void OnGovernorSelectionOver(List<object> selectedItems, Action closePopup)
 		{
 			if (selectedItems.Count == 1)
@@ -339,7 +326,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x060019F9 RID: 6649 RVA: 0x0005E2FC File Offset: 0x0005C4FC
 		private Settlement GetSettlementOfGovernor(Hero hero)
 		{
 			foreach (ClanSettlementItemVM clanSettlementItemVM in this.Settlements)
@@ -379,7 +365,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return null;
 		}
 
-		// Token: 0x060019FA RID: 6650 RVA: 0x0005E3C4 File Offset: 0x0005C5C4
 		private void OnShowSendMembers()
 		{
 			ClanSettlementItemVM currentSelectedFief = this.CurrentSelectedFief;
@@ -398,7 +383,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x060019FB RID: 6651 RVA: 0x0005E431 File Offset: 0x0005C631
 		private IEnumerable<ClanCardSelectionItemInfo> GetSendMembersCandidates()
 		{
 			foreach (Hero hero in this._faction.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._faction.Companions))
@@ -418,7 +402,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x060019FC RID: 6652 RVA: 0x0005E441 File Offset: 0x0005C641
 		private IEnumerable<ClanCardSelectionItemPropertyInfo> GetSendMembersCandidateProperties(Hero hero)
 		{
 			TextObject teleportationDelayText = CampaignUIHelper.GetTeleportationDelayText(hero, this.CurrentSelectedFief.Settlement.Party);
@@ -430,7 +413,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x060019FD RID: 6653 RVA: 0x0005E458 File Offset: 0x0005C658
 		private void OnSendMembersSelectionOver(List<object> selectedItems, Action closePopup)
 		{
 			if (selectedItems.Count > 0)
@@ -491,9 +473,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			closePopup2();
 		}
 
-		// Token: 0x170008E0 RID: 2272
-		// (get) Token: 0x060019FE RID: 6654 RVA: 0x0005E548 File Offset: 0x0005C748
-		// (set) Token: 0x060019FF RID: 6655 RVA: 0x0005E550 File Offset: 0x0005C750
 		[DataSourceProperty]
 		public string GovernorActionText
 		{
@@ -511,9 +490,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E1 RID: 2273
-		// (get) Token: 0x06001A00 RID: 6656 RVA: 0x0005E573 File Offset: 0x0005C773
-		// (set) Token: 0x06001A01 RID: 6657 RVA: 0x0005E57B File Offset: 0x0005C77B
 		[DataSourceProperty]
 		public bool CanChangeGovernorOfCurrentFief
 		{
@@ -531,9 +507,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E2 RID: 2274
-		// (get) Token: 0x06001A02 RID: 6658 RVA: 0x0005E599 File Offset: 0x0005C799
-		// (set) Token: 0x06001A03 RID: 6659 RVA: 0x0005E5A1 File Offset: 0x0005C7A1
 		[DataSourceProperty]
 		public HintViewModel GovernorActionHint
 		{
@@ -551,9 +524,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E3 RID: 2275
-		// (get) Token: 0x06001A04 RID: 6660 RVA: 0x0005E5BF File Offset: 0x0005C7BF
-		// (set) Token: 0x06001A05 RID: 6661 RVA: 0x0005E5C7 File Offset: 0x0005C7C7
 		[DataSourceProperty]
 		public bool IsAnyValidFiefSelected
 		{
@@ -571,9 +541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E4 RID: 2276
-		// (get) Token: 0x06001A06 RID: 6662 RVA: 0x0005E5E5 File Offset: 0x0005C7E5
-		// (set) Token: 0x06001A07 RID: 6663 RVA: 0x0005E5ED File Offset: 0x0005C7ED
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -591,9 +558,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E5 RID: 2277
-		// (get) Token: 0x06001A08 RID: 6664 RVA: 0x0005E610 File Offset: 0x0005C810
-		// (set) Token: 0x06001A09 RID: 6665 RVA: 0x0005E618 File Offset: 0x0005C818
 		[DataSourceProperty]
 		public string TaxText
 		{
@@ -611,9 +575,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E6 RID: 2278
-		// (get) Token: 0x06001A0A RID: 6666 RVA: 0x0005E63B File Offset: 0x0005C83B
-		// (set) Token: 0x06001A0B RID: 6667 RVA: 0x0005E643 File Offset: 0x0005C843
 		[DataSourceProperty]
 		public string GovernorText
 		{
@@ -631,9 +592,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E7 RID: 2279
-		// (get) Token: 0x06001A0C RID: 6668 RVA: 0x0005E666 File Offset: 0x0005C866
-		// (set) Token: 0x06001A0D RID: 6669 RVA: 0x0005E66E File Offset: 0x0005C86E
 		[DataSourceProperty]
 		public string TownsText
 		{
@@ -651,9 +609,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E8 RID: 2280
-		// (get) Token: 0x06001A0E RID: 6670 RVA: 0x0005E691 File Offset: 0x0005C891
-		// (set) Token: 0x06001A0F RID: 6671 RVA: 0x0005E699 File Offset: 0x0005C899
 		[DataSourceProperty]
 		public string CastlesText
 		{
@@ -671,9 +626,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008E9 RID: 2281
-		// (get) Token: 0x06001A10 RID: 6672 RVA: 0x0005E6BC File Offset: 0x0005C8BC
-		// (set) Token: 0x06001A11 RID: 6673 RVA: 0x0005E6C4 File Offset: 0x0005C8C4
 		[DataSourceProperty]
 		public string NoFiefsText
 		{
@@ -691,9 +643,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008EA RID: 2282
-		// (get) Token: 0x06001A12 RID: 6674 RVA: 0x0005E6E7 File Offset: 0x0005C8E7
-		// (set) Token: 0x06001A13 RID: 6675 RVA: 0x0005E6EF File Offset: 0x0005C8EF
 		[DataSourceProperty]
 		public string NoGovernorText
 		{
@@ -711,9 +660,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008EB RID: 2283
-		// (get) Token: 0x06001A14 RID: 6676 RVA: 0x0005E712 File Offset: 0x0005C912
-		// (set) Token: 0x06001A15 RID: 6677 RVA: 0x0005E71A File Offset: 0x0005C91A
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -731,9 +677,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008EC RID: 2284
-		// (get) Token: 0x06001A16 RID: 6678 RVA: 0x0005E738 File Offset: 0x0005C938
-		// (set) Token: 0x06001A17 RID: 6679 RVA: 0x0005E740 File Offset: 0x0005C940
 		[DataSourceProperty]
 		public MBBindingList<ClanSettlementItemVM> Settlements
 		{
@@ -751,9 +694,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008ED RID: 2285
-		// (get) Token: 0x06001A18 RID: 6680 RVA: 0x0005E75E File Offset: 0x0005C95E
-		// (set) Token: 0x06001A19 RID: 6681 RVA: 0x0005E766 File Offset: 0x0005C966
 		[DataSourceProperty]
 		public MBBindingList<ClanSettlementItemVM> Castles
 		{
@@ -771,9 +711,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x170008EE RID: 2286
-		// (get) Token: 0x06001A1A RID: 6682 RVA: 0x0005E784 File Offset: 0x0005C984
-		// (set) Token: 0x06001A1B RID: 6683 RVA: 0x0005E78C File Offset: 0x0005C98C
 		[DataSourceProperty]
 		public ClanSettlementItemVM CurrentSelectedFief
 		{
@@ -792,64 +729,44 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x04000C4B RID: 3147
 		private readonly Clan _faction;
 
-		// Token: 0x04000C4C RID: 3148
 		private readonly Action _onRefresh;
 
-		// Token: 0x04000C4D RID: 3149
 		private readonly Action<ClanCardSelectionInfo> _openCardSelectionPopup;
 
-		// Token: 0x04000C4E RID: 3150
 		private readonly ITeleportationCampaignBehavior _teleportationBehavior;
 
-		// Token: 0x04000C4F RID: 3151
 		private readonly TextObject _noGovernorTextSource = new TextObject("{=zLFsnaqR}No Governor", null);
 
-		// Token: 0x04000C50 RID: 3152
 		private MBBindingList<ClanSettlementItemVM> _settlements;
 
-		// Token: 0x04000C51 RID: 3153
 		private MBBindingList<ClanSettlementItemVM> _castles;
 
-		// Token: 0x04000C52 RID: 3154
 		private ClanSettlementItemVM _currentSelectedFief;
 
-		// Token: 0x04000C53 RID: 3155
 		private bool _isSelected;
 
-		// Token: 0x04000C54 RID: 3156
 		private string _nameText;
 
-		// Token: 0x04000C55 RID: 3157
 		private string _taxText;
 
-		// Token: 0x04000C56 RID: 3158
 		private string _governorText;
 
-		// Token: 0x04000C57 RID: 3159
 		private string _townsText;
 
-		// Token: 0x04000C58 RID: 3160
 		private string _castlesText;
 
-		// Token: 0x04000C59 RID: 3161
 		private string _noFiefsText;
 
-		// Token: 0x04000C5A RID: 3162
 		private string _noGovernorText;
 
-		// Token: 0x04000C5B RID: 3163
 		private bool _isAnyValidFiefSelected;
 
-		// Token: 0x04000C5C RID: 3164
 		private bool _canChangeGovernorOfCurrentFief;
 
-		// Token: 0x04000C5D RID: 3165
 		private HintViewModel _governorActionHint;
 
-		// Token: 0x04000C5E RID: 3166
 		private string _governorActionText;
 	}
 }

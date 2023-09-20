@@ -4,10 +4,8 @@ using TaleWorlds.Core.ViewModelCollection.Information;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplomacy
 {
-	// Token: 0x0200005E RID: 94
 	public class KingdomTruceItemVM : KingdomDiplomacyItemVM
 	{
-		// Token: 0x06000829 RID: 2089 RVA: 0x00022D2E File Offset: 0x00020F2E
 		public KingdomTruceItemVM(IFaction faction1, IFaction faction2, Action<KingdomDiplomacyItemVM> onSelection, Action<KingdomTruceItemVM> onAction)
 			: base(faction1, faction2)
 		{
@@ -16,14 +14,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.UpdateDiplomacyProperties();
 		}
 
-		// Token: 0x0600082A RID: 2090 RVA: 0x00022D4D File Offset: 0x00020F4D
 		protected override void OnSelect()
 		{
 			this.UpdateDiplomacyProperties();
 			this._onSelection(this);
 		}
 
-		// Token: 0x0600082B RID: 2091 RVA: 0x00022D64 File Offset: 0x00020F64
 		protected override void UpdateDiplomacyProperties()
 		{
 			base.UpdateDiplomacyProperties();
@@ -38,15 +34,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x0600082C RID: 2092 RVA: 0x00022EF9 File Offset: 0x000210F9
 		protected override void ExecuteAction()
 		{
 			this._onAction(this);
 		}
 
-		// Token: 0x17000282 RID: 642
-		// (get) Token: 0x0600082D RID: 2093 RVA: 0x00022F07 File Offset: 0x00021107
-		// (set) Token: 0x0600082E RID: 2094 RVA: 0x00022F0F File Offset: 0x0002110F
 		public int TributePaid
 		{
 			get
@@ -63,13 +55,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			}
 		}
 
-		// Token: 0x040003A4 RID: 932
 		private readonly Action<KingdomTruceItemVM> _onAction;
 
-		// Token: 0x040003A5 RID: 933
 		private readonly Action<KingdomDiplomacyItemVM> _onSelection;
 
-		// Token: 0x040003A6 RID: 934
 		private int _tributePaid;
 	}
 }

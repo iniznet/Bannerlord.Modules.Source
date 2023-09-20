@@ -11,12 +11,8 @@ using TaleWorlds.Library;
 
 namespace SandBox.ViewModelCollection.Map
 {
-	// Token: 0x0200002D RID: 45
 	public class MapMobilePartyTrackerVM : ViewModel
 	{
-		// Token: 0x1700010A RID: 266
-		// (get) Token: 0x0600034B RID: 843 RVA: 0x0000FED9 File Offset: 0x0000E0D9
-		// (set) Token: 0x0600034C RID: 844 RVA: 0x0000FEE1 File Offset: 0x0000E0E1
 		public MBBindingList<MobilePartyTrackItemVM> Trackers
 		{
 			get
@@ -33,7 +29,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600034D RID: 845 RVA: 0x0000FF00 File Offset: 0x0000E100
 		public MapMobilePartyTrackerVM(Camera mapCamera, Action<Vec2> fastMoveCameraToPosition)
 		{
 			this._mapCamera = mapCamera;
@@ -50,7 +45,6 @@ namespace SandBox.ViewModelCollection.Map
 			CampaignEvents.OnCompanionClanCreatedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnCompanionClanCreated));
 		}
 
-		// Token: 0x0600034E RID: 846 RVA: 0x0000FFE8 File Offset: 0x0000E1E8
 		private void InitList()
 		{
 			this.Trackers.Clear();
@@ -88,7 +82,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x000101F4 File Offset: 0x0000E3F4
 		private void UpdateTrackerPropertiesAux(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -98,7 +91,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x00010230 File Offset: 0x0000E430
 		public void Update()
 		{
 			TWParallel.For(0, this.Trackers.Count, this.UpdateTrackerPropertiesAuxPredicate, 16);
@@ -108,7 +100,6 @@ namespace SandBox.ViewModelCollection.Map
 			});
 		}
 
-		// Token: 0x06000351 RID: 849 RVA: 0x00010280 File Offset: 0x0000E480
 		public void UpdateProperties()
 		{
 			this.Trackers.ApplyActionOnAllItems(delegate(MobilePartyTrackItemVM t)
@@ -117,13 +108,11 @@ namespace SandBox.ViewModelCollection.Map
 			});
 		}
 
-		// Token: 0x06000352 RID: 850 RVA: 0x000102AC File Offset: 0x0000E4AC
 		private bool CanAddParty(MobileParty party)
 		{
 			return party != null && !party.IsMainParty && !party.IsMilitia && !party.IsGarrison && !party.IsVillager && !party.IsBandit && !party.IsBanditBossParty && !party.IsCurrentlyUsedByAQuest && (!party.IsCaravan || party.CaravanPartyComponent.Owner == Hero.MainHero);
 		}
 
-		// Token: 0x06000353 RID: 851 RVA: 0x00010314 File Offset: 0x0000E514
 		private void AddIfNotAdded(Army army)
 		{
 			if (this.Trackers.FirstOrDefault((MobilePartyTrackItemVM t) => t.TrackedArmy == army) == null)
@@ -132,7 +121,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x0001036C File Offset: 0x0000E56C
 		private void AddIfNotAdded(MobileParty party)
 		{
 			for (int i = 0; i < this.Trackers.Count; i++)
@@ -145,7 +133,6 @@ namespace SandBox.ViewModelCollection.Map
 			this.Trackers.Add(new MobilePartyTrackItemVM(party, this._mapCamera, this._fastMoveCameraToPosition));
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x000103C4 File Offset: 0x0000E5C4
 		private void RemoveIfExists(Army army)
 		{
 			MobilePartyTrackItemVM mobilePartyTrackItemVM = this.Trackers.FirstOrDefault((MobilePartyTrackItemVM t) => t.TrackedArmy == army);
@@ -155,7 +142,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x00010408 File Offset: 0x0000E608
 		private void RemoveIfExists(MobileParty party)
 		{
 			for (int i = 0; i < this.Trackers.Count; i++)
@@ -168,19 +154,16 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x06000357 RID: 855 RVA: 0x0001044C File Offset: 0x0000E64C
 		private void OnPartyDestroyed(MobileParty mobileParty, PartyBase arg2)
 		{
 			this.RemoveIfExists(mobileParty);
 		}
 
-		// Token: 0x06000358 RID: 856 RVA: 0x00010455 File Offset: 0x0000E655
 		private void OnPartyDisbanded(MobileParty disbandedParty, Settlement relatedSettlement)
 		{
 			this.RemoveIfExists(disbandedParty);
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x0001045E File Offset: 0x0000E65E
 		private void OnMobilePartyCreated(MobileParty party)
 		{
 			if (party.IsLordParty)
@@ -197,7 +180,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x00010497 File Offset: 0x0000E697
 		private void OnArmyDispersed(Army army, Army.ArmyDispersionReason arg2, bool arg3)
 		{
 			if (army.MapFaction == Hero.MainHero.MapFaction)
@@ -206,7 +188,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600035B RID: 859 RVA: 0x000104B2 File Offset: 0x0000E6B2
 		private void OnArmyCreated(Army army)
 		{
 			if (army.MapFaction == Hero.MainHero.MapFaction)
@@ -215,7 +196,6 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600035C RID: 860 RVA: 0x000104CD File Offset: 0x0000E6CD
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification)
 		{
 			if (clan == Clan.PlayerClan)
@@ -224,22 +204,17 @@ namespace SandBox.ViewModelCollection.Map
 			}
 		}
 
-		// Token: 0x0600035D RID: 861 RVA: 0x000104DD File Offset: 0x0000E6DD
 		private void OnCompanionClanCreated(Clan clan)
 		{
 			this.RemoveIfExists(clan.Leader.PartyBelongedTo);
 		}
 
-		// Token: 0x040001BC RID: 444
 		private readonly Camera _mapCamera;
 
-		// Token: 0x040001BD RID: 445
 		private readonly Action<Vec2> _fastMoveCameraToPosition;
 
-		// Token: 0x040001BE RID: 446
 		private readonly TWParallel.ParallelForAuxPredicate UpdateTrackerPropertiesAuxPredicate;
 
-		// Token: 0x040001BF RID: 447
 		private MBBindingList<MobilePartyTrackItemVM> _trackers;
 	}
 }

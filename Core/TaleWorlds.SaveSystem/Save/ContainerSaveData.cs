@@ -6,31 +6,16 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Save
 {
-	// Token: 0x02000025 RID: 37
 	internal class ContainerSaveData
 	{
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x06000140 RID: 320 RVA: 0x000061E4 File Offset: 0x000043E4
-		// (set) Token: 0x06000141 RID: 321 RVA: 0x000061EC File Offset: 0x000043EC
 		public int ObjectId { get; private set; }
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000142 RID: 322 RVA: 0x000061F5 File Offset: 0x000043F5
-		// (set) Token: 0x06000143 RID: 323 RVA: 0x000061FD File Offset: 0x000043FD
 		public ISaveContext Context { get; private set; }
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x06000144 RID: 324 RVA: 0x00006206 File Offset: 0x00004406
-		// (set) Token: 0x06000145 RID: 325 RVA: 0x0000620E File Offset: 0x0000440E
 		public object Target { get; private set; }
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x06000146 RID: 326 RVA: 0x00006217 File Offset: 0x00004417
-		// (set) Token: 0x06000147 RID: 327 RVA: 0x0000621F File Offset: 0x0000441F
 		public Type Type { get; private set; }
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x06000148 RID: 328 RVA: 0x00006228 File Offset: 0x00004428
 		internal int ElementPropertyCount
 		{
 			get
@@ -43,8 +28,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x06000149 RID: 329 RVA: 0x0000624B File Offset: 0x0000444B
 		internal int ElementFieldCount
 		{
 			get
@@ -57,7 +40,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00006270 File Offset: 0x00004470
 		public ContainerSaveData(ISaveContext context, int objectId, object target, ContainerType containerType)
 		{
 			this.ObjectId = objectId;
@@ -74,7 +56,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x000062F8 File Offset: 0x000044F8
 		public void CollectChildren()
 		{
 			this._keys = new ElementSaveData[this._elementCount];
@@ -139,7 +120,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x000064EC File Offset: 0x000046EC
 		public void SaveHeaderTo(SaveEntryFolder parentFolder, IArchiveContext archiveContext)
 		{
 			SaveEntryFolder saveEntryFolder = archiveContext.CreateFolder(parentFolder, new FolderId(this.ObjectId, SaveFolderExtension.Container), 1);
@@ -151,7 +131,6 @@ namespace TaleWorlds.SaveSystem.Save
 			BinaryWriterFactory.ReleaseBinaryWriter(binaryWriter);
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x00006558 File Offset: 0x00004758
 		public void SaveTo(SaveEntryFolder parentFolder, IArchiveContext archiveContext)
 		{
 			int num = ((this._containerType == ContainerType.Dictionary) ? (this._elementCount * 2) : this._elementCount);
@@ -178,7 +157,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x00006654 File Offset: 0x00004854
 		internal int GetElementCount()
 		{
 			if (this._containerType == ContainerType.List || this._containerType == ContainerType.CustomList || this._containerType == ContainerType.CustomReadOnlyList)
@@ -200,7 +178,6 @@ namespace TaleWorlds.SaveSystem.Save
 			return 0;
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x000066E0 File Offset: 0x000048E0
 		public void CollectStrings()
 		{
 			foreach (object obj in this.GetChildString())
@@ -214,7 +191,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x00006778 File Offset: 0x00004978
 		public void CollectStringsInto(List<string> collection)
 		{
 			foreach (object obj in this.GetChildString())
@@ -224,7 +200,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x000067CC File Offset: 0x000049CC
 		public void CollectStructs()
 		{
 			foreach (ElementSaveData elementSaveData in this.GetChildElementSaveDatas())
@@ -242,7 +217,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x00006884 File Offset: 0x00004A84
 		public void CollectMembers()
 		{
 			foreach (ObjectSaveData objectSaveData in this._childStructs)
@@ -251,7 +225,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000153 RID: 339 RVA: 0x000068D4 File Offset: 0x00004AD4
 		public IEnumerable<ElementSaveData> GetChildElementSaveDatas()
 		{
 			int num;
@@ -273,13 +246,11 @@ namespace TaleWorlds.SaveSystem.Save
 			yield break;
 		}
 
-		// Token: 0x06000154 RID: 340 RVA: 0x000068E4 File Offset: 0x00004AE4
 		public IEnumerable<object> GetChildElements()
 		{
 			return ContainerSaveData.GetChildElements(this._containerType, this.Target);
 		}
 
-		// Token: 0x06000155 RID: 341 RVA: 0x000068F7 File Offset: 0x00004AF7
 		public static IEnumerable<object> GetChildElements(ContainerType containerType, object target)
 		{
 			if (containerType == ContainerType.List || containerType == ContainerType.CustomList || containerType == ContainerType.CustomReadOnlyList)
@@ -344,7 +315,6 @@ namespace TaleWorlds.SaveSystem.Save
 			yield break;
 		}
 
-		// Token: 0x06000156 RID: 342 RVA: 0x00006910 File Offset: 0x00004B10
 		public IEnumerable<object> GetChildObjects(ISaveContext context)
 		{
 			List<object> list = new List<object>();
@@ -352,7 +322,6 @@ namespace TaleWorlds.SaveSystem.Save
 			return list;
 		}
 
-		// Token: 0x06000157 RID: 343 RVA: 0x00006940 File Offset: 0x00004B40
 		public static void GetChildObjects(ISaveContext context, ContainerDefinition containerDefinition, ContainerType containerType, object target, List<object> collectedObjects)
 		{
 			if (containerDefinition.CollectObjectsMethod != null)
@@ -431,7 +400,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000158 RID: 344 RVA: 0x00006AF8 File Offset: 0x00004CF8
 		private static void ProcessChildObjectElement(object childElement, ISaveContext context, List<object> collectedObjects)
 		{
 			Type type = childElement.GetType();
@@ -460,7 +428,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x00006B87 File Offset: 0x00004D87
 		private IEnumerable<object> GetChildString()
 		{
 			foreach (object obj in this.GetChildElements())
@@ -475,22 +442,16 @@ namespace TaleWorlds.SaveSystem.Save
 			yield break;
 		}
 
-		// Token: 0x04000056 RID: 86
 		private ContainerType _containerType;
 
-		// Token: 0x04000057 RID: 87
 		private ElementSaveData[] _keys;
 
-		// Token: 0x04000058 RID: 88
 		private ElementSaveData[] _values;
 
-		// Token: 0x04000059 RID: 89
 		private ContainerDefinition _typeDefinition;
 
-		// Token: 0x0400005A RID: 90
 		private int _elementCount;
 
-		// Token: 0x0400005B RID: 91
 		private List<ObjectSaveData> _childStructs;
 	}
 }

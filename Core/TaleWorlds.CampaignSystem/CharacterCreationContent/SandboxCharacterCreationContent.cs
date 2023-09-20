@@ -12,11 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 {
-	// Token: 0x020001E6 RID: 486
 	public class SandboxCharacterCreationContent : CharacterCreationContentBase
 	{
-		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x06001C42 RID: 7234 RVA: 0x0007E7B1 File Offset: 0x0007C9B1
 		public override TextObject ReviewPageDescription
 		{
 			get
@@ -25,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x1700074F RID: 1871
-		// (get) Token: 0x06001C43 RID: 7235 RVA: 0x0007E7BE File Offset: 0x0007C9BE
 		public override IEnumerable<Type> CharacterCreationStages
 		{
 			get
@@ -42,7 +37,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001C44 RID: 7236 RVA: 0x0007E7C8 File Offset: 0x0007C9C8
 		protected override void OnCultureSelected()
 		{
 			base.SelectedTitleType = 1;
@@ -51,13 +45,11 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			Clan.PlayerClan.ChangeClanName(textObject, textObject);
 		}
 
-		// Token: 0x06001C45 RID: 7237 RVA: 0x0007E7F5 File Offset: 0x0007C9F5
 		public override int GetSelectedParentType()
 		{
 			return base.SelectedParentType;
 		}
 
-		// Token: 0x06001C46 RID: 7238 RVA: 0x0007E800 File Offset: 0x0007CA00
 		public override void OnCharacterCreationFinalized()
 		{
 			CultureObject culture = CharacterObject.PlayerCharacter.Culture;
@@ -80,7 +72,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.SetHeroAge((float)this._startingAge);
 		}
 
-		// Token: 0x06001C47 RID: 7239 RVA: 0x0007E89C File Offset: 0x0007CA9C
 		protected override void OnInitialized(CharacterCreation characterCreation)
 		{
 			this.AddParentsMenu(characterCreation);
@@ -91,12 +82,10 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.AddAgeSelectionMenu(characterCreation);
 		}
 
-		// Token: 0x06001C48 RID: 7240 RVA: 0x0007E8C8 File Offset: 0x0007CAC8
 		protected override void OnApplyCulture()
 		{
 		}
 
-		// Token: 0x06001C49 RID: 7241 RVA: 0x0007E8CC File Offset: 0x0007CACC
 		protected void AddParentsMenu(CharacterCreation characterCreation)
 		{
 			CharacterCreationMenu characterCreationMenu = new CharacterCreationMenu(new TextObject("{=b4lDDcli}Family", null), new TextObject("{=XgFU1pCx}You were born into a family of...", null), new CharacterCreationOnInit(this.ParentsOnInit), CharacterCreationMenu.MenuTypes.MultipleChoice);
@@ -313,7 +302,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4A RID: 7242 RVA: 0x0007F8F4 File Offset: 0x0007DAF4
 		protected void AddChildhoodMenu(CharacterCreation characterCreation)
 		{
 			CharacterCreationMenu characterCreationMenu = new CharacterCreationMenu(new TextObject("{=8Yiwt1z6}Early Childhood", null), new TextObject("{=character_creation_content_16}As a child you were noted for...", null), new CharacterCreationOnInit(this.ChildhoodOnInit), CharacterCreationMenu.MenuTypes.MultipleChoice);
@@ -351,7 +339,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4B RID: 7243 RVA: 0x0007FBC8 File Offset: 0x0007DDC8
 		protected void AddEducationMenu(CharacterCreation characterCreation)
 		{
 			CharacterCreationMenu characterCreationMenu = new CharacterCreationMenu(new TextObject("{=rcoueCmk}Adolescence", null), this._educationIntroductoryText, new CharacterCreationOnInit(this.EducationOnInit), CharacterCreationMenu.MenuTypes.MultipleChoice);
@@ -434,7 +421,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4C RID: 7244 RVA: 0x00080310 File Offset: 0x0007E510
 		protected void AddYouthMenu(CharacterCreation characterCreation)
 		{
 			CharacterCreationMenu characterCreationMenu = new CharacterCreationMenu(new TextObject("{=ok8lSW6M}Youth", null), this._youthIntroductoryText, new CharacterCreationOnInit(this.YouthOnInit), CharacterCreationMenu.MenuTypes.MultipleChoice);
@@ -507,7 +493,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4D RID: 7245 RVA: 0x0008095C File Offset: 0x0007EB5C
 		protected void AddAdulthoodMenu(CharacterCreation characterCreation)
 		{
 			MBTextManager.SetTextVariable("EXP_VALUE", this.SkillLevelToAdd);
@@ -581,7 +566,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4E RID: 7246 RVA: 0x00080FFC File Offset: 0x0007F1FC
 		protected void AddAgeSelectionMenu(CharacterCreation characterCreation)
 		{
 			MBTextManager.SetTextVariable("EXP_VALUE", this.SkillLevelToAdd);
@@ -594,7 +578,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.AddNewMenu(characterCreationMenu);
 		}
 
-		// Token: 0x06001C4F RID: 7247 RVA: 0x00081160 File Offset: 0x0007F360
 		protected void ParentsOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = false;
@@ -617,7 +600,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.ChangeParentsAnimation(characterCreation);
 		}
 
-		// Token: 0x06001C50 RID: 7248 RVA: 0x000812B4 File Offset: 0x0007F4B4
 		protected void ChangeParentsOutfit(CharacterCreation characterCreation, string fatherItemId = "", string motherItemId = "", bool isLeftHandItemForFather = true, bool isLeftHandItemForMother = true)
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -664,7 +646,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharactersEquipment(list);
 		}
 
-		// Token: 0x06001C51 RID: 7249 RVA: 0x00081444 File Offset: 0x0007F644
 		protected void ChangeParentsAnimation(CharacterCreation characterCreation)
 		{
 			List<string> list = new List<string>
@@ -675,7 +656,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(list);
 		}
 
-		// Token: 0x06001C52 RID: 7250 RVA: 0x00081494 File Offset: 0x0007F694
 		protected void SetParentAndOccupationType(CharacterCreation characterCreation, int parentType, SandboxCharacterCreationContent.OccupationTypes occupationType, string fatherItemId = "", string motherItemId = "", bool isLeftHandItemForFather = true, bool isLeftHandItemForMother = true)
 		{
 			base.SelectedParentType = parentType;
@@ -685,475 +665,396 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.ChangeParentsOutfit(characterCreation, fatherItemId, motherItemId, isLeftHandItemForFather, isLeftHandItemForMother);
 		}
 
-		// Token: 0x06001C53 RID: 7251 RVA: 0x000814E8 File Offset: 0x0007F6E8
 		protected void EmpireLandlordsRetainerOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C54 RID: 7252 RVA: 0x000814FF File Offset: 0x0007F6FF
 		protected void EmpireMerchantOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Merchant, "", "", true, true);
 		}
 
-		// Token: 0x06001C55 RID: 7253 RVA: 0x00081516 File Offset: 0x0007F716
 		protected void EmpireFreeholderOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C56 RID: 7254 RVA: 0x0008152D File Offset: 0x0007F72D
 		protected void EmpireArtisanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Artisan, "", "", true, true);
 		}
 
-		// Token: 0x06001C57 RID: 7255 RVA: 0x00081544 File Offset: 0x0007F744
 		protected void EmpireWoodsmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Hunter, "", "", true, true);
 		}
 
-		// Token: 0x06001C58 RID: 7256 RVA: 0x0008155B File Offset: 0x0007F75B
 		protected void EmpireVagabondOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Vagabond, "", "", true, true);
 		}
 
-		// Token: 0x06001C59 RID: 7257 RVA: 0x00081572 File Offset: 0x0007F772
 		protected void EmpireLandlordsRetainerOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5A RID: 7258 RVA: 0x0008157A File Offset: 0x0007F77A
 		protected void EmpireMerchantOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5B RID: 7259 RVA: 0x00081582 File Offset: 0x0007F782
 		protected void EmpireFreeholderOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5C RID: 7260 RVA: 0x0008158A File Offset: 0x0007F78A
 		protected void EmpireArtisanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5D RID: 7261 RVA: 0x00081592 File Offset: 0x0007F792
 		protected void EmpireWoodsmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5E RID: 7262 RVA: 0x0008159A File Offset: 0x0007F79A
 		protected void EmpireVagabondOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C5F RID: 7263 RVA: 0x000815A2 File Offset: 0x0007F7A2
 		protected void VlandiaBaronsRetainerOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C60 RID: 7264 RVA: 0x000815B9 File Offset: 0x0007F7B9
 		protected void VlandiaMerchantOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Merchant, "", "", true, true);
 		}
 
-		// Token: 0x06001C61 RID: 7265 RVA: 0x000815D0 File Offset: 0x0007F7D0
 		protected void VlandiaYeomanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C62 RID: 7266 RVA: 0x000815E7 File Offset: 0x0007F7E7
 		protected void VlandiaBlacksmithOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Artisan, "", "", true, true);
 		}
 
-		// Token: 0x06001C63 RID: 7267 RVA: 0x000815FE File Offset: 0x0007F7FE
 		protected void VlandiaHunterOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Hunter, "", "", true, true);
 		}
 
-		// Token: 0x06001C64 RID: 7268 RVA: 0x00081615 File Offset: 0x0007F815
 		protected void VlandiaMercenaryOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Mercenary, "", "", true, true);
 		}
 
-		// Token: 0x06001C65 RID: 7269 RVA: 0x0008162C File Offset: 0x0007F82C
 		protected void VlandiaBaronsRetainerOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C66 RID: 7270 RVA: 0x00081634 File Offset: 0x0007F834
 		protected void VlandiaMerchantOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C67 RID: 7271 RVA: 0x0008163C File Offset: 0x0007F83C
 		protected void VlandiaYeomanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C68 RID: 7272 RVA: 0x00081644 File Offset: 0x0007F844
 		protected void VlandiaBlacksmithOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C69 RID: 7273 RVA: 0x0008164C File Offset: 0x0007F84C
 		protected void VlandiaHunterOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C6A RID: 7274 RVA: 0x00081654 File Offset: 0x0007F854
 		protected void VlandiaMercenaryOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C6B RID: 7275 RVA: 0x0008165C File Offset: 0x0007F85C
 		protected void SturgiaBoyarsCompanionOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C6C RID: 7276 RVA: 0x00081673 File Offset: 0x0007F873
 		protected void SturgiaTraderOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Merchant, "", "", true, true);
 		}
 
-		// Token: 0x06001C6D RID: 7277 RVA: 0x0008168A File Offset: 0x0007F88A
 		protected void SturgiaFreemanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C6E RID: 7278 RVA: 0x000816A1 File Offset: 0x0007F8A1
 		protected void SturgiaArtisanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Artisan, "", "", true, true);
 		}
 
-		// Token: 0x06001C6F RID: 7279 RVA: 0x000816B8 File Offset: 0x0007F8B8
 		protected void SturgiaHunterOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Hunter, "", "", true, true);
 		}
 
-		// Token: 0x06001C70 RID: 7280 RVA: 0x000816CF File Offset: 0x0007F8CF
 		protected void SturgiaVagabondOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Vagabond, "", "", true, true);
 		}
 
-		// Token: 0x06001C71 RID: 7281 RVA: 0x000816E6 File Offset: 0x0007F8E6
 		protected void SturgiaBoyarsCompanionOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C72 RID: 7282 RVA: 0x000816EE File Offset: 0x0007F8EE
 		protected void SturgiaTraderOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C73 RID: 7283 RVA: 0x000816F6 File Offset: 0x0007F8F6
 		protected void SturgiaFreemanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C74 RID: 7284 RVA: 0x000816FE File Offset: 0x0007F8FE
 		protected void SturgiaArtisanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C75 RID: 7285 RVA: 0x00081706 File Offset: 0x0007F906
 		protected void SturgiaHunterOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C76 RID: 7286 RVA: 0x0008170E File Offset: 0x0007F90E
 		protected void SturgiaVagabondOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C77 RID: 7287 RVA: 0x00081716 File Offset: 0x0007F916
 		protected void AseraiTribesmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C78 RID: 7288 RVA: 0x0008172D File Offset: 0x0007F92D
 		protected void AseraiWariorSlaveOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Mercenary, "", "", true, true);
 		}
 
-		// Token: 0x06001C79 RID: 7289 RVA: 0x00081744 File Offset: 0x0007F944
 		protected void AseraiMerchantOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Merchant, "", "", true, true);
 		}
 
-		// Token: 0x06001C7A RID: 7290 RVA: 0x0008175B File Offset: 0x0007F95B
 		protected void AseraiOasisFarmerOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C7B RID: 7291 RVA: 0x00081772 File Offset: 0x0007F972
 		protected void AseraiBedouinOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Herder, "", "", true, true);
 		}
 
-		// Token: 0x06001C7C RID: 7292 RVA: 0x00081789 File Offset: 0x0007F989
 		protected void AseraiBackAlleyThugOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Artisan, "", "", true, true);
 		}
 
-		// Token: 0x06001C7D RID: 7293 RVA: 0x000817A0 File Offset: 0x0007F9A0
 		protected void AseraiTribesmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C7E RID: 7294 RVA: 0x000817A8 File Offset: 0x0007F9A8
 		protected void AseraiWariorSlaveOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C7F RID: 7295 RVA: 0x000817B0 File Offset: 0x0007F9B0
 		protected void AseraiMerchantOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C80 RID: 7296 RVA: 0x000817B8 File Offset: 0x0007F9B8
 		protected void AseraiOasisFarmerOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C81 RID: 7297 RVA: 0x000817C0 File Offset: 0x0007F9C0
 		protected void AseraiBedouinOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C82 RID: 7298 RVA: 0x000817C8 File Offset: 0x0007F9C8
 		protected void AseraiBackAlleyThugOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C83 RID: 7299 RVA: 0x000817D0 File Offset: 0x0007F9D0
 		protected void BattaniaChieftainsHearthguardOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C84 RID: 7300 RVA: 0x000817E7 File Offset: 0x0007F9E7
 		protected void BattaniaHealerOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Healer, "", "", true, true);
 		}
 
-		// Token: 0x06001C85 RID: 7301 RVA: 0x000817FF File Offset: 0x0007F9FF
 		protected void BattaniaTribesmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C86 RID: 7302 RVA: 0x00081816 File Offset: 0x0007FA16
 		protected void BattaniaSmithOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Artisan, "", "", true, true);
 		}
 
-		// Token: 0x06001C87 RID: 7303 RVA: 0x0008182D File Offset: 0x0007FA2D
 		protected void BattaniaWoodsmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Hunter, "", "", true, true);
 		}
 
-		// Token: 0x06001C88 RID: 7304 RVA: 0x00081844 File Offset: 0x0007FA44
 		protected void BattaniaBardOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Bard, "", "", true, true);
 		}
 
-		// Token: 0x06001C89 RID: 7305 RVA: 0x0008185B File Offset: 0x0007FA5B
 		protected void BattaniaChieftainsHearthguardOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8A RID: 7306 RVA: 0x00081863 File Offset: 0x0007FA63
 		protected void BattaniaHealerOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8B RID: 7307 RVA: 0x0008186B File Offset: 0x0007FA6B
 		protected void BattaniaTribesmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8C RID: 7308 RVA: 0x00081873 File Offset: 0x0007FA73
 		protected void BattaniaSmithOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8D RID: 7309 RVA: 0x0008187B File Offset: 0x0007FA7B
 		protected void BattaniaWoodsmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8E RID: 7310 RVA: 0x00081883 File Offset: 0x0007FA83
 		protected void BattaniaBardOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C8F RID: 7311 RVA: 0x0008188B File Offset: 0x0007FA8B
 		protected void KhuzaitNoyansKinsmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 1, SandboxCharacterCreationContent.OccupationTypes.Retainer, "", "", true, true);
 		}
 
-		// Token: 0x06001C90 RID: 7312 RVA: 0x000818A2 File Offset: 0x0007FAA2
 		protected void KhuzaitMerchantOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 2, SandboxCharacterCreationContent.OccupationTypes.Merchant, "", "", true, true);
 		}
 
-		// Token: 0x06001C91 RID: 7313 RVA: 0x000818B9 File Offset: 0x0007FAB9
 		protected void KhuzaitTribesmanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 3, SandboxCharacterCreationContent.OccupationTypes.Herder, "", "", true, true);
 		}
 
-		// Token: 0x06001C92 RID: 7314 RVA: 0x000818D0 File Offset: 0x0007FAD0
 		protected void KhuzaitFarmerOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 4, SandboxCharacterCreationContent.OccupationTypes.Farmer, "", "", true, true);
 		}
 
-		// Token: 0x06001C93 RID: 7315 RVA: 0x000818E7 File Offset: 0x0007FAE7
 		protected void KhuzaitShamanOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 5, SandboxCharacterCreationContent.OccupationTypes.Healer, "", "", true, true);
 		}
 
-		// Token: 0x06001C94 RID: 7316 RVA: 0x000818FF File Offset: 0x0007FAFF
 		protected void KhuzaitNomadOnConsequence(CharacterCreation characterCreation)
 		{
 			this.SetParentAndOccupationType(characterCreation, 6, SandboxCharacterCreationContent.OccupationTypes.Herder, "", "", true, true);
 		}
 
-		// Token: 0x06001C95 RID: 7317 RVA: 0x00081916 File Offset: 0x0007FB16
 		protected void KhuzaitNoyansKinsmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C96 RID: 7318 RVA: 0x0008191E File Offset: 0x0007FB1E
 		protected void KhuzaitMerchantOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C97 RID: 7319 RVA: 0x00081926 File Offset: 0x0007FB26
 		protected void KhuzaitTribesmanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C98 RID: 7320 RVA: 0x0008192E File Offset: 0x0007FB2E
 		protected void KhuzaitFarmerOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C99 RID: 7321 RVA: 0x00081936 File Offset: 0x0007FB36
 		protected void KhuzaitShamanOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C9A RID: 7322 RVA: 0x0008193E File Offset: 0x0007FB3E
 		protected void KhuzaitNomadOnApply(CharacterCreation characterCreation)
 		{
 			this.FinalizeParents();
 		}
 
-		// Token: 0x06001C9B RID: 7323 RVA: 0x00081946 File Offset: 0x0007FB46
 		protected bool EmpireParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "empire";
 		}
 
-		// Token: 0x06001C9C RID: 7324 RVA: 0x0008195D File Offset: 0x0007FB5D
 		protected bool VlandianParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "vlandia";
 		}
 
-		// Token: 0x06001C9D RID: 7325 RVA: 0x00081974 File Offset: 0x0007FB74
 		protected bool SturgianParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "sturgia";
 		}
 
-		// Token: 0x06001C9E RID: 7326 RVA: 0x0008198B File Offset: 0x0007FB8B
 		protected bool AseraiParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "aserai";
 		}
 
-		// Token: 0x06001C9F RID: 7327 RVA: 0x000819A2 File Offset: 0x0007FBA2
 		protected bool BattanianParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "battania";
 		}
 
-		// Token: 0x06001CA0 RID: 7328 RVA: 0x000819B9 File Offset: 0x0007FBB9
 		protected bool KhuzaitParentsOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "khuzait";
 		}
 
-		// Token: 0x06001CA1 RID: 7329 RVA: 0x000819D0 File Offset: 0x0007FBD0
 		protected void FinalizeParents()
 		{
 			CharacterObject @object = Game.Current.ObjectManager.GetObject<CharacterObject>("main_hero_mother");
@@ -1185,7 +1086,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			object2.HeroObject.SetHasMet();
 		}
 
-		// Token: 0x06001CA2 RID: 7330 RVA: 0x00081BEC File Offset: 0x0007FDEC
 		protected static List<FaceGenChar> ChangePlayerFaceWithAge(float age, string actionName = "act_childhood_schooled")
 		{
 			List<FaceGenChar> list = new List<FaceGenChar>();
@@ -1195,7 +1095,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			return list;
 		}
 
-		// Token: 0x06001CA3 RID: 7331 RVA: 0x00081C44 File Offset: 0x0007FE44
 		protected Equipment ChangePlayerOutfit(CharacterCreation characterCreation, string outfit)
 		{
 			List<Equipment> list = new List<Equipment>();
@@ -1211,7 +1110,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			return equipment;
 		}
 
-		// Token: 0x06001CA4 RID: 7332 RVA: 0x00081CBC File Offset: 0x0007FEBC
 		protected static void ChangePlayerMount(CharacterCreation characterCreation, Hero hero)
 		{
 			if (hero.CharacterObject.HasMount())
@@ -1221,13 +1119,11 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001CA5 RID: 7333 RVA: 0x00081D46 File Offset: 0x0007FF46
 		protected static void ClearMountEntity(CharacterCreation characterCreation)
 		{
 			characterCreation.ClearFaceGenMounts();
 		}
 
-		// Token: 0x06001CA6 RID: 7334 RVA: 0x00081D50 File Offset: 0x0007FF50
 		protected void ChildhoodOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = true;
@@ -1247,73 +1143,60 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			SandboxCharacterCreationContent.ClearMountEntity(characterCreation);
 		}
 
-		// Token: 0x06001CA7 RID: 7335 RVA: 0x00081E04 File Offset: 0x00080004
 		protected static void ChildhoodYourLeadershipSkillsOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_leader" });
 		}
 
-		// Token: 0x06001CA8 RID: 7336 RVA: 0x00081E1C File Offset: 0x0008001C
 		protected static void ChildhoodYourBrawnOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_athlete" });
 		}
 
-		// Token: 0x06001CA9 RID: 7337 RVA: 0x00081E34 File Offset: 0x00080034
 		protected static void ChildhoodAttentionToDetailOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_memory" });
 		}
 
-		// Token: 0x06001CAA RID: 7338 RVA: 0x00081E4C File Offset: 0x0008004C
 		protected static void ChildhoodAptitudeForNumbersOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_numbers" });
 		}
 
-		// Token: 0x06001CAB RID: 7339 RVA: 0x00081E64 File Offset: 0x00080064
 		protected static void ChildhoodWayWithPeopleOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_manners" });
 		}
 
-		// Token: 0x06001CAC RID: 7340 RVA: 0x00081E7C File Offset: 0x0008007C
 		protected static void ChildhoodSkillsWithHorsesOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_animals" });
 		}
 
-		// Token: 0x06001CAD RID: 7341 RVA: 0x00081E94 File Offset: 0x00080094
 		protected static void ChildhoodGoodLeadingOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CAE RID: 7342 RVA: 0x00081E96 File Offset: 0x00080096
 		protected static void ChildhoodGoodAthleticsOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CAF RID: 7343 RVA: 0x00081E98 File Offset: 0x00080098
 		protected static void ChildhoodGoodMemoryOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CB0 RID: 7344 RVA: 0x00081E9A File Offset: 0x0008009A
 		protected static void ChildhoodGoodMathOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CB1 RID: 7345 RVA: 0x00081E9C File Offset: 0x0008009C
 		protected static void ChildhoodGoodMannersOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CB2 RID: 7346 RVA: 0x00081E9E File Offset: 0x0008009E
 		protected static void ChildhoodAffinityWithAnimalsOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CB3 RID: 7347 RVA: 0x00081EA0 File Offset: 0x000800A0
 		protected void EducationOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = true;
@@ -1336,43 +1219,36 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			SandboxCharacterCreationContent.ClearMountEntity(characterCreation);
 		}
 
-		// Token: 0x06001CB4 RID: 7348 RVA: 0x00081F8C File Offset: 0x0008018C
 		protected bool RuralType()
 		{
 			return this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Farmer || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Hunter || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Bard || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Herder || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Vagabond || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Healer || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Artisan;
 		}
 
-		// Token: 0x06001CB5 RID: 7349 RVA: 0x00081FE4 File Offset: 0x000801E4
 		protected bool RichParents()
 		{
 			return this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Merchant;
 		}
 
-		// Token: 0x06001CB6 RID: 7350 RVA: 0x00081FFA File Offset: 0x000801FA
 		protected bool RuralAdolescenceOnCondition()
 		{
 			return this.RuralType();
 		}
 
-		// Token: 0x06001CB7 RID: 7351 RVA: 0x00082002 File Offset: 0x00080202
 		protected bool UrbanAdolescenceOnCondition()
 		{
 			return !this.RuralType();
 		}
 
-		// Token: 0x06001CB8 RID: 7352 RVA: 0x0008200D File Offset: 0x0008020D
 		protected bool UrbanRichAdolescenceOnCondition()
 		{
 			return !this.RuralType() && this.RichParents();
 		}
 
-		// Token: 0x06001CB9 RID: 7353 RVA: 0x0008201F File Offset: 0x0008021F
 		protected bool UrbanPoorAdolescenceOnCondition()
 		{
 			return !this.RuralType() && !this.RichParents();
 		}
 
-		// Token: 0x06001CBA RID: 7354 RVA: 0x00082034 File Offset: 0x00080234
 		protected void RefreshPropsAndClothing(CharacterCreation characterCreation, bool isChildhoodStage, string itemId, bool isLeftHand, string secondItemId = "")
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -1410,141 +1286,118 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharactersEquipment(new List<Equipment> { equipment });
 		}
 
-		// Token: 0x06001CBB RID: 7355 RVA: 0x000821A9 File Offset: 0x000803A9
 		protected void RuralAdolescenceHerderOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_streets" });
 			this.RefreshPropsAndClothing(characterCreation, false, "carry_bostaff_rogue1", true, "");
 		}
 
-		// Token: 0x06001CBC RID: 7356 RVA: 0x000821D4 File Offset: 0x000803D4
 		protected void RuralAdolescenceSmithyOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_militia" });
 			this.RefreshPropsAndClothing(characterCreation, false, "peasant_hammer_1_t1", true, "");
 		}
 
-		// Token: 0x06001CBD RID: 7357 RVA: 0x000821FF File Offset: 0x000803FF
 		protected void RuralAdolescenceRepairmanOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_grit" });
 			this.RefreshPropsAndClothing(characterCreation, false, "carry_hammer", true, "");
 		}
 
-		// Token: 0x06001CBE RID: 7358 RVA: 0x0008222A File Offset: 0x0008042A
 		protected void RuralAdolescenceGathererOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_peddlers" });
 			this.RefreshPropsAndClothing(characterCreation, false, "_to_carry_bd_basket_a", true, "");
 		}
 
-		// Token: 0x06001CBF RID: 7359 RVA: 0x00082255 File Offset: 0x00080455
 		protected void RuralAdolescenceHunterOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_sharp" });
 			this.RefreshPropsAndClothing(characterCreation, false, "composite_bow", true, "");
 		}
 
-		// Token: 0x06001CC0 RID: 7360 RVA: 0x00082280 File Offset: 0x00080480
 		protected void RuralAdolescenceHelperOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_peddlers_2" });
 			this.RefreshPropsAndClothing(characterCreation, false, "_to_carry_bd_fabric_c", true, "");
 		}
 
-		// Token: 0x06001CC1 RID: 7361 RVA: 0x000822AB File Offset: 0x000804AB
 		protected void UrbanAdolescenceWatcherOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_fox" });
 			this.RefreshPropsAndClothing(characterCreation, false, "", true, "");
 		}
 
-		// Token: 0x06001CC2 RID: 7362 RVA: 0x000822D6 File Offset: 0x000804D6
 		protected void UrbanAdolescenceMarketerOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_manners" });
 			this.RefreshPropsAndClothing(characterCreation, false, "", true, "");
 		}
 
-		// Token: 0x06001CC3 RID: 7363 RVA: 0x00082301 File Offset: 0x00080501
 		protected void UrbanAdolescenceGangerOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_athlete" });
 			this.RefreshPropsAndClothing(characterCreation, false, "", true, "");
 		}
 
-		// Token: 0x06001CC4 RID: 7364 RVA: 0x0008232C File Offset: 0x0008052C
 		protected void UrbanAdolescenceDockerOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_peddlers" });
 			this.RefreshPropsAndClothing(characterCreation, false, "_to_carry_bd_basket_a", true, "");
 		}
 
-		// Token: 0x06001CC5 RID: 7365 RVA: 0x00082357 File Offset: 0x00080557
 		protected void UrbanAdolescenceHorserOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_peddlers_2" });
 			this.RefreshPropsAndClothing(characterCreation, false, "_to_carry_bd_fabric_c", true, "");
 		}
 
-		// Token: 0x06001CC6 RID: 7366 RVA: 0x00082382 File Offset: 0x00080582
 		protected void UrbanAdolescenceTutorOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_book" });
 			this.RefreshPropsAndClothing(characterCreation, false, "character_creation_notebook", false, "");
 		}
 
-		// Token: 0x06001CC7 RID: 7367 RVA: 0x000823AD File Offset: 0x000805AD
 		protected static void RuralAdolescenceHerderOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CC8 RID: 7368 RVA: 0x000823AF File Offset: 0x000805AF
 		protected static void RuralAdolescenceSmithyOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CC9 RID: 7369 RVA: 0x000823B1 File Offset: 0x000805B1
 		protected static void RuralAdolescenceRepairmanOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCA RID: 7370 RVA: 0x000823B3 File Offset: 0x000805B3
 		protected static void RuralAdolescenceGathererOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCB RID: 7371 RVA: 0x000823B5 File Offset: 0x000805B5
 		protected static void RuralAdolescenceHunterOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCC RID: 7372 RVA: 0x000823B7 File Offset: 0x000805B7
 		protected static void RuralAdolescenceHelperOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCD RID: 7373 RVA: 0x000823B9 File Offset: 0x000805B9
 		protected static void UrbanAdolescenceWatcherOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCE RID: 7374 RVA: 0x000823BB File Offset: 0x000805BB
 		protected static void UrbanAdolescenceMarketerOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CCF RID: 7375 RVA: 0x000823BD File Offset: 0x000805BD
 		protected static void UrbanAdolescenceGangerOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CD0 RID: 7376 RVA: 0x000823BF File Offset: 0x000805BF
 		protected static void UrbanAdolescenceDockerOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CD1 RID: 7377 RVA: 0x000823C4 File Offset: 0x000805C4
 		protected void YouthOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = true;
@@ -1562,7 +1415,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.RefreshPlayerAppearance(characterCreation);
 		}
 
-		// Token: 0x06001CD2 RID: 7378 RVA: 0x0008246C File Offset: 0x0008066C
 		protected void RefreshPlayerAppearance(CharacterCreation characterCreation)
 		{
 			string text = string.Concat(new object[]
@@ -1577,24 +1429,20 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.ApplyEquipments(characterCreation);
 		}
 
-		// Token: 0x06001CD3 RID: 7379 RVA: 0x000824E0 File Offset: 0x000806E0
 		protected bool YouthCommanderOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "empire" && this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer;
 		}
 
-		// Token: 0x06001CD4 RID: 7380 RVA: 0x00082504 File Offset: 0x00080704
 		protected void YouthCommanderOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CD5 RID: 7381 RVA: 0x00082506 File Offset: 0x00080706
 		protected bool YouthGroomOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "vlandia" && this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer;
 		}
 
-		// Token: 0x06001CD6 RID: 7382 RVA: 0x0008252A File Offset: 0x0008072A
 		protected void YouthCommanderOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 10;
@@ -1602,7 +1450,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_decisive" });
 		}
 
-		// Token: 0x06001CD7 RID: 7383 RVA: 0x00082551 File Offset: 0x00080751
 		protected void YouthGroomOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 10;
@@ -1610,7 +1457,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_sharp" });
 		}
 
-		// Token: 0x06001CD8 RID: 7384 RVA: 0x00082578 File Offset: 0x00080778
 		protected void YouthChieftainOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 10;
@@ -1618,7 +1464,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_ready" });
 		}
 
-		// Token: 0x06001CD9 RID: 7385 RVA: 0x0008259F File Offset: 0x0008079F
 		protected void YouthCavalryOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 9;
@@ -1626,7 +1471,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_apprentice" });
 		}
 
-		// Token: 0x06001CDA RID: 7386 RVA: 0x000825C6 File Offset: 0x000807C6
 		protected void YouthHearthGuardOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 9;
@@ -1634,7 +1478,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_athlete" });
 		}
 
-		// Token: 0x06001CDB RID: 7387 RVA: 0x000825ED File Offset: 0x000807ED
 		protected void YouthOutridersOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 2;
@@ -1642,7 +1485,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_gracious" });
 		}
 
-		// Token: 0x06001CDC RID: 7388 RVA: 0x00082613 File Offset: 0x00080813
 		protected void YouthOtherOutridersOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 2;
@@ -1650,7 +1492,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_gracious" });
 		}
 
-		// Token: 0x06001CDD RID: 7389 RVA: 0x00082639 File Offset: 0x00080839
 		protected void YouthInfantryOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 3;
@@ -1658,7 +1499,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_fierce" });
 		}
 
-		// Token: 0x06001CDE RID: 7390 RVA: 0x0008265F File Offset: 0x0008085F
 		protected void YouthSkirmisherOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 4;
@@ -1666,7 +1506,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_fox" });
 		}
 
-		// Token: 0x06001CDF RID: 7391 RVA: 0x00082685 File Offset: 0x00080885
 		protected void YouthGarrisonOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 1;
@@ -1674,7 +1513,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_vibrant" });
 		}
 
-		// Token: 0x06001CE0 RID: 7392 RVA: 0x000826AB File Offset: 0x000808AB
 		protected void YouthOtherGarrisonOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 1;
@@ -1682,7 +1520,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_sharp" });
 		}
 
-		// Token: 0x06001CE1 RID: 7393 RVA: 0x000826D1 File Offset: 0x000808D1
 		protected void YouthKernOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 8;
@@ -1690,7 +1527,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_apprentice" });
 		}
 
-		// Token: 0x06001CE2 RID: 7394 RVA: 0x000826F7 File Offset: 0x000808F7
 		protected void YouthCamperOnConsequence(CharacterCreation characterCreation)
 		{
 			base.SelectedTitleType = 5;
@@ -1698,127 +1534,104 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_militia" });
 		}
 
-		// Token: 0x06001CE3 RID: 7395 RVA: 0x0008271D File Offset: 0x0008091D
 		protected void YouthGroomOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CE4 RID: 7396 RVA: 0x0008271F File Offset: 0x0008091F
 		protected bool YouthChieftainOnCondition()
 		{
 			return (base.GetSelectedCulture().StringId == "battania" || base.GetSelectedCulture().StringId == "khuzait") && this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer;
 		}
 
-		// Token: 0x06001CE5 RID: 7397 RVA: 0x0008275A File Offset: 0x0008095A
 		protected void YouthChieftainOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CE6 RID: 7398 RVA: 0x0008275C File Offset: 0x0008095C
 		protected bool YouthCavalryOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "empire" || base.GetSelectedCulture().StringId == "khuzait" || base.GetSelectedCulture().StringId == "aserai" || base.GetSelectedCulture().StringId == "vlandia";
 		}
 
-		// Token: 0x06001CE7 RID: 7399 RVA: 0x000827C5 File Offset: 0x000809C5
 		protected void YouthCavalryOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CE8 RID: 7400 RVA: 0x000827C7 File Offset: 0x000809C7
 		protected bool YouthHearthGuardOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "sturgia" || base.GetSelectedCulture().StringId == "battania";
 		}
 
-		// Token: 0x06001CE9 RID: 7401 RVA: 0x000827F7 File Offset: 0x000809F7
 		protected void YouthHearthGuardOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CEA RID: 7402 RVA: 0x000827F9 File Offset: 0x000809F9
 		protected bool YouthOutridersOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "empire" || base.GetSelectedCulture().StringId == "khuzait";
 		}
 
-		// Token: 0x06001CEB RID: 7403 RVA: 0x00082829 File Offset: 0x00080A29
 		protected void YouthOutridersOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CEC RID: 7404 RVA: 0x0008282B File Offset: 0x00080A2B
 		protected bool YouthOtherOutridersOnCondition()
 		{
 			return base.GetSelectedCulture().StringId != "empire" && base.GetSelectedCulture().StringId != "khuzait";
 		}
 
-		// Token: 0x06001CED RID: 7405 RVA: 0x0008285B File Offset: 0x00080A5B
 		protected void YouthOtherOutridersOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CEE RID: 7406 RVA: 0x0008285D File Offset: 0x00080A5D
 		protected void YouthInfantryOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CEF RID: 7407 RVA: 0x0008285F File Offset: 0x00080A5F
 		protected void YouthSkirmisherOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CF0 RID: 7408 RVA: 0x00082861 File Offset: 0x00080A61
 		protected bool YouthGarrisonOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "empire" || base.GetSelectedCulture().StringId == "vlandia";
 		}
 
-		// Token: 0x06001CF1 RID: 7409 RVA: 0x00082891 File Offset: 0x00080A91
 		protected void YouthGarrisonOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CF2 RID: 7410 RVA: 0x00082893 File Offset: 0x00080A93
 		protected bool YouthOtherGarrisonOnCondition()
 		{
 			return base.GetSelectedCulture().StringId != "empire" && base.GetSelectedCulture().StringId != "vlandia";
 		}
 
-		// Token: 0x06001CF3 RID: 7411 RVA: 0x000828C3 File Offset: 0x00080AC3
 		protected void YouthOtherGarrisonOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CF4 RID: 7412 RVA: 0x000828C5 File Offset: 0x00080AC5
 		protected bool YouthSkirmisherOnCondition()
 		{
 			return base.GetSelectedCulture().StringId != "battania";
 		}
 
-		// Token: 0x06001CF5 RID: 7413 RVA: 0x000828DC File Offset: 0x00080ADC
 		protected bool YouthKernOnCondition()
 		{
 			return base.GetSelectedCulture().StringId == "battania";
 		}
 
-		// Token: 0x06001CF6 RID: 7414 RVA: 0x000828F3 File Offset: 0x00080AF3
 		protected void YouthKernOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CF7 RID: 7415 RVA: 0x000828F5 File Offset: 0x00080AF5
 		protected bool YouthCamperOnCondition()
 		{
 			return this._familyOccupationType != SandboxCharacterCreationContent.OccupationTypes.Retainer;
 		}
 
-		// Token: 0x06001CF8 RID: 7416 RVA: 0x00082903 File Offset: 0x00080B03
 		protected void YouthCamperOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CF9 RID: 7417 RVA: 0x00082908 File Offset: 0x00080B08
 		protected void AccomplishmentOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = true;
@@ -1829,127 +1642,105 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.RefreshPlayerAppearance(characterCreation);
 		}
 
-		// Token: 0x06001CFA RID: 7418 RVA: 0x0008295D File Offset: 0x00080B5D
 		protected void AccomplishmentDefeatedEnemyOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CFB RID: 7419 RVA: 0x0008295F File Offset: 0x00080B5F
 		protected void AccomplishmentExpeditionOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001CFC RID: 7420 RVA: 0x00082961 File Offset: 0x00080B61
 		protected bool AccomplishmentRuralOnCondition()
 		{
 			return this.RuralType();
 		}
 
-		// Token: 0x06001CFD RID: 7421 RVA: 0x00082969 File Offset: 0x00080B69
 		protected bool AccomplishmentMerchantOnCondition()
 		{
 			return this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Merchant;
 		}
 
-		// Token: 0x06001CFE RID: 7422 RVA: 0x00082974 File Offset: 0x00080B74
 		protected bool AccomplishmentPosseOnConditions()
 		{
 			return this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Retainer || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Herder || this._familyOccupationType == SandboxCharacterCreationContent.OccupationTypes.Mercenary;
 		}
 
-		// Token: 0x06001CFF RID: 7423 RVA: 0x00082993 File Offset: 0x00080B93
 		protected bool AccomplishmentSavedVillageOnCondition()
 		{
 			return this.RuralType() && this._familyOccupationType != SandboxCharacterCreationContent.OccupationTypes.Retainer && this._familyOccupationType != SandboxCharacterCreationContent.OccupationTypes.Herder;
 		}
 
-		// Token: 0x06001D00 RID: 7424 RVA: 0x000829B4 File Offset: 0x00080BB4
 		protected bool AccomplishmentSavedStreetOnCondition()
 		{
 			return !this.RuralType() && this._familyOccupationType != SandboxCharacterCreationContent.OccupationTypes.Merchant && this._familyOccupationType != SandboxCharacterCreationContent.OccupationTypes.Mercenary;
 		}
 
-		// Token: 0x06001D01 RID: 7425 RVA: 0x000829D5 File Offset: 0x00080BD5
 		protected bool AccomplishmentUrbanOnCondition()
 		{
 			return !this.RuralType();
 		}
 
-		// Token: 0x06001D02 RID: 7426 RVA: 0x000829E0 File Offset: 0x00080BE0
 		protected void AccomplishmentWorkshopOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001D03 RID: 7427 RVA: 0x000829E2 File Offset: 0x00080BE2
 		protected void AccomplishmentSiegeHunterOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001D04 RID: 7428 RVA: 0x000829E4 File Offset: 0x00080BE4
 		protected void AccomplishmentEscapadeOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001D05 RID: 7429 RVA: 0x000829E6 File Offset: 0x00080BE6
 		protected void AccomplishmentTreaterOnApply(CharacterCreation characterCreation)
 		{
 		}
 
-		// Token: 0x06001D06 RID: 7430 RVA: 0x000829E8 File Offset: 0x00080BE8
 		protected void AccomplishmentDefeatedEnemyOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_athlete" });
 		}
 
-		// Token: 0x06001D07 RID: 7431 RVA: 0x00082A00 File Offset: 0x00080C00
 		protected void AccomplishmentExpeditionOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_gracious" });
 		}
 
-		// Token: 0x06001D08 RID: 7432 RVA: 0x00082A18 File Offset: 0x00080C18
 		protected void AccomplishmentMerchantOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_ready" });
 		}
 
-		// Token: 0x06001D09 RID: 7433 RVA: 0x00082A30 File Offset: 0x00080C30
 		protected void AccomplishmentSavedVillageOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_vibrant" });
 		}
 
-		// Token: 0x06001D0A RID: 7434 RVA: 0x00082A48 File Offset: 0x00080C48
 		protected void AccomplishmentSavedStreetOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_vibrant" });
 		}
 
-		// Token: 0x06001D0B RID: 7435 RVA: 0x00082A60 File Offset: 0x00080C60
 		protected void AccomplishmentWorkshopOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_decisive" });
 		}
 
-		// Token: 0x06001D0C RID: 7436 RVA: 0x00082A78 File Offset: 0x00080C78
 		protected void AccomplishmentSiegeHunterOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_tough" });
 		}
 
-		// Token: 0x06001D0D RID: 7437 RVA: 0x00082A90 File Offset: 0x00080C90
 		protected void AccomplishmentEscapadeOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_clever" });
 		}
 
-		// Token: 0x06001D0E RID: 7438 RVA: 0x00082AA8 File Offset: 0x00080CA8
 		protected void AccomplishmentTreaterOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ChangeCharsAnimation(new List<string> { "act_childhood_manners" });
 		}
 
-		// Token: 0x06001D0F RID: 7439 RVA: 0x00082AC0 File Offset: 0x00080CC0
 		protected void StartingAgeOnInit(CharacterCreation characterCreation)
 		{
 			characterCreation.IsPlayerAlone = true;
@@ -1960,7 +1751,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.RefreshPlayerAppearance(characterCreation);
 		}
 
-		// Token: 0x06001D10 RID: 7440 RVA: 0x00082B18 File Offset: 0x00080D18
 		protected void StartingAgeYoungOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -1971,7 +1761,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.SetHeroAge(20f);
 		}
 
-		// Token: 0x06001D11 RID: 7441 RVA: 0x00082B70 File Offset: 0x00080D70
 		protected void StartingAgeAdultOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -1982,7 +1771,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.SetHeroAge(30f);
 		}
 
-		// Token: 0x06001D12 RID: 7442 RVA: 0x00082BC8 File Offset: 0x00080DC8
 		protected void StartingAgeMiddleAgedOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -1993,7 +1781,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.SetHeroAge(40f);
 		}
 
-		// Token: 0x06001D13 RID: 7443 RVA: 0x00082C20 File Offset: 0x00080E20
 		protected void StartingAgeElderlyOnConsequence(CharacterCreation characterCreation)
 		{
 			characterCreation.ClearFaceGenPrefab();
@@ -2004,31 +1791,26 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.SetHeroAge(50f);
 		}
 
-		// Token: 0x06001D14 RID: 7444 RVA: 0x00082C78 File Offset: 0x00080E78
 		protected void StartingAgeYoungOnApply(CharacterCreation characterCreation)
 		{
 			this._startingAge = SandboxCharacterCreationContent.SandboxAgeOptions.YoungAdult;
 		}
 
-		// Token: 0x06001D15 RID: 7445 RVA: 0x00082C82 File Offset: 0x00080E82
 		protected void StartingAgeAdultOnApply(CharacterCreation characterCreation)
 		{
 			this._startingAge = SandboxCharacterCreationContent.SandboxAgeOptions.Adult;
 		}
 
-		// Token: 0x06001D16 RID: 7446 RVA: 0x00082C8C File Offset: 0x00080E8C
 		protected void StartingAgeMiddleAgedOnApply(CharacterCreation characterCreation)
 		{
 			this._startingAge = SandboxCharacterCreationContent.SandboxAgeOptions.MiddleAged;
 		}
 
-		// Token: 0x06001D17 RID: 7447 RVA: 0x00082C96 File Offset: 0x00080E96
 		protected void StartingAgeElderlyOnApply(CharacterCreation characterCreation)
 		{
 			this._startingAge = SandboxCharacterCreationContent.SandboxAgeOptions.Elder;
 		}
 
-		// Token: 0x06001D18 RID: 7448 RVA: 0x00082CA0 File Offset: 0x00080EA0
 		protected void ApplyEquipments(CharacterCreation characterCreation)
 		{
 			SandboxCharacterCreationContent.ClearMountEntity(characterCreation);
@@ -2051,37 +1833,27 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			SandboxCharacterCreationContent.ChangePlayerMount(characterCreation, Hero.MainHero);
 		}
 
-		// Token: 0x06001D19 RID: 7449 RVA: 0x00082D9D File Offset: 0x00080F9D
 		protected void SetHeroAge(float age)
 		{
 			Hero.MainHero.SetBirthDay(CampaignTime.YearsFromNow(-age));
 		}
 
-		// Token: 0x040008F0 RID: 2288
 		protected const int FocusToAddYouthStart = 2;
 
-		// Token: 0x040008F1 RID: 2289
 		protected const int FocusToAddAdultStart = 4;
 
-		// Token: 0x040008F2 RID: 2290
 		protected const int FocusToAddMiddleAgedStart = 6;
 
-		// Token: 0x040008F3 RID: 2291
 		protected const int FocusToAddElderlyStart = 8;
 
-		// Token: 0x040008F4 RID: 2292
 		protected const int AttributeToAddYouthStart = 1;
 
-		// Token: 0x040008F5 RID: 2293
 		protected const int AttributeToAddAdultStart = 2;
 
-		// Token: 0x040008F6 RID: 2294
 		protected const int AttributeToAddMiddleAgedStart = 3;
 
-		// Token: 0x040008F7 RID: 2295
 		protected const int AttributeToAddElderlyStart = 4;
 
-		// Token: 0x040008F8 RID: 2296
 		protected readonly Dictionary<string, Vec2> _startingPoints = new Dictionary<string, Vec2>
 		{
 			{
@@ -2110,55 +1882,34 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		};
 
-		// Token: 0x040008F9 RID: 2297
 		protected SandboxCharacterCreationContent.SandboxAgeOptions _startingAge = SandboxCharacterCreationContent.SandboxAgeOptions.YoungAdult;
 
-		// Token: 0x040008FA RID: 2298
 		protected SandboxCharacterCreationContent.OccupationTypes _familyOccupationType;
 
-		// Token: 0x040008FB RID: 2299
 		protected TextObject _educationIntroductoryText = new TextObject("{=!}{EDUCATION_INTRO}", null);
 
-		// Token: 0x040008FC RID: 2300
 		protected TextObject _youthIntroductoryText = new TextObject("{=!}{YOUTH_INTRO}", null);
 
-		// Token: 0x02000561 RID: 1377
 		protected enum SandboxAgeOptions
 		{
-			// Token: 0x040016BA RID: 5818
 			YoungAdult = 20,
-			// Token: 0x040016BB RID: 5819
 			Adult = 30,
-			// Token: 0x040016BC RID: 5820
 			MiddleAged = 40,
-			// Token: 0x040016BD RID: 5821
 			Elder = 50
 		}
 
-		// Token: 0x02000562 RID: 1378
 		protected enum OccupationTypes
 		{
-			// Token: 0x040016BF RID: 5823
 			Artisan,
-			// Token: 0x040016C0 RID: 5824
 			Bard,
-			// Token: 0x040016C1 RID: 5825
 			Retainer,
-			// Token: 0x040016C2 RID: 5826
 			Merchant,
-			// Token: 0x040016C3 RID: 5827
 			Farmer,
-			// Token: 0x040016C4 RID: 5828
 			Hunter,
-			// Token: 0x040016C5 RID: 5829
 			Vagabond,
-			// Token: 0x040016C6 RID: 5830
 			Mercenary,
-			// Token: 0x040016C7 RID: 5831
 			Herder,
-			// Token: 0x040016C8 RID: 5832
 			Healer,
-			// Token: 0x040016C9 RID: 5833
 			NumberOfTypes
 		}
 	}

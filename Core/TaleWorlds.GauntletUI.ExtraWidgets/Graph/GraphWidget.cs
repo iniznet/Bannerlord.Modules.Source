@@ -7,17 +7,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 {
-	// Token: 0x02000015 RID: 21
 	public class GraphWidget : Widget
 	{
-		// Token: 0x0600011B RID: 283 RVA: 0x000066CF File Offset: 0x000048CF
 		public GraphWidget(UIContext context)
 			: base(context)
 		{
 			this.RefreshOnNextLateUpdate();
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x000066E0 File Offset: 0x000048E0
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -29,7 +26,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x00006758 File Offset: 0x00004958
 		private void Refresh()
 		{
 			if (this._dynamicWidgetsContainer != null)
@@ -63,7 +59,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			this._willRefreshThisFrame = false;
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x0000689C File Offset: 0x00004A9C
 		private void RefreshPlaneLines(Widget planeWidget)
 		{
 			int num = 1;
@@ -101,7 +96,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			planeWidget.AddChild(listPanel2);
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x000069B8 File Offset: 0x00004BB8
 		private void RefreshLabels(Widget container, bool isHorizontal)
 		{
 			int num = (isHorizontal ? this.HorizontalLabelCount : this.VerticalLabelCount);
@@ -145,7 +139,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x00006B80 File Offset: 0x00004D80
 		private void RefreshGraphLines()
 		{
 			if (this.LineContainerWidget != null)
@@ -164,7 +157,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x00006BE8 File Offset: 0x00004DE8
 		private void RefreshLine(GraphLineWidget graphLineWidget)
 		{
 			graphLineWidget.MarginLeft = this.LeftSpace;
@@ -185,7 +177,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x00006C98 File Offset: 0x00004E98
 		private void RefreshPoint(GraphLinePointWidget graphLinePointWidget, GraphLineWidget graphLineWidget)
 		{
 			bool flag = this.HorizontalMaxValue - this.HorizontalMinValue > 1E-05f;
@@ -205,7 +196,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x00006D9B File Offset: 0x00004F9B
 		private ListPanel CreatePlaneLinesListPanel(LayoutMethod layoutMethod)
 		{
 			return new ListPanel(base.Context)
@@ -221,7 +211,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			};
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x00006DDC File Offset: 0x00004FDC
 		private TextWidget CreateLabelText(float labelValue, bool isHorizontal)
 		{
 			TextWidget textWidget = new TextWidget(base.Context)
@@ -240,7 +229,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			return textWidget;
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x00006E70 File Offset: 0x00005070
 		private void OnLineContainerEventFire(Widget widget, string eventName, object[] eventArgs)
 		{
 			GraphLineWidget graphLineWidget;
@@ -264,7 +252,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x00006F20 File Offset: 0x00005120
 		private void OnPointAdded(GraphLineWidget graphLineWidget, GraphLinePointWidget graphLinePointWidget)
 		{
 			this.AddLateUpdateAction(delegate
@@ -273,7 +260,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			});
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x00006F5C File Offset: 0x0000515C
 		private void AddLateUpdateAction(Action action)
 		{
 			base.EventManager.AddLateUpdateAction(this, delegate(float _)
@@ -287,7 +273,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}, 1);
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x00006F8F File Offset: 0x0000518F
 		private void RefreshOnNextLateUpdate()
 		{
 			if (!this._willRefreshThisFrame)
@@ -297,9 +282,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x06000129 RID: 297 RVA: 0x00006FB2 File Offset: 0x000051B2
-		// (set) Token: 0x0600012A RID: 298 RVA: 0x00006FBA File Offset: 0x000051BA
 		public int RowCount
 		{
 			get
@@ -317,9 +299,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700006F RID: 111
-		// (get) Token: 0x0600012B RID: 299 RVA: 0x00006FDE File Offset: 0x000051DE
-		// (set) Token: 0x0600012C RID: 300 RVA: 0x00006FE6 File Offset: 0x000051E6
 		public int ColumnCount
 		{
 			get
@@ -337,9 +316,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000070 RID: 112
-		// (get) Token: 0x0600012D RID: 301 RVA: 0x0000700A File Offset: 0x0000520A
-		// (set) Token: 0x0600012E RID: 302 RVA: 0x00007012 File Offset: 0x00005212
 		public int HorizontalLabelCount
 		{
 			get
@@ -357,9 +333,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000071 RID: 113
-		// (get) Token: 0x0600012F RID: 303 RVA: 0x00007036 File Offset: 0x00005236
-		// (set) Token: 0x06000130 RID: 304 RVA: 0x0000703E File Offset: 0x0000523E
 		public float HorizontalMinValue
 		{
 			get
@@ -377,9 +350,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000072 RID: 114
-		// (get) Token: 0x06000131 RID: 305 RVA: 0x00007062 File Offset: 0x00005262
-		// (set) Token: 0x06000132 RID: 306 RVA: 0x0000706A File Offset: 0x0000526A
 		public float HorizontalMaxValue
 		{
 			get
@@ -397,9 +367,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000073 RID: 115
-		// (get) Token: 0x06000133 RID: 307 RVA: 0x0000708E File Offset: 0x0000528E
-		// (set) Token: 0x06000134 RID: 308 RVA: 0x00007096 File Offset: 0x00005296
 		public int VerticalLabelCount
 		{
 			get
@@ -417,9 +384,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000074 RID: 116
-		// (get) Token: 0x06000135 RID: 309 RVA: 0x000070BA File Offset: 0x000052BA
-		// (set) Token: 0x06000136 RID: 310 RVA: 0x000070C2 File Offset: 0x000052C2
 		public float VerticalMinValue
 		{
 			get
@@ -437,9 +401,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000075 RID: 117
-		// (get) Token: 0x06000137 RID: 311 RVA: 0x000070E6 File Offset: 0x000052E6
-		// (set) Token: 0x06000138 RID: 312 RVA: 0x000070EE File Offset: 0x000052EE
 		public float VerticalMaxValue
 		{
 			get
@@ -457,9 +418,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000076 RID: 118
-		// (get) Token: 0x06000139 RID: 313 RVA: 0x00007112 File Offset: 0x00005312
-		// (set) Token: 0x0600013A RID: 314 RVA: 0x0000711A File Offset: 0x0000531A
 		public Sprite PlaneLineSprite
 		{
 			get
@@ -477,9 +435,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x0600013B RID: 315 RVA: 0x0000713E File Offset: 0x0000533E
-		// (set) Token: 0x0600013C RID: 316 RVA: 0x00007146 File Offset: 0x00005346
 		public Color PlaneLineColor
 		{
 			get
@@ -497,9 +452,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000078 RID: 120
-		// (get) Token: 0x0600013D RID: 317 RVA: 0x0000716F File Offset: 0x0000536F
-		// (set) Token: 0x0600013E RID: 318 RVA: 0x00007177 File Offset: 0x00005377
 		public float LeftSpace
 		{
 			get
@@ -517,9 +469,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x0600013F RID: 319 RVA: 0x0000719B File Offset: 0x0000539B
-		// (set) Token: 0x06000140 RID: 320 RVA: 0x000071A3 File Offset: 0x000053A3
 		public float TopSpace
 		{
 			get
@@ -537,9 +486,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x06000141 RID: 321 RVA: 0x000071C7 File Offset: 0x000053C7
-		// (set) Token: 0x06000142 RID: 322 RVA: 0x000071CF File Offset: 0x000053CF
 		public float RightSpace
 		{
 			get
@@ -557,9 +503,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x06000143 RID: 323 RVA: 0x000071F3 File Offset: 0x000053F3
-		// (set) Token: 0x06000144 RID: 324 RVA: 0x000071FB File Offset: 0x000053FB
 		public float BottomSpace
 		{
 			get
@@ -577,9 +520,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007C RID: 124
-		// (get) Token: 0x06000145 RID: 325 RVA: 0x0000721F File Offset: 0x0000541F
-		// (set) Token: 0x06000146 RID: 326 RVA: 0x00007227 File Offset: 0x00005427
 		public float PlaneMarginTop
 		{
 			get
@@ -597,9 +537,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x06000147 RID: 327 RVA: 0x0000724B File Offset: 0x0000544B
-		// (set) Token: 0x06000148 RID: 328 RVA: 0x00007253 File Offset: 0x00005453
 		public float PlaneMarginRight
 		{
 			get
@@ -617,9 +554,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x06000149 RID: 329 RVA: 0x00007277 File Offset: 0x00005477
-		// (set) Token: 0x0600014A RID: 330 RVA: 0x0000727F File Offset: 0x0000547F
 		public int NumberOfValueLabelDecimalPlaces
 		{
 			get
@@ -637,9 +571,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x0600014B RID: 331 RVA: 0x000072A3 File Offset: 0x000054A3
-		// (set) Token: 0x0600014C RID: 332 RVA: 0x000072AB File Offset: 0x000054AB
 		public Brush HorizontalValueLabelsBrush
 		{
 			get
@@ -657,9 +588,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x0600014D RID: 333 RVA: 0x000072CF File Offset: 0x000054CF
-		// (set) Token: 0x0600014E RID: 334 RVA: 0x000072D7 File Offset: 0x000054D7
 		public Brush VerticalValueLabelsBrush
 		{
 			get
@@ -677,9 +605,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x0600014F RID: 335 RVA: 0x000072FB File Offset: 0x000054FB
-		// (set) Token: 0x06000150 RID: 336 RVA: 0x00007303 File Offset: 0x00005503
 		public Brush LineBrush
 		{
 			get
@@ -697,9 +622,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x06000151 RID: 337 RVA: 0x00007327 File Offset: 0x00005527
-		// (set) Token: 0x06000152 RID: 338 RVA: 0x00007330 File Offset: 0x00005530
 		public Widget LineContainerWidget
 		{
 			get
@@ -749,82 +671,56 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets.Graph
 			}
 		}
 
-		// Token: 0x04000083 RID: 131
 		private Widget _dynamicWidgetsContainer;
 
-		// Token: 0x04000084 RID: 132
 		private bool _willRefreshThisFrame;
 
-		// Token: 0x04000085 RID: 133
 		private Vec2 _planeExtendedSize;
 
-		// Token: 0x04000086 RID: 134
 		private Vec2 _planeSize;
 
-		// Token: 0x04000087 RID: 135
 		private Vec2 _totalSizeCached;
 
-		// Token: 0x04000088 RID: 136
 		private Widget _lineContainerWidget;
 
-		// Token: 0x04000089 RID: 137
 		private int _rowCount;
 
-		// Token: 0x0400008A RID: 138
 		private int _columnCount;
 
-		// Token: 0x0400008B RID: 139
 		private int _horizontalLabelCount;
 
-		// Token: 0x0400008C RID: 140
 		private float _horizontalMinValue;
 
-		// Token: 0x0400008D RID: 141
 		private float _horizontalMaxValue;
 
-		// Token: 0x0400008E RID: 142
 		private int _verticalLabelCount;
 
-		// Token: 0x0400008F RID: 143
 		private float _verticalMinValue;
 
-		// Token: 0x04000090 RID: 144
 		private float _verticalMaxValue;
 
-		// Token: 0x04000091 RID: 145
 		private Sprite _planeLineSprite;
 
-		// Token: 0x04000092 RID: 146
 		private Color _planeLineColor;
 
-		// Token: 0x04000093 RID: 147
 		private float _leftSpace;
 
-		// Token: 0x04000094 RID: 148
 		private float _topSpace;
 
-		// Token: 0x04000095 RID: 149
 		private float _rightSpace;
 
-		// Token: 0x04000096 RID: 150
 		private float _bottomSpace;
 
-		// Token: 0x04000097 RID: 151
 		private float _planeMarginTop;
 
-		// Token: 0x04000098 RID: 152
 		private float _planeMarginRight;
 
-		// Token: 0x04000099 RID: 153
 		private int _numberOfValueLabelDecimalPlaces;
 
-		// Token: 0x0400009A RID: 154
 		private Brush _horizontalValueLabelsBrush;
 
-		// Token: 0x0400009B RID: 155
 		private Brush _verticalValueLabelsBrush;
 
-		// Token: 0x0400009C RID: 156
 		private Brush _lineBrush;
 	}
 }

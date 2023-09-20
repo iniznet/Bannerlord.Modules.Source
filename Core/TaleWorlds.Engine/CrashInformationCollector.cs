@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x0200000F RID: 15
 	public static class CrashInformationCollector
 	{
-		// Token: 0x06000067 RID: 103 RVA: 0x00002BC4 File Offset: 0x00000DC4
 		[EngineCallback]
 		public static string CollectInformation()
 		{
@@ -57,24 +55,19 @@ namespace TaleWorlds.Engine
 			return text;
 		}
 
-		// Token: 0x020000A7 RID: 167
 		public class CrashInformation
 		{
-			// Token: 0x06000C1B RID: 3099 RVA: 0x0000E9D7 File Offset: 0x0000CBD7
 			public CrashInformation(string id, MBReadOnlyList<ValueTuple<string, string>> lines)
 			{
 				this.Id = id;
 				this.Lines = lines;
 			}
 
-			// Token: 0x0400032B RID: 811
 			public readonly string Id;
 
-			// Token: 0x0400032C RID: 812
 			public readonly MBReadOnlyList<ValueTuple<string, string>> Lines;
 		}
 
-		// Token: 0x020000A8 RID: 168
 		[AttributeUsage(AttributeTargets.Method)]
 		public class CrashInformationProvider : Attribute
 		{

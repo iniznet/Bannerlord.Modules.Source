@@ -18,41 +18,34 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003AA RID: 938
 	public class LordDefectionCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060037EC RID: 14316 RVA: 0x000FC406 File Offset: 0x000FA606
 		public LordDefectionCampaignBehavior()
 		{
 			this._previousDefectionPersuasionAttempts = new List<PersuasionAttempt>();
 		}
 
-		// Token: 0x060037ED RID: 14317 RVA: 0x000FC43A File Offset: 0x000FA63A
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
 		}
 
-		// Token: 0x060037EE RID: 14318 RVA: 0x000FC46A File Offset: 0x000FA66A
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<PersuasionAttempt>>("previousPersuasionAttempts", ref this._previousDefectionPersuasionAttempts);
 		}
 
-		// Token: 0x060037EF RID: 14319 RVA: 0x000FC47E File Offset: 0x000FA67E
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060037F0 RID: 14320 RVA: 0x000FC487 File Offset: 0x000FA687
 		public void ClearPersuasion()
 		{
 			this._previousDefectionPersuasionAttempts.Clear();
 		}
 
-		// Token: 0x060037F1 RID: 14321 RVA: 0x000FC494 File Offset: 0x000FA694
 		private PersuasionTask GetFailedPersuasionTask(LordDefectionCampaignBehavior.DefectionReservationType reservationType)
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -65,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x060037F2 RID: 14322 RVA: 0x000FC500 File Offset: 0x000FA700
 		private PersuasionTask GetAnyFailedPersuasionTask()
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -78,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x060037F3 RID: 14323 RVA: 0x000FC568 File Offset: 0x000FA768
 		private PersuasionTask GetCurrentPersuasionTask()
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -91,7 +82,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this._allReservations[this._allReservations.Count - 1];
 		}
 
-		// Token: 0x060037F4 RID: 14324 RVA: 0x000FC604 File Offset: 0x000FA804
 		protected void AddDialogs(CampaignGameStarter starter)
 		{
 			this.AddLordDefectionPersuasionOptions(starter);
@@ -135,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("lord_ask_recruit_argument_reaction", "lord_defection_reaction", "lord_defection_next_reservation", "{=!}{PERSUASION_REACTION}", new ConversationSentence.OnConditionDelegate(this.conversation_lord_persuade_option_reaction_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_lord_persuade_option_reaction_on_consequence), 100, null);
 		}
 
-		// Token: 0x060037F5 RID: 14325 RVA: 0x000FC7B8 File Offset: 0x000FA9B8
 		private void AddLordDefectionPersuasionOptions(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("player_is_requesting_enemy_change_sides", "lord_talk_speak_diplomacy_2", "persuasion_leave_faction_npc", "{=5a0NhbOA}Your liege, {FIRST_NAME}, is not worth of your loyalty.", new ConversationSentence.OnConditionDelegate(this.conversation_player_is_asking_to_recruit_enemy_on_condition), null, 100, null, null);
@@ -166,13 +155,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("lord_defection_post_barter_f", "lord_defection_post_barter", "close_window", "{=BO9QV55x}I cannot do what you ask.[if:convo_grave]", () => !this.defection_barter_successful_on_condition(), null, 100, null);
 		}
 
-		// Token: 0x060037F6 RID: 14326 RVA: 0x000FCB28 File Offset: 0x000FAD28
 		private bool defection_barter_successful_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060037F7 RID: 14327 RVA: 0x000FCB3C File Offset: 0x000FAD3C
 		private void defection_successful_on_consequence()
 		{
 			TraitLevelingHelper.OnPersuasionDefection(Hero.OneToOneConversationHero);
@@ -207,7 +194,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037F8 RID: 14328 RVA: 0x000FCC64 File Offset: 0x000FAE64
 		private bool conversation_lord_recruit_1_persuade_option_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -222,7 +208,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037F9 RID: 14329 RVA: 0x000FCCDC File Offset: 0x000FAEDC
 		private void conversation_lord_recruit_1_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -232,7 +217,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037FA RID: 14330 RVA: 0x000FCD10 File Offset: 0x000FAF10
 		private void conversation_lord_recruit_2_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -242,7 +226,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037FB RID: 14331 RVA: 0x000FCD44 File Offset: 0x000FAF44
 		private void conversation_lord_recruit_3_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -252,7 +235,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037FC RID: 14332 RVA: 0x000FCD78 File Offset: 0x000FAF78
 		private void conversation_lord_recruit_4_persuade_option_on_consequence()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -262,7 +244,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060037FD RID: 14333 RVA: 0x000FCDAC File Offset: 0x000FAFAC
 		private bool DefectionPersuasionOption1ClickableOnCondition1(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -275,7 +256,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037FE RID: 14334 RVA: 0x000FCDF8 File Offset: 0x000FAFF8
 		private bool DefectionPersuasionOption2ClickableOnCondition2(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -288,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060037FF RID: 14335 RVA: 0x000FCE44 File Offset: 0x000FB044
 		private bool DefectionPersuasionOption3ClickableOnCondition3(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -301,7 +280,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003800 RID: 14336 RVA: 0x000FCE90 File Offset: 0x000FB090
 		private bool DefectionPersuasionOption4ClickableOnCondition4(out TextObject hintText)
 		{
 			hintText = TextObject.Empty;
@@ -314,7 +292,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003801 RID: 14337 RVA: 0x000FCEDC File Offset: 0x000FB0DC
 		private bool conversation_lord_recruit_2_persuade_option_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -329,7 +306,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003802 RID: 14338 RVA: 0x000FCF54 File Offset: 0x000FB154
 		private bool conversation_lord_recruit_3_persuade_option_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -344,7 +320,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003803 RID: 14339 RVA: 0x000FCFCC File Offset: 0x000FB1CC
 		private bool conversation_lord_recruit_4_persuade_option_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -359,31 +334,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003804 RID: 14340 RVA: 0x000FD044 File Offset: 0x000FB244
 		private PersuasionOptionArgs SetupDefectionPersuasionOption1()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(0);
 		}
 
-		// Token: 0x06003805 RID: 14341 RVA: 0x000FD057 File Offset: 0x000FB257
 		private PersuasionOptionArgs SetupDefectionPersuasionOption2()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(1);
 		}
 
-		// Token: 0x06003806 RID: 14342 RVA: 0x000FD06A File Offset: 0x000FB26A
 		private PersuasionOptionArgs SetupDefectionPersuasionOption3()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(2);
 		}
 
-		// Token: 0x06003807 RID: 14343 RVA: 0x000FD07D File Offset: 0x000FB27D
 		private PersuasionOptionArgs SetupDefectionPersuasionOption4()
 		{
 			return this.GetCurrentPersuasionTask().Options.ElementAt(3);
 		}
 
-		// Token: 0x06003808 RID: 14344 RVA: 0x000FD090 File Offset: 0x000FB290
 		private bool conversation_player_start_defection_with_prisoner_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Clan.PlayerClan.Kingdom != null && Hero.MainHero.IsFactionLeader)
@@ -397,13 +367,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003809 RID: 14345 RVA: 0x000FD174 File Offset: 0x000FB374
 		private bool conversation_lord_persuade_option_reaction_pre_reject_on_condition()
 		{
 			return (float)new JoinKingdomAsClanBarterable(Hero.OneToOneConversationHero, (Kingdom)Hero.MainHero.MapFaction, false).GetValueForFaction(Hero.OneToOneConversationHero.Clan) < -MathF.Min(2000000f, MathF.Max(500000f, 250000f + (float)Hero.MainHero.Gold / 3f));
 		}
 
-		// Token: 0x0600380A RID: 14346 RVA: 0x000FD1DC File Offset: 0x000FB3DC
 		private bool conversation_lord_persuade_option_reaction_on_condition()
 		{
 			PersuasionOptionResult item = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>().Item2;
@@ -436,7 +404,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600380B RID: 14347 RVA: 0x000FD2D4 File Offset: 0x000FB4D4
 		private void conversation_lord_persuade_option_reaction_on_consequence()
 		{
 			Tuple<PersuasionOptionArgs, PersuasionOptionResult> tuple = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>();
@@ -450,7 +417,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._previousDefectionPersuasionAttempts.Add(persuasionAttempt);
 		}
 
-		// Token: 0x0600380C RID: 14348 RVA: 0x000FD36C File Offset: 0x000FB56C
 		private PersuasionTask FindTaskOfOption(PersuasionOptionArgs optionChosenWithLine)
 		{
 			foreach (PersuasionTask persuasionTask in this._allReservations)
@@ -469,14 +435,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x0600380D RID: 14349 RVA: 0x000FD408 File Offset: 0x000FB608
 		private void conversation_on_end_persuasion_on_consequence()
 		{
 			this._allReservations = null;
 			ConversationManager.EndPersuasion();
 		}
 
-		// Token: 0x0600380E RID: 14350 RVA: 0x000FD418 File Offset: 0x000FB618
 		public bool conversation_lord_player_has_failed_in_defection_on_condition()
 		{
 			if (this.GetCurrentPersuasionTask().Options.All((PersuasionOptionArgs x) => x.IsBlocked) && !ConversationManager.GetPersuasionProgressSatisfied())
@@ -491,7 +455,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600380F RID: 14351 RVA: 0x000FD47C File Offset: 0x000FB67C
 		public bool conversation_lord_recruit_check_if_reservations_met_on_condition()
 		{
 			PersuasionTask currentPersuasionTask = this.GetCurrentPersuasionTask();
@@ -510,13 +473,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003810 RID: 14352 RVA: 0x000FD4F2 File Offset: 0x000FB6F2
 		public bool conversation_lord_check_if_ready_to_join_faction_without_barter_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06003811 RID: 14353 RVA: 0x000FD4F8 File Offset: 0x000FB6F8
 		public void conversation_lord_defect_to_clan_without_barter_on_consequence()
 		{
 			Kingdom kingdom = Hero.MainHero.Clan.Kingdom;
@@ -525,13 +486,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationManager.EndPersuasion();
 		}
 
-		// Token: 0x06003812 RID: 14354 RVA: 0x000FD531 File Offset: 0x000FB731
 		public bool conversation_lord_check_if_ready_to_join_faction_with_barter_on_condition()
 		{
 			return ConversationManager.GetPersuasionProgressSatisfied();
 		}
 
-		// Token: 0x06003813 RID: 14355 RVA: 0x000FD538 File Offset: 0x000FB738
 		private List<PersuasionTask> GetPersuasionTasksForDefection(Hero forLord, Hero newLiege)
 		{
 			Hero currentLiege = forLord.MapFaction.Leader;
@@ -812,7 +771,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06003814 RID: 14356 RVA: 0x000FE1DC File Offset: 0x000FC3DC
 		public bool conversation_player_is_asking_to_recruit_enemy_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.MainHero.Clan.Kingdom != null && !Hero.MainHero.Clan.IsUnderMercenaryService && Hero.OneToOneConversationHero.MapFaction != null && Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction && Hero.OneToOneConversationHero.MapFaction != Hero.MainHero.MapFaction && Hero.OneToOneConversationHero.MapFaction.Leader != Hero.OneToOneConversationHero && Hero.OneToOneConversationHero.Clan != null && !Hero.OneToOneConversationHero.Clan.IsMinorFaction && !Hero.OneToOneConversationHero.IsPrisoner && FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction))
@@ -824,7 +782,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003815 RID: 14357 RVA: 0x000FE2E4 File Offset: 0x000FC4E4
 		public bool conversation_player_is_asking_to_recruit_neutral_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.MainHero.Clan.Kingdom != null && !Hero.MainHero.Clan.IsUnderMercenaryService && Hero.OneToOneConversationHero.MapFaction != null && Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction && Hero.OneToOneConversationHero.MapFaction != Hero.MainHero.MapFaction && !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && Hero.OneToOneConversationHero.Clan != null && !Hero.OneToOneConversationHero.Clan.IsMinorFaction && !Hero.OneToOneConversationHero.IsPrisoner && Hero.OneToOneConversationHero != Hero.OneToOneConversationHero.MapFaction.Leader)
@@ -836,13 +793,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003816 RID: 14358 RVA: 0x000FE3EA File Offset: 0x000FC5EA
 		private bool conversation_suggest_treason_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06003817 RID: 14359 RVA: 0x000FE3F0 File Offset: 0x000FC5F0
 		public bool conversation_lord_from_ruling_clan_on_condition()
 		{
 			float num = 0f;
@@ -899,7 +854,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003818 RID: 14360 RVA: 0x000FE650 File Offset: 0x000FC850
 		public bool conversation_lord_redirects_to_clan_leader_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.Clan.IsMapFaction)
@@ -910,12 +864,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !Hero.OneToOneConversationHero.Clan.IsMapFaction && Hero.OneToOneConversationHero.Clan.Leader != Hero.OneToOneConversationHero;
 		}
 
-		// Token: 0x06003819 RID: 14361 RVA: 0x000FE6C1 File Offset: 0x000FC8C1
 		private void persuasion_redierect_player_finish_on_consequece()
 		{
 		}
 
-		// Token: 0x0600381A RID: 14362 RVA: 0x000FE6C4 File Offset: 0x000FC8C4
 		private bool conversation_lord_can_recruit_on_condition()
 		{
 			if (Hero.MainHero.MapFaction.Leader == Hero.MainHero)
@@ -935,7 +887,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600381B RID: 14363 RVA: 0x000FE784 File Offset: 0x000FC984
 		private void start_lord_defection_persuasion_on_consequence()
 		{
 			Hero hero = Hero.MainHero.MapFaction.Leader;
@@ -973,19 +924,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ConversationManager.StartPersuasion(this._maximumScoreCap, this._successValue, this._failValue, this._criticalSuccessValue, this._criticalFailValue, num, PersuasionDifficulty.Medium);
 		}
 
-		// Token: 0x0600381C RID: 14364 RVA: 0x000FE8F4 File Offset: 0x000FCAF4
 		private void OnDailyTick()
 		{
 			this.RemoveOldAttempts();
 		}
 
-		// Token: 0x0600381D RID: 14365 RVA: 0x000FE8FC File Offset: 0x000FCAFC
 		private void conversation_clear_persuasion_on_consequence()
 		{
 			this.ClearPersuasion();
 		}
 
-		// Token: 0x0600381E RID: 14366 RVA: 0x000FE904 File Offset: 0x000FCB04
 		private void conversation_leave_faction_barter_consequence()
 		{
 			BarterManager instance = BarterManager.Instance;
@@ -1005,7 +953,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600381F RID: 14367 RVA: 0x000FE9B0 File Offset: 0x000FCBB0
 		private bool CanAttemptToPersuade(Hero targetHero, int reservationType)
 		{
 			foreach (PersuasionAttempt persuasionAttempt in this._previousDefectionPersuasionAttempts)
@@ -1018,7 +965,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003820 RID: 14368 RVA: 0x000FEA2C File Offset: 0x000FCC2C
 		private void RemoveOldAttempts()
 		{
 			for (int i = this._previousDefectionPersuasionAttempts.Count - 1; i >= 0; i--)
@@ -1030,59 +976,42 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0400118E RID: 4494
 		private const PersuasionDifficulty _difficulty = PersuasionDifficulty.Medium;
 
-		// Token: 0x0400118F RID: 4495
 		private List<PersuasionTask> _allReservations;
 
-		// Token: 0x04001190 RID: 4496
 		[SaveableField(1)]
 		private List<PersuasionAttempt> _previousDefectionPersuasionAttempts;
 
-		// Token: 0x04001191 RID: 4497
 		private float _maximumScoreCap;
 
-		// Token: 0x04001192 RID: 4498
 		private float _successValue = 1f;
 
-		// Token: 0x04001193 RID: 4499
 		private float _criticalSuccessValue = 2f;
 
-		// Token: 0x04001194 RID: 4500
 		private float _criticalFailValue = 2f;
 
-		// Token: 0x04001195 RID: 4501
 		private float _failValue;
 
-		// Token: 0x02000701 RID: 1793
 		public class LordDefectionCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x06005558 RID: 21848 RVA: 0x0016CE98 File Offset: 0x0016B098
 			public LordDefectionCampaignBehaviorTypeDefiner()
 				: base(100000)
 			{
 			}
 
-			// Token: 0x06005559 RID: 21849 RVA: 0x0016CEA5 File Offset: 0x0016B0A5
 			protected override void DefineEnumTypes()
 			{
 				base.AddEnumDefinition(typeof(LordDefectionCampaignBehavior.DefectionReservationType), 1, null);
 			}
 		}
 
-		// Token: 0x02000702 RID: 1794
 		private enum DefectionReservationType
 		{
-			// Token: 0x04001CCE RID: 7374
 			LordDefectionPlayerTrust,
-			// Token: 0x04001CCF RID: 7375
 			LordDefectionOathToLiege,
-			// Token: 0x04001CD0 RID: 7376
 			LordDefectionLoyalty,
-			// Token: 0x04001CD1 RID: 7377
 			LordDefectionPolicy,
-			// Token: 0x04001CD2 RID: 7378
 			LordDefectionSelfinterest
 		}
 	}

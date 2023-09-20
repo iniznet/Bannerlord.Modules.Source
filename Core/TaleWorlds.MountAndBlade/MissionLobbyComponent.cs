@@ -10,21 +10,12 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200028F RID: 655
 	public abstract class MissionLobbyComponent : MissionNetwork
 	{
-		// Token: 0x14000039 RID: 57
-		// (add) Token: 0x0600229D RID: 8861 RVA: 0x0007DD40 File Offset: 0x0007BF40
-		// (remove) Token: 0x0600229E RID: 8862 RVA: 0x0007DD78 File Offset: 0x0007BF78
 		public event Action OnPostMatchEnded;
 
-		// Token: 0x1400003A RID: 58
-		// (add) Token: 0x0600229F RID: 8863 RVA: 0x0007DDB0 File Offset: 0x0007BFB0
-		// (remove) Token: 0x060022A0 RID: 8864 RVA: 0x0007DDE8 File Offset: 0x0007BFE8
 		public event Action OnCultureSelectionRequested;
 
-		// Token: 0x17000693 RID: 1683
-		// (get) Token: 0x060022A1 RID: 8865 RVA: 0x0007DE1D File Offset: 0x0007C01D
 		public bool IsInWarmup
 		{
 			get
@@ -33,20 +24,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022A2 RID: 8866 RVA: 0x0007DE34 File Offset: 0x0007C034
 		static MissionLobbyComponent()
 		{
 			MissionLobbyComponent.AddLobbyComponentType(typeof(MissionBattleSchedulerClientComponent), LobbyMissionType.Matchmaker, false);
 			MissionLobbyComponent.AddLobbyComponentType(typeof(MissionCustomGameClientComponent), LobbyMissionType.Custom, false);
 		}
 
-		// Token: 0x060022A3 RID: 8867 RVA: 0x0007DE81 File Offset: 0x0007C081
 		public static void AddLobbyComponentType(Type type, LobbyMissionType missionType, bool isSeverComponent)
 		{
 			MissionLobbyComponent._lobbyComponentTypes.Add(new Tuple<LobbyMissionType, bool>(missionType, isSeverComponent), type);
 		}
 
-		// Token: 0x060022A4 RID: 8868 RVA: 0x0007DE98 File Offset: 0x0007C098
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -66,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022A5 RID: 8869 RVA: 0x0007DEF4 File Offset: 0x0007C0F4
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			if (GameNetwork.IsClient)
@@ -90,7 +77,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022A6 RID: 8870 RVA: 0x0007DFA8 File Offset: 0x0007C1A8
 		protected override void OnUdpNetworkHandlerClose()
 		{
 			if (GameNetwork.IsServerOrRecorder || this._usingFixedBanners)
@@ -99,18 +85,15 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022A7 RID: 8871 RVA: 0x0007DFC0 File Offset: 0x0007C1C0
 		public static MissionLobbyComponent CreateBehavior()
 		{
 			return (MissionLobbyComponent)Activator.CreateInstance(MissionLobbyComponent._lobbyComponentTypes[new Tuple<LobbyMissionType, bool>(BannerlordNetwork.LobbyMissionType, GameNetwork.IsDedicatedServer)]);
 		}
 
-		// Token: 0x060022A8 RID: 8872 RVA: 0x0007DFE5 File Offset: 0x0007C1E5
 		public virtual void QuitMission()
 		{
 		}
 
-		// Token: 0x060022A9 RID: 8873 RVA: 0x0007DFE8 File Offset: 0x0007C1E8
 		public override void AfterStart()
 		{
 			base.Mission.MakeDefaultDeploymentPlans();
@@ -125,7 +108,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022AA RID: 8874 RVA: 0x0007E078 File Offset: 0x0007C278
 		private void OnMyClientSynchronized()
 		{
 			base.Mission.GetMissionBehavior<MissionNetworkComponent>().OnMyClientSynchronized -= this.OnMyClientSynchronized;
@@ -136,7 +118,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022AB RID: 8875 RVA: 0x0007E0C0 File Offset: 0x0007C2C0
 		public override void EarlyStart()
 		{
 			if (GameNetwork.IsServer)
@@ -145,7 +126,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022AC RID: 8876 RVA: 0x0007E0F8 File Offset: 0x0007C2F8
 		public override void OnMissionTick(float dt)
 		{
 			if (GameNetwork.IsClient && this._inactivityTimer.Check(base.Mission.CurrentTime))
@@ -179,7 +159,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022AD RID: 8877 RVA: 0x0007E24A File Offset: 0x0007C44A
 		protected override void OnUdpNetworkHandlerTick()
 		{
 			if (this.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Ending && this._timerComponent.CheckIfTimerPassed() && GameNetwork.IsServer)
@@ -188,7 +167,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022AE RID: 8878 RVA: 0x0007E26F File Offset: 0x0007C46F
 		public override void OnRemoveBehavior()
 		{
 			NetworkCommunicator myPeer = GameNetwork.MyPeer;
@@ -196,7 +174,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x060022AF RID: 8879 RVA: 0x0007E284 File Offset: 0x0007C484
 		private void HandleServerEventMissionStateChange(MissionStateChange message)
 		{
 			this.CurrentMultiplayerState = message.CurrentState;
@@ -216,7 +193,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022B0 RID: 8880 RVA: 0x0007E30C File Offset: 0x0007C50C
 		private void HandleServerEventKillDeathCountChangeEvent(KillDeathCountChange message)
 		{
 			if (message.VictimPeer != null)
@@ -246,7 +222,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022B1 RID: 8881 RVA: 0x0007E3C0 File Offset: 0x0007C5C0
 		private void HandleServerEventCreateBannerForPeer(NetworkMessages.FromServer.CreateBanner message)
 		{
 			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
@@ -256,7 +231,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022B2 RID: 8882 RVA: 0x0007E3F0 File Offset: 0x0007C5F0
 		private void HandleServerEventChangeCulture(ChangeCulture message)
 		{
 			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
@@ -266,7 +240,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022B3 RID: 8883 RVA: 0x0007E418 File Offset: 0x0007C618
 		private bool HandleClientEventRequestCultureChange(NetworkCommunicator peer, RequestCultureChange message)
 		{
 			MissionPeer component = peer.GetComponent<MissionPeer>();
@@ -278,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060022B4 RID: 8884 RVA: 0x0007E454 File Offset: 0x0007C654
 		private bool HandleClientEventCreateBannerForPeer(NetworkCommunicator peer, NetworkMessages.FromClient.CreateBanner message)
 		{
 			MissionMultiplayerGameModeBase missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerGameModeBase>();
@@ -296,7 +268,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060022B5 RID: 8885 RVA: 0x0007E4A8 File Offset: 0x0007C6A8
 		private bool HandleClientEventRequestChangeCharacterMessage(NetworkCommunicator peer, RequestChangeCharacterMessage message)
 		{
 			MissionPeer component = message.NetworkPeer.GetComponent<MissionPeer>();
@@ -307,7 +278,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060022B6 RID: 8886 RVA: 0x0007E4DA File Offset: 0x0007C6DA
 		private static void SyncBannersToAllClients(string bannerCode, NetworkCommunicator ownerPeer)
 		{
 			GameNetwork.BeginBroadcastModuleEvent();
@@ -315,13 +285,11 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.ExcludeTargetPlayer, ownerPeer);
 		}
 
-		// Token: 0x060022B7 RID: 8887 RVA: 0x0007E4F4 File Offset: 0x0007C6F4
 		protected override void HandleNewClientConnect(PlayerConnectionInfo clientConnectionInfo)
 		{
 			base.HandleNewClientConnect(clientConnectionInfo);
 		}
 
-		// Token: 0x060022B8 RID: 8888 RVA: 0x0007E4FD File Offset: 0x0007C6FD
 		protected override void HandleLateNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			if (!networkPeer.IsServerPeer)
@@ -330,7 +298,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022B9 RID: 8889 RVA: 0x0007E510 File Offset: 0x0007C710
 		private void SendExistingObjectsToPeer(NetworkCommunicator peer)
 		{
 			long num = 0L;
@@ -344,7 +311,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SendPeerInformationsToPeer(peer);
 		}
 
-		// Token: 0x060022BA RID: 8890 RVA: 0x0007E560 File Offset: 0x0007C760
 		private void SendPeerInformationsToPeer(NetworkCommunicator peer)
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeersIncludingDisconnectedPeers)
@@ -374,7 +340,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022BB RID: 8891 RVA: 0x0007E738 File Offset: 0x0007C938
 		public void DespawnPlayer(MissionPeer missionPeer)
 		{
 			if (missionPeer.ControlledAgent != null && missionPeer.ControlledAgent.IsActive())
@@ -388,7 +353,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022BC RID: 8892 RVA: 0x0007E761 File Offset: 0x0007C961
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			if (GameNetwork.IsServer && !isBlocked && affectorAgent != affectedAgent && affectorAgent.MissionPeer != null && damagedHp > 0f)
@@ -397,7 +361,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022BD RID: 8893 RVA: 0x0007E798 File Offset: 0x0007C998
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);
@@ -444,7 +407,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022BE RID: 8894 RVA: 0x0007E90C File Offset: 0x0007CB0C
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			if (GameNetwork.IsServer)
@@ -478,7 +440,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022BF RID: 8895 RVA: 0x0007E9A8 File Offset: 0x0007CBA8
 		protected virtual void OnPlayerKills(MissionPeer killerPeer, Agent killedAgent, MissionPeer assistorPeer)
 		{
 			if (killedAgent.MissionPeer == null)
@@ -512,7 +473,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 		}
 
-		// Token: 0x060022C0 RID: 8896 RVA: 0x0007EAD0 File Offset: 0x0007CCD0
 		protected virtual void OnPlayerDies(MissionPeer peer, MissionPeer affectorPeer, MissionPeer assistorPeer)
 		{
 			if (assistorPeer != null)
@@ -532,7 +492,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 		}
 
-		// Token: 0x060022C1 RID: 8897 RVA: 0x0007EBA0 File Offset: 0x0007CDA0
 		protected virtual void OnBotKills(Agent botAgent, Agent killedAgent)
 		{
 			Agent botAgent2 = botAgent;
@@ -601,7 +560,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022C2 RID: 8898 RVA: 0x0007EE0C File Offset: 0x0007D00C
 		protected virtual void OnBotDies(Agent botAgent, MissionPeer affectorPeer, MissionPeer assistorPeer)
 		{
 			if (assistorPeer != null)
@@ -648,7 +606,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022C3 RID: 8899 RVA: 0x0007EFD4 File Offset: 0x0007D1D4
 		public override void OnClearScene()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeersIncludingDisconnectedPeers)
@@ -663,13 +620,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022C4 RID: 8900 RVA: 0x0007F038 File Offset: 0x0007D238
 		public static int GetSpawnPeriodDurationForPeer(MissionPeer peer)
 		{
 			return Mission.Current.GetMissionBehavior<SpawnComponent>().GetMaximumReSpawnPeriodForPeer(peer);
 		}
 
-		// Token: 0x060022C5 RID: 8901 RVA: 0x0007F04C File Offset: 0x0007D24C
 		public virtual void SetStateEndingAsServer()
 		{
 			this.CurrentMultiplayerState = MissionLobbyComponent.MultiplayerGameState.Ending;
@@ -686,7 +641,6 @@ namespace TaleWorlds.MountAndBlade
 			onPostMatchEnded();
 		}
 
-		// Token: 0x060022C6 RID: 8902 RVA: 0x0007F0C8 File Offset: 0x0007D2C8
 		private void SetStatePlayingAsServer()
 		{
 			this._warmupComponent = null;
@@ -697,12 +651,10 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 		}
 
-		// Token: 0x060022C7 RID: 8903 RVA: 0x0007F129 File Offset: 0x0007D329
 		protected virtual void EndGameAsServer()
 		{
 		}
 
-		// Token: 0x060022C8 RID: 8904 RVA: 0x0007F12C File Offset: 0x0007D32C
 		private MissionPeer RemoveHittersAndGetAssistorPeer(MissionPeer killerPeer, Agent killedAgent)
 		{
 			Agent.Hitter assistingHitter = killedAgent.GetAssistingHitter(killerPeer);
@@ -728,7 +680,6 @@ namespace TaleWorlds.MountAndBlade
 			return assistingHitter.HitterPeer;
 		}
 
-		// Token: 0x060022C9 RID: 8905 RVA: 0x0007F18E File Offset: 0x0007D38E
 		private void SetStateEndingAsClient()
 		{
 			Action onPostMatchEnded = this.OnPostMatchEnded;
@@ -739,7 +690,6 @@ namespace TaleWorlds.MountAndBlade
 			onPostMatchEnded();
 		}
 
-		// Token: 0x060022CA RID: 8906 RVA: 0x0007F1A0 File Offset: 0x0007D3A0
 		public void RequestCultureSelection()
 		{
 			Action onCultureSelectionRequested = this.OnCultureSelectionRequested;
@@ -750,7 +700,6 @@ namespace TaleWorlds.MountAndBlade
 			onCultureSelectionRequested();
 		}
 
-		// Token: 0x060022CB RID: 8907 RVA: 0x0007F1B2 File Offset: 0x0007D3B2
 		public void RequestTroopSelection()
 		{
 			if (GameNetwork.IsClient)
@@ -761,7 +710,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060022CC RID: 8908 RVA: 0x0007F1D4 File Offset: 0x0007D3D4
 		public void OnCultureSelected(BasicCultureObject culture)
 		{
 			if (GameNetwork.IsClient)
@@ -772,14 +720,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000694 RID: 1684
-		// (get) Token: 0x060022CD RID: 8909 RVA: 0x0007F1F2 File Offset: 0x0007D3F2
-		// (set) Token: 0x060022CE RID: 8910 RVA: 0x0007F1FA File Offset: 0x0007D3FA
 		public MissionLobbyComponent.MultiplayerGameType MissionType { get; set; }
 
-		// Token: 0x17000695 RID: 1685
-		// (get) Token: 0x060022CF RID: 8911 RVA: 0x0007F203 File Offset: 0x0007D403
-		// (set) Token: 0x060022D0 RID: 8912 RVA: 0x0007F20B File Offset: 0x0007D40B
 		public MissionLobbyComponent.MultiplayerGameState CurrentMultiplayerState
 		{
 			get
@@ -801,19 +743,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1400003B RID: 59
-		// (add) Token: 0x060022D1 RID: 8913 RVA: 0x0007F230 File Offset: 0x0007D430
-		// (remove) Token: 0x060022D2 RID: 8914 RVA: 0x0007F268 File Offset: 0x0007D468
 		public event Action<MissionLobbyComponent.MultiplayerGameState> CurrentMultiplayerStateChanged;
 
-		// Token: 0x060022D3 RID: 8915 RVA: 0x0007F29D File Offset: 0x0007D49D
 		public int GetRandomFaceSeedForCharacter(BasicCharacterObject character, int addition = 0)
 		{
 			IRoundComponent roundComponent = this._roundComponent;
 			return character.GetDefaultFaceSeed(addition + ((roundComponent != null) ? roundComponent.RoundCount : 0)) % 2000;
 		}
 
-		// Token: 0x060022D4 RID: 8916 RVA: 0x0007F2C0 File Offset: 0x0007D4C0
 		[CommandLineFunctionality.CommandLineArgumentFunction("kill_player", "mp_host")]
 		public static string MPHostChangeParam(List<string> strings)
 		{
@@ -840,66 +777,43 @@ namespace TaleWorlds.MountAndBlade
 			return "Could not find the player " + strings[0] + " or the agent.";
 		}
 
-		// Token: 0x04000CEA RID: 3306
 		private static readonly float InactivityThreshold = 2f;
 
-		// Token: 0x04000CEB RID: 3307
 		public static readonly float PostMatchWaitDuration = 15f;
 
-		// Token: 0x04000CEE RID: 3310
 		private MissionScoreboardComponent _missionScoreboardComponent;
 
-		// Token: 0x04000CEF RID: 3311
 		private MissionMultiplayerGameModeBase _gameMode;
 
-		// Token: 0x04000CF0 RID: 3312
 		private MultiplayerTimerComponent _timerComponent;
 
-		// Token: 0x04000CF1 RID: 3313
 		private IRoundComponent _roundComponent;
 
-		// Token: 0x04000CF2 RID: 3314
 		private Timer _inactivityTimer;
 
-		// Token: 0x04000CF3 RID: 3315
 		private MultiplayerWarmupComponent _warmupComponent;
 
-		// Token: 0x04000CF4 RID: 3316
 		private static readonly Dictionary<Tuple<LobbyMissionType, bool>, Type> _lobbyComponentTypes = new Dictionary<Tuple<LobbyMissionType, bool>, Type>();
 
-		// Token: 0x04000CF5 RID: 3317
 		private bool _usingFixedBanners;
 
-		// Token: 0x04000CF7 RID: 3319
 		private MissionLobbyComponent.MultiplayerGameState _currentMultiplayerState;
 
-		// Token: 0x02000595 RID: 1429
 		public enum MultiplayerGameState
 		{
-			// Token: 0x04001DAD RID: 7597
 			WaitingFirstPlayers,
-			// Token: 0x04001DAE RID: 7598
 			Playing,
-			// Token: 0x04001DAF RID: 7599
 			Ending
 		}
 
-		// Token: 0x02000596 RID: 1430
 		public enum MultiplayerGameType
 		{
-			// Token: 0x04001DB1 RID: 7601
 			FreeForAll,
-			// Token: 0x04001DB2 RID: 7602
 			TeamDeathmatch,
-			// Token: 0x04001DB3 RID: 7603
 			Duel,
-			// Token: 0x04001DB4 RID: 7604
 			Siege,
-			// Token: 0x04001DB5 RID: 7605
 			Battle,
-			// Token: 0x04001DB6 RID: 7606
 			Captain,
-			// Token: 0x04001DB7 RID: 7607
 			Skirmish
 		}
 	}

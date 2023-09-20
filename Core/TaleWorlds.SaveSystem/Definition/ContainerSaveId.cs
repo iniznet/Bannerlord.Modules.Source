@@ -4,25 +4,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.SaveSystem.Definition
 {
-	// Token: 0x02000057 RID: 87
 	public class ContainerSaveId : SaveId
 	{
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x06000290 RID: 656 RVA: 0x0000A988 File Offset: 0x00008B88
-		// (set) Token: 0x06000291 RID: 657 RVA: 0x0000A990 File Offset: 0x00008B90
 		public ContainerType ContainerType { get; set; }
 
-		// Token: 0x1700006B RID: 107
-		// (get) Token: 0x06000292 RID: 658 RVA: 0x0000A999 File Offset: 0x00008B99
-		// (set) Token: 0x06000293 RID: 659 RVA: 0x0000A9A1 File Offset: 0x00008BA1
 		public SaveId KeyId { get; set; }
 
-		// Token: 0x1700006C RID: 108
-		// (get) Token: 0x06000294 RID: 660 RVA: 0x0000A9AA File Offset: 0x00008BAA
-		// (set) Token: 0x06000295 RID: 661 RVA: 0x0000A9B2 File Offset: 0x00008BB2
 		public SaveId ValueId { get; set; }
 
-		// Token: 0x06000296 RID: 662 RVA: 0x0000A9BB File Offset: 0x00008BBB
 		public ContainerSaveId(ContainerType containerType, SaveId elementId)
 		{
 			this.ContainerType = containerType;
@@ -30,7 +19,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			this._stringId = this.CalculateStringId();
 		}
 
-		// Token: 0x06000297 RID: 663 RVA: 0x0000A9DD File Offset: 0x00008BDD
 		public ContainerSaveId(ContainerType containerType, SaveId keyId, SaveId valueId)
 		{
 			this.ContainerType = containerType;
@@ -39,7 +27,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			this._stringId = this.CalculateStringId();
 		}
 
-		// Token: 0x06000298 RID: 664 RVA: 0x0000AA08 File Offset: 0x00008C08
 		private string CalculateStringId()
 		{
 			string text;
@@ -73,13 +60,11 @@ namespace TaleWorlds.SaveSystem.Definition
 			return text;
 		}
 
-		// Token: 0x06000299 RID: 665 RVA: 0x0000AAC3 File Offset: 0x00008CC3
 		public override string GetStringId()
 		{
 			return this._stringId;
 		}
 
-		// Token: 0x0600029A RID: 666 RVA: 0x0000AACB File Offset: 0x00008CCB
 		public override void WriteTo(IWriter writer)
 		{
 			writer.WriteByte(2);
@@ -91,7 +76,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x0600029B RID: 667 RVA: 0x0000AB04 File Offset: 0x00008D04
 		public static ContainerSaveId ReadFrom(IReader reader)
 		{
 			ContainerType containerType = (ContainerType)reader.ReadByte();
@@ -120,7 +104,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			return new ContainerSaveId(containerType, saveId2, saveId3);
 		}
 
-		// Token: 0x040000C9 RID: 201
 		private readonly string _stringId;
 	}
 }

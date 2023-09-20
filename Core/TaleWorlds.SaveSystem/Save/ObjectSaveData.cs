@@ -6,36 +6,18 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Save
 {
-	// Token: 0x0200002A RID: 42
 	internal class ObjectSaveData
 	{
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x06000170 RID: 368 RVA: 0x00006CED File Offset: 0x00004EED
-		// (set) Token: 0x06000171 RID: 369 RVA: 0x00006CF5 File Offset: 0x00004EF5
 		public int ObjectId { get; private set; }
 
-		// Token: 0x1700002B RID: 43
-		// (get) Token: 0x06000172 RID: 370 RVA: 0x00006CFE File Offset: 0x00004EFE
-		// (set) Token: 0x06000173 RID: 371 RVA: 0x00006D06 File Offset: 0x00004F06
 		public ISaveContext Context { get; private set; }
 
-		// Token: 0x1700002C RID: 44
-		// (get) Token: 0x06000174 RID: 372 RVA: 0x00006D0F File Offset: 0x00004F0F
-		// (set) Token: 0x06000175 RID: 373 RVA: 0x00006D17 File Offset: 0x00004F17
 		public object Target { get; private set; }
 
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x06000176 RID: 374 RVA: 0x00006D20 File Offset: 0x00004F20
-		// (set) Token: 0x06000177 RID: 375 RVA: 0x00006D28 File Offset: 0x00004F28
 		public Type Type { get; private set; }
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x06000178 RID: 376 RVA: 0x00006D31 File Offset: 0x00004F31
-		// (set) Token: 0x06000179 RID: 377 RVA: 0x00006D39 File Offset: 0x00004F39
 		public bool IsClass { get; private set; }
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x0600017A RID: 378 RVA: 0x00006D42 File Offset: 0x00004F42
 		internal int PropertyCount
 		{
 			get
@@ -44,8 +26,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x0600017B RID: 379 RVA: 0x00006D4F File Offset: 0x00004F4F
 		internal int FieldCount
 		{
 			get
@@ -54,7 +34,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600017C RID: 380 RVA: 0x00006D5C File Offset: 0x00004F5C
 		public ObjectSaveData(ISaveContext context, int objectId, object target, bool isClass)
 		{
 			this.ObjectId = objectId;
@@ -80,7 +59,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600017D RID: 381 RVA: 0x00006E3C File Offset: 0x0000503C
 		public void CollectMembers()
 		{
 			for (int i = 0; i < this._typeDefinition.MemberDefinitions.Count; i++)
@@ -128,7 +106,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600017E RID: 382 RVA: 0x00006FB4 File Offset: 0x000051B4
 		public void CollectStringsInto(List<string> collection)
 		{
 			for (int i = 0; i < this._stringMembers.Count; i++)
@@ -142,7 +119,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x00007040 File Offset: 0x00005240
 		public void CollectStrings()
 		{
 			for (int i = 0; i < this._stringMembers.Count; i++)
@@ -156,7 +132,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x000070D0 File Offset: 0x000052D0
 		public void CollectStructs()
 		{
 			int num = 0;
@@ -178,7 +153,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x000071A0 File Offset: 0x000053A0
 		public void SaveHeaderTo(SaveEntryFolder parentFolder, IArchiveContext archiveContext)
 		{
 			SaveFolderExtension saveFolderExtension = (this.IsClass ? SaveFolderExtension.Object : SaveFolderExtension.Struct);
@@ -191,7 +165,6 @@ namespace TaleWorlds.SaveSystem.Save
 			BinaryWriterFactory.ReleaseBinaryWriter(binaryWriter);
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x00007224 File Offset: 0x00005424
 		public void SaveTo(SaveEntryFolder parentFolder, IArchiveContext archiveContext)
 		{
 			SaveFolderExtension saveFolderExtension = (this.IsClass ? SaveFolderExtension.Object : SaveFolderExtension.Struct);
@@ -227,7 +200,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x000073FC File Offset: 0x000055FC
 		internal static void GetChildObjectFrom(ISaveContext context, object target, MemberDefinition memberDefinition, List<object> collectedObjects)
 		{
 			Type memberType = memberDefinition.GetMemberType();
@@ -258,7 +230,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x00007490 File Offset: 0x00005690
 		public IEnumerable<object> GetChildObjects()
 		{
 			List<object> list = new List<object>();
@@ -266,7 +237,6 @@ namespace TaleWorlds.SaveSystem.Save
 			return list;
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x000074BC File Offset: 0x000056BC
 		public static void GetChildObjects(ISaveContext context, TypeDefinition typeDefinition, object target, List<object> collectedObjects)
 		{
 			if (typeDefinition.CollectObjectsMethod != null)
@@ -281,19 +251,14 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x04000065 RID: 101
 		private Dictionary<PropertyInfo, PropertySaveData> _propertyValues;
 
-		// Token: 0x04000066 RID: 102
 		private Dictionary<FieldInfo, FieldSaveData> _fieldValues;
 
-		// Token: 0x04000067 RID: 103
 		private List<MemberSaveData> _stringMembers;
 
-		// Token: 0x04000068 RID: 104
 		private TypeDefinition _typeDefinition;
 
-		// Token: 0x04000069 RID: 105
 		private Dictionary<MemberDefinition, ObjectSaveData> _childStructs;
 	}
 }

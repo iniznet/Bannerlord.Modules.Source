@@ -10,11 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200010C RID: 268
 	public class DefaultMobilePartyFoodConsumptionModel : MobilePartyFoodConsumptionModel
 	{
-		// Token: 0x170005F9 RID: 1529
-		// (get) Token: 0x060015A9 RID: 5545 RVA: 0x00066597 File Offset: 0x00064797
 		public override int NumberOfMenOnMapToEatOneFood
 		{
 			get
@@ -23,7 +20,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015AA RID: 5546 RVA: 0x0006659C File Offset: 0x0006479C
 		public override ExplainedNumber CalculateDailyBaseFoodConsumptionf(MobileParty party, bool includeDescription = false)
 		{
 			int num = party.Party.NumberOfAllMembers + party.Party.NumberOfPrisoners / 2;
@@ -31,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return new ExplainedNumber(-(float)num / (float)this.NumberOfMenOnMapToEatOneFood, includeDescription, null);
 		}
 
-		// Token: 0x060015AB RID: 5547 RVA: 0x000665DE File Offset: 0x000647DE
 		public override ExplainedNumber CalculateDailyFoodConsumptionf(MobileParty party, ExplainedNumber baseConsumption)
 		{
 			this.CalculatePerkEffects(party, ref baseConsumption);
@@ -39,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return baseConsumption;
 		}
 
-		// Token: 0x060015AC RID: 5548 RVA: 0x000665F8 File Offset: 0x000647F8
 		private void CalculatePerkEffects(MobileParty party, ref ExplainedNumber result)
 		{
 			int num = 0;
@@ -95,13 +89,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015AD RID: 5549 RVA: 0x000667F8 File Offset: 0x000649F8
 		public override bool DoesPartyConsumeFood(MobileParty mobileParty)
 		{
 			return mobileParty.IsActive && (mobileParty.LeaderHero == null || mobileParty.LeaderHero.IsLord || mobileParty.LeaderHero.Clan == Clan.PlayerClan || mobileParty.LeaderHero.IsMinorFactionHero) && !mobileParty.IsGarrison && !mobileParty.IsCaravan && !mobileParty.IsBandit && !mobileParty.IsMilitia && !mobileParty.IsVillager;
 		}
 
-		// Token: 0x04000794 RID: 1940
 		private static readonly TextObject _partyConsumption = new TextObject("{=UrFzdy4z}Daily Consumption", null);
 	}
 }

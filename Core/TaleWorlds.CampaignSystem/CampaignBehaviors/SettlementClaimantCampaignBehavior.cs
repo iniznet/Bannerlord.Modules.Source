@@ -7,17 +7,14 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D1 RID: 977
 	public class SettlementClaimantCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003AE4 RID: 15076 RVA: 0x00113B5C File Offset: 0x00111D5C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 		}
 
-		// Token: 0x06003AE5 RID: 15077 RVA: 0x00113B8C File Offset: 0x00111D8C
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (settlement.Town != null && settlement.Town.IsOwnerUnassigned && settlement.OwnerClan != null && settlement.OwnerClan.Kingdom != null)
@@ -30,12 +27,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003AE6 RID: 15078 RVA: 0x00113C10 File Offset: 0x00111E10
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003AE7 RID: 15079 RVA: 0x00113C14 File Offset: 0x00111E14
 		public void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (settlement.IsVillage && settlement.Party.MapEvent != null && !FactionManager.IsAtWarAgainstFaction(settlement.Party.MapEvent.AttackerSide.LeaderParty.MapFaction, newOwner.MapFaction))

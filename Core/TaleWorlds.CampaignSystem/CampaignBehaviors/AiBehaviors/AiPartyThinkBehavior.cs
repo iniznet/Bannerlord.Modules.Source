@@ -11,10 +11,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x02000404 RID: 1028
 	public class AiPartyThinkBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D3B RID: 15675 RVA: 0x00124378 File Offset: 0x00122578
 		public override void RegisterEvents()
 		{
 			CampaignEvents.TickPartialHourlyAiEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.PartyHourlyAiTick));
@@ -24,12 +22,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 		}
 
-		// Token: 0x06003D3C RID: 15676 RVA: 0x001243F8 File Offset: 0x001225F8
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D3D RID: 15677 RVA: 0x001243FC File Offset: 0x001225FC
 		private void PartyHourlyAiTick(MobileParty mobileParty)
 		{
 			if (mobileParty.Ai.IsDisabled || mobileParty.Ai.DoNotMakeNewDecisions)
@@ -184,7 +180,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			mobileParty.Ai.HourCounter++;
 		}
 
-		// Token: 0x06003D3E RID: 15678 RVA: 0x00124BF8 File Offset: 0x00122DF8
 		private void OnMakePeace(IFaction faction1, IFaction faction2, MakePeaceAction.MakePeaceDetail detail)
 		{
 			if (faction1.IsKingdomFaction && faction2.IsKingdomFaction)
@@ -207,7 +202,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			FactionHelper.FinishAllRelatedHostileActionsOfFactionToFaction((Kingdom)faction2, (Clan)faction1);
 		}
 
-		// Token: 0x06003D3F RID: 15679 RVA: 0x00124C98 File Offset: 0x00122E98
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			foreach (WarPartyComponent warPartyComponent in clan.WarPartyComponents)
@@ -219,7 +213,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D40 RID: 15680 RVA: 0x00124D08 File Offset: 0x00122F08
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 		{
 			foreach (WarPartyComponent warPartyComponent in faction1.WarPartyComponents)
@@ -238,13 +231,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D41 RID: 15681 RVA: 0x00124DD8 File Offset: 0x00122FD8
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			this.HandlePartyActionsAfterSettlementOwnerChange(settlement);
 		}
 
-		// Token: 0x06003D42 RID: 15682 RVA: 0x00124DE4 File Offset: 0x00122FE4
 		private void HandlePartyActionsAfterSettlementOwnerChange(Settlement settlement)
 		{
 			foreach (MobileParty mobileParty in MobileParty.All)
@@ -253,7 +244,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D43 RID: 15683 RVA: 0x00124E38 File Offset: 0x00123038
 		private void CheckMobilePartyActionAccordingToSettlement(MobileParty mobileParty, Settlement settlement)
 		{
 			if (mobileParty.BesiegedSettlement != settlement)

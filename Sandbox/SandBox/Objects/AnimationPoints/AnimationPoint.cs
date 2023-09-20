@@ -9,11 +9,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Objects.AnimationPoints
 {
-	// Token: 0x02000030 RID: 48
 	public class AnimationPoint : StandingPoint
 	{
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x0600021D RID: 541 RVA: 0x0000E482 File Offset: 0x0000C682
 		public override bool PlayerStopsUsingWhenInteractsWithOther
 		{
 			get
@@ -22,14 +19,8 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x0600021E RID: 542 RVA: 0x0000E485 File Offset: 0x0000C685
-		// (set) Token: 0x0600021F RID: 543 RVA: 0x0000E48D File Offset: 0x0000C68D
 		public bool IsArriveActionFinished { get; private set; }
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x06000220 RID: 544 RVA: 0x0000E496 File Offset: 0x0000C696
-		// (set) Token: 0x06000221 RID: 545 RVA: 0x0000E4A0 File Offset: 0x0000C6A0
 		protected string SelectedRightHandItem
 		{
 			get
@@ -47,9 +38,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x06000222 RID: 546 RVA: 0x0000E4D8 File Offset: 0x0000C6D8
-		// (set) Token: 0x06000223 RID: 547 RVA: 0x0000E4E0 File Offset: 0x0000C6E0
 		protected string SelectedLeftHandItem
 		{
 			get
@@ -67,19 +55,13 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x06000224 RID: 548 RVA: 0x0000E518 File Offset: 0x0000C718
-		// (set) Token: 0x06000225 RID: 549 RVA: 0x0000E520 File Offset: 0x0000C720
 		public bool IsActive { get; private set; } = true;
 
-		// Token: 0x06000226 RID: 550 RVA: 0x0000E52C File Offset: 0x0000C72C
 		public AnimationPoint()
 		{
 			this._greetingTimer = null;
 		}
 
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x06000227 RID: 551 RVA: 0x0000E699 File Offset: 0x0000C899
 		public override bool DisableCombatActionsOnUse
 		{
 			get
@@ -88,7 +70,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000228 RID: 552 RVA: 0x0000E6A4 File Offset: 0x0000C8A4
 		private void CreateVisualizer()
 		{
 			if (this.PairLoopStartActionCode != ActionIndexCache.act_none || this.LoopStartActionCode != ActionIndexCache.act_none)
@@ -137,7 +118,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000229 RID: 553 RVA: 0x0000E8D0 File Offset: 0x0000CAD0
 		private void UpdateAnimatedEntityFrame()
 		{
 			MatrixFrame globalFrame = base.GameEntity.GetGlobalFrame();
@@ -149,7 +129,6 @@ namespace SandBox.Objects.AnimationPoints
 			this._animatedEntity.SetFrame(ref globalFrame);
 		}
 
-		// Token: 0x0600022A RID: 554 RVA: 0x0000E92D File Offset: 0x0000CB2D
 		protected override void OnEditModeVisibilityChanged(bool currentVisibility)
 		{
 			if (this._animatedEntity != null)
@@ -162,7 +141,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x0000E960 File Offset: 0x0000CB60
 		protected override void OnEditorTick(float dt)
 		{
 			if (this._animatedEntity != null)
@@ -185,7 +163,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0000E9BD File Offset: 0x0000CBBD
 		protected override void OnEditorInit()
 		{
 			this._itemsForBones = new List<AnimationPoint.ItemForBone>();
@@ -197,7 +174,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x0000E9EC File Offset: 0x0000CBEC
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
@@ -208,7 +184,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x0000EA40 File Offset: 0x0000CC40
 		protected void ResetAnimations()
 		{
 			ActionIndexCache actionIndexCache = ActionIndexCache.act_none;
@@ -238,7 +213,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x0000EB3E File Offset: 0x0000CD3E
 		protected override void OnEditorVariableChanged(string variableName)
 		{
 			if (this.ShouldUpdateOnEditorVariableChanged(variableName))
@@ -252,13 +226,11 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x0000EB70 File Offset: 0x0000CD70
 		public void RequestResync()
 		{
 			this._resyncAnimations = true;
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x0000EB79 File Offset: 0x0000CD79
 		public override void AfterMissionStart()
 		{
 			if (Agent.Main != null && this.LoopStartActionCode != ActionIndexCache.act_none && !MBActionSet.CheckActionAnimationClipExists(Agent.Main.ActionSet, this.LoopStartActionCode))
@@ -267,20 +239,17 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x0000EBB2 File Offset: 0x0000CDB2
 		protected virtual bool ShouldUpdateOnEditorVariableChanged(string variableName)
 		{
 			return variableName == "ArriveAction" || variableName == "LoopStartAction" || variableName == "PairLoopStartAction";
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x0000EBDB File Offset: 0x0000CDDB
 		protected void ClearAssignedItems()
 		{
 			this.SetAgentItemsVisibility(false);
 			this._itemsForBones.Clear();
 		}
 
-		// Token: 0x06000234 RID: 564 RVA: 0x0000EBEF File Offset: 0x0000CDEF
 		protected void AssignItemToBone(AnimationPoint.ItemForBone newItem)
 		{
 			if (!string.IsNullOrEmpty(newItem.ItemPrefabName) && !this._itemsForBones.Contains(newItem))
@@ -289,7 +258,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000235 RID: 565 RVA: 0x0000EC18 File Offset: 0x0000CE18
 		public override bool IsDisabledForAgent(Agent agent)
 		{
 			if (base.HasUser && base.UserAgent == agent)
@@ -329,7 +297,6 @@ namespace SandBox.Objects.AnimationPoints
 			return false;
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x0000EDA4 File Offset: 0x0000CFA4
 		protected override void OnInit()
 		{
 			base.OnInit();
@@ -339,7 +306,6 @@ namespace SandBox.Objects.AnimationPoints
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x0000EDD0 File Offset: 0x0000CFD0
 		private void InitParameters()
 		{
 			this._greetingTimer = null;
@@ -353,7 +319,6 @@ namespace SandBox.Objects.AnimationPoints
 			this.LockUserPositions = true;
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x0000EE20 File Offset: 0x0000D020
 		protected virtual void SetActionCodes()
 		{
 			this.ArriveActionCode = ActionIndexCache.Create(this.ArriveAction);
@@ -364,13 +329,11 @@ namespace SandBox.Objects.AnimationPoints
 			this.SelectedLeftHandItem = this.LeftHandItem;
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x0000EE89 File Offset: 0x0000D089
 		protected override bool DoesActionTypeStopUsingGameObject(Agent.ActionCodeType actionType)
 		{
 			return false;
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x0000EE8C File Offset: 0x0000D08C
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.HasUser)
@@ -380,14 +343,12 @@ namespace SandBox.Objects.AnimationPoints
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x0600023B RID: 571 RVA: 0x0000EEA5 File Offset: 0x0000D0A5
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
 			this.Tick(dt, false);
 		}
 
-		// Token: 0x0600023C RID: 572 RVA: 0x0000EEB8 File Offset: 0x0000D0B8
 		private List<AnimationPoint> GetPairs(GameEntity entity)
 		{
 			List<AnimationPoint> list = new List<AnimationPoint>();
@@ -413,7 +374,6 @@ namespace SandBox.Objects.AnimationPoints
 			return list;
 		}
 
-		// Token: 0x0600023D RID: 573 RVA: 0x0000EF44 File Offset: 0x0000D144
 		public override WorldFrame GetUserFrameForAgent(Agent agent)
 		{
 			WorldFrame userFrameForAgent = base.GetUserFrameForAgent(agent);
@@ -422,7 +382,6 @@ namespace SandBox.Objects.AnimationPoints
 			return userFrameForAgent;
 		}
 
-		// Token: 0x0600023E RID: 574 RVA: 0x0000EFC8 File Offset: 0x0000D1C8
 		private void Tick(float dt, bool isSimulation = false)
 		{
 			if (base.HasUser)
@@ -501,7 +460,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x0600023F RID: 575 RVA: 0x0000F2A4 File Offset: 0x0000D4A4
 		private void PairTick(bool isSimulation)
 		{
 			MBList<Agent> pairEntityUsers = this.GetPairEntityUsers();
@@ -563,7 +521,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000240 RID: 576 RVA: 0x0000F5A8 File Offset: 0x0000D7A8
 		private ActionIndexCache GetGreetingActionId(Vec3 userAgentGlobalEyePoint, Vec3 lookTarget, Mat3 userAgentRot)
 		{
 			Vec3 vec = lookTarget - userAgentGlobalEyePoint;
@@ -584,7 +541,6 @@ namespace SandBox.Objects.AnimationPoints
 			return this._greetingLeftActions[MBRandom.RandomInt(this._greetingLeftActions.Length)];
 		}
 
-		// Token: 0x06000241 RID: 577 RVA: 0x0000F644 File Offset: 0x0000D844
 		private MBList<Agent> GetPairEntityUsers()
 		{
 			MBList<Agent> mblist = new MBList<Agent>();
@@ -601,7 +557,6 @@ namespace SandBox.Objects.AnimationPoints
 			return mblist;
 		}
 
-		// Token: 0x06000242 RID: 578 RVA: 0x0000F6D0 File Offset: 0x0000D8D0
 		private void SetPairsActivity(bool isActive)
 		{
 			foreach (AnimationPoint animationPoint in this._pairPoints)
@@ -622,13 +577,11 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x0000F750 File Offset: 0x0000D950
 		public override bool IsUsableByAgent(Agent userAgent)
 		{
 			return this.IsActive && base.IsUsableByAgent(userAgent);
 		}
 
-		// Token: 0x06000244 RID: 580 RVA: 0x0000F764 File Offset: 0x0000D964
 		public override void OnUse(Agent userAgent)
 		{
 			base.OnUse(userAgent);
@@ -641,7 +594,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000245 RID: 581 RVA: 0x0000F7B4 File Offset: 0x0000D9B4
 		private void RevertWeaponWieldSheathState()
 		{
 			if (this._equipmentIndexMainHand != -1 && this.AutoSheathWeapons)
@@ -663,7 +615,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000246 RID: 582 RVA: 0x0000F848 File Offset: 0x0000DA48
 		public override void OnUseStopped(Agent userAgent, bool isSuccessful, int preferenceIndex)
 		{
 			this.SetAgentItemsVisibility(false);
@@ -712,19 +663,16 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000247 RID: 583 RVA: 0x0000F9FE File Offset: 0x0000DBFE
 		public override void SimulateTick(float dt)
 		{
 			this.Tick(dt, true);
 		}
 
-		// Token: 0x06000248 RID: 584 RVA: 0x0000FA08 File Offset: 0x0000DC08
 		public override bool HasAlternative()
 		{
 			return this.GroupId >= 0;
 		}
 
-		// Token: 0x06000249 RID: 585 RVA: 0x0000FA18 File Offset: 0x0000DC18
 		public float GetRandomWaitInSeconds()
 		{
 			if (this.MinWaitinSeconds < 0f || this.MaxWaitInSeconds < 0f)
@@ -738,7 +686,6 @@ namespace SandBox.Objects.AnimationPoints
 			return this.MinWaitinSeconds;
 		}
 
-		// Token: 0x0600024A RID: 586 RVA: 0x0000FA80 File Offset: 0x0000DC80
 		public List<AnimationPoint> GetAlternatives()
 		{
 			List<AnimationPoint> list = new List<AnimationPoint>();
@@ -757,7 +704,6 @@ namespace SandBox.Objects.AnimationPoints
 			return list;
 		}
 
-		// Token: 0x0600024B RID: 587 RVA: 0x0000FB04 File Offset: 0x0000DD04
 		private void SimulateAnimations(float dt)
 		{
 			base.UserAgent.TickActionChannels(dt);
@@ -769,26 +715,22 @@ namespace SandBox.Objects.AnimationPoints
 			base.UserAgent.AgentVisuals.GetSkeleton().TickAnimations(dt, base.UserAgent.AgentVisuals.GetGlobalFrame(), true);
 		}
 
-		// Token: 0x0600024C RID: 588 RVA: 0x0000FB7C File Offset: 0x0000DD7C
 		private bool IsTargetReached()
 		{
 			float num = Vec2.DotProduct(base.UserAgent.GetTargetDirection().AsVec2, base.UserAgent.GetMovementDirection());
 			return (base.UserAgent.Position.AsVec2 - base.UserAgent.GetTargetPosition()).LengthSquared < 0.040000003f && num > 0.99f;
 		}
 
-		// Token: 0x0600024D RID: 589 RVA: 0x0000FBE9 File Offset: 0x0000DDE9
 		public bool IsRotationCorrectDuringUsage()
 		{
 			return this._pointRotation.IsNonZero && Vec2.DotProduct(this._pointRotation.AsVec2, base.UserAgent.GetMovementDirection()) > 0.99f;
 		}
 
-		// Token: 0x0600024E RID: 590 RVA: 0x0000FC1C File Offset: 0x0000DE1C
 		protected bool CanAgentUseItem(Agent agent)
 		{
 			return agent.GetComponent<CampaignAgentComponent>() != null && agent.GetComponent<CampaignAgentComponent>().AgentNavigator != null;
 		}
 
-		// Token: 0x0600024F RID: 591 RVA: 0x0000FC38 File Offset: 0x0000DE38
 		protected void AddItemsToAgent()
 		{
 			if (this.CanAgentUseItem(base.UserAgent) && this.IsArriveActionFinished)
@@ -824,7 +766,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000250 RID: 592 RVA: 0x0000FD88 File Offset: 0x0000DF88
 		public override void OnUserConversationStart()
 		{
 			this._pointRotation = base.UserAgent.Frame.rotation.f;
@@ -839,7 +780,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000251 RID: 593 RVA: 0x0000FE18 File Offset: 0x0000E018
 		public override void OnUserConversationEnd()
 		{
 			base.UserAgent.ResetLookAgent();
@@ -854,7 +794,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000252 RID: 594 RVA: 0x0000FEC8 File Offset: 0x0000E0C8
 		public void SetAgentItemsVisibility(bool isVisible)
 		{
 			if (!base.UserAgent.IsMainAgent)
@@ -869,7 +808,6 @@ namespace SandBox.Objects.AnimationPoints
 			}
 		}
 
-		// Token: 0x06000253 RID: 595 RVA: 0x0000FF60 File Offset: 0x0000E160
 		private void SetAgentItemVisibility(AnimationPoint.ItemForBone item, bool isVisible)
 		{
 			sbyte realBoneIndex = base.UserAgent.AgentVisuals.GetRealBoneIndex(item.HumanBone);
@@ -877,7 +815,6 @@ namespace SandBox.Objects.AnimationPoints
 			item.IsVisible = isVisible;
 		}
 
-		// Token: 0x06000254 RID: 596 RVA: 0x0000FFAC File Offset: 0x0000E1AC
 		private EquipmentIndex FindProperSlot(ItemObject item)
 		{
 			EquipmentIndex equipmentIndex = 3;
@@ -895,136 +832,92 @@ namespace SandBox.Objects.AnimationPoints
 			return equipmentIndex;
 		}
 
-		// Token: 0x040000F2 RID: 242
 		private const string AlternativeTag = "alternative";
 
-		// Token: 0x040000F3 RID: 243
 		private const float RangeThreshold = 0.2f;
 
-		// Token: 0x040000F4 RID: 244
 		private const float RotationScoreThreshold = 0.99f;
 
-		// Token: 0x040000F5 RID: 245
 		private const float ActionSpeedRandomMinValue = 0.8f;
 
-		// Token: 0x040000F6 RID: 246
 		private const float AnimationRandomProgressMaxValue = 0.5f;
 
-		// Token: 0x040000F7 RID: 247
 		public string ArriveAction = "";
 
-		// Token: 0x040000F8 RID: 248
 		public string LoopStartAction = "";
 
-		// Token: 0x040000F9 RID: 249
 		public string PairLoopStartAction = "";
 
-		// Token: 0x040000FA RID: 250
 		public string LeaveAction = "";
 
-		// Token: 0x040000FB RID: 251
 		public int GroupId = -1;
 
-		// Token: 0x040000FC RID: 252
 		public string RightHandItem = "";
 
-		// Token: 0x040000FD RID: 253
 		public HumanBone RightHandItemBone = 27;
 
-		// Token: 0x040000FE RID: 254
 		public string LeftHandItem = "";
 
-		// Token: 0x040000FF RID: 255
 		public HumanBone LeftHandItemBone = 20;
 
-		// Token: 0x04000100 RID: 256
 		public GameEntity PairEntity;
 
-		// Token: 0x04000101 RID: 257
 		public int MinUserToStartInteraction = 1;
 
-		// Token: 0x04000102 RID: 258
 		public bool ActivatePairs;
 
-		// Token: 0x04000103 RID: 259
 		public float MinWaitinSeconds = 30f;
 
-		// Token: 0x04000104 RID: 260
 		public float MaxWaitInSeconds = 120f;
 
-		// Token: 0x04000105 RID: 261
 		public float ForwardDistanceToPivotPoint;
 
-		// Token: 0x04000106 RID: 262
 		public float SideDistanceToPivotPoint;
 
-		// Token: 0x04000107 RID: 263
 		private bool _startPairAnimationWithGreeting;
 
-		// Token: 0x04000108 RID: 264
 		protected float ActionSpeed = 1f;
 
-		// Token: 0x04000109 RID: 265
 		public bool KeepOldVisibility;
 
-		// Token: 0x0400010B RID: 267
 		private ActionIndexCache ArriveActionCode;
 
-		// Token: 0x0400010C RID: 268
 		protected ActionIndexCache LoopStartActionCode;
 
-		// Token: 0x0400010D RID: 269
 		protected ActionIndexCache PairLoopStartActionCode;
 
-		// Token: 0x0400010E RID: 270
 		private ActionIndexCache LeaveActionCode;
 
-		// Token: 0x0400010F RID: 271
 		protected ActionIndexCache DefaultActionCode;
 
-		// Token: 0x04000110 RID: 272
 		private bool _resyncAnimations;
 
-		// Token: 0x04000111 RID: 273
 		private string _selectedRightHandItem;
 
-		// Token: 0x04000112 RID: 274
 		private string _selectedLeftHandItem;
 
-		// Token: 0x04000113 RID: 275
 		private AnimationPoint.State _state;
 
-		// Token: 0x04000114 RID: 276
 		private AnimationPoint.PairState _pairState;
 
-		// Token: 0x04000115 RID: 277
 		private Vec3 _pointRotation;
 
-		// Token: 0x04000116 RID: 278
 		private List<AnimationPoint> _pairPoints;
 
-		// Token: 0x04000117 RID: 279
 		private List<AnimationPoint.ItemForBone> _itemsForBones;
 
-		// Token: 0x04000118 RID: 280
 		private ActionIndexValueCache _lastAction;
 
-		// Token: 0x04000119 RID: 281
 		private Timer _greetingTimer;
 
-		// Token: 0x0400011A RID: 282
 		private GameEntity _animatedEntity;
 
-		// Token: 0x0400011B RID: 283
 		private Vec3 _animatedEntityDisplacement = Vec3.Zero;
 
-		// Token: 0x0400011C RID: 284
 		private EquipmentIndex _equipmentIndexMainHand;
 
-		// Token: 0x0400011D RID: 285
 		private EquipmentIndex _equipmentIndexOffHand;
 
-		// Token: 0x0400011F RID: 287
 		private readonly ActionIndexCache[] _greetingFrontActions = new ActionIndexCache[]
 		{
 			ActionIndexCache.Create("act_greeting_front_1"),
@@ -1033,7 +926,6 @@ namespace SandBox.Objects.AnimationPoints
 			ActionIndexCache.Create("act_greeting_front_4")
 		};
 
-		// Token: 0x04000120 RID: 288
 		private readonly ActionIndexCache[] _greetingRightActions = new ActionIndexCache[]
 		{
 			ActionIndexCache.Create("act_greeting_right_1"),
@@ -1042,7 +934,6 @@ namespace SandBox.Objects.AnimationPoints
 			ActionIndexCache.Create("act_greeting_right_4")
 		};
 
-		// Token: 0x04000121 RID: 289
 		private readonly ActionIndexCache[] _greetingLeftActions = new ActionIndexCache[]
 		{
 			ActionIndexCache.Create("act_greeting_left_1"),
@@ -1051,10 +942,8 @@ namespace SandBox.Objects.AnimationPoints
 			ActionIndexCache.Create("act_greeting_left_4")
 		};
 
-		// Token: 0x0200010A RID: 266
 		protected struct ItemForBone
 		{
-			// Token: 0x06000CBA RID: 3258 RVA: 0x00061EEF File Offset: 0x000600EF
 			public ItemForBone(HumanBone bone, string name, bool isVisible)
 			{
 				this.HumanBone = bone;
@@ -1063,42 +952,28 @@ namespace SandBox.Objects.AnimationPoints
 				this.OldVisibility = isVisible;
 			}
 
-			// Token: 0x04000532 RID: 1330
 			public HumanBone HumanBone;
 
-			// Token: 0x04000533 RID: 1331
 			public string ItemPrefabName;
 
-			// Token: 0x04000534 RID: 1332
 			public bool IsVisible;
 
-			// Token: 0x04000535 RID: 1333
 			public bool OldVisibility;
 		}
 
-		// Token: 0x0200010B RID: 267
 		private enum State
 		{
-			// Token: 0x04000537 RID: 1335
 			NotUsing,
-			// Token: 0x04000538 RID: 1336
 			StartToUse,
-			// Token: 0x04000539 RID: 1337
 			Using
 		}
 
-		// Token: 0x0200010C RID: 268
 		private enum PairState
 		{
-			// Token: 0x0400053B RID: 1339
 			NoPair,
-			// Token: 0x0400053C RID: 1340
 			BecomePair,
-			// Token: 0x0400053D RID: 1341
 			Greeting,
-			// Token: 0x0400053E RID: 1342
 			StartPairAnimation,
-			// Token: 0x0400053F RID: 1343
 			Pair
 		}
 	}

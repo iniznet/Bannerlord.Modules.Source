@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 {
-	// Token: 0x02000130 RID: 304
 	public class BarterVM : ViewModel
 	{
-		// Token: 0x06001CEB RID: 7403 RVA: 0x0006754C File Offset: 0x0006574C
 		public BarterVM(BarterData args)
 		{
 			this._barterData = args;
@@ -69,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.RefreshValues();
 		}
 
-		// Token: 0x06001CEC RID: 7404 RVA: 0x00067788 File Offset: 0x00065988
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -126,7 +123,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			});
 		}
 
-		// Token: 0x06001CED RID: 7405 RVA: 0x000679C4 File Offset: 0x00065BC4
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -135,7 +131,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.ResetInputKey.OnFinalize();
 		}
 
-		// Token: 0x06001CEE RID: 7406 RVA: 0x000679F0 File Offset: 0x00065BF0
 		private void InitBarterList(BarterData args)
 		{
 			this._leftList.Add(args.GetBarterGroup<FiefBarterGroup>(), this.LeftFiefList);
@@ -180,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.RefreshOfferLabel();
 		}
 
-		// Token: 0x06001CEF RID: 7407 RVA: 0x00067CE4 File Offset: 0x00065EE4
 		private void ChangeBarterableIsOffered(Barterable barterable, bool newState)
 		{
 			if (barterable.IsOffered != newState)
@@ -194,27 +188,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001CF0 RID: 7408 RVA: 0x00067D50 File Offset: 0x00065F50
 		public void OnInitialized()
 		{
 			BarterManager barterManager = Campaign.Current.BarterManager;
 			barterManager.Closed = (BarterManager.BarterCloseEventDelegate)Delegate.Combine(barterManager.Closed, new BarterManager.BarterCloseEventDelegate(this.OnClosed));
 		}
 
-		// Token: 0x06001CF1 RID: 7409 RVA: 0x00067D7D File Offset: 0x00065F7D
 		private void OnClosed()
 		{
 			BarterManager barterManager = Campaign.Current.BarterManager;
 			barterManager.Closed = (BarterManager.BarterCloseEventDelegate)Delegate.Remove(barterManager.Closed, new BarterManager.BarterCloseEventDelegate(this.OnClosed));
 		}
 
-		// Token: 0x06001CF2 RID: 7410 RVA: 0x00067DAA File Offset: 0x00065FAA
 		public void ExecuteTransferAllLeftFief()
 		{
 			this.ExecuteTransferAll(this._otherCharacter, this._barterData.GetBarterGroup<FiefBarterGroup>());
 		}
 
-		// Token: 0x06001CF3 RID: 7411 RVA: 0x00067DC3 File Offset: 0x00065FC3
 		public void ExecuteAutoBalance()
 		{
 			this.AutoBalanceAdd();
@@ -222,7 +212,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.AutoBalanceAdd();
 		}
 
-		// Token: 0x06001CF4 RID: 7412 RVA: 0x00067DD8 File Offset: 0x00065FD8
 		private void AutoBalanceRemove()
 		{
 			if ((int)Campaign.Current.BarterManager.GetOfferValue(this._otherCharacter.HeroObject, this._otherParty, this._barterData.OffererParty, this._barterData.GetOfferedBarterables()) > 0)
@@ -242,7 +231,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001CF5 RID: 7413 RVA: 0x00067ED8 File Offset: 0x000660D8
 		private void AutoBalanceAdd()
 		{
 			if ((int)Campaign.Current.BarterManager.GetOfferValue(this._otherCharacter.HeroObject, this._otherParty, this._barterData.OffererParty, this._barterData.GetOfferedBarterables()) < 0)
@@ -265,7 +253,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001CF6 RID: 7414 RVA: 0x00067FE0 File Offset: 0x000661E0
 		private void GetBarterItems(MBBindingList<BarterItemVM> itemList, [TupleElementNames(new string[] { "barterable", "count" })] List<ValueTuple<Barterable, int>> newBarterables, List<ValueTuple<BarterItemVM, int>> barterItems)
 		{
 			foreach (BarterItemVM barterItemVM in itemList)
@@ -282,49 +269,41 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001CF7 RID: 7415 RVA: 0x0006807C File Offset: 0x0006627C
 		public void ExecuteTransferAllLeftItem()
 		{
 			this.ExecuteTransferAll(this._otherCharacter, this._barterData.GetBarterGroup<ItemBarterGroup>());
 		}
 
-		// Token: 0x06001CF8 RID: 7416 RVA: 0x00068095 File Offset: 0x00066295
 		public void ExecuteTransferAllLeftPrisoner()
 		{
 			this.ExecuteTransferAll(this._otherCharacter, this._barterData.GetBarterGroup<PrisonerBarterGroup>());
 		}
 
-		// Token: 0x06001CF9 RID: 7417 RVA: 0x000680AE File Offset: 0x000662AE
 		public void ExecuteTransferAllLeftOther()
 		{
 			this.ExecuteTransferAll(this._otherCharacter, this._barterData.GetBarterGroup<OtherBarterGroup>());
 		}
 
-		// Token: 0x06001CFA RID: 7418 RVA: 0x000680C7 File Offset: 0x000662C7
 		public void ExecuteTransferAllRightFief()
 		{
 			this.ExecuteTransferAll(CharacterObject.PlayerCharacter, this._barterData.GetBarterGroup<FiefBarterGroup>());
 		}
 
-		// Token: 0x06001CFB RID: 7419 RVA: 0x000680DF File Offset: 0x000662DF
 		public void ExecuteTransferAllRightItem()
 		{
 			this.ExecuteTransferAll(CharacterObject.PlayerCharacter, this._barterData.GetBarterGroup<ItemBarterGroup>());
 		}
 
-		// Token: 0x06001CFC RID: 7420 RVA: 0x000680F7 File Offset: 0x000662F7
 		public void ExecuteTransferAllRightPrisoner()
 		{
 			this.ExecuteTransferAll(CharacterObject.PlayerCharacter, this._barterData.GetBarterGroup<PrisonerBarterGroup>());
 		}
 
-		// Token: 0x06001CFD RID: 7421 RVA: 0x0006810F File Offset: 0x0006630F
 		public void ExecuteTransferAllRightOther()
 		{
 			this.ExecuteTransferAll(CharacterObject.PlayerCharacter, this._barterData.GetBarterGroup<OtherBarterGroup>());
 		}
 
-		// Token: 0x06001CFE RID: 7422 RVA: 0x00068128 File Offset: 0x00066328
 		private void ExecuteTransferAll(CharacterObject fromCharacter, BarterGroup barterGroup)
 		{
 			if (barterGroup != null)
@@ -340,21 +319,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001CFF RID: 7423 RVA: 0x00068218 File Offset: 0x00066418
 		private void SendOffer()
 		{
 			this.IsOfferDisabled = !this.IsCurrentOfferAcceptable() || (this.LeftOfferList.Count == 0 && this.RightOfferList.Count == 0);
 			this.RefreshResultBar();
 		}
 
-		// Token: 0x06001D00 RID: 7424 RVA: 0x0006824F File Offset: 0x0006644F
 		private bool IsCurrentOfferAcceptable()
 		{
 			return Campaign.Current.BarterManager.IsOfferAcceptable(this._barterData, this._otherCharacter.HeroObject, this._otherParty);
 		}
 
-		// Token: 0x170009E9 RID: 2537
-		// (get) Token: 0x06001D01 RID: 7425 RVA: 0x00068278 File Offset: 0x00066478
 		private IFaction OtherFaction
 		{
 			get
@@ -367,7 +342,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001D02 RID: 7426 RVA: 0x000682B0 File Offset: 0x000664B0
 		private void RefreshResultBar()
 		{
 			int num = 0;
@@ -384,29 +358,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.ResultBarOtherPercentage = MathF.Round((float)MathF.Max(0, num) / (float)MathF.Max(1, -num2) * 100f);
 		}
 
-		// Token: 0x06001D03 RID: 7427 RVA: 0x0006837C File Offset: 0x0006657C
 		private void ExecuteTransferAllGoldLeft()
 		{
 		}
 
-		// Token: 0x06001D04 RID: 7428 RVA: 0x0006837E File Offset: 0x0006657E
 		private void ExecuteTransferAllGoldRight()
 		{
 		}
 
-		// Token: 0x06001D05 RID: 7429 RVA: 0x00068380 File Offset: 0x00066580
 		public void ExecuteOffer()
 		{
 			Campaign.Current.BarterManager.ApplyAndFinalizePlayerBarter(this._barterData.OffererHero, this._barterData.OtherHero, this._barterData);
 		}
 
-		// Token: 0x06001D06 RID: 7430 RVA: 0x000683AD File Offset: 0x000665AD
 		public void ExecuteCancel()
 		{
 			Campaign.Current.BarterManager.CancelAndFinalizePlayerBarter(this._barterData.OffererHero, this._barterData.OtherHero, this._barterData);
 		}
 
-		// Token: 0x06001D07 RID: 7431 RVA: 0x000683DC File Offset: 0x000665DC
 		public void ExecuteReset()
 		{
 			this.LeftFiefList.Clear();
@@ -443,7 +412,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.InitializationIsOver = true;
 		}
 
-		// Token: 0x06001D08 RID: 7432 RVA: 0x0006858C File Offset: 0x0006678C
 		private void TransferItem(BarterItemVM item, bool offerAll)
 		{
 			this.ChangeBarterableIsOffered(item.Barterable, !item.IsOffered);
@@ -456,7 +424,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.RefreshCompatibility(item, item.IsOffered);
 		}
 
-		// Token: 0x06001D09 RID: 7433 RVA: 0x000685CC File Offset: 0x000667CC
 		private void OfferItemAdd(BarterItemVM barterItemVM, int count)
 		{
 			this.ChangeBarterableIsOffered(barterItemVM.Barterable, true);
@@ -466,7 +433,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.RefreshCompatibility(barterItemVM, barterItemVM.IsOffered);
 		}
 
-		// Token: 0x06001D0A RID: 7434 RVA: 0x00068620 File Offset: 0x00066820
 		private void OfferItemRemove(BarterItemVM barterItemVM, int count)
 		{
 			if (barterItemVM.CurrentOfferedAmount <= count)
@@ -482,7 +448,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.RefreshCompatibility(barterItemVM, barterItemVM.IsOffered);
 		}
 
-		// Token: 0x06001D0B RID: 7435 RVA: 0x00068680 File Offset: 0x00066880
 		public void OnTransferItem(Barterable barter, bool isTransferrable)
 		{
 			int num = ((barter.OriginalOwner == Hero.MainHero) ? 1 : 0);
@@ -518,19 +483,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001D0C RID: 7436 RVA: 0x00068784 File Offset: 0x00066984
 		private void OnOfferedAmountChange()
 		{
 			this.SendOffer();
 		}
 
-		// Token: 0x06001D0D RID: 7437 RVA: 0x0006878C File Offset: 0x0006698C
 		private void RefreshOfferLabel()
 		{
 			this.OfferLbl = ((this.LeftOfferList.Count > 0) ? GameTexts.FindText("str_offer", null).ToString() : GameTexts.FindText("str_gift", null).ToString());
 		}
 
-		// Token: 0x06001D0E RID: 7438 RVA: 0x000687C4 File Offset: 0x000669C4
 		private void RefreshCompatibility(BarterItemVM lastTransferredItem, bool gotOffered)
 		{
 			Action<BarterItemVM> <>9__0;
@@ -563,9 +525,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009EA RID: 2538
-		// (get) Token: 0x06001D0F RID: 7439 RVA: 0x000688BC File Offset: 0x00066ABC
-		// (set) Token: 0x06001D10 RID: 7440 RVA: 0x000688C4 File Offset: 0x00066AC4
 		[DataSourceProperty]
 		public string FiefLbl
 		{
@@ -583,9 +542,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009EB RID: 2539
-		// (get) Token: 0x06001D11 RID: 7441 RVA: 0x000688E7 File Offset: 0x00066AE7
-		// (set) Token: 0x06001D12 RID: 7442 RVA: 0x000688EF File Offset: 0x00066AEF
 		[DataSourceProperty]
 		public string PrisonerLbl
 		{
@@ -603,9 +559,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009EC RID: 2540
-		// (get) Token: 0x06001D13 RID: 7443 RVA: 0x00068912 File Offset: 0x00066B12
-		// (set) Token: 0x06001D14 RID: 7444 RVA: 0x0006891A File Offset: 0x00066B1A
 		[DataSourceProperty]
 		public string ItemLbl
 		{
@@ -623,9 +576,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009ED RID: 2541
-		// (get) Token: 0x06001D15 RID: 7445 RVA: 0x0006893D File Offset: 0x00066B3D
-		// (set) Token: 0x06001D16 RID: 7446 RVA: 0x00068945 File Offset: 0x00066B45
 		[DataSourceProperty]
 		public string OtherLbl
 		{
@@ -643,9 +593,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009EE RID: 2542
-		// (get) Token: 0x06001D17 RID: 7447 RVA: 0x00068968 File Offset: 0x00066B68
-		// (set) Token: 0x06001D18 RID: 7448 RVA: 0x00068970 File Offset: 0x00066B70
 		[DataSourceProperty]
 		public string CancelLbl
 		{
@@ -663,9 +610,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009EF RID: 2543
-		// (get) Token: 0x06001D19 RID: 7449 RVA: 0x00068993 File Offset: 0x00066B93
-		// (set) Token: 0x06001D1A RID: 7450 RVA: 0x0006899B File Offset: 0x00066B9B
 		[DataSourceProperty]
 		public string ResetLbl
 		{
@@ -683,9 +627,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F0 RID: 2544
-		// (get) Token: 0x06001D1B RID: 7451 RVA: 0x000689BE File Offset: 0x00066BBE
-		// (set) Token: 0x06001D1C RID: 7452 RVA: 0x000689C6 File Offset: 0x00066BC6
 		[DataSourceProperty]
 		public string OfferLbl
 		{
@@ -703,9 +644,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F1 RID: 2545
-		// (get) Token: 0x06001D1D RID: 7453 RVA: 0x000689E9 File Offset: 0x00066BE9
-		// (set) Token: 0x06001D1E RID: 7454 RVA: 0x000689F1 File Offset: 0x00066BF1
 		[DataSourceProperty]
 		public string DiplomaticLbl
 		{
@@ -723,9 +661,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F2 RID: 2546
-		// (get) Token: 0x06001D1F RID: 7455 RVA: 0x00068A14 File Offset: 0x00066C14
-		// (set) Token: 0x06001D20 RID: 7456 RVA: 0x00068A1C File Offset: 0x00066C1C
 		[DataSourceProperty]
 		public HintViewModel AutoBalanceHint
 		{
@@ -743,9 +678,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F3 RID: 2547
-		// (get) Token: 0x06001D21 RID: 7457 RVA: 0x00068A3A File Offset: 0x00066C3A
-		// (set) Token: 0x06001D22 RID: 7458 RVA: 0x00068A42 File Offset: 0x00066C42
 		[DataSourceProperty]
 		public HeroVM LeftHero
 		{
@@ -763,9 +695,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F4 RID: 2548
-		// (get) Token: 0x06001D23 RID: 7459 RVA: 0x00068A60 File Offset: 0x00066C60
-		// (set) Token: 0x06001D24 RID: 7460 RVA: 0x00068A68 File Offset: 0x00066C68
 		[DataSourceProperty]
 		public HeroVM RightHero
 		{
@@ -783,9 +712,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F5 RID: 2549
-		// (get) Token: 0x06001D25 RID: 7461 RVA: 0x00068A86 File Offset: 0x00066C86
-		// (set) Token: 0x06001D26 RID: 7462 RVA: 0x00068A8E File Offset: 0x00066C8E
 		[DataSourceProperty]
 		public bool IsOfferDisabled
 		{
@@ -803,9 +729,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F6 RID: 2550
-		// (get) Token: 0x06001D27 RID: 7463 RVA: 0x00068AAC File Offset: 0x00066CAC
-		// (set) Token: 0x06001D28 RID: 7464 RVA: 0x00068AB4 File Offset: 0x00066CB4
 		[DataSourceProperty]
 		public int LeftMaxGold
 		{
@@ -823,9 +746,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F7 RID: 2551
-		// (get) Token: 0x06001D29 RID: 7465 RVA: 0x00068AD2 File Offset: 0x00066CD2
-		// (set) Token: 0x06001D2A RID: 7466 RVA: 0x00068ADA File Offset: 0x00066CDA
 		[DataSourceProperty]
 		public int RightMaxGold
 		{
@@ -843,9 +763,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F8 RID: 2552
-		// (get) Token: 0x06001D2B RID: 7467 RVA: 0x00068AF8 File Offset: 0x00066CF8
-		// (set) Token: 0x06001D2C RID: 7468 RVA: 0x00068B00 File Offset: 0x00066D00
 		[DataSourceProperty]
 		public string LeftNameLbl
 		{
@@ -863,9 +780,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009F9 RID: 2553
-		// (get) Token: 0x06001D2D RID: 7469 RVA: 0x00068B23 File Offset: 0x00066D23
-		// (set) Token: 0x06001D2E RID: 7470 RVA: 0x00068B2B File Offset: 0x00066D2B
 		[DataSourceProperty]
 		public string RightNameLbl
 		{
@@ -883,9 +797,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FA RID: 2554
-		// (get) Token: 0x06001D2F RID: 7471 RVA: 0x00068B4E File Offset: 0x00066D4E
-		// (set) Token: 0x06001D30 RID: 7472 RVA: 0x00068B56 File Offset: 0x00066D56
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftFiefList
 		{
@@ -903,9 +814,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FB RID: 2555
-		// (get) Token: 0x06001D31 RID: 7473 RVA: 0x00068B74 File Offset: 0x00066D74
-		// (set) Token: 0x06001D32 RID: 7474 RVA: 0x00068B7C File Offset: 0x00066D7C
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightFiefList
 		{
@@ -923,9 +831,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FC RID: 2556
-		// (get) Token: 0x06001D33 RID: 7475 RVA: 0x00068B9A File Offset: 0x00066D9A
-		// (set) Token: 0x06001D34 RID: 7476 RVA: 0x00068BA2 File Offset: 0x00066DA2
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftPrisonerList
 		{
@@ -943,9 +848,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FD RID: 2557
-		// (get) Token: 0x06001D35 RID: 7477 RVA: 0x00068BC0 File Offset: 0x00066DC0
-		// (set) Token: 0x06001D36 RID: 7478 RVA: 0x00068BC8 File Offset: 0x00066DC8
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightPrisonerList
 		{
@@ -963,9 +865,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FE RID: 2558
-		// (get) Token: 0x06001D37 RID: 7479 RVA: 0x00068BE6 File Offset: 0x00066DE6
-		// (set) Token: 0x06001D38 RID: 7480 RVA: 0x00068BEE File Offset: 0x00066DEE
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftItemList
 		{
@@ -983,9 +882,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x170009FF RID: 2559
-		// (get) Token: 0x06001D39 RID: 7481 RVA: 0x00068C0C File Offset: 0x00066E0C
-		// (set) Token: 0x06001D3A RID: 7482 RVA: 0x00068C14 File Offset: 0x00066E14
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightItemList
 		{
@@ -1003,9 +899,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A00 RID: 2560
-		// (get) Token: 0x06001D3B RID: 7483 RVA: 0x00068C32 File Offset: 0x00066E32
-		// (set) Token: 0x06001D3C RID: 7484 RVA: 0x00068C3A File Offset: 0x00066E3A
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftOtherList
 		{
@@ -1023,9 +916,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A01 RID: 2561
-		// (get) Token: 0x06001D3D RID: 7485 RVA: 0x00068C58 File Offset: 0x00066E58
-		// (set) Token: 0x06001D3E RID: 7486 RVA: 0x00068C60 File Offset: 0x00066E60
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightOtherList
 		{
@@ -1043,9 +933,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A02 RID: 2562
-		// (get) Token: 0x06001D3F RID: 7487 RVA: 0x00068C7E File Offset: 0x00066E7E
-		// (set) Token: 0x06001D40 RID: 7488 RVA: 0x00068C86 File Offset: 0x00066E86
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftDiplomaticList
 		{
@@ -1063,9 +950,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A03 RID: 2563
-		// (get) Token: 0x06001D41 RID: 7489 RVA: 0x00068CA4 File Offset: 0x00066EA4
-		// (set) Token: 0x06001D42 RID: 7490 RVA: 0x00068CAC File Offset: 0x00066EAC
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightDiplomaticList
 		{
@@ -1083,9 +967,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A04 RID: 2564
-		// (get) Token: 0x06001D43 RID: 7491 RVA: 0x00068CCA File Offset: 0x00066ECA
-		// (set) Token: 0x06001D44 RID: 7492 RVA: 0x00068CD2 File Offset: 0x00066ED2
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftOfferList
 		{
@@ -1103,9 +984,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A05 RID: 2565
-		// (get) Token: 0x06001D45 RID: 7493 RVA: 0x00068CF0 File Offset: 0x00066EF0
-		// (set) Token: 0x06001D46 RID: 7494 RVA: 0x00068CF8 File Offset: 0x00066EF8
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightOfferList
 		{
@@ -1123,9 +1001,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A06 RID: 2566
-		// (get) Token: 0x06001D47 RID: 7495 RVA: 0x00068D16 File Offset: 0x00066F16
-		// (set) Token: 0x06001D48 RID: 7496 RVA: 0x00068D1E File Offset: 0x00066F1E
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> RightGoldList
 		{
@@ -1143,9 +1018,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A07 RID: 2567
-		// (get) Token: 0x06001D49 RID: 7497 RVA: 0x00068D3C File Offset: 0x00066F3C
-		// (set) Token: 0x06001D4A RID: 7498 RVA: 0x00068D44 File Offset: 0x00066F44
 		[DataSourceProperty]
 		public MBBindingList<BarterItemVM> LeftGoldList
 		{
@@ -1163,9 +1035,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A08 RID: 2568
-		// (get) Token: 0x06001D4B RID: 7499 RVA: 0x00068D62 File Offset: 0x00066F62
-		// (set) Token: 0x06001D4C RID: 7500 RVA: 0x00068D6A File Offset: 0x00066F6A
 		[DataSourceProperty]
 		public bool InitializationIsOver
 		{
@@ -1180,9 +1049,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A09 RID: 2569
-		// (get) Token: 0x06001D4D RID: 7501 RVA: 0x00068D7F File Offset: 0x00066F7F
-		// (set) Token: 0x06001D4E RID: 7502 RVA: 0x00068D87 File Offset: 0x00066F87
 		[DataSourceProperty]
 		public int ResultBarOtherPercentage
 		{
@@ -1197,9 +1063,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A0A RID: 2570
-		// (get) Token: 0x06001D4F RID: 7503 RVA: 0x00068D9C File Offset: 0x00066F9C
-		// (set) Token: 0x06001D50 RID: 7504 RVA: 0x00068DA4 File Offset: 0x00066FA4
 		[DataSourceProperty]
 		public int ResultBarOffererPercentage
 		{
@@ -1214,27 +1077,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001D51 RID: 7505 RVA: 0x00068DB9 File Offset: 0x00066FB9
 		public void SetResetInputKey(HotKey hotkey)
 		{
 			this.ResetInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x06001D52 RID: 7506 RVA: 0x00068DC8 File Offset: 0x00066FC8
 		public void SetDoneInputKey(HotKey hotkey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x06001D53 RID: 7507 RVA: 0x00068DD7 File Offset: 0x00066FD7
 		public void SetCancelInputKey(HotKey hotkey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x17000A0B RID: 2571
-		// (get) Token: 0x06001D54 RID: 7508 RVA: 0x00068DE6 File Offset: 0x00066FE6
-		// (set) Token: 0x06001D55 RID: 7509 RVA: 0x00068DEE File Offset: 0x00066FEE
 		[DataSourceProperty]
 		public InputKeyItemVM ResetInputKey
 		{
@@ -1252,9 +1109,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A0C RID: 2572
-		// (get) Token: 0x06001D56 RID: 7510 RVA: 0x00068E0C File Offset: 0x0006700C
-		// (set) Token: 0x06001D57 RID: 7511 RVA: 0x00068E14 File Offset: 0x00067014
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -1272,9 +1126,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x17000A0D RID: 2573
-		// (get) Token: 0x06001D58 RID: 7512 RVA: 0x00068E32 File Offset: 0x00067032
-		// (set) Token: 0x06001D59 RID: 7513 RVA: 0x00068E3A File Offset: 0x0006703A
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -1292,7 +1143,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			}
 		}
 
-		// Token: 0x06001D5A RID: 7514 RVA: 0x00068E58 File Offset: 0x00067058
 		public void InitializeStaticContent()
 		{
 			this.FiefLbl = GameTexts.FindText("str_fiefs", null).ToString();
@@ -1305,139 +1155,94 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 			this.AutoBalanceHint.HintText = new TextObject("{=Ve5jkJqf}Auto Offer", null);
 		}
 
-		// Token: 0x04000DA3 RID: 3491
 		private readonly List<Dictionary<BarterGroup, MBBindingList<BarterItemVM>>> _barterList;
 
-		// Token: 0x04000DA4 RID: 3492
 		private readonly List<MBBindingList<BarterItemVM>> _offerList;
 
-		// Token: 0x04000DA5 RID: 3493
 		private readonly Dictionary<BarterGroup, MBBindingList<BarterItemVM>> _leftList;
 
-		// Token: 0x04000DA6 RID: 3494
 		private readonly Dictionary<BarterGroup, MBBindingList<BarterItemVM>> _rightList;
 
-		// Token: 0x04000DA7 RID: 3495
 		private readonly bool _isPlayerOfferer;
 
-		// Token: 0x04000DA8 RID: 3496
 		private readonly BarterManager _barter;
 
-		// Token: 0x04000DA9 RID: 3497
 		private readonly CharacterObject _otherCharacter;
 
-		// Token: 0x04000DAA RID: 3498
 		private readonly PartyBase _otherParty;
 
-		// Token: 0x04000DAB RID: 3499
 		private readonly BarterData _barterData;
 
-		// Token: 0x04000DAC RID: 3500
 		private string _fiefLbl;
 
-		// Token: 0x04000DAD RID: 3501
 		private string _prisonerLbl;
 
-		// Token: 0x04000DAE RID: 3502
 		private string _itemLbl;
 
-		// Token: 0x04000DAF RID: 3503
 		private string _otherLbl;
 
-		// Token: 0x04000DB0 RID: 3504
 		private string _cancelLbl;
 
-		// Token: 0x04000DB1 RID: 3505
 		private string _resetLbl;
 
-		// Token: 0x04000DB2 RID: 3506
 		private string _offerLbl;
 
-		// Token: 0x04000DB3 RID: 3507
 		private string _diplomaticLbl;
 
-		// Token: 0x04000DB4 RID: 3508
 		private HintViewModel _autoBalanceHint;
 
-		// Token: 0x04000DB5 RID: 3509
 		private HeroVM _leftHero;
 
-		// Token: 0x04000DB6 RID: 3510
 		private HeroVM _rightHero;
 
-		// Token: 0x04000DB7 RID: 3511
 		private string _leftNameLbl;
 
-		// Token: 0x04000DB8 RID: 3512
 		private string _rightNameLbl;
 
-		// Token: 0x04000DB9 RID: 3513
 		private MBBindingList<BarterItemVM> _leftFiefList;
 
-		// Token: 0x04000DBA RID: 3514
 		private MBBindingList<BarterItemVM> _rightFiefList;
 
-		// Token: 0x04000DBB RID: 3515
 		private MBBindingList<BarterItemVM> _leftPrisonerList;
 
-		// Token: 0x04000DBC RID: 3516
 		private MBBindingList<BarterItemVM> _rightPrisonerList;
 
-		// Token: 0x04000DBD RID: 3517
 		private MBBindingList<BarterItemVM> _leftItemList;
 
-		// Token: 0x04000DBE RID: 3518
 		private MBBindingList<BarterItemVM> _rightItemList;
 
-		// Token: 0x04000DBF RID: 3519
 		private MBBindingList<BarterItemVM> _leftOtherList;
 
-		// Token: 0x04000DC0 RID: 3520
 		private MBBindingList<BarterItemVM> _rightOtherList;
 
-		// Token: 0x04000DC1 RID: 3521
 		private MBBindingList<BarterItemVM> _leftDiplomaticList;
 
-		// Token: 0x04000DC2 RID: 3522
 		private MBBindingList<BarterItemVM> _rightDiplomaticList;
 
-		// Token: 0x04000DC3 RID: 3523
 		private MBBindingList<BarterItemVM> _leftGoldList;
 
-		// Token: 0x04000DC4 RID: 3524
 		private MBBindingList<BarterItemVM> _rightGoldList;
 
-		// Token: 0x04000DC5 RID: 3525
 		private MBBindingList<BarterItemVM> _leftOfferList;
 
-		// Token: 0x04000DC6 RID: 3526
 		private MBBindingList<BarterItemVM> _rightOfferList;
 
-		// Token: 0x04000DC7 RID: 3527
 		private int _leftMaxGold;
 
-		// Token: 0x04000DC8 RID: 3528
 		private int _rightMaxGold;
 
-		// Token: 0x04000DC9 RID: 3529
 		private bool _initializationIsOver;
 
-		// Token: 0x04000DCA RID: 3530
 		private bool _isOfferDisabled;
 
-		// Token: 0x04000DCB RID: 3531
 		private int _resultBarOffererPercentage = -1;
 
-		// Token: 0x04000DCC RID: 3532
 		private int _resultBarOtherPercentage = -1;
 
-		// Token: 0x04000DCD RID: 3533
 		private InputKeyItemVM _resetInputKey;
 
-		// Token: 0x04000DCE RID: 3534
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x04000DCF RID: 3535
 		private InputKeyItemVM _cancelInputKey;
 	}
 }

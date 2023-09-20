@@ -8,28 +8,23 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003C8 RID: 968
 	public class PrisonerRecruitCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003A0B RID: 14859 RVA: 0x0010AF80 File Offset: 0x00109180
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x06003A0C RID: 14860 RVA: 0x0010AF99 File Offset: 0x00109199
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<CharacterObject, float>>("PrisonerTalkRecords", ref this.PrisonerTalkRecords);
 		}
 
-		// Token: 0x06003A0D RID: 14861 RVA: 0x0010AFAD File Offset: 0x001091AD
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06003A0E RID: 14862 RVA: 0x0010AFB8 File Offset: 0x001091B8
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("conversation_prisoner_chat_start", "start", "prisoner_recruit_start_player", "{=k7ebznzr}Yes?", new ConversationSentence.OnConditionDelegate(this.conversation_prisoner_chat_start_on_condition), null, 100, null);
@@ -42,14 +37,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("prisoner_recruit_3", "prisoner_recruit", "close_window", "{=!}You heard me the first time. You know where to stick your offer.", null, null, 100, null);
 		}
 
-		// Token: 0x06003A0F RID: 14863 RVA: 0x0010B0F4 File Offset: 0x001092F4
 		private bool conversation_prisoner_chat_start_on_condition()
 		{
 			bool flag = (CharacterObject.OneToOneConversationCharacter.IsHero && (Hero.OneToOneConversationHero.PartyBelongedTo == null || !Hero.OneToOneConversationHero.PartyBelongedTo.IsActive)) || (CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.PrisonGuard && CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.Guard && CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.CaravanGuard && MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsMainParty);
 			return MobileParty.MainParty.PrisonRoster.Contains(CharacterObject.OneToOneConversationCharacter) && flag;
 		}
 
-		// Token: 0x06003A10 RID: 14864 RVA: 0x0010B188 File Offset: 0x00109388
 		private bool conversation_prisoner_recruit_start_on_condition()
 		{
 			bool flag = !CharacterObject.OneToOneConversationCharacter.IsHero && CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.PrisonGuard && CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.Guard && CharacterObject.OneToOneConversationCharacter.Occupation != Occupation.CaravanGuard && MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsMainParty;
@@ -61,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag2 && flag;
 		}
 
-		// Token: 0x06003A11 RID: 14865 RVA: 0x0010B224 File Offset: 0x00109424
 		public bool conversation_prisoner_recruit_on_condition()
 		{
 			bool flag = false;
@@ -84,7 +76,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06003A12 RID: 14866 RVA: 0x0010B314 File Offset: 0x00109514
 		public bool conversation_prisoner_recruit_no_on_condition()
 		{
 			bool flag = false;
@@ -97,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x040011E1 RID: 4577
 		public Dictionary<CharacterObject, float> PrisonerTalkRecords = new Dictionary<CharacterObject, float>();
 	}
 }

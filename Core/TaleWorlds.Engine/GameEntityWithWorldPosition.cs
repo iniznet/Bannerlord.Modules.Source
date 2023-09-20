@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x0200004A RID: 74
 	public class GameEntityWithWorldPosition
 	{
-		// Token: 0x0600069D RID: 1693 RVA: 0x00004B3C File Offset: 0x00002D3C
 		public GameEntityWithWorldPosition(GameEntity gameEntity)
 		{
 			this._gameEntity = new WeakNativeObjectReference(gameEntity);
@@ -19,8 +17,6 @@ namespace TaleWorlds.Engine
 			this._orthonormalRotation.Orthonormalize();
 		}
 
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x0600069E RID: 1694 RVA: 0x00004BC7 File Offset: 0x00002DC7
 		public GameEntity GameEntity
 		{
 			get
@@ -30,8 +26,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x0600069F RID: 1695 RVA: 0x00004BE0 File Offset: 0x00002DE0
 		public WorldPosition WorldPosition
 		{
 			get
@@ -45,14 +39,11 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x060006A0 RID: 1696 RVA: 0x00004C37 File Offset: 0x00002E37
 		public void InvalidateWorldPosition()
 		{
 			this._worldPosition.State = ZValidityState.Invalid;
 		}
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x060006A1 RID: 1697 RVA: 0x00004C48 File Offset: 0x00002E48
 		public WorldFrame WorldFrame
 		{
 			get
@@ -67,13 +58,10 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x0400009A RID: 154
 		private readonly WeakNativeObjectReference _gameEntity;
 
-		// Token: 0x0400009B RID: 155
 		private WorldPosition _worldPosition;
 
-		// Token: 0x0400009C RID: 156
 		private Mat3 _orthonormalRotation;
 	}
 }

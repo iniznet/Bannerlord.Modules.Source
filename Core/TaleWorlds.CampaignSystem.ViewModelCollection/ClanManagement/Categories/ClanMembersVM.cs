@@ -13,10 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categories
 {
-	// Token: 0x02000114 RID: 276
 	public class ClanMembersVM : ViewModel
 	{
-		// Token: 0x06001A4D RID: 6733 RVA: 0x0005F1F8 File Offset: 0x0005D3F8
 		public ClanMembersVM(Action onRefresh, Action<Hero> showHeroOnMap)
 		{
 			this._onRefresh = onRefresh;
@@ -29,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.RefreshValues();
 		}
 
-		// Token: 0x06001A4E RID: 6734 RVA: 0x0005F25C File Offset: 0x0005D45C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -48,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			});
 		}
 
-		// Token: 0x06001A4F RID: 6735 RVA: 0x0005F334 File Offset: 0x0005D534
 		public void RefreshMembersList()
 		{
 			this.Family.Clear();
@@ -83,7 +79,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.OnMemberSelection(this.GetDefaultMember());
 		}
 
-		// Token: 0x06001A50 RID: 6736 RVA: 0x0005F53C File Offset: 0x0005D73C
 		private ClanLordItemVM GetDefaultMember()
 		{
 			if (this.Family.Count > 0)
@@ -97,7 +92,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return this.Companions[0];
 		}
 
-		// Token: 0x06001A51 RID: 6737 RVA: 0x0005F578 File Offset: 0x0005D778
 		public void SelectMember(Hero hero)
 		{
 			bool flag = false;
@@ -136,7 +130,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A52 RID: 6738 RVA: 0x0005F674 File Offset: 0x0005D874
 		private void OnMemberSelection(ClanLordItemVM member)
 		{
 			if (this.CurrentSelectedMember != null)
@@ -150,7 +143,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A53 RID: 6739 RVA: 0x0005F69C File Offset: 0x0005D89C
 		private void OnRequestRecall()
 		{
 			ClanLordItemVM currentSelectedMember = this.CurrentSelectedMember;
@@ -166,7 +158,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A54 RID: 6740 RVA: 0x0005F782 File Offset: 0x0005D982
 		private void OnConfirmRecall()
 		{
 			TeleportHeroAction.ApplyDelayedTeleportToParty(this.CurrentSelectedMember.GetHero(), MobileParty.MainParty);
@@ -178,13 +169,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			onRefresh();
 		}
 
-		// Token: 0x06001A55 RID: 6741 RVA: 0x0005F7A9 File Offset: 0x0005D9A9
 		private void ExecuteLink(string link)
 		{
 			Campaign.Current.EncyclopediaManager.GoToLink(link);
 		}
 
-		// Token: 0x06001A56 RID: 6742 RVA: 0x0005F7BC File Offset: 0x0005D9BC
 		private void OnTalkWithMember()
 		{
 			ClanLordItemVM currentSelectedMember = this.CurrentSelectedMember;
@@ -212,7 +201,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A57 RID: 6743 RVA: 0x0005F860 File Offset: 0x0005DA60
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -226,9 +214,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			});
 		}
 
-		// Token: 0x17000901 RID: 2305
-		// (get) Token: 0x06001A58 RID: 6744 RVA: 0x0005F8C7 File Offset: 0x0005DAC7
-		// (set) Token: 0x06001A59 RID: 6745 RVA: 0x0005F8CF File Offset: 0x0005DACF
 		[DataSourceProperty]
 		public bool IsAnyValidMemberSelected
 		{
@@ -246,9 +231,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000902 RID: 2306
-		// (get) Token: 0x06001A5A RID: 6746 RVA: 0x0005F8ED File Offset: 0x0005DAED
-		// (set) Token: 0x06001A5B RID: 6747 RVA: 0x0005F8F5 File Offset: 0x0005DAF5
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -266,9 +248,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000903 RID: 2307
-		// (get) Token: 0x06001A5C RID: 6748 RVA: 0x0005F913 File Offset: 0x0005DB13
-		// (set) Token: 0x06001A5D RID: 6749 RVA: 0x0005F91B File Offset: 0x0005DB1B
 		[DataSourceProperty]
 		public string FamilyText
 		{
@@ -286,9 +265,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000904 RID: 2308
-		// (get) Token: 0x06001A5E RID: 6750 RVA: 0x0005F93E File Offset: 0x0005DB3E
-		// (set) Token: 0x06001A5F RID: 6751 RVA: 0x0005F946 File Offset: 0x0005DB46
 		[DataSourceProperty]
 		public string TraitsText
 		{
@@ -306,9 +282,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000905 RID: 2309
-		// (get) Token: 0x06001A60 RID: 6752 RVA: 0x0005F969 File Offset: 0x0005DB69
-		// (set) Token: 0x06001A61 RID: 6753 RVA: 0x0005F971 File Offset: 0x0005DB71
 		[DataSourceProperty]
 		public string SkillsText
 		{
@@ -326,9 +299,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000906 RID: 2310
-		// (get) Token: 0x06001A62 RID: 6754 RVA: 0x0005F994 File Offset: 0x0005DB94
-		// (set) Token: 0x06001A63 RID: 6755 RVA: 0x0005F99C File Offset: 0x0005DB9C
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -346,9 +316,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000907 RID: 2311
-		// (get) Token: 0x06001A64 RID: 6756 RVA: 0x0005F9BF File Offset: 0x0005DBBF
-		// (set) Token: 0x06001A65 RID: 6757 RVA: 0x0005F9C7 File Offset: 0x0005DBC7
 		[DataSourceProperty]
 		public string LocationText
 		{
@@ -366,9 +333,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000908 RID: 2312
-		// (get) Token: 0x06001A66 RID: 6758 RVA: 0x0005F9EA File Offset: 0x0005DBEA
-		// (set) Token: 0x06001A67 RID: 6759 RVA: 0x0005F9F2 File Offset: 0x0005DBF2
 		[DataSourceProperty]
 		public string CompanionsText
 		{
@@ -386,9 +350,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000909 RID: 2313
-		// (get) Token: 0x06001A68 RID: 6760 RVA: 0x0005FA15 File Offset: 0x0005DC15
-		// (set) Token: 0x06001A69 RID: 6761 RVA: 0x0005FA1D File Offset: 0x0005DC1D
 		[DataSourceProperty]
 		public MBBindingList<ClanLordItemVM> Companions
 		{
@@ -406,9 +367,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700090A RID: 2314
-		// (get) Token: 0x06001A6A RID: 6762 RVA: 0x0005FA3B File Offset: 0x0005DC3B
-		// (set) Token: 0x06001A6B RID: 6763 RVA: 0x0005FA43 File Offset: 0x0005DC43
 		[DataSourceProperty]
 		public MBBindingList<ClanLordItemVM> Family
 		{
@@ -426,9 +384,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700090B RID: 2315
-		// (get) Token: 0x06001A6C RID: 6764 RVA: 0x0005FA61 File Offset: 0x0005DC61
-		// (set) Token: 0x06001A6D RID: 6765 RVA: 0x0005FA69 File Offset: 0x0005DC69
 		[DataSourceProperty]
 		public ClanLordItemVM CurrentSelectedMember
 		{
@@ -447,49 +402,34 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x04000C74 RID: 3188
 		private readonly Clan _faction;
 
-		// Token: 0x04000C75 RID: 3189
 		private readonly Action _onRefresh;
 
-		// Token: 0x04000C76 RID: 3190
 		private readonly Action<Hero> _showHeroOnMap;
 
-		// Token: 0x04000C77 RID: 3191
 		private readonly ITeleportationCampaignBehavior _teleportationBehavior;
 
-		// Token: 0x04000C78 RID: 3192
 		private bool _isSelected;
 
-		// Token: 0x04000C79 RID: 3193
 		private MBBindingList<ClanLordItemVM> _companions;
 
-		// Token: 0x04000C7A RID: 3194
 		private MBBindingList<ClanLordItemVM> _family;
 
-		// Token: 0x04000C7B RID: 3195
 		private ClanLordItemVM _currentSelectedMember;
 
-		// Token: 0x04000C7C RID: 3196
 		private string _familyText;
 
-		// Token: 0x04000C7D RID: 3197
 		private string _traitsText;
 
-		// Token: 0x04000C7E RID: 3198
 		private string _companionsText;
 
-		// Token: 0x04000C7F RID: 3199
 		private string _skillsText;
 
-		// Token: 0x04000C80 RID: 3200
 		private string _nameText;
 
-		// Token: 0x04000C81 RID: 3201
 		private string _locationText;
 
-		// Token: 0x04000C82 RID: 3202
 		private bool _isAnyValidMemberSelected;
 	}
 }

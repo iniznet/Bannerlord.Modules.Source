@@ -7,21 +7,12 @@ using TaleWorlds.TwoDimension.BitmapFont;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000012 RID: 18
 	public class Text : IText
 	{
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x0600008C RID: 140 RVA: 0x00004B48 File Offset: 0x00002D48
-		// (set) Token: 0x0600008D RID: 141 RVA: 0x00004B50 File Offset: 0x00002D50
 		public ILanguage CurrentLanguage { get; set; }
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x0600008E RID: 142 RVA: 0x00004B59 File Offset: 0x00002D59
-		// (set) Token: 0x0600008F RID: 143 RVA: 0x00004B61 File Offset: 0x00002D61
 		public float ScaleToFitTextInLayout { get; private set; } = 1f;
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x06000090 RID: 144 RVA: 0x00004B6A File Offset: 0x00002D6A
 		public DrawObject2D DrawObject2D
 		{
 			get
@@ -38,9 +29,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x06000091 RID: 145 RVA: 0x00004B9E File Offset: 0x00002D9E
-		// (set) Token: 0x06000092 RID: 146 RVA: 0x00004BA6 File Offset: 0x00002DA6
 		public Font Font
 		{
 			get
@@ -58,8 +46,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x06000093 RID: 147 RVA: 0x00004BC6 File Offset: 0x00002DC6
 		private float ExtraPaddingHorizontal
 		{
 			get
@@ -68,8 +54,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x06000094 RID: 148 RVA: 0x00004BCD File Offset: 0x00002DCD
 		private float ExtraPaddingVertical
 		{
 			get
@@ -78,9 +62,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x06000095 RID: 149 RVA: 0x00004BD4 File Offset: 0x00002DD4
-		// (set) Token: 0x06000096 RID: 150 RVA: 0x00004BDC File Offset: 0x00002DDC
 		public TextHorizontalAlignment HorizontalAlignment
 		{
 			get
@@ -98,9 +79,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000034 RID: 52
-		// (get) Token: 0x06000097 RID: 151 RVA: 0x00004BFC File Offset: 0x00002DFC
-		// (set) Token: 0x06000098 RID: 152 RVA: 0x00004C04 File Offset: 0x00002E04
 		public TextVerticalAlignment VerticalAlignment
 		{
 			get
@@ -118,9 +96,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000035 RID: 53
-		// (get) Token: 0x06000099 RID: 153 RVA: 0x00004C24 File Offset: 0x00002E24
-		// (set) Token: 0x0600009A RID: 154 RVA: 0x00004C2D File Offset: 0x00002E2D
 		public float FontSize
 		{
 			get
@@ -138,9 +113,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x0600009B RID: 155 RVA: 0x00004C4F File Offset: 0x00002E4F
-		// (set) Token: 0x0600009C RID: 156 RVA: 0x00004C58 File Offset: 0x00002E58
 		public string Value
 		{
 			get
@@ -164,8 +136,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x0600009D RID: 157 RVA: 0x00004CA5 File Offset: 0x00002EA5
 		private float EmptyCharacterWidth
 		{
 			get
@@ -174,8 +144,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x0600009E RID: 158 RVA: 0x00004CCD File Offset: 0x00002ECD
 		private float LineHeight
 		{
 			get
@@ -184,9 +152,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x0600009F RID: 159 RVA: 0x00004CE9 File Offset: 0x00002EE9
-		// (set) Token: 0x060000A0 RID: 160 RVA: 0x00004CF1 File Offset: 0x00002EF1
 		public bool SkipLineOnContainerExceeded
 		{
 			get
@@ -204,7 +169,6 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00004D14 File Offset: 0x00002F14
 		public Text(int width, int height, Font bitmapFont, Func<int, Font> getUsableFontForCharacter)
 		{
 			this.Font = bitmapFont;
@@ -219,7 +183,6 @@ namespace TaleWorlds.TwoDimension
 			this._textMeshGenerator = new TextMeshGenerator();
 		}
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x00004D8C File Offset: 0x00002F8C
 		public Vector2 GetPreferredSize(bool fixedWidth, float widthSize, bool fixedHeight, float heightSize, SpriteData spriteData, float renderScale)
 		{
 			this._fixedWidth = fixedWidth;
@@ -303,7 +266,6 @@ namespace TaleWorlds.TwoDimension
 			return this._preferredSize;
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x0000503C File Offset: 0x0000323C
 		public void UpdateSize(int width, int height)
 		{
 			if (this._width != width || this._height != height)
@@ -316,13 +278,11 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00005077 File Offset: 0x00003277
 		private Font GetFontForTextToken(TextToken token)
 		{
 			return this._getUsableFontForCharacter((int)token.Token);
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x0000508C File Offset: 0x0000328C
 		private void RecalculateTextMesh(float customScaleToFitText = 1f)
 		{
 			if (this._fontSize == 0 || string.IsNullOrEmpty(this._text))
@@ -535,64 +495,44 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x0400005C RID: 92
 		private TextHorizontalAlignment _horizontalAlignment;
 
-		// Token: 0x0400005D RID: 93
 		private TextVerticalAlignment _verticalAlignment;
 
-		// Token: 0x0400005E RID: 94
 		private DrawObject2D _drawObject2D;
 
-		// Token: 0x0400005F RID: 95
 		private bool _meshNeedsUpdate;
 
-		// Token: 0x04000060 RID: 96
 		private bool _preferredSizeNeedsUpdate;
 
-		// Token: 0x04000061 RID: 97
 		private bool _fixedHeight;
 
-		// Token: 0x04000062 RID: 98
 		private bool _fixedWidth;
 
-		// Token: 0x04000063 RID: 99
 		private float _desiredHeight;
 
-		// Token: 0x04000064 RID: 100
 		private float _desiredWidth;
 
-		// Token: 0x04000065 RID: 101
 		private Vector2 _preferredSize;
 
-		// Token: 0x04000066 RID: 102
 		private string _text;
 
-		// Token: 0x04000067 RID: 103
 		private List<TextToken> _tokens;
 
-		// Token: 0x04000068 RID: 104
 		private int _fontSize;
 
-		// Token: 0x04000069 RID: 105
 		private int _width;
 
-		// Token: 0x0400006A RID: 106
 		private int _height;
 
-		// Token: 0x0400006B RID: 107
 		private Font _font;
 
-		// Token: 0x0400006C RID: 108
 		private float _scaleValue;
 
-		// Token: 0x0400006D RID: 109
 		private readonly TextMeshGenerator _textMeshGenerator;
 
-		// Token: 0x0400006E RID: 110
 		private readonly Func<int, Font> _getUsableFontForCharacter;
 
-		// Token: 0x0400006F RID: 111
 		private bool _skipLineOnContainerExceeded = true;
 	}
 }

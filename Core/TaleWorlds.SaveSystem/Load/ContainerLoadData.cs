@@ -8,11 +8,8 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Load
 {
-	// Token: 0x02000033 RID: 51
 	internal class ContainerLoadData
 	{
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x060001D6 RID: 470 RVA: 0x00008781 File Offset: 0x00006981
 		public int Id
 		{
 			get
@@ -21,8 +18,6 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x17000049 RID: 73
-		// (get) Token: 0x060001D7 RID: 471 RVA: 0x0000878E File Offset: 0x0000698E
 		public object Target
 		{
 			get
@@ -31,8 +26,6 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x1700004A RID: 74
-		// (get) Token: 0x060001D8 RID: 472 RVA: 0x0000879B File Offset: 0x0000699B
 		public LoadContext Context
 		{
 			get
@@ -41,8 +34,6 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x1700004B RID: 75
-		// (get) Token: 0x060001D9 RID: 473 RVA: 0x000087A8 File Offset: 0x000069A8
 		public ContainerDefinition TypeDefinition
 		{
 			get
@@ -51,12 +42,8 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x1700004C RID: 76
-		// (get) Token: 0x060001DA RID: 474 RVA: 0x000087B5 File Offset: 0x000069B5
-		// (set) Token: 0x060001DB RID: 475 RVA: 0x000087BD File Offset: 0x000069BD
 		public ContainerHeaderLoadData ContainerHeaderLoadData { get; private set; }
 
-		// Token: 0x060001DC RID: 476 RVA: 0x000087C8 File Offset: 0x000069C8
 		public ContainerLoadData(ContainerHeaderLoadData headerLoadData)
 		{
 			this.ContainerHeaderLoadData = headerLoadData;
@@ -68,7 +55,6 @@ namespace TaleWorlds.SaveSystem.Load
 			this._values = new ElementLoadData[this._elementCount];
 		}
 
-		// Token: 0x060001DD RID: 477 RVA: 0x00008834 File Offset: 0x00006A34
 		private FolderId[] GetChildStructNames(SaveEntryFolder saveEntryFolder)
 		{
 			List<FolderId> list = new List<FolderId>();
@@ -82,7 +68,6 @@ namespace TaleWorlds.SaveSystem.Load
 			return list.ToArray();
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x000088B8 File Offset: 0x00006AB8
 		public void InitializeReaders(SaveEntryFolder saveEntryFolder)
 		{
 			foreach (FolderId folderId in this.GetChildStructNames(saveEntryFolder))
@@ -112,7 +97,6 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x060001DF RID: 479 RVA: 0x000089E4 File Offset: 0x00006BE4
 		public void FillCreatedObject()
 		{
 			foreach (ObjectLoadData objectLoadData in this._childStructs.Values)
@@ -121,7 +105,6 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x060001E0 RID: 480 RVA: 0x00008A3C File Offset: 0x00006C3C
 		public void Read()
 		{
 			for (int i = 0; i < this._elementCount; i++)
@@ -138,13 +121,11 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x060001E1 RID: 481 RVA: 0x00008AC8 File Offset: 0x00006CC8
 		private static Assembly GetAssemblyByName(string name)
 		{
 			return AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault((Assembly assembly) => assembly.GetName().FullName == name);
 		}
 
-		// Token: 0x060001E2 RID: 482 RVA: 0x00008B00 File Offset: 0x00006D00
 		public void FillObject()
 		{
 			foreach (ObjectLoadData objectLoadData in this._childStructs.Values)
@@ -222,22 +203,16 @@ namespace TaleWorlds.SaveSystem.Load
 			}
 		}
 
-		// Token: 0x0400008C RID: 140
 		private SaveId _saveId;
 
-		// Token: 0x0400008D RID: 141
 		private int _elementCount;
 
-		// Token: 0x0400008E RID: 142
 		private ContainerType _containerType;
 
-		// Token: 0x0400008F RID: 143
 		private ElementLoadData[] _keys;
 
-		// Token: 0x04000090 RID: 144
 		private ElementLoadData[] _values;
 
-		// Token: 0x04000091 RID: 145
 		private Dictionary<int, ObjectLoadData> _childStructs;
 	}
 }

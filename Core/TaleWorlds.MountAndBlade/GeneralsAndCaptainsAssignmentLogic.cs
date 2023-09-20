@@ -10,10 +10,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200026B RID: 619
 	public class GeneralsAndCaptainsAssignmentLogic : MissionLogic
 	{
-		// Token: 0x06002106 RID: 8454 RVA: 0x00076D9D File Offset: 0x00074F9D
 		public GeneralsAndCaptainsAssignmentLogic(TextObject attackerGeneralName, TextObject defenderGeneralName, TextObject attackerAllyGeneralName = null, TextObject defenderAllyGeneralName = null, bool createBodyguard = true)
 		{
 			this._attackerGeneralName = attackerGeneralName;
@@ -24,13 +22,11 @@ namespace TaleWorlds.MountAndBlade
 			this._isPlayerTeamGeneralFormationSet = false;
 		}
 
-		// Token: 0x06002107 RID: 8455 RVA: 0x00076DD8 File Offset: 0x00074FD8
 		public override void AfterStart()
 		{
 			this._bannerLogic = base.Mission.GetMissionBehavior<BannerBearerLogic>();
 		}
 
-		// Token: 0x06002108 RID: 8456 RVA: 0x00076DEC File Offset: 0x00074FEC
 		public override void OnTeamDeployed(Team team)
 		{
 			this.SetGeneralAgentOfTeam(team);
@@ -57,7 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002109 RID: 8457 RVA: 0x00076E54 File Offset: 0x00075054
 		public override void OnDeploymentFinished()
 		{
 			Team playerTeam = base.Mission.PlayerTeam;
@@ -77,7 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600210A RID: 8458 RVA: 0x00076EDC File Offset: 0x000750DC
 		protected virtual void SortCaptainsByPriority(Team team, ref List<Agent> captains)
 		{
 			captains = captains.OrderByDescending(delegate(Agent captain)
@@ -90,7 +84,6 @@ namespace TaleWorlds.MountAndBlade
 			}).ToList<Agent>();
 		}
 
-		// Token: 0x0600210B RID: 8459 RVA: 0x00076F10 File Offset: 0x00075110
 		protected virtual Formation PickBestRegularFormationToLead(Agent agent, List<Formation> candidateFormations)
 		{
 			Formation formation = null;
@@ -107,14 +100,12 @@ namespace TaleWorlds.MountAndBlade
 			return formation;
 		}
 
-		// Token: 0x0600210C RID: 8460 RVA: 0x00076F74 File Offset: 0x00075174
 		private bool CanTeamHaveGeneralsFormation(Team team)
 		{
 			Agent generalAgent = team.GeneralAgent;
 			return generalAgent != null && (generalAgent == base.Mission.MainAgent || team.QuerySystem.MemberCount >= 50);
 		}
 
-		// Token: 0x0600210D RID: 8461 RVA: 0x00076FB0 File Offset: 0x000751B0
 		private void AssignBestCaptainsForTeam(Team team)
 		{
 			List<Agent> list = team.ActiveAgents.Where((Agent agent) => agent.IsHero).ToList<Agent>();
@@ -165,7 +156,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600210E RID: 8462 RVA: 0x00077198 File Offset: 0x00075398
 		private void SetGeneralAgentOfTeam(Team team)
 		{
 			Agent agent = null;
@@ -193,7 +183,6 @@ namespace TaleWorlds.MountAndBlade
 			team.GeneralAgent = agent;
 		}
 
-		// Token: 0x0600210F RID: 8463 RVA: 0x0007731C File Offset: 0x0007551C
 		private void CreateGeneralFormationForTeam(Team team)
 		{
 			Agent generalAgent = team.GeneralAgent;
@@ -253,7 +242,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002110 RID: 8464 RVA: 0x00077594 File Offset: 0x00075794
 		private void OnCaptainAssignedToFormation(Agent captain, Formation formation)
 		{
 			if (captain.Formation != formation && captain != formation.Team.GeneralAgent)
@@ -269,28 +257,20 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000C2B RID: 3115
 		public int MinimumAgentCountToLeadGeneralFormation = 3;
 
-		// Token: 0x04000C2C RID: 3116
 		private BannerBearerLogic _bannerLogic;
 
-		// Token: 0x04000C2D RID: 3117
 		private readonly TextObject _attackerGeneralName;
 
-		// Token: 0x04000C2E RID: 3118
 		private readonly TextObject _defenderGeneralName;
 
-		// Token: 0x04000C2F RID: 3119
 		private readonly TextObject _attackerAllyGeneralName;
 
-		// Token: 0x04000C30 RID: 3120
 		private readonly TextObject _defenderAllyGeneralName;
 
-		// Token: 0x04000C31 RID: 3121
 		private readonly bool _createBodyguard;
 
-		// Token: 0x04000C32 RID: 3122
 		private bool _isPlayerTeamGeneralFormationSet;
 	}
 }

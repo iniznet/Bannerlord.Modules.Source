@@ -8,19 +8,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000BF RID: 191
 	public class MarriageSceneNotificationItem : SceneNotificationData
 	{
-		// Token: 0x17000528 RID: 1320
-		// (get) Token: 0x06001234 RID: 4660 RVA: 0x000532E1 File Offset: 0x000514E1
 		public Hero GroomHero { get; }
 
-		// Token: 0x17000529 RID: 1321
-		// (get) Token: 0x06001235 RID: 4661 RVA: 0x000532E9 File Offset: 0x000514E9
 		public Hero BrideHero { get; }
 
-		// Token: 0x1700052A RID: 1322
-		// (get) Token: 0x06001236 RID: 4662 RVA: 0x000532F1 File Offset: 0x000514F1
 		public override string SceneID
 		{
 			get
@@ -29,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x1700052B RID: 1323
-		// (get) Token: 0x06001237 RID: 4663 RVA: 0x000532F8 File Offset: 0x000514F8
 		public override TextObject TitleText
 		{
 			get
@@ -45,11 +36,8 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x06001238 RID: 4664 RVA: 0x00053391 File Offset: 0x00051591
 		public override SceneNotificationData.RelevantContextType RelevantContext { get; }
 
-		// Token: 0x06001239 RID: 4665 RVA: 0x0005339C File Offset: 0x0005159C
 		public override IEnumerable<Banner> GetBanners()
 		{
 			return new List<Banner>
@@ -61,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			};
 		}
 
-		// Token: 0x0600123A RID: 4666 RVA: 0x00053470 File Offset: 0x00051670
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -94,7 +81,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x0600123B RID: 4667 RVA: 0x000535E1 File Offset: 0x000517E1
 		public MarriageSceneNotificationItem(Hero groomHero, Hero brideHero, SceneNotificationData.RelevantContextType relevantContextType = SceneNotificationData.RelevantContextType.Any)
 		{
 			this.GroomHero = groomHero;
@@ -103,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			this._creationCampaignTime = CampaignTime.Now;
 		}
 
-		// Token: 0x0600123C RID: 4668 RVA: 0x0005360C File Offset: 0x0005180C
 		private List<Hero> GetAudienceMembers(Hero brideHero, Hero groomHero)
 		{
 			Queue<Hero> groomSide = new Queue<Hero>();
@@ -201,7 +186,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x0600123D RID: 4669 RVA: 0x00053A74 File Offset: 0x00051C74
 		private static string GetBrideEquipmentIDFromCulture(CultureObject brideCulture)
 		{
 			string stringId = brideCulture.StringId;
@@ -232,10 +216,8 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return "marriage_female_vla_cutscene_template";
 		}
 
-		// Token: 0x04000667 RID: 1639
 		private const int NumberOfAudienceHeroes = 6;
 
-		// Token: 0x0400066B RID: 1643
 		private readonly CampaignTime _creationCampaignTime;
 	}
 }

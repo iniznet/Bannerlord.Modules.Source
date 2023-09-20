@@ -15,10 +15,8 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000049 RID: 73
 	public static class MissionDebugConsoleCommands
 	{
-		// Token: 0x06000379 RID: 889 RVA: 0x000193FC File Offset: 0x000175FC
 		private static void LoadItems()
 		{
 			if (MissionDebugConsoleCommands._aiDebugTextItems == null)
@@ -69,7 +67,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600037A RID: 890 RVA: 0x000195F4 File Offset: 0x000177F4
 		private static void LoadChars()
 		{
 			if (MissionDebugConsoleCommands._aiDebugTextChars == null)
@@ -103,7 +100,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600037B RID: 891 RVA: 0x0001970C File Offset: 0x0001790C
 		[CommandLineFunctionality.CommandLineArgumentFunction("delete_agent", "agent")]
 		public static string RemoveAgent(List<string> strings)
 		{
@@ -121,7 +117,6 @@ namespace SandBox.Missions.MissionLogics
 			return "Agent with ID " + num + " is removed.";
 		}
 
-		// Token: 0x0600037C RID: 892 RVA: 0x0001977C File Offset: 0x0001797C
 		[CommandLineFunctionality.CommandLineArgumentFunction("fade_out", "agent")]
 		public static string FadeOutAgent(List<string> strings)
 		{
@@ -154,7 +149,6 @@ namespace SandBox.Missions.MissionLogics
 			return "success";
 		}
 
-		// Token: 0x0600037D RID: 893 RVA: 0x00019890 File Offset: 0x00017A90
 		[CommandLineFunctionality.CommandLineArgumentFunction("fade_in", "agent")]
 		public static string FadeInAgent(List<string> strings)
 		{
@@ -189,7 +183,6 @@ namespace SandBox.Missions.MissionLogics
 			return "success";
 		}
 
-		// Token: 0x0600037E RID: 894 RVA: 0x000199A4 File Offset: 0x00017BA4
 		[CommandLineFunctionality.CommandLineArgumentFunction("main_agent_play_action_at_channel", "agent")]
 		public static string PlayMainHeroAnimation(List<string> strings)
 		{
@@ -209,7 +202,6 @@ namespace SandBox.Missions.MissionLogics
 			return "DONE!";
 		}
 
-		// Token: 0x0600037F RID: 895 RVA: 0x00019A24 File Offset: 0x00017C24
 		[CommandLineFunctionality.CommandLineArgumentFunction("main_mount_play_action_at_channel", "agent")]
 		public static string PlayMainMountAnimation(List<string> strings)
 		{
@@ -233,7 +225,6 @@ namespace SandBox.Missions.MissionLogics
 			return "DONE!";
 		}
 
-		// Token: 0x06000380 RID: 896 RVA: 0x00019ABC File Offset: 0x00017CBC
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_action_set", "agent")]
 		public static string ChangePlayerActionSet(List<string> strings)
 		{
@@ -281,7 +272,6 @@ namespace SandBox.Missions.MissionLogics
 			return text;
 		}
 
-		// Token: 0x06000381 RID: 897 RVA: 0x00019BC8 File Offset: 0x00017DC8
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_health", "ai")]
 		public static string AISetHealth(List<string> strings)
 		{
@@ -327,7 +317,6 @@ namespace SandBox.Missions.MissionLogics
 			return "Cannot find agent";
 		}
 
-		// Token: 0x06000382 RID: 898 RVA: 0x00019D2C File Offset: 0x00017F2C
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_items", "ai")]
 		public static string AIShowItems(List<string> strings)
 		{
@@ -358,7 +347,6 @@ namespace SandBox.Missions.MissionLogics
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x06000383 RID: 899 RVA: 0x00019E04 File Offset: 0x00018004
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_chars", "ai")]
 		public static string AIShowChars(List<string> strings)
 		{
@@ -389,7 +377,6 @@ namespace SandBox.Missions.MissionLogics
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x06000384 RID: 900 RVA: 0x00019EDC File Offset: 0x000180DC
 		[CommandLineFunctionality.CommandLineArgumentFunction("driven_property", "ai")]
 		public static string AIDrivenProperty(List<string> strings)
 		{
@@ -453,7 +440,6 @@ namespace SandBox.Missions.MissionLogics
 			return "Usage: ai.driven_property agent_index property_name property_value";
 		}
 
-		// Token: 0x06000385 RID: 901 RVA: 0x0001A088 File Offset: 0x00018288
 		[CommandLineFunctionality.CommandLineArgumentFunction("spawn", "ai")]
 		public static string AISpawn(List<string> strings)
 		{
@@ -557,7 +543,6 @@ namespace SandBox.Missions.MissionLogics
 			return aispawnParameters.errorMessage;
 		}
 
-		// Token: 0x06000386 RID: 902 RVA: 0x0001A418 File Offset: 0x00018618
 		[CommandLineFunctionality.CommandLineArgumentFunction("AddDebugTeleporter", "mission")]
 		public static string AddDebugTeleporter(List<string> strings)
 		{
@@ -577,7 +562,6 @@ namespace SandBox.Missions.MissionLogics
 			return "Already added";
 		}
 
-		// Token: 0x06000387 RID: 903 RVA: 0x0001A468 File Offset: 0x00018668
 		[CommandLineFunctionality.CommandLineArgumentFunction("AddObjectDestroyer", "mission")]
 		public static string AddObjectDestroyer(List<string> strings)
 		{
@@ -597,16 +581,12 @@ namespace SandBox.Missions.MissionLogics
 			return "Already added";
 		}
 
-		// Token: 0x040001B1 RID: 433
 		private static string _aiDebugTextItems;
 
-		// Token: 0x040001B2 RID: 434
 		private static string _aiDebugTextChars;
 
-		// Token: 0x02000128 RID: 296
 		private class AISpawnParameters
 		{
-			// Token: 0x06000D0E RID: 3342 RVA: 0x00062BC0 File Offset: 0x00060DC0
 			internal Vec3 position(int index)
 			{
 				Vec3 zero = Vec3.Zero;
@@ -625,8 +605,6 @@ namespace SandBox.Missions.MissionLogics
 				return zero;
 			}
 
-			// Token: 0x170000EC RID: 236
-			// (get) Token: 0x06000D0F RID: 3343 RVA: 0x00062C7C File Offset: 0x00060E7C
 			internal int Health
 			{
 				get
@@ -640,8 +618,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x170000ED RID: 237
-			// (get) Token: 0x06000D10 RID: 3344 RVA: 0x00062CA0 File Offset: 0x00060EA0
 			internal int Level
 			{
 				get
@@ -655,8 +631,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x170000EE RID: 238
-			// (get) Token: 0x06000D11 RID: 3345 RVA: 0x00062CC0 File Offset: 0x00060EC0
 			internal int SpawnCount
 			{
 				get
@@ -670,7 +644,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x06000D12 RID: 3346 RVA: 0x00062CE0 File Offset: 0x00060EE0
 			internal bool HasWeapon(int index)
 			{
 				switch (index)
@@ -688,7 +661,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x06000D13 RID: 3347 RVA: 0x00062D44 File Offset: 0x00060F44
 			internal EquipmentElement GetWeapon(int index)
 			{
 				string text = "";
@@ -714,7 +686,6 @@ namespace SandBox.Missions.MissionLogics
 				return default(EquipmentElement);
 			}
 
-			// Token: 0x06000D14 RID: 3348 RVA: 0x00062DBC File Offset: 0x00060FBC
 			internal AISpawnParameters(List<string> strings)
 			{
 				this.animalType = "";
@@ -762,7 +733,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x06000D15 RID: 3349 RVA: 0x00062F5C File Offset: 0x0006115C
 			private void ParseParameter(string key, string value)
 			{
 				uint num = <PrivateImplementationDetails>.ComputeStringHash(key);
@@ -903,7 +873,6 @@ namespace SandBox.Missions.MissionLogics
 				this.team = ((this.isEnemy ^ (Agent.Main.Team == Mission.Current.DefenderTeam)) ? Mission.Current.DefenderTeam : Mission.Current.AttackerTeam);
 			}
 
-			// Token: 0x06000D16 RID: 3350 RVA: 0x0006327C File Offset: 0x0006147C
 			internal static string GetParameter(List<string> strings, string key, string defaultValue)
 			{
 				key += ":";
@@ -918,7 +887,6 @@ namespace SandBox.Missions.MissionLogics
 				return defaultValue;
 			}
 
-			// Token: 0x06000D17 RID: 3351 RVA: 0x000632F4 File Offset: 0x000614F4
 			internal static bool GetParameter(List<string> strings, string key, bool defaultValue)
 			{
 				using (List<string>.Enumerator enumerator = strings.GetEnumerator())
@@ -934,52 +902,36 @@ namespace SandBox.Missions.MissionLogics
 				return defaultValue;
 			}
 
-			// Token: 0x0400059A RID: 1434
 			internal string animalType;
 
-			// Token: 0x0400059B RID: 1435
 			internal string agentType;
 
-			// Token: 0x0400059C RID: 1436
 			internal Team team;
 
-			// Token: 0x0400059D RID: 1437
 			internal bool isEnemy;
 
-			// Token: 0x0400059E RID: 1438
 			internal bool isAlarmed;
 
-			// Token: 0x0400059F RID: 1439
 			private string weapon0;
 
-			// Token: 0x040005A0 RID: 1440
 			private string weapon1;
 
-			// Token: 0x040005A1 RID: 1441
 			private string weapon2;
 
-			// Token: 0x040005A2 RID: 1442
 			private string weapon3;
 
-			// Token: 0x040005A3 RID: 1443
 			private string posx;
 
-			// Token: 0x040005A4 RID: 1444
 			private string posy;
 
-			// Token: 0x040005A5 RID: 1445
 			private string posz;
 
-			// Token: 0x040005A6 RID: 1446
 			private string level;
 
-			// Token: 0x040005A7 RID: 1447
 			private string health;
 
-			// Token: 0x040005A8 RID: 1448
 			internal string errorMessage;
 
-			// Token: 0x040005A9 RID: 1449
 			private string count;
 		}
 	}

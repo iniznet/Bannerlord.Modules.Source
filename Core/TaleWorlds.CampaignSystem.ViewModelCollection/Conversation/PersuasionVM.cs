@@ -9,17 +9,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 {
-	// Token: 0x020000F6 RID: 246
 	public class PersuasionVM : ViewModel
 	{
-		// Token: 0x06001738 RID: 5944 RVA: 0x0005603F File Offset: 0x0005423F
 		public PersuasionVM(ConversationManager manager)
 		{
 			this.PersuasionProgress = new MBBindingList<BoolItemWithActionVM>();
 			this._manager = manager;
 		}
 
-		// Token: 0x06001739 RID: 5945 RVA: 0x0005605C File Offset: 0x0005425C
 		public void OnPersuasionProgress(Tuple<PersuasionOptionArgs, PersuasionOptionResult> selectedOption)
 		{
 			this.ProgressText = "";
@@ -48,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this.ProgressText = text2.Replace("{TEXT}", text);
 		}
 
-		// Token: 0x0600173A RID: 5946 RVA: 0x0005610F File Offset: 0x0005430F
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -60,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			currentPersuasionOption.RefreshValues();
 		}
 
-		// Token: 0x0600173B RID: 5947 RVA: 0x00056127 File Offset: 0x00054327
 		public void SetCurrentOption(PersuasionOptionVM option)
 		{
 			if (this.CurrentPersuasionOption != option)
@@ -69,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x0600173C RID: 5948 RVA: 0x0005613C File Offset: 0x0005433C
 		public void RefreshPersusasion()
 		{
 			this.CurrentCritFailChance = 0;
@@ -99,7 +93,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x0600173D RID: 5949 RVA: 0x00056229 File Offset: 0x00054429
 		private string GetPersuasionTooltip()
 		{
 			if (ConversationManager.GetPersuasionIsActive())
@@ -111,7 +104,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			return "";
 		}
 
-		// Token: 0x0600173E RID: 5950 RVA: 0x00056268 File Offset: 0x00054468
 		private void RefreshChangeValues()
 		{
 			float num;
@@ -120,9 +112,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			this._manager.GetPersuasionChanceValues(out num, out num2, out num3);
 		}
 
-		// Token: 0x170007DE RID: 2014
-		// (get) Token: 0x0600173F RID: 5951 RVA: 0x00056286 File Offset: 0x00054486
-		// (set) Token: 0x06001740 RID: 5952 RVA: 0x0005628E File Offset: 0x0005448E
 		[DataSourceProperty]
 		public BasicTooltipViewModel PersuasionHint
 		{
@@ -140,9 +129,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007DF RID: 2015
-		// (get) Token: 0x06001741 RID: 5953 RVA: 0x000562AC File Offset: 0x000544AC
-		// (set) Token: 0x06001742 RID: 5954 RVA: 0x000562B4 File Offset: 0x000544B4
 		[DataSourceProperty]
 		public string ProgressText
 		{
@@ -160,9 +146,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E0 RID: 2016
-		// (get) Token: 0x06001743 RID: 5955 RVA: 0x000562D7 File Offset: 0x000544D7
-		// (set) Token: 0x06001744 RID: 5956 RVA: 0x000562DF File Offset: 0x000544DF
 		[DataSourceProperty]
 		public MBBindingList<BoolItemWithActionVM> PersuasionProgress
 		{
@@ -180,9 +163,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E1 RID: 2017
-		// (get) Token: 0x06001745 RID: 5957 RVA: 0x000562FD File Offset: 0x000544FD
-		// (set) Token: 0x06001746 RID: 5958 RVA: 0x00056305 File Offset: 0x00054505
 		[DataSourceProperty]
 		public bool IsPersuasionActive
 		{
@@ -204,9 +184,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E2 RID: 2018
-		// (get) Token: 0x06001747 RID: 5959 RVA: 0x0005632C File Offset: 0x0005452C
-		// (set) Token: 0x06001748 RID: 5960 RVA: 0x00056334 File Offset: 0x00054534
 		[DataSourceProperty]
 		public int CurrentSuccessChance
 		{
@@ -224,9 +201,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E3 RID: 2019
-		// (get) Token: 0x06001749 RID: 5961 RVA: 0x00056352 File Offset: 0x00054552
-		// (set) Token: 0x0600174A RID: 5962 RVA: 0x0005635A File Offset: 0x0005455A
 		[DataSourceProperty]
 		public PersuasionOptionVM CurrentPersuasionOption
 		{
@@ -244,9 +218,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E4 RID: 2020
-		// (get) Token: 0x0600174B RID: 5963 RVA: 0x00056378 File Offset: 0x00054578
-		// (set) Token: 0x0600174C RID: 5964 RVA: 0x00056380 File Offset: 0x00054580
 		[DataSourceProperty]
 		public int CurrentFailChance
 		{
@@ -264,9 +235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E5 RID: 2021
-		// (get) Token: 0x0600174D RID: 5965 RVA: 0x0005639E File Offset: 0x0005459E
-		// (set) Token: 0x0600174E RID: 5966 RVA: 0x000563A6 File Offset: 0x000545A6
 		[DataSourceProperty]
 		public int CurrentCritSuccessChance
 		{
@@ -284,9 +252,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x170007E6 RID: 2022
-		// (get) Token: 0x0600174F RID: 5967 RVA: 0x000563C4 File Offset: 0x000545C4
-		// (set) Token: 0x06001750 RID: 5968 RVA: 0x000563CC File Offset: 0x000545CC
 		[DataSourceProperty]
 		public int CurrentCritFailChance
 		{
@@ -304,43 +269,30 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 		}
 
-		// Token: 0x04000AE2 RID: 2786
 		internal const string PositiveText = "<a style=\"Conversation.Persuasion.Positive\"><b>{TEXT}</b></a>";
 
-		// Token: 0x04000AE3 RID: 2787
 		internal const string NegativeText = "<a style=\"Conversation.Persuasion.Negative\"><b>{TEXT}</b></a>";
 
-		// Token: 0x04000AE4 RID: 2788
 		internal const string NeutralText = "<a style=\"Conversation.Persuasion.Neutral\"><b>{TEXT}</b></a>";
 
-		// Token: 0x04000AE5 RID: 2789
 		private ConversationManager _manager;
 
-		// Token: 0x04000AE6 RID: 2790
 		private MBBindingList<BoolItemWithActionVM> _persuasionProgress;
 
-		// Token: 0x04000AE7 RID: 2791
 		private bool _isPersuasionActive;
 
-		// Token: 0x04000AE8 RID: 2792
 		private int _currentCritFailChance;
 
-		// Token: 0x04000AE9 RID: 2793
 		private int _currentFailChance;
 
-		// Token: 0x04000AEA RID: 2794
 		private int _currentSuccessChance;
 
-		// Token: 0x04000AEB RID: 2795
 		private int _currentCritSuccessChance;
 
-		// Token: 0x04000AEC RID: 2796
 		private string _progressText;
 
-		// Token: 0x04000AED RID: 2797
 		private PersuasionOptionVM _currentPersuasionOption;
 
-		// Token: 0x04000AEE RID: 2798
 		private BasicTooltipViewModel _persuasionHint;
 	}
 }

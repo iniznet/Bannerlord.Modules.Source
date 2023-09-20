@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 {
-	// Token: 0x020000F5 RID: 245
 	public class ExposureOptionVM : ViewModel
 	{
-		// Token: 0x0600159C RID: 5532 RVA: 0x00045E4C File Offset: 0x0004404C
 		public ExposureOptionVM(Action<bool> onClose = null)
 		{
 			this.TitleText = Module.CurrentModule.GlobalTextManager.FindText("str_exposure_option_title", null).ToString();
@@ -23,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600159D RID: 5533 RVA: 0x00045ED6 File Offset: 0x000440D6
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.AcceptText = new TextObject("{=Y94H6XnK}Accept", null).ToString();
 		}
 
-		// Token: 0x0600159E RID: 5534 RVA: 0x00045F0A File Offset: 0x0004410A
 		public void ExecuteConfirm()
 		{
 			this.InitialValue = this.Value;
@@ -44,7 +40,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.Visible = false;
 		}
 
-		// Token: 0x0600159F RID: 5535 RVA: 0x00045F3E File Offset: 0x0004413E
 		public void ExecuteCancel()
 		{
 			this.Value = this.InitialValue;
@@ -58,9 +53,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			onClose(false);
 		}
 
-		// Token: 0x1700071A RID: 1818
-		// (get) Token: 0x060015A0 RID: 5536 RVA: 0x00045F71 File Offset: 0x00044171
-		// (set) Token: 0x060015A1 RID: 5537 RVA: 0x00045F79 File Offset: 0x00044179
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -78,9 +70,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700071B RID: 1819
-		// (get) Token: 0x060015A2 RID: 5538 RVA: 0x00045F9C File Offset: 0x0004419C
-		// (set) Token: 0x060015A3 RID: 5539 RVA: 0x00045FA4 File Offset: 0x000441A4
 		[DataSourceProperty]
 		public string ExplanationText
 		{
@@ -98,9 +87,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700071C RID: 1820
-		// (get) Token: 0x060015A4 RID: 5540 RVA: 0x00045FC7 File Offset: 0x000441C7
-		// (set) Token: 0x060015A5 RID: 5541 RVA: 0x00045FCF File Offset: 0x000441CF
 		[DataSourceProperty]
 		public string CancelText
 		{
@@ -118,9 +104,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700071D RID: 1821
-		// (get) Token: 0x060015A6 RID: 5542 RVA: 0x00045FF2 File Offset: 0x000441F2
-		// (set) Token: 0x060015A7 RID: 5543 RVA: 0x00045FFA File Offset: 0x000441FA
 		[DataSourceProperty]
 		public string AcceptText
 		{
@@ -138,9 +121,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700071E RID: 1822
-		// (get) Token: 0x060015A8 RID: 5544 RVA: 0x0004601D File Offset: 0x0004421D
-		// (set) Token: 0x060015A9 RID: 5545 RVA: 0x00046025 File Offset: 0x00044225
 		public float Value
 		{
 			get
@@ -158,9 +138,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x1700071F RID: 1823
-		// (get) Token: 0x060015AA RID: 5546 RVA: 0x00046050 File Offset: 0x00044250
-		// (set) Token: 0x060015AB RID: 5547 RVA: 0x00046058 File Offset: 0x00044258
 		public float InitialValue
 		{
 			get
@@ -177,9 +154,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000720 RID: 1824
-		// (get) Token: 0x060015AC RID: 5548 RVA: 0x00046076 File Offset: 0x00044276
-		// (set) Token: 0x060015AD RID: 5549 RVA: 0x0004607E File Offset: 0x0004427E
 		public bool Visible
 		{
 			get
@@ -200,21 +174,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x060015AE RID: 5550 RVA: 0x000460AD File Offset: 0x000442AD
 		public void SetCancelInputKey(HotKey hotkey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x060015AF RID: 5551 RVA: 0x000460BC File Offset: 0x000442BC
 		public void SetConfirmInputKey(HotKey hotkey)
 		{
 			this.ConfirmInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
-		// Token: 0x17000721 RID: 1825
-		// (get) Token: 0x060015B0 RID: 5552 RVA: 0x000460CB File Offset: 0x000442CB
-		// (set) Token: 0x060015B1 RID: 5553 RVA: 0x000460D3 File Offset: 0x000442D3
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -232,9 +201,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x17000722 RID: 1826
-		// (get) Token: 0x060015B2 RID: 5554 RVA: 0x000460F1 File Offset: 0x000442F1
-		// (set) Token: 0x060015B3 RID: 5555 RVA: 0x000460F9 File Offset: 0x000442F9
 		[DataSourceProperty]
 		public InputKeyItemVM ConfirmInputKey
 		{
@@ -252,34 +218,24 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
-		// Token: 0x04000A51 RID: 2641
 		private readonly Action<bool> _onClose;
 
-		// Token: 0x04000A52 RID: 2642
 		private string _titleText;
 
-		// Token: 0x04000A53 RID: 2643
 		private string _explanationText;
 
-		// Token: 0x04000A54 RID: 2644
 		private string _cancelText;
 
-		// Token: 0x04000A55 RID: 2645
 		private string _acceptText;
 
-		// Token: 0x04000A56 RID: 2646
 		private float _initialValue;
 
-		// Token: 0x04000A57 RID: 2647
 		private float _value;
 
-		// Token: 0x04000A58 RID: 2648
 		private bool _visible;
 
-		// Token: 0x04000A59 RID: 2649
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x04000A5A RID: 2650
 		private InputKeyItemVM _confirmInputKey;
 	}
 }

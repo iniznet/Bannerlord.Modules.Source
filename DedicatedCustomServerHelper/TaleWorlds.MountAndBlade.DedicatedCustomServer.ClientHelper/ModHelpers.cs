@@ -9,11 +9,8 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 {
-	// Token: 0x02000007 RID: 7
 	internal static class ModHelpers
 	{
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x06000057 RID: 87 RVA: 0x00002DC8 File Offset: 0x00000FC8
 		public static string RootPath
 		{
 			get
@@ -22,7 +19,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			}
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x00002DD4 File Offset: 0x00000FD4
 		public static string GetSceneObjRootPath()
 		{
 			string text = Path.Combine(ModHelpers.RootPath, "SceneObj");
@@ -34,19 +30,16 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			return text;
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x00002E0D File Offset: 0x0000100D
 		public static bool DoesSceneFolderAlreadyExist(string sceneName)
 		{
 			return Directory.Exists(Path.Combine(ModHelpers.GetSceneObjRootPath(), sceneName));
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00002E20 File Offset: 0x00001020
 		public static string GetTempFilePath(string anyIdentifier)
 		{
 			return Path.Combine(Path.GetTempPath(), "BL_" + anyIdentifier + "_" + Guid.NewGuid().ToString());
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x00002E5C File Offset: 0x0000105C
 		public static string ReadSceneNameOfDirectory(string sceneDirectoryPath)
 		{
 			string text = null;
@@ -68,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			return text;
 		}
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00002EF4 File Offset: 0x000010F4
 		public static string WriteBufferToTempFile(byte[] buffer)
 		{
 			string tempFilePath = ModHelpers.GetTempFilePath("map_dl");
@@ -80,13 +72,11 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			return tempFilePath;
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x00002F4C File Offset: 0x0000114C
 		public static FileStream GetTempFileStream()
 		{
 			return new FileStream(ModHelpers.GetTempFilePath("map_dl"), FileMode.Create, FileAccess.Write);
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00002F60 File Offset: 0x00001160
 		public static string ExtractZipToTempDirectory(string sourceZipFilePath)
 		{
 			DirectoryInfo directoryInfo = Directory.CreateDirectory(Path.Combine(ModHelpers.GetSceneObjRootPath(), "temp_" + Guid.NewGuid().ToString()));
@@ -95,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			return directoryInfo.FullName;
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x00002FC8 File Offset: 0x000011C8
 		public static async Task<string> DownloadToTempFile(HttpClient httpClient, string url, IProgress<ProgressUpdate> progress = null, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			string tempFilePath;

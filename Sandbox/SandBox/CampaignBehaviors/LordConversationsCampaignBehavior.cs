@@ -28,11 +28,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x020000A0 RID: 160
 	public class LordConversationsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000076 RID: 118
-		// (get) Token: 0x0600081A RID: 2074 RVA: 0x00040727 File Offset: 0x0003E927
 		private int SmallCaravanFormingCost
 		{
 			get
@@ -41,8 +38,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x0600081B RID: 2075 RVA: 0x0004073D File Offset: 0x0003E93D
 		private int LargeCaravanFormingCost
 		{
 			get
@@ -51,13 +46,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600081C RID: 2076 RVA: 0x00040753 File Offset: 0x0003E953
 		public bool GetConversationHeroPoliticalPhilosophy(out TextObject philosophyString)
 		{
 			return GameTexts.TryGetText("str_political_philosophy_" + Hero.OneToOneConversationHero.StringId + "_for_" + Hero.OneToOneConversationHero.MapFaction.Leader.StringId, ref philosophyString, null);
 		}
 
-		// Token: 0x0600081D RID: 2077 RVA: 0x0004078C File Offset: 0x0003E98C
 		public bool GetConversationHeroPoliticalPhilosophy_2(out TextObject philosophyString_2)
 		{
 			return GameTexts.TryGetText(string.Concat(new string[]
@@ -70,7 +63,6 @@ namespace SandBox.CampaignBehaviors
 			}), ref philosophyString_2, null);
 		}
 
-		// Token: 0x0600081E RID: 2078 RVA: 0x000407E8 File Offset: 0x0003E9E8
 		public bool GetConversationHeroPoliticalPhilosophy_3(out TextObject philosophyString_3)
 		{
 			return GameTexts.TryGetText(string.Concat(new string[]
@@ -83,7 +75,6 @@ namespace SandBox.CampaignBehaviors
 			}), ref philosophyString_3, null);
 		}
 
-		// Token: 0x0600081F RID: 2079 RVA: 0x00040844 File Offset: 0x0003EA44
 		public TextObject GetLiegeTitle()
 		{
 			Hero leader = Hero.OneToOneConversationHero.MapFaction.Leader;
@@ -94,37 +85,31 @@ namespace SandBox.CampaignBehaviors
 			return Campaign.Current.ConversationManager.FindMatchingTextOrNull("str_liege_title_female", leader.CharacterObject);
 		}
 
-		// Token: 0x06000820 RID: 2080 RVA: 0x0004089E File Offset: 0x0003EA9E
 		private void SetRecruitTextVariables()
 		{
 			Hero.OneToOneConversationHero.MapFaction.Leader.SetTextVariables();
 		}
 
-		// Token: 0x06000821 RID: 2081 RVA: 0x000408B4 File Offset: 0x0003EAB4
 		private int GetMercenaryAwardFactor()
 		{
 			return Campaign.Current.Models.MinorFactionsModel.GetMercenaryAwardFactorToJoinKingdom(Clan.PlayerClan, Hero.OneToOneConversationHero.Clan.Kingdom, false);
 		}
 
-		// Token: 0x06000822 RID: 2082 RVA: 0x000408DF File Offset: 0x0003EADF
 		private bool lord_comments()
 		{
 			return Campaign.Current.CurrentConversationContext != 2 && Campaign.Current.CurrentConversationContext != 1 && (!ConversationHelper.ConversationTroopCommentShown && Hero.OneToOneConversationHero != null && this.UsesLordConversations(Hero.OneToOneConversationHero));
 		}
 
-		// Token: 0x06000823 RID: 2083 RVA: 0x0004091C File Offset: 0x0003EB1C
 		public bool UsesLordConversations(Hero hero)
 		{
 			return hero.IsLord || hero.IsWanderer || hero.IsMerchant || hero.IsPreacher || hero.IsHeadman || hero.IsArtisan || hero.IsGangLeader || hero.IsRuralNotable || hero.IsSpecial;
 		}
 
-		// Token: 0x06000824 RID: 2084 RVA: 0x00040971 File Offset: 0x0003EB71
 		private bool too_many_companions()
 		{
 			return Clan.PlayerClan.Companions.Count >= Clan.PlayerClan.CompanionLimit;
 		}
 
-		// Token: 0x06000825 RID: 2085 RVA: 0x00040994 File Offset: 0x0003EB94
 		private bool PlayerIsBesieging()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.SiegeEvent != null)
@@ -134,7 +119,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000826 RID: 2086 RVA: 0x000409F0 File Offset: 0x0003EBF0
 		private bool PlayerIsBesieged()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.SiegeEvent != null)
@@ -144,12 +128,10 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000827 RID: 2087 RVA: 0x00040A40 File Offset: 0x0003EC40
 		private void AddVoiceStrings()
 		{
 		}
 
-		// Token: 0x06000828 RID: 2088 RVA: 0x00040A44 File Offset: 0x0003EC44
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -157,7 +139,6 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnBarterCanceledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, List<Barterable>>(this.OnBarterCanceled));
 		}
 
-		// Token: 0x06000829 RID: 2089 RVA: 0x00040A98 File Offset: 0x0003EC98
 		private void OnBarterCanceled(Hero offererHero, Hero otherHero, List<Barterable> barters)
 		{
 			if (offererHero == Hero.MainHero)
@@ -170,7 +151,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600082A RID: 2090 RVA: 0x00040B24 File Offset: 0x0003ED24
 		private void OnBarterAccepted(Hero offererHero, Hero otherHero, List<Barterable> barters)
 		{
 			if (offererHero == Hero.MainHero)
@@ -183,14 +163,12 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600082B RID: 2091 RVA: 0x00040BAD File Offset: 0x0003EDAD
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<CharacterObject, CharacterObject>>("_previouslyMetWandererTemplates", ref this._previouslyMetWandererTemplates);
 			dataStore.SyncData<bool>("_receivedVassalRewards", ref this._receivedVassalRewards);
 		}
 
-		// Token: 0x0600082C RID: 2092 RVA: 0x00040BD3 File Offset: 0x0003EDD3
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, null, false);
@@ -198,7 +176,6 @@ namespace SandBox.CampaignBehaviors
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x0600082D RID: 2093 RVA: 0x00040C04 File Offset: 0x0003EE04
 		protected void AddDialogs(CampaignGameStarter starter)
 		{
 			GameTexts.AddGameTextWithVariation("STR_SALUTATION_FROM_PLAYER").Variation("{=xnR3sXJP}{PLAYER.NAME}", new object[] { "DefaultTag", 1 }).Variation("{=CRqdPoj9}your highness", new object[] { "NpcIsLiegeTag", 1 })
@@ -243,19 +220,16 @@ namespace SandBox.CampaignBehaviors
 			this.AddFinalLines(starter);
 		}
 
-		// Token: 0x0600082E RID: 2094 RVA: 0x000411F6 File Offset: 0x0003F3F6
 		private bool prisoner_barter_successful_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x0600082F RID: 2095 RVA: 0x00041208 File Offset: 0x0003F408
 		private void AddFinalLines(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("hero_special_request", "lord_talk_speak_diplomacy_2", "lord_pretalk", "{=PznWhAdU}Actually, never mind.", null, null, 1, null, null);
 		}
 
-		// Token: 0x06000830 RID: 2096 RVA: 0x00041238 File Offset: 0x0003F438
 		private void AddOtherConversations(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("ally_thanks_meet", "ally_thanks_meet", "ally_thanks_meet_2", "{=O4KI2lgT}My name is {PLAYER.NAME}.", null, null, 100, null, null);
@@ -380,7 +354,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("player_leaves_faction", "lord_ask_leave_service_end_2", "close_window", "{=ZMbvMK6K}Farewell then, {PLAYER.NAME}, and good luck go with you.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_player_leave_faction_accepted_on_leave), 100, null);
 		}
 
-		// Token: 0x06000831 RID: 2097 RVA: 0x000423B0 File Offset: 0x000405B0
 		public static void conversation_player_marriage_list_options_on_consequence()
 		{
 			List<Hero> list = new List<Hero>();
@@ -398,7 +371,6 @@ namespace SandBox.CampaignBehaviors
 			list.Clear();
 		}
 
-		// Token: 0x06000832 RID: 2098 RVA: 0x0004245C File Offset: 0x0004065C
 		public bool conversation_player_marriage_select_on_condition()
 		{
 			Hero hero = ConversationSentence.CurrentProcessedRepeatObject as Hero;
@@ -410,7 +382,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000833 RID: 2099 RVA: 0x00042490 File Offset: 0x00040690
 		public void conversation_player_marriage_on_consequence()
 		{
 			Hero selectedHero = (Hero)ConversationSentence.SelectedRepeatObject;
@@ -423,19 +394,16 @@ namespace SandBox.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06000834 RID: 2100 RVA: 0x000424F8 File Offset: 0x000406F8
 		public void conversation_player_marriage_on_refusal_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06000835 RID: 2101 RVA: 0x00042500 File Offset: 0x00040700
 		public bool conversation_player_children_marriage_on_condition()
 		{
 			return !Extensions.IsEmpty<Hero>(Campaign.Current.Models.MarriageModel.GetAdultChildrenSuitableForMarriage(Hero.MainHero)) && !Extensions.IsEmpty<Hero>(Campaign.Current.Models.MarriageModel.GetAdultChildrenSuitableForMarriage(Hero.OneToOneConversationHero));
 		}
 
-		// Token: 0x06000836 RID: 2102 RVA: 0x00042550 File Offset: 0x00040750
 		public void conversation_player_children_marriage_list_options_on_consequence()
 		{
 			List<Tuple<Hero, Hero>> list = new List<Tuple<Hero, Hero>>();
@@ -459,7 +427,6 @@ namespace SandBox.CampaignBehaviors
 			list.Clear();
 		}
 
-		// Token: 0x06000837 RID: 2103 RVA: 0x0004265C File Offset: 0x0004085C
 		public bool conversation_player_children_marriage_select_on_condition()
 		{
 			Tuple<Hero, Hero> tuple = ConversationSentence.CurrentProcessedRepeatObject as Tuple<Hero, Hero>;
@@ -480,7 +447,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000838 RID: 2104 RVA: 0x000426EC File Offset: 0x000408EC
 		public void conversation_player_children_marriage_on_consequence()
 		{
 			Tuple<Hero, Hero> couple = (Tuple<Hero, Hero>)ConversationSentence.SelectedRepeatObject;
@@ -493,13 +459,11 @@ namespace SandBox.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06000839 RID: 2105 RVA: 0x00042754 File Offset: 0x00040954
 		public void conversation_player_children_marriage_on_refusal_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x0600083A RID: 2106 RVA: 0x0004275C File Offset: 0x0004095C
 		private void AddPoliticsAndBarter(CampaignGameStarter starter)
 		{
 			this.AddParleyDialogs(starter);
@@ -553,7 +517,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("barter_decision_refuses", "lord_barter_decision_change_sides", "close_window", "{=Za6Du9Kf}Then you will pay with blood!", new ConversationSentence.OnConditionDelegate(this.barter_peace_offer_reject_on_condition), null, 100, null);
 		}
 
-		// Token: 0x0600083B RID: 2107 RVA: 0x00042F3C File Offset: 0x0004113C
 		private void AddCaravanConversations(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("caravan_create_conversation_1", "hero_main_options", "magistrate_form_a_caravan_cost", "{=tuz8ZNT6}I wish to form a caravan in this town.", new ConversationSentence.OnConditionDelegate(this.conversation_caravan_build_on_condition), null, 100, new ConversationSentence.OnClickableConditionDelegate(this.conversation_caravan_build_clickable_condition), null);
@@ -573,7 +536,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("caravan_create_conversation_14", "magistrate_form_a_caravan_accepted_leader_is_chosen", "close_window", "{=Z2Lq2QLq}Ok then. I will call my men to help you form a caravan. I hope it brings you a good profit.", null, null, 100, null);
 		}
 
-		// Token: 0x0600083C RID: 2108 RVA: 0x000431F0 File Offset: 0x000413F0
 		private void AddIntroductions(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("lord_introduction", "lord_introduction", "lord_start", "{=B7rEq40B}{LORD_INTRODUCTION_STRING} {TOWN_INFO_STRING}", new ConversationSentence.OnConditionDelegate(this.conversation_lord_introduction_on_condition), null, 100, null);
@@ -594,7 +556,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("minor_faction_generic_intro", "lord_introduction", "lord_start", "{=!}{MINOR_FACTION_INTRODUCTION_STRING}", new ConversationSentence.OnConditionDelegate(this.conversation_minor_faction_introduction_on_condition), null, 100, null);
 		}
 
-		// Token: 0x0600083D RID: 2109 RVA: 0x000434B0 File Offset: 0x000416B0
 		private void AddWandererConversations(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("wanderer_meet_player_response1", "wanderer_meet_player_response", "wanderer_preintroduction", "{=wFXj0bqj}My name is {PLAYER.NAME}, {?CONVERSATION_NPC.GENDER}madam{?}sir{\\?}. Tell me about yourself.", new ConversationSentence.OnConditionDelegate(this.conversation_wanderer_meet_player_on_condition), null, 100, null, null);
@@ -614,7 +575,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("wanderer_backstory_generic_2", "wanderer_introduction_a", "hero_main_options", "{=!}{WANDERER_GENERIC_BACKSTORY}", new ConversationSentence.OnConditionDelegate(this.conversation_wanderer_generic_introduction_on_condition), null, 100, null);
 		}
 
-		// Token: 0x0600083E RID: 2110 RVA: 0x00043704 File Offset: 0x00041904
 		private void AddAnimationTestConversations(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("test_frown2", "lord_talk_ask_something_2", "lord_expression_test_frown2", "{=!}Frown and strike a fighting stance, please", () => Game.Current.IsDevelopmentMode, null, 100, null, null);
@@ -736,7 +696,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddPlayerLine("lord_test_postures_done", "lord_select_test_posture", "lord_pretalk", "{=!}That will be all", () => Game.Current.IsDevelopmentMode, null, 100, null, null);
 		}
 
-		// Token: 0x0600083F RID: 2111 RVA: 0x00045388 File Offset: 0x00043588
 		private void AddParleyDialogs(CampaignGameStarter starter)
 		{
 			starter.AddPlayerLine("lord_barter_let_go", "lord_talk_speak_diplomacy_2", "lord_considers_letting_player_go", "{=ak2ZPOce}What would it take for you to let me go my way?", new ConversationSentence.OnConditionDelegate(this.conversation_player_can_ask_for_siege_to_be_lifted_on_condition), null, 100, null, null);
@@ -748,7 +707,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("barter_with_lord_postbarter_2", "lord_barter_decision_safe_passage", "close_window", "{=1gvHI0TH}Ah... Well, I am afraid that is not enough.", () => !this.conversation_barter_successful_on_condition(), null, 100, null);
 		}
 
-		// Token: 0x06000840 RID: 2112 RVA: 0x000454BC File Offset: 0x000436BC
 		private void let_go_prisoner_start_on_consequence()
 		{
 			Hero mainHero = Hero.MainHero;
@@ -758,7 +716,6 @@ namespace SandBox.CampaignBehaviors
 			ConversationManager.StartPersuasion((float)valueForFaction, (float)valueForFaction * 0.2f, (float)valueForFaction * 0f, (float)valueForFaction * 0.4f, (float)valueForFaction * -0.4f, -1f, 3);
 		}
 
-		// Token: 0x06000841 RID: 2113 RVA: 0x00045530 File Offset: 0x00043730
 		private void AddHeroGeneralConversations(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("hero_pretalk", "lord_pretalk", "player_responds_to_surrender_demand", "{=!}{SURRENDER_DEMAND_STRING}", new ConversationSentence.OnConditionDelegate(this.conversation_lord_makes_surrender_demand_on_condition), null, 100, null);
@@ -986,20 +943,17 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("hero_doesnt_have_quest", "player_requests_quest", "lord_pretalk", "{=wdQ54wn2}There's nothing I need right now.", null, null, 100, null);
 		}
 
-		// Token: 0x06000842 RID: 2114 RVA: 0x00047A6B File Offset: 0x00045C6B
 		private bool conversation_set_first_on_condition()
 		{
 			Campaign.Current.ConversationManager.CurrentConversationIsFirst = false;
 			return false;
 		}
 
-		// Token: 0x06000843 RID: 2115 RVA: 0x00047A7E File Offset: 0x00045C7E
 		private bool conversation_lord_special_request_on_condition()
 		{
 			return Hero.OneToOneConversationHero == null || !Hero.OneToOneConversationHero.IsPlayerCompanion;
 		}
 
-		// Token: 0x06000844 RID: 2116 RVA: 0x00047A98 File Offset: 0x00045C98
 		private bool conversation_mercenary_hiring_pitch_on_condition()
 		{
 			TextObject textObject = new TextObject("{=xWFIMImm}You want some mercenary work, eh? Well, we are glad to take fighters, whether they seek glory or gold. If you fight for us, you will receive {MERCENARY_AWARD}{GOLD_ICON} whenever you defeat a party of enemies, or for any other significant deed.", null);
@@ -1016,12 +970,10 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000845 RID: 2117 RVA: 0x00047B20 File Offset: 0x00045D20
 		private void conversation_lord_animation_test_old_friend()
 		{
 		}
 
-		// Token: 0x06000846 RID: 2118 RVA: 0x00047B24 File Offset: 0x00045D24
 		private void AddLordLiberateConversations(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("talk_common_to_lord_free", "start", "defeated_lord_answer", "{=!}{SURRENDER_OFFER}", new ConversationSentence.OnConditionDelegate(this.conversation_capture_defeated_lord_on_condition), null, 100, null);
@@ -1046,7 +998,6 @@ namespace SandBox.CampaignBehaviors
 			starter.AddDialogLine("talk_common_to_lord_liberate_political_enemy_friend_no_answer", "player_refuses_to_liberate_enemy", "close_window", "{=QYoigG3b}I understand. I'd take you prisoner too, if duty demanded. And I will soon, I hope.", null, null, 100, null);
 		}
 
-		// Token: 0x06000847 RID: 2119 RVA: 0x00047F10 File Offset: 0x00046110
 		private bool conversation_start_parley_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && PlayerEncounter.Current != null && PlayerEncounter.InsideSettlement && Campaign.Current.IsMainPartyWaiting && PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.IsUnderSiege && Hero.OneToOneConversationHero.PartyBelongedTo != null)
@@ -1056,7 +1007,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000848 RID: 2120 RVA: 0x00047FB8 File Offset: 0x000461B8
 		private void lord_considers_army_on_consequence()
 		{
 			MobileParty.MainParty.Ai.SetMoveEscortParty(Hero.OneToOneConversationHero.PartyBelongedTo);
@@ -1064,26 +1014,22 @@ namespace SandBox.CampaignBehaviors
 			MobileParty.MainParty.Army.AddPartyToMergedParties(MobileParty.MainParty);
 		}
 
-		// Token: 0x06000849 RID: 2121 RVA: 0x0004800B File Offset: 0x0004620B
 		private void lord_considers_joining_player_army_on_consequence()
 		{
 			Hero.OneToOneConversationHero.PartyBelongedTo.Army = MobileParty.MainParty.Army;
 			SetPartyAiAction.GetActionForEscortingParty(Hero.OneToOneConversationHero.PartyBelongedTo, MobileParty.MainParty);
 		}
 
-		// Token: 0x0600084A RID: 2122 RVA: 0x0004803A File Offset: 0x0004623A
 		private bool conversation_lord_recruit_reject_enough_politics_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x0600084B RID: 2123 RVA: 0x0004803D File Offset: 0x0004623D
 		private bool conversation_lord_refuses_to_discuss_not_fighting_on_condition()
 		{
 			return !HeroHelper.LordWillConspireWithLord(Hero.OneToOneConversationHero, Hero.MainHero, false);
 		}
 
-		// Token: 0x0600084C RID: 2124 RVA: 0x00048054 File Offset: 0x00046254
 		private bool conversation_lord_refuses_siege_lift_on_condition()
 		{
 			float totalStrengthWithFollowers = Hero.OneToOneConversationHero.PartyBelongedTo.GetTotalStrengthWithFollowers(true);
@@ -1110,39 +1056,33 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600084D RID: 2125 RVA: 0x000480FC File Offset: 0x000462FC
 		private bool conversation_lord_agrees_to_discussion_on_condition()
 		{
 			MBTextManager.SetTextVariable("STR_INTRIGUE_AGREEMENT", Campaign.Current.ConversationManager.FindMatchingTextOrNull("str_lord_intrigue_accept", Hero.OneToOneConversationHero.CharacterObject), false);
 			return true;
 		}
 
-		// Token: 0x0600084E RID: 2126 RVA: 0x00048128 File Offset: 0x00046328
 		private bool conversation_can_lord_barter()
 		{
 			return BarterManager.Instance.CanPlayerBarterWithHero(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x0600084F RID: 2127 RVA: 0x00048139 File Offset: 0x00046339
 		private void conversation_player_is_leaving_surrender_on_consequence()
 		{
 			PlayerEncounter.PlayerSurrender = true;
 			PlayerEncounter.Update();
 		}
 
-		// Token: 0x06000850 RID: 2128 RVA: 0x00048146 File Offset: 0x00046346
 		private bool conversation_uses_pay_for_passage_lines()
 		{
 			return !Hero.OneToOneConversationHero.MapFaction.IsMinorFaction;
 		}
 
-		// Token: 0x06000851 RID: 2129 RVA: 0x0004815A File Offset: 0x0004635A
 		private bool conversation_pay_minor_faction_for_passage()
 		{
 			return Hero.OneToOneConversationHero.MapFaction.IsMinorFaction;
 		}
 
-		// Token: 0x06000852 RID: 2130 RVA: 0x0004816C File Offset: 0x0004636C
 		private bool conversation_can_pay_minor_faction_for_payoff_set_text_on_condition()
 		{
 			MBTextManager.SetTextVariable("GOLD_AMOUNT", (int)((float)Hero.MainHero.Gold * 0.1f + 200f));
@@ -1168,14 +1108,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000853 RID: 2131 RVA: 0x00048266 File Offset: 0x00046466
 		private bool conversation_escape_lord_by_gold_can_be_paid_on_condition()
 		{
 			this._goldAmount = (int)((float)Hero.MainHero.Gold * 0.12f + 250f);
 			return this._goldAmount <= Hero.MainHero.Gold;
 		}
 
-		// Token: 0x06000854 RID: 2132 RVA: 0x0004829C File Offset: 0x0004649C
 		private void conversation_escape_lord_by_gold_can_be_paid_on_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
@@ -1227,7 +1165,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000855 RID: 2133 RVA: 0x00048484 File Offset: 0x00046684
 		private bool conversation_minor_faction_makes_surrender_demand_on_condition()
 		{
 			if (HeroHelper.WillLordAttack() && Hero.OneToOneConversationHero.IsMinorFactionHero && (Hero.OneToOneConversationHero.Clan.IsNomad || Hero.OneToOneConversationHero.Clan.IsMafia || Hero.OneToOneConversationHero.Clan.IsSect))
@@ -1242,7 +1179,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000856 RID: 2134 RVA: 0x0004850B File Offset: 0x0004670B
 		private bool conversation_lord_makes_surrender_demand_on_condition()
 		{
 			if (HeroHelper.WillLordAttack())
@@ -1253,7 +1189,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000857 RID: 2135 RVA: 0x0004853C File Offset: 0x0004673C
 		private bool conversationUseMeetingDialogs()
 		{
 			if (Hero.OneToOneConversationHero != null)
@@ -1291,7 +1226,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000858 RID: 2136 RVA: 0x00048608 File Offset: 0x00046808
 		private void conversations_automeet_close_relatives()
 		{
 			if (Hero.OneToOneConversationHero.Spouse == Hero.MainHero || Hero.OneToOneConversationHero.Siblings.Contains(Hero.MainHero) || Hero.OneToOneConversationHero.Children.Contains(Hero.MainHero) || Hero.MainHero.Children.Contains(Hero.OneToOneConversationHero))
@@ -1301,7 +1235,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000859 RID: 2137 RVA: 0x0004868C File Offset: 0x0004688C
 		private void conversations_set_voiced_line()
 		{
 			StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, null, false);
@@ -1310,13 +1243,11 @@ namespace SandBox.CampaignBehaviors
 			MBTextManager.SetTextVariable("VOICED_LINE", textObject ?? TextObject.Empty, false);
 		}
 
-		// Token: 0x0600085A RID: 2138 RVA: 0x00048708 File Offset: 0x00046908
 		private bool conversation_attacking_lord_set_meeting_meet_on_condition()
 		{
 			return this.conversation_lord_attacking_on_condition() && this.conversationUseMeetingDialogs();
 		}
 
-		// Token: 0x0600085B RID: 2139 RVA: 0x0004871C File Offset: 0x0004691C
 		private bool conversation_lord_attacking_on_condition()
 		{
 			if (Hero.OneToOneConversationHero == null)
@@ -1335,25 +1266,21 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600085C RID: 2140 RVA: 0x0004876A File Offset: 0x0004696A
 		private bool conversation_wanderer_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter != null && CharacterObject.OneToOneConversationCharacter.IsHero && CharacterObject.OneToOneConversationCharacter.Occupation == 16 && CharacterObject.OneToOneConversationCharacter.HeroObject.HeroState != 3;
 		}
 
-		// Token: 0x0600085D RID: 2141 RVA: 0x000487A4 File Offset: 0x000469A4
 		private bool conversation_wanderer_meet_on_condition()
 		{
 			return this.conversation_wanderer_on_condition() && this.conversationUseMeetingDialogs();
 		}
 
-		// Token: 0x0600085E RID: 2142 RVA: 0x000487B8 File Offset: 0x000469B8
 		private bool conversation_player_let_prisoner_go_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.IsPrisoner && Campaign.Current.CurrentConversationContext != 1 && Campaign.Current.CurrentConversationContext != 2 && ((Hero.OneToOneConversationHero.PartyBelongedToAsPrisoner != null && Hero.OneToOneConversationHero.PartyBelongedToAsPrisoner.Owner.Clan == Clan.PlayerClan) || (Hero.OneToOneConversationHero.CurrentSettlement != null && Hero.OneToOneConversationHero.CurrentSettlement.OwnerClan == Clan.PlayerClan));
 		}
 
-		// Token: 0x0600085F RID: 2143 RVA: 0x00048841 File Offset: 0x00046A41
 		private void conversation_player_let_prisoner_go_on_consequence()
 		{
 			EndCaptivityAction.ApplyByReleasedByChoice(Hero.OneToOneConversationHero, Hero.MainHero);
@@ -1363,19 +1290,16 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000860 RID: 2144 RVA: 0x0004885F File Offset: 0x00046A5F
 		private bool conversation_unmet_lord_main_party_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.PartyBelongedTo == MobileParty.MainParty && !Hero.OneToOneConversationHero.HasMet && this.conversationUseMeetingDialogs();
 		}
 
-		// Token: 0x06000861 RID: 2145 RVA: 0x0004888D File Offset: 0x00046A8D
 		private bool conversation_lord_meet_on_condition()
 		{
 			return !HeroHelper.WillLordAttack() && this.conversationUseMeetingDialogs();
 		}
 
-		// Token: 0x06000862 RID: 2146 RVA: 0x000488A0 File Offset: 0x00046AA0
 		private bool conversation_siege_parley_met_on_condition()
 		{
 			if ((this.PlayerIsBesieging() || this.PlayerIsBesieged()) && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction) && !Campaign.Current.ConversationManager.CurrentConversationIsFirst && Campaign.Current.CurrentConversationContext != 1 && Campaign.Current.CurrentConversationContext != 2)
@@ -1386,7 +1310,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000863 RID: 2147 RVA: 0x00048934 File Offset: 0x00046B34
 		private bool conversation_unmet_rebels_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.Clan.IsRebelClan && !Hero.OneToOneConversationHero.HasMet)
@@ -1397,7 +1320,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000864 RID: 2148 RVA: 0x00048984 File Offset: 0x00046B84
 		private bool conversation_siege_parley_unmet_on_condition()
 		{
 			if ((this.PlayerIsBesieging() || this.PlayerIsBesieged()) && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction) && Campaign.Current.ConversationManager.CurrentConversationIsFirst && Campaign.Current.CurrentConversationContext != 1 && Campaign.Current.CurrentConversationContext != 2)
@@ -1408,48 +1330,40 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000865 RID: 2149 RVA: 0x00048A15 File Offset: 0x00046C15
 		private bool conversation_lord_meet_in_player_party_player_on_condition()
 		{
 			return true;
 		}
 
-		// Token: 0x06000866 RID: 2150 RVA: 0x00048A18 File Offset: 0x00046C18
 		private bool conversation_lord_meet_player_as_liege_response_on_condition()
 		{
 			return HeroHelper.UnderPlayerCommand(Hero.OneToOneConversationHero) && this.UsesLordConversations(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000867 RID: 2151 RVA: 0x00048A33 File Offset: 0x00046C33
 		private bool conversation_lord_meet_player_response1_on_condition()
 		{
 			return !HeroHelper.UnderPlayerCommand(Hero.OneToOneConversationHero) && this.UsesLordConversations(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x06000868 RID: 2152 RVA: 0x00048A4E File Offset: 0x00046C4E
 		private void conversation_lord_meet_player_response_on_consequence()
 		{
 		}
 
-		// Token: 0x06000869 RID: 2153 RVA: 0x00048A50 File Offset: 0x00046C50
 		private bool conversation_lord_meet_player_response2_on_condition()
 		{
 			return !HeroHelper.UnderPlayerCommand(Hero.OneToOneConversationHero) && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction) && this.UsesLordConversations(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x0600086A RID: 2154 RVA: 0x00048A88 File Offset: 0x00046C88
 		private bool conversation_lord_meet_player_response3_on_condition()
 		{
 			return !HeroHelper.UnderPlayerCommand(Hero.OneToOneConversationHero) && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction) && this.UsesLordConversations(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x0600086B RID: 2155 RVA: 0x00048AC0 File Offset: 0x00046CC0
 		private bool conversation_lord_comment_instead_introduction_on_condition()
 		{
 			return true;
 		}
 
-		// Token: 0x0600086C RID: 2156 RVA: 0x00048AC4 File Offset: 0x00046CC4
 		private bool conversation_lord_introduction_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsLord && !Hero.OneToOneConversationHero.IsMinorFactionHero && !Hero.OneToOneConversationHero.IsRebel && Hero.OneToOneConversationHero.Clan.MapFaction.IsKingdomFaction && Hero.OneToOneConversationHero != null)
@@ -1521,7 +1435,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600086D RID: 2157 RVA: 0x00048DAC File Offset: 0x00046FAC
 		private bool conversation_rebel_introduction_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsRebel)
@@ -1535,7 +1448,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600086E RID: 2158 RVA: 0x00048E24 File Offset: 0x00047024
 		private bool conversation_minor_faction_introduction_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Campaign.Current.ConversationManager.CurrentConversationIsFirst && (Hero.OneToOneConversationHero.IsMinorFactionHero || !Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction))
@@ -1584,43 +1496,36 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600086F RID: 2159 RVA: 0x00048FF4 File Offset: 0x000471F4
 		private bool conversation_magistrate_form_caravan_companion_condition()
 		{
 			return this.FindSuitableCompanionsToLeadCaravan().Count == 0;
 		}
 
-		// Token: 0x06000870 RID: 2160 RVA: 0x00049004 File Offset: 0x00047204
 		private bool conversation_magistrate_form_caravan_gold_condition()
 		{
 			return this.FindSuitableCompanionsToLeadCaravan().Count > 0 && Hero.MainHero.Gold < this.SmallCaravanFormingCost;
 		}
 
-		// Token: 0x06000871 RID: 2161 RVA: 0x00049028 File Offset: 0x00047228
 		private bool conversation_magistrate_form_a_big_caravan_gold_condition()
 		{
 			return Hero.MainHero.Gold < this.LargeCaravanFormingCost;
 		}
 
-		// Token: 0x06000872 RID: 2162 RVA: 0x0004903C File Offset: 0x0004723C
 		private bool conversation_magistrate_form_a_caravan_reject_on_condition()
 		{
 			return Hero.MainHero.Gold >= this.SmallCaravanFormingCost;
 		}
 
-		// Token: 0x06000873 RID: 2163 RVA: 0x00049053 File Offset: 0x00047253
 		private bool conversation_magistrate_form_a_big_caravan_reject_on_condition()
 		{
 			return Hero.MainHero.Gold >= this.LargeCaravanFormingCost;
 		}
 
-		// Token: 0x06000874 RID: 2164 RVA: 0x0004906A File Offset: 0x0004726A
 		private void conversation_magistrate_form_a_caravan_accepted_on_consequence()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(this.FindSuitableCompanionsToLeadCaravan(), 5);
 		}
 
-		// Token: 0x06000875 RID: 2165 RVA: 0x00049078 File Offset: 0x00047278
 		private bool conversation_magistrate_form_a_caravan_accepted_choose_leader_on_condition()
 		{
 			CharacterObject characterObject = ConversationSentence.CurrentProcessedRepeatObject as CharacterObject;
@@ -1633,13 +1538,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000876 RID: 2166 RVA: 0x000490A8 File Offset: 0x000472A8
 		private bool conversation_caravan_build_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && (Hero.OneToOneConversationHero.IsMerchant || Hero.OneToOneConversationHero.IsArtisan);
 		}
 
-		// Token: 0x06000877 RID: 2167 RVA: 0x000490CB File Offset: 0x000472CB
 		private bool conversation_caravan_build_clickable_condition(out TextObject explanation)
 		{
 			if (Campaign.Current.IsMainHeroDisguised)
@@ -1651,7 +1554,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000878 RID: 2168 RVA: 0x000490EC File Offset: 0x000472EC
 		private bool conversation_magistrate_form_a_caravan_cost_on_condition()
 		{
 			MBTextManager.SetTextVariable("AMOUNT", this.SmallCaravanFormingCost);
@@ -1659,7 +1561,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000879 RID: 2169 RVA: 0x0004910C File Offset: 0x0004730C
 		private List<CharacterObject> FindSuitableCompanionsToLeadCaravan()
 		{
 			List<CharacterObject> list = new List<CharacterObject>();
@@ -1674,7 +1575,6 @@ namespace SandBox.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x0600087A RID: 2170 RVA: 0x000491A8 File Offset: 0x000473A8
 		private void FadeOutSelectedCaravanCompanionInMission(CharacterObject caravanLeader)
 		{
 			Agent agent = null;
@@ -1695,7 +1595,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600087B RID: 2171 RVA: 0x00049230 File Offset: 0x00047430
 		private bool conversation_magistrate_form_a_small_caravan_accept_on_condition()
 		{
 			MBTextManager.SetTextVariable("AMOUNT", this.SmallCaravanFormingCost);
@@ -1703,14 +1602,12 @@ namespace SandBox.CampaignBehaviors
 			return this.FindSuitableCompanionsToLeadCaravan().Count > 0 && Hero.MainHero.Gold >= this.SmallCaravanFormingCost;
 		}
 
-		// Token: 0x0600087C RID: 2172 RVA: 0x0004927E File Offset: 0x0004747E
 		private bool conversation_magistrate_form_a_big_caravan_offer_condition()
 		{
 			MBTextManager.SetTextVariable("AMOUNT", this.LargeCaravanFormingCost);
 			return true;
 		}
 
-		// Token: 0x0600087D RID: 2173 RVA: 0x00049294 File Offset: 0x00047494
 		private bool conversation_magistrate_form_a_big_caravan_accept_on_condition()
 		{
 			MBTextManager.SetTextVariable("AMOUNT", this.LargeCaravanFormingCost);
@@ -1718,21 +1615,18 @@ namespace SandBox.CampaignBehaviors
 			return this.FindSuitableCompanionsToLeadCaravan().Count > 0 && Hero.MainHero.Gold >= this.LargeCaravanFormingCost;
 		}
 
-		// Token: 0x0600087E RID: 2174 RVA: 0x000492E2 File Offset: 0x000474E2
 		private void conversation_magistrate_form_a_small_caravan_accept_on_consequence()
 		{
 			this._selectedCaravanType = 0;
 			this.conversation_magistrate_form_a_caravan_accepted_on_consequence();
 		}
 
-		// Token: 0x0600087F RID: 2175 RVA: 0x000492F1 File Offset: 0x000474F1
 		private void conversation_magistrate_form_a_big_caravan_accept_on_consequence()
 		{
 			this._selectedCaravanType = 1;
 			this.conversation_magistrate_form_a_caravan_accepted_on_consequence();
 		}
 
-		// Token: 0x06000880 RID: 2176 RVA: 0x00049300 File Offset: 0x00047500
 		private void conversation_magistrate_form_a_caravan_accept_on_consequence()
 		{
 			CharacterObject characterObject = ConversationSentence.SelectedRepeatObject as CharacterObject;
@@ -1746,7 +1640,6 @@ namespace SandBox.CampaignBehaviors
 			InformationManager.DisplayMessage(new InformationMessage(textObject.ToString()));
 		}
 
-		// Token: 0x06000881 RID: 2177 RVA: 0x000493C0 File Offset: 0x000475C0
 		private bool conversation_merchant_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsMerchant)
@@ -1799,7 +1692,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000882 RID: 2178 RVA: 0x00049598 File Offset: 0x00047798
 		private bool conversation_minor_faction_preacher_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsPreacher && Hero.OneToOneConversationHero.Clan != null && Hero.OneToOneConversationHero.Clan.IsMinorFaction)
@@ -1811,7 +1703,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000883 RID: 2179 RVA: 0x000495FC File Offset: 0x000477FC
 		private bool conversation_puritan_preacher_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsPreacher && Hero.OneToOneConversationHero.CharacterObject.GetTraitLevel(DefaultTraits.Generosity) <= -1)
@@ -1823,7 +1714,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000884 RID: 2180 RVA: 0x00049658 File Offset: 0x00047858
 		private bool conversation_messianic_preacher_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsPreacher && Hero.OneToOneConversationHero.CharacterObject.GetTraitLevel(DefaultTraits.Generosity) >= 1 && Hero.OneToOneConversationHero.Culture.StringId == "khuzait")
@@ -1835,7 +1725,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000885 RID: 2181 RVA: 0x000496D0 File Offset: 0x000478D0
 		private void SetPreacherTextVariables()
 		{
 			if (Hero.OneToOneConversationHero.Culture.StringId == "khuzait")
@@ -1856,7 +1745,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000886 RID: 2182 RVA: 0x000497A2 File Offset: 0x000479A2
 		private bool conversation_mystic_preacher_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsPreacher)
@@ -1868,7 +1756,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000887 RID: 2183 RVA: 0x000497DC File Offset: 0x000479DC
 		private bool conversation_special_notable_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsSpecial)
@@ -1879,7 +1766,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000888 RID: 2184 RVA: 0x00049810 File Offset: 0x00047A10
 		private bool conversation_calculating_gangleader_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsGangLeader && Hero.OneToOneConversationHero.CharacterObject.GetTraitLevel(DefaultTraits.Calculating) == 1)
@@ -1890,7 +1776,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000889 RID: 2185 RVA: 0x0004986C File Offset: 0x00047A6C
 		private bool conversation_ironic_gangleader_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsGangLeader && Hero.OneToOneConversationHero.CharacterObject.GetPersona() == DefaultTraits.PersonaIronic)
@@ -1901,7 +1786,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088A RID: 2186 RVA: 0x000498C8 File Offset: 0x00047AC8
 		private bool conversation_cruel_gangleader_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsGangLeader && Hero.OneToOneConversationHero.GetTraitLevel(DefaultTraits.Mercy) < 0)
@@ -1912,7 +1796,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088B RID: 2187 RVA: 0x0004991E File Offset: 0x00047B1E
 		private bool conversation_default_gangleader_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsGangLeader)
@@ -1923,7 +1806,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088C RID: 2188 RVA: 0x00049958 File Offset: 0x00047B58
 		private bool conversation_artisan_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsArtisan)
@@ -1935,7 +1817,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088D RID: 2189 RVA: 0x000499B4 File Offset: 0x00047BB4
 		private bool conversation_headman_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsHeadman)
@@ -1947,7 +1828,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088E RID: 2190 RVA: 0x00049A0D File Offset: 0x00047C0D
 		private bool conversation_rural_notable_introduction_on_condition()
 		{
 			if (Campaign.Current.ConversationManager.CurrentConversationIsFirst && Hero.OneToOneConversationHero.IsRuralNotable)
@@ -1958,7 +1838,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600088F RID: 2191 RVA: 0x00049A48 File Offset: 0x00047C48
 		private bool conversation_wanderer_preintroduction_on_condition()
 		{
 			string stringId = Hero.OneToOneConversationHero.Template.StringId;
@@ -1980,7 +1859,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000890 RID: 2192 RVA: 0x00049AF0 File Offset: 0x00047CF0
 		private bool conversation_wanderer_introduction_on_condition()
 		{
 			if (this.conversation_wanderer_on_condition())
@@ -2013,13 +1891,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000891 RID: 2193 RVA: 0x00049C8B File Offset: 0x00047E8B
 		private bool conversation_wanderer_player_owned_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter != null && CharacterObject.OneToOneConversationCharacter.IsHero && Hero.OneToOneConversationHero.CompanionOf != null && Hero.OneToOneConversationHero.IsPlayerCompanion;
 		}
 
-		// Token: 0x06000892 RID: 2194 RVA: 0x00049CB8 File Offset: 0x00047EB8
 		private bool conversation_wanderer_job_status_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.CompanionOf != null)
@@ -2030,7 +1906,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000893 RID: 2195 RVA: 0x00049CE4 File Offset: 0x00047EE4
 		private bool conversation_wanderer_set_job_line_on_condition()
 		{
 			MBTextManager.SetTextVariable("WANDERER_JOB_OFFER", "{=BQjAAo9f}Right now I'm looking for work, if you have anything to offer.", false);
@@ -2049,7 +1924,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000894 RID: 2196 RVA: 0x00049D73 File Offset: 0x00047F73
 		public bool conversation_wanderer_generic_introduction_on_condition()
 		{
 			if (this.conversation_wanderer_on_condition())
@@ -2060,19 +1934,16 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000895 RID: 2197 RVA: 0x00049D97 File Offset: 0x00047F97
 		private bool conversation_wanderer_meet_player_on_condition()
 		{
 			return this.conversation_wanderer_on_condition();
 		}
 
-		// Token: 0x06000896 RID: 2198 RVA: 0x00049DA4 File Offset: 0x00047FA4
 		private bool conversation_lord_makes_preattack_comment_on_condition()
 		{
 			return HeroHelper.WillLordAttack() && this.conversation_lord_makes_comment_on_condition();
 		}
 
-		// Token: 0x06000897 RID: 2199 RVA: 0x00049DB8 File Offset: 0x00047FB8
 		private bool conversation_lord_makes_comment_on_condition()
 		{
 			if (this.lord_comments())
@@ -2095,7 +1966,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000898 RID: 2200 RVA: 0x00049E88 File Offset: 0x00048088
 		private bool conversation_lord_greets_under_24_hours_on_condition()
 		{
 			if (Campaign.Current.CurrentConversationContext == 2 || Campaign.Current.CurrentConversationContext == 1)
@@ -2112,7 +1982,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000899 RID: 2201 RVA: 0x00049F14 File Offset: 0x00048114
 		private bool conversation_lord_greets_over_24_hours_on_condition()
 		{
 			if (Campaign.Current.CurrentConversationContext == 2 || Campaign.Current.CurrentConversationContext == 1)
@@ -2131,32 +2000,27 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600089A RID: 2202 RVA: 0x00049F8D File Offset: 0x0004818D
 		private bool debug_mode_enabled_condition()
 		{
 			return Game.Current.IsDevelopmentMode;
 		}
 
-		// Token: 0x0600089B RID: 2203 RVA: 0x00049FA0 File Offset: 0x000481A0
 		private bool conversation_lord_news_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.HeroObject != null && (Hero.OneToOneConversationHero.MapFaction == Hero.MainHero.MapFaction || !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction));
 		}
 
-		// Token: 0x0600089C RID: 2204 RVA: 0x00049FEF File Offset: 0x000481EF
 		public bool conversation_lord_answers_war_question_about_faction_on_condition()
 		{
 			MBTextManager.SetTextVariable("FACTION_NAME", this._askedFaction.Name, false);
 			return true;
 		}
 
-		// Token: 0x0600089D RID: 2205 RVA: 0x0004A008 File Offset: 0x00048208
 		public void conversation_lord_answers_the_war_question_on_consequence()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(Kingdom.All, 5);
 		}
 
-		// Token: 0x0600089E RID: 2206 RVA: 0x0004A018 File Offset: 0x00048218
 		public bool conversation_lord_talk_ask_about_war_2_on_condition()
 		{
 			Clan clan = ConversationSentence.CurrentProcessedRepeatObject as Clan;
@@ -2168,13 +2032,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600089F RID: 2207 RVA: 0x0004A063 File Offset: 0x00048263
 		public void conversation_lord_talk_ask_about_war_2_on_consequence()
 		{
 			this._askedFaction = ConversationSentence.CurrentProcessedRepeatObject as Clan;
 		}
 
-		// Token: 0x060008A0 RID: 2208 RVA: 0x0004A078 File Offset: 0x00048278
 		private bool conversation_hero_main_options_have_issue_on_condition()
 		{
 			if (Hero.OneToOneConversationHero == null || (Hero.OneToOneConversationHero.IsPrisoner && (Hero.OneToOneConversationHero.PartyBelongedToAsPrisoner == PartyBase.MainParty || (Hero.OneToOneConversationHero.CurrentSettlement != null && Hero.OneToOneConversationHero.CurrentSettlement.OwnerClan == Clan.PlayerClan))))
@@ -2185,7 +2047,6 @@ namespace SandBox.CampaignBehaviors
 			return Hero.OneToOneConversationHero != null && issue != null && issue.IsOngoingWithoutQuest;
 		}
 
-		// Token: 0x060008A1 RID: 2209 RVA: 0x0004A0EC File Offset: 0x000482EC
 		private bool conversation_hero_main_options_have_issue_on_clickable_condition(out TextObject hint)
 		{
 			Hero hero = Hero.OneToOneConversationHero;
@@ -2204,7 +2065,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008A2 RID: 2210 RVA: 0x0004A168 File Offset: 0x00048368
 		private bool conversation_lord_task_given_on_condition()
 		{
 			if (Campaign.Current.QuestManager.IsQuestGiver(Hero.OneToOneConversationHero))
@@ -2221,7 +2081,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008A3 RID: 2211 RVA: 0x0004A1E8 File Offset: 0x000483E8
 		private bool conversation_lord_task_given_alternative_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
@@ -2240,13 +2099,11 @@ namespace SandBox.CampaignBehaviors
 			return flag && Hero.OneToOneConversationHero.Issue.IsThereDiscussDialogFlow;
 		}
 
-		// Token: 0x060008A4 RID: 2212 RVA: 0x0004A247 File Offset: 0x00048447
 		private bool conversation_hero_hire_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && !Hero.OneToOneConversationHero.IsPlayerCompanion && this.conversation_wanderer_on_condition() && Hero.OneToOneConversationHero.PartyBelongedTo == null;
 		}
 
-		// Token: 0x060008A5 RID: 2213 RVA: 0x0004A274 File Offset: 0x00048474
 		private bool conversation_companion_hire_gold_on_condition()
 		{
 			MBTextManager.SetTextVariable("GOLD_AMOUNT", Campaign.Current.Models.CompanionHiringPriceCalculationModel.GetCompanionHiringPrice(Hero.OneToOneConversationHero));
@@ -2278,7 +2135,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008A6 RID: 2214 RVA: 0x0004A414 File Offset: 0x00048614
 		private bool conversation_companion_hire_on_condition()
 		{
 			GameTexts.SetVariable("STR1", Campaign.Current.Models.CompanionHiringPriceCalculationModel.GetCompanionHiringPrice(Hero.OneToOneConversationHero));
@@ -2287,7 +2143,6 @@ namespace SandBox.CampaignBehaviors
 			return Hero.MainHero.Gold > Campaign.Current.Models.CompanionHiringPriceCalculationModel.GetCompanionHiringPrice(Hero.OneToOneConversationHero) && !this.too_many_companions();
 		}
 
-		// Token: 0x060008A7 RID: 2215 RVA: 0x0004A49C File Offset: 0x0004869C
 		private void conversation_companion_hire_on_consequence()
 		{
 			GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, Hero.OneToOneConversationHero, Campaign.Current.Models.CompanionHiringPriceCalculationModel.GetCompanionHiringPrice(Hero.OneToOneConversationHero), false);
@@ -2295,25 +2150,21 @@ namespace SandBox.CampaignBehaviors
 			AddHeroToPartyAction.Apply(Hero.OneToOneConversationHero, MobileParty.MainParty, true);
 		}
 
-		// Token: 0x060008A8 RID: 2216 RVA: 0x0004A4F4 File Offset: 0x000486F4
 		private bool conversation_lord_barter_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.IsLord && !Hero.OneToOneConversationHero.IsPrisoner && !Hero.OneToOneConversationHero.MapFaction.IsMinorFaction && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction);
 		}
 
-		// Token: 0x060008A9 RID: 2217 RVA: 0x0004A550 File Offset: 0x00048750
 		private bool conversation_lord_join_army_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.PartyBelongedTo != null && Hero.OneToOneConversationHero.PartyBelongedTo.Army != null && Hero.OneToOneConversationHero.Clan != Hero.MainHero.Clan && MobileParty.MainParty.Army == null && Hero.OneToOneConversationHero.PartyBelongedTo.Army != MobileParty.MainParty.Army && Hero.OneToOneConversationHero.MapFaction == Hero.MainHero.MapFaction && Hero.OneToOneConversationHero.PartyBelongedTo.Army.LeaderParty == Hero.OneToOneConversationHero.PartyBelongedTo;
 		}
 
-		// Token: 0x060008AA RID: 2218 RVA: 0x0004A5FC File Offset: 0x000487FC
 		private bool conversation_player_can_ask_to_be_let_go_on_condition()
 		{
 			return HeroHelper.WillLordAttack();
 		}
 
-		// Token: 0x060008AB RID: 2219 RVA: 0x0004A608 File Offset: 0x00048808
 		private bool conversation_lord_join_army_on_clickable_condition(out TextObject hint)
 		{
 			foreach (Kingdom kingdom in Kingdom.All)
@@ -2328,25 +2179,21 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008AC RID: 2220 RVA: 0x0004A690 File Offset: 0x00048890
 		private bool conversation_player_can_ask_for_siege_to_be_lifted_on_condition()
 		{
 			return this.PlayerIsBesieged() && !Hero.OneToOneConversationHero.MapFaction.IsMinorFaction;
 		}
 
-		// Token: 0x060008AD RID: 2221 RVA: 0x0004A6AE File Offset: 0x000488AE
 		private bool conversation_player_can_bribe_lord_for_passage_on_condition()
 		{
 			return !this.PlayerIsBesieged() && HeroHelper.WillLordAttack() && !Hero.OneToOneConversationHero.MapFaction.IsMinorFaction;
 		}
 
-		// Token: 0x060008AE RID: 2222 RVA: 0x0004A6D3 File Offset: 0x000488D3
 		private bool conversation_player_can_ask_for_honors_of_war_on_condition()
 		{
 			return this.PlayerIsBesieged();
 		}
 
-		// Token: 0x060008AF RID: 2223 RVA: 0x0004A6E0 File Offset: 0x000488E0
 		private void conversation_set_up_generic_barter_on_consequence()
 		{
 			BarterManager instance = BarterManager.Instance;
@@ -2357,7 +2204,6 @@ namespace SandBox.CampaignBehaviors
 			instance.StartBarterOffer(mainHero, oneToOneConversationHero, mainParty, (partyBelongedTo != null) ? partyBelongedTo.Party : null, null, null, 0, false, null);
 		}
 
-		// Token: 0x060008B0 RID: 2224 RVA: 0x0004A724 File Offset: 0x00048924
 		private void conversation_set_up_safe_passage_barter_on_consequence()
 		{
 			BarterManager instance = BarterManager.Instance;
@@ -2385,42 +2231,35 @@ namespace SandBox.CampaignBehaviors
 			instance.StartBarterOffer(mainHero, oneToOneConversationHero, mainParty, partyBase, hero, barterContextInitializer, num, flag, array);
 		}
 
-		// Token: 0x060008B1 RID: 2225 RVA: 0x0004A7CE File Offset: 0x000489CE
 		private bool conversation_barter_successful_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060008B2 RID: 2226 RVA: 0x0004A7DF File Offset: 0x000489DF
 		public bool conversation_lord_active_mission_response_cont_on_condition()
 		{
 			return true;
 		}
 
-		// Token: 0x060008B3 RID: 2227 RVA: 0x0004A7E2 File Offset: 0x000489E2
 		public bool conversation_mission_in_progress_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x060008B4 RID: 2228 RVA: 0x0004A7E5 File Offset: 0x000489E5
 		public bool conversation_lord_active_mission_response_failed_on_condition()
 		{
 			return true;
 		}
 
-		// Token: 0x060008B5 RID: 2229 RVA: 0x0004A7E8 File Offset: 0x000489E8
 		public void conversation_lord_active_mission_response_failed_on_consequence()
 		{
 		}
 
-		// Token: 0x060008B6 RID: 2230 RVA: 0x0004A7EC File Offset: 0x000489EC
 		public bool conversation_lord_is_threated_neutral_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.IsHero && Campaign.Current.CurrentConversationContext == 3 && Settlement.CurrentSettlement == null && CharacterObject.OneToOneConversationCharacter.IsHero && !CharacterObject.OneToOneConversationCharacter.HeroObject.IsPlayerCompanion && FactionManager.IsNeutralWithFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x060008B7 RID: 2231 RVA: 0x0004A854 File Offset: 0x00048A54
 		private bool conversation_player_can_attack_hero_on_clickable_condition(out TextObject hint)
 		{
 			MobileParty encounteredMobileParty = PlayerEncounter.EncounteredMobileParty;
@@ -2432,19 +2271,16 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008B8 RID: 2232 RVA: 0x0004A88C File Offset: 0x00048A8C
 		public bool conversation_player_can_attack_hero_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Campaign.Current.CurrentConversationContext == 3 && (FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && PlayerEncounter.EncounteredMobileParty != null) && PlayerEncounter.EncounteredMobileParty.LeaderHero == Hero.OneToOneConversationHero;
 		}
 
-		// Token: 0x060008B9 RID: 2233 RVA: 0x0004A8E4 File Offset: 0x00048AE4
 		public bool barter_peace_offer_reject_on_condition()
 		{
 			return !Campaign.Current.BarterManager.LastBarterIsAccepted && PlayerEncounter.EncounteredMobileParty != null && FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, PlayerEncounter.EncounteredMobileParty.MapFaction) && PlayerEncounter.PlayerIsDefender;
 		}
 
-		// Token: 0x060008BA RID: 2234 RVA: 0x0004A920 File Offset: 0x00048B20
 		public bool barter_offer_reject_on_condition()
 		{
 			if (!Campaign.Current.BarterManager.LastBarterIsAccepted && !this.conversation_player_can_attack_hero_on_condition())
@@ -2457,25 +2293,21 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008BB RID: 2235 RVA: 0x0004A984 File Offset: 0x00048B84
 		public bool barter_offer_accept_peace_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060008BC RID: 2236 RVA: 0x0004A99A File Offset: 0x00048B9A
 		public bool barter_offer_accept_let_go_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060008BD RID: 2237 RVA: 0x0004A9B0 File Offset: 0x00048BB0
 		public bool barter_offer_accept_on_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060008BE RID: 2238 RVA: 0x0004A9C4 File Offset: 0x00048BC4
 		public bool conversation_player_is_leaving_faction_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.IsHero && Hero.OneToOneConversationHero.MapFaction != null && MobileParty.MainParty.Army == null && !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && Hero.OneToOneConversationHero.MapFaction.Leader == Hero.OneToOneConversationHero && Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction)
@@ -2487,13 +2319,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008BF RID: 2239 RVA: 0x0004AA78 File Offset: 0x00048C78
 		public bool conversation_player_is_offering_mercenary_on_condition()
 		{
 			return !Hero.MainHero.MapFaction.IsKingdomFaction && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.Clan != null && !Hero.OneToOneConversationHero.Clan.IsUnderMercenaryService;
 		}
 
-		// Token: 0x060008C0 RID: 2240 RVA: 0x0004AAB4 File Offset: 0x00048CB4
 		public bool conversation_player_is_offering_mercenary_on_clickable_condition(out TextObject hintText)
 		{
 			List<IFaction> list;
@@ -2531,7 +2361,6 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060008C1 RID: 2241 RVA: 0x0004AC25 File Offset: 0x00048E25
 		public bool conversation_player_is_offering_vassalage_on_condition()
 		{
 			if ((!Hero.MainHero.MapFaction.IsKingdomFaction || Clan.PlayerClan.IsUnderMercenaryService) && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.Clan != null)
@@ -2542,7 +2371,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008C2 RID: 2242 RVA: 0x0004AC64 File Offset: 0x00048E64
 		public bool conversation_player_is_offering_vassalage_on_clickable_condition(out TextObject hintText)
 		{
 			List<IFaction> list;
@@ -2580,7 +2408,6 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060008C3 RID: 2243 RVA: 0x0004ADDC File Offset: 0x00048FDC
 		public bool conversation_player_is_offering_vassalage_while_at_mercenary_service_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.Clan != null && !Hero.OneToOneConversationHero.IsPrisoner && Clan.PlayerClan.Tier >= Campaign.Current.Models.ClanTierModel.VassalEligibleTier && Hero.OneToOneConversationHero.Clan != Clan.PlayerClan && !Hero.OneToOneConversationHero.Clan.IsUnderMercenaryService && Hero.MainHero.Clan.IsUnderMercenaryService && Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction && Hero.OneToOneConversationHero.GetRelationWithPlayer() >= (float)Campaign.Current.Models.DiplomacyModel.MinimumRelationWithConversationCharacterToJoinKingdom)
@@ -2591,7 +2418,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008C4 RID: 2244 RVA: 0x0004AEA0 File Offset: 0x000490A0
 		private bool conversation_reject_vassalage_on_condition()
 		{
 			CultureObject culture = Hero.OneToOneConversationHero.Culture;
@@ -2610,13 +2436,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008C5 RID: 2245 RVA: 0x0004AF3E File Offset: 0x0004913E
 		public bool conversation_player_is_asking_service_while_in_faction_on_condition()
 		{
 			return Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.MapFaction != Hero.OneToOneConversationHero.MapFaction && !Clan.PlayerClan.IsUnderMercenaryService;
 		}
 
-		// Token: 0x060008C6 RID: 2246 RVA: 0x0004AF78 File Offset: 0x00049178
 		public bool conversation_player_is_offering_vassalage_to_lord_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.MapFaction.Leader != Hero.OneToOneConversationHero)
@@ -2636,7 +2460,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008C7 RID: 2247 RVA: 0x0004B024 File Offset: 0x00049224
 		public bool lord_ask_enter_service_vassalage_talking_with_king_on_condition()
 		{
 			float num = (Hero.MainHero.IsFriend(Hero.OneToOneConversationHero) ? 3f : (Hero.MainHero.IsEnemy(Hero.OneToOneConversationHero) ? 9f : 6f));
@@ -2648,20 +2471,17 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008C8 RID: 2248 RVA: 0x0004B0A0 File Offset: 0x000492A0
 		public bool conversation_lord_ask_recruit_mercenary_response_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x060008C9 RID: 2249 RVA: 0x0004B0A4 File Offset: 0x000492A4
 		public bool conversation_player_want_to_fire_mercenary_on_condition()
 		{
 			MBTextManager.SetTextVariable("FACTION_NAME", Clan.PlayerClan.Name, false);
 			return Hero.MainHero.MapFaction != null && !Hero.OneToOneConversationHero.IsPrisoner && Hero.MainHero.MapFaction.IsKingdomFaction && ((Kingdom)Hero.MainHero.MapFaction).Leader == Hero.MainHero && Hero.OneToOneConversationHero.IsMinorFactionHero && Hero.OneToOneConversationHero.MapFaction == MobileParty.MainParty.MapFaction;
 		}
 
-		// Token: 0x060008CA RID: 2250 RVA: 0x0004B130 File Offset: 0x00049330
 		public bool conversation_player_want_to_hire_mercenary_on_condition()
 		{
 			MBTextManager.SetTextVariable("FACTION_NAME", Clan.PlayerClan.Name, false);
@@ -2695,20 +2515,17 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008CB RID: 2251 RVA: 0x0004B260 File Offset: 0x00049460
 		public bool conversation_player_want_to_fire_mercenary_there_is_debt_on_condition()
 		{
 			MBTextManager.SetTextVariable("GOLD_AMOUNT", (int)Hero.OneToOneConversationHero.Clan.Influence * Hero.OneToOneConversationHero.Clan.MercenaryAwardMultiplier);
 			return Hero.OneToOneConversationHero.Clan.Influence >= 1f;
 		}
 
-		// Token: 0x060008CC RID: 2252 RVA: 0x0004B2B0 File Offset: 0x000494B0
 		public bool conversation_player_want_to_fire_mercenary_no_debt_on_condition()
 		{
 			return Hero.OneToOneConversationHero.Clan.Influence < 1f;
 		}
 
-		// Token: 0x060008CD RID: 2253 RVA: 0x0004B2C8 File Offset: 0x000494C8
 		private void conversation_player_want_to_fire_mercenary_with_paying_debt_on_consequence()
 		{
 			int num = MathF.Max(0, (int)Hero.OneToOneConversationHero.Clan.Influence) * Hero.OneToOneConversationHero.Clan.MercenaryAwardMultiplier;
@@ -2716,7 +2533,6 @@ namespace SandBox.CampaignBehaviors
 			ChangeClanInfluenceAction.Apply(Hero.OneToOneConversationHero.Clan, -Hero.OneToOneConversationHero.Clan.Influence);
 		}
 
-		// Token: 0x060008CE RID: 2254 RVA: 0x0004B338 File Offset: 0x00049538
 		private void conversation_player_want_to_fire_mercenary_without_paying_debt_on_consequence()
 		{
 			int num = MathF.Max(0, (int)Hero.OneToOneConversationHero.Clan.Influence) * Hero.OneToOneConversationHero.Clan.MercenaryAwardMultiplier;
@@ -2725,27 +2541,23 @@ namespace SandBox.CampaignBehaviors
 			ChangeClanInfluenceAction.Apply(Hero.OneToOneConversationHero.Clan, -Hero.OneToOneConversationHero.Clan.Influence);
 		}
 
-		// Token: 0x060008CF RID: 2255 RVA: 0x0004B3C8 File Offset: 0x000495C8
 		private void conversation_player_want_to_fire_mercenary_on_consequence()
 		{
 			ChangeRelationAction.ApplyPlayerRelation(Hero.OneToOneConversationHero.Clan.Leader, -2, true, true);
 			ChangeKingdomAction.ApplyByLeaveKingdomAsMercenary(Hero.OneToOneConversationHero.Clan, true);
 		}
 
-		// Token: 0x060008D0 RID: 2256 RVA: 0x0004B3F4 File Offset: 0x000495F4
 		public bool conversation_player_want_to_fire_mercenary_with_paying_debt_on_condition()
 		{
 			int num = MathF.Max(0, (int)Hero.OneToOneConversationHero.Clan.Influence) * Hero.OneToOneConversationHero.Clan.MercenaryAwardMultiplier;
 			return Hero.MainHero.Gold >= num;
 		}
 
-		// Token: 0x060008D1 RID: 2257 RVA: 0x0004B438 File Offset: 0x00049638
 		public bool conversation_mercenary_response_on_condition_reject()
 		{
 			return Hero.OneToOneConversationHero.Clan.Leader.GetRelation(Hero.MainHero) <= -10;
 		}
 
-		// Token: 0x060008D2 RID: 2258 RVA: 0x0004B45C File Offset: 0x0004965C
 		public bool conversation_mercenary_response_on_condition_reject_because_of_financial_reasons()
 		{
 			int gold = Hero.MainHero.Gold;
@@ -2754,14 +2566,12 @@ namespace SandBox.CampaignBehaviors
 			return gold < 20 * mercenaryAwardFactorToJoinKingdom || debtToKingdom > 1000;
 		}
 
-		// Token: 0x060008D3 RID: 2259 RVA: 0x0004B4BD File Offset: 0x000496BD
 		public bool conversation_mercenary_response_not_leader_on_condition()
 		{
 			StringHelpers.SetCharacterProperties("LEADER", Hero.OneToOneConversationHero.Clan.Leader.CharacterObject, null, false);
 			return Hero.OneToOneConversationHero.Clan.Leader != Hero.OneToOneConversationHero;
 		}
 
-		// Token: 0x060008D4 RID: 2260 RVA: 0x0004B4FC File Offset: 0x000496FC
 		public bool conversation_mercenary_response_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.Clan.Leader != Hero.OneToOneConversationHero)
@@ -2778,7 +2588,6 @@ namespace SandBox.CampaignBehaviors
 			return Hero.OneToOneConversationHero.Clan.Leader.GetRelation(Hero.MainHero) > -10;
 		}
 
-		// Token: 0x060008D5 RID: 2261 RVA: 0x0004B594 File Offset: 0x00049794
 		private bool conversation_mercenary_response_accept_reject_on_clickable_condition(out TextObject explanation)
 		{
 			int mercenaryAwardFactorToJoinKingdom = Campaign.Current.Models.MinorFactionsModel.GetMercenaryAwardFactorToJoinKingdom(Hero.OneToOneConversationHero.Clan, (Kingdom)Hero.MainHero.MapFaction, true);
@@ -2788,7 +2597,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008D6 RID: 2262 RVA: 0x0004B600 File Offset: 0x00049800
 		private void conversation_mercenary_response_accept_on_consqequence()
 		{
 			int num = Campaign.Current.Models.MinorFactionsModel.GetMercenaryAwardFactorToJoinKingdom(Hero.OneToOneConversationHero.Clan, (Kingdom)Hero.MainHero.MapFaction, true);
@@ -2808,7 +2616,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060008D7 RID: 2263 RVA: 0x0004B6CC File Offset: 0x000498CC
 		public bool conversation_player_want_to_join_faction_as_mercenary_or_vassal_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.MapFaction != null && !Hero.OneToOneConversationHero.IsPrisoner && Hero.MainHero.MapFaction != Hero.OneToOneConversationHero.MapFaction && Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction && (!Hero.MainHero.MapFaction.IsKingdomFaction || Clan.PlayerClan.IsUnderMercenaryService) && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction))
@@ -2829,7 +2636,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008D8 RID: 2264 RVA: 0x0004B7E8 File Offset: 0x000499E8
 		public bool conversation_player_want_to_end_service_as_mercenary_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.MapFaction == null || Hero.OneToOneConversationHero.Clan == null)
@@ -2843,14 +2649,12 @@ namespace SandBox.CampaignBehaviors
 			return !Hero.OneToOneConversationHero.IsPrisoner && Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction && Hero.OneToOneConversationHero.Clan != Hero.MainHero.Clan && Hero.MainHero.Clan.IsUnderMercenaryService;
 		}
 
-		// Token: 0x060008D9 RID: 2265 RVA: 0x0004B88D File Offset: 0x00049A8D
 		public void conversation_player_want_to_end_service_as_mercenary_on_consequence()
 		{
 			ChangeClanInfluenceAction.Apply(Clan.PlayerClan, -Hero.MainHero.Clan.Influence);
 			ChangeKingdomAction.ApplyByLeaveKingdomAsMercenaryWithKingDecision(Hero.MainHero.Clan, true);
 		}
 
-		// Token: 0x060008DA RID: 2266 RVA: 0x0004B8BC File Offset: 0x00049ABC
 		public bool conversation_player_ask_to_claim_land_on_condition()
 		{
 			if (Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction && !Hero.OneToOneConversationHero.IsPrisoner)
@@ -2868,13 +2672,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008DB RID: 2267 RVA: 0x0004B958 File Offset: 0x00049B58
 		public static bool player_ask_to_join_players_party_on_condition()
 		{
 			return Hero.OneToOneConversationHero.PartyBelongedTo == null && !Hero.OneToOneConversationHero.IsPrisoner && Hero.OneToOneConversationHero.PartyBelongedToAsPrisoner == null && Hero.OneToOneConversationHero.Clan == Clan.PlayerClan;
 		}
 
-		// Token: 0x060008DC RID: 2268 RVA: 0x0004B994 File Offset: 0x00049B94
 		private bool player_ask_to_join_players_army_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.PartyBelongedTo != null && Hero.OneToOneConversationHero.PartyBelongedTo.IsLordParty && Hero.OneToOneConversationHero.PartyBelongedTo.LeaderHero == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero.PartyBelongedTo.MapEvent == null && Hero.OneToOneConversationHero.PartyBelongedTo.SiegeEvent == null && Hero.OneToOneConversationHero.PartyBelongedTo.Army == null && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty && Hero.OneToOneConversationHero.MapFaction == Hero.MainHero.MapFaction && Hero.OneToOneConversationHero.MapFaction.Leader != Hero.OneToOneConversationHero)
@@ -2886,13 +2688,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008DD RID: 2269 RVA: 0x0004BAB4 File Offset: 0x00049CB4
 		private void player_ask_to_join_players_army_on_consequence()
 		{
 			ChangeClanInfluenceAction.Apply(Clan.PlayerClan, (float)(-(float)Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(MobileParty.MainParty, Hero.OneToOneConversationHero.PartyBelongedTo)));
 		}
 
-		// Token: 0x060008DE RID: 2270 RVA: 0x0004BAE8 File Offset: 0x00049CE8
 		private bool player_ask_to_join_players_army_on_clickable_condition(out TextObject explanation)
 		{
 			int num = Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(MobileParty.MainParty, Hero.OneToOneConversationHero.PartyBelongedTo);
@@ -2911,7 +2711,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008DF RID: 2271 RVA: 0x0004BB81 File Offset: 0x00049D81
 		public static void player_ask_to_join_players_party_on_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
@@ -2920,13 +2719,11 @@ namespace SandBox.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x060008E0 RID: 2272 RVA: 0x0004BBB1 File Offset: 0x00049DB1
 		private bool conversation_player_wants_to_make_peace_on_condition()
 		{
 			return FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction);
 		}
 
-		// Token: 0x060008E1 RID: 2273 RVA: 0x0004BBCC File Offset: 0x00049DCC
 		private bool conversation_player_wants_to_make_peace_answer_on_condition()
 		{
 			TextObject textObject = TextObject.Empty;
@@ -2966,7 +2763,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008E2 RID: 2274 RVA: 0x0004BD98 File Offset: 0x00049F98
 		private void conversation_player_wants_to_make_peace_on_consequence()
 		{
 			if (this._willDoPeaceBarter)
@@ -2984,7 +2780,6 @@ namespace SandBox.CampaignBehaviors
 			this._willDoPeaceBarter = false;
 		}
 
-		// Token: 0x060008E3 RID: 2275 RVA: 0x0004BE28 File Offset: 0x0004A028
 		public static bool conversation_player_ask_to_claim_land_answer_on_condition()
 		{
 			if (Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction)
@@ -3010,7 +2805,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008E4 RID: 2276 RVA: 0x0004BF10 File Offset: 0x0004A110
 		public bool conversation_player_ask_to_claim_land_answer_ok_on_condition()
 		{
 			if (Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction)
@@ -3040,7 +2834,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008E5 RID: 2277 RVA: 0x0004C018 File Offset: 0x0004A218
 		public void conversation_player_ask_to_claim_land_answer_on_consequence()
 		{
 			if (Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction)
@@ -3065,7 +2858,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060008E6 RID: 2278 RVA: 0x0004C110 File Offset: 0x0004A310
 		public void conversation_mercenary_player_accepts_lord_answer_on_consequence()
 		{
 			int mercenaryAwardFactor = this.GetMercenaryAwardFactor();
@@ -3073,34 +2865,29 @@ namespace SandBox.CampaignBehaviors
 			GainKingdomInfluenceAction.ApplyForJoiningFaction(Hero.MainHero, 5f);
 		}
 
-		// Token: 0x060008E7 RID: 2279 RVA: 0x0004C150 File Offset: 0x0004A350
 		public bool conversation_player_makes_faction_order()
 		{
 			MobileParty partyBelongedTo = Hero.OneToOneConversationHero.PartyBelongedTo;
 			return partyBelongedTo != null && partyBelongedTo.MapFaction == MobileParty.MainParty.MapFaction && (partyBelongedTo.Army == null || partyBelongedTo.Army.LeaderParty == partyBelongedTo) && !Hero.OneToOneConversationHero.IsPlayerCompanion;
 		}
 
-		// Token: 0x060008E8 RID: 2280 RVA: 0x0004C1A2 File Offset: 0x0004A3A2
 		public bool conversation_player_wants_to_do_operation_on_condition()
 		{
 			HeroHelper.SetPlayerSalutation();
 			return (Hero.OneToOneConversationHero == null || Hero.OneToOneConversationHero.IsPlayerCompanion) && Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsTown;
 		}
 
-		// Token: 0x060008E9 RID: 2281 RVA: 0x0004C1D1 File Offset: 0x0004A3D1
 		public bool conversation_set_player_salutation()
 		{
 			HeroHelper.SetPlayerSalutation();
 			return true;
 		}
 
-		// Token: 0x060008EA RID: 2282 RVA: 0x0004C1D9 File Offset: 0x0004A3D9
 		public bool conversation_player_plans_never_mind_on_condition()
 		{
 			return true;
 		}
 
-		// Token: 0x060008EB RID: 2283 RVA: 0x0004C1DC File Offset: 0x0004A3DC
 		public bool conversation_player_ask_lords_to_follow_him_on_condition()
 		{
 			MobileParty partyBelongedTo = Hero.OneToOneConversationHero.PartyBelongedTo;
@@ -3115,7 +2902,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008EC RID: 2284 RVA: 0x0004C308 File Offset: 0x0004A508
 		public bool conversation_player_ask_lords_to_follow_him_already_at_army_on_condition()
 		{
 			MobileParty partyBelongedTo = Hero.OneToOneConversationHero.PartyBelongedTo;
@@ -3127,13 +2913,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008ED RID: 2285 RVA: 0x0004C363 File Offset: 0x0004A563
 		public bool conversation_player_ask_lords_to_create_army_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x060008EE RID: 2286 RVA: 0x0004C366 File Offset: 0x0004A566
 		public void conversation_player_ask_lords_to_follow_him_already_at_army_on_consequence()
 		{
 			Army army = new Army((Kingdom)MobileParty.MainParty.MapFaction, MobileParty.MainParty, 3);
@@ -3141,7 +2925,6 @@ namespace SandBox.CampaignBehaviors
 			army.AiBehaviorObject = MobileParty.MainParty;
 		}
 
-		// Token: 0x060008EF RID: 2287 RVA: 0x0004C394 File Offset: 0x0004A594
 		public bool conversation_how_many_days_to_escort_condition()
 		{
 			LordConversationsCampaignBehavior.Number number = ConversationSentence.CurrentProcessedRepeatObject as LordConversationsCampaignBehavior.Number;
@@ -3159,7 +2942,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008F0 RID: 2288 RVA: 0x0004C448 File Offset: 0x0004A648
 		public void conversation_how_many_days_to_escort_on_consqeuence()
 		{
 			MobileParty partyBelongedTo = Hero.OneToOneConversationHero.PartyBelongedTo;
@@ -3172,12 +2954,10 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060008F1 RID: 2289 RVA: 0x0004C4A0 File Offset: 0x0004A6A0
 		public void conversation_player_ask_lords_to_follow_him_on_consequence()
 		{
 		}
 
-		// Token: 0x060008F2 RID: 2290 RVA: 0x0004C4A4 File Offset: 0x0004A6A4
 		public bool conversation_player_want_to_leave_faction_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsFactionLeader && Hero.MainHero.MapFaction == Hero.OneToOneConversationHero.MapFaction && !Hero.MainHero.Clan.IsUnderMercenaryService)
@@ -3188,7 +2968,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008F3 RID: 2291 RVA: 0x0004C4F4 File Offset: 0x0004A6F4
 		private bool conversation_player_ask_prisoners_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.PartyBelongedTo != null && Hero.OneToOneConversationHero.PartyBelongedTo.PrisonRoster.TotalHeroes > 0 && Hero.OneToOneConversationHero.PartyBelongedTo != MobileParty.MainParty)
@@ -3199,7 +2978,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008F4 RID: 2292 RVA: 0x0004C558 File Offset: 0x0004A758
 		private void conversation_player_ask_prisoners_on_consequence()
 		{
 			List<Hero> list = new List<Hero>();
@@ -3213,13 +2991,11 @@ namespace SandBox.CampaignBehaviors
 			ConversationSentence.SetObjectsToRepeatOver(list, 5);
 		}
 
-		// Token: 0x060008F5 RID: 2293 RVA: 0x0004C5E0 File Offset: 0x0004A7E0
 		private bool conversation_player_ask_prisoners_forbidden_on_condition()
 		{
 			return FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) || (FactionManager.IsNeutralWithFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && Hero.OneToOneConversationHero.GetRelationWithPlayer() < 0f);
 		}
 
-		// Token: 0x060008F6 RID: 2294 RVA: 0x0004C638 File Offset: 0x0004A838
 		private bool conversation_player_ask_prisoners_list_on_condition()
 		{
 			Hero hero = ConversationSentence.CurrentProcessedRepeatObject as Hero;
@@ -3227,49 +3003,41 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060008F7 RID: 2295 RVA: 0x0004C668 File Offset: 0x0004A868
 		private void lord_talk_to_selected_prisoner_on_consequence()
 		{
 			CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, null, false, false, false, false, false, false), new ConversationCharacterData(this._selectedPrisoner.CharacterObject, this._selectedPrisoner.PartyBelongedToAsPrisoner, false, true, false, true, false, false));
 		}
 
-		// Token: 0x060008F8 RID: 2296 RVA: 0x0004C6AC File Offset: 0x0004A8AC
 		private void conversation_player_ask_prisoners_list_on_consequence()
 		{
 			this._selectedPrisoner = ConversationSentence.SelectedRepeatObject as Hero;
 		}
 
-		// Token: 0x060008F9 RID: 2297 RVA: 0x0004C6BE File Offset: 0x0004A8BE
 		public bool conversation_player_has_question_on_condition()
 		{
 			return Game.Current.IsDevelopmentMode && Hero.OneToOneConversationHero != null && !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && !Hero.OneToOneConversationHero.IsWanderer;
 		}
 
-		// Token: 0x060008FA RID: 2298 RVA: 0x0004C6FD File Offset: 0x0004A8FD
 		public bool conversation_player_is_trying_to_recruit_on_condition()
 		{
 			return Hero.OneToOneConversationHero.MapFaction != Hero.MainHero.MapFaction && !Hero.OneToOneConversationHero.IsFactionLeader;
 		}
 
-		// Token: 0x060008FB RID: 2299 RVA: 0x0004C724 File Offset: 0x0004A924
 		public bool conversation_hero_main_options_quests()
 		{
 			return (Hero.OneToOneConversationHero == null || !this.conversation_wanderer_on_condition()) && !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x060008FC RID: 2300 RVA: 0x0004C758 File Offset: 0x0004A958
 		public bool conversation_hero_main_options_discussions()
 		{
 			return Hero.OneToOneConversationHero != null && !Hero.OneToOneConversationHero.IsNotable && !Hero.OneToOneConversationHero.IsWanderer && Hero.OneToOneConversationHero.Occupation != 31 && !HeroHelper.WillLordAttack() && !this.PlayerIsBesieged() && !this.PlayerIsBesieging();
 		}
 
-		// Token: 0x060008FD RID: 2301 RVA: 0x0004C7B0 File Offset: 0x0004A9B0
 		public bool conversation_lord_talk_politics_during_siege_parley_on_condition()
 		{
 			return (Hero.OneToOneConversationHero == null || !this.conversation_wanderer_on_condition()) && (((this.PlayerIsBesieged() && (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)) || this.PlayerIsBesieging()) && Hero.OneToOneConversationHero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction));
 		}
 
-		// Token: 0x060008FE RID: 2302 RVA: 0x0004C820 File Offset: 0x0004AA20
 		public bool conversation_player_is_asking_pardon_on_condition()
 		{
 			if (FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && !Hero.MainHero.MapFaction.IsKingdomFaction)
@@ -3280,7 +3048,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060008FF RID: 2303 RVA: 0x0004C878 File Offset: 0x0004AA78
 		public bool conversation_player_is_asking_peace_on_condition()
 		{
 			if (FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction) && Hero.MainHero.MapFaction.IsKingdomFaction)
@@ -3291,25 +3058,21 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000900 RID: 2304 RVA: 0x0004C8CE File Offset: 0x0004AACE
 		public bool conversation_player_is_leaving_neutral_or_friendly_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && !FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x06000901 RID: 2305 RVA: 0x0004C8F5 File Offset: 0x0004AAF5
 		public bool conversation_player_is_leaving_enemy_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && !Hero.OneToOneConversationHero.IsPrisoner && FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x06000902 RID: 2306 RVA: 0x0004C925 File Offset: 0x0004AB25
 		public bool conversation_player_is_leaving_enemy_prisoner_on_condition()
 		{
 			return Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.IsPrisoner && FactionManager.IsAtWarAgainstFaction(Hero.OneToOneConversationHero.MapFaction, Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x06000903 RID: 2307 RVA: 0x0004C958 File Offset: 0x0004AB58
 		public bool conversation_cheat_other_lords_on_condition()
 		{
 			string text = Hero.OneToOneConversationHero.MapFaction.Leader.Name + ": " + Hero.OneToOneConversationHero.GetRelation(Hero.OneToOneConversationHero.MapFaction.Leader);
@@ -3329,13 +3092,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000904 RID: 2308 RVA: 0x0004CA74 File Offset: 0x0004AC74
 		public bool conversation_player_dont_attack_we_surrender_on_condition()
 		{
 			return Settlement.CurrentSettlement == null || Settlement.CurrentSettlement.SiegeEvent == null;
 		}
 
-		// Token: 0x06000905 RID: 2309 RVA: 0x0004CA8C File Offset: 0x0004AC8C
 		public bool conversation_cheat_faction_enmities_on_condition()
 		{
 			string text = "{=!}Okay...";
@@ -3358,7 +3119,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000906 RID: 2310 RVA: 0x0004CBE0 File Offset: 0x0004ADE0
 		public TextObject GetReasonForEnmity(Hero lord1, Hero lord2, Hero talkTroop)
 		{
 			foreach (LogEntry logEntry in Campaign.Current.LogEntryHistory.GameActionLogs)
@@ -3371,7 +3131,6 @@ namespace SandBox.CampaignBehaviors
 			return new TextObject("{=GbOj39KC}I'm not sure why", null);
 		}
 
-		// Token: 0x06000907 RID: 2311 RVA: 0x0004CC58 File Offset: 0x0004AE58
 		public bool conversation_cheat_reputation_on_condition()
 		{
 			MBTextManager.SetTextVariable("CONVERSATION_CHARACTER_REPUTATION", CharacterHelper.GetReputationDescription(CharacterObject.OneToOneConversationCharacter), false);
@@ -3397,14 +3156,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000908 RID: 2312 RVA: 0x0004CD24 File Offset: 0x0004AF24
 		public bool conversation_lord_leave_on_condition()
 		{
 			StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, null, false);
 			return true;
 		}
 
-		// Token: 0x06000909 RID: 2313 RVA: 0x0004CD40 File Offset: 0x0004AF40
 		public void conversation_lord_leave_on_consequence()
 		{
 			if (PlayerEncounter.Current != null && Campaign.Current.ConversationManager.ConversationParty == PlayerEncounter.EncounteredMobileParty)
@@ -3425,7 +3182,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600090A RID: 2314 RVA: 0x0004CDB5 File Offset: 0x0004AFB5
 		public bool conversation_capture_defeated_lord_on_condition()
 		{
 			if (Campaign.Current.CurrentConversationContext == 1)
@@ -3436,26 +3192,22 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600090B RID: 2315 RVA: 0x0004CDD6 File Offset: 0x0004AFD6
 		public bool conversation_liberate_known_hero_on_condition()
 		{
 			return Campaign.Current.CurrentConversationContext == 2 && !Campaign.Current.ConversationManager.CurrentConversationIsFirst && CharacterObject.OneToOneConversationCharacter.Occupation == 3;
 		}
 
-		// Token: 0x0600090C RID: 2316 RVA: 0x0004CE06 File Offset: 0x0004B006
 		public bool conversation_liberate_unmet_hero_on_condition()
 		{
 			return Campaign.Current.CurrentConversationContext == 2 && Campaign.Current.ConversationManager.CurrentConversationIsFirst && CharacterObject.OneToOneConversationCharacter.Occupation == 3;
 		}
 
-		// Token: 0x0600090D RID: 2317 RVA: 0x0004CE38 File Offset: 0x0004B038
 		public bool conversation_reprisoner_hero_decision_on_condition()
 		{
 			MBTextManager.SetTextVariable("REPRISONER_DECISION", Campaign.Current.ConversationManager.FindMatchingTextOrNull("str_reprisoner_decision", CharacterObject.OneToOneConversationCharacter), false);
 			return Hero.OneToOneConversationHero.MapFaction != null && Hero.OneToOneConversationHero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction);
 		}
 
-		// Token: 0x0600090E RID: 2318 RVA: 0x0004CE90 File Offset: 0x0004B090
 		public void conversation_player_liberates_prisoner_on_consequence()
 		{
 			ChangeRelationAction.ApplyPlayerRelation(CharacterObject.OneToOneConversationCharacter.HeroObject, 10, true, true);
@@ -3465,7 +3217,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600090F RID: 2319 RVA: 0x0004CEBB File Offset: 0x0004B0BB
 		public void conversation_player_fails_to_release_prisoner_on_consequence()
 		{
 			if (Hero.OneToOneConversationHero.IsPrisoner)
@@ -3475,7 +3226,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000910 RID: 2320 RVA: 0x0004CEE4 File Offset: 0x0004B0E4
 		public bool conversation_ally_thanks_meet_after_helping_in_battle_on_condition()
 		{
 			if (MapEvent.PlayerMapEvent != null && Hero.OneToOneConversationHero != null && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction) && MapEvent.PlayerMapEvent.WinningSide == PartyBase.MainParty.Side && !Hero.OneToOneConversationHero.HasMet)
@@ -3492,7 +3242,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000911 RID: 2321 RVA: 0x0004CFC8 File Offset: 0x0004B1C8
 		public bool conversation_ally_thanks_after_helping_in_battle_on_condition()
 		{
 			if (MapEvent.PlayerMapEvent != null && Hero.OneToOneConversationHero != null && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction) && MapEvent.PlayerMapEvent.WinningSide == PartyBase.MainParty.Side && Hero.OneToOneConversationHero.HasMet)
@@ -3506,7 +3255,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000912 RID: 2322 RVA: 0x0004D080 File Offset: 0x0004B280
 		private void conversation_ally_thanks_meet_after_helping_in_battle_2_on_consequence()
 		{
 			int playerGainedRelationAmount = Campaign.Current.Models.BattleRewardModel.GetPlayerGainedRelationAmount(MapEvent.PlayerMapEvent, Hero.OneToOneConversationHero);
@@ -3517,32 +3265,27 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000913 RID: 2323 RVA: 0x0004D0CF File Offset: 0x0004B2CF
 		public void conversation_talk_lord_defeat_to_lord_capture_on_consequence()
 		{
 			Campaign.Current.CurrentConversationContext = 0;
 			TakePrisonerAction.Apply(Campaign.Current.MainParty.Party, CharacterObject.OneToOneConversationCharacter.HeroObject);
 		}
 
-		// Token: 0x06000914 RID: 2324 RVA: 0x0004D0FA File Offset: 0x0004B2FA
 		public void conversation_talk_lord_defeat_to_lord_capture_and_kill_on_consequence()
 		{
 			KillCharacterAction.ApplyByExecution(Hero.OneToOneConversationHero, Hero.MainHero, true, false);
 		}
 
-		// Token: 0x06000915 RID: 2325 RVA: 0x0004D110 File Offset: 0x0004B310
 		public bool conversation_talk_lord_release_noncombatant_on_condition()
 		{
 			return (Hero.OneToOneConversationHero.Clan == null || Hero.OneToOneConversationHero.Clan.IsMapFaction || Hero.OneToOneConversationHero.Clan.Leader != Hero.OneToOneConversationHero) && Hero.OneToOneConversationHero.IsNoncombatant;
 		}
 
-		// Token: 0x06000916 RID: 2326 RVA: 0x0004D15C File Offset: 0x0004B35C
 		public bool conversation_talk_lord_release_combatant_on_condition()
 		{
 			return (Hero.OneToOneConversationHero.Clan != null && !Hero.OneToOneConversationHero.Clan.IsMapFaction && Hero.OneToOneConversationHero.Clan.Leader == Hero.OneToOneConversationHero) || !Hero.OneToOneConversationHero.IsNoncombatant;
 		}
 
-		// Token: 0x06000917 RID: 2327 RVA: 0x0004D1AC File Offset: 0x0004B3AC
 		public bool conversation_player_ask_ruling_philosophy_on_condition()
 		{
 			TextObject textObject;
@@ -3554,7 +3297,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000918 RID: 2328 RVA: 0x0004D1F0 File Offset: 0x0004B3F0
 		public bool conversation_player_has_long_ruling_philosophy_on_condition()
 		{
 			TextObject textObject;
@@ -3570,7 +3312,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000919 RID: 2329 RVA: 0x0004D250 File Offset: 0x0004B450
 		public static void conversation_talk_lord_defeat_to_lord_release_on_consequence()
 		{
 			if (Hero.OneToOneConversationHero.IsPrisoner)
@@ -3585,14 +3326,12 @@ namespace SandBox.CampaignBehaviors
 			DialogHelper.SetDialogString("DEFEAT_LORD_ANSWER", "str_prisoner_released");
 		}
 
-		// Token: 0x0600091A RID: 2330 RVA: 0x0004D2A0 File Offset: 0x0004B4A0
 		public void conversation_talk_lord_freed_to_lord_capture_on_consequence()
 		{
 			Campaign.Current.CurrentConversationContext = 0;
 			TakePrisonerAction.Apply(PartyBase.MainParty, Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x0600091B RID: 2331 RVA: 0x0004D2BC File Offset: 0x0004B4BC
 		public void conversation_talk_lord_freed_to_lord_release_on_consequence()
 		{
 			if (Hero.OneToOneConversationHero.IsPrisoner)
@@ -3603,7 +3342,6 @@ namespace SandBox.CampaignBehaviors
 			TraitLevelingHelper.OnLordFreed(Hero.OneToOneConversationHero);
 		}
 
-		// Token: 0x0600091C RID: 2332 RVA: 0x0004D2F8 File Offset: 0x0004B4F8
 		public bool conversation_lord_request_mission_ask_on_condition()
 		{
 			if (Hero.MainHero.MapFaction != Clan.PlayerClan)
@@ -3651,7 +3389,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600091D RID: 2333 RVA: 0x0004D460 File Offset: 0x0004B660
 		public void conversation_lord_mercenary_service_verify_accept_on_consequence()
 		{
 			int mercenaryWageAmount = Campaign.Current.KingdomManager.GetMercenaryWageAmount(Hero.MainHero);
@@ -3660,56 +3397,47 @@ namespace SandBox.CampaignBehaviors
 			ChangeKingdomAction.ApplyByJoinFactionAsMercenary(Hero.MainHero.Clan, Hero.OneToOneConversationHero.Clan.Kingdom, 50, true);
 		}
 
-		// Token: 0x0600091E RID: 2334 RVA: 0x0004D4CA File Offset: 0x0004B6CA
 		public bool conversation_lord_mercenary_elaborate_castle_answer_faction_owner_to_women_on_condition()
 		{
 			return Hero.OneToOneConversationHero.IsFactionLeader && CharacterObject.PlayerCharacter.IsFemale;
 		}
 
-		// Token: 0x0600091F RID: 2335 RVA: 0x0004D4E4 File Offset: 0x0004B6E4
 		public bool conversation_lord_mercenary_elaborate_castle_answer_to_women_on_condition()
 		{
 			return !Hero.OneToOneConversationHero.IsFactionLeader && CharacterObject.PlayerCharacter.IsFemale;
 		}
 
-		// Token: 0x06000920 RID: 2336 RVA: 0x0004D4FE File Offset: 0x0004B6FE
 		public bool conversation_lord_mercenary_elaborate_castle_answer_faction_owner_on_condition()
 		{
 			return Hero.OneToOneConversationHero == Hero.OneToOneConversationHero.MapFaction.Leader;
 		}
 
-		// Token: 0x06000921 RID: 2337 RVA: 0x0004D516 File Offset: 0x0004B716
 		public bool conversation_lord_mercenary_elaborate_banner_answer_faction_owner_on_condition()
 		{
 			return Hero.OneToOneConversationHero.IsFactionLeader;
 		}
 
-		// Token: 0x06000922 RID: 2338 RVA: 0x0004D522 File Offset: 0x0004B722
 		public bool conversation_lord_mission_destroy_bandit_lair_start_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06000923 RID: 2339 RVA: 0x0004D525 File Offset: 0x0004B725
 		public bool conversation_convince_options_bribe_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06000924 RID: 2340 RVA: 0x0004D528 File Offset: 0x0004B728
 		public bool conversation_convince_options_friendship_on_condition()
 		{
 			MBTextManager.SetTextVariable("RELATION_DECREASE", "10", false);
 			return true;
 		}
 
-		// Token: 0x06000925 RID: 2341 RVA: 0x0004D53B File Offset: 0x0004B73B
 		public bool conversation_convince_bribe_verify_on_condition()
 		{
 			return Hero.MainHero.Gold >= this._bribeAmount;
 		}
 
-		// Token: 0x06000926 RID: 2342 RVA: 0x0004D554 File Offset: 0x0004B754
 		public void conversation_convince_bribe_player_accept_on_consequence()
 		{
 			GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this._bribeAmount, false);
@@ -3717,46 +3445,38 @@ namespace SandBox.CampaignBehaviors
 			InformationManager.DisplayMessage(new InformationMessage(GameTexts.FindText("str_quest_collect_debt_quest_gold_removed", null).ToString(), "event:/ui/notification/coins_negative"));
 		}
 
-		// Token: 0x06000927 RID: 2343 RVA: 0x0004D5A2 File Offset: 0x0004B7A2
 		public bool conversation_convince_friendship_verify_go_on_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06000928 RID: 2344 RVA: 0x0004D5A5 File Offset: 0x0004B7A5
 		public void conversation_convince_friendship_verify_go_on_on_consequence()
 		{
 		}
 
-		// Token: 0x06000929 RID: 2345 RVA: 0x0004D5A7 File Offset: 0x0004B7A7
 		public bool conversation_convince_friendship_lord_response_no_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x0600092A RID: 2346 RVA: 0x0004D5AA File Offset: 0x0004B7AA
 		public bool conversation_convince_friendship_lord_response_angry_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x0600092B RID: 2347 RVA: 0x0004D5AD File Offset: 0x0004B7AD
 		public void conversation_lord_generic_mission_accept_on_consequence()
 		{
 		}
 
-		// Token: 0x0600092C RID: 2348 RVA: 0x0004D5AF File Offset: 0x0004B7AF
 		public void conversation_lord_generic_mission_reject_on_consequence()
 		{
 		}
 
-		// Token: 0x0600092D RID: 2349 RVA: 0x0004D5B1 File Offset: 0x0004B7B1
 		public bool conversation_lord_tell_mission_no_quest_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x0600092E RID: 2350 RVA: 0x0004D5B4 File Offset: 0x0004B7B4
 		public void conversation_player_threats_lord_verify_on_consequence()
 		{
 			MobileParty encounteredMobileParty = PlayerEncounter.EncounteredMobileParty;
@@ -3768,33 +3488,28 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600092F RID: 2351 RVA: 0x0004D634 File Offset: 0x0004B834
 		public bool conversation_player_threats_lord_verify_on_condition()
 		{
 			MobileParty encounteredMobileParty = PlayerEncounter.EncounteredMobileParty;
 			return encounteredMobileParty == null || (encounteredMobileParty.LeaderHero.MapFaction != Hero.MainHero.MapFaction && (Hero.MainHero.MapFaction == Clan.PlayerClan || (Hero.MainHero.MapFaction != null && Hero.MainHero.MapFaction.Leader == Hero.MainHero) || FactionManager.IsAtWarAgainstFaction(encounteredMobileParty.LeaderHero.MapFaction, Hero.MainHero.MapFaction)));
 		}
 
-		// Token: 0x06000930 RID: 2352 RVA: 0x0004D6B4 File Offset: 0x0004B8B4
 		private bool conversation_lord_declines_frivolous_player_surrender_demand_on_condition()
 		{
 			MBTextManager.SetTextVariable("LORD_DECLINES_FRIVOLOUS_SURRENDER_OFFER", Campaign.Current.ConversationManager.FindMatchingTextOrNull("str_comment_enemy_declines_frivolous_player_surrender_demand", CharacterObject.OneToOneConversationCharacter), false);
 			return true;
 		}
 
-		// Token: 0x06000931 RID: 2353 RVA: 0x0004D6DB File Offset: 0x0004B8DB
 		public void conversation_lord_attack_verify_cancel_on_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06000932 RID: 2354 RVA: 0x0004D6E3 File Offset: 0x0004B8E3
 		public bool conversation_lord_tell_objective_reconsider_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06000933 RID: 2355 RVA: 0x0004D6E8 File Offset: 0x0004B8E8
 		public bool conversation_lord_tell_objective_besiege_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.HeroObject.IsActive)
@@ -3816,7 +3531,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000934 RID: 2356 RVA: 0x0004D778 File Offset: 0x0004B978
 		public bool conversation_lord_tell_objective_defence_village_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3838,7 +3552,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000935 RID: 2357 RVA: 0x0004D828 File Offset: 0x0004BA28
 		public bool conversation_lord_tell_objective_defence_town_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3860,7 +3573,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000936 RID: 2358 RVA: 0x0004D8D8 File Offset: 0x0004BAD8
 		public bool conversation_lord_tell_objective_patrolling_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3882,7 +3594,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000937 RID: 2359 RVA: 0x0004D964 File Offset: 0x0004BB64
 		public bool conversation_lord_tell_objective_waiting_for_siege_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3897,7 +3608,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000938 RID: 2360 RVA: 0x0004D9CC File Offset: 0x0004BBCC
 		public bool conversation_lord_tell_objective_waiting_for_defence_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3912,7 +3622,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000939 RID: 2361 RVA: 0x0004DA38 File Offset: 0x0004BC38
 		public bool conversation_lord_tell_objective_raiding_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3934,7 +3643,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600093A RID: 2362 RVA: 0x0004DAC0 File Offset: 0x0004BCC0
 		public bool conversation_lord_tell_objective_waiting_for_raid_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3949,7 +3657,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600093B RID: 2363 RVA: 0x0004DB2C File Offset: 0x0004BD2C
 		public bool conversation_lord_tell_objective_gathering_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.IsActive)
@@ -3964,27 +3671,23 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600093C RID: 2364 RVA: 0x0004DB88 File Offset: 0x0004BD88
 		public void conversation_lord_tell_gathering_player_joined_on_consequence()
 		{
 			MobileParty partyBelongedTo = Hero.OneToOneConversationHero.PartyBelongedTo;
 			MobileParty.MainParty.Army = partyBelongedTo.Army;
 		}
 
-		// Token: 0x0600093D RID: 2365 RVA: 0x0004DBB0 File Offset: 0x0004BDB0
 		public bool conversation_lord_ask_pardon_answer_bad_relation_on_condition()
 		{
 			Hero heroObject = CharacterObject.OneToOneConversationCharacter.HeroObject;
 			return Hero.MainHero != null && Hero.MainHero.IsEnemy(heroObject);
 		}
 
-		// Token: 0x0600093E RID: 2366 RVA: 0x0004DBDC File Offset: 0x0004BDDC
 		public bool conversation_lord_ask_pardon_answer_low_right_to_rule_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x0600093F RID: 2367 RVA: 0x0004DBE0 File Offset: 0x0004BDE0
 		public bool conversation_lord_ask_pardon_answer_no_advantage_on_condition()
 		{
 			bool flag = false;
@@ -4001,7 +3704,6 @@ namespace SandBox.CampaignBehaviors
 			return flag && Campaign.Current.CurrentConversationContext == 3 && PartyBase.MainParty.Side == null;
 		}
 
-		// Token: 0x06000940 RID: 2368 RVA: 0x0004DC64 File Offset: 0x0004BE64
 		public bool conversation_lord_ask_pardon_answer_not_accepted_on_condition()
 		{
 			bool flag = false;
@@ -4018,7 +3720,6 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06000941 RID: 2369 RVA: 0x0004DCCC File Offset: 0x0004BECC
 		public bool conversation_lord_ask_pardon_answer_accepted_on_condition()
 		{
 			bool flag = false;
@@ -4035,7 +3736,6 @@ namespace SandBox.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06000942 RID: 2370 RVA: 0x0004DD34 File Offset: 0x0004BF34
 		public bool conversation_lord_answers_the_location_on_condition()
 		{
 			List<Settlement> list = Campaign.Current.Settlements.Where((Settlement settlement) => settlement.IsTown || settlement.IsVillage).ToList<Settlement>();
@@ -4095,14 +3795,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000943 RID: 2371 RVA: 0x0004DF60 File Offset: 0x0004C160
 		public bool conversation_lord_give_oath_1_player_answer_1_on_condition()
 		{
 			StringHelpers.SetCharacterProperties("LORD", CharacterObject.OneToOneConversationCharacter, null, false);
 			return true;
 		}
 
-		// Token: 0x06000944 RID: 2372 RVA: 0x0004DF78 File Offset: 0x0004C178
 		public bool conversation_set_oath_phrases_on_condition()
 		{
 			string stringId = Hero.OneToOneConversationHero.Culture.StringId;
@@ -4195,7 +3893,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000945 RID: 2373 RVA: 0x0004E211 File Offset: 0x0004C411
 		private void lord_give_oath_give_up_consequence()
 		{
 			if (PlayerEncounter.Current != null)
@@ -4204,7 +3901,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000946 RID: 2374 RVA: 0x0004E220 File Offset: 0x0004C420
 		public bool conversation_vassalage_offer_player_is_already_vassal_on_condition()
 		{
 			if (Hero.MainHero.MapFaction != Clan.PlayerClan && !Clan.PlayerClan.IsUnderMercenaryService && Hero.MainHero.MapFaction != Hero.OneToOneConversationHero.MapFaction)
@@ -4215,32 +3911,27 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000947 RID: 2375 RVA: 0x0004E280 File Offset: 0x0004C480
 		public bool conversation_vassalage_offer_player_has_low_relation_on_condition()
 		{
 			Hero heroObject = CharacterObject.OneToOneConversationCharacter.HeroObject;
 			return Hero.MainHero != null && Hero.MainHero.IsEnemy(heroObject);
 		}
 
-		// Token: 0x06000948 RID: 2376 RVA: 0x0004E2AC File Offset: 0x0004C4AC
 		public bool conversation_mercenary_service_offer_rejected_on_condition()
 		{
 			return !this.conversation_mercenary_service_offer_accepted_on_condition();
 		}
 
-		// Token: 0x06000949 RID: 2377 RVA: 0x0004E2B7 File Offset: 0x0004C4B7
 		public bool conversation_mercenary_service_offer_accepted_on_condition()
 		{
 			return FactionHelper.CanPlayerEnterFaction(false);
 		}
 
-		// Token: 0x0600094A RID: 2378 RVA: 0x0004E2BF File Offset: 0x0004C4BF
 		public bool conversation_vassalage_offer_accepted_on_condition()
 		{
 			return FactionHelper.CanPlayerEnterFaction(true);
 		}
 
-		// Token: 0x0600094B RID: 2379 RVA: 0x0004E2C8 File Offset: 0x0004C4C8
 		public bool conversation_liege_states_obligations_to_vassal_on_condition()
 		{
 			if (Hero.OneToOneConversationHero.Culture.StringId == "vlandia")
@@ -4274,7 +3965,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600094C RID: 2380 RVA: 0x0004E400 File Offset: 0x0004C600
 		public void conversation_player_is_accepted_as_a_vassal_on_consequence()
 		{
 			if (Hero.MainHero.Clan.Kingdom == Hero.OneToOneConversationHero.Clan.Kingdom)
@@ -4296,7 +3986,6 @@ namespace SandBox.CampaignBehaviors
 			GainKingdomInfluenceAction.ApplyForJoiningFaction(Hero.MainHero, Campaign.Current.Models.VassalRewardsModel.InfluenceReward);
 		}
 
-		// Token: 0x0600094D RID: 2381 RVA: 0x0004E4A6 File Offset: 0x0004C6A6
 		private bool conversation_lord_give_oath_go_on_condition()
 		{
 			if (this._receivedVassalRewards)
@@ -4310,7 +3999,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600094E RID: 2382 RVA: 0x0004E4D3 File Offset: 0x0004C6D3
 		public void conversation_player_leave_faction_accepted_on_consequence()
 		{
 			if (Clan.PlayerClan.IsUnderMercenaryService)
@@ -4321,7 +4009,6 @@ namespace SandBox.CampaignBehaviors
 			ChangeKingdomAction.ApplyByLeaveKingdom(Hero.MainHero.Clan, true);
 		}
 
-		// Token: 0x0600094F RID: 2383 RVA: 0x0004E504 File Offset: 0x0004C704
 		public void conversation_player_leave_faction_accepted_on_leave()
 		{
 			if (PlayerEncounter.Current != null)
@@ -4336,7 +4023,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000950 RID: 2384 RVA: 0x0004E54C File Offset: 0x0004C74C
 		private void ReceiveVassalRewards()
 		{
 			VassalRewardsModel vassalRewardsModel = Campaign.Current.Models.VassalRewardsModel;
@@ -4346,7 +4032,6 @@ namespace SandBox.CampaignBehaviors
 			this._receivedVassalRewards = true;
 		}
 
-		// Token: 0x06000951 RID: 2385 RVA: 0x0004E5E0 File Offset: 0x0004C7E0
 		public bool conversation_lord_talk_ask_location_2_on_condition()
 		{
 			Hero hero = (Hero)ConversationSentence.CurrentProcessedRepeatObject;
@@ -4354,83 +4039,62 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000952 RID: 2386 RVA: 0x0004E60C File Offset: 0x0004C80C
 		public void conversation_lord_talk_ask_location_2_on_consequence()
 		{
 			ConversationHelper.AskedLord = ((Hero)ConversationSentence.SelectedRepeatObject).CharacterObject;
 		}
 
-		// Token: 0x06000953 RID: 2387 RVA: 0x0004E624 File Offset: 0x0004C824
 		private bool conversation_clan_member_manage_troops_on_condition()
 		{
 			Hero oneToOneConversationHero = Hero.OneToOneConversationHero;
 			return oneToOneConversationHero != null && oneToOneConversationHero.Clan == Clan.PlayerClan && oneToOneConversationHero.PartyBelongedTo != null && oneToOneConversationHero.PartyBelongedTo.LeaderHero == oneToOneConversationHero && !oneToOneConversationHero.PartyBelongedTo.IsCaravan && !oneToOneConversationHero.PartyBelongedTo.IsMilitia && !oneToOneConversationHero.PartyBelongedTo.IsVillager;
 		}
 
-		// Token: 0x06000954 RID: 2388 RVA: 0x0004E687 File Offset: 0x0004C887
 		private void conversation_clan_member_manage_troops_on_consequence()
 		{
 			PartyScreenManager.OpenScreenAsManageTroopsAndPrisoners(Hero.OneToOneConversationHero.PartyBelongedTo, new PartyScreenClosedDelegate(this.onPartyScreenClosed));
 		}
 
-		// Token: 0x06000955 RID: 2389 RVA: 0x0004E6A4 File Offset: 0x0004C8A4
 		private void onPartyScreenClosed(PartyBase leftOwnerParty, TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, PartyBase rightOwnerParty, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, bool fromCancel)
 		{
 			Campaign.Current.ConversationManager.ContinueConversation();
 		}
 
-		// Token: 0x04000325 RID: 805
 		private const int LordStartPriority = 110;
 
-		// Token: 0x04000326 RID: 806
 		private int _goldAmount;
 
-		// Token: 0x04000327 RID: 807
 		private Dictionary<CharacterObject, CharacterObject> _previouslyMetWandererTemplates = new Dictionary<CharacterObject, CharacterObject>();
 
-		// Token: 0x04000328 RID: 808
 		private bool _receivedVassalRewards;
 
-		// Token: 0x04000329 RID: 809
 		private const int PlayerReleasesPrisonerRelationChange = 4;
 
-		// Token: 0x0400032A RID: 810
 		private const int PlayerCapturesPrisonerRelationChange = 0;
 
-		// Token: 0x0400032B RID: 811
 		private const int PlayerLiberatesPrisonerRelationChange = 10;
 
-		// Token: 0x0400032C RID: 812
 		private const int NumberOfMenToFormASmallCaravan = 29;
 
-		// Token: 0x0400032D RID: 813
 		private const int NumberOfMenToFormALargeCaravan = 49;
 
-		// Token: 0x0400032E RID: 814
 		private int _selectedCaravanType;
 
-		// Token: 0x0400032F RID: 815
 		private Hero _selectedPrisoner;
 
-		// Token: 0x04000330 RID: 816
 		private Clan _askedFaction;
 
-		// Token: 0x04000331 RID: 817
 		private int _bribeAmount;
 
-		// Token: 0x04000332 RID: 818
 		private bool _willDoPeaceBarter;
 
-		// Token: 0x0200018B RID: 395
 		public class Number
 		{
-			// Token: 0x060011C7 RID: 4551 RVA: 0x00073CB1 File Offset: 0x00071EB1
 			public Number(int value)
 			{
 				this.Value = value;
 			}
 
-			// Token: 0x060011C8 RID: 4552 RVA: 0x00073CC0 File Offset: 0x00071EC0
 			public IEnumerable<LordConversationsCampaignBehavior.Number> GetBetween(int start, int end)
 			{
 				int num;
@@ -4443,7 +4107,6 @@ namespace SandBox.CampaignBehaviors
 				yield break;
 			}
 
-			// Token: 0x04000726 RID: 1830
 			public int Value;
 		}
 	}

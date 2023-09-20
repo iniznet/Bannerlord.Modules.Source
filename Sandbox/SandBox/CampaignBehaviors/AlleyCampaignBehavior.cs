@@ -27,10 +27,8 @@ using TaleWorlds.SaveSystem;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000091 RID: 145
 	public class AlleyCampaignBehavior : CampaignBehaviorBase, IAlleyCampaignBehavior, ICampaignBehavior
 	{
-		// Token: 0x06000612 RID: 1554 RVA: 0x0002E568 File Offset: 0x0002C768
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -48,7 +46,6 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.CanHeroDieEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.CanHeroDie));
 		}
 
-		// Token: 0x06000613 RID: 1555 RVA: 0x0002E6A0 File Offset: 0x0002C8A0
 		private void CanHeroDie(Hero hero, KillCharacterAction.KillCharacterActionDetail detail, ref bool result)
 		{
 			if (hero == Hero.MainHero && Mission.Current != null && this._playerIsInAlleyFightMission)
@@ -57,13 +54,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000614 RID: 1556 RVA: 0x0002E6BC File Offset: 0x0002C8BC
 		private void OnAfterMissionStarted(IMission mission)
 		{
 			this._playerIsInAlleyFightMission = false;
 		}
 
-		// Token: 0x06000615 RID: 1557 RVA: 0x0002E6C5 File Offset: 0x0002C8C5
 		private void OnAlleyOwnerChanged(Alley alley, Hero newOwner, Hero oldOwner)
 		{
 			if (oldOwner == Hero.MainHero)
@@ -74,7 +69,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000616 RID: 1558 RVA: 0x0002E700 File Offset: 0x0002C900
 		private void CommonAlleyLeaderRestriction(Hero hero, ref bool result)
 		{
 			if (this._playerOwnedCommonAreaData.Any((AlleyCampaignBehavior.PlayerAlleyData x) => x.AssignedClanMember == hero))
@@ -83,7 +77,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000617 RID: 1559 RVA: 0x0002E738 File Offset: 0x0002C938
 		private void DailyTick()
 		{
 			for (int i = this._playerOwnedCommonAreaData.Count - 1; i >= 0; i--)
@@ -108,7 +101,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000618 RID: 1560 RVA: 0x0002E824 File Offset: 0x0002CA24
 		private void CheckSpawningNewAlleyFight(AlleyCampaignBehavior.PlayerAlleyData playerOwnedArea)
 		{
 			if (MBRandom.RandomFloat < 0.015f)
@@ -120,7 +112,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000619 RID: 1561 RVA: 0x0002E87C File Offset: 0x0002CA7C
 		private void StartNewAlleyAttack(AlleyCampaignBehavior.PlayerAlleyData playerOwnedArea)
 		{
 			playerOwnedArea.UnderAttackBy = Extensions.GetRandomElementInefficiently<Alley>(playerOwnedArea.Alley.Settlement.Alleys.Where((Alley x) => x.State == 1));
@@ -134,7 +125,6 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new AlleyUnderAttackMapNotification(playerOwnedArea.Alley, textObject));
 		}
 
-		// Token: 0x0600061A RID: 1562 RVA: 0x0002E964 File Offset: 0x0002CB64
 		private void CheckConvertTroopsToBandits(AlleyCampaignBehavior.PlayerAlleyData playerOwnedArea)
 		{
 			foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in playerOwnedArea.TroopRoster.ToFlattenedRoster())
@@ -156,7 +146,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600061B RID: 1563 RVA: 0x0002EA50 File Offset: 0x0002CC50
 		private void OnNewGameCreated(CampaignGameStarter gameStarter)
 		{
 			foreach (Town town in Town.AllTowns)
@@ -170,13 +159,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600061C RID: 1564 RVA: 0x0002EB34 File Offset: 0x0002CD34
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			this.TickAlleyOwnerships(settlement);
 		}
 
-		// Token: 0x0600061D RID: 1565 RVA: 0x0002EB40 File Offset: 0x0002CD40
 		private void TickAlleyOwnerships(Settlement settlement)
 		{
 			foreach (Hero hero in settlement.Notables)
@@ -206,7 +193,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600061E RID: 1566 RVA: 0x0002EC20 File Offset: 0x0002CE20
 		private void OnAlleyOccupiedByPlayer(Alley alley, TroopRoster troopRoster)
 		{
 			alley.SetOwner(Hero.MainHero);
@@ -222,7 +208,6 @@ namespace SandBox.CampaignBehaviors
 			Mission.Current.ClearCorpses(false);
 		}
 
-		// Token: 0x0600061F RID: 1567 RVA: 0x0002EC9C File Offset: 0x0002CE9C
 		private void OnAlleyClearedByPlayer(Alley alley)
 		{
 			ChangeRelationAction.ApplyPlayerRelation(alley.Owner, -5, true, true);
@@ -241,13 +226,11 @@ namespace SandBox.CampaignBehaviors
 			alley.SetOwner(null);
 		}
 
-		// Token: 0x06000620 RID: 1568 RVA: 0x0002ED58 File Offset: 0x0002CF58
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<AlleyCampaignBehavior.PlayerAlleyData>>("_playerOwnedCommonAreaData", ref this._playerOwnedCommonAreaData);
 		}
 
-		// Token: 0x06000621 RID: 1569 RVA: 0x0002ED6C File Offset: 0x0002CF6C
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this._thug = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_1");
@@ -257,7 +240,6 @@ namespace SandBox.CampaignBehaviors
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06000622 RID: 1570 RVA: 0x0002EDC8 File Offset: 0x0002CFC8
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -288,7 +270,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000623 RID: 1571 RVA: 0x0002EEB8 File Offset: 0x0002D0B8
 		private void AddPlayerAlleyCharacters(Alley alley)
 		{
 			if (Mission.Current != null)
@@ -336,7 +317,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000624 RID: 1572 RVA: 0x0002EFFC File Offset: 0x0002D1FC
 		private void AddCharacterToAlley(CharacterObject character, Alley alley)
 		{
 			Location locationWithId = Settlement.CurrentSettlement.LocationComplex.GetLocationWithId("center");
@@ -368,7 +348,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000625 RID: 1573 RVA: 0x0002F14C File Offset: 0x0002D34C
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenuOption("town", "manage_alley", "Go to alley", new GameMenuOption.OnConditionDelegate(this.go_to_alley_on_condition), new GameMenuOption.OnConsequenceDelegate(this.go_to_alley_on_consequence), false, 5, false, null);
@@ -387,47 +366,40 @@ namespace SandBox.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("alley_fight_won", "continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(this.alley_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.alley_fight_continue_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x06000626 RID: 1574 RVA: 0x0002F39E File Offset: 0x0002D59E
 		private void abandon_alley_are_you_sure_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("manage_alley_abandon_are_you_sure");
 		}
 
-		// Token: 0x06000627 RID: 1575 RVA: 0x0002F3AA File Offset: 0x0002D5AA
 		private bool alley_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 17;
 			return true;
 		}
 
-		// Token: 0x06000628 RID: 1576 RVA: 0x0002F3B5 File Offset: 0x0002D5B5
 		private void alley_fight_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town");
 		}
 
-		// Token: 0x06000629 RID: 1577 RVA: 0x0002F3C1 File Offset: 0x0002D5C1
 		private bool alley_go_back_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 16;
 			return true;
 		}
 
-		// Token: 0x0600062A RID: 1578 RVA: 0x0002F3CC File Offset: 0x0002D5CC
 		private bool abandon_alley_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 21;
 			return true;
 		}
 
-		// Token: 0x0600062B RID: 1579 RVA: 0x0002F3D8 File Offset: 0x0002D5D8
 		private void alley_under_attack_response_on_consequence(MenuCallbackArgs args)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
 			CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, null, false, false, false, false, false, false), new ConversationCharacterData(playerAlleyData.UnderAttackBy.Owner.CharacterObject, null, false, false, false, false, false, false));
 		}
 
-		// Token: 0x0600062C RID: 1580 RVA: 0x0002F444 File Offset: 0x0002D644
 		private bool alley_under_attack_on_condition(MenuCallbackArgs args)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Owner == Hero.MainHero && x.Alley.Settlement == Settlement.CurrentSettlement && x.IsUnderAttack);
@@ -443,7 +415,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600062D RID: 1581 RVA: 0x0002F4D2 File Offset: 0x0002D6D2
 		private bool manage_alley_on_condition(MenuCallbackArgs args)
 		{
 			if (this.alley_under_attack_on_condition(args))
@@ -455,7 +426,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600062E RID: 1582 RVA: 0x0002F4FE File Offset: 0x0002D6FE
 		private bool change_leader_of_alley_on_condition(MenuCallbackArgs args)
 		{
 			if (this.alley_under_attack_on_condition(args))
@@ -467,26 +437,22 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600062F RID: 1583 RVA: 0x0002F52A File Offset: 0x0002D72A
 		private bool go_to_alley_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 2;
 			return this._playerOwnedCommonAreaData.Any((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
 		}
 
-		// Token: 0x06000630 RID: 1584 RVA: 0x0002F55D File Offset: 0x0002D75D
 		private void go_to_alley_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("manage_alley");
 		}
 
-		// Token: 0x06000631 RID: 1585 RVA: 0x0002F569 File Offset: 0x0002D769
 		private void leave_alley_menu_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town_outside");
 		}
 
-		// Token: 0x06000632 RID: 1586 RVA: 0x0002F578 File Offset: 0x0002D778
 		private void abandon_alley_consequence(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 9;
@@ -496,13 +462,11 @@ namespace SandBox.CampaignBehaviors
 			GameMenu.SwitchToMenu("town_outside");
 		}
 
-		// Token: 0x06000633 RID: 1587 RVA: 0x0002F5D8 File Offset: 0x0002D7D8
 		private void manage_troops_of_alley(MenuCallbackArgs args)
 		{
 			AlleyHelper.OpenScreenForManagingAlley(this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement).TroopRoster, new PartyPresentationDoneButtonDelegate(this.OnPartyScreenClosed), new TextObject("{=dQBArrqh}Manage Alley", null), null);
 		}
 
-		// Token: 0x06000634 RID: 1588 RVA: 0x0002F634 File Offset: 0x0002D834
 		private bool OnPartyScreenClosed(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty, PartyBase rightParty)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -514,13 +478,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000635 RID: 1589 RVA: 0x0002F688 File Offset: 0x0002D888
 		private void change_leader_of_the_alley_on_consequence(MenuCallbackArgs args)
 		{
 			AlleyHelper.CreateMultiSelectionInquiryForSelectingClanMemberToAlley(this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement).Alley, new Action<List<InquiryElement>>(this.ChangeAssignedClanMemberOfAlley), null);
 		}
 
-		// Token: 0x06000636 RID: 1590 RVA: 0x0002F6D8 File Offset: 0x0002D8D8
 		private void ChangeAssignedClanMemberOfAlley(List<InquiryElement> newClanMemberInquiryElement)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -528,7 +490,6 @@ namespace SandBox.CampaignBehaviors
 			this.ChangeTheLeaderOfAlleyInternal(playerAlleyData, heroObject);
 		}
 
-		// Token: 0x06000637 RID: 1591 RVA: 0x0002F730 File Offset: 0x0002D930
 		private void manage_alley_menu_on_init(MenuCallbackArgs args)
 		{
 			Campaign.Current.GameMenuManager.MenuLocations.Clear();
@@ -583,7 +544,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000638 RID: 1592 RVA: 0x0002F94C File Offset: 0x0002DB4C
 		private void StartAlleyFightWithOtherAlley()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -602,7 +562,6 @@ namespace SandBox.CampaignBehaviors
 			this._waitForBattleResults = true;
 		}
 
-		// Token: 0x06000639 RID: 1593 RVA: 0x0002FA34 File Offset: 0x0002DC34
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("alley_talk_start_player_owned_thug", "start", "alley_player_owned_start_thug", "{=!}{FURTHER_DETAIL}", new ConversationSentence.OnConditionDelegate(this.alley_talk_player_owned_thug_on_condition), null, 120, null);
@@ -647,21 +606,18 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("gang_leader_bodyguard_start", "start", "close_window", "{=NVvfxdIc}You best talk to the boss.", new ConversationSentence.OnConditionDelegate(this.gang_leader_bodyguard_on_condition), null, 200, null);
 		}
 
-		// Token: 0x0600063A RID: 1594 RVA: 0x0003002A File Offset: 0x0002E22A
 		private bool alley_abandon_while_under_attack_clickable_condition(out TextObject explanation)
 		{
 			explanation = new TextObject("{=3E1XVyGM}You will lose the ownership of the alley.", null);
 			return true;
 		}
 
-		// Token: 0x0600063B RID: 1595 RVA: 0x0003003C File Offset: 0x0002E23C
 		private bool alley_confront_dialog_on_condition()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
 			return playerAlleyData != null && playerAlleyData.IsUnderAttack && playerAlleyData.UnderAttackBy.Owner == Hero.OneToOneConversationHero;
 		}
 
-		// Token: 0x0600063C RID: 1596 RVA: 0x00030093 File Offset: 0x0002E293
 		private void start_alley_fight_after_conversation()
 		{
 			this._battleWillStartInCurrentSettlement = true;
@@ -672,7 +628,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600063D RID: 1597 RVA: 0x000300C4 File Offset: 0x0002E2C4
 		private void player_recruited_troops_from_alley()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -684,7 +639,6 @@ namespace SandBox.CampaignBehaviors
 			playerAlleyData.LastRecruitTime = CampaignTime.Now;
 		}
 
-		// Token: 0x0600063E RID: 1598 RVA: 0x000301A0 File Offset: 0x0002E3A0
 		private bool get_troops_to_recruit_from_alley()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -702,25 +656,21 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600063F RID: 1599 RVA: 0x00030294 File Offset: 0x0002E494
 		private bool alley_has_no_troops_to_recruit()
 		{
 			return this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement).RandomFloatWeekly > 0.5f;
 		}
 
-		// Token: 0x06000640 RID: 1600 RVA: 0x000302CC File Offset: 0x0002E4CC
 		private void change_leader_of_alley_from_dialog()
 		{
 			AlleyHelper.CreateMultiSelectionInquiryForSelectingClanMemberToAlley(this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement).Alley, new Action<List<InquiryElement>>(this.ChangeAssignedClanMemberOfAlley), null);
 		}
 
-		// Token: 0x06000641 RID: 1601 RVA: 0x0003031C File Offset: 0x0002E51C
 		private void manage_troops_of_alley_from_dialog()
 		{
 			AlleyHelper.OpenScreenForManagingAlley(this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement).TroopRoster, new PartyPresentationDoneButtonDelegate(this.OnPartyScreenClosed), new TextObject("{=dQBArrqh}Manage Alley", null), null);
 		}
 
-		// Token: 0x06000642 RID: 1602 RVA: 0x00030378 File Offset: 0x0002E578
 		private void abandon_alley_from_dialog_consequence()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
@@ -772,21 +722,18 @@ namespace SandBox.CampaignBehaviors
 			this._playerAbandonedAlleyFromDialogRecently = true;
 		}
 
-		// Token: 0x06000643 RID: 1603 RVA: 0x000304EC File Offset: 0x0002E6EC
 		private bool alley_talk_player_owned_alley_managed_not_under_attack_on_condition()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
 			return playerAlleyData != null && !playerAlleyData.IsUnderAttack && this.alley_talk_player_owned_alley_managed_common_condition();
 		}
 
-		// Token: 0x06000644 RID: 1604 RVA: 0x00030538 File Offset: 0x0002E738
 		private bool alley_talk_player_owned_alley_managed_common_condition()
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley.Settlement == Settlement.CurrentSettlement);
 			return playerAlleyData != null && playerAlleyData.AssignedClanMember == Hero.OneToOneConversationHero;
 		}
 
-		// Token: 0x06000645 RID: 1605 RVA: 0x00030584 File Offset: 0x0002E784
 		private bool alley_talk_player_owned_thug_on_condition()
 		{
 			if (!CharacterObject.OneToOneConversationCharacter.IsHero)
@@ -821,7 +768,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000646 RID: 1606 RVA: 0x000306A0 File Offset: 0x0002E8A0
 		private bool alley_activity_on_condition()
 		{
 			List<TextObject> list = new List<TextObject>();
@@ -860,14 +806,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000647 RID: 1607 RVA: 0x000307F6 File Offset: 0x0002E9F6
 		private bool alley_activity_2_on_condition()
 		{
 			StringHelpers.SetCharacterProperties("ALLEY_BOSS", CampaignMission.Current.LastVisitedAlley.Owner.CharacterObject, null, false);
 			return true;
 		}
 
-		// Token: 0x06000648 RID: 1608 RVA: 0x0003081C File Offset: 0x0002EA1C
 		private bool alley_talk_start_normal_on_condition()
 		{
 			Agent oneToOneConversationAgent = ConversationMission.OneToOneConversationAgent;
@@ -880,7 +824,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000649 RID: 1609 RVA: 0x00030884 File Offset: 0x0002EA84
 		private bool enter_alley_rude_on_occasion()
 		{
 			Agent oneToOneConversationAgent = ConversationMission.OneToOneConversationAgent;
@@ -890,7 +833,6 @@ namespace SandBox.CampaignBehaviors
 			return !owner.HasMet || relationWithPlayer < -5f;
 		}
 
-		// Token: 0x0600064A RID: 1610 RVA: 0x000308E0 File Offset: 0x0002EAE0
 		private void start_alley_fight_on_consequence()
 		{
 			this._playerIsInAlleyFightMission = true;
@@ -901,13 +843,11 @@ namespace SandBox.CampaignBehaviors
 			LogEntry.AddLogEntry(new PlayerAttackAlleyLogEntry(CampaignMission.Current.LastVisitedAlley.Owner, Hero.MainHero.CurrentSettlement));
 		}
 
-		// Token: 0x0600064B RID: 1611 RVA: 0x00030945 File Offset: 0x0002EB45
 		private bool gang_leader_bodyguard_on_condition()
 		{
 			return Settlement.CurrentSettlement != null && CharacterObject.OneToOneConversationCharacter == Settlement.CurrentSettlement.Culture.GangleaderBodyguard;
 		}
 
-		// Token: 0x0600064C RID: 1612 RVA: 0x00030968 File Offset: 0x0002EB68
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.AssignedClanMember == victim);
@@ -918,26 +858,22 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600064D RID: 1613 RVA: 0x000309E4 File Offset: 0x0002EBE4
 		public bool GetIsAlleyUnderAttack(Alley alley)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley);
 			return playerAlleyData != null && playerAlleyData.IsUnderAttack;
 		}
 
-		// Token: 0x0600064E RID: 1614 RVA: 0x00030A24 File Offset: 0x0002EC24
 		public int GetPlayerOwnedAlleyTroopCount(Alley alley)
 		{
 			return this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley).TroopRoster.TotalRegulars;
 		}
 
-		// Token: 0x0600064F RID: 1615 RVA: 0x00030A60 File Offset: 0x0002EC60
 		public int GetResponseTimeLeftForAttackInDays(Alley alley)
 		{
 			return (int)this._playerOwnedCommonAreaData.First((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley).AttackResponseDueDate.RemainingDaysFromNow;
 		}
 
-		// Token: 0x06000650 RID: 1616 RVA: 0x00030A9C File Offset: 0x0002EC9C
 		public void AbandonAlleyFromClanMenu(Alley alley)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley);
@@ -948,38 +884,32 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000651 RID: 1617 RVA: 0x00030AE8 File Offset: 0x0002ECE8
 		public bool IsHeroAlleyLeaderOfAnyPlayerAlley(Hero hero)
 		{
 			return this._playerOwnedCommonAreaData.Any((AlleyCampaignBehavior.PlayerAlleyData x) => x.AssignedClanMember == hero);
 		}
 
-		// Token: 0x06000652 RID: 1618 RVA: 0x00030B19 File Offset: 0x0002ED19
 		public List<Hero> GetAllAssignedClanMembersForOwnedAlleys()
 		{
 			return this._playerOwnedCommonAreaData.Select((AlleyCampaignBehavior.PlayerAlleyData x) => x.AssignedClanMember).ToList<Hero>();
 		}
 
-		// Token: 0x06000653 RID: 1619 RVA: 0x00030B4C File Offset: 0x0002ED4C
 		public void ChangeAlleyMember(Alley alley, Hero newAlleyLead)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley);
 			this.ChangeTheLeaderOfAlleyInternal(playerAlleyData, newAlleyLead);
 		}
 
-		// Token: 0x06000654 RID: 1620 RVA: 0x00030B86 File Offset: 0x0002ED86
 		public void OnPlayerRetreatedFromMission()
 		{
 			this._playerRetreatedFromMission = true;
 		}
 
-		// Token: 0x06000655 RID: 1621 RVA: 0x00030B8F File Offset: 0x0002ED8F
 		public void OnPlayerDiedInMission()
 		{
 			this._playerDiedInMission = true;
 		}
 
-		// Token: 0x06000656 RID: 1622 RVA: 0x00030B98 File Offset: 0x0002ED98
 		public Hero GetAssignedClanMemberOfAlley(Alley alley)
 		{
 			AlleyCampaignBehavior.PlayerAlleyData playerAlleyData = this._playerOwnedCommonAreaData.FirstOrDefault((AlleyCampaignBehavior.PlayerAlleyData x) => x.Alley == alley);
@@ -990,7 +920,6 @@ namespace SandBox.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06000657 RID: 1623 RVA: 0x00030BD8 File Offset: 0x0002EDD8
 		private void ChangeTheLeaderOfAlleyInternal(AlleyCampaignBehavior.PlayerAlleyData alleyData, Hero newLeader)
 		{
 			Hero assignedClanMember = alleyData.AssignedClanMember;
@@ -1007,7 +936,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000658 RID: 1624 RVA: 0x00030C5B File Offset: 0x0002EE5B
 		[GameMenuInitializationHandler("manage_alley")]
 		[GameMenuInitializationHandler("alley_fight_lost")]
 		[GameMenuInitializationHandler("alley_fight_won")]
@@ -1017,7 +945,6 @@ namespace SandBox.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.SettlementComponent.WaitMeshName);
 		}
 
-		// Token: 0x06000659 RID: 1625 RVA: 0x00030C78 File Offset: 0x0002EE78
 		[CommandLineFunctionality.CommandLineArgumentFunction("spawn_new_alley_attack", "campaign")]
 		public static string SpawnNewAlleyAttack(List<string> strings)
 		{
@@ -1035,7 +962,6 @@ namespace SandBox.CampaignBehaviors
 			return "There is no suitable alley for spawning an alley attack.";
 		}
 
-		// Token: 0x0600065A RID: 1626 RVA: 0x00030D2C File Offset: 0x0002EF2C
 		[CommandLineFunctionality.CommandLineArgumentFunction("make_random_gang_leader_occupy_alley_in_settlement", "campaign")]
 		public static string OccupyRandomAlley(List<string> strings)
 		{
@@ -1070,84 +996,60 @@ namespace SandBox.CampaignBehaviors
 			return "there is no empty alley int the settlement.";
 		}
 
-		// Token: 0x040002D4 RID: 724
 		private const int DesiredOccupiedAlleyPerTownFrequency = 2;
 
-		// Token: 0x040002D5 RID: 725
 		private const int RelationLossWithSettlementOwnerAfterOccupyingAnAlley = -2;
 
-		// Token: 0x040002D6 RID: 726
 		private const int RelationLossWithOldOwnerUponClearingAlley = -5;
 
-		// Token: 0x040002D7 RID: 727
 		private const int RelationGainWithOtherNotablesUponClearingAlley = 1;
 
-		// Token: 0x040002D8 RID: 728
 		private const float SpawningNewAlleyFightDailyPercentage = 0.015f;
 
-		// Token: 0x040002D9 RID: 729
 		private const float ConvertTroopsToThugsDailyPercentage = 0.01f;
 
-		// Token: 0x040002DA RID: 730
 		private const float GainOrLoseAlleyDailyBasePercentage = 0.02f;
 
-		// Token: 0x040002DB RID: 731
 		private CharacterObject _thug;
 
-		// Token: 0x040002DC RID: 732
 		private CharacterObject _expertThug;
 
-		// Token: 0x040002DD RID: 733
 		private CharacterObject _masterThug;
 
-		// Token: 0x040002DE RID: 734
 		private List<AlleyCampaignBehavior.PlayerAlleyData> _playerOwnedCommonAreaData = new List<AlleyCampaignBehavior.PlayerAlleyData>();
 
-		// Token: 0x040002DF RID: 735
 		private bool _battleWillStartInCurrentSettlement;
 
-		// Token: 0x040002E0 RID: 736
 		private bool _waitForBattleResults;
 
-		// Token: 0x040002E1 RID: 737
 		private bool _playerRetreatedFromMission;
 
-		// Token: 0x040002E2 RID: 738
 		private bool _playerDiedInMission;
 
-		// Token: 0x040002E3 RID: 739
 		private bool _playerIsInAlleyFightMission;
 
-		// Token: 0x040002E4 RID: 740
 		private bool _playerAbandonedAlleyFromDialogRecently;
 
-		// Token: 0x0200016C RID: 364
 		public class AlleyCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x06001140 RID: 4416 RVA: 0x0007309C File Offset: 0x0007129C
 			public AlleyCampaignBehaviorTypeDefiner()
 				: base(515253)
 			{
 			}
 
-			// Token: 0x06001141 RID: 4417 RVA: 0x000730A9 File Offset: 0x000712A9
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(AlleyCampaignBehavior.PlayerAlleyData), 1, null);
 			}
 
-			// Token: 0x06001142 RID: 4418 RVA: 0x000730BD File Offset: 0x000712BD
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(List<AlleyCampaignBehavior.PlayerAlleyData>));
 			}
 		}
 
-		// Token: 0x0200016D RID: 365
 		internal class PlayerAlleyData
 		{
-			// Token: 0x170001EE RID: 494
-			// (get) Token: 0x06001143 RID: 4419 RVA: 0x000730D0 File Offset: 0x000712D0
 			internal float RandomFloatWeekly
 			{
 				get
@@ -1160,8 +1062,6 @@ namespace SandBox.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x170001EF RID: 495
-			// (get) Token: 0x06001144 RID: 4420 RVA: 0x00073118 File Offset: 0x00071318
 			internal bool IsUnderAttack
 			{
 				get
@@ -1170,8 +1070,6 @@ namespace SandBox.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x170001F0 RID: 496
-			// (get) Token: 0x06001145 RID: 4421 RVA: 0x00073123 File Offset: 0x00071323
 			internal bool IsAssignedClanMemberDead
 			{
 				get
@@ -1180,7 +1078,6 @@ namespace SandBox.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06001146 RID: 4422 RVA: 0x00073130 File Offset: 0x00071330
 			internal PlayerAlleyData(Alley alley, TroopRoster roster)
 			{
 				this.Alley = alley;
@@ -1189,7 +1086,6 @@ namespace SandBox.CampaignBehaviors
 				this.UnderAttackBy = null;
 			}
 
-			// Token: 0x06001147 RID: 4423 RVA: 0x00073168 File Offset: 0x00071368
 			internal void AlleyFightWon()
 			{
 				this.UnderAttackBy.Owner.AddPower(-(this.UnderAttackBy.Owner.Power * 0.2f));
@@ -1203,7 +1099,6 @@ namespace SandBox.CampaignBehaviors
 				GameMenu.SwitchToMenu("alley_fight_won");
 			}
 
-			// Token: 0x06001148 RID: 4424 RVA: 0x00073211 File Offset: 0x00071411
 			internal void AlleyFightLost()
 			{
 				this.DestroyAlley(false);
@@ -1211,7 +1106,6 @@ namespace SandBox.CampaignBehaviors
 				GameMenu.SwitchToMenu("alley_fight_lost");
 			}
 
-			// Token: 0x06001149 RID: 4425 RVA: 0x00073230 File Offset: 0x00071430
 			internal void AbandonTheAlley(bool fromClanScreen = false)
 			{
 				if (!fromClanScreen)
@@ -1227,7 +1121,6 @@ namespace SandBox.CampaignBehaviors
 				this.DestroyAlley(true);
 			}
 
-			// Token: 0x0600114A RID: 4426 RVA: 0x000732BC File Offset: 0x000714BC
 			internal void DestroyAlley(bool fromAbandoning = false)
 			{
 				if (!fromAbandoning && this.AssignedClanMember.IsAlive)
@@ -1246,13 +1139,11 @@ namespace SandBox.CampaignBehaviors
 				this.UnderAttackBy = null;
 			}
 
-			// Token: 0x0600114B RID: 4427 RVA: 0x00073322 File Offset: 0x00071522
 			internal static void AutoGeneratedStaticCollectObjectsPlayerAlleyData(object o, List<object> collectedObjects)
 			{
 				((AlleyCampaignBehavior.PlayerAlleyData)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x0600114C RID: 4428 RVA: 0x00073330 File Offset: 0x00071530
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.Alley);
@@ -1263,63 +1154,51 @@ namespace SandBox.CampaignBehaviors
 				CampaignTime.AutoGeneratedStaticCollectObjectsCampaignTime(this.AttackResponseDueDate, collectedObjects);
 			}
 
-			// Token: 0x0600114D RID: 4429 RVA: 0x0007338F File Offset: 0x0007158F
 			internal static object AutoGeneratedGetMemberValueAlley(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).Alley;
 			}
 
-			// Token: 0x0600114E RID: 4430 RVA: 0x0007339C File Offset: 0x0007159C
 			internal static object AutoGeneratedGetMemberValueAssignedClanMember(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).AssignedClanMember;
 			}
 
-			// Token: 0x0600114F RID: 4431 RVA: 0x000733A9 File Offset: 0x000715A9
 			internal static object AutoGeneratedGetMemberValueUnderAttackBy(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).UnderAttackBy;
 			}
 
-			// Token: 0x06001150 RID: 4432 RVA: 0x000733B6 File Offset: 0x000715B6
 			internal static object AutoGeneratedGetMemberValueTroopRoster(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).TroopRoster;
 			}
 
-			// Token: 0x06001151 RID: 4433 RVA: 0x000733C3 File Offset: 0x000715C3
 			internal static object AutoGeneratedGetMemberValueLastRecruitTime(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).LastRecruitTime;
 			}
 
-			// Token: 0x06001152 RID: 4434 RVA: 0x000733D5 File Offset: 0x000715D5
 			internal static object AutoGeneratedGetMemberValueAttackResponseDueDate(object o)
 			{
 				return ((AlleyCampaignBehavior.PlayerAlleyData)o).AttackResponseDueDate;
 			}
 
-			// Token: 0x040006CC RID: 1740
 			[SaveableField(1)]
 			internal readonly Alley Alley;
 
-			// Token: 0x040006CD RID: 1741
 			[SaveableField(2)]
 			internal Hero AssignedClanMember;
 
-			// Token: 0x040006CE RID: 1742
 			[SaveableField(3)]
 			internal Alley UnderAttackBy;
 
-			// Token: 0x040006CF RID: 1743
 			[SaveableField(4)]
 			internal TroopRoster TroopRoster;
 
-			// Token: 0x040006D0 RID: 1744
 			[SaveableField(5)]
 			internal CampaignTime LastRecruitTime;
 
-			// Token: 0x040006D1 RID: 1745
 			[SaveableField(6)]
 			internal CampaignTime AttackResponseDueDate;
 		}

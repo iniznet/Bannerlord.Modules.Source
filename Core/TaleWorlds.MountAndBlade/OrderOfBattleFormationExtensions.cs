@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200038A RID: 906
 	public static class OrderOfBattleFormationExtensions
 	{
-		// Token: 0x060031B7 RID: 12727 RVA: 0x000CEDA4 File Offset: 0x000CCFA4
 		public unsafe static void Refresh(this Formation formation)
 		{
 			if (formation != null)
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031B8 RID: 12728 RVA: 0x000CEDBA File Offset: 0x000CCFBA
 		public static DeploymentFormationClass GetOrderOfBattleFormationClass(this FormationClass formationClass)
 		{
 			switch (formationClass)
@@ -40,7 +37,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031B9 RID: 12729 RVA: 0x000CEDF0 File Offset: 0x000CCFF0
 		public static List<FormationClass> GetFormationClasses(this DeploymentFormationClass orderOfBattleFormationClass)
 		{
 			List<FormationClass> list = new List<FormationClass>();
@@ -70,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x060031BA RID: 12730 RVA: 0x000CEE68 File Offset: 0x000CD068
 		public static TextObject GetFilterName(this FormationFilterType filterType)
 		{
 			switch (filterType)
@@ -92,7 +87,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031BB RID: 12731 RVA: 0x000CEEEC File Offset: 0x000CD0EC
 		public static TextObject GetFilterDescription(this FormationFilterType filterType)
 		{
 			switch (filterType)
@@ -116,7 +110,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031BC RID: 12732 RVA: 0x000CEF7C File Offset: 0x000CD17C
 		public static TextObject GetClassName(this DeploymentFormationClass formationClass)
 		{
 			switch (formationClass)
@@ -138,7 +131,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060031BD RID: 12733 RVA: 0x000CF00E File Offset: 0x000CD20E
 		public static List<Agent> GetHeroAgents(this Team team)
 		{
 			return team.ActiveAgents.Where((Agent a) => a.IsHero).ToList<Agent>();

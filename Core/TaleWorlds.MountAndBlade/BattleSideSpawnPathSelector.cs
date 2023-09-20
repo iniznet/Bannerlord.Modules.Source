@@ -5,11 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001F5 RID: 501
 	public class BattleSideSpawnPathSelector
 	{
-		// Token: 0x17000587 RID: 1415
-		// (get) Token: 0x06001BE4 RID: 7140 RVA: 0x00062E3E File Offset: 0x0006103E
 		public SpawnPathData InitialSpawnPath
 		{
 			get
@@ -18,8 +15,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000588 RID: 1416
-		// (get) Token: 0x06001BE5 RID: 7141 RVA: 0x00062E46 File Offset: 0x00061046
 		public MBReadOnlyList<SpawnPathData> ReinforcementPaths
 		{
 			get
@@ -28,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001BE6 RID: 7142 RVA: 0x00062E4E File Offset: 0x0006104E
 		public BattleSideSpawnPathSelector(Mission mission, Path initialPath, float initialPathCenterRatio, bool initialPathIsInverted)
 		{
 			this._mission = mission;
@@ -37,13 +31,11 @@ namespace TaleWorlds.MountAndBlade
 			this.FindReinforcementPaths();
 		}
 
-		// Token: 0x06001BE7 RID: 7143 RVA: 0x00062E80 File Offset: 0x00061080
 		public bool HasReinforcementPath(Path path)
 		{
 			return path != null && this._reinforcementSpawnPaths.Exists((SpawnPathData pathData) => pathData.Path.Pointer == path.Pointer);
 		}
 
-		// Token: 0x06001BE8 RID: 7144 RVA: 0x00062EC4 File Offset: 0x000610C4
 		private void FindReinforcementPaths()
 		{
 			this._reinforcementSpawnPaths.Clear();
@@ -97,16 +89,12 @@ namespace TaleWorlds.MountAndBlade
 			flag = spawnPathData.Path.Pointer == allSpawnPaths[0].Pointer;
 		}
 
-		// Token: 0x04000905 RID: 2309
 		public const float MaxNeighborCount = 2f;
 
-		// Token: 0x04000906 RID: 2310
 		private readonly Mission _mission;
 
-		// Token: 0x04000907 RID: 2311
 		private readonly SpawnPathData _initialSpawnPath;
 
-		// Token: 0x04000908 RID: 2312
 		private readonly MBList<SpawnPathData> _reinforcementSpawnPaths;
 	}
 }

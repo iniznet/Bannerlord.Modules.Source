@@ -8,17 +8,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x02000059 RID: 89
 	public class EditableTextWidget : BrushWidget
 	{
-		// Token: 0x170001A1 RID: 417
-		// (get) Token: 0x060005A7 RID: 1447 RVA: 0x00018710 File Offset: 0x00016910
-		// (set) Token: 0x060005A8 RID: 1448 RVA: 0x00018718 File Offset: 0x00016918
 		public int MaxLength { get; set; } = -1;
 
-		// Token: 0x170001A2 RID: 418
-		// (get) Token: 0x060005A9 RID: 1449 RVA: 0x00018721 File Offset: 0x00016921
-		// (set) Token: 0x060005AA RID: 1450 RVA: 0x00018729 File Offset: 0x00016929
 		public bool IsObfuscationEnabled
 		{
 			get
@@ -35,8 +28,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A3 RID: 419
-		// (get) Token: 0x060005AB RID: 1451 RVA: 0x00018744 File Offset: 0x00016944
 		private Vector2 LocalMousePosition
 		{
 			get
@@ -49,14 +40,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A4 RID: 420
-		// (get) Token: 0x060005AC RID: 1452 RVA: 0x00018785 File Offset: 0x00016985
-		// (set) Token: 0x060005AD RID: 1453 RVA: 0x0001878D File Offset: 0x0001698D
 		public string DefaultSearchText { get; set; }
 
-		// Token: 0x170001A5 RID: 421
-		// (get) Token: 0x060005AE RID: 1454 RVA: 0x00018796 File Offset: 0x00016996
-		// (set) Token: 0x060005AF RID: 1455 RVA: 0x000187A0 File Offset: 0x000169A0
 		[Editor(false)]
 		public string RealText
 		{
@@ -80,9 +65,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A6 RID: 422
-		// (get) Token: 0x060005B0 RID: 1456 RVA: 0x00018810 File Offset: 0x00016A10
-		// (set) Token: 0x060005B1 RID: 1457 RVA: 0x00018818 File Offset: 0x00016A18
 		[Editor(false)]
 		public string KeyboardInfoText
 		{
@@ -100,9 +82,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001A7 RID: 423
-		// (get) Token: 0x060005B2 RID: 1458 RVA: 0x0001883B File Offset: 0x00016A3B
-		// (set) Token: 0x060005B3 RID: 1459 RVA: 0x00018848 File Offset: 0x00016A48
 		[Editor(false)]
 		public string Text
 		{
@@ -132,7 +111,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005B4 RID: 1460 RVA: 0x00018908 File Offset: 0x00016B08
 		public EditableTextWidget(UIContext context)
 			: base(context)
 		{
@@ -150,7 +128,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.IsFocusable = true;
 		}
 
-		// Token: 0x060005B5 RID: 1461 RVA: 0x000189E0 File Offset: 0x00016BE0
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -175,7 +152,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.SetEditTextParameters();
 		}
 
-		// Token: 0x060005B6 RID: 1462 RVA: 0x00018A84 File Offset: 0x00016C84
 		private void SetEditTextParameters()
 		{
 			bool flag = false;
@@ -202,19 +178,16 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005B7 RID: 1463 RVA: 0x00018B43 File Offset: 0x00016D43
 		protected void BlinkCursor()
 		{
 			this._cursorVisible = !this._cursorVisible;
 		}
 
-		// Token: 0x060005B8 RID: 1464 RVA: 0x00018B54 File Offset: 0x00016D54
 		protected void ResetSelected()
 		{
 			this._editableText.ResetSelected();
 		}
 
-		// Token: 0x060005B9 RID: 1465 RVA: 0x00018B64 File Offset: 0x00016D64
 		protected void DeleteChar(bool nextChar = false)
 		{
 			int num = this._editableText.CursorPosition;
@@ -240,13 +213,11 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ResetSelected();
 		}
 
-		// Token: 0x060005BA RID: 1466 RVA: 0x00018C3A File Offset: 0x00016E3A
 		protected int FindNextWordPosition(int direction)
 		{
 			return this._editableText.FindNextWordPosition(direction);
 		}
 
-		// Token: 0x060005BB RID: 1467 RVA: 0x00018C48 File Offset: 0x00016E48
 		protected void MoveCursor(int direction, bool withSelection = false)
 		{
 			if (!withSelection)
@@ -256,7 +227,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._editableText.SetCursor(this._editableText.CursorPosition + direction, true, withSelection);
 		}
 
-		// Token: 0x060005BC RID: 1468 RVA: 0x00018C70 File Offset: 0x00016E70
 		protected string GetAppendCharacterResult(int charCode)
 		{
 			if (this.MaxLength > -1 && this.Text.Length >= this.MaxLength)
@@ -268,7 +238,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return this.RealText.Substring(0, cursorPosition) + c.ToString() + this.RealText.Substring(cursorPosition, this.RealText.Length - cursorPosition);
 		}
 
-		// Token: 0x060005BD RID: 1469 RVA: 0x00018CE8 File Offset: 0x00016EE8
 		protected void AppendCharacter(int charCode)
 		{
 			if (this.MaxLength > -1 && this.Text.Length >= this.MaxLength)
@@ -282,7 +251,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ResetSelected();
 		}
 
-		// Token: 0x060005BE RID: 1470 RVA: 0x00018D64 File Offset: 0x00016F64
 		protected void AppendText(string text)
 		{
 			if (this.MaxLength > -1 && this.Text.Length >= this.MaxLength)
@@ -300,7 +268,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ResetSelected();
 		}
 
-		// Token: 0x060005BF RID: 1471 RVA: 0x00018E48 File Offset: 0x00017048
 		protected void DeleteText(int beginIndex, int endIndex)
 		{
 			if (beginIndex == endIndex)
@@ -313,7 +280,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.ResetSelected();
 		}
 
-		// Token: 0x060005C0 RID: 1472 RVA: 0x00018EC4 File Offset: 0x000170C4
 		protected void CopyText(int beginIndex, int endIndex)
 		{
 			if (beginIndex == endIndex)
@@ -333,14 +299,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			Input.SetClipboardText(this.RealText.Substring(num, num2 - num));
 		}
 
-		// Token: 0x060005C1 RID: 1473 RVA: 0x00018F1C File Offset: 0x0001711C
 		protected void PasteText()
 		{
 			string text = Regex.Replace(Input.GetClipboardText(), "[<>]+", " ");
 			this.AppendText(text);
 		}
 
-		// Token: 0x060005C2 RID: 1474 RVA: 0x00018F48 File Offset: 0x00017148
 		public override void HandleInput(IReadOnlyList<int> lastKeysPressed)
 		{
 			if (base.IsDisabled)
@@ -505,7 +469,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005C3 RID: 1475 RVA: 0x00019378 File Offset: 0x00017578
 		protected internal override void OnGainFocus()
 		{
 			base.OnGainFocus();
@@ -516,7 +479,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005C4 RID: 1476 RVA: 0x000193D0 File Offset: 0x000175D0
 		protected internal override void OnLoseFocus()
 		{
 			base.OnLoseFocus();
@@ -529,7 +491,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005C5 RID: 1477 RVA: 0x00019430 File Offset: 0x00017630
 		private void UpdateText()
 		{
 			if (base.IsDisabled)
@@ -554,7 +515,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005C6 RID: 1478 RVA: 0x000194C8 File Offset: 0x000176C8
 		private void UpdateFontData()
 		{
 			if (this._lastFontBrush == base.ReadOnlyBrush && this._lastScale == base._scaleToUse && this._lastLanguageCode == base.Context.FontFactory.CurrentLangageID)
@@ -586,7 +546,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._editableText.CurrentLanguage = base.Context.FontFactory.GetCurrentLanguage();
 		}
 
-		// Token: 0x060005C7 RID: 1479 RVA: 0x00019634 File Offset: 0x00017834
 		private Font GetFont(Style style = null)
 		{
 			if (((style != null) ? style.Font : null) != null)
@@ -600,7 +559,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return base.Context.FontFactory.DefaultFont;
 		}
 
-		// Token: 0x060005C8 RID: 1480 RVA: 0x000196AC File Offset: 0x000178AC
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -617,7 +575,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005C9 RID: 1481 RVA: 0x00019784 File Offset: 0x00017984
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			base.OnRender(twoDimensionContext, drawContext);
@@ -680,7 +637,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x060005CA RID: 1482 RVA: 0x00019B14 File Offset: 0x00017D14
 		protected internal override void OnMousePressed()
 		{
 			base.OnMousePressed();
@@ -690,7 +646,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._editableText.HighlightEnd = false;
 		}
 
-		// Token: 0x060005CB RID: 1483 RVA: 0x00019B47 File Offset: 0x00017D47
 		protected internal override void OnMouseReleased()
 		{
 			base.OnMouseReleased();
@@ -698,7 +653,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._editableText.HighlightEnd = true;
 		}
 
-		// Token: 0x060005CC RID: 1484 RVA: 0x00019B62 File Offset: 0x00017D62
 		private void OnObfuscationToggled(bool isEnabled)
 		{
 			if (isEnabled)
@@ -709,13 +663,11 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.Text = this.RealText;
 		}
 
-		// Token: 0x060005CD RID: 1485 RVA: 0x00019B86 File Offset: 0x00017D86
 		private string ObfuscateText(string stringToObfuscate)
 		{
 			return new string(this._obfuscationChar, stringToObfuscate.Length);
 		}
 
-		// Token: 0x060005CE RID: 1486 RVA: 0x00019B9C File Offset: 0x00017D9C
 		public virtual void SetAllText(string text)
 		{
 			this.DeleteText(0, this.RealText.Length);
@@ -723,84 +675,56 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.AppendText(text2);
 		}
 
-		// Token: 0x040002BD RID: 701
 		protected EditableText _editableText;
 
-		// Token: 0x040002BE RID: 702
 		protected readonly char _obfuscationChar = '*';
 
-		// Token: 0x040002BF RID: 703
 		protected float _lastScale = -1f;
 
-		// Token: 0x040002C0 RID: 704
 		protected bool _isObfuscationEnabled;
 
-		// Token: 0x040002C1 RID: 705
 		protected string _lastLanguageCode;
 
-		// Token: 0x040002C2 RID: 706
 		protected Brush _lastFontBrush;
 
-		// Token: 0x040002C3 RID: 707
 		protected EditableTextWidget.MouseState _mouseState;
 
-		// Token: 0x040002C4 RID: 708
 		protected Vector2 _mouseDownPosition;
 
-		// Token: 0x040002C5 RID: 709
 		protected bool _cursorVisible;
 
-		// Token: 0x040002C6 RID: 710
 		protected int _textHeight;
 
-		// Token: 0x040002C7 RID: 711
 		protected EditableTextWidget.CursorMovementDirection _cursorDirection;
 
-		// Token: 0x040002C8 RID: 712
 		protected EditableTextWidget.KeyboardAction _keyboardAction;
 
-		// Token: 0x040002C9 RID: 713
 		protected int _nextRepeatTime;
 
-		// Token: 0x040002CA RID: 714
 		protected bool _isSelection;
 
-		// Token: 0x040002CD RID: 717
 		private string _realText = "";
 
-		// Token: 0x040002CE RID: 718
 		private string _keyboardInfoText = "";
 
-		// Token: 0x02000088 RID: 136
 		protected enum MouseState
 		{
-			// Token: 0x0400044E RID: 1102
 			None,
-			// Token: 0x0400044F RID: 1103
 			Down,
-			// Token: 0x04000450 RID: 1104
 			Up
 		}
 
-		// Token: 0x02000089 RID: 137
 		protected enum CursorMovementDirection
 		{
-			// Token: 0x04000452 RID: 1106
 			None,
-			// Token: 0x04000453 RID: 1107
 			Left = -1,
-			// Token: 0x04000454 RID: 1108
 			Right = 1
 		}
 
-		// Token: 0x0200008A RID: 138
 		protected enum KeyboardAction
 		{
-			// Token: 0x04000456 RID: 1110
 			None,
-			// Token: 0x04000457 RID: 1111
 			BackSpace,
-			// Token: 0x04000458 RID: 1112
 			Delete
 		}
 	}

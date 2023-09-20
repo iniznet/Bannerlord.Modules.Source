@@ -7,17 +7,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200038B RID: 907
 	public class DiscardItemsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600356A RID: 13674 RVA: 0x000E6FB0 File Offset: 0x000E51B0
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnItemsDiscardedByPlayerEvent.AddNonSerializedListener(this, new Action<ItemRoster>(this.OnItemsDiscardedByPlayer));
 			CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.OnHourlyTickParty));
 		}
 
-		// Token: 0x0600356B RID: 13675 RVA: 0x000E6FE0 File Offset: 0x000E51E0
 		private void OnHourlyTickParty(MobileParty mobileParty)
 		{
 			if (mobileParty.IsLordParty && !mobileParty.IsMainParty && mobileParty.LeaderHero != null)
@@ -26,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600356C RID: 13676 RVA: 0x000E7008 File Offset: 0x000E5208
 		private void OnItemsDiscardedByPlayer(ItemRoster roster)
 		{
 			int xpBonusForDiscardingItems = Campaign.Current.Models.ItemDiscardModel.GetXpBonusForDiscardingItems(roster);
@@ -36,12 +32,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600356D RID: 13677 RVA: 0x000E7040 File Offset: 0x000E5240
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600356E RID: 13678 RVA: 0x000E7044 File Offset: 0x000E5244
 		private void HandlePartyInventory(PartyBase party)
 		{
 			if (party.IsMobile && party.MobileParty.IsLordParty && !party.MobileParty.IsMainParty)
@@ -58,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600356F RID: 13679 RVA: 0x000E7114 File Offset: 0x000E5314
 		private void DiscardAnimalsCausingHerdingPenalty(MobileParty mobileParty, int amount)
 		{
 			int num = amount;
@@ -91,7 +84,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003570 RID: 13680 RVA: 0x000E7254 File Offset: 0x000E5454
 		private void DiscardOverburdeningItemsForParty(MobileParty mobileParty, float totalWeightToDiscard)
 		{
 			int num = (int)(mobileParty.FoodChange * -20f);
@@ -123,7 +115,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003571 RID: 13681 RVA: 0x000E733C File Offset: 0x000E553C
 		private void DiscardNecessaryAmountOfItems(MobileParty mobileParty, ItemRosterElement itemRosterElement, ref float weightLeftToDiscard)
 		{
 			if (itemRosterElement.GetRosterElementWeight() < weightLeftToDiscard)
@@ -137,7 +128,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			weightLeftToDiscard -= itemRosterElement.EquipmentElement.GetEquipmentElementWeight() * (float)num;
 		}
 
-		// Token: 0x06003572 RID: 13682 RVA: 0x000E73C0 File Offset: 0x000E55C0
 		private void DiscardAnimal(MobileParty mobileParty, ItemRosterElement itemRosterElement, ref int numberOfAnimalsToDiscard)
 		{
 			if (itemRosterElement.Amount > numberOfAnimalsToDiscard)

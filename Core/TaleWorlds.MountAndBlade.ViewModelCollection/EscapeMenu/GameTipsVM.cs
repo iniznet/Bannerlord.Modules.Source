@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 {
-	// Token: 0x0200010A RID: 266
 	public class GameTipsVM : ViewModel
 	{
-		// Token: 0x060017DD RID: 6109 RVA: 0x0004EE8B File Offset: 0x0004D08B
 		public GameTipsVM(bool isAutoChangeEnabled, bool navigationButtonsEnabled)
 		{
 			this._navigationButtonsEnabled = navigationButtonsEnabled;
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			this.RefreshValues();
 		}
 
-		// Token: 0x060017DE RID: 6110 RVA: 0x0004EEB4 File Offset: 0x0004D0B4
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -44,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			this.CurrentTip = ((this._allTips.Count == 0) ? string.Empty : this._allTips.GetRandomElement<string>());
 		}
 
-		// Token: 0x060017DF RID: 6111 RVA: 0x0004F02C File Offset: 0x0004D22C
 		public void ExecutePreviousTip()
 		{
 			this._currentTipIndex--;
@@ -55,14 +51,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			this.CurrentTip = this._allTips[this._currentTipIndex];
 		}
 
-		// Token: 0x060017E0 RID: 6112 RVA: 0x0004F07A File Offset: 0x0004D27A
 		public void ExecuteNextTip()
 		{
 			this._currentTipIndex = (this._currentTipIndex + 1) % this._allTips.Count;
 			this.CurrentTip = this._allTips[this._currentTipIndex];
 		}
 
-		// Token: 0x060017E1 RID: 6113 RVA: 0x0004F0AD File Offset: 0x0004D2AD
 		public void OnTick(float dt)
 		{
 			if (this._isAutoChangeEnabled)
@@ -76,9 +70,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007CC RID: 1996
-		// (get) Token: 0x060017E2 RID: 6114 RVA: 0x0004F0E4 File Offset: 0x0004D2E4
-		// (set) Token: 0x060017E3 RID: 6115 RVA: 0x0004F0EC File Offset: 0x0004D2EC
 		[DataSourceProperty]
 		public string CurrentTip
 		{
@@ -96,9 +87,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007CD RID: 1997
-		// (get) Token: 0x060017E4 RID: 6116 RVA: 0x0004F10F File Offset: 0x0004D30F
-		// (set) Token: 0x060017E5 RID: 6117 RVA: 0x0004F117 File Offset: 0x0004D317
 		[DataSourceProperty]
 		public string GameTipTitle
 		{
@@ -116,9 +104,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x170007CE RID: 1998
-		// (get) Token: 0x060017E6 RID: 6118 RVA: 0x0004F13A File Offset: 0x0004D33A
-		// (set) Token: 0x060017E7 RID: 6119 RVA: 0x0004F142 File Offset: 0x0004D342
 		[DataSourceProperty]
 		public bool NavigationButtonsEnabled
 		{
@@ -136,28 +121,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu
 			}
 		}
 
-		// Token: 0x04000B6A RID: 2922
 		private MBList<string> _allTips;
 
-		// Token: 0x04000B6B RID: 2923
 		private readonly float _tipTimeInterval = 5f;
 
-		// Token: 0x04000B6C RID: 2924
 		private readonly bool _isAutoChangeEnabled;
 
-		// Token: 0x04000B6D RID: 2925
 		private int _currentTipIndex;
 
-		// Token: 0x04000B6E RID: 2926
 		private float _totalDt;
 
-		// Token: 0x04000B6F RID: 2927
 		private string _currentTip;
 
-		// Token: 0x04000B70 RID: 2928
 		private string _gameTipTitle;
 
-		// Token: 0x04000B71 RID: 2929
 		private bool _navigationButtonsEnabled;
 	}
 }

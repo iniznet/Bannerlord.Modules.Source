@@ -4,11 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000B3 RID: 179
 	public class ProEmpireConspiracyBeginsSceneNotificationItem : EmpireConspiracySupportsSceneNotificationItemBase
 	{
-		// Token: 0x170004F1 RID: 1265
-		// (get) Token: 0x060011DE RID: 4574 RVA: 0x00051EA4 File Offset: 0x000500A4
 		public override TextObject TitleText
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x060011DF RID: 4575 RVA: 0x00051EEB File Offset: 0x000500EB
 		public ProEmpireConspiracyBeginsSceneNotificationItem(Hero kingHero)
 			: base(kingHero)
 		{

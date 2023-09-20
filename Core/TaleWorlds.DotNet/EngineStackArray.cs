@@ -2,14 +2,11 @@
 
 namespace TaleWorlds.DotNet
 {
-	// Token: 0x02000010 RID: 16
 	internal class EngineStackArray
 	{
-		// Token: 0x02000034 RID: 52
 		[EngineStruct("Stack_array_40_int")]
 		public struct StackArray40Int
 		{
-			// Token: 0x1700001D RID: 29
 			public int this[int index]
 			{
 				get
@@ -230,127 +227,86 @@ namespace TaleWorlds.DotNet
 				}
 			}
 
-			// Token: 0x0400006B RID: 107
 			private int _element0;
 
-			// Token: 0x0400006C RID: 108
 			private int _element1;
 
-			// Token: 0x0400006D RID: 109
 			private int _element2;
 
-			// Token: 0x0400006E RID: 110
 			private int _element3;
 
-			// Token: 0x0400006F RID: 111
 			private int _element4;
 
-			// Token: 0x04000070 RID: 112
 			private int _element5;
 
-			// Token: 0x04000071 RID: 113
 			private int _element6;
 
-			// Token: 0x04000072 RID: 114
 			private int _element7;
 
-			// Token: 0x04000073 RID: 115
 			private int _element8;
 
-			// Token: 0x04000074 RID: 116
 			private int _element9;
 
-			// Token: 0x04000075 RID: 117
 			private int _element10;
 
-			// Token: 0x04000076 RID: 118
 			private int _element11;
 
-			// Token: 0x04000077 RID: 119
 			private int _element12;
 
-			// Token: 0x04000078 RID: 120
 			private int _element13;
 
-			// Token: 0x04000079 RID: 121
 			private int _element14;
 
-			// Token: 0x0400007A RID: 122
 			private int _element15;
 
-			// Token: 0x0400007B RID: 123
 			private int _element16;
 
-			// Token: 0x0400007C RID: 124
 			private int _element17;
 
-			// Token: 0x0400007D RID: 125
 			private int _element18;
 
-			// Token: 0x0400007E RID: 126
 			private int _element19;
 
-			// Token: 0x0400007F RID: 127
 			private int _element20;
 
-			// Token: 0x04000080 RID: 128
 			private int _element21;
 
-			// Token: 0x04000081 RID: 129
 			private int _element22;
 
-			// Token: 0x04000082 RID: 130
 			private int _element23;
 
-			// Token: 0x04000083 RID: 131
 			private int _element24;
 
-			// Token: 0x04000084 RID: 132
 			private int _element25;
 
-			// Token: 0x04000085 RID: 133
 			private int _element26;
 
-			// Token: 0x04000086 RID: 134
 			private int _element27;
 
-			// Token: 0x04000087 RID: 135
 			private int _element28;
 
-			// Token: 0x04000088 RID: 136
 			private int _element29;
 
-			// Token: 0x04000089 RID: 137
 			private int _element30;
 
-			// Token: 0x0400008A RID: 138
 			private int _element31;
 
-			// Token: 0x0400008B RID: 139
 			private int _element32;
 
-			// Token: 0x0400008C RID: 140
 			private int _element33;
 
-			// Token: 0x0400008D RID: 141
 			private int _element34;
 
-			// Token: 0x0400008E RID: 142
 			private int _element35;
 
-			// Token: 0x0400008F RID: 143
 			private int _element36;
 
-			// Token: 0x04000090 RID: 144
 			private int _element37;
 
-			// Token: 0x04000091 RID: 145
 			private int _element38;
 
-			// Token: 0x04000092 RID: 146
 			private int _element39;
 
-			// Token: 0x04000093 RID: 147
 			public const int Length = 40;
 		}
 	}

@@ -5,16 +5,10 @@ using TaleWorlds.MountAndBlade.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
-	// Token: 0x02000025 RID: 37
 	public class OrderSiegeMachineVM : OrderSubjectVM
 	{
-		// Token: 0x170000D0 RID: 208
-		// (get) Token: 0x060002BE RID: 702 RVA: 0x0000D0E3 File Offset: 0x0000B2E3
-		// (set) Token: 0x060002BF RID: 703 RVA: 0x0000D0EB File Offset: 0x0000B2EB
 		public DeploymentPoint DeploymentPoint { get; private set; }
 
-		// Token: 0x170000D1 RID: 209
-		// (get) Token: 0x060002C0 RID: 704 RVA: 0x0000D0F4 File Offset: 0x0000B2F4
 		public SiegeWeapon SiegeWeapon
 		{
 			get
@@ -27,8 +21,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000D2 RID: 210
-		// (get) Token: 0x060002C1 RID: 705 RVA: 0x0000D110 File Offset: 0x0000B310
 		public bool IsPrimarySiegeMachine
 		{
 			get
@@ -37,9 +29,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000D3 RID: 211
-		// (get) Token: 0x060002C2 RID: 706 RVA: 0x0000D120 File Offset: 0x0000B320
-		// (set) Token: 0x060002C3 RID: 707 RVA: 0x0000D128 File Offset: 0x0000B328
 		[DataSourceProperty]
 		public string MachineClass
 		{
@@ -54,9 +43,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000D4 RID: 212
-		// (get) Token: 0x060002C4 RID: 708 RVA: 0x0000D13D File Offset: 0x0000B33D
-		// (set) Token: 0x060002C5 RID: 709 RVA: 0x0000D145 File Offset: 0x0000B345
 		[DataSourceProperty]
 		public double CurrentHP
 		{
@@ -74,9 +60,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000D5 RID: 213
-		// (get) Token: 0x060002C6 RID: 710 RVA: 0x0000D163 File Offset: 0x0000B363
-		// (set) Token: 0x060002C7 RID: 711 RVA: 0x0000D16B File Offset: 0x0000B36B
 		public bool IsInside
 		{
 			get
@@ -93,9 +76,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000D6 RID: 214
-		// (get) Token: 0x060002C8 RID: 712 RVA: 0x0000D189 File Offset: 0x0000B389
-		// (set) Token: 0x060002C9 RID: 713 RVA: 0x0000D191 File Offset: 0x0000B391
 		public Vec2 Position
 		{
 			get
@@ -112,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002CA RID: 714 RVA: 0x0000D1B4 File Offset: 0x0000B3B4
 		private void ExecuteAction()
 		{
 			if (this.SiegeWeapon != null)
@@ -121,7 +100,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002CB RID: 715 RVA: 0x0000D1CA File Offset: 0x0000B3CA
 		public OrderSiegeMachineVM(DeploymentPoint deploymentPoint, Action<OrderSiegeMachineVM> setSelected, int keyIndex)
 		{
 			this.DeploymentPoint = deploymentPoint;
@@ -129,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			base.ShortcutText = keyIndex.ToString();
 		}
 
-		// Token: 0x060002CC RID: 716 RVA: 0x0000D1F8 File Offset: 0x0000B3F8
 		public void RefreshSiegeWeapon()
 		{
 			if (this.SiegeWeapon == null)
@@ -150,7 +127,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002CD RID: 717 RVA: 0x0000D2C0 File Offset: 0x0000B4C0
 		public static SiegeEngineType GetSiegeType(Type t, BattleSideEnum side)
 		{
 			if (t == typeof(SiegeLadder))
@@ -204,22 +180,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x04000158 RID: 344
 		public Type MachineType;
 
-		// Token: 0x04000159 RID: 345
 		public Action<OrderSiegeMachineVM> SetSelected;
 
-		// Token: 0x0400015A RID: 346
 		private string _machineClass = "";
 
-		// Token: 0x0400015B RID: 347
 		private double _currentHP;
 
-		// Token: 0x0400015C RID: 348
 		private bool _isInside;
 
-		// Token: 0x0400015D RID: 349
 		private Vec2 _position;
 	}
 }

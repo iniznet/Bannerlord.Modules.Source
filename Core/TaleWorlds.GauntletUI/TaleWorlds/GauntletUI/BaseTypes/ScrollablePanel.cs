@@ -7,22 +7,12 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x02000063 RID: 99
 	public class ScrollablePanel : Widget
 	{
-		// Token: 0x1400000F RID: 15
-		// (add) Token: 0x0600063C RID: 1596 RVA: 0x0001BED4 File Offset: 0x0001A0D4
-		// (remove) Token: 0x0600063D RID: 1597 RVA: 0x0001BF0C File Offset: 0x0001A10C
 		public event Action<float> OnScroll;
 
-		// Token: 0x170001C8 RID: 456
-		// (get) Token: 0x0600063E RID: 1598 RVA: 0x0001BF41 File Offset: 0x0001A141
-		// (set) Token: 0x0600063F RID: 1599 RVA: 0x0001BF49 File Offset: 0x0001A149
 		public Widget ClipRect { get; set; }
 
-		// Token: 0x170001C9 RID: 457
-		// (get) Token: 0x06000640 RID: 1600 RVA: 0x0001BF52 File Offset: 0x0001A152
-		// (set) Token: 0x06000641 RID: 1601 RVA: 0x0001BF5A File Offset: 0x0001A15A
 		public Widget InnerPanel
 		{
 			get
@@ -39,8 +29,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001CA RID: 458
-		// (get) Token: 0x06000642 RID: 1602 RVA: 0x0001BF72 File Offset: 0x0001A172
 		public ScrollbarWidget ActiveScrollbar
 		{
 			get
@@ -49,22 +37,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001CB RID: 459
-		// (get) Token: 0x06000643 RID: 1603 RVA: 0x0001BF84 File Offset: 0x0001A184
-		// (set) Token: 0x06000644 RID: 1604 RVA: 0x0001BF8C File Offset: 0x0001A18C
 		public bool UpdateScrollbarVisibility { get; set; } = true;
 
-		// Token: 0x170001CC RID: 460
-		// (get) Token: 0x06000645 RID: 1605 RVA: 0x0001BF95 File Offset: 0x0001A195
-		// (set) Token: 0x06000646 RID: 1606 RVA: 0x0001BF9D File Offset: 0x0001A19D
 		public Widget FixedHeader { get; set; }
 
-		// Token: 0x170001CD RID: 461
-		// (get) Token: 0x06000647 RID: 1607 RVA: 0x0001BFA6 File Offset: 0x0001A1A6
-		// (set) Token: 0x06000648 RID: 1608 RVA: 0x0001BFAE File Offset: 0x0001A1AE
 		public Widget ScrolledHeader { get; set; }
 
-		// Token: 0x06000649 RID: 1609 RVA: 0x0001BFB7 File Offset: 0x0001A1B7
 		public ScrollablePanel(UIContext context)
 			: base(context)
 		{
@@ -72,26 +50,22 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this._horizontalScrollbarInterpolationController = new ScrollablePanel.ScrollbarInterpolationController();
 		}
 
-		// Token: 0x0600064A RID: 1610 RVA: 0x0001BFEF File Offset: 0x0001A1EF
 		public void ResetTweenSpeed()
 		{
 			this._verticalScrollVelocity = 0f;
 			this._horizontalScrollVelocity = 0f;
 		}
 
-		// Token: 0x0600064B RID: 1611 RVA: 0x0001C007 File Offset: 0x0001A207
 		protected override bool OnPreviewMouseScroll()
 		{
 			return !this.OnlyAcceptScrollEventIfCanScroll || this._canScrollHorizontal || this._canScrollVertical;
 		}
 
-		// Token: 0x0600064C RID: 1612 RVA: 0x0001C021 File Offset: 0x0001A221
 		protected override bool OnPreviewRightStickMovement()
 		{
 			return (!this.OnlyAcceptScrollEventIfCanScroll || this._canScrollHorizontal || this._canScrollVertical) && !GauntletGamepadNavigationManager.Instance.IsCursorMovingForNavigation && !GauntletGamepadNavigationManager.Instance.AnyWidgetUsingNavigation;
 		}
 
-		// Token: 0x0600064D RID: 1613 RVA: 0x0001C058 File Offset: 0x0001A258
 		protected internal override void OnMouseScroll()
 		{
 			float num = base.EventManager.DeltaMouseScroll * 0.2f;
@@ -112,7 +86,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			onScroll(num);
 		}
 
-		// Token: 0x0600064E RID: 1614 RVA: 0x0001C0D8 File Offset: 0x0001A2D8
 		protected internal override void OnRightStickMovement()
 		{
 			float num = -base.EventManager.RightStickHorizontalScrollAmount * 0.2f;
@@ -128,14 +101,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			onScroll(Mathf.Max(num, num2));
 		}
 
-		// Token: 0x0600064F RID: 1615 RVA: 0x0001C143 File Offset: 0x0001A343
 		private void StopAllInterpolations()
 		{
 			this._verticalScrollbarInterpolationController.StopInterpolation();
 			this._horizontalScrollbarInterpolationController.StopInterpolation();
 		}
 
-		// Token: 0x06000650 RID: 1616 RVA: 0x0001C15B File Offset: 0x0001A35B
 		private void OnInnerPanelChildAddedEventFire(Widget widget, string eventName, object[] eventArgs)
 		{
 			if ((eventName == "ItemAdd" || eventName == "AfterItemRemove") && eventArgs.Length != 0 && eventArgs[0] is ScrollablePanelFixedHeaderWidget)
@@ -145,7 +116,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000651 RID: 1617 RVA: 0x0001C191 File Offset: 0x0001A391
 		private void OnInnerPanelValueChanged()
 		{
 			if (this.InnerPanel != null)
@@ -156,7 +126,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000652 RID: 1618 RVA: 0x0001C1BE File Offset: 0x0001A3BE
 		private void OnFixedHeaderPropertyChangedEventFire(Widget widget, string eventName, object[] eventArgs)
 		{
 			if (eventName == "FixedHeaderPropertyChanged")
@@ -166,7 +135,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000653 RID: 1619 RVA: 0x0001C1DC File Offset: 0x0001A3DC
 		private void RefreshFixedHeaders()
 		{
 			foreach (ScrollablePanelFixedHeaderWidget scrollablePanelFixedHeaderWidget in this._fixedHeaders)
@@ -196,7 +164,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000654 RID: 1620 RVA: 0x0001C31C File Offset: 0x0001A51C
 		private void AdjustVerticalScrollBar()
 		{
 			if (this.VerticalScrollbar != null)
@@ -210,7 +177,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000655 RID: 1621 RVA: 0x0001C383 File Offset: 0x0001A583
 		private void AdjustHorizontalScrollBar()
 		{
 			if (this.HorizontalScrollbar != null)
@@ -219,7 +185,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000656 RID: 1622 RVA: 0x0001C3A9 File Offset: 0x0001A5A9
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -227,20 +192,17 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.UpdateScrollablePanel(dt);
 		}
 
-		// Token: 0x06000657 RID: 1623 RVA: 0x0001C3C0 File Offset: 0x0001A5C0
 		protected void SetActiveCursor(UIContext.MouseCursors cursor)
 		{
 			base.Context.ActiveCursorOfContext = cursor;
 		}
 
-		// Token: 0x06000658 RID: 1624 RVA: 0x0001C3CE File Offset: 0x0001A5CE
 		private void UpdateScrollInterpolation(float dt)
 		{
 			this._verticalScrollbarInterpolationController.Tick(dt);
 			this._horizontalScrollbarInterpolationController.Tick(dt);
 		}
 
-		// Token: 0x06000659 RID: 1625 RVA: 0x0001C3E8 File Offset: 0x0001A5E8
 		private void UpdateScrollablePanel(float dt)
 		{
 			if (this.InnerPanel != null && this.ClipRect != null)
@@ -379,7 +341,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600065A RID: 1626 RVA: 0x0001C9C4 File Offset: 0x0001ABC4
 		protected float GetScrollYValueForWidget(Widget widget, float widgetTargetYValue, float offset)
 		{
 			float num = MBMath.ClampFloat(widgetTargetYValue, 0f, 1f);
@@ -389,7 +350,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return MathF.Lerp(this.VerticalScrollbar.MinValue, this.VerticalScrollbar.MaxValue, num3, 1E-05f);
 		}
 
-		// Token: 0x0600065B RID: 1627 RVA: 0x0001CA9C File Offset: 0x0001AC9C
 		protected float GetScrollXValueForWidget(Widget widget, float widgetTargetXValue, float offset)
 		{
 			float num = MBMath.ClampFloat(widgetTargetXValue, 0f, 1f);
@@ -399,7 +359,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return MathF.Lerp(this.HorizontalScrollbar.MinValue, this.HorizontalScrollbar.MaxValue, num3, 1E-05f);
 		}
 
-		// Token: 0x0600065C RID: 1628 RVA: 0x0001CB74 File Offset: 0x0001AD74
 		private float InverseLerp(float fromValue, float toValue, float value)
 		{
 			if (fromValue == toValue)
@@ -409,7 +368,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			return (value - fromValue) / (toValue - fromValue);
 		}
 
-		// Token: 0x0600065D RID: 1629 RVA: 0x0001CB88 File Offset: 0x0001AD88
 		public void ScrollToChild(Widget targetWidget, float horizontalTargetValue = -1f, float verticalTargetValue = -1f, int horizontalOffsetInPixels = 0, int verticalOffsetInPixels = 0, float verticalInterpolationTime = 0f, float horizontalInterpolationTime = 0f)
 		{
 			if (this.ClipRect != null && this.InnerPanel != null && base.CheckIsMyChildRecursive(targetWidget))
@@ -457,21 +415,16 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600065E RID: 1630 RVA: 0x0001CD41 File Offset: 0x0001AF41
 		public void SetVerticalScrollTarget(float targetValue, float interpolationDuration)
 		{
 			this._verticalScrollbarInterpolationController.StartInterpolation(targetValue, interpolationDuration);
 		}
 
-		// Token: 0x0600065F RID: 1631 RVA: 0x0001CD50 File Offset: 0x0001AF50
 		public void SetHorizontalScrollTarget(float targetValue, float interpolationDuration)
 		{
 			this._horizontalScrollbarInterpolationController.StartInterpolation(targetValue, interpolationDuration);
 		}
 
-		// Token: 0x170001CE RID: 462
-		// (get) Token: 0x06000660 RID: 1632 RVA: 0x0001CD5F File Offset: 0x0001AF5F
-		// (set) Token: 0x06000661 RID: 1633 RVA: 0x0001CD67 File Offset: 0x0001AF67
 		[Editor(false)]
 		public bool AutoHideScrollBars
 		{
@@ -489,9 +442,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001CF RID: 463
-		// (get) Token: 0x06000662 RID: 1634 RVA: 0x0001CD85 File Offset: 0x0001AF85
-		// (set) Token: 0x06000663 RID: 1635 RVA: 0x0001CD8D File Offset: 0x0001AF8D
 		[Editor(false)]
 		public bool AutoHideScrollBarHandle
 		{
@@ -509,9 +459,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001D0 RID: 464
-		// (get) Token: 0x06000664 RID: 1636 RVA: 0x0001CDAB File Offset: 0x0001AFAB
-		// (set) Token: 0x06000665 RID: 1637 RVA: 0x0001CDB3 File Offset: 0x0001AFB3
 		[Editor(false)]
 		public bool AutoAdjustScrollbarHandleSize
 		{
@@ -529,9 +476,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001D1 RID: 465
-		// (get) Token: 0x06000666 RID: 1638 RVA: 0x0001CDD1 File Offset: 0x0001AFD1
-		// (set) Token: 0x06000667 RID: 1639 RVA: 0x0001CDD9 File Offset: 0x0001AFD9
 		[Editor(false)]
 		public bool OnlyAcceptScrollEventIfCanScroll
 		{
@@ -549,9 +493,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001D2 RID: 466
-		// (get) Token: 0x06000668 RID: 1640 RVA: 0x0001CDF7 File Offset: 0x0001AFF7
-		// (set) Token: 0x06000669 RID: 1641 RVA: 0x0001CDFF File Offset: 0x0001AFFF
 		public ScrollbarWidget HorizontalScrollbar
 		{
 			get
@@ -569,9 +510,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001D3 RID: 467
-		// (get) Token: 0x0600066A RID: 1642 RVA: 0x0001CE29 File Offset: 0x0001B029
-		// (set) Token: 0x0600066B RID: 1643 RVA: 0x0001CE31 File Offset: 0x0001B031
 		public ScrollbarWidget VerticalScrollbar
 		{
 			get
@@ -589,67 +527,47 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002F9 RID: 761
 		private Widget _innerPanel;
 
-		// Token: 0x040002FD RID: 765
 		protected bool _canScrollHorizontal;
 
-		// Token: 0x040002FE RID: 766
 		protected bool _canScrollVertical;
 
-		// Token: 0x040002FF RID: 767
 		public int MouseScrollSpeed;
 
-		// Token: 0x04000300 RID: 768
 		public AlignmentAxis MouseScrollAxis;
 
-		// Token: 0x04000301 RID: 769
 		private float _verticalScrollVelocity;
 
-		// Token: 0x04000302 RID: 770
 		private float _horizontalScrollVelocity;
 
-		// Token: 0x04000303 RID: 771
 		private float _scrollOffset;
 
-		// Token: 0x04000304 RID: 772
 		private ScrollablePanel.ScrollbarInterpolationController _verticalScrollbarInterpolationController;
 
-		// Token: 0x04000305 RID: 773
 		private ScrollablePanel.ScrollbarInterpolationController _horizontalScrollbarInterpolationController;
 
-		// Token: 0x04000306 RID: 774
 		private List<ScrollablePanelFixedHeaderWidget> _fixedHeaders = new List<ScrollablePanelFixedHeaderWidget>();
 
-		// Token: 0x04000307 RID: 775
 		private bool _autoHideScrollBars;
 
-		// Token: 0x04000308 RID: 776
 		private bool _autoHideScrollBarHandle;
 
-		// Token: 0x04000309 RID: 777
 		private bool _autoAdjustScrollbarHandleSize = true;
 
-		// Token: 0x0400030A RID: 778
 		private bool _onlyAcceptScrollEventIfCanScroll;
 
-		// Token: 0x0400030B RID: 779
 		private ScrollbarWidget _horizontalScrollbar;
 
-		// Token: 0x0400030C RID: 780
 		private ScrollbarWidget _verticalScrollbar;
 
-		// Token: 0x0200008F RID: 143
 		private class ScrollbarInterpolationController
 		{
-			// Token: 0x060008BA RID: 2234 RVA: 0x00022DE0 File Offset: 0x00020FE0
 			public void SetControlledScrollbar(ScrollbarWidget scrollbar)
 			{
 				this._scrollbar = scrollbar;
 			}
 
-			// Token: 0x060008BB RID: 2235 RVA: 0x00022DE9 File Offset: 0x00020FE9
 			public void StartInterpolation(float targetValue, float duration)
 			{
 				this._targetValue = targetValue;
@@ -658,7 +576,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				this._isInterpolating = true;
 			}
 
-			// Token: 0x060008BC RID: 2236 RVA: 0x00022E0B File Offset: 0x0002100B
 			public void StopInterpolation()
 			{
 				this._isInterpolating = false;
@@ -668,7 +585,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				this._isInterpolating = false;
 			}
 
-			// Token: 0x060008BD RID: 2237 RVA: 0x00022E3C File Offset: 0x0002103C
 			public void Tick(float dt)
 			{
 				if (this._isInterpolating && this._scrollbar != null)
@@ -685,19 +601,14 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				}
 			}
 
-			// Token: 0x0400046A RID: 1130
 			private ScrollbarWidget _scrollbar;
 
-			// Token: 0x0400046B RID: 1131
 			private bool _isInterpolating;
 
-			// Token: 0x0400046C RID: 1132
 			private float _targetValue;
 
-			// Token: 0x0400046D RID: 1133
 			private float _duration;
 
-			// Token: 0x0400046E RID: 1134
 			private float _timer;
 		}
 	}

@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000457 RID: 1111
 	public static class StartBattleAction
 	{
-		// Token: 0x06003F59 RID: 16217 RVA: 0x0012F848 File Offset: 0x0012DA48
 		private static void ApplyInternal(PartyBase attackerParty, PartyBase defenderParty, object subject, StartBattleAction.StartBattleActionDetails detail)
 		{
 			if (defenderParty.MapEvent == null)
@@ -81,7 +79,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnStartBattle(attackerParty, defenderParty, subject, flag2);
 		}
 
-		// Token: 0x06003F5A RID: 16218 RVA: 0x0012F9F8 File Offset: 0x0012DBF8
 		public static void Apply(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			StartBattleAction.StartBattleActionDetails startBattleActionDetails = StartBattleAction.StartBattleActionDetails.None;
@@ -172,46 +169,34 @@ namespace TaleWorlds.CampaignSystem.Actions
 			StartBattleAction.ApplyInternal(attackerParty, defenderParty, obj, startBattleActionDetails);
 		}
 
-		// Token: 0x06003F5B RID: 16219 RVA: 0x0012FBAA File Offset: 0x0012DDAA
 		public static void ApplyStartBattle(MobileParty attackerParty, MobileParty defenderParty)
 		{
 			StartBattleAction.ApplyInternal(attackerParty.Party, defenderParty.Party, null, StartBattleAction.StartBattleActionDetails.Battle);
 		}
 
-		// Token: 0x06003F5C RID: 16220 RVA: 0x0012FBBF File Offset: 0x0012DDBF
 		public static void ApplyStartRaid(MobileParty attackerParty, Settlement settlement)
 		{
 			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, StartBattleAction.StartBattleActionDetails.Raid);
 		}
 
-		// Token: 0x06003F5D RID: 16221 RVA: 0x0012FBD4 File Offset: 0x0012DDD4
 		public static void ApplyStartSallyOut(Settlement settlement, MobileParty defenderParty)
 		{
 			StartBattleAction.ApplyInternal(settlement.Town.GarrisonParty.Party, defenderParty.Party, settlement, StartBattleAction.StartBattleActionDetails.SallyOut);
 		}
 
-		// Token: 0x06003F5E RID: 16222 RVA: 0x0012FBF3 File Offset: 0x0012DDF3
 		public static void ApplyStartAssaultAgainstWalls(MobileParty attackerParty, Settlement settlement)
 		{
 			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, StartBattleAction.StartBattleActionDetails.Siege);
 		}
 
-		// Token: 0x0200076C RID: 1900
 		private enum StartBattleActionDetails
 		{
-			// Token: 0x04001E85 RID: 7813
 			None,
-			// Token: 0x04001E86 RID: 7814
 			Battle,
-			// Token: 0x04001E87 RID: 7815
 			Raid,
-			// Token: 0x04001E88 RID: 7816
 			Siege,
-			// Token: 0x04001E89 RID: 7817
 			Hideout,
-			// Token: 0x04001E8A RID: 7818
 			SallyOut,
-			// Token: 0x04001E8B RID: 7819
 			SiegeOutside
 		}
 	}

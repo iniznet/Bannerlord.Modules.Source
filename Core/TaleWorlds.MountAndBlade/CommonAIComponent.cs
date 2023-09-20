@@ -6,26 +6,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000F5 RID: 245
 	public class CommonAIComponent : AgentComponent
 	{
-		// Token: 0x17000301 RID: 769
-		// (get) Token: 0x06000C07 RID: 3079 RVA: 0x00016494 File Offset: 0x00014694
-		// (set) Token: 0x06000C08 RID: 3080 RVA: 0x0001649C File Offset: 0x0001469C
 		public bool IsPanicked { get; private set; }
 
-		// Token: 0x17000302 RID: 770
-		// (get) Token: 0x06000C09 RID: 3081 RVA: 0x000164A5 File Offset: 0x000146A5
-		// (set) Token: 0x06000C0A RID: 3082 RVA: 0x000164AD File Offset: 0x000146AD
 		public bool IsRetreating { get; private set; }
 
-		// Token: 0x17000303 RID: 771
-		// (get) Token: 0x06000C0B RID: 3083 RVA: 0x000164B6 File Offset: 0x000146B6
-		// (set) Token: 0x06000C0C RID: 3084 RVA: 0x000164BE File Offset: 0x000146BE
 		public int ReservedRiderAgentIndex { get; private set; }
 
-		// Token: 0x17000304 RID: 772
-		// (get) Token: 0x06000C0D RID: 3085 RVA: 0x000164C7 File Offset: 0x000146C7
 		public float InitialMorale
 		{
 			get
@@ -34,8 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000305 RID: 773
-		// (get) Token: 0x06000C0E RID: 3086 RVA: 0x000164CF File Offset: 0x000146CF
 		public float RecoveryMorale
 		{
 			get
@@ -44,9 +30,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000306 RID: 774
-		// (get) Token: 0x06000C0F RID: 3087 RVA: 0x000164D7 File Offset: 0x000146D7
-		// (set) Token: 0x06000C10 RID: 3088 RVA: 0x000164DF File Offset: 0x000146DF
 		public float Morale
 		{
 			get
@@ -59,7 +42,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C11 RID: 3089 RVA: 0x000164F8 File Offset: 0x000146F8
 		public CommonAIComponent(Agent agent)
 			: base(agent)
 		{
@@ -69,14 +51,12 @@ namespace TaleWorlds.MountAndBlade
 			this.ReservedRiderAgentIndex = -1;
 		}
 
-		// Token: 0x06000C12 RID: 3090 RVA: 0x00016566 File Offset: 0x00014766
 		public override void Initialize()
 		{
 			base.Initialize();
 			this.InitializeMorale();
 		}
 
-		// Token: 0x06000C13 RID: 3091 RVA: 0x00016574 File Offset: 0x00014774
 		private void InitializeMorale()
 		{
 			int num = MBRandom.RandomInt(30);
@@ -89,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Morale = this._initialMorale;
 		}
 
-		// Token: 0x06000C14 RID: 3092 RVA: 0x00016614 File Offset: 0x00014814
 		public override void OnTickAsAI(float dt)
 		{
 			base.OnTickAsAI(dt);
@@ -127,7 +106,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C15 RID: 3093 RVA: 0x0001683F File Offset: 0x00014A3F
 		public void Panic()
 		{
 			if (this.IsPanicked)
@@ -138,7 +116,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.Mission.OnAgentPanicked(this.Agent);
 		}
 
-		// Token: 0x06000C16 RID: 3094 RVA: 0x00016867 File Offset: 0x00014A67
 		public void Retreat()
 		{
 			if (!this.IsRetreating)
@@ -148,7 +125,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C17 RID: 3095 RVA: 0x0001689C File Offset: 0x00014A9C
 		public void StopRetreating()
 		{
 			if (!this.IsRetreating)
@@ -162,7 +138,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.StopRetreating();
 		}
 
-		// Token: 0x06000C18 RID: 3096 RVA: 0x000168E8 File Offset: 0x00014AE8
 		public bool CanPanic()
 		{
 			if (!MissionGameModels.Current.BattleMoraleModel.CanPanicDueToMorale(this.Agent))
@@ -185,7 +160,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x06000C19 RID: 3097 RVA: 0x00016967 File Offset: 0x00014B67
 		public override void OnHit(Agent affectorAgent, int damage, in MissionWeapon affectorWeapon)
 		{
 			base.OnHit(affectorAgent, damage, affectorWeapon);
@@ -195,7 +169,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C1A RID: 3098 RVA: 0x000169A4 File Offset: 0x00014BA4
 		public override void OnAgentRemoved()
 		{
 			base.OnAgentRemoved();
@@ -213,7 +186,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C1B RID: 3099 RVA: 0x00016A3C File Offset: 0x00014C3C
 		internal int OnMountSelectionForRiderUpdate(int index)
 		{
 			int reservedRiderAgentIndex = this.ReservedRiderAgentIndex;
@@ -221,28 +193,20 @@ namespace TaleWorlds.MountAndBlade
 			return reservedRiderAgentIndex;
 		}
 
-		// Token: 0x040002B0 RID: 688
 		private const float MoraleThresholdForPanicking = 0.01f;
 
-		// Token: 0x040002B1 RID: 689
 		private const float MaxRecoverableMoraleMultiplier = 0.5f;
 
-		// Token: 0x040002B2 RID: 690
 		private const float MoraleRecoveryPerSecond = 0.4f;
 
-		// Token: 0x040002B6 RID: 694
 		private float _recoveryMorale;
 
-		// Token: 0x040002B7 RID: 695
 		private float _initialMorale;
 
-		// Token: 0x040002B8 RID: 696
 		private float _morale = 50f;
 
-		// Token: 0x040002B9 RID: 697
 		private readonly Timer _fadeOutTimer;
 
-		// Token: 0x040002BA RID: 698
 		private readonly float _retreatDistanceSquared;
 	}
 }

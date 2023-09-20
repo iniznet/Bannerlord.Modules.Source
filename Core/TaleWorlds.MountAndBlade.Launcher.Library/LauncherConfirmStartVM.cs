@@ -5,17 +5,14 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x0200000B RID: 11
 	public class LauncherConfirmStartVM : ViewModel
 	{
-		// Token: 0x06000054 RID: 84 RVA: 0x00002E5D File Offset: 0x0000105D
 		public LauncherConfirmStartVM(Action onConfirm)
 		{
 			this._onConfirm = onConfirm;
 			this.Title = "CAUTION";
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00002E78 File Offset: 0x00001078
 		public void EnableWith(List<SubModuleInfo> unverifiedSubModules, List<DependentVersionMissmatchItem> missmatchedDependentModules)
 		{
 			this.IsEnabled = true;
@@ -60,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.Description += "Are you sure?";
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x000030B6 File Offset: 0x000012B6
 		private void ExecuteConfirm()
 		{
 			Action onConfirm = this._onConfirm;
@@ -71,15 +67,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.IsEnabled = false;
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x000030D0 File Offset: 0x000012D0
 		private void ExecuteCancel()
 		{
 			this.IsEnabled = false;
 		}
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x06000058 RID: 88 RVA: 0x000030D9 File Offset: 0x000012D9
-		// (set) Token: 0x06000059 RID: 89 RVA: 0x000030E1 File Offset: 0x000012E1
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -97,9 +89,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x0600005A RID: 90 RVA: 0x000030FF File Offset: 0x000012FF
-		// (set) Token: 0x0600005B RID: 91 RVA: 0x00003107 File Offset: 0x00001307
 		[DataSourceProperty]
 		public string Description
 		{
@@ -117,9 +106,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x0600005C RID: 92 RVA: 0x0000312A File Offset: 0x0000132A
-		// (set) Token: 0x0600005D RID: 93 RVA: 0x00003132 File Offset: 0x00001332
 		[DataSourceProperty]
 		public string Title
 		{
@@ -137,16 +123,12 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x04000034 RID: 52
 		private readonly Action _onConfirm;
 
-		// Token: 0x04000035 RID: 53
 		private bool _isEnabled;
 
-		// Token: 0x04000036 RID: 54
 		private string _description;
 
-		// Token: 0x04000037 RID: 55
 		private string _title;
 	}
 }

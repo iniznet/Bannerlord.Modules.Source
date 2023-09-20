@@ -6,11 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 {
-	// Token: 0x02000023 RID: 35
 	public class LauncherHintWidget : Widget
 	{
-		// Token: 0x17000064 RID: 100
-		// (get) Token: 0x0600015D RID: 349 RVA: 0x00005F05 File Offset: 0x00004105
 		private float TooltipOffset
 		{
 			get
@@ -19,13 +16,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			}
 		}
 
-		// Token: 0x0600015E RID: 350 RVA: 0x00005F0C File Offset: 0x0000410C
 		public LauncherHintWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x0600015F RID: 351 RVA: 0x00005F15 File Offset: 0x00004115
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -41,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			this._prevIsActive = this.IsActive;
 		}
 
-		// Token: 0x06000160 RID: 352 RVA: 0x00005F50 File Offset: 0x00004150
 		private void UpdatePosition()
 		{
 			Vector2 vector;
@@ -107,7 +101,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			base.ScaledPositionYOffset = vector.Y;
 		}
 
-		// Token: 0x06000161 RID: 353 RVA: 0x000061A4 File Offset: 0x000043A4
 		private void UpdateAlpha(float dt)
 		{
 			float num;
@@ -123,9 +116,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			this.SetGlobalAlphaRecursively(num2);
 		}
 
-		// Token: 0x17000065 RID: 101
-		// (get) Token: 0x06000162 RID: 354 RVA: 0x000061E7 File Offset: 0x000043E7
-		// (set) Token: 0x06000163 RID: 355 RVA: 0x000061EF File Offset: 0x000043EF
 		[DataSourceProperty]
 		public bool IsActive
 		{
@@ -143,16 +133,12 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			}
 		}
 
-		// Token: 0x040000A8 RID: 168
 		private int _frame;
 
-		// Token: 0x040000A9 RID: 169
 		private bool _prevIsActive;
 
-		// Token: 0x040000AA RID: 170
 		private Vector2 _tooltipPosition;
 
-		// Token: 0x040000AB RID: 171
 		private bool _isActive;
 	}
 }

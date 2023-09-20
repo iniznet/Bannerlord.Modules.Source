@@ -10,12 +10,8 @@ using TaleWorlds.MountAndBlade.View.Screens;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 {
-	// Token: 0x02000080 RID: 128
 	public class OrderFlag
 	{
-		// Token: 0x17000074 RID: 116
-		// (get) Token: 0x060004AE RID: 1198 RVA: 0x00023E59 File Offset: 0x00022059
-		// (set) Token: 0x060004AF RID: 1199 RVA: 0x00023E64 File Offset: 0x00022064
 		private GameEntity Current
 		{
 			get
@@ -42,17 +38,10 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x17000075 RID: 117
-		// (get) Token: 0x060004B0 RID: 1200 RVA: 0x00023F0F File Offset: 0x0002210F
-		// (set) Token: 0x060004B1 RID: 1201 RVA: 0x00023F17 File Offset: 0x00022117
 		public IOrderable FocusedOrderableObject { get; private set; }
 
-		// Token: 0x17000076 RID: 118
-		// (get) Token: 0x060004B2 RID: 1202 RVA: 0x00023F20 File Offset: 0x00022120
-		// (set) Token: 0x060004B3 RID: 1203 RVA: 0x00023F28 File Offset: 0x00022128
 		public int LatestUpdateFrameNo { get; private set; }
 
-		// Token: 0x060004B4 RID: 1204 RVA: 0x00023F34 File Offset: 0x00022134
 		public OrderFlag(Mission mission, MissionScreen missionScreen)
 		{
 			this._mission = mission;
@@ -122,7 +111,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this._orderablesWithInteractionArea = this._mission.MissionObjects.OfType<IOrderableWithInteractionArea>();
 		}
 
-		// Token: 0x060004B5 RID: 1205 RVA: 0x000243D0 File Offset: 0x000225D0
 		public void Tick(float dt)
 		{
 			this.FocusedOrderableObject = null;
@@ -168,7 +156,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004B6 RID: 1206 RVA: 0x00024538 File Offset: 0x00022738
 		private void UpdateCurrentMesh(bool isOnValidGround)
 		{
 			if (this.FocusedOrderableObject != null && isOnValidGround)
@@ -199,14 +186,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this.Current = (isOnValidGround ? this._flag : this._flagUnavailable);
 		}
 
-		// Token: 0x060004B7 RID: 1207 RVA: 0x000245E3 File Offset: 0x000227E3
 		public void SetArrowVisibility(bool isVisible, Vec2 arrowDirection)
 		{
 			this._isArrowVisible = isVisible;
 			this._arrowDirection = arrowDirection;
 		}
 
-		// Token: 0x060004B8 RID: 1208 RVA: 0x000245F4 File Offset: 0x000227F4
 		private void UpdateFrame(out bool isOnValidGround, bool checkForTargetEntity)
 		{
 			Vec3 vec;
@@ -259,21 +244,16 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004B9 RID: 1209 RVA: 0x0002482A File Offset: 0x00022A2A
 		public static bool IsPositionOnValidGround(WorldPosition worldPosition)
 		{
 			return Mission.Current.IsFormationUnitPositionAvailable(ref worldPosition, Mission.Current.PlayerTeam);
 		}
 
-		// Token: 0x060004BA RID: 1210 RVA: 0x00024842 File Offset: 0x00022A42
 		public static bool IsOrderPositionValid(WorldPosition orderPosition)
 		{
 			return Mission.Current.IsOrderPositionAvailable(ref orderPosition, Mission.Current.PlayerTeam);
 		}
 
-		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x060004BB RID: 1211 RVA: 0x0002485A File Offset: 0x00022A5A
-		// (set) Token: 0x060004BC RID: 1212 RVA: 0x00024868 File Offset: 0x00022A68
 		public Vec3 Position
 		{
 			get
@@ -288,8 +268,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x17000078 RID: 120
-		// (get) Token: 0x060004BD RID: 1213 RVA: 0x00024896 File Offset: 0x00022A96
 		public MatrixFrame Frame
 		{
 			get
@@ -298,9 +276,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x060004BE RID: 1214 RVA: 0x000248A3 File Offset: 0x00022AA3
-		// (set) Token: 0x060004BF RID: 1215 RVA: 0x000248B0 File Offset: 0x00022AB0
 		public bool IsVisible
 		{
 			get
@@ -317,7 +292,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004C0 RID: 1216 RVA: 0x000248C8 File Offset: 0x00022AC8
 		private GameEntity GetCollidedEntity()
 		{
 			Vec2 vec = ((Mission.Current.GetMissionBehavior<BattleDeploymentHandler>() != null) ? Input.MousePositionRanged : new Vec2(0.5f, 0.5f));
@@ -342,68 +316,48 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			return parent;
 		}
 
-		// Token: 0x060004C1 RID: 1217 RVA: 0x00024968 File Offset: 0x00022B68
 		public void SetWidthVisibility(bool isVisible, float width)
 		{
 			this._isWidthVisible = isVisible;
 			this._customWidth = width;
 		}
 
-		// Token: 0x040002CE RID: 718
 		private readonly GameEntity _entity;
 
-		// Token: 0x040002CF RID: 719
 		private readonly GameEntity _flag;
 
-		// Token: 0x040002D0 RID: 720
 		private readonly GameEntity _gear;
 
-		// Token: 0x040002D1 RID: 721
 		private readonly GameEntity _arrow;
 
-		// Token: 0x040002D2 RID: 722
 		private readonly GameEntity _width;
 
-		// Token: 0x040002D3 RID: 723
 		private readonly GameEntity _attack;
 
-		// Token: 0x040002D4 RID: 724
 		private readonly GameEntity _flagUnavailable;
 
-		// Token: 0x040002D5 RID: 725
 		private readonly GameEntity _widthLeft;
 
-		// Token: 0x040002D6 RID: 726
 		private readonly GameEntity _widthRight;
 
-		// Token: 0x040002D7 RID: 727
 		public bool IsTroop = true;
 
-		// Token: 0x040002D8 RID: 728
 		private bool _isWidthVisible;
 
-		// Token: 0x040002D9 RID: 729
 		private float _customWidth;
 
-		// Token: 0x040002DA RID: 730
 		private GameEntity _current;
 
-		// Token: 0x040002DC RID: 732
 		private readonly IEnumerable<IOrderableWithInteractionArea> _orderablesWithInteractionArea;
 
-		// Token: 0x040002DD RID: 733
 		private readonly Mission _mission;
 
-		// Token: 0x040002DE RID: 734
 		private readonly MissionScreen _missionScreen;
 
-		// Token: 0x040002DF RID: 735
 		private readonly float _arrowLength;
 
-		// Token: 0x040002E0 RID: 736
 		private bool _isArrowVisible;
 
-		// Token: 0x040002E1 RID: 737
 		private Vec2 _arrowDirection;
 	}
 }

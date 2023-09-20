@@ -9,16 +9,10 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000157 RID: 343
 	public abstract class TacticComponent
 	{
-		// Token: 0x170003A8 RID: 936
-		// (get) Token: 0x06001158 RID: 4440 RVA: 0x0003AEE0 File Offset: 0x000390E0
-		// (set) Token: 0x06001159 RID: 4441 RVA: 0x0003AEE8 File Offset: 0x000390E8
 		public Team Team { get; protected set; }
 
-		// Token: 0x170003A9 RID: 937
-		// (get) Token: 0x0600115A RID: 4442 RVA: 0x0003AEF1 File Offset: 0x000390F1
 		protected MBList<Formation> FormationsIncludingSpecialAndEmpty
 		{
 			get
@@ -27,8 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003AA RID: 938
-		// (get) Token: 0x0600115B RID: 4443 RVA: 0x0003AEFE File Offset: 0x000390FE
 		protected MBList<Formation> FormationsIncludingEmpty
 		{
 			get
@@ -37,24 +29,20 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600115C RID: 4444 RVA: 0x0003AF0B File Offset: 0x0003910B
 		protected TacticComponent(Team team)
 		{
 			this.Team = team;
 		}
 
-		// Token: 0x0600115E RID: 4446 RVA: 0x0003AF49 File Offset: 0x00039149
 		protected internal virtual void OnCancel()
 		{
 		}
 
-		// Token: 0x0600115F RID: 4447 RVA: 0x0003AF4B File Offset: 0x0003914B
 		protected internal virtual void OnApply()
 		{
 			this.IsTacticReapplyNeeded = true;
 		}
 
-		// Token: 0x06001160 RID: 4448 RVA: 0x0003AF54 File Offset: 0x00039154
 		protected internal virtual void TickOccasionally()
 		{
 			TeamAIComponent teamAI = this.Team.TeamAI;
@@ -72,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001161 RID: 4449 RVA: 0x0003AF9C File Offset: 0x0003919C
 		private static void GetUnitCountByAttackType(Formation formation, out int unitCount, out int rangedCount, out int semiRangedCount, out int nonRangedCount)
 		{
 			FormationQuerySystem querySystem = formation.QuerySystem;
@@ -82,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			nonRangedCount = unitCount - rangedCount;
 		}
 
-		// Token: 0x06001162 RID: 4450 RVA: 0x0003AFD0 File Offset: 0x000391D0
 		protected static float GetFormationGroupEffectivenessOverOrder(IEnumerable<Formation> formationGroup, OrderType orderType, IOrderable targetObject = null)
 		{
 			int num;
@@ -111,7 +97,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06001163 RID: 4451 RVA: 0x0003B0B4 File Offset: 0x000392B4
 		protected static float GetFormationEffectivenessOverOrder(Formation formation, OrderType orderType, IOrderable targetObject = null)
 		{
 			int num;
@@ -142,13 +127,11 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06001164 RID: 4452 RVA: 0x0003B1AD File Offset: 0x000393AD
 		[Conditional("DEBUG")]
 		protected internal virtual void DebugTick(float dt)
 		{
 		}
 
-		// Token: 0x06001165 RID: 4453 RVA: 0x0003B1B0 File Offset: 0x000393B0
 		private static int GetAvailableUnitCount(Formation formation, IEnumerable<ValueTuple<Formation, UsableMachine, int>> appliedCombinations)
 		{
 			int num = appliedCombinations.Where((ValueTuple<Formation, UsableMachine, int> c) => c.Item1 == formation).Sum((ValueTuple<Formation, UsableMachine, int> c) => c.Item3);
@@ -156,14 +139,12 @@ namespace TaleWorlds.MountAndBlade
 			return formation.CountOfUnits - (num + num2);
 		}
 
-		// Token: 0x06001166 RID: 4454 RVA: 0x0003B214 File Offset: 0x00039414
 		private static int GetVacantSlotCount(UsableMachine weapon, IEnumerable<ValueTuple<Formation, UsableMachine, int>> appliedCombinations)
 		{
 			int num = appliedCombinations.Where((ValueTuple<Formation, UsableMachine, int> c) => c.Item2 == weapon).Sum((ValueTuple<Formation, UsableMachine, int> c) => c.Item3);
 			return weapon.MaxUserCount - num;
 		}
 
-		// Token: 0x06001167 RID: 4455 RVA: 0x0003B274 File Offset: 0x00039474
 		protected List<Formation> ConsolidateFormations(List<Formation> formationsToBeConsolidated, int neededCount)
 		{
 			if (formationsToBeConsolidated.Count <= neededCount || neededCount <= 0)
@@ -194,7 +175,6 @@ namespace TaleWorlds.MountAndBlade
 			return list2.Concat(list3).ToList<Formation>();
 		}
 
-		// Token: 0x06001168 RID: 4456 RVA: 0x0003B364 File Offset: 0x00039564
 		protected static float CalculateNotEngagingTacticalAdvantage(TeamQuerySystem team)
 		{
 			float num = team.CavalryRatio + team.RangedCavalryRatio;
@@ -202,7 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Pow(MBMath.ClampFloat((num > 0f) ? (num2 / num) : 1.5f, 1f, 1.5f), 1.5f * MathF.Max(num, num2));
 		}
 
-		// Token: 0x06001169 RID: 4457 RVA: 0x0003B3C0 File Offset: 0x000395C0
 		protected void SplitFormationClassIntoGivenNumber(Func<Formation, bool> formationClass, int count)
 		{
 			List<Formation> list = new List<Formation>();
@@ -455,14 +434,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600116A RID: 4458 RVA: 0x0003BA38 File Offset: 0x00039C38
 		protected virtual bool CheckAndSetAvailableFormationsChanged()
 		{
 			return false;
 		}
 
-		// Token: 0x170003AB RID: 939
-		// (get) Token: 0x0600116B RID: 4459 RVA: 0x0003BA3C File Offset: 0x00039C3C
 		protected bool AreFormationsCreated
 		{
 			get
@@ -483,7 +459,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600116C RID: 4460 RVA: 0x0003BA9D File Offset: 0x00039C9D
 		public void ResetTactic()
 		{
 			this.ManageFormationCounts();
@@ -491,7 +466,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsTacticReapplyNeeded = true;
 		}
 
-		// Token: 0x0600116D RID: 4461 RVA: 0x0003BAB4 File Offset: 0x00039CB4
 		protected void AssignTacticFormations1121()
 		{
 			this.ManageFormationCounts(1, 1, 2, 1);
@@ -525,7 +499,6 @@ namespace TaleWorlds.MountAndBlade
 			this._rangedCavalry = TacticComponent.ChooseAndSortByPriority(this.FormationsIncludingEmpty, (Formation f) => f.CountOfUnits > 0 && f.QuerySystem.IsRangedCavalryFormation, (Formation f) => f.IsAIControlled, (Formation f) => f.QuerySystem.FormationPower).FirstOrDefault<Formation>();
 		}
 
-		// Token: 0x0600116E RID: 4462 RVA: 0x0003BD20 File Offset: 0x00039F20
 		protected static List<Formation> ChooseAndSortByPriority(IEnumerable<Formation> formations, Func<Formation, bool> isEligible, Func<Formation, bool> isPrioritized, Func<Formation, float> score)
 		{
 			formations = formations.Where(isEligible);
@@ -534,12 +507,10 @@ namespace TaleWorlds.MountAndBlade
 			return orderedEnumerable.Concat(orderedEnumerable2).ToList<Formation>();
 		}
 
-		// Token: 0x0600116F RID: 4463 RVA: 0x0003BD5E File Offset: 0x00039F5E
 		protected virtual void ManageFormationCounts()
 		{
 		}
 
-		// Token: 0x06001170 RID: 4464 RVA: 0x0003BD60 File Offset: 0x00039F60
 		protected void ManageFormationCounts(int infantryCount, int rangedCount, int cavalryCount, int rangedCavalryCount)
 		{
 			this.SplitFormationClassIntoGivenNumber((Formation f) => f.QuerySystem.IsInfantryFormation, infantryCount);
@@ -548,7 +519,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SplitFormationClassIntoGivenNumber((Formation f) => f.QuerySystem.IsRangedCavalryFormation, rangedCavalryCount);
 		}
 
-		// Token: 0x06001171 RID: 4465 RVA: 0x0003BE08 File Offset: 0x0003A008
 		protected virtual void StopUsingAllMachines()
 		{
 			TeamAISiegeComponent teamAISiegeComponent;
@@ -572,7 +542,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001172 RID: 4466 RVA: 0x0003BEC4 File Offset: 0x0003A0C4
 		protected virtual void StopUsingAllRangedSiegeWeapons()
 		{
 			foreach (Formation formation in this.FormationsIncludingSpecialAndEmpty)
@@ -592,7 +561,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001173 RID: 4467 RVA: 0x0003BF58 File Offset: 0x0003A158
 		protected void SoundTacticalHorn(int soundCode)
 		{
 			float currentTime = Mission.Current.CurrentTime;
@@ -603,7 +571,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001174 RID: 4468 RVA: 0x0003BF90 File Offset: 0x0003A190
 		public static void SetDefaultBehaviorWeights(Formation f)
 		{
 			f.AI.SetBehaviorWeight<BehaviorCharge>(1f);
@@ -612,13 +579,11 @@ namespace TaleWorlds.MountAndBlade
 			f.AI.SetBehaviorWeight<BehaviorReserve>(1f);
 		}
 
-		// Token: 0x06001175 RID: 4469 RVA: 0x0003BFE1 File Offset: 0x0003A1E1
 		protected internal virtual float GetTacticWeight()
 		{
 			return 0f;
 		}
 
-		// Token: 0x06001176 RID: 4470 RVA: 0x0003BFE8 File Offset: 0x0003A1E8
 		protected bool CheckAndDetermineFormation(ref Formation formation, Func<Formation, bool> isEligible)
 		{
 			if (formation != null && formation.CountOfUnits != 0 && isEligible(formation))
@@ -640,49 +605,35 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001177 RID: 4471 RVA: 0x0003C068 File Offset: 0x0003A268
 		protected internal virtual bool ResetTacticalPositions()
 		{
 			return false;
 		}
 
-		// Token: 0x04000481 RID: 1153
 		public static readonly int MoveHornSoundIndex = SoundEvent.GetEventIdFromString("event:/ui/mission/horns/move");
 
-		// Token: 0x04000482 RID: 1154
 		public static readonly int AttackHornSoundIndex = SoundEvent.GetEventIdFromString("event:/ui/mission/horns/attack");
 
-		// Token: 0x04000483 RID: 1155
 		public static readonly int RetreatHornSoundIndex = SoundEvent.GetEventIdFromString("event:/ui/mission/horns/retreat");
 
-		// Token: 0x04000485 RID: 1157
 		protected int _AIControlledFormationCount;
 
-		// Token: 0x04000486 RID: 1158
 		protected bool IsTacticReapplyNeeded;
 
-		// Token: 0x04000487 RID: 1159
 		private bool _areFormationsCreated;
 
-		// Token: 0x04000488 RID: 1160
 		protected Formation _mainInfantry;
 
-		// Token: 0x04000489 RID: 1161
 		protected Formation _archers;
 
-		// Token: 0x0400048A RID: 1162
 		protected Formation _leftCavalry;
 
-		// Token: 0x0400048B RID: 1163
 		protected Formation _rightCavalry;
 
-		// Token: 0x0400048C RID: 1164
 		protected Formation _rangedCavalry;
 
-		// Token: 0x0400048D RID: 1165
 		private float _hornCooldownExpireTime;
 
-		// Token: 0x0400048E RID: 1166
 		private const float HornCooldownTime = 10f;
 	}
 }

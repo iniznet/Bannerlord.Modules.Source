@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002C2 RID: 706
 	public class BattleSpawnFrameBehavior : SpawnFrameBehaviorBase
 	{
-		// Token: 0x060026F2 RID: 9970 RVA: 0x000931D4 File Offset: 0x000913D4
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			this._spawnPointsOfDefenders = this.SpawnPoints.Where((GameEntity x) => x.HasTag("defender")).ToList<GameEntity>();
 		}
 
-		// Token: 0x060026F3 RID: 9971 RVA: 0x00093254 File Offset: 0x00091454
 		public override MatrixFrame GetSpawnFrame(Team team, bool hasMount, bool isInitialSpawn)
 		{
 			List<GameEntity> list = ((team == Mission.Current.AttackerTeam) ? this._spawnPointsOfAttackers : this._spawnPointsOfDefenders).ToList<GameEntity>();
@@ -51,10 +48,8 @@ namespace TaleWorlds.MountAndBlade
 			return list[num2].GetGlobalFrame();
 		}
 
-		// Token: 0x04000E6D RID: 3693
 		private List<GameEntity> _spawnPointsOfAttackers;
 
-		// Token: 0x04000E6E RID: 3694
 		private List<GameEntity> _spawnPointsOfDefenders;
 	}
 }

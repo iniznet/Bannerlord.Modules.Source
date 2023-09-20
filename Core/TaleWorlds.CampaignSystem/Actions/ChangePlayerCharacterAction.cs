@@ -4,10 +4,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000430 RID: 1072
 	public class ChangePlayerCharacterAction
 	{
-		// Token: 0x06003EBA RID: 16058 RVA: 0x0012BF28 File Offset: 0x0012A128
 		public static void Apply(Hero hero)
 		{
 			Hero mainHero = Hero.MainHero;

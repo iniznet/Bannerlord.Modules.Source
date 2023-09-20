@@ -10,11 +10,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003DB RID: 987
 	public class TradeRumorsCampaignBehavior : CampaignBehaviorBase, ITradeRumorCampaignBehavior, ICampaignBehavior
 	{
-		// Token: 0x17000CED RID: 3309
-		// (get) Token: 0x06003BB0 RID: 15280 RVA: 0x0011A560 File Offset: 0x00118760
 		public IEnumerable<TradeRumor> TradeRumors
 		{
 			get
@@ -32,14 +29,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BB1 RID: 15281 RVA: 0x0011A570 File Offset: 0x00118770
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Settlement, CampaignTime>>("_enteredSettlements", ref this._enteredSettlements);
 			dataStore.SyncData<List<TradeRumor>>("_tradeRumors", ref this._tradeRumors);
 		}
 
-		// Token: 0x06003BB2 RID: 15282 RVA: 0x0011A598 File Offset: 0x00118798
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -48,13 +43,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnTradeRumorIsTakenEvent.AddNonSerializedListener(this, new Action<List<TradeRumor>, Settlement>(this.OnTradeRumorIsTaken));
 		}
 
-		// Token: 0x06003BB3 RID: 15283 RVA: 0x0011A601 File Offset: 0x00118801
 		public void OnTradeRumorIsTaken(List<TradeRumor> newRumors, Settlement sourceSettlement = null)
 		{
 			this.AddTradeRumors(newRumors, sourceSettlement);
 		}
 
-		// Token: 0x06003BB4 RID: 15284 RVA: 0x0011A60C File Offset: 0x0011880C
 		public void AddTradeRumors(List<TradeRumor> newRumors, Settlement sourceSettlement = null)
 		{
 			bool flag = true;
@@ -74,12 +67,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BB5 RID: 15285 RVA: 0x0011A6BC File Offset: 0x001188BC
 		private void OnNewGameCreated(CampaignGameStarter starter)
 		{
 		}
 
-		// Token: 0x06003BB6 RID: 15286 RVA: 0x0011A6BE File Offset: 0x001188BE
 		public void DailyTick()
 		{
 			this.AddDailyTradeRumors(1);
@@ -87,7 +78,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.DeleteExpiredEnteredSettlements();
 		}
 
-		// Token: 0x06003BB7 RID: 15287 RVA: 0x0011A6D4 File Offset: 0x001188D4
 		private void DeleteExpiredEnteredSettlements()
 		{
 			List<Settlement> list = new List<Settlement>();
@@ -104,7 +94,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BB8 RID: 15288 RVA: 0x0011A79C File Offset: 0x0011899C
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty == null || (!mobileParty.IsMainParty && (!mobileParty.IsCaravan || mobileParty.Party.Owner == null || mobileParty.Party.Owner.Clan != Clan.PlayerClan || !Hero.MainHero.GetPerkValue(DefaultPerks.Trade.TravelingRumors))) || !settlement.IsTown)
@@ -149,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BB9 RID: 15289 RVA: 0x0011AA08 File Offset: 0x00118C08
 		public void DeleteExpiredRumors()
 		{
 			List<TradeRumor> list = new List<TradeRumor>();
@@ -163,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003BBA RID: 15290 RVA: 0x0011AAC4 File Offset: 0x00118CC4
 		public void AddDailyTradeRumors(int numberOfTradeRumors)
 		{
 			int num = 0;
@@ -218,10 +205,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.AddTradeRumors(list, null);
 		}
 
-		// Token: 0x0400122F RID: 4655
 		private List<TradeRumor> _tradeRumors = new List<TradeRumor>();
 
-		// Token: 0x04001230 RID: 4656
 		private Dictionary<Settlement, CampaignTime> _enteredSettlements = new Dictionary<Settlement, CampaignTime>();
 	}
 }

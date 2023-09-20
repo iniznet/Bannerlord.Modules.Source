@@ -4,21 +4,15 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.SaveSystem
 {
-	// Token: 0x02000015 RID: 21
 	internal class ArchiveDeserializer
 	{
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000076 RID: 118 RVA: 0x0000382D File Offset: 0x00001A2D
-		// (set) Token: 0x06000077 RID: 119 RVA: 0x00003835 File Offset: 0x00001A35
 		public SaveEntryFolder RootFolder { get; private set; }
 
-		// Token: 0x06000078 RID: 120 RVA: 0x0000383E File Offset: 0x00001A3E
 		public ArchiveDeserializer()
 		{
 			this.RootFolder = new SaveEntryFolder(-1, -1, new FolderId(-1, SaveFolderExtension.Root), 3);
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x0000385C File Offset: 0x00001A5C
 		public void LoadFrom(byte[] binaryArchive)
 		{
 			Dictionary<int, SaveEntryFolder> dictionary = new Dictionary<int, SaveEntryFolder>();

@@ -9,16 +9,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200009F RID: 159
 	public class SaveHandler
 	{
-		// Token: 0x170004C4 RID: 1220
-		// (get) Token: 0x06001159 RID: 4441 RVA: 0x0004FC8D File Offset: 0x0004DE8D
-		// (set) Token: 0x0600115A RID: 4442 RVA: 0x0004FC95 File Offset: 0x0004DE95
 		public IMainHeroVisualSupplier MainHeroVisualSupplier { get; set; }
 
-		// Token: 0x170004C5 RID: 1221
-		// (get) Token: 0x0600115B RID: 4443 RVA: 0x0004FC9E File Offset: 0x0004DE9E
 		public bool IsSaving
 		{
 			get
@@ -27,8 +21,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170004C6 RID: 1222
-		// (get) Token: 0x0600115C RID: 4444 RVA: 0x0004FCAE File Offset: 0x0004DEAE
 		public string IronmanModSaveName
 		{
 			get
@@ -37,8 +29,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170004C7 RID: 1223
-		// (get) Token: 0x0600115D RID: 4445 RVA: 0x0004FCC4 File Offset: 0x0004DEC4
 		private bool _isAutoSaveEnabled
 		{
 			get
@@ -47,8 +37,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170004C8 RID: 1224
-		// (get) Token: 0x0600115E RID: 4446 RVA: 0x0004FCCF File Offset: 0x0004DECF
 		private double _autoSavePriorityTimeLimit
 		{
 			get
@@ -57,8 +45,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170004C9 RID: 1225
-		// (get) Token: 0x0600115F RID: 4447 RVA: 0x0004FCE2 File Offset: 0x0004DEE2
 		public int AutoSaveInterval
 		{
 			get
@@ -72,19 +58,16 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001160 RID: 4448 RVA: 0x0004FCFF File Offset: 0x0004DEFF
 		public void QuickSaveCurrentGame()
 		{
 			this.SetSaveArgs(SaveHandler.SaveArgs.SaveMode.QuickSave, null);
 		}
 
-		// Token: 0x06001161 RID: 4449 RVA: 0x0004FD09 File Offset: 0x0004DF09
 		public void SaveAs(string saveName)
 		{
 			this.SetSaveArgs(SaveHandler.SaveArgs.SaveMode.SaveAs, saveName);
 		}
 
-		// Token: 0x06001162 RID: 4450 RVA: 0x0004FD14 File Offset: 0x0004DF14
 		private void TryAutoSave(bool isPriority)
 		{
 			MapState mapState;
@@ -99,7 +82,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001163 RID: 4451 RVA: 0x0004FD7A File Offset: 0x0004DF7A
 		public void CampaignTick()
 		{
 			if (Campaign.Current.TimeControlMode != CampaignTimeControlMode.Stop)
@@ -108,7 +90,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001164 RID: 4452 RVA: 0x0004FD90 File Offset: 0x0004DF90
 		internal void SaveTick()
 		{
 			if (!this.SaveArgsQueue.IsEmpty<SaveHandler.SaveArgs>())
@@ -152,7 +133,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001165 RID: 4453 RVA: 0x0004FEA3 File Offset: 0x0004E0A3
 		private void OnSaveCompleted(ValueTuple<SaveResult, string> result)
 		{
 			this._saveStep = SaveHandler.SaveSteps.PreSave;
@@ -163,13 +143,11 @@ namespace TaleWorlds.CampaignSystem
 			this.OnSaveEnded(result.Item1 == SaveResult.Success, result.Item2);
 		}
 
-		// Token: 0x06001166 RID: 4454 RVA: 0x0004FEDF File Offset: 0x0004E0DF
 		public void SignalAutoSave()
 		{
 			this.TryAutoSave(true);
 		}
 
-		// Token: 0x06001167 RID: 4455 RVA: 0x0004FEE8 File Offset: 0x0004E0E8
 		private void OnSaveStarted()
 		{
 			Campaign.Current.WaitAsyncTasks();
@@ -177,7 +155,6 @@ namespace TaleWorlds.CampaignSystem
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x06001168 RID: 4456 RVA: 0x0004FF04 File Offset: 0x0004E104
 		private void OnSaveEnded(bool isSaveSuccessful, string newSaveGameName)
 		{
 			ISaveManager sandBoxSaveManager = Campaign.Current.SandBoxManager.SandBoxSaveManager;
@@ -192,13 +169,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001169 RID: 4457 RVA: 0x0004FF53 File Offset: 0x0004E153
 		private void SetSaveArgs(SaveHandler.SaveArgs.SaveMode saveType, string saveName = null)
 		{
 			this.SaveArgsQueue.Enqueue(new SaveHandler.SaveArgs(saveType, saveName));
 		}
 
-		// Token: 0x0600116A RID: 4458 RVA: 0x0004FF68 File Offset: 0x0004E168
 		public CampaignSaveMetaDataArgs GetSaveMetaData()
 		{
 			string[] array = SandBoxManager.Instance.ModuleManager.ModuleNames.ToArray<string>();
@@ -227,54 +202,38 @@ namespace TaleWorlds.CampaignSystem
 			return new CampaignSaveMetaDataArgs(array, array2);
 		}
 
-		// Token: 0x04000600 RID: 1536
 		private SaveHandler.SaveSteps _saveStep;
 
-		// Token: 0x04000601 RID: 1537
 		private static readonly CultureInfo _invariantCulture = CultureInfo.InvariantCulture;
 
-		// Token: 0x04000603 RID: 1539
 		private Queue<SaveHandler.SaveArgs> SaveArgsQueue = new Queue<SaveHandler.SaveArgs>();
 
-		// Token: 0x04000604 RID: 1540
 		private DateTime _lastAutoSaveTime = DateTime.Now;
 
-		// Token: 0x020004CB RID: 1227
 		private readonly struct SaveArgs
 		{
-			// Token: 0x06004163 RID: 16739 RVA: 0x001336FA File Offset: 0x001318FA
 			public SaveArgs(SaveHandler.SaveArgs.SaveMode mode, string name)
 			{
 				this.Mode = mode;
 				this.Name = name;
 			}
 
-			// Token: 0x040014AE RID: 5294
 			public readonly SaveHandler.SaveArgs.SaveMode Mode;
 
-			// Token: 0x040014AF RID: 5295
 			public readonly string Name;
 
-			// Token: 0x02000778 RID: 1912
 			public enum SaveMode
 			{
-				// Token: 0x04001EA0 RID: 7840
 				SaveAs,
-				// Token: 0x04001EA1 RID: 7841
 				QuickSave,
-				// Token: 0x04001EA2 RID: 7842
 				AutoSave
 			}
 		}
 
-		// Token: 0x020004CC RID: 1228
 		private enum SaveSteps
 		{
-			// Token: 0x040014B1 RID: 5297
 			PreSave,
-			// Token: 0x040014B2 RID: 5298
 			Saving = 2,
-			// Token: 0x040014B3 RID: 5299
 			AwaitingCompletion
 		}
 	}

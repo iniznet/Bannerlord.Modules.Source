@@ -6,17 +6,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000F7 RID: 247
 	public class HumanAIComponent : AgentComponent
 	{
-		// Token: 0x17000307 RID: 775
-		// (get) Token: 0x06000C30 RID: 3120 RVA: 0x00016BD7 File Offset: 0x00014DD7
-		// (set) Token: 0x06000C31 RID: 3121 RVA: 0x00016BDF File Offset: 0x00014DDF
 		public Agent FollowedAgent { get; private set; }
 
-		// Token: 0x17000308 RID: 776
-		// (get) Token: 0x06000C32 RID: 3122 RVA: 0x00016BE8 File Offset: 0x00014DE8
-		// (set) Token: 0x06000C33 RID: 3123 RVA: 0x00016BF0 File Offset: 0x00014DF0
 		public bool ShouldCatchUpWithFormation
 		{
 			get
@@ -33,8 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000309 RID: 777
-		// (get) Token: 0x06000C34 RID: 3124 RVA: 0x00016C0E File Offset: 0x00014E0E
 		public bool IsDefending
 		{
 			get
@@ -43,7 +34,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C35 RID: 3125 RVA: 0x00016C1C File Offset: 0x00014E1C
 		public HumanAIComponent(Agent agent)
 			: base(agent)
 		{
@@ -59,7 +49,6 @@ namespace TaleWorlds.MountAndBlade
 			this._mountSearchTimer = new MissionTimer(2f + MBRandom.RandomFloat);
 		}
 
-		// Token: 0x06000C36 RID: 3126 RVA: 0x00016CF0 File Offset: 0x00014EF0
 		public void SetDefaultBehaviorParams()
 		{
 			this.SetBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
@@ -71,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SetBehaviorParams(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 5.5f, 12f, 8f, 30f, 4.5f);
 		}
 
-		// Token: 0x06000C37 RID: 3127 RVA: 0x00016DE0 File Offset: 0x00014FE0
 		public void SetBehaviorParams(HumanAIComponent.AISimpleBehaviorKind behavior, float y1, float x2, float y2, float x3, float y3)
 		{
 			this._behaviorValues[(int)behavior].y1 = y1;
@@ -82,7 +70,6 @@ namespace TaleWorlds.MountAndBlade
 			this._hasNewBehaviorValues = true;
 		}
 
-		// Token: 0x06000C38 RID: 3128 RVA: 0x00016E51 File Offset: 0x00015051
 		public void SyncBehaviorParamsIfNecessary()
 		{
 			if (this._hasNewBehaviorValues)
@@ -92,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C39 RID: 3129 RVA: 0x00016E74 File Offset: 0x00015074
 		public void DisablePickUpForAgentIfNeeded()
 		{
 			this._disablePickUpForAgent = true;
@@ -121,7 +107,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C3A RID: 3130 RVA: 0x00016F18 File Offset: 0x00015118
 		public override void OnTickAsAI(float dt)
 		{
 			this.SyncBehaviorParamsIfNecessary();
@@ -214,7 +199,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C3B RID: 3131 RVA: 0x0001731C File Offset: 0x0001551C
 		private void FindMount()
 		{
 			float num = float.MaxValue;
@@ -238,7 +222,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C3C RID: 3132 RVA: 0x0001740C File Offset: 0x0001560C
 		public override void OnAgentRemoved()
 		{
 			int selectedMountIndex = this.Agent.GetSelectedMountIndex();
@@ -251,14 +234,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C3D RID: 3133 RVA: 0x00017498 File Offset: 0x00015698
 		public bool IsInImportantCombatAction()
 		{
 			Agent.ActionCodeType currentActionType = this.Agent.GetCurrentActionType(1);
 			return currentActionType == Agent.ActionCodeType.ReadyMelee || currentActionType == Agent.ActionCodeType.ReadyRanged || currentActionType == Agent.ActionCodeType.ReleaseMelee || currentActionType == Agent.ActionCodeType.ReleaseRanged || currentActionType == Agent.ActionCodeType.ReleaseThrowing || currentActionType == Agent.ActionCodeType.DefendShield;
 		}
 
-		// Token: 0x06000C3E RID: 3134 RVA: 0x000174D4 File Offset: 0x000156D4
 		private bool IsAnyConsumableDepleted()
 		{
 			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.ExtraWeaponSlot; equipmentIndex++)
@@ -272,7 +253,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06000C3F RID: 3135 RVA: 0x00017520 File Offset: 0x00015720
 		private SpawnedItemEntity SelectPickableItem(Vec3 bMin, Vec3 bMax)
 		{
 			Agent targetAgent = this.Agent.GetTargetAgent();
@@ -312,13 +292,11 @@ namespace TaleWorlds.MountAndBlade
 			return spawnedItemEntity;
 		}
 
-		// Token: 0x06000C40 RID: 3136 RVA: 0x0001772F File Offset: 0x0001592F
 		internal void ItemPickupDone(SpawnedItemEntity spawnedItemEntity)
 		{
 			this._itemToPickUp = null;
 		}
 
-		// Token: 0x06000C41 RID: 3137 RVA: 0x00017738 File Offset: 0x00015938
 		private void RequestMoveToItem(SpawnedItemEntity item)
 		{
 			Agent movingAgent = item.MovingAgent;
@@ -329,33 +307,28 @@ namespace TaleWorlds.MountAndBlade
 			this.MoveToUsableGameObject(item, null, Agent.AIScriptedFrameFlags.NoAttack);
 		}
 
-		// Token: 0x06000C42 RID: 3138 RVA: 0x00017756 File Offset: 0x00015956
 		public UsableMissionObject GetCurrentlyMovingGameObject()
 		{
 			return this._objectOfInterest;
 		}
 
-		// Token: 0x06000C43 RID: 3139 RVA: 0x0001775E File Offset: 0x0001595E
 		private void SetCurrentlyMovingGameObject(UsableMissionObject objectOfInterest)
 		{
 			this._objectOfInterest = objectOfInterest;
 			this._objectInterestKind = ((this._objectOfInterest != null) ? HumanAIComponent.UsableObjectInterestKind.MovingTo : HumanAIComponent.UsableObjectInterestKind.None);
 		}
 
-		// Token: 0x06000C44 RID: 3140 RVA: 0x00017779 File Offset: 0x00015979
 		public UsableMissionObject GetCurrentlyDefendingGameObject()
 		{
 			return this._objectOfInterest;
 		}
 
-		// Token: 0x06000C45 RID: 3141 RVA: 0x00017781 File Offset: 0x00015981
 		private void SetCurrentlyDefendingGameObject(UsableMissionObject objectOfInterest)
 		{
 			this._objectOfInterest = objectOfInterest;
 			this._objectInterestKind = ((this._objectOfInterest != null) ? HumanAIComponent.UsableObjectInterestKind.Defending : HumanAIComponent.UsableObjectInterestKind.None);
 		}
 
-		// Token: 0x06000C46 RID: 3142 RVA: 0x0001779C File Offset: 0x0001599C
 		public void MoveToUsableGameObject(UsableMissionObject usedObject, IDetachment detachment, Agent.AIScriptedFrameFlags scriptedFrameFlags = Agent.AIScriptedFrameFlags.NoAttack)
 		{
 			this.Agent.AIStateFlags |= Agent.AIStateFlag.UseObjectMoving;
@@ -365,7 +338,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.SetScriptedPositionAndDirection(ref userFrameForAgent.Origin, userFrameForAgent.Rotation.f.AsVec2.RotationInRadians, false, scriptedFrameFlags);
 		}
 
-		// Token: 0x06000C47 RID: 3143 RVA: 0x0001780A File Offset: 0x00015A0A
 		public void MoveToClear()
 		{
 			UsableMissionObject currentlyMovingGameObject = this.GetCurrentlyMovingGameObject();
@@ -377,27 +349,23 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.AIStateFlags &= ~Agent.AIStateFlag.UseObjectMoving;
 		}
 
-		// Token: 0x06000C48 RID: 3144 RVA: 0x0001783E File Offset: 0x00015A3E
 		public void StartDefendingGameObject(UsableMissionObject usedObject, IDetachment detachment)
 		{
 			this.SetCurrentlyDefendingGameObject(usedObject);
 			usedObject.OnAIDefendBegin(this.Agent, detachment);
 		}
 
-		// Token: 0x06000C49 RID: 3145 RVA: 0x00017854 File Offset: 0x00015A54
 		public void StopDefendingGameObject()
 		{
 			this.GetCurrentlyDefendingGameObject().OnAIDefendEnd(this.Agent);
 			this.SetCurrentlyDefendingGameObject(null);
 		}
 
-		// Token: 0x06000C4A RID: 3146 RVA: 0x0001786E File Offset: 0x00015A6E
 		public bool IsInterestedInAnyGameObject()
 		{
 			return this._objectInterestKind > HumanAIComponent.UsableObjectInterestKind.None;
 		}
 
-		// Token: 0x06000C4B RID: 3147 RVA: 0x0001787C File Offset: 0x00015A7C
 		public bool IsInterestedInGameObject(UsableMissionObject usableMissionObject)
 		{
 			bool flag = false;
@@ -418,13 +386,11 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06000C4C RID: 3148 RVA: 0x000178E8 File Offset: 0x00015AE8
 		public void FollowAgent(Agent agent)
 		{
 			this.FollowedAgent = agent;
 		}
 
-		// Token: 0x06000C4D RID: 3149 RVA: 0x000178F4 File Offset: 0x00015AF4
 		public float GetDesiredSpeedInFormation(bool isCharging)
 		{
 			if (this.ShouldCatchUpWithFormation && (!isCharging || !Mission.Current.IsMissionEnding))
@@ -462,7 +428,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06000C4E RID: 3150 RVA: 0x00017AD8 File Offset: 0x00015CD8
 		private unsafe bool GetFormationFrame(out WorldPosition formationPosition, out Vec2 formationDirection, out float speedLimit, out bool isSettingDestinationSpeed, out bool limitIsMultiplier, bool finalDestination = false)
 		{
 			Formation formation = this.Agent.Formation;
@@ -558,7 +523,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06000C4F RID: 3151 RVA: 0x00017D85 File Offset: 0x00015F85
 		public void AdjustSpeedLimit(Agent agent, float desiredSpeed, bool limitIsMultiplier)
 		{
 			if (agent.MissionPeer != null)
@@ -574,7 +538,6 @@ namespace TaleWorlds.MountAndBlade
 			mountAgent.SetMaximumSpeedLimit(desiredSpeed, limitIsMultiplier);
 		}
 
-		// Token: 0x06000C50 RID: 3152 RVA: 0x00017DB8 File Offset: 0x00015FB8
 		public void UpdateFormationMovement()
 		{
 			WorldPosition worldPosition;
@@ -623,21 +586,18 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.SetDirectionChangeTendency(num4);
 		}
 
-		// Token: 0x06000C51 RID: 3153 RVA: 0x00018014 File Offset: 0x00016214
 		public override void OnRetreating()
 		{
 			base.OnRetreating();
 			this.AdjustSpeedLimit(this.Agent, -1f, false);
 		}
 
-		// Token: 0x06000C52 RID: 3154 RVA: 0x0001802E File Offset: 0x0001622E
 		public override void OnDismount(Agent mount)
 		{
 			base.OnDismount(mount);
 			mount.SetMaximumSpeedLimit(-1f, false);
 		}
 
-		// Token: 0x06000C53 RID: 3155 RVA: 0x00018044 File Offset: 0x00016244
 		public override void OnMount(Agent mount)
 		{
 			base.OnMount(mount);
@@ -658,53 +618,37 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040002BB RID: 699
 		private const float AvoidPickUpIfLookAgentIsCloseDistance = 20f;
 
-		// Token: 0x040002BC RID: 700
 		private const float AvoidPickUpIfLookAgentIsCloseDistanceSquared = 400f;
 
-		// Token: 0x040002BD RID: 701
 		public static bool FormationSpeedAdjustmentEnabled = true;
 
-		// Token: 0x040002BE RID: 702
 		private readonly HumanAIComponent.BehaviorValues[] _behaviorValues;
 
-		// Token: 0x040002BF RID: 703
 		private bool _hasNewBehaviorValues;
 
-		// Token: 0x040002C0 RID: 704
 		private readonly GameEntity[] _tempPickableEntities = new GameEntity[16];
 
-		// Token: 0x040002C1 RID: 705
 		private readonly UIntPtr[] _pickableItemsId = new UIntPtr[16];
 
-		// Token: 0x040002C2 RID: 706
 		private SpawnedItemEntity _itemToPickUp;
 
-		// Token: 0x040002C3 RID: 707
 		private readonly MissionTimer _itemPickUpTickTimer;
 
-		// Token: 0x040002C4 RID: 708
 		private bool _disablePickUpForAgent;
 
-		// Token: 0x040002C5 RID: 709
 		private readonly MissionTimer _mountSearchTimer;
 
-		// Token: 0x040002C6 RID: 710
 		private UsableMissionObject _objectOfInterest;
 
-		// Token: 0x040002C7 RID: 711
 		private HumanAIComponent.UsableObjectInterestKind _objectInterestKind;
 
-		// Token: 0x040002C9 RID: 713
 		private bool _shouldCatchUpWithFormation;
 
-		// Token: 0x02000437 RID: 1079
 		[EngineStruct("behavior_values_struct")]
 		public struct BehaviorValues
 		{
-			// Token: 0x060035D3 RID: 13779 RVA: 0x000DF074 File Offset: 0x000DD274
 			public float GetValueAt(float x)
 			{
 				if (x <= this.x2)
@@ -718,53 +662,34 @@ namespace TaleWorlds.MountAndBlade
 				return this.y3;
 			}
 
-			// Token: 0x0400181F RID: 6175
 			public float y1;
 
-			// Token: 0x04001820 RID: 6176
 			public float x2;
 
-			// Token: 0x04001821 RID: 6177
 			public float y2;
 
-			// Token: 0x04001822 RID: 6178
 			public float x3;
 
-			// Token: 0x04001823 RID: 6179
 			public float y3;
 		}
 
-		// Token: 0x02000438 RID: 1080
 		public enum AISimpleBehaviorKind
 		{
-			// Token: 0x04001825 RID: 6181
 			GoToPos,
-			// Token: 0x04001826 RID: 6182
 			Melee,
-			// Token: 0x04001827 RID: 6183
 			Ranged,
-			// Token: 0x04001828 RID: 6184
 			ChargeHorseback,
-			// Token: 0x04001829 RID: 6185
 			RangedHorseback,
-			// Token: 0x0400182A RID: 6186
 			AttackEntityMelee,
-			// Token: 0x0400182B RID: 6187
 			AttackEntityRanged,
-			// Token: 0x0400182C RID: 6188
 			Count
 		}
 
-		// Token: 0x02000439 RID: 1081
 		public enum UsableObjectInterestKind
 		{
-			// Token: 0x0400182E RID: 6190
 			None,
-			// Token: 0x0400182F RID: 6191
 			MovingTo,
-			// Token: 0x04001830 RID: 6192
 			Defending,
-			// Token: 0x04001831 RID: 6193
 			Count
 		}
 	}

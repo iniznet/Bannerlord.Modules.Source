@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200011E RID: 286
 	public class BehaviorSkirmish : BehaviorComponent
 	{
-		// Token: 0x06000D8C RID: 3468 RVA: 0x00023570 File Offset: 0x00021770
 		public BehaviorSkirmish(Formation formation)
 			: base(formation)
 		{
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D8D RID: 3469 RVA: 0x000235E0 File Offset: 0x000217E0
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition worldPosition = base.Formation.QuerySystem.MedianPosition;
@@ -178,7 +175,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000D8E RID: 3470 RVA: 0x00023DFD File Offset: 0x00021FFD
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -186,7 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
 		}
 
-		// Token: 0x06000D8F RID: 3471 RVA: 0x00023E28 File Offset: 0x00022028
 		protected override void OnBehaviorActivatedAux()
 		{
 			this._cantShoot = false;
@@ -203,42 +198,30 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D90 RID: 3472 RVA: 0x00023F1C File Offset: 0x0002211C
 		protected override float GetAiWeight()
 		{
 			FormationQuerySystem querySystem = base.Formation.QuerySystem;
 			return MBMath.Lerp(0.1f, 1f, MBMath.ClampFloat(querySystem.RangedUnitRatio + querySystem.RangedCavalryUnitRatio, 0f, 0.5f) * 2f, 1E-05f);
 		}
 
-		// Token: 0x04000346 RID: 838
 		private bool _cantShoot;
 
-		// Token: 0x04000347 RID: 839
 		private float _cantShootDistance = float.MaxValue;
 
-		// Token: 0x04000348 RID: 840
 		private bool _alternatePositionUsed;
 
-		// Token: 0x04000349 RID: 841
 		private WorldPosition _alternatePosition = WorldPosition.Invalid;
 
-		// Token: 0x0400034A RID: 842
 		private BehaviorSkirmish.BehaviorState _behaviorState = BehaviorSkirmish.BehaviorState.Shooting;
 
-		// Token: 0x0400034B RID: 843
 		private Timer _cantShootTimer;
 
-		// Token: 0x0400034C RID: 844
 		private Timer _pullBackTimer;
 
-		// Token: 0x02000457 RID: 1111
 		private enum BehaviorState
 		{
-			// Token: 0x04001893 RID: 6291
 			Approaching,
-			// Token: 0x04001894 RID: 6292
 			Shooting,
-			// Token: 0x04001895 RID: 6293
 			PullingBack
 		}
 	}

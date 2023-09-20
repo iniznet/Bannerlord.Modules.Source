@@ -11,27 +11,14 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200034C RID: 844
 	public class DestructableComponent : SynchedMissionObject, IFocusable
 	{
-		// Token: 0x14000090 RID: 144
-		// (add) Token: 0x06002D5C RID: 11612 RVA: 0x000B1988 File Offset: 0x000AFB88
-		// (remove) Token: 0x06002D5D RID: 11613 RVA: 0x000B19C0 File Offset: 0x000AFBC0
 		public event Action OnNextDestructionState;
 
-		// Token: 0x14000091 RID: 145
-		// (add) Token: 0x06002D5E RID: 11614 RVA: 0x000B19F8 File Offset: 0x000AFBF8
-		// (remove) Token: 0x06002D5F RID: 11615 RVA: 0x000B1A30 File Offset: 0x000AFC30
 		public event DestructableComponent.OnHitTakenAndDestroyedDelegate OnDestroyed;
 
-		// Token: 0x14000092 RID: 146
-		// (add) Token: 0x06002D60 RID: 11616 RVA: 0x000B1A68 File Offset: 0x000AFC68
-		// (remove) Token: 0x06002D61 RID: 11617 RVA: 0x000B1AA0 File Offset: 0x000AFCA0
 		public event DestructableComponent.OnHitTakenAndDestroyedDelegate OnHitTaken;
 
-		// Token: 0x17000823 RID: 2083
-		// (get) Token: 0x06002D62 RID: 11618 RVA: 0x000B1AD5 File Offset: 0x000AFCD5
-		// (set) Token: 0x06002D63 RID: 11619 RVA: 0x000B1AE0 File Offset: 0x000AFCE0
 		public float HitPoint
 		{
 			get
@@ -53,8 +40,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000824 RID: 2084
-		// (get) Token: 0x06002D64 RID: 11620 RVA: 0x000B1B2C File Offset: 0x000AFD2C
 		public FocusableObjectType FocusableObjectType
 		{
 			get
@@ -63,8 +48,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000825 RID: 2085
-		// (get) Token: 0x06002D65 RID: 11621 RVA: 0x000B1B2F File Offset: 0x000AFD2F
 		public bool IsDestroyed
 		{
 			get
@@ -73,17 +56,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000826 RID: 2086
-		// (get) Token: 0x06002D66 RID: 11622 RVA: 0x000B1B41 File Offset: 0x000AFD41
-		// (set) Token: 0x06002D67 RID: 11623 RVA: 0x000B1B49 File Offset: 0x000AFD49
 		public GameEntity CurrentState { get; private set; }
 
-		// Token: 0x06002D68 RID: 11624 RVA: 0x000B1B54 File Offset: 0x000AFD54
 		private DestructableComponent()
 		{
 		}
 
-		// Token: 0x06002D69 RID: 11625 RVA: 0x000B1BAC File Offset: 0x000AFDAC
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -154,7 +132,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.SetAnimationSoundActivation(true);
 		}
 
-		// Token: 0x06002D6A RID: 11626 RVA: 0x000B1EAC File Offset: 0x000B00AC
 		public GameEntity GetOriginalState(GameEntity parent)
 		{
 			int childCount = parent.ChildCount;
@@ -177,14 +154,12 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06002D6B RID: 11627 RVA: 0x000B1F00 File Offset: 0x000B0100
 		protected internal override void OnEditorInit()
 		{
 			base.OnEditorInit();
 			this._referenceEntity = (string.IsNullOrEmpty(this.ReferenceEntityTag) ? base.GameEntity : base.GameEntity.GetChildren().FirstOrDefault((GameEntity x) => x.HasTag(this.ReferenceEntityTag)));
 		}
 
-		// Token: 0x06002D6C RID: 11628 RVA: 0x000B1F40 File Offset: 0x000B0140
 		protected internal override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -194,14 +169,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D6D RID: 11629 RVA: 0x000B1F99 File Offset: 0x000B0199
 		protected internal override void OnMissionReset()
 		{
 			base.OnMissionReset();
 			this.Reset();
 		}
 
-		// Token: 0x06002D6E RID: 11630 RVA: 0x000B1FA7 File Offset: 0x000B01A7
 		public void Reset()
 		{
 			this.RestoreEntity();
@@ -209,7 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			this._currentStateIndex = 0;
 		}
 
-		// Token: 0x06002D6F RID: 11631 RVA: 0x000B1FC4 File Offset: 0x000B01C4
 		private void RestoreEntity()
 		{
 			if (this._destructionStates != null)
@@ -240,7 +212,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentState.SetFrameChanged();
 		}
 
-		// Token: 0x06002D70 RID: 11632 RVA: 0x000B20A4 File Offset: 0x000B02A4
 		protected internal override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
@@ -258,14 +229,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D71 RID: 11633 RVA: 0x000B2154 File Offset: 0x000B0354
 		public void TriggerOnHit(Agent attackerAgent, int inflictedDamage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior)
 		{
 			bool flag;
 			this.OnHit(attackerAgent, inflictedDamage, impactPosition, impactDirection, weapon, attackerScriptComponentBehavior, out flag);
 		}
 
-		// Token: 0x06002D72 RID: 11634 RVA: 0x000B2174 File Offset: 0x000B0374
 		protected internal override bool OnHit(Agent attackerAgent, int inflictedDamage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
 		{
 			reportDamage = false;
@@ -339,7 +308,6 @@ namespace TaleWorlds.MountAndBlade
 			return !this.PassHitOnToParent;
 		}
 
-		// Token: 0x06002D73 RID: 11635 RVA: 0x000B239C File Offset: 0x000B059C
 		public void BurstHeavyHitParticles()
 		{
 			foreach (GameEntity gameEntity in this._heavyHitParticles)
@@ -354,7 +322,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D74 RID: 11636 RVA: 0x000B2408 File Offset: 0x000B0608
 		private int CalculateNextDestructionLevel(int inflictedDamage)
 		{
 			if (this.HasDestructionState)
@@ -378,7 +345,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._currentStateIndex;
 		}
 
-		// Token: 0x06002D75 RID: 11637 RVA: 0x000B2488 File Offset: 0x000B0688
 		public void SetDestructionLevel(int state, int forcedId, float blowMagnitude, Vec3 blowPosition, Vec3 blowDirection, bool noEffects = false)
 		{
 			if (this._currentStateIndex != state)
@@ -423,7 +389,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D76 RID: 11638 RVA: 0x000B25C4 File Offset: 0x000B07C4
 		private void ApplyPhysics(float blowMagnitude, Vec3 blowPosition, Vec3 blowDirection)
 		{
 			if (this.CurrentState != null)
@@ -441,7 +406,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D77 RID: 11639 RVA: 0x000B2688 File Offset: 0x000B0888
 		private void ReplaceEntityWithBrokenEntity(int forcedId)
 		{
 			this._previousState = this.CurrentState;
@@ -488,13 +452,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D78 RID: 11640 RVA: 0x000B27B0 File Offset: 0x000B09B0
 		protected internal override bool MovesEntity()
 		{
 			return true;
 		}
 
-		// Token: 0x06002D79 RID: 11641 RVA: 0x000B27B3 File Offset: 0x000B09B3
 		public void PreDestroy()
 		{
 			DestructableComponent.OnHitTakenAndDestroyedDelegate onDestroyed = this.OnDestroyed;
@@ -505,7 +467,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SetVisibleSynched(false, true);
 		}
 
-		// Token: 0x06002D7A RID: 11642 RVA: 0x000B27D8 File Offset: 0x000B09D8
 		private GameEntity AddBrokenEntity(string prefab, out bool newCreated)
 		{
 			if (!string.IsNullOrEmpty(prefab))
@@ -554,7 +515,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06002D7B RID: 11643 RVA: 0x000B292C File Offset: 0x000B0B2C
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
@@ -571,7 +531,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D7C RID: 11644 RVA: 0x000B2994 File Offset: 0x000B0B94
 		public override bool ReadFromNetwork()
 		{
 			bool flag = true;
@@ -605,8 +564,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x17000827 RID: 2087
-		// (get) Token: 0x06002D7D RID: 11645 RVA: 0x000B2A30 File Offset: 0x000B0C30
 		private bool HasDestructionState
 		{
 			get
@@ -615,7 +572,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002D7E RID: 11646 RVA: 0x000B2A4A File Offset: 0x000B0C4A
 		public override void AddStuckMissile(GameEntity missileEntity)
 		{
 			if (this.CurrentState != null)
@@ -626,7 +582,6 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.AddChild(missileEntity, false);
 		}
 
-		// Token: 0x06002D7F RID: 11647 RVA: 0x000B2A78 File Offset: 0x000B0C78
 		protected internal override bool OnCheckForProblems()
 		{
 			bool flag = base.OnCheckForProblems();
@@ -648,23 +603,19 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06002D80 RID: 11648 RVA: 0x000B2BAB File Offset: 0x000B0DAB
 		public void OnFocusGain(Agent userAgent)
 		{
 		}
 
-		// Token: 0x06002D81 RID: 11649 RVA: 0x000B2BAD File Offset: 0x000B0DAD
 		public void OnFocusLose(Agent userAgent)
 		{
 		}
 
-		// Token: 0x06002D82 RID: 11650 RVA: 0x000B2BAF File Offset: 0x000B0DAF
 		public TextObject GetInfoTextForBeingNotInteractable(Agent userAgent)
 		{
 			return new TextObject("", null);
 		}
 
-		// Token: 0x06002D83 RID: 11651 RVA: 0x000B2BBC File Offset: 0x000B0DBC
 		public string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			int num;
@@ -691,84 +642,57 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040011BB RID: 4539
 		public const string CleanStateTag = "operational";
 
-		// Token: 0x040011BC RID: 4540
 		public static float MaxBlowMagnitude = 20f;
 
-		// Token: 0x040011BD RID: 4541
 		public string DestructionStates;
 
-		// Token: 0x040011BE RID: 4542
 		public bool DestroyedByStoneOnly;
 
-		// Token: 0x040011BF RID: 4543
 		public bool CanBeDestroyedInitially = true;
 
-		// Token: 0x040011C0 RID: 4544
 		public float MaxHitPoint = 100f;
 
-		// Token: 0x040011C1 RID: 4545
 		public bool DestroyOnAnyHit;
 
-		// Token: 0x040011C2 RID: 4546
 		public bool PassHitOnToParent;
 
-		// Token: 0x040011C3 RID: 4547
 		public string ReferenceEntityTag;
 
-		// Token: 0x040011C4 RID: 4548
 		public string HeavyHitParticlesTag;
 
-		// Token: 0x040011C5 RID: 4549
 		public float HeavyHitParticlesThreshold = 5f;
 
-		// Token: 0x040011C6 RID: 4550
 		public string ParticleEffectOnDestroy = "";
 
-		// Token: 0x040011C7 RID: 4551
 		public string SoundEffectOnDestroy = "";
 
-		// Token: 0x040011C8 RID: 4552
 		public float SoundAndParticleEffectHeightOffset;
 
-		// Token: 0x040011C9 RID: 4553
 		public float SoundAndParticleEffectForwardOffset;
 
-		// Token: 0x040011CD RID: 4557
 		public BattleSideEnum BattleSide = BattleSideEnum.None;
 
-		// Token: 0x040011CE RID: 4558
 		[EditableScriptComponentVariable(false)]
 		public Func<int, int, int, int> OnCalculateDestructionStateIndex;
 
-		// Token: 0x040011CF RID: 4559
 		private float _hitPoint;
 
-		// Token: 0x040011D0 RID: 4560
 		private string OriginalStateTag = "operational";
 
-		// Token: 0x040011D1 RID: 4561
 		private GameEntity _referenceEntity;
 
-		// Token: 0x040011D2 RID: 4562
 		private GameEntity _previousState;
 
-		// Token: 0x040011D3 RID: 4563
 		private GameEntity _originalState;
 
-		// Token: 0x040011D5 RID: 4565
 		private string[] _destructionStates;
 
-		// Token: 0x040011D6 RID: 4566
 		private int _currentStateIndex;
 
-		// Token: 0x040011D7 RID: 4567
 		private IEnumerable<GameEntity> _heavyHitParticles;
 
-		// Token: 0x0200065B RID: 1627
-		// (Invoke) Token: 0x06003E6A RID: 15978
 		public delegate void OnHitTakenAndDestroyedDelegate(DestructableComponent target, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage);
 	}
 }

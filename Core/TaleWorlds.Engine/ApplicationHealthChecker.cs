@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000004 RID: 4
 	public class ApplicationHealthChecker
 	{
-		// Token: 0x06000003 RID: 3 RVA: 0x00002058 File Offset: 0x00000258
 		public void Start()
 		{
 			Debug.Print("Starting ApplicationHealthChecker", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -29,7 +27,6 @@ namespace TaleWorlds.Engine
 			this._thread.Start();
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x00002104 File Offset: 0x00000304
 		public void Stop()
 		{
 			this._thread = null;
@@ -37,7 +34,6 @@ namespace TaleWorlds.Engine
 			this._isRunning = false;
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x0000211B File Offset: 0x0000031B
 		public void Update()
 		{
 			if (this._isRunning)
@@ -47,14 +43,12 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x0000213B File Offset: 0x0000033B
 		private static void Print(string log)
 		{
 			Debug.Print(log, 0, Debug.DebugColor.White, 17592186044416UL);
 			Console.WriteLine(log);
 		}
 
-		// Token: 0x06000007 RID: 7 RVA: 0x00002158 File Offset: 0x00000358
 		private void ThreadUpdate()
 		{
 			while (this._isRunning)
@@ -100,16 +94,12 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x04000001 RID: 1
 		private Thread _thread;
 
-		// Token: 0x04000002 RID: 2
 		private bool _isRunning;
 
-		// Token: 0x04000003 RID: 3
 		private Stopwatch _stopwatch;
 
-		// Token: 0x04000004 RID: 4
 		private Thread _mainThread;
 	}
 }

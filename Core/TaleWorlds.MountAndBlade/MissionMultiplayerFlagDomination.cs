@@ -13,11 +13,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A0 RID: 672
 	public class MissionMultiplayerFlagDomination : MissionMultiplayerGameModeBase, IAnalyticsFlagInfo, IMissionBehavior
 	{
-		// Token: 0x170006D5 RID: 1749
-		// (get) Token: 0x060024BF RID: 9407 RVA: 0x000883F9 File Offset: 0x000865F9
 		public override bool IsGameModeHidingAllAgentVisuals
 		{
 			get
@@ -26,8 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170006D6 RID: 1750
-		// (get) Token: 0x060024C0 RID: 9408 RVA: 0x0008840F File Offset: 0x0008660F
 		public override bool IsGameModeUsingOpposingTeams
 		{
 			get
@@ -36,13 +31,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170006D7 RID: 1751
-		// (get) Token: 0x060024C1 RID: 9409 RVA: 0x00088412 File Offset: 0x00086612
-		// (set) Token: 0x060024C2 RID: 9410 RVA: 0x0008841A File Offset: 0x0008661A
 		public MBReadOnlyList<FlagCapturePoint> AllCapturePoints { get; private set; }
 
-		// Token: 0x170006D8 RID: 1752
-		// (get) Token: 0x060024C3 RID: 9411 RVA: 0x00088423 File Offset: 0x00086623
 		public float MoraleRounded
 		{
 			get
@@ -51,8 +41,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170006D9 RID: 1753
-		// (get) Token: 0x060024C4 RID: 9412 RVA: 0x00088439 File Offset: 0x00086639
 		public bool GameModeUsesSingleSpawning
 		{
 			get
@@ -61,25 +49,21 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024C5 RID: 9413 RVA: 0x0008844F File Offset: 0x0008664F
 		public bool UseGold()
 		{
 			return this._gameModeFlagDominationClient.IsGameModeUsingGold;
 		}
 
-		// Token: 0x060024C6 RID: 9414 RVA: 0x0008845C File Offset: 0x0008665C
 		public override bool AllowCustomPlayerBanners()
 		{
 			return false;
 		}
 
-		// Token: 0x060024C7 RID: 9415 RVA: 0x0008845F File Offset: 0x0008665F
 		public override bool UseRoundController()
 		{
 			return true;
 		}
 
-		// Token: 0x060024C8 RID: 9416 RVA: 0x00088464 File Offset: 0x00086664
 		public MissionMultiplayerFlagDomination(MissionLobbyComponent.MultiplayerGameType gameType)
 		{
 			this._gameType = gameType;
@@ -111,13 +95,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024C9 RID: 9417 RVA: 0x00088570 File Offset: 0x00086770
 		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
 		{
 			return this._gameType;
 		}
 
-		// Token: 0x060024CA RID: 9418 RVA: 0x00088578 File Offset: 0x00086778
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -132,7 +114,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024CB RID: 9419 RVA: 0x00088628 File Offset: 0x00086828
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -150,13 +131,11 @@ namespace TaleWorlds.MountAndBlade
 			base.Mission.Teams.Add(BattleSideEnum.Defender, object2.BackgroundColor2, object2.ForegroundColor2, banner2, false, true, true);
 		}
 
-		// Token: 0x060024CC RID: 9420 RVA: 0x00088759 File Offset: 0x00086959
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			registerer.Register<RequestForfeitSpawn>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestForfeitSpawn>(this.HandleClientEventRequestForfeitSpawn));
 		}
 
-		// Token: 0x060024CD RID: 9421 RVA: 0x00088770 File Offset: 0x00086970
 		public override void OnRemoveBehavior()
 		{
 			this.RoundController.OnRoundStarted -= this.OnPreparationStart;
@@ -168,7 +147,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x060024CE RID: 9422 RVA: 0x00088807 File Offset: 0x00086A07
 		public override void OnPeerChangedTeam(NetworkCommunicator peer, Team oldTeam, Team newTeam)
 		{
 			if (oldTeam != null && oldTeam != newTeam && this.UseGold() && (this.WarmupComponent == null || !this.WarmupComponent.IsInWarmup))
@@ -177,13 +155,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024CF RID: 9423 RVA: 0x0008883A File Offset: 0x00086A3A
 		private void OnPreparationStart()
 		{
 			this.NotificationsComponent.PreparationStarted();
 		}
 
-		// Token: 0x060024D0 RID: 9424 RVA: 0x00088848 File Offset: 0x00086A48
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -206,7 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024D1 RID: 9425 RVA: 0x000888B0 File Offset: 0x00086AB0
 		private void CheckForPlayersSpawningAsBots()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -252,7 +227,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024D2 RID: 9426 RVA: 0x00088A70 File Offset: 0x00086C70
 		private bool GetMoraleGain(out float moraleGain)
 		{
 			List<FlagCapturePoint> list = this.AllCapturePoints.Where((FlagCapturePoint flag) => !flag.IsDeactivated && this.GetFlagOwnerTeam(flag) != null && flag.IsFullyRaised).ToList<FlagCapturePoint>();
@@ -279,7 +253,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x060024D3 RID: 9427 RVA: 0x00088B3C File Offset: 0x00086D3C
 		public float GetTimeUntilBattleSideVictory(BattleSideEnum side)
 		{
 			float num = float.MaxValue;
@@ -301,7 +274,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Min(num, num2);
 		}
 
-		// Token: 0x060024D4 RID: 9428 RVA: 0x00088BD0 File Offset: 0x00086DD0
 		private void CheckMorales()
 		{
 			float num;
@@ -321,7 +293,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024D5 RID: 9429 RVA: 0x00088C4C File Offset: 0x00086E4C
 		private void CheckRemovingOfPoints()
 		{
 			if (this._nextTimeToCheckForPointRemoval < 0f)
@@ -446,7 +417,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024D6 RID: 9430 RVA: 0x00089168 File Offset: 0x00087368
 		private int RemoveCapturePoint(FlagCapturePoint capToRemove)
 		{
 			int flagIndex = capToRemove.FlagIndex;
@@ -457,7 +427,6 @@ namespace TaleWorlds.MountAndBlade
 			return flagIndex;
 		}
 
-		// Token: 0x060024D7 RID: 9431 RVA: 0x00089190 File Offset: 0x00087390
 		public override void OnClearScene()
 		{
 			this.AllCapturePoints = Mission.Current.MissionObjects.FindAllWithType<FlagCapturePoint>().ToMBList<FlagCapturePoint>();
@@ -471,7 +440,6 @@ namespace TaleWorlds.MountAndBlade
 			this._flagRemovalOccured = false;
 		}
 
-		// Token: 0x060024D8 RID: 9432 RVA: 0x00089230 File Offset: 0x00087430
 		public override bool CheckIfOvertime()
 		{
 			if (!this._flagRemovalOccured)
@@ -483,7 +451,6 @@ namespace TaleWorlds.MountAndBlade
 			return flagOwnerTeam != null && ((float)(flagOwnerTeam.Side * BattleSideEnum.NumSides - BattleSideEnum.Attacker) * this._morale < 0f || this.GetNumberOfAttackersAroundFlag(flagCapturePoint) > 0);
 		}
 
-		// Token: 0x060024D9 RID: 9433 RVA: 0x000892A8 File Offset: 0x000874A8
 		public override bool CheckForWarmupEnd()
 		{
 			int[] array = new int[2];
@@ -498,7 +465,6 @@ namespace TaleWorlds.MountAndBlade
 			return array.Sum() >= MultiplayerOptions.OptionType.MaxNumberOfPlayers.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 		}
 
-		// Token: 0x060024DA RID: 9434 RVA: 0x00089348 File Offset: 0x00087548
 		public override bool CheckForRoundEnd()
 		{
 			if (base.CanGameModeSystemsTickThisFrame)
@@ -559,19 +525,16 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x060024DB RID: 9435 RVA: 0x00089520 File Offset: 0x00087720
 		public override bool UseCultureSelection()
 		{
 			return false;
 		}
 
-		// Token: 0x060024DC RID: 9436 RVA: 0x00089523 File Offset: 0x00087723
 		private void OnWarmupEnding()
 		{
 			this.NotificationsComponent.WarmupEnding();
 		}
 
-		// Token: 0x060024DD RID: 9437 RVA: 0x00089530 File Offset: 0x00087730
 		private void OnRoundEnd()
 		{
 			foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints)
@@ -665,7 +628,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024DE RID: 9438 RVA: 0x000897C8 File Offset: 0x000879C8
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			agent.UpdateSyncHealthToAllClients(true);
@@ -675,7 +637,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024DF RID: 9439 RVA: 0x000897EC File Offset: 0x000879EC
 		private void HandleRoundEnd(CaptureTheFlagCaptureResultEnum roundResult)
 		{
 			AgentVictoryLogic missionBehavior = base.Mission.GetMissionBehavior<AgentVictoryLogic>();
@@ -696,7 +657,6 @@ namespace TaleWorlds.MountAndBlade
 			missionBehavior.SetTimersOfVictoryReactionsOnBattleEnd(BattleSideEnum.Defender);
 		}
 
-		// Token: 0x060024E0 RID: 9440 RVA: 0x0008983C File Offset: 0x00087A3C
 		private void OnPostRoundEnd()
 		{
 			if (this.UseGold() && !this.RoundController.IsMatchEnding)
@@ -728,7 +688,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E1 RID: 9441 RVA: 0x00089958 File Offset: 0x00087B58
 		protected override void HandleEarlyPlayerDisconnect(NetworkCommunicator networkPeer)
 		{
 			if (this.RoundController.IsRoundInProgress && MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0)
@@ -737,7 +696,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E2 RID: 9442 RVA: 0x00089979 File Offset: 0x00087B79
 		private void OnPreTeamChanged(NetworkCommunicator peer, Team currentTeam, Team newTeam)
 		{
 			if (peer.IsSynchronized && peer.GetComponent<MissionPeer>().ControlledAgent != null)
@@ -746,7 +704,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E3 RID: 9443 RVA: 0x00089998 File Offset: 0x00087B98
 		private void OnPreparationEnded()
 		{
 			if (this.UseGold())
@@ -782,7 +739,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E4 RID: 9444 RVA: 0x00089ADC File Offset: 0x00087CDC
 		private void CheckPlayerBeingDetached()
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -798,7 +754,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E5 RID: 9445 RVA: 0x00089B4C File Offset: 0x00087D4C
 		private int PlayerDistanceToFormation(MissionPeer missionPeer)
 		{
 			float num = 0f;
@@ -815,7 +770,6 @@ namespace TaleWorlds.MountAndBlade
 			return (int)num;
 		}
 
-		// Token: 0x060024E6 RID: 9446 RVA: 0x00089BE4 File Offset: 0x00087DE4
 		private void MakePlayerFormationFollowPlayer(NetworkCommunicator peer)
 		{
 			if (peer.IsSynchronized)
@@ -829,7 +783,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E7 RID: 9447 RVA: 0x00089C2C File Offset: 0x00087E2C
 		private void MakePlayerFormationCharge(NetworkCommunicator peer)
 		{
 			if (peer.IsSynchronized)
@@ -842,13 +795,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024E8 RID: 9448 RVA: 0x00089C60 File Offset: 0x00087E60
 		protected override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			networkPeer.AddComponent<FlagDominationMissionRepresentative>();
 		}
 
-		// Token: 0x060024E9 RID: 9449 RVA: 0x00089C6C File Offset: 0x00087E6C
 		protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
 		{
 			if (this.UseGold())
@@ -873,14 +824,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024EA RID: 9450 RVA: 0x00089D64 File Offset: 0x00087F64
 		private bool HandleClientEventRequestForfeitSpawn(NetworkCommunicator peer, RequestForfeitSpawn message)
 		{
 			this.ForfeitSpawning(peer);
 			return true;
 		}
 
-		// Token: 0x060024EB RID: 9451 RVA: 0x00089D70 File Offset: 0x00087F70
 		public void ForfeitSpawning(NetworkCommunicator peer)
 		{
 			MissionPeer component = peer.GetComponent<MissionPeer>();
@@ -891,7 +840,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024EC RID: 9452 RVA: 0x00089DC0 File Offset: 0x00087FC0
 		public static void SetWinnerTeam(int winnerTeamNo)
 		{
 			Mission mission = Mission.Current;
@@ -914,7 +862,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024ED RID: 9453 RVA: 0x00089E7C File Offset: 0x0008807C
 		private void TickFlags()
 		{
 			foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints)
@@ -1023,7 +970,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024EE RID: 9454 RVA: 0x0008A1E8 File Offset: 0x000883E8
 		public int GetNumberOfAttackersAroundFlag(FlagCapturePoint capturePoint)
 		{
 			Team flagOwnerTeam = this.GetFlagOwnerTeam(capturePoint);
@@ -1045,7 +991,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x060024EF RID: 9455 RVA: 0x0008A28A File Offset: 0x0008848A
 		public Team GetFlagOwnerTeam(FlagCapturePoint flag)
 		{
 			if (flag == null)
@@ -1055,7 +1000,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._capturePointOwners[flag.FlagIndex];
 		}
 
-		// Token: 0x060024F0 RID: 9456 RVA: 0x0008A2A0 File Offset: 0x000884A0
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
@@ -1141,7 +1085,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060024F1 RID: 9457 RVA: 0x0008A6A0 File Offset: 0x000888A0
 		public override float GetTroopNumberMultiplierForMissingPlayer(MissionPeer spawningPeer)
 		{
 			if (this._gameType == MissionLobbyComponent.MultiplayerGameType.Captain)
@@ -1177,7 +1120,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x060024F2 RID: 9458 RVA: 0x0008A7CC File Offset: 0x000889CC
 		protected override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			if (!networkPeer.IsServerPeer)
@@ -1188,109 +1130,74 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000D6E RID: 3438
 		public const int NumberOfFlagsInGame = 3;
 
-		// Token: 0x04000D6F RID: 3439
 		public const float MoraleRoundPrecision = 0.01f;
 
-		// Token: 0x04000D70 RID: 3440
 		public const int DefaultGoldAmountForTroopSelectionForSkirmish = 300;
 
-		// Token: 0x04000D71 RID: 3441
 		public const int MaxGoldAmountToCarryOverForSkirmish = 80;
 
-		// Token: 0x04000D72 RID: 3442
 		private const int MaxGoldAmountToCarryOverForSurvivalForSkirmish = 30;
 
-		// Token: 0x04000D73 RID: 3443
 		public const int InitialGoldAmountForTroopSelectionForBattle = 200;
 
-		// Token: 0x04000D74 RID: 3444
 		public const int DefaultGoldAmountForTroopSelectionForBattle = 120;
 
-		// Token: 0x04000D75 RID: 3445
 		public const int MaxGoldAmountToCarryOverForBattle = 110;
 
-		// Token: 0x04000D76 RID: 3446
 		private const int MaxGoldAmountToCarryOverForSurvivalForBattle = 20;
 
-		// Token: 0x04000D77 RID: 3447
 		private const float MoraleGainOnTick = 0.000625f;
 
-		// Token: 0x04000D78 RID: 3448
 		private const float MoralePenaltyPercentageIfNoPointsCaptured = 0.1f;
 
-		// Token: 0x04000D79 RID: 3449
 		private const float MoraleTickTimeInSeconds = 0.25f;
 
-		// Token: 0x04000D7A RID: 3450
 		public const float TimeTillFlagRemovalForPriorInfoInSeconds = 30f;
 
-		// Token: 0x04000D7B RID: 3451
 		public const float PointRemovalTimeInSecondsForBattle = 210f;
 
-		// Token: 0x04000D7C RID: 3452
 		public const float PointRemovalTimeInSecondsForCaptain = 180f;
 
-		// Token: 0x04000D7D RID: 3453
 		public const float PointRemovalTimeInSecondsForSkirmish = 120f;
 
-		// Token: 0x04000D7E RID: 3454
 		public const float MoraleMultiplierForEachFlagForBattle = 0.75f;
 
-		// Token: 0x04000D7F RID: 3455
 		public const float MoraleMultiplierForEachFlagForCaptain = 1f;
 
-		// Token: 0x04000D80 RID: 3456
 		private const float MoraleMultiplierOnLastFlagForBattle = 3.5f;
 
-		// Token: 0x04000D81 RID: 3457
 		private static int _defaultGoldAmountForTroopSelection = -1;
 
-		// Token: 0x04000D82 RID: 3458
 		private static int _maxGoldAmountToCarryOver = -1;
 
-		// Token: 0x04000D83 RID: 3459
 		private static int _maxGoldAmountToCarryOverForSurvival = -1;
 
-		// Token: 0x04000D84 RID: 3460
 		private const float MoraleMultiplierOnLastFlagForCaptainSkirmish = 2f;
 
-		// Token: 0x04000D85 RID: 3461
 		public const float MoraleMultiplierForEachFlagForSkirmish = 2f;
 
-		// Token: 0x04000D86 RID: 3462
 		private readonly float _pointRemovalTimeInSeconds = -1f;
 
-		// Token: 0x04000D87 RID: 3463
 		private readonly float _moraleMultiplierForEachFlag = -1f;
 
-		// Token: 0x04000D88 RID: 3464
 		private readonly float _moraleMultiplierOnLastFlag = -1f;
 
-		// Token: 0x04000D89 RID: 3465
 		private Team[] _capturePointOwners;
 
-		// Token: 0x04000D8B RID: 3467
 		private bool _flagRemovalOccured;
 
-		// Token: 0x04000D8C RID: 3468
 		private float _nextTimeToCheckForPointRemoval = float.MinValue;
 
-		// Token: 0x04000D8D RID: 3469
 		private MissionMultiplayerGameModeFlagDominationClient _gameModeFlagDominationClient;
 
-		// Token: 0x04000D8E RID: 3470
 		private float _morale;
 
-		// Token: 0x04000D8F RID: 3471
 		private readonly MissionLobbyComponent.MultiplayerGameType _gameType;
 
-		// Token: 0x04000D90 RID: 3472
 		private int[] _agentCountsOnSide = new int[2];
 
-		// Token: 0x04000D91 RID: 3473
 		private ValueTuple<int, int>[] _defenderAttackerCountsInFlagArea = new ValueTuple<int, int>[3];
 	}
 }

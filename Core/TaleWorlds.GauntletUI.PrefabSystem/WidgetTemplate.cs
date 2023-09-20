@@ -7,16 +7,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.PrefabSystem
 {
-	// Token: 0x0200001D RID: 29
 	public class WidgetTemplate
 	{
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x060000E4 RID: 228 RVA: 0x00004E99 File Offset: 0x00003099
-		// (set) Token: 0x060000E5 RID: 229 RVA: 0x00004EA1 File Offset: 0x000030A1
 		public bool LogicalChildrenLocation { get; private set; }
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x060000E6 RID: 230 RVA: 0x00004EAC File Offset: 0x000030AC
 		public string Id
 		{
 			get
@@ -30,8 +24,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x060000E7 RID: 231 RVA: 0x00004ECF File Offset: 0x000030CF
 		public string Type
 		{
 			get
@@ -40,8 +32,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x060000E8 RID: 232 RVA: 0x00004ED7 File Offset: 0x000030D7
 		public int ChildCount
 		{
 			get
@@ -50,8 +40,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x060000E9 RID: 233 RVA: 0x00004EE4 File Offset: 0x000030E4
 		public Dictionary<string, WidgetAttributeTemplate> GivenParameters
 		{
 			get
@@ -60,13 +48,8 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x060000EA RID: 234 RVA: 0x00004F10 File Offset: 0x00003110
-		// (set) Token: 0x060000EB RID: 235 RVA: 0x00004F18 File Offset: 0x00003118
 		public WidgetPrefab Prefab { get; private set; }
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x060000EC RID: 236 RVA: 0x00004F21 File Offset: 0x00003121
 		public WidgetTemplate RootTemplate
 		{
 			get
@@ -75,8 +58,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060000ED RID: 237 RVA: 0x00004F2E File Offset: 0x0000312E
 		public Dictionary<Type, Dictionary<string, WidgetAttributeTemplate>> Attributes
 		{
 			get
@@ -85,12 +66,8 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x060000EE RID: 238 RVA: 0x00004F36 File Offset: 0x00003136
-		// (set) Token: 0x060000EF RID: 239 RVA: 0x00004F3E File Offset: 0x0000313E
 		public object Tag { get; set; }
 
-		// Token: 0x060000F0 RID: 240 RVA: 0x00004F48 File Offset: 0x00003148
 		public WidgetTemplate(string type)
 		{
 			this._type = type;
@@ -101,7 +78,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this._customTypeChildren = new List<WidgetTemplate>();
 		}
 
-		// Token: 0x060000F1 RID: 241 RVA: 0x00004FA0 File Offset: 0x000031A0
 		internal void LoadAttributeCollection(WidgetAttributeContext widgetAttributeContext, XmlAttributeCollection attributes)
 		{
 			foreach (WidgetAttributeKeyType widgetAttributeKeyType in widgetAttributeContext.RegisteredKeyTypes)
@@ -117,7 +93,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000F2 RID: 242 RVA: 0x00005054 File Offset: 0x00003254
 		public void AddExtensionData(string name, object data)
 		{
 			if (this._extensionData.ContainsKey(name))
@@ -128,7 +103,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this._extensionData.Add(name, data);
 		}
 
-		// Token: 0x060000F3 RID: 243 RVA: 0x00005080 File Offset: 0x00003280
 		public T GetExtensionData<T>(string name) where T : class
 		{
 			object obj;
@@ -136,37 +110,31 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return obj as T;
 		}
 
-		// Token: 0x060000F4 RID: 244 RVA: 0x000050A7 File Offset: 0x000032A7
 		public void RemoveExtensionData(string name)
 		{
 			this._extensionData.Remove(name);
 		}
 
-		// Token: 0x060000F5 RID: 245 RVA: 0x000050B6 File Offset: 0x000032B6
 		public void AddExtensionData(object data)
 		{
 			this.AddExtensionData(data.GetType().Name, data);
 		}
 
-		// Token: 0x060000F6 RID: 246 RVA: 0x000050CA File Offset: 0x000032CA
 		public T GetExtensionData<T>() where T : class
 		{
 			return this.GetExtensionData<T>(typeof(T).Name);
 		}
 
-		// Token: 0x060000F7 RID: 247 RVA: 0x000050E1 File Offset: 0x000032E1
 		public void RemoveExtensionData<T>() where T : class
 		{
 			this.RemoveExtensionData(typeof(T).Name);
 		}
 
-		// Token: 0x060000F8 RID: 248 RVA: 0x000050F8 File Offset: 0x000032F8
 		public IEnumerable<WidgetAttributeTemplate> GetAttributesOf<T>() where T : WidgetAttributeKeyType
 		{
 			return this._attributes[typeof(T)].Values;
 		}
 
-		// Token: 0x060000F9 RID: 249 RVA: 0x00005114 File Offset: 0x00003314
 		public IEnumerable<WidgetAttributeTemplate> GetAttributesOf<TKey, TValue>() where TKey : WidgetAttributeKeyType where TValue : WidgetAttributeValueType
 		{
 			IEnumerable<WidgetAttributeTemplate> attributesOf = this.GetAttributesOf<TKey>();
@@ -182,8 +150,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			yield break;
 		}
 
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x060000FA RID: 250 RVA: 0x00005124 File Offset: 0x00003324
 		public IEnumerable<WidgetAttributeTemplate> AllAttributes
 		{
 			get
@@ -202,7 +168,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x060000FB RID: 251 RVA: 0x00005134 File Offset: 0x00003334
 		public WidgetAttributeTemplate GetFirstAttributeIfExist<T>() where T : WidgetAttributeKeyType
 		{
 			using (IEnumerator<WidgetAttributeTemplate> enumerator = this.GetAttributesOf<T>().GetEnumerator())
@@ -215,7 +180,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return null;
 		}
 
-		// Token: 0x060000FC RID: 252 RVA: 0x00005180 File Offset: 0x00003380
 		public void SetAttribute(WidgetAttributeTemplate attribute)
 		{
 			Dictionary<string, WidgetAttributeTemplate> dictionary = this._attributes[attribute.KeyType.GetType()];
@@ -227,25 +191,21 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			dictionary.Add(attribute.Key, attribute);
 		}
 
-		// Token: 0x060000FD RID: 253 RVA: 0x000051CD File Offset: 0x000033CD
 		public WidgetTemplate GetChildAt(int i)
 		{
 			return this._children[i];
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x000051DB File Offset: 0x000033DB
 		public void AddChild(WidgetTemplate child)
 		{
 			this._children.Add(child);
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x000051E9 File Offset: 0x000033E9
 		public void RemoveChild(WidgetTemplate child)
 		{
 			this._children.Remove(child);
 		}
 
-		// Token: 0x06000100 RID: 256 RVA: 0x000051F8 File Offset: 0x000033F8
 		public void SwapChildren(WidgetTemplate child1, WidgetTemplate child2)
 		{
 			int num = this._children.IndexOf(child1);
@@ -255,7 +215,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this._children[num2] = widgetTemplate;
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x00005254 File Offset: 0x00003454
 		public WidgetInstantiationResult Instantiate(WidgetCreationData widgetCreationData, Dictionary<string, WidgetAttributeTemplate> parameters)
 		{
 			PrefabExtensionContext prefabExtensionContext = widgetCreationData.PrefabExtensionContext;
@@ -268,7 +227,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return widgetInstantiationResult;
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x000052B8 File Offset: 0x000034B8
 		private WidgetInstantiationResult CreateWidgets(WidgetCreationData widgetCreationData)
 		{
 			this._usedFactory = widgetCreationData.WidgetFactory;
@@ -311,7 +269,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return widgetInstantiationResult;
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00005464 File Offset: 0x00003664
 		public void OnRelease()
 		{
 			if (this._usedFactory.IsCustomType(this._type))
@@ -328,7 +285,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x00005518 File Offset: 0x00003718
 		private void SetAttributes(WidgetCreationData widgetCreationData, WidgetInstantiationResult widgetInstantiationResult, Dictionary<string, WidgetAttributeTemplate> parameters)
 		{
 			BrushFactory brushFactory = widgetCreationData.BrushFactory;
@@ -400,7 +356,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x0000583C File Offset: 0x00003A3C
 		public static WidgetTemplate LoadFrom(PrefabExtensionContext prefabExtensionContext, WidgetAttributeContext widgetAttributeContext, XmlNode node)
 		{
 			WidgetTemplate widgetTemplate = new WidgetTemplate(node.Name);
@@ -426,7 +381,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return widgetTemplate;
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x00005920 File Offset: 0x00003B20
 		public void SetRootTemplate(WidgetPrefab prefab)
 		{
 			this.Prefab = prefab;
@@ -436,7 +390,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x00005978 File Offset: 0x00003B78
 		public void AddAttributeTo(WidgetAttributeContext widgetAttributeContext, string name, string value)
 		{
 			WidgetAttributeKeyType keyType = widgetAttributeContext.GetKeyType(name);
@@ -452,7 +405,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			});
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x000059D4 File Offset: 0x00003BD4
 		public void RemoveAttributeFrom(WidgetAttributeContext widgetAttributeContext, string fullName)
 		{
 			WidgetAttributeKeyType keyType = widgetAttributeContext.GetKeyType(fullName);
@@ -460,7 +412,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			this.RemoveAttributeFrom(keyType, keyName);
 		}
 
-		// Token: 0x06000109 RID: 265 RVA: 0x000059FC File Offset: 0x00003BFC
 		public void RemoveAttributeFrom<T>(string name) where T : WidgetAttributeKeyType
 		{
 			Dictionary<string, WidgetAttributeTemplate> dictionary = this._attributes[typeof(T)];
@@ -470,7 +421,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x0600010A RID: 266 RVA: 0x00005A30 File Offset: 0x00003C30
 		public void RemoveAttributeFrom(WidgetAttributeKeyType keyType, string name)
 		{
 			Dictionary<string, WidgetAttributeTemplate> dictionary = this._attributes[keyType.GetType()];
@@ -480,7 +430,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x00005A60 File Offset: 0x00003C60
 		private static void AddAttributeTo(XmlNode node, string name, string value)
 		{
 			XmlAttribute xmlAttribute = node.OwnerDocument.CreateAttribute(name);
@@ -488,7 +437,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			node.Attributes.Append(xmlAttribute);
 		}
 
-		// Token: 0x0600010C RID: 268 RVA: 0x00005A94 File Offset: 0x00003C94
 		public void Save(PrefabExtensionContext prefabExtensionContext, XmlNode parentNode)
 		{
 			XmlDocument ownerDocument = parentNode.OwnerDocument;
@@ -519,22 +467,16 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			parentNode.AppendChild(xmlNode);
 		}
 
-		// Token: 0x0400004A RID: 74
 		private string _type;
 
-		// Token: 0x0400004B RID: 75
 		private WidgetFactory _usedFactory;
 
-		// Token: 0x0400004C RID: 76
 		private List<WidgetTemplate> _children;
 
-		// Token: 0x0400004D RID: 77
 		private List<WidgetTemplate> _customTypeChildren;
 
-		// Token: 0x0400004E RID: 78
 		private Dictionary<Type, Dictionary<string, WidgetAttributeTemplate>> _attributes;
 
-		// Token: 0x04000051 RID: 81
 		private Dictionary<string, object> _extensionData;
 	}
 }

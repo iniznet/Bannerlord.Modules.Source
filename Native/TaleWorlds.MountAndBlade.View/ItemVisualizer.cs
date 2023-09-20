@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000017 RID: 23
 	public class ItemVisualizer : ScriptComponentBehavior
 	{
-		// Token: 0x0600009F RID: 159 RVA: 0x00006CAC File Offset: 0x00004EAC
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -19,7 +17,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00006CC6 File Offset: 0x00004EC6
 		protected override void OnEditorTick(float dt)
 		{
 			if (!this.isFinished && this._editorGameManager != null)
@@ -32,7 +29,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00006CFC File Offset: 0x00004EFC
 		private void SpawnItems()
 		{
 			Scene scene = base.GameEntity.Scene;
@@ -79,10 +75,8 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0400003D RID: 61
 		private MBGameManager _editorGameManager;
 
-		// Token: 0x0400003E RID: 62
 		private bool isFinished;
 	}
 }

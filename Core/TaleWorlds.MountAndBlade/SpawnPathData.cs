@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000200 RID: 512
 	public struct SpawnPathData
 	{
-		// Token: 0x170005AC RID: 1452
-		// (get) Token: 0x06001C77 RID: 7287 RVA: 0x000653ED File Offset: 0x000635ED
 		public bool IsValid
 		{
 			get
@@ -17,7 +14,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001C78 RID: 7288 RVA: 0x0006540D File Offset: 0x0006360D
 		public SpawnPathData(Path path = null, SpawnPathOrientation orientation = SpawnPathOrientation.PathCenter, float centerRatio = 0f, bool isInverted = false)
 		{
 			this.Path = path;
@@ -26,13 +22,11 @@ namespace TaleWorlds.MountAndBlade
 			this.IsInverted = isInverted;
 		}
 
-		// Token: 0x06001C79 RID: 7289 RVA: 0x0006543B File Offset: 0x0006363B
 		public SpawnPathData Invert()
 		{
 			return new SpawnPathData(this.Path, this.Orientation, MathF.Max(1f - this.CenterRatio, 0f), !this.IsInverted);
 		}
 
-		// Token: 0x06001C7A RID: 7290 RVA: 0x00065470 File Offset: 0x00063670
 		public MatrixFrame GetSpawnFrame(float offset = 0f)
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -49,7 +43,6 @@ namespace TaleWorlds.MountAndBlade
 			return matrixFrame;
 		}
 
-		// Token: 0x06001C7B RID: 7291 RVA: 0x00065528 File Offset: 0x00063728
 		public void GetOrientedSpawnPathPosition(out Vec2 spawnPathPosition, out Vec2 spawnPathDirection, float pathOffset = 0f)
 		{
 			if (!this.IsValid)
@@ -70,19 +63,14 @@ namespace TaleWorlds.MountAndBlade
 			spawnPathDirection = (asVec2 - spawnPathPosition).Normalized();
 		}
 
-		// Token: 0x0400093F RID: 2367
 		public static readonly SpawnPathData Invalid = new SpawnPathData(null, SpawnPathOrientation.PathCenter, 0f, false);
 
-		// Token: 0x04000940 RID: 2368
 		public readonly Path Path;
 
-		// Token: 0x04000941 RID: 2369
 		public readonly bool IsInverted;
 
-		// Token: 0x04000942 RID: 2370
 		public readonly float CenterRatio;
 
-		// Token: 0x04000943 RID: 2371
 		public readonly SpawnPathOrientation Orientation;
 	}
 }

@@ -7,10 +7,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x02000008 RID: 8
 	public class GauntletGamepadCursor : GlobalLayer
 	{
-		// Token: 0x0600002B RID: 43 RVA: 0x00002E48 File Offset: 0x00001048
 		public GauntletGamepadCursor()
 		{
 			this._dataSource = new GamepadCursorViewModel();
@@ -20,7 +18,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.Layer = this._layer;
 		}
 
-		// Token: 0x0600002C RID: 44 RVA: 0x00002EB1 File Offset: 0x000010B1
 		public static void Initialize()
 		{
 			if (GauntletGamepadCursor._current == null)
@@ -30,7 +27,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600002D RID: 45 RVA: 0x00002ED0 File Offset: 0x000010D0
 		protected override void OnLateTick(float dt)
 		{
 			base.OnLateTick(dt);
@@ -47,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._dataSource.IsConsoleMouseVisible = false;
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00002F48 File Offset: 0x00001148
 		private static Vec2 GetCursorPosition()
 		{
 			Vec2 mousePositionPixel = Input.MousePositionPixel;
@@ -57,13 +52,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return new Vec2(mousePositionPixel.X - num, mousePositionPixel.Y - num2);
 		}
 
-		// Token: 0x04000019 RID: 25
 		private GamepadCursorViewModel _dataSource;
 
-		// Token: 0x0400001A RID: 26
 		private GauntletLayer _layer;
 
-		// Token: 0x0400001B RID: 27
 		private static GauntletGamepadCursor _current;
 	}
 }

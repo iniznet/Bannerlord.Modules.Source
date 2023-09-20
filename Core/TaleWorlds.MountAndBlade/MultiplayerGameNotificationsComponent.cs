@@ -9,11 +9,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A4 RID: 676
 	public class MultiplayerGameNotificationsComponent : MissionNetwork
 	{
-		// Token: 0x170006E4 RID: 1764
-		// (get) Token: 0x0600254A RID: 9546 RVA: 0x0008CBCF File Offset: 0x0008ADCF
 		public static int NotificationCount
 		{
 			get
@@ -22,13 +19,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600254B RID: 9547 RVA: 0x0008CBD3 File Offset: 0x0008ADD3
 		public void WarmupEnding()
 		{
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.BattleWarmupEnding, 30, -1, null, null);
 		}
 
-		// Token: 0x0600254C RID: 9548 RVA: 0x0008CBE4 File Offset: 0x0008ADE4
 		public void GameOver(Team winnerTeam)
 		{
 			if (winnerTeam == null)
@@ -41,33 +36,28 @@ namespace TaleWorlds.MountAndBlade
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.GameOverDefeat, -1, -1, team, null);
 		}
 
-		// Token: 0x0600254D RID: 9549 RVA: 0x0008CC42 File Offset: 0x0008AE42
 		public void PreparationStarted()
 		{
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.BattlePreparationStart, -1, -1, null, null);
 		}
 
-		// Token: 0x0600254E RID: 9550 RVA: 0x0008CC50 File Offset: 0x0008AE50
 		public void FlagsXRemoved(FlagCapturePoint removedFlag)
 		{
 			int flagChar = removedFlag.FlagChar;
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.FlagXRemoved, flagChar, -1, null, null);
 		}
 
-		// Token: 0x0600254F RID: 9551 RVA: 0x0008CC70 File Offset: 0x0008AE70
 		public void FlagXRemaining(FlagCapturePoint remainingFlag)
 		{
 			int flagChar = remainingFlag.FlagChar;
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.FlagXRemaining, flagChar, -1, null, null);
 		}
 
-		// Token: 0x06002550 RID: 9552 RVA: 0x0008CC8F File Offset: 0x0008AE8F
 		public void FlagsWillBeRemovedInXSeconds(int timeLeft)
 		{
 			this.ShowNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.FlagsWillBeRemoved, new int[] { timeLeft });
 		}
 
-		// Token: 0x06002551 RID: 9553 RVA: 0x0008CCA4 File Offset: 0x0008AEA4
 		public void FlagXCapturedByTeamX(SynchedMissionObject flag, Team capturingTeam)
 		{
 			FlagCapturePoint flagCapturePoint = flag as FlagCapturePoint;
@@ -77,25 +67,21 @@ namespace TaleWorlds.MountAndBlade
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.FlagXCapturedByOtherTeam, num, -1, team, null);
 		}
 
-		// Token: 0x06002552 RID: 9554 RVA: 0x0008CD0C File Offset: 0x0008AF0C
 		public void GoldCarriedFromPreviousRound(int carriedGoldAmount, NetworkCommunicator syncToPeer)
 		{
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.GoldCarriedFromPreviousRound, carriedGoldAmount, -1, null, syncToPeer);
 		}
 
-		// Token: 0x06002553 RID: 9555 RVA: 0x0008CD27 File Offset: 0x0008AF27
 		public void PlayerIsInactive(NetworkCommunicator peer)
 		{
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.PlayerIsInactive, -1, -1, null, peer);
 		}
 
-		// Token: 0x06002554 RID: 9556 RVA: 0x0008CD35 File Offset: 0x0008AF35
 		public void FormationAutoFollowEnforced(NetworkCommunicator peer)
 		{
 			this.HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.FormationAutoFollowEnforced, -1, -1, null, peer);
 		}
 
-		// Token: 0x06002555 RID: 9557 RVA: 0x0008CD44 File Offset: 0x0008AF44
 		public void PollRejected(MultiplayerPollRejectReason reason)
 		{
 			if (reason == MultiplayerPollRejectReason.TooManyPollRequests)
@@ -121,13 +107,11 @@ namespace TaleWorlds.MountAndBlade
 			Debug.FailedAssert("Notification of a PollRejectReason is missing (" + reason + ")", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameNotificationsComponent.cs", "PollRejected", 153);
 		}
 
-		// Token: 0x06002556 RID: 9558 RVA: 0x0008CDC6 File Offset: 0x0008AFC6
 		public void PlayerKicked(NetworkCommunicator kickedPeer)
 		{
 			this.ShowNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum.PlayerIsKicked, new int[] { kickedPeer.Index });
 		}
 
-		// Token: 0x06002557 RID: 9559 RVA: 0x0008CDDF File Offset: 0x0008AFDF
 		private void HandleNewNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum notification, int param1 = -1, int param2 = -1, Team syncToTeam = null, NetworkCommunicator syncToPeer = null)
 		{
 			if (syncToPeer != null)
@@ -143,7 +127,6 @@ namespace TaleWorlds.MountAndBlade
 			this.SendNotificationToEveryone(notification, param1, param2);
 		}
 
-		// Token: 0x06002558 RID: 9560 RVA: 0x0008CE0C File Offset: 0x0008B00C
 		private void ShowNotification(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum notification, params int[] parameters)
 		{
 			if (!GameNetwork.IsDedicatedServer)
@@ -160,7 +143,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002559 RID: 9561 RVA: 0x0008CEA4 File Offset: 0x0008B0A4
 		private void SendNotificationToEveryone(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum message, int param1 = -1, int param2 = -1)
 		{
 			this.ShowNotification(message, new int[] { param1, param2 });
@@ -169,7 +151,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 		}
 
-		// Token: 0x0600255A RID: 9562 RVA: 0x0008CED4 File Offset: 0x0008B0D4
 		private void SendNotificationToPeer(NetworkCommunicator peer, MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum message, int param1 = -1, int param2 = -1)
 		{
 			if (peer.IsServerPeer)
@@ -182,7 +163,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndModuleEventAsServer();
 		}
 
-		// Token: 0x0600255B RID: 9563 RVA: 0x0008CF10 File Offset: 0x0008B110
 		private void SendNotificationToTeam(Team team, MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum message, int param1 = -1, int param2 = -1)
 		{
 			NetworkCommunicator myPeer = GameNetwork.MyPeer;
@@ -203,7 +183,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600255C RID: 9564 RVA: 0x0008CFE8 File Offset: 0x0008B1E8
 		private string ToSoundString(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum value, NotificationProperty attribute, params int[] parameters)
 		{
 			string text = string.Empty;
@@ -238,7 +217,6 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x0600255D RID: 9565 RVA: 0x0008D07F File Offset: 0x0008B27F
 		private TextObject ToNotificationString(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum value, NotificationProperty attribute, params int[] parameters)
 		{
 			if (parameters.Length != 0)
@@ -248,7 +226,6 @@ namespace TaleWorlds.MountAndBlade
 			return GameTexts.FindText(attribute.StringId, null);
 		}
 
-		// Token: 0x0600255E RID: 9566 RVA: 0x0008D09C File Offset: 0x0008B29C
 		private void SetGameTextVariables(MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum message, params int[] parameters)
 		{
 			if (parameters.Length == 0)
@@ -307,7 +284,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600255F RID: 9567 RVA: 0x0008D1E9 File Offset: 0x0008B3E9
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			if (GameNetwork.IsClient)
@@ -316,85 +292,61 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002560 RID: 9568 RVA: 0x0008D204 File Offset: 0x0008B404
 		private void HandleServerEventServerMessage(NotificationMessage message)
 		{
 			this.ShowNotification((MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum)message.Message, new int[] { message.ParameterOne, message.ParameterTwo });
 		}
 
-		// Token: 0x06002561 RID: 9569 RVA: 0x0008D22A File Offset: 0x0008B42A
 		protected override void HandleNewClientConnect(PlayerConnectionInfo clientConnectionInfo)
 		{
 			bool isServerPeer = clientConnectionInfo.NetworkPeer.IsServerPeer;
 		}
 
-		// Token: 0x06002562 RID: 9570 RVA: 0x0008D238 File Offset: 0x0008B438
 		protected override void HandlePlayerDisconnect(NetworkCommunicator networkPeer)
 		{
 			bool isServer = GameNetwork.IsServer;
 		}
 
-		// Token: 0x020005C6 RID: 1478
 		private enum MultiplayerNotificationEnum
 		{
-			// Token: 0x04001E11 RID: 7697
 			[NotificationProperty("str_battle_warmup_ending_in_x_seconds", "event:/ui/mission/multiplayer/lastmanstanding", "")]
 			BattleWarmupEnding,
-			// Token: 0x04001E12 RID: 7698
 			[NotificationProperty("str_battle_preparation_start", "event:/ui/mission/multiplayer/roundstart", "")]
 			BattlePreparationStart,
-			// Token: 0x04001E13 RID: 7699
 			[NotificationProperty("str_round_result_win_lose", "event:/ui/mission/multiplayer/victory", "event:/ui/mission/multiplayer/defeat")]
 			BattleYouHaveXTheRound,
-			// Token: 0x04001E14 RID: 7700
 			[NotificationProperty("str_mp_mission_game_over_draw", "", "")]
 			GameOverDraw,
-			// Token: 0x04001E15 RID: 7701
 			[NotificationProperty("str_mp_mission_game_over_victory", "", "")]
 			GameOverVictory,
-			// Token: 0x04001E16 RID: 7702
 			[NotificationProperty("str_mp_mission_game_over_defeat", "", "")]
 			GameOverDefeat,
-			// Token: 0x04001E17 RID: 7703
 			[NotificationProperty("str_mp_flag_removed", "event:/ui/mission/multiplayer/pointsremoved", "")]
 			FlagXRemoved,
-			// Token: 0x04001E18 RID: 7704
 			[NotificationProperty("str_sergeant_a_one_flag_remaining", "event:/ui/mission/multiplayer/pointsremoved", "")]
 			FlagXRemaining,
-			// Token: 0x04001E19 RID: 7705
 			[NotificationProperty("str_sergeant_a_flags_will_be_removed", "event:/ui/mission/multiplayer/pointwarning", "")]
 			FlagsWillBeRemoved,
-			// Token: 0x04001E1A RID: 7706
 			[NotificationProperty("str_sergeant_a_flag_captured_by_your_team", "event:/ui/mission/multiplayer/pointcapture", "event:/ui/mission/multiplayer/pointlost")]
 			FlagXCapturedByYourTeam,
-			// Token: 0x04001E1B RID: 7707
 			[NotificationProperty("str_sergeant_a_flag_captured_by_other_team", "event:/ui/mission/multiplayer/pointcapture", "event:/ui/mission/multiplayer/pointlost")]
 			FlagXCapturedByOtherTeam,
-			// Token: 0x04001E1C RID: 7708
 			[NotificationProperty("str_gold_carried_from_previous_round", "", "")]
 			GoldCarriedFromPreviousRound,
-			// Token: 0x04001E1D RID: 7709
 			[NotificationProperty("str_player_is_inactive", "", "")]
 			PlayerIsInactive,
-			// Token: 0x04001E1E RID: 7710
 			[NotificationProperty("str_has_ongoing_poll", "", "")]
 			HasOngoingPoll,
-			// Token: 0x04001E1F RID: 7711
 			[NotificationProperty("str_too_many_poll_requests", "", "")]
 			TooManyPollRequests,
-			// Token: 0x04001E20 RID: 7712
 			[NotificationProperty("str_kick_poll_target_not_synced", "", "")]
 			KickPollTargetNotSynced,
-			// Token: 0x04001E21 RID: 7713
 			[NotificationProperty("str_not_enough_players_to_open_poll", "", "")]
 			NotEnoughPlayersToOpenPoll,
-			// Token: 0x04001E22 RID: 7714
 			[NotificationProperty("str_player_is_kicked", "", "")]
 			PlayerIsKicked,
-			// Token: 0x04001E23 RID: 7715
 			[NotificationProperty("str_formation_autofollow_enforced", "", "")]
 			FormationAutoFollowEnforced,
-			// Token: 0x04001E24 RID: 7716
 			Count
 		}
 	}

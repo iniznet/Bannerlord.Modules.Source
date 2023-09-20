@@ -19,11 +19,9 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000020 RID: 32
 	[ViewCreatorModule]
 	public class SandBoxMissionViews
 	{
-		// Token: 0x060000BA RID: 186 RVA: 0x00009CA0 File Offset: 0x00007EA0
 		[ViewMethod("TownCenter")]
 		public static MissionView[] OpenTownCenterMission(Mission mission)
 		{
@@ -57,7 +55,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000BB RID: 187 RVA: 0x00009DC4 File Offset: 0x00007FC4
 		[ViewMethod("TownAmbush")]
 		public static MissionView[] OpenTownAmbushMission(Mission mission)
 		{
@@ -88,7 +85,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000BC RID: 188 RVA: 0x00009EC8 File Offset: 0x000080C8
 		[ViewMethod("FacialAnimationTest")]
 		public static MissionView[] OpenFacialAnimationTest(Mission mission)
 		{
@@ -116,7 +112,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000BD RID: 189 RVA: 0x00009FAC File Offset: 0x000081AC
 		[ViewMethod("Indoor")]
 		public static MissionView[] OpenTavernMission(Mission mission)
 		{
@@ -145,7 +140,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000BE RID: 190 RVA: 0x0000A0AC File Offset: 0x000082AC
 		[ViewMethod("PrisonBreak")]
 		public static MissionView[] OpenPrisonBreakMission(Mission mission)
 		{
@@ -168,7 +162,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000BF RID: 191 RVA: 0x0000A168 File Offset: 0x00008368
 		[ViewMethod("Village")]
 		public static MissionView[] OpenVillageMission(Mission mission)
 		{
@@ -202,7 +195,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C0 RID: 192 RVA: 0x0000A28C File Offset: 0x0000848C
 		[ViewMethod("Retirement")]
 		public static MissionView[] OpenRetirementMission(Mission mission)
 		{
@@ -229,7 +221,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C1 RID: 193 RVA: 0x0000A374 File Offset: 0x00008574
 		[ViewMethod("ArenaPracticeFight")]
 		public static MissionView[] OpenArenaStartMission(Mission mission)
 		{
@@ -260,7 +251,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C2 RID: 194 RVA: 0x0000A49C File Offset: 0x0000869C
 		[ViewMethod("ArenaDuelMission")]
 		public static MissionView[] OpenArenaDuelMission(Mission mission)
 		{
@@ -286,7 +276,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C3 RID: 195 RVA: 0x0000A58C File Offset: 0x0000878C
 		[ViewMethod("TownMerchant")]
 		public static MissionView[] OpenTownMerchantMission(Mission mission)
 		{
@@ -317,7 +306,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C4 RID: 196 RVA: 0x0000A690 File Offset: 0x00008890
 		[ViewMethod("Alley")]
 		public static MissionView[] OpenAlleyMission(Mission mission)
 		{
@@ -350,7 +338,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C5 RID: 197 RVA: 0x0000A7AC File Offset: 0x000089AC
 		[ViewMethod("SneakTeam3")]
 		public static MissionView[] OpenSneakTeam3Mission(Mission mission)
 		{
@@ -373,14 +360,12 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x0000A867 File Offset: 0x00008A67
 		[ViewMethod("SimpleMountedPlayer")]
 		public static MissionView[] OpenSimpleMountedPlayerMission(Mission mission)
 		{
 			return new List<MissionView>().ToArray();
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x0000A874 File Offset: 0x00008A74
 		[ViewMethod("Battle")]
 		public static MissionView[] OpenBattleMission(Mission mission)
 		{
@@ -418,7 +403,6 @@ namespace SandBox.View.Missions
 			return list.ToArray();
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x0000AA10 File Offset: 0x00008C10
 		[ViewMethod("AlleyFight")]
 		public static MissionView[] OpenAlleyFightMission(Mission mission)
 		{
@@ -449,7 +433,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x0000AB30 File Offset: 0x00008D30
 		[ViewMethod("HideoutBattle")]
 		public static MissionView[] OpenHideoutBattleMission(Mission mission)
 		{
@@ -485,7 +468,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000CA RID: 202 RVA: 0x0000AC88 File Offset: 0x00008E88
 		[ViewMethod("EnteringSettlementBattle")]
 		public static MissionView[] OpenBattleMissionWhileEnteringSettlement(Mission mission)
 		{
@@ -518,7 +500,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x0000ADC0 File Offset: 0x00008FC0
 		[ViewMethod("CombatWithDialogue")]
 		public static MissionView[] OpenCombatMissionWithDialogue(Mission mission)
 		{
@@ -551,7 +532,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000CC RID: 204 RVA: 0x0000AEF5 File Offset: 0x000090F5
 		[ViewMethod("SiegeEngine")]
 		public static MissionView[] OpenTestSiegeEngineMission(Mission mission)
 		{
@@ -563,7 +543,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x0000AF23 File Offset: 0x00009123
 		[ViewMethod("CustomCameraMission")]
 		public static MissionView[] OpenCustomCameraMission(Mission mission)
 		{
@@ -574,14 +553,12 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x0000AF45 File Offset: 0x00009145
 		[ViewMethod("AmbushBattle")]
 		public static MissionView[] OpenAmbushBattleMission(Mission mission)
 		{
 			throw new NotImplementedException("Ambush battle is not implemented.");
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x0000AF54 File Offset: 0x00009154
 		[ViewMethod("Ambush")]
 		public static MissionView[] OpenAmbushMission(Mission mission)
 		{
@@ -611,7 +588,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x0000B04C File Offset: 0x0000924C
 		[ViewMethod("Camp")]
 		public static MissionView[] OpenCampMission(Mission mission)
 		{
@@ -639,7 +615,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x0000B130 File Offset: 0x00009330
 		[ViewMethod("SiegeMissionWithDeployment")]
 		public static MissionView[] OpenSiegeMissionWithDeployment(Mission mission)
 		{
@@ -678,7 +653,6 @@ namespace SandBox.View.Missions
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x0000B2D4 File Offset: 0x000094D4
 		[ViewMethod("SiegeMissionNoDeployment")]
 		public static MissionView[] OpenSiegeMissionNoDeployment(Mission mission)
 		{
@@ -712,7 +686,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x0000B414 File Offset: 0x00009614
 		[ViewMethod("SiegeLordsHallFightMission")]
 		public static MissionView[] OpenSiegeLordsHallFightMission(Mission mission)
 		{
@@ -742,7 +715,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x0000B528 File Offset: 0x00009728
 		[ViewMethod("Siege")]
 		public static MissionView[] OpenSiegeMission(Mission mission)
 		{
@@ -781,7 +753,6 @@ namespace SandBox.View.Missions
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x0000B6AC File Offset: 0x000098AC
 		[ViewMethod("SiegeMissionForTutorial")]
 		public static MissionView[] OpenSiegeMissionForTutorial(Mission mission)
 		{
@@ -813,7 +784,6 @@ namespace SandBox.View.Missions
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x0000B7F4 File Offset: 0x000099F4
 		[ViewMethod("AmbushBattleForTutorial")]
 		public static MissionView[] OpenAmbushMissionForTutorial(Mission mission)
 		{
@@ -842,7 +812,6 @@ namespace SandBox.View.Missions
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x0000B8F4 File Offset: 0x00009AF4
 		[ViewMethod("FormationTest")]
 		public static MissionView[] OpenFormationTestMission(Mission mission)
 		{
@@ -854,7 +823,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x0000B924 File Offset: 0x00009B24
 		[ViewMethod("VillageBattle")]
 		public static MissionView[] OpenVillageBattleMission(Mission mission)
 		{
@@ -889,7 +857,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x0000BA5C File Offset: 0x00009C5C
 		[ViewMethod("SettlementTest")]
 		public static MissionView[] OpenSettlementTestMission(Mission mission)
 		{
@@ -916,7 +883,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x0000BB34 File Offset: 0x00009D34
 		[ViewMethod("EquipmentTest")]
 		public static MissionView[] OpenEquipmentTestMission(Mission mission)
 		{
@@ -938,7 +904,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x0000BBD0 File Offset: 0x00009DD0
 		[ViewMethod("FacialAnimTest")]
 		public static MissionView[] OpenFacialAnimTestMission(Mission mission)
 		{
@@ -967,7 +932,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x0000BCBC File Offset: 0x00009EBC
 		[ViewMethod("EquipItemTool")]
 		public static MissionView[] OpenEquipItemToolMission(Mission mission)
 		{
@@ -981,7 +945,6 @@ namespace SandBox.View.Missions
 			}.ToArray();
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x0000BD0C File Offset: 0x00009F0C
 		[ViewMethod("Conversation")]
 		public static MissionView[] OpenConversationMission(Mission mission)
 		{

@@ -28,23 +28,19 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x02000015 RID: 21
 	public static class CampaignUIHelper
 	{
-		// Token: 0x060000CA RID: 202 RVA: 0x0000413C File Offset: 0x0000233C
 		private static void TooltipAddPropertyTitleWithValue(List<TooltipProperty> properties, string propertyName, float currentValue)
 		{
 			string text = currentValue.ToString("0.##");
 			properties.Add(new TooltipProperty(propertyName, text, 0, false, TooltipProperty.TooltipPropertyFlags.Title));
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x0000416A File Offset: 0x0000236A
 		private static void TooltipAddPropertyTitleWithValue(List<TooltipProperty> properties, string propertyName, string currentValue)
 		{
 			properties.Add(new TooltipProperty(propertyName, currentValue, 0, false, TooltipProperty.TooltipPropertyFlags.Title));
 		}
 
-		// Token: 0x060000CC RID: 204 RVA: 0x00004180 File Offset: 0x00002380
 		private static void TooltipAddExplanation(List<TooltipProperty> properties, ref ExplainedNumber explainedNumber)
 		{
 			List<ValueTuple<string, float>> lines = explainedNumber.GetLines();
@@ -60,20 +56,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x000041D7 File Offset: 0x000023D7
 		private static void TooltipAddPropertyTitle(List<TooltipProperty> properties, string propertyName)
 		{
 			properties.Add(new TooltipProperty(propertyName, string.Empty, 0, false, TooltipProperty.TooltipPropertyFlags.Title));
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x000041F4 File Offset: 0x000023F4
 		private static void TooltipAddExplainedResultChange(List<TooltipProperty> properties, float changeValue)
 		{
 			string changeValueString = CampaignUIHelper.GetChangeValueString(changeValue);
 			properties.Add(new TooltipProperty(CampaignUIHelper._changeStr.ToString(), changeValueString, 0, false, TooltipProperty.TooltipPropertyFlags.RundownResult));
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x00004225 File Offset: 0x00002425
 		private static void TooltipAddExplanedChange(List<TooltipProperty> properties, ref ExplainedNumber explainedNumber)
 		{
 			CampaignUIHelper.TooltipAddExplanation(properties, ref explainedNumber);
@@ -81,14 +74,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			CampaignUIHelper.TooltipAddExplainedResultChange(properties, explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00004244 File Offset: 0x00002444
 		private static void TooltipAddExplainedResultTotal(List<TooltipProperty> properties, float changeValue)
 		{
 			string changeValueString = CampaignUIHelper.GetChangeValueString(changeValue);
 			properties.Add(new TooltipProperty(CampaignUIHelper._totalStr.ToString(), changeValueString, 0, false, TooltipProperty.TooltipPropertyFlags.RundownResult));
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x00004275 File Offset: 0x00002475
 		public static List<TooltipProperty> GetTooltipForAccumulatingProperty(string propertyName, float currentValue, ExplainedNumber explainedNumber)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -97,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x0000428C File Offset: 0x0000248C
 		public static List<TooltipProperty> GetTooltipForAccumulatingPropertyWithResult(string propertyName, float currentValue, ref ExplainedNumber explainedNumber)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -108,7 +98,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x000042AF File Offset: 0x000024AF
 		public static List<TooltipProperty> GetTooltipForgProperty(string propertyName, float currentValue, ExplainedNumber explainedNumber)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -118,19 +107,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x000042CD File Offset: 0x000024CD
 		private static void TooltipAddSeperator(List<TooltipProperty> properties, bool onlyShowOnExtend = false)
 		{
 			properties.Add(new TooltipProperty("", string.Empty, 0, onlyShowOnExtend, TooltipProperty.TooltipPropertyFlags.DefaultSeperator));
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x000042EB File Offset: 0x000024EB
 		private static void TooltipAddDoubleSeperator(List<TooltipProperty> properties, bool onlyShowOnExtend = false)
 		{
 			properties.Add(new TooltipProperty("", string.Empty, 0, onlyShowOnExtend, TooltipProperty.TooltipPropertyFlags.RundownSeperator));
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x0000430C File Offset: 0x0000250C
 		private static void TooltipAddExtendInfo(List<TooltipProperty> properties, bool onlyShowOnExtend = false)
 		{
 			TooltipProperty tooltipProperty = new TooltipProperty("", "", -1, false, TooltipProperty.TooltipPropertyFlags.None)
@@ -146,13 +132,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			properties.Add(tooltipProperty2);
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x0000438E File Offset: 0x0000258E
 		private static void TooltipAddEmptyLine(List<TooltipProperty> properties, bool onlyShowOnExtend = false)
 		{
 			properties.Add(new TooltipProperty(string.Empty, string.Empty, -1, onlyShowOnExtend, TooltipProperty.TooltipPropertyFlags.None));
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x000043A8 File Offset: 0x000025A8
 		public static string GetTownWallsTooltip(Town town)
 		{
 			TextObject textObject;
@@ -169,25 +153,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText("str_walls_with_value", null).ToString();
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x0000440F File Offset: 0x0000260F
 		public static List<TooltipProperty> GetVillageMilitiaTooltip(Village village)
 		{
 			return CampaignUIHelper.GetSettlementPropertyTooltip(village.Settlement, CampaignUIHelper._militiaStr.ToString(), village.Militia, village.MilitiaChangeExplanation);
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x00004432 File Offset: 0x00002632
 		public static List<TooltipProperty> GetTownMilitiaTooltip(Town town)
 		{
 			return CampaignUIHelper.GetSettlementPropertyTooltip(town.Settlement, CampaignUIHelper._militiaStr.ToString(), town.Militia, town.MilitiaChangeExplanation);
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x00004455 File Offset: 0x00002655
 		public static List<TooltipProperty> GetTownFoodTooltip(Town town)
 		{
 			return CampaignUIHelper.GetSettlementPropertyTooltip(town.Settlement, CampaignUIHelper._foodStr.ToString(), town.FoodStocks, town.FoodChangeExplanation);
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x00004478 File Offset: 0x00002678
 		public static List<TooltipProperty> GetTownLoyaltyTooltip(Town town)
 		{
 			TextObject textObject;
@@ -218,33 +198,28 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return settlementPropertyTooltip;
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x000045A8 File Offset: 0x000027A8
 		public static List<TooltipProperty> GetTownProsperityTooltip(Town town)
 		{
 			return CampaignUIHelper.GetSettlementPropertyTooltip(town.Settlement, CampaignUIHelper._prosperityStr.ToString(), town.Prosperity, town.ProsperityChangeExplanation);
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x000045CC File Offset: 0x000027CC
 		public static List<TooltipProperty> GetTownDailyProductionTooltip(Town town)
 		{
 			ExplainedNumber constructionExplanation = town.ConstructionExplanation;
 			return CampaignUIHelper.GetSettlementPropertyTooltipWithResult(town.Settlement, CampaignUIHelper._dailyProductionStr.ToString(), constructionExplanation.ResultNumber, ref constructionExplanation);
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00004600 File Offset: 0x00002800
 		public static List<TooltipProperty> GetTownSecurityTooltip(Town town)
 		{
 			ExplainedNumber securityChangeExplanation = town.SecurityChangeExplanation;
 			return CampaignUIHelper.GetSettlementPropertyTooltip(town.Settlement, CampaignUIHelper._securityStr.ToString(), town.Security, securityChangeExplanation);
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x00004630 File Offset: 0x00002830
 		public static List<TooltipProperty> GetVillageProsperityTooltip(Village village)
 		{
 			return CampaignUIHelper.GetSettlementPropertyTooltip(village.Settlement, CampaignUIHelper._hearthStr.ToString(), village.Hearth, village.HearthChangeExplanation);
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x00004653 File Offset: 0x00002853
 		public static List<TooltipProperty> GetTownGarrisonTooltip(Town town)
 		{
 			Settlement settlement = town.Settlement;
@@ -253,21 +228,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetSettlementPropertyTooltip(settlement, text, (float)((garrisonParty != null) ? garrisonParty.MemberRoster.TotalManCount : 0), town.GarrisonChangeExplanation);
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x00004688 File Offset: 0x00002888
 		public static List<TooltipProperty> GetPartyTroopSizeLimitTooltip(PartyBase party)
 		{
 			ExplainedNumber partySizeLimitExplainer = party.PartySizeLimitExplainer;
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(CampaignUIHelper._partyTroopSizeLimitStr.ToString(), partySizeLimitExplainer.ResultNumber, ref partySizeLimitExplainer);
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x000046B4 File Offset: 0x000028B4
 		public static List<TooltipProperty> GetPartyPrisonerSizeLimitTooltip(PartyBase party)
 		{
 			ExplainedNumber prisonerSizeLimitExplainer = party.PrisonerSizeLimitExplainer;
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(CampaignUIHelper._partyPrisonerSizeLimitStr.ToString(), prisonerSizeLimitExplainer.ResultNumber, ref prisonerSizeLimitExplainer);
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x000046E0 File Offset: 0x000028E0
 		public static List<TooltipProperty> GetUsedHorsesTooltip(List<Tuple<EquipmentElement, int>> usedUpgradeHorsesHistory)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -283,13 +255,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x000047A4 File Offset: 0x000029A4
 		public static List<TooltipProperty> GetArmyCohesionTooltip(Army army)
 		{
 			return CampaignUIHelper.GetTooltipForAccumulatingProperty(CampaignUIHelper._armyCohesionStr.ToString(), army.Cohesion, army.DailyCohesionChangeExplanation);
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x000047C4 File Offset: 0x000029C4
 		public static List<TooltipProperty> GetArmyManCountTooltip(Army army)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -343,7 +313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x00004A90 File Offset: 0x00002C90
 		public static string GetDaysUntilNoFood(float totalFood, float foodChange)
 		{
 			if (totalFood <= 1E-45f)
@@ -357,7 +326,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return MathF.Ceiling(MathF.Abs(totalFood / foodChange)).ToString();
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x00004ADC File Offset: 0x00002CDC
 		public static List<TooltipProperty> GetSettlementPropertyTooltip(Settlement settlement, string valueName, float value, ExplainedNumber explainedNumber)
 		{
 			TextObject textObject;
@@ -373,7 +341,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetTooltipForAccumulatingProperty(valueName, value, explainedNumber);
 		}
 
-		// Token: 0x060000E9 RID: 233 RVA: 0x00004B3C File Offset: 0x00002D3C
 		public static List<TooltipProperty> GetSettlementPropertyTooltipWithResult(Settlement settlement, string valueName, float value, ref ExplainedNumber explainedNumber)
 		{
 			TextObject textObject;
@@ -389,7 +356,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(valueName, value, ref explainedNumber);
 		}
 
-		// Token: 0x060000EA RID: 234 RVA: 0x00004B9C File Offset: 0x00002D9C
 		public static List<TooltipProperty> GetArmyFoodTooltip(Army army)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -409,7 +375,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000EB RID: 235 RVA: 0x00004CDC File Offset: 0x00002EDC
 		public static string GetClanWealthStatusText(Clan clan)
 		{
 			string text = string.Empty;
@@ -436,7 +401,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return text;
 		}
 
-		// Token: 0x060000EC RID: 236 RVA: 0x00004D98 File Offset: 0x00002F98
 		public static List<TooltipProperty> GetClanProsperityTooltip(Clan clan)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>
@@ -470,7 +434,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000ED RID: 237 RVA: 0x00004F30 File Offset: 0x00003130
 		private static List<TooltipProperty> GetDiplomacySettlementStatComparisonTooltip(List<Settlement> settlements, string title, string emptyExplanation = "")
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -490,7 +453,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000EE RID: 238 RVA: 0x00004FE4 File Offset: 0x000031E4
 		public static List<TooltipProperty> GetTruceOwnedSettlementsTooltip(List<Settlement> settlements, TextObject factionName, bool isTown)
 		{
 			TextObject textObject = (isTown ? new TextObject("{=o79dIa3L}Towns owned by {FACTION}", null) : new TextObject("{=z3Xg0IaG}Castles owned by {FACTION}", null));
@@ -500,7 +462,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetDiplomacySettlementStatComparisonTooltip(settlements, textObject.ToString(), textObject2.ToString());
 		}
 
-		// Token: 0x060000EF RID: 239 RVA: 0x00005058 File Offset: 0x00003258
 		public static List<TooltipProperty> GetWarSuccessfulRaidsTooltip(List<Settlement> settlements, TextObject factionName)
 		{
 			TextObject textObject = new TextObject("{=1qm74K2t}Successful raids by {FACTION}", null);
@@ -510,7 +471,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetDiplomacySettlementStatComparisonTooltip(settlements, textObject.ToString(), textObject2.ToString());
 		}
 
-		// Token: 0x060000F0 RID: 240 RVA: 0x000050AC File Offset: 0x000032AC
 		public static List<TooltipProperty> GetWarSuccessfulSiegesTooltip(List<Settlement> settlements, TextObject factionName, bool isTown)
 		{
 			TextObject textObject = (isTown ? new TextObject("{=mSPyh91Q}Towns conquered by {FACTION}", null) : new TextObject("{=eTxcYvRr}Castles conquered by {FACTION}", null));
@@ -520,7 +480,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetDiplomacySettlementStatComparisonTooltip(settlements, textObject.ToString(), textObject2.ToString());
 		}
 
-		// Token: 0x060000F1 RID: 241 RVA: 0x00005120 File Offset: 0x00003320
 		public static List<TooltipProperty> GetWarPrisonersTooltip(List<Hero> capturedPrisoners, TextObject factionName)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -550,7 +509,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000F2 RID: 242 RVA: 0x00005274 File Offset: 0x00003474
 		public static List<TooltipProperty> GetClanStrengthTooltip(Clan clan)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>
@@ -573,7 +531,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000F3 RID: 243 RVA: 0x00005354 File Offset: 0x00003554
 		public static List<TooltipProperty> GetCrimeTooltip(Settlement settlement)
 		{
 			if (settlement.MapFaction == null)
@@ -584,7 +541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.GetTooltipForAccumulatingProperty(CampaignUIHelper._criminalRatingStr.ToString(), settlement.MapFaction.MainHeroCrimeRating, settlement.MapFaction.DailyCrimeRatingChangeExplained);
 		}
 
-		// Token: 0x060000F4 RID: 244 RVA: 0x000053B4 File Offset: 0x000035B4
 		public static List<TooltipProperty> GetInfluenceTooltip(Clan clan)
 		{
 			List<TooltipProperty> tooltipForAccumulatingProperty = CampaignUIHelper.GetTooltipForAccumulatingProperty(CampaignUIHelper._influenceStr.ToString(), clan.Influence, clan.InfluenceChangeExplained);
@@ -595,7 +551,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return tooltipForAccumulatingProperty;
 		}
 
-		// Token: 0x060000F5 RID: 245 RVA: 0x00005408 File Offset: 0x00003608
 		public static List<TooltipProperty> GetClanRenownTooltip(Clan clan)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -618,19 +573,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000F6 RID: 246 RVA: 0x0000551A File Offset: 0x0000371A
 		public static List<TooltipProperty> GetGoldTooltip(Clan clan)
 		{
 			return CampaignUIHelper.GetTooltipForAccumulatingProperty(CampaignUIHelper._goldStr.ToString(), (float)clan.Gold, Campaign.Current.Models.ClanFinanceModel.CalculateClanGoldChange(clan, true, false, true));
 		}
 
-		// Token: 0x060000F7 RID: 247 RVA: 0x0000554A File Offset: 0x0000374A
 		public static List<TooltipProperty> GetPartyMoraleTooltip(MobileParty mainParty)
 		{
 			return CampaignUIHelper.GetTooltipForgProperty(CampaignUIHelper._partyMoraleStr.ToString(), mainParty.Morale, mainParty.MoraleExplained);
 		}
 
-		// Token: 0x060000F8 RID: 248 RVA: 0x00005568 File Offset: 0x00003768
 		public static List<TooltipProperty> GetPartyHealthTooltip(PartyBase party)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -648,7 +600,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000F9 RID: 249 RVA: 0x000055F0 File Offset: 0x000037F0
 		public static List<TooltipProperty> GetPlayerHitpointsTooltip()
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -669,7 +620,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000FA RID: 250 RVA: 0x000056AC File Offset: 0x000038AC
 		public static List<TooltipProperty> GetPartyFoodTooltip(MobileParty mainParty)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -738,7 +688,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000FB RID: 251 RVA: 0x00005964 File Offset: 0x00003B64
 		public static List<TooltipProperty> GetPartySpeedTooltip()
 		{
 			Game.Current.EventManager.TriggerEvent<PlayerInspectedPartySpeedEvent>(new PlayerInspectedPartySpeedEvent());
@@ -756,28 +705,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x060000FC RID: 252 RVA: 0x000059E4 File Offset: 0x00003BE4
 		public static List<TooltipProperty> GetPartyWageTooltip()
 		{
 			ExplainedNumber totalWageExplained = MobileParty.MainParty.TotalWageExplained;
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(GameTexts.FindText("str_party_wage", null).ToString(), totalWageExplained.ResultNumber, ref totalWageExplained);
 		}
 
-		// Token: 0x060000FD RID: 253 RVA: 0x00005A1C File Offset: 0x00003C1C
 		public static List<TooltipProperty> GetPartyWageTooltip(MobileParty mobileParty)
 		{
 			ExplainedNumber totalWageExplained = mobileParty.TotalWageExplained;
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(GameTexts.FindText("str_party_wage", null).ToString(), totalWageExplained.ResultNumber, ref totalWageExplained);
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x00005A50 File Offset: 0x00003C50
 		public static List<TooltipProperty> GetViewDistanceTooltip()
 		{
 			ExplainedNumber seeingRangeExplanation = MobileParty.MainParty.SeeingRangeExplanation;
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(CampaignUIHelper._viewDistanceFoodStr.ToString(), seeingRangeExplanation.ResultNumber, ref seeingRangeExplanation);
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x00005A80 File Offset: 0x00003C80
 		public static List<TooltipProperty> GetMainPartyHealthTooltip()
 		{
 			PartyBase party = MobileParty.MainParty.Party;
@@ -803,7 +748,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000100 RID: 256 RVA: 0x00005B84 File Offset: 0x00003D84
 		public static List<TooltipProperty> GetPartyInventoryCapacityTooltip(MobileParty party)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -814,7 +758,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x00005BC4 File Offset: 0x00003DC4
 		public static List<TooltipProperty> GetPerkEffectText(PerkObject perk, bool isActive)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>
@@ -843,7 +786,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x00005D04 File Offset: 0x00003F04
 		public static TextObject GetPerkRoleText(PerkObject perk, bool getSecondary)
 		{
 			TextObject textObject = null;
@@ -860,7 +802,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject;
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00005D98 File Offset: 0x00003F98
 		public static TextObject GetCombinedPerkRoleText(PerkObject perk)
 		{
 			TextObject textObject = null;
@@ -878,7 +819,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject;
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x00005E58 File Offset: 0x00004058
 		public static List<TooltipProperty> GetSiegeMachineTooltip(SiegeEngineType engineType, bool showDescription = true, int hoursUntilCompletion = 0)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -899,7 +839,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x00005ECD File Offset: 0x000040CD
 		public static string GetSiegeMachineName(SiegeEngineType engineType)
 		{
 			if (engineType != null)
@@ -909,7 +848,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return "";
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x00005EE3 File Offset: 0x000040E3
 		public static string GetSiegeMachineNameWithDesctiption(SiegeEngineType engineType)
 		{
 			if (engineType != null)
@@ -919,7 +857,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return "";
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x00005F04 File Offset: 0x00004104
 		public static List<TooltipProperty> GetTroopConformityTooltip(TroopRosterElement troop)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -936,14 +873,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x00005FA0 File Offset: 0x000041A0
 		public static List<TooltipProperty> GetLearningRateTooltip(int attributeValue, int focusValue, int skillValue, int characterLevel, TextObject attributeName)
 		{
 			ExplainedNumber explainedNumber = Campaign.Current.Models.CharacterDevelopmentModel.CalculateLearningRate(attributeValue, focusValue, skillValue, characterLevel, attributeName, true);
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(CampaignUIHelper._learningRateStr.ToString(), explainedNumber.ResultNumber, ref explainedNumber);
 		}
 
-		// Token: 0x06000109 RID: 265 RVA: 0x00005FE4 File Offset: 0x000041E4
 		public static List<TooltipProperty> GetTroopXPTooltip(TroopRosterElement troop)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -959,14 +894,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600010A RID: 266 RVA: 0x000060B4 File Offset: 0x000042B4
 		public static List<TooltipProperty> GetLearningLimitTooltip(int attributeValue, int focusValue, TextObject attributeName)
 		{
 			ExplainedNumber explainedNumber = Campaign.Current.Models.CharacterDevelopmentModel.CalculateLearningLimit(attributeValue, focusValue, attributeName, true);
 			return CampaignUIHelper.GetTooltipForAccumulatingPropertyWithResult(CampaignUIHelper._learningLimitStr.ToString(), explainedNumber.ResultNumber, ref explainedNumber);
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x000060F4 File Offset: 0x000042F4
 		public static List<TooltipProperty> GetSettlementConsumptionTooltip(Settlement settlement)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -987,7 +920,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600010C RID: 268 RVA: 0x000061BC File Offset: 0x000043BC
 		public static StringItemWithHintVM GetCharacterTierData(CharacterObject character, bool isBig = false)
 		{
 			int tier = character.Tier;
@@ -1002,7 +934,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return new StringItemWithHintVM(text2, textObject);
 		}
 
-		// Token: 0x0600010D RID: 269 RVA: 0x00006244 File Offset: 0x00004444
 		public static List<TooltipProperty> GetSettlementProductionTooltip(Settlement settlement)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1041,7 +972,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600010E RID: 270 RVA: 0x00006450 File Offset: 0x00004650
 		public static string GetHintTextFromReasons(List<TextObject> reasons)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -1061,7 +991,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject.ToString();
 		}
 
-		// Token: 0x0600010F RID: 271 RVA: 0x000064B8 File Offset: 0x000046B8
 		public static TextObject GetHoursAndDaysTextFromHourValue(int hours)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -1078,7 +1007,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject;
 		}
 
-		// Token: 0x06000110 RID: 272 RVA: 0x0000654C File Offset: 0x0000474C
 		public static TextObject GetTeleportationDelayText(Hero hero, PartyBase target)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -1103,7 +1031,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject;
 		}
 
-		// Token: 0x06000111 RID: 273 RVA: 0x000065D4 File Offset: 0x000047D4
 		public static List<TooltipProperty> GetTimeOfDayAndResetCameraTooltip()
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1134,7 +1061,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000112 RID: 274 RVA: 0x000066A4 File Offset: 0x000048A4
 		public static List<TooltipProperty> GetTournamentChampionRewardsTooltip(Hero hero, Town town)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1144,7 +1070,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000113 RID: 275 RVA: 0x000066F4 File Offset: 0x000048F4
 		public static StringItemWithHintVM GetCharacterTypeData(CharacterObject character, bool isBig = false)
 		{
 			if (character.IsHero)
@@ -1180,7 +1105,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return new StringItemWithHintVM("General\\TroopTypeIcons\\icon_troop_type_" + text, new TextObject("{=!}" + textObject.ToString(), null));
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x00006808 File Offset: 0x00004A08
 		public static List<TooltipProperty> GetHeroHealthTooltip(Hero hero)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1195,7 +1119,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x000068BC File Offset: 0x00004ABC
 		public static List<TooltipProperty> GetSiegeWallTooltip(int wallLevel, int wallHitpoints)
 		{
 			return new List<TooltipProperty>
@@ -1205,7 +1128,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			};
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x00006918 File Offset: 0x00004B18
 		public static List<TooltipProperty> GetGovernorPerksTooltipForHero(Hero hero)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1226,7 +1148,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x000069F4 File Offset: 0x00004BF4
 		[return: TupleElementNames(new string[] { "titleText", "bodyText" })]
 		public static ValueTuple<TextObject, TextObject> GetGovernorSelectionConfirmationPopupTexts(Hero currentGovernor, Hero newGovernor, Settlement settlement)
 		{
@@ -1251,7 +1172,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return new ValueTuple<TextObject, TextObject>(TextObject.Empty, TextObject.Empty);
 		}
 
-		// Token: 0x06000118 RID: 280 RVA: 0x00006AF8 File Offset: 0x00004CF8
 		public static List<TooltipProperty> GetHeroGovernorEffectsTooltip(Hero hero, Settlement settlement)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>
@@ -1288,13 +1208,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x00006CDC File Offset: 0x00004EDC
 		public static List<TooltipProperty> GetEncounterPartyMoraleTooltip(List<MobileParty> parties)
 		{
 			return new List<TooltipProperty>();
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x00006CE4 File Offset: 0x00004EE4
 		public static TextObject GetCraftingTemplatePieceUnlockProgressHint(float progress)
 		{
 			TextObject textObject = GameTexts.FindText("str_LEFT_over_RIGHT_in_paranthesis", null);
@@ -1307,7 +1225,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject3;
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x00006D58 File Offset: 0x00004F58
 		public static List<ValueTuple<string, TextObject>> GetWeaponFlagDetails(WeaponFlags weaponFlags, CharacterObject character = null)
 		{
 			List<ValueTuple<string, TextObject>> list = new List<ValueTuple<string, TextObject>>();
@@ -1362,7 +1279,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x00006EE4 File Offset: 0x000050E4
 		public static List<Tuple<string, TextObject>> GetItemFlagDetails(ItemFlags itemFlags)
 		{
 			List<Tuple<string, TextObject>> list = new List<Tuple<string, TextObject>>();
@@ -1375,7 +1291,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x00006F24 File Offset: 0x00005124
 		public static List<ValueTuple<string, TextObject>> GetItemUsageSetFlagDetails(ItemObject.ItemUsageSetFlags flags, CharacterObject character = null)
 		{
 			List<ValueTuple<string, TextObject>> list = new List<ValueTuple<string, TextObject>>();
@@ -1390,7 +1305,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x00006F98 File Offset: 0x00005198
 		public static List<ValueTuple<string, TextObject>> GetFlagDetailsForWeapon(WeaponComponentData weapon, ItemObject.ItemUsageSetFlags itemUsageFlags, CharacterObject character = null)
 		{
 			List<ValueTuple<string, TextObject>> list = new List<ValueTuple<string, TextObject>>();
@@ -1439,7 +1353,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x0000713C File Offset: 0x0000533C
 		public static List<TooltipProperty> GetCraftingHeroTooltip(Hero hero, CraftingOrder order)
 		{
 			object obj = order != null && !order.IsOrderAvailableForHero(hero);
@@ -1478,7 +1391,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x00007320 File Offset: 0x00005520
 		public static List<TooltipProperty> GetOrderCannotBeCompletedReasonTooltip(CraftingOrder order, ItemObject item)
 		{
 			CampaignUIHelper.<>c__DisplayClass143_0 CS$<>8__locals1;
@@ -1586,7 +1498,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CS$<>8__locals1.properties;
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x000076DC File Offset: 0x000058DC
 		public static List<TooltipProperty> GetCraftingOrderDisabledReasonTooltip(Hero heroToCheck, CraftingOrder order)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1626,7 +1537,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x0000789C File Offset: 0x00005A9C
 		public static string GetCraftingOrderMissingPropertyWarningText(CraftingOrder order, ItemObject craftedItem)
 		{
 			if (order == null)
@@ -1671,7 +1581,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return string.Empty;
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x000079DC File Offset: 0x00005BDC
 		public static List<TooltipProperty> GetInventoryCharacterTooltip(Hero hero)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -1686,7 +1595,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x00007A68 File Offset: 0x00005C68
 		public static string GetHeroOccupationName(Hero hero)
 		{
 			string text;
@@ -1748,7 +1656,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText(text, null).ToString();
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x00007B58 File Offset: 0x00005D58
 		private static TooltipProperty GetSiegeMachineProgressLine(int hoursRemaining)
 		{
 			if (hoursRemaining > 0)
@@ -1761,7 +1668,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x00007BA4 File Offset: 0x00005DA4
 		public static TextObject GetCommaSeparatedText(TextObject label, IEnumerable<TextObject> texts)
 		{
 			TextObject textObject = new TextObject("{=!}{RESULT}", null);
@@ -1788,7 +1694,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject;
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x00007C8C File Offset: 0x00005E8C
 		public static string GetHeroKingdomRank(Hero hero)
 		{
 			if (hero.Clan.Kingdom != null)
@@ -1822,7 +1727,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return string.Empty;
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x00007D98 File Offset: 0x00005F98
 		public static string GetHeroRank(Hero hero)
 		{
 			if (hero.Clan != null)
@@ -1852,7 +1756,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return string.Empty;
 		}
 
-		// Token: 0x06000129 RID: 297 RVA: 0x00007E74 File Offset: 0x00006074
 		public static bool IsSettlementInformationHidden(Settlement settlement, out TextObject disableReason)
 		{
 			bool flag = !Campaign.Current.Models.InformationRestrictionModel.DoesPlayerKnowDetailsOf(settlement);
@@ -1860,7 +1763,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return flag;
 		}
 
-		// Token: 0x0600012A RID: 298 RVA: 0x00007EB4 File Offset: 0x000060B4
 		public static bool IsHeroInformationHidden(Hero hero, out TextObject disableReason)
 		{
 			bool flag = !Campaign.Current.Models.InformationRestrictionModel.DoesPlayerKnowDetailsOf(hero);
@@ -1868,7 +1770,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return flag;
 		}
 
-		// Token: 0x0600012B RID: 299 RVA: 0x00007EF4 File Offset: 0x000060F4
 		public static string GetPartyNameplateText(MobileParty party)
 		{
 			int num = party.MemberRoster.TotalHealthyCount;
@@ -1887,7 +1788,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return abbreviatedValueTextFromValue + ((num2 > 0) ? (" + " + abbreviatedValueTextFromValue2 + GameTexts.FindText("str_party_nameplate_wounded_abbr", null).ToString()) : "");
 		}
 
-		// Token: 0x0600012C RID: 300 RVA: 0x00007FC0 File Offset: 0x000061C0
 		public static string GetPartyNameplateText(PartyBase party)
 		{
 			int totalHealthyCount = party.MemberRoster.TotalHealthyCount;
@@ -1897,7 +1797,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return abbreviatedValueTextFromValue + ((totalWounded > 0) ? (" + " + abbreviatedValueTextFromValue2 + GameTexts.FindText("str_party_nameplate_wounded_abbr", null).ToString()) : "");
 		}
 
-		// Token: 0x0600012D RID: 301 RVA: 0x0000801C File Offset: 0x0000621C
 		public static string GetUpgradeHint(int index, int numOfItems, int availableUpgrades, int upgradeCoinCost, bool hasRequiredPerk, PerkObject requiredPerk, CharacterObject character, TroopRosterElement troop, int partyGoldChangeAmount, string entireStackShortcutKeyText, string fiveStackShortcutKeyText)
 		{
 			string text = null;
@@ -1965,14 +1864,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return text;
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x0000831C File Offset: 0x0000651C
 		public static string ConvertToHexColor(uint color)
 		{
 			uint num = color % 4278190080U;
 			return "#" + Convert.ToString((long)((ulong)num), 16).PadLeft(6, '0').ToUpper() + "FF";
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x00008358 File Offset: 0x00006558
 		public static bool GetMapScreenActionIsEnabledWithReason(out TextObject disabledReason)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -2032,7 +1929,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return true;
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x0000847C File Offset: 0x0000667C
 		public static string GetClanSupportDisableReasonString(bool hasEnoughInfluence, bool isTargetMainClan, bool isMainClanMercenary)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -2054,7 +1950,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x06000131 RID: 305 RVA: 0x000084E4 File Offset: 0x000066E4
 		public static string GetClanExpelDisableReasonString(bool hasEnoughInfluence, bool isTargetMainClan, bool isTargetRulingClan, bool isMainClanMercenary)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -2080,7 +1975,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x06000132 RID: 306 RVA: 0x00008560 File Offset: 0x00006760
 		public static string GetArmyDisbandDisableReasonString(bool hasEnoughInfluence, bool isArmyInAnyEvent, bool isPlayerClanMercenary, bool isPlayerInThisArmy)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -2106,7 +2000,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x06000133 RID: 307 RVA: 0x000085DB File Offset: 0x000067DB
 		public static TextObject GetCreateNewPartyReasonString(bool haveEmptyPartySlots, bool haveAvailableHero)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -2124,7 +2017,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return TextObject.Empty;
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x00008618 File Offset: 0x00006818
 		public static string GetCraftingDisableReasonString(bool playerHasEnoughMaterials)
 		{
 			if (!playerHasEnoughMaterials)
@@ -2134,7 +2026,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return string.Empty;
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x00008634 File Offset: 0x00006834
 		public static string GetAddFocusHintString(bool playerHasEnoughPoints, bool isMaxedSkill, int currentFocusAmount, int currentAttributeAmount, int currentSkillValue, IHeroDeveloper developer, SkillObject skill)
 		{
 			GameTexts.SetVariable("newline", "\n");
@@ -2162,7 +2053,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText("str_string_newline_string", null).ToString();
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x00008744 File Offset: 0x00006944
 		public static string GetSkillEffectText(SkillEffect effect, int skillLevel)
 		{
 			MBTextManager.SetTextVariable("a0", effect.GetPrimaryValue(skillLevel).ToString("0.0"), false);
@@ -2181,7 +2071,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return string.Format("({0}) {1} ", textObject.ToString(), text);
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x00008838 File Offset: 0x00006A38
 		public static string GetMobilePartyBehaviorText(MobileParty party)
 		{
 			TextObject textObject;
@@ -2321,7 +2210,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return textObject.ToString();
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00008CF0 File Offset: 0x00006EF0
 		public static string GetHeroBehaviorText(Hero hero, ITeleportationCampaignBehavior teleportationBehavior = null)
 		{
 			if (hero.CurrentSettlement != null)
@@ -2450,7 +2338,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x0000903C File Offset: 0x0000723C
 		public static Hero GetTeleportingLeaderHero(MobileParty party, ITeleportationCampaignBehavior teleportationBehavior)
 		{
 			if (party != null && teleportationBehavior != null)
@@ -2470,7 +2357,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x000090E4 File Offset: 0x000072E4
 		public static Hero GetTeleportingGovernor(Settlement settlement, ITeleportationCampaignBehavior teleportationBehavior)
 		{
 			if (settlement != null && teleportationBehavior != null)
@@ -2490,7 +2376,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return null;
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x0000918C File Offset: 0x0000738C
 		public static TextObject GetHeroRelationToHeroText(Hero queriedHero, Hero baseHero, bool uppercaseFirst)
 		{
 			GameTexts.SetVariable("RELATION_TEXT", ConversationHelper.GetHeroRelationToHeroTextShort(queriedHero, baseHero, uppercaseFirst));
@@ -2498,7 +2383,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText("str_hero_family_relation", null);
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x000091C0 File Offset: 0x000073C0
 		public static string GetAbbreviatedValueTextFromValue(int valueAmount)
 		{
 			string text = "";
@@ -2544,7 +2428,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper._denarValueInfoText.ToString();
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x00009340 File Offset: 0x00007540
 		public static string GetPartyDistanceByTimeText(float distance, float speed)
 		{
 			int num = MathF.Ceiling(distance / speed);
@@ -2559,7 +2442,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText("str_distance_by_time", null).ToString();
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x000093D0 File Offset: 0x000075D0
 		public static CharacterCode GetCharacterCode(CharacterObject character, bool useCivilian = false)
 		{
 			TextObject textObject;
@@ -2647,7 +2529,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CharacterCode.CreateFrom(text, bodyProperties, character.IsFemale, character.IsHero, num2, num4, character.DefaultFormationClass, character.Race);
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00009640 File Offset: 0x00007840
 		public static string GetTraitNameText(TraitObject traitObject, Hero hero)
 		{
 			if (traitObject != DefaultTraits.Mercy && traitObject != DefaultTraits.Valor && traitObject != DefaultTraits.Honor && traitObject != DefaultTraits.Generosity && traitObject != DefaultTraits.Calculating)
@@ -2663,7 +2544,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return "";
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x000096DC File Offset: 0x000078DC
 		public static string GetTraitTooltipText(TraitObject traitObject, int traitValue)
 		{
 			if (traitObject != DefaultTraits.Mercy && traitObject != DefaultTraits.Valor && traitObject != DefaultTraits.Honor && traitObject != DefaultTraits.Generosity && traitObject != DefaultTraits.Calculating)
@@ -2688,7 +2568,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return GameTexts.FindText("str_trait_description_tooltip", null).ToString();
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x0000980C File Offset: 0x00007A0C
 		public static string GetTextForRole(SkillEffect.PerkRole role)
 		{
 			switch (role)
@@ -2724,7 +2603,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x0000993C File Offset: 0x00007B3C
 		public static int GetHeroCompareSortIndex(Hero x, Hero y)
 		{
 			int num;
@@ -2769,13 +2647,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return num2;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00009A14 File Offset: 0x00007C14
 		public static string GetHeroClanRoleText(Hero hero, Clan clan)
 		{
 			return GameTexts.FindText("role", MobileParty.MainParty.GetHeroPerkRole(hero).ToString()).ToString();
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x00009A4C File Offset: 0x00007C4C
 		public static int GetItemObjectTypeSortIndex(ItemObject item)
 		{
 			if (item == null)
@@ -2827,19 +2703,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x00009B17 File Offset: 0x00007D17
 		public static string GetItemLockStringID(EquipmentElement equipmentElement)
 		{
 			return equipmentElement.Item.StringId + ((equipmentElement.ItemModifier != null) ? equipmentElement.ItemModifier.StringId : "");
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00009B46 File Offset: 0x00007D46
 		public static string GetTroopLockStringID(TroopRosterElement rosterElement)
 		{
 			return rosterElement.Character.StringId;
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x00009B54 File Offset: 0x00007D54
 		public static List<ValueTuple<CampaignUIHelper.IssueQuestFlags, TextObject, TextObject>> GetQuestStateOfHero(Hero queriedHero)
 		{
 			List<ValueTuple<CampaignUIHelper.IssueQuestFlags, TextObject, TextObject>> list = new List<ValueTuple<CampaignUIHelper.IssueQuestFlags, TextObject, TextObject>>();
@@ -2888,7 +2761,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00009D10 File Offset: 0x00007F10
 		public static string GetQuestExplanationOfHero(CampaignUIHelper.IssueQuestFlags questType)
 		{
 			bool flag = (questType & CampaignUIHelper.IssueQuestFlags.ActiveIssue) != CampaignUIHelper.IssueQuestFlags.None || (questType & CampaignUIHelper.IssueQuestFlags.AvailableIssue) > CampaignUIHelper.IssueQuestFlags.None;
@@ -2908,7 +2780,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return text;
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x00009D7C File Offset: 0x00007F7C
 		public static List<QuestBase> GetQuestsRelatedToHero(Hero hero)
 		{
 			List<QuestBase> list = new List<QuestBase>();
@@ -2932,7 +2803,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00009E24 File Offset: 0x00008024
 		public static List<QuestBase> GetQuestsRelatedToParty(MobileParty party)
 		{
 			List<QuestBase> list = new List<QuestBase>();
@@ -2978,7 +2848,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x00009F20 File Offset: 0x00008120
 		public static List<QuestBase> GetQuestsRelatedToSettlement(Settlement settlement)
 		{
 			List<QuestBase> list = new List<QuestBase>();
@@ -3000,7 +2869,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x0000A010 File Offset: 0x00008210
 		public static CampaignUIHelper.IssueQuestFlags GetIssueType(IssueBase issue)
 		{
 			if (issue.IsSolvingWithAlternative || issue.IsSolvingWithLordSolution || issue.IsSolvingWithQuest)
@@ -3010,7 +2878,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return CampaignUIHelper.IssueQuestFlags.AvailableIssue;
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x0000A02D File Offset: 0x0000822D
 		public static CampaignUIHelper.IssueQuestFlags GetQuestType(QuestBase quest, Hero queriedQuestGiver)
 		{
 			if (quest.QuestGiver != null && quest.QuestGiver == queriedQuestGiver)
@@ -3031,7 +2898,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x0000A058 File Offset: 0x00008258
 		public static IEnumerable<TraitObject> GetHeroTraits()
 		{
 			yield return DefaultTraits.Generosity;
@@ -3042,20 +2908,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			yield break;
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x0000A061 File Offset: 0x00008261
 		public static bool IsItemUsageApplicable(WeaponComponentData weapon)
 		{
 			WeaponDescription weaponDescription = ((weapon != null && weapon.WeaponDescriptionId != null) ? MBObjectManager.Instance.GetObject<WeaponDescription>(weapon.WeaponDescriptionId) : null);
 			return weaponDescription != null && !weaponDescription.IsHiddenFromUI;
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x0000A08F File Offset: 0x0000828F
 		public static string FloatToString(float x)
 		{
 			return x.ToString("F1");
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x0000A0A0 File Offset: 0x000082A0
 		private static Tuple<bool, TextObject> GetIsStringApplicableForHeroName(string name)
 		{
 			bool flag;
@@ -3086,20 +2949,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return new Tuple<bool, TextObject>(true, TextObject.Empty);
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x0000A170 File Offset: 0x00008370
 		public static Tuple<bool, string> IsStringApplicableForHeroName(string name)
 		{
 			Tuple<bool, TextObject> isStringApplicableForHeroName = CampaignUIHelper.GetIsStringApplicableForHeroName(name);
 			return new Tuple<bool, string>(isStringApplicableForHeroName.Item1, isStringApplicableForHeroName.Item2.ToString());
 		}
 
-		// Token: 0x06000153 RID: 339 RVA: 0x0000A19A File Offset: 0x0000839A
 		public static CharacterObject GetVisualPartyLeader(PartyBase party)
 		{
 			return PartyBaseHelper.GetVisualPartyLeader(party);
 		}
 
-		// Token: 0x06000154 RID: 340 RVA: 0x0000A1A4 File Offset: 0x000083A4
 		private static string GetChangeValueString(float value)
 		{
 			string text = value.ToString("0.##");
@@ -3111,7 +2971,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return text;
 		}
 
-		// Token: 0x06000156 RID: 342 RVA: 0x0000A624 File Offset: 0x00008824
 		[CompilerGenerated]
 		internal static void <GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes type, float reqValue, ref CampaignUIHelper.<>c__DisplayClass143_0 A_2)
 		{
@@ -3125,172 +2984,116 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			A_2.properties.Add(new TooltipProperty(CampaignUIHelper._orderRequirementText.ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
 		}
 
-		// Token: 0x0400006E RID: 110
 		private static readonly TextObject _changeStr = new TextObject("{=R2AaCaPJ}Expected Change", null);
 
-		// Token: 0x0400006F RID: 111
 		private static readonly TextObject _totalStr = new TextObject("{=kWVbHPtT}Total", null);
 
-		// Token: 0x04000070 RID: 112
 		private static readonly TextObject _noChangesStr = new TextObject("{=XIioBPi0}No changes", null);
 
-		// Token: 0x04000071 RID: 113
 		private static readonly TextObject _hitPointsStr = new TextObject("{=oBbiVeKE}Hit Points", null);
 
-		// Token: 0x04000072 RID: 114
 		private static readonly TextObject _maxhitPointsStr = new TextObject("{=mDFhzEMC}Max. Hit Points", null);
 
-		// Token: 0x04000073 RID: 115
 		private static readonly TextObject _prosperityStr = new TextObject("{=IagYTD5O}Prosperity", null);
 
-		// Token: 0x04000074 RID: 116
 		private static readonly TextObject _hearthStr = new TextObject("{=2GWR9Cba}Hearth", null);
 
-		// Token: 0x04000075 RID: 117
 		private static readonly TextObject _dailyProductionStr = new TextObject("{=94aHU6nD}Construction", null);
 
-		// Token: 0x04000076 RID: 118
 		private static readonly TextObject _securityStr = new TextObject("{=MqCH7R4A}Security", null);
 
-		// Token: 0x04000077 RID: 119
 		private static readonly TextObject _criminalRatingStr = new TextObject("{=it8oPzb1}Criminal Rating", null);
 
-		// Token: 0x04000078 RID: 120
 		private static readonly TextObject _militiaStr = new TextObject("{=gsVtO9A7}Militia", null);
 
-		// Token: 0x04000079 RID: 121
 		private static readonly TextObject _foodStr = new TextObject("{=qSi4DlT4}Food", null);
 
-		// Token: 0x0400007A RID: 122
 		private static readonly TextObject _foodItemsStr = new TextObject("{=IQY9yykn}Food Items", null);
 
-		// Token: 0x0400007B RID: 123
 		private static readonly TextObject _livestockStr = new TextObject("{=UI0q8rWw}Livestock", null);
 
-		// Token: 0x0400007C RID: 124
 		private static readonly TextObject _armyCohesionStr = new TextObject("{=iZ3w6opW}Cohesion", null);
 
-		// Token: 0x0400007D RID: 125
 		private static readonly TextObject _loyaltyStr = new TextObject("{=YO0x7ZAo}Loyalty", null);
 
-		// Token: 0x0400007E RID: 126
 		private static readonly TextObject _wallsStr = new TextObject("{=LsZEdD2z}Walls", null);
 
-		// Token: 0x0400007F RID: 127
 		private static readonly TextObject _plusStr = new TextObject("{=eTw2aNV5}+", null);
 
-		// Token: 0x04000080 RID: 128
 		private static readonly TextObject _heroesHealingRateStr = new TextObject("{=HHTQVp52}Heroes Healing Rate", null);
 
-		// Token: 0x04000081 RID: 129
 		private static readonly TextObject _numTotalTroopsInTheArmyStr = new TextObject("{=DRJOxrRF}Troops in Army", null);
 
-		// Token: 0x04000082 RID: 130
 		private static readonly TextObject _garrisonStr = new TextObject("{=jlgjLDo7}Garrison", null);
 
-		// Token: 0x04000083 RID: 131
 		private static readonly TextObject _hitPoints = new TextObject("{=UbZL2BJQ}Hitpoints", null);
 
-		// Token: 0x04000084 RID: 132
 		private static readonly TextObject _maxhitPoints = new TextObject("{=KTTyBbsp}Max HP", null);
 
-		// Token: 0x04000085 RID: 133
 		private static readonly TextObject _goldStr = new TextObject("{=Hxf6bzmR}Current Denars", null);
 
-		// Token: 0x04000086 RID: 134
 		private static readonly TextObject _resultGold = new TextObject("{=NC9bbrt5}End-of-day denars", null);
 
-		// Token: 0x04000087 RID: 135
 		private static readonly TextObject _influenceStr = new TextObject("{=RVPidk5a}Influence", null);
 
-		// Token: 0x04000088 RID: 136
 		private static readonly TextObject _partyMoraleStr = GameTexts.FindText("str_party_morale", null);
 
-		// Token: 0x04000089 RID: 137
 		private static readonly TextObject _partyFoodStr = new TextObject("{=mg7id9om}Number of Consumable Items", null);
 
-		// Token: 0x0400008A RID: 138
 		private static readonly TextObject _partySpeedStr = new TextObject("{=zWaVxD6T}Party Speed", null);
 
-		// Token: 0x0400008B RID: 139
 		private static readonly TextObject _partySizeLimitStr = new TextObject("{=mp68RYnD}Party Size Limit", null);
 
-		// Token: 0x0400008C RID: 140
 		private static readonly TextObject _viewDistanceFoodStr = new TextObject("{=hTzTMLsf}View Distance", null);
 
-		// Token: 0x0400008D RID: 141
 		private static readonly TextObject _battleReadyTroopsStr = new TextObject("{=LVmkE2Ow}Battle Ready Troops", null);
 
-		// Token: 0x0400008E RID: 142
 		private static readonly TextObject _woundedTroopsStr = new TextObject("{=TzLtVzdg}Wounded Troops", null);
 
-		// Token: 0x0400008F RID: 143
 		private static readonly TextObject _prisonersStr = new TextObject("{=N6QTvjMf}Prisoners", null);
 
-		// Token: 0x04000090 RID: 144
 		private static readonly TextObject _regularsHealingRateStr = new TextObject("{=tf7301NC}Healing Rate", null);
 
-		// Token: 0x04000091 RID: 145
 		private static readonly TextObject _learningRateStr = new TextObject("{=q1J4a8rr}Learning Rate", null);
 
-		// Token: 0x04000092 RID: 146
 		private static readonly TextObject _learningLimitStr = new TextObject("{=YT9giTet}Learning Limit", null);
 
-		// Token: 0x04000093 RID: 147
 		private static readonly TextObject _partyInventoryCapacityStr = new TextObject("{=fI7a7RoE}Inventory Capacity", null);
 
-		// Token: 0x04000094 RID: 148
 		private static readonly TextObject _partyTroopSizeLimitStr = new TextObject("{=2Cq3tViJ}Party Troop Size Limit", null);
 
-		// Token: 0x04000095 RID: 149
 		private static readonly TextObject _partyPrisonerSizeLimitStr = new TextObject("{=UHLcmf9A}Party Prisoner Size Limit", null);
 
-		// Token: 0x04000096 RID: 150
 		private static readonly TextObject _inventorySkillTooltipTitle = new TextObject("{=Y7qbwrWE}{HERO_NAME}'s Skills", null);
 
-		// Token: 0x04000097 RID: 151
 		private static readonly TextObject _mercenaryClanInfluenceStr = new TextObject("{=GP3jpU0X}Influence is periodically converted to denars for mercenary clans.", null);
 
-		// Token: 0x04000098 RID: 152
 		private static readonly TextObject _orderRequirementText = new TextObject("{=dVqowrRz} - {STAT} {REQUIREMENT}", null);
 
-		// Token: 0x04000099 RID: 153
 		private static readonly TextObject _denarValueInfoText = new TextObject("{=mapbardenarvalue}{DENAR_AMOUNT}{VALUE_ABBREVIATION}", null);
 
-		// Token: 0x0400009A RID: 154
 		private static readonly TextObject _prisonerOfText = new TextObject("{=a8nRxITn}Prisoner of {PARTY_NAME}", null);
 
-		// Token: 0x0400009B RID: 155
 		private static readonly TextObject _attachedToText = new TextObject("{=8Jy9DnKk}Attached to {PARTY_NAME}", null);
 
-		// Token: 0x0400009C RID: 156
 		private static readonly TextObject _inYourPartyText = new TextObject("{=CRi905Ao}In your party", null);
 
-		// Token: 0x0400009D RID: 157
 		private static readonly TextObject _travelingText = new TextObject("{=vdKiLwaf}Traveling", null);
 
-		// Token: 0x0400009E RID: 158
 		private static readonly TextObject _recoveringText = new TextObject("{=heroRecovering}Recovering", null);
 
-		// Token: 0x0400009F RID: 159
 		private static readonly TextObject _recentlyReleasedText = new TextObject("{=NLFeyz7m}Recently Released From Captivity", null);
 
-		// Token: 0x040000A0 RID: 160
 		private static readonly TextObject _recentlyEscapedText = new TextObject("{=84oSzquz}Recently Escaped Captivity", null);
 
-		// Token: 0x040000A1 RID: 161
 		private static readonly TextObject _nearSettlementText = new TextObject("{=XjT8S4ng}Near {SETTLEMENT_NAME}", null);
 
-		// Token: 0x040000A2 RID: 162
 		private static readonly TextObject _noDelayText = new TextObject("{=bDwTWrru}No delay", null);
 
-		// Token: 0x040000A3 RID: 163
 		private static readonly TextObject _regroupingText = new TextObject("{=KxLoeSEO}Regrouping", null);
 
-		// Token: 0x040000A4 RID: 164
 		public static readonly CampaignUIHelper.MobilePartyPrecedenceComparer MobilePartyPrecedenceComparerInstance = new CampaignUIHelper.MobilePartyPrecedenceComparer();
 
-		// Token: 0x040000A5 RID: 165
 		private static readonly List<ItemObject.ItemTypeEnum> _itemObjectTypeSortIndices = new List<ItemObject.ItemTypeEnum>
 		{
 			ItemObject.ItemTypeEnum.Horse,
@@ -3320,28 +3123,19 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			ItemObject.ItemTypeEnum.Banner
 		};
 
-		// Token: 0x02000140 RID: 320
 		[Flags]
 		public enum IssueQuestFlags
 		{
-			// Token: 0x04000E6D RID: 3693
 			None = 0,
-			// Token: 0x04000E6E RID: 3694
 			AvailableIssue = 1,
-			// Token: 0x04000E6F RID: 3695
 			ActiveIssue = 2,
-			// Token: 0x04000E70 RID: 3696
 			ActiveStoryQuest = 4,
-			// Token: 0x04000E71 RID: 3697
 			TrackedIssue = 8,
-			// Token: 0x04000E72 RID: 3698
 			TrackedStoryQuest = 16
 		}
 
-		// Token: 0x02000141 RID: 321
 		public class MobilePartyPrecedenceComparer : IComparer<MobileParty>
 		{
-			// Token: 0x06001E6E RID: 7790 RVA: 0x0006C460 File Offset: 0x0006A660
 			public int Compare(MobileParty x, MobileParty y)
 			{
 				if (x.IsGarrison && !y.IsGarrison)
@@ -3389,16 +3183,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x02000142 RID: 322
 		public class ProductInputOutputEqualityComparer : IEqualityComparer<ValueTuple<ItemCategory, int>>
 		{
-			// Token: 0x06001E70 RID: 7792 RVA: 0x0006C5DF File Offset: 0x0006A7DF
 			public bool Equals(ValueTuple<ItemCategory, int> x, ValueTuple<ItemCategory, int> y)
 			{
 				return x.Item1 == y.Item1;
 			}
 
-			// Token: 0x06001E71 RID: 7793 RVA: 0x0006C5EF File Offset: 0x0006A7EF
 			public int GetHashCode(ValueTuple<ItemCategory, int> obj)
 			{
 				return obj.Item1.GetHashCode();

@@ -11,10 +11,8 @@ using TaleWorlds.LinQuick;
 
 namespace SandBox.ViewModelCollection.Nameplate
 {
-	// Token: 0x02000014 RID: 20
 	public class PartyNameplatesVM : ViewModel
 	{
-		// Token: 0x060001DB RID: 475 RVA: 0x0000957C File Offset: 0x0000777C
 		public PartyNameplatesVM(Camera mapCamera, Action resetCamera, Func<bool> isShowPartyNamesEnabled)
 		{
 			this.Nameplates = new MBBindingList<PartyNameplateVM>();
@@ -30,7 +28,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			CampaignEvents.OnGameOverEvent.AddNonSerializedListener(this, new Action(this.OnGameOver));
 		}
 
-		// Token: 0x060001DC RID: 476 RVA: 0x00009644 File Offset: 0x00007844
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -40,7 +37,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			});
 		}
 
-		// Token: 0x060001DD RID: 477 RVA: 0x00009678 File Offset: 0x00007878
 		public void Initialize()
 		{
 			foreach (MobileParty mobileParty in MobileParty.All.Where((MobileParty p) => p.IsSpotted() && p.CurrentSettlement == null))
@@ -50,7 +46,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x00009704 File Offset: 0x00007904
 		private void OnClanChangeKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification)
 		{
 			foreach (PartyNameplateVM partyNameplateVM in this.Nameplates.Where((PartyNameplateVM p) => p.Party.LeaderHero != null && p.Party.LeaderHero.Clan == clan))
@@ -59,7 +54,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001DF RID: 479 RVA: 0x00009770 File Offset: 0x00007970
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			for (int i = 0; i < this.Nameplates.Count; i++)
@@ -74,7 +68,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001E0 RID: 480 RVA: 0x000097BC File Offset: 0x000079BC
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (party.Army != null && party.Army.LeaderParty == party)
@@ -98,7 +91,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001E1 RID: 481 RVA: 0x000098F4 File Offset: 0x00007AF4
 		private void OnPartyVisibilityChanged(PartyBase party)
 		{
 			if (party.IsMobile)
@@ -117,7 +109,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001E2 RID: 482 RVA: 0x000099E4 File Offset: 0x00007BE4
 		public void Update()
 		{
 			for (int i = 0; i < this.Nameplates.Count; i++)
@@ -134,7 +125,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			this.Nameplates.Sort(this._nameplateComparer);
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x00009A60 File Offset: 0x00007C60
 		private void OnPlayerCharacterChangedEvent(Hero oldPlayer, Hero newPlayer, MobileParty newMainParty, bool isMainPartyChanged)
 		{
 			PartyNameplateVM partyNameplateVM = this.Nameplates.FirstOrDefault((PartyNameplateVM n) => n.GetIsMainParty);
@@ -153,7 +143,6 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x00009B3C File Offset: 0x00007D3C
 		private void OnGameOver()
 		{
 			PartyNameplateVM partyNameplateVM = this.Nameplates.FirstOrDefault((PartyNameplateVM n) => n.IsMainParty);
@@ -164,16 +153,12 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x00009B8A File Offset: 0x00007D8A
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			this.Nameplates.Clear();
 		}
 
-		// Token: 0x170000A7 RID: 167
-		// (get) Token: 0x060001E6 RID: 486 RVA: 0x00009B9D File Offset: 0x00007D9D
-		// (set) Token: 0x060001E7 RID: 487 RVA: 0x00009BA5 File Offset: 0x00007DA5
 		[DataSourceProperty]
 		public MBBindingList<PartyNameplateVM> Nameplates
 		{
@@ -191,25 +176,18 @@ namespace SandBox.ViewModelCollection.Nameplate
 			}
 		}
 
-		// Token: 0x040000C8 RID: 200
 		private readonly Camera _mapCamera;
 
-		// Token: 0x040000C9 RID: 201
 		private readonly Action _resetCamera;
 
-		// Token: 0x040000CA RID: 202
 		private readonly Func<bool> _isShowPartyNamesEnabled;
 
-		// Token: 0x040000CB RID: 203
 		private readonly PartyNameplatesVM.NameplateDistanceComparer _nameplateComparer;
 
-		// Token: 0x040000CC RID: 204
 		private MBBindingList<PartyNameplateVM> _nameplates;
 
-		// Token: 0x0200005D RID: 93
 		public class NameplateDistanceComparer : IComparer<PartyNameplateVM>
 		{
-			// Token: 0x060004E0 RID: 1248 RVA: 0x00013F18 File Offset: 0x00012118
 			public int Compare(PartyNameplateVM x, PartyNameplateVM y)
 			{
 				return y.DistanceToCamera.CompareTo(x.DistanceToCamera);

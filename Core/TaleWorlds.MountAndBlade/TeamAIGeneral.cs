@@ -4,16 +4,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000172 RID: 370
 	public class TeamAIGeneral : TeamAIComponent
 	{
-		// Token: 0x0600133C RID: 4924 RVA: 0x0004AA40 File Offset: 0x00048C40
 		public TeamAIGeneral(Mission currentMission, Team currentTeam, float thinkTimerTime = 10f, float applyTimerTime = 1f)
 			: base(currentMission, currentTeam, thinkTimerTime, applyTimerTime)
 		{
 		}
 
-		// Token: 0x0600133D RID: 4925 RVA: 0x0004AA50 File Offset: 0x00048C50
 		public override void OnUnitAddedToFormationForTheFirstTime(Formation formation)
 		{
 			if (GameNetwork.IsServer)
@@ -79,7 +76,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600133E RID: 4926 RVA: 0x0004AD54 File Offset: 0x00048F54
 		private void UpdateVariables()
 		{
 			TeamQuerySystem querySystem = this.Team.QuerySystem;
@@ -103,15 +99,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600133F RID: 4927 RVA: 0x0004AE48 File Offset: 0x00049048
 		protected override void DebugTick(float dt)
 		{
 		}
 
-		// Token: 0x04000576 RID: 1398
 		private int _numberOfEnemiesInShootRange;
 
-		// Token: 0x04000577 RID: 1399
 		private int _numberOfEnemiesCloseToAttack;
 	}
 }

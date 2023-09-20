@@ -6,10 +6,8 @@ using System.Runtime.CompilerServices;
 
 namespace TaleWorlds.DotNet
 {
-	// Token: 0x02000004 RID: 4
 	public static class CallbackDebugTool
 	{
-		// Token: 0x06000003 RID: 3 RVA: 0x00002060 File Offset: 0x00000260
 		[Conditional("DEBUG")]
 		public static void AddLog([CallerMemberName] string memberName = "")
 		{
@@ -32,14 +30,12 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x000020D8 File Offset: 0x000002D8
 		[Conditional("DEBUG")]
 		public static void FrameEnd()
 		{
 			CallbackDebugTool.FrameCount += 1UL;
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x000020E7 File Offset: 0x000002E7
 		[Conditional("DEBUG")]
 		public static void Reset()
 		{
@@ -47,7 +43,6 @@ namespace TaleWorlds.DotNet
 			CallbackDebugTool.FrameCount = 0UL;
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x000020FC File Offset: 0x000002FC
 		public static string ShowResults()
 		{
 			List<CallbackDebugTool.CallbackLog> list = CallbackDebugTool.Logs.Values.ToList<CallbackDebugTool.CallbackLog>();
@@ -71,19 +66,14 @@ namespace TaleWorlds.DotNet
 			return text;
 		}
 
-		// Token: 0x04000002 RID: 2
 		private static Dictionary<string, CallbackDebugTool.CallbackLog> Logs = new Dictionary<string, CallbackDebugTool.CallbackLog>();
 
-		// Token: 0x04000003 RID: 3
 		private static ulong FrameCount = 0UL;
 
-		// Token: 0x0200002E RID: 46
 		private class CallbackLog
 		{
-			// Token: 0x04000067 RID: 103
 			public long CallCount;
 
-			// Token: 0x04000068 RID: 104
 			public string FuncName;
 		}
 	}

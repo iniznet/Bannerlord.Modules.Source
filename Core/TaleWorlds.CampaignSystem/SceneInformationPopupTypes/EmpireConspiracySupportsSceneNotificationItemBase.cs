@@ -6,15 +6,10 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 {
-	// Token: 0x020000B1 RID: 177
 	public abstract class EmpireConspiracySupportsSceneNotificationItemBase : SceneNotificationData
 	{
-		// Token: 0x170004ED RID: 1261
-		// (get) Token: 0x060011D6 RID: 4566 RVA: 0x00051C6D File Offset: 0x0004FE6D
 		public Hero King { get; }
 
-		// Token: 0x170004EE RID: 1262
-		// (get) Token: 0x060011D7 RID: 4567 RVA: 0x00051C75 File Offset: 0x0004FE75
 		public override string SceneID
 		{
 			get
@@ -23,8 +18,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x170004EF RID: 1263
-		// (get) Token: 0x060011D8 RID: 4568 RVA: 0x00051C7C File Offset: 0x0004FE7C
 		public override TextObject AffirmativeText
 		{
 			get
@@ -33,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			}
 		}
 
-		// Token: 0x060011D9 RID: 4569 RVA: 0x00051C89 File Offset: 0x0004FE89
 		public override IEnumerable<Banner> GetBanners()
 		{
 			return new List<Banner>
@@ -43,7 +35,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			};
 		}
 
-		// Token: 0x060011DA RID: 4570 RVA: 0x00051CBC File Offset: 0x0004FEBC
 		public override IEnumerable<SceneNotificationData.SceneNotificationCharacter> GetSceneNotificationCharacters()
 		{
 			List<SceneNotificationData.SceneNotificationCharacter> list = new List<SceneNotificationData.SceneNotificationCharacter>();
@@ -64,7 +55,6 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		// Token: 0x060011DB RID: 4571 RVA: 0x00051DD6 File Offset: 0x0004FFD6
 		protected EmpireConspiracySupportsSceneNotificationItemBase(Hero kingHero)
 		{
 			this.King = kingHero;

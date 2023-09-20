@@ -15,17 +15,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x0200002E RID: 46
 	[OverrideView(typeof(MapOverlayView))]
 	public class GauntletMapOverlayView : MapView
 	{
-		// Token: 0x060001A7 RID: 423 RVA: 0x0000BFD9 File Offset: 0x0000A1D9
 		public GauntletMapOverlayView(GameOverlays.MapOverlayType type)
 		{
 			this._type = type;
 		}
 
-		// Token: 0x060001A8 RID: 424 RVA: 0x0000BFE8 File Offset: 0x0000A1E8
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -51,7 +48,6 @@ namespace SandBox.GauntletUI.Map
 			base.MapScreen.AddLayer(base.Layer);
 		}
 
-		// Token: 0x060001A9 RID: 425 RVA: 0x0000C143 File Offset: 0x0000A343
 		public GameMenuOverlay GetOverlay(GameOverlays.MapOverlayType mapOverlayType)
 		{
 			if (mapOverlayType == 1)
@@ -62,13 +58,11 @@ namespace SandBox.GauntletUI.Map
 			return null;
 		}
 
-		// Token: 0x060001AA RID: 426 RVA: 0x0000C17D File Offset: 0x0000A37D
 		protected override void OnArmyLeft()
 		{
 			base.MapScreen.RemoveArmyOverlay();
 		}
 
-		// Token: 0x060001AB RID: 427 RVA: 0x0000C18C File Offset: 0x0000A38C
 		protected override void OnFinalize()
 		{
 			if (this._armyManagementLayer != null)
@@ -93,7 +87,6 @@ namespace SandBox.GauntletUI.Map
 			base.OnFinalize();
 		}
 
-		// Token: 0x060001AC RID: 428 RVA: 0x0000C215 File Offset: 0x0000A415
 		protected override void OnHourlyTick()
 		{
 			base.OnHourlyTick();
@@ -105,7 +98,6 @@ namespace SandBox.GauntletUI.Map
 			overlayDataSource.HourlyTick();
 		}
 
-		// Token: 0x060001AD RID: 429 RVA: 0x0000C230 File Offset: 0x0000A430
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -122,7 +114,6 @@ namespace SandBox.GauntletUI.Map
 			overlayDataSource.OnFrameTick(dt);
 		}
 
-		// Token: 0x060001AE RID: 430 RVA: 0x0000C27C File Offset: 0x0000A47C
 		protected override bool IsEscaped()
 		{
 			if (this._armyManagementDatasource != null)
@@ -133,7 +124,6 @@ namespace SandBox.GauntletUI.Map
 			return false;
 		}
 
-		// Token: 0x060001AF RID: 431 RVA: 0x0000C294 File Offset: 0x0000A494
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -145,7 +135,6 @@ namespace SandBox.GauntletUI.Map
 			overlayDataSource.Refresh();
 		}
 
-		// Token: 0x060001B0 RID: 432 RVA: 0x0000C2AC File Offset: 0x0000A4AC
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -157,7 +146,6 @@ namespace SandBox.GauntletUI.Map
 			overlayDataSource.Refresh();
 		}
 
-		// Token: 0x060001B1 RID: 433 RVA: 0x0000C2C4 File Offset: 0x0000A4C4
 		protected override void OnMapScreenUpdate(float dt)
 		{
 			base.OnMapScreenUpdate(dt);
@@ -180,7 +168,6 @@ namespace SandBox.GauntletUI.Map
 			this.HadleArmyManagementInput();
 		}
 
-		// Token: 0x060001B2 RID: 434 RVA: 0x0000C374 File Offset: 0x0000A574
 		protected override void OnMenuModeTick(float dt)
 		{
 			base.OnMenuModeTick(dt);
@@ -197,7 +184,6 @@ namespace SandBox.GauntletUI.Map
 			overlayDataSource.OnFrameTick(dt);
 		}
 
-		// Token: 0x060001B3 RID: 435 RVA: 0x0000C3C0 File Offset: 0x0000A5C0
 		private void OpenArmyManagement()
 		{
 			this._armyManagementDatasource = new ArmyManagementVM(new Action(this.CloseArmyManagement));
@@ -228,7 +214,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x060001B4 RID: 436 RVA: 0x0000C570 File Offset: 0x0000A770
 		private void CloseArmyManagement()
 		{
 			if (this._armyManagementLayer != null && this._gauntletArmyManagementMovie != null)
@@ -262,7 +247,6 @@ namespace SandBox.GauntletUI.Map
 			Campaign.Current.TimeControlMode = this._timeControlModeBeforeArmyManagementOpened;
 		}
 
-		// Token: 0x060001B5 RID: 437 RVA: 0x0000C654 File Offset: 0x0000A854
 		private void HadleArmyManagementInput()
 		{
 			if (this._armyManagementLayer != null && this._armyManagementDatasource != null)
@@ -289,34 +273,24 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x040000DB RID: 219
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x040000DC RID: 220
 		private GameMenuOverlay _overlayDataSource;
 
-		// Token: 0x040000DD RID: 221
 		private readonly GameOverlays.MapOverlayType _type;
 
-		// Token: 0x040000DE RID: 222
 		private IGauntletMovie _movie;
 
-		// Token: 0x040000DF RID: 223
 		private bool _isContextMenuEnabled;
 
-		// Token: 0x040000E0 RID: 224
 		private GauntletLayer _armyManagementLayer;
 
-		// Token: 0x040000E1 RID: 225
 		private SpriteCategory _armyManagementCategory;
 
-		// Token: 0x040000E2 RID: 226
 		private ArmyManagementVM _armyManagementDatasource;
 
-		// Token: 0x040000E3 RID: 227
 		private IGauntletMovie _gauntletArmyManagementMovie;
 
-		// Token: 0x040000E4 RID: 228
 		private CampaignTimeControlMode _timeControlModeBeforeArmyManagementOpened;
 	}
 }

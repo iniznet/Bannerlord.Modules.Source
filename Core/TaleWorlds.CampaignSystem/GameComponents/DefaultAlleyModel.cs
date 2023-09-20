@@ -12,11 +12,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000ED RID: 237
 	public class DefaultAlleyModel : AlleyModel
 	{
-		// Token: 0x170005B0 RID: 1456
-		// (get) Token: 0x06001442 RID: 5186 RVA: 0x00059BEC File Offset: 0x00057DEC
 		private CharacterObject _thug
 		{
 			get
@@ -25,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B1 RID: 1457
-		// (get) Token: 0x06001443 RID: 5187 RVA: 0x00059BFD File Offset: 0x00057DFD
 		private CharacterObject _expertThug
 		{
 			get
@@ -35,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B2 RID: 1458
-		// (get) Token: 0x06001444 RID: 5188 RVA: 0x00059C0E File Offset: 0x00057E0E
 		private CharacterObject _masterThug
 		{
 			get
@@ -45,8 +38,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B3 RID: 1459
-		// (get) Token: 0x06001445 RID: 5189 RVA: 0x00059C1F File Offset: 0x00057E1F
 		public override CampaignTime DestroyAlleyAfterDaysWhenLeaderIsDeath
 		{
 			get
@@ -55,8 +46,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B4 RID: 1460
-		// (get) Token: 0x06001446 RID: 5190 RVA: 0x00059C2B File Offset: 0x00057E2B
 		public override int MinimumTroopCountInPlayerOwnedAlley
 		{
 			get
@@ -65,8 +54,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B5 RID: 1461
-		// (get) Token: 0x06001447 RID: 5191 RVA: 0x00059C2E File Offset: 0x00057E2E
 		public override int MaximumTroopCountInPlayerOwnedAlley
 		{
 			get
@@ -75,8 +62,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005B6 RID: 1462
-		// (get) Token: 0x06001448 RID: 5192 RVA: 0x00059C32 File Offset: 0x00057E32
 		public override float GetDailyCrimeRatingOfAlley
 		{
 			get
@@ -85,37 +70,31 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001449 RID: 5193 RVA: 0x00059C39 File Offset: 0x00057E39
 		public override float GetDailyXpGainForAssignedClanMember(Hero assignedHero)
 		{
 			return 200f;
 		}
 
-		// Token: 0x0600144A RID: 5194 RVA: 0x00059C40 File Offset: 0x00057E40
 		public override float GetDailyXpGainForMainHero()
 		{
 			return 40f;
 		}
 
-		// Token: 0x0600144B RID: 5195 RVA: 0x00059C47 File Offset: 0x00057E47
 		public override float GetInitialXpGainForMainHero()
 		{
 			return 1500f;
 		}
 
-		// Token: 0x0600144C RID: 5196 RVA: 0x00059C4E File Offset: 0x00057E4E
 		public override float GetXpGainAfterSuccessfulAlleyDefenseForMainHero()
 		{
 			return 6000f;
 		}
 
-		// Token: 0x0600144D RID: 5197 RVA: 0x00059C55 File Offset: 0x00057E55
 		public override TroopRoster GetTroopsOfAIOwnedAlley(Alley alley)
 		{
 			return this.GetTroopsOfAlleyInternal(alley);
 		}
 
-		// Token: 0x0600144E RID: 5198 RVA: 0x00059C60 File Offset: 0x00057E60
 		public override TroopRoster GetTroopsOfAlleyForBattleMission(Alley alley)
 		{
 			TroopRoster troopsOfAlleyInternal = this.GetTroopsOfAlleyInternal(alley);
@@ -127,7 +106,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return troopRoster;
 		}
 
-		// Token: 0x0600144F RID: 5199 RVA: 0x00059CD4 File Offset: 0x00057ED4
 		private TroopRoster GetTroopsOfAlleyInternal(Alley alley)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -189,7 +167,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return troopRoster;
 		}
 
-		// Token: 0x06001450 RID: 5200 RVA: 0x00059F04 File Offset: 0x00058104
 		public override List<ValueTuple<Hero, DefaultAlleyModel.AlleyMemberAvailabilityDetail>> GetClanMembersAndAvailabilityDetailsForLeadingAnAlley(Alley alley)
 		{
 			List<ValueTuple<Hero, DefaultAlleyModel.AlleyMemberAvailabilityDetail>> list = new List<ValueTuple<Hero, DefaultAlleyModel.AlleyMemberAvailabilityDetail>>();
@@ -210,7 +187,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x06001451 RID: 5201 RVA: 0x00059FE4 File Offset: 0x000581E4
 		public override TroopRoster GetTroopsToRecruitFromAlleyDependingOnAlleyRandom(Alley alley, float random)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -245,7 +221,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return troopRoster;
 		}
 
-		// Token: 0x06001452 RID: 5202 RVA: 0x0005A114 File Offset: 0x00058314
 		public override TextObject GetDisabledReasonTextForHero(Hero hero, Alley alley, DefaultAlleyModel.AlleyMemberAvailabilityDetail detail)
 		{
 			switch (detail)
@@ -283,7 +258,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001453 RID: 5203 RVA: 0x0005A228 File Offset: 0x00058428
 		public override float GetAlleyAttackResponseTimeInDays(TroopRoster troopRoster)
 		{
 			float num = 0f;
@@ -294,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (float)Math.Min(10, 5 + (int)(num / 8f));
 		}
 
-		// Token: 0x06001454 RID: 5204 RVA: 0x0005A2C0 File Offset: 0x000584C0
 		private Clan GetRelatedBanditClanDependingOnAlleySettlementFaction(Alley alley)
 		{
 			string stringId = alley.Settlement.Culture.StringId;
@@ -322,7 +295,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return clan;
 		}
 
-		// Token: 0x06001455 RID: 5205 RVA: 0x0005A410 File Offset: 0x00058610
 		private DefaultAlleyModel.AlleyMemberAvailabilityDetail GetAvailability(Alley alley, Hero hero)
 		{
 			IAlleyCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IAlleyCampaignBehavior>();
@@ -353,40 +325,27 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Available;
 		}
 
-		// Token: 0x06001456 RID: 5206 RVA: 0x0005A4A2 File Offset: 0x000586A2
 		public override int GetDailyIncomeOfAlley(Alley alley)
 		{
 			return (int)(alley.Settlement.Prosperity / 50f);
 		}
 
-		// Token: 0x04000723 RID: 1827
 		private const int BaseResponseTimeInDays = 5;
 
-		// Token: 0x04000724 RID: 1828
 		private const int MaxResponseTimeInDays = 10;
 
-		// Token: 0x04000725 RID: 1829
 		public const int MinimumRoguerySkillNeededForLeadingAnAlley = 30;
 
-		// Token: 0x04000726 RID: 1830
 		public const int MaximumMercyTraitNeededForLeadingAnAlley = 0;
 
-		// Token: 0x020004F9 RID: 1273
 		public enum AlleyMemberAvailabilityDetail
 		{
-			// Token: 0x0400156D RID: 5485
 			Available,
-			// Token: 0x0400156E RID: 5486
 			AvailableWithDelay,
-			// Token: 0x0400156F RID: 5487
 			NotEnoughRoguerySkill,
-			// Token: 0x04001570 RID: 5488
 			NotEnoughMercyTrait,
-			// Token: 0x04001571 RID: 5489
 			CanNotLeadParty,
-			// Token: 0x04001572 RID: 5490
 			AlreadyAlleyLeader,
-			// Token: 0x04001573 RID: 5491
 			IsPrisoner
 		}
 	}

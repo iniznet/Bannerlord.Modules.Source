@@ -15,15 +15,10 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.ViewModelCollection.Missions.NameMarker
 {
-	// Token: 0x02000026 RID: 38
 	public class MissionNameMarkerVM : ViewModel
 	{
-		// Token: 0x170000FD RID: 253
-		// (get) Token: 0x0600030E RID: 782 RVA: 0x0000EDF8 File Offset: 0x0000CFF8
-		// (set) Token: 0x0600030F RID: 783 RVA: 0x0000EE00 File Offset: 0x0000D000
 		public bool IsTargetsAdded { get; private set; }
 
-		// Token: 0x06000310 RID: 784 RVA: 0x0000EE0C File Offset: 0x0000D00C
 		public MissionNameMarkerVM(Mission mission, Camera missionCamera, Dictionary<Agent, SandBoxUIHelper.IssueQuestFlags> additionalTargetAgents, Dictionary<string, ValueTuple<Vec3, string, string>> additionalGenericTargets)
 		{
 			this.Targets = new MBBindingList<MissionNameMarkerTargetVM>();
@@ -35,7 +30,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			this._mission = mission;
 		}
 
-		// Token: 0x06000311 RID: 785 RVA: 0x0000EEB1 File Offset: 0x0000D0B1
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -45,7 +39,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			});
 		}
 
-		// Token: 0x06000312 RID: 786 RVA: 0x0000EEE3 File Offset: 0x0000D0E3
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -55,7 +48,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			});
 		}
 
-		// Token: 0x06000313 RID: 787 RVA: 0x0000EF18 File Offset: 0x0000D118
 		public void Tick(float dt)
 		{
 			if (!this.IsTargetsAdded)
@@ -148,7 +140,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			this._prevEnabledState = this.IsEnabled;
 		}
 
-		// Token: 0x06000314 RID: 788 RVA: 0x0000F2E8 File Offset: 0x0000D4E8
 		private void UpdateTargetScreenPositions()
 		{
 			foreach (MissionNameMarkerTargetVM missionNameMarkerTargetVM in this.Targets)
@@ -172,7 +163,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			this.Targets.Sort(this._distanceComparer);
 		}
 
-		// Token: 0x06000315 RID: 789 RVA: 0x0000F3EC File Offset: 0x0000D5EC
 		public void OnConversationEnd()
 		{
 			foreach (Agent agent in this._mission.Agents)
@@ -188,25 +178,21 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x06000316 RID: 790 RVA: 0x0000F488 File Offset: 0x0000D688
 		public void OnAgentBuild(Agent agent)
 		{
 			this.AddAgentTarget(agent, false);
 		}
 
-		// Token: 0x06000317 RID: 791 RVA: 0x0000F492 File Offset: 0x0000D692
 		public void OnAgentRemoved(Agent agent)
 		{
 			this.RemoveAgentTarget(agent);
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x0000F49B File Offset: 0x0000D69B
 		public void OnAgentDeleted(Agent agent)
 		{
 			this.RemoveAgentTarget(agent);
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x0000F4A4 File Offset: 0x0000D6A4
 		public void UpdateAdditionalTargetAgentQuestStatus(Agent agent, SandBoxUIHelper.IssueQuestFlags issueQuestFlags)
 		{
 			MissionNameMarkerTargetVM missionNameMarkerTargetVM = this.Targets.FirstOrDefault((MissionNameMarkerTargetVM t) => t.TargetAgent == agent);
@@ -217,7 +203,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			missionNameMarkerTargetVM.UpdateQuestStatus(issueQuestFlags);
 		}
 
-		// Token: 0x0600031A RID: 794 RVA: 0x0000F4E0 File Offset: 0x0000D6E0
 		public void AddGenericMarker(string markerIdentifier, Vec3 markerPosition, string name, string iconType)
 		{
 			MissionNameMarkerTargetVM missionNameMarkerTargetVM;
@@ -231,7 +216,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			this.Targets.Add(missionNameMarkerTargetVM2);
 		}
 
-		// Token: 0x0600031B RID: 795 RVA: 0x0000F548 File Offset: 0x0000D748
 		public void RemoveGenericMarker(string markerIdentifier)
 		{
 			MissionNameMarkerTargetVM missionNameMarkerTargetVM;
@@ -244,7 +228,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			Debug.FailedAssert("Marker with identifier: " + markerIdentifier + " does not exist", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.ViewModelCollection\\Missions\\NameMarker\\MissionNameMarkerVM.cs", "RemoveGenericMarker", 248);
 		}
 
-		// Token: 0x0600031C RID: 796 RVA: 0x0000F5A4 File Offset: 0x0000D7A4
 		public void AddAgentTarget(Agent agent, bool isAdditional = false)
 		{
 			Agent agent2 = agent;
@@ -338,7 +321,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x0600031D RID: 797 RVA: 0x0000F774 File Offset: 0x0000D974
 		public void RemoveAgentTarget(Agent agent)
 		{
 			if (this.Targets.SingleOrDefault((MissionNameMarkerTargetVM t) => t.TargetAgent == agent) != null)
@@ -347,7 +329,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x0000F7CC File Offset: 0x0000D9CC
 		private void UpdateTargetStates(bool state)
 		{
 			foreach (MissionNameMarkerTargetVM missionNameMarkerTargetVM in this.Targets)
@@ -356,9 +337,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x170000FE RID: 254
-		// (get) Token: 0x0600031F RID: 799 RVA: 0x0000F818 File Offset: 0x0000DA18
-		// (set) Token: 0x06000320 RID: 800 RVA: 0x0000F820 File Offset: 0x0000DA20
 		[DataSourceProperty]
 		public MBBindingList<MissionNameMarkerTargetVM> Targets
 		{
@@ -376,9 +354,6 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x170000FF RID: 255
-		// (get) Token: 0x06000321 RID: 801 RVA: 0x0000F83E File Offset: 0x0000DA3E
-		// (set) Token: 0x06000322 RID: 802 RVA: 0x0000F846 File Offset: 0x0000DA46
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -398,52 +373,36 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 			}
 		}
 
-		// Token: 0x04000192 RID: 402
 		private readonly Camera _missionCamera;
 
-		// Token: 0x04000193 RID: 403
 		private readonly Mission _mission;
 
-		// Token: 0x04000194 RID: 404
 		private Vec3 _agentHeightOffset = new Vec3(0f, 0f, 0.35f, -1f);
 
-		// Token: 0x04000195 RID: 405
 		private Vec3 _defaultHeightOffset = new Vec3(0f, 0f, 2f, -1f);
 
-		// Token: 0x04000196 RID: 406
 		private bool _prevEnabledState;
 
-		// Token: 0x04000197 RID: 407
 		private bool _fadeOutTimerStarted;
 
-		// Token: 0x04000198 RID: 408
 		private float _fadeOutTimer;
 
-		// Token: 0x04000199 RID: 409
 		private Dictionary<Agent, SandBoxUIHelper.IssueQuestFlags> _additionalTargetAgents;
 
-		// Token: 0x0400019A RID: 410
 		private Dictionary<string, ValueTuple<Vec3, string, string>> _additionalGenericTargets;
 
-		// Token: 0x0400019B RID: 411
 		private Dictionary<string, MissionNameMarkerTargetVM> _genericTargets;
 
-		// Token: 0x0400019C RID: 412
 		private readonly MissionNameMarkerVM.MarkerDistanceComparer _distanceComparer;
 
-		// Token: 0x0400019D RID: 413
 		private readonly List<string> PassagePointFilter = new List<string> { "Empty Shop" };
 
-		// Token: 0x0400019E RID: 414
 		private MBBindingList<MissionNameMarkerTargetVM> _targets;
 
-		// Token: 0x0400019F RID: 415
 		private bool _isEnabled;
 
-		// Token: 0x02000088 RID: 136
 		private class MarkerDistanceComparer : IComparer<MissionNameMarkerTargetVM>
 		{
-			// Token: 0x0600054B RID: 1355 RVA: 0x00014574 File Offset: 0x00012774
 			public int Compare(MissionNameMarkerTargetVM x, MissionNameMarkerTargetVM y)
 			{
 				return y.Distance.CompareTo(x.Distance);

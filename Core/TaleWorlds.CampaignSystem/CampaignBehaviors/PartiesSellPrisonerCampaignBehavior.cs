@@ -10,22 +10,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003B7 RID: 951
 	public class PartiesSellPrisonerCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600389E RID: 14494 RVA: 0x00101E8E File Offset: 0x0010008E
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 		}
 
-		// Token: 0x0600389F RID: 14495 RVA: 0x00101EBE File Offset: 0x001000BE
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060038A0 RID: 14496 RVA: 0x00101EC0 File Offset: 0x001000C0
 		private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (Campaign.Current.GameStarted && settlement.IsFortification && mobileParty != null && mobileParty.MapFaction != null && !mobileParty.IsMainParty && !mobileParty.IsDisbanding && (mobileParty.IsLordParty || mobileParty.IsCaravan) && !mobileParty.MapFaction.IsAtWarWith(settlement.MapFaction) && mobileParty.PrisonRoster.Count > 0)
@@ -60,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038A1 RID: 14497 RVA: 0x00102068 File Offset: 0x00100268
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsFortification)

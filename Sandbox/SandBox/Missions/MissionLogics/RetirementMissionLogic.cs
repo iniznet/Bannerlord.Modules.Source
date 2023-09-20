@@ -10,10 +10,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x0200004D RID: 77
 	public class RetirementMissionLogic : MissionLogic
 	{
-		// Token: 0x060003A9 RID: 937 RVA: 0x0001B070 File Offset: 0x00019270
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -21,7 +19,6 @@ namespace SandBox.Missions.MissionLogics
 			((LeaveMissionLogic)base.Mission.MissionLogics.FirstOrDefault((MissionLogic x) => x is LeaveMissionLogic)).UnconsciousGameMenuID = "retirement_after_player_knockedout";
 		}
 
-		// Token: 0x060003AA RID: 938 RVA: 0x0001B0C8 File Offset: 0x000192C8
 		private void SpawnHermit()
 		{
 			List<GameEntity> list = base.Mission.Scene.FindEntitiesWithTag("sp_hermit").ToList<GameEntity>();

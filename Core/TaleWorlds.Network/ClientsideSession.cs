@@ -5,32 +5,24 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Network
 {
-	// Token: 0x02000013 RID: 19
 	public abstract class ClientsideSession : NetworkSession
 	{
-		// Token: 0x06000067 RID: 103 RVA: 0x00002D3E File Offset: 0x00000F3E
 		protected void SendMessagePeerAlive()
 		{
 			base.Socket.SendPeerAliveMessage();
 		}
 
-		// Token: 0x06000068 RID: 104 RVA: 0x00002D4B File Offset: 0x00000F4B
 		protected internal override void OnDisconnected()
 		{
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000069 RID: 105 RVA: 0x00002D4D File Offset: 0x00000F4D
-		// (set) Token: 0x0600006A RID: 106 RVA: 0x00002D55 File Offset: 0x00000F55
 		public int Port { get; set; }
 
-		// Token: 0x0600006B RID: 107 RVA: 0x00002D5E File Offset: 0x00000F5E
 		protected ClientsideSession()
 		{
 			this._incomingMessages = new ConcurrentQueue<MessageBuffer>();
 		}
 
-		// Token: 0x0600006C RID: 108 RVA: 0x00002D74 File Offset: 0x00000F74
 		public virtual void Connect(string ip, int port, bool useSessionThread = true)
 		{
 			this._useSessionThread = useSessionThread;
@@ -47,13 +39,11 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0600006D RID: 109 RVA: 0x00002E0A File Offset: 0x0000100A
 		private void OnSocketMessageReceived(MessageBuffer messageBuffer)
 		{
 			this._incomingMessages.Enqueue(messageBuffer);
 		}
 
-		// Token: 0x0600006E RID: 110 RVA: 0x00002E18 File Offset: 0x00001018
 		public void Process()
 		{
 			while (this.ProcessTick())
@@ -62,7 +52,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x00002E2C File Offset: 0x0000102C
 		private bool ProcessTick()
 		{
 			base.Socket.ProcessWrite();
@@ -74,7 +63,6 @@ namespace TaleWorlds.Network
 			return base.Socket.Status != TcpStatus.SocketClosed && base.Socket.Status != TcpStatus.ConnectionClosed;
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x00002EAC File Offset: 0x000010AC
 		public override void Tick()
 		{
 			if (base.Socket == null)
@@ -127,16 +115,12 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x0400002D RID: 45
 		private bool _connectionResultHandled;
 
-		// Token: 0x0400002E RID: 46
 		private Thread _thread;
 
-		// Token: 0x0400002F RID: 47
 		private ConcurrentQueue<MessageBuffer> _incomingMessages;
 
-		// Token: 0x04000030 RID: 48
 		private bool _useSessionThread;
 	}
 }

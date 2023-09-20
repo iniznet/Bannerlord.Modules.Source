@@ -6,16 +6,13 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000116 RID: 278
 	public class DefaultLocationModel : LocationModel
 	{
-		// Token: 0x060015E1 RID: 5601 RVA: 0x00067787 File Offset: 0x00065987
 		public override int GetSettlementUpgradeLevel(LocationEncounter locationEncounter)
 		{
 			return locationEncounter.Settlement.Town.GetWallLevel();
 		}
 
-		// Token: 0x060015E2 RID: 5602 RVA: 0x0006779C File Offset: 0x0006599C
 		public override string GetCivilianSceneLevel(Settlement settlement)
 		{
 			string text = "civilian";
@@ -30,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x060015E3 RID: 5603 RVA: 0x000677E0 File Offset: 0x000659E0
 		public override string GetCivilianUpgradeLevelTag(int upgradeLevel)
 		{
 			if (upgradeLevel == 0)
@@ -46,7 +42,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return text;
 		}
 
-		// Token: 0x060015E4 RID: 5604 RVA: 0x0006781A File Offset: 0x00065A1A
 		public override string GetUpgradeLevelTag(int upgradeLevel)
 		{
 			switch (upgradeLevel)

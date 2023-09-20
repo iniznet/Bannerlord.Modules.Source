@@ -4,10 +4,8 @@ using TaleWorlds.CampaignSystem.Overlay;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x020000A2 RID: 162
 	public static class GenericTestStatics
 	{
-		// Token: 0x06001182 RID: 4482 RVA: 0x00050384 File Offset: 0x0004E584
 		public static void AddGameMenus(CampaignGameStarter gameSystemInitializer)
 		{
 			gameSystemInitializer.AddGameMenu("generic_test_menu", "{=!}Test Menu", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);

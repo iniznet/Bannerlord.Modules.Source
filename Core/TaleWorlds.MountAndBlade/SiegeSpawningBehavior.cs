@@ -7,24 +7,20 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002CB RID: 715
 	public class SiegeSpawningBehavior : SpawningBehaviorBase
 	{
-		// Token: 0x06002723 RID: 10019 RVA: 0x00095404 File Offset: 0x00093604
 		public override void Initialize(SpawnComponent spawnComponent)
 		{
 			base.Initialize(spawnComponent);
 			base.OnAllAgentsFromPeerSpawnedFromVisuals += this.OnAllAgentsFromPeerSpawnedFromVisuals;
 		}
 
-		// Token: 0x06002724 RID: 10020 RVA: 0x0009541F File Offset: 0x0009361F
 		public override void Clear()
 		{
 			base.Clear();
 			base.OnAllAgentsFromPeerSpawnedFromVisuals -= this.OnAllAgentsFromPeerSpawnedFromVisuals;
 		}
 
-		// Token: 0x06002725 RID: 10021 RVA: 0x00095439 File Offset: 0x00093639
 		public override void OnTick(float dt)
 		{
 			if (this.IsSpawningEnabled && this._spawnCheckTimer.Check(base.Mission.CurrentTime))
@@ -34,7 +30,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnTick(dt);
 		}
 
-		// Token: 0x06002726 RID: 10022 RVA: 0x00095468 File Offset: 0x00093668
 		protected override void SpawnAgents()
 		{
 			BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
@@ -119,13 +114,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002727 RID: 10023 RVA: 0x0009587C File Offset: 0x00093A7C
 		public override bool AllowEarlyAgentVisualsDespawning(MissionPeer lobbyPeer)
 		{
 			return true;
 		}
 
-		// Token: 0x06002728 RID: 10024 RVA: 0x00095880 File Offset: 0x00093A80
 		public override int GetMaximumReSpawnPeriodForPeer(MissionPeer peer)
 		{
 			if (this.GameMode.WarmupComponent != null && this.GameMode.WarmupComponent.IsInWarmup)
@@ -146,13 +139,11 @@ namespace TaleWorlds.MountAndBlade
 			return -1;
 		}
 
-		// Token: 0x06002729 RID: 10025 RVA: 0x000958E4 File Offset: 0x00093AE4
 		protected override bool IsRoundInProgress()
 		{
 			return Mission.Current.CurrentState == Mission.State.Continuing;
 		}
 
-		// Token: 0x0600272A RID: 10026 RVA: 0x000958F4 File Offset: 0x00093AF4
 		private new void OnAllAgentsFromPeerSpawnedFromVisuals(MissionPeer peer)
 		{
 			bool flag = peer.Team == base.Mission.AttackerTeam;

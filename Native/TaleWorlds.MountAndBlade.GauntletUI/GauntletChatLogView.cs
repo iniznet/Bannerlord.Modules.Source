@@ -14,15 +14,10 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x02000003 RID: 3
 	public class GauntletChatLogView : GlobalLayer
 	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000008 RID: 8 RVA: 0x000020D6 File Offset: 0x000002D6
-		// (set) Token: 0x06000009 RID: 9 RVA: 0x000020DD File Offset: 0x000002DD
 		public static GauntletChatLogView Current { get; private set; }
 
-		// Token: 0x0600000A RID: 10 RVA: 0x000020E8 File Offset: 0x000002E8
 		public GauntletChatLogView()
 		{
 			this._dataSource = new MPChatVM();
@@ -41,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionsChanged));
 		}
 
-		// Token: 0x0600000B RID: 11 RVA: 0x0000221A File Offset: 0x0000041A
 		public static void Initialize()
 		{
 			if (GauntletChatLogView.Current == null)
@@ -51,7 +45,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600000C RID: 12 RVA: 0x00002238 File Offset: 0x00000438
 		private void OnManagedOptionsChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
 			bool flag = changedManagedOptionsType == 41 && Mission.Current != null && BannerlordConfig.HideBattleUI;
@@ -64,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x000022A0 File Offset: 0x000004A0
 		private void CloseChat()
 		{
 			if (this._dataSource.IsInspectingMessages)
@@ -80,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x000022F8 File Offset: 0x000004F8
 		protected override void OnTick(float dt)
 		{
 			if (!this._isEnabled)
@@ -97,7 +88,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._dataSource.Tick(dt);
 		}
 
-		// Token: 0x0600000F RID: 15 RVA: 0x00002354 File Offset: 0x00000554
 		protected override void OnLateTick(float dt)
 		{
 			base.OnLateTick(dt);
@@ -108,7 +98,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000010 RID: 16 RVA: 0x00002378 File Offset: 0x00000578
 		private void HandleInput()
 		{
 			bool flag = false;
@@ -285,7 +274,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000011 RID: 17 RVA: 0x00002824 File Offset: 0x00000A24
 		private void UpdateFocusLayer()
 		{
 			if (this._dataSource.IsTypingText || this._dataSource.IsInspectingMessages)
@@ -301,19 +289,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.Layer.InputRestrictions.ResetInputRestrictions();
 		}
 
-		// Token: 0x06000012 RID: 18 RVA: 0x000028A0 File Offset: 0x00000AA0
 		public void SetCanFocusWhileInMission(bool canFocusInMission)
 		{
 			this._canFocusWhileInMission = canFocusInMission;
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x000028A9 File Offset: 0x00000AA9
 		public void OnSupportedFeaturesReceived(SupportedFeatures supportedFeatures)
 		{
 			this.SetEnabled(supportedFeatures.SupportsFeatures(32));
 		}
 
-		// Token: 0x06000014 RID: 20 RVA: 0x000028B9 File Offset: 0x00000AB9
 		public void SetEnabled(bool isEnabled)
 		{
 			if (this._isEnabled != isEnabled)
@@ -322,7 +307,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000015 RID: 21 RVA: 0x000028CC File Offset: 0x00000ACC
 		public void LoadMovie(bool forMultiplayer)
 		{
 			if (this._movie != null)
@@ -358,7 +342,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._dataSource.SetMessageHistoryCapacity(250);
 		}
 
-		// Token: 0x06000016 RID: 22 RVA: 0x000029C0 File Offset: 0x00000BC0
 		private TextObject GetToggleChatKeyText()
 		{
 			if (Input.IsGamepadActive)
@@ -391,7 +374,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000017 RID: 23 RVA: 0x00002A15 File Offset: 0x00000C15
 		private TextObject GetCycleChannelsKeyText()
 		{
 			Game game = Game.Current;
@@ -408,7 +390,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return textObject ?? TextObject.Empty;
 		}
 
-		// Token: 0x06000018 RID: 24 RVA: 0x00002A47 File Offset: 0x00000C47
 		private TextObject GetSendMessageKeyText()
 		{
 			Game game = Game.Current;
@@ -425,7 +406,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return textObject ?? TextObject.Empty;
 		}
 
-		// Token: 0x06000019 RID: 25 RVA: 0x00002A79 File Offset: 0x00000C79
 		private TextObject GetCancelSendingKeyText()
 		{
 			Game game = Game.Current;
@@ -442,28 +422,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return textObject ?? TextObject.Empty;
 		}
 
-		// Token: 0x04000006 RID: 6
 		private MPChatVM _dataSource;
 
-		// Token: 0x04000007 RID: 7
 		private ChatLogMessageManager _chatLogMessageManager;
 
-		// Token: 0x04000008 RID: 8
 		private bool _canFocusWhileInMission = true;
 
-		// Token: 0x04000009 RID: 9
 		private bool _isTeamChatAvailable;
 
-		// Token: 0x0400000A RID: 10
 		private IGauntletMovie _movie;
 
-		// Token: 0x0400000B RID: 11
 		private bool _isEnabled = true;
 
-		// Token: 0x0400000C RID: 12
 		private const int MaxHistoryCountForSingleplayer = 250;
 
-		// Token: 0x0400000D RID: 13
 		private const int MaxHistoryCountForMultiplayer = 100;
 	}
 }

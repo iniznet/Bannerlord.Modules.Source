@@ -7,14 +7,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 {
-	// Token: 0x0200008E RID: 142
 	public class SettlementGovernorSelectionItemVM : ViewModel
 	{
-		// Token: 0x17000481 RID: 1153
-		// (get) Token: 0x06000DE0 RID: 3552 RVA: 0x00037BBF File Offset: 0x00035DBF
 		public Hero Governor { get; }
 
-		// Token: 0x06000DE1 RID: 3553 RVA: 0x00037BC8 File Offset: 0x00035DC8
 		public SettlementGovernorSelectionItemVM(Hero governor, Action<SettlementGovernorSelectionItemVM> onSelection)
 		{
 			this.Governor = governor;
@@ -32,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000DE2 RID: 3554 RVA: 0x00037C40 File Offset: 0x00035E40
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -45,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			this.Name = new TextObject("{=koX9okuG}None", null).ToString();
 		}
 
-		// Token: 0x06000DE3 RID: 3555 RVA: 0x00037C94 File Offset: 0x00035E94
 		public void OnSelection()
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -71,9 +65,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x17000482 RID: 1154
-		// (get) Token: 0x06000DE4 RID: 3556 RVA: 0x00037D45 File Offset: 0x00035F45
-		// (set) Token: 0x06000DE5 RID: 3557 RVA: 0x00037D4D File Offset: 0x00035F4D
 		[DataSourceProperty]
 		public ImageIdentifierVM Visual
 		{
@@ -91,9 +82,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x17000483 RID: 1155
-		// (get) Token: 0x06000DE6 RID: 3558 RVA: 0x00037D6B File Offset: 0x00035F6B
-		// (set) Token: 0x06000DE7 RID: 3559 RVA: 0x00037D73 File Offset: 0x00035F73
 		[DataSourceProperty]
 		public BasicTooltipViewModel GovernorHint
 		{
@@ -111,9 +99,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x17000484 RID: 1156
-		// (get) Token: 0x06000DE8 RID: 3560 RVA: 0x00037D91 File Offset: 0x00035F91
-		// (set) Token: 0x06000DE9 RID: 3561 RVA: 0x00037D99 File Offset: 0x00035F99
 		[DataSourceProperty]
 		public string Name
 		{
@@ -131,16 +116,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x0400066F RID: 1647
 		private readonly Action<SettlementGovernorSelectionItemVM> _onSelection;
 
-		// Token: 0x04000671 RID: 1649
 		private ImageIdentifierVM _visual;
 
-		// Token: 0x04000672 RID: 1650
 		private string _name;
 
-		// Token: 0x04000673 RID: 1651
 		private BasicTooltipViewModel _governorHint;
 	}
 }

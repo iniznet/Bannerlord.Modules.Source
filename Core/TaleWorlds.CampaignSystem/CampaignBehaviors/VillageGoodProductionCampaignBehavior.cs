@@ -5,22 +5,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003DF RID: 991
 	public class VillageGoodProductionCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003C0D RID: 15373 RVA: 0x0011C485 File Offset: 0x0011A685
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
 		}
 
-		// Token: 0x06003C0E RID: 15374 RVA: 0x0011C4B5 File Offset: 0x0011A6B5
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003C0F RID: 15375 RVA: 0x0011C4B8 File Offset: 0x0011A6B8
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i == 1)
@@ -47,13 +43,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C10 RID: 15376 RVA: 0x0011C588 File Offset: 0x0011A788
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			this.TickProductions(settlement, false);
 		}
 
-		// Token: 0x06003C11 RID: 15377 RVA: 0x0011C594 File Offset: 0x0011A794
 		private void DistributeInitialItemsToTowns()
 		{
 			int num = 25;
@@ -126,7 +120,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C12 RID: 15378 RVA: 0x0011C920 File Offset: 0x0011AB20
 		private void CalculateInitialAccumulatedTaxes()
 		{
 			foreach (Village village in Village.All)
@@ -141,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C13 RID: 15379 RVA: 0x0011CA18 File Offset: 0x0011AC18
 		private void TickProductions(Settlement settlement, bool initialProductionForTowns = false)
 		{
 			Village village = settlement.Village;
@@ -161,7 +153,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C14 RID: 15380 RVA: 0x0011CA94 File Offset: 0x0011AC94
 		private void TickGoodProduction(Village village, bool initialProductionForTowns)
 		{
 			foreach (ValueTuple<ItemObject, float> valueTuple in village.VillageType.Productions)
@@ -183,7 +174,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C15 RID: 15381 RVA: 0x0011CB60 File Offset: 0x0011AD60
 		private void TickFoodProduction(Village village, bool initialProductionForTowns)
 		{
 			int num = MBRandom.RoundRandomized(Campaign.Current.Models.VillageProductionCalculatorModel.CalculateDailyFoodProductionAmount(village));
@@ -218,7 +208,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0400124A RID: 4682
 		public const float DistributingItemsAtWorldConstant = 1.5f;
 	}
 }

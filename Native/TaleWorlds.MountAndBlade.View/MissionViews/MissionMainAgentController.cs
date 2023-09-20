@@ -8,33 +8,17 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x0200004C RID: 76
 	[DefaultView]
 	public class MissionMainAgentController : MissionView
 	{
-		// Token: 0x14000003 RID: 3
-		// (add) Token: 0x06000343 RID: 835 RVA: 0x0001CA34 File Offset: 0x0001AC34
-		// (remove) Token: 0x06000344 RID: 836 RVA: 0x0001CA6C File Offset: 0x0001AC6C
 		public event MissionMainAgentController.OnLockedAgentChangedDelegate OnLockedAgentChanged;
 
-		// Token: 0x14000004 RID: 4
-		// (add) Token: 0x06000345 RID: 837 RVA: 0x0001CAA4 File Offset: 0x0001ACA4
-		// (remove) Token: 0x06000346 RID: 838 RVA: 0x0001CADC File Offset: 0x0001ACDC
 		public event MissionMainAgentController.OnPotentialLockedAgentChangedDelegate OnPotentialLockedAgentChanged;
 
-		// Token: 0x1700004D RID: 77
-		// (get) Token: 0x06000347 RID: 839 RVA: 0x0001CB11 File Offset: 0x0001AD11
-		// (set) Token: 0x06000348 RID: 840 RVA: 0x0001CB19 File Offset: 0x0001AD19
 		public bool IsDisabled { get; set; }
 
-		// Token: 0x1700004E RID: 78
-		// (get) Token: 0x06000349 RID: 841 RVA: 0x0001CB22 File Offset: 0x0001AD22
-		// (set) Token: 0x0600034A RID: 842 RVA: 0x0001CB2A File Offset: 0x0001AD2A
 		public Vec3 CustomLookDir { get; set; }
 
-		// Token: 0x1700004F RID: 79
-		// (get) Token: 0x0600034B RID: 843 RVA: 0x0001CB33 File Offset: 0x0001AD33
-		// (set) Token: 0x0600034C RID: 844 RVA: 0x0001CB3B File Offset: 0x0001AD3B
 		public Agent LockedAgent
 		{
 			get
@@ -56,9 +40,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x0600034D RID: 845 RVA: 0x0001CB5E File Offset: 0x0001AD5E
-		// (set) Token: 0x0600034E RID: 846 RVA: 0x0001CB66 File Offset: 0x0001AD66
 		public Agent PotentialLockTargetAgent
 		{
 			get
@@ -80,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x0001CB89 File Offset: 0x0001AD89
 		public MissionMainAgentController()
 		{
 			this.InteractionComponent = new MissionMainAgentInteractionComponent(this);
@@ -88,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this.IsChatOpen = false;
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x0001CBC0 File Offset: 0x0001ADC0
 		public override void EarlyStart()
 		{
 			base.EarlyStart();
@@ -104,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this.UpdateLockTargetOption();
 		}
 
-		// Token: 0x06000351 RID: 849 RVA: 0x0001CC74 File Offset: 0x0001AE74
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
@@ -119,7 +97,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x06000352 RID: 850 RVA: 0x0001CD24 File Offset: 0x0001AF24
 		public override bool IsReady()
 		{
 			bool flag = true;
@@ -130,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return flag;
 		}
 
-		// Token: 0x06000353 RID: 851 RVA: 0x0001CD58 File Offset: 0x0001AF58
 		private void Mission_OnMainAgentChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (base.Mission.MainAgent != null)
@@ -141,7 +117,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x0001CD7C File Offset: 0x0001AF7C
 		public override void OnPreMissionTick(float dt)
 		{
 			base.OnPreMissionTick(dt);
@@ -177,7 +152,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this.LockedAgent = null;
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x0001CE5A File Offset: 0x0001B05A
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (this.InteractionComponent.CurrentFocusedObject == affectedAgent || affectedAgent == base.Mission.MainAgent)
@@ -186,7 +160,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x0001CE83 File Offset: 0x0001B083
 		public override void OnAgentDeleted(Agent affectedAgent)
 		{
 			if (this.InteractionComponent.CurrentFocusedObject == affectedAgent)
@@ -195,13 +168,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000357 RID: 855 RVA: 0x0001CE9E File Offset: 0x0001B09E
 		public override void OnClearScene()
 		{
 			this.InteractionComponent.OnClearScene();
 		}
 
-		// Token: 0x06000358 RID: 856 RVA: 0x0001CEAC File Offset: 0x0001B0AC
 		private void LookTick(float dt)
 		{
 			if (!this.IsDisabled)
@@ -283,7 +254,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x0001D29D File Offset: 0x0001B49D
 		private void AgentVisualsMovementCheck()
 		{
 			if (base.Input.IsGameKeyReleased(13))
@@ -292,7 +262,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x0001D2B4 File Offset: 0x0001B4B4
 		public void BreakAgentVisualsInvulnerability()
 		{
 			if (GameNetwork.IsClient)
@@ -305,7 +274,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			Mission.Current.GetMissionBehavior<SpawnComponent>().SetEarlyAgentVisualsDespawning(PeerExtensions.GetComponent<MissionPeer>(GameNetwork.MyPeer), true);
 		}
 
-		// Token: 0x0600035B RID: 859 RVA: 0x0001D2EC File Offset: 0x0001B4EC
 		private void RequestToSpawnAsBotCheck()
 		{
 			if (base.Input.IsGameKeyPressed(13))
@@ -324,7 +292,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600035C RID: 860 RVA: 0x0001D348 File Offset: 0x0001B548
 		private Agent FindTargetedLockableAgent(Agent player)
 		{
 			Vec3 direction = base.MissionScreen.CombatCamera.Direction;
@@ -364,7 +331,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return agent;
 		}
 
-		// Token: 0x0600035D RID: 861 RVA: 0x0001D564 File Offset: 0x0001B764
 		private void ControlTick()
 		{
 			if (base.MissionScreen != null && base.MissionScreen.IsPhotoModeEnabled)
@@ -723,37 +689,31 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600035E RID: 862 RVA: 0x0001E108 File Offset: 0x0001C308
 		public override bool IsThereAgentAction(Agent userAgent, Agent otherAgent)
 		{
 			return otherAgent.IsMount && otherAgent.IsActive();
 		}
 
-		// Token: 0x0600035F RID: 863 RVA: 0x0001E11A File Offset: 0x0001C31A
 		public void Disable()
 		{
 			this._activated = false;
 		}
 
-		// Token: 0x06000360 RID: 864 RVA: 0x0001E123 File Offset: 0x0001C323
 		public void Enable()
 		{
 			this._activated = true;
 		}
 
-		// Token: 0x06000361 RID: 865 RVA: 0x0001E12C File Offset: 0x0001C32C
 		private void OnPlayerToggleOrder(MissionPlayerToggledOrderViewEvent obj)
 		{
 			this._isPlayerOrderOpen = obj.IsOrderEnabled;
 		}
 
-		// Token: 0x06000362 RID: 866 RVA: 0x0001E13A File Offset: 0x0001C33A
 		public void OnWeaponUsageToggleRequested()
 		{
 			this._weaponUsageToggleRequested = true;
 		}
 
-		// Token: 0x06000363 RID: 867 RVA: 0x0001E143 File Offset: 0x0001C343
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType optionType)
 		{
 			if (optionType == 14)
@@ -762,7 +722,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000364 RID: 868 RVA: 0x0001E150 File Offset: 0x0001C350
 		private void UpdateLockTargetOption()
 		{
 			this._isTargetLockEnabled = ManagedOptions.GetConfig(14) == 1f;
@@ -772,72 +731,48 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this._lastLockedAgentHeightDifference = 0f;
 		}
 
-		// Token: 0x0400023C RID: 572
 		private float _lastForwardKeyPressTime;
 
-		// Token: 0x0400023D RID: 573
 		private float _lastBackwardKeyPressTime;
 
-		// Token: 0x0400023E RID: 574
 		private float _lastLeftKeyPressTime;
 
-		// Token: 0x0400023F RID: 575
 		private float _lastRightKeyPressTime;
 
-		// Token: 0x04000240 RID: 576
 		private float _lastWieldNextPrimaryWeaponTriggerTime;
 
-		// Token: 0x04000241 RID: 577
 		private float _lastWieldNextOffhandWeaponTriggerTime;
 
-		// Token: 0x04000242 RID: 578
 		private bool _activated = true;
 
-		// Token: 0x04000243 RID: 579
 		private bool _strafeModeActive;
 
-		// Token: 0x04000244 RID: 580
 		private bool _autoDismountModeActive;
 
-		// Token: 0x04000245 RID: 581
 		private bool _isPlayerAgentAdded;
 
-		// Token: 0x04000246 RID: 582
 		private bool _isPlayerOrderOpen;
 
-		// Token: 0x04000247 RID: 583
 		private bool _isTargetLockEnabled;
 
-		// Token: 0x04000248 RID: 584
 		private Agent.MovementControlFlag _lastMovementKeyPressed = 1;
 
-		// Token: 0x04000249 RID: 585
 		private Agent _lockedAgent;
 
-		// Token: 0x0400024A RID: 586
 		private Agent _potentialLockTargetAgent;
 
-		// Token: 0x0400024B RID: 587
 		private float _lastLockKeyPressTime;
 
-		// Token: 0x0400024C RID: 588
 		private float _lastLockedAgentHeightDifference;
 
-		// Token: 0x0400024D RID: 589
 		public readonly MissionMainAgentInteractionComponent InteractionComponent;
 
-		// Token: 0x0400024E RID: 590
 		public bool IsChatOpen;
 
-		// Token: 0x0400024F RID: 591
 		private bool _weaponUsageToggleRequested;
 
-		// Token: 0x020000BA RID: 186
-		// (Invoke) Token: 0x06000556 RID: 1366
 		public delegate void OnLockedAgentChangedDelegate(Agent newAgent);
 
-		// Token: 0x020000BB RID: 187
-		// (Invoke) Token: 0x0600055A RID: 1370
 		public delegate void OnPotentialLockedAgentChangedDelegate(Agent newPotentialAgent);
 	}
 }

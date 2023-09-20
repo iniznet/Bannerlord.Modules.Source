@@ -6,10 +6,8 @@ using TaleWorlds.Library.Http;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x02000112 RID: 274
 	public static class Gatekeeper
 	{
-		// Token: 0x0600053B RID: 1339 RVA: 0x00007D54 File Offset: 0x00005F54
 		public static async Task<bool> IsGenerous()
 		{
 			bool flag;
@@ -30,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return flag;
 		}
 
-		// Token: 0x0600053C RID: 1340 RVA: 0x00007D94 File Offset: 0x00005F94
 		private static async Task<int> GetAdmittancePercentage()
 		{
 			int num;
@@ -48,13 +45,10 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return num;
 		}
 
-		// Token: 0x04000281 RID: 641
 		private static Random _random;
 
-		// Token: 0x04000282 RID: 642
 		private static int _roll;
 
-		// Token: 0x04000283 RID: 643
 		private static readonly bool _isDeployBuild;
 	}
 }

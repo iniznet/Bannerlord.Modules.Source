@@ -7,15 +7,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 {
-	// Token: 0x020001D4 RID: 468
 	public class CharacterCreationOption
 	{
-		// Token: 0x1700071C RID: 1820
-		// (get) Token: 0x06001BAA RID: 7082 RVA: 0x0007D2BF File Offset: 0x0007B4BF
 		public int Id { get; }
 
-		// Token: 0x1700071D RID: 1821
-		// (get) Token: 0x06001BAB RID: 7083 RVA: 0x0007D2C7 File Offset: 0x0007B4C7
 		public MBReadOnlyList<SkillObject> AffectedSkills
 		{
 			get
@@ -24,8 +19,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x1700071E RID: 1822
-		// (get) Token: 0x06001BAC RID: 7084 RVA: 0x0007D2CF File Offset: 0x0007B4CF
 		public MBReadOnlyList<TraitObject> AffectedTraits
 		{
 			get
@@ -34,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001BAD RID: 7085 RVA: 0x0007D2D8 File Offset: 0x0007B4D8
 		public CharacterCreationOption(int id, MBList<SkillObject> affectedSkills, CharacterAttribute effectedAttribute, int focusToAdd, int skillLevelToAdd, int attributeLevelToAdd, TextObject text, CharacterCreationOnCondition onCondition, CharacterCreationOnSelect onSelect, CharacterCreationApplyFinalEffects applyFinalEffects, TextObject description = null, MBList<TraitObject> affectedTraits = null, int traitLevelToAdd = 0, int renownToAdd = 0, int goldToAdd = 0, int unspentFocusPoint = 0, int unspentAttributePoint = 0)
 		{
 			this.Id = id;
@@ -60,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.PositiveEffectText = this.SetTextVariables(affectedSkills, this.EffectedAttribute, this.FocusToAdd, this.SkillLevelToAdd, this.AttributeLevelToAdd, affectedTraits, this.TraitLevelToAdd, this.RenownToAdd, this.GoldToAdd, this.UnspentFocusToAdd, this.UnspentAttributeToAdd);
 		}
 
-		// Token: 0x06001BAE RID: 7086 RVA: 0x0007D3C4 File Offset: 0x0007B5C4
 		private TextObject SetTextVariables(MBList<SkillObject> skills, CharacterAttribute attribute, int focusToAdd = 0, int skillLevelToAdd = 0, int attributeLevelToAdd = 0, MBList<TraitObject> traits = null, int traitLevelToAdd = 0, int renownToAdd = 0, int goldToAdd = 0, int unspentFocustoAdd = 0, int unspentAttributeToAdd = 0)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -161,55 +152,38 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			return textObject;
 		}
 
-		// Token: 0x040008B1 RID: 2225
 		public TextObject Text;
 
-		// Token: 0x040008B2 RID: 2226
 		public TextObject PositiveEffectText;
 
-		// Token: 0x040008B3 RID: 2227
 		public TextObject DescriptionText;
 
-		// Token: 0x040008B4 RID: 2228
 		public CharacterCreationOnCondition OnCondition;
 
-		// Token: 0x040008B5 RID: 2229
 		public CharacterCreationOnSelect OnSelect;
 
-		// Token: 0x040008B6 RID: 2230
 		public CharacterCreationApplyFinalEffects ApplyFinalEffects;
 
-		// Token: 0x040008B7 RID: 2231
 		private readonly MBList<SkillObject> _affectedSkills;
 
-		// Token: 0x040008B8 RID: 2232
 		private readonly MBList<TraitObject> _affectedTraits;
 
-		// Token: 0x040008B9 RID: 2233
 		public readonly CharacterAttribute EffectedAttribute;
 
-		// Token: 0x040008BA RID: 2234
 		public readonly int FocusToAdd;
 
-		// Token: 0x040008BB RID: 2235
 		public readonly int UnspentFocusToAdd;
 
-		// Token: 0x040008BC RID: 2236
 		public readonly int UnspentAttributeToAdd;
 
-		// Token: 0x040008BD RID: 2237
 		public readonly int SkillLevelToAdd;
 
-		// Token: 0x040008BE RID: 2238
 		public readonly int AttributeLevelToAdd;
 
-		// Token: 0x040008BF RID: 2239
 		public readonly int TraitLevelToAdd;
 
-		// Token: 0x040008C0 RID: 2240
 		public readonly int RenownToAdd;
 
-		// Token: 0x040008C1 RID: 2241
 		public readonly int GoldToAdd;
 	}
 }

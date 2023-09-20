@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox
 {
-	// Token: 0x02000006 RID: 6
 	public class EditorSceneMissionManager : MBGameManager
 	{
-		// Token: 0x0600000C RID: 12 RVA: 0x00003324 File Offset: 0x00001524
 		public EditorSceneMissionManager(string missionName, string sceneName, string levels, bool forReplay, string replayFileName, bool isRecord, float startTime, float endTime)
 		{
 			this._missionName = missionName;
@@ -22,7 +20,6 @@ namespace SandBox
 			this._endTime = endTime;
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x00003374 File Offset: 0x00001574
 		protected override void DoLoadingForGameManager(GameManagerLoadingSteps gameManagerLoadingSteps, out GameManagerLoadingSteps nextStep)
 		{
 			nextStep = -1;
@@ -76,7 +73,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x00003480 File Offset: 0x00001680
 		public override void OnLoadFinished()
 		{
 			base.OnLoadFinished();
@@ -90,28 +86,20 @@ namespace SandBox
 			MissionState.Current.MissionEndTime = this._endTime;
 		}
 
-		// Token: 0x0400001F RID: 31
 		private string _missionName;
 
-		// Token: 0x04000020 RID: 32
 		private string _sceneName;
 
-		// Token: 0x04000021 RID: 33
 		private string _levels;
 
-		// Token: 0x04000022 RID: 34
 		private bool _forReplay;
 
-		// Token: 0x04000023 RID: 35
 		private string _replayFileName;
 
-		// Token: 0x04000024 RID: 36
 		private bool _isRecord;
 
-		// Token: 0x04000025 RID: 37
 		private float _startTime;
 
-		// Token: 0x04000026 RID: 38
 		private float _endTime;
 	}
 }

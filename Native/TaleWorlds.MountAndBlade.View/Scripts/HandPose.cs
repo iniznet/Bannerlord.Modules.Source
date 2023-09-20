@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.Scripts
 {
-	// Token: 0x0200003E RID: 62
 	public class HandPose : ScriptComponentBehavior
 	{
-		// Token: 0x060002DC RID: 732 RVA: 0x00019AC4 File Offset: 0x00017CC4
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002DD RID: 733 RVA: 0x00019AE0 File Offset: 0x00017CE0
 		protected override void OnEditorTick(float dt)
 		{
 			if (!this._isFinished && this._editorGameManager != null)
@@ -49,13 +46,10 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x040001FC RID: 508
 		private MBGameManager _editorGameManager;
 
-		// Token: 0x040001FD RID: 509
 		private bool _initiliazed;
 
-		// Token: 0x040001FE RID: 510
 		private bool _isFinished;
 	}
 }

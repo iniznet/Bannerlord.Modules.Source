@@ -4,10 +4,8 @@ using System.Xml;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x0200006E RID: 110
 	public class ParameterLoader
 	{
-		// Token: 0x060003C2 RID: 962 RVA: 0x0000BCBC File Offset: 0x00009EBC
 		public static ParameterContainer LoadParametersFromClientProfile(string configurationName)
 		{
 			ParameterContainer parameterContainer = new ParameterContainer();
@@ -18,7 +16,6 @@ namespace TaleWorlds.Library
 			return parameterContainer;
 		}
 
-		// Token: 0x060003C3 RID: 963 RVA: 0x0000BD40 File Offset: 0x00009F40
 		public static void LoadParametersInto(string fileFullName, ParameterContainer parameters)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -77,7 +74,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060003C4 RID: 964 RVA: 0x0000BF38 File Offset: 0x0000A138
 		private static bool TryGetFromFile(XmlNode node, out string value)
 		{
 			value = "";
@@ -95,7 +91,6 @@ namespace TaleWorlds.Library
 			return false;
 		}
 
-		// Token: 0x060003C5 RID: 965 RVA: 0x0000BFB8 File Offset: 0x0000A1B8
 		private static bool TryGetFromEnvironment(XmlNode node, out string value)
 		{
 			value = "";

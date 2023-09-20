@@ -5,16 +5,13 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x020000BA RID: 186
 	public class SaveableCoreTypeDefiner : SaveableTypeDefiner
 	{
-		// Token: 0x06000951 RID: 2385 RVA: 0x0001EE2C File Offset: 0x0001D02C
 		public SaveableCoreTypeDefiner()
 			: base(10000)
 		{
 		}
 
-		// Token: 0x06000952 RID: 2386 RVA: 0x0001EE3C File Offset: 0x0001D03C
 		protected override void DefineClassTypes()
 		{
 			base.AddClassDefinition(typeof(ArmorComponent), 2, null);
@@ -51,7 +48,6 @@ namespace TaleWorlds.Core
 			base.AddClassDefinition(typeof(BannerComponent), 53, null);
 		}
 
-		// Token: 0x06000953 RID: 2387 RVA: 0x0001F0A4 File Offset: 0x0001D2A4
 		protected override void DefineStructTypes()
 		{
 			base.AddStructDefinition(typeof(ItemRosterElement), 1004, null);
@@ -60,7 +56,6 @@ namespace TaleWorlds.Core
 			base.AddStructDefinition(typeof(EquipmentElement), 1011, null);
 		}
 
-		// Token: 0x06000954 RID: 2388 RVA: 0x0001F10C File Offset: 0x0001D30C
 		protected override void DefineEnumTypes()
 		{
 			base.AddEnumDefinition(typeof(BattleSideEnum), 2001, null);
@@ -70,29 +65,24 @@ namespace TaleWorlds.Core
 			base.AddEnumDefinition(typeof(BattleState), 2009, null);
 		}
 
-		// Token: 0x06000955 RID: 2389 RVA: 0x0001F187 File Offset: 0x0001D387
 		protected override void DefineInterfaceTypes()
 		{
 		}
 
-		// Token: 0x06000956 RID: 2390 RVA: 0x0001F189 File Offset: 0x0001D389
 		protected override void DefineRootClassTypes()
 		{
 			base.AddRootClassDefinition(typeof(Game), 4001, null);
 		}
 
-		// Token: 0x06000957 RID: 2391 RVA: 0x0001F1A1 File Offset: 0x0001D3A1
 		protected override void DefineGenericClassDefinitions()
 		{
 			base.ConstructGenericClassDefinition(typeof(Tuple<int, int>));
 		}
 
-		// Token: 0x06000958 RID: 2392 RVA: 0x0001F1B3 File Offset: 0x0001D3B3
 		protected override void DefineGenericStructDefinitions()
 		{
 		}
 
-		// Token: 0x06000959 RID: 2393 RVA: 0x0001F1B8 File Offset: 0x0001D3B8
 		protected override void DefineContainerDefinitions()
 		{
 			base.ConstructContainerDefinition(typeof(ItemRosterElement[]));

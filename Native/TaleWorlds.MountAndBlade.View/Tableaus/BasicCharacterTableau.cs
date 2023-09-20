@@ -10,16 +10,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.Tableaus
 {
-	// Token: 0x0200001F RID: 31
 	public class BasicCharacterTableau
 	{
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x060000F9 RID: 249 RVA: 0x00007F16 File Offset: 0x00006116
-		// (set) Token: 0x060000FA RID: 250 RVA: 0x00007F1E File Offset: 0x0000611E
 		public Texture Texture { get; private set; }
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x060000FB RID: 251 RVA: 0x00007F27 File Offset: 0x00006127
 		public bool IsVersionCompatible
 		{
 			get
@@ -28,8 +22,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x060000FC RID: 252 RVA: 0x00007F2F File Offset: 0x0000612F
 		private TableauView View
 		{
 			get
@@ -43,7 +35,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x060000FD RID: 253 RVA: 0x00007F44 File Offset: 0x00006144
 		public BasicCharacterTableau()
 		{
 			this._isFirstFrame = true;
@@ -57,7 +48,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._currentMounts[1] = null;
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x00007FC4 File Offset: 0x000061C4
 		public void OnTick(float dt)
 		{
 			if (this._isEnabled && this._isRotatingCharacter)
@@ -107,7 +97,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x00008100 File Offset: 0x00006300
 		private void UpdateCharacterRotation(int mouseMoveX)
 		{
 			if (this._initialized && this._skeletonName != null)
@@ -120,7 +109,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000100 RID: 256 RVA: 0x00008169 File Offset: 0x00006369
 		private void SetEnabled(bool enabled)
 		{
 			this._isEnabled = enabled;
@@ -132,7 +120,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			view.SetEnable(this._isEnabled);
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x00008188 File Offset: 0x00006388
 		public void SetTargetSize(int width, int height)
 		{
 			this._isRotatingCharacter = false;
@@ -175,7 +162,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this.SetCamera();
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x000082DC File Offset: 0x000064DC
 		public void OnFinalize()
 		{
 			TableauView view = this.View;
@@ -196,7 +182,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00008330 File Offset: 0x00006530
 		public void DeserializeCharacterCode(string code)
 		{
 			if (code != this._characterCode)
@@ -306,7 +291,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x00008678 File Offset: 0x00006878
 		private void ResetProperties()
 		{
 			this._skeletonName = string.Empty;
@@ -346,7 +330,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._characterCode = string.Empty;
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x00008784 File Offset: 0x00006984
 		private void FirstTimeInit()
 		{
 			if (this._tableauScene == null)
@@ -379,7 +362,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._initialized = true;
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x0000891C File Offset: 0x00006B1C
 		private static void ApplyBannerTextureToMesh(Mesh armorMesh, Texture bannerTexture)
 		{
 			if (armorMesh != null)
@@ -393,7 +375,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x00008974 File Offset: 0x00006B74
 		private void RefreshCharacterTableau()
 		{
 			if (!this._initialized)
@@ -561,7 +542,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._checkWhetherEntitiesAreReady = true;
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x00008F40 File Offset: 0x00007140
 		internal void SetCamera()
 		{
 			Camera camera = Camera.CreateCamera();
@@ -571,13 +551,11 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			camera.ManualInvalidate();
 		}
 
-		// Token: 0x06000109 RID: 265 RVA: 0x00008F9B File Offset: 0x0000719B
 		public void RotateCharacter(bool value)
 		{
 			this._isRotatingCharacter = value;
 		}
 
-		// Token: 0x0600010A RID: 266 RVA: 0x00008FA4 File Offset: 0x000071A4
 		public void SetBannerCode(string value)
 		{
 			if (string.IsNullOrEmpty(value))
@@ -588,7 +566,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			this._bannerCode = BannerCode.CreateFrom(value);
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x00008FC4 File Offset: 0x000071C4
 		internal void CharacterTableauContinuousRenderFunction(Texture sender, EventArgs e)
 		{
 			NativeObject nativeObject = (Scene)sender.UserData;
@@ -600,148 +577,100 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 		}
 
-		// Token: 0x0400004D RID: 77
 		private bool _isVersionCompatible;
 
-		// Token: 0x0400004E RID: 78
 		private const int _expectedCharacterCodeVersion = 4;
 
-		// Token: 0x0400004F RID: 79
 		private bool _initialized;
 
-		// Token: 0x04000050 RID: 80
 		private int _tableauSizeX;
 
-		// Token: 0x04000051 RID: 81
 		private int _tableauSizeY;
 
-		// Token: 0x04000052 RID: 82
 		private float RenderScale = 1f;
 
-		// Token: 0x04000053 RID: 83
 		private float _cameraRatio;
 
-		// Token: 0x04000054 RID: 84
 		private List<string> _equipmentMeshes;
 
-		// Token: 0x04000055 RID: 85
 		private List<bool> _equipmentHasColors;
 
-		// Token: 0x04000056 RID: 86
 		private List<bool> _equipmentHasGenderVariations;
 
-		// Token: 0x04000057 RID: 87
 		private List<bool> _equipmentHasTableau;
 
-		// Token: 0x04000058 RID: 88
 		private uint _clothColor1;
 
-		// Token: 0x04000059 RID: 89
 		private uint _clothColor2;
 
-		// Token: 0x0400005A RID: 90
 		private MatrixFrame _mountSpawnPoint;
 
-		// Token: 0x0400005B RID: 91
 		private MatrixFrame _initialSpawnFrame;
 
-		// Token: 0x0400005C RID: 92
 		private Scene _tableauScene;
 
-		// Token: 0x0400005D RID: 93
 		private SkinMask _skinMeshesMask;
 
-		// Token: 0x0400005E RID: 94
 		private bool _isFemale;
 
-		// Token: 0x0400005F RID: 95
 		private string _skeletonName;
 
-		// Token: 0x04000060 RID: 96
 		private string _characterCode;
 
-		// Token: 0x04000061 RID: 97
 		private Equipment.UnderwearTypes _underwearType;
 
-		// Token: 0x04000062 RID: 98
 		private string _mountMeshName;
 
-		// Token: 0x04000063 RID: 99
 		private string _mountCreationKey;
 
-		// Token: 0x04000064 RID: 100
 		private string _mountMaterialName;
 
-		// Token: 0x04000065 RID: 101
 		private uint _mountManeMeshMultiplier;
 
-		// Token: 0x04000066 RID: 102
 		private ArmorComponent.BodyMeshTypes _bodyMeshType;
 
-		// Token: 0x04000067 RID: 103
 		private ArmorComponent.HairCoverTypes _hairCoverType;
 
-		// Token: 0x04000068 RID: 104
 		private ArmorComponent.BeardCoverTypes _beardCoverType;
 
-		// Token: 0x04000069 RID: 105
 		private ArmorComponent.BodyDeformTypes _bodyDeformType;
 
-		// Token: 0x0400006A RID: 106
 		private string _mountSkeletonName;
 
-		// Token: 0x0400006B RID: 107
 		private string _mountIdleAnimationName;
 
-		// Token: 0x0400006C RID: 108
 		private string _mountHarnessMeshName;
 
-		// Token: 0x0400006D RID: 109
 		private string _mountReinsMeshName;
 
-		// Token: 0x0400006E RID: 110
 		private string[] _maneMeshNames;
 
-		// Token: 0x0400006F RID: 111
 		private bool _mountHarnessHasColors;
 
-		// Token: 0x04000070 RID: 112
 		private bool _isFirstFrame;
 
-		// Token: 0x04000071 RID: 113
 		private float _faceDirtAmount;
 
-		// Token: 0x04000072 RID: 114
 		private float _mainCharacterRotation;
 
-		// Token: 0x04000073 RID: 115
 		private bool _isVisualsDirty;
 
-		// Token: 0x04000074 RID: 116
 		private bool _isRotatingCharacter;
 
-		// Token: 0x04000075 RID: 117
 		private bool _isEnabled;
 
-		// Token: 0x04000076 RID: 118
 		private int _race;
 
-		// Token: 0x04000077 RID: 119
 		private readonly GameEntity[] _currentCharacters;
 
-		// Token: 0x04000078 RID: 120
 		private readonly GameEntity[] _currentMounts;
 
-		// Token: 0x04000079 RID: 121
 		private int _currentEntityToShowIndex;
 
-		// Token: 0x0400007A RID: 122
 		private bool _checkWhetherEntitiesAreReady;
 
-		// Token: 0x0400007B RID: 123
 		private BodyProperties _bodyProperties = BodyProperties.Default;
 
-		// Token: 0x0400007C RID: 124
 		private BannerCode _bannerCode;
 	}
 }

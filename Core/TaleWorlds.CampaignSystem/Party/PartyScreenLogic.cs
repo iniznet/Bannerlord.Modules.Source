@@ -13,47 +13,22 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Party
 {
-	// Token: 0x020002AD RID: 685
 	public class PartyScreenLogic
 	{
-		// Token: 0x1400000D RID: 13
-		// (add) Token: 0x060026A4 RID: 9892 RVA: 0x000A36A4 File Offset: 0x000A18A4
-		// (remove) Token: 0x060026A5 RID: 9893 RVA: 0x000A36DC File Offset: 0x000A18DC
 		public event PartyScreenLogic.PartyGoldDelegate PartyGoldChange;
 
-		// Token: 0x1400000E RID: 14
-		// (add) Token: 0x060026A6 RID: 9894 RVA: 0x000A3714 File Offset: 0x000A1914
-		// (remove) Token: 0x060026A7 RID: 9895 RVA: 0x000A374C File Offset: 0x000A194C
 		public event PartyScreenLogic.PartyMoraleDelegate PartyMoraleChange;
 
-		// Token: 0x1400000F RID: 15
-		// (add) Token: 0x060026A8 RID: 9896 RVA: 0x000A3784 File Offset: 0x000A1984
-		// (remove) Token: 0x060026A9 RID: 9897 RVA: 0x000A37BC File Offset: 0x000A19BC
 		public event PartyScreenLogic.PartyInfluenceDelegate PartyInfluenceChange;
 
-		// Token: 0x14000010 RID: 16
-		// (add) Token: 0x060026AA RID: 9898 RVA: 0x000A37F4 File Offset: 0x000A19F4
-		// (remove) Token: 0x060026AB RID: 9899 RVA: 0x000A382C File Offset: 0x000A1A2C
 		public event PartyScreenLogic.PartyHorseDelegate PartyHorseChange;
 
-		// Token: 0x14000011 RID: 17
-		// (add) Token: 0x060026AC RID: 9900 RVA: 0x000A3864 File Offset: 0x000A1A64
-		// (remove) Token: 0x060026AD RID: 9901 RVA: 0x000A389C File Offset: 0x000A1A9C
 		public event PartyScreenLogic.PresentationUpdate Update;
 
-		// Token: 0x14000012 RID: 18
-		// (add) Token: 0x060026AE RID: 9902 RVA: 0x000A38D4 File Offset: 0x000A1AD4
-		// (remove) Token: 0x060026AF RID: 9903 RVA: 0x000A390C File Offset: 0x000A1B0C
 		public event PartyScreenClosedDelegate PartyScreenClosedEvent;
 
-		// Token: 0x14000013 RID: 19
-		// (add) Token: 0x060026B0 RID: 9904 RVA: 0x000A3944 File Offset: 0x000A1B44
-		// (remove) Token: 0x060026B1 RID: 9905 RVA: 0x000A397C File Offset: 0x000A1B7C
 		public event PartyScreenLogic.AfterResetDelegate AfterReset;
 
-		// Token: 0x170009A4 RID: 2468
-		// (get) Token: 0x060026B2 RID: 9906 RVA: 0x000A39B1 File Offset: 0x000A1BB1
-		// (set) Token: 0x060026B3 RID: 9907 RVA: 0x000A39B9 File Offset: 0x000A1BB9
 		public PartyScreenLogic.TroopSortType ActiveOtherPartySortType
 		{
 			get
@@ -66,9 +41,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x060026B4 RID: 9908 RVA: 0x000A39C2 File Offset: 0x000A1BC2
-		// (set) Token: 0x060026B5 RID: 9909 RVA: 0x000A39CA File Offset: 0x000A1BCA
 		public PartyScreenLogic.TroopSortType ActiveMainPartySortType
 		{
 			get
@@ -81,9 +53,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009A6 RID: 2470
-		// (get) Token: 0x060026B6 RID: 9910 RVA: 0x000A39D3 File Offset: 0x000A1BD3
-		// (set) Token: 0x060026B7 RID: 9911 RVA: 0x000A39DB File Offset: 0x000A1BDB
 		public bool IsOtherPartySortAscending
 		{
 			get
@@ -96,9 +65,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009A7 RID: 2471
-		// (get) Token: 0x060026B8 RID: 9912 RVA: 0x000A39E4 File Offset: 0x000A1BE4
-		// (set) Token: 0x060026B9 RID: 9913 RVA: 0x000A39EC File Offset: 0x000A1BEC
 		public bool IsMainPartySortAscending
 		{
 			get
@@ -111,109 +77,46 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009A8 RID: 2472
-		// (get) Token: 0x060026BA RID: 9914 RVA: 0x000A39F5 File Offset: 0x000A1BF5
-		// (set) Token: 0x060026BB RID: 9915 RVA: 0x000A39FD File Offset: 0x000A1BFD
 		public PartyScreenLogic.TransferState MemberTransferState { get; private set; }
 
-		// Token: 0x170009A9 RID: 2473
-		// (get) Token: 0x060026BC RID: 9916 RVA: 0x000A3A06 File Offset: 0x000A1C06
-		// (set) Token: 0x060026BD RID: 9917 RVA: 0x000A3A0E File Offset: 0x000A1C0E
 		public PartyScreenLogic.TransferState PrisonerTransferState { get; private set; }
 
-		// Token: 0x170009AA RID: 2474
-		// (get) Token: 0x060026BE RID: 9918 RVA: 0x000A3A17 File Offset: 0x000A1C17
-		// (set) Token: 0x060026BF RID: 9919 RVA: 0x000A3A1F File Offset: 0x000A1C1F
 		public PartyScreenLogic.TransferState AccompanyingTransferState { get; private set; }
 
-		// Token: 0x170009AB RID: 2475
-		// (get) Token: 0x060026C0 RID: 9920 RVA: 0x000A3A28 File Offset: 0x000A1C28
-		// (set) Token: 0x060026C1 RID: 9921 RVA: 0x000A3A30 File Offset: 0x000A1C30
 		public TextObject LeftPartyName { get; private set; }
 
-		// Token: 0x170009AC RID: 2476
-		// (get) Token: 0x060026C2 RID: 9922 RVA: 0x000A3A39 File Offset: 0x000A1C39
-		// (set) Token: 0x060026C3 RID: 9923 RVA: 0x000A3A41 File Offset: 0x000A1C41
 		public TextObject RightPartyName { get; private set; }
 
-		// Token: 0x170009AD RID: 2477
-		// (get) Token: 0x060026C4 RID: 9924 RVA: 0x000A3A4A File Offset: 0x000A1C4A
-		// (set) Token: 0x060026C5 RID: 9925 RVA: 0x000A3A52 File Offset: 0x000A1C52
 		public TextObject Header { get; private set; }
 
-		// Token: 0x170009AE RID: 2478
-		// (get) Token: 0x060026C6 RID: 9926 RVA: 0x000A3A5B File Offset: 0x000A1C5B
-		// (set) Token: 0x060026C7 RID: 9927 RVA: 0x000A3A63 File Offset: 0x000A1C63
 		public int LeftPartyMembersSizeLimit { get; private set; }
 
-		// Token: 0x170009AF RID: 2479
-		// (get) Token: 0x060026C8 RID: 9928 RVA: 0x000A3A6C File Offset: 0x000A1C6C
-		// (set) Token: 0x060026C9 RID: 9929 RVA: 0x000A3A74 File Offset: 0x000A1C74
 		public int LeftPartyPrisonersSizeLimit { get; private set; }
 
-		// Token: 0x170009B0 RID: 2480
-		// (get) Token: 0x060026CA RID: 9930 RVA: 0x000A3A7D File Offset: 0x000A1C7D
-		// (set) Token: 0x060026CB RID: 9931 RVA: 0x000A3A85 File Offset: 0x000A1C85
 		public int RightPartyMembersSizeLimit { get; private set; }
 
-		// Token: 0x170009B1 RID: 2481
-		// (get) Token: 0x060026CC RID: 9932 RVA: 0x000A3A8E File Offset: 0x000A1C8E
-		// (set) Token: 0x060026CD RID: 9933 RVA: 0x000A3A96 File Offset: 0x000A1C96
 		public int RightPartyPrisonersSizeLimit { get; private set; }
 
-		// Token: 0x170009B2 RID: 2482
-		// (get) Token: 0x060026CE RID: 9934 RVA: 0x000A3A9F File Offset: 0x000A1C9F
-		// (set) Token: 0x060026CF RID: 9935 RVA: 0x000A3AA7 File Offset: 0x000A1CA7
 		public bool ShowProgressBar { get; private set; }
 
-		// Token: 0x170009B3 RID: 2483
-		// (get) Token: 0x060026D0 RID: 9936 RVA: 0x000A3AB0 File Offset: 0x000A1CB0
-		// (set) Token: 0x060026D1 RID: 9937 RVA: 0x000A3AB8 File Offset: 0x000A1CB8
 		public string DoneReasonString { get; private set; }
 
-		// Token: 0x170009B4 RID: 2484
-		// (get) Token: 0x060026D2 RID: 9938 RVA: 0x000A3AC1 File Offset: 0x000A1CC1
-		// (set) Token: 0x060026D3 RID: 9939 RVA: 0x000A3AC9 File Offset: 0x000A1CC9
 		public bool IsTroopUpgradesDisabled { get; private set; }
 
-		// Token: 0x170009B5 RID: 2485
-		// (get) Token: 0x060026D4 RID: 9940 RVA: 0x000A3AD2 File Offset: 0x000A1CD2
-		// (set) Token: 0x060026D5 RID: 9941 RVA: 0x000A3ADA File Offset: 0x000A1CDA
 		public CharacterObject RightPartyLeader { get; private set; }
 
-		// Token: 0x170009B6 RID: 2486
-		// (get) Token: 0x060026D6 RID: 9942 RVA: 0x000A3AE3 File Offset: 0x000A1CE3
-		// (set) Token: 0x060026D7 RID: 9943 RVA: 0x000A3AEB File Offset: 0x000A1CEB
 		public CharacterObject LeftPartyLeader { get; private set; }
 
-		// Token: 0x170009B7 RID: 2487
-		// (get) Token: 0x060026D8 RID: 9944 RVA: 0x000A3AF4 File Offset: 0x000A1CF4
-		// (set) Token: 0x060026D9 RID: 9945 RVA: 0x000A3AFC File Offset: 0x000A1CFC
 		public PartyBase LeftOwnerParty { get; private set; }
 
-		// Token: 0x170009B8 RID: 2488
-		// (get) Token: 0x060026DA RID: 9946 RVA: 0x000A3B05 File Offset: 0x000A1D05
-		// (set) Token: 0x060026DB RID: 9947 RVA: 0x000A3B0D File Offset: 0x000A1D0D
 		public PartyBase RightOwnerParty { get; private set; }
 
-		// Token: 0x170009B9 RID: 2489
-		// (get) Token: 0x060026DC RID: 9948 RVA: 0x000A3B16 File Offset: 0x000A1D16
-		// (set) Token: 0x060026DD RID: 9949 RVA: 0x000A3B1E File Offset: 0x000A1D1E
 		public PartyScreenData CurrentData { get; private set; }
 
-		// Token: 0x170009BA RID: 2490
-		// (get) Token: 0x060026DE RID: 9950 RVA: 0x000A3B27 File Offset: 0x000A1D27
-		// (set) Token: 0x060026DF RID: 9951 RVA: 0x000A3B2F File Offset: 0x000A1D2F
 		public bool TransferHealthiesGetWoundedsFirst { get; private set; }
 
-		// Token: 0x170009BB RID: 2491
-		// (get) Token: 0x060026E0 RID: 9952 RVA: 0x000A3B38 File Offset: 0x000A1D38
-		// (set) Token: 0x060026E1 RID: 9953 RVA: 0x000A3B40 File Offset: 0x000A1D40
 		public int QuestModeWageDaysMultiplier { get; private set; }
 
-		// Token: 0x170009BC RID: 2492
-		// (get) Token: 0x060026E2 RID: 9954 RVA: 0x000A3B49 File Offset: 0x000A1D49
-		// (set) Token: 0x060026E3 RID: 9955 RVA: 0x000A3B51 File Offset: 0x000A1D51
 		public Game Game
 		{
 			get
@@ -226,8 +129,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x060026E4 RID: 9956 RVA: 0x000A3B5A File Offset: 0x000A1D5A
 		private PartyScreenMode CurrentMode
 		{
 			get
@@ -236,7 +137,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026E5 RID: 9957 RVA: 0x000A3B68 File Offset: 0x000A1D68
 		public PartyScreenLogic()
 		{
 			this._game = Game.Current;
@@ -270,7 +170,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.IsTroopUpgradesDisabled = false;
 		}
 
-		// Token: 0x060026E6 RID: 9958 RVA: 0x000A3C04 File Offset: 0x000A1E04
 		public void Initialize(PartyScreenLogicInitializationData initializationData)
 		{
 			this.MemberRosters[1] = initializationData.RightMemberRoster;
@@ -325,7 +224,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026E7 RID: 9959 RVA: 0x000A3EAF File Offset: 0x000A20AF
 		private void SetPartyGoldChangeAmount(int newTotalAmount)
 		{
 			this.CurrentData.PartyGoldChangeAmount = newTotalAmount;
@@ -337,7 +235,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			partyGoldChange();
 		}
 
-		// Token: 0x060026E8 RID: 9960 RVA: 0x000A3ECD File Offset: 0x000A20CD
 		private void SetMoraleChangeAmount(int newAmount)
 		{
 			this.CurrentData.PartyMoraleChangeAmount = newAmount;
@@ -349,7 +246,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			partyMoraleChange();
 		}
 
-		// Token: 0x060026E9 RID: 9961 RVA: 0x000A3EEB File Offset: 0x000A20EB
 		private void SetHorseChangeAmount(int newAmount)
 		{
 			this.CurrentData.PartyHorseChangeAmount = newAmount;
@@ -361,7 +257,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			partyHorseChange();
 		}
 
-		// Token: 0x060026EA RID: 9962 RVA: 0x000A3F09 File Offset: 0x000A2109
 		private void SetInfluenceChangeAmount(int heroInfluence, int troopInfluence, int prisonerInfluence)
 		{
 			this.CurrentData.PartyInfluenceChangeAmount = new ValueTuple<int, int, int>(heroInfluence, troopInfluence, prisonerInfluence);
@@ -373,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			partyInfluenceChange();
 		}
 
-		// Token: 0x060026EB RID: 9963 RVA: 0x000A3F30 File Offset: 0x000A2130
 		private void ProcessCommand(PartyScreenLogic.PartyCommand command)
 		{
 			switch (command.Code)
@@ -410,13 +304,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026EC RID: 9964 RVA: 0x000A3FB7 File Offset: 0x000A21B7
 		public void AddCommand(PartyScreenLogic.PartyCommand command)
 		{
 			this.ProcessCommand(command);
 		}
 
-		// Token: 0x060026ED RID: 9965 RVA: 0x000A3FC0 File Offset: 0x000A21C0
 		public bool ValidateCommand(PartyScreenLogic.PartyCommand command)
 		{
 			if (command.Code == PartyScreenLogic.PartyCommandCode.TransferTroop || command.Code == PartyScreenLogic.PartyCommandCode.TransferTroopToLeaderSlot)
@@ -529,7 +421,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026EE RID: 9966 RVA: 0x000A4470 File Offset: 0x000A2670
 		private void OnReset(bool fromCancel)
 		{
 			PartyScreenLogic.AfterResetDelegate afterReset = this.AfterReset;
@@ -540,7 +431,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			afterReset(this, fromCancel);
 		}
 
-		// Token: 0x060026EF RID: 9967 RVA: 0x000A4484 File Offset: 0x000A2684
 		protected void TransferTroopToLeaderSlot(PartyScreenLogic.PartyCommand command)
 		{
 			bool flag = false;
@@ -578,7 +468,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F0 RID: 9968 RVA: 0x000A45A4 File Offset: 0x000A27A4
 		protected void TransferTroop(PartyScreenLogic.PartyCommand command, bool invokeUpdate)
 		{
 			bool flag = false;
@@ -691,7 +580,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F1 RID: 9969 RVA: 0x000A4B40 File Offset: 0x000A2D40
 		protected void ShiftTroop(PartyScreenLogic.PartyCommand command)
 		{
 			bool flag = false;
@@ -732,7 +620,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F2 RID: 9970 RVA: 0x000A4D02 File Offset: 0x000A2F02
 		protected void TransferPartyLeaderTroop(PartyScreenLogic.PartyCommand command)
 		{
 			if (this.ValidateCommand(command))
@@ -741,7 +628,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F3 RID: 9971 RVA: 0x000A4D24 File Offset: 0x000A2F24
 		protected void UpgradeTroop(PartyScreenLogic.PartyCommand command)
 		{
 			if (this.ValidateCommand(command))
@@ -779,7 +665,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F4 RID: 9972 RVA: 0x000A4EB4 File Offset: 0x000A30B4
 		protected void RecruitPrisoner(PartyScreenLogic.PartyCommand command)
 		{
 			bool flag = false;
@@ -821,7 +706,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F5 RID: 9973 RVA: 0x000A4FB8 File Offset: 0x000A31B8
 		protected void ExecuteTroop(PartyScreenLogic.PartyCommand command)
 		{
 			bool flag = false;
@@ -849,7 +733,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F6 RID: 9974 RVA: 0x000A5068 File Offset: 0x000A3268
 		protected void TransferAllTroops(PartyScreenLogic.PartyCommand command)
 		{
 			if (this.ValidateCommand(command))
@@ -919,7 +802,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F7 RID: 9975 RVA: 0x000A5274 File Offset: 0x000A3474
 		protected void SortTroops(PartyScreenLogic.PartyCommand command)
 		{
 			if (this.ValidateCommand(command))
@@ -948,7 +830,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026F8 RID: 9976 RVA: 0x000A5320 File Offset: 0x000A3520
 		public int GetIndexToInsertTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, TroopRosterElement troop)
 		{
 			PartyScreenLogic.TroopSortType activeSortTypeForSide = this.GetActiveSortTypeForSide(side);
@@ -976,7 +857,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return -1;
 		}
 
-		// Token: 0x060026F9 RID: 9977 RVA: 0x000A53A2 File Offset: 0x000A35A2
 		public PartyScreenLogic.TroopSortType GetActiveSortTypeForSide(PartyScreenLogic.PartyRosterSide side)
 		{
 			if (side == PartyScreenLogic.PartyRosterSide.Left)
@@ -990,7 +870,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return PartyScreenLogic.TroopSortType.Invalid;
 		}
 
-		// Token: 0x060026FA RID: 9978 RVA: 0x000A53BA File Offset: 0x000A35BA
 		private void SetActiveSortTypeForSide(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopSortType sortType)
 		{
 			if (side == PartyScreenLogic.PartyRosterSide.Left)
@@ -1004,7 +883,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026FB RID: 9979 RVA: 0x000A53D2 File Offset: 0x000A35D2
 		public bool GetIsAscendingSortForSide(PartyScreenLogic.PartyRosterSide side)
 		{
 			if (side == PartyScreenLogic.PartyRosterSide.Left)
@@ -1014,7 +892,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return side == PartyScreenLogic.PartyRosterSide.Right && this.IsMainPartySortAscending;
 		}
 
-		// Token: 0x060026FC RID: 9980 RVA: 0x000A53EA File Offset: 0x000A35EA
 		private void SetIsAscendingForSide(PartyScreenLogic.PartyRosterSide side, bool isAscending)
 		{
 			if (side == PartyScreenLogic.PartyRosterSide.Left)
@@ -1028,7 +905,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x060026FD RID: 9981 RVA: 0x000A5404 File Offset: 0x000A3604
 		private List<TroopRosterElement> GetListFromRoster(TroopRoster roster)
 		{
 			List<TroopRosterElement> list = new List<TroopRosterElement>();
@@ -1039,7 +915,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return list;
 		}
 
-		// Token: 0x060026FE RID: 9982 RVA: 0x000A5438 File Offset: 0x000A3638
 		private CharacterObject GetLeaderOfRoster(TroopRoster roster)
 		{
 			if (roster == this.MemberRosters[0] || roster == this.PrisonerRosters[0])
@@ -1053,7 +928,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return null;
 		}
 
-		// Token: 0x060026FF RID: 9983 RVA: 0x000A5494 File Offset: 0x000A3694
 		private void SyncRosterWithlist(List<TroopRosterElement> list, TroopRoster roster)
 		{
 			CharacterObject leaderOfRoster = this.GetLeaderOfRoster(roster);
@@ -1074,7 +948,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002700 RID: 9984 RVA: 0x000A5514 File Offset: 0x000A3714
 		[Conditional("DEBUG")]
 		private void EnsureRosterIsSyncedWithList(TroopRoster roster, List<TroopRosterElement> list)
 		{
@@ -1093,7 +966,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002701 RID: 9985 RVA: 0x000A55A4 File Offset: 0x000A37A4
 		private void SortRosterByType(TroopRoster roster, PartyScreenLogic.TroopSortType sortType)
 		{
 			PartyScreenLogic.TroopComparer troopComparer = this._defaultComparers[sortType];
@@ -1105,7 +977,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002702 RID: 9986 RVA: 0x000A55EC File Offset: 0x000A37EC
 		private bool IsRosterOrdered(TroopRoster roster, PartyScreenLogic.TroopComparer comparer)
 		{
 			for (int i = 1; i < roster.Count; i++)
@@ -1120,7 +991,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return true;
 		}
 
-		// Token: 0x06002703 RID: 9987 RVA: 0x000A562C File Offset: 0x000A382C
 		public bool IsDoneActive()
 		{
 			object obj = Hero.MainHero.Gold < -this.CurrentData.PartyGoldChangeAmount && this.CurrentData.PartyGoldChangeAmount < 0;
@@ -1150,13 +1020,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			return obj2 == 0 && flag;
 		}
 
-		// Token: 0x06002704 RID: 9988 RVA: 0x000A5702 File Offset: 0x000A3902
 		public bool IsCancelActive()
 		{
 			return this.PartyPresentationCancelButtonActivateDelegate == null || this.PartyPresentationCancelButtonActivateDelegate();
 		}
 
-		// Token: 0x06002705 RID: 9989 RVA: 0x000A571C File Offset: 0x000A391C
 		public bool DoneLogic(bool isForced)
 		{
 			if (Hero.MainHero.Gold < -this.CurrentData.PartyGoldChangeAmount && this.CurrentData.PartyGoldChangeAmount < 0)
@@ -1196,7 +1064,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return flag;
 		}
 
-		// Token: 0x06002706 RID: 9990 RVA: 0x000A58B4 File Offset: 0x000A3AB4
 		public void OnPartyScreenClosed(bool fromCancel)
 		{
 			if (fromCancel)
@@ -1215,7 +1082,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			partyScreenClosedEvent(this.LeftOwnerParty, this.MemberRosters[0], this.PrisonerRosters[0], this.RightOwnerParty, this.MemberRosters[1], this.PrisonerRosters[1], fromCancel);
 		}
 
-		// Token: 0x06002707 RID: 9991 RVA: 0x000A5914 File Offset: 0x000A3B14
 		private void UpdateComparersAscendingOrder(bool isAscending)
 		{
 			foreach (KeyValuePair<PartyScreenLogic.TroopSortType, PartyScreenLogic.TroopComparer> keyValuePair in this._defaultComparers)
@@ -1224,7 +1090,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002708 RID: 9992 RVA: 0x000A5970 File Offset: 0x000A3B70
 		private void FireCampaignRelatedEvents()
 		{
 			foreach (Tuple<CharacterObject, CharacterObject, int> tuple in this.CurrentData.UpgradedTroopsHistory)
@@ -1242,13 +1107,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002709 RID: 9993 RVA: 0x000A5A50 File Offset: 0x000A3C50
 		public bool IsTroopTransferable(PartyScreenLogic.TroopType troopType, CharacterObject character, int side)
 		{
 			return this.IsTroopRosterTransferable(troopType) && !character.IsNotTransferableInPartyScreen && character != CharacterObject.PlayerCharacter && (this.IsTroopTransferableDelegate == null || this.IsTroopTransferableDelegate(character, troopType, (PartyScreenLogic.PartyRosterSide)side, this.LeftOwnerParty));
 		}
 
-		// Token: 0x0600270A RID: 9994 RVA: 0x000A5A8C File Offset: 0x000A3C8C
 		public bool IsTroopRosterTransferable(PartyScreenLogic.TroopType troopType)
 		{
 			if (troopType == PartyScreenLogic.TroopType.Prisoner)
@@ -1258,13 +1121,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			return troopType == PartyScreenLogic.TroopType.Member && (this.MemberTransferState == PartyScreenLogic.TransferState.Transferable || this.MemberTransferState == PartyScreenLogic.TransferState.TransferableWithTrade);
 		}
 
-		// Token: 0x0600270B RID: 9995 RVA: 0x000A5AC1 File Offset: 0x000A3CC1
 		public bool IsPrisonerRecruitable(PartyScreenLogic.TroopType troopType, CharacterObject character, PartyScreenLogic.PartyRosterSide side)
 		{
 			return side == PartyScreenLogic.PartyRosterSide.Right && troopType == PartyScreenLogic.TroopType.Prisoner && !character.IsHero && this.CurrentData.RightRecruitableData.ContainsKey(character) && this.CurrentData.RightRecruitableData[character] > 0;
 		}
 
-		// Token: 0x0600270C RID: 9996 RVA: 0x000A5B00 File Offset: 0x000A3D00
 		public string GetRecruitableReasonText(CharacterObject character, bool isRecruitable, int troopCount, string fiveStackShortcutKeyText, string entireStackShortcutKeyText)
 		{
 			GameTexts.SetVariable("newline", "\n");
@@ -1299,13 +1160,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			return GameTexts.FindText("str_string_newline_string", null).ToString();
 		}
 
-		// Token: 0x0600270D RID: 9997 RVA: 0x000A5C68 File Offset: 0x000A3E68
 		public bool IsExecutable(PartyScreenLogic.TroopType troopType, CharacterObject character, PartyScreenLogic.PartyRosterSide side)
 		{
 			return troopType == PartyScreenLogic.TroopType.Prisoner && side == PartyScreenLogic.PartyRosterSide.Right && character.IsHero && character.HeroObject.Age >= (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && (PlayerEncounter.Current == null || PlayerEncounter.Current.EncounterState == PlayerEncounterState.Begin) && FaceGen.GetMaturityTypeWithAge(character.Age) > BodyMeshMaturityType.Tween;
 		}
 
-		// Token: 0x0600270E RID: 9998 RVA: 0x000A5CCA File Offset: 0x000A3ECA
 		public string GetExecutableReasonText(CharacterObject character, bool isExecutable)
 		{
 			if (isExecutable)
@@ -1319,25 +1178,21 @@ namespace TaleWorlds.CampaignSystem.Party
 			return GameTexts.FindText("str_cannot_execute_hero", null).ToString();
 		}
 
-		// Token: 0x0600270F RID: 9999 RVA: 0x000A5D09 File Offset: 0x000A3F09
 		public int GetCurrentQuestCurrentCount()
 		{
 			return this.MemberRosters[0].Sum((TroopRosterElement item) => item.Number);
 		}
 
-		// Token: 0x06002710 RID: 10000 RVA: 0x000A5D37 File Offset: 0x000A3F37
 		public int GetCurrentQuestRequiredCount()
 		{
 			return this.LeftPartyMembersSizeLimit;
 		}
 
-		// Token: 0x06002711 RID: 10001 RVA: 0x000A5D3F File Offset: 0x000A3F3F
 		private static bool DefaultDoneHandler(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty = null, PartyBase rightParty = null)
 		{
 			return true;
 		}
 
-		// Token: 0x06002712 RID: 10002 RVA: 0x000A5D44 File Offset: 0x000A3F44
 		private void AddUpgradeToHistory(CharacterObject fromTroop, CharacterObject toTroop, int num)
 		{
 			Tuple<CharacterObject, CharacterObject, int> tuple = this.CurrentData.UpgradedTroopsHistory.Find((Tuple<CharacterObject, CharacterObject, int> t) => t.Item1 == fromTroop && t.Item2 == toTroop);
@@ -1351,7 +1206,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.CurrentData.UpgradedTroopsHistory.Add(new Tuple<CharacterObject, CharacterObject, int>(fromTroop, toTroop, num));
 		}
 
-		// Token: 0x06002713 RID: 10003 RVA: 0x000A5DE8 File Offset: 0x000A3FE8
 		private void AddUsedHorsesToHistory(List<ValueTuple<EquipmentElement, int>> usedHorses)
 		{
 			if (usedHorses != null)
@@ -1379,7 +1233,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x06002714 RID: 10004 RVA: 0x000A5F1C File Offset: 0x000A411C
 		private void UpdatePrisonerTransferHistory(CharacterObject troop, int amount)
 		{
 			Tuple<CharacterObject, int> tuple = this.CurrentData.TransferredPrisonersHistory.Find((Tuple<CharacterObject, int> t) => t.Item1 == troop);
@@ -1393,7 +1246,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.CurrentData.TransferredPrisonersHistory.Add(new Tuple<CharacterObject, int>(troop, amount));
 		}
 
-		// Token: 0x06002715 RID: 10005 RVA: 0x000A5FAC File Offset: 0x000A41AC
 		private void AddRecruitToHistory(CharacterObject troop, int amount)
 		{
 			Tuple<CharacterObject, int> tuple = this.CurrentData.RecruitedPrisonersHistory.Find((Tuple<CharacterObject, int> t) => t.Item1 == troop);
@@ -1411,13 +1263,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.SetMoraleChangeAmount(this.CurrentData.PartyMoraleChangeAmount + prisonerRecruitmentMoraleEffect);
 		}
 
-		// Token: 0x06002716 RID: 10006 RVA: 0x000A6070 File Offset: 0x000A4270
 		private string GetItemLockStringID(EquipmentElement equipmentElement)
 		{
 			return equipmentElement.Item.StringId + ((equipmentElement.ItemModifier != null) ? equipmentElement.ItemModifier.StringId : "");
 		}
 
-		// Token: 0x06002717 RID: 10007 RVA: 0x000A60A0 File Offset: 0x000A42A0
 		private List<ValueTuple<EquipmentElement, int>> RemoveItemFromItemRoster(ItemCategory itemCategory, int numOfItemsLeftToRemove = 1)
 		{
 			List<ValueTuple<EquipmentElement, int>> list = new List<ValueTuple<EquipmentElement, int>>();
@@ -1447,13 +1297,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			return list;
 		}
 
-		// Token: 0x06002718 RID: 10008 RVA: 0x000A61C8 File Offset: 0x000A43C8
 		public void Reset(bool fromCancel)
 		{
 			this.ResetLogic(fromCancel);
 		}
 
-		// Token: 0x06002719 RID: 10009 RVA: 0x000A61D1 File Offset: 0x000A43D1
 		private void ResetLogic(bool fromCancel)
 		{
 			if (this.CurrentData != this._initialData)
@@ -1468,7 +1316,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x0600271A RID: 10010 RVA: 0x000A6209 File Offset: 0x000A4409
 		public void SavePartyScreenData()
 		{
 			this._savedData = new PartyScreenData();
@@ -1476,7 +1323,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this._savedData.CopyFromScreenData(this.CurrentData);
 		}
 
-		// Token: 0x0600271B RID: 10011 RVA: 0x000A6248 File Offset: 0x000A4448
 		public void ResetToLastSavedPartyScreenData(bool fromCancel)
 		{
 			if (this.CurrentData != this._savedData)
@@ -1491,7 +1337,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x0600271C RID: 10012 RVA: 0x000A6280 File Offset: 0x000A4480
 		public void RemoveZeroCounts()
 		{
 			for (int i = 0; i < this.MemberRosters.Length; i++)
@@ -1504,7 +1349,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x0600271D RID: 10013 RVA: 0x000A62CD File Offset: 0x000A44CD
 		public int GetTroopRecruitableAmount(CharacterObject troop)
 		{
 			if (!this.CurrentData.RightRecruitableData.ContainsKey(troop))
@@ -1514,7 +1358,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			return this.CurrentData.RightRecruitableData[troop];
 		}
 
-		// Token: 0x0600271E RID: 10014 RVA: 0x000A62F5 File Offset: 0x000A44F5
 		public TroopRoster GetRoster(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType troopType)
 		{
 			if (troopType == PartyScreenLogic.TroopType.Member)
@@ -1528,18 +1371,15 @@ namespace TaleWorlds.CampaignSystem.Party
 			return null;
 		}
 
-		// Token: 0x0600271F RID: 10015 RVA: 0x000A6312 File Offset: 0x000A4512
 		internal void OnDoneEvent(List<TroopTradeDifference> freshlySellList)
 		{
 		}
 
-		// Token: 0x06002720 RID: 10016 RVA: 0x000A6314 File Offset: 0x000A4514
 		public bool IsThereAnyChanges()
 		{
 			return this._initialData.GetTroopTradeDifferencesFromTo(this.CurrentData).Count != 0;
 		}
 
-		// Token: 0x06002721 RID: 10017 RVA: 0x000A6330 File Offset: 0x000A4530
 		public bool HaveRightSideGainedTroops()
 		{
 			foreach (TroopTradeDifference troopTradeDifference in this._initialData.GetTroopTradeDifferencesFromTo(this.CurrentData))
@@ -1552,215 +1392,124 @@ namespace TaleWorlds.CampaignSystem.Party
 			return false;
 		}
 
-		// Token: 0x06002722 RID: 10018 RVA: 0x000A63A8 File Offset: 0x000A45A8
 		public PartyScreenLogic.TroopComparer GetComparer(PartyScreenLogic.TroopSortType sortType)
 		{
 			return this._defaultComparers[sortType];
 		}
 
-		// Token: 0x04000BBA RID: 3002
 		public PartyPresentationDoneButtonDelegate PartyPresentationDoneButtonDelegate;
 
-		// Token: 0x04000BBB RID: 3003
 		public PartyPresentationDoneButtonConditionDelegate PartyPresentationDoneButtonConditionDelegate;
 
-		// Token: 0x04000BBC RID: 3004
 		public PartyPresentationCancelButtonActivateDelegate PartyPresentationCancelButtonActivateDelegate;
 
-		// Token: 0x04000BBD RID: 3005
 		public PartyPresentationCancelButtonDelegate PartyPresentationCancelButtonDelegate;
 
-		// Token: 0x04000BBE RID: 3006
 		public PartyScreenLogic.PresentationUpdate UpdateDelegate;
 
-		// Token: 0x04000BBF RID: 3007
 		public IsTroopTransferableDelegate IsTroopTransferableDelegate;
 
-		// Token: 0x04000BC7 RID: 3015
 		private PartyScreenLogic.TroopSortType _activeOtherPartySortType;
 
-		// Token: 0x04000BC8 RID: 3016
 		private PartyScreenLogic.TroopSortType _activeMainPartySortType;
 
-		// Token: 0x04000BC9 RID: 3017
 		private bool _isOtherPartySortAscending;
 
-		// Token: 0x04000BCA RID: 3018
 		private bool _isMainPartySortAscending;
 
-		// Token: 0x04000BDF RID: 3039
 		public TroopRoster[] MemberRosters;
 
-		// Token: 0x04000BE0 RID: 3040
 		public TroopRoster[] PrisonerRosters;
 
-		// Token: 0x04000BE1 RID: 3041
 		public bool IsConsumablesChanges;
 
-		// Token: 0x04000BE2 RID: 3042
 		private readonly Dictionary<PartyScreenLogic.TroopSortType, PartyScreenLogic.TroopComparer> _defaultComparers;
 
-		// Token: 0x04000BE3 RID: 3043
 		private readonly PartyScreenData _initialData;
 
-		// Token: 0x04000BE4 RID: 3044
 		private PartyScreenData _savedData;
 
-		// Token: 0x04000BE5 RID: 3045
 		private Game _game;
 
-		// Token: 0x020005B5 RID: 1461
 		public enum TroopSortType
 		{
-			// Token: 0x040017C5 RID: 6085
 			Invalid = -1,
-			// Token: 0x040017C6 RID: 6086
 			Custom,
-			// Token: 0x040017C7 RID: 6087
 			Type,
-			// Token: 0x040017C8 RID: 6088
 			Name,
-			// Token: 0x040017C9 RID: 6089
 			Count,
-			// Token: 0x040017CA RID: 6090
 			Tier
 		}
 
-		// Token: 0x020005B6 RID: 1462
 		public enum PartyRosterSide : byte
 		{
-			// Token: 0x040017CC RID: 6092
 			None = 99,
-			// Token: 0x040017CD RID: 6093
 			Right = 1,
-			// Token: 0x040017CE RID: 6094
 			Left = 0
 		}
 
-		// Token: 0x020005B7 RID: 1463
 		[Flags]
 		public enum TroopType
 		{
-			// Token: 0x040017D0 RID: 6096
 			Member = 1,
-			// Token: 0x040017D1 RID: 6097
 			Prisoner = 2,
-			// Token: 0x040017D2 RID: 6098
 			None = 3
 		}
 
-		// Token: 0x020005B8 RID: 1464
 		public enum PartyCommandCode
 		{
-			// Token: 0x040017D4 RID: 6100
 			TransferTroop,
-			// Token: 0x040017D5 RID: 6101
 			UpgradeTroop,
-			// Token: 0x040017D6 RID: 6102
 			TransferPartyLeaderTroop,
-			// Token: 0x040017D7 RID: 6103
 			TransferTroopToLeaderSlot,
-			// Token: 0x040017D8 RID: 6104
 			ShiftTroop,
-			// Token: 0x040017D9 RID: 6105
 			RecruitTroop,
-			// Token: 0x040017DA RID: 6106
 			ExecuteTroop,
-			// Token: 0x040017DB RID: 6107
 			TransferAllTroops,
-			// Token: 0x040017DC RID: 6108
 			SortTroops
 		}
 
-		// Token: 0x020005B9 RID: 1465
 		public enum TransferState
 		{
-			// Token: 0x040017DE RID: 6110
 			NotTransferable,
-			// Token: 0x040017DF RID: 6111
 			Transferable,
-			// Token: 0x040017E0 RID: 6112
 			TransferableWithTrade
 		}
 
-		// Token: 0x020005BA RID: 1466
-		// (Invoke) Token: 0x06004561 RID: 17761
 		public delegate void PresentationUpdate(PartyScreenLogic.PartyCommand command);
 
-		// Token: 0x020005BB RID: 1467
-		// (Invoke) Token: 0x06004565 RID: 17765
 		public delegate void PartyGoldDelegate();
 
-		// Token: 0x020005BC RID: 1468
-		// (Invoke) Token: 0x06004569 RID: 17769
 		public delegate void PartyMoraleDelegate();
 
-		// Token: 0x020005BD RID: 1469
-		// (Invoke) Token: 0x0600456D RID: 17773
 		public delegate void PartyInfluenceDelegate();
 
-		// Token: 0x020005BE RID: 1470
-		// (Invoke) Token: 0x06004571 RID: 17777
 		public delegate void PartyHorseDelegate();
 
-		// Token: 0x020005BF RID: 1471
-		// (Invoke) Token: 0x06004575 RID: 17781
 		public delegate void AfterResetDelegate(PartyScreenLogic partyScreenLogic, bool fromCancel);
 
-		// Token: 0x020005C0 RID: 1472
 		public class PartyCommand : ISerializableObject
 		{
-			// Token: 0x17000DE9 RID: 3561
-			// (get) Token: 0x06004578 RID: 17784 RVA: 0x0013AC17 File Offset: 0x00138E17
-			// (set) Token: 0x06004579 RID: 17785 RVA: 0x0013AC1F File Offset: 0x00138E1F
 			public PartyScreenLogic.PartyCommandCode Code { get; private set; }
 
-			// Token: 0x17000DEA RID: 3562
-			// (get) Token: 0x0600457A RID: 17786 RVA: 0x0013AC28 File Offset: 0x00138E28
-			// (set) Token: 0x0600457B RID: 17787 RVA: 0x0013AC30 File Offset: 0x00138E30
 			public PartyScreenLogic.PartyRosterSide RosterSide { get; private set; }
 
-			// Token: 0x17000DEB RID: 3563
-			// (get) Token: 0x0600457C RID: 17788 RVA: 0x0013AC39 File Offset: 0x00138E39
-			// (set) Token: 0x0600457D RID: 17789 RVA: 0x0013AC41 File Offset: 0x00138E41
 			public CharacterObject Character { get; private set; }
 
-			// Token: 0x17000DEC RID: 3564
-			// (get) Token: 0x0600457E RID: 17790 RVA: 0x0013AC4A File Offset: 0x00138E4A
-			// (set) Token: 0x0600457F RID: 17791 RVA: 0x0013AC52 File Offset: 0x00138E52
 			public int TotalNumber { get; private set; }
 
-			// Token: 0x17000DED RID: 3565
-			// (get) Token: 0x06004580 RID: 17792 RVA: 0x0013AC5B File Offset: 0x00138E5B
-			// (set) Token: 0x06004581 RID: 17793 RVA: 0x0013AC63 File Offset: 0x00138E63
 			public int WoundedNumber { get; private set; }
 
-			// Token: 0x17000DEE RID: 3566
-			// (get) Token: 0x06004582 RID: 17794 RVA: 0x0013AC6C File Offset: 0x00138E6C
-			// (set) Token: 0x06004583 RID: 17795 RVA: 0x0013AC74 File Offset: 0x00138E74
 			public int Index { get; private set; }
 
-			// Token: 0x17000DEF RID: 3567
-			// (get) Token: 0x06004584 RID: 17796 RVA: 0x0013AC7D File Offset: 0x00138E7D
-			// (set) Token: 0x06004585 RID: 17797 RVA: 0x0013AC85 File Offset: 0x00138E85
 			public int UpgradeTarget { get; private set; }
 
-			// Token: 0x17000DF0 RID: 3568
-			// (get) Token: 0x06004586 RID: 17798 RVA: 0x0013AC8E File Offset: 0x00138E8E
-			// (set) Token: 0x06004587 RID: 17799 RVA: 0x0013AC96 File Offset: 0x00138E96
 			public PartyScreenLogic.TroopType Type { get; private set; }
 
-			// Token: 0x17000DF1 RID: 3569
-			// (get) Token: 0x06004588 RID: 17800 RVA: 0x0013AC9F File Offset: 0x00138E9F
-			// (set) Token: 0x06004589 RID: 17801 RVA: 0x0013ACA7 File Offset: 0x00138EA7
 			public PartyScreenLogic.TroopSortType SortType { get; private set; }
 
-			// Token: 0x17000DF2 RID: 3570
-			// (get) Token: 0x0600458A RID: 17802 RVA: 0x0013ACB0 File Offset: 0x00138EB0
-			// (set) Token: 0x0600458B RID: 17803 RVA: 0x0013ACB8 File Offset: 0x00138EB8
 			public bool IsSortAscending { get; private set; }
 
-			// Token: 0x0600458D RID: 17805 RVA: 0x0013ACC9 File Offset: 0x00138EC9
 			public void FillForTransferTroop(PartyScreenLogic.PartyRosterSide fromSide, PartyScreenLogic.TroopType type, CharacterObject character, int totalNumber, int woundedNumber, int targetIndex)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.TransferTroop;
@@ -1772,7 +1521,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Index = targetIndex;
 			}
 
-			// Token: 0x0600458E RID: 17806 RVA: 0x0013ACFF File Offset: 0x00138EFF
 			public void FillForShiftTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character, int targetIndex)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.ShiftTroop;
@@ -1782,7 +1530,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Index = targetIndex;
 			}
 
-			// Token: 0x0600458F RID: 17807 RVA: 0x0013AD25 File Offset: 0x00138F25
 			public void FillForTransferTroopToLeaderSlot(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character, int totalNumber, int woundedNumber, int targetIndex)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.TransferTroopToLeaderSlot;
@@ -1794,7 +1541,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Index = targetIndex;
 			}
 
-			// Token: 0x06004590 RID: 17808 RVA: 0x0013AD5B File Offset: 0x00138F5B
 			public void FillForTransferPartyLeaderTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character, int totalNumber)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.TransferPartyLeaderTroop;
@@ -1804,7 +1550,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Type = type;
 			}
 
-			// Token: 0x06004591 RID: 17809 RVA: 0x0013AD81 File Offset: 0x00138F81
 			public void FillForUpgradeTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character, int number, int upgradeTargetType, int index)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.UpgradeTroop;
@@ -1816,7 +1561,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Index = index;
 			}
 
-			// Token: 0x06004592 RID: 17810 RVA: 0x0013ADB7 File Offset: 0x00138FB7
 			public void FillForRecruitTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character, int number, int index)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.RecruitTroop;
@@ -1827,7 +1571,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Index = index;
 			}
 
-			// Token: 0x06004593 RID: 17811 RVA: 0x0013ADE5 File Offset: 0x00138FE5
 			public void FillForExecuteTroop(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type, CharacterObject character)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.ExecuteTroop;
@@ -1836,7 +1579,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Type = type;
 			}
 
-			// Token: 0x06004594 RID: 17812 RVA: 0x0013AE03 File Offset: 0x00139003
 			public void FillForTransferAllTroops(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopType type)
 			{
 				this.Code = PartyScreenLogic.PartyCommandCode.TransferAllTroops;
@@ -1844,7 +1586,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.Type = type;
 			}
 
-			// Token: 0x06004595 RID: 17813 RVA: 0x0013AE1A File Offset: 0x0013901A
 			public void FillForSortTroops(PartyScreenLogic.PartyRosterSide side, PartyScreenLogic.TroopSortType sortType, bool isAscending)
 			{
 				this.RosterSide = side;
@@ -1853,7 +1594,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.IsSortAscending = isAscending;
 			}
 
-			// Token: 0x06004596 RID: 17814 RVA: 0x0013AE38 File Offset: 0x00139038
 			void ISerializableObject.SerializeTo(IWriter writer)
 			{
 				writer.WriteByte((byte)this.Code);
@@ -1865,7 +1605,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				writer.WriteByte((byte)this.Type);
 			}
 
-			// Token: 0x06004597 RID: 17815 RVA: 0x0013AEA8 File Offset: 0x001390A8
 			void ISerializableObject.DeserializeFrom(IReader reader)
 			{
 				this.Code = (PartyScreenLogic.PartyCommandCode)reader.ReadByte();
@@ -1879,16 +1618,13 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x020005C1 RID: 1473
 		public abstract class TroopComparer : IComparer<TroopRosterElement>
 		{
-			// Token: 0x06004598 RID: 17816 RVA: 0x0013AF20 File Offset: 0x00139120
 			public void SetIsAscending(bool isAscending)
 			{
 				this._isAscending = isAscending;
 			}
 
-			// Token: 0x06004599 RID: 17817 RVA: 0x0013AF29 File Offset: 0x00139129
 			private int GetHeroComparisonResult(TroopRosterElement x, TroopRosterElement y)
 			{
 				if (x.Character.HeroObject != null)
@@ -1905,7 +1641,6 @@ namespace TaleWorlds.CampaignSystem.Party
 				return 0;
 			}
 
-			// Token: 0x0600459A RID: 17818 RVA: 0x0013AF60 File Offset: 0x00139160
 			public int Compare(TroopRosterElement x, TroopRosterElement y)
 			{
 				int num = (this._isAscending ? 1 : (-1));
@@ -1922,27 +1657,21 @@ namespace TaleWorlds.CampaignSystem.Party
 				return this.CompareTroops(x, y) * num;
 			}
 
-			// Token: 0x0600459B RID: 17819
 			protected abstract int CompareTroops(TroopRosterElement x, TroopRosterElement y);
 
-			// Token: 0x040017EB RID: 6123
 			private bool _isAscending;
 		}
 
-		// Token: 0x020005C2 RID: 1474
 		private class TroopDefaultComparer : PartyScreenLogic.TroopComparer
 		{
-			// Token: 0x0600459D RID: 17821 RVA: 0x0013AFAA File Offset: 0x001391AA
 			protected override int CompareTroops(TroopRosterElement x, TroopRosterElement y)
 			{
 				return 0;
 			}
 		}
 
-		// Token: 0x020005C3 RID: 1475
 		private class TroopTypeComparer : PartyScreenLogic.TroopComparer
 		{
-			// Token: 0x0600459F RID: 17823 RVA: 0x0013AFB8 File Offset: 0x001391B8
 			protected override int CompareTroops(TroopRosterElement x, TroopRosterElement y)
 			{
 				int defaultFormationClass = (int)x.Character.DefaultFormationClass;
@@ -1951,30 +1680,24 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		// Token: 0x020005C4 RID: 1476
 		private class TroopNameComparer : PartyScreenLogic.TroopComparer
 		{
-			// Token: 0x060045A1 RID: 17825 RVA: 0x0013AFED File Offset: 0x001391ED
 			protected override int CompareTroops(TroopRosterElement x, TroopRosterElement y)
 			{
 				return x.Character.Name.ToString().CompareTo(y.Character.Name.ToString());
 			}
 		}
 
-		// Token: 0x020005C5 RID: 1477
 		private class TroopCountComparer : PartyScreenLogic.TroopComparer
 		{
-			// Token: 0x060045A3 RID: 17827 RVA: 0x0013B01C File Offset: 0x0013921C
 			protected override int CompareTroops(TroopRosterElement x, TroopRosterElement y)
 			{
 				return x.Number.CompareTo(y.Number);
 			}
 		}
 
-		// Token: 0x020005C6 RID: 1478
 		private class TroopTierComparer : PartyScreenLogic.TroopComparer
 		{
-			// Token: 0x060045A5 RID: 17829 RVA: 0x0013B048 File Offset: 0x00139248
 			protected override int CompareTroops(TroopRosterElement x, TroopRosterElement y)
 			{
 				return x.Character.Tier.CompareTo(y.Character.Tier);

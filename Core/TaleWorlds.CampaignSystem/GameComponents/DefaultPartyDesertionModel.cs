@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000120 RID: 288
 	public class DefaultPartyDesertionModel : PartyDesertionModel
 	{
-		// Token: 0x0600164F RID: 5711 RVA: 0x0006AD67 File Offset: 0x00068F67
 		public override int GetMoraleThresholdForTroopDesertion(MobileParty party)
 		{
 			return 10;
 		}
 
-		// Token: 0x06001650 RID: 5712 RVA: 0x0006AD6C File Offset: 0x00068F6C
 		public override int GetNumberOfDeserters(MobileParty mobileParty)
 		{
 			bool flag = mobileParty.IsWageLimitExceeded();

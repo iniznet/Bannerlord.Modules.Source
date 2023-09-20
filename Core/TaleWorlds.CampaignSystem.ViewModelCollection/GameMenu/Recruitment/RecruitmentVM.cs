@@ -15,15 +15,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 {
-	// Token: 0x0200009A RID: 154
 	public class RecruitmentVM : ViewModel
 	{
-		// Token: 0x170004E6 RID: 1254
-		// (get) Token: 0x06000EEE RID: 3822 RVA: 0x0003AA62 File Offset: 0x00038C62
-		// (set) Token: 0x06000EEF RID: 3823 RVA: 0x0003AA6A File Offset: 0x00038C6A
 		public bool IsQuitting { get; private set; }
 
-		// Token: 0x06000EF0 RID: 3824 RVA: 0x0003AA74 File Offset: 0x00038C74
 		public RecruitmentVM()
 		{
 			this.VolunteerList = new MBBindingList<RecruitVolunteerVM>();
@@ -38,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			RecruitVolunteerOwnerVM.OnFocused = (Action<RecruitVolunteerOwnerVM>)Delegate.Combine(RecruitVolunteerOwnerVM.OnFocused, new Action<RecruitVolunteerOwnerVM>(this.OnVolunteerOwnerFocusChanged));
 		}
 
-		// Token: 0x06000EF1 RID: 3825 RVA: 0x0003AB44 File Offset: 0x00038D44
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -73,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000EF2 RID: 3826 RVA: 0x0003ACE4 File Offset: 0x00038EE4
 		public void RefreshScreen()
 		{
 			this.VolunteerList.Clear();
@@ -96,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.UpdateRecruitAllProperties();
 		}
 
-		// Token: 0x06000EF3 RID: 3827 RVA: 0x0003ADCC File Offset: 0x00038FCC
 		private void OnRecruit(RecruitVolunteerVM recruitNotable, RecruitVolunteerTroopVM recruitTroop)
 		{
 			if (!recruitTroop.CanBeRecruited)
@@ -111,7 +103,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.RefreshPartyProperties();
 		}
 
-		// Token: 0x06000EF4 RID: 3828 RVA: 0x0003AE1C File Offset: 0x0003901C
 		private void RefreshPartyProperties()
 		{
 			int num = this.TroopsInCart.Sum((RecruitVolunteerTroopVM t) => t.Wage);
@@ -189,7 +180,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.UpdateRecruitAllProperties();
 		}
 
-		// Token: 0x06000EF5 RID: 3829 RVA: 0x0003B2B4 File Offset: 0x000394B4
 		public void ExecuteDone()
 		{
 			if (this.CurrentPartySize <= this.PartyCapacity)
@@ -205,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}, null, "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x06000EF6 RID: 3830 RVA: 0x0003B350 File Offset: 0x00039550
 		private void OnDone()
 		{
 			this.RefreshPartyProperties();
@@ -230,7 +219,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.Deactivate();
 		}
 
-		// Token: 0x06000EF7 RID: 3831 RVA: 0x0003B47C File Offset: 0x0003967C
 		public void ExecuteForceQuit()
 		{
 			if (!this.IsQuitting)
@@ -253,7 +241,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000EF8 RID: 3832 RVA: 0x0003B524 File Offset: 0x00039724
 		public void ExecuteReset()
 		{
 			for (int i = this.TroopsInCart.Count - 1; i >= 0; i--)
@@ -262,7 +249,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000EF9 RID: 3833 RVA: 0x0003B55C File Offset: 0x0003975C
 		public void ExecuteRecruitAll()
 		{
 			foreach (RecruitVolunteerVM recruitVolunteerVM in this.VolunteerList.ToList<RecruitVolunteerVM>())
@@ -274,14 +260,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000EFA RID: 3834 RVA: 0x0003B5F0 File Offset: 0x000397F0
 		public void Deactivate()
 		{
 			this.ExecuteReset();
 			this.Enabled = false;
 		}
 
-		// Token: 0x06000EFB RID: 3835 RVA: 0x0003B600 File Offset: 0x00039800
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -294,7 +278,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.RecruitAllInputKey.OnFinalize();
 		}
 
-		// Token: 0x06000EFC RID: 3836 RVA: 0x0003B69C File Offset: 0x0003989C
 		private void OnRemoveFromCart(RecruitVolunteerVM recruitNotable, RecruitVolunteerTroopVM recruitTroop)
 		{
 			if (this.TroopsInCart.Any((RecruitVolunteerTroopVM r) => r == recruitTroop))
@@ -308,13 +291,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000EFD RID: 3837 RVA: 0x0003B717 File Offset: 0x00039917
 		private static bool IsBitSet(int num, int bit)
 		{
 			return 1 == ((num >> bit) & 1);
 		}
 
-		// Token: 0x06000EFE RID: 3838 RVA: 0x0003B724 File Offset: 0x00039924
 		private string GetDoneHint(bool doesPlayerHasEnoughMoney)
 		{
 			if (!doesPlayerHasEnoughMoney)
@@ -324,7 +305,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			return null;
 		}
 
-		// Token: 0x06000EFF RID: 3839 RVA: 0x0003B731 File Offset: 0x00039931
 		private void SetRecruitAllHint()
 		{
 			this.RecruitAllHint = new BasicTooltipViewModel(delegate
@@ -335,7 +315,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			});
 		}
 
-		// Token: 0x06000F00 RID: 3840 RVA: 0x0003B74C File Offset: 0x0003994C
 		private void UpdateRecruitAllProperties()
 		{
 			int numberOfAvailableRecruits = this.GetNumberOfAvailableRecruits();
@@ -346,7 +325,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.CanRecruitAll = numberOfAvailableRecruits > 0;
 		}
 
-		// Token: 0x06000F01 RID: 3841 RVA: 0x0003B7B0 File Offset: 0x000399B0
 		private int GetNumberOfAvailableRecruits()
 		{
 			int num = 0;
@@ -363,19 +341,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			return num;
 		}
 
-		// Token: 0x06000F02 RID: 3842 RVA: 0x0003B840 File Offset: 0x00039A40
 		private void OnVolunteerTroopFocusChanged(RecruitVolunteerTroopVM volunteer)
 		{
 			this.FocusedVolunteerTroop = volunteer;
 		}
 
-		// Token: 0x06000F03 RID: 3843 RVA: 0x0003B849 File Offset: 0x00039A49
 		private void OnVolunteerOwnerFocusChanged(RecruitVolunteerOwnerVM owner)
 		{
 			this.FocusedVolunteerOwner = owner;
 		}
 
-		// Token: 0x06000F04 RID: 3844 RVA: 0x0003B854 File Offset: 0x00039A54
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
 		{
 			if (obj.NewNotificationElementID != this._latestTutorialElementID)
@@ -394,7 +369,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000F05 RID: 3845 RVA: 0x0003B8D0 File Offset: 0x00039AD0
 		private void SetAvailableTroopsHighlightState(bool state)
 		{
 			foreach (RecruitVolunteerVM recruitVolunteerVM in this.VolunteerList)
@@ -409,9 +383,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004E7 RID: 1255
-		// (get) Token: 0x06000F06 RID: 3846 RVA: 0x0003B974 File Offset: 0x00039B74
-		// (set) Token: 0x06000F07 RID: 3847 RVA: 0x0003B97C File Offset: 0x00039B7C
 		[DataSourceProperty]
 		public HintViewModel ResetHint
 		{
@@ -429,9 +400,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004E8 RID: 1256
-		// (get) Token: 0x06000F08 RID: 3848 RVA: 0x0003B99A File Offset: 0x00039B9A
-		// (set) Token: 0x06000F09 RID: 3849 RVA: 0x0003B9A2 File Offset: 0x00039BA2
 		[DataSourceProperty]
 		public RecruitVolunteerTroopVM FocusedVolunteerTroop
 		{
@@ -449,9 +417,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004E9 RID: 1257
-		// (get) Token: 0x06000F0A RID: 3850 RVA: 0x0003B9C0 File Offset: 0x00039BC0
-		// (set) Token: 0x06000F0B RID: 3851 RVA: 0x0003B9C8 File Offset: 0x00039BC8
 		[DataSourceProperty]
 		public RecruitVolunteerOwnerVM FocusedVolunteerOwner
 		{
@@ -469,9 +434,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004EA RID: 1258
-		// (get) Token: 0x06000F0C RID: 3852 RVA: 0x0003B9E6 File Offset: 0x00039BE6
-		// (set) Token: 0x06000F0D RID: 3853 RVA: 0x0003B9EE File Offset: 0x00039BEE
 		[DataSourceProperty]
 		public HintViewModel PartyWageHint
 		{
@@ -489,9 +451,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004EB RID: 1259
-		// (get) Token: 0x06000F0E RID: 3854 RVA: 0x0003BA0C File Offset: 0x00039C0C
-		// (set) Token: 0x06000F0F RID: 3855 RVA: 0x0003BA14 File Offset: 0x00039C14
 		[DataSourceProperty]
 		public HintViewModel PartyCapacityHint
 		{
@@ -509,9 +468,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004EC RID: 1260
-		// (get) Token: 0x06000F10 RID: 3856 RVA: 0x0003BA32 File Offset: 0x00039C32
-		// (set) Token: 0x06000F11 RID: 3857 RVA: 0x0003BA3A File Offset: 0x00039C3A
 		[DataSourceProperty]
 		public BasicTooltipViewModel PartySpeedHint
 		{
@@ -529,9 +485,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004ED RID: 1261
-		// (get) Token: 0x06000F12 RID: 3858 RVA: 0x0003BA58 File Offset: 0x00039C58
-		// (set) Token: 0x06000F13 RID: 3859 RVA: 0x0003BA60 File Offset: 0x00039C60
 		[DataSourceProperty]
 		public HintViewModel RemainingFoodHint
 		{
@@ -549,9 +502,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004EE RID: 1262
-		// (get) Token: 0x06000F14 RID: 3860 RVA: 0x0003BA7E File Offset: 0x00039C7E
-		// (set) Token: 0x06000F15 RID: 3861 RVA: 0x0003BA86 File Offset: 0x00039C86
 		[DataSourceProperty]
 		public HintViewModel TotalWealthHint
 		{
@@ -569,9 +519,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004EF RID: 1263
-		// (get) Token: 0x06000F16 RID: 3862 RVA: 0x0003BAA4 File Offset: 0x00039CA4
-		// (set) Token: 0x06000F17 RID: 3863 RVA: 0x0003BAAC File Offset: 0x00039CAC
 		[DataSourceProperty]
 		public HintViewModel TotalCostHint
 		{
@@ -589,9 +536,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F0 RID: 1264
-		// (get) Token: 0x06000F18 RID: 3864 RVA: 0x0003BACA File Offset: 0x00039CCA
-		// (set) Token: 0x06000F19 RID: 3865 RVA: 0x0003BAD2 File Offset: 0x00039CD2
 		[DataSourceProperty]
 		public HintViewModel DoneHint
 		{
@@ -609,9 +553,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F1 RID: 1265
-		// (get) Token: 0x06000F1A RID: 3866 RVA: 0x0003BAF0 File Offset: 0x00039CF0
-		// (set) Token: 0x06000F1B RID: 3867 RVA: 0x0003BAF8 File Offset: 0x00039CF8
 		[DataSourceProperty]
 		public BasicTooltipViewModel RecruitAllHint
 		{
@@ -629,9 +570,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F2 RID: 1266
-		// (get) Token: 0x06000F1C RID: 3868 RVA: 0x0003BB16 File Offset: 0x00039D16
-		// (set) Token: 0x06000F1D RID: 3869 RVA: 0x0003BB1E File Offset: 0x00039D1E
 		[DataSourceProperty]
 		public int PartyWage
 		{
@@ -649,9 +587,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F3 RID: 1267
-		// (get) Token: 0x06000F1E RID: 3870 RVA: 0x0003BB3C File Offset: 0x00039D3C
-		// (set) Token: 0x06000F1F RID: 3871 RVA: 0x0003BB44 File Offset: 0x00039D44
 		[DataSourceProperty]
 		public string PartyCapacityText
 		{
@@ -669,9 +604,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F4 RID: 1268
-		// (get) Token: 0x06000F20 RID: 3872 RVA: 0x0003BB67 File Offset: 0x00039D67
-		// (set) Token: 0x06000F21 RID: 3873 RVA: 0x0003BB6F File Offset: 0x00039D6F
 		[DataSourceProperty]
 		public string PartyWageText
 		{
@@ -689,9 +621,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F5 RID: 1269
-		// (get) Token: 0x06000F22 RID: 3874 RVA: 0x0003BB92 File Offset: 0x00039D92
-		// (set) Token: 0x06000F23 RID: 3875 RVA: 0x0003BB9A File Offset: 0x00039D9A
 		[DataSourceProperty]
 		public string RecruitAllText
 		{
@@ -709,9 +638,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F6 RID: 1270
-		// (get) Token: 0x06000F24 RID: 3876 RVA: 0x0003BBBD File Offset: 0x00039DBD
-		// (set) Token: 0x06000F25 RID: 3877 RVA: 0x0003BBC5 File Offset: 0x00039DC5
 		[DataSourceProperty]
 		public string PartySpeedText
 		{
@@ -729,9 +655,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F7 RID: 1271
-		// (get) Token: 0x06000F26 RID: 3878 RVA: 0x0003BBE8 File Offset: 0x00039DE8
-		// (set) Token: 0x06000F27 RID: 3879 RVA: 0x0003BBF0 File Offset: 0x00039DF0
 		[DataSourceProperty]
 		public string ResetAllText
 		{
@@ -749,9 +672,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F8 RID: 1272
-		// (get) Token: 0x06000F28 RID: 3880 RVA: 0x0003BC13 File Offset: 0x00039E13
-		// (set) Token: 0x06000F29 RID: 3881 RVA: 0x0003BC1B File Offset: 0x00039E1B
 		[DataSourceProperty]
 		public string CancelText
 		{
@@ -769,9 +689,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004F9 RID: 1273
-		// (get) Token: 0x06000F2A RID: 3882 RVA: 0x0003BC3E File Offset: 0x00039E3E
-		// (set) Token: 0x06000F2B RID: 3883 RVA: 0x0003BC46 File Offset: 0x00039E46
 		[DataSourceProperty]
 		public string RemainingFoodText
 		{
@@ -789,9 +706,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FA RID: 1274
-		// (get) Token: 0x06000F2C RID: 3884 RVA: 0x0003BC69 File Offset: 0x00039E69
-		// (set) Token: 0x06000F2D RID: 3885 RVA: 0x0003BC71 File Offset: 0x00039E71
 		[DataSourceProperty]
 		public string TotalCostText
 		{
@@ -809,9 +723,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FB RID: 1275
-		// (get) Token: 0x06000F2E RID: 3886 RVA: 0x0003BC94 File Offset: 0x00039E94
-		// (set) Token: 0x06000F2F RID: 3887 RVA: 0x0003BC9C File Offset: 0x00039E9C
 		[DataSourceProperty]
 		public bool Enabled
 		{
@@ -829,9 +740,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FC RID: 1276
-		// (get) Token: 0x06000F30 RID: 3888 RVA: 0x0003BCBC File Offset: 0x00039EBC
-		// (set) Token: 0x06000F31 RID: 3889 RVA: 0x0003BCC4 File Offset: 0x00039EC4
 		[DataSourceProperty]
 		public bool IsDoneEnabled
 		{
@@ -849,9 +757,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FD RID: 1277
-		// (get) Token: 0x06000F32 RID: 3890 RVA: 0x0003BCE2 File Offset: 0x00039EE2
-		// (set) Token: 0x06000F33 RID: 3891 RVA: 0x0003BCEA File Offset: 0x00039EEA
 		[DataSourceProperty]
 		public bool IsPartyCapacityWarningEnabled
 		{
@@ -869,9 +774,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FE RID: 1278
-		// (get) Token: 0x06000F34 RID: 3892 RVA: 0x0003BD08 File Offset: 0x00039F08
-		// (set) Token: 0x06000F35 RID: 3893 RVA: 0x0003BD10 File Offset: 0x00039F10
 		[DataSourceProperty]
 		public string TitleText
 		{
@@ -889,9 +791,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x170004FF RID: 1279
-		// (get) Token: 0x06000F36 RID: 3894 RVA: 0x0003BD33 File Offset: 0x00039F33
-		// (set) Token: 0x06000F37 RID: 3895 RVA: 0x0003BD3B File Offset: 0x00039F3B
 		[DataSourceProperty]
 		public string DoneText
 		{
@@ -909,9 +808,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000500 RID: 1280
-		// (get) Token: 0x06000F38 RID: 3896 RVA: 0x0003BD5E File Offset: 0x00039F5E
-		// (set) Token: 0x06000F39 RID: 3897 RVA: 0x0003BD66 File Offset: 0x00039F66
 		[DataSourceProperty]
 		public bool CanRecruitAll
 		{
@@ -929,9 +825,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000501 RID: 1281
-		// (get) Token: 0x06000F3A RID: 3898 RVA: 0x0003BD84 File Offset: 0x00039F84
-		// (set) Token: 0x06000F3B RID: 3899 RVA: 0x0003BD8C File Offset: 0x00039F8C
 		[DataSourceProperty]
 		public int TotalWealth
 		{
@@ -949,9 +842,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000502 RID: 1282
-		// (get) Token: 0x06000F3C RID: 3900 RVA: 0x0003BDAA File Offset: 0x00039FAA
-		// (set) Token: 0x06000F3D RID: 3901 RVA: 0x0003BDB2 File Offset: 0x00039FB2
 		[DataSourceProperty]
 		public int PartyCapacity
 		{
@@ -969,9 +859,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000503 RID: 1283
-		// (get) Token: 0x06000F3E RID: 3902 RVA: 0x0003BDD0 File Offset: 0x00039FD0
-		// (set) Token: 0x06000F3F RID: 3903 RVA: 0x0003BDD8 File Offset: 0x00039FD8
 		[DataSourceProperty]
 		public int InitialPartySize
 		{
@@ -989,9 +876,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000504 RID: 1284
-		// (get) Token: 0x06000F40 RID: 3904 RVA: 0x0003BDF6 File Offset: 0x00039FF6
-		// (set) Token: 0x06000F41 RID: 3905 RVA: 0x0003BDFE File Offset: 0x00039FFE
 		[DataSourceProperty]
 		public int CurrentPartySize
 		{
@@ -1009,9 +893,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000505 RID: 1285
-		// (get) Token: 0x06000F42 RID: 3906 RVA: 0x0003BE1C File Offset: 0x0003A01C
-		// (set) Token: 0x06000F43 RID: 3907 RVA: 0x0003BE24 File Offset: 0x0003A024
 		[DataSourceProperty]
 		public MBBindingList<RecruitVolunteerVM> VolunteerList
 		{
@@ -1029,9 +910,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000506 RID: 1286
-		// (get) Token: 0x06000F44 RID: 3908 RVA: 0x0003BE42 File Offset: 0x0003A042
-		// (set) Token: 0x06000F45 RID: 3909 RVA: 0x0003BE4A File Offset: 0x0003A04A
 		[DataSourceProperty]
 		public MBBindingList<RecruitVolunteerTroopVM> TroopsInCart
 		{
@@ -1049,13 +927,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x06000F46 RID: 3910 RVA: 0x0003BE68 File Offset: 0x0003A068
 		public void SetGetKeyTextFromKeyIDFunc(Func<string, TextObject> getKeyTextFromKeyId)
 		{
 			this._getKeyTextFromKeyId = getKeyTextFromKeyId;
 		}
 
-		// Token: 0x06000F47 RID: 3911 RVA: 0x0003BE71 File Offset: 0x0003A071
 		private string GetRecruitAllKey()
 		{
 			if (this.RecruitAllInputKey == null || this._getKeyTextFromKeyId == null)
@@ -1065,34 +941,27 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			return this._getKeyTextFromKeyId(this.RecruitAllInputKey.KeyID).ToString();
 		}
 
-		// Token: 0x06000F48 RID: 3912 RVA: 0x0003BEA4 File Offset: 0x0003A0A4
 		public void SetCancelInputKey(HotKey hotKey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06000F49 RID: 3913 RVA: 0x0003BEB3 File Offset: 0x0003A0B3
 		public void SetDoneInputKey(HotKey hotKey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06000F4A RID: 3914 RVA: 0x0003BEC2 File Offset: 0x0003A0C2
 		public void SetRecruitAllInputKey(HotKey hotKey)
 		{
 			this.RecruitAllInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 			this.SetRecruitAllHint();
 		}
 
-		// Token: 0x06000F4B RID: 3915 RVA: 0x0003BED7 File Offset: 0x0003A0D7
 		public void SetResetInputKey(HotKey hotKey)
 		{
 			this.ResetInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x17000507 RID: 1287
-		// (get) Token: 0x06000F4C RID: 3916 RVA: 0x0003BEE6 File Offset: 0x0003A0E6
-		// (set) Token: 0x06000F4D RID: 3917 RVA: 0x0003BEEE File Offset: 0x0003A0EE
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -1110,9 +979,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000508 RID: 1288
-		// (get) Token: 0x06000F4E RID: 3918 RVA: 0x0003BF0C File Offset: 0x0003A10C
-		// (set) Token: 0x06000F4F RID: 3919 RVA: 0x0003BF14 File Offset: 0x0003A114
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -1130,9 +996,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x17000509 RID: 1289
-		// (get) Token: 0x06000F50 RID: 3920 RVA: 0x0003BF32 File Offset: 0x0003A132
-		// (set) Token: 0x06000F51 RID: 3921 RVA: 0x0003BF3A File Offset: 0x0003A13A
 		[DataSourceProperty]
 		public InputKeyItemVM ResetInputKey
 		{
@@ -1150,9 +1013,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x1700050A RID: 1290
-		// (get) Token: 0x06000F52 RID: 3922 RVA: 0x0003BF58 File Offset: 0x0003A158
-		// (set) Token: 0x06000F53 RID: 3923 RVA: 0x0003BF60 File Offset: 0x0003A160
 		[DataSourceProperty]
 		public InputKeyItemVM RecruitAllInputKey
 		{
@@ -1170,130 +1030,88 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			}
 		}
 
-		// Token: 0x040006EF RID: 1775
 		private TextObject _recruitAllTextObject;
 
-		// Token: 0x040006F0 RID: 1776
 		private string _playerDoesntHaveEnoughMoneyStr;
 
-		// Token: 0x040006F1 RID: 1777
 		private string _playerIsOverPartyLimitStr;
 
-		// Token: 0x040006F2 RID: 1778
 		private Func<string, TextObject> _getKeyTextFromKeyId;
 
-		// Token: 0x040006F3 RID: 1779
 		private bool _isAvailableTroopsHighlightApplied;
 
-		// Token: 0x040006F4 RID: 1780
 		private string _latestTutorialElementID;
 
-		// Token: 0x040006F5 RID: 1781
 		private bool _enabled;
 
-		// Token: 0x040006F6 RID: 1782
 		private bool _isDoneEnabled;
 
-		// Token: 0x040006F7 RID: 1783
 		private bool _isPartyCapacityWarningEnabled;
 
-		// Token: 0x040006F8 RID: 1784
 		private bool _canRecruitAll;
 
-		// Token: 0x040006F9 RID: 1785
 		private string _titleText;
 
-		// Token: 0x040006FA RID: 1786
 		private string _doneText;
 
-		// Token: 0x040006FB RID: 1787
 		private string _recruitAllText;
 
-		// Token: 0x040006FC RID: 1788
 		private string _resetAllText;
 
-		// Token: 0x040006FD RID: 1789
 		private string _cancelText;
 
-		// Token: 0x040006FE RID: 1790
 		private int _totalWealth;
 
-		// Token: 0x040006FF RID: 1791
 		private int _partyCapacity;
 
-		// Token: 0x04000700 RID: 1792
 		private int _initialPartySize;
 
-		// Token: 0x04000701 RID: 1793
 		private int _currentPartySize;
 
-		// Token: 0x04000702 RID: 1794
 		private MBBindingList<RecruitVolunteerVM> _volunteerList;
 
-		// Token: 0x04000703 RID: 1795
 		private MBBindingList<RecruitVolunteerTroopVM> _troopsInCart;
 
-		// Token: 0x04000704 RID: 1796
 		private int _partyWage;
 
-		// Token: 0x04000705 RID: 1797
 		private string _partyCapacityText = "";
 
-		// Token: 0x04000706 RID: 1798
 		private string _partyWageText = "";
 
-		// Token: 0x04000707 RID: 1799
 		private string _partySpeedText = "";
 
-		// Token: 0x04000708 RID: 1800
 		private string _remainingFoodText = "";
 
-		// Token: 0x04000709 RID: 1801
 		private string _totalCostText = "";
 
-		// Token: 0x0400070A RID: 1802
 		private RecruitVolunteerTroopVM _focusedVolunteerTroop;
 
-		// Token: 0x0400070B RID: 1803
 		private RecruitVolunteerOwnerVM _focusedVolunteerOwner;
 
-		// Token: 0x0400070C RID: 1804
 		private HintViewModel _partyWageHint;
 
-		// Token: 0x0400070D RID: 1805
 		private HintViewModel _partyCapacityHint;
 
-		// Token: 0x0400070E RID: 1806
 		private BasicTooltipViewModel _partySpeedHint;
 
-		// Token: 0x0400070F RID: 1807
 		private HintViewModel _remainingFoodHint;
 
-		// Token: 0x04000710 RID: 1808
 		private HintViewModel _totalWealthHint;
 
-		// Token: 0x04000711 RID: 1809
 		private HintViewModel _totalCostHint;
 
-		// Token: 0x04000712 RID: 1810
 		private HintViewModel _resetHint;
 
-		// Token: 0x04000713 RID: 1811
 		private HintViewModel _doneHint;
 
-		// Token: 0x04000714 RID: 1812
 		private BasicTooltipViewModel _recruitAllHint;
 
-		// Token: 0x04000715 RID: 1813
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x04000716 RID: 1814
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x04000717 RID: 1815
 		private InputKeyItemVM _resetInputKey;
 
-		// Token: 0x04000718 RID: 1816
 		private InputKeyItemVM _recruitAllInputKey;
 	}
 }

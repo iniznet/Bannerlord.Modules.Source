@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000388 RID: 904
 	public class DefaultLogsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600352F RID: 13615 RVA: 0x000E5648 File Offset: 0x000E3848
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AlleyOwnerChanged.AddNonSerializedListener(this, new Action<Alley, Hero, Hero>(this.OnAlleyOwnerChanged));
@@ -41,42 +39,35 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnSiegeAftermathAppliedEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement, SiegeAftermathAction.SiegeAftermath, Clan, Dictionary<MobileParty, float>>(this.OnSiegeAftermathApplied));
 		}
 
-		// Token: 0x06003530 RID: 13616 RVA: 0x000E57F3 File Offset: 0x000E39F3
 		private void OnSiegeAftermathApplied(MobileParty attackerParty, Settlement settlement, SiegeAftermathAction.SiegeAftermath aftermathType, Clan previousSettlementOwner, Dictionary<MobileParty, float> partyContributions)
 		{
 			LogEntry.AddLogEntry(new SiegeAftermathLogEntry(attackerParty, partyContributions.Keys, settlement, aftermathType));
 		}
 
-		// Token: 0x06003531 RID: 13617 RVA: 0x000E5809 File Offset: 0x000E3A09
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003532 RID: 13618 RVA: 0x000E580B File Offset: 0x000E3A0B
 		private void OnPlayerCharacterChanged(Hero oldPlayer, Hero newPlayer, MobileParty newMobileParty, bool isMainPartyChanged)
 		{
 			LogEntry.AddLogEntry(new PlayerCharacterChangedLogEntry(oldPlayer, newPlayer));
 		}
 
-		// Token: 0x06003533 RID: 13619 RVA: 0x000E5819 File Offset: 0x000E3A19
 		private void OnPrisonerTaken(PartyBase party, Hero hero)
 		{
 			LogEntry.AddLogEntry(new TakePrisonerLogEntry(party, hero));
 		}
 
-		// Token: 0x06003534 RID: 13620 RVA: 0x000E5827 File Offset: 0x000E3A27
 		private void OnPrisonerReleased(Hero hero, PartyBase party, IFaction captuererFaction, EndCaptivityDetail detail)
 		{
 			LogEntry.AddLogEntry(new EndCaptivityLogEntry(hero, captuererFaction, detail));
 		}
 
-		// Token: 0x06003535 RID: 13621 RVA: 0x000E5837 File Offset: 0x000E3A37
 		private void OnCommonAreaFightOccured(MobileParty attackerParty, MobileParty defenderParty, Hero attackerHero, Settlement settlement)
 		{
 			LogEntry.AddLogEntry(new CommonAreaFightLogEntry(attackerParty, defenderParty, attackerHero, settlement));
 		}
 
-		// Token: 0x06003536 RID: 13622 RVA: 0x000E5848 File Offset: 0x000E3A48
 		private void ClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotifications)
 		{
 			if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.JoinAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary)
@@ -85,13 +76,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003537 RID: 13623 RVA: 0x000E5860 File Offset: 0x000E3A60
 		private void OnCharacterBecameFugitive(Hero hero)
 		{
 			LogEntry.AddLogEntry(new CharacterBecameFugitiveLogEntry(hero));
 		}
 
-		// Token: 0x06003538 RID: 13624 RVA: 0x000E586D File Offset: 0x000E3A6D
 		private void OnBattleStarted(PartyBase attackerParty, PartyBase defenderParty, object subject, bool showNotification)
 		{
 			if (showNotification)
@@ -100,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003539 RID: 13625 RVA: 0x000E5880 File Offset: 0x000E3A80
 		public void OnArmyDispersed(Army army, Army.ArmyDispersionReason reason, bool isPlayersArmy)
 		{
 			if (isPlayersArmy)
@@ -114,13 +102,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600353A RID: 13626 RVA: 0x000E58E4 File Offset: 0x000E3AE4
 		private void OnArmyGathered(Army army, Settlement targetSettlement)
 		{
 			LogEntry.AddLogEntry(new GatherArmyLogEntry(army, targetSettlement));
 		}
 
-		// Token: 0x0600353B RID: 13627 RVA: 0x000E58F4 File Offset: 0x000E3AF4
 		private void OnArmyCreated(Army army)
 		{
 			ArmyCreationLogEntry armyCreationLogEntry = new ArmyCreationLogEntry(army);
@@ -131,7 +117,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600353C RID: 13628 RVA: 0x000E5950 File Offset: 0x000E3B50
 		private void OnRebellionFinished(Settlement settlement, Clan oldOwnerClan)
 		{
 			RebellionStartedLogEntry rebellionStartedLogEntry = new RebellionStartedLogEntry(settlement, oldOwnerClan);
@@ -142,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600353D RID: 13629 RVA: 0x000E5990 File Offset: 0x000E3B90
 		private void OnKingdomDecisionAdded(KingdomDecision decision, bool isPlayerInvolved)
 		{
 			LogEntry.AddLogEntry(new KingdomDecisionAddedLogEntry(decision, isPlayerInvolved));
@@ -153,7 +137,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600353E RID: 13630 RVA: 0x000E59F8 File Offset: 0x000E3BF8
 		private void OnKingdomDecisionConcluded(KingdomDecision decision, DecisionOutcome chosenOutcome, bool isPlayerInvolved)
 		{
 			KingdomDecisionConcludedLogEntry kingdomDecisionConcludedLogEntry = new KingdomDecisionConcludedLogEntry(decision, chosenOutcome, isPlayerInvolved);
@@ -165,13 +148,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600353F RID: 13631 RVA: 0x000E5A6C File Offset: 0x000E3C6C
 		private void OnAlleyOwnerChanged(Alley alley, Hero newOwner, Hero oldOwner)
 		{
 			LogEntry.AddLogEntry(new ChangeAlleyOwnerLogEntry(alley, newOwner, oldOwner));
 		}
 
-		// Token: 0x06003540 RID: 13632 RVA: 0x000E5A7C File Offset: 0x000E3C7C
 		private void OnHeroesMarried(Hero marriedHero, Hero marriedTo, bool showNotification)
 		{
 			CharacterMarriedLogEntry characterMarriedLogEntry = new CharacterMarriedLogEntry(marriedHero, marriedTo);
@@ -182,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003541 RID: 13633 RVA: 0x000E5AD0 File Offset: 0x000E3CD0
 		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
 			BesiegeSettlementLogEntry besiegeSettlementLogEntry = new BesiegeSettlementLogEntry(siegeEvent.BesiegerCamp.BesiegerParty, siegeEvent.BesiegedSettlement);
@@ -193,7 +173,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003542 RID: 13634 RVA: 0x000E5B27 File Offset: 0x000E3D27
 		private void OnTournamentFinished(CharacterObject character, MBReadOnlyList<CharacterObject> participants, Town town, ItemObject prize)
 		{
 			if (character.IsHero)
@@ -202,7 +181,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003543 RID: 13635 RVA: 0x000E5B44 File Offset: 0x000E3D44
 		private void OnPlayerTraitChanged(TraitObject trait, int previousLevel)
 		{
 			int traitLevel = Hero.MainHero.GetTraitLevel(trait);
@@ -210,7 +188,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new TraitChangedMapNotification(trait, traitLevel != 0, previousLevel, traitChangedText));
 		}
 
-		// Token: 0x06003544 RID: 13636 RVA: 0x000E5B84 File Offset: 0x000E3D84
 		private static TextObject GetTraitChangedText(TraitObject traitObject, int level, int previousLevel)
 		{
 			TextObject textObject;

@@ -4,11 +4,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000EC RID: 236
 	public class DefaultAgeModel : AgeModel
 	{
-		// Token: 0x170005AA RID: 1450
-		// (get) Token: 0x06001439 RID: 5177 RVA: 0x00059891 File Offset: 0x00057A91
 		public override int BecomeInfantAge
 		{
 			get
@@ -17,8 +14,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005AB RID: 1451
-		// (get) Token: 0x0600143A RID: 5178 RVA: 0x00059894 File Offset: 0x00057A94
 		public override int BecomeChildAge
 		{
 			get
@@ -27,8 +22,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005AC RID: 1452
-		// (get) Token: 0x0600143B RID: 5179 RVA: 0x00059897 File Offset: 0x00057A97
 		public override int BecomeTeenagerAge
 		{
 			get
@@ -37,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005AD RID: 1453
-		// (get) Token: 0x0600143C RID: 5180 RVA: 0x0005989B File Offset: 0x00057A9B
 		public override int HeroComesOfAge
 		{
 			get
@@ -47,8 +38,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005AE RID: 1454
-		// (get) Token: 0x0600143D RID: 5181 RVA: 0x0005989F File Offset: 0x00057A9F
 		public override int BecomeOldAge
 		{
 			get
@@ -57,8 +46,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005AF RID: 1455
-		// (get) Token: 0x0600143E RID: 5182 RVA: 0x000598A3 File Offset: 0x00057AA3
 		public override int MaxAge
 		{
 			get
@@ -67,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600143F RID: 5183 RVA: 0x000598AC File Offset: 0x00057AAC
 		public override void GetAgeLimitForLocation(CharacterObject character, out int minimumAge, out int maximumAge, string additionalTags = "")
 		{
 			if (character.Occupation == Occupation.TavernWench)
@@ -234,7 +220,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001440 RID: 5184 RVA: 0x00059B68 File Offset: 0x00057D68
 		public override float GetSkillScalingModifierForAge(Hero hero, SkillObject skill, bool isByNaturalGrowth)
 		{
 			if (!isByNaturalGrowth)
@@ -265,43 +250,30 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x04000716 RID: 1814
 		public const string TavernVisitorTag = "TavernVisitor";
 
-		// Token: 0x04000717 RID: 1815
 		public const string TavernDrinkerTag = "TavernDrinker";
 
-		// Token: 0x04000718 RID: 1816
 		public const string SlowTownsmanTag = "SlowTownsman";
 
-		// Token: 0x04000719 RID: 1817
 		public const string TownsfolkCarryingStuffTag = "TownsfolkCarryingStuff";
 
-		// Token: 0x0400071A RID: 1818
 		public const string BroomsWomanTag = "BroomsWoman";
 
-		// Token: 0x0400071B RID: 1819
 		public const string DancerTag = "Dancer";
 
-		// Token: 0x0400071C RID: 1820
 		public const string BeggarTag = "Beggar";
 
-		// Token: 0x0400071D RID: 1821
 		public const string ChildTag = "Child";
 
-		// Token: 0x0400071E RID: 1822
 		public const string TeenagerTag = "Teenager";
 
-		// Token: 0x0400071F RID: 1823
 		public const string InfantTag = "Infant";
 
-		// Token: 0x04000720 RID: 1824
 		public const string NotaryTag = "Notary";
 
-		// Token: 0x04000721 RID: 1825
 		public const string BarberTag = "Barber";
 
-		// Token: 0x04000722 RID: 1826
 		public const string AlleyGangMemberTag = "AlleyGangMember";
 	}
 }

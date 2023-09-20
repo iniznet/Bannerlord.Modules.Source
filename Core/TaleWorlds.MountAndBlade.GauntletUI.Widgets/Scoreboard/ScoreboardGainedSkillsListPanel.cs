@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 {
-	// Token: 0x0200004B RID: 75
 	public class ScoreboardGainedSkillsListPanel : ListPanel
 	{
-		// Token: 0x060003F2 RID: 1010 RVA: 0x0000CDF7 File Offset: 0x0000AFF7
 		public ScoreboardGainedSkillsListPanel(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060003F3 RID: 1011 RVA: 0x0000CE0B File Offset: 0x0000B00B
 		protected override void OnLateUpdate(float dt)
 		{
 			if (base.IsVisible)
@@ -23,7 +20,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 			}
 		}
 
-		// Token: 0x060003F4 RID: 1012 RVA: 0x0000CE1C File Offset: 0x0000B01C
 		private void UpdateVerticalPosRelatedToCurrentUnit()
 		{
 			if (this._currentUnit == null)
@@ -41,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 			base.ScaledPositionYOffset = this._currentUnit.ParentWidget.ParentWidget.ParentWidget.LocalPosition.Y;
 		}
 
-		// Token: 0x060003F5 RID: 1013 RVA: 0x0000CF0C File Offset: 0x0000B10C
 		public void SetCurrentUnit(ScoreboardSkillItemHoverToggleWidget unit)
 		{
 			this._currentUnit = unit;
@@ -73,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 			base.IsVisible = false;
 		}
 
-		// Token: 0x060003F6 RID: 1014 RVA: 0x0000CFEC File Offset: 0x0000B1EC
 		private void CopyWidgetProperties(ref TextWidget targetTextWidget, TextWidget sourceTextWidget)
 		{
 			targetTextWidget.Text = sourceTextWidget.Text;
@@ -81,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 			this.CopyWidgetProperties(ref widget, sourceTextWidget);
 		}
 
-		// Token: 0x060003F7 RID: 1015 RVA: 0x0000D014 File Offset: 0x0000B214
 		private void CopyWidgetProperties(ref Widget targetWidget, Widget sourceWidget)
 		{
 			targetWidget.WidthSizePolicy = sourceWidget.WidthSizePolicy;
@@ -102,10 +95,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Scoreboard
 			targetWidget.VerticalAlignment = sourceWidget.VerticalAlignment;
 		}
 
-		// Token: 0x040001B7 RID: 439
 		private float _scrollGradientPadding = 55f;
 
-		// Token: 0x040001B8 RID: 440
 		private ScoreboardSkillItemHoverToggleWidget _currentUnit;
 	}
 }

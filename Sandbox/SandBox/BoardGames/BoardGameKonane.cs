@@ -13,11 +13,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.BoardGames
 {
-	// Token: 0x020000AD RID: 173
 	public class BoardGameKonane : BoardGameBase
 	{
-		// Token: 0x17000091 RID: 145
-		// (get) Token: 0x06000A79 RID: 2681 RVA: 0x000552FD File Offset: 0x000534FD
 		public override int TileCount
 		{
 			get
@@ -26,8 +23,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000092 RID: 146
-		// (get) Token: 0x06000A7A RID: 2682 RVA: 0x0005530A File Offset: 0x0005350A
 		protected override bool RotateBoard
 		{
 			get
@@ -36,8 +31,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000093 RID: 147
-		// (get) Token: 0x06000A7B RID: 2683 RVA: 0x0005530D File Offset: 0x0005350D
 		protected override bool PreMovementStagePresent
 		{
 			get
@@ -46,8 +39,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000094 RID: 148
-		// (get) Token: 0x06000A7C RID: 2684 RVA: 0x00055310 File Offset: 0x00053510
 		protected override bool DiceRollRequired
 		{
 			get
@@ -56,7 +47,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A7D RID: 2685 RVA: 0x00055314 File Offset: 0x00053514
 		public BoardGameKonane(MissionBoardGameLogic mission, PlayerTurn startingPlayer)
 			: base(mission, new TextObject("{=5DSafcSC}Konane", null), startingPlayer)
 		{
@@ -68,7 +58,6 @@ namespace SandBox.BoardGames
 			this.PawnUnselectedFactor = 4287395960U;
 		}
 
-		// Token: 0x06000A7E RID: 2686 RVA: 0x0005536C File Offset: 0x0005356C
 		public override void InitializeUnits()
 		{
 			base.PlayerOneUnits.Clear();
@@ -87,7 +76,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A7F RID: 2687 RVA: 0x00055454 File Offset: 0x00053654
 		public override void InitializeTiles()
 		{
 			int x;
@@ -113,7 +101,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A80 RID: 2688 RVA: 0x00055588 File Offset: 0x00053788
 		public override void InitializeSound()
 		{
 			PawnBase.PawnMoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/move_stone");
@@ -122,7 +109,6 @@ namespace SandBox.BoardGames
 			PawnBase.PawnRemoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/out_stone");
 		}
 
-		// Token: 0x06000A81 RID: 2689 RVA: 0x000555C6 File Offset: 0x000537C6
 		public override void Reset()
 		{
 			base.Reset();
@@ -135,7 +121,6 @@ namespace SandBox.BoardGames
 			this.RestoreStartingBoard();
 		}
 
-		// Token: 0x06000A82 RID: 2690 RVA: 0x000555F0 File Offset: 0x000537F0
 		public override List<Move> CalculateValidMoves(PawnBase pawn)
 		{
 			List<Move> list = new List<Move>();
@@ -247,7 +232,6 @@ namespace SandBox.BoardGames
 			return list;
 		}
 
-		// Token: 0x06000A83 RID: 2691 RVA: 0x00055958 File Offset: 0x00053B58
 		public override void SetPawnCaptured(PawnBase pawn, bool fake = false)
 		{
 			base.SetPawnCaptured(pawn, fake);
@@ -263,7 +247,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A84 RID: 2692 RVA: 0x000559C4 File Offset: 0x00053BC4
 		protected override PawnBase SelectPawn(PawnBase pawn)
 		{
 			if (base.PlayerTurn == PlayerTurn.PlayerOne)
@@ -300,7 +283,6 @@ namespace SandBox.BoardGames
 			return pawn;
 		}
 
-		// Token: 0x06000A85 RID: 2693 RVA: 0x00055A34 File Offset: 0x00053C34
 		protected override void HandlePreMovementStage(float dt)
 		{
 			if (base.InputManager.IsHotKeyPressed("BoardGamePawnSelect"))
@@ -320,14 +302,12 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A86 RID: 2694 RVA: 0x00055A87 File Offset: 0x00053C87
 		protected override void HandlePreMovementStageAI(Move move)
 		{
 			this.SetPawnCaptured(move.Unit, false);
 			base.EndTurn();
 		}
 
-		// Token: 0x06000A87 RID: 2695 RVA: 0x00055A9C File Offset: 0x00053C9C
 		protected override void MovePawnToTileDelayed(PawnBase pawn, TileBase tile, bool instantMove, bool displayMessage, float delay)
 		{
 			base.MovePawnToTileDelayed(pawn, tile, instantMove, displayMessage, delay);
@@ -384,7 +364,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A88 RID: 2696 RVA: 0x00055C3C File Offset: 0x00053E3C
 		protected override void SwitchPlayerTurn()
 		{
 			if ((base.PlayerTurn == PlayerTurn.PlayerOneWaiting || base.PlayerTurn == PlayerTurn.PlayerTwoWaiting) && !base.InPreMovementStage && this.SelectedUnit != null)
@@ -431,7 +410,6 @@ namespace SandBox.BoardGames
 			base.SwitchPlayerTurn();
 		}
 
-		// Token: 0x06000A89 RID: 2697 RVA: 0x00055D14 File Offset: 0x00053F14
 		protected override bool CheckGameEnded()
 		{
 			bool flag = false;
@@ -458,7 +436,6 @@ namespace SandBox.BoardGames
 			return flag;
 		}
 
-		// Token: 0x06000A8A RID: 2698 RVA: 0x00055D83 File Offset: 0x00053F83
 		protected override void OnAfterBoardSetUp()
 		{
 			if (this._startState.PawnInformation == null)
@@ -469,7 +446,6 @@ namespace SandBox.BoardGames
 			this.CheckForRemovablePawns(base.PlayerWhoStarted == PlayerTurn.PlayerOne);
 		}
 
-		// Token: 0x06000A8B RID: 2699 RVA: 0x00055DB8 File Offset: 0x00053FB8
 		public void AIMakeMove(Move move)
 		{
 			Tile2D tile2D = move.GoalTile as Tile2D;
@@ -486,7 +462,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A8C RID: 2700 RVA: 0x00055E3C File Offset: 0x0005403C
 		public int CheckForRemovablePawns(bool playerOne)
 		{
 			this.UnFocusRemovablePawns();
@@ -601,7 +576,6 @@ namespace SandBox.BoardGames
 			return this.RemovablePawns.Count;
 		}
 
-		// Token: 0x06000A8D RID: 2701 RVA: 0x0005629C File Offset: 0x0005449C
 		public BoardGameKonane.BoardInformation TakeBoardSnapshot()
 		{
 			BoardGameKonane.PawnInformation[] array = new BoardGameKonane.PawnInformation[base.PlayerOneUnits.Count + base.PlayerTwoUnits.Count];
@@ -627,7 +601,6 @@ namespace SandBox.BoardGames
 			return new BoardGameKonane.BoardInformation(ref array, ref array2);
 		}
 
-		// Token: 0x06000A8E RID: 2702 RVA: 0x0005644C File Offset: 0x0005464C
 		public void UndoMove(ref BoardGameKonane.BoardInformation board)
 		{
 			int num = 0;
@@ -660,7 +633,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A8F RID: 2703 RVA: 0x00056634 File Offset: 0x00054834
 		protected void CheckWhichPawnsAreCaptured(PawnKonane pawn, bool fake = false)
 		{
 			int x = pawn.X;
@@ -705,19 +677,16 @@ namespace SandBox.BoardGames
 			this.SetPawnCaptured(this.GetTile(vec2i6.X, vec2i6.Y).PawnOnTile, fake);
 		}
 
-		// Token: 0x06000A90 RID: 2704 RVA: 0x00056803 File Offset: 0x00054A03
 		private void SetTile(TileBase tile, int x, int y)
 		{
 			base.Tiles[y * BoardGameKonane.BoardWidth + x] = tile;
 		}
 
-		// Token: 0x06000A91 RID: 2705 RVA: 0x00056816 File Offset: 0x00054A16
 		private TileBase GetTile(int x, int y)
 		{
 			return base.Tiles[y * BoardGameKonane.BoardWidth + x];
 		}
 
-		// Token: 0x06000A92 RID: 2706 RVA: 0x00056828 File Offset: 0x00054A28
 		private void FocusRemovablePawns()
 		{
 			foreach (PawnBase pawnBase in this.RemovablePawns)
@@ -726,7 +695,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A93 RID: 2707 RVA: 0x00056890 File Offset: 0x00054A90
 		private void UnFocusRemovablePawns()
 		{
 			foreach (PawnBase pawnBase in this.RemovablePawns)
@@ -736,7 +704,6 @@ namespace SandBox.BoardGames
 			this.RemovablePawns.Clear();
 		}
 
-		// Token: 0x06000A94 RID: 2708 RVA: 0x00056904 File Offset: 0x00054B04
 		private void SetAllGoalPositions(PawnKonane pawn, Tile2D prevTile, float speed)
 		{
 			Vec3 globalPosition = prevTile.Entity.GlobalPosition;
@@ -762,7 +729,6 @@ namespace SandBox.BoardGames
 			pawn.MovePawnToGoalPositions(false, speed, false);
 		}
 
-		// Token: 0x06000A95 RID: 2709 RVA: 0x000569EC File Offset: 0x00054BEC
 		private bool CheckPlacementStageOver()
 		{
 			bool flag = false;
@@ -773,7 +739,6 @@ namespace SandBox.BoardGames
 			return flag;
 		}
 
-		// Token: 0x06000A96 RID: 2710 RVA: 0x00056A10 File Offset: 0x00054C10
 		private void PreplaceUnits()
 		{
 			List<PawnBase> list = ((base.PlayerWhoStarted == PlayerTurn.PlayerOne) ? base.PlayerOneUnits : base.PlayerTwoUnits);
@@ -796,7 +761,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A97 RID: 2711 RVA: 0x00056AF0 File Offset: 0x00054CF0
 		private void RestoreStartingBoard()
 		{
 			int num = 0;
@@ -849,45 +813,33 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x040003B9 RID: 953
 		public const int WhitePawnCount = 18;
 
-		// Token: 0x040003BA RID: 954
 		public const int BlackPawnCount = 18;
 
-		// Token: 0x040003BB RID: 955
 		public static readonly int BoardWidth = 6;
 
-		// Token: 0x040003BC RID: 956
 		public static readonly int BoardHeight = 6;
 
-		// Token: 0x040003BD RID: 957
 		public List<PawnBase> RemovablePawns = new List<PawnBase>();
 
-		// Token: 0x040003BE RID: 958
 		private BoardGameKonane.BoardInformation _startState;
 
-		// Token: 0x0200019F RID: 415
 		public struct BoardInformation
 		{
-			// Token: 0x06001284 RID: 4740 RVA: 0x00074825 File Offset: 0x00072A25
 			public BoardInformation(ref BoardGameKonane.PawnInformation[] pawns, ref TileBaseInformation[,] tiles)
 			{
 				this.PawnInformation = pawns;
 				this.TileInformation = tiles;
 			}
 
-			// Token: 0x040007D8 RID: 2008
 			public readonly BoardGameKonane.PawnInformation[] PawnInformation;
 
-			// Token: 0x040007D9 RID: 2009
 			public readonly TileBaseInformation[,] TileInformation;
 		}
 
-		// Token: 0x020001A0 RID: 416
 		public struct PawnInformation
 		{
-			// Token: 0x06001285 RID: 4741 RVA: 0x00074837 File Offset: 0x00072A37
 			public PawnInformation(int x, int y, int prevX, int prevY, bool captured, Vec3 position)
 			{
 				this.X = x;
@@ -898,22 +850,16 @@ namespace SandBox.BoardGames
 				this.Position = position;
 			}
 
-			// Token: 0x040007DA RID: 2010
 			public readonly int X;
 
-			// Token: 0x040007DB RID: 2011
 			public readonly int Y;
 
-			// Token: 0x040007DC RID: 2012
 			public readonly int PrevX;
 
-			// Token: 0x040007DD RID: 2013
 			public readonly int PrevY;
 
-			// Token: 0x040007DE RID: 2014
 			public readonly bool IsCaptured;
 
-			// Token: 0x040007DF RID: 2015
 			public readonly Vec3 Position;
 		}
 	}

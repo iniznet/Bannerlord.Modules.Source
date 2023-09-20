@@ -7,10 +7,8 @@ using TaleWorlds.CampaignSystem.Settlements.Workshops;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000110 RID: 272
 	public class DefaultInformationRestrictionModel : InformationRestrictionModel
 	{
-		// Token: 0x060015BA RID: 5562 RVA: 0x00066C48 File Offset: 0x00064E48
 		public override bool DoesPlayerKnowDetailsOf(Settlement settlement)
 		{
 			if (settlement.MapFaction == PartyBase.MainParty.MapFaction || settlement.IsInspected)
@@ -53,13 +51,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.IsDisabledByCheat;
 		}
 
-		// Token: 0x060015BB RID: 5563 RVA: 0x00066DA8 File Offset: 0x00064FA8
 		public override bool DoesPlayerKnowDetailsOf(Hero hero)
 		{
 			return hero.Clan == Clan.PlayerClan || hero.IsDead || (hero.MapFaction != null && hero.MapFaction.IsKingdomFaction && hero.MapFaction.Leader == hero) || hero.IsKnownToPlayer || this.IsDisabledByCheat;
 		}
 
-		// Token: 0x0400079A RID: 1946
 		public bool IsDisabledByCheat;
 	}
 }

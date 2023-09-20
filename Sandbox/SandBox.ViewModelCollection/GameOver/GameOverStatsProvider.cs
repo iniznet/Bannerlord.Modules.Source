@@ -6,16 +6,13 @@ using TaleWorlds.Core;
 
 namespace SandBox.ViewModelCollection.GameOver
 {
-	// Token: 0x02000037 RID: 55
 	public class GameOverStatsProvider
 	{
-		// Token: 0x06000414 RID: 1044 RVA: 0x000127A6 File Offset: 0x000109A6
 		public GameOverStatsProvider()
 		{
 			this._statSource = Campaign.Current.GetCampaignBehavior<IStatisticsCampaignBehavior>();
 		}
 
-		// Token: 0x06000415 RID: 1045 RVA: 0x000127BE File Offset: 0x000109BE
 		public IEnumerable<StatCategory> GetGameOverStats()
 		{
 			yield return new StatCategory("General", this.GetGeneralStats(this._statSource));
@@ -26,7 +23,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x06000416 RID: 1046 RVA: 0x000127CE File Offset: 0x000109CE
 		private IEnumerable<StatItem> GetGeneralStats(IStatisticsCampaignBehavior source)
 		{
 			int num = (int)source.GetTotalTimePlayed().ToYears;
@@ -61,7 +57,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x06000417 RID: 1047 RVA: 0x000127DE File Offset: 0x000109DE
 		private IEnumerable<StatItem> GetBattleStats(IStatisticsCampaignBehavior source)
 		{
 			int numberOfBattlesLost = source.GetNumberOfBattlesLost();
@@ -91,7 +86,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x06000418 RID: 1048 RVA: 0x000127EE File Offset: 0x000109EE
 		private IEnumerable<StatItem> GetFinanceStats(IStatisticsCampaignBehavior source)
 		{
 			yield return new StatItem("TotalDenarsEarned", source.GetTotalDenarsEarned().ToString("0.##"), StatItem.StatType.Gold);
@@ -105,7 +99,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x000127FE File Offset: 0x000109FE
 		private IEnumerable<StatItem> GetCraftingStats(IStatisticsCampaignBehavior source)
 		{
 			yield return new StatItem("WeaponsCrafted", source.GetNumberOfWeaponsCrafted().ToString(), StatItem.StatType.None);
@@ -118,7 +111,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x0001280E File Offset: 0x00010A0E
 		private IEnumerable<StatItem> GetCompanionStats(IStatisticsCampaignBehavior source)
 		{
 			yield return new StatItem("NumberOfHiredCompanions", source.GetNumberOfCompanionsHired().ToString(), StatItem.StatType.None);
@@ -133,7 +125,6 @@ namespace SandBox.ViewModelCollection.GameOver
 			yield break;
 		}
 
-		// Token: 0x0400021D RID: 541
 		private readonly IStatisticsCampaignBehavior _statSource;
 	}
 }

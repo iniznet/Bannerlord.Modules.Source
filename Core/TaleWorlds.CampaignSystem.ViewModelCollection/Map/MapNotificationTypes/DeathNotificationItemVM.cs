@@ -6,10 +6,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 {
-	// Token: 0x02000037 RID: 55
 	public class DeathNotificationItemVM : MapNotificationItemBaseVM
 	{
-		// Token: 0x06000509 RID: 1289 RVA: 0x00019E2C File Offset: 0x0001802C
 		public DeathNotificationItemVM(DeathMapNotification data)
 			: base(data)
 		{

@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200038E RID: 910
 	public class EducationCampaignBehavior : CampaignBehaviorBase, IEducationLogic
 	{
-		// Token: 0x0600358B RID: 13707 RVA: 0x000E7B4C File Offset: 0x000E5D4C
 		public override void RegisterEvents()
 		{
 			if (!CampaignOptions.IsLifeDeathCycleDisabled)
@@ -27,7 +25,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600358C RID: 13708 RVA: 0x000E7BBC File Offset: 0x000E5DBC
 		private void OnHeroComesOfAge(Hero hero)
 		{
 			Hero mother = hero.Mother;
@@ -43,13 +40,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._previousEducations.Remove(hero);
 		}
 
-		// Token: 0x0600358D RID: 13709 RVA: 0x000E7C10 File Offset: 0x000E5E10
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, short>>("_previousEducations", ref this._previousEducations);
 		}
 
-		// Token: 0x0600358E RID: 13710 RVA: 0x000E7C24 File Offset: 0x000E5E24
 		public void GetOptionProperties(Hero child, string optionKey, List<string> previousOptions, out TextObject optionTitle, out TextObject description, out TextObject effect, out ValueTuple<CharacterAttribute, int>[] attributes, out ValueTuple<SkillObject, int>[] skills, out ValueTuple<SkillObject, int>[] focusPoints, out EducationCampaignBehavior.EducationCharacterProperties[] educationCharacterProperties)
 		{
 			EducationCampaignBehavior.EducationStage stage = this.GetStage(child);
@@ -85,7 +80,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600358F RID: 13711 RVA: 0x000E7D24 File Offset: 0x000E5F24
 		public void GetPageProperties(Hero child, List<string> previousChoices, out TextObject title, out TextObject description, out TextObject instruction, out EducationCampaignBehavior.EducationCharacterProperties[] defaultCharacterProperties, out string[] availableOptions)
 		{
 			EducationCampaignBehavior.EducationStage stage = this.GetStage(child);
@@ -97,14 +91,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			availableOptions = page.GetAvailableOptions(stage.StringIdToEducationOption(previousChoices));
 		}
 
-		// Token: 0x06003590 RID: 13712 RVA: 0x000E7D78 File Offset: 0x000E5F78
 		public bool IsValidEducationNotification(EducationMapNotification data)
 		{
 			EducationCampaignBehavior.EducationStage stage = this.GetStage(data.Child);
 			return data.Child.IsAlive && data.Age > 0 && data.Child.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && stage != null;
 		}
 
-		// Token: 0x06003591 RID: 13713 RVA: 0x000E7DD0 File Offset: 0x000E5FD0
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail details, bool showNotifications)
 		{
 			if (victim.Clan == Clan.PlayerClan && this._previousEducations.ContainsKey(victim))
@@ -113,14 +105,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003592 RID: 13714 RVA: 0x000E7DFC File Offset: 0x000E5FFC
 		public void GetStageProperties(Hero child, out int pageCount)
 		{
 			EducationCampaignBehavior.EducationStage stage = this.GetStage(child);
 			pageCount = stage.PageCount;
 		}
 
-		// Token: 0x06003593 RID: 13715 RVA: 0x000E7E19 File Offset: 0x000E6019
 		private void OnCharacterCreationOver()
 		{
 			if (CampaignOptions.IsLifeDeathCycleDisabled)
@@ -129,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003594 RID: 13716 RVA: 0x000E7E30 File Offset: 0x000E6030
 		private void OnDailyTick()
 		{
 			if (MapEvent.PlayerMapEvent == null)
@@ -154,7 +143,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003595 RID: 13717 RVA: 0x000E7F28 File Offset: 0x000E6128
 		private EducationCampaignBehavior.ChildAgeState GetClosestStage(Hero child)
 		{
 			EducationCampaignBehavior.ChildAgeState childAgeState = EducationCampaignBehavior.ChildAgeState.Year2;
@@ -169,7 +157,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return childAgeState;
 		}
 
-		// Token: 0x06003596 RID: 13718 RVA: 0x000E7F5C File Offset: 0x000E615C
 		private EducationCampaignBehavior.ChildAgeState GetLastDoneStage(Hero child)
 		{
 			short num;
@@ -180,7 +167,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return EducationCampaignBehavior.ChildAgeState.Invalid;
 		}
 
-		// Token: 0x06003597 RID: 13719 RVA: 0x000E7F7C File Offset: 0x000E617C
 		private void OnFinalize(EducationCampaignBehavior.EducationStage stage, Hero child, List<string> chosenOptions)
 		{
 			foreach (string text in chosenOptions)
@@ -201,13 +187,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._activeChild = null;
 		}
 
-		// Token: 0x06003598 RID: 13720 RVA: 0x000E8028 File Offset: 0x000E6228
 		private bool HasNotificationForAge(Hero child, int age)
 		{
 			return Campaign.Current.CampaignInformationManager.InformationDataExists<EducationMapNotification>((EducationMapNotification notification) => notification.Child == child && notification.Age == age);
 		}
 
-		// Token: 0x06003599 RID: 13721 RVA: 0x000E8064 File Offset: 0x000E6264
 		private void ShowEducationNotification(Hero child, int age)
 		{
 			TextObject textObject = GameTexts.FindText("str_education_notification_right", null);
@@ -220,7 +204,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600359A RID: 13722 RVA: 0x000E80E8 File Offset: 0x000E62E8
 		private void DoEducationUntil(Hero child, EducationCampaignBehavior.ChildAgeState childAgeState)
 		{
 			short num;
@@ -238,7 +221,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600359B RID: 13723 RVA: 0x000E812C File Offset: 0x000E632C
 		private void DoStage(Hero child, EducationCampaignBehavior.EducationStage stage)
 		{
 			List<string> list = new List<string>();
@@ -250,31 +232,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.OnFinalize(stage, child, list);
 		}
 
-		// Token: 0x0600359C RID: 13724 RVA: 0x000E8179 File Offset: 0x000E6379
 		public void Finalize(Hero child, List<string> chosenOptions)
 		{
 			this.OnFinalize(this.GetStage(child), child, chosenOptions);
 		}
 
-		// Token: 0x0600359D RID: 13725 RVA: 0x000E818A File Offset: 0x000E638A
 		private bool IsHeroChildOfPlayer(Hero child)
 		{
 			return Hero.MainHero.Children.Contains(child);
 		}
 
-		// Token: 0x0600359E RID: 13726 RVA: 0x000E819C File Offset: 0x000E639C
 		private bool ChildCultureHasLorekeeper(Hero child)
 		{
 			return child.Culture.StringId == "khuzait" || child.Culture.StringId == "battania";
 		}
 
-		// Token: 0x0600359F RID: 13727 RVA: 0x000E81CC File Offset: 0x000E63CC
 		private bool ChildCultureHasBard(Hero child)
 		{
 			return child.Culture.StringId == "battania";
 		}
 
-		// Token: 0x060035A0 RID: 13728 RVA: 0x000E81E4 File Offset: 0x000E63E4
 		private EducationCampaignBehavior.EducationStage GetStage(Hero child)
 		{
 			short num;
@@ -290,7 +267,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this.GetStage(child, childAgeState);
 		}
 
-		// Token: 0x060035A1 RID: 13729 RVA: 0x000E821C File Offset: 0x000E641C
 		private EducationCampaignBehavior.EducationStage GetStage(Hero child, EducationCampaignBehavior.ChildAgeState state)
 		{
 			if (this._activeStage == null || this._activeStage.Target != state || child != this._activeChild)
@@ -326,7 +302,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this._activeStage;
 		}
 
-		// Token: 0x060035A2 RID: 13730 RVA: 0x000E82F4 File Offset: 0x000E64F4
 		private EducationCampaignBehavior.EducationStage CreateStage2(Hero child)
 		{
 			EducationCampaignBehavior.EducationStage educationStage = new EducationCampaignBehavior.EducationStage(EducationCampaignBehavior.ChildAgeState.Year2);
@@ -457,7 +432,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035A3 RID: 13731 RVA: 0x000E87E6 File Offset: 0x000E69E6
 		private static int ChildStateToAge(EducationCampaignBehavior.ChildAgeState state)
 		{
 			switch (state)
@@ -479,7 +453,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035A4 RID: 13732 RVA: 0x000E8818 File Offset: 0x000E6A18
 		private void Stage2Selection(List<SkillObject> skills, EducationCampaignBehavior.EducationPage previousPage, EducationCampaignBehavior.EducationPage currentPage, EducationCampaignBehavior.EducationCharacterProperties[] childProperties, EducationCampaignBehavior.EducationCharacterProperties[] tutorProperties)
 		{
 			for (int i = 0; i < skills.Count; i++)
@@ -524,7 +497,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035A5 RID: 13733 RVA: 0x000E8A0C File Offset: 0x000E6C0C
 		private void Stage16Selection(ValueTuple<TextObject, TextObject, SkillObject>[] titleDescSkillTuple, EducationCampaignBehavior.EducationPage currentPage, EducationCampaignBehavior.EducationCharacterProperties[] childProperties)
 		{
 			for (int i = 0; i < titleDescSkillTuple.Length; i++)
@@ -558,7 +530,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035A6 RID: 13734 RVA: 0x000E8AEC File Offset: 0x000E6CEC
 		private EducationCampaignBehavior.EducationStage CreateStage5(Hero child)
 		{
 			EducationCampaignBehavior.EducationStage educationStage = new EducationCampaignBehavior.EducationStage(EducationCampaignBehavior.ChildAgeState.Year5);
@@ -640,7 +611,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035A7 RID: 13735 RVA: 0x000E92EC File Offset: 0x000E74EC
 		private EducationCampaignBehavior.EducationStage CreateStage8(Hero child)
 		{
 			TextObject textObject = new TextObject("{=CU3u0c02}Childhood", null);
@@ -1039,7 +1009,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035A8 RID: 13736 RVA: 0x000EB0BC File Offset: 0x000E92BC
 		private EducationCampaignBehavior.EducationStage CreateStage11(Hero child)
 		{
 			TextObject textObject = new TextObject("{=ok8lSW6M}Youth", null);
@@ -1124,7 +1093,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035A9 RID: 13737 RVA: 0x000EB7E4 File Offset: 0x000E99E4
 		private EducationCampaignBehavior.EducationStage CreateStage14(Hero child)
 		{
 			TextObject textObject = new TextObject("{=rcoueCmk}Adolescence", null);
@@ -1236,7 +1204,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035AA RID: 13738 RVA: 0x000EC02C File Offset: 0x000EA22C
 		private EducationCampaignBehavior.EducationStage CreateStage16(Hero child)
 		{
 			TextObject textObject = new TextObject("{=Ww3uU5e6}Young Adulthood", null);
@@ -1551,7 +1518,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return educationStage;
 		}
 
-		// Token: 0x060035AB RID: 13739 RVA: 0x000EDA60 File Offset: 0x000EBC60
 		private void GetHighestThreeAttributes(Hero hero, out ValueTuple<CharacterAttribute, int>[] maxAttributes)
 		{
 			ValueTuple<CharacterAttribute, int>[] array = new ValueTuple<CharacterAttribute, int>[Attributes.All.Count];
@@ -1563,89 +1529,58 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			maxAttributes = array.OrderByDescending((ValueTuple<CharacterAttribute, int> x) => x.Item2).Take(3).ToArray<ValueTuple<CharacterAttribute, int>>();
 		}
 
-		// Token: 0x04001154 RID: 4436
 		private const char Separator = ';';
 
-		// Token: 0x04001155 RID: 4437
 		private const int AttributeIncrease = 1;
 
-		// Token: 0x04001156 RID: 4438
 		private const int FocusIncrease = 1;
 
-		// Token: 0x04001157 RID: 4439
 		private const int SkillIncrease = 5;
 
-		// Token: 0x04001158 RID: 4440
 		private readonly TextObject _pickAttributeText = new TextObject("{=m7iBf6fQ}Pick an Attribute", null);
 
-		// Token: 0x04001159 RID: 4441
 		private readonly TextObject _confirmResultsText = new TextObject("{=La9qAlfi}Confirm the Results", null);
 
-		// Token: 0x0400115A RID: 4442
 		private readonly TextObject _chooseTalentText = new TextObject("{=K9fcqr0K}Choose a Talent", null);
 
-		// Token: 0x0400115B RID: 4443
 		private readonly TextObject _chooseTutorText = new TextObject("{=B7JVLc4u}Choose a Tutor", null);
 
-		// Token: 0x0400115C RID: 4444
 		private readonly TextObject _guideTutorText = new TextObject("{=VbWAsWWY}Guide the Tutor", null);
 
-		// Token: 0x0400115D RID: 4445
 		private readonly TextObject _chooseFocusText = new TextObject("{=HBZS0bug}Choose a Focus", null);
 
-		// Token: 0x0400115E RID: 4446
 		private readonly TextObject _chooseSkillText = new TextObject("{=5BEGa9ZS}Choose a Skill", null);
 
-		// Token: 0x0400115F RID: 4447
 		private readonly TextObject _chooseGiftText = new TextObject("{=DcoDtW2A}Choose a Gift", null);
 
-		// Token: 0x04001160 RID: 4448
 		private readonly TextObject _chooseAchievementText = new TextObject("{=26sKJehk}Choose an Achievement", null);
 
-		// Token: 0x04001161 RID: 4449
 		private Dictionary<Hero, short> _previousEducations = new Dictionary<Hero, short>();
 
-		// Token: 0x04001162 RID: 4450
 		private readonly TextObject _chooseTaskText = new TextObject("{=SUNKjdZ9}Choose a Task", null);
 
-		// Token: 0x04001163 RID: 4451
 		private readonly TextObject _chooseRequestText = new TextObject("{=jNBVoObj}Choose a Request", null);
 
-		// Token: 0x04001164 RID: 4452
 		private Hero _activeChild;
 
-		// Token: 0x04001165 RID: 4453
 		private EducationCampaignBehavior.EducationStage _activeStage;
 
-		// Token: 0x020006D4 RID: 1748
 		private enum ChildAgeState : short
 		{
-			// Token: 0x04001C16 RID: 7190
 			Invalid = -1,
-			// Token: 0x04001C17 RID: 7191
 			Year2,
-			// Token: 0x04001C18 RID: 7192
 			Year5,
-			// Token: 0x04001C19 RID: 7193
 			Year8,
-			// Token: 0x04001C1A RID: 7194
 			Year11,
-			// Token: 0x04001C1B RID: 7195
 			Year14,
-			// Token: 0x04001C1C RID: 7196
 			Year16,
-			// Token: 0x04001C1D RID: 7197
 			Count,
-			// Token: 0x04001C1E RID: 7198
 			First = 0,
-			// Token: 0x04001C1F RID: 7199
 			Last = 5
 		}
 
-		// Token: 0x020006D5 RID: 1749
 		private class EducationOption
 		{
-			// Token: 0x0600548B RID: 21643 RVA: 0x0016AFA8 File Offset: 0x001691A8
 			public void OnConsequence(Hero child)
 			{
 				EducationCampaignBehavior.EducationOption.EducationOptionConsequenceDelegate consequence = this._consequence;
@@ -1664,7 +1599,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x0600548C RID: 21644 RVA: 0x0016B028 File Offset: 0x00169228
 			public EducationOption(TextObject title, TextObject description, TextObject effect, EducationCampaignBehavior.EducationOption.EducationOptionConditionDelegate condition, EducationCampaignBehavior.EducationOption.EducationOptionConsequenceDelegate consequence, CharacterAttribute[] attributes, SkillObject[] skills, EducationCampaignBehavior.EducationCharacterProperties childProperties, EducationCampaignBehavior.EducationCharacterProperties specialCharacterProperties = default(EducationCampaignBehavior.EducationCharacterProperties))
 			{
 				this.Title = title;
@@ -1679,7 +1613,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.RandomValue = MBRandom.RandomInt(0, int.MaxValue);
 			}
 
-			// Token: 0x0600548D RID: 21645 RVA: 0x0016B0B4 File Offset: 0x001692B4
 			private TextObject GetEffectText(TextObject effect)
 			{
 				TextObject textObject = new TextObject("{=JfBTbsX2}{EFFECT_DESCRIPTION}{NEW_LINE_1}{SKILL_DESCRIPTION}{NEW_LINE_2}{ATTRIBUTE_DESCRIPTION}", null);
@@ -1732,50 +1665,33 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return textObject;
 			}
 
-			// Token: 0x04001C20 RID: 7200
 			public readonly EducationCampaignBehavior.EducationOption.EducationOptionConditionDelegate Condition;
 
-			// Token: 0x04001C21 RID: 7201
 			private readonly EducationCampaignBehavior.EducationOption.EducationOptionConsequenceDelegate _consequence;
 
-			// Token: 0x04001C22 RID: 7202
 			public readonly TextObject Title;
 
-			// Token: 0x04001C23 RID: 7203
 			public readonly TextObject Description;
 
-			// Token: 0x04001C24 RID: 7204
 			public readonly TextObject Effect;
 
-			// Token: 0x04001C25 RID: 7205
 			public readonly CharacterAttribute[] Attributes;
 
-			// Token: 0x04001C26 RID: 7206
 			public readonly SkillObject[] Skills;
 
-			// Token: 0x04001C27 RID: 7207
 			public readonly EducationCampaignBehavior.EducationCharacterProperties ChildProperties;
 
-			// Token: 0x04001C28 RID: 7208
 			public readonly EducationCampaignBehavior.EducationCharacterProperties SpecialCharacterProperties;
 
-			// Token: 0x04001C29 RID: 7209
 			public readonly int RandomValue;
 
-			// Token: 0x020007B9 RID: 1977
-			// (Invoke) Token: 0x060057BA RID: 22458
 			public delegate bool EducationOptionConditionDelegate(EducationCampaignBehavior.EducationOption option, List<EducationCampaignBehavior.EducationOption> previousOptions);
 
-			// Token: 0x020007BA RID: 1978
-			// (Invoke) Token: 0x060057BE RID: 22462
 			public delegate bool EducationOptionConsequenceDelegate(EducationCampaignBehavior.EducationOption option);
 		}
 
-		// Token: 0x020006D6 RID: 1750
 		private class EducationStage
 		{
-			// Token: 0x17001361 RID: 4961
-			// (get) Token: 0x0600548E RID: 21646 RVA: 0x0016B292 File Offset: 0x00169492
 			public int PageCount
 			{
 				get
@@ -1784,14 +1700,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x0600548F RID: 21647 RVA: 0x0016B29F File Offset: 0x0016949F
 			public EducationStage(EducationCampaignBehavior.ChildAgeState targetAge)
 			{
 				this.Target = targetAge;
 				this._superPages = new List<List<EducationCampaignBehavior.EducationPage>>();
 			}
 
-			// Token: 0x06005490 RID: 21648 RVA: 0x0016B2BC File Offset: 0x001694BC
 			public EducationCampaignBehavior.EducationPage AddPage(int pageIndex, TextObject title, TextObject description, TextObject instruction, EducationCampaignBehavior.EducationCharacterProperties childProperties = default(EducationCampaignBehavior.EducationCharacterProperties), EducationCampaignBehavior.EducationCharacterProperties specialCharacterProperties = default(EducationCampaignBehavior.EducationCharacterProperties), EducationCampaignBehavior.EducationPage.EducationPageConditionDelegate condition = null)
 			{
 				while (pageIndex >= this._superPages.Count)
@@ -1803,7 +1717,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return educationPage;
 			}
 
-			// Token: 0x06005491 RID: 21649 RVA: 0x0016B334 File Offset: 0x00169534
 			private Equipment GetChildEquipmentForOption(Hero child, string optionKey, List<string> previousOptions)
 			{
 				string[] array = optionKey.Split(new char[] { ';' });
@@ -1838,7 +1751,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return equipment ?? MBEquipmentRoster.EmptyEquipment;
 			}
 
-			// Token: 0x06005492 RID: 21650 RVA: 0x0016B490 File Offset: 0x00169690
 			private Equipment GetChildEquipmentForPage(Hero child, EducationCampaignBehavior.EducationPage page, List<string> previousOptions)
 			{
 				Equipment equipment = null;
@@ -1859,7 +1771,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return equipment ?? MBEquipmentRoster.EmptyEquipment;
 			}
 
-			// Token: 0x06005493 RID: 21651 RVA: 0x0016B558 File Offset: 0x00169758
 			private EducationCampaignBehavior.EducationCharacterProperties GetChildPropertiesForOption(Hero child, string optionKey, List<string> previousOptions)
 			{
 				string[] array = optionKey.Split(new char[] { ';' });
@@ -1873,7 +1784,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return new EducationCampaignBehavior.EducationCharacterProperties(child.CharacterObject, childEquipmentForOption, option.ChildProperties.ActionId, option.ChildProperties.PrefabId, option.ChildProperties.UseOffHand);
 			}
 
-			// Token: 0x06005494 RID: 21652 RVA: 0x0016B5DC File Offset: 0x001697DC
 			private EducationCampaignBehavior.EducationCharacterProperties GetChildPropertiesForPage(Hero child, EducationCampaignBehavior.EducationPage page, List<string> previousOptions)
 			{
 				EducationCampaignBehavior.EducationCharacterProperties childPropertiesForOption;
@@ -1891,7 +1801,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return childPropertiesForOption;
 			}
 
-			// Token: 0x06005495 RID: 21653 RVA: 0x0016B654 File Offset: 0x00169854
 			private CharacterObject GetSpecialCharacterForOption(Hero child, string optionKey, List<string> previousOptions)
 			{
 				string[] array = optionKey.Split(new char[] { ';' });
@@ -1916,7 +1825,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return characterObject;
 			}
 
-			// Token: 0x06005496 RID: 21654 RVA: 0x0016B72C File Offset: 0x0016992C
 			private EducationCampaignBehavior.EducationCharacterProperties GetSpecialCharacterPropertiesForPage(Hero child, EducationCampaignBehavior.EducationPage page, List<string> previousOptions)
 			{
 				EducationCampaignBehavior.EducationCharacterProperties educationCharacterProperties = EducationCampaignBehavior.EducationCharacterProperties.Invalid;
@@ -1938,7 +1846,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return educationCharacterProperties;
 			}
 
-			// Token: 0x06005497 RID: 21655 RVA: 0x0016B7BC File Offset: 0x001699BC
 			private EducationCampaignBehavior.EducationCharacterProperties GetSpecialCharacterPropertiesForOption(Hero child, string optionKey, List<string> previousOptions)
 			{
 				EducationCampaignBehavior.EducationCharacterProperties invalid = EducationCampaignBehavior.EducationCharacterProperties.Invalid;
@@ -1951,14 +1858,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return invalid;
 			}
 
-			// Token: 0x06005498 RID: 21656 RVA: 0x0016B81C File Offset: 0x00169A1C
 			public EducationCampaignBehavior.EducationOption GetOption(string optionKey)
 			{
 				string[] array = optionKey.Split(new char[] { ';' });
 				return this._superPages[int.Parse(array[0])][int.Parse(array[1])].GetOption(optionKey);
 			}
 
-			// Token: 0x06005499 RID: 21657 RVA: 0x0016B864 File Offset: 0x00169A64
 			public EducationCampaignBehavior.EducationPage GetPage(List<string> previousOptionKeys)
 			{
 				List<EducationCampaignBehavior.EducationOption> list = this.StringIdToEducationOption(previousOptionKeys);
@@ -1976,7 +1881,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return null;
 			}
 
-			// Token: 0x0600549A RID: 21658 RVA: 0x0016B8EC File Offset: 0x00169AEC
 			public List<EducationCampaignBehavior.EducationOption> StringIdToEducationOption(List<string> previousOptionKeys)
 			{
 				List<EducationCampaignBehavior.EducationOption> list = new List<EducationCampaignBehavior.EducationOption>();
@@ -1987,13 +1891,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return list;
 			}
 
-			// Token: 0x0600549B RID: 21659 RVA: 0x0016B948 File Offset: 0x00169B48
 			public override string ToString()
 			{
 				return this.Target.ToString();
 			}
 
-			// Token: 0x0600549C RID: 21660 RVA: 0x0016B95C File Offset: 0x00169B5C
 			internal EducationCampaignBehavior.EducationCharacterProperties[] GetCharacterPropertiesForPage(Hero child, EducationCampaignBehavior.EducationPage page, List<string> previousChoices)
 			{
 				EducationCampaignBehavior.EducationCharacterProperties childPropertiesForPage = this.GetChildPropertiesForPage(child, page, previousChoices);
@@ -2010,7 +1912,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return list.ToArray();
 			}
 
-			// Token: 0x0600549D RID: 21661 RVA: 0x0016B9B4 File Offset: 0x00169BB4
 			internal EducationCampaignBehavior.EducationCharacterProperties[] GetCharacterPropertiesForOption(Hero child, EducationCampaignBehavior.EducationOption option, string optionKey, List<string> previousOptions)
 			{
 				EducationCampaignBehavior.EducationCharacterProperties childPropertiesForOption = this.GetChildPropertiesForOption(child, optionKey, previousOptions);
@@ -2027,17 +1928,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return list.ToArray();
 			}
 
-			// Token: 0x04001C2A RID: 7210
 			private List<List<EducationCampaignBehavior.EducationPage>> _superPages;
 
-			// Token: 0x04001C2B RID: 7211
 			public readonly EducationCampaignBehavior.ChildAgeState Target;
 		}
 
-		// Token: 0x020006D7 RID: 1751
 		public struct EducationCharacterProperties
 		{
-			// Token: 0x0600549E RID: 21662 RVA: 0x0016BA0B File Offset: 0x00169C0B
 			public EducationCharacterProperties(CharacterObject character, Equipment equipment, string actionId, string prefabId, bool useOffHand)
 			{
 				this.Character = character;
@@ -2047,49 +1944,41 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.UseOffHand = useOffHand;
 			}
 
-			// Token: 0x0600549F RID: 21663 RVA: 0x0016BA32 File Offset: 0x00169C32
 			public EducationCharacterProperties(string actionId, string prefabId, bool useOffHand)
 			{
 				this = new EducationCampaignBehavior.EducationCharacterProperties(null, null, actionId, prefabId, useOffHand);
 			}
 
-			// Token: 0x060054A0 RID: 21664 RVA: 0x0016BA3F File Offset: 0x00169C3F
 			public EducationCharacterProperties(string actionId)
 			{
 				this = new EducationCampaignBehavior.EducationCharacterProperties(null, null, actionId, string.Empty, false);
 			}
 
-			// Token: 0x060054A1 RID: 21665 RVA: 0x0016BA50 File Offset: 0x00169C50
 			public static bool operator ==(EducationCampaignBehavior.EducationCharacterProperties a, EducationCampaignBehavior.EducationCharacterProperties b)
 			{
 				return a.Character == b.Character && a.Equipment == b.Equipment && a.ActionId == b.ActionId && a.PrefabId == b.PrefabId;
 			}
 
-			// Token: 0x060054A2 RID: 21666 RVA: 0x0016BA9F File Offset: 0x00169C9F
 			public static bool operator !=(EducationCampaignBehavior.EducationCharacterProperties a, EducationCampaignBehavior.EducationCharacterProperties b)
 			{
 				return !(a == b);
 			}
 
-			// Token: 0x060054A3 RID: 21667 RVA: 0x0016BAAC File Offset: 0x00169CAC
 			public bool Equals(EducationCampaignBehavior.EducationCharacterProperties other)
 			{
 				return this.Character.Equals(other.Character) && this.Equipment.Equals(other.Equipment) && this.ActionId.Equals(other.ActionId) && this.PrefabId.Equals(other.PrefabId);
 			}
 
-			// Token: 0x060054A4 RID: 21668 RVA: 0x0016BB05 File Offset: 0x00169D05
 			public override bool Equals(object obj)
 			{
 				return obj != null && obj is EducationCampaignBehavior.EducationCharacterProperties && this.Equals((EducationCampaignBehavior.EducationCharacterProperties)obj);
 			}
 
-			// Token: 0x060054A5 RID: 21669 RVA: 0x0016BB20 File Offset: 0x00169D20
 			public override int GetHashCode()
 			{
 				return (((((this.ActionId.GetHashCode() * 397) ^ this.Character.GetHashCode()) * 397) ^ this.Equipment.GetHashCode()) * 397) ^ this.PrefabId.GetHashCode();
 			}
 
-			// Token: 0x060054A6 RID: 21670 RVA: 0x0016BB6E File Offset: 0x00169D6E
 			public sbyte GetUsedHandBoneIndex()
 			{
 				if (!this.UseOffHand)
@@ -2099,33 +1988,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return FaceGen.GetBaseMonsterFromRace(this.Character.Race).OffHandItemBoneIndex;
 			}
 
-			// Token: 0x04001C2C RID: 7212
 			public readonly CharacterObject Character;
 
-			// Token: 0x04001C2D RID: 7213
 			public readonly Equipment Equipment;
 
-			// Token: 0x04001C2E RID: 7214
 			public readonly string ActionId;
 
-			// Token: 0x04001C2F RID: 7215
 			public readonly string PrefabId;
 
-			// Token: 0x04001C30 RID: 7216
 			public readonly bool UseOffHand;
 
-			// Token: 0x04001C31 RID: 7217
 			public static readonly EducationCampaignBehavior.EducationCharacterProperties Default = new EducationCampaignBehavior.EducationCharacterProperties("act_inventory_idle_start");
 
-			// Token: 0x04001C32 RID: 7218
 			public static readonly EducationCampaignBehavior.EducationCharacterProperties Invalid = default(EducationCampaignBehavior.EducationCharacterProperties);
 		}
 
-		// Token: 0x020006D8 RID: 1752
 		private class EducationPage
 		{
-			// Token: 0x17001362 RID: 4962
-			// (get) Token: 0x060054A8 RID: 21672 RVA: 0x0016BBBF File Offset: 0x00169DBF
 			public IEnumerable<EducationCampaignBehavior.EducationOption> Options
 			{
 				get
@@ -2134,7 +2013,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x060054A9 RID: 21673 RVA: 0x0016BBCC File Offset: 0x00169DCC
 			public EducationPage(string id, TextObject title, TextObject description, TextObject instruction, EducationCampaignBehavior.EducationCharacterProperties childProperties, EducationCampaignBehavior.EducationCharacterProperties specialCharacterProperties, EducationCampaignBehavior.EducationPage.EducationPageConditionDelegate condition = null)
 			{
 				this._id = id;
@@ -2148,14 +2026,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.SpecialCharacterProperties = specialCharacterProperties;
 			}
 
-			// Token: 0x060054AA RID: 21674 RVA: 0x0016BC26 File Offset: 0x00169E26
 			public void AddOption(EducationCampaignBehavior.EducationOption option)
 			{
 				this._options.Add(this._id + ";" + this._keyIndex.ToString(), option);
 				this._keyIndex++;
 			}
 
-			// Token: 0x060054AB RID: 21675 RVA: 0x0016BC60 File Offset: 0x00169E60
 			public EducationCampaignBehavior.EducationOption GetOption(string optionKey)
 			{
 				EducationCampaignBehavior.EducationOption educationOption;
@@ -2163,7 +2039,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return educationOption;
 			}
 
-			// Token: 0x060054AC RID: 21676 RVA: 0x0016BC80 File Offset: 0x00169E80
 			public string[] GetAvailableOptions(List<EducationCampaignBehavior.EducationOption> previousEducationOptions)
 			{
 				List<string> list = new List<string>();
@@ -2177,35 +2052,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return list.ToArray();
 			}
 
-			// Token: 0x04001C33 RID: 7219
 			public readonly EducationCampaignBehavior.EducationPage.EducationPageConditionDelegate Condition;
 
-			// Token: 0x04001C34 RID: 7220
 			public readonly TextObject Title;
 
-			// Token: 0x04001C35 RID: 7221
 			public readonly TextObject Description;
 
-			// Token: 0x04001C36 RID: 7222
 			public readonly TextObject Instruction;
 
-			// Token: 0x04001C37 RID: 7223
 			private readonly string _id;
 
-			// Token: 0x04001C38 RID: 7224
 			private int _keyIndex;
 
-			// Token: 0x04001C39 RID: 7225
 			private readonly Dictionary<string, EducationCampaignBehavior.EducationOption> _options;
 
-			// Token: 0x04001C3A RID: 7226
 			public readonly EducationCampaignBehavior.EducationCharacterProperties ChildProperties;
 
-			// Token: 0x04001C3B RID: 7227
 			public readonly EducationCampaignBehavior.EducationCharacterProperties SpecialCharacterProperties;
 
-			// Token: 0x020007BB RID: 1979
-			// (Invoke) Token: 0x060057C2 RID: 22466
 			public delegate bool EducationPageConditionDelegate(EducationCampaignBehavior.EducationPage page, List<EducationCampaignBehavior.EducationOption> previousOptions);
 		}
 	}

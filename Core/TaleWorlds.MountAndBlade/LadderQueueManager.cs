@@ -6,22 +6,16 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000352 RID: 850
 	public class LadderQueueManager : MissionObject
 	{
-		// Token: 0x17000834 RID: 2100
-		// (get) Token: 0x06002DA2 RID: 11682 RVA: 0x000B2E3B File Offset: 0x000B103B
-		// (set) Token: 0x06002DA3 RID: 11683 RVA: 0x000B2E43 File Offset: 0x000B1043
 		public bool IsDeactivated { get; set; }
 
-		// Token: 0x06002DA4 RID: 11684 RVA: 0x000B2E4C File Offset: 0x000B104C
 		protected internal override void OnInit()
 		{
 			base.OnInit();
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06002DA5 RID: 11685 RVA: 0x000B2E60 File Offset: 0x000B1060
 		public void Initialize(int managedNavigationFaceId, MatrixFrame managedFrame, Vec3 managedDirection, BattleSideEnum managedSide, int maxUserCount, float arcAngle, float queueBeginDistance, float queueRowSize, float costPerRow, float baseCost, bool blockUsage, float agentSpacing, float zDifferenceToStopUsing, float distanceToStopUsing2d, bool doesManageMultipleIDs, int managedNavigationFaceAlternateID1, int managedNavigationFaceAlternateID2, int maxClimberCount, int maxRunnerCount)
 		{
 			this.ManagedNavigationFaceId = managedNavigationFaceId;
@@ -53,7 +47,6 @@ namespace TaleWorlds.MountAndBlade
 			this._lastUserCountPerLadder = new ValueTuple<int, bool>[3];
 		}
 
-		// Token: 0x06002DA6 RID: 11686 RVA: 0x000B2FAE File Offset: 0x000B11AE
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (!GameNetwork.IsClientOrReplay)
@@ -63,7 +56,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002DA7 RID: 11687 RVA: 0x000B2FC8 File Offset: 0x000B11C8
 		private void UpdateGlobalFrameCache()
 		{
 			MatrixFrame globalFrame = base.GameEntity.GetGlobalFrame();
@@ -77,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DA8 RID: 11688 RVA: 0x000B3080 File Offset: 0x000B1280
 		private void OnTickParallelAux(float dt)
 		{
 			if (this.IsDeactivated)
@@ -294,7 +285,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DA9 RID: 11689 RVA: 0x000B37DC File Offset: 0x000B19DC
 		protected internal override void OnTickParallel(float dt)
 		{
 			if (this._neighborLadderQueueManager == null)
@@ -309,7 +299,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DAA RID: 11690 RVA: 0x000B3850 File Offset: 0x000B1A50
 		protected internal override void OnTick(float dt)
 		{
 			if (!GameNetwork.IsClientOrReplay && !this.IsDeactivated && !this._blockUsage)
@@ -333,13 +322,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DAB RID: 11691 RVA: 0x000B39AC File Offset: 0x000B1BAC
 		private bool ConditionsAreMet(Agent agent, Agent.AIScriptedFrameFlags flags)
 		{
 			return agent.IsAIControlled && agent.IsActive() && agent.Team != null && agent.Team.Side == this._managedSide && agent.MovementLockedState == AgentMovementLockedState.None && !agent.IsUsingGameObject && !agent.InteractingWithAnyGameObject() && !agent.IsDetachedFromFormation && agent.Position.z - this._managedGlobalWorldPosition.GetGroundZ() < this._zDifferenceToStopUsing && !this._userAgents.Contains(agent) && agent.GetScriptedFlags() == flags && agent.GetCurrentNavigationFaceId() != this.ManagedNavigationFaceId && (!this._doesManageMultipleIDs || (agent.GetCurrentNavigationFaceId() != this.ManagedNavigationFaceAlternateID1 && agent.GetCurrentNavigationFaceId() != this.ManagedNavigationFaceAlternateID2));
 		}
 
-		// Token: 0x06002DAC RID: 11692 RVA: 0x000B3A87 File Offset: 0x000B1C87
 		protected internal override void OnMissionReset()
 		{
 			base.OnMissionReset();
@@ -349,7 +336,6 @@ namespace TaleWorlds.MountAndBlade
 			this._queuedAgentCount = 0;
 		}
 
-		// Token: 0x06002DAD RID: 11693 RVA: 0x000B3AB4 File Offset: 0x000B1CB4
 		private void GetParentIndicesForQueueIndex(int queueIndex, out int parentIndex1, out int parentIndex2)
 		{
 			parentIndex1 = -1;
@@ -382,7 +368,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DAE RID: 11694 RVA: 0x000B3B6C File Offset: 0x000B1D6C
 		private float GetScoreForAddingAgentToQueueIndex(Vec3 agentPosition, int queueIndex, out int scoreOfQueueIndex)
 		{
 			scoreOfQueueIndex = queueIndex;
@@ -422,7 +407,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06002DAF RID: 11695 RVA: 0x000B3CA4 File Offset: 0x000B1EA4
 		private void AddAgentToQueue(Agent agent)
 		{
 			int y = this.GetCoordinatesForQueueIndex(this._queuedAgents.Count).Y;
@@ -450,7 +434,6 @@ namespace TaleWorlds.MountAndBlade
 			this._queuedAgentCount++;
 		}
 
-		// Token: 0x06002DB0 RID: 11696 RVA: 0x000B3D68 File Offset: 0x000B1F68
 		private void RemoveAgentFromQueueAtIndex(int queueIndex)
 		{
 			this._queuedAgentCount--;
@@ -461,19 +444,16 @@ namespace TaleWorlds.MountAndBlade
 			this._queuedAgents[queueIndex] = null;
 		}
 
-		// Token: 0x06002DB1 RID: 11697 RVA: 0x000B3DDA File Offset: 0x000B1FDA
 		private float GetNavigationFaceCost(int rowIndex)
 		{
 			return this._baseCost + (float)MathF.Max(rowIndex - 1, 0) * this._costPerRow;
 		}
 
-		// Token: 0x06002DB2 RID: 11698 RVA: 0x000B3DF4 File Offset: 0x000B1FF4
 		private float GetNavigationFaceCostPerClimber(int count)
 		{
 			return this._baseCost + (float)count * this._costPerRow;
 		}
 
-		// Token: 0x06002DB3 RID: 11699 RVA: 0x000B3E08 File Offset: 0x000B2008
 		private void MoveAgentFromQueueIndexToQueueIndex(int fromQueueIndex, int toQueueIndex)
 		{
 			this._queuedAgents[toQueueIndex] = this._queuedAgents[fromQueueIndex];
@@ -482,14 +462,12 @@ namespace TaleWorlds.MountAndBlade
 			this._queuedAgents[toQueueIndex].SetScriptedPosition(ref queuePositionForIndex, false, Agent.AIScriptedFrameFlags.None);
 		}
 
-		// Token: 0x06002DB4 RID: 11700 RVA: 0x000B3E68 File Offset: 0x000B2068
 		private int GetRowSize(int rowIndex)
 		{
 			float num = this._arcAngle * (this._queueBeginDistance + this._queueRowSize * (float)rowIndex);
 			return 1 + (int)(num / this._agentSpacing);
 		}
 
-		// Token: 0x06002DB5 RID: 11701 RVA: 0x000B3E98 File Offset: 0x000B2098
 		private int GetQueueIndexForCoordinates(Vec2i coordinates)
 		{
 			int num = coordinates.X;
@@ -500,7 +478,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06002DB6 RID: 11702 RVA: 0x000B3EC8 File Offset: 0x000B20C8
 		private Vec2i GetCoordinatesForQueueIndex(int queueIndex)
 		{
 			Vec2i vec2i = default(Vec2i);
@@ -518,7 +495,6 @@ namespace TaleWorlds.MountAndBlade
 			return vec2i;
 		}
 
-		// Token: 0x06002DB7 RID: 11703 RVA: 0x000B3F0C File Offset: 0x000B210C
 		private WorldPosition GetQueuePositionForCoordinates(Vec2i coordinates, int randomSeed)
 		{
 			MatrixFrame managedGlobalFrame = this._managedGlobalFrame;
@@ -541,13 +517,11 @@ namespace TaleWorlds.MountAndBlade
 			return managedGlobalWorldPosition;
 		}
 
-		// Token: 0x06002DB8 RID: 11704 RVA: 0x000B4032 File Offset: 0x000B2232
 		private WorldPosition GetQueuePositionForIndex(int queueIndex, int randomSeed)
 		{
 			return this.GetQueuePositionForCoordinates(this.GetCoordinatesForQueueIndex(queueIndex), randomSeed);
 		}
 
-		// Token: 0x06002DB9 RID: 11705 RVA: 0x000B4044 File Offset: 0x000B2244
 		public void FlushQueueManager()
 		{
 			int num = this._queuedAgentCount / 2;
@@ -560,106 +534,73 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002DBA RID: 11706 RVA: 0x000B4087 File Offset: 0x000B2287
 		public void AssignNeighborQueueManager(LadderQueueManager neighborLadderQueueManager)
 		{
 			this._neighborLadderQueueManager = neighborLadderQueueManager;
 		}
 
-		// Token: 0x040011D8 RID: 4568
 		public int ManagedNavigationFaceId;
 
-		// Token: 0x040011D9 RID: 4569
 		public int ManagedNavigationFaceAlternateID1;
 
-		// Token: 0x040011DA RID: 4570
 		public int ManagedNavigationFaceAlternateID2;
 
-		// Token: 0x040011DB RID: 4571
 		private MatrixFrame _managedEntitialFrame;
 
-		// Token: 0x040011DC RID: 4572
 		private Vec2 _managedEntitialDirection;
 
-		// Token: 0x040011DD RID: 4573
 		private Vec3 _lastCachedGameEntityGlobalPosition;
 
-		// Token: 0x040011DE RID: 4574
 		private MatrixFrame _managedGlobalFrame;
 
-		// Token: 0x040011DF RID: 4575
 		private WorldPosition _managedGlobalWorldPosition;
 
-		// Token: 0x040011E0 RID: 4576
 		private Vec2 _managedGlobalDirection;
 
-		// Token: 0x040011E1 RID: 4577
 		private BattleSideEnum _managedSide;
 
-		// Token: 0x040011E2 RID: 4578
 		private bool _blockUsage;
 
-		// Token: 0x040011E4 RID: 4580
 		private readonly List<Agent> _userAgents = new List<Agent>();
 
-		// Token: 0x040011E5 RID: 4581
 		private int _maxUserCount;
 
-		// Token: 0x040011E6 RID: 4582
 		private int _queuedAgentCount;
 
-		// Token: 0x040011E7 RID: 4583
 		private readonly List<Agent> _queuedAgents = new List<Agent>();
 
-		// Token: 0x040011E8 RID: 4584
 		private float _arcAngle = 2.3561945f;
 
-		// Token: 0x040011E9 RID: 4585
 		private float _queueBeginDistance = 1f;
 
-		// Token: 0x040011EA RID: 4586
 		private float _queueRowSize = 0.8f;
 
-		// Token: 0x040011EB RID: 4587
 		private float _agentSpacing = 1f;
 
-		// Token: 0x040011EC RID: 4588
 		private float _timeSinceLastUpdate;
 
-		// Token: 0x040011ED RID: 4589
 		private float _updatePeriod;
 
-		// Token: 0x040011EE RID: 4590
 		private float _usingAgentResetTime;
 
-		// Token: 0x040011EF RID: 4591
 		private float _costPerRow;
 
-		// Token: 0x040011F0 RID: 4592
 		private float _baseCost;
 
-		// Token: 0x040011F1 RID: 4593
 		private float _zDifferenceToStopUsing = 2f;
 
-		// Token: 0x040011F2 RID: 4594
 		private float _distanceToStopUsing2d = 5f;
 
-		// Token: 0x040011F3 RID: 4595
 		private bool _doesManageMultipleIDs;
 
-		// Token: 0x040011F4 RID: 4596
 		private int _maxClimberCount = 18;
 
-		// Token: 0x040011F5 RID: 4597
 		private int _maxRunnerCount = 6;
 
-		// Token: 0x040011F6 RID: 4598
 		public float CostAddition;
 
-		// Token: 0x040011F7 RID: 4599
 		private LadderQueueManager _neighborLadderQueueManager;
 
-		// Token: 0x040011F8 RID: 4600
 		private ValueTuple<int, bool>[] _lastUserCountPerLadder;
 	}
 }

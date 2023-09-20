@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x0200001E RID: 30
 	public static class CraftingHelper
 	{
-		// Token: 0x060000F3 RID: 243 RVA: 0x0000C328 File Offset: 0x0000A528
 		public static IEnumerable<Hero> GetAvailableHeroesForCrafting()
 		{
 			return from m in PartyBase.MainParty.MemberRoster.GetTroopRoster()
@@ -23,14 +21,12 @@ namespace Helpers
 				select t.Character.HeroObject;
 		}
 
-		// Token: 0x060000F4 RID: 244 RVA: 0x0000C38C File Offset: 0x0000A58C
 		public static void ChangeCurrentCraftingTemplate(CraftingTemplate craftingTemplate)
 		{
 			CraftingState craftingState = Game.Current.GameStateManager.ActiveState as CraftingState;
 			CraftingHelper.OpenCrafting(craftingTemplate, craftingState);
 		}
 
-		// Token: 0x060000F5 RID: 245 RVA: 0x0000C3B8 File Offset: 0x0000A5B8
 		public static void OpenCrafting(CraftingTemplate craftingTemplate, CraftingState oldState = null)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;

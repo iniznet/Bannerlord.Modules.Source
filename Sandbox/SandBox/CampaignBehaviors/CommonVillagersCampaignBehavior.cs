@@ -25,10 +25,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000097 RID: 151
 	public class CommonVillagersCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000708 RID: 1800 RVA: 0x000364B8 File Offset: 0x000346B8
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
@@ -36,42 +34,35 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
 		}
 
-		// Token: 0x06000709 RID: 1801 RVA: 0x0003650A File Offset: 0x0003470A
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600070A RID: 1802 RVA: 0x0003650C File Offset: 0x0003470C
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x0600070B RID: 1803 RVA: 0x00036515 File Offset: 0x00034715
 		private float GetSpawnRate(Settlement settlement)
 		{
 			return this.TimeOfDayPercentage() * this.GetProsperityMultiplier(settlement.SettlementComponent);
 		}
 
-		// Token: 0x0600070C RID: 1804 RVA: 0x0003652A File Offset: 0x0003472A
 		private float GetConfigValue()
 		{
 			return BannerlordConfig.CivilianAgentCount;
 		}
 
-		// Token: 0x0600070D RID: 1805 RVA: 0x00036531 File Offset: 0x00034731
 		private float GetProsperityMultiplier(SettlementComponent settlement)
 		{
 			return (settlement.GetProsperityLevel() + 1f) / 3f;
 		}
 
-		// Token: 0x0600070E RID: 1806 RVA: 0x00036548 File Offset: 0x00034748
 		private float TimeOfDayPercentage()
 		{
 			return 1f - MathF.Abs(CampaignTime.Now.CurrentHourInDay - 15f) / 15f;
 		}
 
-		// Token: 0x0600070F RID: 1807 RVA: 0x0003657C File Offset: 0x0003477C
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -82,7 +73,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000710 RID: 1808 RVA: 0x000365CC File Offset: 0x000347CC
 		private void AddVillageCenterCharacters(Settlement settlement, Dictionary<string, int> unusedUsablePointCount, bool isNight)
 		{
 			Location locationWithId = settlement.LocationComplex.GetLocationWithId("village_center");
@@ -142,7 +132,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000711 RID: 1809 RVA: 0x000367CA File Offset: 0x000349CA
 		public void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (settlement.IsVillage || settlement.IsFortification)
@@ -151,7 +140,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000712 RID: 1810 RVA: 0x000367E4 File Offset: 0x000349E4
 		private LocationCharacter CreateVillageMan(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villager = culture.Villager;
@@ -162,7 +150,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(villager, -1, null, default(UniqueTroopDescriptor))).Monster(randomTownsManActionSetAndMonster.Item2).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common", false, relation, randomTownsManActionSetAndMonster.Item1, true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000713 RID: 1811 RVA: 0x00036880 File Offset: 0x00034A80
 		private LocationCharacter CreateMaleChild(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villagerMaleChild = culture.VillagerMaleChild;
@@ -174,7 +161,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, villagerMaleChild.IsFemale, "_child"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000714 RID: 1812 RVA: 0x00036930 File Offset: 0x00034B30
 		private LocationCharacter CreateFemaleChild(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villagerFemaleChild = culture.VillagerFemaleChild;
@@ -186,7 +172,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, villagerFemaleChild.IsFemale, "_child"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000715 RID: 1813 RVA: 0x000369E0 File Offset: 0x00034BE0
 		private LocationCharacter CreateMaleTeenager(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villagerMaleTeenager = culture.VillagerMaleTeenager;
@@ -198,7 +183,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, villagerMaleTeenager.IsFemale, "_villager"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000716 RID: 1814 RVA: 0x00036A90 File Offset: 0x00034C90
 		private LocationCharacter CreateFemaleTeenager(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villagerFemaleTeenager = culture.VillagerFemaleTeenager;
@@ -210,7 +194,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, villagerFemaleTeenager.IsFemale, "_villager"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000717 RID: 1815 RVA: 0x00036B40 File Offset: 0x00034D40
 		private LocationCharacter CreateVillageManCarryingStuff(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villager = culture.Villager;
@@ -230,7 +213,6 @@ namespace SandBox.CampaignBehaviors
 			return locationCharacter;
 		}
 
-		// Token: 0x06000718 RID: 1816 RVA: 0x00036C28 File Offset: 0x00034E28
 		private LocationCharacter CreateVillageWoman(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villageWoman = culture.VillageWoman;
@@ -241,7 +223,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(villageWoman, -1, null, default(UniqueTroopDescriptor))).Monster(randomTownsWomanActionSetAndMonster.Item2).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common", false, relation, randomTownsWomanActionSetAndMonster.Item1, true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000719 RID: 1817 RVA: 0x00036CC4 File Offset: 0x00034EC4
 		private LocationCharacter CreateVillageWomanCarryingStuff(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject villageWoman = culture.VillageWoman;
@@ -261,13 +242,11 @@ namespace SandBox.CampaignBehaviors
 			return locationCharacter;
 		}
 
-		// Token: 0x0600071A RID: 1818 RVA: 0x00036DAB File Offset: 0x00034FAB
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddTownspersonAndVillagerDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x0600071B RID: 1819 RVA: 0x00036DB4 File Offset: 0x00034FB4
 		private void AddTownspersonAndVillagerDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("town_beggar_to_disguised_character", "start", "close_window", "{=iVJlUlOg}Look, friend, we'll both eat better tonight if you move to a different spot. Too many of us, and the masters and ladies give a wide berth.", new ConversationSentence.OnConditionDelegate(this.conversation_beggar_to_disguise_start_on_condition), null, 100, null);
@@ -302,13 +281,11 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("town_or_village_player", "town_or_village_player", "close_window", "{=OlOhuO7X}No thank you. Good day to you.", null, null, 100, null, null);
 		}
 
-		// Token: 0x0600071C RID: 1820 RVA: 0x00037272 File Offset: 0x00035472
 		private bool CheckIfConversationAgentIsEscortingTheMainAgent()
 		{
 			return Agent.Main != null && Agent.Main.IsActive() && Settlement.CurrentSettlement != null && ConversationMission.OneToOneConversationAgent != null && EscortAgentBehavior.CheckIfAgentIsEscortedBy(ConversationMission.OneToOneConversationAgent, Agent.Main);
 		}
 
-		// Token: 0x0600071D RID: 1821 RVA: 0x000372A8 File Offset: 0x000354A8
 		private bool CheckIfTheMainAgentIsBeingEscorted()
 		{
 			using (List<Agent>.Enumerator enumerator = Mission.Current.Agents.GetEnumerator())
@@ -324,19 +301,16 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600071E RID: 1822 RVA: 0x0003730C File Offset: 0x0003550C
 		private bool conversation_town_or_village_player_ask_location_of_hero_on_condition()
 		{
 			return !this.CheckIfTheMainAgentIsBeingEscorted() && this.heroes_to_look_for().Count != 0;
 		}
 
-		// Token: 0x0600071F RID: 1823 RVA: 0x00037326 File Offset: 0x00035526
 		private void conversation_town_or_village_player_ask_location_of_hero_on_consequence()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(this.heroes_to_look_for(), 5);
 		}
 
-		// Token: 0x06000720 RID: 1824 RVA: 0x00037334 File Offset: 0x00035534
 		private List<Hero> heroes_to_look_for()
 		{
 			List<Hero> list = new List<Hero>();
@@ -355,7 +329,6 @@ namespace SandBox.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06000721 RID: 1825 RVA: 0x000373F0 File Offset: 0x000355F0
 		private bool conversation_town_or_village_player_ask_location_of_hero_2_on_condition()
 		{
 			if (!this.CheckIfTheMainAgentIsBeingEscorted())
@@ -370,13 +343,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000722 RID: 1826 RVA: 0x00037427 File Offset: 0x00035627
 		private void conversation_town_or_village_player_ask_location_of_hero_2_on_consequence()
 		{
 			ConversationHelper.AskedLord = ((Hero)ConversationSentence.SelectedRepeatObject).CharacterObject;
 		}
 
-		// Token: 0x06000723 RID: 1827 RVA: 0x00037440 File Offset: 0x00035640
 		private bool conversation_town_or_village_player_ask_location_of_hero_3_on_condition()
 		{
 			Hero heroObject = ConversationHelper.AskedLord.HeroObject;
@@ -387,7 +358,6 @@ namespace SandBox.CampaignBehaviors
 			return locationOfCharacter == locationOfCharacter2;
 		}
 
-		// Token: 0x06000724 RID: 1828 RVA: 0x00037498 File Offset: 0x00035698
 		private void conversation_town_or_village_player_ask_location_of_hero_5_on_consequence()
 		{
 			Hero heroObject = ConversationHelper.AskedLord.HeroObject;
@@ -408,7 +378,6 @@ namespace SandBox.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x06000725 RID: 1829 RVA: 0x00037534 File Offset: 0x00035734
 		public bool conversation_town_or_village_escort_complete_on_condition()
 		{
 			if (this.CheckIfConversationAgentIsEscortingTheMainAgent())
@@ -423,7 +392,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000726 RID: 1830 RVA: 0x00037590 File Offset: 0x00035790
 		public void conversation_town_or_village_escort_complete_on_consequence()
 		{
 			Agent oneToOneConversationAgent = ConversationMission.OneToOneConversationAgent;
@@ -434,7 +402,6 @@ namespace SandBox.CampaignBehaviors
 			EscortAgentBehavior.RemoveEscortBehaviorOfAgent(oneToOneConversationAgent);
 		}
 
-		// Token: 0x06000727 RID: 1831 RVA: 0x000375C0 File Offset: 0x000357C0
 		private bool conversation_town_or_village_talk_escorting_commoner_on_condition()
 		{
 			if (this.CheckIfConversationAgentIsEscortingTheMainAgent())
@@ -461,7 +428,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000728 RID: 1832 RVA: 0x0003765B File Offset: 0x0003585B
 		private void conversation_town_or_village_talk_stop_escorting_on_consequence()
 		{
 			if (this.CheckIfConversationAgentIsEscortingTheMainAgent())
@@ -470,69 +436,58 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000729 RID: 1833 RVA: 0x0003766F File Offset: 0x0003586F
 		private bool conversation_liege_delivered_line_on_street_on_condition()
 		{
 			return this.conversation_already_delivered_line_on_street_on_condition() && (Settlement.CurrentSettlement.MapFaction.Leader == Hero.MainHero || Settlement.CurrentSettlement.OwnerClan == Hero.MainHero.Clan);
 		}
 
-		// Token: 0x0600072A RID: 1834 RVA: 0x000376A9 File Offset: 0x000358A9
 		private bool conversation_children_already_delivered_line_on_street_on_condition()
 		{
 			IAgent oneToOneConversationAgent = Campaign.Current.ConversationManager.OneToOneConversationAgent;
 			return this.conversation_already_delivered_line_on_street_on_condition() && this.conversation_children_rhymes_on_condition();
 		}
 
-		// Token: 0x0600072B RID: 1835 RVA: 0x000376CE File Offset: 0x000358CE
 		private bool conversation_already_delivered_line_on_street_on_condition()
 		{
 			return !this.CheckIfConversationAgentIsEscortingTheMainAgent() && (CharacterObject.OneToOneConversationCharacter.Occupation == 6 || CharacterObject.OneToOneConversationCharacter.Occupation == 8) && PlayerEncounter.InsideSettlement;
 		}
 
-		// Token: 0x0600072C RID: 1836 RVA: 0x000376FC File Offset: 0x000358FC
 		private bool conversation_already_delivered_line_in_tavern_on_condition()
 		{
 			return (CharacterObject.OneToOneConversationCharacter.Occupation == 6 || CharacterObject.OneToOneConversationCharacter.Occupation == 8) && PlayerEncounter.InsideSettlement && CampaignMission.Current != null && CampaignMission.Current.Location.StringId == "tavern" && !this.CheckIfConversationAgentIsEscortingTheMainAgent();
 		}
 
-		// Token: 0x0600072D RID: 1837 RVA: 0x00037757 File Offset: 0x00035957
 		private bool conversation_children_rhymes_on_condition()
 		{
 			return Campaign.Current.ConversationManager.OneToOneConversationAgent.Age <= 14f;
 		}
 
-		// Token: 0x0600072E RID: 1838 RVA: 0x00037778 File Offset: 0x00035978
 		private bool conversation_townsperson_to_disguise_start_on_condition()
 		{
 			return !this.CheckIfConversationAgentIsEscortingTheMainAgent() && Campaign.Current.ConversationManager.OneToOneConversationAgent != null && ((CharacterObject.OneToOneConversationCharacter.Occupation == 6 || CharacterObject.OneToOneConversationCharacter.Occupation == 8) && PlayerEncounter.Current != null && PlayerEncounter.InsideSettlement) && Campaign.Current.IsMainHeroDisguised;
 		}
 
-		// Token: 0x0600072F RID: 1839 RVA: 0x000377D4 File Offset: 0x000359D4
 		private bool conversation_beggar_to_disguise_start_on_condition()
 		{
 			return this.conversation_beggar_start_on_condition() && Campaign.Current.IsMainHeroDisguised;
 		}
 
-		// Token: 0x06000730 RID: 1840 RVA: 0x000377EC File Offset: 0x000359EC
 		private bool conversation_beggar_start_on_condition()
 		{
 			return !this.CheckIfConversationAgentIsEscortingTheMainAgent() && Campaign.Current.ConversationManager.OneToOneConversationAgent != null && Settlement.CurrentSettlement != null && (Campaign.Current.ConversationManager.OneToOneConversationCharacter == Settlement.CurrentSettlement.Culture.Beggar || Campaign.Current.ConversationManager.OneToOneConversationCharacter == Settlement.CurrentSettlement.Culture.FemaleBeggar);
 		}
 
-		// Token: 0x06000731 RID: 1841 RVA: 0x00037860 File Offset: 0x00035A60
 		private bool conversation_beggar_delivered_line_on_condition()
 		{
 			return !this.CheckIfConversationAgentIsEscortingTheMainAgent() && Campaign.Current.ConversationManager.OneToOneConversationAgent != null && Settlement.CurrentSettlement != null && (Campaign.Current.ConversationManager.OneToOneConversationCharacter == Settlement.CurrentSettlement.Culture.Beggar || Campaign.Current.ConversationManager.OneToOneConversationCharacter == Settlement.CurrentSettlement.Culture.FemaleBeggar) && this.conversation_already_delivered_line_on_street_on_condition();
 		}
 
-		// Token: 0x06000732 RID: 1842 RVA: 0x000378D9 File Offset: 0x00035AD9
 		private bool conversation_beggar_info_on_condition()
 		{
 			MBTextManager.SetTextVariable("BEGGAR_INFO", "{=zJReEB8Z}Sitting in the marketplace all day one learns many things if one keeps one's ears open... But alas, I have heard nothing recently that might interest your worshipful self.", false);
 			return true;
 		}
 
-		// Token: 0x06000733 RID: 1843 RVA: 0x000378EC File Offset: 0x00035AEC
 		private bool conversation_town_or_village_start_on_condition()
 		{
 			if (this.CheckIfConversationAgentIsEscortingTheMainAgent() || Campaign.Current.ConversationManager.OneToOneConversationAgent == null)
@@ -590,14 +545,12 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000734 RID: 1844 RVA: 0x00037ABC File Offset: 0x00035CBC
 		private string RumorIdentifier(TextObject conversationScrap)
 		{
 			string text = conversationScrap.CopyTextObject().ToString();
 			return text.Substring(0, (text.Length < 12) ? text.Length : 12);
 		}
 
-		// Token: 0x06000735 RID: 1845 RVA: 0x00037AF4 File Offset: 0x00035CF4
 		private List<TextObject> GetPossibleIssueRumors()
 		{
 			List<TextObject> list = new List<TextObject>();
@@ -616,7 +569,6 @@ namespace SandBox.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06000736 RID: 1846 RVA: 0x00037B80 File Offset: 0x00035D80
 		private List<TextObject> GetBeggarStories()
 		{
 			List<TextObject> list = new List<TextObject>();
@@ -670,7 +622,6 @@ namespace SandBox.CampaignBehaviors
 			return list;
 		}
 
-		// Token: 0x06000737 RID: 1847 RVA: 0x00037DC8 File Offset: 0x00035FC8
 		private void GetPossibleRumors(List<TextObject> conversationScraps)
 		{
 			List<string> list = new List<string>();
@@ -1222,39 +1173,30 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000738 RID: 1848 RVA: 0x000394B0 File Offset: 0x000376B0
 		private bool conversation_villager_talk_start_on_condition()
 		{
 			return (CharacterObject.OneToOneConversationCharacter.Occupation == 6 || CharacterObject.OneToOneConversationCharacter.Occupation == 8) && PlayerEncounter.Current != null && PlayerEncounter.InsideSettlement;
 		}
 
-		// Token: 0x06000739 RID: 1849 RVA: 0x000394DA File Offset: 0x000376DA
 		private bool conversation_townsfolk_ask_asses_prices_on_condition()
 		{
 			return Settlement.CurrentSettlement.IsTown;
 		}
 
-		// Token: 0x0600073A RID: 1850 RVA: 0x000394E6 File Offset: 0x000376E6
 		private void conversation_townsfolk_ask_asses_prices_on_consequence()
 		{
 		}
 
-		// Token: 0x040002FF RID: 767
 		public const float VillagerSpawnPercentageMale = 0.25f;
 
-		// Token: 0x04000300 RID: 768
 		public const float VillagerSpawnPercentageFemale = 0.2f;
 
-		// Token: 0x04000301 RID: 769
 		public const float VillagerSpawnPercentageLimited = 0.2f;
 
-		// Token: 0x04000302 RID: 770
 		public const float VillageOtherPeopleSpawnPercentage = 0.05f;
 
-		// Token: 0x04000303 RID: 771
 		private readonly Dictionary<int, string> _rumorsGiven = new Dictionary<int, string>();
 
-		// Token: 0x04000304 RID: 772
 		private CampaignTime _lastEnteredTime;
 	}
 }

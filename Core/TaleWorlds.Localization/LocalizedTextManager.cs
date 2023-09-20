@@ -10,10 +10,8 @@ using TaleWorlds.Localization.TextProcessor;
 
 namespace TaleWorlds.Localization
 {
-	// Token: 0x02000007 RID: 7
 	public static class LocalizedTextManager
 	{
-		// Token: 0x06000046 RID: 70 RVA: 0x00002E34 File Offset: 0x00001034
 		public static string GetTranslatedText(string languageId, string id)
 		{
 			LocalizedText localizedText;
@@ -24,7 +22,6 @@ namespace TaleWorlds.Localization
 			return null;
 		}
 
-		// Token: 0x06000047 RID: 71 RVA: 0x00002E5C File Offset: 0x0000105C
 		public static List<string> GetLanguageIds(bool developmentMode)
 		{
 			List<string> list = new List<string>();
@@ -39,7 +36,6 @@ namespace TaleWorlds.Localization
 			return list;
 		}
 
-		// Token: 0x06000048 RID: 72 RVA: 0x00002EDC File Offset: 0x000010DC
 		public static string GetLanguageTitle(string id)
 		{
 			LanguageData languageData = LanguageData.GetLanguageData(id);
@@ -50,7 +46,6 @@ namespace TaleWorlds.Localization
 			return LanguageData.GetLanguageData("English").Title;
 		}
 
-		// Token: 0x06000049 RID: 73 RVA: 0x00002F0C File Offset: 0x0000110C
 		public static LanguageSpecificTextProcessor CreateTextProcessorForLanguage(string id)
 		{
 			LanguageData languageData = LanguageData.GetLanguageData(id);
@@ -67,7 +62,6 @@ namespace TaleWorlds.Localization
 			return (LanguageSpecificTextProcessor)Activator.CreateInstance(type);
 		}
 
-		// Token: 0x0600004A RID: 74 RVA: 0x00002F78 File Offset: 0x00001178
 		public static void AddLanguageTest(string id, string processor)
 		{
 			LanguageData languageData = new LanguageData(id);
@@ -75,7 +69,6 @@ namespace TaleWorlds.Localization
 			LanguageData.LoadTestData(languageData);
 		}
 
-		// Token: 0x0600004B RID: 75 RVA: 0x00002FA8 File Offset: 0x000011A8
 		public static int GetLanguageIndex(string id)
 		{
 			int num = LanguageData.GetLanguageDataIndex(id);
@@ -86,7 +79,6 @@ namespace TaleWorlds.Localization
 			return num;
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00002FCC File Offset: 0x000011CC
 		public static void LoadLocalizationXmls(string[] loadedModules)
 		{
 			LanguageData.Clear();
@@ -108,27 +100,23 @@ namespace TaleWorlds.Localization
 			}
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x0000303C File Offset: 0x0000123C
 		public static string GetDateFormattedByLanguage(string languageCode, DateTime dateTime)
 		{
 			string shortDatePattern = LocalizedTextManager.GetCultureInfo(languageCode).DateTimeFormat.ShortDatePattern;
 			return dateTime.ToString(shortDatePattern);
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x00003064 File Offset: 0x00001264
 		public static string GetTimeFormattedByLanguage(string languageCode, DateTime dateTime)
 		{
 			string shortTimePattern = LocalizedTextManager.GetCultureInfo(languageCode).DateTimeFormat.ShortTimePattern;
 			return dateTime.ToString(shortTimePattern);
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x0000308A File Offset: 0x0000128A
 		public static string GetSubtitleExtensionOfLanguage(string languageId)
 		{
 			return LocalizedTextManager.GetLanguageData(languageId).SubtitleExtension;
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00003098 File Offset: 0x00001298
 		public static string GetLocalizationCodeOfISOLanguageCode(string isoLanguageCode)
 		{
 			foreach (LanguageData languageData in LanguageData.All)
@@ -146,7 +134,6 @@ namespace TaleWorlds.Localization
 			return "English";
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00003138 File Offset: 0x00001338
 		private static CultureInfo GetCultureInfo(string languageId)
 		{
 			LanguageData languageData = LocalizedTextManager.GetLanguageData(languageId);
@@ -158,7 +145,6 @@ namespace TaleWorlds.Localization
 			return cultureInfo;
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00003174 File Offset: 0x00001374
 		private static LanguageData GetLanguageData(string languageId)
 		{
 			LanguageData languageData = LanguageData.GetLanguageData(languageId);
@@ -170,7 +156,6 @@ namespace TaleWorlds.Localization
 			return languageData;
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x000031C0 File Offset: 0x000013C0
 		private static XmlDocument LoadXmlFile(string path)
 		{
 			try
@@ -190,7 +175,6 @@ namespace TaleWorlds.Localization
 			return null;
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00003244 File Offset: 0x00001444
 		internal static void LoadLanguage(string languageId)
 		{
 			LocalizedTextManager._gameTextDictionary.Clear();
@@ -201,7 +185,6 @@ namespace TaleWorlds.Localization
 			}
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x0000326C File Offset: 0x0000146C
 		private static void LoadLanguage(LanguageData language)
 		{
 			MBTextManager.ResetFunctions();
@@ -245,7 +228,6 @@ namespace TaleWorlds.Localization
 			Debug.Print("Loading localized text xml.", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06000056 RID: 86 RVA: 0x00003418 File Offset: 0x00001618
 		private static void DeserializeStrings(XmlNode node, string languageId)
 		{
 			if (node.Attributes == null)
@@ -262,7 +244,6 @@ namespace TaleWorlds.Localization
 			LocalizedTextManager._gameTextDictionary[value].AddTranslation(languageId, value2);
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00003498 File Offset: 0x00001698
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_language", "localization")]
 		public static string ChangeLanguage(List<string> strings)
 		{
@@ -293,7 +274,6 @@ namespace TaleWorlds.Localization
 			return "New language is " + text2;
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x00003558 File Offset: 0x00001758
 		[CommandLineFunctionality.CommandLineArgumentFunction("reload_texts", "localization")]
 		public static string ReloadTexts(List<string> strings)
 		{
@@ -301,7 +281,6 @@ namespace TaleWorlds.Localization
 			return "OK";
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x0000356C File Offset: 0x0000176C
 		[CommandLineFunctionality.CommandLineArgumentFunction("check_for_errors", "localization")]
 		public static string CheckValidity(List<string> strings)
 		{
@@ -334,20 +313,16 @@ namespace TaleWorlds.Localization
 			return "Errors are written into 'faulty_translation_lines.txt' file in the binary folder.";
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x00003688 File Offset: 0x00001888
 		[CompilerGenerated]
 		internal static void <CheckValidity>g__Write|22_0(string s)
 		{
 			File.AppendAllText("faulty_translation_lines.txt", s, Encoding.Unicode);
 		}
 
-		// Token: 0x04000011 RID: 17
 		public const string LanguageDataFileName = "language_data";
 
-		// Token: 0x04000012 RID: 18
 		public const string DefaultEnglishLanguageId = "English";
 
-		// Token: 0x04000013 RID: 19
 		private static readonly Dictionary<string, LocalizedText> _gameTextDictionary = new Dictionary<string, LocalizedText>();
 	}
 }

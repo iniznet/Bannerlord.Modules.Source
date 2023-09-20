@@ -14,10 +14,8 @@ using TaleWorlds.Localization;
 
 namespace SandBox.ViewModelCollection
 {
-	// Token: 0x02000004 RID: 4
 	public static class SandBoxUIHelper
 	{
-		// Token: 0x06000003 RID: 3 RVA: 0x00002058 File Offset: 0x00000258
 		private static void TooltipAddExplanation(List<TooltipProperty> properties, ref ExplainedNumber explainedNumber)
 		{
 			List<ValueTuple<string, float>> lines = explainedNumber.GetLines();
@@ -33,7 +31,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x000020AF File Offset: 0x000002AF
 		public static List<TooltipProperty> GetExplainedNumberTooltip(ref ExplainedNumber explanation)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -41,7 +38,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x000020BD File Offset: 0x000002BD
 		public static List<TooltipProperty> GetBattleLootAwardTooltip(float lootPercentage)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -50,7 +46,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x000020EC File Offset: 0x000002EC
 		public static string GetSkillEffectText(SkillEffect effect, int skillLevel)
 		{
 			MBTextManager.SetTextVariable("a0", effect.GetPrimaryValue(skillLevel).ToString("0.0"), false);
@@ -69,7 +64,6 @@ namespace SandBox.ViewModelCollection
 			return string.Format("({0}) {1} ", textObject.ToString(), text);
 		}
 
-		// Token: 0x06000007 RID: 7 RVA: 0x000021E0 File Offset: 0x000003E0
 		public static string GetRecruitNotificationText(int recruitmentAmount)
 		{
 			object obj = GameTexts.FindText("str_settlement_recruit_notification", null);
@@ -78,7 +72,6 @@ namespace SandBox.ViewModelCollection
 			return obj.ToString();
 		}
 
-		// Token: 0x06000008 RID: 8 RVA: 0x00002210 File Offset: 0x00000410
 		public static string GetItemSoldNotificationText(ItemRosterElement item, int itemAmount, bool fromHeroToSettlement)
 		{
 			string text = item.EquipmentElement.Item.ItemCategory.GetName().ToString();
@@ -89,7 +82,6 @@ namespace SandBox.ViewModelCollection
 			return obj.ToString();
 		}
 
-		// Token: 0x06000009 RID: 9 RVA: 0x00002276 File Offset: 0x00000476
 		public static string GetTroopGivenToSettlementNotificationText(int givenAmount)
 		{
 			object obj = GameTexts.FindText("str_settlement_given_troop_notification", null);
@@ -98,7 +90,6 @@ namespace SandBox.ViewModelCollection
 			return obj.ToString();
 		}
 
-		// Token: 0x0600000A RID: 10 RVA: 0x000022A8 File Offset: 0x000004A8
 		internal static string GetItemsTradedNotificationText(List<ValueTuple<EquipmentElement, int>> items, bool isSelling)
 		{
 			TextObject textObject;
@@ -130,7 +121,6 @@ namespace SandBox.ViewModelCollection
 			return textObject.ToString();
 		}
 
-		// Token: 0x0600000B RID: 11 RVA: 0x000023F0 File Offset: 0x000005F0
 		public static List<TooltipProperty> GetSiegeEngineInProgressTooltip(SiegeEvent.SiegeEngineConstructionProgress engineInProgress)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -166,7 +156,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600000C RID: 12 RVA: 0x000025D8 File Offset: 0x000007D8
 		public static List<TooltipProperty> GetSiegeEngineTooltip(SiegeEngineType engine)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -195,7 +184,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x00002794 File Offset: 0x00000994
 		public static List<TooltipProperty> GetWallSectionTooltip(Settlement settlement, int wallIndex)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
@@ -223,7 +211,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x000028D9 File Offset: 0x00000AD9
 		public static string GetPrisonersSoldNotificationText(int soldPrisonerAmount)
 		{
 			object obj = GameTexts.FindText("str_settlement_prisoner_sold_notification", null);
@@ -232,7 +219,6 @@ namespace SandBox.ViewModelCollection
 			return obj.ToString();
 		}
 
-		// Token: 0x0600000F RID: 15 RVA: 0x0000290C File Offset: 0x00000B0C
 		public static List<ValueTuple<SandBoxUIHelper.IssueQuestFlags, TextObject, TextObject>> GetQuestStateOfHero(Hero queriedHero)
 		{
 			List<ValueTuple<SandBoxUIHelper.IssueQuestFlags, TextObject, TextObject>> list = new List<ValueTuple<SandBoxUIHelper.IssueQuestFlags, TextObject, TextObject>>();
@@ -281,7 +267,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000010 RID: 16 RVA: 0x00002AC8 File Offset: 0x00000CC8
 		public static List<QuestBase> GetQuestsRelatedToHero(Hero hero)
 		{
 			List<QuestBase> list = new List<QuestBase>();
@@ -305,7 +290,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000011 RID: 17 RVA: 0x00002B70 File Offset: 0x00000D70
 		public static List<QuestBase> GetQuestsRelatedToParty(MobileParty party)
 		{
 			List<QuestBase> list = new List<QuestBase>();
@@ -351,7 +335,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000012 RID: 18 RVA: 0x00002C78 File Offset: 0x00000E78
 		public static List<ValueTuple<bool, QuestBase>> GetQuestsRelatedToSettlement(Settlement settlement)
 		{
 			List<ValueTuple<bool, QuestBase>> list = new List<ValueTuple<bool, QuestBase>>();
@@ -374,7 +357,6 @@ namespace SandBox.ViewModelCollection
 			return list;
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x00002DE4 File Offset: 0x00000FE4
 		public static bool IsQuestRelatedToSettlement(QuestBase quest, Settlement settlement)
 		{
 			Hero questGiver = quest.QuestGiver;
@@ -400,7 +382,6 @@ namespace SandBox.ViewModelCollection
 			return false;
 		}
 
-		// Token: 0x06000014 RID: 20 RVA: 0x00002EDC File Offset: 0x000010DC
 		public static SandBoxUIHelper.IssueQuestFlags GetIssueType(IssueBase issue)
 		{
 			if (issue.IsSolvingWithAlternative || issue.IsSolvingWithLordSolution || issue.IsSolvingWithQuest)
@@ -410,7 +391,6 @@ namespace SandBox.ViewModelCollection
 			return SandBoxUIHelper.IssueQuestFlags.AvailableIssue;
 		}
 
-		// Token: 0x06000015 RID: 21 RVA: 0x00002EFC File Offset: 0x000010FC
 		public static int GetPartyHealthyCount(MobileParty party)
 		{
 			int num = party.Party.NumberOfHealthyMembers;
@@ -424,7 +404,6 @@ namespace SandBox.ViewModelCollection
 			return num;
 		}
 
-		// Token: 0x06000016 RID: 22 RVA: 0x00002F84 File Offset: 0x00001184
 		public static string GetPartyWoundedText(int woundedAmount)
 		{
 			TextObject textObject = new TextObject("{=O9nwLrYp}+{WOUNDEDAMOUNT}w", null);
@@ -432,7 +411,6 @@ namespace SandBox.ViewModelCollection
 			return textObject.ToString();
 		}
 
-		// Token: 0x06000017 RID: 23 RVA: 0x00002FA3 File Offset: 0x000011A3
 		public static string GetPartyPrisonerText(int prisonerAmount)
 		{
 			TextObject textObject = new TextObject("{=CiIWjF3f}+{PRISONERAMOUNT}p", null);
@@ -440,7 +418,6 @@ namespace SandBox.ViewModelCollection
 			return textObject.ToString();
 		}
 
-		// Token: 0x06000018 RID: 24 RVA: 0x00002FC4 File Offset: 0x000011C4
 		public static int GetAllWoundedMembersAmount(MobileParty party)
 		{
 			int num = party.Party.NumberOfWoundedTotalMembers;
@@ -451,7 +428,6 @@ namespace SandBox.ViewModelCollection
 			return num;
 		}
 
-		// Token: 0x06000019 RID: 25 RVA: 0x0000302C File Offset: 0x0000122C
 		public static int GetAllPrisonerMembersAmount(MobileParty party)
 		{
 			int num = party.Party.NumberOfPrisoners;
@@ -462,7 +438,6 @@ namespace SandBox.ViewModelCollection
 			return num;
 		}
 
-		// Token: 0x0600001A RID: 26 RVA: 0x00003094 File Offset: 0x00001294
 		public static CharacterCode GetCharacterCode(CharacterObject character, bool useCivilian = false)
 		{
 			TextObject textObject;
@@ -511,7 +486,6 @@ namespace SandBox.ViewModelCollection
 			return CharacterCode.CreateFrom(character);
 		}
 
-		// Token: 0x0600001B RID: 27 RVA: 0x000031D4 File Offset: 0x000013D4
 		public static bool IsHeroInformationHidden(Hero hero, out TextObject disableReason)
 		{
 			bool flag = !Campaign.Current.Models.InformationRestrictionModel.DoesPlayerKnowDetailsOf(hero);
@@ -519,7 +493,6 @@ namespace SandBox.ViewModelCollection
 			return flag;
 		}
 
-		// Token: 0x0600001C RID: 28 RVA: 0x00003212 File Offset: 0x00001412
 		public static SandBoxUIHelper.MapEventVisualTypes GetMapEventVisualTypeFromMapEvent(MapEvent mapEvent)
 		{
 			if (mapEvent.MapEventSettlement == null)
@@ -537,7 +510,6 @@ namespace SandBox.ViewModelCollection
 			return SandBoxUIHelper.MapEventVisualTypes.Raid;
 		}
 
-		// Token: 0x0600001D RID: 29 RVA: 0x0000323C File Offset: 0x0000143C
 		private static string GetChangeValueString(float value)
 		{
 			string text = value.ToString("0.##");
@@ -549,53 +521,34 @@ namespace SandBox.ViewModelCollection
 			return text;
 		}
 
-		// Token: 0x04000001 RID: 1
 		public static SandBoxUIHelper.IssueQuestFlags[] IssueQuestFlagsValues = (SandBoxUIHelper.IssueQuestFlags[])Enum.GetValues(typeof(SandBoxUIHelper.IssueQuestFlags));
 
-		// Token: 0x04000002 RID: 2
 		private static readonly TextObject _soldStr = new TextObject("{=YgyHVu8S}Sold{ITEMS}", null);
 
-		// Token: 0x04000003 RID: 3
 		private static readonly TextObject _purchasedStr = new TextObject("{=qIeDZoSx}Purchased{ITEMS}", null);
 
-		// Token: 0x04000004 RID: 4
 		private static readonly TextObject _itemTransactionStr = new TextObject("{=CqAhj27p} {ITEM_NAME} x{ITEM_NUMBER}", null);
 
-		// Token: 0x04000005 RID: 5
 		private static readonly TextObject _lootStr = new TextObject("{=nvemmBZz}You earned {AMOUNT}% of the loot and prisoners", null);
 
-		// Token: 0x0200003F RID: 63
 		[Flags]
 		public enum IssueQuestFlags
 		{
-			// Token: 0x0400024B RID: 587
 			None = 0,
-			// Token: 0x0400024C RID: 588
 			AvailableIssue = 1,
-			// Token: 0x0400024D RID: 589
 			ActiveIssue = 2,
-			// Token: 0x0400024E RID: 590
 			ActiveStoryQuest = 4,
-			// Token: 0x0400024F RID: 591
 			TrackedIssue = 8,
-			// Token: 0x04000250 RID: 592
 			TrackedStoryQuest = 16
 		}
 
-		// Token: 0x02000040 RID: 64
 		public enum MapEventVisualTypes
 		{
-			// Token: 0x04000252 RID: 594
 			None,
-			// Token: 0x04000253 RID: 595
 			Raid,
-			// Token: 0x04000254 RID: 596
 			Siege,
-			// Token: 0x04000255 RID: 597
 			Battle,
-			// Token: 0x04000256 RID: 598
 			Rebellion,
-			// Token: 0x04000257 RID: 599
 			SallyOut
 		}
 	}

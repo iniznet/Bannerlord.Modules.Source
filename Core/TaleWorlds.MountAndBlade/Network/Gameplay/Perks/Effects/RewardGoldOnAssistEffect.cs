@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CD RID: 973
 	public class RewardGoldOnAssistEffect : MPPerkEffect
 	{
-		// Token: 0x060033E9 RID: 13289 RVA: 0x000D730C File Offset: 0x000D550C
 		protected RewardGoldOnAssistEffect()
 		{
 		}
 
-		// Token: 0x060033EA RID: 13290 RVA: 0x000D7314 File Offset: 0x000D5514
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -60,16 +57,13 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033EB RID: 13291 RVA: 0x000D73B8 File Offset: 0x000D55B8
 		public override int GetRewardedGoldOnAssist()
 		{
 			return this._value;
 		}
 
-		// Token: 0x04001617 RID: 5655
 		protected static string StringType = "RewardGoldOnAssist";
 
-		// Token: 0x04001618 RID: 5656
 		private int _value;
 	}
 }

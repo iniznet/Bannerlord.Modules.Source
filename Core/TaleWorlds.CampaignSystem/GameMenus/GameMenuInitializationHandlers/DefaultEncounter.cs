@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 {
-	// Token: 0x020000EA RID: 234
 	public class DefaultEncounter
 	{
-		// Token: 0x0600141E RID: 5150 RVA: 0x00058A01 File Offset: 0x00056C01
 		[GameMenuInitializationHandler("taken_prisoner")]
 		[GameMenuInitializationHandler("menu_captivity_end_no_more_enemies")]
 		[GameMenuInitializationHandler("menu_captivity_end_by_ally_party_saved")]
@@ -33,14 +31,12 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			args.MenuContext.SetBackgroundMeshName("wait_captive_male");
 		}
 
-		// Token: 0x0600141F RID: 5151 RVA: 0x00058A30 File Offset: 0x00056C30
 		[GameMenuInitializationHandler("defeated_and_taken_prisoner")]
 		public static void game_menu_defeat_and_taken_prisoner_ui_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("encounter_lose");
 		}
 
-		// Token: 0x06001420 RID: 5152 RVA: 0x00058A42 File Offset: 0x00056C42
 		[GameMenuInitializationHandler("menu_captivity_transfer_to_town")]
 		[GameMenuInitializationHandler("menu_captivity_end_exchanged_with_prisoner")]
 		[GameMenuInitializationHandler("menu_captivity_end_propose_ransom_in_prison")]
@@ -57,14 +53,12 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			args.MenuContext.SetBackgroundMeshName("wait_prisoner_male");
 		}
 
-		// Token: 0x06001421 RID: 5153 RVA: 0x00058A71 File Offset: 0x00056C71
 		[GameMenuInitializationHandler("e3_action_menu")]
 		private static void E3ActionMenuOnInit(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("gui_bg_lord_khuzait");
 		}
 
-		// Token: 0x06001422 RID: 5154 RVA: 0x00058A84 File Offset: 0x00056C84
 		[GameMenuInitializationHandler("join_encounter")]
 		private static void game_menu_join_encounter_on_init(MenuCallbackArgs args)
 		{
@@ -77,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounteredParty.MapFaction.Culture.EncounterBackgroundMesh);
 		}
 
-		// Token: 0x06001423 RID: 5155 RVA: 0x00058ADC File Offset: 0x00056CDC
 		[GameMenuInitializationHandler("encounter")]
 		[GameMenuInitializationHandler("try_to_get_away")]
 		[GameMenuInitializationHandler("try_to_get_away_debrief")]
@@ -347,7 +340,6 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			MBTextManager.SetTextVariable("ATTACK_TEXT", flag ? new TextObject("{=Ky03jg94}Fight", null) : new TextObject("{=zxMOqlhs}Attack", null), false);
 		}
 
-		// Token: 0x06001424 RID: 5156 RVA: 0x0005956C File Offset: 0x0005776C
 		[GameMenuInitializationHandler("join_siege_event")]
 		[GameMenuInitializationHandler("join_sally_out")]
 		private static void game_menu_join_siege_event_on_init(MenuCallbackArgs args)
@@ -375,14 +367,12 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			}
 		}
 
-		// Token: 0x06001425 RID: 5157 RVA: 0x00059648 File Offset: 0x00057848
 		[GameMenuInitializationHandler("village_loot_complete")]
 		private static void game_menu_village_loot_complete_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.Village.WaitMeshName);
 		}
 
-		// Token: 0x06001426 RID: 5158 RVA: 0x00059664 File Offset: 0x00057864
 		[GameMenuInitializationHandler("village_start_attack")]
 		public static void game_menu_village_start_attack_on_init(MenuCallbackArgs args)
 		{
@@ -390,7 +380,6 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			args.MenuContext.SetBackgroundMeshName(village.WaitMeshName);
 		}
 
-		// Token: 0x06001427 RID: 5159 RVA: 0x00059690 File Offset: 0x00057890
 		[GameMenuInitializationHandler("town_wait")]
 		[GameMenuInitializationHandler("town_guard")]
 		[GameMenuInitializationHandler("menu_tournament_withdraw_verify")]
@@ -409,14 +398,12 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			}
 		}
 
-		// Token: 0x06001428 RID: 5160 RVA: 0x000596E0 File Offset: 0x000578E0
 		[GameMenuInitializationHandler("siege_attacker_left")]
 		public static void game_menu_attackers_left_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");
 		}
 
-		// Token: 0x06001429 RID: 5161 RVA: 0x000596F4 File Offset: 0x000578F4
 		[GameMenuInitializationHandler("hostile_action_end_by_peace")]
 		[GameMenuInitializationHandler("hostile_action_end_by_leave_kingdom_as_mercenary")]
 		public static void hostile_action_end_by_peace_on_init(MenuCallbackArgs args)
@@ -439,7 +426,6 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			Debug.FailedAssert("no menu background to initialize!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "hostile_action_end_by_peace_on_init", 485);
 		}
 
-		// Token: 0x0600142A RID: 5162 RVA: 0x00059794 File Offset: 0x00057994
 		[GameMenuInitializationHandler("new_game_begin")]
 		public static void game_menu_new_game_begin_on_init(MenuCallbackArgs args)
 		{
@@ -447,20 +433,17 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			Campaign.Current.EncyclopediaManager.GoToLink(Hero.MainHero.EncyclopediaLink.ToString());
 		}
 
-		// Token: 0x0600142B RID: 5163 RVA: 0x000597B9 File Offset: 0x000579B9
 		[GameMenuEventHandler("kingdom", "mno_call_to_arms", GameMenuEventHandler.EventType.OnConsequence)]
 		public static void game_menu_kingdom_mno_call_to_arms_on_consequence(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x0600142C RID: 5164 RVA: 0x000597BB File Offset: 0x000579BB
 		[GameMenuEventHandler("kingdom", "encyclopedia", GameMenuEventHandler.EventType.OnConsequence)]
 		[GameMenuEventHandler("reports", "encyclopedia", GameMenuEventHandler.EventType.OnConsequence)]
 		public static void game_menu_encyclopedia_on_consequence(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x0600142D RID: 5165 RVA: 0x000597BD File Offset: 0x000579BD
 		[GameMenuInitializationHandler("request_meeting")]
 		[GameMenuInitializationHandler("request_meeting_with_besiegers")]
 		public static void game_menu_town_menu_request_meeting_on_init(MenuCallbackArgs args)

@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.Launcher.Library.UserDatas;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x0200000F RID: 15
 	public class LauncherModsVM : ViewModel
 	{
-		// Token: 0x0600006F RID: 111 RVA: 0x00003278 File Offset: 0x00001478
 		public LauncherModsVM(UserDataManager userDataManager)
 		{
 			this._userDataManager = userDataManager;
@@ -27,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x00003333 File Offset: 0x00001533
 		public void Refresh(bool isDisabled, bool isMultiplayer)
 		{
 			this.Modules.Clear();
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.LoadSubModules(isMultiplayer);
 		}
 
-		// Token: 0x06000071 RID: 113 RVA: 0x00003350 File Offset: 0x00001550
 		private void LoadSubModules(bool isMultiplayer)
 		{
 			this.Modules.Clear();
@@ -70,13 +66,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x0000358C File Offset: 0x0000178C
 		private bool IsVisible(bool isMultiplayer, ModuleInfo moduleInfo)
 		{
 			return moduleInfo.IsNative || (isMultiplayer && moduleInfo.HasMultiplayerCategory) || (!isMultiplayer && moduleInfo.Category == ModuleCategory.Singleplayer);
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x000035B4 File Offset: 0x000017B4
 		private void ChangeLoadingOrderOf(LauncherModuleVM targetModule, int insertIndex, string tag)
 		{
 			if (insertIndex >= this.Modules.IndexOf(targetModule))
@@ -96,7 +90,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x000036EC File Offset: 0x000018EC
 		private void ChangeIsSelectedOf(LauncherModuleVM targetModule)
 		{
 			if (!this.AreAllDependenciesOfModulePresent(targetModule.Info))
@@ -142,8 +135,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x06000075 RID: 117 RVA: 0x00003884 File Offset: 0x00001A84
 		public string ModuleListCode
 		{
 			get
@@ -164,7 +155,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x0000392C File Offset: 0x00001B2C
 		private bool AreAllDependenciesOfModulePresent(ModuleInfo info)
 		{
 			using (List<DependedModule>.Enumerator enumerator = info.DependedModules.GetEnumerator())
@@ -190,15 +180,11 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return true;
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x00003A08 File Offset: 0x00001C08
 		private LauncherDLLData GetSubModuleVerifyData(SubModuleInfo subModule)
 		{
 			return this._dllManager.GetSubModuleVerifyData(subModule);
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x06000078 RID: 120 RVA: 0x00003A16 File Offset: 0x00001C16
-		// (set) Token: 0x06000079 RID: 121 RVA: 0x00003A1E File Offset: 0x00001C1E
 		[DataSourceProperty]
 		public bool IsDisabled
 		{
@@ -216,9 +202,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x0600007A RID: 122 RVA: 0x00003A3C File Offset: 0x00001C3C
-		// (set) Token: 0x0600007B RID: 123 RVA: 0x00003A44 File Offset: 0x00001C44
 		[DataSourceProperty]
 		public string NameCategoryText
 		{
@@ -236,9 +219,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x0600007C RID: 124 RVA: 0x00003A67 File Offset: 0x00001C67
-		// (set) Token: 0x0600007D RID: 125 RVA: 0x00003A6F File Offset: 0x00001C6F
 		[DataSourceProperty]
 		public string VersionCategoryText
 		{
@@ -256,9 +236,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x0600007E RID: 126 RVA: 0x00003A92 File Offset: 0x00001C92
-		// (set) Token: 0x0600007F RID: 127 RVA: 0x00003A9A File Offset: 0x00001C9A
 		[DataSourceProperty]
 		public MBBindingList<LauncherModuleVM> Modules
 		{
@@ -276,28 +253,20 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x0400003D RID: 61
 		private UserData _userData;
 
-		// Token: 0x0400003E RID: 62
 		private List<ModuleInfo> _modulesCache;
 
-		// Token: 0x0400003F RID: 63
 		private UserDataManager _userDataManager;
 
-		// Token: 0x04000040 RID: 64
 		private LauncherModsDLLManager _dllManager;
 
-		// Token: 0x04000041 RID: 65
 		private MBBindingList<LauncherModuleVM> _modules;
 
-		// Token: 0x04000042 RID: 66
 		private bool _isDisabledOnMultiplayer;
 
-		// Token: 0x04000043 RID: 67
 		private string _nameCategoryText;
 
-		// Token: 0x04000044 RID: 68
 		private string _versionCategoryText;
 	}
 }

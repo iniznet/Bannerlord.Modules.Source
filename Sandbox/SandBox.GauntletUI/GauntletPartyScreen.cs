@@ -18,17 +18,14 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x0200000C RID: 12
 	[GameStateScreen(typeof(PartyState))]
 	public class GauntletPartyScreen : ScreenBase, IGameStateListener, IChangeableScreen
 	{
-		// Token: 0x0600008C RID: 140 RVA: 0x00005DB2 File Offset: 0x00003FB2
 		public GauntletPartyScreen(PartyState partyState)
 		{
 			this._partyState = partyState;
 		}
 
-		// Token: 0x0600008D RID: 141 RVA: 0x00005DC4 File Offset: 0x00003FC4
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -164,7 +161,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600008E RID: 142 RVA: 0x00006230 File Offset: 0x00004430
 		void IGameStateListener.OnActivate()
 		{
 			base.OnActivate();
@@ -207,7 +203,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x00006574 File Offset: 0x00004774
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -223,12 +218,10 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000090 RID: 144 RVA: 0x0000660F File Offset: 0x0000480F
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000091 RID: 145 RVA: 0x00006611 File Offset: 0x00004811
 		void IGameStateListener.OnFinalize()
 		{
 			this._dataSource.OnFinalize();
@@ -237,7 +230,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer = null;
 		}
 
-		// Token: 0x06000092 RID: 146 RVA: 0x00006637 File Offset: 0x00004837
 		private void HandleResetInput()
 		{
 			if (!this._dataSource.IsAnyPopUpOpen)
@@ -246,7 +238,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000093 RID: 147 RVA: 0x00006654 File Offset: 0x00004854
 		private void HandleCancelInput()
 		{
 			PartyUpgradeTroopVM upgradePopUp = this._dataSource.UpgradePopUp;
@@ -265,7 +256,6 @@ namespace SandBox.GauntletUI
 			PartyScreenManager.CloseScreen(false, true);
 		}
 
-		// Token: 0x06000094 RID: 148 RVA: 0x000066D0 File Offset: 0x000048D0
 		private void HandleDoneInput()
 		{
 			PartyUpgradeTroopVM upgradePopUp = this._dataSource.UpgradePopUp;
@@ -283,7 +273,6 @@ namespace SandBox.GauntletUI
 			this._dataSource.ExecuteDone();
 		}
 
-		// Token: 0x06000095 RID: 149 RVA: 0x0000673C File Offset: 0x0000493C
 		private string GetFiveStackShortcutkeyText()
 		{
 			if (!Input.IsControllerConnected || Input.IsMouseActive)
@@ -293,7 +282,6 @@ namespace SandBox.GauntletUI
 			return string.Empty;
 		}
 
-		// Token: 0x06000096 RID: 150 RVA: 0x00006776 File Offset: 0x00004976
 		private string GetEntireStackShortcutkeyText()
 		{
 			if (!Input.IsControllerConnected || Input.IsMouseActive)
@@ -303,43 +291,34 @@ namespace SandBox.GauntletUI
 			return null;
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x000067AC File Offset: 0x000049AC
 		bool IChangeableScreen.AnyUnsavedChanges()
 		{
 			return this._partyState.PartyScreenLogic.IsThereAnyChanges();
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x000067BE File Offset: 0x000049BE
 		bool IChangeableScreen.CanChangesBeApplied()
 		{
 			return this._partyState.PartyScreenLogic.IsDoneActive();
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x000067D0 File Offset: 0x000049D0
 		void IChangeableScreen.ApplyChanges()
 		{
 			this._partyState.PartyScreenLogic.DoneLogic(true);
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x000067E4 File Offset: 0x000049E4
 		void IChangeableScreen.ResetChanges()
 		{
 			this._partyState.PartyScreenLogic.Reset(true);
 		}
 
-		// Token: 0x04000045 RID: 69
 		private const string _panelOpenSound = "event:/ui/panels/panel_party_open";
 
-		// Token: 0x04000046 RID: 70
 		private PartyVM _dataSource;
 
-		// Token: 0x04000047 RID: 71
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000048 RID: 72
 		private SpriteCategory _partyscreenCategory;
 
-		// Token: 0x04000049 RID: 73
 		private readonly PartyState _partyState;
 	}
 }

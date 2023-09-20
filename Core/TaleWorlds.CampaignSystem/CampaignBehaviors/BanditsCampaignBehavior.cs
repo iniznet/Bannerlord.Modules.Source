@@ -21,11 +21,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000378 RID: 888
 	public class BanditsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CB1 RID: 3249
-		// (get) Token: 0x060033BC RID: 13244 RVA: 0x000D6640 File Offset: 0x000D4840
 		private int IdealBanditPartyCount
 		{
 			get
@@ -34,8 +31,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB2 RID: 3250
-		// (get) Token: 0x060033BD RID: 13245 RVA: 0x000D665D File Offset: 0x000D485D
 		private int _numberOfMaximumLooterParties
 		{
 			get
@@ -44,8 +39,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB3 RID: 3251
-		// (get) Token: 0x060033BE RID: 13246 RVA: 0x000D6673 File Offset: 0x000D4873
 		private float _radiusAroundPlayerPartySquared
 		{
 			get
@@ -54,8 +47,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB4 RID: 3252
-		// (get) Token: 0x060033BF RID: 13247 RVA: 0x000D6690 File Offset: 0x000D4890
 		private float _numberOfMinimumBanditPartiesInAHideoutToInfestIt
 		{
 			get
@@ -64,8 +55,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB5 RID: 3253
-		// (get) Token: 0x060033C0 RID: 13248 RVA: 0x000D66A7 File Offset: 0x000D48A7
 		private int _numberOfMaxBanditPartiesAroundEachHideout
 		{
 			get
@@ -74,8 +63,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB6 RID: 3254
-		// (get) Token: 0x060033C1 RID: 13249 RVA: 0x000D66BD File Offset: 0x000D48BD
 		private int _numberOfMaxHideoutsAtEachBanditFaction
 		{
 			get
@@ -84,8 +71,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB7 RID: 3255
-		// (get) Token: 0x060033C2 RID: 13250 RVA: 0x000D66D3 File Offset: 0x000D48D3
 		private int _numberOfInitialHideoutsAtEachBanditFaction
 		{
 			get
@@ -94,8 +79,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CB8 RID: 3256
-		// (get) Token: 0x060033C3 RID: 13251 RVA: 0x000D66E9 File Offset: 0x000D48E9
 		private int _numberOfMaximumBanditPartiesInEachHideout
 		{
 			get
@@ -104,7 +87,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033C4 RID: 13252 RVA: 0x000D6700 File Offset: 0x000D4900
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -117,19 +99,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnPartyDestroyed));
 		}
 
-		// Token: 0x060033C5 RID: 13253 RVA: 0x000D67C5 File Offset: 0x000D49C5
 		private void OnNewGameCreated(CampaignGameStarter starter)
 		{
 		}
 
-		// Token: 0x060033C6 RID: 13254 RVA: 0x000D67C7 File Offset: 0x000D49C7
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction>>("_interactedBandits", ref this._interactedBandits);
 			dataStore.SyncData<bool>("_hideoutsAndBanditsAreInited", ref this._hideoutsAndBanditsAreInitialized);
 		}
 
-		// Token: 0x060033C7 RID: 13255 RVA: 0x000D67F0 File Offset: 0x000D49F0
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			if (i == 0)
@@ -172,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033C8 RID: 13256 RVA: 0x000D6910 File Offset: 0x000D4B10
 		private void SpawnHideoutsAndBanditsPartiallyOnNewGame(Clan banditClan)
 		{
 			if (!BanditsCampaignBehavior.IsLooterFaction(banditClan))
@@ -184,7 +162,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033C9 RID: 13257 RVA: 0x000D6940 File Offset: 0x000D4B40
 		private void MakeBanditFactionsEnemyToKingdomFactions()
 		{
 			foreach (Clan clan in Clan.BanditFactions)
@@ -200,7 +177,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033CA RID: 13258 RVA: 0x000D69E8 File Offset: 0x000D4BE8
 		private void OnPartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
 		{
 			if (this._interactedBandits.ContainsKey(mobileParty))
@@ -209,7 +185,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033CB RID: 13259 RVA: 0x000D6A05 File Offset: 0x000D4C05
 		private void SetPlayerInteraction(MobileParty mobileParty, BanditsCampaignBehavior.PlayerInteraction interaction)
 		{
 			if (this._interactedBandits.ContainsKey(mobileParty))
@@ -220,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._interactedBandits.Add(mobileParty, interaction);
 		}
 
-		// Token: 0x060033CC RID: 13260 RVA: 0x000D6A30 File Offset: 0x000D4C30
 		private BanditsCampaignBehavior.PlayerInteraction GetPlayerInteraction(MobileParty mobileParty)
 		{
 			BanditsCampaignBehavior.PlayerInteraction playerInteraction;
@@ -231,7 +205,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return BanditsCampaignBehavior.PlayerInteraction.None;
 		}
 
-		// Token: 0x060033CD RID: 13261 RVA: 0x000D6A50 File Offset: 0x000D4C50
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			this.CheckForSpawningBanditBoss(settlement, mobileParty);
@@ -271,7 +244,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033CE RID: 13262 RVA: 0x000D6C3C File Offset: 0x000D4E3C
 		private void CheckForSpawningBanditBoss(Settlement settlement, MobileParty mobileParty)
 		{
 			if (settlement.IsHideout && settlement.Hideout.IsSpotted)
@@ -293,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033CF RID: 13263 RVA: 0x000D6CFC File Offset: 0x000D4EFC
 		private void AddBossParty(Settlement settlement, CultureObject culture)
 		{
 			PartyTemplateObject banditBossPartyTemplate = culture.BanditBossPartyTemplate;
@@ -303,7 +274,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D0 RID: 13264 RVA: 0x000D6D2C File Offset: 0x000D4F2C
 		public void DailyTick()
 		{
 			foreach (MobileParty mobileParty in MobileParty.AllBanditParties)
@@ -330,7 +300,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D1 RID: 13265 RVA: 0x000D6E98 File Offset: 0x000D5098
 		private void TryToSpawnHideoutAndBanditHourly()
 		{
 			this._hideoutsAndBanditsAreInitialized = true;
@@ -353,7 +322,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D2 RID: 13266 RVA: 0x000D6F34 File Offset: 0x000D5134
 		public void HourlyTick()
 		{
 			if (!this._hideoutsAndBanditsAreInitialized && this._numberOfMaxHideoutsAtEachBanditFaction > 0)
@@ -375,19 +343,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D3 RID: 13267 RVA: 0x000D6FCC File Offset: 0x000D51CC
 		public void WeeklyTick()
 		{
 			this.AddNewHideouts();
 		}
 
-		// Token: 0x060033D4 RID: 13268 RVA: 0x000D6FD4 File Offset: 0x000D51D4
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060033D5 RID: 13269 RVA: 0x000D6FE0 File Offset: 0x000D51E0
 		private void AddNewHideouts()
 		{
 			foreach (Clan clan in Clan.BanditFactions)
@@ -416,7 +381,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D6 RID: 13270 RVA: 0x000D70EC File Offset: 0x000D52EC
 		private void FillANewHideoutWithBandits(Clan faction)
 		{
 			Hideout hideout = this.SelectARandomHideout(faction, false, true, true);
@@ -431,7 +395,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033D7 RID: 13271 RVA: 0x000D7124 File Offset: 0x000D5324
 		public MobileParty AddBanditToHideout(Hideout hideoutComponent, PartyTemplateObject overridenPartyTemplate = null, bool isBanditBossParty = false)
 		{
 			if (hideoutComponent.Owner.Settlement.Culture.IsBandit)
@@ -456,7 +419,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x060033D8 RID: 13272 RVA: 0x000D7228 File Offset: 0x000D5428
 		private Hideout SelectARandomHideout(Clan faction, bool isInfestedHideoutNeeded, bool sameFactionIsNeeded, bool selectingFurtherToOthersNeeded = false)
 		{
 			float num = Campaign.AverageDistanceBetweenTwoFortifications * 0.33f * Campaign.AverageDistanceBetweenTwoFortifications * 0.33f;
@@ -493,7 +455,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MBRandom.ChooseWeighted<Hideout>(list);
 		}
 
-		// Token: 0x060033D9 RID: 13273 RVA: 0x000D73B8 File Offset: 0x000D55B8
 		private void SpawnBanditOrLooterPartiesAroundAHideoutOrSettlement(int numberOfBanditsWillBeSpawned)
 		{
 			List<Clan> list = Clan.BanditFactions.ToList<Clan>();
@@ -554,7 +515,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033DA RID: 13274 RVA: 0x000D7628 File Offset: 0x000D5828
 		private void SpawnAPartyInFaction(Clan selectedFaction)
 		{
 			PartyTemplateObject defaultPartyTemplate = selectedFaction.DefaultPartyTemplate;
@@ -604,13 +564,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033DB RID: 13275 RVA: 0x000D77C7 File Offset: 0x000D59C7
 		private static bool IsLooterFaction(IFaction faction)
 		{
 			return !faction.Culture.CanHaveSettlement;
 		}
 
-		// Token: 0x060033DC RID: 13276 RVA: 0x000D77D8 File Offset: 0x000D59D8
 		private Settlement SelectARandomSettlementForLooterParty()
 		{
 			int num = 0;
@@ -638,7 +596,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x060033DD RID: 13277 RVA: 0x000D78E4 File Offset: 0x000D5AE4
 		private void InitBanditParty(MobileParty banditParty, Clan faction, Settlement homeSettlement)
 		{
 			banditParty.Party.Visuals.SetMapIconAsDirty();
@@ -658,14 +615,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033DE RID: 13278 RVA: 0x000D79B4 File Offset: 0x000D5BB4
 		private static void CreatePartyTrade(MobileParty banditParty)
 		{
 			int num = (int)(10f * (float)banditParty.Party.MemberRoster.TotalManCount * (0.5f + 1f * MBRandom.RandomFloat));
 			banditParty.InitializePartyTrade(num);
 		}
 
-		// Token: 0x060033DF RID: 13279 RVA: 0x000D79F4 File Offset: 0x000D5BF4
 		private static int CalculateDistanceScore(float distance)
 		{
 			int num = 2;
@@ -688,7 +643,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x060033E0 RID: 13280 RVA: 0x000D7A34 File Offset: 0x000D5C34
 		protected void AddDialogs(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddDialogLine("bandit_start_defender", "start", "bandit_defender", "{=!}{ROBBERY_THREAT}", new ConversationSentence.OnConditionDelegate(this.bandit_start_defender_condition), null, 100, null);
@@ -767,19 +721,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddDialogLine("minor_faction_talk_background_repeat_threat", "minor_faction_talk_background_repeat_threat", "minor_faction_talk_hostile_response", "{=ByOYHslS}That's enough talking for now. Make your choice.[if:idle_angry][ib:normal][ib:aggressive]", null, null, 100, null);
 		}
 
-		// Token: 0x060033E1 RID: 13281 RVA: 0x000D8064 File Offset: 0x000D6264
 		private bool bandit_barter_successful_condition()
 		{
 			return Campaign.Current.BarterManager.LastBarterIsAccepted;
 		}
 
-		// Token: 0x060033E2 RID: 13282 RVA: 0x000D8075 File Offset: 0x000D6275
 		private bool bandit_cheat_conversations_condition()
 		{
 			return Game.Current.IsDevelopmentMode;
 		}
 
-		// Token: 0x060033E3 RID: 13283 RVA: 0x000D8084 File Offset: 0x000D6284
 		private bool conversation_bandits_will_join_player_on_condition()
 		{
 			if (Hero.MainHero.GetPerkValue(DefaultPerks.Roguery.PartnersInCrime))
@@ -794,7 +745,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MobileParty.ConversationParty.Party.RandomIntWithSeed(3U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.09f);
 		}
 
-		// Token: 0x060033E4 RID: 13284 RVA: 0x000D811C File Offset: 0x000D631C
 		private bool conversation_bandits_surrender_on_condition()
 		{
 			int num = (PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.04f) ? 33 : 67);
@@ -805,7 +755,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MobileParty.ConversationParty.Party.RandomIntWithSeed(4U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.06f);
 		}
 
-		// Token: 0x060033E5 RID: 13285 RVA: 0x000D81A0 File Offset: 0x000D63A0
 		private bool bandit_neutral_greet_on_condition()
 		{
 			if (Campaign.Current.CurrentConversationContext == ConversationContext.PartyEncounter && PlayerEncounter.Current != null && PlayerEncounter.EncounteredMobileParty != null && PlayerEncounter.EncounteredMobileParty.MapFaction.IsBanditFaction && PlayerEncounter.PlayerIsAttacker && MobileParty.ConversationParty != null)
@@ -911,13 +860,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060033E6 RID: 13286 RVA: 0x000D858C File Offset: 0x000D678C
 		private void bandit_barter_successful_on_consequence()
 		{
 			this.SetPlayerInteraction(MobileParty.ConversationParty, BanditsCampaignBehavior.PlayerInteraction.PaidOffParty);
 		}
 
-		// Token: 0x060033E7 RID: 13287 RVA: 0x000D859A File Offset: 0x000D679A
 		private void bandit_neutral_greet_on_consequence()
 		{
 			if (this.GetPlayerInteraction(MobileParty.ConversationParty) != BanditsCampaignBehavior.PlayerInteraction.PaidOffParty)
@@ -926,13 +873,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033E8 RID: 13288 RVA: 0x000D85B6 File Offset: 0x000D67B6
 		private void conversation_bandit_set_hostile_on_consequence()
 		{
 			this.SetPlayerInteraction(MobileParty.ConversationParty, BanditsCampaignBehavior.PlayerInteraction.Hostile);
 		}
 
-		// Token: 0x060033E9 RID: 13289 RVA: 0x000D85C4 File Offset: 0x000D67C4
 		private void conversation_bandits_surrender_on_consequence(MobileParty conversationParty)
 		{
 			Dictionary<PartyBase, ItemRoster> dictionary = new Dictionary<PartyBase, ItemRoster>();
@@ -973,7 +918,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x060033EA RID: 13290 RVA: 0x000D8714 File Offset: 0x000D6914
 		private TroopRoster GetTroopsToJoinPlayerParty(List<MobileParty> parties)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -1000,7 +944,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return troopRoster;
 		}
 
-		// Token: 0x060033EB RID: 13291 RVA: 0x000D8820 File Offset: 0x000D6A20
 		private void conversation_bandits_join_player_party_on_consequence()
 		{
 			List<MobileParty> list = new List<MobileParty> { MobileParty.MainParty };
@@ -1024,7 +967,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x060033EC RID: 13292 RVA: 0x000D88D0 File Offset: 0x000D6AD0
 		private bool bandit_start_defender_condition()
 		{
 			PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
@@ -1112,13 +1054,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return encounteredParty.IsMobile && encounteredParty.MapFaction.IsBanditFaction && PlayerEncounter.PlayerIsDefender;
 		}
 
-		// Token: 0x060033ED RID: 13293 RVA: 0x000D8CFC File Offset: 0x000D6EFC
 		private bool bandit_start_barter_condition()
 		{
 			return PlayerEncounter.Current != null && PlayerEncounter.Current.PlayerSide == BattleSideEnum.Defender;
 		}
 
-		// Token: 0x060033EE RID: 13294 RVA: 0x000D8D14 File Offset: 0x000D6F14
 		private void bandit_start_barter_consequence()
 		{
 			BarterManager instance = BarterManager.Instance;
@@ -1140,7 +1080,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			instance.StartBarterOffer(mainHero, oneToOneConversationHero, mainParty, partyBase, hero, barterContextInitializer, num, flag, array);
 		}
 
-		// Token: 0x060033EF RID: 13295 RVA: 0x000D8D88 File Offset: 0x000D6F88
 		private bool conversation_minor_faction_hostile_on_condition()
 		{
 			if (MapEvent.PlayerMapEvent != null)
@@ -1167,7 +1106,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060033F0 RID: 13296 RVA: 0x000D8E74 File Offset: 0x000D7074
 		private bool conversation_minor_faction_set_selfdescription()
 		{
 			foreach (PartyBase partyBase in MapEvent.PlayerMapEvent.InvolvedParties)
@@ -1182,7 +1120,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060033F1 RID: 13297 RVA: 0x000D8F1C File Offset: 0x000D711C
 		private bool conversation_minor_faction_set_how_to_befriend()
 		{
 			foreach (PartyBase partyBase in MapEvent.PlayerMapEvent.InvolvedParties)
@@ -1197,62 +1134,46 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060033F2 RID: 13298 RVA: 0x000D8FC4 File Offset: 0x000D71C4
 		private bool bandit_attacker_try_leave_condition()
 		{
 			return PlayerEncounter.EncounteredParty != null && (PlayerEncounter.EncounteredParty.TotalStrength <= PartyBase.MainParty.TotalStrength || this.GetPlayerInteraction(PlayerEncounter.EncounteredMobileParty) == BanditsCampaignBehavior.PlayerInteraction.PaidOffParty || this.GetPlayerInteraction(PlayerEncounter.EncounteredMobileParty) == BanditsCampaignBehavior.PlayerInteraction.Friendly);
 		}
 
-		// Token: 0x040010F9 RID: 4345
 		private const float BanditSpawnRadius = 45f;
 
-		// Token: 0x040010FA RID: 4346
 		private const float BanditStartGoldPerBandit = 10f;
 
-		// Token: 0x040010FB RID: 4347
 		private const float BanditLongTermGoldPerBandit = 50f;
 
-		// Token: 0x040010FC RID: 4348
 		private bool _hideoutsAndBanditsAreInitialized;
 
-		// Token: 0x040010FD RID: 4349
 		private Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction> _interactedBandits = new Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction>();
 
-		// Token: 0x040010FE RID: 4350
 		private static int _goldAmount;
 
-		// Token: 0x020006AE RID: 1710
 		public class BanditsCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x060053ED RID: 21485 RVA: 0x0016A0FC File Offset: 0x001682FC
 			public BanditsCampaignBehaviorTypeDefiner()
 				: base(70000)
 			{
 			}
 
-			// Token: 0x060053EE RID: 21486 RVA: 0x0016A109 File Offset: 0x00168309
 			protected override void DefineEnumTypes()
 			{
 				base.AddEnumDefinition(typeof(BanditsCampaignBehavior.PlayerInteraction), 1, null);
 			}
 
-			// Token: 0x060053EF RID: 21487 RVA: 0x0016A11D File Offset: 0x0016831D
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction>));
 			}
 		}
 
-		// Token: 0x020006AF RID: 1711
 		private enum PlayerInteraction
 		{
-			// Token: 0x04001B9D RID: 7069
 			None,
-			// Token: 0x04001B9E RID: 7070
 			Friendly,
-			// Token: 0x04001B9F RID: 7071
 			PaidOffParty,
-			// Token: 0x04001BA0 RID: 7072
 			Hostile
 		}
 	}

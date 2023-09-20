@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace SandBox.ViewModelCollection.BoardGame
 {
-	// Token: 0x0200003B RID: 59
 	public class BoardGameInstructionsVM : ViewModel
 	{
-		// Token: 0x06000433 RID: 1075 RVA: 0x00012B7C File Offset: 0x00010D7C
 		public BoardGameInstructionsVM(CultureObject.BoardGameType boardGameType)
 		{
 			this._boardGameType = boardGameType;
@@ -26,7 +24,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000434 RID: 1076 RVA: 0x00012BFC File Offset: 0x00010DFC
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -48,7 +45,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x06000435 RID: 1077 RVA: 0x00012D18 File Offset: 0x00010F18
 		public void ExecuteShowPrevious()
 		{
 			if (this._currentInstructionIndex > 0 && this._currentInstructionIndex < this.InstructionList.Count)
@@ -60,7 +56,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x06000436 RID: 1078 RVA: 0x00012D84 File Offset: 0x00010F84
 		public void ExecuteShowNext()
 		{
 			if (this._currentInstructionIndex >= 0 && this._currentInstructionIndex < this.InstructionList.Count - 1)
@@ -72,7 +67,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x06000437 RID: 1079 RVA: 0x00012DF1 File Offset: 0x00010FF1
 		private int GetNumberOfInstructions(CultureObject.BoardGameType game)
 		{
 			switch (game)
@@ -94,9 +88,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000154 RID: 340
-		// (get) Token: 0x06000438 RID: 1080 RVA: 0x00012E20 File Offset: 0x00011020
-		// (set) Token: 0x06000439 RID: 1081 RVA: 0x00012E28 File Offset: 0x00011028
 		[DataSourceProperty]
 		public bool IsPreviousButtonEnabled
 		{
@@ -114,9 +105,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000155 RID: 341
-		// (get) Token: 0x0600043A RID: 1082 RVA: 0x00012E46 File Offset: 0x00011046
-		// (set) Token: 0x0600043B RID: 1083 RVA: 0x00012E4E File Offset: 0x0001104E
 		[DataSourceProperty]
 		public bool IsNextButtonEnabled
 		{
@@ -134,9 +122,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000156 RID: 342
-		// (get) Token: 0x0600043C RID: 1084 RVA: 0x00012E6C File Offset: 0x0001106C
-		// (set) Token: 0x0600043D RID: 1085 RVA: 0x00012E74 File Offset: 0x00011074
 		[DataSourceProperty]
 		public string InstructionsText
 		{
@@ -154,9 +139,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000157 RID: 343
-		// (get) Token: 0x0600043E RID: 1086 RVA: 0x00012E97 File Offset: 0x00011097
-		// (set) Token: 0x0600043F RID: 1087 RVA: 0x00012E9F File Offset: 0x0001109F
 		[DataSourceProperty]
 		public string PreviousText
 		{
@@ -174,9 +156,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000158 RID: 344
-		// (get) Token: 0x06000440 RID: 1088 RVA: 0x00012EC2 File Offset: 0x000110C2
-		// (set) Token: 0x06000441 RID: 1089 RVA: 0x00012ECA File Offset: 0x000110CA
 		[DataSourceProperty]
 		public string NextText
 		{
@@ -194,9 +173,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x17000159 RID: 345
-		// (get) Token: 0x06000442 RID: 1090 RVA: 0x00012EED File Offset: 0x000110ED
-		// (set) Token: 0x06000443 RID: 1091 RVA: 0x00012EF5 File Offset: 0x000110F5
 		[DataSourceProperty]
 		public string CurrentPageText
 		{
@@ -214,9 +190,6 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x1700015A RID: 346
-		// (get) Token: 0x06000444 RID: 1092 RVA: 0x00012F18 File Offset: 0x00011118
-		// (set) Token: 0x06000445 RID: 1093 RVA: 0x00012F20 File Offset: 0x00011120
 		[DataSourceProperty]
 		public MBBindingList<BoardGameInstructionVM> InstructionList
 		{
@@ -234,31 +207,22 @@ namespace SandBox.ViewModelCollection.BoardGame
 			}
 		}
 
-		// Token: 0x0400022F RID: 559
 		private readonly CultureObject.BoardGameType _boardGameType;
 
-		// Token: 0x04000230 RID: 560
 		private int _currentInstructionIndex;
 
-		// Token: 0x04000231 RID: 561
 		private bool _isPreviousButtonEnabled;
 
-		// Token: 0x04000232 RID: 562
 		private bool _isNextButtonEnabled;
 
-		// Token: 0x04000233 RID: 563
 		private string _instructionsText;
 
-		// Token: 0x04000234 RID: 564
 		private string _previousText;
 
-		// Token: 0x04000235 RID: 565
 		private string _nextText;
 
-		// Token: 0x04000236 RID: 566
 		private string _currentPageText;
 
-		// Token: 0x04000237 RID: 567
 		private MBBindingList<BoardGameInstructionVM> _instructionList;
 	}
 }

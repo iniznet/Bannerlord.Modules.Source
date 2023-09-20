@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 {
-	// Token: 0x020003E0 RID: 992
 	public class TroopCountCondition : MPPerkCondition
 	{
-		// Token: 0x1700092E RID: 2350
-		// (get) Token: 0x06003454 RID: 13396 RVA: 0x000D8B60 File Offset: 0x000D6D60
 		public override MPPerkCondition.PerkEventFlags EventFlags
 		{
 			get
@@ -17,8 +14,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			}
 		}
 
-		// Token: 0x1700092F RID: 2351
-		// (get) Token: 0x06003455 RID: 13397 RVA: 0x000D8B67 File Offset: 0x000D6D67
 		public override bool IsPeerCondition
 		{
 			get
@@ -27,12 +22,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			}
 		}
 
-		// Token: 0x06003456 RID: 13398 RVA: 0x000D8B6A File Offset: 0x000D6D6A
 		protected TroopCountCondition()
 		{
 		}
 
-		// Token: 0x06003457 RID: 13399 RVA: 0x000D8B74 File Offset: 0x000D6D74
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -112,7 +105,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			}
 		}
 
-		// Token: 0x06003458 RID: 13400 RVA: 0x000D8C94 File Offset: 0x000D6E94
 		public override bool Check(MissionPeer peer)
 		{
 			if (peer == null || MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) <= 0 || peer.ControlledFormation == null)
@@ -128,23 +120,18 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Conditions
 			return (float)num >= this._min && (float)num <= this._max;
 		}
 
-		// Token: 0x06003459 RID: 13401 RVA: 0x000D8D18 File Offset: 0x000D6F18
 		public override bool Check(Agent agent)
 		{
 			agent = ((agent != null && agent.IsMount) ? agent.RiderAgent : agent);
 			return this.Check(((agent != null) ? agent.MissionPeer : null) ?? ((agent != null) ? agent.OwningAgentMissionPeer : null));
 		}
 
-		// Token: 0x04001646 RID: 5702
 		protected static string StringType = "TroopCount";
 
-		// Token: 0x04001647 RID: 5703
 		private bool _isRatio;
 
-		// Token: 0x04001648 RID: 5704
 		private float _min;
 
-		// Token: 0x04001649 RID: 5705
 		private float _max;
 	}
 }

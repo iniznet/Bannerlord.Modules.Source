@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000180 RID: 384
 	public struct AttackInformation
 	{
-		// Token: 0x060013AA RID: 5034 RVA: 0x0004D198 File Offset: 0x0004B398
 		public AttackInformation(Agent attackerAgent, Agent victimAgent, GameEntity hitObject, in AttackCollisionData attackCollisionData, in MissionWeapon attackerWeapon)
 		{
 			this.IsAttackerAgentNull = attackerAgent == null;
@@ -278,7 +276,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060013AB RID: 5035 RVA: 0x0004DA8C File Offset: 0x0004BC8C
 		public AttackInformation(float armorAmountFloat, WeaponComponentData shieldOnBack, AgentFlag victimAgentFlag, float victimAgentAbsorbedDamageRatio, float damageMultiplierOfBone, float combatDifficultyMultiplier, MissionWeapon victimMainHandWeapon, MissionWeapon victimShield, bool canGiveDamageToAgentShield, bool isVictimAgentLeftStance, bool isFriendlyFire, bool doesAttackerHaveMountAgent, bool doesVictimHaveMountAgent, Vec2 attackerAgentMovementVelocity, Vec2 attackerAgentMountMovementDirection, float attackerMovementDirectionAsAngle, Vec2 victimAgentMovementVelocity, Vec2 victimAgentMountMovementDirection, float victimMovementDirectionAsAngle, bool isVictimAgentSameWithAttackerAgent, bool isAttackerAgentMine, bool doesAttackerHaveRiderAgent, bool isAttackerAgentRiderAgentMine, bool isAttackerAgentMount, bool isVictimAgentMine, bool doesVictimHaveRiderAgent, bool isVictimAgentRiderAgentMine, bool isVictimAgentMount, bool isAttackerAgentNull, bool isAttackerAIControlled, BasicCharacterObject attackerAgentCharacter, BasicCharacterObject attackerRiderAgentCharacter, IAgentOriginBase attackerAgentOrigin, IAgentOriginBase attackerRiderAgentOrigin, BasicCharacterObject victimAgentCharacter, BasicCharacterObject victimRiderAgentCharacter, IAgentOriginBase victimAgentOrigin, IAgentOriginBase victimRiderAgentOrigin, Vec2 attackerAgentMovementDirection, Vec3 attackerAgentVelocity, float attackerAgentMountChargeDamageProperty, Vec3 attackerAgentCurrentWeaponOffset, bool isAttackerAgentHuman, bool isAttackerAgentActive, bool isAttackerAgentDoingPassiveAttack, bool isVictimAgentNull, float victimAgentScale, float victimAgentHealth, float victimAgentMaxHealth, float victimAgentWeight, float victimAgentTotalEncumbrance, bool isVictimAgentHuman, Vec3 victimAgentVelocity, Vec3 victimAgentPosition, int weaponAttachBoneIndex, MissionWeapon offHandItem, bool isHeadShot, bool isVictimRiderAgentSameAsAttackerAgent, bool isAttackerPlayer, bool isVictimPlayer, DestructableComponent hitObjectDestructibleComponent)
 		{
 			this.ArmorAmountFloat = armorAmountFloat;
@@ -350,205 +347,138 @@ namespace TaleWorlds.MountAndBlade
 			this.HitObjectDestructibleComponent = hitObjectDestructibleComponent;
 		}
 
-		// Token: 0x04000619 RID: 1561
 		public float ArmorAmountFloat;
 
-		// Token: 0x0400061A RID: 1562
 		public WeaponComponentData ShieldOnBack;
 
-		// Token: 0x0400061B RID: 1563
 		public AgentFlag VictimAgentFlag;
 
-		// Token: 0x0400061C RID: 1564
 		public float VictimAgentAbsorbedDamageRatio;
 
-		// Token: 0x0400061D RID: 1565
 		public float DamageMultiplierOfBone;
 
-		// Token: 0x0400061E RID: 1566
 		public float CombatDifficultyMultiplier;
 
-		// Token: 0x0400061F RID: 1567
 		public MissionWeapon VictimMainHandWeapon;
 
-		// Token: 0x04000620 RID: 1568
 		public MissionWeapon VictimShield;
 
-		// Token: 0x04000621 RID: 1569
 		public bool CanGiveDamageToAgentShield;
 
-		// Token: 0x04000622 RID: 1570
 		public bool IsVictimAgentLeftStance;
 
-		// Token: 0x04000623 RID: 1571
 		public bool IsFriendlyFire;
 
-		// Token: 0x04000624 RID: 1572
 		public bool DoesAttackerHaveMountAgent;
 
-		// Token: 0x04000625 RID: 1573
 		public bool DoesVictimHaveMountAgent;
 
-		// Token: 0x04000626 RID: 1574
 		public Vec2 AttackerAgentMovementVelocity;
 
-		// Token: 0x04000627 RID: 1575
 		public Vec2 AttackerAgentMountMovementDirection;
 
-		// Token: 0x04000628 RID: 1576
 		public float AttackerMovementDirectionAsAngle;
 
-		// Token: 0x04000629 RID: 1577
 		public Vec2 VictimAgentMovementVelocity;
 
-		// Token: 0x0400062A RID: 1578
 		public Vec2 VictimAgentMountMovementDirection;
 
-		// Token: 0x0400062B RID: 1579
 		public float VictimMovementDirectionAsAngle;
 
-		// Token: 0x0400062C RID: 1580
 		public bool IsVictimAgentSameWithAttackerAgent;
 
-		// Token: 0x0400062D RID: 1581
 		public bool IsAttackerAgentMine;
 
-		// Token: 0x0400062E RID: 1582
 		public bool DoesAttackerHaveRiderAgent;
 
-		// Token: 0x0400062F RID: 1583
 		public bool IsAttackerAgentRiderAgentMine;
 
-		// Token: 0x04000630 RID: 1584
 		public bool IsAttackerAgentMount;
 
-		// Token: 0x04000631 RID: 1585
 		public bool IsVictimAgentMine;
 
-		// Token: 0x04000632 RID: 1586
 		public bool DoesVictimHaveRiderAgent;
 
-		// Token: 0x04000633 RID: 1587
 		public bool IsVictimAgentRiderAgentMine;
 
-		// Token: 0x04000634 RID: 1588
 		public bool IsVictimAgentMount;
 
-		// Token: 0x04000635 RID: 1589
 		public bool IsAttackerAgentNull;
 
-		// Token: 0x04000636 RID: 1590
 		public bool IsAttackerAIControlled;
 
-		// Token: 0x04000637 RID: 1591
 		public BasicCharacterObject AttackerAgentCharacter;
 
-		// Token: 0x04000638 RID: 1592
 		public BasicCharacterObject AttackerRiderAgentCharacter;
 
-		// Token: 0x04000639 RID: 1593
 		public IAgentOriginBase AttackerAgentOrigin;
 
-		// Token: 0x0400063A RID: 1594
 		public IAgentOriginBase AttackerRiderAgentOrigin;
 
-		// Token: 0x0400063B RID: 1595
 		public BasicCharacterObject VictimAgentCharacter;
 
-		// Token: 0x0400063C RID: 1596
 		public BasicCharacterObject VictimRiderAgentCharacter;
 
-		// Token: 0x0400063D RID: 1597
 		public IAgentOriginBase VictimAgentOrigin;
 
-		// Token: 0x0400063E RID: 1598
 		public IAgentOriginBase VictimRiderAgentOrigin;
 
-		// Token: 0x0400063F RID: 1599
 		public Vec2 AttackerAgentMovementDirection;
 
-		// Token: 0x04000640 RID: 1600
 		public Vec3 AttackerAgentVelocity;
 
-		// Token: 0x04000641 RID: 1601
 		public float AttackerAgentMountChargeDamageProperty;
 
-		// Token: 0x04000642 RID: 1602
 		public Vec3 AttackerAgentCurrentWeaponOffset;
 
-		// Token: 0x04000643 RID: 1603
 		public bool IsAttackerAgentHuman;
 
-		// Token: 0x04000644 RID: 1604
 		public bool IsAttackerAgentActive;
 
-		// Token: 0x04000645 RID: 1605
 		public bool IsAttackerAgentDoingPassiveAttack;
 
-		// Token: 0x04000646 RID: 1606
 		public bool IsVictimAgentNull;
 
-		// Token: 0x04000647 RID: 1607
 		public float VictimAgentScale;
 
-		// Token: 0x04000648 RID: 1608
 		public float VictimAgentWeight;
 
-		// Token: 0x04000649 RID: 1609
 		public float VictimAgentHealth;
 
-		// Token: 0x0400064A RID: 1610
 		public float VictimAgentMaxHealth;
 
-		// Token: 0x0400064B RID: 1611
 		public float VictimAgentTotalEncumbrance;
 
-		// Token: 0x0400064C RID: 1612
 		public bool IsVictimAgentHuman;
 
-		// Token: 0x0400064D RID: 1613
 		public Vec3 VictimAgentVelocity;
 
-		// Token: 0x0400064E RID: 1614
 		public Vec3 VictimAgentPosition;
 
-		// Token: 0x0400064F RID: 1615
 		public int WeaponAttachBoneIndex;
 
-		// Token: 0x04000650 RID: 1616
 		public MissionWeapon OffHandItem;
 
-		// Token: 0x04000651 RID: 1617
 		public bool IsHeadShot;
 
-		// Token: 0x04000652 RID: 1618
 		public bool IsVictimRiderAgentSameAsAttackerAgent;
 
-		// Token: 0x04000653 RID: 1619
 		public BasicCharacterObject AttackerCaptainCharacter;
 
-		// Token: 0x04000654 RID: 1620
 		public BasicCharacterObject VictimCaptainCharacter;
 
-		// Token: 0x04000655 RID: 1621
 		public Formation AttackerFormation;
 
-		// Token: 0x04000656 RID: 1622
 		public Formation VictimFormation;
 
-		// Token: 0x04000657 RID: 1623
 		public float AttackerHitPointRate;
 
-		// Token: 0x04000658 RID: 1624
 		public float VictimHitPointRate;
 
-		// Token: 0x04000659 RID: 1625
 		public bool IsAttackerPlayer;
 
-		// Token: 0x0400065A RID: 1626
 		public bool IsVictimPlayer;
 
-		// Token: 0x0400065B RID: 1627
 		public DestructableComponent HitObjectDestructibleComponent;
 	}
 }

@@ -12,16 +12,13 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000139 RID: 313
 	public class DefaultSettlementMilitiaModel : SettlementMilitiaModel
 	{
-		// Token: 0x06001742 RID: 5954 RVA: 0x00072B9D File Offset: 0x00070D9D
 		public override ExplainedNumber CalculateMilitiaChange(Settlement settlement, bool includeDescriptions = false)
 		{
 			return DefaultSettlementMilitiaModel.CalculateMilitiaChangeInternal(settlement, includeDescriptions);
 		}
 
-		// Token: 0x06001743 RID: 5955 RVA: 0x00072BA8 File Offset: 0x00070DA8
 		public override float CalculateEliteMilitiaSpawnChance(Settlement settlement)
 		{
 			float num = 0f;
@@ -45,14 +42,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001744 RID: 5956 RVA: 0x00072C3A File Offset: 0x00070E3A
 		public override void CalculateMilitiaSpawnRate(Settlement settlement, out float meleeTroopRate, out float rangedTroopRate)
 		{
 			meleeTroopRate = 0.5f;
 			rangedTroopRate = 1f - meleeTroopRate;
 		}
 
-		// Token: 0x06001745 RID: 5957 RVA: 0x00072C50 File Offset: 0x00070E50
 		private static ExplainedNumber CalculateMilitiaChangeInternal(Settlement settlement, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -159,7 +154,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001746 RID: 5958 RVA: 0x00073030 File Offset: 0x00071230
 		private static void GetSettlementMilitiaChangeDueToPerks(Settlement settlement, ref ExplainedNumber result)
 		{
 			if (settlement.Town != null && settlement.Town.Governor != null)
@@ -178,7 +172,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001747 RID: 5959 RVA: 0x000730E8 File Offset: 0x000712E8
 		private static void GetSettlementMilitiaChangeDueToPolicies(Settlement settlement, ref ExplainedNumber result)
 		{
 			Kingdom kingdom = settlement.OwnerClan.Kingdom;
@@ -188,34 +181,25 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001748 RID: 5960 RVA: 0x0007312C File Offset: 0x0007132C
 		private static void GetSettlementMilitiaChangeDueToIssues(Settlement settlement, ref ExplainedNumber result)
 		{
 			Campaign.Current.Models.IssueModel.GetIssueEffectsOfSettlement(DefaultIssueEffects.SettlementMilitia, settlement, ref result);
 		}
 
-		// Token: 0x04000843 RID: 2115
 		private static readonly TextObject BaseText = new TextObject("{=militarybase}Base", null);
 
-		// Token: 0x04000844 RID: 2116
 		private static readonly TextObject FromHearthsText = new TextObject("{=ecdZglky}From Hearths", null);
 
-		// Token: 0x04000845 RID: 2117
 		private static readonly TextObject FromProsperityText = new TextObject("{=cTmiNAlI}From Prosperity", null);
 
-		// Token: 0x04000846 RID: 2118
 		private static readonly TextObject RetiredText = new TextObject("{=gHnfFi1s}Retired", null);
 
-		// Token: 0x04000847 RID: 2119
 		private static readonly TextObject MilitiaFromMarketText = new TextObject("{=7ve3bQxg}Weapons From Market", null);
 
-		// Token: 0x04000848 RID: 2120
 		private static readonly TextObject FoodShortageText = new TextObject("{=qTFKvGSg}Food Shortage", null);
 
-		// Token: 0x04000849 RID: 2121
 		private static readonly TextObject LowLoyaltyText = new TextObject("{=SJ2qsRdF}Low Loyalty", null);
 
-		// Token: 0x0400084A RID: 2122
 		private static readonly TextObject CultureText = GameTexts.FindText("str_culture", null);
 	}
 }

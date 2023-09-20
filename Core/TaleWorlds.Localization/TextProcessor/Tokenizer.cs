@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Localization.TextProcessor
 {
-	// Token: 0x02000030 RID: 48
 	internal class Tokenizer
 	{
-		// Token: 0x0600013E RID: 318 RVA: 0x00006CEC File Offset: 0x00004EEC
 		public Tokenizer()
 		{
 			this._tokenDefinitions = new TokenDefinition[]
@@ -60,7 +58,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			};
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00006FE8 File Offset: 0x000051E8
 		public List<MBTextToken> Tokenize(string text)
 		{
 			List<MBTextToken> list = new List<MBTextToken>(2);
@@ -69,7 +66,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return list;
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00007014 File Offset: 0x00005214
 		private void FindTokenMatchesAndText(string text, List<MBTextToken> mbTokenMatches)
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);
@@ -108,7 +104,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			}
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x000070F4 File Offset: 0x000052F4
 		private int FindExpressionEnd(string text, int startIndex)
 		{
 			int num = startIndex;
@@ -129,7 +124,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return num;
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x00007138 File Offset: 0x00005338
 		private bool FindTokenMatches(string text, int beginIndex, int endIndex, List<MBTextToken> mbTokenMatches)
 		{
 			int num = this._tokenDefinitions.Length;
@@ -162,7 +156,6 @@ namespace TaleWorlds.Localization.TextProcessor
 			return true;
 		}
 
-		// Token: 0x040000A3 RID: 163
 		private readonly TokenDefinition[] _tokenDefinitions;
 	}
 }

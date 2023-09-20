@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200010C RID: 268
 	public class BehaviorProtectFlank : BehaviorComponent
 	{
-		// Token: 0x06000CFB RID: 3323 RVA: 0x0001ECE4 File Offset: 0x0001CEE4
 		public BehaviorProtectFlank(Formation formation)
 			: base(formation)
 		{
@@ -21,7 +19,6 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = this._movementOrder;
 		}
 
-		// Token: 0x06000CFC RID: 3324 RVA: 0x0001ED58 File Offset: 0x0001CF58
 		protected override void CalculateCurrentOrder()
 		{
 			if (this._mainFormation == null || base.Formation.AI.IsMainFormation || base.Formation.QuerySystem.ClosestEnemyFormation == null)
@@ -57,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CFD RID: 3325 RVA: 0x0001EF7C File Offset: 0x0001D17C
 		private void CheckAndChangeState()
 		{
 			Vec2 position = this._movementOrder.GetPosition(base.Formation);
@@ -104,14 +100,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CFE RID: 3326 RVA: 0x0001F118 File Offset: 0x0001D318
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this._mainFormation = base.Formation.Team.FormationsIncludingEmpty.FirstOrDefaultQ((Formation f) => f.CountOfUnits > 0 && f.AI.IsMainFormation);
 		}
 
-		// Token: 0x06000CFF RID: 3327 RVA: 0x0001F168 File Offset: 0x0001D368
 		public override void TickOccasionally()
 		{
 			this.CheckAndChangeState();
@@ -126,7 +120,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 		}
 
-		// Token: 0x06000D00 RID: 3328 RVA: 0x0001F258 File Offset: 0x0001D458
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -138,7 +131,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D01 RID: 3329 RVA: 0x0001F2D0 File Offset: 0x0001D4D0
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -153,7 +145,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000D02 RID: 3330 RVA: 0x0001F390 File Offset: 0x0001D590
 		protected override float GetAiWeight()
 		{
 			if (this._mainFormation == null || !this._mainFormation.AI.IsMainFormation)
@@ -167,29 +158,20 @@ namespace TaleWorlds.MountAndBlade
 			return 1.2f;
 		}
 
-		// Token: 0x04000324 RID: 804
 		private Formation _mainFormation;
 
-		// Token: 0x04000325 RID: 805
 		public FormationAI.BehaviorSide FlankSide;
 
-		// Token: 0x04000326 RID: 806
 		private BehaviorProtectFlank.BehaviorState _protectFlankState;
 
-		// Token: 0x04000327 RID: 807
 		private MovementOrder _movementOrder;
 
-		// Token: 0x04000328 RID: 808
 		private MovementOrder _chargeToTargetOrder;
 
-		// Token: 0x0200044A RID: 1098
 		private enum BehaviorState
 		{
-			// Token: 0x0400186A RID: 6250
 			HoldingFlank,
-			// Token: 0x0400186B RID: 6251
 			Charging,
-			// Token: 0x0400186C RID: 6252
 			Returning
 		}
 	}

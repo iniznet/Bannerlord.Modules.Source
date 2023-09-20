@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000123 RID: 291
 	public class BehaviorTacticalCharge : BehaviorComponent
 	{
-		// Token: 0x06000DAB RID: 3499 RVA: 0x00024E74 File Offset: 0x00023074
 		public BehaviorTacticalCharge(Formation formation)
 			: base(formation)
 		{
@@ -21,7 +19,6 @@ namespace TaleWorlds.MountAndBlade
 			this._desiredChargeStopDistance = 20f;
 		}
 
-		// Token: 0x06000DAC RID: 3500 RVA: 0x00024ED0 File Offset: 0x000230D0
 		public override void TickOccasionally()
 		{
 			base.TickOccasionally();
@@ -34,7 +31,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
 		}
 
-		// Token: 0x06000DAD RID: 3501 RVA: 0x00024F20 File Offset: 0x00023120
 		private BehaviorTacticalCharge.ChargeState CheckAndChangeState()
 		{
 			BehaviorTacticalCharge.ChargeState chargeState = this._chargeState;
@@ -118,7 +114,6 @@ namespace TaleWorlds.MountAndBlade
 			return chargeState;
 		}
 
-		// Token: 0x06000DAE RID: 3502 RVA: 0x000252BC File Offset: 0x000234BC
 		protected override void CalculateCurrentOrder()
 		{
 			if (base.Formation.QuerySystem.ClosestEnemyFormation == null || ((base.Formation.QuerySystem.IsCavalryFormation || base.Formation.QuerySystem.IsRangedCavalryFormation) && (base.Formation.QuerySystem.ClosestEnemyFormation.IsCavalryFormation || base.Formation.QuerySystem.ClosestEnemyFormation.IsRangedCavalryFormation)))
@@ -220,7 +215,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DAF RID: 3503 RVA: 0x0002576C File Offset: 0x0002396C
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -239,7 +233,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000DB0 RID: 3504 RVA: 0x00025818 File Offset: 0x00023A18
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -251,8 +244,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x17000323 RID: 803
-		// (get) Token: 0x06000DB1 RID: 3505 RVA: 0x000258B7 File Offset: 0x00023AB7
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -261,7 +252,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DB2 RID: 3506 RVA: 0x000258C0 File Offset: 0x00023AC0
 		private float CalculateAIWeight()
 		{
 			FormationQuerySystem querySystem = base.Formation.QuerySystem;
@@ -316,7 +306,6 @@ namespace TaleWorlds.MountAndBlade
 			return num3 * num6 * num8 * num9 * num10;
 		}
 
-		// Token: 0x06000DB3 RID: 3507 RVA: 0x00025B18 File Offset: 0x00023D18
 		protected override float GetAiWeight()
 		{
 			float num = 0f;
@@ -345,42 +334,28 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x04000353 RID: 851
 		private BehaviorTacticalCharge.ChargeState _chargeState;
 
-		// Token: 0x04000354 RID: 852
 		private FormationQuerySystem _lastTarget;
 
-		// Token: 0x04000355 RID: 853
 		private Vec2 _initialChargeDirection;
 
-		// Token: 0x04000356 RID: 854
 		private float _desiredChargeStopDistance;
 
-		// Token: 0x04000357 RID: 855
 		private WorldPosition _lastReformDestination;
 
-		// Token: 0x04000358 RID: 856
 		private Timer _chargingPastTimer;
 
-		// Token: 0x04000359 RID: 857
 		private Timer _reformTimer;
 
-		// Token: 0x0400035A RID: 858
 		private Vec2 _bracePosition = Vec2.Invalid;
 
-		// Token: 0x02000459 RID: 1113
 		private enum ChargeState
 		{
-			// Token: 0x0400189B RID: 6299
 			Undetermined,
-			// Token: 0x0400189C RID: 6300
 			Charging,
-			// Token: 0x0400189D RID: 6301
 			ChargingPast,
-			// Token: 0x0400189E RID: 6302
 			Reforming,
-			// Token: 0x0400189F RID: 6303
 			Bracing
 		}
 	}

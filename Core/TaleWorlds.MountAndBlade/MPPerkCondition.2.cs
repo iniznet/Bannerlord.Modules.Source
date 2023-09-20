@@ -4,11 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000316 RID: 790
 	public abstract class MPPerkCondition<T> : MPPerkCondition where T : MissionMultiplayerGameModeBase
 	{
-		// Token: 0x17000793 RID: 1939
-		// (get) Token: 0x06002A8F RID: 10895 RVA: 0x000A5A64 File Offset: 0x000A3C64
 		protected T GameModeInstance
 		{
 			get
@@ -22,7 +19,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002A90 RID: 10896 RVA: 0x000A5A8C File Offset: 0x000A3C8C
 		protected override bool IsGameModesValid(List<string> gameModes)
 		{
 			if (typeof(MissionMultiplayerFlagDomination).IsAssignableFrom(typeof(T)))

@@ -15,20 +15,12 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categories
 {
-	// Token: 0x02000115 RID: 277
 	public class ClanPartiesVM : ViewModel
 	{
-		// Token: 0x1700090C RID: 2316
-		// (get) Token: 0x06001A6E RID: 6766 RVA: 0x0005FA91 File Offset: 0x0005DC91
-		// (set) Token: 0x06001A6F RID: 6767 RVA: 0x0005FA99 File Offset: 0x0005DC99
 		public int TotalExpense { get; private set; }
 
-		// Token: 0x1700090D RID: 2317
-		// (get) Token: 0x06001A70 RID: 6768 RVA: 0x0005FAA2 File Offset: 0x0005DCA2
-		// (set) Token: 0x06001A71 RID: 6769 RVA: 0x0005FAAA File Offset: 0x0005DCAA
 		public int TotalIncome { get; private set; }
 
-		// Token: 0x06001A72 RID: 6770 RVA: 0x0005FAB4 File Offset: 0x0005DCB4
 		public ClanPartiesVM(Action onExpenseChange, Action<Hero> openPartyAsManage, Action onRefresh, Action<ClanCardSelectionInfo> openCardSelectionPopup)
 		{
 			this._onExpenseChange = onExpenseChange;
@@ -46,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.RefreshValues();
 		}
 
-		// Token: 0x06001A73 RID: 6771 RVA: 0x0005FB84 File Offset: 0x0005DD84
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -72,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			});
 		}
 
-		// Token: 0x06001A74 RID: 6772 RVA: 0x0005FCB8 File Offset: 0x0005DEB8
 		public void RefreshTotalExpense()
 		{
 			this.TotalExpense = (from p in this.Parties.Union(this.Garrisons).Union(this.Caravans)
@@ -81,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.TotalIncome = this.Caravans.Sum((ClanPartyItemVM p) => p.Income);
 		}
 
-		// Token: 0x06001A75 RID: 6773 RVA: 0x0005FD60 File Offset: 0x0005DF60
 		public void RefreshPartiesList()
 		{
 			this.Parties.Clear();
@@ -134,7 +123,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.OnPartySelection(this.GetDefaultMember());
 		}
 
-		// Token: 0x06001A76 RID: 6774 RVA: 0x0006012C File Offset: 0x0005E32C
 		private bool GetCanCreateNewParty(out TextObject disabledReason)
 		{
 			bool flag = this._faction.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._faction.Companions).Any((Hero h) => h.IsActive && h.PartyBelongedToAsPrisoner == null && !h.IsChild && h.CanLeadParty() && (h.PartyBelongedTo == null || h.PartyBelongedTo.LeaderHero != h));
@@ -158,20 +146,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return true;
 		}
 
-		// Token: 0x06001A77 RID: 6775 RVA: 0x000601F3 File Offset: 0x0005E3F3
 		private void OnAnyExpenseChange()
 		{
 			this.RefreshTotalExpense();
 			this._onExpenseChange();
 		}
 
-		// Token: 0x06001A78 RID: 6776 RVA: 0x00060206 File Offset: 0x0005E406
 		private ClanPartyItemVM GetDefaultMember()
 		{
 			return this.Parties.FirstOrDefault<ClanPartyItemVM>();
 		}
 
-		// Token: 0x06001A79 RID: 6777 RVA: 0x00060214 File Offset: 0x0005E414
 		public void ExecuteCreateNewParty()
 		{
 			if (this.CanCreateNewParty)
@@ -227,7 +212,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A7A RID: 6778 RVA: 0x00060490 File Offset: 0x0005E690
 		private void OnNewPartySelectionOver(List<InquiryElement> element)
 		{
 			if (element.Count == 0)
@@ -245,7 +229,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this._onRefresh();
 		}
 
-		// Token: 0x06001A7B RID: 6779 RVA: 0x000604F0 File Offset: 0x0005E6F0
 		public void SelectParty(PartyBase party)
 		{
 			foreach (ClanPartyItemVM clanPartyItemVM in this.Parties)
@@ -266,7 +249,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A7C RID: 6780 RVA: 0x00060590 File Offset: 0x0005E790
 		private void OnPartySelection(ClanPartyItemVM party)
 		{
 			if (this.CurrentSelectedParty != null)
@@ -280,7 +262,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A7D RID: 6781 RVA: 0x000605B8 File Offset: 0x0005E7B8
 		private string GetPartyLeaderAssignmentSkillsHint(Hero hero)
 		{
 			string text = "";
@@ -306,7 +287,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return text;
 		}
 
-		// Token: 0x06001A7E RID: 6782 RVA: 0x00060678 File Offset: 0x0005E878
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -324,7 +304,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			});
 		}
 
-		// Token: 0x06001A7F RID: 6783 RVA: 0x0006070C File Offset: 0x0005E90C
 		public void OnShowChangeLeaderPopup()
 		{
 			ClanPartyItemVM currentSelectedParty = this.CurrentSelectedParty;
@@ -350,7 +329,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x06001A80 RID: 6784 RVA: 0x0006076F File Offset: 0x0005E96F
 		private IEnumerable<ClanCardSelectionItemInfo> GetChangeLeaderCandidates()
 		{
 			TextObject textObject;
@@ -376,7 +354,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x06001A81 RID: 6785 RVA: 0x0006077F File Offset: 0x0005E97F
 		private IEnumerable<ClanCardSelectionItemPropertyInfo> GetChangeLeaderCandidateProperties(Hero hero)
 		{
 			TextObject teleportationDelayText = CampaignUIHelper.GetTeleportationDelayText(hero, this.CurrentSelectedParty.Party);
@@ -405,7 +382,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			yield break;
 		}
 
-		// Token: 0x06001A82 RID: 6786 RVA: 0x00060798 File Offset: 0x0005E998
 		private void OnChangeLeaderOver(List<object> selectedItems, Action closePopup)
 		{
 			if (selectedItems.Count == 1)
@@ -466,7 +442,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			closePopup2();
 		}
 
-		// Token: 0x06001A83 RID: 6787 RVA: 0x0006093C File Offset: 0x0005EB3C
 		private void OnPartyLeaderChanged(Hero newLeader)
 		{
 			ClanPartyItemVM currentSelectedParty = this.CurrentSelectedParty;
@@ -487,13 +462,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			TeleportHeroAction.ApplyDelayedTeleportToPartyAsPartyLeader(newLeader, this.CurrentSelectedParty.Party.MobileParty);
 		}
 
-		// Token: 0x06001A84 RID: 6788 RVA: 0x00060999 File Offset: 0x0005EB99
 		private void OnDisbandCurrentParty()
 		{
 			DisbandPartyAction.StartDisband(this.CurrentSelectedParty.Party.MobileParty);
 		}
 
-		// Token: 0x06001A85 RID: 6789 RVA: 0x000609B0 File Offset: 0x0005EBB0
 		private bool GetCanDisbandParty(out TextObject cannotDisbandReason)
 		{
 			bool flag = false;
@@ -541,9 +514,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			return flag;
 		}
 
-		// Token: 0x1700090E RID: 2318
-		// (get) Token: 0x06001A86 RID: 6790 RVA: 0x00060A5A File Offset: 0x0005EC5A
-		// (set) Token: 0x06001A87 RID: 6791 RVA: 0x00060A62 File Offset: 0x0005EC62
 		[DataSourceProperty]
 		public HintViewModel CreateNewPartyActionHint
 		{
@@ -561,9 +531,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700090F RID: 2319
-		// (get) Token: 0x06001A88 RID: 6792 RVA: 0x00060A80 File Offset: 0x0005EC80
-		// (set) Token: 0x06001A89 RID: 6793 RVA: 0x00060A88 File Offset: 0x0005EC88
 		[DataSourceProperty]
 		public bool IsAnyValidPartySelected
 		{
@@ -581,9 +548,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000910 RID: 2320
-		// (get) Token: 0x06001A8A RID: 6794 RVA: 0x00060AA6 File Offset: 0x0005ECA6
-		// (set) Token: 0x06001A8B RID: 6795 RVA: 0x00060AAE File Offset: 0x0005ECAE
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -601,9 +565,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000911 RID: 2321
-		// (get) Token: 0x06001A8C RID: 6796 RVA: 0x00060AD1 File Offset: 0x0005ECD1
-		// (set) Token: 0x06001A8D RID: 6797 RVA: 0x00060AD9 File Offset: 0x0005ECD9
 		[DataSourceProperty]
 		public string CaravansText
 		{
@@ -621,9 +582,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000912 RID: 2322
-		// (get) Token: 0x06001A8E RID: 6798 RVA: 0x00060AFC File Offset: 0x0005ECFC
-		// (set) Token: 0x06001A8F RID: 6799 RVA: 0x00060B04 File Offset: 0x0005ED04
 		[DataSourceProperty]
 		public string GarrisonsText
 		{
@@ -641,9 +599,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000913 RID: 2323
-		// (get) Token: 0x06001A90 RID: 6800 RVA: 0x00060B27 File Offset: 0x0005ED27
-		// (set) Token: 0x06001A91 RID: 6801 RVA: 0x00060B2F File Offset: 0x0005ED2F
 		[DataSourceProperty]
 		public string PartiesText
 		{
@@ -661,9 +616,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000914 RID: 2324
-		// (get) Token: 0x06001A92 RID: 6802 RVA: 0x00060B52 File Offset: 0x0005ED52
-		// (set) Token: 0x06001A93 RID: 6803 RVA: 0x00060B5A File Offset: 0x0005ED5A
 		[DataSourceProperty]
 		public string MoraleText
 		{
@@ -681,9 +633,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000915 RID: 2325
-		// (get) Token: 0x06001A94 RID: 6804 RVA: 0x00060B7D File Offset: 0x0005ED7D
-		// (set) Token: 0x06001A95 RID: 6805 RVA: 0x00060B85 File Offset: 0x0005ED85
 		[DataSourceProperty]
 		public string LocationText
 		{
@@ -701,9 +650,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000916 RID: 2326
-		// (get) Token: 0x06001A96 RID: 6806 RVA: 0x00060BA8 File Offset: 0x0005EDA8
-		// (set) Token: 0x06001A97 RID: 6807 RVA: 0x00060BB0 File Offset: 0x0005EDB0
 		[DataSourceProperty]
 		public string CreateNewPartyText
 		{
@@ -721,9 +667,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000917 RID: 2327
-		// (get) Token: 0x06001A98 RID: 6808 RVA: 0x00060BD3 File Offset: 0x0005EDD3
-		// (set) Token: 0x06001A99 RID: 6809 RVA: 0x00060BDB File Offset: 0x0005EDDB
 		[DataSourceProperty]
 		public string SizeText
 		{
@@ -741,9 +684,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000918 RID: 2328
-		// (get) Token: 0x06001A9A RID: 6810 RVA: 0x00060BFE File Offset: 0x0005EDFE
-		// (set) Token: 0x06001A9B RID: 6811 RVA: 0x00060C06 File Offset: 0x0005EE06
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -761,9 +701,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x17000919 RID: 2329
-		// (get) Token: 0x06001A9C RID: 6812 RVA: 0x00060C24 File Offset: 0x0005EE24
-		// (set) Token: 0x06001A9D RID: 6813 RVA: 0x00060C2C File Offset: 0x0005EE2C
 		[DataSourceProperty]
 		public bool CanCreateNewParty
 		{
@@ -781,9 +718,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700091A RID: 2330
-		// (get) Token: 0x06001A9E RID: 6814 RVA: 0x00060C4A File Offset: 0x0005EE4A
-		// (set) Token: 0x06001A9F RID: 6815 RVA: 0x00060C52 File Offset: 0x0005EE52
 		[DataSourceProperty]
 		public MBBindingList<ClanPartyItemVM> Parties
 		{
@@ -801,9 +735,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700091B RID: 2331
-		// (get) Token: 0x06001AA0 RID: 6816 RVA: 0x00060C70 File Offset: 0x0005EE70
-		// (set) Token: 0x06001AA1 RID: 6817 RVA: 0x00060C78 File Offset: 0x0005EE78
 		[DataSourceProperty]
 		public MBBindingList<ClanPartyItemVM> Caravans
 		{
@@ -821,9 +752,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700091C RID: 2332
-		// (get) Token: 0x06001AA2 RID: 6818 RVA: 0x00060C96 File Offset: 0x0005EE96
-		// (set) Token: 0x06001AA3 RID: 6819 RVA: 0x00060C9E File Offset: 0x0005EE9E
 		[DataSourceProperty]
 		public MBBindingList<ClanPartyItemVM> Garrisons
 		{
@@ -841,9 +769,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x1700091D RID: 2333
-		// (get) Token: 0x06001AA4 RID: 6820 RVA: 0x00060CBC File Offset: 0x0005EEBC
-		// (set) Token: 0x06001AA5 RID: 6821 RVA: 0x00060CC4 File Offset: 0x0005EEC4
 		[DataSourceProperty]
 		public ClanPartyItemVM CurrentSelectedParty
 		{
@@ -862,28 +787,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		// Token: 0x04000C85 RID: 3205
 		private Action _onExpenseChange;
 
-		// Token: 0x04000C86 RID: 3206
 		private Action<Hero> _openPartyAsManage;
 
-		// Token: 0x04000C87 RID: 3207
 		private Action<ClanCardSelectionInfo> _openCardSelectionPopup;
 
-		// Token: 0x04000C88 RID: 3208
 		private readonly IDisbandPartyCampaignBehavior _disbandBehavior;
 
-		// Token: 0x04000C89 RID: 3209
 		private readonly ITeleportationCampaignBehavior _teleportationBehavior;
 
-		// Token: 0x04000C8A RID: 3210
 		private readonly Action _onRefresh;
 
-		// Token: 0x04000C8B RID: 3211
 		private readonly Clan _faction;
 
-		// Token: 0x04000C8C RID: 3212
 		private readonly IEnumerable<SkillObject> _leaderAssignmentRelevantSkills = new List<SkillObject>
 		{
 			DefaultSkills.Engineering,
@@ -892,52 +809,36 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			DefaultSkills.Medicine
 		};
 
-		// Token: 0x04000C8D RID: 3213
 		private MBBindingList<ClanPartyItemVM> _parties;
 
-		// Token: 0x04000C8E RID: 3214
 		private MBBindingList<ClanPartyItemVM> _garrisons;
 
-		// Token: 0x04000C8F RID: 3215
 		private MBBindingList<ClanPartyItemVM> _caravans;
 
-		// Token: 0x04000C90 RID: 3216
 		private ClanPartyItemVM _currentSelectedParty;
 
-		// Token: 0x04000C91 RID: 3217
 		private HintViewModel _createNewPartyActionHint;
 
-		// Token: 0x04000C92 RID: 3218
 		private bool _canCreateNewParty;
 
-		// Token: 0x04000C93 RID: 3219
 		private bool _isSelected;
 
-		// Token: 0x04000C94 RID: 3220
 		private string _nameText;
 
-		// Token: 0x04000C95 RID: 3221
 		private string _moraleText;
 
-		// Token: 0x04000C96 RID: 3222
 		private string _locationText;
 
-		// Token: 0x04000C97 RID: 3223
 		private string _sizeText;
 
-		// Token: 0x04000C98 RID: 3224
 		private string _createNewPartyText;
 
-		// Token: 0x04000C99 RID: 3225
 		private string _partiesText;
 
-		// Token: 0x04000C9A RID: 3226
 		private string _caravansText;
 
-		// Token: 0x04000C9B RID: 3227
 		private string _garrisonsText;
 
-		// Token: 0x04000C9C RID: 3228
 		private bool _isAnyValidPartySelected;
 	}
 }

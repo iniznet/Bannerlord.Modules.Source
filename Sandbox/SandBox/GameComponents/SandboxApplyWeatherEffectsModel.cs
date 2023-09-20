@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x02000088 RID: 136
 	public class SandboxApplyWeatherEffectsModel : ApplyWeatherEffectsModel
 	{
-		// Token: 0x060005C7 RID: 1479 RVA: 0x0002B7B0 File Offset: 0x000299B0
 		public override void ApplyWeatherEffects()
 		{
 			Scene scene = Mission.Current.Scene;

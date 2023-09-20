@@ -6,11 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200013A RID: 314
 	public class DetachmentManager
 	{
-		// Token: 0x1700037C RID: 892
-		// (get) Token: 0x06000FC8 RID: 4040 RVA: 0x0002EFE2 File Offset: 0x0002D1E2
 		public MBReadOnlyList<ValueTuple<IDetachment, DetachmentData>> Detachments
 		{
 			get
@@ -19,7 +16,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FC9 RID: 4041 RVA: 0x0002EFEC File Offset: 0x0002D1EC
 		public DetachmentManager(Team team)
 		{
 			this._detachments = new MBList<ValueTuple<IDetachment, DetachmentData>>();
@@ -30,7 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			this._templateCostCache = new List<float>();
 		}
 
-		// Token: 0x06000FCA RID: 4042 RVA: 0x0002F044 File Offset: 0x0002D244
 		private void Team_OnFormationsChanged(Team team, Formation formation)
 		{
 			float currentTime = Mission.Current.CurrentTime;
@@ -42,7 +37,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FCB RID: 4043 RVA: 0x0002F0B8 File Offset: 0x0002D2B8
 		public void Clear()
 		{
 			this._team.OnFormationsChanged -= this.Team_OnFormationsChanged;
@@ -53,13 +47,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FCC RID: 4044 RVA: 0x0002F144 File Offset: 0x0002D344
 		public bool ContainsDetachment(IDetachment detachment)
 		{
 			return this._detachmentDataDictionary.ContainsKey(detachment);
 		}
 
-		// Token: 0x06000FCD RID: 4045 RVA: 0x0002F154 File Offset: 0x0002D354
 		public void MakeDetachment(IDetachment detachment)
 		{
 			DetachmentData detachmentData = new DetachmentData();
@@ -67,7 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			this._detachmentDataDictionary[detachment] = detachmentData;
 		}
 
-		// Token: 0x06000FCE RID: 4046 RVA: 0x0002F188 File Offset: 0x0002D388
 		public void DestroyDetachment(IDetachment destroyedDetachment)
 		{
 			for (int i = 0; i < this._detachments.Count; i++)
@@ -86,7 +77,6 @@ namespace TaleWorlds.MountAndBlade
 			this._detachmentDataDictionary.Remove(destroyedDetachment);
 		}
 
-		// Token: 0x06000FCF RID: 4047 RVA: 0x0002F210 File Offset: 0x0002D410
 		public void OnFormationJoinDetachment(Formation formation, IDetachment joinedDetachment)
 		{
 			DetachmentData detachmentData = this._detachmentDataDictionary[joinedDetachment];
@@ -95,7 +85,6 @@ namespace TaleWorlds.MountAndBlade
 			joinedDetachment.FormationStartUsing(formation);
 		}
 
-		// Token: 0x06000FD0 RID: 4048 RVA: 0x0002F23C File Offset: 0x0002D43C
 		public void OnFormationLeaveDetachment(Formation formation, IDetachment leftDetachment)
 		{
 			DetachmentData detachmentData = this._detachmentDataDictionary[leftDetachment];
@@ -105,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			leftDetachment.FormationStopUsing(formation);
 		}
 
-		// Token: 0x06000FD1 RID: 4049 RVA: 0x0002F2A4 File Offset: 0x0002D4A4
 		public void TickDetachments()
 		{
 			float totalMissionTime = MBCommon.GetTotalMissionTime();
@@ -261,7 +249,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD2 RID: 4050 RVA: 0x0002F764 File Offset: 0x0002D964
 		public void TickAgent(Agent agent)
 		{
 			bool isDetachedFromFormation = agent.IsDetachedFromFormation;
@@ -357,7 +344,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD3 RID: 4051 RVA: 0x0002FA24 File Offset: 0x0002DC24
 		public void OnAgentRemoved(Agent agent)
 		{
 			Predicate<ValueTuple<Agent, List<float>>> <>9__0;
@@ -373,7 +359,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD4 RID: 4052 RVA: 0x0002FAC0 File Offset: 0x0002DCC0
 		public void RemoveScoresOfAgentFromDetachments(Agent agent)
 		{
 			foreach (ValueTuple<IDetachment, DetachmentData> valueTuple in this._detachments)
@@ -385,7 +370,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD5 RID: 4053 RVA: 0x0002FB30 File Offset: 0x0002DD30
 		public void AddAgentAsMovingToDetachment(Agent agent, IDetachment detachment)
 		{
 			if (detachment != null)
@@ -394,7 +378,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD6 RID: 4054 RVA: 0x0002FB50 File Offset: 0x0002DD50
 		public void RemoveAgentAsMovingToDetachment(Agent agent)
 		{
 			if (agent.Detachment != null)
@@ -407,13 +390,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000FD7 RID: 4055 RVA: 0x0002FBBC File Offset: 0x0002DDBC
 		public void AddAgentAsDefendingToDetachment(Agent agent, IDetachment detachment)
 		{
 			this._detachmentDataDictionary[detachment].DefendingAgentCount++;
 		}
 
-		// Token: 0x06000FD8 RID: 4056 RVA: 0x0002FBD8 File Offset: 0x0002DDD8
 		public void RemoveAgentAsDefendingToDetachment(Agent agent)
 		{
 			if (!this._detachmentDataDictionary.ContainsKey(agent.Detachment))
@@ -423,13 +404,11 @@ namespace TaleWorlds.MountAndBlade
 			this._detachmentDataDictionary[agent.Detachment].DefendingAgentCount--;
 		}
 
-		// Token: 0x06000FD9 RID: 4057 RVA: 0x0002FC4B File Offset: 0x0002DE4B
 		[Conditional("DEBUG")]
 		private void AssertDetachments()
 		{
 		}
 
-		// Token: 0x06000FDA RID: 4058 RVA: 0x0002FC50 File Offset: 0x0002DE50
 		[Conditional("DEBUG")]
 		public void AssertDetachment(Team team, IDetachment detachment)
 		{
@@ -437,19 +416,14 @@ namespace TaleWorlds.MountAndBlade
 			team.FormationsIncludingSpecialAndEmpty.Where((Formation f) => f.CountOfUnits > 0 && f.Detachments.Contains(detachment));
 		}
 
-		// Token: 0x040003B0 RID: 944
 		private readonly MBList<ValueTuple<IDetachment, DetachmentData>> _detachments;
 
-		// Token: 0x040003B1 RID: 945
 		private readonly Dictionary<IDetachment, DetachmentData> _detachmentDataDictionary;
 
-		// Token: 0x040003B2 RID: 946
 		private readonly List<ValueTuple<int, float>> _slotIndexWeightTuplesCache;
 
-		// Token: 0x040003B3 RID: 947
 		private List<float> _templateCostCache;
 
-		// Token: 0x040003B4 RID: 948
 		private readonly Team _team;
 	}
 }

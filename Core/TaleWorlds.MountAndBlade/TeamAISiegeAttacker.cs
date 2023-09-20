@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000177 RID: 375
 	public class TeamAISiegeAttacker : TeamAISiegeComponent
 	{
-		// Token: 0x17000432 RID: 1074
-		// (get) Token: 0x0600134C RID: 4940 RVA: 0x0004B482 File Offset: 0x00049682
 		public MBReadOnlyList<ArcherPosition> ArcherPositions
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600134D RID: 4941 RVA: 0x0004B48C File Offset: 0x0004968C
 		public TeamAISiegeAttacker(Mission currentMission, Team currentTeam, float thinkTimerTime, float applyTimerTime)
 			: base(currentMission, currentTeam, thinkTimerTime, applyTimerTime)
 		{
@@ -28,7 +24,6 @@ namespace TaleWorlds.MountAndBlade
 			this._archerPositions = enumerable.Select((GameEntity ap) => new ArcherPosition(ap, TeamAISiegeComponent.QuerySystem, BattleSideEnum.Attacker)).ToMBList<ArcherPosition>();
 		}
 
-		// Token: 0x0600134E RID: 4942 RVA: 0x0004B4E8 File Offset: 0x000496E8
 		public override void OnUnitAddedToFormationForTheFirstTime(Formation formation)
 		{
 			if (formation.AI.GetBehavior<BehaviorCharge>() == null)
@@ -58,7 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600134F RID: 4943 RVA: 0x0004B62C File Offset: 0x0004982C
 		public override void OnDeploymentFinished()
 		{
 			base.OnDeploymentFinished();
@@ -72,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0400057C RID: 1404
 		private readonly MBList<ArcherPosition> _archerPositions;
 	}
 }

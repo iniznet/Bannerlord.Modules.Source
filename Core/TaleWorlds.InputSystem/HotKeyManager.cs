@@ -5,15 +5,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.InputSystem
 {
-	// Token: 0x02000007 RID: 7
 	public static class HotKeyManager
 	{
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x0600007B RID: 123 RVA: 0x0000329C File Offset: 0x0000149C
-		// (remove) Token: 0x0600007C RID: 124 RVA: 0x000032D0 File Offset: 0x000014D0
 		public static event HotKeyManager.OnKeybindsChangedEvent OnKeybindsChanged;
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00003304 File Offset: 0x00001504
 		public static void AddAuxiliaryCategory(GameKeyContext debugContext)
 		{
 			if (debugContext.Type == GameKeyContext.GameKeyContextType.AuxiliaryNotSerialized)
@@ -28,7 +23,6 @@ namespace TaleWorlds.InputSystem
 			HotKeyManager._categories.Add(debugContext.GameKeyCategoryId, debugContext);
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00003360 File Offset: 0x00001560
 		public static string GetHotKeyId(string categoryName, string hotKeyId)
 		{
 			GameKeyContext gameKeyContext;
@@ -40,7 +34,6 @@ namespace TaleWorlds.InputSystem
 			return "";
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x000033AC File Offset: 0x000015AC
 		public static string GetHotKeyId(string categoryName, int hotKeyId)
 		{
 			GameKeyContext gameKeyContext;
@@ -52,31 +45,26 @@ namespace TaleWorlds.InputSystem
 			return "invalid";
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x000033F6 File Offset: 0x000015F6
 		public static GameKeyContext GetCategory(string categoryName)
 		{
 			return HotKeyManager._categories[categoryName];
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x00003403 File Offset: 0x00001603
 		public static Dictionary<string, GameKeyContext>.ValueCollection GetAllCategories()
 		{
 			return HotKeyManager._categories.Values;
 		}
 
-		// Token: 0x06000082 RID: 130 RVA: 0x0000340F File Offset: 0x0000160F
 		public static void Tick(float dt)
 		{
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x00003411 File Offset: 0x00001611
 		public static void Initialize(PlatformFilePath savePath, bool isRDownSwappedWithRRight)
 		{
 			GameKeyContext.SetIsRDownSwappedWithRRight(isRDownSwappedWithRRight);
 			HotKeyManager._savePath = savePath;
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x00003420 File Offset: 0x00001620
 		public static void RegisterInitialContexts(IEnumerable<GameKeyContext> contexts, bool loadKeys)
 		{
 			foreach (GameKeyContext gameKeyContext in contexts)
@@ -92,7 +80,6 @@ namespace TaleWorlds.InputSystem
 			}
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x0000348C File Offset: 0x0000168C
 		public static bool ShouldNotifyDocumentVersionDifferent()
 		{
 			bool notifyDocumentVersionDifferent = HotKeyManager._notifyDocumentVersionDifferent;
@@ -100,7 +87,6 @@ namespace TaleWorlds.InputSystem
 			return notifyDocumentVersionDifferent;
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x0000349C File Offset: 0x0000169C
 		public static void Reset()
 		{
 			foreach (GameKeyContext gameKeyContext in HotKeyManager._categories.Values)
@@ -141,7 +127,6 @@ namespace TaleWorlds.InputSystem
 			}
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x000036AC File Offset: 0x000018AC
 		public static void Load()
 		{
 			if (!FileHelper.FileExists(HotKeyManager._savePath))
@@ -331,7 +316,6 @@ namespace TaleWorlds.InputSystem
 			}
 		}
 
-		// Token: 0x06000088 RID: 136 RVA: 0x00003C08 File Offset: 0x00001E08
 		public static void Save(bool throwEvent)
 		{
 			try
@@ -425,26 +409,18 @@ namespace TaleWorlds.InputSystem
 			}
 		}
 
-		// Token: 0x0400001E RID: 30
 		private static readonly Dictionary<string, GameKeyContext> _categories = new Dictionary<string, GameKeyContext>();
 
-		// Token: 0x0400001F RID: 31
 		private static readonly List<string> _serializeIgnoredCategories = new List<string>();
 
-		// Token: 0x04000020 RID: 32
 		private static readonly float _versionOfHotkeys = 2f;
 
-		// Token: 0x04000021 RID: 33
 		private static bool _hotkeyEditEnabled = false;
 
-		// Token: 0x04000022 RID: 34
 		private static bool _notifyDocumentVersionDifferent = false;
 
-		// Token: 0x04000023 RID: 35
 		private static PlatformFilePath _savePath;
 
-		// Token: 0x02000014 RID: 20
-		// (Invoke) Token: 0x0600016B RID: 363
 		public delegate void OnKeybindsChangedEvent();
 	}
 }

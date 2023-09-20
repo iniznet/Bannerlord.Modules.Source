@@ -3,16 +3,13 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003AD RID: 941
 	public class MilitiasCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003851 RID: 14417 RVA: 0x000FFCBE File Offset: 0x000FDEBE
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
 		}
 
-		// Token: 0x06003852 RID: 14418 RVA: 0x000FFCD8 File Offset: 0x000FDED8
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
 		{
 			int count = Town.AllTowns.Count;
@@ -44,7 +41,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003853 RID: 14419 RVA: 0x000FFE7F File Offset: 0x000FE07F
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

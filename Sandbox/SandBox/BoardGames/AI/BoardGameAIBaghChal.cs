@@ -9,17 +9,14 @@ using TaleWorlds.Library;
 
 namespace SandBox.BoardGames.AI
 {
-	// Token: 0x020000C2 RID: 194
 	public class BoardGameAIBaghChal : BoardGameAIBase
 	{
-		// Token: 0x06000BB4 RID: 2996 RVA: 0x0005CEE6 File Offset: 0x0005B0E6
 		public BoardGameAIBaghChal(BoardGameHelper.AIDifficulty difficulty, MissionBoardGameLogic boardGameHandler)
 			: base(difficulty, boardGameHandler)
 		{
 			this._board = base.BoardGameHandler.Board as BoardGameBaghChal;
 		}
 
-		// Token: 0x06000BB5 RID: 2997 RVA: 0x0005CF08 File Offset: 0x0005B108
 		protected override void InitializeDifficulty()
 		{
 			switch (base.Difficulty)
@@ -38,7 +35,6 @@ namespace SandBox.BoardGames.AI
 			}
 		}
 
-		// Token: 0x06000BB6 RID: 2998 RVA: 0x0005CF48 File Offset: 0x0005B148
 		public override Move CalculateMovementStageMove()
 		{
 			Move move;
@@ -82,13 +78,11 @@ namespace SandBox.BoardGames.AI
 			return move;
 		}
 
-		// Token: 0x06000BB7 RID: 2999 RVA: 0x0005D084 File Offset: 0x0005B284
 		public override Move CalculatePreMovementStageMove()
 		{
 			return this.CalculateMovementStageMove();
 		}
 
-		// Token: 0x06000BB8 RID: 3000 RVA: 0x0005D08C File Offset: 0x0005B28C
 		private int NegaMax(int depth, int color, int alpha, int beta)
 		{
 			if (depth == 0)
@@ -141,7 +135,6 @@ namespace SandBox.BoardGames.AI
 			return alpha;
 		}
 
-		// Token: 0x06000BB9 RID: 3001 RVA: 0x0005D268 File Offset: 0x0005B468
 		private int Evaluation()
 		{
 			float num = MBRandom.RandomFloat;
@@ -162,7 +155,6 @@ namespace SandBox.BoardGames.AI
 			return (int)((float)(100 * -(float)this.GetTigersStuck() + 50 * this.GetGoatsCaptured() + totalMovesAvailable + this.GetCombinedDistanceBetweenTigers()) * num);
 		}
 
-		// Token: 0x06000BBA RID: 3002 RVA: 0x0005D310 File Offset: 0x0005B510
 		private int GetTigersStuck()
 		{
 			int num = 0;
@@ -177,7 +169,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BBB RID: 3003 RVA: 0x0005D39C File Offset: 0x0005B59C
 		private int GetGoatsCaptured()
 		{
 			int num = 0;
@@ -194,7 +185,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BBC RID: 3004 RVA: 0x0005D41C File Offset: 0x0005B61C
 		private int GetCombinedDistanceBetweenTigers()
 		{
 			int num = 0;
@@ -213,7 +203,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x04000429 RID: 1065
 		private readonly BoardGameBaghChal _board;
 	}
 }

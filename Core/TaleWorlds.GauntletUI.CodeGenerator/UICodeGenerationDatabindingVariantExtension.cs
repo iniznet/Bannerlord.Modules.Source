@@ -8,28 +8,23 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.CodeGenerator
 {
-	// Token: 0x0200000F RID: 15
 	public class UICodeGenerationDatabindingVariantExtension : UICodeGenerationVariantExtension
 	{
-		// Token: 0x060000BF RID: 191 RVA: 0x00004950 File Offset: 0x00002B50
 		public override PrefabExtension GetPrefabExtension()
 		{
 			return new PrefabDatabindingExtension();
 		}
 
-		// Token: 0x060000C0 RID: 192 RVA: 0x0000349A File Offset: 0x0000169A
 		public override void AddExtensionVariables(ClassCode classCode)
 		{
 		}
 
-		// Token: 0x060000C1 RID: 193 RVA: 0x00004957 File Offset: 0x00002B57
 		public override void Initialize(WidgetTemplateGenerateContext widgetTemplateGenerateContext)
 		{
 			this._widgetTemplateGenerateContext = widgetTemplateGenerateContext;
 			this._dataSourceType = (Type)this._widgetTemplateGenerateContext.Data["DataSourceType"];
 		}
 
-		// Token: 0x060000C2 RID: 194 RVA: 0x00004980 File Offset: 0x00002B80
 		public override Type GetAttributeType(WidgetAttributeTemplate widgetAttributeTemplate)
 		{
 			WidgetAttributeKeyType keyType = widgetAttributeTemplate.KeyType;
@@ -49,14 +44,12 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return null;
 		}
 
-		// Token: 0x060000C3 RID: 195 RVA: 0x000049D4 File Offset: 0x00002BD4
 		private static string GetDatasourceVariableNameOfPath(BindingPath bindingPath)
 		{
 			string text = bindingPath.Path.Replace("\\", "_");
 			return "_datasource_" + text;
 		}
 
-		// Token: 0x060000C4 RID: 196 RVA: 0x00004A04 File Offset: 0x00002C04
 		private string GetViewModelCodeWriteableTypeAtPath(BindingPath bindingPath)
 		{
 			Type viewModelTypeAtPath = WidgetCodeGenerationInfoDatabindingExtension.GetViewModelTypeAtPath(this._dataSourceType, bindingPath);
@@ -77,7 +70,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return text;
 		}
 
-		// Token: 0x060000C5 RID: 197 RVA: 0x00004A70 File Offset: 0x00002C70
 		private void FillDataSourceVariables(BindingPathTargetDetails bindingPathTargetDetails, ClassCode classCode)
 		{
 			BindingPath bindingPath = bindingPathTargetDetails.BindingPath;
@@ -93,14 +85,12 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x00004AF8 File Offset: 0x00002CF8
 		private void CreateSetDataSourceVariables(ClassCode classCode)
 		{
 			BindingPathTargetDetails rootBindingPathTargetDetails = this.GetRootBindingPathTargetDetails();
 			this.FillDataSourceVariables(rootBindingPathTargetDetails, classCode);
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x00004B14 File Offset: 0x00002D14
 		private void CreateSetDataSourceMethod(ClassCode classCode)
 		{
 			MethodCode methodCode = new MethodCode();
@@ -121,7 +111,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			classCode.AddMethod(methodCode);
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x00004BBC File Offset: 0x00002DBC
 		private static string GetGenericTypeCodeFileName(Type type)
 		{
 			string text = type.FullName.Split(new char[] { '`' })[0] + "<";
@@ -137,7 +126,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return text + ">";
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x00004C3C File Offset: 0x00002E3C
 		private void CreateDestroyDataSourceyMethod(ClassCode classCode)
 		{
 			MethodCode methodCode = new MethodCode();
@@ -156,7 +144,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			classCode.AddMethod(methodCode);
 		}
 
-		// Token: 0x060000CA RID: 202 RVA: 0x00004CA8 File Offset: 0x00002EA8
 		private void CreateRefreshBindingWithChildrenMethod(ClassCode classCode)
 		{
 			MethodCode methodCode = new MethodCode();
@@ -167,7 +154,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			classCode.AddMethod(methodCode);
 		}
 
-		// Token: 0x060000CB RID: 203 RVA: 0x00004CF0 File Offset: 0x00002EF0
 		private void FillRefreshDataSourceMethodClearSection(BindingPathTargetDetails bindingPathTargetDetails, MethodCode methodCode, bool forDestroy)
 		{
 			BindingPath bindingPath = bindingPathTargetDetails.BindingPath;
@@ -267,7 +253,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000CC RID: 204 RVA: 0x000051A8 File Offset: 0x000033A8
 		private static void AddDataSourcePropertyChangedMethod(MethodCode methodCode, string dataSourceVariableName, string typeModifier, bool add)
 		{
 			methodCode.AddLine(string.Concat(new string[]
@@ -285,7 +270,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}));
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x00005214 File Offset: 0x00003414
 		private void AddBindingListItemCreationItemMethodsSection(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string variableName, string dataSourceVariableName, string childIndexVariableName)
 		{
 			methodCode.AddLine("var widgetComponent = new TaleWorlds.GauntletUI.Data.GeneratedWidgetData(" + variableName + ");");
@@ -307,7 +291,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine(variableName + ".SetDataSource(dataSource);");
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x0000530C File Offset: 0x0000350C
 		private void AddBindingListItemCreationSection(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string dataSourceVariableName, string childIndexVariableName)
 		{
 			if (extension.FirstItemTemplateCodeGenerationInfo != null)
@@ -373,7 +356,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x000055FC File Offset: 0x000037FC
 		private void AddBindingListItemCreationSectionForPopulate(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string dataSourceVariableName, string childIndexVariableName)
 		{
 			if (extension.FirstItemTemplateCodeGenerationInfo != null)
@@ -405,7 +387,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00005784 File Offset: 0x00003984
 		private void AddBindingListItemDeletionSection(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string childIndexVariableName, bool forDestroy)
 		{
 			string variableName = extension.WidgetCodeGenerationInfo.VariableName;
@@ -476,7 +457,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x000059B4 File Offset: 0x00003BB4
 		private void AddBindingListItemBeforeDeletionSection(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string childIndexVariableName, bool forDestroy)
 		{
 			string variableName = extension.WidgetCodeGenerationInfo.VariableName;
@@ -515,7 +495,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x00005B88 File Offset: 0x00003D88
 		private void FillRefreshDataSourceMethodAssignSection(BindingPathTargetDetails bindingPathTargetDetails, MethodCode methodCode)
 		{
 			BindingPath bindingPath = bindingPathTargetDetails.BindingPath;
@@ -639,7 +618,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("}");
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x000061B4 File Offset: 0x000043B4
 		private void FillRefreshDataSourceMethod(BindingPathTargetDetails bindingPathTargetDetails, MethodCode methodCode)
 		{
 			string datasourceVariableNameOfPath = UICodeGenerationDatabindingVariantExtension.GetDatasourceVariableNameOfPath(bindingPathTargetDetails.BindingPath);
@@ -652,7 +630,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			this.FillRefreshDataSourceMethodAssignSection(bindingPathTargetDetails, methodCode);
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x0000621C File Offset: 0x0000441C
 		private void CreateRefreshDataSourceMethod(ClassCode classCode)
 		{
 			foreach (BindingPathTargetDetails bindingPathTargetDetails in this._bindingPathTargetDetailsList)
@@ -669,7 +646,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x000062CC File Offset: 0x000044CC
 		private string[] CreateAssignmentLines(string sourceVariable, Type sourceType, string targetVariable, Type targetType)
 		{
 			List<string> list = new List<string>();
@@ -740,7 +716,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x00006524 File Offset: 0x00004724
 		private void CreateEventMethods(ClassCode classCode)
 		{
 			Dictionary<WidgetCodeGenerationInfoDatabindingExtension, MethodCode> dictionary = new Dictionary<WidgetCodeGenerationInfoDatabindingExtension, MethodCode>();
@@ -865,7 +840,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00006B30 File Offset: 0x00004D30
 		private void CreateWidgetPropertyChangedMethods(ClassCode classCode)
 		{
 			Dictionary<WidgetCodeGenerationInfoDatabindingExtension, MethodCode> dictionary = new Dictionary<WidgetCodeGenerationInfoDatabindingExtension, MethodCode>();
@@ -946,7 +920,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00006F20 File Offset: 0x00005120
 		private void CreateViewModelPropertyChangedMethods(ClassCode classCode)
 		{
 			foreach (BindingPathTargetDetails bindingPathTargetDetails in this._bindingPathTargetDetailsList)
@@ -1049,7 +1022,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x000074AC File Offset: 0x000056AC
 		private static void AddPropertyChangedWithValueVariant(ClassCode classCode, string dataSourceVariableName, string typeVariant)
 		{
 			MethodCode methodCode = new MethodCode();
@@ -1060,7 +1032,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			classCode.AddMethod(methodCode);
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x00007510 File Offset: 0x00005710
 		private void CreateListChangedMethods(ClassCode classCode)
 		{
 			foreach (KeyValuePair<BindingPath, List<WidgetCodeGenerationInfoDatabindingExtension>> keyValuePair in this._extensionsWithPath)
@@ -1157,7 +1128,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x000079F8 File Offset: 0x00005BF8
 		private BindingPathTargetDetails GetRootBindingPathTargetDetails()
 		{
 			foreach (BindingPathTargetDetails bindingPathTargetDetails in this._bindingPathTargetDetailsList)
@@ -1170,7 +1140,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return null;
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x00007A54 File Offset: 0x00005C54
 		private BindingPathTargetDetails GetBindingPathTargetDetails(BindingPath bindingPath)
 		{
 			foreach (BindingPathTargetDetails bindingPathTargetDetails in this._bindingPathTargetDetailsList)
@@ -1183,7 +1152,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return null;
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x00007AB8 File Offset: 0x00005CB8
 		private void FindBindingPathTargetDetails()
 		{
 			this._bindingPathTargetDetailsList = new List<BindingPathTargetDetails>();
@@ -1213,7 +1181,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x00007BA8 File Offset: 0x00005DA8
 		public override void DoExtraCodeGeneration(ClassCode classCode)
 		{
 			this.FindBindingPathTargetDetails();
@@ -1246,7 +1213,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			this.CreateRefreshDataSourceMethod(classCode);
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00007CD4 File Offset: 0x00005ED4
 		public override void AddExtrasToCreatorMethod(MethodCode methodCode)
 		{
 			methodCode.AddLine("var movie = new TaleWorlds.GauntletUI.Data.GeneratedGauntletMovie(\"" + this._widgetTemplateGenerateContext.PrefabName + "\", widget);");
@@ -1255,13 +1221,11 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			methodCode.AddLine("result.AddData(\"Movie\", movie);");
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x00007D37 File Offset: 0x00005F37
 		public override WidgetCodeGenerationInfoExtension CreateWidgetCodeGenerationInfoExtension(WidgetCodeGenerationInfo widgetCodeGenerationInfo)
 		{
 			return new WidgetCodeGenerationInfoDatabindingExtension(widgetCodeGenerationInfo);
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x00007D40 File Offset: 0x00005F40
 		private static void AddWidgetPropertyChangedWithValueVariant(ClassCode classCode, string widgetName, string typeVariant)
 		{
 			MethodCode methodCode = new MethodCode();
@@ -1279,7 +1243,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			classCode.AddMethod(methodCode);
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x00007DB4 File Offset: 0x00005FB4
 		private static void AddPropertyChangedMethod(MethodCode methodCode, WidgetCodeGenerationInfoDatabindingExtension extension, string typeName, bool add)
 		{
 			methodCode.AddLine(string.Concat(new string[]
@@ -1297,19 +1260,14 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}));
 		}
 
-		// Token: 0x0400004F RID: 79
 		private WidgetTemplateGenerateContext _widgetTemplateGenerateContext;
 
-		// Token: 0x04000050 RID: 80
 		private Type _dataSourceType;
 
-		// Token: 0x04000051 RID: 81
 		private List<WidgetCodeGenerationInfoDatabindingExtension> _extensions;
 
-		// Token: 0x04000052 RID: 82
 		private Dictionary<BindingPath, List<WidgetCodeGenerationInfoDatabindingExtension>> _extensionsWithPath;
 
-		// Token: 0x04000053 RID: 83
 		private List<BindingPathTargetDetails> _bindingPathTargetDetailsList;
 	}
 }

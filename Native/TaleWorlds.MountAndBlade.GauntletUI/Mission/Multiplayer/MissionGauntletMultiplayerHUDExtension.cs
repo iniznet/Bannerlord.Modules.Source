@@ -10,17 +10,14 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 {
-	// Token: 0x02000042 RID: 66
 	[OverrideView(typeof(MissionMultiplayerHUDExtensionUIHandler))]
 	public class MissionGauntletMultiplayerHUDExtension : MissionView
 	{
-		// Token: 0x0600030B RID: 779 RVA: 0x00010FBC File Offset: 0x0000F1BC
 		public MissionGauntletMultiplayerHUDExtension()
 		{
 			this.ViewOrderPriority = 2;
 		}
 
-		// Token: 0x0600030C RID: 780 RVA: 0x00010FCC File Offset: 0x0000F1CC
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -40,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this._lobbyComponent.OnPostMatchEnded += this.OnPostMatchEnded;
 		}
 
-		// Token: 0x0600030D RID: 781 RVA: 0x000110E0 File Offset: 0x0000F2E0
 		public override void OnMissionScreenFinalize()
 		{
 			this._lobbyComponent.OnPostMatchEnded -= this.OnPostMatchEnded;
@@ -59,35 +55,28 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x0600030E RID: 782 RVA: 0x00011198 File Offset: 0x0000F398
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
 			this._dataSource.Tick(dt);
 		}
 
-		// Token: 0x0600030F RID: 783 RVA: 0x000111AD File Offset: 0x0000F3AD
 		private void OnMissionPlayerToggledOrderViewEvent(MissionPlayerToggledOrderViewEvent eventObj)
 		{
 			this._dataSource.IsOrderActive = eventObj.IsOrderEnabled;
 		}
 
-		// Token: 0x06000310 RID: 784 RVA: 0x000111C0 File Offset: 0x0000F3C0
 		private void OnPostMatchEnded()
 		{
 			this._dataSource.ShowHud = false;
 		}
 
-		// Token: 0x0400019D RID: 413
 		private MissionMultiplayerHUDExtensionVM _dataSource;
 
-		// Token: 0x0400019E RID: 414
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400019F RID: 415
 		private SpriteCategory _mpMissionCategory;
 
-		// Token: 0x040001A0 RID: 416
 		private MissionLobbyComponent _lobbyComponent;
 	}
 }

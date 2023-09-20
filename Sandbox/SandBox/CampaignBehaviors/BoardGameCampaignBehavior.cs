@@ -23,11 +23,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000094 RID: 148
 	public class BoardGameCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000074 RID: 116
-		// (get) Token: 0x0600068D RID: 1677 RVA: 0x000326BF File Offset: 0x000308BF
 		public IEnumerable<Settlement> WonBoardGamesInOneWeekInSettlement
 		{
 			get
@@ -42,7 +39,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600068E RID: 1678 RVA: 0x000326D0 File Offset: 0x000308D0
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionStarted));
@@ -53,20 +49,17 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
 		}
 
-		// Token: 0x0600068F RID: 1679 RVA: 0x00032767 File Offset: 0x00030967
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, List<CampaignTime>>>("_heroAndBoardGameTimeDictionary", ref this._heroAndBoardGameTimeDictionary);
 			dataStore.SyncData<Dictionary<Settlement, CampaignTime>>("_wonBoardGamesInOneWeekInSettlement", ref this._wonBoardGamesInOneWeekInSettlement);
 		}
 
-		// Token: 0x06000690 RID: 1680 RVA: 0x0003278D File Offset: 0x0003098D
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06000691 RID: 1681 RVA: 0x00032798 File Offset: 0x00030998
 		private void WeeklyTick()
 		{
 			this.DeleteOldBoardGamesOfChampion();
@@ -76,7 +69,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000692 RID: 1682 RVA: 0x000327FC File Offset: 0x000309FC
 		private void OnPlayerBoardGameOver(Hero opposingHero, BoardGameHelper.BoardGameState state)
 		{
 			if (opposingHero != null)
@@ -129,7 +121,6 @@ namespace SandBox.CampaignBehaviors
 			this.SetBetAmount(0);
 		}
 
-		// Token: 0x06000693 RID: 1683 RVA: 0x00032984 File Offset: 0x00030B84
 		public void InitializeConversationVars()
 		{
 			ICampaignMission campaignMission = CampaignMission.Current;
@@ -178,7 +169,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000694 RID: 1684 RVA: 0x00032AA0 File Offset: 0x00030CA0
 		public void OnMissionStarted(IMission mission)
 		{
 			Mission mission2 = (Mission)mission;
@@ -193,7 +183,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000695 RID: 1685 RVA: 0x00032B65 File Offset: 0x00030D65
 		private CultureObject GetBoardGameCulture()
 		{
 			if (CampaignMission.Current.Location.StringId == "lordshall")
@@ -203,7 +192,6 @@ namespace SandBox.CampaignBehaviors
 			return Settlement.CurrentSettlement.Culture;
 		}
 
-		// Token: 0x06000696 RID: 1686 RVA: 0x00032B9C File Offset: 0x00030D9C
 		private void InitializeBoardGame()
 		{
 			if (Campaign.Current.GameMode != 1)
@@ -225,7 +213,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000697 RID: 1687 RVA: 0x00032C61 File Offset: 0x00030E61
 		public void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			if (this._heroAndBoardGameTimeDictionary.ContainsKey(victim))
@@ -234,7 +221,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000698 RID: 1688 RVA: 0x00032C80 File Offset: 0x00030E80
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -249,7 +235,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000699 RID: 1689 RVA: 0x00032CF4 File Offset: 0x00030EF4
 		private static LocationCharacter CreateGameHost(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject tavernGamehost = culture.TavernGamehost;
@@ -261,7 +246,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddCompanionBehaviors), "gambler_npc", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_villager"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x0600069A RID: 1690 RVA: 0x00032DA4 File Offset: 0x00030FA4
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("talk_common_to_taverngamehost", "start", "close_window", "{GAME_MASTER_INTRO}", () => this.conversation_talk_common_to_taverngamehost_on_condition() && !BoardGameCampaignBehavior.taverngamehost_player_sitting_now_on_condition(), null, 100, null);
@@ -324,7 +308,6 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("lord_refuses_play", "lord_answer_to_play_boardgame", "close_window", "{=!}{LORD_REJECT_GAME_STRING}", new ConversationSentence.OnConditionDelegate(this.conversation_lord_reject_game_condition), null, 100, null);
 		}
 
-		// Token: 0x0600069B RID: 1691 RVA: 0x000337E0 File Offset: 0x000319E0
 		private bool conversation_lord_reject_game_condition()
 		{
 			TextObject textObject = ((Hero.OneToOneConversationHero.GetRelationWithPlayer() > -20f) ? new TextObject("{=aRDcoLX0}Now is not a good time, {PLAYER.NAME}. ", null) : new TextObject("{=GLRrAj61}I do not wish to play games with the likes of you.", null));
@@ -332,7 +315,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600069C RID: 1692 RVA: 0x00033824 File Offset: 0x00031A24
 		private bool conversation_talk_common_to_taverngamehost_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation != 14)
@@ -348,13 +330,11 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600069D RID: 1693 RVA: 0x00033894 File Offset: 0x00031A94
 		private void conversation_taverngamehost_bet_0_denars_on_consequence()
 		{
 			this.SetBetAmount(0);
 		}
 
-		// Token: 0x0600069E RID: 1694 RVA: 0x000338A0 File Offset: 0x00031AA0
 		private static bool conversation_taverngamehost_can_bet_100_denars_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -364,13 +344,11 @@ namespace SandBox.CampaignBehaviors
 			return flag && flag2;
 		}
 
-		// Token: 0x0600069F RID: 1695 RVA: 0x000338F5 File Offset: 0x00031AF5
 		private void conversation_taverngamehost_bet_100_denars_on_consequence()
 		{
 			this.SetBetAmount(100);
 		}
 
-		// Token: 0x060006A0 RID: 1696 RVA: 0x00033900 File Offset: 0x00031B00
 		private static bool conversation_taverngamehost_can_bet_200_denars_on_condition()
 		{
 			CharacterObject characterObject = (CharacterObject)ConversationMission.OneToOneConversationAgent.Character;
@@ -380,13 +358,11 @@ namespace SandBox.CampaignBehaviors
 			return flag && flag2;
 		}
 
-		// Token: 0x060006A1 RID: 1697 RVA: 0x00033965 File Offset: 0x00031B65
 		private void conversation_taverngamehost_bet_200_denars_on_consequence()
 		{
 			this.SetBetAmount(200);
 		}
 
-		// Token: 0x060006A2 RID: 1698 RVA: 0x00033974 File Offset: 0x00031B74
 		private static bool conversation_taverngamehost_can_bet_300_denars_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -396,13 +372,11 @@ namespace SandBox.CampaignBehaviors
 			return flag && flag2;
 		}
 
-		// Token: 0x060006A3 RID: 1699 RVA: 0x000339CF File Offset: 0x00031BCF
 		private void conversation_taverngamehost_bet_300_denars_on_consequence()
 		{
 			this.SetBetAmount(300);
 		}
 
-		// Token: 0x060006A4 RID: 1700 RVA: 0x000339DC File Offset: 0x00031BDC
 		private static bool conversation_taverngamehost_can_bet_400_denars_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -412,13 +386,11 @@ namespace SandBox.CampaignBehaviors
 			return flag && flag2;
 		}
 
-		// Token: 0x060006A5 RID: 1701 RVA: 0x00033A37 File Offset: 0x00031C37
 		private void conversation_taverngamehost_bet_400_denars_on_consequence()
 		{
 			this.SetBetAmount(400);
 		}
 
-		// Token: 0x060006A6 RID: 1702 RVA: 0x00033A44 File Offset: 0x00031C44
 		private static bool conversation_taverngamehost_can_bet_500_denars_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -428,7 +400,6 @@ namespace SandBox.CampaignBehaviors
 			return flag && flag2;
 		}
 
-		// Token: 0x060006A7 RID: 1703 RVA: 0x00033A9F File Offset: 0x00031C9F
 		private bool taverngame_host_play_game_on_condition()
 		{
 			if (this._betAmount == 0)
@@ -439,33 +410,28 @@ namespace SandBox.CampaignBehaviors
 			return !this._wonBoardGamesInOneWeekInSettlement.ContainsKey(Settlement.CurrentSettlement);
 		}
 
-		// Token: 0x060006A8 RID: 1704 RVA: 0x00033AC4 File Offset: 0x00031CC4
 		private void conversation_taverngamehost_bet_500_denars_on_consequence()
 		{
 			this.SetBetAmount(500);
 		}
 
-		// Token: 0x060006A9 RID: 1705 RVA: 0x00033AD1 File Offset: 0x00031CD1
 		private void conversation_taverngamehost_difficulty_easy_on_consequence()
 		{
 			this.SetDifficulty(0);
 			this.SetBetAmount(0);
 		}
 
-		// Token: 0x060006AA RID: 1706 RVA: 0x00033AE1 File Offset: 0x00031CE1
 		private void conversation_taverngamehost_difficulty_normal_on_consequence()
 		{
 			this.SetDifficulty(1);
 			this.SetBetAmount(0);
 		}
 
-		// Token: 0x060006AB RID: 1707 RVA: 0x00033AF1 File Offset: 0x00031CF1
 		private void conversation_taverngamehost_difficulty_hard_on_consequence()
 		{
 			this.SetDifficulty(2);
 		}
 
-		// Token: 0x060006AC RID: 1708 RVA: 0x00033AFA File Offset: 0x00031CFA
 		private static void conversation_lord_play_game_again_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().DetectOpposingAgent();
@@ -475,13 +441,11 @@ namespace SandBox.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x060006AD RID: 1709 RVA: 0x00033B39 File Offset: 0x00031D39
 		private static void conversation_lord_dont_play_game_again_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().SetGameOver(GameOverEnum.PlayerCanceledTheGame);
 		}
 
-		// Token: 0x060006AE RID: 1710 RVA: 0x00033B4C File Offset: 0x00031D4C
 		private void conversation_lord_detect_difficulty_consequence()
 		{
 			int skillValue = ConversationMission.OneToOneConversationCharacter.GetSkillValue(DefaultSkills.Steward);
@@ -501,19 +465,16 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006AF RID: 1711 RVA: 0x00033B98 File Offset: 0x00031D98
 		private static void conversation_taverngamehost_set_player_one_starts_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().SetStartingPlayer(true);
 		}
 
-		// Token: 0x060006B0 RID: 1712 RVA: 0x00033BAA File Offset: 0x00031DAA
 		private static void conversation_taverngamehost_set_player_two_starts_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().SetStartingPlayer(false);
 		}
 
-		// Token: 0x060006B1 RID: 1713 RVA: 0x00033BBC File Offset: 0x00031DBC
 		private static void conversation_taverngamehost_play_game_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().DetectOpposingAgent();
@@ -523,7 +484,6 @@ namespace SandBox.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x060006B2 RID: 1714 RVA: 0x00033BFC File Offset: 0x00031DFC
 		private bool conversation_taverngamehost_talk_place_bet_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -532,7 +492,6 @@ namespace SandBox.CampaignBehaviors
 			return flag && this._difficulty == 2;
 		}
 
-		// Token: 0x060006B3 RID: 1715 RVA: 0x00033C44 File Offset: 0x00031E44
 		private bool conversation_taverngamehost_talk_not_place_bet_on_condition()
 		{
 			CharacterObject oneToOneConversationCharacter = ConversationMission.OneToOneConversationCharacter;
@@ -541,49 +500,42 @@ namespace SandBox.CampaignBehaviors
 			return flag && this._difficulty != 2;
 		}
 
-		// Token: 0x060006B4 RID: 1716 RVA: 0x00033C90 File Offset: 0x00031E90
 		private static bool conversation_taverngamehost_talk_is_seega_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 0;
 		}
 
-		// Token: 0x060006B5 RID: 1717 RVA: 0x00033CB8 File Offset: 0x00031EB8
 		private static bool conversation_taverngamehost_talk_is_puluc_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 1;
 		}
 
-		// Token: 0x060006B6 RID: 1718 RVA: 0x00033CE0 File Offset: 0x00031EE0
 		private static bool conversation_taverngamehost_talk_is_mutorere_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 3;
 		}
 
-		// Token: 0x060006B7 RID: 1719 RVA: 0x00033D08 File Offset: 0x00031F08
 		private static bool conversation_taverngamehost_talk_is_konane_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 2;
 		}
 
-		// Token: 0x060006B8 RID: 1720 RVA: 0x00033D30 File Offset: 0x00031F30
 		private static bool conversation_taverngamehost_talk_is_baghchal_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 5;
 		}
 
-		// Token: 0x060006B9 RID: 1721 RVA: 0x00033D58 File Offset: 0x00031F58
 		private static bool conversation_taverngamehost_talk_is_tablut_on_condition()
 		{
 			MissionBoardGameLogic missionBehavior = Mission.Current.GetMissionBehavior<MissionBoardGameLogic>();
 			return missionBehavior != null && missionBehavior.CurrentBoardGame == 4;
 		}
 
-		// Token: 0x060006BA RID: 1722 RVA: 0x00033D80 File Offset: 0x00031F80
 		public static bool taverngamehost_player_sitting_now_on_condition()
 		{
 			GameEntity gameEntity = Mission.Current.Scene.FindEntityWithTag("gambler_player");
@@ -595,7 +547,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006BB RID: 1723 RVA: 0x00033DD0 File Offset: 0x00031FD0
 		private bool conversation_lord_talk_game_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 3)
@@ -620,19 +571,16 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006BC RID: 1724 RVA: 0x00033E23 File Offset: 0x00032023
 		private static bool conversation_lord_talk_game_again_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == 3 && MissionBoardGameLogic.IsThereActiveBoardGameWithHero(Hero.OneToOneConversationHero) && Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().IsGameInProgress;
 		}
 
-		// Token: 0x060006BD RID: 1725 RVA: 0x00033E50 File Offset: 0x00032050
 		private static bool conversation_lord_talk_cancel_game_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == 3 && MissionBoardGameLogic.IsThereActiveBoardGameWithHero(Hero.OneToOneConversationHero) && (Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().IsOpposingAgentMovingToPlayingChair || !Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().IsGameInProgress);
 		}
 
-		// Token: 0x060006BE RID: 1726 RVA: 0x00033E9D File Offset: 0x0003209D
 		private static void conversation_lord_talk_cancel_game_on_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
@@ -641,7 +589,6 @@ namespace SandBox.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x060006BF RID: 1727 RVA: 0x00033ED0 File Offset: 0x000320D0
 		private static bool lord_after_lord_win_boardgame_condition()
 		{
 			Mission mission = Mission.Current;
@@ -649,7 +596,6 @@ namespace SandBox.CampaignBehaviors
 			return missionBoardGameLogic != null && missionBoardGameLogic.BoardGameFinalState != null && missionBoardGameLogic.BoardGameFinalState != 1;
 		}
 
-		// Token: 0x060006C0 RID: 1728 RVA: 0x00033F08 File Offset: 0x00032108
 		private bool lord_after_player_win_boardgame_condition()
 		{
 			Mission mission = Mission.Current;
@@ -681,7 +627,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006C1 RID: 1729 RVA: 0x00033FBC File Offset: 0x000321BC
 		private bool conversation_lord_play_game_on_condition()
 		{
 			if (this.CanPlayerPlayBoardGameAgainstHero(Hero.OneToOneConversationHero))
@@ -712,13 +657,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006C2 RID: 1730 RVA: 0x000340B1 File Offset: 0x000322B1
 		private static void conversation_lord_play_game_on_consequence()
 		{
 			Mission.Current.GetMissionBehavior<MissionBoardGameLogic>().DetectOpposingAgent();
 		}
 
-		// Token: 0x060006C3 RID: 1731 RVA: 0x000340C2 File Offset: 0x000322C2
 		public void PlayerWonAgainstTavernChampion()
 		{
 			if (!this._wonBoardGamesInOneWeekInSettlement.ContainsKey(Settlement.CurrentSettlement))
@@ -727,7 +670,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006C4 RID: 1732 RVA: 0x000340EC File Offset: 0x000322EC
 		private void GameEndWithHero(Hero hero)
 		{
 			if (this._heroAndBoardGameTimeDictionary.ContainsKey(hero))
@@ -739,7 +681,6 @@ namespace SandBox.CampaignBehaviors
 			this._heroAndBoardGameTimeDictionary[hero].Add(CampaignTime.Now);
 		}
 
-		// Token: 0x060006C5 RID: 1733 RVA: 0x00034148 File Offset: 0x00032348
 		private bool CanPlayerPlayBoardGameAgainstHero(Hero hero)
 		{
 			if (hero.GetRelationWithPlayer() < 0f)
@@ -755,7 +696,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060006C6 RID: 1734 RVA: 0x00034194 File Offset: 0x00032394
 		private void DeleteOldBoardGamesOfChampion()
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -767,7 +707,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006C7 RID: 1735 RVA: 0x00034218 File Offset: 0x00032418
 		private void DeleteOldBoardGamesOfHero(Hero hero)
 		{
 			if (this._heroAndBoardGameTimeDictionary.ContainsKey(hero))
@@ -787,7 +726,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006C8 RID: 1736 RVA: 0x00034285 File Offset: 0x00032485
 		public void SetBetAmount(int bet)
 		{
 			this._betAmount = bet;
@@ -796,7 +734,6 @@ namespace SandBox.CampaignBehaviors
 			MBTextManager.SetTextVariable("IS_BETTING", (bet > 0) ? 1 : 0);
 		}
 
-		// Token: 0x060006C9 RID: 1737 RVA: 0x000342C2 File Offset: 0x000324C2
 		private void SetDifficulty(BoardGameHelper.AIDifficulty difficulty)
 		{
 			this._difficulty = difficulty;
@@ -804,7 +741,6 @@ namespace SandBox.CampaignBehaviors
 			MBTextManager.SetTextVariable("DIFFICULTY", GameTexts.FindText("str_boardgame_difficulty", difficulty.ToString()), false);
 		}
 
-		// Token: 0x060006CA RID: 1738 RVA: 0x00034300 File Offset: 0x00032500
 		[CommandLineFunctionality.CommandLineArgumentFunction("win_board_game", "campaign")]
 		public static string WinCurrentGame(List<string> strings)
 		{
@@ -818,34 +754,24 @@ namespace SandBox.CampaignBehaviors
 			return "Ok";
 		}
 
-		// Token: 0x040002EB RID: 747
 		private const int NumberOfBoardGamesCanPlayerPlayAgainstHeroPerDay = 3;
 
-		// Token: 0x040002EC RID: 748
 		private Dictionary<Hero, List<CampaignTime>> _heroAndBoardGameTimeDictionary = new Dictionary<Hero, List<CampaignTime>>();
 
-		// Token: 0x040002ED RID: 749
 		private Dictionary<Settlement, CampaignTime> _wonBoardGamesInOneWeekInSettlement = new Dictionary<Settlement, CampaignTime>();
 
-		// Token: 0x040002EE RID: 750
 		private BoardGameHelper.AIDifficulty _difficulty;
 
-		// Token: 0x040002EF RID: 751
 		private int _betAmount;
 
-		// Token: 0x040002F0 RID: 752
 		private bool _influenceGained;
 
-		// Token: 0x040002F1 RID: 753
 		private bool _renownGained;
 
-		// Token: 0x040002F2 RID: 754
 		private bool _opposingHeroExtraXPGained;
 
-		// Token: 0x040002F3 RID: 755
 		private bool _relationGained;
 
-		// Token: 0x040002F4 RID: 756
 		private bool _gainedNothing;
 	}
 }

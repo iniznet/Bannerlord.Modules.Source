@@ -10,11 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000143 RID: 323
 	public class DefaultTargetScoreCalculatingModel : TargetScoreCalculatingModel
 	{
-		// Token: 0x17000650 RID: 1616
-		// (get) Token: 0x060017D3 RID: 6099 RVA: 0x00076C71 File Offset: 0x00074E71
 		public override float TravelingToAssignmentFactor
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000651 RID: 1617
-		// (get) Token: 0x060017D4 RID: 6100 RVA: 0x00076C78 File Offset: 0x00074E78
 		public override float BesiegingFactor
 		{
 			get
@@ -33,8 +28,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000652 RID: 1618
-		// (get) Token: 0x060017D5 RID: 6101 RVA: 0x00076C7F File Offset: 0x00074E7F
 		public override float AssaultingTownFactor
 		{
 			get
@@ -43,8 +36,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000653 RID: 1619
-		// (get) Token: 0x060017D6 RID: 6102 RVA: 0x00076C86 File Offset: 0x00074E86
 		public override float RaidingFactor
 		{
 			get
@@ -53,8 +44,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000654 RID: 1620
-		// (get) Token: 0x060017D7 RID: 6103 RVA: 0x00076C8D File Offset: 0x00074E8D
 		public override float DefendingFactor
 		{
 			get
@@ -63,8 +52,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000655 RID: 1621
-		// (get) Token: 0x060017D8 RID: 6104 RVA: 0x00076C94 File Offset: 0x00074E94
 		private float ReasonableDistanceForBesiegingTown
 		{
 			get
@@ -73,8 +60,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000656 RID: 1622
-		// (get) Token: 0x060017D9 RID: 6105 RVA: 0x00076CAD File Offset: 0x00074EAD
 		private float ReasonableDistanceForBesiegingCastle
 		{
 			get
@@ -83,8 +68,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000657 RID: 1623
-		// (get) Token: 0x060017DA RID: 6106 RVA: 0x00076CC6 File Offset: 0x00074EC6
 		private float ReasonableDistanceForRaiding
 		{
 			get
@@ -93,8 +76,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000658 RID: 1624
-		// (get) Token: 0x060017DB RID: 6107 RVA: 0x00076CDF File Offset: 0x00074EDF
 		private float ReasonableDistanceForDefendingTownOrCastle
 		{
 			get
@@ -103,8 +84,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000659 RID: 1625
-		// (get) Token: 0x060017DC RID: 6108 RVA: 0x00076CF8 File Offset: 0x00074EF8
 		private float ReasonableDistanceForDefendingVillage
 		{
 			get
@@ -113,8 +92,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700065A RID: 1626
-		// (get) Token: 0x060017DD RID: 6109 RVA: 0x00076D11 File Offset: 0x00074F11
 		private float DistanceOfMobilePartyDivider
 		{
 			get
@@ -123,8 +100,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700065B RID: 1627
-		// (get) Token: 0x060017DE RID: 6110 RVA: 0x00076D2A File Offset: 0x00074F2A
 		private float RaidDistanceLimit
 		{
 			get
@@ -133,8 +108,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700065C RID: 1628
-		// (get) Token: 0x060017DF RID: 6111 RVA: 0x00076D43 File Offset: 0x00074F43
 		private float GiveUpDistanceLimit
 		{
 			get
@@ -143,7 +116,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017E0 RID: 6112 RVA: 0x00076D5C File Offset: 0x00074F5C
 		public override float CurrentObjectiveValue(MobileParty mobileParty)
 		{
 			float totalStrengthWithFollowers = mobileParty.GetTotalStrengthWithFollowers(false);
@@ -181,7 +153,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060017E1 RID: 6113 RVA: 0x00076EF4 File Offset: 0x000750F4
 		public override float CalculatePatrollingScoreForSettlement(Settlement settlement, MobileParty mobileParty)
 		{
 			bool flag = mobileParty.Army != null && mobileParty.Army.LeaderParty == mobileParty && mobileParty.Army.AIBehavior != Army.AIBehaviorFlags.Gathering && mobileParty.Army.AIBehavior != Army.AIBehaviorFlags.WaitingForArmyMembers;
@@ -224,7 +195,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (mobileParty.MapFaction.IsMinorFaction ? 1.5f : 1f) * num5 * num3 * num4 * num8 * 0.36f;
 		}
 
-		// Token: 0x060017E2 RID: 6114 RVA: 0x0007721C File Offset: 0x0007541C
 		public override float GetTargetScoreForFaction(Settlement targetSettlement, Army.ArmyTypes missionType, MobileParty mobileParty, float ourStrength, int numberOfEnemyFactionSettlements = -1, float totalEnemyMobilePartyStrength = -1f)
 		{
 			float num = 0f;
@@ -233,7 +203,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.GetTargetScoreForFaction(targetSettlement, missionType, mobileParty, ourStrength, out num, out num2, out num3, numberOfEnemyFactionSettlements, totalEnemyMobilePartyStrength);
 		}
 
-		// Token: 0x060017E3 RID: 6115 RVA: 0x00077250 File Offset: 0x00075450
 		private float GetTargetScoreForFaction(Settlement targetSettlement, Army.ArmyTypes missionType, MobileParty mobileParty, float ourStrength, out float powerScore, out float distanceScore, out float settlementImportanceScore, int numberOfEnemyFactionSettlements = -1, float totalEnemyMobilePartyStrength = -1f)
 		{
 			IFaction mapFaction = mobileParty.MapFaction;
@@ -593,22 +562,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (num49 < 0f) ? 0f : num49;
 		}
 
-		// Token: 0x04000873 RID: 2163
 		private const float SiegeBaseValueFactor = 0.8f;
 
-		// Token: 0x04000874 RID: 2164
 		private const float RaidBaseValueFactor = 0.28f;
 
-		// Token: 0x04000875 RID: 2165
 		private const float DefenceBaseValueFactor = 1.28f;
 
-		// Token: 0x04000876 RID: 2166
 		private const float DefenceVillageBaseValueFactor = 1.28f;
 
-		// Token: 0x04000877 RID: 2167
 		private const float DefenceFollowEnemyBaseValueFactor = 0.8f;
 
-		// Token: 0x04000878 RID: 2168
 		private const float MeaningfulCohesionThresholdForArmy = 40f;
 	}
 }

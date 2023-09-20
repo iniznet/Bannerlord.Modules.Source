@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000142 RID: 322
 	public class DefaultSmithingModel : SmithingModel
 	{
-		// Token: 0x060017BB RID: 6075 RVA: 0x00076430 File Offset: 0x00074630
 		public override Crafting.OverrideData GetModifierChanges(int modifierTier, Hero hero, WeaponComponentData weapon)
 		{
 			int pointsToModify = this.GetPointsToModify(modifierTier);
@@ -26,7 +24,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return overrideData;
 		}
 
-		// Token: 0x060017BC RID: 6076 RVA: 0x000764C4 File Offset: 0x000746C4
 		private Crafting.OverrideData ModifyWeaponDesign(int numPoints)
 		{
 			Crafting.OverrideData overrideData = new Crafting.OverrideData(0f, 0, 0, 0, 0);
@@ -66,7 +63,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return overrideData;
 		}
 
-		// Token: 0x060017BD RID: 6077 RVA: 0x000765B1 File Offset: 0x000747B1
 		private int GetPointsToModify(int modifierTier)
 		{
 			if (modifierTier <= -4)
@@ -104,7 +100,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 10;
 		}
 
-		// Token: 0x060017BE RID: 6078 RVA: 0x000765EC File Offset: 0x000747EC
 		public override int GetCraftingPartDifficulty(CraftingPiece craftingPiece)
 		{
 			if (!craftingPiece.IsEmptyPiece)
@@ -114,7 +109,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x060017BF RID: 6079 RVA: 0x00076604 File Offset: 0x00074804
 		public override int CalculateWeaponDesignDifficulty(WeaponDesign weaponDesign)
 		{
 			float num = 0f;
@@ -148,7 +142,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(num2 / num);
 		}
 
-		// Token: 0x060017C0 RID: 6080 RVA: 0x00076718 File Offset: 0x00074918
 		public override int GetModifierTierForSmithedWeapon(WeaponDesign weaponDesign, Hero hero)
 		{
 			int num = this.CalculateWeaponDesignDifficulty(weaponDesign);
@@ -176,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0;
 		}
 
-		// Token: 0x060017C1 RID: 6081 RVA: 0x000767F0 File Offset: 0x000749F0
 		private int GetPenaltyForLowSkill(int difference)
 		{
 			float num = MBRandom.RandomFloat;
@@ -200,13 +192,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -4;
 		}
 
-		// Token: 0x060017C2 RID: 6082 RVA: 0x0007683B File Offset: 0x00074A3B
 		private float GetDifficultyForElement(WeaponDesignElement weaponDesignElement)
 		{
 			return (float)weaponDesignElement.CraftingPiece.PieceTier * (1f + 0.5f * weaponDesignElement.ScaleFactor);
 		}
 
-		// Token: 0x060017C3 RID: 6083 RVA: 0x0007685C File Offset: 0x00074A5C
 		public override IEnumerable<Crafting.RefiningFormula> GetRefiningFormulas(Hero weaponsmith)
 		{
 			if (weaponsmith.GetPerkValue(DefaultPerks.Crafting.CharcoalMaker))
@@ -235,31 +225,26 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			yield break;
 		}
 
-		// Token: 0x060017C4 RID: 6084 RVA: 0x0007686C File Offset: 0x00074A6C
 		public override int GetSkillXpForRefining(ref Crafting.RefiningFormula refineFormula)
 		{
 			return MathF.Round(0.3f * (float)(this.GetCraftingMaterialItem(refineFormula.Output).Value * refineFormula.OutputCount));
 		}
 
-		// Token: 0x060017C5 RID: 6085 RVA: 0x00076894 File Offset: 0x00074A94
 		public override int GetSkillXpForSmelting(ItemObject item)
 		{
 			return MathF.Round(0.02f * (float)item.Value);
 		}
 
-		// Token: 0x060017C6 RID: 6086 RVA: 0x000768A8 File Offset: 0x00074AA8
 		public override int GetSkillXpForSmithingInFreeBuildMode(ItemObject item)
 		{
 			return MathF.Round(0.02f * (float)item.Value);
 		}
 
-		// Token: 0x060017C7 RID: 6087 RVA: 0x000768BC File Offset: 0x00074ABC
 		public override int GetSkillXpForSmithingInCraftingOrderMode(ItemObject item)
 		{
 			return MathF.Round(0.1f * (float)item.Value);
 		}
 
-		// Token: 0x060017C8 RID: 6088 RVA: 0x000768D0 File Offset: 0x00074AD0
 		public override int GetEnergyCostForRefining(ref Crafting.RefiningFormula refineFormula, Hero hero)
 		{
 			int num = 6;
@@ -270,7 +255,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060017C9 RID: 6089 RVA: 0x000768F4 File Offset: 0x00074AF4
 		public override int GetEnergyCostForSmithing(ItemObject item, Hero hero)
 		{
 			int num = (int)(10 + ItemObject.ItemTiers.Tier6 * item.Tier);
@@ -281,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060017CA RID: 6090 RVA: 0x00076924 File Offset: 0x00074B24
 		public override int GetEnergyCostForSmelting(ItemObject item, Hero hero)
 		{
 			int num = 10;
@@ -292,7 +275,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060017CB RID: 6091 RVA: 0x00076948 File Offset: 0x00074B48
 		public override ItemObject GetCraftingMaterialItem(CraftingMaterials craftingMaterial)
 		{
 			switch (craftingMaterial)
@@ -320,7 +302,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017CC RID: 6092 RVA: 0x000769BC File Offset: 0x00074BBC
 		public override int[] GetSmeltingOutputForItem(ItemObject item)
 		{
 			int[] array = new int[9];
@@ -341,7 +322,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return array;
 		}
 
-		// Token: 0x060017CD RID: 6093 RVA: 0x00076A70 File Offset: 0x00074C70
 		private void AddSmeltingReductions(int[] quantities)
 		{
 			if (quantities[6] > 0)
@@ -372,7 +352,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			quantities[8]--;
 		}
 
-		// Token: 0x060017CE RID: 6094 RVA: 0x00076B28 File Offset: 0x00074D28
 		public override int[] GetSmithingCostsForWeaponDesign(WeaponDesign weaponDesign)
 		{
 			int[] array = new int[9];
@@ -390,13 +369,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return array;
 		}
 
-		// Token: 0x060017CF RID: 6095 RVA: 0x00076BCC File Offset: 0x00074DCC
 		public override float ResearchPointsNeedForNewPart(int totalPartCount, int openedPartCount)
 		{
 			return MathF.Sqrt(100f / (float)totalPartCount) * ((float)openedPartCount * 9f + 10f);
 		}
 
-		// Token: 0x060017D0 RID: 6096 RVA: 0x00076BEC File Offset: 0x00074DEC
 		public override int GetPartResearchGainForSmeltingItem(ItemObject item, Hero hero)
 		{
 			int num = 1 + MathF.Round(0.02f * (float)item.Value);
@@ -407,7 +384,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060017D1 RID: 6097 RVA: 0x00076C20 File Offset: 0x00074E20
 		public override int GetPartResearchGainForSmithingItem(ItemObject item, Hero hero, bool isFreeBuild)
 		{
 			float num = 1f;
@@ -422,16 +398,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1 + MathF.Floor(0.1f * (float)item.Value * num);
 		}
 
-		// Token: 0x0400086F RID: 2159
 		private const int BladeDifficultyCalculationWeight = 100;
 
-		// Token: 0x04000870 RID: 2160
 		private const int GuardDifficultyCalculationWeight = 20;
 
-		// Token: 0x04000871 RID: 2161
 		private const int HandleDifficultyCalculationWeight = 60;
 
-		// Token: 0x04000872 RID: 2162
 		private const int PommelDifficultyCalculationWeight = 20;
 	}
 }

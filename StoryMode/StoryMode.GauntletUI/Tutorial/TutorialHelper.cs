@@ -26,11 +26,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace StoryMode.GauntletUI.Tutorial
 {
-	// Token: 0x0200003D RID: 61
 	public static class TutorialHelper
 	{
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x06000165 RID: 357 RVA: 0x00006180 File Offset: 0x00004380
 		public static bool PlayerIsInAnySettlement
 		{
 			get
@@ -40,8 +37,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x06000166 RID: 358 RVA: 0x000061A8 File Offset: 0x000043A8
 		public static bool PlayerIsInAnyVillage
 		{
 			get
@@ -51,8 +46,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x06000167 RID: 359 RVA: 0x000061BC File Offset: 0x000043BC
 		public static bool IsOrderingAvailable
 		{
 			get
@@ -73,8 +66,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x06000168 RID: 360 RVA: 0x0000622A File Offset: 0x0000442A
 		public static bool IsCharacterPopUpWindowOpen
 		{
 			get
@@ -83,8 +74,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000169 RID: 361 RVA: 0x00006236 File Offset: 0x00004436
 		public static EncyclopediaPages CurrentEncyclopediaPage
 		{
 			get
@@ -93,8 +82,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x0600016A RID: 362 RVA: 0x00006242 File Offset: 0x00004442
 		public static TutorialContexts CurrentContext
 		{
 			get
@@ -103,8 +90,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x0600016B RID: 363 RVA: 0x00006250 File Offset: 0x00004450
 		public static bool PlayerIsInNonEnemyTown
 		{
 			get
@@ -114,8 +99,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x0600016C RID: 364 RVA: 0x00006288 File Offset: 0x00004488
 		public static string ActiveVillageRaidGameMenuID
 		{
 			get
@@ -124,8 +107,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x0600016D RID: 365 RVA: 0x0000628F File Offset: 0x0000448F
 		public static bool IsActiveVillageRaidGameMenuOpen
 		{
 			get
@@ -153,8 +134,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x0600016E RID: 366 RVA: 0x000062C4 File Offset: 0x000044C4
 		public static bool TownMenuIsOpen
 		{
 			get
@@ -179,8 +158,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x0600016F RID: 367 RVA: 0x00006312 File Offset: 0x00004512
 		public static bool VillageMenuIsOpen
 		{
 			get
@@ -190,8 +167,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x06000170 RID: 368 RVA: 0x00006324 File Offset: 0x00004524
 		public static bool BackStreetMenuIsOpen
 		{
 			get
@@ -206,8 +181,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000171 RID: 369 RVA: 0x00006368 File Offset: 0x00004568
 		public static bool IsPlayerInABattleMission
 		{
 			get
@@ -217,8 +190,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x06000172 RID: 370 RVA: 0x00006389 File Offset: 0x00004589
 		public static bool IsOrderOfBattleOpenAndReady
 		{
 			get
@@ -228,8 +199,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000173 RID: 371 RVA: 0x000063AC File Offset: 0x000045AC
 		public static bool IsPlayerInAFight
 		{
 			get
@@ -257,8 +226,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x06000174 RID: 372 RVA: 0x0000642C File Offset: 0x0000462C
 		public static bool IsPlayerEncounterLeader
 		{
 			get
@@ -275,8 +242,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x06000175 RID: 373 RVA: 0x00006478 File Offset: 0x00004678
 		public static bool IsPlayerInAHideoutBattleMission
 		{
 			get
@@ -286,8 +251,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x06000176 RID: 374 RVA: 0x00006496 File Offset: 0x00004696
 		public static IList<Location> GetMenuLocations
 		{
 			get
@@ -296,8 +259,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x06000177 RID: 375 RVA: 0x000064A7 File Offset: 0x000046A7
 		public static bool PlayerIsSafeOnMap
 		{
 			get
@@ -306,8 +267,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000178 RID: 376 RVA: 0x000064B4 File Offset: 0x000046B4
 		public static bool IsCurrentTownHaveDoableCraftingOrder
 		{
 			get
@@ -359,8 +318,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000179 RID: 377 RVA: 0x000065A4 File Offset: 0x000047A4
 		public static bool CurrentInventoryScreenIncludesBannerItem
 		{
 			get
@@ -386,8 +343,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x0600017A RID: 378 RVA: 0x00006634 File Offset: 0x00004834
 		public static bool PlayerHasUnassignedRolesAndMember
 		{
 			get
@@ -409,8 +364,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x0600017B RID: 379 RVA: 0x000066EC File Offset: 0x000048EC
 		public static bool PlayerCanRecruit
 		{
 			get
@@ -436,8 +389,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x0600017C RID: 380 RVA: 0x00006818 File Offset: 0x00004A18
 		public static bool IsKingdomDecisionPanelActiveAndHasOptions
 		{
 			get
@@ -467,8 +418,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x0600017D RID: 381 RVA: 0x0000689C File Offset: 0x00004A9C
 		public static Location CurrentMissionLocation
 		{
 			get
@@ -482,8 +431,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x0600017E RID: 382 RVA: 0x000068B0 File Offset: 0x00004AB0
 		public static bool BuyingFoodBaseConditions
 		{
 			get
@@ -506,8 +453,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x0600017F RID: 383 RVA: 0x00006928 File Offset: 0x00004B28
 		public static bool PlayerHasAnyUpgradeableTroop
 		{
 			get
@@ -541,8 +486,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000180 RID: 384 RVA: 0x00006A5C File Offset: 0x00004C5C
 		public static bool PlayerIsInAConversation
 		{
 			get
@@ -551,7 +494,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x00006A6C File Offset: 0x00004C6C
 		public static bool? IsThereAvailableCompanionInLocation(Location location)
 		{
 			if (location == null)
@@ -561,8 +503,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			return new bool?(location.GetCharacterList().Any((LocationCharacter x) => x.Character.IsHero && x.Character.HeroObject.IsWanderer && !x.Character.HeroObject.IsPlayerCompanion));
 		}
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x06000182 RID: 386 RVA: 0x00006AB5 File Offset: 0x00004CB5
 		public static DateTime CurrentTime
 		{
 			get
@@ -571,8 +511,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x06000183 RID: 387 RVA: 0x00006ABC File Offset: 0x00004CBC
 		public static int MinimumGoldForCompanion
 		{
 			get
@@ -581,8 +519,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x06000184 RID: 388 RVA: 0x00006AC3 File Offset: 0x00004CC3
 		public static float MaximumSpeedForPartyForSpeedTutorial
 		{
 			get
@@ -591,8 +527,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x06000185 RID: 389 RVA: 0x00006ACA File Offset: 0x00004CCA
 		public static float MaxCohesionForCohesionTutorial
 		{
 			get

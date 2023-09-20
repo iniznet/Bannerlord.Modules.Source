@@ -22,12 +22,9 @@ using TaleWorlds.TwoDimension;
 
 namespace SandBox.GauntletUI
 {
-	// Token: 0x02000007 RID: 7
 	[GameStateScreen(typeof(CraftingState))]
 	public class GauntletCraftingScreen : ScreenBase, ICraftingStateHandler, IGameStateListener
 	{
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000029 RID: 41 RVA: 0x00002B80 File Offset: 0x00000D80
 		private SceneView SceneView
 		{
 			get
@@ -36,14 +33,12 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600002A RID: 42 RVA: 0x00002B8D File Offset: 0x00000D8D
 		public GauntletCraftingScreen(CraftingState craftingState)
 		{
 			this._craftingState = craftingState;
 			this._craftingState.Handler = this;
 		}
 
-		// Token: 0x0600002B RID: 43 RVA: 0x00002BB4 File Offset: 0x00000DB4
 		private void ReloadPieces()
 		{
 			string key = GauntletCraftingScreen._reloadXmlPath.Key;
@@ -76,7 +71,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600002C RID: 44 RVA: 0x00002CF8 File Offset: 0x00000EF8
 		public void Initialize()
 		{
 			SpriteData spriteData = UIResourceManager.SpriteData;
@@ -101,7 +95,6 @@ namespace SandBox.GauntletUI
 			game.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(14));
 		}
 
-		// Token: 0x0600002D RID: 45 RVA: 0x00002DD4 File Offset: 0x00000FD4
 		protected override void OnInitialize()
 		{
 			this.Initialize();
@@ -113,7 +106,6 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CraftingHotkeyCategory"));
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00002E84 File Offset: 0x00001084
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -132,7 +124,6 @@ namespace SandBox.GauntletUI
 			dataSource.OnFinalize();
 		}
 
-		// Token: 0x0600002F RID: 47 RVA: 0x00002EDC File Offset: 0x000010DC
 		protected override void OnFrameTick(float dt)
 		{
 			LoadingWindow.DisableGlobalLoadingWindow();
@@ -248,7 +239,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000030 RID: 48 RVA: 0x000032C6 File Offset: 0x000014C6
 		private void OnClose()
 		{
 			ICampaignMission campaignMission = CampaignMission.Current;
@@ -259,14 +249,12 @@ namespace SandBox.GauntletUI
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x06000031 RID: 49 RVA: 0x000032E8 File Offset: 0x000014E8
 		private void OnResetCamera()
 		{
 			this._sceneLayer.InputRestrictions.SetMouseVisibility(true);
 			this.ResetEntityAndCamera();
 		}
 
-		// Token: 0x06000032 RID: 50 RVA: 0x00003301 File Offset: 0x00001501
 		private void OnWeaponCrafted()
 		{
 			WeaponDesignResultPopupVM craftingResultPopup = this._dataSource.WeaponDesign.CraftingResultPopup;
@@ -277,7 +265,6 @@ namespace SandBox.GauntletUI
 			craftingResultPopup.SetDoneInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("Confirm"));
 		}
 
-		// Token: 0x06000033 RID: 51 RVA: 0x00003334 File Offset: 0x00001534
 		public void OnCraftingLogicInitialized()
 		{
 			CraftingVM dataSource = this._dataSource;
@@ -297,7 +284,6 @@ namespace SandBox.GauntletUI
 			this._dataSource.SetNextTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
 		}
 
-		// Token: 0x06000034 RID: 52 RVA: 0x00003478 File Offset: 0x00001678
 		public void OnCraftingLogicRefreshed()
 		{
 			this._dataSource.OnCraftingLogicRefreshed(this._craftingState.CraftingLogic);
@@ -307,7 +293,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000035 RID: 53 RVA: 0x000034A0 File Offset: 0x000016A0
 		private void OpenScene()
 		{
 			this._craftingScene = Scene.CreateNewScene(true, false, 0, "mono_renderscene");
@@ -331,7 +316,6 @@ namespace SandBox.GauntletUI
 			this.SceneView.SetResolutionScaling(true);
 		}
 
-		// Token: 0x06000036 RID: 54 RVA: 0x000035B0 File Offset: 0x000017B0
 		private void InitializeEntityAndCamera()
 		{
 			GameEntity gameEntity = this._craftingScene.FindEntityWithTag("weapon_point");
@@ -358,7 +342,6 @@ namespace SandBox.GauntletUI
 			this._initialCameraFrame = this._cameraFrame;
 		}
 
-		// Token: 0x06000037 RID: 55 RVA: 0x00003704 File Offset: 0x00001904
 		private void RefreshItemEntity(bool isItemVisible)
 		{
 			this._dataSource.WeaponDesign.CurrentWeaponHasScabbard = false;
@@ -398,7 +381,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000038 RID: 56 RVA: 0x00003874 File Offset: 0x00001A74
 		private void OnMouseMove(float deltaX, float deltaY, float dT)
 		{
 			if (!base.DebugInput.IsControlDown() && !base.DebugInput.IsAltDown())
@@ -451,7 +433,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x06000039 RID: 57 RVA: 0x00003B10 File Offset: 0x00001D10
 		private float GetActiveZoomAmount()
 		{
 			if (Input.IsGamepadActive)
@@ -463,7 +444,6 @@ namespace SandBox.GauntletUI
 			return MBMath.ClampFloat(this._zoomAmount - (float)MathF.Sign(this._sceneLayer.Input.GetDeltaMouseScroll()) * 0.05f, -0.6f, 0.5f);
 		}
 
-		// Token: 0x0600003A RID: 58 RVA: 0x00003B80 File Offset: 0x00001D80
 		private void ZoomTick(float dt)
 		{
 			this._zoomAmount = this.GetActiveZoomAmount();
@@ -499,7 +479,6 @@ namespace SandBox.GauntletUI
 			this._camera.Frame = this._cameraFrame;
 		}
 
-		// Token: 0x0600003B RID: 59 RVA: 0x00003D4A File Offset: 0x00001F4A
 		private void ResetEntityAndCamera()
 		{
 			this._zoomAmount = 0f;
@@ -508,13 +487,11 @@ namespace SandBox.GauntletUI
 			this._camera.Frame = this._cameraFrame;
 		}
 
-		// Token: 0x0600003C RID: 60 RVA: 0x00003D80 File Offset: 0x00001F80
 		private void CopyXmlCode()
 		{
 			Input.SetClipboardText(this._craftingState.CraftingLogic.GetXmlCodeForCurrentItem(this._craftingState.CraftingLogic.GetCurrentCraftedItemObject(false, null)));
 		}
 
-		// Token: 0x0600003D RID: 61 RVA: 0x00003DAC File Offset: 0x00001FAC
 		private void PasteXmlCode()
 		{
 			string clipboardText = Input.GetClipboardText();
@@ -535,7 +512,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600003E RID: 62 RVA: 0x00003E04 File Offset: 0x00002004
 		private void SwithToCraftedItem(ItemObject itemObject)
 		{
 			if (itemObject != null && itemObject.IsCraftedWeapon)
@@ -559,7 +535,6 @@ namespace SandBox.GauntletUI
 			}
 		}
 
-		// Token: 0x0600003F RID: 63 RVA: 0x00003E9E File Offset: 0x0000209E
 		private ItemObject.ItemUsageSetFlags GetItemUsageSetFlag(WeaponComponentData item)
 		{
 			if (!string.IsNullOrEmpty(item.ItemUsage))
@@ -569,13 +544,11 @@ namespace SandBox.GauntletUI
 			return 0;
 		}
 
-		// Token: 0x06000040 RID: 64 RVA: 0x00003EBA File Offset: 0x000020BA
 		private bool IsHotKeyReleasedInAnyLayer(string hotKeyId)
 		{
 			return this._sceneLayer.Input.IsHotKeyReleased(hotKeyId) || this._gauntletLayer.Input.IsHotKeyReleased(hotKeyId);
 		}
 
-		// Token: 0x06000041 RID: 65 RVA: 0x00003EE2 File Offset: 0x000020E2
 		[CommandLineFunctionality.CommandLineArgumentFunction("reload_pieces", "crafting")]
 		public static string ReloadCraftingPieces(List<string> strings)
 		{
@@ -587,84 +560,60 @@ namespace SandBox.GauntletUI
 			return "Reloading crafting pieces...";
 		}
 
-		// Token: 0x06000042 RID: 66 RVA: 0x00003F10 File Offset: 0x00002110
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x06000043 RID: 67 RVA: 0x00003F12 File Offset: 0x00002112
 		void IGameStateListener.OnFinalize()
 		{
 		}
 
-		// Token: 0x06000044 RID: 68 RVA: 0x00003F14 File Offset: 0x00002114
 		void IGameStateListener.OnActivate()
 		{
 		}
 
-		// Token: 0x06000045 RID: 69 RVA: 0x00003F16 File Offset: 0x00002116
 		void IGameStateListener.OnDeactivate()
 		{
 		}
 
-		// Token: 0x0400000D RID: 13
 		private const float _controllerRotationSensitivity = 2f;
 
-		// Token: 0x0400000E RID: 14
 		private Scene _craftingScene;
 
-		// Token: 0x0400000F RID: 15
 		private SceneLayer _sceneLayer;
 
-		// Token: 0x04000010 RID: 16
 		private readonly CraftingState _craftingState;
 
-		// Token: 0x04000011 RID: 17
 		private CraftingVM _dataSource;
 
-		// Token: 0x04000012 RID: 18
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000013 RID: 19
 		private IGauntletMovie _gauntletMovie;
 
-		// Token: 0x04000014 RID: 20
 		private SpriteCategory _craftingCategory;
 
-		// Token: 0x04000015 RID: 21
 		private Camera _camera;
 
-		// Token: 0x04000016 RID: 22
 		private MatrixFrame _cameraFrame;
 
-		// Token: 0x04000017 RID: 23
 		private MatrixFrame _initialCameraFrame;
 
-		// Token: 0x04000018 RID: 24
 		private Vec3 _dofParams;
 
-		// Token: 0x04000019 RID: 25
 		private Vec2 _curCamSpeed;
 
-		// Token: 0x0400001A RID: 26
 		private float _zoomAmount;
 
-		// Token: 0x0400001B RID: 27
 		private GameEntity _craftingEntity;
 
-		// Token: 0x0400001C RID: 28
 		private MatrixFrame _craftingEntityFrame = MatrixFrame.Identity;
 
-		// Token: 0x0400001D RID: 29
 		private MatrixFrame _initialEntityFrame;
 
-		// Token: 0x0400001E RID: 30
 		private WeaponDesign _craftedData;
 
-		// Token: 0x0400001F RID: 31
 		private bool _isInitialized;
 
-		// Token: 0x04000020 RID: 32
 		private static KeyValuePair<string, string> _reloadXmlPath;
 	}
 }

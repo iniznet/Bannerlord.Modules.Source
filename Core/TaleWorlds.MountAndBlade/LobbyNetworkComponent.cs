@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002FA RID: 762
 	public class LobbyNetworkComponent : UdpNetworkComponent
 	{
-		// Token: 0x06002972 RID: 10610 RVA: 0x000A063D File Offset: 0x0009E83D
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
 			if (GameNetwork.IsClient)
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002973 RID: 10611 RVA: 0x000A0674 File Offset: 0x0009E874
 		private void HandleServerEventInitializeLobbyPeer(InitializeLobbyPeer message)
 		{
 			NetworkCommunicator peer = message.Peer;
@@ -37,7 +34,6 @@ namespace TaleWorlds.MountAndBlade
 			peer.ForcedAvatarIndex = message.ForcedAvatarIndex;
 		}
 
-		// Token: 0x06002974 RID: 10612 RVA: 0x000A06D4 File Offset: 0x0009E8D4
 		public override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			PlayerData parameter = networkPeer.PlayerConnectionInfo.GetParameter<PlayerData>("PlayerData");
@@ -52,7 +48,6 @@ namespace TaleWorlds.MountAndBlade
 			networkPeer.IsMuted = parameter.IsMuted;
 		}
 
-		// Token: 0x06002975 RID: 10613 RVA: 0x000A0758 File Offset: 0x0009E958
 		public override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			VirtualPlayer virtualPlayer = networkPeer.VirtualPlayer;
@@ -80,22 +75,18 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002976 RID: 10614 RVA: 0x000A083C File Offset: 0x0009EA3C
 		public override void HandleLateNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 		}
 
-		// Token: 0x06002977 RID: 10615 RVA: 0x000A083E File Offset: 0x0009EA3E
 		public override void HandlePlayerDisconnect(NetworkCommunicator networkPeer)
 		{
 		}
 
-		// Token: 0x06002978 RID: 10616 RVA: 0x000A0840 File Offset: 0x0009EA40
 		public override void OnUdpNetworkHandlerTick(float dt)
 		{
 		}
 
-		// Token: 0x04000F79 RID: 3961
 		public const int MaxForcedAvatarIndex = 100;
 	}
 }

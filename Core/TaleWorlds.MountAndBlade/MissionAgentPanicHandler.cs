@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200026E RID: 622
 	public class MissionAgentPanicHandler : MissionLogic
 	{
-		// Token: 0x06002129 RID: 8489 RVA: 0x00078442 File Offset: 0x00076642
 		public MissionAgentPanicHandler()
 		{
 			this._panickedAgents = new List<Agent>(256);
@@ -14,7 +12,6 @@ namespace TaleWorlds.MountAndBlade
 			this._panickedTeams = new List<Team>(2);
 		}
 
-		// Token: 0x0600212A RID: 8490 RVA: 0x00078474 File Offset: 0x00076674
 		public override void OnAgentPanicked(Agent agent)
 		{
 			this._panickedAgents.Add(agent);
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600212B RID: 8491 RVA: 0x000784E8 File Offset: 0x000766E8
 		public override void OnPreMissionTick(float dt)
 		{
 			if (this._panickedAgents.Count > 0)
@@ -63,7 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600212C RID: 8492 RVA: 0x00078640 File Offset: 0x00076840
 		public override void OnRemoveBehavior()
 		{
 			this._panickedAgents.Clear();
@@ -72,13 +67,10 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x04000C47 RID: 3143
 		private readonly List<Agent> _panickedAgents;
 
-		// Token: 0x04000C48 RID: 3144
 		private readonly List<Formation> _panickedFormations;
 
-		// Token: 0x04000C49 RID: 3145
 		private readonly List<Team> _panickedTeams;
 	}
 }

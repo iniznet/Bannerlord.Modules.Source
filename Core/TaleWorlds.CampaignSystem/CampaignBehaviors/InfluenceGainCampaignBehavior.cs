@@ -6,21 +6,17 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003A0 RID: 928
 	public class InfluenceGainCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003739 RID: 14137 RVA: 0x000F8606 File Offset: 0x000F6806
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnPrisonerDonatedToSettlementEvent.AddNonSerializedListener(this, new Action<MobileParty, FlattenedTroopRoster, Settlement>(this.OnPrisonerDonatedToSettlement));
 		}
 
-		// Token: 0x0600373A RID: 14138 RVA: 0x000F861F File Offset: 0x000F681F
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x0600373B RID: 14139 RVA: 0x000F8624 File Offset: 0x000F6824
 		private void OnPrisonerDonatedToSettlement(MobileParty donatingParty, FlattenedTroopRoster donatedPrisoners, Settlement donatedSettlement)
 		{
 			float num = 0f;

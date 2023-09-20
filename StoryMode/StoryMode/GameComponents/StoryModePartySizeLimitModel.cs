@@ -7,10 +7,8 @@ using TaleWorlds.CampaignSystem.Party;
 
 namespace StoryMode.GameComponents
 {
-	// Token: 0x02000044 RID: 68
 	public class StoryModePartySizeLimitModel : DefaultPartySizeLimitModel
 	{
-		// Token: 0x060003C1 RID: 961 RVA: 0x000174BC File Offset: 0x000156BC
 		public override ExplainedNumber GetPartyMemberSizeLimit(PartyBase party, bool includeDescriptions = false)
 		{
 			if (party.IsMobile)

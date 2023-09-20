@@ -22,10 +22,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200002E RID: 46
 	public static class CampaignCheats
 	{
-		// Token: 0x060002D0 RID: 720 RVA: 0x00012395 File Offset: 0x00010595
 		public static bool CheckCheatUsage(ref string ErrorType)
 		{
 			if (Campaign.Current == null)
@@ -42,7 +40,6 @@ namespace TaleWorlds.CampaignSystem
 			return true;
 		}
 
-		// Token: 0x060002D1 RID: 721 RVA: 0x000123C4 File Offset: 0x000105C4
 		public static bool CheckParameters(List<string> strings, int ParameterCount)
 		{
 			if (strings.Count == 0)
@@ -52,13 +49,11 @@ namespace TaleWorlds.CampaignSystem
 			return strings.Count == ParameterCount;
 		}
 
-		// Token: 0x060002D2 RID: 722 RVA: 0x000123DC File Offset: 0x000105DC
 		public static bool CheckHelp(List<string> strings)
 		{
 			return strings.Count != 0 && strings[0].ToLower() == "help";
 		}
 
-		// Token: 0x060002D3 RID: 723 RVA: 0x00012400 File Offset: 0x00010600
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_hero_crafting_stamina", "campaign")]
 		public static string SetCraftingStamina(List<string> strings)
 		{
@@ -86,7 +81,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not found";
 		}
 
-		// Token: 0x060002D4 RID: 724 RVA: 0x000124B0 File Offset: 0x000106B0
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_hero_culture", "campaign")]
 		public static string SetHeroCulture(List<string> strings)
 		{
@@ -118,7 +112,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002D5 RID: 725 RVA: 0x00012564 File Offset: 0x00010764
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_hero_race", "campaign")]
 		public static string ChangeHeroRace(List<string> strings)
 		{
@@ -140,7 +133,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not found";
 		}
 
-		// Token: 0x060002D6 RID: 726 RVA: 0x000125E0 File Offset: 0x000107E0
 		[CommandLineFunctionality.CommandLineArgumentFunction("make_hero_wounded", "campaign")]
 		public static string MakeHeroWounded(List<string> strings)
 		{
@@ -161,7 +153,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not found";
 		}
 
-		// Token: 0x060002D7 RID: 727 RVA: 0x00012638 File Offset: 0x00010838
 		[CommandLineFunctionality.CommandLineArgumentFunction("reset_player_skills_level_and_perks", "campaign")]
 		public static string ResetPlayerSkillsLevelAndPerk(List<string> strings)
 		{
@@ -178,7 +169,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.reset_player_skills_level_and_perks\".";
 		}
 
-		// Token: 0x060002D8 RID: 728 RVA: 0x00012694 File Offset: 0x00010894
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_skills_of_hero", "campaign")]
 		public static string SetSkillsOfGivenHero(List<string> strings)
 		{
@@ -219,7 +209,6 @@ namespace TaleWorlds.CampaignSystem
 			return string.Format("Level must be between 0 - {0}.", 300);
 		}
 
-		// Token: 0x060002D9 RID: 729 RVA: 0x000127FC File Offset: 0x000109FC
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_parties_visible", "campaign")]
 		public static string SetAllPartiesVisible(List<string> strings)
 		{
@@ -239,7 +228,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.set_parties_visible [1/0]\".";
 		}
 
-		// Token: 0x060002DA RID: 730 RVA: 0x00012894 File Offset: 0x00010A94
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_settlements_visible", "campaign")]
 		public static string SetAllSettlementsVisible(List<string> strings)
 		{
@@ -261,7 +249,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.set_settlements_visible [2(no hideouts)/1(all)/0(none)]\".";
 		}
 
-		// Token: 0x060002DB RID: 731 RVA: 0x0001294C File Offset: 0x00010B4C
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_skill_main_hero", "campaign")]
 		public static string SetSkillMainHero(List<string> strings)
 		{
@@ -294,7 +281,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.set_skill_main_hero [LevelValue] [SkillName]\".";
 		}
 
-		// Token: 0x060002DC RID: 732 RVA: 0x00012A6C File Offset: 0x00010C6C
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_all_skills_main_hero", "campaign")]
 		public static string SetAllSkillsMainHero(List<string> strings)
 		{
@@ -323,7 +309,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.set_all_skills_main_hero [LevelValue]\".";
 		}
 
-		// Token: 0x060002DD RID: 733 RVA: 0x00012B48 File Offset: 0x00010D48
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_skill_companion", "campaign")]
 		public static string SetSkillCompanion(List<string> strings)
 		{
@@ -359,7 +344,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Format is \"campaign.set_skill_companion [LevelValue] [SkillName]\".";
 		}
 
-		// Token: 0x060002DE RID: 734 RVA: 0x00012CA4 File Offset: 0x00010EA4
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_all_companion_skills", "campaign")]
 		public static string FullCompanion(List<string> strings)
 		{
@@ -387,7 +371,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002DF RID: 735 RVA: 0x00012DB0 File Offset: 0x00010FB0
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_all_heroes_skills", "campaign")]
 		public static string SetAllHeroSkills(List<string> strings)
 		{
@@ -415,7 +398,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002E0 RID: 736 RVA: 0x00012ED8 File Offset: 0x000110D8
 		[CommandLineFunctionality.CommandLineArgumentFunction("find_tournament", "campaign")]
 		public static string FindTournament(List<string> strings)
 		{
@@ -436,7 +418,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x00012F44 File Offset: 0x00011144
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_hostile_army", "campaign")]
 		public static string GetHostileArmy(List<string> strings)
 		{
@@ -468,7 +449,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x0001300C File Offset: 0x0001120C
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_loyalty_of_settlement", "campaign")]
 		public static string SetLoyaltyOfSettlement(List<string> strings)
 		{
@@ -504,7 +484,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002E3 RID: 739 RVA: 0x000130E4 File Offset: 0x000112E4
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_main_party_position", "campaign")]
 		public static string GetMainPartyPosition(List<string> strings)
 		{
@@ -519,7 +498,6 @@ namespace TaleWorlds.CampaignSystem
 			return MobileParty.MainParty.Position2D.x + " " + MobileParty.MainParty.Position2D.y;
 		}
 
-		// Token: 0x060002E4 RID: 740 RVA: 0x0001314C File Offset: 0x0001134C
 		[CommandLineFunctionality.CommandLineArgumentFunction("start_world_war", "campaign")]
 		public static string StartWorldWar(List<string> strings)
 		{
@@ -544,7 +522,6 @@ namespace TaleWorlds.CampaignSystem
 			return "All kingdoms are at war with each other!";
 		}
 
-		// Token: 0x060002E5 RID: 741 RVA: 0x00013214 File Offset: 0x00011414
 		[CommandLineFunctionality.CommandLineArgumentFunction("start_world_peace", "campaign")]
 		public static string StartWorldPeace(List<string> strings)
 		{
@@ -569,7 +546,6 @@ namespace TaleWorlds.CampaignSystem
 			return "All kingdoms are at peace with each other!";
 		}
 
-		// Token: 0x060002E6 RID: 742 RVA: 0x000132DC File Offset: 0x000114DC
 		[CommandLineFunctionality.CommandLineArgumentFunction("find_mobile_party", "campaign")]
 		public static string FindMobileParty(List<string> strings)
 		{
@@ -593,7 +569,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Party is not found: " + text;
 		}
 
-		// Token: 0x060002E7 RID: 743 RVA: 0x0001338C File Offset: 0x0001158C
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_modified_item", "campaign")]
 		public static string AddModifiedItem(List<string> strings)
 		{
@@ -622,7 +597,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Cant find the modifier";
 		}
 
-		// Token: 0x060002E8 RID: 744 RVA: 0x0001342C File Offset: 0x0001162C
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_player_name", "campaign")]
 		public static string ChangePlayerName(List<string> strings)
 		{
@@ -643,7 +617,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002E9 RID: 745 RVA: 0x000134B8 File Offset: 0x000116B8
 		[CommandLineFunctionality.CommandLineArgumentFunction("find_hero", "campaign")]
 		public static string FindHero(List<string> strings)
 		{
@@ -679,7 +652,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Party is not found: " + text;
 		}
 
-		// Token: 0x060002EA RID: 746 RVA: 0x0001356C File Offset: 0x0001176C
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_crafting_materials", "campaign")]
 		public static string AddCraftingMaterials(List<string> strings)
 		{
@@ -698,7 +670,6 @@ namespace TaleWorlds.CampaignSystem
 			return "100 pieces for each crafting material is added to the player inventory.";
 		}
 
-		// Token: 0x060002EB RID: 747 RVA: 0x000135DC File Offset: 0x000117DC
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_hero_relation", "campaign")]
 		public static string ChangeHeroRelation(List<string> strings)
 		{
@@ -737,7 +708,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not found";
 		}
 
-		// Token: 0x060002EC RID: 748 RVA: 0x000136C8 File Offset: 0x000118C8
 		[CommandLineFunctionality.CommandLineArgumentFunction("heal_main_party", "campaign")]
 		public static string HealMainParty(List<string> strings)
 		{
@@ -768,7 +738,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Main party shouldn't be in a map event.";
 		}
 
-		// Token: 0x060002ED RID: 749 RVA: 0x00013798 File Offset: 0x00011998
 		[CommandLineFunctionality.CommandLineArgumentFunction("declare_war", "campaign")]
 		public static string DeclareWar(List<string> strings)
 		{
@@ -808,7 +777,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Faction is not found: " + text2;
 		}
 
-		// Token: 0x060002EE RID: 750 RVA: 0x000138C4 File Offset: 0x00011AC4
 		[CommandLineFunctionality.CommandLineArgumentFunction("declare_peace", "campaign")]
 		public static string DeclarePeace(List<string> strings)
 		{
@@ -855,7 +823,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x060002EF RID: 751 RVA: 0x00013A04 File Offset: 0x00011C04
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_item_to_main_party", "campaign")]
 		public static string GiveItemToMainParty(List<string> strings)
 		{
@@ -881,7 +848,6 @@ namespace TaleWorlds.CampaignSystem
 			return @object.Name + " has been given to the main party.";
 		}
 
-		// Token: 0x060002F0 RID: 752 RVA: 0x00013AA8 File Offset: 0x00011CA8
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_all_crafting_materials_to_main_party", "campaign")]
 		public static string GiveCraftingMaterialItemsToMainParty(List<string> strings)
 		{
@@ -906,7 +872,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Crafting materials have been given to the main party.";
 		}
 
-		// Token: 0x060002F1 RID: 753 RVA: 0x00013B40 File Offset: 0x00011D40
 		[CommandLineFunctionality.CommandLineArgumentFunction("kill_capturer_party", "campaign")]
 		public static string KillCapturerParty(List<string> strings)
 		{
@@ -931,7 +896,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002F2 RID: 754 RVA: 0x00013BB4 File Offset: 0x00011DB4
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_influence", "campaign")]
 		public static string AddInfluence(List<string> strings)
 		{
@@ -959,7 +923,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Please enter a positive number\nFormat is \"campaign.add_influence [Number]\".";
 		}
 
-		// Token: 0x060002F3 RID: 755 RVA: 0x00013C60 File Offset: 0x00011E60
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_renown_to_clan", "campaign")]
 		public static string AddRenown(List<string> strings)
 		{
@@ -1019,7 +982,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x060002F4 RID: 756 RVA: 0x00013D74 File Offset: 0x00011F74
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_gold_to_hero", "campaign")]
 		public static string AddGoldToHero(List<string> strings)
 		{
@@ -1079,7 +1041,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x060002F5 RID: 757 RVA: 0x00013E88 File Offset: 0x00012088
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_gold_to_all_heroes", "campaign")]
 		public static string AddGoldToAllHeroes(List<string> strings)
 		{
@@ -1115,7 +1076,6 @@ namespace TaleWorlds.CampaignSystem
 			return string.Format("All party's denars changed by {0}.", num);
 		}
 
-		// Token: 0x060002F6 RID: 758 RVA: 0x00013F4C File Offset: 0x0001214C
 		[CommandLineFunctionality.CommandLineArgumentFunction("activate_all_policies_for_player_kingdom", "campaign")]
 		public static string ActivateAllPolicies(List<string> strings)
 		{
@@ -1142,7 +1102,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Player is not in a kingdom";
 		}
 
-		// Token: 0x060002F7 RID: 759 RVA: 0x00013FF8 File Offset: 0x000121F8
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_building_level", "campaign")]
 		public static string AddDevelopment(List<string> strings)
 		{
@@ -1203,7 +1162,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Settlement is not found";
 		}
 
-		// Token: 0x060002F8 RID: 760 RVA: 0x000141F0 File Offset: 0x000123F0
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_progress_to_current_building", "campaign")]
 		public static string AddDevelopmentProgress(List<string> strings)
 		{
@@ -1247,7 +1205,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Settlement is not found";
 		}
 
-		// Token: 0x060002F9 RID: 761 RVA: 0x0001431C File Offset: 0x0001251C
 		[CommandLineFunctionality.CommandLineArgumentFunction("change_current_building", "campaign")]
 		public static string ChangeCurrentDevelopment(List<string> strings)
 		{
@@ -1301,7 +1258,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Settlement is not found";
 		}
 
-		// Token: 0x060002FA RID: 762 RVA: 0x000144A8 File Offset: 0x000126A8
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_skill_xp_to_hero", "campaign")]
 		public static string AddSkillXpToHero(List<string> strings)
 		{
@@ -1396,7 +1352,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Wrong Input.\nFormat is \"campaign.add_skill_xp_to_hero [SkillName] [PositiveNumber] [HeroName]\".";
 		}
 
-		// Token: 0x060002FB RID: 763 RVA: 0x00014804 File Offset: 0x00012A04
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_prisoners", "campaign")]
 		public static string ShowPrisoners(List<string> strings)
 		{
@@ -1426,7 +1381,6 @@ namespace TaleWorlds.CampaignSystem
 			return text + "\nSuccess";
 		}
 
-		// Token: 0x060002FC RID: 764 RVA: 0x000148C8 File Offset: 0x00012AC8
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_companions", "campaign")]
 		public static string AddCompanions(List<string> strings)
 		{
@@ -1450,7 +1404,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x060002FD RID: 765 RVA: 0x00014930 File Offset: 0x00012B30
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_companion", "campaign")]
 		public static string AddCompanion(List<string> strings)
 		{
@@ -1482,7 +1435,6 @@ namespace TaleWorlds.CampaignSystem
 			return "companion has been added.";
 		}
 
-		// Token: 0x060002FE RID: 766 RVA: 0x00014AAC File Offset: 0x00012CAC
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_player_reputation_trait", "campaign")]
 		public static string SetPlayerReputationTrait(List<string> strings)
 		{
@@ -1516,7 +1468,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Please enter a number";
 		}
 
-		// Token: 0x060002FF RID: 767 RVA: 0x00014BE8 File Offset: 0x00012DE8
 		[CommandLineFunctionality.CommandLineArgumentFunction("list_player_traits", "campaign")]
 		public static string ListPlayerTrait(List<string> strings)
 		{
@@ -1545,7 +1496,6 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x06000300 RID: 768 RVA: 0x00014CBC File Offset: 0x00012EBC
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_horse", "campaign")]
 		public static string AddHorse(List<string> strings)
 		{
@@ -1571,7 +1521,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Nothing added.";
 		}
 
-		// Token: 0x06000301 RID: 769 RVA: 0x00014D68 File Offset: 0x00012F68
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_settlement_to_player", "campaign")]
 		public static string GiveSettlementToPlayer(List<string> strings)
 		{
@@ -1635,7 +1584,6 @@ namespace TaleWorlds.CampaignSystem
 			return settlement3.Name + " has been given to the player.";
 		}
 
-		// Token: 0x06000302 RID: 770 RVA: 0x00014F94 File Offset: 0x00013194
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_settlement_to_kingdom", "campaign")]
 		public static string GiveSettlementToKingdom(List<string> strings)
 		{
@@ -1678,7 +1626,6 @@ namespace TaleWorlds.CampaignSystem
 			return settlement.Name + string.Format(" has been given to {0}.", kingdom.Leader.Name);
 		}
 
-		// Token: 0x06000303 RID: 771 RVA: 0x0001507C File Offset: 0x0001327C
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_power_to_notable", "campaign")]
 		public static string AddPowerToNotable(List<string> strings)
 		{
@@ -1709,7 +1656,6 @@ namespace TaleWorlds.CampaignSystem
 			return string.Format("{0} power is {1}", hero.Name, hero.Power);
 		}
 
-		// Token: 0x06000304 RID: 772 RVA: 0x00015124 File Offset: 0x00013324
 		[CommandLineFunctionality.CommandLineArgumentFunction("kill_hero", "campaign")]
 		public static string KillHero(List<string> strings)
 		{
@@ -1743,7 +1689,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero " + text.ToLower() + " is killed.";
 		}
 
-		// Token: 0x06000305 RID: 773 RVA: 0x000151DC File Offset: 0x000133DC
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_character_feats", "campaign")]
 		public static string ShowCharacterFeats(List<string> strings)
 		{
@@ -1776,7 +1721,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not found: " + text;
 		}
 
-		// Token: 0x06000306 RID: 774 RVA: 0x000152B8 File Offset: 0x000134B8
 		[CommandLineFunctionality.CommandLineArgumentFunction("make_hero_fugitive", "campaign")]
 		public static string MakeHeroFugitive(List<string> strings)
 		{
@@ -1810,7 +1754,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero " + text.ToLower() + " is now fugitive.";
 		}
 
-		// Token: 0x06000307 RID: 775 RVA: 0x0001536C File Offset: 0x0001356C
 		[CommandLineFunctionality.CommandLineArgumentFunction("leave_faction", "campaign")]
 		public static string LeaveFaction(List<string> strings)
 		{
@@ -1871,7 +1814,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000308 RID: 776 RVA: 0x0001555C File Offset: 0x0001375C
 		[CommandLineFunctionality.CommandLineArgumentFunction("lead_your_faction", "campaign")]
 		public static string LeadYourFaction(List<string> strings)
 		{
@@ -1898,7 +1840,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Function execution failed.";
 		}
 
-		// Token: 0x06000309 RID: 777 RVA: 0x000155F0 File Offset: 0x000137F0
 		[CommandLineFunctionality.CommandLineArgumentFunction("list_heroes_suitable_for_marriage", "campaign")]
 		public static string ListHeroesSuitableForMarriage(List<string> strings)
 		{
@@ -1944,7 +1885,6 @@ namespace TaleWorlds.CampaignSystem
 			return text + "\n" + text2;
 		}
 
-		// Token: 0x0600030A RID: 778 RVA: 0x00015820 File Offset: 0x00013A20
 		[CommandLineFunctionality.CommandLineArgumentFunction("marry_player_with_hero", "campaign")]
 		public static string MarryPlayerWithHero(List<string> strings)
 		{
@@ -1977,7 +1917,6 @@ namespace TaleWorlds.CampaignSystem
 			});
 		}
 
-		// Token: 0x0600030B RID: 779 RVA: 0x000158E8 File Offset: 0x00013AE8
 		[CommandLineFunctionality.CommandLineArgumentFunction("is_hero_suitable_for_marriage_with_player", "campaign")]
 		public static string IsHeroSuitableForMarriageWithPlayer(List<string> strings)
 		{
@@ -2016,7 +1955,6 @@ namespace TaleWorlds.CampaignSystem
 			});
 		}
 
-		// Token: 0x0600030C RID: 780 RVA: 0x000159D8 File Offset: 0x00013BD8
 		[CommandLineFunctionality.CommandLineArgumentFunction("start_player_vs_world_war", "campaign")]
 		public static string StartPlayerVsWorldWar(List<string> strings)
 		{
@@ -2038,7 +1976,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x0600030D RID: 781 RVA: 0x00015A88 File Offset: 0x00013C88
 		[CommandLineFunctionality.CommandLineArgumentFunction("start_player_vs_world_truce", "campaign")]
 		public static string StartPlayerVsWorldTruce(List<string> strings)
 		{
@@ -2060,7 +1997,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x0600030E RID: 782 RVA: 0x00015B18 File Offset: 0x00013D18
 		[CommandLineFunctionality.CommandLineArgumentFunction("create_player_kingdom", "campaign")]
 		public static string CreatePlayerKingdom(List<string> strings)
 		{
@@ -2076,7 +2012,6 @@ namespace TaleWorlds.CampaignSystem
 			return "success";
 		}
 
-		// Token: 0x0600030F RID: 783 RVA: 0x00015B8C File Offset: 0x00013D8C
 		[CommandLineFunctionality.CommandLineArgumentFunction("create_random_clan", "campaign")]
 		public static string CreateRandomClan(List<string> strings)
 		{
@@ -2122,7 +2057,6 @@ namespace TaleWorlds.CampaignSystem
 			return string.Format("{0} is added to {1}. Its leader is: {2}", clan.Name, kingdom.Name, hero.Name);
 		}
 
-		// Token: 0x06000310 RID: 784 RVA: 0x00015D48 File Offset: 0x00013F48
 		[CommandLineFunctionality.CommandLineArgumentFunction("join_kingdom", "campaign")]
 		public static string JoinKingdom(List<string> strings)
 		{
@@ -2172,7 +2106,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000311 RID: 785 RVA: 0x00015EE8 File Offset: 0x000140E8
 		[CommandLineFunctionality.CommandLineArgumentFunction("join_kingdom_as_mercenary", "campaign")]
 		public static string JoinKingdomAsMercenary(List<string> strings)
 		{
@@ -2222,7 +2155,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000312 RID: 786 RVA: 0x0001608C File Offset: 0x0001428C
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_criminal_rating", "campaign")]
 		public static string SetCriminalRating(List<string> strings)
 		{
@@ -2274,7 +2206,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Faction is not found: " + text;
 		}
 
-		// Token: 0x06000313 RID: 787 RVA: 0x000162E4 File Offset: 0x000144E4
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_criminal_ratings", "campaign")]
 		public static string GetCriminalRatings(List<string> strings)
 		{
@@ -2312,7 +2243,6 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x06000314 RID: 788 RVA: 0x00016440 File Offset: 0x00014640
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_main_hero_age", "campaign")]
 		public static string SetMainHeroAge(List<string> strings)
 		{
@@ -2337,7 +2267,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000315 RID: 789 RVA: 0x00016510 File Offset: 0x00014710
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_infested_hideout", "campaign")]
 		public static string GetInfestedHideout(List<string> strings)
 		{
@@ -2382,8 +2311,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Unable to find such a hideout.";
 		}
 
-		// Token: 0x170000A5 RID: 165
-		// (get) Token: 0x06000316 RID: 790 RVA: 0x0001660B File Offset: 0x0001480B
 		public static bool MainPartyIsAttackable
 		{
 			get
@@ -2392,7 +2319,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000317 RID: 791 RVA: 0x00016614 File Offset: 0x00014814
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_main_party_attackable", "campaign")]
 		public static string SetMainPartyAttackable(List<string> strings)
 		{
@@ -2413,7 +2339,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Wrong input";
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x000166AC File Offset: 0x000148AC
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_morale_to_party", "campaign")]
 		public static string AddMoraleToParty(List<string> strings)
 		{
@@ -2476,7 +2401,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x000167F0 File Offset: 0x000149F0
 		[CommandLineFunctionality.CommandLineArgumentFunction("boost_cohesion_of_army", "campaign")]
 		public static string BoostCohesionOfArmy(List<string> strings)
 		{
@@ -2516,7 +2440,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Wrong input.\nFormat is \"boost_cohesion_of_army [ArmyLeaderName]\".";
 		}
 
-		// Token: 0x0600031A RID: 794 RVA: 0x000168CC File Offset: 0x00014ACC
 		[CommandLineFunctionality.CommandLineArgumentFunction("boost_cohesion_of_all_armies", "campaign")]
 		public static string BoostCohersionOfAllArmies(List<string> strings)
 		{
@@ -2542,7 +2465,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Wrong input.\nFormat is \"boost_cohesion_of_all_armies [ArmyLeaderName]\".";
 		}
 
-		// Token: 0x0600031B RID: 795 RVA: 0x00016964 File Offset: 0x00014B64
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_focus_points_to_hero", "campaign")]
 		public static string AddFocusPointCheat(List<string> strings)
 		{
@@ -2602,7 +2524,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not Found.\nFormat is \"campaign.add_focus_points_to_hero [PositiveNumber] [HeroName]\".";
 		}
 
-		// Token: 0x0600031C RID: 796 RVA: 0x00016AFC File Offset: 0x00014CFC
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_attribute_points_to_hero", "campaign")]
 		public static string AddAttributePointsCheat(List<string> strings)
 		{
@@ -2662,7 +2583,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero is not Found.\nFormat is \"campaign.UnspentAttributePoints [PositiveNumber] [HeroName]\".";
 		}
 
-		// Token: 0x0600031D RID: 797 RVA: 0x00016C90 File Offset: 0x00014E90
 		[CommandLineFunctionality.CommandLineArgumentFunction("list_tournaments", "campaign")]
 		public static string GetSettlementsWithTournament(List<string> strings)
 		{
@@ -2686,7 +2606,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x0600031E RID: 798 RVA: 0x00016D2C File Offset: 0x00014F2C
 		public static string ConvertListToMultiLine(List<string> strings)
 		{
 			string text = "";
@@ -2697,7 +2616,6 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x0600031F RID: 799 RVA: 0x00016D88 File Offset: 0x00014F88
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_issues", "campaign")]
 		public static string PrintAllIssues(List<string> strings)
 		{
@@ -2726,7 +2644,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x00016E84 File Offset: 0x00015084
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_issues", "campaign")]
 		public static string PrintIssues(List<string> strings)
 		{
@@ -2759,7 +2676,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x06000321 RID: 801 RVA: 0x00016FB4 File Offset: 0x000151B4
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_workshop_to_player", "campaign")]
 		public static string GiveWorkshopToPlayer(List<string> strings)
 		{
@@ -2835,7 +2751,6 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x06000322 RID: 802 RVA: 0x00017200 File Offset: 0x00015400
 		[CommandLineFunctionality.CommandLineArgumentFunction("conceive_child", "campaign")]
 		public static string MakePregnant(List<string> strings)
 		{
@@ -2869,7 +2784,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000323 RID: 803 RVA: 0x0001732C File Offset: 0x0001552C
 		public static Hero GenerateChild(Hero hero, bool isFemale, CultureObject culture)
 		{
 			if (hero.Spouse == null)
@@ -2893,7 +2807,6 @@ namespace TaleWorlds.CampaignSystem
 			return hero4;
 		}
 
-		// Token: 0x06000324 RID: 804 RVA: 0x00017418 File Offset: 0x00015618
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_prisoner_to_party", "campaign")]
 		public static string AddPrisonerToParty(List<string> strings)
 		{
@@ -2961,7 +2874,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000325 RID: 805 RVA: 0x00017598 File Offset: 0x00015798
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_random_prisoner_hero", "campaign")]
 		public static string AddRandomPrisonerHeroCheat(List<string> strings)
 		{
@@ -2999,7 +2911,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000326 RID: 806 RVA: 0x00017668 File Offset: 0x00015868
 		[CommandLineFunctionality.CommandLineArgumentFunction("control_party_ai_by_cheats", "campaign")]
 		public static string ControlPartyAIByCheats(List<string> strings)
 		{
@@ -3018,7 +2929,6 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x06000327 RID: 807 RVA: 0x00017704 File Offset: 0x00015904
 		[CommandLineFunctionality.CommandLineArgumentFunction("ai_siege_settlement", "campaign")]
 		public static string AISiegeSettlement(List<string> strings)
 		{
@@ -3071,7 +2981,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x06000328 RID: 808 RVA: 0x00017830 File Offset: 0x00015A30
 		[CommandLineFunctionality.CommandLineArgumentFunction("ai_raid_village", "campaign")]
 		public static string AIRaidVillage(List<string> strings)
 		{
@@ -3124,7 +3033,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x06000329 RID: 809 RVA: 0x0001795C File Offset: 0x00015B5C
 		[CommandLineFunctionality.CommandLineArgumentFunction("ai_attack_party", "campaign")]
 		public static string AIAttackParty(List<string> strings)
 		{
@@ -3169,7 +3077,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x0600032A RID: 810 RVA: 0x00017A78 File Offset: 0x00015C78
 		[CommandLineFunctionality.CommandLineArgumentFunction("ai_defend_settlement", "campaign")]
 		public static string AIDefendSettlement(List<string> strings)
 		{
@@ -3214,7 +3121,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x0600032B RID: 811 RVA: 0x00017B6C File Offset: 0x00015D6C
 		[CommandLineFunctionality.CommandLineArgumentFunction("ai_goto_settlement", "campaign")]
 		public static string AIGotoSettlement(List<string> strings)
 		{
@@ -3255,7 +3161,6 @@ namespace TaleWorlds.CampaignSystem
 			return text2;
 		}
 
-		// Token: 0x0600032C RID: 812 RVA: 0x00017C48 File Offset: 0x00015E48
 		public static List<string> GetSeparatedNames(List<string> strings, string separator)
 		{
 			List<string> list = new List<string>();
@@ -3279,7 +3184,6 @@ namespace TaleWorlds.CampaignSystem
 			return list;
 		}
 
-		// Token: 0x0600032D RID: 813 RVA: 0x00017CDC File Offset: 0x00015EDC
 		private static bool ControlPartyAIByCheatsInternal(Hero hero, bool enable, out string resultDescription)
 		{
 			if (hero == null)
@@ -3308,7 +3212,6 @@ namespace TaleWorlds.CampaignSystem
 			return true;
 		}
 
-		// Token: 0x0600032E RID: 814 RVA: 0x00017D64 File Offset: 0x00015F64
 		[CommandLineFunctionality.CommandLineArgumentFunction("clear_settlement_defense", "campaign")]
 		public static string ClearSettlementDefense(List<string> strings)
 		{
@@ -3334,7 +3237,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x0600032F RID: 815 RVA: 0x00017DEC File Offset: 0x00015FEC
 		[CommandLineFunctionality.CommandLineArgumentFunction("print_party_prisoners", "campaign")]
 		public static string PrintPartyPrisoners(List<string> strings)
 		{
@@ -3373,7 +3275,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Party is not found: " + text;
 		}
 
-		// Token: 0x06000330 RID: 816 RVA: 0x00017F3C File Offset: 0x0001613C
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_prisoners_xp", "campaign")]
 		public static string GivePrisonersXp(List<string> strings)
 		{
@@ -3404,7 +3305,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000331 RID: 817 RVA: 0x00018020 File Offset: 0x00016220
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_settlement_variable", "campaign")]
 		public static string SetSettlementVariable(List<string> strings)
 		{
@@ -3478,7 +3378,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000332 RID: 818 RVA: 0x0001820C File Offset: 0x0001640C
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_hero_trait", "campaign")]
 		public static string SetHeroTrait(List<string> strings)
 		{
@@ -3531,7 +3430,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Hero: " + strings[0] + " not found.";
 		}
 
-		// Token: 0x06000333 RID: 819 RVA: 0x000183BC File Offset: 0x000165BC
 		[CommandLineFunctionality.CommandLineArgumentFunction("list_hero_traits", "campaign")]
 		public static string ListHeroTraits(List<string> heroName)
 		{
@@ -3558,7 +3456,6 @@ namespace TaleWorlds.CampaignSystem
 			return string.Format("Hero: {0} not found.", heroName);
 		}
 
-		// Token: 0x06000334 RID: 820 RVA: 0x00018470 File Offset: 0x00016670
 		[CommandLineFunctionality.CommandLineArgumentFunction("remove_militas_from_settlement", "campaign")]
 		public static string RemoveMilitiasFromSettlement(List<string> strings)
 		{
@@ -3603,7 +3500,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000335 RID: 821 RVA: 0x000185E0 File Offset: 0x000167E0
 		[CommandLineFunctionality.CommandLineArgumentFunction("cancel_quest", "campaign")]
 		public static string CancelQuestCheat(List<string> strings)
 		{
@@ -3653,7 +3549,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000336 RID: 822 RVA: 0x000186F4 File Offset: 0x000168F4
 		[CommandLineFunctionality.CommandLineArgumentFunction("kick_companion", "campaign")]
 		public static string KickAllCompanionsFromParty(List<string> strings)
 		{
@@ -3696,7 +3591,6 @@ namespace TaleWorlds.CampaignSystem
 			return "No companion named: " + strings[0] + " is found";
 		}
 
-		// Token: 0x06000337 RID: 823 RVA: 0x00018884 File Offset: 0x00016A84
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_money_to_main_party", "campaign")]
 		public static string GiveMoneyToMainParty(List<string> strings)
 		{
@@ -3717,7 +3611,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Please enter a positive number";
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x000188F8 File Offset: 0x00016AF8
 		[CommandLineFunctionality.CommandLineArgumentFunction("give_troops_xp", "campaign")]
 		public static string GiveTroopsXp(List<string> strings)
 		{
@@ -3748,7 +3641,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x000189DC File Offset: 0x00016BDC
 		[CommandLineFunctionality.CommandLineArgumentFunction("find_issue", "campaign")]
 		public static string FindIssues(List<string> strings)
 		{
@@ -3794,7 +3686,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Issue Not Found";
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x00018B74 File Offset: 0x00016D74
 		[CommandLineFunctionality.CommandLineArgumentFunction("toggle_information_restrictions", "campaign")]
 		public static string ToggleInformationRestrictions(List<string> strings)
 		{
@@ -3815,7 +3706,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Information restrictions are " + (defaultInformationRestrictionModel.IsDisabledByCheat ? "disabled" : "enabled") + ".";
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x00018BF4 File Offset: 0x00016DF4
 		[CommandLineFunctionality.CommandLineArgumentFunction("get_random_hero_with_parameters", "campaign")]
 		public static string GetRandomHeroWithFeatures(List<string> strings)
 		{
@@ -3911,7 +3801,6 @@ namespace TaleWorlds.CampaignSystem
 			});
 		}
 
-		// Token: 0x0600033C RID: 828 RVA: 0x00018E84 File Offset: 0x00017084
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_campaign_speed_multiplier", "campaign")]
 		public static string SetCampaignSpeed(List<string> strings)
 		{
@@ -3938,7 +3827,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Campaign speed is set to " + 15f + ". which is the maximum value for speed up multiplier!";
 		}
 
-		// Token: 0x0600033D RID: 829 RVA: 0x00018F1C File Offset: 0x0001711C
 		public static Hero GetHero(string heroName)
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -3958,7 +3846,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x0600033E RID: 830 RVA: 0x00018FD4 File Offset: 0x000171D4
 		public static Clan GetClan(string clanName)
 		{
 			foreach (Clan clan in Clan.NonBanditFactions)
@@ -3971,7 +3858,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x0600033F RID: 831 RVA: 0x00019034 File Offset: 0x00017234
 		public static Hero GetClanLeader(string clanName)
 		{
 			foreach (Clan clan in Clan.NonBanditFactions)
@@ -3984,7 +3870,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x06000340 RID: 832 RVA: 0x0001909C File Offset: 0x0001729C
 		public static Kingdom GetKingdom(string kingdomName)
 		{
 			foreach (Kingdom kingdom in Kingdom.All)
@@ -3997,7 +3882,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x06000341 RID: 833 RVA: 0x00019104 File Offset: 0x00017304
 		public static Settlement GetSettlement(string settlementName)
 		{
 			foreach (Settlement settlement in Settlement.All)
@@ -4010,7 +3894,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x06000342 RID: 834 RVA: 0x00019190 File Offset: 0x00017390
 		public static Settlement GetDefaultSettlement()
 		{
 			Settlement settlement2 = Hero.MainHero.HomeSettlement;
@@ -4021,7 +3904,6 @@ namespace TaleWorlds.CampaignSystem
 			return settlement2;
 		}
 
-		// Token: 0x06000343 RID: 835 RVA: 0x000191E0 File Offset: 0x000173E0
 		public static string ConcatenateString(List<string> strings)
 		{
 			if (strings == null || strings.IsEmpty<string>())
@@ -4039,58 +3921,40 @@ namespace TaleWorlds.CampaignSystem
 			return text;
 		}
 
-		// Token: 0x040000E1 RID: 225
 		public const string CampaignNotStarted = "Campaign was not started.";
 
-		// Token: 0x040000E2 RID: 226
 		public const string CheatmodeDisabled = "Cheat mode is disabled!";
 
-		// Token: 0x040000E3 RID: 227
 		public const string AchievementsAreDisabled = "Achievements are disabled!";
 
-		// Token: 0x040000E4 RID: 228
 		public const string Help = "help";
 
-		// Token: 0x040000E5 RID: 229
 		public const string EnterNumber = "Please enter a number";
 
-		// Token: 0x040000E6 RID: 230
 		public const string EnterPositiveNumber = "Please enter a positive number";
 
-		// Token: 0x040000E7 RID: 231
 		public const string SettlementNotFound = "Settlement is not found";
 
-		// Token: 0x040000E8 RID: 232
 		public const string HeroNotFound = "Hero is not found";
 
-		// Token: 0x040000E9 RID: 233
 		public const string KingdomNotFound = "Kingdom is not found";
 
-		// Token: 0x040000EA RID: 234
 		public const string VillageNotFound = "Village is not found";
 
-		// Token: 0x040000EB RID: 235
 		public const string FactionNotFound = "Faction is not found";
 
-		// Token: 0x040000EC RID: 236
 		public const string PartyNotFound = "Party is not found";
 
-		// Token: 0x040000ED RID: 237
 		public const string OK = "Success";
 
-		// Token: 0x040000EE RID: 238
 		public const string CheatNameSeparator = "|";
 
-		// Token: 0x040000EF RID: 239
 		public const string AiDisabledHelper = "Party AI can be enabled again by using \"campaign.control_party_ai_by_cheats\"";
 
-		// Token: 0x040000F0 RID: 240
 		public static string ErrorType = "";
 
-		// Token: 0x040000F1 RID: 241
 		public const int MaxSkillValue = 300;
 
-		// Token: 0x040000F2 RID: 242
 		private static bool _mainPartyIsAttackable = true;
 	}
 }

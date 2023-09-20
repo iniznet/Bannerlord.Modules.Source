@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000089 RID: 137
 	public class TestContext
 	{
-		// Token: 0x060004B7 RID: 1207 RVA: 0x0000F200 File Offset: 0x0000D400
 		public void RunTestAux(string commandLine)
 		{
 			TestCommonBase.BaseInstance.IsTestEnabled = true;
@@ -68,7 +66,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060004B8 RID: 1208 RVA: 0x0000F39C File Offset: 0x0000D59C
 		private ConstructorInfo GetAsyncRunnerConstructor(string asyncRunner)
 		{
 			Assembly[] asyncRunnerAssemblies = this.GetAsyncRunnerAssemblies();
@@ -89,7 +86,6 @@ namespace TaleWorlds.Library
 			return null;
 		}
 
-		// Token: 0x060004B9 RID: 1209 RVA: 0x0000F43C File Offset: 0x0000D63C
 		private Assembly[] GetAsyncRunnerAssemblies()
 		{
 			List<Assembly> list = new List<Assembly>();
@@ -109,7 +105,6 @@ namespace TaleWorlds.Library
 			return list.ToArray();
 		}
 
-		// Token: 0x060004BA RID: 1210 RVA: 0x0000F4C8 File Offset: 0x0000D6C8
 		public void OnApplicationTick(float dt)
 		{
 			if (this._asyncTask != null && this._asyncTask.Status == TaskStatus.Faulted)
@@ -128,7 +123,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060004BB RID: 1211 RVA: 0x0000F581 File Offset: 0x0000D781
 		public void TickTest(float dt)
 		{
 			if (this._asyncThread != null && this._asyncThread.IsAlive && this._asyncRunner != null)
@@ -141,7 +135,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x060004BC RID: 1212 RVA: 0x0000F5BF File Offset: 0x0000D7BF
 		public void FinalizeContext()
 		{
 			if (this._asyncThread != null)
@@ -154,16 +147,12 @@ namespace TaleWorlds.Library
 			this._asyncTask = null;
 		}
 
-		// Token: 0x0400016D RID: 365
 		private AsyncRunner _asyncRunner;
 
-		// Token: 0x0400016E RID: 366
 		private AwaitableAsyncRunner _awaitableAsyncRunner;
 
-		// Token: 0x0400016F RID: 367
 		private Thread _asyncThread;
 
-		// Token: 0x04000170 RID: 368
 		private Task _asyncTask;
 	}
 }

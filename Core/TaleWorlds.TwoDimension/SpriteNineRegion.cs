@@ -3,11 +3,8 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000032 RID: 50
 	public class SpriteNineRegion : Sprite
 	{
-		// Token: 0x170000AB RID: 171
-		// (get) Token: 0x0600020D RID: 525 RVA: 0x000087A5 File Offset: 0x000069A5
 		public override Texture Texture
 		{
 			get
@@ -16,32 +13,16 @@ namespace TaleWorlds.TwoDimension
 			}
 		}
 
-		// Token: 0x170000AC RID: 172
-		// (get) Token: 0x0600020E RID: 526 RVA: 0x000087B2 File Offset: 0x000069B2
-		// (set) Token: 0x0600020F RID: 527 RVA: 0x000087BA File Offset: 0x000069BA
 		public SpritePart BaseSprite { get; private set; }
 
-		// Token: 0x170000AD RID: 173
-		// (get) Token: 0x06000210 RID: 528 RVA: 0x000087C3 File Offset: 0x000069C3
-		// (set) Token: 0x06000211 RID: 529 RVA: 0x000087CB File Offset: 0x000069CB
 		public int LeftWidth { get; private set; }
 
-		// Token: 0x170000AE RID: 174
-		// (get) Token: 0x06000212 RID: 530 RVA: 0x000087D4 File Offset: 0x000069D4
-		// (set) Token: 0x06000213 RID: 531 RVA: 0x000087DC File Offset: 0x000069DC
 		public int RightWidth { get; private set; }
 
-		// Token: 0x170000AF RID: 175
-		// (get) Token: 0x06000214 RID: 532 RVA: 0x000087E5 File Offset: 0x000069E5
-		// (set) Token: 0x06000215 RID: 533 RVA: 0x000087ED File Offset: 0x000069ED
 		public int TopHeight { get; private set; }
 
-		// Token: 0x170000B0 RID: 176
-		// (get) Token: 0x06000216 RID: 534 RVA: 0x000087F6 File Offset: 0x000069F6
-		// (set) Token: 0x06000217 RID: 535 RVA: 0x000087FE File Offset: 0x000069FE
 		public int BottomHeight { get; private set; }
 
-		// Token: 0x06000218 RID: 536 RVA: 0x00008808 File Offset: 0x00006A08
 		public SpriteNineRegion(string name, SpritePart baseSprite, int leftWidth, int rightWidth, int topHeight, int bottomHeight)
 			: base(name, baseSprite.Width, baseSprite.Height)
 		{
@@ -54,7 +35,6 @@ namespace TaleWorlds.TwoDimension
 			this._centerHeight = baseSprite.Height - topHeight - bottomHeight;
 		}
 
-		// Token: 0x06000219 RID: 537 RVA: 0x00008874 File Offset: 0x00006A74
 		public override float GetScaleToUse(float width, float height, float scale)
 		{
 			float num = 1f;
@@ -83,7 +63,6 @@ namespace TaleWorlds.TwoDimension
 			return scale * num5;
 		}
 
-		// Token: 0x0600021A RID: 538 RVA: 0x00008900 File Offset: 0x00006B00
 		protected internal override DrawObject2D GetArrays(SpriteDrawData spriteDrawData)
 		{
 			if (this.CachedDrawObject != null && this.CachedDrawData == spriteDrawData)
@@ -126,7 +105,6 @@ namespace TaleWorlds.TwoDimension
 			return drawObject2D;
 		}
 
-		// Token: 0x0600021B RID: 539 RVA: 0x00008B0C File Offset: 0x00006D0C
 		private int GetUVArrayIndex(bool horizontalFlip, bool verticalFlip)
 		{
 			int num;
@@ -149,7 +127,6 @@ namespace TaleWorlds.TwoDimension
 			return num;
 		}
 
-		// Token: 0x0600021C RID: 540 RVA: 0x00008B35 File Offset: 0x00006D35
 		private void SetVertexData(float x, float y)
 		{
 			this._outVertices[this._verticesStartIndex] = x;
@@ -158,7 +135,6 @@ namespace TaleWorlds.TwoDimension
 			this._verticesStartIndex++;
 		}
 
-		// Token: 0x0600021D RID: 541 RVA: 0x00008B6F File Offset: 0x00006D6F
 		private void SetTextureData(float[] outUvs, float u, float v)
 		{
 			outUvs[this._uvsStartIndex] = u;
@@ -167,7 +143,6 @@ namespace TaleWorlds.TwoDimension
 			this._uvsStartIndex++;
 		}
 
-		// Token: 0x0600021E RID: 542 RVA: 0x00008BA0 File Offset: 0x00006DA0
 		private void AddQuad(uint i1, uint i2, uint i3, uint i4)
 		{
 			this._outIndices[(int)this._indicesStartIndex] = i1;
@@ -184,7 +159,6 @@ namespace TaleWorlds.TwoDimension
 			this._indicesStartIndex += 1U;
 		}
 
-		// Token: 0x0600021F RID: 543 RVA: 0x00008C58 File Offset: 0x00006E58
 		private void SetIndicesData()
 		{
 			this.AddQuad(0U, 1U, 4U, 5U);
@@ -198,7 +172,6 @@ namespace TaleWorlds.TwoDimension
 			this.AddQuad(10U, 11U, 14U, 15U);
 		}
 
-		// Token: 0x06000220 RID: 544 RVA: 0x00008CD0 File Offset: 0x00006ED0
 		private void SetVerticesData(bool horizontalFlip, bool verticalFlip)
 		{
 			float num = (float)this.LeftWidth;
@@ -241,7 +214,6 @@ namespace TaleWorlds.TwoDimension
 			this.SetVertexData(customWidth, customHeight);
 		}
 
-		// Token: 0x06000221 RID: 545 RVA: 0x00008E18 File Offset: 0x00007018
 		private void CalculateTextureCoordinates(float[] outUvs, bool horizontalFlip, bool verticalFlip)
 		{
 			this._uvsStartIndex = 0;
@@ -289,37 +261,26 @@ namespace TaleWorlds.TwoDimension
 			this.SetTextureData(outUvs, num4, num8);
 		}
 
-		// Token: 0x04000119 RID: 281
 		private int _centerWidth;
 
-		// Token: 0x0400011A RID: 282
 		private int _centerHeight;
 
-		// Token: 0x0400011B RID: 283
 		private List<float[]> _outUvs;
 
-		// Token: 0x0400011C RID: 284
 		private float[] _outVertices;
 
-		// Token: 0x0400011D RID: 285
 		private uint[] _outIndices;
 
-		// Token: 0x0400011E RID: 286
 		private int _verticesStartIndex;
 
-		// Token: 0x0400011F RID: 287
 		private int _uvsStartIndex;
 
-		// Token: 0x04000120 RID: 288
 		private uint _indicesStartIndex;
 
-		// Token: 0x04000121 RID: 289
 		private float _scale;
 
-		// Token: 0x04000122 RID: 290
 		private float _customWidth;
 
-		// Token: 0x04000123 RID: 291
 		private float _customHeight;
 	}
 }

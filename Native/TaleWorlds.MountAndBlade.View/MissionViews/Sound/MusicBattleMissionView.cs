@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 {
-	// Token: 0x02000057 RID: 87
 	public class MusicBattleMissionView : MissionView, IMusicHandler
 	{
-		// Token: 0x17000063 RID: 99
-		// (get) Token: 0x060003C8 RID: 968 RVA: 0x0001FB6C File Offset: 0x0001DD6C
 		bool IMusicHandler.IsPausable
 		{
 			get
@@ -20,8 +17,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x17000064 RID: 100
-		// (get) Token: 0x060003C9 RID: 969 RVA: 0x0001FB6F File Offset: 0x0001DD6F
 		private BattleSideEnum PlayerSide
 		{
 			get
@@ -35,13 +30,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003CA RID: 970 RVA: 0x0001FB86 File Offset: 0x0001DD86
 		public MusicBattleMissionView(bool isSiegeBattle)
 		{
 			this._isSiegeBattle = isSiegeBattle;
 		}
 
-		// Token: 0x060003CB RID: 971 RVA: 0x0001FB95 File Offset: 0x0001DD95
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -51,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			MBMusicManager.Current.OnBattleMusicHandlerInit(this);
 		}
 
-		// Token: 0x060003CC RID: 972 RVA: 0x0001FBCC File Offset: 0x0001DDCC
 		public override void OnMissionScreenFinalize()
 		{
 			MBMusicManager.Current.DeactivateBattleMode();
@@ -59,14 +51,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			base.Mission.PlayerTeam.PlayerOrderController.OnOrderIssued -= new OnOrderIssuedDelegate(this.PlayerOrderControllerOnOrderIssued);
 		}
 
-		// Token: 0x060003CD RID: 973 RVA: 0x0001FC03 File Offset: 0x0001DE03
 		public override void AfterStart()
 		{
 			this._nextPossibleTimeToIncreaseIntensityForChargeOrder = MissionTime.Now;
 			base.Mission.PlayerTeam.PlayerOrderController.OnOrderIssued += new OnOrderIssuedDelegate(this.PlayerOrderControllerOnOrderIssued);
 		}
 
-		// Token: 0x060003CE RID: 974 RVA: 0x0001FC34 File Offset: 0x0001DE34
 		private void PlayerOrderControllerOnOrderIssued(OrderType orderType, IEnumerable<Formation> appliedFormations, object[] parameters)
 		{
 			if ((orderType == 4 || orderType == 5) && this._nextPossibleTimeToIncreaseIntensityForChargeOrder.IsPast)
@@ -78,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003CF RID: 975 RVA: 0x0001FC90 File Offset: 0x0001DE90
 		private void CheckIntensityFall()
 		{
 			PsaiInfo psaiInfo = PsaiCore.Instance.GetPsaiInfo();
@@ -96,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003D0 RID: 976 RVA: 0x0001FCF8 File Offset: 0x0001DEF8
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (this._battleState != MusicBattleMissionView.BattleState.Starting)
@@ -161,7 +149,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003D1 RID: 977 RVA: 0x0001FF08 File Offset: 0x0001E108
 		private void CheckForStarting()
 		{
 			if (this._startingTroopCounts == null)
@@ -256,7 +243,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003D2 RID: 978 RVA: 0x000201D8 File Offset: 0x0001E3D8
 		private void CheckForEnding()
 		{
 			if (Mission.Current.IsMissionEnding)
@@ -273,7 +259,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			}
 		}
 
-		// Token: 0x060003D3 RID: 979 RVA: 0x00020278 File Offset: 0x0001E478
 		void IMusicHandler.OnUpdated(float dt)
 		{
 			if (this._battleState == MusicBattleMissionView.BattleState.Starting)
@@ -325,40 +310,27 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound
 			this.CheckIntensityFall();
 		}
 
-		// Token: 0x0400026F RID: 623
 		private const float ChargeOrderIntensityIncreaseCooldownInSeconds = 60f;
 
-		// Token: 0x04000270 RID: 624
 		private MusicBattleMissionView.BattleState _battleState;
 
-		// Token: 0x04000271 RID: 625
 		private MissionAgentSpawnLogic _missionAgentSpawnLogic;
 
-		// Token: 0x04000272 RID: 626
 		private int[] _startingTroopCounts;
 
-		// Token: 0x04000273 RID: 627
 		private float _startingBattleRatio;
 
-		// Token: 0x04000274 RID: 628
 		private bool _isSiegeBattle;
 
-		// Token: 0x04000275 RID: 629
 		private bool _isPaganBattle;
 
-		// Token: 0x04000276 RID: 630
 		private MissionTime _nextPossibleTimeToIncreaseIntensityForChargeOrder;
 
-		// Token: 0x020000C2 RID: 194
 		private enum BattleState
 		{
-			// Token: 0x04000378 RID: 888
 			Starting,
-			// Token: 0x04000379 RID: 889
 			Started,
-			// Token: 0x0400037A RID: 890
 			TurnedOneSide,
-			// Token: 0x0400037B RID: 891
 			Ending
 		}
 	}

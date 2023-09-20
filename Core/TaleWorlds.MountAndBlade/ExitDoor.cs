@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000339 RID: 825
 	public class ExitDoor : UsableMachine
 	{
-		// Token: 0x06002C50 RID: 11344 RVA: 0x000ABCF4 File Offset: 0x000A9EF4
 		public override TextObject GetActionTextForStandingPoint(UsableMissionObject usableGameObject)
 		{
 			TextObject textObject = new TextObject("{=gqQPSAQZ}{KEY} Leave Area", null);
@@ -17,26 +15,22 @@ namespace TaleWorlds.MountAndBlade
 			return textObject;
 		}
 
-		// Token: 0x06002C51 RID: 11345 RVA: 0x000ABD1E File Offset: 0x000A9F1E
 		public override string GetDescriptionText(GameEntity gameEntity = null)
 		{
 			return string.Empty;
 		}
 
-		// Token: 0x06002C52 RID: 11346 RVA: 0x000ABD25 File Offset: 0x000A9F25
 		protected internal override void OnInit()
 		{
 			base.OnInit();
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06002C53 RID: 11347 RVA: 0x000ABD39 File Offset: 0x000A9F39
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return ScriptComponentBehavior.TickRequirement.Tick | base.GetTickRequirement();
 		}
 
-		// Token: 0x06002C54 RID: 11348 RVA: 0x000ABD44 File Offset: 0x000A9F44
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -63,16 +57,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040010DC RID: 4316
 		private static readonly ActionIndexCache act_pickup_middle_begin = ActionIndexCache.Create("act_pickup_middle_begin");
 
-		// Token: 0x040010DD RID: 4317
 		private static readonly ActionIndexCache act_pickup_middle_begin_left_stance = ActionIndexCache.Create("act_pickup_middle_begin_left_stance");
 
-		// Token: 0x040010DE RID: 4318
 		private static readonly ActionIndexCache act_pickup_middle_end = ActionIndexCache.Create("act_pickup_middle_end");
 
-		// Token: 0x040010DF RID: 4319
 		private static readonly ActionIndexCache act_pickup_middle_end_left_stance = ActionIndexCache.Create("act_pickup_middle_end_left_stance");
 	}
 }

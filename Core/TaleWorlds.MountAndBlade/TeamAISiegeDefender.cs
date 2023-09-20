@@ -7,14 +7,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000179 RID: 377
 	public class TeamAISiegeDefender : TeamAISiegeComponent
 	{
-		// Token: 0x1700043B RID: 1083
-		// (get) Token: 0x06001368 RID: 4968 RVA: 0x0004C104 File Offset: 0x0004A304
 		public List<ArcherPosition> ArcherPositions { get; }
 
-		// Token: 0x06001369 RID: 4969 RVA: 0x0004C10C File Offset: 0x0004A30C
 		public TeamAISiegeDefender(Mission currentMission, Team currentTeam, float thinkTimerTime, float applyTimerTime)
 			: base(currentMission, currentTeam, thinkTimerTime, applyTimerTime)
 		{
@@ -26,7 +22,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ArcherPositions = enumerable.Select((GameEntity ap) => new ArcherPosition(ap, TeamAISiegeComponent.QuerySystem, BattleSideEnum.Defender)).ToList<ArcherPosition>();
 		}
 
-		// Token: 0x0600136A RID: 4970 RVA: 0x0004C1A8 File Offset: 0x0004A3A8
 		public override void OnUnitAddedToFormationForTheFirstTime(Formation formation)
 		{
 			if (formation.AI.GetBehavior<BehaviorCharge>() == null)
@@ -57,7 +52,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600136B RID: 4971 RVA: 0x0004C2FC File Offset: 0x0004A4FC
 		public override void OnDeploymentFinished()
 		{
 			base.OnDeploymentFinished();
@@ -102,7 +96,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x04000592 RID: 1426
 		public Vec3 MurderHolePosition;
 	}
 }

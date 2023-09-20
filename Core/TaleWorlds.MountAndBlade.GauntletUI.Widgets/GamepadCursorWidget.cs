@@ -8,21 +8,15 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x0200001E RID: 30
 	public class GamepadCursorWidget : BrushWidget
 	{
-		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x06000161 RID: 353 RVA: 0x00005D11 File Offset: 0x00003F11
-		// (set) Token: 0x06000162 RID: 354 RVA: 0x00005D19 File Offset: 0x00003F19
 		private protected float TransitionTimer { protected get; private set; }
 
-		// Token: 0x06000163 RID: 355 RVA: 0x00005D22 File Offset: 0x00003F22
 		public GamepadCursorWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000164 RID: 356 RVA: 0x00005D2C File Offset: 0x00003F2C
 		protected override void OnLateUpdate(float dt)
 		{
 			if (base.IsVisible)
@@ -53,7 +47,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			this._targetPositionChangedThisFrame = false;
 		}
 
-		// Token: 0x06000165 RID: 357 RVA: 0x00005E48 File Offset: 0x00004048
 		private void RefreshTarget()
 		{
 			GauntletGamepadNavigationManager instance = GauntletGamepadNavigationManager.Instance;
@@ -79,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x06000166 RID: 358 RVA: 0x00005F8C File Offset: 0x0000418C
 		private void UpdateTargetOffsets(float ratio)
 		{
 			Vector2 vector = new Vector2(base.EventManager.LeftUsableAreaStart, base.EventManager.TopUsableAreaStart);
@@ -137,7 +129,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			base.ScaledSuggestedHeight = MathF.Min(base.ScaledSuggestedHeight, Input.Resolution.Y - base.ScaledPositionYOffset - vector.Y * 2f);
 		}
 
-		// Token: 0x06000167 RID: 359 RVA: 0x0000625C File Offset: 0x0000445C
 		private void UpdateAdditionalOffsets()
 		{
 			float num2;
@@ -166,7 +157,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			this._additionalOffset = (num3 + num2) * base._scaleToUse;
 		}
 
-		// Token: 0x06000168 RID: 360 RVA: 0x00006314 File Offset: 0x00004514
 		private void ResetAnimations()
 		{
 			if (!this._isPressing)
@@ -176,9 +166,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000078 RID: 120
-		// (get) Token: 0x06000169 RID: 361 RVA: 0x00006335 File Offset: 0x00004535
-		// (set) Token: 0x0600016A RID: 362 RVA: 0x0000633D File Offset: 0x0000453D
 		public GamepadCursorParentWidget CursorParentWidget
 		{
 			get
@@ -195,9 +182,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x0600016B RID: 363 RVA: 0x0000635B File Offset: 0x0000455B
-		// (set) Token: 0x0600016C RID: 364 RVA: 0x00006363 File Offset: 0x00004563
 		public GamepadCursorMarkerWidget TopLeftMarker
 		{
 			get
@@ -214,9 +198,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x0600016D RID: 365 RVA: 0x00006381 File Offset: 0x00004581
-		// (set) Token: 0x0600016E RID: 366 RVA: 0x00006389 File Offset: 0x00004589
 		public GamepadCursorMarkerWidget TopRightMarker
 		{
 			get
@@ -233,9 +214,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x0600016F RID: 367 RVA: 0x000063A7 File Offset: 0x000045A7
-		// (set) Token: 0x06000170 RID: 368 RVA: 0x000063AF File Offset: 0x000045AF
 		public GamepadCursorMarkerWidget BottomLeftMarker
 		{
 			get
@@ -252,9 +230,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007C RID: 124
-		// (get) Token: 0x06000171 RID: 369 RVA: 0x000063CD File Offset: 0x000045CD
-		// (set) Token: 0x06000172 RID: 370 RVA: 0x000063D5 File Offset: 0x000045D5
 		public GamepadCursorMarkerWidget BottomRightMarker
 		{
 			get
@@ -271,9 +246,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x06000173 RID: 371 RVA: 0x000063F3 File Offset: 0x000045F3
-		// (set) Token: 0x06000174 RID: 372 RVA: 0x000063FB File Offset: 0x000045FB
 		public bool HasTarget
 		{
 			get
@@ -292,9 +264,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x06000175 RID: 373 RVA: 0x0000642A File Offset: 0x0000462A
-		// (set) Token: 0x06000176 RID: 374 RVA: 0x00006432 File Offset: 0x00004632
 		public bool TargetHasAction
 		{
 			get
@@ -312,9 +281,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x06000177 RID: 375 RVA: 0x00006456 File Offset: 0x00004656
-		// (set) Token: 0x06000178 RID: 376 RVA: 0x0000645E File Offset: 0x0000465E
 		public float TargetX
 		{
 			get
@@ -333,9 +299,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x06000179 RID: 377 RVA: 0x00006489 File Offset: 0x00004689
-		// (set) Token: 0x0600017A RID: 378 RVA: 0x00006491 File Offset: 0x00004691
 		public float TargetY
 		{
 			get
@@ -354,9 +317,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x0600017B RID: 379 RVA: 0x000064BC File Offset: 0x000046BC
-		// (set) Token: 0x0600017C RID: 380 RVA: 0x000064C4 File Offset: 0x000046C4
 		public float TargetWidth
 		{
 			get
@@ -374,9 +334,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x0600017D RID: 381 RVA: 0x000064E8 File Offset: 0x000046E8
-		// (set) Token: 0x0600017E RID: 382 RVA: 0x000064F0 File Offset: 0x000046F0
 		public float TargetHeight
 		{
 			get
@@ -394,9 +351,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000083 RID: 131
-		// (get) Token: 0x0600017F RID: 383 RVA: 0x00006514 File Offset: 0x00004714
-		// (set) Token: 0x06000180 RID: 384 RVA: 0x0000651C File Offset: 0x0000471C
 		public float DefaultOffset
 		{
 			get
@@ -414,9 +368,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x06000181 RID: 385 RVA: 0x00006540 File Offset: 0x00004740
-		// (set) Token: 0x06000182 RID: 386 RVA: 0x00006548 File Offset: 0x00004748
 		public float HoverOffset
 		{
 			get
@@ -434,9 +385,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x06000183 RID: 387 RVA: 0x0000656C File Offset: 0x0000476C
-		// (set) Token: 0x06000184 RID: 388 RVA: 0x00006574 File Offset: 0x00004774
 		public float DefaultTargetlessOffset
 		{
 			get
@@ -454,9 +402,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x06000185 RID: 389 RVA: 0x00006598 File Offset: 0x00004798
-		// (set) Token: 0x06000186 RID: 390 RVA: 0x000065A0 File Offset: 0x000047A0
 		public float PressOffset
 		{
 			get
@@ -474,9 +419,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x06000187 RID: 391 RVA: 0x000065C4 File Offset: 0x000047C4
-		// (set) Token: 0x06000188 RID: 392 RVA: 0x000065CC File Offset: 0x000047CC
 		public float ActionAnimationTime
 		{
 			get
@@ -494,91 +436,62 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x040000A8 RID: 168
 		private Widget _targetWidget;
 
-		// Token: 0x040000A9 RID: 169
 		private bool _targetChangedThisFrame;
 
-		// Token: 0x040000AA RID: 170
 		private bool _targetPositionChangedThisFrame;
 
-		// Token: 0x040000AB RID: 171
 		private float _animationRatio;
 
-		// Token: 0x040000AC RID: 172
 		private float _animationRatioTimer;
 
-		// Token: 0x040000AD RID: 173
 		protected bool _isPressing;
 
-		// Token: 0x040000AE RID: 174
 		protected bool _areBrushesValidated;
 
-		// Token: 0x040000B0 RID: 176
 		protected float _additionalOffset;
 
-		// Token: 0x040000B1 RID: 177
 		protected float _additionalOffsetBeforeStateChange;
 
-		// Token: 0x040000B2 RID: 178
 		protected float _leftOffset;
 
-		// Token: 0x040000B3 RID: 179
 		protected float _rightOffset;
 
-		// Token: 0x040000B4 RID: 180
 		protected float _topOffset;
 
-		// Token: 0x040000B5 RID: 181
 		protected float _bottomOffset;
 
-		// Token: 0x040000B6 RID: 182
 		private GamepadCursorParentWidget _cursorParentWidget;
 
-		// Token: 0x040000B7 RID: 183
 		private GamepadCursorMarkerWidget _topLeftMarker;
 
-		// Token: 0x040000B8 RID: 184
 		private GamepadCursorMarkerWidget _topRightMarker;
 
-		// Token: 0x040000B9 RID: 185
 		private GamepadCursorMarkerWidget _bottomLeftMarker;
 
-		// Token: 0x040000BA RID: 186
 		private GamepadCursorMarkerWidget _bottomRightMarker;
 
-		// Token: 0x040000BB RID: 187
 		private bool _hasTarget;
 
-		// Token: 0x040000BC RID: 188
 		private bool _targetHasAction;
 
-		// Token: 0x040000BD RID: 189
 		private float _targetX;
 
-		// Token: 0x040000BE RID: 190
 		private float _targetY;
 
-		// Token: 0x040000BF RID: 191
 		private float _targetWidth;
 
-		// Token: 0x040000C0 RID: 192
 		private float _targetHeight;
 
-		// Token: 0x040000C1 RID: 193
 		private float _defaultOffset;
 
-		// Token: 0x040000C2 RID: 194
 		private float _hoverOffset;
 
-		// Token: 0x040000C3 RID: 195
 		private float _defaultTargetlessOffset;
 
-		// Token: 0x040000C4 RID: 196
 		private float _pressOffset;
 
-		// Token: 0x040000C5 RID: 197
 		private float _actionAnimationTime;
 	}
 }

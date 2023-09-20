@@ -5,11 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.DotNet
 {
-	// Token: 0x02000022 RID: 34
 	internal class ManagedObjectOwner
 	{
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x060000C0 RID: 192 RVA: 0x00004030 File Offset: 0x00002230
 		internal static int NumberOfAliveManagedObjects
 		{
 			get
@@ -18,7 +15,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000C1 RID: 193 RVA: 0x00004038 File Offset: 0x00002238
 		static ManagedObjectOwner()
 		{
 			for (int i = 0; i < 8192; i++)
@@ -30,7 +26,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000C2 RID: 194 RVA: 0x000040D0 File Offset: 0x000022D0
 		internal static void GarbageCollect()
 		{
 			HashSet<ManagedObjectOwner> managedObjectOwnerReferences = ManagedObjectOwner._managedObjectOwnerReferences;
@@ -60,7 +55,6 @@ namespace TaleWorlds.DotNet
 			ManagedObjectOwner._lastframedeletedManagedObjectBuffer.Clear();
 		}
 
-		// Token: 0x060000C3 RID: 195 RVA: 0x00004228 File Offset: 0x00002428
 		internal static void LogFinalize()
 		{
 			Debug.Print("Checking if any managed object still lives...", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -85,13 +79,11 @@ namespace TaleWorlds.DotNet
 			Debug.Print("There are " + num + " living managed objects.", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x060000C4 RID: 196 RVA: 0x0000433C File Offset: 0x0000253C
 		internal static void PreFinalizeManagedObjects()
 		{
 			ManagedObjectOwner.GarbageCollect();
 		}
 
-		// Token: 0x060000C5 RID: 197 RVA: 0x00004344 File Offset: 0x00002544
 		internal static ManagedObject GetManagedObjectWithId(int id)
 		{
 			if (id == 0)
@@ -112,7 +104,6 @@ namespace TaleWorlds.DotNet
 			return null;
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x000043B0 File Offset: 0x000025B0
 		internal static void ManagedObjectGarbageCollected(ManagedObjectOwner owner, ManagedObject managedObject)
 		{
 			HashSet<ManagedObjectOwner> managedObjectOwnerReferences = ManagedObjectOwner._managedObjectOwnerReferences;
@@ -126,7 +117,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x00004418 File Offset: 0x00002618
 		internal static ManagedObjectOwner CreateManagedObjectOwner(UIntPtr ptr, ManagedObject managedObject)
 		{
 			ManagedObjectOwner managedObjectOwner = null;
@@ -149,7 +139,6 @@ namespace TaleWorlds.DotNet
 			return managedObjectOwner;
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x000044B8 File Offset: 0x000026B8
 		internal static string GetAliveManagedObjectNames()
 		{
 			string text = "";
@@ -184,14 +173,11 @@ namespace TaleWorlds.DotNet
 			return text;
 		}
 
-		// Token: 0x060000C9 RID: 201 RVA: 0x0000462C File Offset: 0x0000282C
 		internal static string GetAliveManagedObjectCreationCallstacks(string name)
 		{
 			return "";
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x060000CA RID: 202 RVA: 0x00004633 File Offset: 0x00002833
 		internal int NativeId
 		{
 			get
@@ -200,9 +186,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x060000CB RID: 203 RVA: 0x0000463B File Offset: 0x0000283B
-		// (set) Token: 0x060000CC RID: 204 RVA: 0x00004643 File Offset: 0x00002843
 		internal UIntPtr Pointer
 		{
 			get
@@ -219,7 +202,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x00004664 File Offset: 0x00002864
 		private ManagedObjectOwner()
 		{
 			this._ptr = UIntPtr.Zero;
@@ -227,7 +209,6 @@ namespace TaleWorlds.DotNet
 			this._managedObjectLongReference = new WeakReference(null, true);
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x00004694 File Offset: 0x00002894
 		private void Construct(UIntPtr ptr, ManagedObject managedObject)
 		{
 			this._typeInfo = managedObject.GetType();
@@ -254,7 +235,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x0000476C File Offset: 0x0000296C
 		private void Destruct()
 		{
 			this._managedObject.Target = null;
@@ -264,7 +244,6 @@ namespace TaleWorlds.DotNet
 			this._nativeId = 0;
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x000047A0 File Offset: 0x000029A0
 		protected override void Finalize()
 		{
 			try
@@ -280,7 +259,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x000047EC File Offset: 0x000029EC
 		private ManagedObject TryGetManagedObject()
 		{
 			ManagedObject managedObject = null;
@@ -308,46 +286,32 @@ namespace TaleWorlds.DotNet
 			return managedObject;
 		}
 
-		// Token: 0x04000042 RID: 66
 		private const int PooledManagedObjectOwnerCount = 8192;
 
-		// Token: 0x04000043 RID: 67
 		private static readonly List<ManagedObjectOwner> _pool = new List<ManagedObjectOwner>(8192);
 
-		// Token: 0x04000044 RID: 68
 		private static readonly List<WeakReference> _managedObjectOwnerWeakReferences = new List<WeakReference>(8192);
 
-		// Token: 0x04000045 RID: 69
 		private static readonly Dictionary<int, WeakReference> _managedObjectOwners = new Dictionary<int, WeakReference>();
 
-		// Token: 0x04000046 RID: 70
 		private static readonly HashSet<ManagedObjectOwner> _managedObjectOwnerReferences = new HashSet<ManagedObjectOwner>();
 
-		// Token: 0x04000047 RID: 71
 		private static int _lastId = 10;
 
-		// Token: 0x04000048 RID: 72
 		private static readonly List<ManagedObjectOwner> _lastframedeletedManagedObjects = new List<ManagedObjectOwner>();
 
-		// Token: 0x04000049 RID: 73
 		private static int _numberOfAliveManagedObjects = 0;
 
-		// Token: 0x0400004A RID: 74
 		private static readonly List<ManagedObjectOwner> _lastframedeletedManagedObjectBuffer = new List<ManagedObjectOwner>(1024);
 
-		// Token: 0x0400004B RID: 75
 		private Type _typeInfo;
 
-		// Token: 0x0400004C RID: 76
 		private int _nativeId;
 
-		// Token: 0x0400004D RID: 77
 		private UIntPtr _ptr;
 
-		// Token: 0x0400004E RID: 78
 		private readonly WeakReference _managedObject;
 
-		// Token: 0x0400004F RID: 79
 		private readonly WeakReference _managedObjectLongReference;
 	}
 }

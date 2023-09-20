@@ -7,27 +7,18 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.Layout
 {
-	// Token: 0x0200003B RID: 59
 	public class GridLayout : ILayout
 	{
-		// Token: 0x1700011F RID: 287
-		// (get) Token: 0x060003A6 RID: 934 RVA: 0x0000F66B File Offset: 0x0000D86B
-		// (set) Token: 0x060003A7 RID: 935 RVA: 0x0000F673 File Offset: 0x0000D873
 		public GridVerticalLayoutMethod VerticalLayoutMethod { get; set; }
 
-		// Token: 0x17000120 RID: 288
-		// (get) Token: 0x060003A8 RID: 936 RVA: 0x0000F67C File Offset: 0x0000D87C
-		// (set) Token: 0x060003A9 RID: 937 RVA: 0x0000F684 File Offset: 0x0000D884
 		public GridHorizontalLayoutMethod HorizontalLayoutMethod { get; set; }
 
-		// Token: 0x060003AA RID: 938 RVA: 0x0000F68D File Offset: 0x0000D88D
 		public GridLayout()
 		{
 			this.VerticalLayoutMethod = GridVerticalLayoutMethod.TopToBottom;
 			this.HorizontalLayoutMethod = GridHorizontalLayoutMethod.LeftToRight;
 		}
 
-		// Token: 0x060003AB RID: 939 RVA: 0x0000F6A4 File Offset: 0x0000D8A4
 		Vector2 ILayout.MeasureChildren(Widget widget, Vector2 measureSpec, SpriteData spriteData, float renderScale)
 		{
 			GridWidget gridWidget = (GridWidget)widget;
@@ -85,7 +76,6 @@ namespace TaleWorlds.GauntletUI.Layout
 			return vector;
 		}
 
-		// Token: 0x060003AC RID: 940 RVA: 0x0000F7F0 File Offset: 0x0000D9F0
 		void ILayout.OnLayout(Widget widget, float left, float bottom, float right, float top)
 		{
 			GridWidget gridWidget = (GridWidget)widget;

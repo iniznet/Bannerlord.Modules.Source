@@ -14,24 +14,14 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.ViewModelCollection.SaveLoad
 {
-	// Token: 0x02000011 RID: 17
 	public class SavedGameVM : ViewModel
 	{
-		// Token: 0x1700006E RID: 110
-		// (get) Token: 0x06000143 RID: 323 RVA: 0x0000796B File Offset: 0x00005B6B
 		public SaveGameFileInfo Save { get; }
 
-		// Token: 0x1700006F RID: 111
-		// (get) Token: 0x06000144 RID: 324 RVA: 0x00007973 File Offset: 0x00005B73
-		// (set) Token: 0x06000145 RID: 325 RVA: 0x0000797B File Offset: 0x00005B7B
 		public bool RequiresInquiryOnLoad { get; private set; }
 
-		// Token: 0x17000070 RID: 112
-		// (get) Token: 0x06000146 RID: 326 RVA: 0x00007984 File Offset: 0x00005B84
-		// (set) Token: 0x06000147 RID: 327 RVA: 0x0000798C File Offset: 0x00005B8C
 		public bool IsModuleDiscrepancyDetected { get; private set; }
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00007998 File Offset: 0x00005B98
 		public SavedGameVM(SaveGameFileInfo save, bool isSaving, Action<SavedGameVM> onDelete, Action<SavedGameVM> onSelection, Action onCancelLoadSave, Action onDone, bool isCorruptedSave = false, bool isDiscrepancyDetectedForSave = false)
 		{
 			this.Save = save;
@@ -52,7 +42,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			this.BannerTextCode = (this.IsModuleDiscrepancyDetected ? string.Empty : MetaDataExtensions.GetClanBannerCode(this.Save.MetaData));
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x00007ABC File Offset: 0x00005CBC
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -115,7 +104,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			this.UpdateSaveText = new TextObject("{=FFiPLPbs}Update Save", null).ToString();
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00007EEC File Offset: 0x000060EC
 		public void ExecuteSaveLoad()
 		{
 			if (!this.IsCorrupted)
@@ -137,7 +125,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x00007F93 File Offset: 0x00006193
 		private void StartGame(LoadResult loadResult)
 		{
 			if (Game.Current != null)
@@ -150,14 +137,12 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			MBGameManager.StartNewGame(new SandBoxGameManager(loadResult));
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x00007FCC File Offset: 0x000061CC
 		private void OnOverrideSaveAccept()
 		{
 			Campaign.Current.SaveHandler.SaveAs(this.Save.Name);
 			this._onDone();
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x00007FF4 File Offset: 0x000061F4
 		private static TextObject GetAbbreviatedValueTextFromValue(int valueAmount)
 		{
 			string text = "";
@@ -204,26 +189,20 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			return textObject;
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x0000816A File Offset: 0x0000636A
 		public void ExecuteUpdate()
 		{
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x0000816C File Offset: 0x0000636C
 		public void ExecuteDelete()
 		{
 			this._onDelete(this);
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x0000817A File Offset: 0x0000637A
 		public void ExecuteSelection()
 		{
 			this._onSelection(this);
 		}
 
-		// Token: 0x17000071 RID: 113
-		// (get) Token: 0x06000151 RID: 337 RVA: 0x00008188 File Offset: 0x00006388
-		// (set) Token: 0x06000152 RID: 338 RVA: 0x00008190 File Offset: 0x00006390
 		[DataSourceProperty]
 		public MBBindingList<SavedGamePropertyVM> SavedGameProperties
 		{
@@ -241,9 +220,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000072 RID: 114
-		// (get) Token: 0x06000153 RID: 339 RVA: 0x000081AE File Offset: 0x000063AE
-		// (set) Token: 0x06000154 RID: 340 RVA: 0x000081B6 File Offset: 0x000063B6
 		[DataSourceProperty]
 		public MBBindingList<SavedGameModuleInfoVM> LoadedModulesInSave
 		{
@@ -261,9 +237,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000073 RID: 115
-		// (get) Token: 0x06000155 RID: 341 RVA: 0x000081D4 File Offset: 0x000063D4
-		// (set) Token: 0x06000156 RID: 342 RVA: 0x000081DC File Offset: 0x000063DC
 		[DataSourceProperty]
 		public string SaveVersionAsString
 		{
@@ -281,9 +254,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000074 RID: 116
-		// (get) Token: 0x06000157 RID: 343 RVA: 0x000081FF File Offset: 0x000063FF
-		// (set) Token: 0x06000158 RID: 344 RVA: 0x00008207 File Offset: 0x00006407
 		[DataSourceProperty]
 		public string DeleteText
 		{
@@ -301,9 +271,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000075 RID: 117
-		// (get) Token: 0x06000159 RID: 345 RVA: 0x0000822A File Offset: 0x0000642A
-		// (set) Token: 0x0600015A RID: 346 RVA: 0x00008232 File Offset: 0x00006432
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -321,9 +288,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000076 RID: 118
-		// (get) Token: 0x0600015B RID: 347 RVA: 0x00008250 File Offset: 0x00006450
-		// (set) Token: 0x0600015C RID: 348 RVA: 0x00008258 File Offset: 0x00006458
 		[DataSourceProperty]
 		public bool IsCorrupted
 		{
@@ -341,9 +305,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000077 RID: 119
-		// (get) Token: 0x0600015D RID: 349 RVA: 0x00008276 File Offset: 0x00006476
-		// (set) Token: 0x0600015E RID: 350 RVA: 0x0000827E File Offset: 0x0000647E
 		[DataSourceProperty]
 		public string BannerTextCode
 		{
@@ -361,9 +322,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000078 RID: 120
-		// (get) Token: 0x0600015F RID: 351 RVA: 0x000082A1 File Offset: 0x000064A1
-		// (set) Token: 0x06000160 RID: 352 RVA: 0x000082A9 File Offset: 0x000064A9
 		[DataSourceProperty]
 		public string SaveLoadText
 		{
@@ -381,9 +339,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000079 RID: 121
-		// (get) Token: 0x06000161 RID: 353 RVA: 0x000082CC File Offset: 0x000064CC
-		// (set) Token: 0x06000162 RID: 354 RVA: 0x000082D4 File Offset: 0x000064D4
 		[DataSourceProperty]
 		public string OverrideSaveText
 		{
@@ -401,9 +356,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x06000163 RID: 355 RVA: 0x000082F7 File Offset: 0x000064F7
-		// (set) Token: 0x06000164 RID: 356 RVA: 0x000082FF File Offset: 0x000064FF
 		[DataSourceProperty]
 		public string UpdateSaveText
 		{
@@ -421,9 +373,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x06000165 RID: 357 RVA: 0x00008322 File Offset: 0x00006522
-		// (set) Token: 0x06000166 RID: 358 RVA: 0x0000832A File Offset: 0x0000652A
 		[DataSourceProperty]
 		public string ModulesText
 		{
@@ -441,9 +390,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007C RID: 124
-		// (get) Token: 0x06000167 RID: 359 RVA: 0x0000834D File Offset: 0x0000654D
-		// (set) Token: 0x06000168 RID: 360 RVA: 0x00008355 File Offset: 0x00006555
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -461,9 +407,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x06000169 RID: 361 RVA: 0x00008378 File Offset: 0x00006578
-		// (set) Token: 0x0600016A RID: 362 RVA: 0x00008380 File Offset: 0x00006580
 		[DataSourceProperty]
 		public string GameTimeText
 		{
@@ -481,9 +424,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x0600016B RID: 363 RVA: 0x000083A3 File Offset: 0x000065A3
-		// (set) Token: 0x0600016C RID: 364 RVA: 0x000083AB File Offset: 0x000065AB
 		[DataSourceProperty]
 		public string CharacterNameText
 		{
@@ -501,9 +441,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x0600016D RID: 365 RVA: 0x000083CE File Offset: 0x000065CE
-		// (set) Token: 0x0600016E RID: 366 RVA: 0x000083D6 File Offset: 0x000065D6
 		[DataSourceProperty]
 		public string MainHeroVisualCode
 		{
@@ -521,9 +458,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x0600016F RID: 367 RVA: 0x000083F9 File Offset: 0x000065F9
-		// (set) Token: 0x06000170 RID: 368 RVA: 0x00008401 File Offset: 0x00006601
 		[DataSourceProperty]
 		public CharacterViewModel CharacterVisual
 		{
@@ -541,9 +475,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000081 RID: 129
-		// (get) Token: 0x06000171 RID: 369 RVA: 0x0000841F File Offset: 0x0000661F
-		// (set) Token: 0x06000172 RID: 370 RVA: 0x00008427 File Offset: 0x00006627
 		[DataSourceProperty]
 		public ImageIdentifierVM ClanBanner
 		{
@@ -561,9 +492,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000082 RID: 130
-		// (get) Token: 0x06000173 RID: 371 RVA: 0x00008445 File Offset: 0x00006645
-		// (set) Token: 0x06000174 RID: 372 RVA: 0x0000844D File Offset: 0x0000664D
 		[DataSourceProperty]
 		public string RealTimeText1
 		{
@@ -581,9 +509,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000083 RID: 131
-		// (get) Token: 0x06000175 RID: 373 RVA: 0x00008470 File Offset: 0x00006670
-		// (set) Token: 0x06000176 RID: 374 RVA: 0x00008478 File Offset: 0x00006678
 		[DataSourceProperty]
 		public string RealTimeText2
 		{
@@ -601,9 +526,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000084 RID: 132
-		// (get) Token: 0x06000177 RID: 375 RVA: 0x0000849B File Offset: 0x0000669B
-		// (set) Token: 0x06000178 RID: 376 RVA: 0x000084A3 File Offset: 0x000066A3
 		[DataSourceProperty]
 		public string LevelText
 		{
@@ -621,9 +543,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000085 RID: 133
-		// (get) Token: 0x06000179 RID: 377 RVA: 0x000084C6 File Offset: 0x000066C6
-		// (set) Token: 0x0600017A RID: 378 RVA: 0x000084CE File Offset: 0x000066CE
 		[DataSourceProperty]
 		public HintViewModel DateTimeHint
 		{
@@ -641,9 +560,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000086 RID: 134
-		// (get) Token: 0x0600017B RID: 379 RVA: 0x000084EC File Offset: 0x000066EC
-		// (set) Token: 0x0600017C RID: 380 RVA: 0x000084F4 File Offset: 0x000066F4
 		[DataSourceProperty]
 		public HintViewModel UpdateButtonHint
 		{
@@ -661,9 +577,6 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x17000087 RID: 135
-		// (get) Token: 0x0600017D RID: 381 RVA: 0x00008512 File Offset: 0x00006712
-		// (set) Token: 0x0600017E RID: 382 RVA: 0x0000851A File Offset: 0x0000671A
 		[DataSourceProperty]
 		public bool IsFilteredOut
 		{
@@ -681,97 +594,66 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			}
 		}
 
-		// Token: 0x04000081 RID: 129
 		private readonly bool _isSaving;
 
-		// Token: 0x04000082 RID: 130
 		private readonly Action _onDone;
 
-		// Token: 0x04000083 RID: 131
 		private readonly Action<SavedGameVM> _onDelete;
 
-		// Token: 0x04000084 RID: 132
 		private readonly Action<SavedGameVM> _onSelection;
 
-		// Token: 0x04000085 RID: 133
 		private readonly Action _onCancelLoadSave;
 
-		// Token: 0x04000086 RID: 134
 		private readonly TextObject _newlineTextObject = new TextObject("{=ol0rBSrb}{STR1}{newline}{STR2}", null);
 
-		// Token: 0x04000087 RID: 135
 		private readonly ApplicationVersion _gameVersion;
 
-		// Token: 0x04000088 RID: 136
 		private readonly ApplicationVersion _saveVersion;
 
-		// Token: 0x04000089 RID: 137
 		private MBBindingList<SavedGamePropertyVM> _savedGameProperties;
 
-		// Token: 0x0400008A RID: 138
 		private MBBindingList<SavedGameModuleInfoVM> _loadedModulesInSave;
 
-		// Token: 0x0400008B RID: 139
 		private HintViewModel _dateTimeHint;
 
-		// Token: 0x0400008C RID: 140
 		private HintViewModel _updateButtonHint;
 
-		// Token: 0x0400008D RID: 141
 		private ImageIdentifierVM _clanBanner;
 
-		// Token: 0x0400008E RID: 142
 		private CharacterViewModel _characterVisual;
 
-		// Token: 0x0400008F RID: 143
 		private string _deleteText;
 
-		// Token: 0x04000090 RID: 144
 		private string _nameText;
 
-		// Token: 0x04000091 RID: 145
 		private string _gameTimeText;
 
-		// Token: 0x04000092 RID: 146
 		private string _realTimeText1;
 
-		// Token: 0x04000093 RID: 147
 		private string _realTimeText2;
 
-		// Token: 0x04000094 RID: 148
 		private string _levelText;
 
-		// Token: 0x04000095 RID: 149
 		private string _characterNameText;
 
-		// Token: 0x04000096 RID: 150
 		private string _saveLoadText;
 
-		// Token: 0x04000097 RID: 151
 		private string _overwriteSaveText;
 
-		// Token: 0x04000098 RID: 152
 		private string _updateSaveText;
 
-		// Token: 0x04000099 RID: 153
 		private string _modulesText;
 
-		// Token: 0x0400009A RID: 154
 		private string _saveVersionAsString;
 
-		// Token: 0x0400009B RID: 155
 		private string _mainHeroVisualCode;
 
-		// Token: 0x0400009C RID: 156
 		private string _bannerTextCode;
 
-		// Token: 0x0400009D RID: 157
 		private bool _isSelected;
 
-		// Token: 0x0400009E RID: 158
 		private bool _isCorrupted;
 
-		// Token: 0x0400009F RID: 159
 		private bool _isFilteredOut;
 	}
 }

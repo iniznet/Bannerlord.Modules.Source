@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 {
-	// Token: 0x020003FA RID: 1018
 	public class LordsHallFightMissionController : MissionLogic, IMissionAgentSpawnLogic, IMissionBehavior
 	{
-		// Token: 0x060034F3 RID: 13555 RVA: 0x000DC3C0 File Offset: 0x000DA5C0
 		public LordsHallFightMissionController(IMissionTroopSupplier[] suppliers, float areaLostRatio, float attackerDefenderTroopCountRatio, int attackerSideTroopCountMax, int defenderSideTroopCountMax, BattleSideEnum playerSide)
 		{
 			this._areaLostRatio = areaLostRatio;
@@ -27,14 +25,12 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
-		// Token: 0x060034F4 RID: 13556 RVA: 0x000DC423 File Offset: 0x000DA623
 		public override void OnCreated()
 		{
 			base.OnCreated();
 			base.Mission.DoesMissionRequireCivilianEquipment = false;
 		}
 
-		// Token: 0x060034F5 RID: 13557 RVA: 0x000DC438 File Offset: 0x000DA638
 		public override void OnMissionTick(float dt)
 		{
 			if (!this._isMissionInitialized)
@@ -60,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			this.CheckIfAnyAreaIsLostByDefender();
 		}
 
-		// Token: 0x060034F6 RID: 13558 RVA: 0x000DC4C9 File Offset: 0x000DA6C9
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (!affectedAgent.Team.IsDefender)
@@ -77,7 +72,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			tuple.Item2.StopUse();
 		}
 
-		// Token: 0x060034F7 RID: 13559 RVA: 0x000DC504 File Offset: 0x000DA704
 		private Tuple<int, LordsHallFightMissionController.AreaEntityData> FindAgentMachine(Agent agent)
 		{
 			Tuple<int, LordsHallFightMissionController.AreaEntityData> tuple = null;
@@ -100,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return tuple;
 		}
 
-		// Token: 0x060034F8 RID: 13560 RVA: 0x000DC5BC File Offset: 0x000DA7BC
 		private void InitializeMission()
 		{
 			this._areaIndexList = new List<int>();
@@ -158,7 +151,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
-		// Token: 0x060034F9 RID: 13561 RVA: 0x000DC8C0 File Offset: 0x000DAAC0
 		private void CheckForReinforcement()
 		{
 			if (this._spawnReinforcements)
@@ -168,37 +160,31 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
-		// Token: 0x060034FA RID: 13562 RVA: 0x000DC8E0 File Offset: 0x000DAAE0
 		public void StartSpawner(BattleSideEnum side)
 		{
 			this._missionSides[(int)side].SetSpawnTroops(true);
 		}
 
-		// Token: 0x060034FB RID: 13563 RVA: 0x000DC8F0 File Offset: 0x000DAAF0
 		public void StopSpawner(BattleSideEnum side)
 		{
 			this._missionSides[(int)side].SetSpawnTroops(false);
 		}
 
-		// Token: 0x060034FC RID: 13564 RVA: 0x000DC900 File Offset: 0x000DAB00
 		public bool IsSideSpawnEnabled(BattleSideEnum side)
 		{
 			return this._missionSides[(int)side].TroopSpawningActive;
 		}
 
-		// Token: 0x060034FD RID: 13565 RVA: 0x000DC90F File Offset: 0x000DAB0F
 		public float GetReinforcementInterval()
 		{
 			return 0f;
 		}
 
-		// Token: 0x060034FE RID: 13566 RVA: 0x000DC916 File Offset: 0x000DAB16
 		public bool IsSideDepleted(BattleSideEnum side)
 		{
 			return this._missionSides[(int)side].NumberOfActiveTroops == 0;
 		}
 
-		// Token: 0x060034FF RID: 13567 RVA: 0x000DC928 File Offset: 0x000DAB28
 		private void CheckIfAnyAreaIsLostByDefender()
 		{
 			int num = -1;
@@ -223,7 +209,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
-		// Token: 0x06003500 RID: 13568 RVA: 0x000DC9CC File Offset: 0x000DABCC
 		private void OnAreaLost(int areaIndex)
 		{
 			int num = MathF.Min(this._areaIndexList.IndexOf(areaIndex) + 1, this._areaIndexList.Count - 1);
@@ -238,7 +223,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			this._lastAreaLostByDefender = areaIndex;
 		}
 
-		// Token: 0x06003501 RID: 13569 RVA: 0x000DCA90 File Offset: 0x000DAC90
 		private void StartAreaPullBack(LordsHallFightMissionController.AreaData areaData, int nextAreaIndex)
 		{
 			foreach (LordsHallFightMissionController.AreaEntityData areaEntityData in areaData.ArcherUsablePoints)
@@ -269,7 +253,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
-		// Token: 0x06003502 RID: 13570 RVA: 0x000DCB60 File Offset: 0x000DAD60
 		private LordsHallFightMissionController.AreaEntityData FindPosition(int nextAreaIndex, bool isArcher)
 		{
 			int num = this.SelectBestSubArea(nextAreaIndex, isArcher);
@@ -281,7 +264,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return this._dividedAreaDictionary[nextAreaIndex][num].GetAvailableMachines(isArcher).GetRandomElementInefficiently<LordsHallFightMissionController.AreaEntityData>();
 		}
 
-		// Token: 0x06003503 RID: 13571 RVA: 0x000DCBA8 File Offset: 0x000DADA8
 		private int SelectBestSubArea(int areaIndex, bool isArcher)
 		{
 			int num = -1;
@@ -298,7 +280,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return num;
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x000DCC24 File Offset: 0x000DAE24
 		private float GetAreaAvailabilityRatio(LordsHallFightMissionController.AreaData areaData, bool isArcher)
 		{
 			int num = (isArcher ? areaData.ArcherUsablePoints.Count<LordsHallFightMissionController.AreaEntityData>() : areaData.InfantryUsablePoints.Count<LordsHallFightMissionController.AreaEntityData>());
@@ -319,7 +300,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return 0f;
 		}
 
-		// Token: 0x06003505 RID: 13573 RVA: 0x000DCCB8 File Offset: 0x000DAEB8
 		private bool IsAreaLostByDefender(LordsHallFightMissionController.AreaData areaData)
 		{
 			int num = 0;
@@ -366,7 +346,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return flag;
 		}
 
-		// Token: 0x06003506 RID: 13574 RVA: 0x000DCDD0 File Offset: 0x000DAFD0
 		private bool IsAgentInArea(Agent agent, LordsHallFightMissionController.AreaData areaData)
 		{
 			bool flag = false;
@@ -385,53 +364,36 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return flag;
 		}
 
-		// Token: 0x040016AA RID: 5802
 		private readonly float _areaLostRatio;
 
-		// Token: 0x040016AB RID: 5803
 		private readonly float _attackerDefenderTroopCountRatio;
 
-		// Token: 0x040016AC RID: 5804
 		private readonly int _attackerSideTroopCountMax;
 
-		// Token: 0x040016AD RID: 5805
 		private readonly int _defenderSideTroopCountMax;
 
-		// Token: 0x040016AE RID: 5806
 		private readonly LordsHallFightMissionController.MissionSide[] _missionSides;
 
-		// Token: 0x040016AF RID: 5807
 		private Team[] _attackerTeams;
 
-		// Token: 0x040016B0 RID: 5808
 		private Team[] _defenderTeams;
 
-		// Token: 0x040016B1 RID: 5809
 		private Dictionary<int, Dictionary<int, LordsHallFightMissionController.AreaData>> _dividedAreaDictionary;
 
-		// Token: 0x040016B2 RID: 5810
 		private List<int> _areaIndexList;
 
-		// Token: 0x040016B3 RID: 5811
 		private int _lastAreaLostByDefender;
 
-		// Token: 0x040016B4 RID: 5812
 		private bool _troopsInitialized;
 
-		// Token: 0x040016B5 RID: 5813
 		private bool _isMissionInitialized;
 
-		// Token: 0x040016B6 RID: 5814
 		private bool _spawnReinforcements;
 
-		// Token: 0x040016B7 RID: 5815
 		private bool _setChargeOrderNextFrame;
 
-		// Token: 0x020006D3 RID: 1747
 		private class MissionSide
 		{
-			// Token: 0x17000A13 RID: 2579
-			// (get) Token: 0x06003FEF RID: 16367 RVA: 0x000F9185 File Offset: 0x000F7385
 			public bool TroopSpawningActive
 			{
 				get
@@ -440,8 +402,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x17000A14 RID: 2580
-			// (get) Token: 0x06003FF0 RID: 16368 RVA: 0x000F918D File Offset: 0x000F738D
 			public int NumberOfActiveTroops
 			{
 				get
@@ -450,7 +410,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FF1 RID: 16369 RVA: 0x000F91A1 File Offset: 0x000F73A1
 			public MissionSide(BattleSideEnum side, IMissionTroopSupplier troopSupplier, bool isPlayerSide)
 			{
 				this._side = side;
@@ -458,7 +417,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				this._troopSupplier = troopSupplier;
 			}
 
-			// Token: 0x06003FF2 RID: 16370 RVA: 0x000F91C8 File Offset: 0x000F73C8
 			public void SpawnTroops(Dictionary<int, Dictionary<int, LordsHallFightMissionController.AreaData>> areaMarkerDictionary, int spawnCount)
 			{
 				List<IAgentOriginBase> list = this._troopSupplier.SupplyTroops(spawnCount).OrderByDescending(delegate(IAgentOriginBase x)
@@ -494,7 +452,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FF3 RID: 16371 RVA: 0x000F93C8 File Offset: 0x000F75C8
 			public void SpawnTroops(int spawnCount, bool isReinforcement)
 			{
 				if (this._troopSpawningActive)
@@ -511,33 +468,24 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FF4 RID: 16372 RVA: 0x000F944E File Offset: 0x000F764E
 			public void SetSpawnTroops(bool spawnTroops)
 			{
 				this._troopSpawningActive = spawnTroops;
 			}
 
-			// Token: 0x040022CF RID: 8911
 			private readonly BattleSideEnum _side;
 
-			// Token: 0x040022D0 RID: 8912
 			private readonly IMissionTroopSupplier _troopSupplier;
 
-			// Token: 0x040022D1 RID: 8913
 			private readonly bool _isPlayerSide;
 
-			// Token: 0x040022D2 RID: 8914
 			private bool _troopSpawningActive = true;
 
-			// Token: 0x040022D3 RID: 8915
 			private int _numberOfSpawnedTroops;
 		}
 
-		// Token: 0x020006D4 RID: 1748
 		private class AreaData
 		{
-			// Token: 0x17000A15 RID: 2581
-			// (get) Token: 0x06003FF5 RID: 16373 RVA: 0x000F9457 File Offset: 0x000F7657
 			public IEnumerable<FightAreaMarker> AreaList
 			{
 				get
@@ -546,8 +494,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x17000A16 RID: 2582
-			// (get) Token: 0x06003FF6 RID: 16374 RVA: 0x000F945F File Offset: 0x000F765F
 			public IEnumerable<LordsHallFightMissionController.AreaEntityData> ArcherUsablePoints
 			{
 				get
@@ -556,8 +502,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x17000A17 RID: 2583
-			// (get) Token: 0x06003FF7 RID: 16375 RVA: 0x000F9467 File Offset: 0x000F7667
 			public IEnumerable<LordsHallFightMissionController.AreaEntityData> InfantryUsablePoints
 			{
 				get
@@ -566,7 +510,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FF8 RID: 16376 RVA: 0x000F9470 File Offset: 0x000F7670
 			public AreaData(List<FightAreaMarker> areaList)
 			{
 				this._areaList = new List<FightAreaMarker>();
@@ -578,7 +521,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FF9 RID: 16377 RVA: 0x000F94E8 File Offset: 0x000F76E8
 			public IEnumerable<LordsHallFightMissionController.AreaEntityData> GetAvailableMachines(bool isArcher)
 			{
 				List<LordsHallFightMissionController.AreaEntityData> list = (isArcher ? this._archerUsablePoints : this._infantryUsablePoints);
@@ -594,7 +536,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				yield break;
 			}
 
-			// Token: 0x06003FFA RID: 16378 RVA: 0x000F9500 File Offset: 0x000F7700
 			public void AddAreaMarker(FightAreaMarker marker)
 			{
 				this._areaList.Add(marker);
@@ -624,38 +565,26 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FFB RID: 16379 RVA: 0x000F964C File Offset: 0x000F784C
 			public LordsHallFightMissionController.AreaEntityData FindAgentMachine(Agent agent)
 			{
 				return this._infantryUsablePoints.FirstOrDefault((LordsHallFightMissionController.AreaEntityData x) => x.UserAgent == agent) ?? this._archerUsablePoints.FirstOrDefault((LordsHallFightMissionController.AreaEntityData x) => x.UserAgent == agent);
 			}
 
-			// Token: 0x040022D4 RID: 8916
 			private const string ArcherSpawnPointTag = "defender_archer";
 
-			// Token: 0x040022D5 RID: 8917
 			private const string InfantrySpawnPointTag = "defender_infantry";
 
-			// Token: 0x040022D6 RID: 8918
 			private readonly List<FightAreaMarker> _areaList;
 
-			// Token: 0x040022D7 RID: 8919
 			private readonly List<LordsHallFightMissionController.AreaEntityData> _archerUsablePoints;
 
-			// Token: 0x040022D8 RID: 8920
 			private readonly List<LordsHallFightMissionController.AreaEntityData> _infantryUsablePoints;
 		}
 
-		// Token: 0x020006D5 RID: 1749
 		private class AreaEntityData
 		{
-			// Token: 0x17000A18 RID: 2584
-			// (get) Token: 0x06003FFC RID: 16380 RVA: 0x000F9698 File Offset: 0x000F7898
-			// (set) Token: 0x06003FFD RID: 16381 RVA: 0x000F96A0 File Offset: 0x000F78A0
 			public Agent UserAgent { get; private set; }
 
-			// Token: 0x17000A19 RID: 2585
-			// (get) Token: 0x06003FFE RID: 16382 RVA: 0x000F96A9 File Offset: 0x000F78A9
 			public bool InUse
 			{
 				get
@@ -664,13 +593,11 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				}
 			}
 
-			// Token: 0x06003FFF RID: 16383 RVA: 0x000F96B4 File Offset: 0x000F78B4
 			public AreaEntityData(GameEntity entity)
 			{
 				this.Entity = entity;
 			}
 
-			// Token: 0x06004000 RID: 16384 RVA: 0x000F96C4 File Offset: 0x000F78C4
 			public void AssignAgent(Agent agent)
 			{
 				this.UserAgent = agent;
@@ -679,7 +606,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				this.UserAgent.SetFormationFrameEnabled(new WorldPosition(agent.Mission.Scene, globalFrame.origin), globalFrame.rotation.f.AsVec2.Normalized(), 0f);
 			}
 
-			// Token: 0x06004001 RID: 16385 RVA: 0x000F9729 File Offset: 0x000F7929
 			public void StopUse()
 			{
 				if (this.UserAgent.IsActive())
@@ -689,7 +615,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				this.UserAgent = null;
 			}
 
-			// Token: 0x040022D9 RID: 8921
 			public readonly GameEntity Entity;
 		}
 	}

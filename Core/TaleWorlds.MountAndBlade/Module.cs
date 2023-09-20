@@ -26,21 +26,12 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002D1 RID: 721
 	public sealed class Module : DotNetObject, IGameStateManagerOwner
 	{
-		// Token: 0x17000736 RID: 1846
-		// (get) Token: 0x060027A5 RID: 10149 RVA: 0x00098292 File Offset: 0x00096492
-		// (set) Token: 0x060027A6 RID: 10150 RVA: 0x0009829A File Offset: 0x0009649A
 		public GameTextManager GlobalTextManager { get; private set; }
 
-		// Token: 0x17000737 RID: 1847
-		// (get) Token: 0x060027A7 RID: 10151 RVA: 0x000982A3 File Offset: 0x000964A3
-		// (set) Token: 0x060027A8 RID: 10152 RVA: 0x000982AB File Offset: 0x000964AB
 		public JobManager JobManager { get; private set; }
 
-		// Token: 0x17000738 RID: 1848
-		// (get) Token: 0x060027A9 RID: 10153 RVA: 0x000982B4 File Offset: 0x000964B4
 		public MBReadOnlyList<MBSubModuleBase> SubModules
 		{
 			get
@@ -49,32 +40,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000739 RID: 1849
-		// (get) Token: 0x060027AA RID: 10154 RVA: 0x000982BC File Offset: 0x000964BC
-		// (set) Token: 0x060027AB RID: 10155 RVA: 0x000982C4 File Offset: 0x000964C4
 		public GameStateManager GlobalGameStateManager { get; private set; }
 
-		// Token: 0x1700073A RID: 1850
-		// (get) Token: 0x060027AC RID: 10156 RVA: 0x000982CD File Offset: 0x000964CD
-		// (set) Token: 0x060027AD RID: 10157 RVA: 0x000982D5 File Offset: 0x000964D5
 		public bool ReturnToEditorState { get; private set; }
 
-		// Token: 0x1700073B RID: 1851
-		// (get) Token: 0x060027AE RID: 10158 RVA: 0x000982DE File Offset: 0x000964DE
-		// (set) Token: 0x060027AF RID: 10159 RVA: 0x000982E6 File Offset: 0x000964E6
 		public bool LoadingFinished { get; private set; }
 
-		// Token: 0x1700073C RID: 1852
-		// (get) Token: 0x060027B0 RID: 10160 RVA: 0x000982EF File Offset: 0x000964EF
-		// (set) Token: 0x060027B1 RID: 10161 RVA: 0x000982F7 File Offset: 0x000964F7
 		public bool IsOnlyCoreContentEnabled { get; private set; }
 
-		// Token: 0x1700073D RID: 1853
-		// (get) Token: 0x060027B2 RID: 10162 RVA: 0x00098300 File Offset: 0x00096500
-		// (set) Token: 0x060027B3 RID: 10163 RVA: 0x00098308 File Offset: 0x00096508
 		public GameStartupInfo StartupInfo { get; private set; }
 
-		// Token: 0x060027B4 RID: 10164 RVA: 0x00098314 File Offset: 0x00096514
 		private Module()
 		{
 			MBDebug.Print("Creating module...", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -88,19 +63,14 @@ namespace TaleWorlds.MountAndBlade
 			this.JobManager = new JobManager();
 		}
 
-		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x060027B5 RID: 10165 RVA: 0x000983A2 File Offset: 0x000965A2
-		// (set) Token: 0x060027B6 RID: 10166 RVA: 0x000983A9 File Offset: 0x000965A9
 		public static Module CurrentModule { get; private set; }
 
-		// Token: 0x060027B7 RID: 10167 RVA: 0x000983B1 File Offset: 0x000965B1
 		internal static void CreateModule()
 		{
 			Module.CurrentModule = new Module();
 			Utilities.SetLoadingScreenPercentage(0.4f);
 		}
 
-		// Token: 0x060027B8 RID: 10168 RVA: 0x000983C8 File Offset: 0x000965C8
 		private void AddSubModule(Assembly subModuleAssembly, string name)
 		{
 			Type type = subModuleAssembly.GetType(name);
@@ -108,7 +78,6 @@ namespace TaleWorlds.MountAndBlade
 			Managed.AddTypes(this.CollectModuleAssemblyTypes(subModuleAssembly));
 		}
 
-		// Token: 0x060027B9 RID: 10169 RVA: 0x000983F8 File Offset: 0x000965F8
 		private Dictionary<string, Type> CollectModuleAssemblyTypes(Assembly moduleAssembly)
 		{
 			Dictionary<string, Type> dictionary2;
@@ -154,7 +123,6 @@ namespace TaleWorlds.MountAndBlade
 			return dictionary2;
 		}
 
-		// Token: 0x060027BA RID: 10170 RVA: 0x00098588 File Offset: 0x00096788
 		private void InitializeSubModules()
 		{
 			Managed.AddConstructorDelegateOfClass<SpawnedItemEntity>();
@@ -166,7 +134,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027BB RID: 10171 RVA: 0x00098614 File Offset: 0x00096814
 		private void FinalizeSubModules()
 		{
 			foreach (MBSubModuleBase mbsubModuleBase in this._submodules)
@@ -175,13 +142,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027BC RID: 10172 RVA: 0x00098664 File Offset: 0x00096864
 		public Type GetSubModule(string name)
 		{
 			return this._loadedSubmoduleTypes[name];
 		}
 
-		// Token: 0x060027BD RID: 10173 RVA: 0x00098674 File Offset: 0x00096874
 		[MBCallback]
 		internal void Initialize()
 		{
@@ -230,7 +195,6 @@ namespace TaleWorlds.MountAndBlade
 			this.EnsureAsyncJobsAreFinished();
 		}
 
-		// Token: 0x060027BE RID: 10174 RVA: 0x00098810 File Offset: 0x00096A10
 		private void SetWindowTitle()
 		{
 			string applicationName = Utilities.GetApplicationName();
@@ -263,7 +227,6 @@ namespace TaleWorlds.MountAndBlade
 			Utilities.SetWindowTitle(text);
 		}
 
-		// Token: 0x060027BF RID: 10175 RVA: 0x000988C2 File Offset: 0x00096AC2
 		private void EnsureAsyncJobsAreFinished()
 		{
 			if (!GameNetwork.IsDedicatedServer)
@@ -282,7 +245,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027C0 RID: 10176 RVA: 0x000988FC File Offset: 0x00096AFC
 		private void ProcessApplicationArguments()
 		{
 			this.StartupInfo.StartupType = GameStartupType.None;
@@ -376,7 +338,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027C1 RID: 10177 RVA: 0x00098C1C File Offset: 0x00096E1C
 		internal void OnApplicationTick(float dt)
 		{
 			bool isOnlyCoreContentEnabled = this.IsOnlyCoreContentEnabled;
@@ -447,19 +408,16 @@ namespace TaleWorlds.MountAndBlade
 			AvatarServices.UpdateAvatarServices(dt);
 		}
 
-		// Token: 0x060027C2 RID: 10178 RVA: 0x00098E5C File Offset: 0x0009705C
 		private void OnConfirmReturnToMainMenu()
 		{
 			MBGameManager.EndGame();
 		}
 
-		// Token: 0x060027C3 RID: 10179 RVA: 0x00098E63 File Offset: 0x00097063
 		private void OnNetworkTick(float dt)
 		{
 			NetworkMain.Tick(dt);
 		}
 
-		// Token: 0x060027C4 RID: 10180 RVA: 0x00098E6B File Offset: 0x0009706B
 		[MBCallback]
 		internal void RunTest(string commandLine)
 		{
@@ -467,14 +425,12 @@ namespace TaleWorlds.MountAndBlade
 			this._testContext.RunTestAux(commandLine);
 		}
 
-		// Token: 0x060027C5 RID: 10181 RVA: 0x00098E95 File Offset: 0x00097095
 		[MBCallback]
 		internal void TickTest(float dt)
 		{
 			this._testContext.TickTest(dt);
 		}
 
-		// Token: 0x060027C6 RID: 10182 RVA: 0x00098EA3 File Offset: 0x000970A3
 		[MBCallback]
 		internal void OnDumpCreated()
 		{
@@ -485,7 +441,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027C7 RID: 10183 RVA: 0x00098EC0 File Offset: 0x000970C0
 		[MBCallback]
 		internal void OnDumpCreationStarted()
 		{
@@ -495,7 +450,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027C8 RID: 10184 RVA: 0x00098ED4 File Offset: 0x000970D4
 		public static void GetMetaMeshPackageMapping(Dictionary<string, string> metaMeshPackageMappings)
 		{
 			foreach (ItemObject itemObject in Game.Current.ObjectManager.GetObjectTypeList<ItemObject>())
@@ -539,7 +493,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027C9 RID: 10185 RVA: 0x000990E4 File Offset: 0x000972E4
 		public static void GetItemMeshNames(HashSet<string> itemMeshNames)
 		{
 			foreach (ItemObject itemObject in Game.Current.ObjectManager.GetObjectTypeList<ItemObject>())
@@ -576,7 +529,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027CA RID: 10186 RVA: 0x00099230 File Offset: 0x00097430
 		[MBCallback]
 		internal string GetMetaMeshPackageMapping()
 		{
@@ -597,7 +549,6 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x060027CB RID: 10187 RVA: 0x000992C0 File Offset: 0x000974C0
 		[MBCallback]
 		internal string GetItemMeshNames()
 		{
@@ -632,7 +583,6 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x060027CC RID: 10188 RVA: 0x0009946C File Offset: 0x0009766C
 		[MBCallback]
 		internal string GetHorseMaterialNames()
 		{
@@ -658,7 +608,6 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x060027CD RID: 10189 RVA: 0x0009959C File Offset: 0x0009779C
 		public void SetInitialModuleScreenAsRootScreen()
 		{
 			if (GameStateManager.Current != this.GlobalGameStateManager)
@@ -691,7 +640,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnInitialModuleScreenActivated(false);
 		}
 
-		// Token: 0x060027CE RID: 10190 RVA: 0x000996BC File Offset: 0x000978BC
 		private void OnInitialModuleScreenActivated(bool isFromSplashScreenVideo)
 		{
 			Utilities.EnableGlobalLoadingWindow();
@@ -727,7 +675,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027CF RID: 10191 RVA: 0x000997C8 File Offset: 0x000979C8
 		private void OnSignInStateUpdated(bool isLoggedIn, TextObject message)
 		{
 			if (!isLoggedIn && !(this.GlobalGameStateManager.ActiveState is ProfileSelectionState))
@@ -736,7 +683,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027D0 RID: 10192 RVA: 0x000997F8 File Offset: 0x000979F8
 		[MBCallback]
 		internal bool SetEditorScreenAsRootScreen()
 		{
@@ -752,7 +698,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x060027D1 RID: 10193 RVA: 0x00099848 File Offset: 0x00097A48
 		private bool CheckAssemblyForMissionMethods(Assembly assembly)
 		{
 			Assembly assembly2 = Assembly.GetAssembly(typeof(MissionMethod));
@@ -771,7 +716,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x060027D2 RID: 10194 RVA: 0x000998A0 File Offset: 0x00097AA0
 		private void FindMissions()
 		{
 			MBDebug.Print("Searching Mission Methods", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -823,7 +767,6 @@ namespace TaleWorlds.MountAndBlade
 			MBDebug.Print("Found " + this._missionInfos.Count + " missions", 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x060027D3 RID: 10195 RVA: 0x00099B00 File Offset: 0x00097D00
 		[MBCallback]
 		internal string GetMissionControllerClassNames()
 		{
@@ -843,7 +786,6 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x060027D4 RID: 10196 RVA: 0x00099B68 File Offset: 0x00097D68
 		private void LoadPlatformServices()
 		{
 			IPlatformServices platformServices = null;
@@ -908,7 +850,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027D5 RID: 10197 RVA: 0x00099DC3 File Offset: 0x00097FC3
 		private void OnSessionInvitationAccepted(SessionInvitationType targetGameType)
 		{
 			if (targetGameType == SessionInvitationType.Multiplayer)
@@ -922,7 +863,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027D6 RID: 10198 RVA: 0x00099DE8 File Offset: 0x00097FE8
 		private void OnPlatformRequestedMultiplayer()
 		{
 			if (this.IsOnlyCoreContentEnabled)
@@ -933,7 +873,6 @@ namespace TaleWorlds.MountAndBlade
 			this.JobManager.AddJob(new OnPlatformRequestedMultiplayerJob());
 		}
 
-		// Token: 0x060027D7 RID: 10199 RVA: 0x00099E08 File Offset: 0x00098008
 		private void LoadSubModules()
 		{
 			MBDebug.Print("Loading submodules...", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -994,7 +933,6 @@ namespace TaleWorlds.MountAndBlade
 			this.InitializeSubModules();
 		}
 
-		// Token: 0x060027D8 RID: 10200 RVA: 0x0009A054 File Offset: 0x00098254
 		public bool CheckIfSubmoduleCanBeLoadable(SubModuleInfo subModuleInfo)
 		{
 			if (subModuleInfo.Tags.Count > 0)
@@ -1011,7 +949,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060027D9 RID: 10201 RVA: 0x0009A0CC File Offset: 0x000982CC
 		private bool GetSubModuleValiditiy(SubModuleInfo.SubModuleTags tag, string value)
 		{
 			switch (tag)
@@ -1079,27 +1016,23 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x060027DA RID: 10202 RVA: 0x0009A1F8 File Offset: 0x000983F8
 		[MBCallback]
 		internal static void MBThrowException()
 		{
 			Debug.FailedAssert("MBThrowException", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Module.cs", "MBThrowException", 1364);
 		}
 
-		// Token: 0x060027DB RID: 10203 RVA: 0x0009A213 File Offset: 0x00098413
 		[MBCallback]
 		internal void OnEnterEditMode(bool isFirstTime)
 		{
 		}
 
-		// Token: 0x060027DC RID: 10204 RVA: 0x0009A217 File Offset: 0x00098417
 		[MBCallback]
 		internal static Module GetInstance()
 		{
 			return Module.CurrentModule;
 		}
 
-		// Token: 0x060027DD RID: 10205 RVA: 0x0009A21E File Offset: 0x0009841E
 		[MBCallback]
 		internal static string GetGameStatus()
 		{
@@ -1110,7 +1043,6 @@ namespace TaleWorlds.MountAndBlade
 			return "";
 		}
 
-		// Token: 0x060027DE RID: 10206 RVA: 0x0009A238 File Offset: 0x00098438
 		private void FinalizeModule()
 		{
 			if (Game.Current != null)
@@ -1131,35 +1063,30 @@ namespace TaleWorlds.MountAndBlade
 			GC.WaitForPendingFinalizers();
 		}
 
-		// Token: 0x060027DF RID: 10207 RVA: 0x0009A298 File Offset: 0x00098498
 		internal static void FinalizeCurrentModule()
 		{
 			Module.CurrentModule.FinalizeModule();
 			Module.CurrentModule = null;
 		}
 
-		// Token: 0x060027E0 RID: 10208 RVA: 0x0009A2AA File Offset: 0x000984AA
 		[MBCallback]
 		internal void SetLoadingFinished()
 		{
 			this.LoadingFinished = true;
 		}
 
-		// Token: 0x060027E1 RID: 10209 RVA: 0x0009A2B3 File Offset: 0x000984B3
 		[MBCallback]
 		internal void OnCloseSceneEditorPresentation()
 		{
 			GameStateManager.Current.PopState(0);
 		}
 
-		// Token: 0x060027E2 RID: 10210 RVA: 0x0009A2C0 File Offset: 0x000984C0
 		[MBCallback]
 		internal void OnSceneEditorModeOver()
 		{
 			GameStateManager.Current.PopState(0);
 		}
 
-		// Token: 0x060027E3 RID: 10211 RVA: 0x0009A2D0 File Offset: 0x000984D0
 		private void OnConfigChanged()
 		{
 			foreach (MBSubModuleBase mbsubModuleBase in this.SubModules)
@@ -1168,7 +1095,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027E4 RID: 10212 RVA: 0x0009A320 File Offset: 0x00098520
 		private void OnConstrainedStateChange(bool isConstrained)
 		{
 			if (!isConstrained)
@@ -1177,13 +1103,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027E5 RID: 10213 RVA: 0x0009A32F File Offset: 0x0009852F
 		private void OnFocusGained()
 		{
 			PlatformServices.Instance.OnFocusGained();
 		}
 
-		// Token: 0x060027E6 RID: 10214 RVA: 0x0009A33B File Offset: 0x0009853B
 		[MBCallback]
 		internal void OnSkinsXMLHasChanged()
 		{
@@ -1193,12 +1117,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x14000073 RID: 115
-		// (add) Token: 0x060027E7 RID: 10215 RVA: 0x0009A350 File Offset: 0x00098550
-		// (remove) Token: 0x060027E8 RID: 10216 RVA: 0x0009A388 File Offset: 0x00098588
 		public event Action SkinsXMLHasChanged;
 
-		// Token: 0x060027E9 RID: 10217 RVA: 0x0009A3BD File Offset: 0x000985BD
 		[MBCallback]
 		internal void OnImguiProfilerTick()
 		{
@@ -1208,7 +1128,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027EA RID: 10218 RVA: 0x0009A3D4 File Offset: 0x000985D4
 		[MBCallback]
 		internal static string CreateProcessedSkinsXMLForNative(out string baseSkinsXmlPath)
 		{
@@ -1234,7 +1153,6 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x060027EB RID: 10219 RVA: 0x0009A518 File Offset: 0x00098718
 		[MBCallback]
 		internal static string CreateProcessedActionSetsXMLForNative()
 		{
@@ -1260,7 +1178,6 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x060027EC RID: 10220 RVA: 0x0009A654 File Offset: 0x00098854
 		[MBCallback]
 		internal static string CreateProcessedActionTypesXMLForNative()
 		{
@@ -1272,7 +1189,6 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x060027ED RID: 10221 RVA: 0x0009A688 File Offset: 0x00098888
 		[MBCallback]
 		internal static string CreateProcessedAnimationsXMLForNative(out string animationsXmlPaths)
 		{
@@ -1293,7 +1209,6 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x060027EE RID: 10222 RVA: 0x0009A6FC File Offset: 0x000988FC
 		[MBCallback]
 		internal static string CreateProcessedVoiceDefinitionsXMLForNative()
 		{
@@ -1326,7 +1241,6 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x060027EF RID: 10223 RVA: 0x0009A8B8 File Offset: 0x00098AB8
 		[MBCallback]
 		internal static string CreateProcessedModuleDataXMLForNative(string xmlType)
 		{
@@ -1355,30 +1269,23 @@ namespace TaleWorlds.MountAndBlade
 			return stringWriter.ToString();
 		}
 
-		// Token: 0x14000074 RID: 116
-		// (add) Token: 0x060027F0 RID: 10224 RVA: 0x0009AA08 File Offset: 0x00098C08
-		// (remove) Token: 0x060027F1 RID: 10225 RVA: 0x0009AA40 File Offset: 0x00098C40
 		public event Action ImguiProfilerTick;
 
-		// Token: 0x060027F2 RID: 10226 RVA: 0x0009AA75 File Offset: 0x00098C75
 		public void ClearStateOptions()
 		{
 			this._initialStateOptions.Clear();
 		}
 
-		// Token: 0x060027F3 RID: 10227 RVA: 0x0009AA82 File Offset: 0x00098C82
 		public void AddInitialStateOption(InitialStateOption initialStateOption)
 		{
 			this._initialStateOptions.Add(initialStateOption);
 		}
 
-		// Token: 0x060027F4 RID: 10228 RVA: 0x0009AA90 File Offset: 0x00098C90
 		public IEnumerable<InitialStateOption> GetInitialStateOptions()
 		{
 			return this._initialStateOptions.OrderBy((InitialStateOption s) => s.OrderIndex);
 		}
 
-		// Token: 0x060027F5 RID: 10229 RVA: 0x0009AABC File Offset: 0x00098CBC
 		public InitialStateOption GetInitialStateOptionWithId(string id)
 		{
 			foreach (InitialStateOption initialStateOption in this._initialStateOptions)
@@ -1391,7 +1298,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x060027F6 RID: 10230 RVA: 0x0009AB20 File Offset: 0x00098D20
 		public void ExecuteInitialStateOptionWithId(string id)
 		{
 			InitialStateOption initialStateOptionWithId = this.GetInitialStateOptionWithId(id);
@@ -1401,23 +1307,19 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027F7 RID: 10231 RVA: 0x0009AB3E File Offset: 0x00098D3E
 		void IGameStateManagerOwner.OnStateStackEmpty()
 		{
 		}
 
-		// Token: 0x060027F8 RID: 10232 RVA: 0x0009AB40 File Offset: 0x00098D40
 		void IGameStateManagerOwner.OnStateChanged(GameState oldState)
 		{
 		}
 
-		// Token: 0x060027F9 RID: 10233 RVA: 0x0009AB42 File Offset: 0x00098D42
 		public void SetEditorMissionTester(IEditorMissionTester editorMissionTester)
 		{
 			this._editorMissionTester = editorMissionTester;
 		}
 
-		// Token: 0x060027FA RID: 10234 RVA: 0x0009AB4B File Offset: 0x00098D4B
 		[MBCallback]
 		internal void StartMissionForEditor(string missionName, string sceneName, string levels)
 		{
@@ -1427,7 +1329,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027FB RID: 10235 RVA: 0x0009AB63 File Offset: 0x00098D63
 		[MBCallback]
 		internal void StartMissionForReplayEditor(string missionName, string sceneName, string levels, string fileName, bool record, float startTime, float endTime)
 		{
@@ -1437,7 +1338,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060027FC RID: 10236 RVA: 0x0009AB84 File Offset: 0x00098D84
 		public void StartMissionForEditorAux(string missionName, string sceneName, string levels, bool forReplay, string replayFileName, bool isRecord)
 		{
 			GameStateManager.Current = Game.Current.GameStateManager;
@@ -1455,7 +1355,6 @@ namespace TaleWorlds.MountAndBlade
 			missionInfo.Creator.Invoke(null, new object[] { sceneName, levels });
 		}
 
-		// Token: 0x060027FD RID: 10237 RVA: 0x0009AC2C File Offset: 0x00098E2C
 		private void FillMultiplayerGameTypes()
 		{
 			this._multiplayerGameModesWithNames = new Dictionary<string, MultiplayerGameMode>();
@@ -1469,7 +1368,6 @@ namespace TaleWorlds.MountAndBlade
 			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Battle"));
 		}
 
-		// Token: 0x060027FE RID: 10238 RVA: 0x0009ACC0 File Offset: 0x00098EC0
 		public MultiplayerGameMode GetMultiplayerGameMode(string gameType)
 		{
 			MultiplayerGameMode multiplayerGameMode;
@@ -1480,20 +1378,17 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x060027FF RID: 10239 RVA: 0x0009ACE0 File Offset: 0x00098EE0
 		public void AddMultiplayerGameMode(MultiplayerGameMode multiplayerGameMode)
 		{
 			this._multiplayerGameModesWithNames.Add(multiplayerGameMode.Name, multiplayerGameMode);
 			this._multiplayerGameTypes.Add(new MultiplayerGameTypeInfo("Native", multiplayerGameMode.Name));
 		}
 
-		// Token: 0x06002800 RID: 10240 RVA: 0x0009AD0F File Offset: 0x00098F0F
 		public List<MultiplayerGameTypeInfo> GetMultiplayerGameTypes()
 		{
 			return this._multiplayerGameTypes;
 		}
 
-		// Token: 0x06002801 RID: 10241 RVA: 0x0009AD18 File Offset: 0x00098F18
 		public bool StartMultiplayerGame(string multiplayerGameType, string scene)
 		{
 			MultiplayerGameMode multiplayerGameMode;
@@ -1505,7 +1400,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002802 RID: 10242 RVA: 0x0009AD40 File Offset: 0x00098F40
 		public async void ShutDownWithDelay(string reason, int seconds)
 		{
 			if (!this._isShuttingDown)
@@ -1528,65 +1422,43 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000EA9 RID: 3753
 		private TestContext _testContext;
 
-		// Token: 0x04000EAA RID: 3754
 		private List<MissionInfo> _missionInfos;
 
-		// Token: 0x04000EAB RID: 3755
 		private Dictionary<string, Type> _loadedSubmoduleTypes;
 
-		// Token: 0x04000EAC RID: 3756
 		private readonly MBList<MBSubModuleBase> _submodules;
 
-		// Token: 0x04000EAD RID: 3757
 		private SingleThreadedSynchronizationContext _synchronizationContext;
 
-		// Token: 0x04000EB3 RID: 3763
 		private bool _enableCoreContentOnReturnToRoot;
 
-		// Token: 0x04000EB6 RID: 3766
 		private bool _splashScreenPlayed;
 
-		// Token: 0x04000EB9 RID: 3769
 		private List<InitialStateOption> _initialStateOptions;
 
-		// Token: 0x04000EBA RID: 3770
 		private IEditorMissionTester _editorMissionTester;
 
-		// Token: 0x04000EBB RID: 3771
 		private Dictionary<string, MultiplayerGameMode> _multiplayerGameModesWithNames;
 
-		// Token: 0x04000EBC RID: 3772
 		private List<MultiplayerGameTypeInfo> _multiplayerGameTypes = new List<MultiplayerGameTypeInfo>();
 
-		// Token: 0x04000EBD RID: 3773
 		private bool _isShuttingDown;
 
-		// Token: 0x020005ED RID: 1517
 		public enum XmlInformationType
 		{
-			// Token: 0x04001EFF RID: 7935
 			Parameters,
-			// Token: 0x04001F00 RID: 7936
 			MbObjectType
 		}
 
-		// Token: 0x020005EE RID: 1518
 		private enum StartupType
 		{
-			// Token: 0x04001F02 RID: 7938
 			None,
-			// Token: 0x04001F03 RID: 7939
 			TestMode,
-			// Token: 0x04001F04 RID: 7940
 			GameServer,
-			// Token: 0x04001F05 RID: 7941
 			Singleplayer,
-			// Token: 0x04001F06 RID: 7942
 			Multiplayer,
-			// Token: 0x04001F07 RID: 7943
 			Count
 		}
 	}

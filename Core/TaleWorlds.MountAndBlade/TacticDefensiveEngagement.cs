@@ -5,22 +5,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200015A RID: 346
 	public class TacticDefensiveEngagement : TacticComponent
 	{
-		// Token: 0x06001198 RID: 4504 RVA: 0x0003F681 File Offset: 0x0003D881
 		public TacticDefensiveEngagement(Team team)
 			: base(team)
 		{
 		}
 
-		// Token: 0x06001199 RID: 4505 RVA: 0x0003F68A File Offset: 0x0003D88A
 		protected override void ManageFormationCounts()
 		{
 			base.AssignTacticFormations1121();
 		}
 
-		// Token: 0x0600119A RID: 4506 RVA: 0x0003F694 File Offset: 0x0003D894
 		private void Defend()
 		{
 			if (base.Team.IsPlayerTeam && !base.Team.IsPlayerGeneral && base.Team.IsPlayerSergeant)
@@ -64,7 +60,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600119B RID: 4507 RVA: 0x0003F874 File Offset: 0x0003DA74
 		private void Engage()
 		{
 			if (base.Team.IsPlayerTeam && !base.Team.IsPlayerGeneral && base.Team.IsPlayerSergeant)
@@ -108,14 +103,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600119C RID: 4508 RVA: 0x0003FA48 File Offset: 0x0003DC48
 		private bool HasBattleBeenJoined()
 		{
 			Formation mainInfantry = this._mainInfantry;
 			return ((mainInfantry != null) ? mainInfantry.QuerySystem.ClosestEnemyFormation : null) == null || this._mainInfantry.AI.ActiveBehavior is BehaviorCharge || this._mainInfantry.AI.ActiveBehavior is BehaviorTacticalCharge || this._mainInfantry.QuerySystem.MedianPosition.AsVec2.Distance(this._mainInfantry.QuerySystem.ClosestEnemyFormation.MedianPosition.AsVec2) / this._mainInfantry.QuerySystem.ClosestEnemyFormation.MovementSpeedMaximum <= 5f + (this._hasBattleBeenJoined ? 5f : 0f);
 		}
 
-		// Token: 0x0600119D RID: 4509 RVA: 0x0003FB18 File Offset: 0x0003DD18
 		protected override bool CheckAndSetAvailableFormationsChanged()
 		{
 			int aicontrolledFormationCount = base.Team.GetAIControlledFormationCount();
@@ -128,7 +121,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag || (this._mainInfantry != null && (this._mainInfantry.CountOfUnits == 0 || !this._mainInfantry.QuerySystem.IsInfantryFormation)) || (this._archers != null && (this._archers.CountOfUnits == 0 || !this._archers.QuerySystem.IsRangedFormation)) || (this._leftCavalry != null && (this._leftCavalry.CountOfUnits == 0 || !this._leftCavalry.QuerySystem.IsCavalryFormation)) || (this._rightCavalry != null && (this._rightCavalry.CountOfUnits == 0 || !this._rightCavalry.QuerySystem.IsCavalryFormation)) || (this._rangedCavalry != null && (this._rangedCavalry.CountOfUnits == 0 || !this._rangedCavalry.QuerySystem.IsRangedCavalryFormation));
 		}
 
-		// Token: 0x0600119E RID: 4510 RVA: 0x0003FC28 File Offset: 0x0003DE28
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -166,7 +158,6 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x0600119F RID: 4511 RVA: 0x0003FCB4 File Offset: 0x0003DEB4
 		protected internal override float GetTacticWeight()
 		{
 			if (base.Team.TeamAI.IsDefenseApplicable)
@@ -196,10 +187,8 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x040004A8 RID: 1192
 		private const float DefendersAdvantage = 1.1f;
 
-		// Token: 0x040004A9 RID: 1193
 		private bool _hasBattleBeenJoined;
 	}
 }

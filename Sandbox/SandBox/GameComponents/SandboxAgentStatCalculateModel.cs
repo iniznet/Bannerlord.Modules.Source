@@ -14,10 +14,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x02000087 RID: 135
 	public class SandboxAgentStatCalculateModel : AgentStatCalculateModel
 	{
-		// Token: 0x060005AD RID: 1453 RVA: 0x00028B54 File Offset: 0x00026D54
 		public override float GetDifficultyModifier()
 		{
 			Campaign campaign = Campaign.Current;
@@ -47,13 +45,11 @@ namespace SandBox.GameComponents
 			return num2.GetValueOrDefault();
 		}
 
-		// Token: 0x060005AE RID: 1454 RVA: 0x00028BBE File Offset: 0x00026DBE
 		public override bool CanAgentRideMount(Agent agent, Agent targetMount)
 		{
 			return agent.CheckSkillForMounting(targetMount);
 		}
 
-		// Token: 0x060005AF RID: 1455 RVA: 0x00028BC8 File Offset: 0x00026DC8
 		public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
 		{
 			agentDrivenProperties.ArmorEncumbrance = this.GetEffectiveArmorEncumbrance(agent, spawnEquipment);
@@ -73,7 +69,6 @@ namespace SandBox.GameComponents
 			this.GetInitialPerkEffectsOnAgent(agent, agentDrivenProperties);
 		}
 
-		// Token: 0x060005B0 RID: 1456 RVA: 0x00028C38 File Offset: 0x00026E38
 		public override void InitializeMissionEquipment(Agent agent)
 		{
 			if (agent.IsHuman)
@@ -170,7 +165,6 @@ namespace SandBox.GameComponents
 			}
 		}
 
-		// Token: 0x060005B1 RID: 1457 RVA: 0x00028EC4 File Offset: 0x000270C4
 		public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			if (!agent.IsHuman || !agent.IsHero)
@@ -186,7 +180,6 @@ namespace SandBox.GameComponents
 			this.UpdateHorseStats(agent, agentDrivenProperties);
 		}
 
-		// Token: 0x060005B2 RID: 1458 RVA: 0x00028F20 File Offset: 0x00027120
 		public override int GetEffectiveSkill(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, SkillObject skill)
 		{
 			ExplainedNumber explainedNumber;
@@ -283,7 +276,6 @@ namespace SandBox.GameComponents
 			return (int)explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060005B3 RID: 1459 RVA: 0x000291A0 File Offset: 0x000273A0
 		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
 		{
 			ExplainedNumber explainedNumber;
@@ -321,7 +313,6 @@ namespace SandBox.GameComponents
 			return Math.Max(0f, explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x060005B4 RID: 1460 RVA: 0x000292B8 File Offset: 0x000274B8
 		public override float GetKnockBackResistance(Agent agent)
 		{
 			CharacterObject characterObject;
@@ -334,7 +325,6 @@ namespace SandBox.GameComponents
 			return float.MaxValue;
 		}
 
-		// Token: 0x060005B5 RID: 1461 RVA: 0x00029318 File Offset: 0x00027518
 		public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = -1)
 		{
 			CharacterObject characterObject;
@@ -355,7 +345,6 @@ namespace SandBox.GameComponents
 			return float.MaxValue;
 		}
 
-		// Token: 0x060005B6 RID: 1462 RVA: 0x00029398 File Offset: 0x00027598
 		public override float GetDismountResistance(Agent agent)
 		{
 			CharacterObject characterObject;
@@ -368,7 +357,6 @@ namespace SandBox.GameComponents
 			return float.MaxValue;
 		}
 
-		// Token: 0x060005B7 RID: 1463 RVA: 0x000293F8 File Offset: 0x000275F8
 		public override float GetWeaponInaccuracy(Agent agent, WeaponComponentData weapon, int weaponSkill)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
@@ -418,7 +406,6 @@ namespace SandBox.GameComponents
 			return MathF.Max(num, 0f);
 		}
 
-		// Token: 0x060005B8 RID: 1464 RVA: 0x0002951C File Offset: 0x0002771C
 		public override float GetInteractionDistance(Agent agent)
 		{
 			CharacterObject characterObject;
@@ -429,7 +416,6 @@ namespace SandBox.GameComponents
 			return base.GetInteractionDistance(agent);
 		}
 
-		// Token: 0x060005B9 RID: 1465 RVA: 0x0002955C File Offset: 0x0002775C
 		public override float GetMaxCameraZoom(Agent agent)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
@@ -459,7 +445,6 @@ namespace SandBox.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060005BA RID: 1466 RVA: 0x00029614 File Offset: 0x00027814
 		public List<PerkObject> GetPerksOfAgent(CharacterObject agentCharacter, SkillObject skill = null, bool filterPerkRole = false, SkillEffect.PerkRole perkRole = 12)
 		{
 			List<PerkObject> list = new List<PerkObject>();
@@ -486,7 +471,6 @@ namespace SandBox.GameComponents
 			return list;
 		}
 
-		// Token: 0x060005BB RID: 1467 RVA: 0x000296A8 File Offset: 0x000278A8
 		public override string GetMissionDebugInfoForAgent(Agent agent)
 		{
 			string text = "";
@@ -622,7 +606,6 @@ namespace SandBox.GameComponents
 			return text;
 		}
 
-		// Token: 0x060005BC RID: 1468 RVA: 0x00029B2C File Offset: 0x00027D2C
 		public float GetEffectiveArmorEncumbrance(Agent agent, Equipment equipment)
 		{
 			float totalWeightOfArmor = equipment.GetTotalWeightOfArmor(agent.IsHuman);
@@ -635,7 +618,6 @@ namespace SandBox.GameComponents
 			return MathF.Max(0f, totalWeightOfArmor * num);
 		}
 
-		// Token: 0x060005BD RID: 1469 RVA: 0x00029B88 File Offset: 0x00027D88
 		public override float GetEffectiveMaxHealth(Agent agent)
 		{
 			float baseHealthLimit = agent.BaseHealthLimit;
@@ -711,7 +693,6 @@ namespace SandBox.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060005BE RID: 1470 RVA: 0x00029D64 File Offset: 0x00027F64
 		public override float GetEnvironmentSpeedFactor(Agent agent)
 		{
 			Scene scene = agent.Mission.Scene;
@@ -730,7 +711,6 @@ namespace SandBox.GameComponents
 			return num;
 		}
 
-		// Token: 0x060005BF RID: 1471 RVA: 0x00029DD4 File Offset: 0x00027FD4
 		private string GetDebugPerkInfoForAgent(CharacterObject agentCharacter, bool filterPerkRole = false, SkillEffect.PerkRole perkRole = 12)
 		{
 			string text = "";
@@ -764,7 +744,6 @@ namespace SandBox.GameComponents
 			return text;
 		}
 
-		// Token: 0x060005C0 RID: 1472 RVA: 0x00029F28 File Offset: 0x00028128
 		private void GetInitialPerkEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			CharacterObject characterObject;
@@ -787,7 +766,6 @@ namespace SandBox.GameComponents
 			}
 		}
 
-		// Token: 0x060005C1 RID: 1473 RVA: 0x00029F94 File Offset: 0x00028194
 		private void UpdateHumanStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			Equipment spawnEquipment = agent.SpawnEquipment;
@@ -964,7 +942,6 @@ namespace SandBox.GameComponents
 			agentDrivenProperties.AiShooterError *= num15;
 		}
 
-		// Token: 0x060005C2 RID: 1474 RVA: 0x0002A7C0 File Offset: 0x000289C0
 		private void UpdateHorseStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			Equipment spawnEquipment = agent.SpawnEquipment;
@@ -1035,7 +1012,6 @@ namespace SandBox.GameComponents
 			agentDrivenProperties.MountDifficulty = (float)equipmentElement.Item.Difficulty;
 		}
 
-		// Token: 0x060005C3 RID: 1475 RVA: 0x0002AB10 File Offset: 0x00028D10
 		private void GetPerkAndBannerEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
@@ -1358,7 +1334,6 @@ namespace SandBox.GameComponents
 			agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians = explainedNumber8.ResultNumber;
 		}
 
-		// Token: 0x060005C4 RID: 1476 RVA: 0x0002B584 File Offset: 0x00029784
 		private void GetSkillEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
@@ -1411,7 +1386,6 @@ namespace SandBox.GameComponents
 			}
 		}
 
-		// Token: 0x060005C5 RID: 1477 RVA: 0x0002B77B File Offset: 0x0002997B
 		public static float CalculateMaximumSpeedMultiplier(int athletics, float baseWeight, float totalEncumbrance)
 		{
 			return MathF.Min((200f + (float)athletics) / 300f * (baseWeight * 2f / (baseWeight * 2f + totalEncumbrance)), 1f);

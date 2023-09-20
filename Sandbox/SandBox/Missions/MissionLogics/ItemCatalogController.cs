@@ -8,15 +8,10 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x0200003F RID: 63
 	public class ItemCatalogController : MissionLogic
 	{
-		// Token: 0x1700004E RID: 78
-		// (get) Token: 0x0600030A RID: 778 RVA: 0x0001400F File Offset: 0x0001220F
-		// (set) Token: 0x0600030B RID: 779 RVA: 0x00014017 File Offset: 0x00012217
 		public MBReadOnlyList<ItemObject> AllItems { get; private set; }
 
-		// Token: 0x0600030C RID: 780 RVA: 0x00014020 File Offset: 0x00012220
 		public ItemCatalogController()
 		{
 			this._campaign = Campaign.Current;
@@ -24,7 +19,6 @@ namespace SandBox.Missions.MissionLogics
 			this.timer = new Timer(base.Mission.CurrentTime, 1f, true);
 		}
 
-		// Token: 0x0600030D RID: 781 RVA: 0x0001406C File Offset: 0x0001226C
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -66,7 +60,6 @@ namespace SandBox.Missions.MissionLogics
 			this._playerAgent.Health = 10000f;
 		}
 
-		// Token: 0x0600030E RID: 782 RVA: 0x00014284 File Offset: 0x00012484
 		private EquipmentIndex GetEquipmentIndexOfItem(ItemObject item)
 		{
 			if (Extensions.HasAnyFlag<ItemFlags>(item.ItemFlags, 12288))
@@ -120,7 +113,6 @@ namespace SandBox.Missions.MissionLogics
 			return -1;
 		}
 
-		// Token: 0x0600030F RID: 783 RVA: 0x00014358 File Offset: 0x00012558
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -179,33 +171,20 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x14000008 RID: 8
-		// (add) Token: 0x06000310 RID: 784 RVA: 0x000145C0 File Offset: 0x000127C0
-		// (remove) Token: 0x06000311 RID: 785 RVA: 0x000145F8 File Offset: 0x000127F8
 		public event ItemCatalogController.BeforeCatalogTickDelegate BeforeCatalogTick;
 
-		// Token: 0x14000009 RID: 9
-		// (add) Token: 0x06000312 RID: 786 RVA: 0x00014630 File Offset: 0x00012830
-		// (remove) Token: 0x06000313 RID: 787 RVA: 0x00014668 File Offset: 0x00012868
 		public event Action AfterCatalogTick;
 
-		// Token: 0x0400018E RID: 398
 		private Campaign _campaign;
 
-		// Token: 0x0400018F RID: 399
 		private Game _game;
 
-		// Token: 0x04000190 RID: 400
 		private Agent _playerAgent;
 
-		// Token: 0x04000192 RID: 402
 		private int curItemIndex = 1;
 
-		// Token: 0x04000193 RID: 403
 		private Timer timer;
 
-		// Token: 0x0200011C RID: 284
-		// (Invoke) Token: 0x06000CE0 RID: 3296
 		public delegate void BeforeCatalogTickDelegate(int currentItemIndex);
 	}
 }

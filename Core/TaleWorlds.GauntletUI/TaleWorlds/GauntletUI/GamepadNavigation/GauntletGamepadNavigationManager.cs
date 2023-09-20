@@ -10,16 +10,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.GamepadNavigation
 {
-	// Token: 0x02000046 RID: 70
 	public class GauntletGamepadNavigationManager
 	{
-		// Token: 0x17000160 RID: 352
-		// (get) Token: 0x06000481 RID: 1153 RVA: 0x0001308E File Offset: 0x0001128E
-		// (set) Token: 0x06000482 RID: 1154 RVA: 0x00013095 File Offset: 0x00011295
 		public static GauntletGamepadNavigationManager Instance { get; private set; }
 
-		// Token: 0x17000161 RID: 353
-		// (get) Token: 0x06000483 RID: 1155 RVA: 0x000130A0 File Offset: 0x000112A0
 		private EventManager LatestEventManager
 		{
 			get
@@ -39,29 +33,14 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x17000162 RID: 354
-		// (get) Token: 0x06000484 RID: 1156 RVA: 0x000130F8 File Offset: 0x000112F8
-		// (set) Token: 0x06000485 RID: 1157 RVA: 0x00013100 File Offset: 0x00011300
 		public bool IsFollowingMobileTarget { get; private set; }
 
-		// Token: 0x17000163 RID: 355
-		// (get) Token: 0x06000486 RID: 1158 RVA: 0x00013109 File Offset: 0x00011309
-		// (set) Token: 0x06000487 RID: 1159 RVA: 0x00013111 File Offset: 0x00011311
 		public bool IsHoldingDpadKeysForNavigation { get; private set; }
 
-		// Token: 0x17000164 RID: 356
-		// (get) Token: 0x06000488 RID: 1160 RVA: 0x0001311A File Offset: 0x0001131A
-		// (set) Token: 0x06000489 RID: 1161 RVA: 0x00013122 File Offset: 0x00011322
 		public bool IsCursorMovingForNavigation { get; private set; }
 
-		// Token: 0x17000165 RID: 357
-		// (get) Token: 0x0600048A RID: 1162 RVA: 0x0001312B File Offset: 0x0001132B
-		// (set) Token: 0x0600048B RID: 1163 RVA: 0x00013133 File Offset: 0x00011333
 		public bool IsInWrapMovement { get; private set; }
 
-		// Token: 0x17000166 RID: 358
-		// (get) Token: 0x0600048C RID: 1164 RVA: 0x0001313C File Offset: 0x0001133C
-		// (set) Token: 0x0600048D RID: 1165 RVA: 0x0001314D File Offset: 0x0001134D
 		private Vector2 MousePosition
 		{
 			get
@@ -74,8 +53,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x17000167 RID: 359
-		// (get) Token: 0x0600048E RID: 1166 RVA: 0x00013162 File Offset: 0x00011362
 		private bool IsControllerActive
 		{
 			get
@@ -84,23 +61,12 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x17000168 RID: 360
-		// (get) Token: 0x0600048F RID: 1167 RVA: 0x00013169 File Offset: 0x00011369
-		// (set) Token: 0x06000490 RID: 1168 RVA: 0x00013171 File Offset: 0x00011371
 		internal ReadOnlyDictionary<EventManager, GamepadNavigationScopeCollection> NavigationScopes { get; private set; }
 
-		// Token: 0x17000169 RID: 361
-		// (get) Token: 0x06000491 RID: 1169 RVA: 0x0001317A File Offset: 0x0001137A
-		// (set) Token: 0x06000492 RID: 1170 RVA: 0x00013182 File Offset: 0x00011382
 		internal ReadOnlyDictionary<Widget, List<GamepadNavigationScope>> NavigationScopeParents { get; private set; }
 
-		// Token: 0x1700016A RID: 362
-		// (get) Token: 0x06000493 RID: 1171 RVA: 0x0001318B File Offset: 0x0001138B
-		// (set) Token: 0x06000494 RID: 1172 RVA: 0x00013193 File Offset: 0x00011393
 		internal ReadOnlyDictionary<Widget, List<GamepadNavigationForcedScopeCollection>> ForcedNavigationScopeParents { get; private set; }
 
-		// Token: 0x1700016B RID: 363
-		// (get) Token: 0x06000495 RID: 1173 RVA: 0x0001319C File Offset: 0x0001139C
 		public Widget LastTargetedWidget
 		{
 			get
@@ -115,8 +81,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x1700016C RID: 364
-		// (get) Token: 0x06000496 RID: 1174 RVA: 0x000131D8 File Offset: 0x000113D8
 		public bool TargetedWidgetHasAction
 		{
 			get
@@ -136,8 +100,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x1700016D RID: 365
-		// (get) Token: 0x06000497 RID: 1175 RVA: 0x0001325E File Offset: 0x0001145E
 		public bool AnyWidgetUsingNavigation
 		{
 			get
@@ -146,7 +108,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x06000498 RID: 1176 RVA: 0x0001328C File Offset: 0x0001148C
 		private GauntletGamepadNavigationManager()
 		{
 			this._cachedEventManagerComparer = new GauntletGamepadNavigationManager.EventManagerComparer();
@@ -170,7 +131,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		// Token: 0x06000499 RID: 1177 RVA: 0x000133BA File Offset: 0x000115BA
 		private void OnGamepadActiveStateChanged()
 		{
 			if (this.IsControllerActive && Input.MouseMoveX == 0f && Input.MouseMoveY == 0f)
@@ -180,7 +140,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x0600049A RID: 1178 RVA: 0x000133EA File Offset: 0x000115EA
 		public static void Initialize(bool isInWindowedMode)
 		{
 			if (GauntletGamepadNavigationManager.Instance != null)
@@ -191,7 +150,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			GauntletGamepadNavigationManager.Instance = new GauntletGamepadNavigationManager();
 		}
 
-		// Token: 0x0600049B RID: 1179 RVA: 0x00013418 File Offset: 0x00011618
 		public bool TryNavigateTo(Widget widget)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -210,7 +168,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x0600049C RID: 1180 RVA: 0x0001348C File Offset: 0x0001168C
 		public bool TryNavigateTo(GamepadNavigationScope scope)
 		{
 			if (scope != null && scope.IsAvailable())
@@ -225,7 +182,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x0600049D RID: 1181 RVA: 0x000134C4 File Offset: 0x000116C4
 		public void OnFinalize()
 		{
 			foreach (KeyValuePair<EventManager, GamepadNavigationScopeCollection> keyValuePair in this._navigationScopes)
@@ -238,7 +194,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		// Token: 0x0600049E RID: 1182 RVA: 0x00013558 File Offset: 0x00011758
 		public void Update(float dt)
 		{
 			this._time += dt;
@@ -372,7 +327,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._wasCursorInsideActiveScopeLastFrame = activeNavigationScope4 != null && activeNavigationScope4.GetRectangle().IsPointInside(this.MousePosition);
 		}
 
-		// Token: 0x0600049F RID: 1183 RVA: 0x000139F4 File Offset: 0x00011BF4
 		internal void OnMovieLoaded(EventManager source, string movieName)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -393,7 +347,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._latestCachedEventManager = null;
 		}
 
-		// Token: 0x060004A0 RID: 1184 RVA: 0x00013A78 File Offset: 0x00011C78
 		internal void OnMovieReleased(EventManager source, string movieName)
 		{
 			List<GamepadNavigationScope> list;
@@ -411,7 +364,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004A1 RID: 1185 RVA: 0x00013AE8 File Offset: 0x00011CE8
 		internal void OnEventManagerAdded(EventManager source)
 		{
 			this._navigationScopes.Add(source, new GamepadNavigationScopeCollection(source, new Action<GamepadNavigationScope>(this.OnScopeNavigatableWidgetsChanged), new Action<GamepadNavigationScope, bool>(this.OnScopeVisibilityChanged)));
@@ -419,7 +371,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._latestCachedEventManager = null;
 		}
 
-		// Token: 0x060004A2 RID: 1186 RVA: 0x00013B38 File Offset: 0x00011D38
 		private void OnEventManagerRemoved(EventManager source)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -438,7 +389,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._latestCachedEventManager = null;
 		}
 
-		// Token: 0x060004A3 RID: 1187 RVA: 0x00013BA0 File Offset: 0x00011DA0
 		internal void OnEventManagerFinalized(EventManager source)
 		{
 			int count = this._sortedEventManagers.Count;
@@ -451,7 +401,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004A4 RID: 1188 RVA: 0x00013BFC File Offset: 0x00011DFC
 		private Vector2 GetTargetCursorPosition()
 		{
 			if (this._latestGamepadNavigationWidget != null)
@@ -467,7 +416,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return (Vector2)Vec2.Invalid;
 		}
 
-		// Token: 0x060004A5 RID: 1189 RVA: 0x00013CB8 File Offset: 0x00011EB8
 		private void RefreshAvailableScopes()
 		{
 			this._availableScopesThisFrame.Clear();
@@ -501,7 +449,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004A6 RID: 1190 RVA: 0x00013DC8 File Offset: 0x00011FC8
 		internal void OnWidgetUsedNavigationMovementsUpdated(Widget widget)
 		{
 			if (widget.UsedNavigationMovements != GamepadNavigationTypes.None && !this._navigationBlockingWidgets.Contains(widget))
@@ -515,7 +462,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004A7 RID: 1191 RVA: 0x00013E1C File Offset: 0x0001201C
 		internal void AddForcedScopeCollection(GamepadNavigationForcedScopeCollection forcedCollection)
 		{
 			if (!this._forcedScopeCollections.Contains(forcedCollection))
@@ -533,7 +479,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004A8 RID: 1192 RVA: 0x00013E98 File Offset: 0x00012098
 		internal void RemoveForcedScopeCollection(GamepadNavigationForcedScopeCollection collection)
 		{
 			if (this._forcedScopeCollections.Contains(collection))
@@ -551,7 +496,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004A9 RID: 1193 RVA: 0x00013F10 File Offset: 0x00012110
 		internal void AddNavigationScope(EventManager source, GamepadNavigationScope scope, bool initializeScope = false)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -572,7 +516,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004AA RID: 1194 RVA: 0x00013F74 File Offset: 0x00012174
 		internal void RemoveNavigationScope(EventManager source, GamepadNavigationScope scope)
 		{
 			if (scope == null)
@@ -643,7 +586,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004AB RID: 1195 RVA: 0x00014218 File Offset: 0x00012418
 		internal void OnWidgetNavigationStatusChanged(EventManager source, Widget widget)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -660,7 +602,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004AC RID: 1196 RVA: 0x0001427C File Offset: 0x0001247C
 		internal void OnWidgetNavigationIndexUpdated(EventManager source, Widget widget)
 		{
 			if (widget != null)
@@ -677,21 +618,18 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004AD RID: 1197 RVA: 0x000142B8 File Offset: 0x000124B8
 		internal bool HasNavigationScope(EventManager source, GamepadNavigationScope scope)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
 			return this._navigationScopes.TryGetValue(source, out gamepadNavigationScopeCollection) && (gamepadNavigationScopeCollection.VisibleScopes.Contains(scope) || gamepadNavigationScopeCollection.UninitializedScopes.Contains(scope) || gamepadNavigationScopeCollection.InvisibleScopes.Contains(scope));
 		}
 
-		// Token: 0x060004AE RID: 1198 RVA: 0x00014304 File Offset: 0x00012504
 		internal bool HasNavigationScope(EventManager source, Func<GamepadNavigationScope, bool> predicate)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
 			return this._navigationScopes.TryGetValue(source, out gamepadNavigationScopeCollection) && (gamepadNavigationScopeCollection.VisibleScopes.Any((GamepadNavigationScope x) => predicate(x)) || gamepadNavigationScopeCollection.InvisibleScopes.Any((GamepadNavigationScope x) => predicate(x)));
 		}
 
-		// Token: 0x060004AF RID: 1199 RVA: 0x00014362 File Offset: 0x00012562
 		private void OnActiveScopeParentChanged(GamepadNavigationScope oldParent, GamepadNavigationScope newParent)
 		{
 			if (oldParent != null && newParent == null && oldParent.LatestNavigationElementIndex != -1 && oldParent.IsAvailable())
@@ -700,20 +638,17 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B0 RID: 1200 RVA: 0x00014382 File Offset: 0x00012582
 		private void OnScopeVisibilityChanged(GamepadNavigationScope scope, bool isVisible)
 		{
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004B1 RID: 1201 RVA: 0x0001438B File Offset: 0x0001258B
 		private void OnForcedScopeCollectionAvailabilityStateChanged(GamepadNavigationForcedScopeCollection scopeCollection)
 		{
 			this._isAvailableScopesDirty = true;
 			this._isForcedCollectionsDirty = true;
 		}
 
-		// Token: 0x060004B2 RID: 1202 RVA: 0x0001439B File Offset: 0x0001259B
 		private void OnScopeNavigatableWidgetsChanged(GamepadNavigationScope scope)
 		{
 			if (!this._unsortedScopes.Contains(scope))
@@ -726,7 +661,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B3 RID: 1203 RVA: 0x000143C8 File Offset: 0x000125C8
 		private void CollectScopesForForcedCollection(GamepadNavigationForcedScopeCollection collection)
 		{
 			collection.ClearScopes();
@@ -744,7 +678,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B4 RID: 1204 RVA: 0x00014440 File Offset: 0x00012640
 		private void InitializeScope(EventManager source, GamepadNavigationScope scope)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -788,7 +721,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._isAvailableScopesDirty = true;
 		}
 
-		// Token: 0x060004B5 RID: 1205 RVA: 0x00014594 File Offset: 0x00012794
 		private void AddItemToDictionaryList<TKey, TValue>(Dictionary<TKey, List<TValue>> sourceDict, TKey key, TValue item)
 		{
 			List<TValue> list;
@@ -805,7 +737,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			Debug.FailedAssert("Trying to add same item to source dictionary twice", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "AddItemToDictionaryList", 901);
 		}
 
-		// Token: 0x060004B6 RID: 1206 RVA: 0x000145EC File Offset: 0x000127EC
 		private void RemoveItemFromDictionaryList<TKey, TValue>(Dictionary<TKey, List<TValue>> sourceDict, TKey key, TValue item)
 		{
 			List<TValue> list;
@@ -824,7 +755,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B7 RID: 1207 RVA: 0x00014638 File Offset: 0x00012838
 		internal void OnWidgetHoverBegin(EventManager source, Widget widget)
 		{
 			if (!this.IsCursorMovingForNavigation && !this.IsInWrapMovement && widget.GamepadNavigationIndex != -1 && !this._isAvailableScopesDirty && !this._shouldUpdateAvailableScopes)
@@ -862,7 +792,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B8 RID: 1208 RVA: 0x00014724 File Offset: 0x00012924
 		internal void OnWidgetHoverEnd(Widget widget)
 		{
 			if (this.IsControllerActive && !this.IsCursorMovingForNavigation && widget.GamepadNavigationIndex != -1)
@@ -875,7 +804,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004B9 RID: 1209 RVA: 0x00014778 File Offset: 0x00012978
 		internal void OnWidgetDisconnectedFromRoot(EventManager source, Widget widget)
 		{
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -903,7 +831,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004BA RID: 1210 RVA: 0x00014818 File Offset: 0x00012A18
 		internal void SetEventManagerNavigationGainAfterTime(EventManager source, float seconds, Func<bool> predicate)
 		{
 			GauntletGamepadNavigationManager.EventManagerGamepadNavigationGainHandler eventManagerGamepadNavigationGainHandler;
@@ -913,7 +840,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004BB RID: 1211 RVA: 0x00014840 File Offset: 0x00012A40
 		internal void SetEventManagerNavigationGainAfterFrames(EventManager source, int frames, Func<bool> predicate)
 		{
 			GauntletGamepadNavigationManager.EventManagerGamepadNavigationGainHandler eventManagerGamepadNavigationGainHandler;
@@ -923,7 +849,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004BC RID: 1212 RVA: 0x00014868 File Offset: 0x00012A68
 		internal void OnEventManagerGainedNavigation(EventManager source)
 		{
 			if (this.IsControllerActive && source != null)
@@ -972,7 +897,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004BD RID: 1213 RVA: 0x000149AC File Offset: 0x00012BAC
 		private void SetActiveNavigationScope(GamepadNavigationScope scope)
 		{
 			if (scope != null && scope != this._activeNavigationScope)
@@ -1002,7 +926,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004BE RID: 1214 RVA: 0x00014A80 File Offset: 0x00012C80
 		private void OnGamepadNavigation(GamepadNavigationTypes movement)
 		{
 			if (this._isAvailableScopesDirty || this._isForcedCollectionsDirty || this.LatestEventManager == null)
@@ -1039,7 +962,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this.MoveCursorToBestAvailableScope(false, movement);
 		}
 
-		// Token: 0x060004BF RID: 1215 RVA: 0x00014BB8 File Offset: 0x00012DB8
 		private bool HandleGamepadNavigation(GamepadNavigationTypes movement)
 		{
 			GamepadNavigationScope activeNavigationScope = this._activeNavigationScope;
@@ -1094,7 +1016,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x060004C0 RID: 1216 RVA: 0x00014CFC File Offset: 0x00012EFC
 		private bool NavigateBetweenScopes(GamepadNavigationTypes movement, GamepadNavigationScope currentScope)
 		{
 			this.RefreshExitMovementForScope(currentScope, movement);
@@ -1140,7 +1061,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x060004C1 RID: 1217 RVA: 0x00014E00 File Offset: 0x00013000
 		private bool NavigateWithinScope(GamepadNavigationScope scope, GamepadNavigationTypes movement)
 		{
 			if (scope.NavigatableWidgets.Count == 0)
@@ -1285,7 +1205,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x060004C2 RID: 1218 RVA: 0x0001512C File Offset: 0x0001332C
 		private void SetCurrentNavigatedWidget(GamepadNavigationScope scope, Widget widget)
 		{
 			if (scope != null)
@@ -1311,7 +1230,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004C3 RID: 1219 RVA: 0x000151A4 File Offset: 0x000133A4
 		private bool MoveCursorToBestAvailableScope(bool isFromInput, GamepadNavigationTypes preferredMovement = GamepadNavigationTypes.None)
 		{
 			GamepadNavigationScope gamepadNavigationScope = null;
@@ -1353,19 +1271,16 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		// Token: 0x060004C4 RID: 1220 RVA: 0x00015293 File Offset: 0x00013493
 		private void MoveCursorToFirstAvailableWidgetInScope(GamepadNavigationScope scope)
 		{
 			this.SetCurrentNavigatedWidget(scope, scope.GetFirstAvailableWidget());
 		}
 
-		// Token: 0x060004C5 RID: 1221 RVA: 0x000152A2 File Offset: 0x000134A2
 		private void MoveCursorToClosestAvailableWidgetInScope(GamepadNavigationScope scope)
 		{
 			this.SetCurrentNavigatedWidget(scope, scope.GetApproximatelyClosestWidgetToPosition(this.MousePosition, GamepadNavigationTypes.None, false));
 		}
 
-		// Token: 0x060004C6 RID: 1222 RVA: 0x000152BC File Offset: 0x000134BC
 		private void TryMoveCursorToPreviousScope(GamepadNavigationForcedScopeCollection fromCollection)
 		{
 			GamepadNavigationScope gamepadNavigationScope = ((fromCollection != null) ? fromCollection.PreviousScope : null);
@@ -1380,7 +1295,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004C7 RID: 1223 RVA: 0x00015310 File Offset: 0x00013510
 		private GamepadNavigationScope GetBestScopeAtDirectionFrom(GamepadNavigationScope fromScope, GamepadNavigationTypes movement)
 		{
 			if (fromScope.ChildScopes.Count > 0 && fromScope.HasMovement(movement))
@@ -1467,13 +1381,11 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return gamepadNavigationScope;
 		}
 
-		// Token: 0x060004C8 RID: 1224 RVA: 0x0001554C File Offset: 0x0001374C
 		private void RefreshExitMovementForScope(GamepadNavigationScope scope, GamepadNavigationTypes movement)
 		{
 			scope.InterScopeMovements[movement] = this.GetBestScopeAtDirectionFrom(scope, movement);
 		}
 
-		// Token: 0x060004C9 RID: 1225 RVA: 0x00015562 File Offset: 0x00013762
 		private GamepadNavigationTypes GetMovementForInput(InputKey input)
 		{
 			if (input == InputKey.ControllerLUp)
@@ -1495,7 +1407,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return GamepadNavigationTypes.None;
 		}
 
-		// Token: 0x060004CA RID: 1226 RVA: 0x00015590 File Offset: 0x00013790
 		private GamepadNavigationScope GetManualScopeAtDirection(GamepadNavigationTypes movement, GamepadNavigationScope fromScope)
 		{
 			GamepadNavigationScope gamepadNavigationScope = fromScope.ManualScopes[movement];
@@ -1527,7 +1438,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return gamepadNavigationScope;
 		}
 
-		// Token: 0x060004CB RID: 1227 RVA: 0x00015620 File Offset: 0x00013820
 		private Widget GetBestWidgetToScope(GamepadNavigationScope fromScope, GamepadNavigationScope toScope, GamepadNavigationTypes movement)
 		{
 			Widget widget;
@@ -1553,7 +1463,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return widget;
 		}
 
-		// Token: 0x060004CC RID: 1228 RVA: 0x0001569C File Offset: 0x0001389C
 		private GamepadNavigationScope FindClosestParentScopeOfWidget(Widget widget)
 		{
 			Widget widget2 = widget;
@@ -1576,7 +1485,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return null;
 		}
 
-		// Token: 0x060004CD RID: 1229 RVA: 0x000156E4 File Offset: 0x000138E4
 		private GamepadNavigationForcedScopeCollection FindAvailableForcedScope()
 		{
 			if (this._forcedScopeCollections.Count > 0)
@@ -1602,7 +1510,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return null;
 		}
 
-		// Token: 0x060004CE RID: 1230 RVA: 0x00015780 File Offset: 0x00013980
 		private void HandleInput(float dt)
 		{
 			if (this.IsControllerActive)
@@ -1668,7 +1575,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004CF RID: 1231 RVA: 0x000158E0 File Offset: 0x00013AE0
 		private void HandleCursorMovement()
 		{
 			Vector2 targetCursorPosition = this.GetTargetCursorPosition();
@@ -1719,7 +1625,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x060004D0 RID: 1232 RVA: 0x00015AB3 File Offset: 0x00013CB3
 		private void OnDpadNavigationStopped()
 		{
 			this._lastNavigatedWidgetPosition = new Vector2(float.NaN, float.NaN);
@@ -1730,100 +1635,68 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			this._navigationHoldTimer = 0f;
 		}
 
-		// Token: 0x0400023E RID: 574
 		private EventManager _latestCachedEventManager;
 
-		// Token: 0x04000243 RID: 579
 		private float _time;
 
-		// Token: 0x04000244 RID: 580
 		private bool _stopCursorNextFrame;
 
-		// Token: 0x04000245 RID: 581
 		private bool _isForcedCollectionsDirty;
 
-		// Token: 0x04000246 RID: 582
 		private GauntletGamepadNavigationManager.EventManagerComparer _cachedEventManagerComparer;
 
-		// Token: 0x04000247 RID: 583
 		private GauntletGamepadNavigationManager.ForcedScopeComparer _cachedForcedScopeComparer;
 
-		// Token: 0x04000248 RID: 584
 		private List<EventManager> _sortedEventManagers;
 
-		// Token: 0x04000249 RID: 585
 		private Dictionary<EventManager, GamepadNavigationScopeCollection> _navigationScopes;
 
-		// Token: 0x0400024B RID: 587
 		private List<GamepadNavigationScope> _availableScopesThisFrame;
 
-		// Token: 0x0400024C RID: 588
 		private List<GamepadNavigationScope> _unsortedScopes;
 
-		// Token: 0x0400024D RID: 589
 		private List<GamepadNavigationForcedScopeCollection> _forcedScopeCollections;
 
-		// Token: 0x0400024E RID: 590
 		private GamepadNavigationForcedScopeCollection _activeForcedScopeCollection;
 
-		// Token: 0x0400024F RID: 591
 		private GamepadNavigationScope _nextScopeToGainNavigation;
 
-		// Token: 0x04000250 RID: 592
 		private GamepadNavigationScope _activeNavigationScope;
 
-		// Token: 0x04000251 RID: 593
 		private Dictionary<Widget, List<GamepadNavigationScope>> _navigationScopeParents;
 
-		// Token: 0x04000252 RID: 594
 		private Dictionary<Widget, List<GamepadNavigationForcedScopeCollection>> _forcedNavigationScopeCollectionParents;
 
-		// Token: 0x04000255 RID: 597
 		private Dictionary<string, List<GamepadNavigationScope>> _layerNavigationScopes;
 
-		// Token: 0x04000256 RID: 598
 		private Dictionary<string, List<GamepadNavigationScope>> _navigationScopesById;
 
-		// Token: 0x04000257 RID: 599
 		private Dictionary<EventManager, GauntletGamepadNavigationManager.EventManagerGamepadNavigationGainHandler> _navigationGainControllers;
 
-		// Token: 0x04000258 RID: 600
 		private float _navigationHoldTimer;
 
-		// Token: 0x04000259 RID: 601
 		private Vector2 _lastNavigatedWidgetPosition;
 
-		// Token: 0x0400025A RID: 602
 		private readonly float _mouseCursorMoveTime = 0.09f;
 
-		// Token: 0x0400025B RID: 603
 		private Vector2 _cursorMoveStartPosition = new Vector2(float.NaN, float.NaN);
 
-		// Token: 0x0400025C RID: 604
 		private float _cursorMoveStartTime = -1f;
 
-		// Token: 0x0400025D RID: 605
 		private Widget _latestGamepadNavigationWidget;
 
-		// Token: 0x0400025E RID: 606
 		private List<Widget> _navigationBlockingWidgets;
 
-		// Token: 0x0400025F RID: 607
 		private bool _isAvailableScopesDirty;
 
-		// Token: 0x04000260 RID: 608
 		private bool _shouldUpdateAvailableScopes;
 
-		// Token: 0x04000261 RID: 609
 		private float _autoRefreshTimer;
 
-		// Token: 0x04000262 RID: 610
 		private bool _wasCursorInsideActiveScopeLastFrame;
 
-		// Token: 0x02000081 RID: 129
 		private class EventManagerComparer : IComparer<EventManager>
 		{
-			// Token: 0x06000899 RID: 2201 RVA: 0x00022B54 File Offset: 0x00020D54
 			public int Compare(EventManager x, EventManager y)
 			{
 				int lastScreenOrder = x.GetLastScreenOrder();
@@ -1832,32 +1705,24 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 		}
 
-		// Token: 0x02000082 RID: 130
 		private class ForcedScopeComparer : IComparer<GamepadNavigationForcedScopeCollection>
 		{
-			// Token: 0x0600089B RID: 2203 RVA: 0x00022B80 File Offset: 0x00020D80
 			public int Compare(GamepadNavigationForcedScopeCollection x, GamepadNavigationForcedScopeCollection y)
 			{
 				return x.CollectionOrder.CompareTo(y.CollectionOrder);
 			}
 		}
 
-		// Token: 0x02000083 RID: 131
 		private class EventManagerGamepadNavigationGainHandler
 		{
-			// Token: 0x1700028F RID: 655
-			// (get) Token: 0x0600089D RID: 2205 RVA: 0x00022BA9 File Offset: 0x00020DA9
-			// (set) Token: 0x0600089E RID: 2206 RVA: 0x00022BB1 File Offset: 0x00020DB1
 			public bool HasTarget { get; private set; }
 
-			// Token: 0x0600089F RID: 2207 RVA: 0x00022BBA File Offset: 0x00020DBA
 			public EventManagerGamepadNavigationGainHandler(EventManager eventManager)
 			{
 				this._eventManager = eventManager;
 				this.Clear();
 			}
 
-			// Token: 0x060008A0 RID: 2208 RVA: 0x00022BCF File Offset: 0x00020DCF
 			public void GainNavigationAfterFrames(int frameCount, Func<bool> predicate = null)
 			{
 				this.Clear();
@@ -1869,7 +1734,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				}
 			}
 
-			// Token: 0x060008A1 RID: 2209 RVA: 0x00022BF0 File Offset: 0x00020DF0
 			public void GainNavigationAfterTime(float seconds, Func<bool> predicate = null)
 			{
 				this.Clear();
@@ -1881,7 +1745,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				}
 			}
 
-			// Token: 0x060008A2 RID: 2210 RVA: 0x00022C18 File Offset: 0x00020E18
 			public void Tick(float dt)
 			{
 				if (this._gainAfterTime != -1f)
@@ -1913,7 +1776,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				}
 			}
 
-			// Token: 0x060008A3 RID: 2211 RVA: 0x00022CBE File Offset: 0x00020EBE
 			public void Clear()
 			{
 				this._gainAfterTime = -1f;
@@ -1923,22 +1785,16 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				this._gainPredicate = null;
 			}
 
-			// Token: 0x0400043B RID: 1083
 			private readonly EventManager _eventManager;
 
-			// Token: 0x0400043D RID: 1085
 			private float _gainAfterTime;
 
-			// Token: 0x0400043E RID: 1086
 			private float _gainTimer;
 
-			// Token: 0x0400043F RID: 1087
 			private int _gainAfterFrames;
 
-			// Token: 0x04000440 RID: 1088
 			private int _frameTicker;
 
-			// Token: 0x04000441 RID: 1089
 			private Func<bool> _gainPredicate;
 		}
 	}

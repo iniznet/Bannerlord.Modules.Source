@@ -11,10 +11,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
 {
-	// Token: 0x0200000E RID: 14
 	public class GauntletQueryManager : GlobalLayer
 	{
-		// Token: 0x06000056 RID: 86 RVA: 0x00003E98 File Offset: 0x00002098
 		public void Initialize()
 		{
 			if (!this._isInitialized)
@@ -61,13 +59,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			ScreenManager.SetSuspendLayer(base.Layer, true);
 		}
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00004019 File Offset: 0x00002219
 		private bool OnIsAnyInquiryActiveQuery()
 		{
 			return GauntletQueryManager._activeDataSource != null;
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x00004024 File Offset: 0x00002224
 		internal void InitializeKeyVisuals()
 		{
 			this._singleQueryPopupVM.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
@@ -78,7 +74,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._textQueryPopUpVM.SetDoneInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x000040EC File Offset: 0x000022EC
 		protected override void OnEarlyTick(float dt)
 		{
 			base.OnEarlyTick(dt);
@@ -100,7 +95,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00004182 File Offset: 0x00002382
 		protected override void OnLateTick(float dt)
 		{
 			base.OnLateTick(dt);
@@ -112,7 +106,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			activeDataSource.OnTick(dt);
 		}
 
-		// Token: 0x0600005B RID: 91 RVA: 0x0000419C File Offset: 0x0000239C
 		private void CreateQuery(InquiryData data, bool pauseGameActiveState, bool prioritize)
 		{
 			if (GauntletQueryManager._activeDataSource == null)
@@ -132,7 +125,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._inquiryQueue.Enqueue(new Tuple<Type, object, bool, bool>(typeof(InquiryData), data, pauseGameActiveState, prioritize));
 		}
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00004224 File Offset: 0x00002424
 		private void CreateTextQuery(TextInquiryData data, bool pauseGameActiveState, bool prioritize)
 		{
 			if (GauntletQueryManager._activeDataSource == null)
@@ -152,7 +144,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._inquiryQueue.Enqueue(new Tuple<Type, object, bool, bool>(typeof(TextInquiryData), data, pauseGameActiveState, prioritize));
 		}
 
-		// Token: 0x0600005D RID: 93 RVA: 0x000042AC File Offset: 0x000024AC
 		private void CreateMultiSelectionQuery(MultiSelectionInquiryData data, bool pauseGameActiveState, bool prioritize)
 		{
 			if (GauntletQueryManager._activeDataSource == null)
@@ -172,7 +163,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._inquiryQueue.Enqueue(new Tuple<Type, object, bool, bool>(typeof(MultiSelectionInquiryData), data, pauseGameActiveState, prioritize));
 		}
 
-		// Token: 0x0600005E RID: 94 RVA: 0x00004334 File Offset: 0x00002534
 		private void QueueAndShowNewData(object newInquiryData, bool pauseGameActiveState, bool prioritize)
 		{
 			Queue<Tuple<Type, object, bool, bool>> queue = new Queue<Tuple<Type, object, bool, bool>>();
@@ -182,7 +172,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.CloseQuery();
 		}
 
-		// Token: 0x0600005F RID: 95 RVA: 0x00004394 File Offset: 0x00002594
 		private void HandleQueryCreated(string soundEventPath, bool pauseGameActiveState)
 		{
 			InformationManager.HideTooltip();
@@ -200,7 +189,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000060 RID: 96 RVA: 0x000043E8 File Offset: 0x000025E8
 		private void CloseQuery()
 		{
 			if (GauntletQueryManager._activeDataSource == null)
@@ -234,7 +222,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		// Token: 0x06000061 RID: 97 RVA: 0x000044B4 File Offset: 0x000026B4
 		private void SetLayerFocus(bool isFocused)
 		{
 			if (isFocused)
@@ -251,7 +238,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			ScreenManager.TryLoseFocus(base.Layer);
 		}
 
-		// Token: 0x06000062 RID: 98 RVA: 0x00004530 File Offset: 0x00002730
 		private static Queue<T> CombineQueues<T>(Queue<T> t1, Queue<T> t2)
 		{
 			Queue<T> queue = new Queue<T>();
@@ -268,37 +254,26 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return queue;
 		}
 
-		// Token: 0x04000038 RID: 56
 		private bool _isInitialized;
 
-		// Token: 0x04000039 RID: 57
 		private Queue<Tuple<Type, object, bool, bool>> _inquiryQueue;
 
-		// Token: 0x0400003A RID: 58
 		private bool _isLastActiveGameStatePaused;
 
-		// Token: 0x0400003B RID: 59
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400003C RID: 60
 		private SingleQueryPopUpVM _singleQueryPopupVM;
 
-		// Token: 0x0400003D RID: 61
 		private MultiSelectionQueryPopUpVM _multiSelectionQueryPopUpVM;
 
-		// Token: 0x0400003E RID: 62
 		private TextQueryPopUpVM _textQueryPopUpVM;
 
-		// Token: 0x0400003F RID: 63
 		private static PopUpBaseVM _activeDataSource;
 
-		// Token: 0x04000040 RID: 64
 		private static object _activeQueryData;
 
-		// Token: 0x04000041 RID: 65
 		private IGauntletMovie _movie;
 
-		// Token: 0x04000042 RID: 66
 		private Dictionary<Type, Action<object, bool, bool>> _createQueryActions;
 	}
 }

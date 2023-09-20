@@ -10,11 +10,8 @@ using TaleWorlds.TwoDimension.Standalone.Native.Windows;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library
 {
-	// Token: 0x02000017 RID: 23
 	public class LauncherVM : ViewModel
 	{
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x060000CB RID: 203 RVA: 0x00004AFB File Offset: 0x00002CFB
 		public string GameTypeArgument
 		{
 			get
@@ -27,8 +24,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000034 RID: 52
-		// (get) Token: 0x060000CC RID: 204 RVA: 0x00004B10 File Offset: 0x00002D10
 		public string ContinueGameArgument
 		{
 			get
@@ -41,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x060000CD RID: 205 RVA: 0x00004B28 File Offset: 0x00002D28
 		public LauncherVM(UserDataManager userDataManager, Action onClose, Action onMinimize)
 		{
 			this._userDataManager = userDataManager;
@@ -73,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this._isInitialized = true;
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x00004C8C File Offset: 0x00002E8C
 		private void UpdateAndSaveUserModsData(bool isMultiplayer)
 		{
 			UserData userData = this._userDataManager.UserData;
@@ -86,7 +79,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this._userDataManager.SaveUserData();
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x00004D48 File Offset: 0x00002F48
 		private bool GameModExists(string modId)
 		{
 			List<ModuleInfo> list = ModuleHelper.GetModules().ToList<ModuleInfo>();
@@ -100,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return false;
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x00004D88 File Offset: 0x00002F88
 		private void OnBeforeGameTypeChange(bool preSelectionIsMultiplayer, bool newSelectionIsMultiplayer)
 		{
 			if (!this._isInitialized)
@@ -111,7 +102,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.UpdateAndSaveUserModsData(preSelectionIsMultiplayer);
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x00004DB1 File Offset: 0x00002FB1
 		private void OnAfterGameTypeChange(bool isMultiplayer, bool isSingleplayer, bool isDigitalCompanion)
 		{
 			this.IsMultiplayer = isMultiplayer;
@@ -120,7 +110,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.Refresh();
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x00004DD0 File Offset: 0x00002FD0
 		private void ExecuteStartGame(int mode)
 		{
 			this._isContinueSelected = mode == 1;
@@ -169,19 +158,16 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			Program.StartGame();
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x00004FC0 File Offset: 0x000031C0
 		private ApplicationVersion GetApplicationVersionOfModule(string id)
 		{
 			return this.ModsData.Modules.FirstOrDefault((LauncherModuleVM m) => m.Info.Id == id).Info.Version;
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x00005000 File Offset: 0x00003200
 		private void ExecuteConfirmUnverifiedDLLStart()
 		{
 			Program.StartGame();
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x00005007 File Offset: 0x00003207
 		private void ExecuteClose()
 		{
 			this.UpdateAndSaveUserModsData(this.IsMultiplayer);
@@ -193,7 +179,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			onClose();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x00005025 File Offset: 0x00003225
 		private void ExecuteMinimize()
 		{
 			Action onMinimize = this._onMinimize;
@@ -204,7 +189,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			onMinimize();
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00005038 File Offset: 0x00003238
 		private void Refresh()
 		{
 			this.News.Refresh(this.IsMultiplayer);
@@ -212,7 +196,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			this.VersionText = ApplicationVersion.FromParametersFile(null).ToString();
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00005088 File Offset: 0x00003288
 		private string GetApplicableNewsSourceURL()
 		{
 			int geoID = Kernel32.GetUserGeoID(Kernel32.GeoTypeId.Nation);
@@ -229,9 +212,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return "https://taleworldswebsiteassets.blob.core.windows.net/upload/bannerlordnews/NewsFeed_" + text + "_preview.json";
 		}
 
-		// Token: 0x17000035 RID: 53
-		// (get) Token: 0x060000D9 RID: 217 RVA: 0x00005145 File Offset: 0x00003345
-		// (set) Token: 0x060000DA RID: 218 RVA: 0x0000514D File Offset: 0x0000334D
 		[DataSourceProperty]
 		public bool IsSingleplayer
 		{
@@ -254,9 +234,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x060000DB RID: 219 RVA: 0x00005184 File Offset: 0x00003384
-		// (set) Token: 0x060000DC RID: 220 RVA: 0x0000518C File Offset: 0x0000338C
 		[DataSourceProperty]
 		public bool IsMultiplayer
 		{
@@ -279,9 +256,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x060000DD RID: 221 RVA: 0x000051C6 File Offset: 0x000033C6
-		// (set) Token: 0x060000DE RID: 222 RVA: 0x000051CE File Offset: 0x000033CE
 		[DataSourceProperty]
 		public bool IsDigitalCompanion
 		{
@@ -303,9 +277,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x060000DF RID: 223 RVA: 0x000051F8 File Offset: 0x000033F8
-		// (set) Token: 0x060000E0 RID: 224 RVA: 0x00005200 File Offset: 0x00003400
 		[DataSourceProperty]
 		public bool IsSingleplayerAvailable
 		{
@@ -323,9 +294,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x060000E1 RID: 225 RVA: 0x0000521E File Offset: 0x0000341E
-		// (set) Token: 0x060000E2 RID: 226 RVA: 0x00005226 File Offset: 0x00003426
 		[DataSourceProperty]
 		public bool IsDigitalCompanionAvailable
 		{
@@ -343,9 +311,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x060000E3 RID: 227 RVA: 0x00005244 File Offset: 0x00003444
-		// (set) Token: 0x060000E4 RID: 228 RVA: 0x0000524C File Offset: 0x0000344C
 		[DataSourceProperty]
 		public string VersionText
 		{
@@ -363,9 +328,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x060000E5 RID: 229 RVA: 0x0000526F File Offset: 0x0000346F
-		// (set) Token: 0x060000E6 RID: 230 RVA: 0x00005277 File Offset: 0x00003477
 		[DataSourceProperty]
 		public LauncherNewsVM News
 		{
@@ -383,9 +345,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x060000E7 RID: 231 RVA: 0x00005295 File Offset: 0x00003495
-		// (set) Token: 0x060000E8 RID: 232 RVA: 0x0000529D File Offset: 0x0000349D
 		[DataSourceProperty]
 		public LauncherConfirmStartVM ConfirmStart
 		{
@@ -403,9 +362,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060000E9 RID: 233 RVA: 0x000052BB File Offset: 0x000034BB
-		// (set) Token: 0x060000EA RID: 234 RVA: 0x000052C3 File Offset: 0x000034C3
 		[DataSourceProperty]
 		public LauncherModsVM ModsData
 		{
@@ -423,9 +379,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x060000EB RID: 235 RVA: 0x000052E1 File Offset: 0x000034E1
-		// (set) Token: 0x060000EC RID: 236 RVA: 0x000052E9 File Offset: 0x000034E9
 		[DataSourceProperty]
 		public LauncherInformationVM Hint
 		{
@@ -443,9 +396,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x060000ED RID: 237 RVA: 0x00005307 File Offset: 0x00003507
-		// (set) Token: 0x060000EE RID: 238 RVA: 0x0000530F File Offset: 0x0000350F
 		[DataSourceProperty]
 		public string PlayText
 		{
@@ -463,9 +413,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x060000EF RID: 239 RVA: 0x00005332 File Offset: 0x00003532
-		// (set) Token: 0x060000F0 RID: 240 RVA: 0x0000533A File Offset: 0x0000353A
 		[DataSourceProperty]
 		public string ContinueText
 		{
@@ -483,9 +430,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x060000F1 RID: 241 RVA: 0x0000535D File Offset: 0x0000355D
-		// (set) Token: 0x060000F2 RID: 242 RVA: 0x00005365 File Offset: 0x00003565
 		[DataSourceProperty]
 		public string LaunchText
 		{
@@ -503,9 +447,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x060000F3 RID: 243 RVA: 0x00005388 File Offset: 0x00003588
-		// (set) Token: 0x060000F4 RID: 244 RVA: 0x00005390 File Offset: 0x00003590
 		[DataSourceProperty]
 		public string SingleplayerText
 		{
@@ -523,9 +464,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x060000F5 RID: 245 RVA: 0x000053B3 File Offset: 0x000035B3
-		// (set) Token: 0x060000F6 RID: 246 RVA: 0x000053BB File Offset: 0x000035BB
 		[DataSourceProperty]
 		public string DigitalCompanionText
 		{
@@ -543,9 +481,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x060000F7 RID: 247 RVA: 0x000053DE File Offset: 0x000035DE
-		// (set) Token: 0x060000F8 RID: 248 RVA: 0x000053E6 File Offset: 0x000035E6
 		[DataSourceProperty]
 		public string MultiplayerText
 		{
@@ -563,9 +498,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000045 RID: 69
-		// (get) Token: 0x060000F9 RID: 249 RVA: 0x00005409 File Offset: 0x00003609
-		// (set) Token: 0x060000FA RID: 250 RVA: 0x00005411 File Offset: 0x00003611
 		[DataSourceProperty]
 		public string NewsText
 		{
@@ -583,9 +515,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000046 RID: 70
-		// (get) Token: 0x060000FB RID: 251 RVA: 0x00005434 File Offset: 0x00003634
-		// (set) Token: 0x060000FC RID: 252 RVA: 0x0000543C File Offset: 0x0000363C
 		[DataSourceProperty]
 		public string DlcText
 		{
@@ -603,9 +532,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x060000FD RID: 253 RVA: 0x0000545F File Offset: 0x0000365F
-		// (set) Token: 0x060000FE RID: 254 RVA: 0x00005467 File Offset: 0x00003667
 		[DataSourceProperty]
 		public string ModsText
 		{
@@ -623,82 +549,56 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			}
 		}
 
-		// Token: 0x04000068 RID: 104
 		private UserDataManager _userDataManager;
 
-		// Token: 0x04000069 RID: 105
 		private NewsManager _newsManager;
 
-		// Token: 0x0400006A RID: 106
 		private readonly Action _onClose;
 
-		// Token: 0x0400006B RID: 107
 		private readonly Action _onMinimize;
 
-		// Token: 0x0400006C RID: 108
 		private bool _isInitialized;
 
-		// Token: 0x0400006D RID: 109
 		private bool _isContinueSelected;
 
-		// Token: 0x0400006E RID: 110
 		private const string _newsSourceURLBase = "https://taleworldswebsiteassets.blob.core.windows.net/upload/bannerlordnews/NewsFeed_";
 
-		// Token: 0x0400006F RID: 111
 		private bool _isMultiplayer;
 
-		// Token: 0x04000070 RID: 112
 		private bool _isSingleplayer;
 
-		// Token: 0x04000071 RID: 113
 		private bool _isDigitalCompanion;
 
-		// Token: 0x04000072 RID: 114
 		private bool _isSingleplayerAvailable;
 
-		// Token: 0x04000073 RID: 115
 		private bool _isDigitalCompanionAvailable;
 
-		// Token: 0x04000074 RID: 116
 		private LauncherNewsVM _news;
 
-		// Token: 0x04000075 RID: 117
 		private LauncherModsVM _modsData;
 
-		// Token: 0x04000076 RID: 118
 		private LauncherConfirmStartVM _confirmStart;
 
-		// Token: 0x04000077 RID: 119
 		private LauncherInformationVM _hint;
 
-		// Token: 0x04000078 RID: 120
 		private string _playText;
 
-		// Token: 0x04000079 RID: 121
 		private string _continueText;
 
-		// Token: 0x0400007A RID: 122
 		private string _launchText;
 
-		// Token: 0x0400007B RID: 123
 		private string _singleplayerText;
 
-		// Token: 0x0400007C RID: 124
 		private string _multiplayerText;
 
-		// Token: 0x0400007D RID: 125
 		private string _digitalCompanionText;
 
-		// Token: 0x0400007E RID: 126
 		private string _newsText;
 
-		// Token: 0x0400007F RID: 127
 		private string _dlcText;
 
-		// Token: 0x04000080 RID: 128
 		private string _modsText;
 
-		// Token: 0x04000081 RID: 129
 		private string _versionText;
 	}
 }

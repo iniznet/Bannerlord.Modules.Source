@@ -13,22 +13,18 @@ using TaleWorlds.LinQuick;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 {
-	// Token: 0x02000403 RID: 1027
 	public class AiMilitaryBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D32 RID: 15666 RVA: 0x00123654 File Offset: 0x00121854
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
 		}
 
-		// Token: 0x06003D33 RID: 15667 RVA: 0x00123684 File Offset: 0x00121884
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D34 RID: 15668 RVA: 0x00123686 File Offset: 0x00121886
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null && mobileParty.IsBandit && settlement.IsHideout && mobileParty.DefaultBehavior != AiBehavior.GoToSettlement)
@@ -37,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D35 RID: 15669 RVA: 0x001236B0 File Offset: 0x001218B0
 		private static void FindBestTargetAndItsValueForFaction(Army.ArmyTypes missionType, PartyThinkParams p, float ourStrength, float newArmyCreatingAdditionalConstant = 1f)
 		{
 			MobileParty mobilePartyOf = p.MobilePartyOf;
@@ -100,7 +95,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D36 RID: 15670 RVA: 0x00123880 File Offset: 0x00121A80
 		private static void CalculateMilitaryBehaviorForFactionSettlementsParallel(IFaction faction, PartyThinkParams p, Army.ArmyTypes missionType, AiBehavior aiBehavior, float ourStrength, float partySizeScore, float newArmyCreatingAdditionalConstant)
 		{
 			MobileParty mobilePartyOf = p.MobilePartyOf;
@@ -116,7 +110,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D37 RID: 15671 RVA: 0x001238E8 File Offset: 0x00121AE8
 		private static bool CheckIfSettlementIsSuitableForMilitaryAction(Settlement settlement, MobileParty mobileParty, Army.ArmyTypes missionType)
 		{
 			if (Game.Current.CheatMode && !CampaignCheats.MainPartyIsAttackable && settlement.Party.MapEvent != null && settlement.Party.MapEvent == MapEvent.PlayerMapEvent)
@@ -138,7 +131,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return true;
 		}
 
-		// Token: 0x06003D38 RID: 15672 RVA: 0x001239BC File Offset: 0x00121BBC
 		private static void CalculateMilitaryBehaviorForSettlement(Settlement settlement, Army.ArmyTypes missionType, AiBehavior aiBehavior, PartyThinkParams p, float ourStrength, float partySizeScore, int numberOfEnemyFactionSettlements, float totalEnemyMobilePartyStrength, float newArmyCreatingAdditionalConstant = 1f)
 		{
 			if ((missionType == Army.ArmyTypes.Defender && settlement.LastAttackerParty != null && settlement.LastAttackerParty.IsActive) || (missionType == Army.ArmyTypes.Raider && settlement.IsVillage && settlement.Village.VillageState == Village.VillageStates.Normal) || (missionType == Army.ArmyTypes.Besieger && settlement.IsFortification && (settlement.SiegeEvent == null || settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction == p.MobilePartyOf.MapFaction)) || (missionType == Army.ArmyTypes.Patrolling && !settlement.IsCastle && p.WillGatherAnArmy))
@@ -187,7 +179,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x06003D39 RID: 15673 RVA: 0x00123BDC File Offset: 0x00121DDC
 		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (mobileParty.IsMilitia || mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsBandit || mobileParty.IsDisbanding || mobileParty.LeaderHero == null || (mobileParty.MapFaction != Clan.PlayerClan.MapFaction && !mobileParty.MapFaction.IsKingdomFaction))
@@ -334,7 +325,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		// Token: 0x0400126C RID: 4716
 		private const int MinimumInfluenceNeededToCreateArmy = 50;
 	}
 }

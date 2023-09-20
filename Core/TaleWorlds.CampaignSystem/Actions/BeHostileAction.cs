@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000426 RID: 1062
 	public static class BeHostileAction
 	{
-		// Token: 0x06003E8A RID: 16010 RVA: 0x0012A780 File Offset: 0x00128980
 		private static void ApplyInternal(PartyBase attackerParty, PartyBase defenderParty, float value)
 		{
 			if (defenderParty.IsMobile && defenderParty.MobileParty.ActualClan == CampaignData.NeutralFaction)
@@ -90,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003E8B RID: 16011 RVA: 0x0012A9E4 File Offset: 0x00128BE4
 		private static void ApplyGeneralConsequencesOnPeace(PartyBase attackerParty, PartyBase defenderParty, float value)
 		{
 			float num = -25f * value;
@@ -148,7 +145,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003E8C RID: 16012 RVA: 0x0012AB1A File Offset: 0x00128D1A
 		public static void ApplyHostileAction(PartyBase attackerParty, PartyBase defenderParty, float value)
 		{
 			if (attackerParty == null || defenderParty == null || value == 0f)
@@ -159,7 +155,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			BeHostileAction.ApplyInternal(attackerParty, defenderParty, value);
 		}
 
-		// Token: 0x06003E8D RID: 16013 RVA: 0x0012AB4C File Offset: 0x00128D4C
 		public static void ApplyMinorCoercionHostileAction(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			if (attackerParty == null || defenderParty == null)
@@ -170,7 +165,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			BeHostileAction.ApplyInternal(attackerParty, defenderParty, 1f);
 		}
 
-		// Token: 0x06003E8E RID: 16014 RVA: 0x0012AB7A File Offset: 0x00128D7A
 		public static void ApplyMajorCoercionHostileAction(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			if (attackerParty == null || defenderParty == null)
@@ -181,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			BeHostileAction.ApplyInternal(attackerParty, defenderParty, 2f);
 		}
 
-		// Token: 0x06003E8F RID: 16015 RVA: 0x0012ABA8 File Offset: 0x00128DA8
 		public static void ApplyEncounterHostileAction(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			if (Campaign.Current.Models.EncounterModel.IsEncounterExemptFromHostileActions(attackerParty, defenderParty))
@@ -196,13 +189,10 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x040012BB RID: 4795
 		private const float MinorCoercionValue = 1f;
 
-		// Token: 0x040012BC RID: 4796
 		private const float MajorCoercionValue = 2f;
 
-		// Token: 0x040012BD RID: 4797
 		private const float EncounterValue = 6f;
 	}
 }

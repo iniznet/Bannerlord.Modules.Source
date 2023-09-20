@@ -10,10 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000FE RID: 254
 	public class DefaultCombatXpModel : CombatXpModel
 	{
-		// Token: 0x0600150F RID: 5391 RVA: 0x00060790 File Offset: 0x0005E990
 		public override SkillObject GetSkillForWeapon(WeaponComponentData weapon, bool isSiegeEngineHit)
 		{
 			SkillObject skillObject = DefaultSkills.Athletics;
@@ -28,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return skillObject;
 		}
 
-		// Token: 0x06001510 RID: 5392 RVA: 0x000607BC File Offset: 0x0005E9BC
 		public override void GetXpFromHit(CharacterObject attackerTroop, CharacterObject captain, CharacterObject attackedTroop, PartyBase party, int damage, bool isFatal, CombatXpModel.MissionTypeEnum missionType, out int xpAmount)
 		{
 			int num = attackedTroop.MaxHitPoints();
@@ -62,7 +59,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			xpAmount = MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x06001511 RID: 5393 RVA: 0x00060951 File Offset: 0x0005EB51
 		public override float GetXpMultiplierFromShotDifficulty(float shotDifficulty)
 		{
 			if (shotDifficulty > 14.4f)
@@ -72,8 +68,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MBMath.Lerp(0f, 2f, (shotDifficulty - 1f) / 13.4f, 1E-05f);
 		}
 
-		// Token: 0x170005DF RID: 1503
-		// (get) Token: 0x06001512 RID: 5394 RVA: 0x00060983 File Offset: 0x0005EB83
 		public override float CaptainRadius
 		{
 			get
@@ -82,7 +76,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001513 RID: 5395 RVA: 0x0006098C File Offset: 0x0005EB8C
 		private void GetBattleXpBonusFromPerks(PartyBase party, ref ExplainedNumber xpToGain, CharacterObject troop)
 		{
 			if (party.IsMobile && party.MobileParty.LeaderHero != null)

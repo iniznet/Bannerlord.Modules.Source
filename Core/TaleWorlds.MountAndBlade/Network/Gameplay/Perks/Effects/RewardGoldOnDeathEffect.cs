@@ -5,15 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003CE RID: 974
 	public class RewardGoldOnDeathEffect : MPPerkEffect
 	{
-		// Token: 0x060033ED RID: 13293 RVA: 0x000D73CC File Offset: 0x000D55CC
 		protected RewardGoldOnDeathEffect()
 		{
 		}
 
-		// Token: 0x060033EE RID: 13294 RVA: 0x000D73D4 File Offset: 0x000D55D4
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -109,13 +106,11 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033EF RID: 13295 RVA: 0x000D7529 File Offset: 0x000D5729
 		public override bool GetIsTeamRewardedOnDeath()
 		{
 			return true;
 		}
 
-		// Token: 0x060033F0 RID: 13296 RVA: 0x000D752C File Offset: 0x000D572C
 		public override void CalculateRewardedGoldOnDeath(Agent agent, List<ValueTuple<MissionPeer, int>> teamMembers)
 		{
 			Agent agent2 = agent;
@@ -177,7 +172,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033F1 RID: 13297 RVA: 0x000D76B0 File Offset: 0x000D58B0
 		private int SortByDistance(Agent from, Agent a, Agent b)
 		{
 			if (a == null || !a.IsActive())
@@ -198,32 +192,21 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x04001619 RID: 5657
 		protected static string StringType = "RewardGoldOnDeath";
 
-		// Token: 0x0400161A RID: 5658
 		private int _value;
 
-		// Token: 0x0400161B RID: 5659
 		private int _count;
 
-		// Token: 0x0400161C RID: 5660
 		private RewardGoldOnDeathEffect.OrderBy _orderBy;
 
-		// Token: 0x020006C2 RID: 1730
 		private enum OrderBy
 		{
-			// Token: 0x0400229A RID: 8858
 			Random,
-			// Token: 0x0400229B RID: 8859
 			WealthAscending,
-			// Token: 0x0400229C RID: 8860
 			WealthDescending,
-			// Token: 0x0400229D RID: 8861
 			DistanceAscending,
-			// Token: 0x0400229E RID: 8862
 			DistanceDescending,
-			// Token: 0x0400229F RID: 8863
 			DeadCanReceiveEnd = 3
 		}
 	}

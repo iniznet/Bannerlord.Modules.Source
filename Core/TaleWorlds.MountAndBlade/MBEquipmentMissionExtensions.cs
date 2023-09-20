@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001B3 RID: 435
 	public static class MBEquipmentMissionExtensions
 	{
-		// Token: 0x06001945 RID: 6469 RVA: 0x0005AF14 File Offset: 0x00059114
 		public static SkinMask GetSkinMeshesMask(this Equipment equipment)
 		{
 			SkinMask skinMask = SkinMask.AllVisible;

@@ -5,16 +5,13 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x0200037E RID: 894
 	public class CampaignWarManagerBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600342F RID: 13359 RVA: 0x000DA641 File Offset: 0x000D8841
 		public override void RegisterEvents()
 		{
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventEnded));
 		}
 
-		// Token: 0x06003430 RID: 13360 RVA: 0x000DA65C File Offset: 0x000D885C
 		private void MapEventEnded(MapEvent mapEvent)
 		{
 			if (!mapEvent.AttackerSide.LeaderParty.MapFaction.IsBanditFaction && mapEvent.DefenderSide.LeaderParty.MapFaction != null && !mapEvent.DefenderSide.LeaderParty.MapFaction.IsBanditFaction)
@@ -62,7 +59,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003431 RID: 13361 RVA: 0x000DA7E1 File Offset: 0x000D89E1
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

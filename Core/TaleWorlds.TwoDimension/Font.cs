@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000006 RID: 6
 	public class Font
 	{
-		// Token: 0x0600001F RID: 31 RVA: 0x000027CC File Offset: 0x000009CC
 		public Font(string name, string path, SpriteData spriteData)
 		{
 			Debug.Print("Loading " + name + " font, at: " + path, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -79,58 +77,29 @@ namespace TaleWorlds.TwoDimension
 			this.Size = (int)((float)this._realSize / this.CustomScale);
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x00002C18 File Offset: 0x00000E18
 		protected Font(string name)
 		{
 			this.Name = name;
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000021 RID: 33 RVA: 0x00002C32 File Offset: 0x00000E32
-		// (set) Token: 0x06000022 RID: 34 RVA: 0x00002C3A File Offset: 0x00000E3A
 		public int Size { get; private set; }
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000023 RID: 35 RVA: 0x00002C43 File Offset: 0x00000E43
-		// (set) Token: 0x06000024 RID: 36 RVA: 0x00002C4B File Offset: 0x00000E4B
 		public bool Smooth { get; private set; }
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000025 RID: 37 RVA: 0x00002C54 File Offset: 0x00000E54
-		// (set) Token: 0x06000026 RID: 38 RVA: 0x00002C5C File Offset: 0x00000E5C
 		public float SmoothingConstant { get; private set; }
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x06000027 RID: 39 RVA: 0x00002C65 File Offset: 0x00000E65
-		// (set) Token: 0x06000028 RID: 40 RVA: 0x00002C6D File Offset: 0x00000E6D
 		public float CustomScale { get; private set; } = 1f;
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x06000029 RID: 41 RVA: 0x00002C76 File Offset: 0x00000E76
-		// (set) Token: 0x0600002A RID: 42 RVA: 0x00002C7E File Offset: 0x00000E7E
 		public int LineHeight { get; private set; }
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x0600002B RID: 43 RVA: 0x00002C87 File Offset: 0x00000E87
-		// (set) Token: 0x0600002C RID: 44 RVA: 0x00002C8F File Offset: 0x00000E8F
 		public int Base { get; private set; }
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x0600002D RID: 45 RVA: 0x00002C98 File Offset: 0x00000E98
-		// (set) Token: 0x0600002E RID: 46 RVA: 0x00002CA0 File Offset: 0x00000EA0
 		public int CharacterCount { get; private set; }
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x0600002F RID: 47 RVA: 0x00002CA9 File Offset: 0x00000EA9
-		// (set) Token: 0x06000030 RID: 48 RVA: 0x00002CB1 File Offset: 0x00000EB1
 		public SpritePart FontSprite { get; private set; }
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000031 RID: 49 RVA: 0x00002CBA File Offset: 0x00000EBA
-		// (set) Token: 0x06000032 RID: 50 RVA: 0x00002CC2 File Offset: 0x00000EC2
 		public Dictionary<int, BitmapFontCharacter> Characters { get; private set; }
 
-		// Token: 0x06000033 RID: 51 RVA: 0x00002CCC File Offset: 0x00000ECC
 		public float GetWordWidth(string word, float extraPadding)
 		{
 			float num = 0f;
@@ -141,7 +110,6 @@ namespace TaleWorlds.TwoDimension
 			return num;
 		}
 
-		// Token: 0x06000034 RID: 52 RVA: 0x00002D04 File Offset: 0x00000F04
 		public float GetCharacterWidth(char character, float extraPadding)
 		{
 			float num = 0f;
@@ -154,7 +122,6 @@ namespace TaleWorlds.TwoDimension
 			return num + ((float)bitmapFontCharacter.XAdvance + extraPadding);
 		}
 
-		// Token: 0x06000035 RID: 53 RVA: 0x00002D3F File Offset: 0x00000F3F
 		public override string ToString()
 		{
 			if (string.IsNullOrEmpty(this.Name))
@@ -164,10 +131,8 @@ namespace TaleWorlds.TwoDimension
 			return this.Name;
 		}
 
-		// Token: 0x04000015 RID: 21
 		public readonly string Name;
 
-		// Token: 0x04000016 RID: 22
 		private int _realSize;
 	}
 }

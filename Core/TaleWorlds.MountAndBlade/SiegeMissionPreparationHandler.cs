@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000282 RID: 642
 	public class SiegeMissionPreparationHandler : MissionLogic
 	{
-		// Token: 0x1700067A RID: 1658
-		// (get) Token: 0x06002209 RID: 8713 RVA: 0x0007C884 File Offset: 0x0007AA84
 		private Scene MissionScene
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600220A RID: 8714 RVA: 0x0007C890 File Offset: 0x0007AA90
 		public SiegeMissionPreparationHandler(bool isSallyOut, bool isReliefForceAttack, float[] wallHitPointPercentages, bool hasAnySiegeTower)
 		{
 			if (isSallyOut)
@@ -39,14 +35,12 @@ namespace TaleWorlds.MountAndBlade
 			this._hasAnySiegeTower = hasAnySiegeTower;
 		}
 
-		// Token: 0x0600220B RID: 8715 RVA: 0x0007C8C6 File Offset: 0x0007AAC6
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			this.SetUpScene();
 		}
 
-		// Token: 0x0600220C RID: 8716 RVA: 0x0007C8D4 File Offset: 0x0007AAD4
 		private void SetUpScene()
 		{
 			this.ArrangeBesiegerDeploymentPointsAndMachines();
@@ -58,7 +52,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600220D RID: 8717 RVA: 0x0007C8F8 File Offset: 0x0007AAF8
 		private void ArrangeBesiegerDeploymentPointsAndMachines()
 		{
 			bool flag = this._siegeMissionType == SiegeMissionPreparationHandler.SiegeMissionType.Assault;
@@ -74,7 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600220E RID: 8718 RVA: 0x0007C96C File Offset: 0x0007AB6C
 		private void ArrangeEntitiesForMissionType()
 		{
 			string text = ((this._siegeMissionType == SiegeMissionPreparationHandler.SiegeMissionType.Assault) ? "sally_out" : "siege_assault");
@@ -87,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600220F RID: 8719 RVA: 0x0007CA24 File Offset: 0x0007AC24
 		private void ArrangeDestructedMeshes()
 		{
 			float num = 0f;
@@ -185,7 +176,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002210 RID: 8720 RVA: 0x0007CDF0 File Offset: 0x0007AFF0
 		private WallSegment FindRightMostWall(List<WallSegment> wallList)
 		{
 			int count = wallList.Count;
@@ -205,7 +195,6 @@ namespace TaleWorlds.MountAndBlade
 			return wallList[0];
 		}
 
-		// Token: 0x06002211 RID: 8721 RVA: 0x0007CE90 File Offset: 0x0007B090
 		private void ArrangeSiegeMachinesForNonAssaultMission()
 		{
 			foreach (GameEntity gameEntity in Mission.Current.GetActiveEntitiesWithScriptComponentOfType<SiegeWeapon>())
@@ -218,32 +207,22 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000CC8 RID: 3272
 		private const string SallyOutTag = "sally_out";
 
-		// Token: 0x04000CC9 RID: 3273
 		private const string AssaultTag = "siege_assault";
 
-		// Token: 0x04000CCA RID: 3274
 		private const string DamageDecalTag = "damage_decal";
 
-		// Token: 0x04000CCB RID: 3275
 		private float[] _wallHitPointPercentages;
 
-		// Token: 0x04000CCC RID: 3276
 		private bool _hasAnySiegeTower;
 
-		// Token: 0x04000CCD RID: 3277
 		private SiegeMissionPreparationHandler.SiegeMissionType _siegeMissionType;
 
-		// Token: 0x0200058D RID: 1421
 		private enum SiegeMissionType
 		{
-			// Token: 0x04001D8C RID: 7564
 			Assault,
-			// Token: 0x04001D8D RID: 7565
 			SallyOut,
-			// Token: 0x04001D8E RID: 7566
 			ReliefForce
 		}
 	}

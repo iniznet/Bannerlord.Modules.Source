@@ -7,11 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisions.ItemTypes
 {
-	// Token: 0x0200006B RID: 107
 	public class KingSelectionDecisionItemVM : DecisionItemBaseVM
 	{
-		// Token: 0x170002E8 RID: 744
-		// (get) Token: 0x06000942 RID: 2370 RVA: 0x00026555 File Offset: 0x00024755
 		public IFaction TargetFaction
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x06000943 RID: 2371 RVA: 0x00026567 File Offset: 0x00024767
 		public KingSelectionDecisionItemVM(KingSelectionKingdomDecision decision, Action onDecisionOver)
 			: base(decision, onDecisionOver)
 		{
@@ -28,7 +24,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			base.DecisionType = 6;
 		}
 
-		// Token: 0x06000944 RID: 2372 RVA: 0x00026580 File Offset: 0x00024780
 		protected override void InitValues()
 		{
 			base.InitValues();
@@ -107,15 +102,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x06000945 RID: 2373 RVA: 0x000268B8 File Offset: 0x00024AB8
 		private void ExecuteLocationLink(string link)
 		{
 			Campaign.Current.EncyclopediaManager.GoToLink(link);
 		}
 
-		// Token: 0x170002E9 RID: 745
-		// (get) Token: 0x06000946 RID: 2374 RVA: 0x000268CA File Offset: 0x00024ACA
-		// (set) Token: 0x06000947 RID: 2375 RVA: 0x000268D2 File Offset: 0x00024AD2
 		[DataSourceProperty]
 		public string NameText
 		{
@@ -133,9 +124,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002EA RID: 746
-		// (get) Token: 0x06000948 RID: 2376 RVA: 0x000268F5 File Offset: 0x00024AF5
-		// (set) Token: 0x06000949 RID: 2377 RVA: 0x000268FD File Offset: 0x00024AFD
 		[DataSourceProperty]
 		public string FactionName
 		{
@@ -153,9 +141,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002EB RID: 747
-		// (get) Token: 0x0600094A RID: 2378 RVA: 0x00026920 File Offset: 0x00024B20
-		// (set) Token: 0x0600094B RID: 2379 RVA: 0x00026928 File Offset: 0x00024B28
 		[DataSourceProperty]
 		public ImageIdentifierVM FactionBanner
 		{
@@ -173,9 +158,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002EC RID: 748
-		// (get) Token: 0x0600094C RID: 2380 RVA: 0x00026946 File Offset: 0x00024B46
-		// (set) Token: 0x0600094D RID: 2381 RVA: 0x0002694E File Offset: 0x00024B4E
 		[DataSourceProperty]
 		public string SettlementsText
 		{
@@ -193,9 +175,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002ED RID: 749
-		// (get) Token: 0x0600094E RID: 2382 RVA: 0x00026971 File Offset: 0x00024B71
-		// (set) Token: 0x0600094F RID: 2383 RVA: 0x00026979 File Offset: 0x00024B79
 		[DataSourceProperty]
 		public string SettlementsListText
 		{
@@ -213,9 +192,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002EE RID: 750
-		// (get) Token: 0x06000950 RID: 2384 RVA: 0x0002699C File Offset: 0x00024B9C
-		// (set) Token: 0x06000951 RID: 2385 RVA: 0x000269A4 File Offset: 0x00024BA4
 		[DataSourceProperty]
 		public string CastlesText
 		{
@@ -233,9 +209,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002EF RID: 751
-		// (get) Token: 0x06000952 RID: 2386 RVA: 0x000269C7 File Offset: 0x00024BC7
-		// (set) Token: 0x06000953 RID: 2387 RVA: 0x000269CF File Offset: 0x00024BCF
 		[DataSourceProperty]
 		public string CastlesListText
 		{
@@ -253,9 +226,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F0 RID: 752
-		// (get) Token: 0x06000954 RID: 2388 RVA: 0x000269F2 File Offset: 0x00024BF2
-		// (set) Token: 0x06000955 RID: 2389 RVA: 0x000269FA File Offset: 0x00024BFA
 		[DataSourceProperty]
 		public string TotalStrengthText
 		{
@@ -273,9 +243,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F1 RID: 753
-		// (get) Token: 0x06000956 RID: 2390 RVA: 0x00026A1D File Offset: 0x00024C1D
-		// (set) Token: 0x06000957 RID: 2391 RVA: 0x00026A25 File Offset: 0x00024C25
 		[DataSourceProperty]
 		public int TotalStrength
 		{
@@ -293,9 +260,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F2 RID: 754
-		// (get) Token: 0x06000958 RID: 2392 RVA: 0x00026A43 File Offset: 0x00024C43
-		// (set) Token: 0x06000959 RID: 2393 RVA: 0x00026A4B File Offset: 0x00024C4B
 		[DataSourceProperty]
 		public string ActivePoliciesText
 		{
@@ -313,9 +277,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x170002F3 RID: 755
-		// (get) Token: 0x0600095A RID: 2394 RVA: 0x00026A6E File Offset: 0x00024C6E
-		// (set) Token: 0x0600095B RID: 2395 RVA: 0x00026A76 File Offset: 0x00024C76
 		[DataSourceProperty]
 		public string ActivePoliciesListText
 		{
@@ -333,40 +294,28 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 		}
 
-		// Token: 0x0400042A RID: 1066
 		private readonly KingSelectionKingdomDecision _kingSelectionDecision;
 
-		// Token: 0x0400042B RID: 1067
 		private string _nameText;
 
-		// Token: 0x0400042C RID: 1068
 		private string _factionName;
 
-		// Token: 0x0400042D RID: 1069
 		private ImageIdentifierVM _factionBanner;
 
-		// Token: 0x0400042E RID: 1070
 		private string _settlementsText;
 
-		// Token: 0x0400042F RID: 1071
 		private string _settlementsListText;
 
-		// Token: 0x04000430 RID: 1072
 		private string _castlesText;
 
-		// Token: 0x04000431 RID: 1073
 		private string _castlesListText;
 
-		// Token: 0x04000432 RID: 1074
 		private int _totalStrength;
 
-		// Token: 0x04000433 RID: 1075
 		private string _totalStrengthText;
 
-		// Token: 0x04000434 RID: 1076
 		private string _activePoliciesText;
 
-		// Token: 0x04000435 RID: 1077
 		private string _activePoliciesListText;
 	}
 }

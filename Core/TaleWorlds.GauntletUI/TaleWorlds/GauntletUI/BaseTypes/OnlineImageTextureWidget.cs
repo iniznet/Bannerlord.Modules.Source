@@ -2,15 +2,10 @@
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x02000061 RID: 97
 	public class OnlineImageTextureWidget : TextureWidget
 	{
-		// Token: 0x170001C3 RID: 451
-		// (get) Token: 0x06000621 RID: 1569 RVA: 0x0001B26E File Offset: 0x0001946E
-		// (set) Token: 0x06000622 RID: 1570 RVA: 0x0001B276 File Offset: 0x00019476
 		public OnlineImageTextureWidget.ImageSizePolicies ImageSizePolicy { get; set; }
 
-		// Token: 0x06000623 RID: 1571 RVA: 0x0001B27F File Offset: 0x0001947F
 		public OnlineImageTextureWidget(UIContext context)
 			: base(context)
 		{
@@ -22,14 +17,12 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000624 RID: 1572 RVA: 0x0001B2AA File Offset: 0x000194AA
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
 			this.UpdateSizePolicy();
 		}
 
-		// Token: 0x06000625 RID: 1573 RVA: 0x0001B2BC File Offset: 0x000194BC
 		private void UpdateSizePolicy()
 		{
 			if (this.ImageSizePolicy == OnlineImageTextureWidget.ImageSizePolicies.OriginalSize)
@@ -78,9 +71,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x170001C4 RID: 452
-		// (get) Token: 0x06000626 RID: 1574 RVA: 0x0001B44E File Offset: 0x0001964E
-		// (set) Token: 0x06000627 RID: 1575 RVA: 0x0001B456 File Offset: 0x00019656
 		[Editor(false)]
 		public string OnlineImageSourceUrl
 		{
@@ -100,20 +90,14 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x040002E9 RID: 745
 		private static bool _textureProviderTypeCollectionRequested;
 
-		// Token: 0x040002EB RID: 747
 		private string _onlineImageSourceUrl;
 
-		// Token: 0x0200008D RID: 141
 		public enum ImageSizePolicies
 		{
-			// Token: 0x04000461 RID: 1121
 			Stretch,
-			// Token: 0x04000462 RID: 1122
 			OriginalSize,
-			// Token: 0x04000463 RID: 1123
 			ScaleToBiggerDimension
 		}
 	}

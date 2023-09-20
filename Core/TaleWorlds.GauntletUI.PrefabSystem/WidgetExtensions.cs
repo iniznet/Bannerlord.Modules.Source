@@ -9,10 +9,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.PrefabSystem
 {
-	// Token: 0x02000018 RID: 24
 	public static class WidgetExtensions
 	{
-		// Token: 0x06000097 RID: 151 RVA: 0x000031AC File Offset: 0x000013AC
 		private static void GetObjectAndProperty(object parent, string name, int nameStartIndex, out object targetObject, out PropertyInfo targetPropertyInfo)
 		{
 			int num = name.IndexOf('.', nameStartIndex);
@@ -32,7 +30,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			WidgetExtensions.GetObjectAndProperty(property.GetGetMethod().Invoke(parent, new object[0]), name, num + 1, out targetObject, out targetPropertyInfo);
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x00003228 File Offset: 0x00001428
 		public static void SetWidgetAttributeFromString(object target, string name, string value, BrushFactory brushFactory, SpriteData spriteData, Dictionary<string, VisualDefinitionTemplate> visualDefinitionTemplates, Dictionary<string, ConstantDefinition> constants, Dictionary<string, WidgetAttributeTemplate> parameters, Dictionary<string, XmlElement> customElements, Dictionary<string, string> defaultParameters)
 		{
 			object obj;
@@ -124,7 +121,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x00003514 File Offset: 0x00001714
 		public static Type GetWidgetAttributeType(object target, string name)
 		{
 			object obj;
@@ -137,7 +133,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			return null;
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x00003540 File Offset: 0x00001740
 		public static void SetWidgetAttribute(UIContext context, object target, string name, object value)
 		{
 			object obj;
@@ -150,7 +145,6 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 			}
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00003588 File Offset: 0x00001788
 		private static object ConvertObject(UIContext context, object input, Type targetType)
 		{
 			object obj = input;

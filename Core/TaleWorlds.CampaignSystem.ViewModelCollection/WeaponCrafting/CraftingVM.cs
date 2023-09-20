@@ -23,10 +23,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 {
-	// Token: 0x020000DA RID: 218
 	public class CraftingVM : ViewModel
 	{
-		// Token: 0x06001412 RID: 5138 RVA: 0x0004C270 File Offset: 0x0004A470
 		public CraftingVM(Crafting crafting, Action onClose, Action resetCamera, Action onWeaponCrafted, Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> getItemUsageSetFlags)
 		{
 			this._crafting = crafting;
@@ -59,7 +57,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 		}
 
-		// Token: 0x06001413 RID: 5139 RVA: 0x0004C42C File Offset: 0x0004A62C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -91,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			currentCraftingHero.RefreshValues();
 		}
 
-		// Token: 0x06001414 RID: 5140 RVA: 0x0004C5A4 File Offset: 0x0004A7A4
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -129,7 +125,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			eventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 		}
 
-		// Token: 0x06001415 RID: 5141 RVA: 0x0004C62B File Offset: 0x0004A82B
 		private void OnRequireUpdateFromWeaponDesign()
 		{
 			CraftingVM.OnItemRefreshedDelegate onItemRefreshed = this.OnItemRefreshed;
@@ -140,14 +135,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.UpdateAll();
 		}
 
-		// Token: 0x06001416 RID: 5142 RVA: 0x0004C645 File Offset: 0x0004A845
 		public void OnCraftingLogicRefreshed(Crafting newCraftingLogic)
 		{
 			this._crafting = newCraftingLogic;
 			this.WeaponDesign.OnCraftingLogicRefreshed(newCraftingLogic);
 		}
 
-		// Token: 0x06001417 RID: 5143 RVA: 0x0004C65C File Offset: 0x0004A85C
 		private void UpdateCurrentMaterialCosts()
 		{
 			for (int i = 0; i < 9; i++)
@@ -221,7 +214,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001418 RID: 5144 RVA: 0x0004C998 File Offset: 0x0004AB98
 		private void UpdateCurrentMaterialsAvailable()
 		{
 			if (this.PlayerCurrentMaterials == null)
@@ -239,7 +231,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001419 RID: 5145 RVA: 0x0004CA1C File Offset: 0x0004AC1C
 		private void UpdateAll()
 		{
 			this.UpdateCurrentMaterialCosts();
@@ -260,7 +251,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.RefreshHeroAvailabilities(craftingOrder);
 		}
 
-		// Token: 0x0600141A RID: 5146 RVA: 0x0004CA70 File Offset: 0x0004AC70
 		private void UpdateCraftingSkills()
 		{
 			foreach (CraftingAvailableHeroItemVM craftingAvailableHeroItemVM in this.AvailableCharactersForSmithing)
@@ -269,7 +259,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x0600141B RID: 5147 RVA: 0x0004CABC File Offset: 0x0004ACBC
 		private void UpdateCraftingStamina()
 		{
 			foreach (CraftingAvailableHeroItemVM craftingAvailableHeroItemVM in this.AvailableCharactersForSmithing)
@@ -278,7 +267,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x0600141C RID: 5148 RVA: 0x0004CB08 File Offset: 0x0004AD08
 		private void RefreshHeroAvailabilities(CraftingOrder order)
 		{
 			foreach (CraftingAvailableHeroItemVM craftingAvailableHeroItemVM in this.AvailableCharactersForSmithing)
@@ -287,7 +275,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x0600141D RID: 5149 RVA: 0x0004CB54 File Offset: 0x0004AD54
 		private void RefreshEnableMainAction()
 		{
 			if (Campaign.Current.GameMode == CampaignGameMode.Tutorial)
@@ -365,20 +352,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x0600141E RID: 5150 RVA: 0x0004CDC7 File Offset: 0x0004AFC7
 		private bool HaveEnergy()
 		{
 			CraftingAvailableHeroItemVM currentCraftingHero = this.CurrentCraftingHero;
 			return ((currentCraftingHero != null) ? currentCraftingHero.Hero : null) == null || this._craftingBehavior.GetHeroCraftingStamina(this.CurrentCraftingHero.Hero) > 10;
 		}
 
-		// Token: 0x0600141F RID: 5151 RVA: 0x0004CDF9 File Offset: 0x0004AFF9
 		private bool HaveMaterialsNeeded()
 		{
 			return !this.PlayerCurrentMaterials.Any((CraftingResourceItemVM m) => m.ResourceChangeAmount + m.ResourceAmount < 0);
 		}
 
-		// Token: 0x06001420 RID: 5152 RVA: 0x0004CE28 File Offset: 0x0004B028
 		public void UpdateCraftingHero(CraftingAvailableHeroItemVM newHero)
 		{
 			this.CurrentCraftingHero = newHero;
@@ -389,7 +373,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.UpdateCraftingSkills();
 		}
 
-		// Token: 0x06001421 RID: 5153 RVA: 0x0004CE64 File Offset: 0x0004B064
 		public void ExecuteConfirm()
 		{
 			if (this.WeaponDesign.IsInFinalCraftingStage && this.WeaponDesign.CraftingResultPopup.CanConfirm)
@@ -412,7 +395,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001422 RID: 5154 RVA: 0x0004CF24 File Offset: 0x0004B124
 		public void ExecuteCancel()
 		{
 			if (this.WeaponDesign.IsInFinalCraftingStage)
@@ -444,7 +426,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			Game.Current.GameStateManager.PopState(0);
 		}
 
-		// Token: 0x06001423 RID: 5155 RVA: 0x0004CFE4 File Offset: 0x0004B1E4
 		public void ExecuteMainAction()
 		{
 			if (this.IsInSmeltingMode)
@@ -498,45 +479,36 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001424 RID: 5156 RVA: 0x0004D1F4 File Offset: 0x0004B3F4
 		public void ExecuteResetCamera()
 		{
 			this._resetCamera();
 		}
 
-		// Token: 0x06001425 RID: 5157 RVA: 0x0004D201 File Offset: 0x0004B401
 		private CraftingAvailableHeroItemVM GetCurrentCraftingHero()
 		{
 			return this.CurrentCraftingHero;
 		}
 
-		// Token: 0x06001426 RID: 5158 RVA: 0x0004D209 File Offset: 0x0004B409
 		public void SetConfirmInputKey(HotKey hotKey)
 		{
 			this.ConfirmInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06001427 RID: 5159 RVA: 0x0004D218 File Offset: 0x0004B418
 		public void SetExitInputKey(HotKey hotKey)
 		{
 			this.ExitInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06001428 RID: 5160 RVA: 0x0004D227 File Offset: 0x0004B427
 		public void SetPreviousTabInputKey(HotKey hotKey)
 		{
 			this.PreviousTabInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06001429 RID: 5161 RVA: 0x0004D236 File Offset: 0x0004B436
 		public void SetNextTabInputKey(HotKey hotKey)
 		{
 			this.NextTabInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x170006BE RID: 1726
-		// (get) Token: 0x0600142A RID: 5162 RVA: 0x0004D245 File Offset: 0x0004B445
-		// (set) Token: 0x0600142B RID: 5163 RVA: 0x0004D24D File Offset: 0x0004B44D
 		public InputKeyItemVM ConfirmInputKey
 		{
 			get
@@ -553,9 +525,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006BF RID: 1727
-		// (get) Token: 0x0600142C RID: 5164 RVA: 0x0004D26B File Offset: 0x0004B46B
-		// (set) Token: 0x0600142D RID: 5165 RVA: 0x0004D273 File Offset: 0x0004B473
 		public InputKeyItemVM ExitInputKey
 		{
 			get
@@ -572,9 +541,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C0 RID: 1728
-		// (get) Token: 0x0600142E RID: 5166 RVA: 0x0004D291 File Offset: 0x0004B491
-		// (set) Token: 0x0600142F RID: 5167 RVA: 0x0004D299 File Offset: 0x0004B499
 		public InputKeyItemVM PreviousTabInputKey
 		{
 			get
@@ -591,9 +557,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C1 RID: 1729
-		// (get) Token: 0x06001430 RID: 5168 RVA: 0x0004D2B7 File Offset: 0x0004B4B7
-		// (set) Token: 0x06001431 RID: 5169 RVA: 0x0004D2BF File Offset: 0x0004B4BF
 		public InputKeyItemVM NextTabInputKey
 		{
 			get
@@ -610,9 +573,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C2 RID: 1730
-		// (get) Token: 0x06001432 RID: 5170 RVA: 0x0004D2DD File Offset: 0x0004B4DD
-		// (set) Token: 0x06001433 RID: 5171 RVA: 0x0004D2E5 File Offset: 0x0004B4E5
 		public bool CanSwitchTabs
 		{
 			get
@@ -629,9 +589,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C3 RID: 1731
-		// (get) Token: 0x06001434 RID: 5172 RVA: 0x0004D303 File Offset: 0x0004B503
-		// (set) Token: 0x06001435 RID: 5173 RVA: 0x0004D30B File Offset: 0x0004B50B
 		public bool IsCharacterSelectionActive
 		{
 			get
@@ -648,9 +605,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C4 RID: 1732
-		// (get) Token: 0x06001436 RID: 5174 RVA: 0x0004D329 File Offset: 0x0004B529
-		// (set) Token: 0x06001437 RID: 5175 RVA: 0x0004D331 File Offset: 0x0004B531
 		[DataSourceProperty]
 		public MBBindingList<CraftingResourceItemVM> PlayerCurrentMaterials
 		{
@@ -668,9 +622,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C5 RID: 1733
-		// (get) Token: 0x06001438 RID: 5176 RVA: 0x0004D34F File Offset: 0x0004B54F
-		// (set) Token: 0x06001439 RID: 5177 RVA: 0x0004D357 File Offset: 0x0004B557
 		[DataSourceProperty]
 		public MBBindingList<CraftingAvailableHeroItemVM> AvailableCharactersForSmithing
 		{
@@ -688,9 +639,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C6 RID: 1734
-		// (get) Token: 0x0600143A RID: 5178 RVA: 0x0004D375 File Offset: 0x0004B575
-		// (set) Token: 0x0600143B RID: 5179 RVA: 0x0004D37D File Offset: 0x0004B57D
 		[DataSourceProperty]
 		public CraftingAvailableHeroItemVM CurrentCraftingHero
 		{
@@ -708,9 +656,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C7 RID: 1735
-		// (get) Token: 0x0600143C RID: 5180 RVA: 0x0004D39B File Offset: 0x0004B59B
-		// (set) Token: 0x0600143D RID: 5181 RVA: 0x0004D3A3 File Offset: 0x0004B5A3
 		[DataSourceProperty]
 		public string CurrentCategoryText
 		{
@@ -728,9 +673,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C8 RID: 1736
-		// (get) Token: 0x0600143E RID: 5182 RVA: 0x0004D3C6 File Offset: 0x0004B5C6
-		// (set) Token: 0x0600143F RID: 5183 RVA: 0x0004D3CE File Offset: 0x0004B5CE
 		[DataSourceProperty]
 		public string CraftingText
 		{
@@ -748,9 +690,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006C9 RID: 1737
-		// (get) Token: 0x06001440 RID: 5184 RVA: 0x0004D3F1 File Offset: 0x0004B5F1
-		// (set) Token: 0x06001441 RID: 5185 RVA: 0x0004D3F9 File Offset: 0x0004B5F9
 		[DataSourceProperty]
 		public string SmeltingText
 		{
@@ -768,9 +707,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CA RID: 1738
-		// (get) Token: 0x06001442 RID: 5186 RVA: 0x0004D41C File Offset: 0x0004B61C
-		// (set) Token: 0x06001443 RID: 5187 RVA: 0x0004D424 File Offset: 0x0004B624
 		[DataSourceProperty]
 		public string RefinementText
 		{
@@ -788,9 +724,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CB RID: 1739
-		// (get) Token: 0x06001444 RID: 5188 RVA: 0x0004D447 File Offset: 0x0004B647
-		// (set) Token: 0x06001445 RID: 5189 RVA: 0x0004D44F File Offset: 0x0004B64F
 		[DataSourceProperty]
 		public string MainActionText
 		{
@@ -808,9 +741,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CC RID: 1740
-		// (get) Token: 0x06001446 RID: 5190 RVA: 0x0004D472 File Offset: 0x0004B672
-		// (set) Token: 0x06001447 RID: 5191 RVA: 0x0004D47A File Offset: 0x0004B67A
 		[DataSourceProperty]
 		public bool IsMainActionEnabled
 		{
@@ -828,9 +758,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CD RID: 1741
-		// (get) Token: 0x06001448 RID: 5192 RVA: 0x0004D498 File Offset: 0x0004B698
-		// (set) Token: 0x06001449 RID: 5193 RVA: 0x0004D4A0 File Offset: 0x0004B6A0
 		[DataSourceProperty]
 		public int ItemValue
 		{
@@ -848,9 +775,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CE RID: 1742
-		// (get) Token: 0x0600144A RID: 5194 RVA: 0x0004D4BE File Offset: 0x0004B6BE
-		// (set) Token: 0x0600144B RID: 5195 RVA: 0x0004D4C6 File Offset: 0x0004B6C6
 		[DataSourceProperty]
 		public HintViewModel CraftingHint
 		{
@@ -868,9 +792,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006CF RID: 1743
-		// (get) Token: 0x0600144C RID: 5196 RVA: 0x0004D4E4 File Offset: 0x0004B6E4
-		// (set) Token: 0x0600144D RID: 5197 RVA: 0x0004D4EC File Offset: 0x0004B6EC
 		[DataSourceProperty]
 		public HintViewModel RefiningHint
 		{
@@ -888,9 +809,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D0 RID: 1744
-		// (get) Token: 0x0600144E RID: 5198 RVA: 0x0004D50A File Offset: 0x0004B70A
-		// (set) Token: 0x0600144F RID: 5199 RVA: 0x0004D512 File Offset: 0x0004B712
 		[DataSourceProperty]
 		public HintViewModel SmeltingHint
 		{
@@ -908,9 +826,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D1 RID: 1745
-		// (get) Token: 0x06001450 RID: 5200 RVA: 0x0004D530 File Offset: 0x0004B730
-		// (set) Token: 0x06001451 RID: 5201 RVA: 0x0004D538 File Offset: 0x0004B738
 		[DataSourceProperty]
 		public HintViewModel ResetCameraHint
 		{
@@ -928,9 +843,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D2 RID: 1746
-		// (get) Token: 0x06001452 RID: 5202 RVA: 0x0004D556 File Offset: 0x0004B756
-		// (set) Token: 0x06001453 RID: 5203 RVA: 0x0004D55E File Offset: 0x0004B75E
 		[DataSourceProperty]
 		public BasicTooltipViewModel MainActionHint
 		{
@@ -948,9 +860,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D3 RID: 1747
-		// (get) Token: 0x06001454 RID: 5204 RVA: 0x0004D57C File Offset: 0x0004B77C
-		// (set) Token: 0x06001455 RID: 5205 RVA: 0x0004D584 File Offset: 0x0004B784
 		[DataSourceProperty]
 		public string DoneLbl
 		{
@@ -968,9 +877,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D4 RID: 1748
-		// (get) Token: 0x06001456 RID: 5206 RVA: 0x0004D5A7 File Offset: 0x0004B7A7
-		// (set) Token: 0x06001457 RID: 5207 RVA: 0x0004D5AF File Offset: 0x0004B7AF
 		[DataSourceProperty]
 		public string CancelLbl
 		{
@@ -988,7 +894,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001458 RID: 5208 RVA: 0x0004D5D4 File Offset: 0x0004B7D4
 		public void ExecuteSwitchToCrafting()
 		{
 			this.IsInSmeltingMode = false;
@@ -1011,7 +916,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			weaponDesign.ChangeModeIfHeroIsUnavailable();
 		}
 
-		// Token: 0x06001459 RID: 5209 RVA: 0x0004D650 File Offset: 0x0004B850
 		public void ExecuteSwitchToSmelting()
 		{
 			this.IsInSmeltingMode = true;
@@ -1029,7 +933,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.UpdateAll();
 		}
 
-		// Token: 0x0600145A RID: 5210 RVA: 0x0004D6C8 File Offset: 0x0004B8C8
 		public void ExecuteSwitchToRefinement()
 		{
 			this.IsInSmeltingMode = false;
@@ -1047,21 +950,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.UpdateAll();
 		}
 
-		// Token: 0x0600145B RID: 5211 RVA: 0x0004D74A File Offset: 0x0004B94A
 		private void OnRefinementSelectionChange()
 		{
 			this.UpdateCurrentMaterialCosts();
 			this.RefreshEnableMainAction();
 		}
 
-		// Token: 0x0600145C RID: 5212 RVA: 0x0004D758 File Offset: 0x0004B958
 		private void OnSmeltItemSelection()
 		{
 			this.UpdateCurrentMaterialCosts();
 			this.RefreshEnableMainAction();
 		}
 
-		// Token: 0x0600145D RID: 5213 RVA: 0x0004D766 File Offset: 0x0004B966
 		public void SetCurrentDesignManually(CraftingTemplate craftingTemplate, ValueTuple<CraftingPiece, int>[] pieces)
 		{
 			if (!this.IsInCraftingMode)
@@ -1071,9 +971,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.WeaponDesign.SetDesignManually(craftingTemplate, pieces, false);
 		}
 
-		// Token: 0x170006D5 RID: 1749
-		// (get) Token: 0x0600145E RID: 5214 RVA: 0x0004D784 File Offset: 0x0004B984
-		// (set) Token: 0x0600145F RID: 5215 RVA: 0x0004D78C File Offset: 0x0004B98C
 		[DataSourceProperty]
 		public SmeltingVM Smelting
 		{
@@ -1091,9 +988,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D6 RID: 1750
-		// (get) Token: 0x06001460 RID: 5216 RVA: 0x0004D7AA File Offset: 0x0004B9AA
-		// (set) Token: 0x06001461 RID: 5217 RVA: 0x0004D7B2 File Offset: 0x0004B9B2
 		[DataSourceProperty]
 		public WeaponDesignVM WeaponDesign
 		{
@@ -1111,9 +1005,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D7 RID: 1751
-		// (get) Token: 0x06001462 RID: 5218 RVA: 0x0004D7D0 File Offset: 0x0004B9D0
-		// (set) Token: 0x06001463 RID: 5219 RVA: 0x0004D7D8 File Offset: 0x0004B9D8
 		[DataSourceProperty]
 		public RefinementVM Refinement
 		{
@@ -1131,9 +1022,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D8 RID: 1752
-		// (get) Token: 0x06001464 RID: 5220 RVA: 0x0004D7F6 File Offset: 0x0004B9F6
-		// (set) Token: 0x06001465 RID: 5221 RVA: 0x0004D7FE File Offset: 0x0004B9FE
 		[DataSourceProperty]
 		public bool IsInCraftingMode
 		{
@@ -1151,9 +1039,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006D9 RID: 1753
-		// (get) Token: 0x06001466 RID: 5222 RVA: 0x0004D81C File Offset: 0x0004BA1C
-		// (set) Token: 0x06001467 RID: 5223 RVA: 0x0004D824 File Offset: 0x0004BA24
 		[DataSourceProperty]
 		public bool IsInSmeltingMode
 		{
@@ -1171,9 +1056,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DA RID: 1754
-		// (get) Token: 0x06001468 RID: 5224 RVA: 0x0004D842 File Offset: 0x0004BA42
-		// (set) Token: 0x06001469 RID: 5225 RVA: 0x0004D84A File Offset: 0x0004BA4A
 		[DataSourceProperty]
 		public bool IsInRefinementMode
 		{
@@ -1191,9 +1073,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DB RID: 1755
-		// (get) Token: 0x0600146A RID: 5226 RVA: 0x0004D868 File Offset: 0x0004BA68
-		// (set) Token: 0x0600146B RID: 5227 RVA: 0x0004D870 File Offset: 0x0004BA70
 		[DataSourceProperty]
 		public bool IsSmeltingItemSelected
 		{
@@ -1211,9 +1090,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DC RID: 1756
-		// (get) Token: 0x0600146C RID: 5228 RVA: 0x0004D88E File Offset: 0x0004BA8E
-		// (set) Token: 0x0600146D RID: 5229 RVA: 0x0004D896 File Offset: 0x0004BA96
 		[DataSourceProperty]
 		public bool IsRefinementItemSelected
 		{
@@ -1231,9 +1107,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DD RID: 1757
-		// (get) Token: 0x0600146E RID: 5230 RVA: 0x0004D8B4 File Offset: 0x0004BAB4
-		// (set) Token: 0x0600146F RID: 5231 RVA: 0x0004D8BC File Offset: 0x0004BABC
 		[DataSourceProperty]
 		public string SelectItemToSmeltText
 		{
@@ -1251,9 +1124,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DE RID: 1758
-		// (get) Token: 0x06001470 RID: 5232 RVA: 0x0004D8DF File Offset: 0x0004BADF
-		// (set) Token: 0x06001471 RID: 5233 RVA: 0x0004D8E7 File Offset: 0x0004BAE7
 		[DataSourceProperty]
 		public string SelectItemToRefineText
 		{
@@ -1271,9 +1141,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x170006DF RID: 1759
-		// (get) Token: 0x06001472 RID: 5234 RVA: 0x0004D90A File Offset: 0x0004BB0A
-		// (set) Token: 0x06001473 RID: 5235 RVA: 0x0004D912 File Offset: 0x0004BB12
 		[DataSourceProperty]
 		public ElementNotificationVM TutorialNotification
 		{
@@ -1291,7 +1158,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x06001474 RID: 5236 RVA: 0x0004D930 File Offset: 0x0004BB30
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
 		{
 			if (obj.NewNotificationElementID != this._latestTutorialElementID)
@@ -1308,137 +1174,92 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		// Token: 0x0400095C RID: 2396
 		private const int _minimumRequiredStamina = 10;
 
-		// Token: 0x0400095D RID: 2397
 		public CraftingVM.OnItemRefreshedDelegate OnItemRefreshed;
 
-		// Token: 0x0400095E RID: 2398
 		private readonly Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
 
-		// Token: 0x0400095F RID: 2399
 		private readonly ICraftingCampaignBehavior _craftingBehavior;
 
-		// Token: 0x04000960 RID: 2400
 		private readonly Action _onClose;
 
-		// Token: 0x04000961 RID: 2401
 		private readonly Action _resetCamera;
 
-		// Token: 0x04000962 RID: 2402
 		private readonly Action _onWeaponCrafted;
 
-		// Token: 0x04000963 RID: 2403
 		private Crafting _crafting;
 
-		// Token: 0x04000964 RID: 2404
 		private InputKeyItemVM _confirmInputKey;
 
-		// Token: 0x04000965 RID: 2405
 		private InputKeyItemVM _exitInputKey;
 
-		// Token: 0x04000966 RID: 2406
 		private InputKeyItemVM _previousTabInputKey;
 
-		// Token: 0x04000967 RID: 2407
 		private InputKeyItemVM _nextTabInputKey;
 
-		// Token: 0x04000968 RID: 2408
 		private bool _canSwitchTabs;
 
-		// Token: 0x04000969 RID: 2409
 		private bool _isCharacterSelectionActive;
 
-		// Token: 0x0400096A RID: 2410
 		private string _doneLbl;
 
-		// Token: 0x0400096B RID: 2411
 		private string _cancelLbl;
 
-		// Token: 0x0400096C RID: 2412
 		private HintViewModel _resetCameraHint;
 
-		// Token: 0x0400096D RID: 2413
 		private HintViewModel _smeltingHint;
 
-		// Token: 0x0400096E RID: 2414
 		private HintViewModel _craftingHint;
 
-		// Token: 0x0400096F RID: 2415
 		private HintViewModel _refiningHint;
 
-		// Token: 0x04000970 RID: 2416
 		private BasicTooltipViewModel _mainActionHint;
 
-		// Token: 0x04000971 RID: 2417
 		private int _itemValue = -1;
 
-		// Token: 0x04000972 RID: 2418
 		private string _currentCategoryText;
 
-		// Token: 0x04000973 RID: 2419
 		private string _mainActionText;
 
-		// Token: 0x04000974 RID: 2420
 		private string _craftingText;
 
-		// Token: 0x04000975 RID: 2421
 		private string _smeltingText;
 
-		// Token: 0x04000976 RID: 2422
 		private string _refinementText;
 
-		// Token: 0x04000977 RID: 2423
 		private bool _isMainActionEnabled;
 
-		// Token: 0x04000978 RID: 2424
 		private MBBindingList<CraftingAvailableHeroItemVM> _availableCharactersForSmithing;
 
-		// Token: 0x04000979 RID: 2425
 		private CraftingAvailableHeroItemVM _currentCraftingHero;
 
-		// Token: 0x0400097A RID: 2426
 		private MBBindingList<CraftingResourceItemVM> _playerCurrentMaterials;
 
-		// Token: 0x0400097B RID: 2427
 		private bool _isInSmeltingMode;
 
-		// Token: 0x0400097C RID: 2428
 		private bool _isInCraftingMode;
 
-		// Token: 0x0400097D RID: 2429
 		private bool _isInRefinementMode;
 
-		// Token: 0x0400097E RID: 2430
 		private SmeltingVM _smelting;
 
-		// Token: 0x0400097F RID: 2431
 		private RefinementVM _refinement;
 
-		// Token: 0x04000980 RID: 2432
 		private WeaponDesignVM _weaponDesign;
 
-		// Token: 0x04000981 RID: 2433
 		private bool _isSmeltingItemSelected;
 
-		// Token: 0x04000982 RID: 2434
 		private bool _isRefinementItemSelected;
 
-		// Token: 0x04000983 RID: 2435
 		private string _selectItemToSmeltText;
 
-		// Token: 0x04000984 RID: 2436
 		private string _selectItemToRefineText;
 
-		// Token: 0x04000985 RID: 2437
 		public ElementNotificationVM _tutorialNotification;
 
-		// Token: 0x04000986 RID: 2438
 		private string _latestTutorialElementID;
 
-		// Token: 0x02000208 RID: 520
-		// (Invoke) Token: 0x060020D4 RID: 8404
 		public delegate void OnItemRefreshedDelegate(bool isItemVisible);
 	}
 }

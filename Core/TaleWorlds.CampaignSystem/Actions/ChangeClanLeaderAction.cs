@@ -6,10 +6,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200042A RID: 1066
 	public static class ChangeClanLeaderAction
 	{
-		// Token: 0x06003E97 RID: 16023 RVA: 0x0012AF58 File Offset: 0x00129158
 		private static void ApplyInternal(Clan clan, Hero newLeader = null)
 		{
 			Hero leader = clan.Leader;
@@ -53,13 +51,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnClanLeaderChanged(leader, newLeader);
 		}
 
-		// Token: 0x06003E98 RID: 16024 RVA: 0x0012B0CC File Offset: 0x001292CC
 		public static void ApplyWithSelectedNewLeader(Clan clan, Hero newLeader)
 		{
 			ChangeClanLeaderAction.ApplyInternal(clan, newLeader);
 		}
 
-		// Token: 0x06003E99 RID: 16025 RVA: 0x0012B0D5 File Offset: 0x001292D5
 		public static void ApplyWithoutSelectedNewLeader(Clan clan)
 		{
 			ChangeClanLeaderAction.ApplyInternal(clan, null);

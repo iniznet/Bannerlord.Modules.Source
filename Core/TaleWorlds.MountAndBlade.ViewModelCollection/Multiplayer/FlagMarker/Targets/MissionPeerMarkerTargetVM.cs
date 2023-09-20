@@ -6,16 +6,10 @@ using TaleWorlds.MountAndBlade.Diamond;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Targets
 {
-	// Token: 0x020000C1 RID: 193
 	public class MissionPeerMarkerTargetVM : MissionMarkerTargetVM
 	{
-		// Token: 0x170005FC RID: 1532
-		// (get) Token: 0x0600125B RID: 4699 RVA: 0x0003C663 File Offset: 0x0003A863
-		// (set) Token: 0x0600125C RID: 4700 RVA: 0x0003C66B File Offset: 0x0003A86B
 		public MissionPeer TargetPeer { get; private set; }
 
-		// Token: 0x170005FD RID: 1533
-		// (get) Token: 0x0600125D RID: 4701 RVA: 0x0003C674 File Offset: 0x0003A874
 		public override Vec3 WorldPosition
 		{
 			get
@@ -30,8 +24,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Ta
 			}
 		}
 
-		// Token: 0x170005FE RID: 1534
-		// (get) Token: 0x0600125E RID: 4702 RVA: 0x0003C6EA File Offset: 0x0003A8EA
 		protected override float HeightOffset
 		{
 			get
@@ -40,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Ta
 			}
 		}
 
-		// Token: 0x0600125F RID: 4703 RVA: 0x0003C6F1 File Offset: 0x0003A8F1
 		public MissionPeerMarkerTargetVM(MissionPeer peer, bool isFriend)
 			: base(MissionMarkerType.Peer)
 		{
@@ -50,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Ta
 			this.SetVisual();
 		}
 
-		// Token: 0x06001260 RID: 4704 RVA: 0x0003C71C File Offset: 0x0003A91C
 		private void SetVisual()
 		{
 			string text = "#FFFFFFFF";
@@ -71,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Ta
 			base.RefreshColor(num, num2);
 		}
 
-		// Token: 0x06001261 RID: 4705 RVA: 0x0003C7C9 File Offset: 0x0003A9C9
 		public override void UpdateScreenPosition(Camera missionCamera)
 		{
 			MissionPeer targetPeer = this.TargetPeer;
@@ -82,16 +71,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.FlagMarker.Ta
 			base.UpdateScreenPosition(missionCamera);
 		}
 
-		// Token: 0x040008C5 RID: 2245
 		private const string _partyMemberColor = "#00FF00FF";
 
-		// Token: 0x040008C6 RID: 2246
 		private const string _friendColor = "#FFFF00FF";
 
-		// Token: 0x040008C7 RID: 2247
 		private const string _clanMemberColor = "#00FFFFFF";
 
-		// Token: 0x040008C8 RID: 2248
 		private bool _isFriend;
 	}
 }

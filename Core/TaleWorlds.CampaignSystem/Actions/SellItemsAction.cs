@@ -5,10 +5,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000453 RID: 1107
 	public static class SellItemsAction
 	{
-		// Token: 0x06003F47 RID: 16199 RVA: 0x0012EFF8 File Offset: 0x0012D1F8
 		private static void ApplyInternal(PartyBase sellerParty, PartyBase buyerParty, ItemRosterElement itemRosterElement, int number, Settlement currentSettlement)
 		{
 			if (currentSettlement == null)
@@ -110,7 +108,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 		}
 
-		// Token: 0x06003F48 RID: 16200 RVA: 0x0012F29A File Offset: 0x0012D49A
 		public static void Apply(PartyBase receiverParty, PartyBase payerParty, ItemRosterElement subject, int number, Settlement currentSettlement = null)
 		{
 			SellItemsAction.ApplyInternal(receiverParty, payerParty, subject, number, currentSettlement);

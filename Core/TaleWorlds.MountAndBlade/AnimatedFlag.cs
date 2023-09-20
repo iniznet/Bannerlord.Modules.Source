@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000330 RID: 816
 	public class AnimatedFlag : ScriptComponentBehavior
 	{
-		// Token: 0x06002C14 RID: 11284 RVA: 0x000AA984 File Offset: 0x000A8B84
 		public AnimatedFlag()
 		{
 			this._prevFlagMeshFrame = new Vec3(0f, 0f, 0f, -1f);
@@ -16,7 +14,6 @@ namespace TaleWorlds.MountAndBlade
 			this._time = 0f;
 		}
 
-		// Token: 0x06002C15 RID: 11285 RVA: 0x000AA9D7 File Offset: 0x000A8BD7
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			MBDebug.Print("AnimatedFlag : OnInit called.", 0, Debug.DebugColor.Yellow, 17592186044416UL);
 		}
 
-		// Token: 0x06002C16 RID: 11286 RVA: 0x000AAA04 File Offset: 0x000A8C04
 		private void SmoothTheta(ref float theta, float dt)
 		{
 			float num = theta - this._prevTheta;
@@ -42,13 +38,11 @@ namespace TaleWorlds.MountAndBlade
 			theta = this._prevTheta + num * 0.05f;
 		}
 
-		// Token: 0x06002C17 RID: 11287 RVA: 0x000AAA7F File Offset: 0x000A8C7F
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return ScriptComponentBehavior.TickRequirement.Tick | base.GetTickRequirement();
 		}
 
-		// Token: 0x06002C18 RID: 11288 RVA: 0x000AAA8C File Offset: 0x000A8C8C
 		protected internal override void OnTick(float dt)
 		{
 			if (dt == 0f)
@@ -92,22 +86,17 @@ namespace TaleWorlds.MountAndBlade
 			this._prevFlagMeshFrame = globalFrame.origin;
 		}
 
-		// Token: 0x06002C19 RID: 11289 RVA: 0x000AAC6F File Offset: 0x000A8E6F
 		protected internal override bool IsOnlyVisual()
 		{
 			return true;
 		}
 
-		// Token: 0x040010AA RID: 4266
 		private float _prevTheta;
 
-		// Token: 0x040010AB RID: 4267
 		private float _prevSkew;
 
-		// Token: 0x040010AC RID: 4268
 		private Vec3 _prevFlagMeshFrame;
 
-		// Token: 0x040010AD RID: 4269
 		private float _time;
 	}
 }

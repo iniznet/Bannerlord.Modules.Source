@@ -6,29 +6,24 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000102 RID: 258
 	public class BehaviorDefendSiegeWeapon : BehaviorComponent
 	{
-		// Token: 0x06000CB6 RID: 3254 RVA: 0x0001BF68 File Offset: 0x0001A168
 		public BehaviorDefendSiegeWeapon(Formation formation)
 			: base(formation)
 		{
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000CB7 RID: 3255 RVA: 0x0001BF82 File Offset: 0x0001A182
 		public void SetDefensePositionFromTactic(WorldPosition defensePosition)
 		{
 			this._defensePosition = defensePosition;
 		}
 
-		// Token: 0x06000CB8 RID: 3256 RVA: 0x0001BF8B File Offset: 0x0001A18B
 		public void SetDefendedSiegeWeaponFromTactic(SiegeWeapon siegeWeapon)
 		{
 			this._defendedSiegeWeapon = siegeWeapon;
 		}
 
-		// Token: 0x06000CB9 RID: 3257 RVA: 0x0001BF94 File Offset: 0x0001A194
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -38,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000CBA RID: 3258 RVA: 0x0001BFF0 File Offset: 0x0001A1F0
 		protected override void CalculateCurrentOrder()
 		{
 			float num = 5f;
@@ -117,7 +111,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CBB RID: 3259 RVA: 0x0001C31C File Offset: 0x0001A51C
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -156,7 +149,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CBC RID: 3260 RVA: 0x0001C4D8 File Offset: 0x0001A6D8
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -168,7 +160,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CBD RID: 3261 RVA: 0x0001C54D File Offset: 0x0001A74D
 		public override void ResetBehavior()
 		{
 			base.ResetBehavior();
@@ -176,19 +167,15 @@ namespace TaleWorlds.MountAndBlade
 			this._tacticalDefendPosition = null;
 		}
 
-		// Token: 0x06000CBE RID: 3262 RVA: 0x0001C567 File Offset: 0x0001A767
 		protected override float GetAiWeight()
 		{
 			return 1f;
 		}
 
-		// Token: 0x0400030B RID: 779
 		private WorldPosition _defensePosition = WorldPosition.Invalid;
 
-		// Token: 0x0400030C RID: 780
 		private TacticalPosition _tacticalDefendPosition;
 
-		// Token: 0x0400030D RID: 781
 		private SiegeWeapon _defendedSiegeWeapon;
 	}
 }

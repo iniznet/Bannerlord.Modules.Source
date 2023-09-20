@@ -4,16 +4,13 @@ using System.Text;
 
 namespace psai.net
 {
-	// Token: 0x02000025 RID: 37
 	public class Theme
 	{
-		// Token: 0x06000235 RID: 565 RVA: 0x00009801 File Offset: 0x00007A01
 		public static bool ThemeInterruptionBehaviorRequiresEvaluationOfSegmentCompatibilities(ThemeInterruptionBehavior interruptionBehavior)
 		{
 			return interruptionBehavior == ThemeInterruptionBehavior.immediately || interruptionBehavior == ThemeInterruptionBehavior.at_end_of_current_snippet || interruptionBehavior == ThemeInterruptionBehavior.layer || interruptionBehavior == ThemeInterruptionBehavior.never;
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x00009818 File Offset: 0x00007A18
 		public static string ThemeTypeToString(ThemeType themeType)
 		{
 			switch (themeType)
@@ -34,7 +31,6 @@ namespace psai.net
 			return "";
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x00009874 File Offset: 0x00007A74
 		public static ThemeInterruptionBehavior GetThemeInterruptionBehavior(ThemeType sourceThemeType, ThemeType targetThemeType)
 		{
 			switch (sourceThemeType)
@@ -130,7 +126,6 @@ namespace psai.net
 			return ThemeInterruptionBehavior.undefined;
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x000099B0 File Offset: 0x00007BB0
 		public Theme()
 		{
 			this.m_segments = new List<Segment>();
@@ -143,7 +138,6 @@ namespace psai.net
 			this.Name = "";
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x00009A08 File Offset: 0x00007C08
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -157,7 +151,6 @@ namespace psai.net
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x00009A7C File Offset: 0x00007C7C
 		internal void BuildSequencesToEndSegmentForAllSnippets()
 		{
 			foreach (Segment segment in this.m_segments)
@@ -175,7 +168,6 @@ namespace psai.net
 			this.SetTheNextSnippetToShortestEndSequenceForAllSourceSnippetsOfTheSnippetsInThisList(list.ToArray());
 		}
 
-		// Token: 0x0600023B RID: 571 RVA: 0x00009B2C File Offset: 0x00007D2C
 		private void SetTheNextSnippetToShortestEndSequenceForAllSourceSnippetsOfTheSnippetsInThisList(Segment[] listOfSnippetsWithValidEndSequences)
 		{
 			Dictionary<Segment, List<Segment>> dictionary = new Dictionary<Segment, List<Segment>>();
@@ -209,7 +201,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x0600023C RID: 572 RVA: 0x00009C64 File Offset: 0x00007E64
 		internal void BuildSequencesToTargetThemeForAllSegments(Soundtrack soundtrack, Theme targetTheme)
 		{
 			foreach (Segment segment in this.m_segments)
@@ -227,7 +218,6 @@ namespace psai.net
 			this.SetTheNextSegmentToShortestTransitionSequenceToTargetThemeForAllSourceSegmentsOfTheSegmentsInThisList(list.ToArray(), soundtrack, targetTheme);
 		}
 
-		// Token: 0x0600023D RID: 573 RVA: 0x00009D28 File Offset: 0x00007F28
 		private List<Segment> GetSetOfAllSourceSegmentsCompatibleToSegment(Segment targetSnippet, float minCompatibilityThreshold, SegmentSuitability doNotIncludeSegmentsWithThisSuitability)
 		{
 			List<Segment> list = new List<Segment>();
@@ -247,7 +237,6 @@ namespace psai.net
 			return list;
 		}
 
-		// Token: 0x0600023E RID: 574 RVA: 0x00009DE0 File Offset: 0x00007FE0
 		private void SetTheNextSegmentToShortestTransitionSequenceToTargetThemeForAllSourceSegmentsOfTheSegmentsInThisList(Segment[] listOfSnippetsWithValidTransitionSequencesToTargetTheme, Soundtrack soundtrack, Theme targetTheme)
 		{
 			Dictionary<Segment, List<Segment>> dictionary = new Dictionary<Segment, List<Segment>>();
@@ -283,37 +272,26 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x04000147 RID: 327
 		public int id;
 
-		// Token: 0x04000148 RID: 328
 		public string Name;
 
-		// Token: 0x04000149 RID: 329
 		public ThemeType themeType;
 
-		// Token: 0x0400014A RID: 330
 		public int priority;
 
-		// Token: 0x0400014B RID: 331
 		public int restSecondsMax;
 
-		// Token: 0x0400014C RID: 332
 		public int restSecondsMin;
 
-		// Token: 0x0400014D RID: 333
 		public List<Segment> m_segments;
 
-		// Token: 0x0400014E RID: 334
 		public float intensityAfterRest;
 
-		// Token: 0x0400014F RID: 335
 		public int musicDurationGeneral;
 
-		// Token: 0x04000150 RID: 336
 		public int musicDurationAfterRest;
 
-		// Token: 0x04000151 RID: 337
 		public Weighting weightings;
 	}
 }

@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000267 RID: 615
 	public class CustomBattleAgentLogic : MissionLogic
 	{
-		// Token: 0x060020E1 RID: 8417 RVA: 0x00075EA4 File Offset: 0x000740A4
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon affectorWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
 			if (affectedAgent.Character != null && ((affectorAgent != null) ? affectorAgent.Character : null) != null && affectedAgent.State == AgentState.Active)
@@ -41,7 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020E2 RID: 8418 RVA: 0x00075F54 File Offset: 0x00074154
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (base.Mission.Mode != MissionMode.Deployment)
@@ -74,7 +71,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020E3 RID: 8419 RVA: 0x00075FC8 File Offset: 0x000741C8
 		private void BecomeGhost()
 		{
 			Agent leader = base.Mission.PlayerEnemyTeam.Leader;

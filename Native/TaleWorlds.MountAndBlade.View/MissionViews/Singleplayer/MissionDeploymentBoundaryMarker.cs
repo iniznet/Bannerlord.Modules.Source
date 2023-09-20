@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
-	// Token: 0x0200006A RID: 106
 	public class MissionDeploymentBoundaryMarker : MissionView
 	{
-		// Token: 0x0600044D RID: 1101 RVA: 0x0002215F File Offset: 0x0002035F
 		public MissionDeploymentBoundaryMarker(IEntityFactory entityFactory, MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType deploymentBoundaryType, float markerInterval = 2f)
 		{
 			this.entityFactory = entityFactory;
@@ -20,21 +18,18 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			this.DeploymentBoundaryType = deploymentBoundaryType;
 		}
 
-		// Token: 0x0600044E RID: 1102 RVA: 0x00022199 File Offset: 0x00020399
 		public override void AfterStart()
 		{
 			base.AfterStart();
 			this.AddBoundaryMarkers();
 		}
 
-		// Token: 0x0600044F RID: 1103 RVA: 0x000221A7 File Offset: 0x000203A7
 		protected override void OnEndMission()
 		{
 			base.OnEndMission();
 			this.TryRemoveBoundaryMarkers();
 		}
 
-		// Token: 0x06000450 RID: 1104 RVA: 0x000221B8 File Offset: 0x000203B8
 		private BattleSideEnum GetBattleSideFromStaticBoundaryName(string boundaryName)
 		{
 			if (boundaryName.Contains("deployment_castle_boundary"))
@@ -49,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			return 1;
 		}
 
-		// Token: 0x06000451 RID: 1105 RVA: 0x00022208 File Offset: 0x00020408
 		public override void OnInitialDeploymentPlanMadeForSide(BattleSideEnum side, bool isFirstPlan)
 		{
 			bool flag = base.Mission.DeploymentPlan.HasDeploymentBoundaries(side, 0);
@@ -62,14 +56,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000452 RID: 1106 RVA: 0x0002229C File Offset: 0x0002049C
 		public override void OnRemoveBehavior()
 		{
 			this.TryRemoveBoundaryMarkers();
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x06000453 RID: 1107 RVA: 0x000222AC File Offset: 0x000204AC
 		private void AddBoundaryMarkers()
 		{
 			for (int i = 0; i < 2; i++)
@@ -88,7 +80,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			this._boundaryMarkersRemoved = false;
 		}
 
-		// Token: 0x06000454 RID: 1108 RVA: 0x00022354 File Offset: 0x00020554
 		private void AddBoundaryMarkerForSide(BattleSideEnum side, KeyValuePair<string, ICollection<Vec2>> boundary)
 		{
 			string key = boundary.Key;
@@ -105,7 +96,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000455 RID: 1109 RVA: 0x00022428 File Offset: 0x00020628
 		private void TryRemoveBoundaryMarkers()
 		{
 			if (!this._boundaryMarkersRemoved)
@@ -125,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000456 RID: 1110 RVA: 0x000224C8 File Offset: 0x000206C8
 		private void RemoveBoundaryMarker(string boundaryName, BattleSideEnum side)
 		{
 			List<GameEntity> list;
@@ -139,7 +128,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000457 RID: 1111 RVA: 0x00022538 File Offset: 0x00020738
 		private void MissionStaticBoundaries_Changed(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			NotifyCollectionChangedAction action = e.Action;
@@ -180,7 +168,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			Debug.FailedAssert("Invalid state", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\MissionViews\\Singleplayer\\MissionDeploymentBoundaryMarker.cs", "MissionStaticBoundaries_Changed", 197);
 		}
 
-		// Token: 0x06000458 RID: 1112 RVA: 0x00022640 File Offset: 0x00020840
 		protected void MarkLine(Vec3 startPoint, Vec3 endPoint, List<GameEntity> boundary, Banner banner = null)
 		{
 			Scene scene = base.Mission.Scene;
@@ -207,33 +194,23 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x040002B2 RID: 690
 		public const string AttackerStaticDeploymentBoundaryName = "walk_area";
 
-		// Token: 0x040002B3 RID: 691
 		public const string DefenderStaticDeploymentBoundaryName = "deployment_castle_boundary";
 
-		// Token: 0x040002B4 RID: 692
 		public readonly float MarkerInterval;
 
-		// Token: 0x040002B5 RID: 693
 		public readonly MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType DeploymentBoundaryType;
 
-		// Token: 0x040002B6 RID: 694
 		private readonly Dictionary<string, List<GameEntity>>[] boundaryMarkersPerSide = new Dictionary<string, List<GameEntity>>[2];
 
-		// Token: 0x040002B7 RID: 695
 		private readonly IEntityFactory entityFactory;
 
-		// Token: 0x040002B8 RID: 696
 		private bool _boundaryMarkersRemoved = true;
 
-		// Token: 0x020000CA RID: 202
 		public enum MissionDeploymentBoundaryType
 		{
-			// Token: 0x0400039B RID: 923
 			StaticSceneBoundaries,
-			// Token: 0x0400039C RID: 924
 			DynamicDeploymentBoundaries
 		}
 	}

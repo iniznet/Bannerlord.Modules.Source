@@ -13,11 +13,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.BoardGames
 {
-	// Token: 0x020000AE RID: 174
 	public class BoardGameMuTorere : BoardGameBase
 	{
-		// Token: 0x17000095 RID: 149
-		// (get) Token: 0x06000A99 RID: 2713 RVA: 0x00056E36 File Offset: 0x00055036
 		public override int TileCount
 		{
 			get
@@ -26,8 +23,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x06000A9A RID: 2714 RVA: 0x00056E3A File Offset: 0x0005503A
 		protected override bool RotateBoard
 		{
 			get
@@ -36,8 +31,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000097 RID: 151
-		// (get) Token: 0x06000A9B RID: 2715 RVA: 0x00056E3D File Offset: 0x0005503D
 		protected override bool PreMovementStagePresent
 		{
 			get
@@ -46,8 +39,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x17000098 RID: 152
-		// (get) Token: 0x06000A9C RID: 2716 RVA: 0x00056E40 File Offset: 0x00055040
 		protected override bool DiceRollRequired
 		{
 			get
@@ -56,14 +47,12 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A9D RID: 2717 RVA: 0x00056E43 File Offset: 0x00055043
 		public BoardGameMuTorere(MissionBoardGameLogic mission, PlayerTurn startingPlayer)
 			: base(mission, new TextObject("{=5siAbi69}Mu Torere", null), startingPlayer)
 		{
 			this.PawnUnselectedFactor = 4288711820U;
 		}
 
-		// Token: 0x06000A9E RID: 2718 RVA: 0x00056E64 File Offset: 0x00055064
 		public override void InitializeUnits()
 		{
 			base.PlayerOneUnits.Clear();
@@ -82,7 +71,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000A9F RID: 2719 RVA: 0x00056F4C File Offset: 0x0005514C
 		public override void InitializeTiles()
 		{
 			if (base.Tiles == null)
@@ -134,12 +122,10 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AA0 RID: 2720 RVA: 0x00057096 File Offset: 0x00055296
 		public override void InitializeCapturedUnitsZones()
 		{
 		}
 
-		// Token: 0x06000AA1 RID: 2721 RVA: 0x00057098 File Offset: 0x00055298
 		public override void InitializeSound()
 		{
 			PawnBase.PawnMoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/move_stone");
@@ -148,14 +134,12 @@ namespace SandBox.BoardGames
 			PawnBase.PawnRemoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/out_stone");
 		}
 
-		// Token: 0x06000AA2 RID: 2722 RVA: 0x000570D6 File Offset: 0x000552D6
 		public override void Reset()
 		{
 			base.Reset();
 			this.PreplaceUnits();
 		}
 
-		// Token: 0x06000AA3 RID: 2723 RVA: 0x000570E4 File Offset: 0x000552E4
 		public override List<Move> CalculateValidMoves(PawnBase pawn)
 		{
 			List<Move> list = new List<Move>();
@@ -197,7 +181,6 @@ namespace SandBox.BoardGames
 			return list;
 		}
 
-		// Token: 0x06000AA4 RID: 2724 RVA: 0x000571E0 File Offset: 0x000553E0
 		protected override PawnBase SelectPawn(PawnBase pawn)
 		{
 			if (base.PlayerTurn == PlayerTurn.PlayerOne)
@@ -214,7 +197,6 @@ namespace SandBox.BoardGames
 			return pawn;
 		}
 
-		// Token: 0x06000AA5 RID: 2725 RVA: 0x00057214 File Offset: 0x00055414
 		protected override void MovePawnToTileDelayed(PawnBase pawn, TileBase tile, bool instantMove, bool displayMessage, float delay)
 		{
 			base.MovePawnToTileDelayed(pawn, tile, instantMove, displayMessage, delay);
@@ -250,7 +232,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AA6 RID: 2726 RVA: 0x0005730C File Offset: 0x0005550C
 		protected override void SwitchPlayerTurn()
 		{
 			if (base.PlayerTurn == PlayerTurn.PlayerOneWaiting)
@@ -265,7 +246,6 @@ namespace SandBox.BoardGames
 			base.SwitchPlayerTurn();
 		}
 
-		// Token: 0x06000AA7 RID: 2727 RVA: 0x00057340 File Offset: 0x00055540
 		protected override bool CheckGameEnded()
 		{
 			bool flag = false;
@@ -288,13 +268,11 @@ namespace SandBox.BoardGames
 			return flag;
 		}
 
-		// Token: 0x06000AA8 RID: 2728 RVA: 0x000573A9 File Offset: 0x000555A9
 		protected override void OnAfterBoardSetUp()
 		{
 			this.ReadyToPlay = true;
 		}
 
-		// Token: 0x06000AA9 RID: 2729 RVA: 0x000573B4 File Offset: 0x000555B4
 		public TileMuTorere FindTileByCoordinate(int x)
 		{
 			TileMuTorere tileMuTorere = null;
@@ -309,7 +287,6 @@ namespace SandBox.BoardGames
 			return tileMuTorere;
 		}
 
-		// Token: 0x06000AAA RID: 2730 RVA: 0x000573F0 File Offset: 0x000555F0
 		public BoardGameMuTorere.BoardInformation TakePawnsSnapshot()
 		{
 			BoardGameMuTorere.PawnInformation[] array = new BoardGameMuTorere.PawnInformation[base.PlayerOneUnits.Count + base.PlayerTwoUnits.Count];
@@ -334,7 +311,6 @@ namespace SandBox.BoardGames
 			return new BoardGameMuTorere.BoardInformation(ref array, ref array2);
 		}
 
-		// Token: 0x06000AAB RID: 2731 RVA: 0x00057540 File Offset: 0x00055740
 		public void UndoMove(ref BoardGameMuTorere.BoardInformation board)
 		{
 			int num = 0;
@@ -352,7 +328,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AAC RID: 2732 RVA: 0x00057654 File Offset: 0x00055854
 		public void AIMakeMove(Move move)
 		{
 			TileMuTorere tileMuTorere = move.GoalTile as TileMuTorere;
@@ -362,7 +337,6 @@ namespace SandBox.BoardGames
 			pawnMuTorere.X = tileMuTorere.X;
 		}
 
-		// Token: 0x06000AAD RID: 2733 RVA: 0x000576A0 File Offset: 0x000558A0
 		public TileBase FindAvailableTile()
 		{
 			foreach (TileBase tileBase in base.Tiles)
@@ -375,7 +349,6 @@ namespace SandBox.BoardGames
 			return null;
 		}
 
-		// Token: 0x06000AAE RID: 2734 RVA: 0x000576D4 File Offset: 0x000558D4
 		private void PreplaceUnits()
 		{
 			List<PawnBase> list = ((base.PlayerWhoStarted == PlayerTurn.PlayerOne) ? base.PlayerOneUnits : base.PlayerTwoUnits);
@@ -387,39 +360,30 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x040003BF RID: 959
 		public const int WhitePawnCount = 4;
 
-		// Token: 0x040003C0 RID: 960
 		public const int BlackPawnCount = 4;
 
-		// Token: 0x020001A4 RID: 420
 		public struct BoardInformation
 		{
-			// Token: 0x06001290 RID: 4752 RVA: 0x0007499D File Offset: 0x00072B9D
 			public BoardInformation(ref BoardGameMuTorere.PawnInformation[] pawns, ref TileBaseInformation[] tiles)
 			{
 				this.PawnInformation = pawns;
 				this.TileInformation = tiles;
 			}
 
-			// Token: 0x040007E8 RID: 2024
 			public readonly BoardGameMuTorere.PawnInformation[] PawnInformation;
 
-			// Token: 0x040007E9 RID: 2025
 			public readonly TileBaseInformation[] TileInformation;
 		}
 
-		// Token: 0x020001A5 RID: 421
 		public struct PawnInformation
 		{
-			// Token: 0x06001291 RID: 4753 RVA: 0x000749AF File Offset: 0x00072BAF
 			public PawnInformation(int x)
 			{
 				this.X = x;
 			}
 
-			// Token: 0x040007EA RID: 2026
 			public readonly int X;
 		}
 	}

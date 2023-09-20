@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 {
-	// Token: 0x02000035 RID: 53
 	public class PolishTextProcessor : LanguageSpecificTextProcessor
 	{
-		// Token: 0x17000053 RID: 83
-		// (get) Token: 0x060001CF RID: 463 RVA: 0x0000CFAC File Offset: 0x0000B1AC
 		public override CultureInfo CultureInfoForLanguage
 		{
 			get
@@ -20,7 +17,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001D0 RID: 464 RVA: 0x0000CFB3 File Offset: 0x0000B1B3
 		public override void ClearTemporaryData()
 		{
 			PolishTextProcessor.LinkList.Clear();
@@ -30,8 +26,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			PolishTextProcessor._doesComeFromWordGroup = false;
 		}
 
-		// Token: 0x17000054 RID: 84
-		// (get) Token: 0x060001D1 RID: 465 RVA: 0x0000CFDF File Offset: 0x0000B1DF
 		private bool MasculinePersonal
 		{
 			get
@@ -40,8 +34,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000055 RID: 85
-		// (get) Token: 0x060001D2 RID: 466 RVA: 0x0000CFE9 File Offset: 0x0000B1E9
 		private bool MasculineAnimate
 		{
 			get
@@ -50,8 +42,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000056 RID: 86
-		// (get) Token: 0x060001D3 RID: 467 RVA: 0x0000CFF3 File Offset: 0x0000B1F3
 		private bool MasculineInanimate
 		{
 			get
@@ -60,8 +50,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x060001D4 RID: 468 RVA: 0x0000CFFD File Offset: 0x0000B1FD
 		private bool Feminine
 		{
 			get
@@ -70,8 +58,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000058 RID: 88
-		// (get) Token: 0x060001D5 RID: 469 RVA: 0x0000D007 File Offset: 0x0000B207
 		private bool Neuter
 		{
 			get
@@ -80,8 +66,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x060001D6 RID: 470 RVA: 0x0000D011 File Offset: 0x0000B211
 		[TupleElementNames(new string[] { "wordGroup", "firstMarkerPost" })]
 		private static List<ValueTuple<string, int>> WordGroups
 		{
@@ -96,8 +80,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x060001D7 RID: 471 RVA: 0x0000D029 File Offset: 0x0000B229
 		private static List<string> LinkList
 		{
 			get
@@ -110,8 +92,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x060001D8 RID: 472 RVA: 0x0000D041 File Offset: 0x0000B241
 		private static List<string> WordGroupsNoTags
 		{
 			get
@@ -124,8 +104,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x060001D9 RID: 473 RVA: 0x0000D059 File Offset: 0x0000B259
 		private string LinkTag
 		{
 			get
@@ -134,8 +112,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x060001DA RID: 474 RVA: 0x0000D060 File Offset: 0x0000B260
 		private int LinkTagLength
 		{
 			get
@@ -144,8 +120,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x060001DB RID: 475 RVA: 0x0000D063 File Offset: 0x0000B263
 		private string LinkStarter
 		{
 			get
@@ -154,8 +128,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x1700005F RID: 95
-		// (get) Token: 0x060001DC RID: 476 RVA: 0x0000D06A File Offset: 0x0000B26A
 		private string LinkEnding
 		{
 			get
@@ -164,8 +136,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x17000060 RID: 96
-		// (get) Token: 0x060001DD RID: 477 RVA: 0x0000D071 File Offset: 0x0000B271
 		private int LinkEndingLength
 		{
 			get
@@ -174,7 +144,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x0000D074 File Offset: 0x0000B274
 		public override void ProcessToken(string sourceText, ref int cursorPos, string token, StringBuilder outputString)
 		{
 			bool flag = false;
@@ -386,7 +355,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001DF RID: 479 RVA: 0x0000D65C File Offset: 0x0000B85C
 		private void AddSuffixWordGroup(string token, int wordGroupIndex, StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.WordGroups[wordGroupIndex].Item1;
@@ -431,7 +399,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append(text2);
 		}
 
-		// Token: 0x060001E0 RID: 480 RVA: 0x0000D810 File Offset: 0x0000BA10
 		private bool IsWordGroup(int tokenLength, string sourceText, int curPos, out int wordGroupIndex)
 		{
 			int num = 0;
@@ -449,7 +416,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return num > 0;
 		}
 
-		// Token: 0x060001E1 RID: 481 RVA: 0x0000D8C4 File Offset: 0x0000BAC4
 		private void AddSuffixNounNominativePlural(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -594,7 +560,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E2 RID: 482 RVA: 0x0000DC84 File Offset: 0x0000BE84
 		private void AddSuffixNounAccusative(StringBuilder outputString)
 		{
 			string ending = PolishTextProcessor.GetEnding(outputString, 2);
@@ -644,7 +609,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x0000DDC4 File Offset: 0x0000BFC4
 		private void AddSuffixNounAccusativePlural(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -729,7 +693,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x0000E01C File Offset: 0x0000C21C
 		private void AddSuffixNounGenitive(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -793,7 +756,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E5 RID: 485 RVA: 0x0000E1BC File Offset: 0x0000C3BC
 		private void AddSuffixNounGenitivePlural(StringBuilder outputString)
 		{
 			if (PolishTextProcessor.IsVowel(PolishTextProcessor.GetLastCharacter(outputString)))
@@ -855,7 +817,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E6 RID: 486 RVA: 0x0000E344 File Offset: 0x0000C544
 		private void AddSuffixNounDative(StringBuilder outputString)
 		{
 			char c = PolishTextProcessor.GetLastCharacter(outputString);
@@ -950,7 +911,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E7 RID: 487 RVA: 0x0000E574 File Offset: 0x0000C774
 		private void AddSuffixNounDativePlural(StringBuilder outputString)
 		{
 			string ending = PolishTextProcessor.GetEnding(outputString, 2);
@@ -988,7 +948,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E8 RID: 488 RVA: 0x0000E684 File Offset: 0x0000C884
 		private void AddSuffixNounLocative(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -1101,7 +1060,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001E9 RID: 489 RVA: 0x0000E974 File Offset: 0x0000CB74
 		private void AddSuffixNounLocativePlural(StringBuilder outputString)
 		{
 			if (PolishTextProcessor.IsVowel(PolishTextProcessor.GetLastCharacter(outputString)))
@@ -1136,7 +1094,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("ach");
 		}
 
-		// Token: 0x060001EA RID: 490 RVA: 0x0000EA78 File Offset: 0x0000CC78
 		private void AddSuffixNounVocative(StringBuilder outputString)
 		{
 			char lastCharacter = PolishTextProcessor.GetLastCharacter(outputString);
@@ -1203,13 +1160,11 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append('i');
 		}
 
-		// Token: 0x060001EB RID: 491 RVA: 0x0000EC16 File Offset: 0x0000CE16
 		private void AddSuffixNounVocativePlural(StringBuilder outputString)
 		{
 			this.AddSuffixNounNominativePlural(outputString);
 		}
 
-		// Token: 0x060001EC RID: 492 RVA: 0x0000EC20 File Offset: 0x0000CE20
 		private void AddSuffixNounInstrumental(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -1262,7 +1217,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001ED RID: 493 RVA: 0x0000ED8C File Offset: 0x0000CF8C
 		private void AddSuffixNounInstrumentalPlural(StringBuilder outputString)
 		{
 			string text = PolishTextProcessor.GetEnding(outputString, 2);
@@ -1298,7 +1252,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("ami");
 		}
 
-		// Token: 0x060001EE RID: 494 RVA: 0x0000EE98 File Offset: 0x0000D098
 		private void AddSuffixAdjectiveNominative(StringBuilder outputString)
 		{
 			char c = this.RemoveSuffixFromAdjective(outputString);
@@ -1318,7 +1271,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001EF RID: 495 RVA: 0x0000EF00 File Offset: 0x0000D100
 		private void AddSuffixAdjectiveNominativePlural(StringBuilder outputString)
 		{
 			char c = this.RemoveSuffixFromAdjective(outputString);
@@ -1359,7 +1311,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001F0 RID: 496 RVA: 0x0000F000 File Offset: 0x0000D200
 		private void AddSuffixAdjectiveAccusative(StringBuilder outputString)
 		{
 			this.RemoveSuffixFromAdjective(outputString);
@@ -1384,7 +1335,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x060001F1 RID: 497 RVA: 0x0000F06C File Offset: 0x0000D26C
 		private void AddSuffixAdjectiveAccusativePlural(StringBuilder outputString)
 		{
 			char c = this.RemoveSuffixFromAdjective(outputString);
@@ -1400,19 +1350,16 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append('e');
 		}
 
-		// Token: 0x060001F2 RID: 498 RVA: 0x0000F0B0 File Offset: 0x0000D2B0
 		private void AddSuffixAdjectiveVocative(StringBuilder outputString)
 		{
 			this.AddSuffixAdjectiveNominative(outputString);
 		}
 
-		// Token: 0x060001F3 RID: 499 RVA: 0x0000F0B9 File Offset: 0x0000D2B9
 		private void AddSuffixAdjectiveVocativePlural(StringBuilder outputString)
 		{
 			this.AddSuffixAdjectiveNominativePlural(outputString);
 		}
 
-		// Token: 0x060001F4 RID: 500 RVA: 0x0000F0C2 File Offset: 0x0000D2C2
 		private void AddSuffixAdjectiveGenitive(StringBuilder outputString)
 		{
 			this.RemoveSuffixFromAdjective(outputString);
@@ -1424,7 +1371,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("ego");
 		}
 
-		// Token: 0x060001F5 RID: 501 RVA: 0x0000F0ED File Offset: 0x0000D2ED
 		private void AddSuffixAdjectiveGenitivePlural(StringBuilder outputString)
 		{
 			if ('y' == this.RemoveSuffixFromAdjective(outputString))
@@ -1434,7 +1380,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("ch");
 		}
 
-		// Token: 0x060001F6 RID: 502 RVA: 0x0000F112 File Offset: 0x0000D312
 		private void AddSuffixAdjectiveDative(StringBuilder outputString)
 		{
 			this.RemoveSuffixFromAdjective(outputString);
@@ -1446,7 +1391,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("emu");
 		}
 
-		// Token: 0x060001F7 RID: 503 RVA: 0x0000F13D File Offset: 0x0000D33D
 		private void AddSuffixAdjectiveDativePlural(StringBuilder outputString)
 		{
 			if ('y' == this.RemoveSuffixFromAdjective(outputString))
@@ -1456,7 +1400,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("m");
 		}
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x0000F164 File Offset: 0x0000D364
 		private void AddSuffixAdjectiveLocative(StringBuilder outputString)
 		{
 			char c = this.RemoveSuffixFromAdjective(outputString);
@@ -1472,13 +1415,11 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("m");
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x0000F1AB File Offset: 0x0000D3AB
 		private void AddSuffixAdjectiveLocativePlural(StringBuilder outputString)
 		{
 			this.AddSuffixAdjectiveGenitivePlural(outputString);
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x0000F1B4 File Offset: 0x0000D3B4
 		private void AddSuffixAdjectiveInstrumental(StringBuilder outputString)
 		{
 			char c = this.RemoveSuffixFromAdjective(outputString);
@@ -1494,7 +1435,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("m");
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x0000F1FB File Offset: 0x0000D3FB
 		private void AddSuffixAdjectiveInstrumentalPlural(StringBuilder outputString)
 		{
 			if ('y' == this.RemoveSuffixFromAdjective(outputString))
@@ -1504,7 +1444,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append("mi");
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0000F220 File Offset: 0x0000D420
 		private char RemoveSuffixFromAdjective(StringBuilder outputString)
 		{
 			if (PolishTextProcessor.GetLastCharacter(outputString) == 'i')
@@ -1523,37 +1462,31 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return 'y';
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x0000F27D File Offset: 0x0000D47D
 		private void SetFeminine()
 		{
 			PolishTextProcessor._curGender = PolishTextProcessor.WordGenderEnum.Feminine;
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x0000F285 File Offset: 0x0000D485
 		private void SetNeuter()
 		{
 			PolishTextProcessor._curGender = PolishTextProcessor.WordGenderEnum.Neuter;
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x0000F28D File Offset: 0x0000D48D
 		private void SetMasculineAnimate()
 		{
 			PolishTextProcessor._curGender = PolishTextProcessor.WordGenderEnum.MasculineAnimate;
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x0000F295 File Offset: 0x0000D495
 		private void SetMasculineInanimate()
 		{
 			PolishTextProcessor._curGender = PolishTextProcessor.WordGenderEnum.MasculineInanimate;
 		}
 
-		// Token: 0x06000201 RID: 513 RVA: 0x0000F29D File Offset: 0x0000D49D
 		private void SetMasculinePersonal()
 		{
 			PolishTextProcessor._curGender = PolishTextProcessor.WordGenderEnum.MasculinePersonal;
 		}
 
-		// Token: 0x06000202 RID: 514 RVA: 0x0000F2A8 File Offset: 0x0000D4A8
 		private bool IsRecordedWithPreviousTag(string sourceText, int cursorPos)
 		{
 			for (int i = 0; i < PolishTextProcessor.WordGroups.Count; i++)
@@ -1566,7 +1499,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000203 RID: 515 RVA: 0x0000F2F8 File Offset: 0x0000D4F8
 		private void WordGroupProcessor(string sourceText, int cursorPos)
 		{
 			if (!this.IsRecordedWithPreviousTag(sourceText, cursorPos))
@@ -1582,7 +1514,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		}
 
-		// Token: 0x06000204 RID: 516 RVA: 0x0000F384 File Offset: 0x0000D584
 		private bool IsLink(string sourceText, int tokenLength, int cursorPos)
 		{
 			string text = sourceText.Remove(cursorPos - tokenLength);
@@ -1597,7 +1528,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000205 RID: 517 RVA: 0x0000F3EC File Offset: 0x0000D5EC
 		private bool IsIrregularWord(string sourceText, int cursorPos, string token, out string irregularWord, out int lengthOfWordToReplace)
 		{
 			int num = sourceText.Remove(cursorPos - token.Length - 2).LastIndexOf('}') + 1;
@@ -1676,31 +1606,26 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x0000F63B File Offset: 0x0000D83B
 		private static bool IsVowel(char c)
 		{
 			return Array.IndexOf<char>(PolishTextProcessor.Vowels, c) >= 0;
 		}
 
-		// Token: 0x06000207 RID: 519 RVA: 0x0000F64E File Offset: 0x0000D84E
 		private static bool IsSoftConsonant(string s)
 		{
 			return Array.IndexOf<char>(PolishTextProcessor.SoftConsonants, s[1]) >= 0;
 		}
 
-		// Token: 0x06000208 RID: 520 RVA: 0x0000F668 File Offset: 0x0000D868
 		private static bool IsHardenedConsonant(string s)
 		{
 			return Array.IndexOf<string>(PolishTextProcessor.HardenedConsonants, s) >= 0 || Array.IndexOf<string>(PolishTextProcessor.HardenedConsonants, s[1].ToString()) >= 0;
 		}
 
-		// Token: 0x06000209 RID: 521 RVA: 0x0000F6A4 File Offset: 0x0000D8A4
 		private static bool IsHardConsonant(string s)
 		{
 			return Array.IndexOf<string>(PolishTextProcessor.HardConsonants, s) >= 0 || Array.IndexOf<string>(PolishTextProcessor.HardConsonants, s[1].ToString()) >= 0;
 		}
 
-		// Token: 0x0600020A RID: 522 RVA: 0x0000F6E0 File Offset: 0x0000D8E0
 		private static char GetLastCharacter(StringBuilder outputString)
 		{
 			if (outputString.Length <= 0)
@@ -1710,14 +1635,12 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return outputString[outputString.Length - 1];
 		}
 
-		// Token: 0x0600020B RID: 523 RVA: 0x0000F6FC File Offset: 0x0000D8FC
 		private static string GetEnding(StringBuilder outputString, int numChars)
 		{
 			numChars = MathF.Min(numChars, outputString.Length);
 			return outputString.ToString(outputString.Length - numChars, numChars);
 		}
 
-		// Token: 0x0600020C RID: 524 RVA: 0x0000F71C File Offset: 0x0000D91C
 		private static void PalatalizeConsonant(StringBuilder outputString, string lastTwoCharacters)
 		{
 			int num = 1;
@@ -1731,7 +1654,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			outputString.Append(text);
 		}
 
-		// Token: 0x0600020D RID: 525 RVA: 0x0000F778 File Offset: 0x0000D978
 		private static string IrregularWordWithCase(string token, PolishTextProcessor.IrregularWord irregularWord)
 		{
 			if (token == ".j" || token == ".aj" || token == ".nn")
@@ -1793,7 +1715,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return "";
 		}
 
-		// Token: 0x0600020E RID: 526 RVA: 0x0000F980 File Offset: 0x0000DB80
 		public static string[] GetProcessedNouns(string str, string gender, string[] tokens = null)
 		{
 			if (tokens == null)
@@ -1814,7 +1735,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return list.ToArray();
 		}
 
-		// Token: 0x0600020F RID: 527 RVA: 0x0000FA78 File Offset: 0x0000DC78
 		public static string[] GetProcessedAdjectives(string str, string gender, string[] tokens = null)
 		{
 			if (tokens == null)
@@ -1831,47 +1751,36 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return list.ToArray();
 		}
 
-		// Token: 0x040000D0 RID: 208
 		private static readonly CultureInfo CultureInfo = new CultureInfo("pl-PL");
 
-		// Token: 0x040000D1 RID: 209
 		[ThreadStatic]
 		private static PolishTextProcessor.WordGenderEnum _curGender = PolishTextProcessor.WordGenderEnum.NoDeclination;
 
-		// Token: 0x040000D2 RID: 210
 		[TupleElementNames(new string[] { "wordGroup", "firstMarkerPost" })]
 		[ThreadStatic]
 		private static List<ValueTuple<string, int>> _wordGroups;
 
-		// Token: 0x040000D3 RID: 211
 		[ThreadStatic]
 		private static List<string> _wordGroupsNoTags;
 
-		// Token: 0x040000D4 RID: 212
 		[ThreadStatic]
 		private static List<string> _linkList;
 
-		// Token: 0x040000D5 RID: 213
 		[ThreadStatic]
 		private static bool _doesComeFromWordGroup = false;
 
-		// Token: 0x040000D6 RID: 214
 		private static readonly char[] Vowels = new char[] { 'a', 'ą', 'e', 'ę', 'i', 'o', 'ó', 'u', 'y' };
 
-		// Token: 0x040000D7 RID: 215
 		private static readonly char[] SoftConsonants = new char[] { 'ć', 'ń', 'ś', 'ź', 'j' };
 
-		// Token: 0x040000D8 RID: 216
 		private static readonly string[] HardenedConsonants = new string[] { "dz", "c", "sz", "rz", "cz", "ż" };
 
-		// Token: 0x040000D9 RID: 217
 		private static readonly string[] HardConsonants = new string[]
 		{
 			"g", "k", "ch", "r", "w", "f", "p", "m", "b", "d",
 			"t", "n", "s", "z", "ł", "h"
 		};
 
-		// Token: 0x040000DA RID: 218
 		private static readonly Dictionary<string, string> Palatalization = new Dictionary<string, string>
 		{
 			{ "g", "gi" },
@@ -1896,7 +1805,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			{ "ć", "ci" }
 		};
 
-		// Token: 0x040000DB RID: 219
 		private static readonly Dictionary<char, List<PolishTextProcessor.IrregularWord>> IrregularMasculinePersonalDictionary = new Dictionary<char, List<PolishTextProcessor.IrregularWord>>
 		{
 			{
@@ -2164,7 +2072,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		};
 
-		// Token: 0x040000DC RID: 220
 		private static readonly Dictionary<char, List<PolishTextProcessor.IrregularWord>> IrregularMasculineAnimateDictionary = new Dictionary<char, List<PolishTextProcessor.IrregularWord>>
 		{
 			{
@@ -2197,7 +2104,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		};
 
-		// Token: 0x040000DD RID: 221
 		private static readonly Dictionary<char, List<PolishTextProcessor.IrregularWord>> IrregularMasculineInanimateDictionary = new Dictionary<char, List<PolishTextProcessor.IrregularWord>>
 		{
 			{
@@ -2299,7 +2205,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		};
 
-		// Token: 0x040000DE RID: 222
 		private static readonly Dictionary<char, List<PolishTextProcessor.IrregularWord>> IrregularFeminineDictionary = new Dictionary<char, List<PolishTextProcessor.IrregularWord>>
 		{
 			{
@@ -2420,7 +2325,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		};
 
-		// Token: 0x040000DF RID: 223
 		private static readonly Dictionary<char, List<PolishTextProcessor.IrregularWord>> IrregularNeuterDictionary = new Dictionary<char, List<PolishTextProcessor.IrregularWord>>
 		{
 			{
@@ -2477,69 +2381,46 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			}
 		};
 
-		// Token: 0x02000051 RID: 81
 		private enum WordGenderEnum
 		{
-			// Token: 0x040001AF RID: 431
 			MasculinePersonal,
-			// Token: 0x040001B0 RID: 432
 			MasculineAnimate,
-			// Token: 0x040001B1 RID: 433
 			MasculineInanimate,
-			// Token: 0x040001B2 RID: 434
 			Feminine,
-			// Token: 0x040001B3 RID: 435
 			Neuter,
-			// Token: 0x040001B4 RID: 436
 			NoDeclination
 		}
 
-		// Token: 0x02000052 RID: 82
 		private static class NounTokens
 		{
-			// Token: 0x040001B5 RID: 437
 			public const string Nominative = ".n";
 
-			// Token: 0x040001B6 RID: 438
 			public const string NominativePlural = ".p";
 
-			// Token: 0x040001B7 RID: 439
 			public const string Accusative = ".a";
 
-			// Token: 0x040001B8 RID: 440
 			public const string Genitive = ".g";
 
-			// Token: 0x040001B9 RID: 441
 			public const string Instrumental = ".i";
 
-			// Token: 0x040001BA RID: 442
 			public const string Locative = ".l";
 
-			// Token: 0x040001BB RID: 443
 			public const string Dative = ".d";
 
-			// Token: 0x040001BC RID: 444
 			public const string Vocative = ".v";
 
-			// Token: 0x040001BD RID: 445
 			public const string AccusativePlural = ".ap";
 
-			// Token: 0x040001BE RID: 446
 			public const string GenitivePlural = ".gp";
 
-			// Token: 0x040001BF RID: 447
 			public const string InstrumentalPlural = ".ip";
 
-			// Token: 0x040001C0 RID: 448
 			public const string LocativePlural = ".lp";
 
-			// Token: 0x040001C1 RID: 449
 			public const string DativePlural = ".dp";
 
-			// Token: 0x040001C2 RID: 450
 			public const string VocativePlural = ".vp";
 
-			// Token: 0x040001C3 RID: 451
 			public static readonly string[] TokenList = new string[]
 			{
 				".n", ".p", ".a", ".g", ".i", ".l", ".d", ".v", ".ap", ".gp",
@@ -2547,52 +2428,36 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			};
 		}
 
-		// Token: 0x02000053 RID: 83
 		private static class AdjectiveTokens
 		{
-			// Token: 0x040001C4 RID: 452
 			public const string Nominative = ".j";
 
-			// Token: 0x040001C5 RID: 453
 			public const string NominativePlural = ".jp";
 
-			// Token: 0x040001C6 RID: 454
 			public const string Accusative = ".ja";
 
-			// Token: 0x040001C7 RID: 455
 			public const string Genitive = ".jg";
 
-			// Token: 0x040001C8 RID: 456
 			public const string Instrumental = ".ji";
 
-			// Token: 0x040001C9 RID: 457
 			public const string Locative = ".jl";
 
-			// Token: 0x040001CA RID: 458
 			public const string Dative = ".jd";
 
-			// Token: 0x040001CB RID: 459
 			public const string Vocative = ".jv";
 
-			// Token: 0x040001CC RID: 460
 			public const string AccusativePlural = ".jap";
 
-			// Token: 0x040001CD RID: 461
 			public const string GenitivePlural = ".jgp";
 
-			// Token: 0x040001CE RID: 462
 			public const string InstrumentalPlural = ".jip";
 
-			// Token: 0x040001CF RID: 463
 			public const string LocativePlural = ".jlp";
 
-			// Token: 0x040001D0 RID: 464
 			public const string DativePlural = ".jdp";
 
-			// Token: 0x040001D1 RID: 465
 			public const string VocativePlural = ".jvp";
 
-			// Token: 0x040001D2 RID: 466
 			public static readonly string[] TokenList = new string[]
 			{
 				".j", ".jg", ".jd", ".ja", ".ji", ".jl", ".jv", ".jp", ".jgp", ".jdp",
@@ -2600,60 +2465,42 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			};
 		}
 
-		// Token: 0x02000054 RID: 84
 		private static class GenderTokens
 		{
-			// Token: 0x040001D3 RID: 467
 			public const string MasculinePersonal = ".MP";
 
-			// Token: 0x040001D4 RID: 468
 			public const string MasculineInanimate = ".MI";
 
-			// Token: 0x040001D5 RID: 469
 			public const string MasculineAnimate = ".MA";
 
-			// Token: 0x040001D6 RID: 470
 			public const string Feminine = ".F";
 
-			// Token: 0x040001D7 RID: 471
 			public const string Neuter = ".N";
 
-			// Token: 0x040001D8 RID: 472
 			public static readonly string[] TokenList = new string[] { ".MP", ".MI", ".MA", ".F", ".N" };
 		}
 
-		// Token: 0x02000055 RID: 85
 		private static class WordGroupTokens
 		{
-			// Token: 0x040001D9 RID: 473
 			public const string NounNominativePlural = ".nnp";
 
-			// Token: 0x040001DA RID: 474
 			public const string NounNominative = ".nn";
 
-			// Token: 0x040001DB RID: 475
 			public const string AdjectiveNominativePlural = ".ajp";
 
-			// Token: 0x040001DC RID: 476
 			public const string AdjectiveNominative = ".aj";
 
-			// Token: 0x040001DD RID: 477
 			public const string NounNominativePluralWithBrackets = "{.nnp}";
 
-			// Token: 0x040001DE RID: 478
 			public const string NounNominativeWithBrackets = "{.nn}";
 
-			// Token: 0x040001DF RID: 479
 			public const string AdjectiveNominativePluralWithBrackets = "{.ajp}";
 
-			// Token: 0x040001E0 RID: 480
 			public const string AdjectiveNominativeWithBrackets = "{.aj}";
 		}
 
-		// Token: 0x02000056 RID: 86
 		private struct IrregularWord
 		{
-			// Token: 0x060002AD RID: 685 RVA: 0x00019ACC File Offset: 0x00017CCC
 			public IrregularWord(string nominative, string nominativePlural, string genitive, string genitivePlural, string dative, string dativePlural, string accusative, string accusativePlural, string instrumental, string instrumentalPlural, string locative, string locativePlural)
 			{
 				this.Nominative = nominative;
@@ -2672,7 +2519,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 				this.VocativePlural = nominativePlural;
 			}
 
-			// Token: 0x060002AE RID: 686 RVA: 0x00019B48 File Offset: 0x00017D48
 			public IrregularWord(string nominative, string nominativePlural, string genitive, string genitivePlural, string dative, string dativePlural, string accusative, string accusativePlural, string instrumental, string instrumentalPlural, string locative, string locativePlural, string vocative, string vocativePlural)
 			{
 				this.Nominative = nominative;
@@ -2691,7 +2537,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 				this.VocativePlural = vocativePlural;
 			}
 
-			// Token: 0x060002AF RID: 687 RVA: 0x00019BC4 File Offset: 0x00017DC4
 			public IrregularWord(string nominative, string genitive, string dative, string accusative, string instrumental, string locative, string vocative)
 			{
 				this.Nominative = nominative;
@@ -2710,46 +2555,32 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 				this.VocativePlural = vocative;
 			}
 
-			// Token: 0x040001E1 RID: 481
 			public readonly string Nominative;
 
-			// Token: 0x040001E2 RID: 482
 			public readonly string NominativePlural;
 
-			// Token: 0x040001E3 RID: 483
 			public readonly string Accusative;
 
-			// Token: 0x040001E4 RID: 484
 			public readonly string Genitive;
 
-			// Token: 0x040001E5 RID: 485
 			public readonly string Instrumental;
 
-			// Token: 0x040001E6 RID: 486
 			public readonly string Locative;
 
-			// Token: 0x040001E7 RID: 487
 			public readonly string Dative;
 
-			// Token: 0x040001E8 RID: 488
 			public readonly string Vocative;
 
-			// Token: 0x040001E9 RID: 489
 			public readonly string AccusativePlural;
 
-			// Token: 0x040001EA RID: 490
 			public readonly string GenitivePlural;
 
-			// Token: 0x040001EB RID: 491
 			public readonly string InstrumentalPlural;
 
-			// Token: 0x040001EC RID: 492
 			public readonly string LocativePlural;
 
-			// Token: 0x040001ED RID: 493
 			public readonly string DativePlural;
 
-			// Token: 0x040001EE RID: 494
 			public readonly string VocativePlural;
 		}
 	}

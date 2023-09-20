@@ -10,10 +10,8 @@ using TaleWorlds.LinQuick;
 
 namespace Helpers
 {
-	// Token: 0x02000019 RID: 25
 	public static class BarterHelper
 	{
-		// Token: 0x060000E3 RID: 227 RVA: 0x0000B9EC File Offset: 0x00009BEC
 		private static bool ItemExistsInBarterables(List<Barterable> barterables, ItemBarterable itemBarterable)
 		{
 			return barterables.AnyQ(delegate(Barterable x)
@@ -23,7 +21,6 @@ namespace Helpers
 			});
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x0000BA18 File Offset: 0x00009C18
 		[return: TupleElementNames(new string[] { "barterable", "count" })]
 		public static IEnumerable<ValueTuple<Barterable, int>> GetAutoBalanceBarterablesAdd(BarterData barterData, IFaction factionToBalanceFor, IFaction offerer, Hero offererHero, float fulfillRatio = 1f)
 		{
@@ -102,7 +99,6 @@ namespace Helpers
 			return list2;
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x0000BC08 File Offset: 0x00009E08
 		[return: TupleElementNames(new string[] { "barterable", "count" })]
 		public static IEnumerable<ValueTuple<Barterable, int>> GetAutoBalanceBarterablesToRemove(BarterData barterData, IFaction factionToBalanceFor, IFaction offerer, Hero offererHero)
 		{

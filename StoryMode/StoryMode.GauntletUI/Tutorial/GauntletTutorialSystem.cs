@@ -31,25 +31,14 @@ using TaleWorlds.ScreenSystem;
 
 namespace StoryMode.GauntletUI.Tutorial
 {
-	// Token: 0x0200003C RID: 60
 	public class GauntletTutorialSystem : GlobalLayer
 	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x0600012D RID: 301 RVA: 0x000045D9 File Offset: 0x000027D9
-		// (set) Token: 0x0600012E RID: 302 RVA: 0x000045E1 File Offset: 0x000027E1
 		internal EncyclopediaPages CurrentEncyclopediaPageContext { get; private set; }
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x0600012F RID: 303 RVA: 0x000045EA File Offset: 0x000027EA
-		// (set) Token: 0x06000130 RID: 304 RVA: 0x000045F2 File Offset: 0x000027F2
 		internal bool IsCharacterPortraitPopupOpen { get; private set; }
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000131 RID: 305 RVA: 0x000045FB File Offset: 0x000027FB
-		// (set) Token: 0x06000132 RID: 306 RVA: 0x00004603 File Offset: 0x00002803
 		internal TutorialContexts CurrentContext { get; private set; }
 
-		// Token: 0x06000133 RID: 307 RVA: 0x0000460C File Offset: 0x0000280C
 		public GauntletTutorialSystem()
 		{
 			this._isInitialized = true;
@@ -68,7 +57,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			this._currentCampaignTutorials = new List<CampaignTutorial>();
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x000046CC File Offset: 0x000028CC
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -159,7 +147,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x000049A0 File Offset: 0x00002BA0
 		private void SetCurrentTutorial(CampaignTutorial tutorial, TutorialItemBase tutorialItem)
 		{
 			this._currentTutorial = tutorial;
@@ -172,7 +159,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x00004A14 File Offset: 0x00002C14
 		private void ResetCurrentTutorial()
 		{
 			this._currentTutorial = null;
@@ -182,7 +168,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			base.Layer.InputRestrictions.ResetInputRestrictions();
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x00004A64 File Offset: 0x00002C64
 		private void OnTutorialContextChanged(TutorialContextChangedEvent obj)
 		{
 			this.CurrentContext = obj.NewContext;
@@ -193,14 +178,12 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00004AAD File Offset: 0x00002CAD
 		private void DisableTutorialStep()
 		{
 			CampaignEventDispatcher.Instance.OnTutorialCompleted(this._currentTutorial.TutorialTypeId);
 			this.ResetCurrentTutorial();
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00004ACA File Offset: 0x00002CCA
 		public static void OnInitialize()
 		{
 			if (GauntletTutorialSystem.Current == null)
@@ -210,7 +193,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			bool isInitialized = GauntletTutorialSystem.Current._isInitialized;
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x00004AE8 File Offset: 0x00002CE8
 		public static void OnUnload()
 		{
 			if (GauntletTutorialSystem.Current != null)
@@ -228,13 +210,11 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x00004B4D File Offset: 0x00002D4D
 		private void OnEncyclopediaPageChanged(EncyclopediaPageChangedEvent obj)
 		{
 			this.CurrentEncyclopediaPageContext = obj.NewPage;
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x00004B5C File Offset: 0x00002D5C
 		private void OnPerkSelectionToggle(PerkSelectionToggleEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -243,7 +223,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x00004B90 File Offset: 0x00002D90
 		private void OnInventoryTransferItem(InventoryTransferItemEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -252,7 +231,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x00004BC4 File Offset: 0x00002DC4
 		private void OnInventoryEquipmentTypeChange(InventoryEquipmentTypeChangedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -261,7 +239,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00004BF8 File Offset: 0x00002DF8
 		private void OnFocusAddedByPlayer(FocusAddedByPlayerEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -270,7 +247,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00004C2C File Offset: 0x00002E2C
 		private void OnPerkSelectedByPlayer(PerkSelectedByPlayerEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -279,7 +255,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x00004C60 File Offset: 0x00002E60
 		private void OnPartyAddedToArmyByPlayer(PartyAddedToArmyByPlayerEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -288,7 +263,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x00004C94 File Offset: 0x00002E94
 		private void OnArmyCohesionByPlayerBoosted(ArmyCohesionBoostedByPlayerEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -297,7 +271,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00004CC8 File Offset: 0x00002EC8
 		private void OnInventoryFilterChanged(InventoryFilterChangedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -306,7 +279,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x00004CFC File Offset: 0x00002EFC
 		private void OnPlayerToggleTrackSettlementFromEncyclopedia(PlayerToggleTrackSettlementFromEncyclopediaEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -315,7 +287,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x00004D30 File Offset: 0x00002F30
 		private void OnMissionNameMarkerToggled(MissionNameMarkerToggleEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -324,7 +295,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x00004D64 File Offset: 0x00002F64
 		private void OnPlayerStartEngineConstruction(PlayerStartEngineConstructionEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -333,7 +303,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x00004D98 File Offset: 0x00002F98
 		private void OnPlayerInspectedPartySpeed(PlayerInspectedPartySpeedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -342,7 +311,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x00004DCC File Offset: 0x00002FCC
 		private void OnGameMenuOpened(MenuCallbackArgs obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -351,7 +319,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000149 RID: 329 RVA: 0x00004E00 File Offset: 0x00003000
 		private void OnCharacterPortraitPopUpOpened(CharacterObject obj)
 		{
 			this.IsCharacterPortraitPopupOpen = true;
@@ -361,13 +328,11 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600014A RID: 330 RVA: 0x00004E38 File Offset: 0x00003038
 		private void OnCharacterPortraitPopUpClosed()
 		{
 			this.IsCharacterPortraitPopupOpen = false;
 		}
 
-		// Token: 0x0600014B RID: 331 RVA: 0x00004E44 File Offset: 0x00003044
 		private void OnPlayerStartTalkFromMenuOverlay(Hero obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -376,7 +341,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600014C RID: 332 RVA: 0x00004E78 File Offset: 0x00003078
 		private void OnGameMenuOptionSelected(GameMenuOption obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -385,7 +349,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600014D RID: 333 RVA: 0x00004EAC File Offset: 0x000030AC
 		private void OnPlayerStartRecruitment(CharacterObject obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -394,7 +357,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600014E RID: 334 RVA: 0x00004EE0 File Offset: 0x000030E0
 		private void OnNewCompanionAdded(Hero obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -403,7 +365,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600014F RID: 335 RVA: 0x00004F14 File Offset: 0x00003114
 		private void OnPlayerUpgradeTroop(PlayerRequestUpgradeTroopEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -412,7 +373,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000150 RID: 336 RVA: 0x00004F48 File Offset: 0x00003148
 		private void OnPlayerMoveTroop(PlayerMoveTroopEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -421,7 +381,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000151 RID: 337 RVA: 0x00004F7C File Offset: 0x0000317C
 		private void OnPlayerToggledUpgradePopup(PlayerToggledUpgradePopupEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -430,7 +389,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000152 RID: 338 RVA: 0x00004FB0 File Offset: 0x000031B0
 		private void OnOrderOfBattleHeroAssignedToFormation(OrderOfBattleHeroAssignedToFormationEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -439,7 +397,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000153 RID: 339 RVA: 0x00004FE4 File Offset: 0x000031E4
 		private void OnPlayerMovementFlagsChanged(MissionPlayerMovementFlagsChangeEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -448,7 +405,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000154 RID: 340 RVA: 0x00005018 File Offset: 0x00003218
 		private void OnOrderOfBattleFormationClassChanged(OrderOfBattleFormationClassChangedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -457,7 +413,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000155 RID: 341 RVA: 0x0000504C File Offset: 0x0000324C
 		private void OnOrderOfBattleFormationWeightChanged(OrderOfBattleFormationWeightChangedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -466,7 +421,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000156 RID: 342 RVA: 0x00005080 File Offset: 0x00003280
 		private void OnCraftingWeaponClassSelectionOpened(CraftingWeaponClassSelectionOpenedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -475,7 +429,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000157 RID: 343 RVA: 0x000050B4 File Offset: 0x000032B4
 		private void OnCraftingOnWeaponResultPopupOpened(CraftingWeaponResultPopupToggledEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -484,7 +437,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000158 RID: 344 RVA: 0x000050E8 File Offset: 0x000032E8
 		private void OnCraftingOrderSelectionOpened(CraftingOrderSelectionOpenedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -493,7 +445,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x06000159 RID: 345 RVA: 0x0000511C File Offset: 0x0000331C
 		private void OnInventoryItemInspected(InventoryItemInspectedEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -502,7 +453,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600015A RID: 346 RVA: 0x00005150 File Offset: 0x00003350
 		private void OnCrimeValueInspectedInSettlementOverlay(SettlementMenuOverlayVM.CrimeValueInspectedInSettlementOverlayEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -511,7 +461,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600015B RID: 347 RVA: 0x00005184 File Offset: 0x00003384
 		private void OnClanRoleAssignedThroughClanScreen(ClanRoleAssignedThroughClanScreenEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -520,7 +469,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600015C RID: 348 RVA: 0x000051B8 File Offset: 0x000033B8
 		private void OnMainMapCameraMove(MainMapCameraMoveEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -529,7 +477,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600015D RID: 349 RVA: 0x000051EC File Offset: 0x000033EC
 		private void OnPlayerSelectedAKingdomDecisionOption(PlayerSelectedAKingdomDecisionOptionEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -538,26 +485,22 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
-		// Token: 0x0600015E RID: 350 RVA: 0x0000521D File Offset: 0x0000341D
 		private void OnResetAllTutorials(ResetAllTutorialsEvent obj)
 		{
 			this._mappedTutorialItems.Clear();
 			this.RegisterTutorialTypes();
 		}
 
-		// Token: 0x0600015F RID: 351 RVA: 0x00005230 File Offset: 0x00003430
 		private void OnGamepadActiveChange(GamepadActiveStateChangedEvent obj)
 		{
 			this.UpdateKeytexts();
 		}
 
-		// Token: 0x06000160 RID: 352 RVA: 0x00005238 File Offset: 0x00003438
 		private void OnKeybindsChanged()
 		{
 			this.UpdateKeytexts();
 		}
 
-		// Token: 0x06000161 RID: 353 RVA: 0x00005240 File Offset: 0x00003440
 		private void RegisterTutorialTypes()
 		{
 			this._mappedTutorialItems.Add("MovementInMissionTutorial", new MovementInMissionTutorial());
@@ -620,7 +563,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			this._mappedTutorialItems.Add("KingdomDecisionVotingTutorial", new KingdomDecisionVotingTutorial());
 		}
 
-		// Token: 0x06000162 RID: 354 RVA: 0x00005738 File Offset: 0x00003938
 		private void RegisterEvents()
 		{
 			Game.Current.EventManager.RegisterEvent<InventoryTransferItemEvent>(new Action<InventoryTransferItemEvent>(this.OnInventoryTransferItem));
@@ -667,7 +609,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x06000163 RID: 355 RVA: 0x00005B50 File Offset: 0x00003D50
 		private void UnregisterEvents()
 		{
 			Game game = Game.Current;
@@ -802,7 +743,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
-		// Token: 0x06000164 RID: 356 RVA: 0x00005F94 File Offset: 0x00004194
 		private void UpdateKeytexts()
 		{
 			string keyHyperlinkText = HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("Generic", 5));
@@ -838,34 +778,24 @@ namespace StoryMode.GauntletUI.Tutorial
 			GameTexts.SetVariable("UPGRADE_ICON", "{=!}<img src=\"PartyScreen\\upgrade_icon\" extend=\"5\">");
 		}
 
-		// Token: 0x0400005E RID: 94
 		internal static GauntletTutorialSystem Current;
 
-		// Token: 0x0400005F RID: 95
 		private readonly Dictionary<string, TutorialItemBase> _mappedTutorialItems;
 
-		// Token: 0x04000060 RID: 96
 		private CampaignTutorial _currentTutorial;
 
-		// Token: 0x04000061 RID: 97
 		private TutorialItemBase _currentTutorialVisualItem;
 
-		// Token: 0x04000062 RID: 98
 		private List<TutorialItemBase> _currentlyAvailableTutorialItems;
 
-		// Token: 0x04000063 RID: 99
 		private TutorialItemBase[] _currentlyAvailableTutorialItemsCopy;
 
-		// Token: 0x04000064 RID: 100
 		private TutorialVM _dataSource;
 
-		// Token: 0x04000065 RID: 101
 		private bool _isInitialized;
 
-		// Token: 0x04000066 RID: 102
 		private List<CampaignTutorial> _currentCampaignTutorials;
 
-		// Token: 0x04000067 RID: 103
 		private IGauntletMovie _movie;
 	}
 }

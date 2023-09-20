@@ -5,16 +5,13 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003BC RID: 956
 	public class PerkActivationHandlerCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060038D7 RID: 14551 RVA: 0x001036F5 File Offset: 0x001018F5
 		public override void RegisterEvents()
 		{
 			CampaignEvents.PerkOpenedEvent.AddNonSerializedListener(this, new Action<Hero, PerkObject>(this.OnPerkOpened));
 		}
 
-		// Token: 0x060038D8 RID: 14552 RVA: 0x00103710 File Offset: 0x00101910
 		private void OnPerkOpened(Hero hero, PerkObject perk)
 		{
 			if (hero != null)
@@ -59,7 +56,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038D9 RID: 14553 RVA: 0x00103898 File Offset: 0x00101A98
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

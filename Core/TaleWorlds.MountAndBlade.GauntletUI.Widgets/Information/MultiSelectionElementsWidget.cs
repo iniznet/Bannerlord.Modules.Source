@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 {
-	// Token: 0x02000129 RID: 297
 	public class MultiSelectionElementsWidget : Widget
 	{
-		// Token: 0x06000F7D RID: 3965 RVA: 0x0002B400 File Offset: 0x00029600
 		public MultiSelectionElementsWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000F7E RID: 3966 RVA: 0x0002B41C File Offset: 0x0002961C
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -49,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000F7F RID: 3967 RVA: 0x0002B4BC File Offset: 0x000296BC
 		protected override void OnChildAdded(Widget child)
 		{
 			base.OnChildAdded(child);
@@ -60,13 +56,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000F80 RID: 3968 RVA: 0x0002B4F5 File Offset: 0x000296F5
 		private void OnElementAdded(Widget parentWidget, Widget addedWidget)
 		{
 			this._updateRequired = true;
 		}
 
-		// Token: 0x06000F81 RID: 3969 RVA: 0x0002B500 File Offset: 0x00029700
 		private int GetNumOfChildrenSelected()
 		{
 			int num = 0;
@@ -80,7 +74,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			return num;
 		}
 
-		// Token: 0x06000F82 RID: 3970 RVA: 0x0002B540 File Offset: 0x00029740
 		private void UpdateElementsList()
 		{
 			this._elementsList.Clear();
@@ -93,7 +86,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x06000F83 RID: 3971 RVA: 0x0002B5B0 File Offset: 0x000297B0
 		private void OnElementClick(Widget widget)
 		{
 			ButtonWidget buttonWidget;
@@ -103,9 +95,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000571 RID: 1393
-		// (get) Token: 0x06000F84 RID: 3972 RVA: 0x0002B5CE File Offset: 0x000297CE
-		// (set) Token: 0x06000F85 RID: 3973 RVA: 0x0002B5D6 File Offset: 0x000297D6
 		[Editor(false)]
 		public int MaxSelectableOptionCount
 		{
@@ -123,9 +112,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x17000572 RID: 1394
-		// (get) Token: 0x06000F86 RID: 3974 RVA: 0x0002B5F4 File Offset: 0x000297F4
-		// (set) Token: 0x06000F87 RID: 3975 RVA: 0x0002B5FC File Offset: 0x000297FC
 		[Editor(false)]
 		public ButtonWidget DoneButtonWidget
 		{
@@ -143,22 +129,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 			}
 		}
 
-		// Token: 0x04000714 RID: 1812
 		private bool _updateRequired;
 
-		// Token: 0x04000715 RID: 1813
 		private List<ButtonWidget> _elementsList = new List<ButtonWidget>();
 
-		// Token: 0x04000716 RID: 1814
 		private ButtonWidget _latestClickedWidget;
 
-		// Token: 0x04000717 RID: 1815
 		private ButtonWidget _doneButtonWidget;
 
-		// Token: 0x04000718 RID: 1816
 		private ListPanel _elementContainer;
 
-		// Token: 0x04000719 RID: 1817
 		private int _maxSelectableOptionCount = -100;
 	}
 }

@@ -7,10 +7,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000FF RID: 255
 	public class DefaultCompanionHiringPriceCalculationModel : CompanionHiringPriceCalculationModel
 	{
-		// Token: 0x06001515 RID: 5397 RVA: 0x00060BD0 File Offset: 0x0005EDD0
 		public override int GetCompanionHiringPrice(Hero companion)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);

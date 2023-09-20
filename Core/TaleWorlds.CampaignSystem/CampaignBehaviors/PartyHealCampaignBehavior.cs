@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003B8 RID: 952
 	public class PartyHealCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060038A3 RID: 14499 RVA: 0x00102250 File Offset: 0x00100450
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnClanHourlyTick));
@@ -23,7 +21,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnQuarterDailyPartyTick.AddNonSerializedListener(this, new Action<MobileParty>(this.OnQuarterDailyPartyTick));
 		}
 
-		// Token: 0x060038A4 RID: 14500 RVA: 0x001022E7 File Offset: 0x001004E7
 		private void OnQuarterDailyPartyTick(MobileParty mobileParty)
 		{
 			if (!mobileParty.IsMainParty)
@@ -32,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038A5 RID: 14501 RVA: 0x001022FC File Offset: 0x001004FC
 		private void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
 		{
 			if (this._overflowedHealingForRegulars.ContainsKey(mobileParty.Party))
@@ -45,7 +41,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038A6 RID: 14502 RVA: 0x00102354 File Offset: 0x00100554
 		private void OnWeeklyTick()
 		{
 			List<PartyBase> list = new List<PartyBase>();
@@ -67,13 +62,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038A7 RID: 14503 RVA: 0x00102428 File Offset: 0x00100628
 		public void OnMapEventEnded(MapEvent mapEvent)
 		{
 			this.OnBattleEndCheckPerkEffects(mapEvent);
 		}
 
-		// Token: 0x060038A8 RID: 14504 RVA: 0x00102434 File Offset: 0x00100634
 		private void OnBattleEndCheckPerkEffects(MapEvent mapEvent)
 		{
 			if ((mapEvent.EventType == MapEvent.BattleTypes.FieldBattle || mapEvent.EventType == MapEvent.BattleTypes.Siege || mapEvent.EventType == MapEvent.BattleTypes.SiegeOutside || mapEvent.EventType == MapEvent.BattleTypes.Hideout || mapEvent.EventType == MapEvent.BattleTypes.SallyOut) && mapEvent.HasWinner)
@@ -96,14 +89,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038A9 RID: 14505 RVA: 0x0010254C File Offset: 0x0010074C
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<PartyBase, float>>("_overflowedHealingForRegulars", ref this._overflowedHealingForRegulars);
 			dataStore.SyncData<Dictionary<PartyBase, float>>("_overflowedHealingForHeroes", ref this._overflowedHealingForHeroes);
 		}
 
-		// Token: 0x060038AA RID: 14506 RVA: 0x00102574 File Offset: 0x00100774
 		private void OnClanHourlyTick(Clan clan)
 		{
 			foreach (Hero hero in clan.Heroes)
@@ -120,13 +111,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038AB RID: 14507 RVA: 0x0010260C File Offset: 0x0010080C
 		private void OnHourlyTick()
 		{
 			this.TryHealOrWoundParty(MobileParty.MainParty, true);
 		}
 
-		// Token: 0x060038AC RID: 14508 RVA: 0x0010261C File Offset: 0x0010081C
 		private void TryHealOrWoundParty(MobileParty mobileParty, bool isCheckingForPlayerRelatedParty)
 		{
 			if (mobileParty.IsActive && mobileParty.MapEvent == null)
@@ -166,7 +155,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038AD RID: 14509 RVA: 0x00102738 File Offset: 0x00100938
 		private static void HealHeroes(MobileParty mobileParty, ref float heroesHealingValue)
 		{
 			int num = MathF.Floor(heroesHealingValue);
@@ -197,7 +185,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038AE RID: 14510 RVA: 0x001027E4 File Offset: 0x001009E4
 		private static void ReduceHpHeroes(MobileParty mobileParty, ref float heroesHealingValue)
 		{
 			int num = MathF.Ceiling(heroesHealingValue);
@@ -213,7 +200,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038AF RID: 14511 RVA: 0x00102854 File Offset: 0x00100A54
 		private static void HealRegulars(MobileParty mobileParty, ref float regularsHealingValue)
 		{
 			TroopRoster memberRoster = mobileParty.MemberRoster;
@@ -251,7 +237,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060038B0 RID: 14512 RVA: 0x00102924 File Offset: 0x00100B24
 		private static void ReduceHpRegulars(MobileParty mobileParty, ref float regularsHealingValue)
 		{
 			TroopRoster memberRoster = mobileParty.MemberRoster;
@@ -280,10 +265,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040011B1 RID: 4529
 		private Dictionary<PartyBase, float> _overflowedHealingForRegulars = new Dictionary<PartyBase, float>();
 
-		// Token: 0x040011B2 RID: 4530
 		private Dictionary<PartyBase, float> _overflowedHealingForHeroes = new Dictionary<PartyBase, float>();
 	}
 }

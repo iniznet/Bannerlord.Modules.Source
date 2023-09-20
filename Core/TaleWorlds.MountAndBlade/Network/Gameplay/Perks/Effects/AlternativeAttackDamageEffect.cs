@@ -5,15 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003B7 RID: 951
 	public class AlternativeAttackDamageEffect : MPPerkEffect
 	{
-		// Token: 0x06003389 RID: 13193 RVA: 0x000D5B2C File Offset: 0x000D3D2C
 		protected AlternativeAttackDamageEffect()
 		{
 		}
 
-		// Token: 0x0600338A RID: 13194 RVA: 0x000D5B34 File Offset: 0x000D3D34
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -86,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x0600338B RID: 13195 RVA: 0x000D5C38 File Offset: 0x000D3E38
 		public override float GetDamage(WeaponComponentData attackerWeapon, DamageTypes damageType, bool isAlternativeAttack)
 		{
 			if (isAlternativeAttack)
@@ -112,23 +108,16 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return 0f;
 		}
 
-		// Token: 0x040015E0 RID: 5600
 		protected static string StringType = "AlternativeAttackDamage";
 
-		// Token: 0x040015E1 RID: 5601
 		private AlternativeAttackDamageEffect.AttackType _attackType;
 
-		// Token: 0x040015E2 RID: 5602
 		private float _value;
 
-		// Token: 0x020006C0 RID: 1728
 		private enum AttackType
 		{
-			// Token: 0x04002292 RID: 8850
 			Any,
-			// Token: 0x04002293 RID: 8851
 			Kick,
-			// Token: 0x04002294 RID: 8852
 			Bash
 		}
 	}

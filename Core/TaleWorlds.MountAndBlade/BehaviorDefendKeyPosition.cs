@@ -4,12 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000101 RID: 257
 	public class BehaviorDefendKeyPosition : BehaviorComponent
 	{
-		// Token: 0x17000313 RID: 787
-		// (get) Token: 0x06000CAE RID: 3246 RVA: 0x0001BCAF File Offset: 0x00019EAF
-		// (set) Token: 0x06000CAF RID: 3247 RVA: 0x0001BCBC File Offset: 0x00019EBC
 		public WorldPosition DefensePosition
 		{
 			get
@@ -22,7 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000CB0 RID: 3248 RVA: 0x0001BCC8 File Offset: 0x00019EC8
 		public BehaviorDefendKeyPosition(Formation formation)
 			: base(formation)
 		{
@@ -30,7 +25,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000CB1 RID: 3249 RVA: 0x0001BD14 File Offset: 0x00019F14
 		protected override void CalculateCurrentOrder()
 		{
 			Vec2 vec;
@@ -55,7 +49,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec);
 		}
 
-		// Token: 0x06000CB2 RID: 3250 RVA: 0x0001BE48 File Offset: 0x0001A048
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -69,7 +62,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
 		}
 
-		// Token: 0x06000CB3 RID: 3251 RVA: 0x0001BEFC File Offset: 0x0001A0FC
 		protected override void OnBehaviorActivatedAux()
 		{
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
@@ -78,19 +70,15 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CB4 RID: 3252 RVA: 0x0001BF49 File Offset: 0x0001A149
 		protected override float GetAiWeight()
 		{
 			return 10f;
 		}
 
-		// Token: 0x04000308 RID: 776
 		private WorldPosition _defensePosition = WorldPosition.Invalid;
 
-		// Token: 0x04000309 RID: 777
 		public WorldPosition EnemyClusterPosition = WorldPosition.Invalid;
 
-		// Token: 0x0400030A RID: 778
 		private readonly QueryData<WorldPosition> _behaviorPosition;
 	}
 }

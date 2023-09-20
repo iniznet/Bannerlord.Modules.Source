@@ -4,11 +4,9 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x02000048 RID: 72
 	[DefaultView]
 	public class MissionCrosshair : MissionView
 	{
-		// Token: 0x06000330 RID: 816 RVA: 0x0001B8CC File Offset: 0x00019ACC
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -53,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000331 RID: 817 RVA: 0x0001BAA4 File Offset: 0x00019CA4
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -288,16 +285,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x04000225 RID: 549
 		private GameEntity[] _crosshairEntities;
 
-		// Token: 0x04000226 RID: 550
 		private GameEntity[] _arrowEntities;
 
-		// Token: 0x04000227 RID: 551
 		private float[] _gadgetOpacities;
 
-		// Token: 0x04000228 RID: 552
 		private const int GadgetCount = 7;
 	}
 }

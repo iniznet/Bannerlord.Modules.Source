@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.TwoDimension
 {
-	// Token: 0x02000017 RID: 23
 	public static class TextParser
 	{
-		// Token: 0x060000D0 RID: 208 RVA: 0x00006128 File Offset: 0x00004328
 		public static List<TextToken> Parse(string text, ILanguage currentLanguage)
 		{
 			List<TextToken> list = new List<TextToken>(text.Length);

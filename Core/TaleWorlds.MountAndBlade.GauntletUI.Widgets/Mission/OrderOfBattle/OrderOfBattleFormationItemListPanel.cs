@@ -4,16 +4,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 {
-	// Token: 0x020000D3 RID: 211
 	public class OrderOfBattleFormationItemListPanel : ListPanel
 	{
-		// Token: 0x06000ABC RID: 2748 RVA: 0x0001DF31 File Offset: 0x0001C131
 		public OrderOfBattleFormationItemListPanel(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000ABD RID: 2749 RVA: 0x0001DF3C File Offset: 0x0001C13C
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x06000ABE RID: 2750 RVA: 0x0001DF74 File Offset: 0x0001C174
 		private void OnStateChanged()
 		{
 			if (this.IsSelected)
@@ -49,15 +45,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x06000ABF RID: 2751 RVA: 0x0001DFA9 File Offset: 0x0001C1A9
 		private void OnClassDropdownEnabledStateChanged(DropdownWidget widget)
 		{
 			this.IsClassDropdownEnabled = widget.IsOpen;
 		}
 
-		// Token: 0x170003CC RID: 972
-		// (get) Token: 0x06000AC0 RID: 2752 RVA: 0x0001DFB7 File Offset: 0x0001C1B7
-		// (set) Token: 0x06000AC1 RID: 2753 RVA: 0x0001DFBF File Offset: 0x0001C1BF
 		[Editor(false)]
 		public Widget CardWidget
 		{
@@ -75,9 +67,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003CD RID: 973
-		// (get) Token: 0x06000AC2 RID: 2754 RVA: 0x0001DFDD File Offset: 0x0001C1DD
-		// (set) Token: 0x06000AC3 RID: 2755 RVA: 0x0001DFE8 File Offset: 0x0001C1E8
 		[Editor(false)]
 		public DropdownWidget FormationClassDropdown
 		{
@@ -106,9 +95,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003CE RID: 974
-		// (get) Token: 0x06000AC4 RID: 2756 RVA: 0x0001E07B File Offset: 0x0001C27B
-		// (set) Token: 0x06000AC5 RID: 2757 RVA: 0x0001E084 File Offset: 0x0001C284
 		[Editor(false)]
 		public bool IsControlledByPlayer
 		{
@@ -131,9 +117,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003CF RID: 975
-		// (get) Token: 0x06000AC6 RID: 2758 RVA: 0x0001E0D2 File Offset: 0x0001C2D2
-		// (set) Token: 0x06000AC7 RID: 2759 RVA: 0x0001E0DA File Offset: 0x0001C2DA
 		[Editor(false)]
 		public bool IsFilterDropdownEnabled
 		{
@@ -151,9 +134,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003D0 RID: 976
-		// (get) Token: 0x06000AC8 RID: 2760 RVA: 0x0001E0F8 File Offset: 0x0001C2F8
-		// (set) Token: 0x06000AC9 RID: 2761 RVA: 0x0001E100 File Offset: 0x0001C300
 		[Editor(false)]
 		public bool IsClassDropdownEnabled
 		{
@@ -175,9 +155,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003D1 RID: 977
-		// (get) Token: 0x06000ACA RID: 2762 RVA: 0x0001E132 File Offset: 0x0001C332
-		// (set) Token: 0x06000ACB RID: 2763 RVA: 0x0001E13A File Offset: 0x0001C33A
 		[Editor(false)]
 		public bool IsSelected
 		{
@@ -196,9 +173,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003D2 RID: 978
-		// (get) Token: 0x06000ACC RID: 2764 RVA: 0x0001E15E File Offset: 0x0001C35E
-		// (set) Token: 0x06000ACD RID: 2765 RVA: 0x0001E166 File Offset: 0x0001C366
 		[Editor(false)]
 		public bool HasFormation
 		{
@@ -216,9 +190,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003D3 RID: 979
-		// (get) Token: 0x06000ACE RID: 2766 RVA: 0x0001E184 File Offset: 0x0001C384
-		// (set) Token: 0x06000ACF RID: 2767 RVA: 0x0001E18C File Offset: 0x0001C38C
 		[Editor(false)]
 		public float DefaultFocusYOffsetFromCenter
 		{
@@ -236,9 +207,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x170003D4 RID: 980
-		// (get) Token: 0x06000AD0 RID: 2768 RVA: 0x0001E1AA File Offset: 0x0001C3AA
-		// (set) Token: 0x06000AD1 RID: 2769 RVA: 0x0001E1B2 File Offset: 0x0001C3B2
 		[Editor(false)]
 		public float NoFormationFocusYOffsetFromCenter
 		{
@@ -256,31 +224,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.OrderOfBattle
 			}
 		}
 
-		// Token: 0x040004E6 RID: 1254
 		private Widget _cardWidget;
 
-		// Token: 0x040004E7 RID: 1255
 		private DropdownWidget _formationClassDropdown;
 
-		// Token: 0x040004E8 RID: 1256
 		private bool _isControlledByPlayer;
 
-		// Token: 0x040004E9 RID: 1257
 		private bool _isFilterDropdownEnabled;
 
-		// Token: 0x040004EA RID: 1258
 		private bool _isClassDropdownEnabled;
 
-		// Token: 0x040004EB RID: 1259
 		private bool _isSelected;
 
-		// Token: 0x040004EC RID: 1260
 		private bool _hasFormation;
 
-		// Token: 0x040004ED RID: 1261
 		private float _defaultFocusYOffsetFromCenter;
 
-		// Token: 0x040004EE RID: 1262
 		private float _noFormationFocusYOffsetFromCenter;
 	}
 }

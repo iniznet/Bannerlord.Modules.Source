@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000117 RID: 279
 	public class BehaviorSergeantMPInfantry : BehaviorComponent
 	{
-		// Token: 0x06000D43 RID: 3395 RVA: 0x000215AC File Offset: 0x0001F7AC
 		public BehaviorSergeantMPInfantry(Formation formation)
 			: base(formation)
 		{
@@ -21,7 +19,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D44 RID: 3396 RVA: 0x00021610 File Offset: 0x0001F810
 		protected override void CalculateCurrentOrder()
 		{
 			BehaviorSergeantMPInfantry.BehaviorState behaviorState;
@@ -72,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000D45 RID: 3397 RVA: 0x00021914 File Offset: 0x0001FB14
 		public override void TickOccasionally()
 		{
 			this._flagpositions.RemoveAll((FlagCapturePoint fp) => fp.IsDeactivated);
@@ -87,7 +83,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 		}
 
-		// Token: 0x06000D46 RID: 3398 RVA: 0x00021A0C File Offset: 0x0001FC0C
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -99,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D47 RID: 3399 RVA: 0x00021A81 File Offset: 0x0001FC81
 		protected override float GetAiWeight()
 		{
 			if (base.Formation.QuerySystem.IsInfantryFormation)
@@ -109,23 +103,16 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x04000336 RID: 822
 		private BehaviorSergeantMPInfantry.BehaviorState _behaviorState;
 
-		// Token: 0x04000337 RID: 823
 		private List<FlagCapturePoint> _flagpositions;
 
-		// Token: 0x04000338 RID: 824
 		private MissionMultiplayerFlagDomination _flagDominationGameMode;
 
-		// Token: 0x02000451 RID: 1105
 		private enum BehaviorState
 		{
-			// Token: 0x04001883 RID: 6275
 			GoingToFlag,
-			// Token: 0x04001884 RID: 6276
 			Attacking,
-			// Token: 0x04001885 RID: 6277
 			Unset
 		}
 	}

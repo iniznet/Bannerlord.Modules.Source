@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 {
-	// Token: 0x020000F1 RID: 241
 	public class CompassTargetVM : ViewModel
 	{
-		// Token: 0x0600154B RID: 5451 RVA: 0x000453D8 File Offset: 0x000435D8
 		public CompassTargetVM(TargetIconType iconType, uint color, uint color2, BannerCode bannercode, bool isAttacker, bool isAlly)
 		{
 			this.IconType = iconType.ToString();
@@ -24,7 +22,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			this.Banner = new ImageIdentifierVM(bannercode, false);
 		}
 
-		// Token: 0x0600154C RID: 5452 RVA: 0x00045464 File Offset: 0x00043664
 		private string GetLetterCode(TargetIconType iconType)
 		{
 			switch (iconType)
@@ -52,7 +49,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x0600154D RID: 5453 RVA: 0x000454DC File Offset: 0x000436DC
 		public void RefreshColor(uint color, uint color2)
 		{
 			if (color != 0U)
@@ -81,7 +77,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			this.Color2 = "#FFFFFFFF";
 		}
 
-		// Token: 0x0600154E RID: 5454 RVA: 0x000455AE File Offset: 0x000437AE
 		public virtual void Refresh(float circleX, float x, float distance)
 		{
 			this.FullPosition = circleX;
@@ -89,9 +84,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			this.Distance = MathF.Round(distance);
 		}
 
-		// Token: 0x170006FF RID: 1791
-		// (get) Token: 0x0600154F RID: 5455 RVA: 0x000455CA File Offset: 0x000437CA
-		// (set) Token: 0x06001550 RID: 5456 RVA: 0x000455D4 File Offset: 0x000437D4
 		[DataSourceProperty]
 		public ImageIdentifierVM Banner
 		{
@@ -109,9 +101,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000700 RID: 1792
-		// (get) Token: 0x06001551 RID: 5457 RVA: 0x00045620 File Offset: 0x00043820
-		// (set) Token: 0x06001552 RID: 5458 RVA: 0x00045628 File Offset: 0x00043828
 		[DataSourceProperty]
 		public bool IsFlag
 		{
@@ -129,9 +118,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000701 RID: 1793
-		// (get) Token: 0x06001553 RID: 5459 RVA: 0x00045646 File Offset: 0x00043846
-		// (set) Token: 0x06001554 RID: 5460 RVA: 0x0004564E File Offset: 0x0004384E
 		[DataSourceProperty]
 		public int Distance
 		{
@@ -149,9 +135,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000702 RID: 1794
-		// (get) Token: 0x06001555 RID: 5461 RVA: 0x0004566C File Offset: 0x0004386C
-		// (set) Token: 0x06001556 RID: 5462 RVA: 0x00045674 File Offset: 0x00043874
 		[DataSourceProperty]
 		public string Color2
 		{
@@ -169,9 +152,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000703 RID: 1795
-		// (get) Token: 0x06001557 RID: 5463 RVA: 0x00045697 File Offset: 0x00043897
-		// (set) Token: 0x06001558 RID: 5464 RVA: 0x0004569F File Offset: 0x0004389F
 		[DataSourceProperty]
 		public string Color
 		{
@@ -189,9 +169,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000704 RID: 1796
-		// (get) Token: 0x06001559 RID: 5465 RVA: 0x000456C2 File Offset: 0x000438C2
-		// (set) Token: 0x0600155A RID: 5466 RVA: 0x000456CA File Offset: 0x000438CA
 		[DataSourceProperty]
 		public string IconType
 		{
@@ -210,9 +187,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000705 RID: 1797
-		// (get) Token: 0x0600155B RID: 5467 RVA: 0x000456F4 File Offset: 0x000438F4
-		// (set) Token: 0x0600155C RID: 5468 RVA: 0x000456FC File Offset: 0x000438FC
 		[DataSourceProperty]
 		public string IconSpriteType
 		{
@@ -230,9 +204,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000706 RID: 1798
-		// (get) Token: 0x0600155D RID: 5469 RVA: 0x0004571F File Offset: 0x0004391F
-		// (set) Token: 0x0600155E RID: 5470 RVA: 0x00045727 File Offset: 0x00043927
 		[DataSourceProperty]
 		public string LetterCode
 		{
@@ -250,9 +221,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000707 RID: 1799
-		// (get) Token: 0x0600155F RID: 5471 RVA: 0x0004574A File Offset: 0x0004394A
-		// (set) Token: 0x06001560 RID: 5472 RVA: 0x00045752 File Offset: 0x00043952
 		[DataSourceProperty]
 		public float FullPosition
 		{
@@ -270,9 +238,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000708 RID: 1800
-		// (get) Token: 0x06001561 RID: 5473 RVA: 0x0004577B File Offset: 0x0004397B
-		// (set) Token: 0x06001562 RID: 5474 RVA: 0x00045783 File Offset: 0x00043983
 		[DataSourceProperty]
 		public float Position
 		{
@@ -290,9 +255,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x17000709 RID: 1801
-		// (get) Token: 0x06001563 RID: 5475 RVA: 0x000457AC File Offset: 0x000439AC
-		// (set) Token: 0x06001564 RID: 5476 RVA: 0x000457B4 File Offset: 0x000439B4
 		[DataSourceProperty]
 		public bool IsAttacker
 		{
@@ -310,9 +272,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x1700070A RID: 1802
-		// (get) Token: 0x06001565 RID: 5477 RVA: 0x000457D2 File Offset: 0x000439D2
-		// (set) Token: 0x06001566 RID: 5478 RVA: 0x000457DA File Offset: 0x000439DA
 		[DataSourceProperty]
 		public bool IsEnemy
 		{
@@ -330,40 +289,28 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.Compass
 			}
 		}
 
-		// Token: 0x04000A31 RID: 2609
 		private int _distance;
 
-		// Token: 0x04000A32 RID: 2610
 		private string _color;
 
-		// Token: 0x04000A33 RID: 2611
 		private string _color2;
 
-		// Token: 0x04000A34 RID: 2612
 		private ImageIdentifierVM _banner;
 
-		// Token: 0x04000A35 RID: 2613
 		private string _iconType;
 
-		// Token: 0x04000A36 RID: 2614
 		private string _iconSpriteType;
 
-		// Token: 0x04000A37 RID: 2615
 		private string _letterCode;
 
-		// Token: 0x04000A38 RID: 2616
 		private float _position;
 
-		// Token: 0x04000A39 RID: 2617
 		private float _fullPosition;
 
-		// Token: 0x04000A3A RID: 2618
 		private bool _isAttacker;
 
-		// Token: 0x04000A3B RID: 2619
 		private bool _isEnemy;
 
-		// Token: 0x04000A3C RID: 2620
 		private bool _isFlag;
 	}
 }

@@ -15,12 +15,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 {
-	// Token: 0x0200009E RID: 158
 	[MenuOverlay("ArmyMenuOverlay")]
 	public class ArmyMenuOverlayVM : GameMenuOverlay
 	{
-		// Token: 0x17000523 RID: 1315
-		// (get) Token: 0x06000F9C RID: 3996 RVA: 0x0003CAF2 File Offset: 0x0003ACF2
 		private IEnumerable<MobileParty> _mergedPartiesAndLeaderParty
 		{
 			get
@@ -36,7 +33,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000F9D RID: 3997 RVA: 0x0003CB04 File Offset: 0x0003AD04
 		public ArmyMenuOverlayVM()
 		{
 			this.PartyList = new MBBindingList<GameMenuPartyItemVM>();
@@ -58,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			base.IsInitializationOver = true;
 		}
 
-		// Token: 0x06000F9E RID: 3998 RVA: 0x0003CC22 File Offset: 0x0003AE22
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -70,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.Refresh();
 		}
 
-		// Token: 0x06000F9F RID: 3999 RVA: 0x0003CC44 File Offset: 0x0003AE44
 		protected override void ExecuteOnSetAsActiveContextMenuItem(GameMenuPartyItemVM troop)
 		{
 			base.ExecuteOnSetAsActiveContextMenuItem(troop);
@@ -112,7 +106,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			CampaignEventDispatcher.Instance.OnCharacterPortraitPopUpOpened(characterObject);
 		}
 
-		// Token: 0x06000FA0 RID: 4000 RVA: 0x0003CEDC File Offset: 0x0003B0DC
 		public override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -130,7 +123,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FA1 RID: 4001 RVA: 0x0003CF48 File Offset: 0x0003B148
 		private bool GetCanManageArmyWithReason(out TextObject reasonText)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -166,7 +158,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return true;
 		}
 
-		// Token: 0x06000FA2 RID: 4002 RVA: 0x0003D003 File Offset: 0x0003B203
 		public sealed override void Refresh()
 		{
 			if (PartyBase.MainParty.MobileParty.Army != null)
@@ -178,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FA3 RID: 4003 RVA: 0x0003D030 File Offset: 0x0003B230
 		private void UpdateProperties()
 		{
 			MBTextManager.SetTextVariable("newline", "\n", false);
@@ -197,7 +187,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.IsPlayerArmyLeader = MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty;
 		}
 
-		// Token: 0x06000FA4 RID: 4004 RVA: 0x0003D170 File Offset: 0x0003B370
 		private void UpdateLists()
 		{
 			List<MobileParty> list = this._army.Parties.Except(this._savedPartyList).ToList<MobileParty>();
@@ -239,7 +228,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FA5 RID: 4005 RVA: 0x0003D3B0 File Offset: 0x0003B5B0
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -248,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			Game.Current.EventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 		}
 
-		// Token: 0x06000FA6 RID: 4006 RVA: 0x0003D3EC File Offset: 0x0003B5EC
 		public void ExecuteOpenArmyManagement()
 		{
 			MobileParty mainParty = MobileParty.MainParty;
@@ -267,7 +254,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FA7 RID: 4007 RVA: 0x0003D439 File Offset: 0x0003B639
 		private void ExecuteCohesionLink()
 		{
 			if (this._cohesionConceptObj != null)
@@ -278,7 +264,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			Debug.FailedAssert("Couldn't find Cohesion encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\GameMenu\\Overlay\\ArmyMenuOverlayVM.cs", "ExecuteCohesionLink", 292);
 		}
 
-		// Token: 0x06000FA8 RID: 4008 RVA: 0x0003D478 File Offset: 0x0003B678
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
 		{
 			if (obj.NewNotificationElementID != this._latestTutorialElementID)
@@ -295,7 +280,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FA9 RID: 4009 RVA: 0x0003D4D8 File Offset: 0x0003B6D8
 		private void RefreshVisualsOfItems()
 		{
 			for (int i = 0; i < this.PartyList.Count; i++)
@@ -304,7 +288,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x06000FAA RID: 4010 RVA: 0x0003D50C File Offset: 0x0003B70C
 		private void OnPartyAttachedAnotherParty(MobileParty party)
 		{
 			MobileParty attachedTo = party.AttachedTo;
@@ -314,9 +297,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000524 RID: 1316
-		// (get) Token: 0x06000FAB RID: 4011 RVA: 0x0003D540 File Offset: 0x0003B740
-		// (set) Token: 0x06000FAC RID: 4012 RVA: 0x0003D548 File Offset: 0x0003B748
 		[DataSourceProperty]
 		public ElementNotificationVM TutorialNotification
 		{
@@ -334,9 +314,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000525 RID: 1317
-		// (get) Token: 0x06000FAD RID: 4013 RVA: 0x0003D566 File Offset: 0x0003B766
-		// (set) Token: 0x06000FAE RID: 4014 RVA: 0x0003D56E File Offset: 0x0003B76E
 		[DataSourceProperty]
 		public HintViewModel ManageArmyHint
 		{
@@ -354,9 +331,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000526 RID: 1318
-		// (get) Token: 0x06000FAF RID: 4015 RVA: 0x0003D58C File Offset: 0x0003B78C
-		// (set) Token: 0x06000FB0 RID: 4016 RVA: 0x0003D594 File Offset: 0x0003B794
 		[DataSourceProperty]
 		public int Cohesion
 		{
@@ -374,9 +348,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000527 RID: 1319
-		// (get) Token: 0x06000FB1 RID: 4017 RVA: 0x0003D5B2 File Offset: 0x0003B7B2
-		// (set) Token: 0x06000FB2 RID: 4018 RVA: 0x0003D5BA File Offset: 0x0003B7BA
 		[DataSourceProperty]
 		public bool IsCohesionWarningEnabled
 		{
@@ -394,9 +365,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000528 RID: 1320
-		// (get) Token: 0x06000FB3 RID: 4019 RVA: 0x0003D5D8 File Offset: 0x0003B7D8
-		// (set) Token: 0x06000FB4 RID: 4020 RVA: 0x0003D5E0 File Offset: 0x0003B7E0
 		[DataSourceProperty]
 		public bool CanManageArmy
 		{
@@ -414,9 +382,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000529 RID: 1321
-		// (get) Token: 0x06000FB5 RID: 4021 RVA: 0x0003D5FE File Offset: 0x0003B7FE
-		// (set) Token: 0x06000FB6 RID: 4022 RVA: 0x0003D606 File Offset: 0x0003B806
 		[DataSourceProperty]
 		public bool IsPlayerArmyLeader
 		{
@@ -434,9 +399,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052A RID: 1322
-		// (get) Token: 0x06000FB7 RID: 4023 RVA: 0x0003D624 File Offset: 0x0003B824
-		// (set) Token: 0x06000FB8 RID: 4024 RVA: 0x0003D62C File Offset: 0x0003B82C
 		[DataSourceProperty]
 		public string ManCountText
 		{
@@ -454,9 +416,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052B RID: 1323
-		// (get) Token: 0x06000FB9 RID: 4025 RVA: 0x0003D64F File Offset: 0x0003B84F
-		// (set) Token: 0x06000FBA RID: 4026 RVA: 0x0003D657 File Offset: 0x0003B857
 		[DataSourceProperty]
 		public int Food
 		{
@@ -474,9 +433,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x06000FBB RID: 4027 RVA: 0x0003D675 File Offset: 0x0003B875
-		// (set) Token: 0x06000FBC RID: 4028 RVA: 0x0003D67D File Offset: 0x0003B87D
 		[DataSourceProperty]
 		public MBBindingList<GameMenuPartyItemVM> PartyList
 		{
@@ -494,9 +450,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052D RID: 1325
-		// (get) Token: 0x06000FBD RID: 4029 RVA: 0x0003D69B File Offset: 0x0003B89B
-		// (set) Token: 0x06000FBE RID: 4030 RVA: 0x0003D6A3 File Offset: 0x0003B8A3
 		[DataSourceProperty]
 		public BasicTooltipViewModel CohesionHint
 		{
@@ -514,9 +467,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052E RID: 1326
-		// (get) Token: 0x06000FBF RID: 4031 RVA: 0x0003D6C1 File Offset: 0x0003B8C1
-		// (set) Token: 0x06000FC0 RID: 4032 RVA: 0x0003D6C9 File Offset: 0x0003B8C9
 		[DataSourceProperty]
 		public BasicTooltipViewModel ManCountHint
 		{
@@ -534,9 +484,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700052F RID: 1327
-		// (get) Token: 0x06000FC1 RID: 4033 RVA: 0x0003D6E7 File Offset: 0x0003B8E7
-		// (set) Token: 0x06000FC2 RID: 4034 RVA: 0x0003D6EF File Offset: 0x0003B8EF
 		[DataSourceProperty]
 		public BasicTooltipViewModel FoodHint
 		{
@@ -554,8 +501,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x17000530 RID: 1328
-		// (get) Token: 0x06000FC3 RID: 4035 RVA: 0x0003D70D File Offset: 0x0003B90D
 		[DataSourceProperty]
 		public MBBindingList<StringItemWithHintVM> IssueList
 		{
@@ -569,64 +514,44 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x04000740 RID: 1856
 		private readonly Army _army;
 
-		// Token: 0x04000741 RID: 1857
 		private List<MobileParty> _savedPartyList;
 
-		// Token: 0x04000742 RID: 1858
 		private const float CohesionWarningMin = 30f;
 
-		// Token: 0x04000743 RID: 1859
 		public Action OpenArmyManagement;
 
-		// Token: 0x04000744 RID: 1860
 		private readonly Concept _cohesionConceptObj;
 
-		// Token: 0x04000745 RID: 1861
 		private string _latestTutorialElementID;
 
-		// Token: 0x04000746 RID: 1862
 		private bool _isVisualsDirty;
 
-		// Token: 0x04000747 RID: 1863
 		private MBBindingList<GameMenuPartyItemVM> _partyList;
 
-		// Token: 0x04000748 RID: 1864
 		private string _manCountText;
 
-		// Token: 0x04000749 RID: 1865
 		private int _cohesion;
 
-		// Token: 0x0400074A RID: 1866
 		private int _food;
 
-		// Token: 0x0400074B RID: 1867
 		private bool _isCohesionWarningEnabled;
 
-		// Token: 0x0400074C RID: 1868
 		private bool _isPlayerArmyLeader;
 
-		// Token: 0x0400074D RID: 1869
 		private bool _canManageArmy;
 
-		// Token: 0x0400074E RID: 1870
 		private HintViewModel _manageArmyHint;
 
-		// Token: 0x0400074F RID: 1871
 		public ElementNotificationVM _tutorialNotification;
 
-		// Token: 0x04000750 RID: 1872
 		private BasicTooltipViewModel _cohesionHint;
 
-		// Token: 0x04000751 RID: 1873
 		private BasicTooltipViewModel _manCountHint;
 
-		// Token: 0x04000752 RID: 1874
 		private BasicTooltipViewModel _foodHint;
 
-		// Token: 0x04000753 RID: 1875
 		private MBBindingList<StringItemWithHintVM> _issueList;
 	}
 }

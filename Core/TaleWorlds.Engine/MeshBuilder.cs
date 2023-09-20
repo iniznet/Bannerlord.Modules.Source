@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000064 RID: 100
 	public class MeshBuilder
 	{
-		// Token: 0x060007F6 RID: 2038 RVA: 0x000079A8 File Offset: 0x00005BA8
 		public MeshBuilder()
 		{
 			this.vertices = new List<Vec3>();
@@ -16,7 +14,6 @@ namespace TaleWorlds.Engine
 			this.faces = new List<MeshBuilder.Face>();
 		}
 
-		// Token: 0x060007F7 RID: 2039 RVA: 0x000079D4 File Offset: 0x00005BD4
 		public int AddFaceCorner(Vec3 position, Vec3 normal, Vec2 uvCoord, uint color)
 		{
 			this.vertices.Add(new Vec3(position, -1f));
@@ -29,7 +26,6 @@ namespace TaleWorlds.Engine
 			return this.faceCorners.Count - 1;
 		}
 
-		// Token: 0x060007F8 RID: 2040 RVA: 0x00007A40 File Offset: 0x00005C40
 		public int AddFace(int patchNode0, int patchNode1, int patchNode2)
 		{
 			MeshBuilder.Face face;
@@ -40,7 +36,6 @@ namespace TaleWorlds.Engine
 			return this.faces.Count - 1;
 		}
 
-		// Token: 0x060007F9 RID: 2041 RVA: 0x00007A7E File Offset: 0x00005C7E
 		public void Clear()
 		{
 			this.vertices.Clear();
@@ -48,7 +43,6 @@ namespace TaleWorlds.Engine
 			this.faces.Clear();
 		}
 
-		// Token: 0x060007FA RID: 2042 RVA: 0x00007AA4 File Offset: 0x00005CA4
 		public new Mesh Finalize()
 		{
 			Vec3[] array = this.vertices.ToArray();
@@ -61,7 +55,6 @@ namespace TaleWorlds.Engine
 			return mesh;
 		}
 
-		// Token: 0x060007FB RID: 2043 RVA: 0x00007B24 File Offset: 0x00005D24
 		public static Mesh CreateUnitMesh()
 		{
 			Mesh mesh = Mesh.CreateMeshWithMaterial(Material.GetDefaultMaterial());
@@ -86,55 +79,41 @@ namespace TaleWorlds.Engine
 			return mesh;
 		}
 
-		// Token: 0x060007FC RID: 2044 RVA: 0x00007C7A File Offset: 0x00005E7A
 		public static Mesh CreateTilingWindowMesh(string baseMeshName, Vec2 meshSizeMin, Vec2 meshSizeMax, Vec2 borderThickness, Vec2 bgBorderThickness)
 		{
 			return EngineApplicationInterface.IMeshBuilder.CreateTilingWindowMesh(baseMeshName, ref meshSizeMin, ref meshSizeMax, ref borderThickness, ref bgBorderThickness);
 		}
 
-		// Token: 0x060007FD RID: 2045 RVA: 0x00007C8F File Offset: 0x00005E8F
 		public static Mesh CreateTilingButtonMesh(string baseMeshName, Vec2 meshSizeMin, Vec2 meshSizeMax, Vec2 borderThickness)
 		{
 			return EngineApplicationInterface.IMeshBuilder.CreateTilingButtonMesh(baseMeshName, ref meshSizeMin, ref meshSizeMax, ref borderThickness);
 		}
 
-		// Token: 0x0400012E RID: 302
 		private List<Vec3> vertices;
 
-		// Token: 0x0400012F RID: 303
 		private List<MeshBuilder.FaceCorner> faceCorners;
 
-		// Token: 0x04000130 RID: 304
 		private List<MeshBuilder.Face> faces;
 
-		// Token: 0x020000BC RID: 188
 		[EngineStruct("rglMeshBuilder_face_corner")]
 		public struct FaceCorner
 		{
-			// Token: 0x040003EE RID: 1006
 			public int vertexIndex;
 
-			// Token: 0x040003EF RID: 1007
 			public Vec2 uvCoord;
 
-			// Token: 0x040003F0 RID: 1008
 			public Vec3 normal;
 
-			// Token: 0x040003F1 RID: 1009
 			public uint color;
 		}
 
-		// Token: 0x020000BD RID: 189
 		[EngineStruct("rglMeshBuilder_face")]
 		public struct Face
 		{
-			// Token: 0x040003F2 RID: 1010
 			public int fc0;
 
-			// Token: 0x040003F3 RID: 1011
 			public int fc1;
 
-			// Token: 0x040003F4 RID: 1012
 			public int fc2;
 		}
 	}

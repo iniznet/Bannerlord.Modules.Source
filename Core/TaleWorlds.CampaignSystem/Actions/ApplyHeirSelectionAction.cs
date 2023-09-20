@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x02000425 RID: 1061
 	public static class ApplyHeirSelectionAction
 	{
-		// Token: 0x06003E86 RID: 16006 RVA: 0x0012A4A4 File Offset: 0x001286A4
 		private static void ApplyInternal(Hero heir, bool isRetirement = false)
 		{
 			if (heir.PartyBelongedTo != null && heir.PartyBelongedTo.IsCaravan)
@@ -73,19 +71,16 @@ namespace TaleWorlds.CampaignSystem.Actions
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
 		}
 
-		// Token: 0x06003E87 RID: 16007 RVA: 0x0012A6F2 File Offset: 0x001288F2
 		public static void ApplyByDeath(Hero heir)
 		{
 			ApplyHeirSelectionAction.ApplyInternal(heir, false);
 		}
 
-		// Token: 0x06003E88 RID: 16008 RVA: 0x0012A6FB File Offset: 0x001288FB
 		public static void ApplyByRetirement(Hero heir)
 		{
 			ApplyHeirSelectionAction.ApplyInternal(heir, true);
 		}
 
-		// Token: 0x06003E89 RID: 16009 RVA: 0x0012A704 File Offset: 0x00128904
 		private static void TransferCaravanOwnerships(Hero newLeader)
 		{
 			foreach (Hero hero in Clan.PlayerClan.Heroes)

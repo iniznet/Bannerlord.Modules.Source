@@ -10,11 +10,8 @@ using TaleWorlds.MountAndBlade.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
-	// Token: 0x02000017 RID: 23
 	public class MissionOrderDeploymentControllerVM : ViewModel
 	{
-		// Token: 0x17000095 RID: 149
-		// (get) Token: 0x060001C7 RID: 455 RVA: 0x00007195 File Offset: 0x00005395
 		private Mission Mission
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x17000096 RID: 150
-		// (get) Token: 0x060001C8 RID: 456 RVA: 0x0000719C File Offset: 0x0000539C
 		private Team Team
 		{
 			get
@@ -33,8 +28,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x17000097 RID: 151
-		// (get) Token: 0x060001C9 RID: 457 RVA: 0x000071A8 File Offset: 0x000053A8
 		public OrderController OrderController
 		{
 			get
@@ -43,7 +36,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001CA RID: 458 RVA: 0x000071B8 File Offset: 0x000053B8
 		public MissionOrderDeploymentControllerVM(List<DeploymentPoint> deploymentPoints, MissionOrderVM missionOrder, Camera deploymentCamera, Action<bool> toggleMissionInputs, OnRefreshVisualsDelegate onRefreshVisuals)
 		{
 			this._deploymentPoints = deploymentPoints;
@@ -93,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.RefreshValues();
 		}
 
-		// Token: 0x060001CB RID: 459 RVA: 0x0000741C File Offset: 0x0000561C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -111,13 +102,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			});
 		}
 
-		// Token: 0x060001CC RID: 460 RVA: 0x000074AD File Offset: 0x000056AD
 		public void SetIsOrderPreconfigured(bool isPreconfigured)
 		{
 			this._isOrderPreconfigured = isPreconfigured;
 		}
 
-		// Token: 0x060001CD RID: 461 RVA: 0x000074B8 File Offset: 0x000056B8
 		internal void Update()
 		{
 			for (int i = 0; i < this.DeploymentTargets.Count; i++)
@@ -126,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001CE RID: 462 RVA: 0x000074EC File Offset: 0x000056EC
 		internal void DeployFormationsOfPlayer()
 		{
 			if (!this.Mission.PlayerTeam.IsPlayerGeneral)
@@ -145,13 +133,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			missionBehavior.OnPlayerTeamDeployed();
 		}
 
-		// Token: 0x060001CF RID: 463 RVA: 0x0000755C File Offset: 0x0000575C
 		internal void SetSiegeMachineActiveOrders(OrderSiegeMachineVM siegeItemVM)
 		{
 			siegeItemVM.ActiveOrders.Clear();
 		}
 
-		// Token: 0x060001D0 RID: 464 RVA: 0x0000756C File Offset: 0x0000576C
 		internal void ProcessSiegeMachines()
 		{
 			foreach (OrderSiegeMachineVM orderSiegeMachineVM in this.SiegeMachineList)
@@ -164,7 +150,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001D1 RID: 465 RVA: 0x000075D0 File Offset: 0x000057D0
 		internal void SelectAllSiegeMachines()
 		{
 			this.OrderController.SiegeWeaponController.SelectAll();
@@ -180,7 +165,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._onRefreshVisuals();
 		}
 
-		// Token: 0x060001D2 RID: 466 RVA: 0x00007658 File Offset: 0x00005858
 		internal void AddSelectedSiegeMachine(OrderSiegeMachineVM item)
 		{
 			if (!item.IsSelectable)
@@ -193,7 +177,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._onRefreshVisuals();
 		}
 
-		// Token: 0x060001D3 RID: 467 RVA: 0x00007698 File Offset: 0x00005898
 		internal void SetSelectedSiegeMachine(OrderSiegeMachineVM item)
 		{
 			this.ProcessSiegeMachines();
@@ -211,7 +194,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._onRefreshVisuals();
 		}
 
-		// Token: 0x060001D4 RID: 468 RVA: 0x0000771C File Offset: 0x0000591C
 		internal void OnDeselectSiegeMachine(OrderSiegeMachineVM item)
 		{
 			if (this.OrderController.SiegeWeaponController.SelectedWeapons.Contains(item.SiegeWeapon))
@@ -223,7 +205,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._onRefreshVisuals();
 		}
 
-		// Token: 0x060001D5 RID: 469 RVA: 0x0000777C File Offset: 0x0000597C
 		internal void OnSelectOrderSiegeMachine(OrderSiegeMachineVM item)
 		{
 			this.ProcessSiegeMachines();
@@ -249,7 +230,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001D6 RID: 470 RVA: 0x000077DC File Offset: 0x000059DC
 		internal void OnSelectDeploymentSiegeMachine(DeploymentSiegeMachineVM item)
 		{
 			this.IsSiegeDeploymentListActive = false;
@@ -312,18 +292,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001D7 RID: 471 RVA: 0x00007A20 File Offset: 0x00005C20
 		internal void OnSelectedSiegeWeaponsChanged()
 		{
 		}
 
-		// Token: 0x060001D8 RID: 472 RVA: 0x00007A22 File Offset: 0x00005C22
 		public void OnRefreshSelectedDeploymentPoint(DeploymentSiegeMachineVM item)
 		{
 			this.RefreshSelectedDeploymentPoint(item.DeploymentPoint);
 		}
 
-		// Token: 0x060001D9 RID: 473 RVA: 0x00007A30 File Offset: 0x00005C30
 		public void OnEntityHover(GameEntity hoveredEntity)
 		{
 			if (this._currentHoveredEntity == hoveredEntity)
@@ -345,7 +322,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.OnEntityHover(deploymentPoint);
 		}
 
-		// Token: 0x060001DA RID: 474 RVA: 0x00007AB8 File Offset: 0x00005CB8
 		public void OnEntityHover(DeploymentPoint deploymentPoint)
 		{
 			if (this._currentSelectedEntity != this._currentHoveredEntity)
@@ -375,7 +351,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001DB RID: 475 RVA: 0x00007B50 File Offset: 0x00005D50
 		public void OnEntitySelect(GameEntity selectedEntity)
 		{
 			if (this._currentSelectedEntity == selectedEntity)
@@ -403,7 +378,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.ExecuteCancelSelectedDeploymentPoint();
 		}
 
-		// Token: 0x060001DC RID: 476 RVA: 0x00007BF4 File Offset: 0x00005DF4
 		public void RefreshSelectedDeploymentPoint(DeploymentPoint selectedDeploymentPoint)
 		{
 			this.IsSiegeDeploymentListActive = false;
@@ -448,13 +422,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			currentSelectedEntity2.SetContourColor(new uint?(4293481743U), true);
 		}
 
-		// Token: 0x060001DD RID: 477 RVA: 0x00007DAC File Offset: 0x00005FAC
 		public void ExecuteCancelSelectedDeploymentPoint()
 		{
 			this.OnSelectDeploymentSiegeMachine(null);
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x00007DB8 File Offset: 0x00005FB8
 		public void ExecuteBeginSiege()
 		{
 			this.IsSiegeDeploymentListActive = false;
@@ -472,7 +444,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._battleDeploymentHandler.FinishDeployment();
 		}
 
-		// Token: 0x060001DF RID: 479 RVA: 0x00007E30 File Offset: 0x00006030
 		public void ExecuteAutoDeploy()
 		{
 			this.Mission.TryRemakeInitialDeploymentPlanForBattleSide(this.Mission.PlayerTeam.Side);
@@ -484,7 +455,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.Mission.AutoDeployTeamUsingDeploymentPlan(this.Mission.PlayerTeam);
 		}
 
-		// Token: 0x060001E0 RID: 480 RVA: 0x00007E94 File Offset: 0x00006094
 		public void ExecuteDeployAll()
 		{
 			if (this._siegeDeploymentHandler != null)
@@ -517,7 +487,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001E1 RID: 481 RVA: 0x00007FB0 File Offset: 0x000061B0
 		public void FinalizeDeployment()
 		{
 			this._missionOrder.IsDeployment = false;
@@ -536,7 +505,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.SiegeDeploymentList.Clear();
 		}
 
-		// Token: 0x060001E2 RID: 482 RVA: 0x00008048 File Offset: 0x00006248
 		internal void OnSelectFormationWithIndex(int formationTroopIndex)
 		{
 			OrderSiegeMachineVM orderSiegeMachineVM = this.SiegeMachineList.ElementAtOrDefault(formationTroopIndex);
@@ -548,7 +516,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.SelectAllSiegeMachines();
 		}
 
-		// Token: 0x060001E3 RID: 483 RVA: 0x00008074 File Offset: 0x00006274
 		internal void SetCurrentActiveOrders()
 		{
 			List<OrderSubjectVM> list = (from item in this.SiegeMachineList.Cast<OrderSubjectVM>().ToList<OrderSubjectVM>()
@@ -566,7 +533,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060001E4 RID: 484 RVA: 0x00008148 File Offset: 0x00006348
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -583,9 +549,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this._siegeDeployQueryData = null;
 		}
 
-		// Token: 0x17000098 RID: 152
-		// (get) Token: 0x060001E5 RID: 485 RVA: 0x000081F0 File Offset: 0x000063F0
-		// (set) Token: 0x060001E6 RID: 486 RVA: 0x000081F8 File Offset: 0x000063F8
 		[DataSourceProperty]
 		public MBBindingList<OrderSiegeMachineVM> SiegeMachineList
 		{
@@ -603,9 +566,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x17000099 RID: 153
-		// (get) Token: 0x060001E7 RID: 487 RVA: 0x00008215 File Offset: 0x00006415
-		// (set) Token: 0x060001E8 RID: 488 RVA: 0x0000821D File Offset: 0x0000641D
 		[DataSourceProperty]
 		public MBBindingList<DeploymentSiegeMachineVM> DeploymentTargets
 		{
@@ -623,9 +583,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x1700009A RID: 154
-		// (get) Token: 0x060001E9 RID: 489 RVA: 0x0000823A File Offset: 0x0000643A
-		// (set) Token: 0x060001EA RID: 490 RVA: 0x00008244 File Offset: 0x00006444
 		[DataSourceProperty]
 		public bool IsSiegeDeploymentListActive
 		{
@@ -649,9 +606,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x1700009B RID: 155
-		// (get) Token: 0x060001EB RID: 491 RVA: 0x00008297 File Offset: 0x00006497
-		// (set) Token: 0x060001EC RID: 492 RVA: 0x0000829F File Offset: 0x0000649F
 		[DataSourceProperty]
 		public MBBindingList<DeploymentSiegeMachineVM> SiegeDeploymentList
 		{
@@ -669,58 +623,40 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x040000D5 RID: 213
 		public const uint ENTITYHIGHLIGHTCOLOR = 4289622555U;
 
-		// Token: 0x040000D6 RID: 214
 		public const uint ENTITYSELECTEDCOLOR = 4293481743U;
 
-		// Token: 0x040000D7 RID: 215
 		private GameEntity _currentSelectedEntity;
 
-		// Token: 0x040000D8 RID: 216
 		private GameEntity _currentHoveredEntity;
 
-		// Token: 0x040000D9 RID: 217
 		private InquiryData _siegeDeployQueryData;
 
-		// Token: 0x040000DA RID: 218
 		private SiegeDeploymentHandler _siegeDeploymentHandler;
 
-		// Token: 0x040000DB RID: 219
 		private BattleDeploymentHandler _battleDeploymentHandler;
 
-		// Token: 0x040000DC RID: 220
 		private readonly List<DeploymentPoint> _deploymentPoints;
 
-		// Token: 0x040000DD RID: 221
 		internal DeploymentSiegeMachineVM _selectedDeploymentPointVM;
 
-		// Token: 0x040000DE RID: 222
 		private readonly MissionOrderVM _missionOrder;
 
-		// Token: 0x040000DF RID: 223
 		private readonly Camera _deploymentCamera;
 
-		// Token: 0x040000E0 RID: 224
 		private readonly Action<bool> _toggleMissionInputs;
 
-		// Token: 0x040000E1 RID: 225
 		private readonly OnRefreshVisualsDelegate _onRefreshVisuals;
 
-		// Token: 0x040000E2 RID: 226
 		private bool _isOrderPreconfigured;
 
-		// Token: 0x040000E3 RID: 227
 		private MBBindingList<OrderSiegeMachineVM> _siegeMachineList;
 
-		// Token: 0x040000E4 RID: 228
 		private MBBindingList<DeploymentSiegeMachineVM> _siegeDeploymentList;
 
-		// Token: 0x040000E5 RID: 229
 		private MBBindingList<DeploymentSiegeMachineVM> _deploymentTargets;
 
-		// Token: 0x040000E6 RID: 230
 		private bool _isSiegeDeploymentListActive;
 	}
 }

@@ -8,11 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 {
-	// Token: 0x020001D6 RID: 470
 	public class CharacterCreationMenu
 	{
-		// Token: 0x17000721 RID: 1825
-		// (get) Token: 0x06001BB5 RID: 7093 RVA: 0x0007D7D9 File Offset: 0x0007B9D9
 		public MBReadOnlyList<CharacterCreationCategory> CharacterCreationCategories
 		{
 			get
@@ -21,7 +18,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001BB6 RID: 7094 RVA: 0x0007D7E4 File Offset: 0x0007B9E4
 		public CharacterCreationCategory AddMenuCategory(CharacterCreationOnCondition condition = null)
 		{
 			CharacterCreationCategory characterCreationCategory = new CharacterCreationCategory(condition);
@@ -29,7 +25,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			return characterCreationCategory;
 		}
 
-		// Token: 0x06001BB7 RID: 7095 RVA: 0x0007D805 File Offset: 0x0007BA05
 		public CharacterCreationMenu(TextObject title, TextObject text, CharacterCreationOnInit onInit, CharacterCreationMenu.MenuTypes menuType = CharacterCreationMenu.MenuTypes.MultipleChoice)
 		{
 			this.Title = title;
@@ -40,7 +35,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.MenuType = menuType;
 		}
 
-		// Token: 0x06001BB8 RID: 7096 RVA: 0x0007D840 File Offset: 0x0007BA40
 		public void ApplyFinalEffect(CharacterCreation characterCreation)
 		{
 			using (List<int>.Enumerator enumerator = this.SelectedOptions.GetEnumerator())
@@ -75,30 +69,21 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x040008C4 RID: 2244
 		public readonly CharacterCreationMenu.MenuTypes MenuType;
 
-		// Token: 0x040008C5 RID: 2245
 		public readonly TextObject Title;
 
-		// Token: 0x040008C6 RID: 2246
 		public readonly TextObject Text;
 
-		// Token: 0x040008C7 RID: 2247
 		public readonly CharacterCreationOnInit OnInit;
 
-		// Token: 0x040008C8 RID: 2248
 		private readonly MBList<CharacterCreationCategory> _characterCreationCategories;
 
-		// Token: 0x040008C9 RID: 2249
 		public readonly List<int> SelectedOptions;
 
-		// Token: 0x0200055E RID: 1374
 		public enum MenuTypes
 		{
-			// Token: 0x040016B1 RID: 5809
 			MultipleChoice,
-			// Token: 0x040016B2 RID: 5810
 			SelectAllThatApply
 		}
 	}

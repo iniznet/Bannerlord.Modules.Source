@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003D1 RID: 977
 	public class SpeedBonusEffect : MPPerkEffect
 	{
-		// Token: 0x060033FB RID: 13307 RVA: 0x000D79F8 File Offset: 0x000D5BF8
 		protected SpeedBonusEffect()
 		{
 		}
 
-		// Token: 0x060033FC RID: 13308 RVA: 0x000D7A00 File Offset: 0x000D5C00
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -60,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033FD RID: 13309 RVA: 0x000D7AA4 File Offset: 0x000D5CA4
 		public override float GetSpeedBonusEffectiveness(Agent attacker)
 		{
 			attacker = ((attacker != null && attacker.IsMount) ? attacker.RiderAgent : attacker);
@@ -71,10 +67,8 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return 0f;
 		}
 
-		// Token: 0x04001623 RID: 5667
 		protected static string StringType = "SpeedBonus";
 
-		// Token: 0x04001624 RID: 5668
 		private float _value;
 	}
 }

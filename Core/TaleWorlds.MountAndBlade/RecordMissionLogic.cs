@@ -4,16 +4,13 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200027A RID: 634
 	public class RecordMissionLogic : MissionLogic
 	{
-		// Token: 0x060021CA RID: 8650 RVA: 0x0007B53F File Offset: 0x0007973F
 		public override void OnBehaviorInitialize()
 		{
 			base.Mission.Recorder.StartRecording();
 		}
 
-		// Token: 0x060021CB RID: 8651 RVA: 0x0007B554 File Offset: 0x00079754
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021CC RID: 8652 RVA: 0x0007B5A4 File Offset: 0x000797A4
 		public override void OnEndMissionInternal()
 		{
 			base.OnEndMissionInternal();
@@ -32,7 +28,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.ResetMissionData();
 		}
 
-		// Token: 0x04000C9E RID: 3230
 		private float _lastRecordedTime = -1f;
 	}
 }

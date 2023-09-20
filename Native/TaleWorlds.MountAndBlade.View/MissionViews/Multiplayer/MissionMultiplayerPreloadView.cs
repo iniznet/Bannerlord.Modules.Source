@@ -5,10 +5,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 {
-	// Token: 0x0200008B RID: 139
 	public class MissionMultiplayerPreloadView : MissionView
 	{
-		// Token: 0x060004E5 RID: 1253 RVA: 0x00025C38 File Offset: 0x00023E38
 		public override void OnPreMissionTick(float dt)
 		{
 			if (!this._preloadDone)
@@ -43,23 +41,19 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			}
 		}
 
-		// Token: 0x060004E6 RID: 1254 RVA: 0x00025D78 File Offset: 0x00023F78
 		public override void OnSceneRenderingStarted()
 		{
 			this._helperInstance.WaitForMeshesToBeLoaded();
 		}
 
-		// Token: 0x060004E7 RID: 1255 RVA: 0x00025D85 File Offset: 0x00023F85
 		public override void OnMissionStateDeactivated()
 		{
 			base.OnMissionStateDeactivated();
 			this._helperInstance.Clear();
 		}
 
-		// Token: 0x04000301 RID: 769
 		private PreloadHelper _helperInstance = new PreloadHelper();
 
-		// Token: 0x04000302 RID: 770
 		private bool _preloadDone;
 	}
 }

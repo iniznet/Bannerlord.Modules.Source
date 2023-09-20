@@ -6,10 +6,8 @@ using TaleWorlds.Core;
 
 namespace StoryMode.GauntletUI.Tutorial
 {
-	// Token: 0x0200000F RID: 15
 	public class GettingCompanionsStep2Tutorial : TutorialItemBase
 	{
-		// Token: 0x06000043 RID: 67 RVA: 0x000026D6 File Offset: 0x000008D6
 		public GettingCompanionsStep2Tutorial()
 		{
 			base.Type = "GettingCompanionsStep2";
@@ -18,19 +16,16 @@ namespace StoryMode.GauntletUI.Tutorial
 			base.MouseRequired = true;
 		}
 
-		// Token: 0x06000044 RID: 68 RVA: 0x00002702 File Offset: 0x00000902
 		public override bool IsConditionsMetForCompletion()
 		{
 			return this._wantedCharacterPopupOpened;
 		}
 
-		// Token: 0x06000045 RID: 69 RVA: 0x0000270A File Offset: 0x0000090A
 		public override void OnCharacterPortraitPopUpOpened(CharacterObject obj)
 		{
 			this._wantedCharacterPopupOpened = obj != null && obj.IsHero && obj.HeroObject.IsWanderer;
 		}
 
-		// Token: 0x06000046 RID: 70 RVA: 0x0000272C File Offset: 0x0000092C
 		public override bool IsConditionsMetForActivation()
 		{
 			LocationComplex locationComplex = LocationComplex.Current;
@@ -47,13 +42,11 @@ namespace StoryMode.GauntletUI.Tutorial
 			return false;
 		}
 
-		// Token: 0x06000047 RID: 71 RVA: 0x000027BB File Offset: 0x000009BB
 		public override TutorialContexts GetTutorialsRelevantContext()
 		{
 			return 4;
 		}
 
-		// Token: 0x04000010 RID: 16
 		private bool _wantedCharacterPopupOpened;
 	}
 }

@@ -5,15 +5,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 {
-	// Token: 0x02000025 RID: 37
 	public class LauncherOnlineImageTextureWidget : TextureWidget
 	{
-		// Token: 0x17000069 RID: 105
-		// (get) Token: 0x06000171 RID: 369 RVA: 0x0000666A File Offset: 0x0000486A
-		// (set) Token: 0x06000172 RID: 370 RVA: 0x00006672 File Offset: 0x00004872
 		public LauncherOnlineImageTextureWidget.ImageSizePolicies ImageSizePolicy { get; set; }
 
-		// Token: 0x06000173 RID: 371 RVA: 0x0000667B File Offset: 0x0000487B
 		public LauncherOnlineImageTextureWidget(UIContext context)
 			: base(context)
 		{
@@ -22,21 +17,18 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			base.HeightSizePolicy = SizePolicy.Fixed;
 		}
 
-		// Token: 0x06000174 RID: 372 RVA: 0x0000669D File Offset: 0x0000489D
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
 			this.UpdateSizePolicy();
 		}
 
-		// Token: 0x06000175 RID: 373 RVA: 0x000066AC File Offset: 0x000048AC
 		protected override void OnTextureUpdated()
 		{
 			base.OnTextureUpdated();
 			this.SetGlobalAlphaRecursively(0f);
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x000066C0 File Offset: 0x000048C0
 		private void UpdateSizePolicy()
 		{
 			if (base.Texture != null && base.ReadOnlyBrush.GlobalAlphaFactor < 1f)
@@ -96,9 +88,6 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			}
 		}
 
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x06000177 RID: 375 RVA: 0x000068D9 File Offset: 0x00004AD9
-		// (set) Token: 0x06000178 RID: 376 RVA: 0x000068E1 File Offset: 0x00004AE1
 		[Editor(false)]
 		public string OnlineImageSourceUrl
 		{
@@ -118,17 +107,12 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library.CustomWidgets
 			}
 		}
 
-		// Token: 0x040000B5 RID: 181
 		private string _onlineImageSourceUrl;
 
-		// Token: 0x02000045 RID: 69
 		public enum ImageSizePolicies
 		{
-			// Token: 0x040000F6 RID: 246
 			Stretch,
-			// Token: 0x040000F7 RID: 247
 			OriginalSize,
-			// Token: 0x040000F8 RID: 248
 			ScaleToBiggerDimension
 		}
 	}

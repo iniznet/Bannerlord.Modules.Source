@@ -10,11 +10,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions.Sound.Components
 {
-	// Token: 0x0200002D RID: 45
 	public class MusicTournamentMissionView : MissionView, IMusicHandler
 	{
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x0600016A RID: 362 RVA: 0x000110AA File Offset: 0x0000F2AA
 		bool IMusicHandler.IsPausable
 		{
 			get
@@ -23,7 +20,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x0600016B RID: 363 RVA: 0x000110B0 File Offset: 0x0000F2B0
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -33,7 +29,6 @@ namespace SandBox.View.Missions.Sound.Components
 			this._startTimer = new Timer(Mission.Current.CurrentTime, 3f, true);
 		}
 
-		// Token: 0x0600016C RID: 364 RVA: 0x00011100 File Offset: 0x0000F300
 		public override void EarlyStart()
 		{
 			this._allOneShotSoundEventsAreDisabled = false;
@@ -44,7 +39,6 @@ namespace SandBox.View.Missions.Sound.Components
 			SoundManager.SetGlobalParameter("ArenaIntensity", 0f);
 		}
 
-		// Token: 0x0600016D RID: 365 RVA: 0x0001115C File Offset: 0x0000F35C
 		public override void OnMissionScreenFinalize()
 		{
 			SoundManager.SetGlobalParameter("ArenaIntensity", 0f);
@@ -52,7 +46,6 @@ namespace SandBox.View.Missions.Sound.Components
 			MBMusicManager.Current.OnBattleMusicHandlerFinalize();
 		}
 
-		// Token: 0x0600016E RID: 366 RVA: 0x00011184 File Offset: 0x0000F384
 		private void CheckIntensityFall()
 		{
 			PsaiInfo psaiInfo = PsaiCore.Instance.GetPsaiInfo();
@@ -70,7 +63,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x0600016F RID: 367 RVA: 0x000111EC File Offset: 0x0000F3EC
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (this._fightStarted)
@@ -148,7 +140,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000170 RID: 368 RVA: 0x0001134C File Offset: 0x0000F54C
 		void IMusicHandler.OnUpdated(float dt)
 		{
 			if (!this._fightStarted && Agent.Main != null && Agent.Main.IsActive() && this._startTimer.Check(Mission.Current.CurrentTime))
@@ -162,7 +153,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000171 RID: 369 RVA: 0x000113B4 File Offset: 0x0000F5B4
 		public override void OnMissionTick(float dt)
 		{
 			if (this._tournamentBehavior != null)
@@ -191,7 +181,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000172 RID: 370 RVA: 0x0001147C File Offset: 0x0000F67C
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			if (affectorAgent != null && affectedAgent != null && affectorAgent.IsMainAgent && affectedAgent.IsHuman && affectedAgent.Position.Distance(affectorAgent.Position) >= 15f && (blow.VictimBodyPart == null || blow.VictimBodyPart == 1))
@@ -200,7 +189,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000173 RID: 371 RVA: 0x000114D5 File Offset: 0x0000F6D5
 		public override void OnMissileHit(Agent attacker, Agent victim, bool isCanceled, AttackCollisionData collisionData)
 		{
 			if (!isCanceled && attacker != null && victim != null && attacker.IsMainAgent && victim.IsHuman && collisionData.IsShieldBroken)
@@ -209,7 +197,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000174 RID: 372 RVA: 0x00011501 File Offset: 0x0000F701
 		public override void OnMeleeHit(Agent attacker, Agent victim, bool isCanceled, AttackCollisionData collisionData)
 		{
 			if (!isCanceled && attacker != null && victim != null && attacker.IsMainAgent && victim.IsHuman && collisionData.IsShieldBroken)
@@ -218,7 +205,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000175 RID: 373 RVA: 0x00011530 File Offset: 0x0000F730
 		private void UpdateAudienceIntensity(int intensityChangeAmount, bool isEnd = false)
 		{
 			MusicTournamentMissionView.ReactionType reactionType;
@@ -257,7 +243,6 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x000115E0 File Offset: 0x0000F7E0
 		private void Cheer(MusicTournamentMissionView.ReactionType reactionType)
 		{
 			string text = null;
@@ -281,14 +266,12 @@ namespace SandBox.View.Missions.Sound.Components
 			}
 		}
 
-		// Token: 0x06000177 RID: 375 RVA: 0x00011631 File Offset: 0x0000F831
 		public void OnTournamentRoundBegin(bool isFinalRound)
 		{
 			this._isFinalRound = isFinalRound;
 			this.UpdateAudienceIntensity(0, false);
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x00011644 File Offset: 0x0000F844
 		public void OnTournamentRoundEnd()
 		{
 			int num = 10;
@@ -299,108 +282,72 @@ namespace SandBox.View.Missions.Sound.Components
 			this.UpdateAudienceIntensity(num, this._isFinalRound);
 		}
 
-		// Token: 0x040000CD RID: 205
 		private const string ArenaSoundTag = "arena_sound";
 
-		// Token: 0x040000CE RID: 206
 		private const string ArenaIntensityParameterId = "ArenaIntensity";
 
-		// Token: 0x040000CF RID: 207
 		private const string ArenaPositiveReactionsSoundId = "event:/mission/ambient/arena/reaction";
 
-		// Token: 0x040000D0 RID: 208
 		private const string ArenaNegativeReactionsSoundId = "event:/mission/ambient/arena/negative_reaction";
 
-		// Token: 0x040000D1 RID: 209
 		private const string ArenaTournamentEndSoundId = "event:/mission/ambient/arena/reaction";
 
-		// Token: 0x040000D2 RID: 210
 		private const int MainAgentKnocksDownAnOpponentBaseIntensityChange = 1;
 
-		// Token: 0x040000D3 RID: 211
 		private const int MainAgentKnocksDownAnOpponentHeadShotIntensityChange = 3;
 
-		// Token: 0x040000D4 RID: 212
 		private const int MainAgentKnocksDownAnOpponentMountedTargetIntensityChange = 1;
 
-		// Token: 0x040000D5 RID: 213
 		private const int MainAgentKnocksDownAnOpponentRangedHitIntensityChange = 1;
 
-		// Token: 0x040000D6 RID: 214
 		private const int MainAgentKnocksDownAnOpponentMeleeHitIntensityChange = 2;
 
-		// Token: 0x040000D7 RID: 215
 		private const int MainAgentHeadShotFrom15MetersRangeIntensityChange = 3;
 
-		// Token: 0x040000D8 RID: 216
 		private const int MainAgentDismountsAnOpponentIntensityChange = 3;
 
-		// Token: 0x040000D9 RID: 217
 		private const int MainAgentBreaksAShieldIntensityChange = 2;
 
-		// Token: 0x040000DA RID: 218
 		private const int MainAgentWinsTournamentRoundIntensityChange = 10;
 
-		// Token: 0x040000DB RID: 219
 		private const int RoundEndIntensityChange = 10;
 
-		// Token: 0x040000DC RID: 220
 		private const int MainAgentKnocksDownATeamMateIntensityChange = -30;
 
-		// Token: 0x040000DD RID: 221
 		private const int MainAgentKnocksDownAFriendlyHorseIntensityChange = -20;
 
-		// Token: 0x040000DE RID: 222
 		private int _currentTournamentIntensity;
 
-		// Token: 0x040000DF RID: 223
 		private MusicTournamentMissionView.ArenaIntensityLevel _arenaIntensityLevel;
 
-		// Token: 0x040000E0 RID: 224
 		private bool _allOneShotSoundEventsAreDisabled;
 
-		// Token: 0x040000E1 RID: 225
 		private TournamentBehavior _tournamentBehavior;
 
-		// Token: 0x040000E2 RID: 226
 		private TournamentMatch _currentMatch;
 
-		// Token: 0x040000E3 RID: 227
 		private TournamentMatch _lastMatch;
 
-		// Token: 0x040000E4 RID: 228
 		private GameEntity _arenaSoundEntity;
 
-		// Token: 0x040000E5 RID: 229
 		private bool _isFinalRound;
 
-		// Token: 0x040000E6 RID: 230
 		private bool _fightStarted;
 
-		// Token: 0x040000E7 RID: 231
 		private Timer _startTimer;
 
-		// Token: 0x02000074 RID: 116
 		private enum ArenaIntensityLevel
 		{
-			// Token: 0x04000290 RID: 656
 			None,
-			// Token: 0x04000291 RID: 657
 			Low,
-			// Token: 0x04000292 RID: 658
 			Mid,
-			// Token: 0x04000293 RID: 659
 			High
 		}
 
-		// Token: 0x02000075 RID: 117
 		private enum ReactionType
 		{
-			// Token: 0x04000295 RID: 661
 			Positive,
-			// Token: 0x04000296 RID: 662
 			Negative,
-			// Token: 0x04000297 RID: 663
 			End
 		}
 	}

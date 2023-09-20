@@ -12,11 +12,9 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions.Tournaments
 {
-	// Token: 0x02000024 RID: 36
 	[ViewCreatorModule]
 	public class TournamentMissionViews
 	{
-		// Token: 0x060000F2 RID: 242 RVA: 0x0000C36C File Offset: 0x0000A56C
 		[ViewMethod("TournamentArchery")]
 		public static MissionView[] OpenTournamentArcheryMission(Mission mission)
 		{
@@ -48,7 +46,6 @@ namespace SandBox.View.Missions.Tournaments
 			}.ToArray();
 		}
 
-		// Token: 0x060000F3 RID: 243 RVA: 0x0000C48C File Offset: 0x0000A68C
 		[ViewMethod("TournamentFight")]
 		public static MissionView[] OpenTournamentFightMission(Mission mission)
 		{
@@ -81,7 +78,6 @@ namespace SandBox.View.Missions.Tournaments
 			}.ToArray();
 		}
 
-		// Token: 0x060000F4 RID: 244 RVA: 0x0000C5B8 File Offset: 0x0000A7B8
 		[ViewMethod("TournamentHorseRace")]
 		public static MissionView[] OpenTournamentHorseRaceMission(Mission mission)
 		{
@@ -113,7 +109,6 @@ namespace SandBox.View.Missions.Tournaments
 			}.ToArray();
 		}
 
-		// Token: 0x060000F5 RID: 245 RVA: 0x0000C6D8 File Offset: 0x0000A8D8
 		[ViewMethod("TournamentJousting")]
 		public static MissionView[] OpenTournamentJoustingMission(Mission mission)
 		{

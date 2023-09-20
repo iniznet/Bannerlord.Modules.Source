@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000163 RID: 355
 	public class TacticSallyOutHitAndRun : TacticComponent
 	{
-		// Token: 0x06001206 RID: 4614 RVA: 0x000453BC File Offset: 0x000435BC
 		protected override void ManageFormationCounts()
 		{
 			List<IPrimarySiegeWeapon> list = this._teamAISallyOutAttacker.PrimarySiegeWeapons.Where(delegate(IPrimarySiegeWeapon psw)
@@ -101,7 +99,6 @@ namespace TaleWorlds.MountAndBlade
 			this._AIControlledFormationCount = base.Team.GetAIControlledFormationCount();
 		}
 
-		// Token: 0x06001207 RID: 4615 RVA: 0x000458BC File Offset: 0x00043ABC
 		private void DestroySiegeWeapons()
 		{
 			if (this._mainInfantryFormation != null)
@@ -139,7 +136,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001208 RID: 4616 RVA: 0x00045AEC File Offset: 0x00043CEC
 		private void CavalryRetreat()
 		{
 			if (this._mainInfantryFormation != null)
@@ -174,7 +170,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001209 RID: 4617 RVA: 0x00045CDC File Offset: 0x00043EDC
 		private void InfantryRetreat()
 		{
 			if (this._mainInfantryFormation != null)
@@ -186,7 +181,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600120A RID: 4618 RVA: 0x00045D34 File Offset: 0x00043F34
 		private void HeadOutFromTheCastle()
 		{
 			if (this._mainInfantryFormation != null)
@@ -215,7 +209,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600120B RID: 4619 RVA: 0x00045E4C File Offset: 0x0004404C
 		public TacticSallyOutHitAndRun(Team team)
 			: base(team)
 		{
@@ -230,7 +223,6 @@ namespace TaleWorlds.MountAndBlade
 			this.HeadOutFromTheCastle();
 		}
 
-		// Token: 0x0600120C RID: 4620 RVA: 0x00045EDC File Offset: 0x000440DC
 		protected override bool CheckAndSetAvailableFormationsChanged()
 		{
 			int aicontrolledFormationCount = base.Team.GetAIControlledFormationCount();
@@ -258,7 +250,6 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		// Token: 0x0600120D RID: 4621 RVA: 0x00045FB8 File Offset: 0x000441B8
 		private void CheckAndChangeState()
 		{
 			switch (this._state)
@@ -306,7 +297,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600120E RID: 4622 RVA: 0x000460C4 File Offset: 0x000442C4
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -337,40 +327,28 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x0600120F RID: 4623 RVA: 0x00046140 File Offset: 0x00044340
 		protected internal override float GetTacticWeight()
 		{
 			return 10f;
 		}
 
-		// Token: 0x040004C4 RID: 1220
 		private TacticSallyOutHitAndRun.TacticState _state;
 
-		// Token: 0x040004C5 RID: 1221
 		private Formation _mainInfantryFormation;
 
-		// Token: 0x040004C6 RID: 1222
 		private MBList<Formation> _archerFormations;
 
-		// Token: 0x040004C7 RID: 1223
 		private MBList<Formation> _cavalryFormations;
 
-		// Token: 0x040004C8 RID: 1224
 		private readonly TeamAISallyOutAttacker _teamAISallyOutAttacker;
 
-		// Token: 0x040004C9 RID: 1225
 		private readonly List<SiegeWeapon> _destructibleEnemySiegeWeapons;
 
-		// Token: 0x020004D1 RID: 1233
 		private enum TacticState
 		{
-			// Token: 0x04001ACF RID: 6863
 			HeadingOutFromCastle,
-			// Token: 0x04001AD0 RID: 6864
 			DestroyingSiegeWeapons,
-			// Token: 0x04001AD1 RID: 6865
 			CavalryRetreating,
-			// Token: 0x04001AD2 RID: 6866
 			InfantryRetreating
 		}
 	}

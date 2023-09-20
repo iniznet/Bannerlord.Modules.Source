@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x0200004A RID: 74
 	public class MissionItemContourControllerView : MissionView
 	{
-		// Token: 0x1700004C RID: 76
-		// (get) Token: 0x06000336 RID: 822 RVA: 0x0001C2D9 File Offset: 0x0001A4D9
 		private bool _isAllowedByOption
 		{
 			get
@@ -20,13 +17,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000337 RID: 823 RVA: 0x0001C2EC File Offset: 0x0001A4EC
 		public MissionItemContourControllerView()
 		{
 			this._contourItems = new List<GameEntity>();
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x0001C3F8 File Offset: 0x0001A5F8
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -57,7 +52,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x0001C4A0 File Offset: 0x0001A6A0
 		public override void OnFocusGained(Agent agent, IFocusable focusableObject, bool isInteractable)
 		{
 			base.OnFocusGained(agent, focusableObject, isInteractable);
@@ -89,7 +83,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x0001C549 File Offset: 0x0001A749
 		public override void OnFocusLost(Agent agent, IFocusable focusableObject)
 		{
 			base.OnFocusLost(agent, focusableObject);
@@ -101,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600033B RID: 827 RVA: 0x0001C570 File Offset: 0x0001A770
 		private void PopulateContourListWithNearbyItems()
 		{
 			this._contourItems.Clear();
@@ -147,7 +139,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600033C RID: 828 RVA: 0x0001C748 File Offset: 0x0001A948
 		private void ApplyContourToAllItems()
 		{
 			if (!this._isContourAppliedToAllItems)
@@ -162,7 +153,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600033D RID: 829 RVA: 0x0001C7D0 File Offset: 0x0001A9D0
 		private uint GetNonFocusedColor(GameEntity entity)
 		{
 			SpawnedItemEntity firstScriptOfType = entity.GetFirstScriptOfType<SpawnedItemEntity>();
@@ -201,7 +191,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return this._nonFocusedAmmoContourColor;
 		}
 
-		// Token: 0x0600033E RID: 830 RVA: 0x0001C8C0 File Offset: 0x0001AAC0
 		private void RemoveContourFromAllItems()
 		{
 			if (this._isContourAppliedToAllItems)
@@ -217,7 +206,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0600033F RID: 831 RVA: 0x0001C948 File Offset: 0x0001AB48
 		private void AddContourToFocusedItem()
 		{
 			if (this._focusedGameEntity != null && !this._isContourAppliedToFocusedItem)
@@ -227,7 +215,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000340 RID: 832 RVA: 0x0001C980 File Offset: 0x0001AB80
 		private void RemoveContourFromFocusedItem()
 		{
 			if (this._focusedGameEntity != null && this._isContourAppliedToFocusedItem)
@@ -244,7 +231,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000341 RID: 833 RVA: 0x0001C9EC File Offset: 0x0001ABEC
 		private UsableMachine GetUsableMachineFromPoint(UsableMissionObject standingPoint)
 		{
 			GameEntity gameEntity = standingPoint.GameEntity;
@@ -263,46 +249,32 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			return null;
 		}
 
-		// Token: 0x0400022A RID: 554
 		private GameEntity[] _tempPickableEntities = new GameEntity[128];
 
-		// Token: 0x0400022B RID: 555
 		private UIntPtr[] _pickableItemsId = new UIntPtr[128];
 
-		// Token: 0x0400022C RID: 556
 		private List<GameEntity> _contourItems;
 
-		// Token: 0x0400022D RID: 557
 		private GameEntity _focusedGameEntity;
 
-		// Token: 0x0400022E RID: 558
 		private IFocusable _currentFocusedObject;
 
-		// Token: 0x0400022F RID: 559
 		private bool _isContourAppliedToAllItems;
 
-		// Token: 0x04000230 RID: 560
 		private bool _isContourAppliedToFocusedItem;
 
-		// Token: 0x04000231 RID: 561
 		private uint _nonFocusedDefaultContourColor = new Color(0.85f, 0.85f, 0.85f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000232 RID: 562
 		private uint _nonFocusedAmmoContourColor = new Color(0f, 0.73f, 1f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000233 RID: 563
 		private uint _nonFocusedThrowableContourColor = new Color(0.051f, 0.988f, 0.18f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000234 RID: 564
 		private uint _nonFocusedBannerContourColor = new Color(0.521f, 0.988f, 0.521f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000235 RID: 565
 		private uint _focusedContourColor = new Color(1f, 0.84f, 0.35f, 1f).ToUnsignedInteger();
 
-		// Token: 0x04000236 RID: 566
 		private float _lastItemQueryTime;
 
-		// Token: 0x04000237 RID: 567
 		private float _sceneItemQueryFreq = 1f;
 	}
 }

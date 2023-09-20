@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 {
-	// Token: 0x02000025 RID: 37
 	public class PartySortControllerVM : ViewModel
 	{
-		// Token: 0x060002E5 RID: 741 RVA: 0x00012FB4 File Offset: 0x000111B4
 		public PartySortControllerVM(PartyScreenLogic.PartyRosterSide rosterSide, Action<PartyScreenLogic.PartyRosterSide, PartyScreenLogic.TroopSortType, bool> onSort)
 		{
 			this._rosterSide = rosterSide;
@@ -24,7 +22,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			this._onSort = onSort;
 		}
 
-		// Token: 0x060002E6 RID: 742 RVA: 0x000130A0 File Offset: 0x000112A0
 		private void OnSortSelected(SelectorVM<TroopSortSelectorItemVM> selector)
 		{
 			this._sortType = selector.SelectedItem.SortType;
@@ -37,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			onSort(this._rosterSide, this._sortType, this.IsAscending);
 		}
 
-		// Token: 0x060002E7 RID: 743 RVA: 0x000130F0 File Offset: 0x000112F0
 		public void SelectSortType(PartyScreenLogic.TroopSortType sortType)
 		{
 			for (int i = 0; i < this.SortOptions.ItemList.Count; i++)
@@ -49,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x060002E8 RID: 744 RVA: 0x0001313D File Offset: 0x0001133D
 		public void SortWith(PartyScreenLogic.TroopSortType sortType, bool isAscending)
 		{
 			Action<PartyScreenLogic.PartyRosterSide, PartyScreenLogic.TroopSortType, bool> onSort = this._onSort;
@@ -60,7 +55,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			onSort(this._rosterSide, sortType, isAscending);
 		}
 
-		// Token: 0x060002E9 RID: 745 RVA: 0x00013157 File Offset: 0x00011357
 		public void ExecuteToggleOrder()
 		{
 			this.IsAscending = !this.IsAscending;
@@ -72,9 +66,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			onSort(this._rosterSide, this._sortType, this.IsAscending);
 		}
 
-		// Token: 0x170000C8 RID: 200
-		// (get) Token: 0x060002EA RID: 746 RVA: 0x0001318A File Offset: 0x0001138A
-		// (set) Token: 0x060002EB RID: 747 RVA: 0x00013192 File Offset: 0x00011392
 		[DataSourceProperty]
 		public bool IsAscending
 		{
@@ -92,9 +83,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C9 RID: 201
-		// (get) Token: 0x060002EC RID: 748 RVA: 0x000131B0 File Offset: 0x000113B0
-		// (set) Token: 0x060002ED RID: 749 RVA: 0x000131B8 File Offset: 0x000113B8
 		[DataSourceProperty]
 		public bool IsCustomSort
 		{
@@ -112,9 +100,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000CA RID: 202
-		// (get) Token: 0x060002EE RID: 750 RVA: 0x000131D6 File Offset: 0x000113D6
-		// (set) Token: 0x060002EF RID: 751 RVA: 0x000131DE File Offset: 0x000113DE
 		[DataSourceProperty]
 		public SelectorVM<TroopSortSelectorItemVM> SortOptions
 		{
@@ -132,22 +117,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x0400014C RID: 332
 		private readonly PartyScreenLogic.PartyRosterSide _rosterSide;
 
-		// Token: 0x0400014D RID: 333
 		private readonly Action<PartyScreenLogic.PartyRosterSide, PartyScreenLogic.TroopSortType, bool> _onSort;
 
-		// Token: 0x0400014E RID: 334
 		private PartyScreenLogic.TroopSortType _sortType;
 
-		// Token: 0x0400014F RID: 335
 		private bool _isAscending;
 
-		// Token: 0x04000150 RID: 336
 		private bool _isCustomSort;
 
-		// Token: 0x04000151 RID: 337
 		private SelectorVM<TroopSortSelectorItemVM> _sortOptions;
 	}
 }

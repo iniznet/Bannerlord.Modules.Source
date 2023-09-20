@@ -7,28 +7,16 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200025B RID: 603
 	public class AssignPlayerRoleInTeamMissionController : MissionLogic
 	{
-		// Token: 0x1400002B RID: 43
-		// (add) Token: 0x0600207B RID: 8315 RVA: 0x00073BB0 File Offset: 0x00071DB0
-		// (remove) Token: 0x0600207C RID: 8316 RVA: 0x00073BE8 File Offset: 0x00071DE8
 		public event PlayerTurnToChooseFormationToLeadEvent OnPlayerTurnToChooseFormationToLead;
 
-		// Token: 0x1400002C RID: 44
-		// (add) Token: 0x0600207D RID: 8317 RVA: 0x00073C20 File Offset: 0x00071E20
-		// (remove) Token: 0x0600207E RID: 8318 RVA: 0x00073C58 File Offset: 0x00071E58
 		public event AllFormationsAssignedSergeantsEvent OnAllFormationsAssignedSergeants;
 
-		// Token: 0x17000648 RID: 1608
-		// (get) Token: 0x0600207F RID: 8319 RVA: 0x00073C8D File Offset: 0x00071E8D
 		public bool IsPlayerInArmy { get; }
 
-		// Token: 0x17000649 RID: 1609
-		// (get) Token: 0x06002080 RID: 8320 RVA: 0x00073C95 File Offset: 0x00071E95
 		public bool IsPlayerGeneral { get; }
 
-		// Token: 0x06002081 RID: 8321 RVA: 0x00073C9D File Offset: 0x00071E9D
 		public AssignPlayerRoleInTeamMissionController(bool isPlayerGeneral, bool isPlayerSergeant, bool isPlayerInArmy, List<string> charactersInPlayerSideByPriority = null, FormationClass preassignedFormationClass = FormationClass.NumberOfRegularFormations)
 		{
 			this.IsPlayerGeneral = isPlayerGeneral;
@@ -38,13 +26,11 @@ namespace TaleWorlds.MountAndBlade
 			this._preassignedFormationClass = preassignedFormationClass;
 		}
 
-		// Token: 0x06002082 RID: 8322 RVA: 0x00073CDC File Offset: 0x00071EDC
 		public override void AfterStart()
 		{
 			Mission.Current.PlayerTeam.SetPlayerRole(this.IsPlayerGeneral, this._isPlayerSergeant);
 		}
 
-		// Token: 0x06002083 RID: 8323 RVA: 0x00073CFC File Offset: 0x00071EFC
 		private Formation ChooseFormationToLead(IEnumerable<Formation> formationsToChooseFrom, Agent agent)
 		{
 			bool hasMount = agent.HasMount;
@@ -62,7 +48,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06002084 RID: 8324 RVA: 0x00073D95 File Offset: 0x00071F95
 		private void AssignSergeant(Formation formationToLead, Agent sergeant)
 		{
 			sergeant.Formation = formationToLead;
@@ -73,7 +58,6 @@ namespace TaleWorlds.MountAndBlade
 			formationToLead.Captain = sergeant;
 		}
 
-		// Token: 0x06002085 RID: 8325 RVA: 0x00073DBC File Offset: 0x00071FBC
 		public void OnPlayerChoiceMade(int chosenIndex, bool isFinal)
 		{
 			if (this._playerChosenIndex != chosenIndex)
@@ -121,7 +105,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002086 RID: 8326 RVA: 0x00073FEC File Offset: 0x000721EC
 		public void OnPlayerTeamDeployed()
 		{
 			if (MissionGameModels.Current.BattleInitializationModel.CanPlayerSideDeployWithOrderOfBattle())
@@ -166,7 +149,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002087 RID: 8327 RVA: 0x00074178 File Offset: 0x00072378
 		public override void OnTeamDeployed(Team team)
 		{
 			base.OnTeamDeployed(team);
@@ -184,7 +166,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002088 RID: 8328 RVA: 0x00074208 File Offset: 0x00072408
 		public void OnPlayerChoiceMade(FormationClass chosenFormationClass, FormationAI.BehaviorSide formationBehaviorSide = FormationAI.BehaviorSide.Middle)
 		{
 			Team playerTeam = base.Mission.PlayerTeam;
@@ -204,28 +185,20 @@ namespace TaleWorlds.MountAndBlade
 			playerTeam.TriggerOnFormationsChanged(formation);
 		}
 
-		// Token: 0x04000BED RID: 3053
 		private bool _isPlayerSergeant;
 
-		// Token: 0x04000BEE RID: 3054
 		private FormationClass _preassignedFormationClass;
 
-		// Token: 0x04000BEF RID: 3055
 		private List<string> _charactersInPlayerSideByPriority = new List<string>();
 
-		// Token: 0x04000BF0 RID: 3056
 		private Queue<string> _characterNamesInPlayerSideByPriorityQueue;
 
-		// Token: 0x04000BF1 RID: 3057
 		private List<Formation> _remainingFormationsToAssignSergeantsTo;
 
-		// Token: 0x04000BF2 RID: 3058
 		private Dictionary<int, Agent> _formationsLockedWithSergeants;
 
-		// Token: 0x04000BF3 RID: 3059
 		private Dictionary<int, Agent> _formationsWithLooselyChosenSergeants;
 
-		// Token: 0x04000BF4 RID: 3060
 		private int _playerChosenIndex = -1;
 	}
 }

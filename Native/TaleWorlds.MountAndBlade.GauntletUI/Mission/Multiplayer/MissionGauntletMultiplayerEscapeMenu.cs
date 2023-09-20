@@ -12,18 +12,15 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 {
-	// Token: 0x02000040 RID: 64
 	[OverrideView(typeof(MissionMultiplayerEscapeMenu))]
 	public class MissionGauntletMultiplayerEscapeMenu : MissionGauntletEscapeMenuBase
 	{
-		// Token: 0x060002FE RID: 766 RVA: 0x00010BB5 File Offset: 0x0000EDB5
 		public MissionGauntletMultiplayerEscapeMenu(string gameType)
 			: base("MultiplayerEscapeMenu")
 		{
 			this._gameType = gameType;
 		}
 
-		// Token: 0x060002FF RID: 767 RVA: 0x00010BCC File Offset: 0x0000EDCC
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -37,14 +34,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this.DataSource = new MPEscapeMenuVM(null, textObject);
 		}
 
-		// Token: 0x06000300 RID: 768 RVA: 0x00010C63 File Offset: 0x0000EE63
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
 			this.DataSource.Tick(dt);
 		}
 
-		// Token: 0x06000301 RID: 769 RVA: 0x00010C78 File Offset: 0x0000EE78
 		public override bool OnEscape()
 		{
 			bool flag = base.OnEscape();
@@ -62,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			return flag;
 		}
 
-		// Token: 0x06000302 RID: 770 RVA: 0x00010CE0 File Offset: 0x0000EEE0
 		protected override List<EscapeMenuItemVM> GetEscapeMenuItems()
 		{
 			List<EscapeMenuItemVM> list = new List<EscapeMenuItemVM>();
@@ -131,31 +125,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			return list;
 		}
 
-		// Token: 0x04000193 RID: 403
 		private MissionOptionsComponent _missionOptionsComponent;
 
-		// Token: 0x04000194 RID: 404
 		private MissionLobbyEquipmentNetworkComponent _missionLobbyEquipmentNetworkComponent;
 
-		// Token: 0x04000195 RID: 405
 		private MissionLobbyComponent _missionLobbyComponent;
 
-		// Token: 0x04000196 RID: 406
 		private MultiplayerAdminComponent _missionAdminComponent;
 
-		// Token: 0x04000197 RID: 407
 		private MultiplayerTeamSelectComponent _missionTeamSelectComponent;
 
-		// Token: 0x04000198 RID: 408
 		private MissionMultiplayerGameModeBaseClient _gameModeClient;
 
-		// Token: 0x04000199 RID: 409
 		private readonly string _gameType;
 
-		// Token: 0x0400019A RID: 410
 		private EscapeMenuItemVM _changeTroopItem;
 
-		// Token: 0x0400019B RID: 411
 		private EscapeMenuItemVM _changeCultureItem;
 	}
 }

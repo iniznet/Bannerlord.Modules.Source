@@ -9,12 +9,8 @@ using TaleWorlds.MountAndBlade.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 {
-	// Token: 0x02000081 RID: 129
 	public class OrderTroopPlacer : MissionView
 	{
-		// Token: 0x1700007A RID: 122
-		// (get) Token: 0x060004C3 RID: 1219 RVA: 0x0002499A File Offset: 0x00022B9A
-		// (set) Token: 0x060004C4 RID: 1220 RVA: 0x000249A2 File Offset: 0x00022BA2
 		public bool SuspendTroopPlacer
 		{
 			get
@@ -36,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004C5 RID: 1221 RVA: 0x000249C8 File Offset: 0x00022BC8
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -54,14 +49,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this.widthEntityRight.SetVisibilityExcludeParents(false);
 		}
 
-		// Token: 0x060004C6 RID: 1222 RVA: 0x00024A9F File Offset: 0x00022C9F
 		private void InitializeInADisgustingManner()
 		{
 			this.PlayerTeam = base.Mission.PlayerTeam;
 			this.PlayerOrderController = this.PlayerTeam.PlayerOrderController;
 		}
 
-		// Token: 0x060004C7 RID: 1223 RVA: 0x00024AC4 File Offset: 0x00022CC4
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -76,13 +69,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004C8 RID: 1224 RVA: 0x00024B38 File Offset: 0x00022D38
 		public void RestrictOrdersToDeploymentBoundaries(bool enabled)
 		{
 			this._restrictOrdersToDeploymentBoundaries = enabled;
 		}
 
-		// Token: 0x060004C9 RID: 1225 RVA: 0x00024B44 File Offset: 0x00022D44
 		private void UpdateFormationDrawingForFacingOrder(bool giveOrder)
 		{
 			this.isDrawnThisFrame = true;
@@ -102,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004CA RID: 1226 RVA: 0x00024BF0 File Offset: 0x00022DF0
 		private void UpdateFormationDrawingForDestination(bool giveOrder)
 		{
 			this.isDrawnThisFrame = true;
@@ -119,7 +109,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004CB RID: 1227 RVA: 0x00024C74 File Offset: 0x00022E74
 		private void UpdateFormationDrawingForFormingOrder(bool giveOrder)
 		{
 			this.isDrawnThisFrame = true;
@@ -157,7 +146,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004CC RID: 1228 RVA: 0x00024E24 File Offset: 0x00023024
 		private void UpdateFormationDrawing(bool giveOrder)
 		{
 			this.isDrawnThisFrame = true;
@@ -238,7 +226,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this._lastMousePosition = base.Input.GetMousePositionRanged();
 		}
 
-		// Token: 0x060004CD RID: 1229 RVA: 0x00025080 File Offset: 0x00023280
 		private void UpdateFormationDrawingForMovementOrder(bool giveOrder, WorldPosition formationRealStartingPosition, WorldPosition formationRealEndingPosition, bool isFormationLayoutVertical)
 		{
 			this.isDrawnThisFrame = true;
@@ -265,7 +252,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004CE RID: 1230 RVA: 0x00025124 File Offset: 0x00023324
 		private void HandleMouseDown()
 		{
 			if (!Extensions.IsEmpty<Formation>(this.PlayerOrderController.SelectedFormations) && this._clickedFormation == null)
@@ -326,7 +312,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004CF RID: 1231 RVA: 0x000253A4 File Offset: 0x000235A4
 		private void HandleMouseUp()
 		{
 			if (this._clickedFormation != null)
@@ -371,7 +356,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this._deltaMousePosition = Vec2.Zero;
 		}
 
-		// Token: 0x060004D0 RID: 1232 RVA: 0x0002549F File Offset: 0x0002369F
 		private Vec2 GetScreenPoint()
 		{
 			if (!base.MissionScreen.MouseVisible)
@@ -381,7 +365,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			return base.Input.GetMousePositionRanged() + this._deltaMousePosition;
 		}
 
-		// Token: 0x060004D1 RID: 1233 RVA: 0x000254E0 File Offset: 0x000236E0
 		private OrderTroopPlacer.CursorState GetCursorState()
 		{
 			OrderTroopPlacer.CursorState cursorState = OrderTroopPlacer.CursorState.Invisible;
@@ -429,7 +412,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			return cursorState;
 		}
 
-		// Token: 0x060004D2 RID: 1234 RVA: 0x00025607 File Offset: 0x00023807
 		private OrderTroopPlacer.CursorState IsCursorStateGroundOrNormal()
 		{
 			if (!this._formationDrawingMode)
@@ -439,7 +421,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			return OrderTroopPlacer.CursorState.Ground;
 		}
 
-		// Token: 0x060004D3 RID: 1235 RVA: 0x00025614 File Offset: 0x00023814
 		private void AddOrderPositionEntity(int entityIndex, in Vec3 groundPosition, bool fadeOut, float alpha = -1f)
 		{
 			while (this._orderPositionEntities.Count <= entityIndex)
@@ -475,7 +456,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			GameEntityExtensions.FadeIn(gameEntity2, true);
 		}
 
-		// Token: 0x060004D4 RID: 1236 RVA: 0x00025714 File Offset: 0x00023914
 		private void HideNonSelectedOrderRotationEntities(Formation formation)
 		{
 			for (int i = 0; i < this._orderRotationEntities.Count; i++)
@@ -489,7 +469,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004D5 RID: 1237 RVA: 0x00025780 File Offset: 0x00023980
 		private void HideOrderPositionEntities()
 		{
 			foreach (GameEntity gameEntity in this._orderPositionEntities)
@@ -504,14 +483,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x060004D6 RID: 1238 RVA: 0x00025808 File Offset: 0x00023A08
 		[Conditional("DEBUG")]
 		private void DebugTick(float dt)
 		{
 			bool initialized = this._initialized;
 		}
 
-		// Token: 0x060004D7 RID: 1239 RVA: 0x00025814 File Offset: 0x00023A14
 		private void Reset()
 		{
 			this._isMouseDown = false;
@@ -523,7 +500,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this._clickedFormation = null;
 		}
 
-		// Token: 0x060004D8 RID: 1240 RVA: 0x00025864 File Offset: 0x00023A64
 		public override void OnMissionScreenTick(float dt)
 		{
 			if (!this._initialized)
@@ -601,8 +577,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			this.wasDrawnPreviousFrame = this.isDrawnThisFrame;
 		}
 
-		// Token: 0x1700007B RID: 123
-		// (get) Token: 0x060004D9 RID: 1241 RVA: 0x00025AC4 File Offset: 0x00023CC4
 		private bool IsDeployment
 		{
 			get
@@ -611,114 +585,75 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			}
 		}
 
-		// Token: 0x040002E3 RID: 739
 		private bool _suspendTroopPlacer;
 
-		// Token: 0x040002E4 RID: 740
 		private bool _isMouseDown;
 
-		// Token: 0x040002E5 RID: 741
 		private List<GameEntity> _orderPositionEntities;
 
-		// Token: 0x040002E6 RID: 742
 		private List<GameEntity> _orderRotationEntities;
 
-		// Token: 0x040002E7 RID: 743
 		private bool _formationDrawingMode;
 
-		// Token: 0x040002E8 RID: 744
 		private Formation _mouseOverFormation;
 
-		// Token: 0x040002E9 RID: 745
 		private Formation _clickedFormation;
 
-		// Token: 0x040002EA RID: 746
 		private Vec2 _lastMousePosition;
 
-		// Token: 0x040002EB RID: 747
 		private Vec2 _deltaMousePosition;
 
-		// Token: 0x040002EC RID: 748
 		private int _mouseOverDirection;
 
-		// Token: 0x040002ED RID: 749
 		private WorldPosition? _formationDrawingStartingPosition;
 
-		// Token: 0x040002EE RID: 750
 		private Vec2? _formationDrawingStartingPointOfMouse;
 
-		// Token: 0x040002EF RID: 751
 		private float? _formationDrawingStartingTime;
 
-		// Token: 0x040002F0 RID: 752
 		private bool _restrictOrdersToDeploymentBoundaries;
 
-		// Token: 0x040002F1 RID: 753
 		private OrderController PlayerOrderController;
 
-		// Token: 0x040002F2 RID: 754
 		private Team PlayerTeam;
 
-		// Token: 0x040002F3 RID: 755
 		private bool _initialized;
 
-		// Token: 0x040002F4 RID: 756
 		private Timer formationDrawTimer;
 
-		// Token: 0x040002F5 RID: 757
 		public bool IsDrawingForced;
 
-		// Token: 0x040002F6 RID: 758
 		public bool IsDrawingFacing;
 
-		// Token: 0x040002F7 RID: 759
 		public bool IsDrawingForming;
 
-		// Token: 0x040002F8 RID: 760
 		private bool _wasDrawingForced;
 
-		// Token: 0x040002F9 RID: 761
 		private bool _wasDrawingFacing;
 
-		// Token: 0x040002FA RID: 762
 		private bool _wasDrawingForming;
 
-		// Token: 0x040002FB RID: 763
 		private GameEntity widthEntityLeft;
 
-		// Token: 0x040002FC RID: 764
 		private GameEntity widthEntityRight;
 
-		// Token: 0x040002FD RID: 765
 		private bool isDrawnThisFrame;
 
-		// Token: 0x040002FE RID: 766
 		private bool wasDrawnPreviousFrame;
 
-		// Token: 0x040002FF RID: 767
 		public Action OnUnitDeployed;
 
-		// Token: 0x04000300 RID: 768
 		private static Material _meshMaterial;
 
-		// Token: 0x020000CF RID: 207
 		public enum CursorState
 		{
-			// Token: 0x040003B0 RID: 944
 			Invisible,
-			// Token: 0x040003B1 RID: 945
 			Normal,
-			// Token: 0x040003B2 RID: 946
 			Ground,
-			// Token: 0x040003B3 RID: 947
 			Enemy,
-			// Token: 0x040003B4 RID: 948
 			Friend,
-			// Token: 0x040003B5 RID: 949
 			Rotation,
-			// Token: 0x040003B6 RID: 950
 			Count,
-			// Token: 0x040003B7 RID: 951
 			OrderableEntity
 		}
 	}

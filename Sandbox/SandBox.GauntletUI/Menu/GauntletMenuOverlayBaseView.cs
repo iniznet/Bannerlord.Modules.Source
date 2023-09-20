@@ -12,11 +12,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Menu
 {
-	// Token: 0x0200001A RID: 26
 	[OverrideView(typeof(MenuOverlayBaseView))]
 	public class GauntletMenuOverlayBaseView : MenuView
 	{
-		// Token: 0x06000118 RID: 280 RVA: 0x00008B14 File Offset: 0x00006D14
 		protected override void OnInitialize()
 		{
 			GameOverlays.MenuOverlayType menuOverlayType = Campaign.Current.GameMenuManager.GetMenuOverlayType(base.MenuContext);
@@ -45,7 +43,6 @@ namespace SandBox.GauntletUI.Menu
 			base.OnInitialize();
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x00008C34 File Offset: 0x00006E34
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -78,7 +75,6 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x00008D22 File Offset: 0x00006F22
 		protected override void OnHourlyTick()
 		{
 			base.OnHourlyTick();
@@ -90,7 +86,6 @@ namespace SandBox.GauntletUI.Menu
 			overlayDataSource.Refresh();
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x00008D3A File Offset: 0x00006F3A
 		protected override void OnOverlayTypeChange(GameOverlays.MenuOverlayType newType)
 		{
 			base.OnOverlayTypeChange(newType);
@@ -102,7 +97,6 @@ namespace SandBox.GauntletUI.Menu
 			overlayDataSource.UpdateOverlayType(newType);
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x00008D54 File Offset: 0x00006F54
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -114,7 +108,6 @@ namespace SandBox.GauntletUI.Menu
 			overlayDataSource.Refresh();
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x00008D6C File Offset: 0x00006F6C
 		protected override void OnFinalize()
 		{
 			base.MenuViewContext.RemoveLayer(base.Layer);
@@ -125,13 +118,10 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFinalize();
 		}
 
-		// Token: 0x0400007D RID: 125
 		private GameMenuOverlay _overlayDataSource;
 
-		// Token: 0x0400007E RID: 126
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x0400007F RID: 127
 		private bool _isContextMenuEnabled;
 	}
 }

@@ -8,17 +8,11 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200035A RID: 858
 	public abstract class SiegeWeapon : UsableMachine, ITargetable
 	{
-		// Token: 0x1700086B RID: 2155
-		// (get) Token: 0x06002EBD RID: 11965 RVA: 0x000BD545 File Offset: 0x000BB745
-		// (set) Token: 0x06002EBE RID: 11966 RVA: 0x000BD54D File Offset: 0x000BB74D
 		[EditorVisibleScriptComponentVariable(false)]
 		public bool ForcedUse { get; private set; }
 
-		// Token: 0x1700086C RID: 2156
-		// (get) Token: 0x06002EBF RID: 11967 RVA: 0x000BD558 File Offset: 0x000BB758
 		public bool IsUsed
 		{
 			get
@@ -37,14 +31,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EC0 RID: 11968 RVA: 0x000BD5BC File Offset: 0x000BB7BC
 		public void SetForcedUse(bool value)
 		{
 			this.ForcedUse = value;
 		}
 
-		// Token: 0x1700086D RID: 2157
-		// (get) Token: 0x06002EC1 RID: 11969 RVA: 0x000BD5C5 File Offset: 0x000BB7C5
 		public virtual BattleSideEnum Side
 		{
 			get
@@ -53,10 +44,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EC2 RID: 11970
 		public abstract SiegeEngineType GetSiegeEngineType();
 
-		// Token: 0x06002EC3 RID: 11971 RVA: 0x000BD5C8 File Offset: 0x000BB7C8
 		protected virtual bool CalculateIsSufficientlyManned(BattleSideEnum battleSide)
 		{
 			if (this.GetDetachmentWeightAux(battleSide) < 1f)
@@ -79,7 +68,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002EC4 RID: 11972 RVA: 0x000BD6B8 File Offset: 0x000BB8B8
 		private bool HasNewMovingAgents()
 		{
 			foreach (StandingPoint standingPoint in base.StandingPoints)
@@ -92,7 +80,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002EC5 RID: 11973 RVA: 0x000BD724 File Offset: 0x000BB924
 		protected internal override void OnInit()
 		{
 			base.OnInit();
@@ -117,7 +104,6 @@ namespace TaleWorlds.MountAndBlade
 			this.EnemyRangeToStopUsing = 5f;
 		}
 
-		// Token: 0x06002EC6 RID: 11974 RVA: 0x000BD90C File Offset: 0x000BBB0C
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			if (base.GameEntity.IsVisibleIncludeParents() && !GameNetwork.IsClientOrReplay)
@@ -127,7 +113,6 @@ namespace TaleWorlds.MountAndBlade
 			return base.GetTickRequirement();
 		}
 
-		// Token: 0x06002EC7 RID: 11975 RVA: 0x000BD934 File Offset: 0x000BBB34
 		private void TickAux(bool isParallel)
 		{
 			if (!GameNetwork.IsClientOrReplay && base.GameEntity.IsVisibleIncludeParents())
@@ -341,13 +326,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002EC8 RID: 11976 RVA: 0x000BDFDC File Offset: 0x000BC1DC
 		protected internal override void OnTickParallel(float dt)
 		{
 			this.TickAux(true);
 		}
 
-		// Token: 0x06002EC9 RID: 11977 RVA: 0x000BDFE5 File Offset: 0x000BC1E5
 		protected internal override void OnTick(float dt)
 		{
 			base.OnTick(dt);
@@ -358,7 +341,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002ECA RID: 11978 RVA: 0x000BE004 File Offset: 0x000BC204
 		protected internal virtual void OnDeploymentStateChanged(bool isDeployed)
 		{
 			foreach (GameEntity gameEntity in this._removeOnDeployEntities)
@@ -411,8 +393,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700086E RID: 2158
-		// (get) Token: 0x06002ECB RID: 11979 RVA: 0x000BE250 File Offset: 0x000BC450
 		public override bool HasWaitFrame
 		{
 			get
@@ -421,8 +401,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700086F RID: 2159
-		// (get) Token: 0x06002ECC RID: 11980 RVA: 0x000BE274 File Offset: 0x000BC474
 		public override bool IsDeactivated
 		{
 			get
@@ -431,25 +409,21 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002ECD RID: 11981 RVA: 0x000BE2A1 File Offset: 0x000BC4A1
 		public override bool ShouldAutoLeaveDetachmentWhenDisabled(BattleSideEnum sideEnum)
 		{
 			return this.AutoAttachUserToFormation(sideEnum);
 		}
 
-		// Token: 0x06002ECE RID: 11982 RVA: 0x000BE2AA File Offset: 0x000BC4AA
 		public override bool AutoAttachUserToFormation(BattleSideEnum sideEnum)
 		{
 			return !base.IsDisabledDueToEnemyInRange(sideEnum);
 		}
 
-		// Token: 0x06002ECF RID: 11983 RVA: 0x000BE2B6 File Offset: 0x000BC4B6
 		public override bool HasToBeDefendedByUser(BattleSideEnum sideEnum)
 		{
 			return base.IsDisabledDueToEnemyInRange(sideEnum);
 		}
 
-		// Token: 0x06002ED0 RID: 11984 RVA: 0x000BE2C0 File Offset: 0x000BC4C0
 		protected float GetUserMultiplierOfWeapon()
 		{
 			int userCountIncludingInStruckAction = base.UserCountIncludingInStruckAction;
@@ -460,7 +434,6 @@ namespace TaleWorlds.MountAndBlade
 			return 0.7f + 0.3f * (float)userCountIncludingInStruckAction / (float)this.MaxUserCount;
 		}
 
-		// Token: 0x06002ED1 RID: 11985 RVA: 0x000BE2F3 File Offset: 0x000BC4F3
 		protected virtual float GetDistanceMultiplierOfWeapon(Vec3 weaponPos)
 		{
 			if (this.GetMinimumDistanceBetweenPositions(weaponPos) > 20f)
@@ -471,13 +444,11 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06002ED2 RID: 11986 RVA: 0x000BE328 File Offset: 0x000BC528
 		protected virtual float GetMinimumDistanceBetweenPositions(Vec3 position)
 		{
 			return base.GameEntity.GlobalPosition.DistanceSquared(position);
 		}
 
-		// Token: 0x06002ED3 RID: 11987 RVA: 0x000BE34C File Offset: 0x000BC54C
 		protected float GetHitPointMultiplierOfWeapon()
 		{
 			if (base.DestructionComponent != null)
@@ -487,13 +458,11 @@ namespace TaleWorlds.MountAndBlade
 			return 1f;
 		}
 
-		// Token: 0x06002ED4 RID: 11988 RVA: 0x000BE39F File Offset: 0x000BC59F
 		public GameEntity GetTargetEntity()
 		{
 			return base.GameEntity;
 		}
 
-		// Token: 0x06002ED5 RID: 11989 RVA: 0x000BE3A7 File Offset: 0x000BC5A7
 		public Vec3 GetTargetingOffset()
 		{
 			if (this._targetingPositionOffset != null)
@@ -503,60 +472,44 @@ namespace TaleWorlds.MountAndBlade
 			return Vec3.Zero;
 		}
 
-		// Token: 0x06002ED6 RID: 11990 RVA: 0x000BE3C7 File Offset: 0x000BC5C7
 		public BattleSideEnum GetSide()
 		{
 			return this.Side;
 		}
 
-		// Token: 0x06002ED7 RID: 11991 RVA: 0x000BE3CF File Offset: 0x000BC5CF
 		public GameEntity Entity()
 		{
 			return base.GameEntity;
 		}
 
-		// Token: 0x06002ED8 RID: 11992
 		public abstract TargetFlags GetTargetFlags();
 
-		// Token: 0x06002ED9 RID: 11993
 		public abstract float GetTargetValue(List<Vec3> weaponPos);
 
-		// Token: 0x0400131E RID: 4894
 		private const string TargetingEntityTag = "targeting_entity";
 
-		// Token: 0x0400131F RID: 4895
 		[EditableScriptComponentVariable(true)]
 		internal string RemoveOnDeployTag = "";
 
-		// Token: 0x04001320 RID: 4896
 		[EditableScriptComponentVariable(true)]
 		internal string AddOnDeployTag = "";
 
-		// Token: 0x04001321 RID: 4897
 		private List<GameEntity> _addOnDeployEntities;
 
-		// Token: 0x04001323 RID: 4899
 		protected bool _spawnedFromSpawner;
 
-		// Token: 0x04001324 RID: 4900
 		private List<GameEntity> _removeOnDeployEntities;
 
-		// Token: 0x04001325 RID: 4901
 		private List<Formation> _potentialUsingFormations;
 
-		// Token: 0x04001326 RID: 4902
 		private List<Formation> _forcedUseFormations;
 
-		// Token: 0x04001327 RID: 4903
 		private bool _needsSingleThreadTickOnce;
 
-		// Token: 0x04001328 RID: 4904
 		private bool _areMovingAgentsProcessed;
 
-		// Token: 0x04001329 RID: 4905
 		private bool _isValidated;
 
-		// Token: 0x0400132A RID: 4906
 		private Vec3? _targetingPositionOffset;
 	}
 }

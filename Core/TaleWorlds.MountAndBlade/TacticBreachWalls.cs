@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000155 RID: 341
 	public class TacticBreachWalls : TacticComponent
 	{
-		// Token: 0x06001144 RID: 4420 RVA: 0x000394E8 File Offset: 0x000376E8
 		public TacticBreachWalls(Team team)
 			: base(team)
 		{
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			this._cachedUsedArcherPositions = new List<ArcherPosition>();
 		}
 
-		// Token: 0x06001145 RID: 4421 RVA: 0x00039540 File Offset: 0x00037740
 		private void BalanceAssaultLanes(List<Formation> attackerFormations)
 		{
 			if (attackerFormations.Count < 2)
@@ -62,7 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001146 RID: 4422 RVA: 0x00039690 File Offset: 0x00037890
 		private bool ShouldRetreat(List<SiegeLane> lanes, int insideFormationCount)
 		{
 			if (this._indicators != null)
@@ -74,7 +70,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001147 RID: 4423 RVA: 0x000396D4 File Offset: 0x000378D4
 		private void AssignMeleeFormationsToLanes(List<Formation> meleeFormationsSource, List<SiegeLane> currentLanes)
 		{
 			List<Formation> list = new List<Formation>(meleeFormationsSource.Count);
@@ -145,7 +140,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001148 RID: 4424 RVA: 0x000399D8 File Offset: 0x00037BD8
 		private void WellRoundedAssault(ref List<SiegeLane> currentLanes, ref List<ArcherPosition> archerPositions)
 		{
 			if (currentLanes.Count == 0)
@@ -215,7 +209,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001149 RID: 4425 RVA: 0x00039D7C File Offset: 0x00037F7C
 		private void AllInAssault()
 		{
 			List<Formation> list = base.FormationsIncludingEmpty.Where((Formation f) => f.CountOfUnits > 0).ToList<Formation>();
@@ -223,7 +216,6 @@ namespace TaleWorlds.MountAndBlade
 			this.AssignMeleeFormationsToLanes(list, list2);
 		}
 
-		// Token: 0x0600114A RID: 4426 RVA: 0x00039DC8 File Offset: 0x00037FC8
 		private void StartTacticalRetreat()
 		{
 			this.StopUsingAllMachines();
@@ -238,7 +230,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600114B RID: 4427 RVA: 0x00039E48 File Offset: 0x00038048
 		protected override bool CheckAndSetAvailableFormationsChanged()
 		{
 			bool flag = false;
@@ -314,7 +305,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag || flag2 || flag3 || flag4;
 		}
 
-		// Token: 0x0600114C RID: 4428 RVA: 0x0003A028 File Offset: 0x00038228
 		private void MergeFormationsIfLanesBecameUnavailable(ref List<SiegeLane> currentLanes)
 		{
 			int count = currentLanes.Count;
@@ -378,7 +368,6 @@ namespace TaleWorlds.MountAndBlade
 			this._laneCount = currentLanes.Count;
 		}
 
-		// Token: 0x0600114D RID: 4429 RVA: 0x0003A1C8 File Offset: 0x000383C8
 		private void MergeFormationsIfArcherPositionsBecameUnavailable(ref List<ArcherPosition> currentArcherPositions)
 		{
 			int count = currentArcherPositions.Count;
@@ -441,7 +430,6 @@ namespace TaleWorlds.MountAndBlade
 			this._cachedUsedArcherPositions = currentArcherPositions;
 		}
 
-		// Token: 0x0600114E RID: 4430 RVA: 0x0003A360 File Offset: 0x00038560
 		protected override void ManageFormationCounts()
 		{
 			List<SiegeLane> list = this.DetermineCurrentLanes();
@@ -468,7 +456,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600114F RID: 4431 RVA: 0x0003A478 File Offset: 0x00038678
 		private void CheckAndChangeState()
 		{
 			if (this._tacticState == TacticBreachWalls.TacticState.Retreating)
@@ -527,7 +514,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001150 RID: 4432 RVA: 0x0003A658 File Offset: 0x00038858
 		private List<SiegeLane> DetermineCurrentLanes()
 		{
 			List<SiegeLane> list = TeamAISiegeComponent.SiegeLanes.Where((SiegeLane sl) => sl.IsBreach).ToList<SiegeLane>();
@@ -577,13 +563,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001151 RID: 4433 RVA: 0x0003A7DC File Offset: 0x000389DC
 		private List<ArcherPosition> DetermineCurrentArcherPositions(List<SiegeLane> currentLanes)
 		{
 			return this._teamAISiegeAttacker.ArcherPositions.Where((ArcherPosition ap) => currentLanes.Any((SiegeLane cl) => ap.IsArcherPositionRelatedToSide(cl.LaneSide))).ToList<ArcherPosition>();
 		}
 
-		// Token: 0x06001152 RID: 4434 RVA: 0x0003A818 File Offset: 0x00038A18
 		protected internal override void TickOccasionally()
 		{
 			if (!base.AreFormationsCreated)
@@ -665,55 +649,39 @@ namespace TaleWorlds.MountAndBlade
 			base.TickOccasionally();
 		}
 
-		// Token: 0x06001153 RID: 4435 RVA: 0x0003AB1C File Offset: 0x00038D1C
 		protected internal override float GetTacticWeight()
 		{
 			return 10f;
 		}
 
-		// Token: 0x04000474 RID: 1140
 		public const float SameBehaviorFactor = 3f;
 
-		// Token: 0x04000475 RID: 1141
 		public const float SameSideFactor = 5f;
 
-		// Token: 0x04000476 RID: 1142
 		private const int ShockAssaultThresholdCount = 100;
 
-		// Token: 0x04000477 RID: 1143
 		private readonly TeamAISiegeAttacker _teamAISiegeAttacker;
 
-		// Token: 0x04000478 RID: 1144
 		private TacticBreachWalls.BreachWallsProgressIndicators _indicators;
 
-		// Token: 0x04000479 RID: 1145
 		private List<Formation> _meleeFormations;
 
-		// Token: 0x0400047A RID: 1146
 		private List<Formation> _rangedFormations;
 
-		// Token: 0x0400047B RID: 1147
 		private int _laneCount;
 
-		// Token: 0x0400047C RID: 1148
 		private List<SiegeLane> _cachedUsedSiegeLanes;
 
-		// Token: 0x0400047D RID: 1149
 		private int _lanesInUse;
 
-		// Token: 0x0400047E RID: 1150
 		private List<ArcherPosition> _cachedUsedArcherPositions;
 
-		// Token: 0x0400047F RID: 1151
 		private TacticBreachWalls.TacticState _tacticState;
 
-		// Token: 0x04000480 RID: 1152
 		private bool _isShockAssault;
 
-		// Token: 0x0200049E RID: 1182
 		private class BreachWallsProgressIndicators
 		{
-			// Token: 0x06003712 RID: 14098 RVA: 0x000E22B4 File Offset: 0x000E04B4
 			public BreachWallsProgressIndicators(Team team, List<SiegeLane> lanes)
 			{
 				this.StartingPowerRatio = team.QuerySystem.RemainingPowerRatio;
@@ -724,7 +692,6 @@ namespace TaleWorlds.MountAndBlade
 				this._existingLaneEffect = 0.4f / (float)this.InitialLaneCount;
 			}
 
-			// Token: 0x06003713 RID: 14099 RVA: 0x000E233C File Offset: 0x000E053C
 			public float GetRetreatThresholdRatio(List<SiegeLane> lanes, int insideFormationCount)
 			{
 				float num = 1f;
@@ -738,35 +705,24 @@ namespace TaleWorlds.MountAndBlade
 				return num - (float)num2 * this._existingLaneEffect;
 			}
 
-			// Token: 0x040019CB RID: 6603
 			public float StartingPowerRatio;
 
-			// Token: 0x040019CC RID: 6604
 			public int InitialLaneCount;
 
-			// Token: 0x040019CD RID: 6605
 			public int InitialUnitCount;
 
-			// Token: 0x040019CE RID: 6606
 			private readonly float _insideFormationEffect;
 
-			// Token: 0x040019CF RID: 6607
 			private readonly float _openLaneEffect;
 
-			// Token: 0x040019D0 RID: 6608
 			private readonly float _existingLaneEffect;
 		}
 
-		// Token: 0x0200049F RID: 1183
 		private enum TacticState
 		{
-			// Token: 0x040019D2 RID: 6610
 			Unset,
-			// Token: 0x040019D3 RID: 6611
 			AssaultUnderRangedCover,
-			// Token: 0x040019D4 RID: 6612
 			TotalAttack,
-			// Token: 0x040019D5 RID: 6613
 			Retreating
 		}
 	}

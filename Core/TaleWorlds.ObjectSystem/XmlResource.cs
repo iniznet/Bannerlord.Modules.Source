@@ -6,16 +6,13 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.ObjectSystem
 {
-	// Token: 0x02000013 RID: 19
 	public static class XmlResource
 	{
-		// Token: 0x0600008D RID: 141 RVA: 0x000044CF File Offset: 0x000026CF
 		public static void InitializeXmlInformationList(List<MbObjectXmlInformation> xmlInformation)
 		{
 			XmlResource.XmlInformationList = xmlInformation;
 		}
 
-		// Token: 0x0600008E RID: 142 RVA: 0x000044D8 File Offset: 0x000026D8
 		public static void GetMbprojxmls(string moduleName)
 		{
 			string mbprojPath = ModuleHelper.GetMbprojPath(moduleName);
@@ -44,7 +41,6 @@ namespace TaleWorlds.ObjectSystem
 			}
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x000045D8 File Offset: 0x000027D8
 		public static void GetXmlListAndApply(string moduleName)
 		{
 			string path = ModuleHelper.GetPath(moduleName);
@@ -87,10 +83,8 @@ namespace TaleWorlds.ObjectSystem
 			}
 		}
 
-		// Token: 0x04000010 RID: 16
 		public static List<MbObjectXmlInformation> XmlInformationList = new List<MbObjectXmlInformation>();
 
-		// Token: 0x04000011 RID: 17
 		public static List<MbObjectXmlInformation> MbprojXmls = new List<MbObjectXmlInformation>();
 	}
 }

@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003BB RID: 955
 	public class DamageInterruptionThresholdEffect : MPPerkEffect
 	{
-		// Token: 0x06003399 RID: 13209 RVA: 0x000D5F15 File Offset: 0x000D4115
 		protected DamageInterruptionThresholdEffect()
 		{
 		}
 
-		// Token: 0x0600339A RID: 13210 RVA: 0x000D5F20 File Offset: 0x000D4120
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -60,16 +57,13 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x0600339B RID: 13211 RVA: 0x000D5FC4 File Offset: 0x000D41C4
 		public override float GetDamageInterruptionThreshold()
 		{
 			return this._value;
 		}
 
-		// Token: 0x040015EA RID: 5610
 		protected static string StringType = "DamageInterruptionThreshold";
 
-		// Token: 0x040015EB RID: 5611
 		private float _value;
 	}
 }

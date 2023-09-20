@@ -7,35 +7,18 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 {
-	// Token: 0x0200005C RID: 92
 	public abstract class MusicMissionActionComponent : MusicBaseComponent
 	{
-		// Token: 0x17000067 RID: 103
-		// (get) Token: 0x060003EF RID: 1007 RVA: 0x0002062D File Offset: 0x0001E82D
-		// (set) Token: 0x060003F0 RID: 1008 RVA: 0x00020635 File Offset: 0x0001E835
 		protected MBList<Tuple<MBMusicManagerOld.MusicMood, string>> ActionTracks { get; set; }
 
-		// Token: 0x17000068 RID: 104
-		// (get) Token: 0x060003F1 RID: 1009 RVA: 0x0002063E File Offset: 0x0001E83E
-		// (set) Token: 0x060003F2 RID: 1010 RVA: 0x00020646 File Offset: 0x0001E846
 		protected MBList<MBMusicManagerOld.MusicMood> NegativeTracks { get; set; }
 
-		// Token: 0x17000069 RID: 105
-		// (get) Token: 0x060003F3 RID: 1011 RVA: 0x0002064F File Offset: 0x0001E84F
-		// (set) Token: 0x060003F4 RID: 1012 RVA: 0x00020657 File Offset: 0x0001E857
 		protected MBList<MBMusicManagerOld.MusicMood> PositiveTracks { get; set; }
 
-		// Token: 0x1700006A RID: 106
-		// (get) Token: 0x060003F5 RID: 1013 RVA: 0x00020660 File Offset: 0x0001E860
-		// (set) Token: 0x060003F6 RID: 1014 RVA: 0x00020668 File Offset: 0x0001E868
 		protected Dictionary<string, MBMusicManagerOld.MusicMood> BattleWonTracks { get; set; }
 
-		// Token: 0x1700006B RID: 107
-		// (get) Token: 0x060003F7 RID: 1015 RVA: 0x00020671 File Offset: 0x0001E871
-		// (set) Token: 0x060003F8 RID: 1016 RVA: 0x00020679 File Offset: 0x0001E879
 		protected MBList<MBMusicManagerOld.MusicMood> BattleLostTracks { get; set; }
 
-		// Token: 0x060003F9 RID: 1017 RVA: 0x00020684 File Offset: 0x0001E884
 		protected MusicMissionActionComponent()
 		{
 			this.TrackUpdateInterval = 5f;
@@ -46,7 +29,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			this.BattleLostTracks = new MBList<MBMusicManagerOld.MusicMood>();
 		}
 
-		// Token: 0x060003FA RID: 1018 RVA: 0x000206E8 File Offset: 0x0001E8E8
 		public override void PreInitialize()
 		{
 			base.PreInitialize();
@@ -55,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			this._intensityUpdateTimer = new Timer(currentTime, 1.5f, true);
 		}
 
-		// Token: 0x060003FB RID: 1019 RVA: 0x0002072C File Offset: 0x0001E92C
 		public override void Tick(float dt)
 		{
 			base.Tick(dt);
@@ -84,7 +65,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			this.HandleIntensity();
 		}
 
-		// Token: 0x060003FC RID: 1020 RVA: 0x00020868 File Offset: 0x0001EA68
 		private void HandleMoodChanges(bool forceUpdate = false)
 		{
 			if (this._allowMoodUpdating && this._trackUpdateTimer.Check(Mission.Current.CurrentTime))
@@ -113,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x060003FD RID: 1021 RVA: 0x000208F0 File Offset: 0x0001EAF0
 		protected virtual MBMusicManagerOld.MusicMood HandleEndingTrackSelection()
 		{
 			if (Mission.Current.MissionResult == null)
@@ -123,14 +102,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return this.SelectEndingTrack(Mission.Current.MissionResult.PlayerVictory);
 		}
 
-		// Token: 0x060003FE RID: 1022 RVA: 0x0002091A File Offset: 0x0001EB1A
 		protected virtual bool HandleFeedbackTrackSelection(out MBMusicManagerOld.MusicMood feedbackTrack)
 		{
 			feedbackTrack = -1;
 			return false;
 		}
 
-		// Token: 0x060003FF RID: 1023 RVA: 0x00020920 File Offset: 0x0001EB20
 		protected virtual MBMusicManagerOld.MusicMood HandleNormalTrackSelection(bool forceUpdate = false)
 		{
 			int num = MBRandom.RandomInt(100);
@@ -141,7 +118,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return this.SelectNewActionTrack();
 		}
 
-		// Token: 0x06000400 RID: 1024 RVA: 0x0002094C File Offset: 0x0001EB4C
 		private void AdjustCombatScale()
 		{
 			int num = 0;
@@ -153,7 +129,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			this._isCombatScaleMedium = num2 < MBRandom.RandomFloat;
 		}
 
-		// Token: 0x06000401 RID: 1025 RVA: 0x000209D4 File Offset: 0x0001EBD4
 		protected MBMusicManagerOld.MusicMood SelectNewActionTrack()
 		{
 			MBMusicManagerOld.MusicMood musicMood = this.CurrentMood;
@@ -194,7 +169,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return musicMood;
 		}
 
-		// Token: 0x06000402 RID: 1026 RVA: 0x00020ADC File Offset: 0x0001ECDC
 		protected virtual MBMusicManagerOld.MusicMood SelectEndingTrack(bool victory)
 		{
 			if (!victory)
@@ -228,7 +202,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000403 RID: 1027 RVA: 0x00020B8C File Offset: 0x0001ED8C
 		private void HandleIntensity()
 		{
 			if (this.IsNextMoodChangeInstant)
@@ -265,7 +238,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000404 RID: 1028 RVA: 0x00020C84 File Offset: 0x0001EE84
 		private float CalculateIntensityTotal()
 		{
 			float num = this.CalculateIntensityFromDamageToPlayer();
@@ -279,7 +251,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return MBMath.ClampFloat(num + num2 + num3 + num4 + num5 + num6 + num7 + num8, 0f, 1f);
 		}
 
-		// Token: 0x06000405 RID: 1029 RVA: 0x00020CEC File Offset: 0x0001EEEC
 		protected virtual float CalculateIntensityFromDamageToPlayer()
 		{
 			float num = 0f;
@@ -291,7 +262,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return 1.5f * num;
 		}
 
-		// Token: 0x06000406 RID: 1030 RVA: 0x00020D3C File Offset: 0x0001EF3C
 		protected virtual float CalculateIntensityFromDamageFromPlayer()
 		{
 			float num = (float)(this.attackerSideAgentCount * 100);
@@ -311,7 +281,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return 1.5f * num2;
 		}
 
-		// Token: 0x06000407 RID: 1031 RVA: 0x00020DC8 File Offset: 0x0001EFC8
 		protected virtual float CalculateIntensityFromDamageToAlliedNPCs()
 		{
 			float num = 0f;
@@ -334,7 +303,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return num;
 		}
 
-		// Token: 0x06000408 RID: 1032 RVA: 0x00020E50 File Offset: 0x0001F050
 		protected virtual float CalculateIntensityFromNPCDeaths()
 		{
 			float num = 0f;
@@ -346,8 +314,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return num;
 		}
 
-		// Token: 0x1700006C RID: 108
-		// (get) Token: 0x06000409 RID: 1033 RVA: 0x00020E8B File Offset: 0x0001F08B
 		private bool HasRetreatComponent
 		{
 			get
@@ -356,7 +322,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x0600040A RID: 1034 RVA: 0x00020E98 File Offset: 0x0001F098
 		private void ComputeAndCacheAgentCountsAround()
 		{
 			if (Agent.Main == null)
@@ -396,7 +361,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x0600040B RID: 1035 RVA: 0x00020FBC File Offset: 0x0001F1BC
 		protected virtual float CalculateIntensityFromEnemiesAround()
 		{
 			float num = 0f;
@@ -420,7 +384,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return num;
 		}
 
-		// Token: 0x0600040C RID: 1036 RVA: 0x0002101C File Offset: 0x0001F21C
 		protected virtual float CalculateIntensityFromEnemiesInDuelRange()
 		{
 			float num = 0f;
@@ -437,7 +400,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return num;
 		}
 
-		// Token: 0x0600040D RID: 1037 RVA: 0x00021070 File Offset: 0x0001F270
 		protected virtual float CalculateIntensityFromAlliesAround()
 		{
 			float num = 0f;
@@ -454,13 +416,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return num;
 		}
 
-		// Token: 0x0600040E RID: 1038 RVA: 0x000210C4 File Offset: 0x0001F2C4
 		protected virtual float CalculateIntensityMisc()
 		{
 			return 0f;
 		}
 
-		// Token: 0x0600040F RID: 1039 RVA: 0x000210CB File Offset: 0x0001F2CB
 		private void ResetAccumulatedVariables()
 		{
 			this._damageDealtByPlayerSinceLastUpdate = 0f;
@@ -469,13 +429,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			this._npcDeathsSinceLastUpdate = 0;
 		}
 
-		// Token: 0x06000410 RID: 1040 RVA: 0x000210F5 File Offset: 0x0001F2F5
 		private float CalculateIntensityValue(float numerator, float denominator)
 		{
 			return numerator / denominator * (0.09527f * this._intensityCoefficient);
 		}
 
-		// Token: 0x06000411 RID: 1041 RVA: 0x00021108 File Offset: 0x0001F308
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, int damage, in MissionWeapon attackerWeapon)
 		{
 			base.OnAgentHit(affectedAgent, affectorAgent, damage, attackerWeapon);
@@ -495,7 +453,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000412 RID: 1042 RVA: 0x00021198 File Offset: 0x0001F398
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);
@@ -505,94 +462,66 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000413 RID: 1043 RVA: 0x000211E4 File Offset: 0x0001F3E4
 		public override MusicPriority GetPriority()
 		{
 			return MusicPriority.MissionHigh;
 		}
 
-		// Token: 0x06000414 RID: 1044 RVA: 0x000211E7 File Offset: 0x0001F3E7
 		public override bool IsActive()
 		{
 			return true;
 		}
 
-		// Token: 0x0400027F RID: 639
 		private const float KillRangeCheck = 100f;
 
-		// Token: 0x04000280 RID: 640
 		private const float HitRangeCheck = 60f;
 
-		// Token: 0x04000281 RID: 641
 		private const float EnemiesRangeCheck = 50f;
 
-		// Token: 0x04000282 RID: 642
 		private const float AlliesRangeCheck = 25f;
 
-		// Token: 0x04000283 RID: 643
 		private const float DuelRangeCheck = 6f;
 
-		// Token: 0x04000284 RID: 644
 		private const float IntensityUpdateInterval = 1.5f;
 
-		// Token: 0x04000285 RID: 645
 		protected const float IntensityZeroAlternative = 1E-05f;
 
-		// Token: 0x04000286 RID: 646
 		protected float TrackUpdateInterval;
 
-		// Token: 0x0400028C RID: 652
 		private Timer _trackUpdateTimer;
 
-		// Token: 0x0400028D RID: 653
 		private Timer _intensityUpdateTimer;
 
-		// Token: 0x0400028E RID: 654
 		private bool _allowMoodUpdating = true;
 
-		// Token: 0x0400028F RID: 655
 		protected bool IsNextMoodChangeInstant;
 
-		// Token: 0x04000290 RID: 656
 		private float _damageDealtByPlayerSinceLastUpdate;
 
-		// Token: 0x04000291 RID: 657
 		private float _damageTakenByPlayerSinceLastUpdate;
 
-		// Token: 0x04000292 RID: 658
 		private float _damageTakenByAlliedNPCsSinceLastUpdate;
 
-		// Token: 0x04000293 RID: 659
 		private int _npcDeathsSinceLastUpdate;
 
-		// Token: 0x04000294 RID: 660
 		private float _nextIntensity;
 
-		// Token: 0x04000295 RID: 661
 		private int _enemyCountAround;
 
-		// Token: 0x04000296 RID: 662
 		private int _closeEnemyCountAround;
 
-		// Token: 0x04000297 RID: 663
 		private int _allyCountAround;
 
-		// Token: 0x04000298 RID: 664
 		protected int attackerSideAgentCount;
 
-		// Token: 0x04000299 RID: 665
 		protected int defenderSideAgentCount;
 
-		// Token: 0x0400029A RID: 666
 		private float _intensityCoefficient;
 
-		// Token: 0x0400029B RID: 667
 		private bool _isCombatScaleMedium;
 
-		// Token: 0x0400029C RID: 668
 		private bool _isFirstTick = true;
 
-		// Token: 0x0400029D RID: 669
 		private MissionAgentSpawnLogic _missionAgentSpawnLogic;
 	}
 }

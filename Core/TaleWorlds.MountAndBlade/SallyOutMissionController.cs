@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200027D RID: 637
 	public abstract class SallyOutMissionController : MissionLogic
 	{
-		// Token: 0x17000677 RID: 1655
-		// (get) Token: 0x060021D9 RID: 8665 RVA: 0x0007B916 File Offset: 0x00079B16
 		private float BesiegedDeploymentDuration
 		{
 			get
@@ -20,8 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000678 RID: 1656
-		// (get) Token: 0x060021DA RID: 8666 RVA: 0x0007B91D File Offset: 0x00079B1D
 		private float BesiegerActivationDuration
 		{
 			get
@@ -30,8 +25,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000679 RID: 1657
-		// (get) Token: 0x060021DB RID: 8667 RVA: 0x0007B924 File Offset: 0x00079B24
 		public MBReadOnlyList<SiegeWeapon> BesiegerSiegeEngines
 		{
 			get
@@ -40,7 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021DC RID: 8668 RVA: 0x0007B92C File Offset: 0x00079B2C
 		public override void OnBehaviorInitialize()
 		{
 			this.MissionAgentSpawnLogic = base.Mission.GetMissionBehavior<MissionAgentSpawnLogic>();
@@ -48,7 +40,6 @@ namespace TaleWorlds.MountAndBlade
 			Mission.Current.GetOverriddenFleePositionForAgent += this.GetSallyOutFleePositionForAgent;
 		}
 
-		// Token: 0x060021DD RID: 8669 RVA: 0x0007B968 File Offset: 0x00079B68
 		public override void AfterStart()
 		{
 			this._sallyOutNotificationsHandler.OnAfterStart();
@@ -62,14 +53,12 @@ namespace TaleWorlds.MountAndBlade
 			teamAI.OnNotifyTacticalDecision = (TeamAIComponent.TacticalDecisionDelegate)Delegate.Combine(teamAI.OnNotifyTacticalDecision, new TeamAIComponent.TacticalDecisionDelegate(this.OnDefenderTeamTacticalDecision));
 		}
 
-		// Token: 0x060021DE RID: 8670 RVA: 0x0007B9E9 File Offset: 0x00079BE9
 		public override void OnMissionTick(float dt)
 		{
 			this._sallyOutNotificationsHandler.OnMissionTick(dt);
 			this.UpdateTimers();
 		}
 
-		// Token: 0x060021DF RID: 8671 RVA: 0x0007B9FD File Offset: 0x00079BFD
 		public override void OnDeploymentFinished()
 		{
 			this._besiegerSiegeEngines = SallyOutMissionController.GetBesiegerSiegeEngines();
@@ -80,17 +69,14 @@ namespace TaleWorlds.MountAndBlade
 			this.DeactivateBesiegers();
 		}
 
-		// Token: 0x060021E0 RID: 8672 RVA: 0x0007BA3A File Offset: 0x00079C3A
 		protected override void OnEndMission()
 		{
 			this._sallyOutNotificationsHandler.OnMissionEnd();
 			Mission.Current.GetOverriddenFleePositionForAgent -= this.GetSallyOutFleePositionForAgent;
 		}
 
-		// Token: 0x060021E1 RID: 8673
 		protected abstract void GetInitialTroopCounts(out int besiegedTotalTroopCount, out int besiegerTotalTroopCount);
 
-		// Token: 0x060021E2 RID: 8674 RVA: 0x0007BA60 File Offset: 0x00079C60
 		private void UpdateTimers()
 		{
 			if (this._besiegedDeploymentTimer != null)
@@ -137,7 +123,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021E3 RID: 8675 RVA: 0x0007BBE4 File Offset: 0x00079DE4
 		private void AdjustTotalTroopCounts(ref int besiegedTotalTroopCount, ref int besiegerTotalTroopCount)
 		{
 			float num = 0.25f;
@@ -157,7 +142,6 @@ namespace TaleWorlds.MountAndBlade
 			besiegerTotalTroopCount = MathF.Min(num7, besiegerTotalTroopCount);
 		}
 
-		// Token: 0x060021E4 RID: 8676 RVA: 0x0007BC6C File Offset: 0x00079E6C
 		private void SetupInitialSpawn(int besiegedTotalTroopCount, int besiegerTotalTroopCount)
 		{
 			this.AdjustTotalTroopCounts(ref besiegedTotalTroopCount, ref besiegerTotalTroopCount);
@@ -171,7 +155,6 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionAgentSpawnLogic.SetCustomReinforcementSpawnTimer(new SallyOutReinforcementSpawnTimer(1f, 90f, 15f, 5));
 		}
 
-		// Token: 0x060021E5 RID: 8677 RVA: 0x0007BD0C File Offset: 0x00079F0C
 		private WorldPosition? GetSallyOutFleePositionForAgent(Agent agent)
 		{
 			if (!agent.IsHuman)
@@ -197,13 +180,11 @@ namespace TaleWorlds.MountAndBlade
 			return new WorldPosition?(Mission.Current.DeploymentPlan.GetFormationPlan(formation.Team.Side, formationClass, DeploymentPlanType.Initial).CreateNewDeploymentWorldPosition(WorldPosition.WorldPositionEnforcedCache.GroundVec3));
 		}
 
-		// Token: 0x060021E6 RID: 8678 RVA: 0x0007BD98 File Offset: 0x00079F98
 		private static MissionSpawnSettings CreateSallyOutSpawnSettings(float besiegedReinforcementPercentage, float besiegerReinforcementPercentage)
 		{
 			return new MissionSpawnSettings(MissionSpawnSettings.InitialSpawnMethod.FreeAllocation, MissionSpawnSettings.ReinforcementTimingMethod.CustomTimer, MissionSpawnSettings.ReinforcementSpawnMethod.Fixed, 0f, 0f, 0f, 0f, 0, besiegedReinforcementPercentage, besiegerReinforcementPercentage, 1f, 0.75f);
 		}
 
-		// Token: 0x060021E7 RID: 8679 RVA: 0x0007BDD0 File Offset: 0x00079FD0
 		private void OnDefenderTeamTacticalDecision(in TacticalDecision decision)
 		{
 			TacticalDecision tacticalDecision = decision;
@@ -213,7 +194,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021E8 RID: 8680 RVA: 0x0007BDFC File Offset: 0x00079FFC
 		private void DeactivateBesiegers()
 		{
 			foreach (Formation formation in base.Mission.AttackerTeam.FormationsIncludingSpecialAndEmpty)
@@ -224,7 +204,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021E9 RID: 8681 RVA: 0x0007BE6C File Offset: 0x0007A06C
 		private void ActivateBesiegers()
 		{
 			Team attackerTeam = base.Mission.AttackerTeam;
@@ -234,7 +213,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060021EA RID: 8682 RVA: 0x0007BED4 File Offset: 0x0007A0D4
 		public static MBReadOnlyList<SiegeWeapon> GetBesiegerSiegeEngines()
 		{
 			MBList<SiegeWeapon> mblist = new MBList<SiegeWeapon>();
@@ -252,7 +230,6 @@ namespace TaleWorlds.MountAndBlade
 			return mblist;
 		}
 
-		// Token: 0x060021EB RID: 8683 RVA: 0x0007BF4C File Offset: 0x0007A14C
 		public static void DisableSiegeEngines()
 		{
 			using (List<MissionObject>.Enumerator enumerator = Mission.Current.ActiveMissionObjects.GetEnumerator())
@@ -269,52 +246,36 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000CA5 RID: 3237
 		private const float BesiegedTotalTroopRatio = 0.25f;
 
-		// Token: 0x04000CA6 RID: 3238
 		private const float BesiegedInitialTroopRatio = 0.1f;
 
-		// Token: 0x04000CA7 RID: 3239
 		private const float BesiegedReinforcementRatio = 0.01f;
 
-		// Token: 0x04000CA8 RID: 3240
 		private const float BesiegerInitialTroopRatio = 0.1f;
 
-		// Token: 0x04000CA9 RID: 3241
 		private const float BesiegerReinforcementRatio = 0.1f;
 
-		// Token: 0x04000CAA RID: 3242
 		private const float BesiegedInitialInterval = 1f;
 
-		// Token: 0x04000CAB RID: 3243
 		private const float BesiegerInitialInterval = 90f;
 
-		// Token: 0x04000CAC RID: 3244
 		private const float BesiegerIntervalChange = 15f;
 
-		// Token: 0x04000CAD RID: 3245
 		private const int BesiegerIntervalChangeCount = 5;
 
-		// Token: 0x04000CAE RID: 3246
 		private const float PlayerToGateSquaredDistanceThreshold = 25f;
 
-		// Token: 0x04000CAF RID: 3247
 		private SallyOutMissionNotificationsHandler _sallyOutNotificationsHandler;
 
-		// Token: 0x04000CB0 RID: 3248
 		private List<CastleGate> _castleGates;
 
-		// Token: 0x04000CB1 RID: 3249
 		private BasicMissionTimer _besiegedDeploymentTimer;
 
-		// Token: 0x04000CB2 RID: 3250
 		private BasicMissionTimer _besiegerActivationTimer;
 
-		// Token: 0x04000CB3 RID: 3251
 		private MBReadOnlyList<SiegeWeapon> _besiegerSiegeEngines;
 
-		// Token: 0x04000CB4 RID: 3252
 		protected MissionAgentSpawnLogic MissionAgentSpawnLogic;
 	}
 }

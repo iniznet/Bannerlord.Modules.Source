@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.AuxiliaryKeys;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 {
-	// Token: 0x02000101 RID: 257
 	public class GameKeyOptionCategoryVM : ViewModel
 	{
-		// Token: 0x060016BA RID: 5818 RVA: 0x0004998C File Offset: 0x00047B8C
 		public GameKeyOptionCategoryVM(Action<KeyOptionVM> onKeybindRequest, IEnumerable<string> gameKeyCategories)
 		{
 			this._gameKeyCategories = new Dictionary<string, List<GameKey>>();
@@ -73,7 +71,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			this.IsEnabled = !Input.IsGamepadActive;
 		}
 
-		// Token: 0x060016BB RID: 5819 RVA: 0x00049CC8 File Offset: 0x00047EC8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -89,7 +86,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			});
 		}
 
-		// Token: 0x060016BC RID: 5820 RVA: 0x00049D5C File Offset: 0x00047F5C
 		private void OnGamepadActiveStateChanged()
 		{
 			MBBindingList<GameKeyGroupVM> gameKeyGroups = this.GameKeyGroups;
@@ -108,7 +104,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			Debug.Print("KEYBINDS TAB ENABLED: " + this.IsEnabled.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x060016BD RID: 5821 RVA: 0x00049DFC File Offset: 0x00047FFC
 		public bool IsChanged()
 		{
 			if (!this.GameKeyGroups.Any((GameKeyGroupVM x) => x.IsChanged()))
@@ -118,7 +113,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			return true;
 		}
 
-		// Token: 0x060016BE RID: 5822 RVA: 0x00049E64 File Offset: 0x00048064
 		public void ExecuteResetToDefault()
 		{
 			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=4gCU2ykB}Reset all keys to default", null).ToString(), new TextObject("{=YjbNtFcw}This will reset ALL keys to their default states. You won't be able to undo this action. {newline} {newline}Are you sure?", null).ToString(), true, true, new TextObject("{=aeouhelq}Yes", null).ToString(), new TextObject("{=8OkPHu4f}No", null).ToString(), delegate
@@ -127,7 +121,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}, null, "", 0f, null, null, null), false, false);
 		}
 
-		// Token: 0x060016BF RID: 5823 RVA: 0x00049EDC File Offset: 0x000480DC
 		public void OnDone()
 		{
 			this.GameKeyGroups.ApplyActionOnAllItems(delegate(GameKeyGroupVM x)
@@ -148,7 +141,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x060016C0 RID: 5824 RVA: 0x00049F9C File Offset: 0x0004819C
 		private void ResetToDefault()
 		{
 			HotKeyManager.Reset();
@@ -163,14 +155,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			this._keysToChangeOnDone.Clear();
 		}
 
-		// Token: 0x060016C1 RID: 5825 RVA: 0x0004A00D File Offset: 0x0004820D
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		// Token: 0x060016C2 RID: 5826 RVA: 0x0004A035 File Offset: 0x00048235
 		private Key FindValidInputKey(GameKey gameKey)
 		{
 			if (!Input.IsGamepadActive)
@@ -180,7 +170,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			return gameKey.ControllerKey;
 		}
 
-		// Token: 0x060016C3 RID: 5827 RVA: 0x0004A04C File Offset: 0x0004824C
 		private void UpdateKeysOfGamekeysWithID(int givenId, InputKey newKey)
 		{
 			Func<GameKey, bool> <>9__0;
@@ -209,7 +198,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x060016C4 RID: 5828 RVA: 0x0004A144 File Offset: 0x00048344
 		public void Cancel()
 		{
 			this.GameKeyGroups.ApplyActionOnAllItems(delegate(GameKeyGroupVM g)
@@ -218,7 +206,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			});
 		}
 
-		// Token: 0x060016C5 RID: 5829 RVA: 0x0004A170 File Offset: 0x00048370
 		public void ApplyValues()
 		{
 			this.GameKeyGroups.ApplyActionOnAllItems(delegate(GameKeyGroupVM g)
@@ -227,9 +214,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			});
 		}
 
-		// Token: 0x1700076D RID: 1901
-		// (get) Token: 0x060016C6 RID: 5830 RVA: 0x0004A19C File Offset: 0x0004839C
-		// (set) Token: 0x060016C7 RID: 5831 RVA: 0x0004A1A4 File Offset: 0x000483A4
 		[DataSourceProperty]
 		public string Name
 		{
@@ -247,9 +231,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x1700076E RID: 1902
-		// (get) Token: 0x060016C8 RID: 5832 RVA: 0x0004A1C7 File Offset: 0x000483C7
-		// (set) Token: 0x060016C9 RID: 5833 RVA: 0x0004A1CF File Offset: 0x000483CF
 		[DataSourceProperty]
 		public bool IsEnabled
 		{
@@ -267,9 +248,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x1700076F RID: 1903
-		// (get) Token: 0x060016CA RID: 5834 RVA: 0x0004A1ED File Offset: 0x000483ED
-		// (set) Token: 0x060016CB RID: 5835 RVA: 0x0004A1F5 File Offset: 0x000483F5
 		[DataSourceProperty]
 		public string ResetText
 		{
@@ -287,9 +265,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x17000770 RID: 1904
-		// (get) Token: 0x060016CC RID: 5836 RVA: 0x0004A218 File Offset: 0x00048418
-		// (set) Token: 0x060016CD RID: 5837 RVA: 0x0004A220 File Offset: 0x00048420
 		[DataSourceProperty]
 		public MBBindingList<GameKeyGroupVM> GameKeyGroups
 		{
@@ -307,9 +282,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x17000771 RID: 1905
-		// (get) Token: 0x060016CE RID: 5838 RVA: 0x0004A23E File Offset: 0x0004843E
-		// (set) Token: 0x060016CF RID: 5839 RVA: 0x0004A246 File Offset: 0x00048446
 		[DataSourceProperty]
 		public MBBindingList<AuxiliaryKeyGroupVM> AuxiliaryKeyGroups
 		{
@@ -327,31 +299,22 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			}
 		}
 
-		// Token: 0x04000ACA RID: 2762
 		private readonly Action<KeyOptionVM> _onKeybindRequest;
 
-		// Token: 0x04000ACB RID: 2763
 		private Dictionary<string, List<GameKey>> _gameKeyCategories;
 
-		// Token: 0x04000ACC RID: 2764
 		private Dictionary<string, List<HotKey>> _auxiliaryKeyCategories;
 
-		// Token: 0x04000ACD RID: 2765
 		private Dictionary<GameKey, InputKey> _keysToChangeOnDone = new Dictionary<GameKey, InputKey>();
 
-		// Token: 0x04000ACE RID: 2766
 		private string _name;
 
-		// Token: 0x04000ACF RID: 2767
 		private string _resetText;
 
-		// Token: 0x04000AD0 RID: 2768
 		private bool _isEnabled;
 
-		// Token: 0x04000AD1 RID: 2769
 		private MBBindingList<GameKeyGroupVM> _gameKeyGroups;
 
-		// Token: 0x04000AD2 RID: 2770
 		private MBBindingList<AuxiliaryKeyGroupVM> _auxiliaryKeyGroups;
 	}
 }

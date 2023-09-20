@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000052 RID: 82
 	public static class ManagedExtensions
 	{
-		// Token: 0x060006F1 RID: 1777 RVA: 0x00005238 File Offset: 0x00003438
 		[EngineCallback]
 		internal static void SetObjectField(DotNetObject managedObject, string fieldName, ref ScriptComponentFieldHolder scriptComponentHolder, int type, int callFieldChangeEventAsInteger)
 		{
@@ -72,7 +70,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x060006F2 RID: 1778 RVA: 0x0000547C File Offset: 0x0000367C
 		[EngineCallback]
 		internal static void GetObjectField(DotNetObject managedObject, ref ScriptComponentFieldHolder scriptComponentFieldHolder, string fieldName, int type)
 		{
@@ -141,7 +138,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x060006F3 RID: 1779 RVA: 0x000056DC File Offset: 0x000038DC
 		[EngineCallback]
 		internal static void CopyObjectFieldsFrom(DotNetObject dst, DotNetObject src, string className, int callFieldChangeEventAsInteger)
 		{
@@ -157,7 +153,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x060006F4 RID: 1780 RVA: 0x00005760 File Offset: 0x00003960
 		[EngineCallback]
 		internal static DotNetObject CreateScriptComponentInstance(string className, GameEntity entity, ManagedScriptComponent managedScriptComponent)
 		{
@@ -190,7 +185,6 @@ namespace TaleWorlds.Engine
 			return scriptComponentBehavior;
 		}
 
-		// Token: 0x060006F5 RID: 1781 RVA: 0x000057D4 File Offset: 0x000039D4
 		[EngineCallback]
 		internal static string GetScriptComponentClassNames()
 		{
@@ -217,7 +211,6 @@ namespace TaleWorlds.Engine
 			return text;
 		}
 
-		// Token: 0x060006F6 RID: 1782 RVA: 0x000058B8 File Offset: 0x00003AB8
 		[EngineCallback]
 		internal static bool GetEditorVisibilityOfField(string className, string fieldName)
 		{
@@ -225,7 +218,6 @@ namespace TaleWorlds.Engine
 			return customAttributes.Length == 0 || (customAttributes[0] as EditorVisibleScriptComponentVariable).Visible;
 		}
 
-		// Token: 0x060006F7 RID: 1783 RVA: 0x000058F0 File Offset: 0x00003AF0
 		[EngineCallback]
 		internal static int GetTypeOfField(string className, string fieldName)
 		{
@@ -290,14 +282,12 @@ namespace TaleWorlds.Engine
 			return -1;
 		}
 
-		// Token: 0x060006F8 RID: 1784 RVA: 0x00005AD0 File Offset: 0x00003CD0
 		[EngineCallback]
 		internal static void ForceGarbageCollect()
 		{
 			Utilities.FlushManagedObjectsMemory();
 		}
 
-		// Token: 0x060006F9 RID: 1785 RVA: 0x00005AD8 File Offset: 0x00003CD8
 		[EngineCallback]
 		internal static void CollectCommandLineFunctions()
 		{

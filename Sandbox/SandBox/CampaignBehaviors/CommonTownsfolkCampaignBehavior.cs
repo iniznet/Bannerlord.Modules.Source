@@ -12,45 +12,37 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000096 RID: 150
 	public class CommonTownsfolkCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060006ED RID: 1773 RVA: 0x000353B9 File Offset: 0x000335B9
 		private float GetSpawnRate(Settlement settlement)
 		{
 			return this.TimeOfDayPercentage() * this.GetProsperityMultiplier(settlement.SettlementComponent);
 		}
 
-		// Token: 0x060006EE RID: 1774 RVA: 0x000353CE File Offset: 0x000335CE
 		private float GetConfigValue()
 		{
 			return BannerlordConfig.CivilianAgentCount;
 		}
 
-		// Token: 0x060006EF RID: 1775 RVA: 0x000353D5 File Offset: 0x000335D5
 		private float GetProsperityMultiplier(SettlementComponent settlement)
 		{
 			return (settlement.GetProsperityLevel() + 1f) / 3f;
 		}
 
-		// Token: 0x060006F0 RID: 1776 RVA: 0x000353EC File Offset: 0x000335EC
 		private float TimeOfDayPercentage()
 		{
 			return 1f - MathF.Abs(CampaignTime.Now.CurrentHourInDay - 15f) / 15f;
 		}
 
-		// Token: 0x060006F1 RID: 1777 RVA: 0x0003541D File Offset: 0x0003361D
 		public override void RegisterEvents()
 		{
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
 		}
 
-		// Token: 0x060006F2 RID: 1778 RVA: 0x00035436 File Offset: 0x00033636
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060006F3 RID: 1779 RVA: 0x00035438 File Offset: 0x00033638
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -69,7 +61,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006F4 RID: 1780 RVA: 0x000354B4 File Offset: 0x000336B4
 		private void AddPeopleToTownTavern(Settlement settlement, Dictionary<string, int> unusedUsablePointCount)
 		{
 			Location locationWithId = settlement.LocationComplex.GetLocationWithId("tavern");
@@ -90,7 +81,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006F5 RID: 1781 RVA: 0x00035534 File Offset: 0x00033734
 		private void AddPeopleToTownCenter(Settlement settlement, Dictionary<string, int> unusedUsablePointCount, bool isDayTime)
 		{
 			Location locationWithId = settlement.LocationComplex.GetLocationWithId("center");
@@ -158,7 +148,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006F6 RID: 1782 RVA: 0x00035778 File Offset: 0x00033978
 		public static string GetActionSetSuffixAndMonsterForItem(string itemId, int race, bool isFemale, out Monster monster)
 		{
 			monster = FaceGen.GetMonsterWithSuffix(race, "_settlement");
@@ -308,7 +297,6 @@ namespace SandBox.CampaignBehaviors
 			return "_villager_carry_right_hand";
 		}
 
-		// Token: 0x060006F7 RID: 1783 RVA: 0x00035998 File Offset: 0x00033B98
 		public static Tuple<string, Monster> GetRandomTownsManActionSetAndMonster(int race)
 		{
 			int num = MBRandom.RandomInt(3);
@@ -327,7 +315,6 @@ namespace SandBox.CampaignBehaviors
 			return new Tuple<string, Monster>(ActionSetCode.GenerateActionSetNameWithSuffix(monster, false, "_villager_2"), monster);
 		}
 
-		// Token: 0x060006F8 RID: 1784 RVA: 0x00035A14 File Offset: 0x00033C14
 		public static Tuple<string, Monster> GetRandomTownsWomanActionSetAndMonster(int race)
 		{
 			Monster monster;
@@ -340,7 +327,6 @@ namespace SandBox.CampaignBehaviors
 			return new Tuple<string, Monster>(ActionSetCode.GenerateActionSetNameWithSuffix(monster, true, "_villager_2"), monster);
 		}
 
-		// Token: 0x060006F9 RID: 1785 RVA: 0x00035A68 File Offset: 0x00033C68
 		private static LocationCharacter CreateTownsMan(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townsman = culture.Townsman;
@@ -351,7 +337,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(townsman, -1, null, default(UniqueTroopDescriptor))).Monster(randomTownsManActionSetAndMonster.Item2).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common", false, relation, randomTownsManActionSetAndMonster.Item1, true, false, null, false, false, true);
 		}
 
-		// Token: 0x060006FA RID: 1786 RVA: 0x00035B04 File Offset: 0x00033D04
 		private static LocationCharacter CreateTownsManForTavern(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townsman = culture.Townsman;
@@ -371,7 +356,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(townsman, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_common", true, relation, text, true, false, null, false, false, true);
 		}
 
-		// Token: 0x060006FB RID: 1787 RVA: 0x00035BF0 File Offset: 0x00033DF0
 		private static LocationCharacter CreateTownsWomanForTavern(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswoman = culture.Townswoman;
@@ -391,7 +375,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(townswoman, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_common", true, relation, text, true, false, null, false, false, true);
 		}
 
-		// Token: 0x060006FC RID: 1788 RVA: 0x00035CDC File Offset: 0x00033EDC
 		private static LocationCharacter CreateTownsManCarryingStuff(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townsman = culture.Townsman;
@@ -411,7 +394,6 @@ namespace SandBox.CampaignBehaviors
 			return locationCharacter;
 		}
 
-		// Token: 0x060006FD RID: 1789 RVA: 0x00035DC4 File Offset: 0x00033FC4
 		private static LocationCharacter CreateTownsWoman(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswoman = culture.Townswoman;
@@ -422,7 +404,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(townswoman, -1, null, default(UniqueTroopDescriptor))).Monster(randomTownsWomanActionSetAndMonster.Item2).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common", false, relation, randomTownsWomanActionSetAndMonster.Item1, true, false, null, false, false, true);
 		}
 
-		// Token: 0x060006FE RID: 1790 RVA: 0x00035E60 File Offset: 0x00034060
 		private static LocationCharacter CreateMaleChild(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townsmanChild = culture.TownsmanChild;
@@ -434,7 +415,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, townsmanChild.IsFemale, "_child"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x060006FF RID: 1791 RVA: 0x00035F10 File Offset: 0x00034110
 		private static LocationCharacter CreateFemaleChild(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswomanChild = culture.TownswomanChild;
@@ -446,7 +426,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, townswomanChild.IsFemale, "_child"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000700 RID: 1792 RVA: 0x00035FC0 File Offset: 0x000341C0
 		private static LocationCharacter CreateMaleTeenager(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townsmanTeenager = culture.TownsmanTeenager;
@@ -458,7 +437,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, townsmanTeenager.IsFemale, "_villager"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000701 RID: 1793 RVA: 0x00036070 File Offset: 0x00034270
 		private static LocationCharacter CreateFemaleTeenager(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswomanTeenager = culture.TownswomanTeenager;
@@ -470,7 +448,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common_limited", false, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, townswomanTeenager.IsFemale, "_villager"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000702 RID: 1794 RVA: 0x00036120 File Offset: 0x00034320
 		private static LocationCharacter CreateTownsWomanCarryingStuff(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswoman = culture.Townswoman;
@@ -490,7 +467,6 @@ namespace SandBox.CampaignBehaviors
 			return locationCharacter;
 		}
 
-		// Token: 0x06000703 RID: 1795 RVA: 0x00036208 File Offset: 0x00034408
 		public static LocationCharacter CreateBroomsWoman(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject townswoman = culture.Townswoman;
@@ -501,7 +477,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(townswoman, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "spawnpoint_cleaner", false, relation, null, true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000704 RID: 1796 RVA: 0x000362A0 File Offset: 0x000344A0
 		private static LocationCharacter CreateDancer(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject femaleDancer = culture.FemaleDancer;
@@ -513,7 +488,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_dancer", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_dancer"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000705 RID: 1797 RVA: 0x00036350 File Offset: 0x00034550
 		public static LocationCharacter CreateMaleBeggar(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject beggar = culture.Beggar;
@@ -525,7 +499,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_beggar", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_beggar"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06000706 RID: 1798 RVA: 0x00036400 File Offset: 0x00034600
 		public static LocationCharacter CreateFemaleBeggar(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject femaleBeggar = culture.FemaleBeggar;
@@ -537,28 +510,20 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_beggar", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_beggar"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x040002F7 RID: 759
 		public const float TownsmanSpawnPercentageMale = 0.2f;
 
-		// Token: 0x040002F8 RID: 760
 		public const float TownsmanSpawnPercentageFemale = 0.15f;
 
-		// Token: 0x040002F9 RID: 761
 		public const float TownsmanSpawnPercentageLimitedMale = 0.15f;
 
-		// Token: 0x040002FA RID: 762
 		public const float TownsmanSpawnPercentageLimitedFemale = 0.1f;
 
-		// Token: 0x040002FB RID: 763
 		public const float TownOtherPeopleSpawnPercentage = 0.05f;
 
-		// Token: 0x040002FC RID: 764
 		public const float TownsmanSpawnPercentageTavernMale = 0.3f;
 
-		// Token: 0x040002FD RID: 765
 		public const float TownsmanSpawnPercentageTavernFemale = 0.1f;
 
-		// Token: 0x040002FE RID: 766
 		public const float BeggarSpawnPercentage = 0.33f;
 	}
 }

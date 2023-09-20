@@ -11,10 +11,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000379 RID: 889
 	public class BannerCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060033F9 RID: 13305 RVA: 0x000D9094 File Offset: 0x000D7294
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
@@ -26,19 +24,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnCompanionClanCreatedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnCompanionClanCreated));
 		}
 
-		// Token: 0x060033FA RID: 13306 RVA: 0x000D9142 File Offset: 0x000D7342
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, CampaignTime>>("_heroNextBannerLootTime", ref this._heroNextBannerLootTime);
 		}
 
-		// Token: 0x060033FB RID: 13307 RVA: 0x000D9156 File Offset: 0x000D7356
 		private void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			this.GiveBannersToHeroes();
 		}
 
-		// Token: 0x060033FC RID: 13308 RVA: 0x000D9160 File Offset: 0x000D7360
 		private void GiveBannersToHeroes()
 		{
 			foreach (Hero hero in Hero.AllAliveHeroes)
@@ -54,7 +49,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033FD RID: 13309 RVA: 0x000D91D0 File Offset: 0x000D73D0
 		private void DailyTickHero(Hero hero)
 		{
 			if (hero.Clan != Clan.PlayerClan)
@@ -77,7 +71,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060033FE RID: 13310 RVA: 0x000D9264 File Offset: 0x000D7464
 		private ItemObject GetUpgradeBannerForHero(Hero hero, int upgradeBannerLevel)
 		{
 			ItemObject item = hero.BannerItem.Item;
@@ -92,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return BannerHelper.GetRandomBannerItemForHero(hero);
 		}
 
-		// Token: 0x060033FF RID: 13311 RVA: 0x000D9314 File Offset: 0x000D7514
 		private void CollectLoots(MapEvent mapEvent, PartyBase party, Dictionary<PartyBase, ItemRoster> loot, ItemRoster lootedItems, MBList<TroopRosterElement> lootedCasualties, float lootAmount)
 		{
 			if (party == PartyBase.MainParty && mapEvent.IsPlayerMapEvent && mapEvent.WinningSide == mapEvent.PlayerSide)
@@ -117,7 +109,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003400 RID: 13312 RVA: 0x000D93B4 File Offset: 0x000D75B4
 		private void OnHeroComesOfAge(Hero hero)
 		{
 			if (this.CanBannerBeGivenToHero(hero))
@@ -130,7 +121,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003401 RID: 13313 RVA: 0x000D93E4 File Offset: 0x000D75E4
 		private void OnHeroCreated(Hero hero, bool isBornNaturally = false)
 		{
 			if (this.CanBannerBeGivenToHero(hero))
@@ -143,7 +133,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003402 RID: 13314 RVA: 0x000D9414 File Offset: 0x000D7614
 		private void OnCompanionClanCreated(Clan clan)
 		{
 			Hero leader = clan.Leader;
@@ -157,13 +146,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003403 RID: 13315 RVA: 0x000D9454 File Offset: 0x000D7654
 		private bool CanBannerBeLootedFromHero(Hero hero)
 		{
 			return !this._heroNextBannerLootTime.ContainsKey(hero) || this._heroNextBannerLootTime[hero].IsPast;
 		}
 
-		// Token: 0x06003404 RID: 13316 RVA: 0x000D9485 File Offset: 0x000D7685
 		private int GetCooldownDays(int bannerLevel)
 		{
 			if (bannerLevel == 1)
@@ -177,7 +164,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 12;
 		}
 
-		// Token: 0x06003405 RID: 13317 RVA: 0x000D9498 File Offset: 0x000D7698
 		private void LogBannerLootForHero(Hero hero, int bannerLevel)
 		{
 			CampaignTime campaignTime = CampaignTime.DaysFromNow((float)this.GetCooldownDays(bannerLevel));
@@ -189,7 +175,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._heroNextBannerLootTime[hero] = campaignTime;
 		}
 
-		// Token: 0x06003406 RID: 13318 RVA: 0x000D94DC File Offset: 0x000D76DC
 		private ItemObject GetBannerRewardForHideoutBattle()
 		{
 			if (MBRandom.RandomFloat <= Campaign.Current.Models.BattleRewardModel.DestroyHideoutBannerLootChance)
@@ -199,7 +184,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003407 RID: 13319 RVA: 0x000D9544 File Offset: 0x000D7744
 		private ItemObject GetBannerRewardForCapturingFortification(Settlement settlement)
 		{
 			if (MBRandom.RandomFloat <= Campaign.Current.Models.BattleRewardModel.CaptureSettlementBannerLootChance)
@@ -218,7 +202,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003408 RID: 13320 RVA: 0x000D961C File Offset: 0x000D781C
 		private ItemObject GetBannerRewardForDefeatingNoble(MapEvent mapEvent, MBList<TroopRosterElement> lootedCasualties)
 		{
 			Hero hero = null;
@@ -279,26 +262,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003409 RID: 13321 RVA: 0x000D97C4 File Offset: 0x000D79C4
 		private bool CanBannerBeGivenToHero(Hero hero)
 		{
 			int heroComesOfAge = Campaign.Current.Models.AgeModel.HeroComesOfAge;
 			return hero.Occupation == Occupation.Lord && hero.Age >= (float)heroComesOfAge && hero.BannerItem.IsInvalid() && hero.Clan != Clan.PlayerClan;
 		}
 
-		// Token: 0x040010FF RID: 4351
 		private const int BannerLevel1CooldownDays = 4;
 
-		// Token: 0x04001100 RID: 4352
 		private const int BannerLevel2CooldownDays = 8;
 
-		// Token: 0x04001101 RID: 4353
 		private const int BannerLevel3CooldownDays = 12;
 
-		// Token: 0x04001102 RID: 4354
 		private const float BannerItemUpdateChance = 0.1f;
 
-		// Token: 0x04001103 RID: 4355
 		private Dictionary<Hero, CampaignTime> _heroNextBannerLootTime = new Dictionary<Hero, CampaignTime>();
 	}
 }

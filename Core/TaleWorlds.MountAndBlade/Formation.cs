@@ -12,51 +12,24 @@ using TaleWorlds.MountAndBlade.Source.Missions.Handlers.Logic;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000208 RID: 520
 	public sealed class Formation : IFormation
 	{
-		// Token: 0x1400001C RID: 28
-		// (add) Token: 0x06001CAB RID: 7339 RVA: 0x00065FC0 File Offset: 0x000641C0
-		// (remove) Token: 0x06001CAC RID: 7340 RVA: 0x00065FF8 File Offset: 0x000641F8
 		public event Action<Formation, Agent> OnUnitAdded;
 
-		// Token: 0x1400001D RID: 29
-		// (add) Token: 0x06001CAD RID: 7341 RVA: 0x00066030 File Offset: 0x00064230
-		// (remove) Token: 0x06001CAE RID: 7342 RVA: 0x00066068 File Offset: 0x00064268
 		public event Action<Formation, Agent> OnUnitRemoved;
 
-		// Token: 0x1400001E RID: 30
-		// (add) Token: 0x06001CAF RID: 7343 RVA: 0x000660A0 File Offset: 0x000642A0
-		// (remove) Token: 0x06001CB0 RID: 7344 RVA: 0x000660D8 File Offset: 0x000642D8
 		public event Action<Formation> OnUnitCountChanged;
 
-		// Token: 0x1400001F RID: 31
-		// (add) Token: 0x06001CB1 RID: 7345 RVA: 0x00066110 File Offset: 0x00064310
-		// (remove) Token: 0x06001CB2 RID: 7346 RVA: 0x00066148 File Offset: 0x00064348
 		public event Action<Formation> OnUnitSpacingChanged;
 
-		// Token: 0x14000020 RID: 32
-		// (add) Token: 0x06001CB3 RID: 7347 RVA: 0x00066180 File Offset: 0x00064380
-		// (remove) Token: 0x06001CB4 RID: 7348 RVA: 0x000661B8 File Offset: 0x000643B8
 		public event Action<Formation> OnTick;
 
-		// Token: 0x14000021 RID: 33
-		// (add) Token: 0x06001CB5 RID: 7349 RVA: 0x000661F0 File Offset: 0x000643F0
-		// (remove) Token: 0x06001CB6 RID: 7350 RVA: 0x00066228 File Offset: 0x00064428
 		public event Action<Formation> OnWidthChanged;
 
-		// Token: 0x14000022 RID: 34
-		// (add) Token: 0x06001CB7 RID: 7351 RVA: 0x00066260 File Offset: 0x00064460
-		// (remove) Token: 0x06001CB8 RID: 7352 RVA: 0x00066298 File Offset: 0x00064498
 		public event Action<Formation, MovementOrder.MovementOrderEnum> OnBeforeMovementOrderApplied;
 
-		// Token: 0x14000023 RID: 35
-		// (add) Token: 0x06001CB9 RID: 7353 RVA: 0x000662D0 File Offset: 0x000644D0
-		// (remove) Token: 0x06001CBA RID: 7354 RVA: 0x00066308 File Offset: 0x00064508
 		public event Action<Formation, ArrangementOrder.ArrangementOrderEnum> OnAfterArrangementOrderApplied;
 
-		// Token: 0x170005B2 RID: 1458
-		// (get) Token: 0x06001CBB RID: 7355 RVA: 0x0006633D File Offset: 0x0006453D
 		public FormationClass PrimaryClass
 		{
 			get
@@ -65,8 +38,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B3 RID: 1459
-		// (get) Token: 0x06001CBC RID: 7356 RVA: 0x0006634A File Offset: 0x0006454A
 		public int CountOfUnits
 		{
 			get
@@ -75,8 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B4 RID: 1460
-		// (get) Token: 0x06001CBD RID: 7357 RVA: 0x00066363 File Offset: 0x00064563
 		public int CountOfDetachedUnits
 		{
 			get
@@ -85,8 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B5 RID: 1461
-		// (get) Token: 0x06001CBE RID: 7358 RVA: 0x00066370 File Offset: 0x00064570
 		public int CountOfUndetachableNonPlayerUnits
 		{
 			get
@@ -95,8 +62,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B6 RID: 1462
-		// (get) Token: 0x06001CBF RID: 7359 RVA: 0x00066378 File Offset: 0x00064578
 		public int CountOfUnitsWithoutDetachedOnes
 		{
 			get
@@ -105,8 +70,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B7 RID: 1463
-		// (get) Token: 0x06001CC0 RID: 7360 RVA: 0x00066391 File Offset: 0x00064591
 		public MBList<IFormationUnit> UnitsWithoutLooseDetachedOnes
 		{
 			get
@@ -115,8 +78,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B8 RID: 1464
-		// (get) Token: 0x06001CC1 RID: 7361 RVA: 0x0006639E File Offset: 0x0006459E
 		public int CountOfUnitsWithoutLooseDetachedOnes
 		{
 			get
@@ -125,8 +86,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005B9 RID: 1465
-		// (get) Token: 0x06001CC2 RID: 7362 RVA: 0x000663AB File Offset: 0x000645AB
 		public int CountOfDetachableNonplayerUnits
 		{
 			get
@@ -135,8 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BA RID: 1466
-		// (get) Token: 0x06001CC3 RID: 7363 RVA: 0x000663D4 File Offset: 0x000645D4
 		public Vec2 OrderPosition
 		{
 			get
@@ -145,8 +102,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BB RID: 1467
-		// (get) Token: 0x06001CC4 RID: 7364 RVA: 0x000663E1 File Offset: 0x000645E1
 		public Vec3 OrderGroundPosition
 		{
 			get
@@ -155,8 +110,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BC RID: 1468
-		// (get) Token: 0x06001CC5 RID: 7365 RVA: 0x000663EE File Offset: 0x000645EE
 		public bool OrderPositionIsValid
 		{
 			get
@@ -165,8 +118,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BD RID: 1469
-		// (get) Token: 0x06001CC6 RID: 7366 RVA: 0x000663FB File Offset: 0x000645FB
 		public float Depth
 		{
 			get
@@ -175,8 +126,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BE RID: 1470
-		// (get) Token: 0x06001CC7 RID: 7367 RVA: 0x00066408 File Offset: 0x00064608
 		public float MinimumWidth
 		{
 			get
@@ -185,8 +134,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005BF RID: 1471
-		// (get) Token: 0x06001CC8 RID: 7368 RVA: 0x00066415 File Offset: 0x00064615
 		public float MaximumWidth
 		{
 			get
@@ -195,8 +142,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C0 RID: 1472
-		// (get) Token: 0x06001CC9 RID: 7369 RVA: 0x00066422 File Offset: 0x00064622
 		public float UnitDiameter
 		{
 			get
@@ -205,8 +150,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C1 RID: 1473
-		// (get) Token: 0x06001CCA RID: 7370 RVA: 0x00066447 File Offset: 0x00064647
 		public Vec2 Direction
 		{
 			get
@@ -215,8 +158,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C2 RID: 1474
-		// (get) Token: 0x06001CCB RID: 7371 RVA: 0x00066450 File Offset: 0x00064650
 		public Vec2 CurrentDirection
 		{
 			get
@@ -225,8 +166,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C3 RID: 1475
-		// (get) Token: 0x06001CCC RID: 7372 RVA: 0x0006648F File Offset: 0x0006468F
 		public Vec2 SmoothedAverageUnitPosition
 		{
 			get
@@ -235,8 +174,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C4 RID: 1476
-		// (get) Token: 0x06001CCD RID: 7373 RVA: 0x00066497 File Offset: 0x00064697
 		public int UnitSpacing
 		{
 			get
@@ -245,8 +182,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C5 RID: 1477
-		// (get) Token: 0x06001CCE RID: 7374 RVA: 0x0006649F File Offset: 0x0006469F
 		public MBReadOnlyList<Agent> LooseDetachedUnits
 		{
 			get
@@ -255,8 +190,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C6 RID: 1478
-		// (get) Token: 0x06001CCF RID: 7375 RVA: 0x000664A7 File Offset: 0x000646A7
 		public MBReadOnlyList<Agent> DetachedUnits
 		{
 			get
@@ -265,28 +198,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005C7 RID: 1479
-		// (get) Token: 0x06001CD0 RID: 7376 RVA: 0x000664AF File Offset: 0x000646AF
-		// (set) Token: 0x06001CD1 RID: 7377 RVA: 0x000664B7 File Offset: 0x000646B7
 		public AttackEntityOrderDetachment AttackEntityOrderDetachment { get; private set; }
 
-		// Token: 0x170005C8 RID: 1480
-		// (get) Token: 0x06001CD2 RID: 7378 RVA: 0x000664C0 File Offset: 0x000646C0
-		// (set) Token: 0x06001CD3 RID: 7379 RVA: 0x000664C8 File Offset: 0x000646C8
 		public FormationAI AI { get; private set; }
 
-		// Token: 0x170005C9 RID: 1481
-		// (get) Token: 0x06001CD4 RID: 7380 RVA: 0x000664D1 File Offset: 0x000646D1
-		// (set) Token: 0x06001CD5 RID: 7381 RVA: 0x000664D9 File Offset: 0x000646D9
 		public Formation TargetFormation { get; set; }
 
-		// Token: 0x170005CA RID: 1482
-		// (get) Token: 0x06001CD6 RID: 7382 RVA: 0x000664E2 File Offset: 0x000646E2
-		// (set) Token: 0x06001CD7 RID: 7383 RVA: 0x000664EA File Offset: 0x000646EA
 		public FormationQuerySystem QuerySystem { get; private set; }
 
-		// Token: 0x170005CB RID: 1483
-		// (get) Token: 0x06001CD8 RID: 7384 RVA: 0x000664F3 File Offset: 0x000646F3
 		public MBReadOnlyList<IDetachment> Detachments
 		{
 			get
@@ -295,44 +214,20 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005CC RID: 1484
-		// (get) Token: 0x06001CD9 RID: 7385 RVA: 0x000664FB File Offset: 0x000646FB
-		// (set) Token: 0x06001CDA RID: 7386 RVA: 0x00066503 File Offset: 0x00064703
 		public int? OverridenUnitCount { get; private set; }
 
-		// Token: 0x170005CD RID: 1485
-		// (get) Token: 0x06001CDB RID: 7387 RVA: 0x0006650C File Offset: 0x0006470C
-		// (set) Token: 0x06001CDC RID: 7388 RVA: 0x00066514 File Offset: 0x00064714
 		public bool IsSpawning { get; private set; }
 
-		// Token: 0x170005CE RID: 1486
-		// (get) Token: 0x06001CDD RID: 7389 RVA: 0x0006651D File Offset: 0x0006471D
-		// (set) Token: 0x06001CDE RID: 7390 RVA: 0x00066525 File Offset: 0x00064725
 		public bool IsAITickedAfterSplit { get; set; }
 
-		// Token: 0x170005CF RID: 1487
-		// (get) Token: 0x06001CDF RID: 7391 RVA: 0x0006652E File Offset: 0x0006472E
-		// (set) Token: 0x06001CE0 RID: 7392 RVA: 0x00066536 File Offset: 0x00064736
 		public bool HasPlayerControlledTroop { get; private set; }
 
-		// Token: 0x170005D0 RID: 1488
-		// (get) Token: 0x06001CE1 RID: 7393 RVA: 0x0006653F File Offset: 0x0006473F
-		// (set) Token: 0x06001CE2 RID: 7394 RVA: 0x00066547 File Offset: 0x00064747
 		public bool IsPlayerTroopInFormation { get; private set; }
 
-		// Token: 0x170005D1 RID: 1489
-		// (get) Token: 0x06001CE3 RID: 7395 RVA: 0x00066550 File Offset: 0x00064750
-		// (set) Token: 0x06001CE4 RID: 7396 RVA: 0x00066558 File Offset: 0x00064758
 		public bool ContainsAgentVisuals { get; set; }
 
-		// Token: 0x170005D2 RID: 1490
-		// (get) Token: 0x06001CE5 RID: 7397 RVA: 0x00066561 File Offset: 0x00064761
-		// (set) Token: 0x06001CE6 RID: 7398 RVA: 0x00066569 File Offset: 0x00064769
 		public FiringOrder FiringOrder { get; set; }
 
-		// Token: 0x170005D3 RID: 1491
-		// (get) Token: 0x06001CE7 RID: 7399 RVA: 0x00066572 File Offset: 0x00064772
-		// (set) Token: 0x06001CE8 RID: 7400 RVA: 0x0006657A File Offset: 0x0006477A
 		public Agent PlayerOwner
 		{
 			get
@@ -346,9 +241,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D4 RID: 1492
-		// (get) Token: 0x06001CEA RID: 7402 RVA: 0x000665C0 File Offset: 0x000647C0
-		// (set) Token: 0x06001CE9 RID: 7401 RVA: 0x0006658D File Offset: 0x0006478D
 		public string BannerCode
 		{
 			get
@@ -367,8 +259,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x06001CEB RID: 7403 RVA: 0x000665C8 File Offset: 0x000647C8
 		public bool IsSplittableByAI
 		{
 			get
@@ -377,8 +267,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x06001CEC RID: 7404 RVA: 0x000665DC File Offset: 0x000647DC
 		public bool IsAIOwned
 		{
 			get
@@ -387,8 +275,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D7 RID: 1495
-		// (get) Token: 0x06001CED RID: 7405 RVA: 0x0006662B File Offset: 0x0006482B
 		public bool IsConvenientForTransfer
 		{
 			get
@@ -397,8 +283,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D8 RID: 1496
-		// (get) Token: 0x06001CEE RID: 7406 RVA: 0x00066658 File Offset: 0x00064858
 		public bool EnforceNotSplittableByAI
 		{
 			get
@@ -407,8 +291,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005D9 RID: 1497
-		// (get) Token: 0x06001CEF RID: 7407 RVA: 0x00066660 File Offset: 0x00064860
 		public bool IsAIControlled
 		{
 			get
@@ -417,8 +299,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DA RID: 1498
-		// (get) Token: 0x06001CF0 RID: 7408 RVA: 0x00066668 File Offset: 0x00064868
 		public Vec2 OrderLocalAveragePosition
 		{
 			get
@@ -449,9 +329,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DB RID: 1499
-		// (get) Token: 0x06001CF1 RID: 7409 RVA: 0x0006673C File Offset: 0x0006493C
-		// (set) Token: 0x06001CF2 RID: 7410 RVA: 0x00066744 File Offset: 0x00064944
 		public FacingOrder FacingOrder
 		{
 			get
@@ -464,9 +341,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DC RID: 1500
-		// (get) Token: 0x06001CF3 RID: 7411 RVA: 0x0006674D File Offset: 0x0006494D
-		// (set) Token: 0x06001CF4 RID: 7412 RVA: 0x00066758 File Offset: 0x00064958
 		public ArrangementOrder ArrangementOrder
 		{
 			get
@@ -502,9 +376,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DD RID: 1501
-		// (get) Token: 0x06001CF5 RID: 7413 RVA: 0x00066841 File Offset: 0x00064A41
-		// (set) Token: 0x06001CF6 RID: 7414 RVA: 0x00066849 File Offset: 0x00064A49
 		public FormOrder FormOrder
 		{
 			get
@@ -518,9 +389,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DE RID: 1502
-		// (get) Token: 0x06001CF7 RID: 7415 RVA: 0x0006685E File Offset: 0x00064A5E
-		// (set) Token: 0x06001CF8 RID: 7416 RVA: 0x00066868 File Offset: 0x00064A68
 		public RidingOrder RidingOrder
 		{
 			get
@@ -541,9 +409,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005DF RID: 1503
-		// (get) Token: 0x06001CF9 RID: 7417 RVA: 0x000668BA File Offset: 0x00064ABA
-		// (set) Token: 0x06001CFA RID: 7418 RVA: 0x000668C2 File Offset: 0x00064AC2
 		public WeaponUsageOrder WeaponUsageOrder
 		{
 			get
@@ -556,8 +421,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E0 RID: 1504
-		// (get) Token: 0x06001CFB RID: 7419 RVA: 0x000668CB File Offset: 0x00064ACB
 		private bool IsSimulationFormation
 		{
 			get
@@ -566,8 +429,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E1 RID: 1505
-		// (get) Token: 0x06001CFC RID: 7420 RVA: 0x000668D8 File Offset: 0x00064AD8
 		public bool HasAnyMountedUnit
 		{
 			get
@@ -582,8 +443,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E2 RID: 1506
-		// (get) Token: 0x06001CFD RID: 7421 RVA: 0x00066938 File Offset: 0x00064B38
 		public IEnumerable<FormationClass> SecondaryClasses
 		{
 			get
@@ -609,9 +468,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E3 RID: 1507
-		// (get) Token: 0x06001CFE RID: 7422 RVA: 0x00066948 File Offset: 0x00064B48
-		// (set) Token: 0x06001CFF RID: 7423 RVA: 0x00066955 File Offset: 0x00064B55
 		public float Width
 		{
 			get
@@ -624,8 +480,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E4 RID: 1508
-		// (get) Token: 0x06001D00 RID: 7424 RVA: 0x00066963 File Offset: 0x00064B63
 		public bool IsDeployment
 		{
 			get
@@ -634,8 +488,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E5 RID: 1509
-		// (get) Token: 0x06001D01 RID: 7425 RVA: 0x00066972 File Offset: 0x00064B72
 		public FormationClass InitialClass
 		{
 			get
@@ -648,9 +500,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E6 RID: 1510
-		// (get) Token: 0x06001D02 RID: 7426 RVA: 0x0006698B File Offset: 0x00064B8B
-		// (set) Token: 0x06001D03 RID: 7427 RVA: 0x00066994 File Offset: 0x00064B94
 		public IFormationArrangement Arrangement
 		{
 			get
@@ -675,8 +524,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E7 RID: 1511
-		// (get) Token: 0x06001D04 RID: 7428 RVA: 0x00066A20 File Offset: 0x00064C20
 		public float Interval
 		{
 			get
@@ -689,8 +536,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E8 RID: 1512
-		// (get) Token: 0x06001D05 RID: 7429 RVA: 0x00066A53 File Offset: 0x00064C53
 		public bool CalculateHasSignificantNumberOfMounted
 		{
 			get
@@ -703,8 +548,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005E9 RID: 1513
-		// (get) Token: 0x06001D06 RID: 7430 RVA: 0x00066A8F File Offset: 0x00064C8F
 		public float Distance
 		{
 			get
@@ -717,8 +560,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005EA RID: 1514
-		// (get) Token: 0x06001D07 RID: 7431 RVA: 0x00066AC4 File Offset: 0x00064CC4
 		public Vec2 CurrentPosition
 		{
 			get
@@ -727,9 +568,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005EB RID: 1515
-		// (get) Token: 0x06001D08 RID: 7432 RVA: 0x00066AFF File Offset: 0x00064CFF
-		// (set) Token: 0x06001D09 RID: 7433 RVA: 0x00066B07 File Offset: 0x00064D07
 		public Agent Captain
 		{
 			get
@@ -746,8 +584,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005EC RID: 1516
-		// (get) Token: 0x06001D0A RID: 7434 RVA: 0x00066B1F File Offset: 0x00064D1F
 		public float MinimumDistance
 		{
 			get
@@ -756,8 +592,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005ED RID: 1517
-		// (get) Token: 0x06001D0B RID: 7435 RVA: 0x00066B44 File Offset: 0x00064D44
 		public bool IsLoose
 		{
 			get
@@ -766,8 +600,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005EE RID: 1518
-		// (get) Token: 0x06001D0C RID: 7436 RVA: 0x00066B56 File Offset: 0x00064D56
 		public float MinimumInterval
 		{
 			get
@@ -776,8 +608,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005EF RID: 1519
-		// (get) Token: 0x06001D0D RID: 7437 RVA: 0x00066B7B File Offset: 0x00064D7B
 		public float MaximumInterval
 		{
 			get
@@ -786,8 +616,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005F0 RID: 1520
-		// (get) Token: 0x06001D0E RID: 7438 RVA: 0x00066BA0 File Offset: 0x00064DA0
 		public float MaximumDistance
 		{
 			get
@@ -796,12 +624,8 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170005F1 RID: 1521
-		// (get) Token: 0x06001D0F RID: 7439 RVA: 0x00066BC5 File Offset: 0x00064DC5
-		// (set) Token: 0x06001D10 RID: 7440 RVA: 0x00066BCD File Offset: 0x00064DCD
 		internal bool PostponeCostlyOperations { get; private set; }
 
-		// Token: 0x06001D11 RID: 7441 RVA: 0x00066BD8 File Offset: 0x00064DD8
 		public Formation(Team team, int index)
 		{
 			this.Team = team;
@@ -811,7 +635,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Reset();
 		}
 
-		// Token: 0x06001D12 RID: 7442 RVA: 0x00066C3C File Offset: 0x00064E3C
 		~Formation()
 		{
 			if (!this.IsSimulationFormation)
@@ -820,7 +643,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D13 RID: 7443 RVA: 0x00066C70 File Offset: 0x00064E70
 		bool IFormation.GetIsLocalPositionAvailable(Vec2 localPosition, Vec2? nearestAvailableUnitPositionLocal)
 		{
 			Vec2 vec = this.Direction.TransformToParentUnitF(localPosition);
@@ -837,7 +659,6 @@ namespace TaleWorlds.MountAndBlade
 			return Mission.Current.IsFormationUnitPositionAvailable(ref this._orderPosition, ref worldPosition, ref worldPosition2, num, this.Team);
 		}
 
-		// Token: 0x06001D14 RID: 7444 RVA: 0x00066D34 File Offset: 0x00064F34
 		IFormationUnit IFormation.GetClosestUnitTo(Vec2 localPosition, MBList<IFormationUnit> unitsWithSpaces, float? maxDistance)
 		{
 			Vec2 vec = this.Direction.TransformToParentUnitF(localPosition);
@@ -845,13 +666,11 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetClosestUnitToAux(vec2, unitsWithSpaces, maxDistance);
 		}
 
-		// Token: 0x06001D15 RID: 7445 RVA: 0x00066D68 File Offset: 0x00064F68
 		IFormationUnit IFormation.GetClosestUnitTo(IFormationUnit targetUnit, MBList<IFormationUnit> unitsWithSpaces, float? maxDistance)
 		{
 			return this.GetClosestUnitToAux(((Agent)targetUnit).Position.AsVec2, unitsWithSpaces, maxDistance);
 		}
 
-		// Token: 0x06001D16 RID: 7446 RVA: 0x00066D90 File Offset: 0x00064F90
 		void IFormation.SetUnitToFollow(IFormationUnit unit, IFormationUnit toFollow, Vec2 vector)
 		{
 			Agent agent = unit as Agent;
@@ -859,7 +678,6 @@ namespace TaleWorlds.MountAndBlade
 			agent.SetColumnwiseFollowAgent(agent2, ref vector);
 		}
 
-		// Token: 0x06001D17 RID: 7447 RVA: 0x00066DB4 File Offset: 0x00064FB4
 		bool IFormation.BatchUnitPositions(MBArrayList<Vec2i> orderedPositionIndices, MBArrayList<Vec2> orderedLocalPositions, MBList2D<int> availabilityTable, MBList2D<WorldPosition> globalPositionTable, int fileCount, int rankCount)
 		{
 			if (this._orderPosition.IsValid && this._orderPosition.GetNavMesh() != UIntPtr.Zero)
@@ -870,7 +688,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001D18 RID: 7448 RVA: 0x00066E07 File Offset: 0x00065007
 		public WorldPosition CreateNewOrderWorldPosition(WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
 		{
 			if (worldPositionEnforcedCache != WorldPosition.WorldPositionEnforcedCache.NavMeshVec3)
@@ -887,7 +704,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._orderPosition;
 		}
 
-		// Token: 0x06001D19 RID: 7449 RVA: 0x00066E34 File Offset: 0x00065034
 		public void SetMovementOrder(MovementOrder input)
 		{
 			Action<Formation, MovementOrder.MovementOrderEnum> onBeforeMovementOrderApplied = this.OnBeforeMovementOrderApplied;
@@ -923,7 +739,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D1A RID: 7450 RVA: 0x00066F00 File Offset: 0x00065100
 		public void SetControlledByAI(bool isControlledByAI, bool enforceNotSplittableByAI = false)
 		{
 			if (this._isAIControlled != isControlledByAI)
@@ -951,13 +766,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D1B RID: 7451 RVA: 0x00066FBA File Offset: 0x000651BA
 		public void ResetArrangementOrderTickTimer()
 		{
 			this._arrangementOrderTickOccasionallyTimer = new Timer(Mission.Current.CurrentTime, 0.5f, true);
 		}
 
-		// Token: 0x06001D1C RID: 7452 RVA: 0x00066FD8 File Offset: 0x000651D8
 		public void SetPositioning(WorldPosition? position = null, Vec2? direction = null, int? unitSpacing = null)
 		{
 			Vec2 orderPosition = this.OrderPosition;
@@ -1031,7 +844,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D1D RID: 7453 RVA: 0x000671B8 File Offset: 0x000653B8
 		public int GetCountOfUnitsWithCondition(Func<Agent, bool> function)
 		{
 			int num = 0;
@@ -1052,19 +864,16 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001D1E RID: 7454 RVA: 0x00067268 File Offset: 0x00065468
 		public ref readonly MovementOrder GetReadonlyMovementOrderReference()
 		{
 			return ref this._movementOrder;
 		}
 
-		// Token: 0x06001D1F RID: 7455 RVA: 0x00067270 File Offset: 0x00065470
 		public Agent GetFirstUnit()
 		{
 			return this.GetUnitWithIndex(0);
 		}
 
-		// Token: 0x06001D20 RID: 7456 RVA: 0x0006727C File Offset: 0x0006547C
 		public int GetCountOfUnitsInClass(FormationClass formationClass, bool excludeBannerBearer)
 		{
 			int num = 0;
@@ -1117,13 +926,11 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001D21 RID: 7457 RVA: 0x00067430 File Offset: 0x00065630
 		public void SetSpawnIndex(int value = 0)
 		{
 			this._currentSpawnIndex = value;
 		}
 
-		// Token: 0x06001D22 RID: 7458 RVA: 0x00067439 File Offset: 0x00065639
 		public int GetNextSpawnIndex()
 		{
 			int currentSpawnIndex = this._currentSpawnIndex;
@@ -1131,7 +938,6 @@ namespace TaleWorlds.MountAndBlade
 			return currentSpawnIndex;
 		}
 
-		// Token: 0x06001D23 RID: 7459 RVA: 0x00067450 File Offset: 0x00065650
 		public Agent GetUnitWithIndex(int unitIndex)
 		{
 			if (this.Arrangement.GetAllUnits().Count > unitIndex)
@@ -1146,7 +952,6 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06001D24 RID: 7460 RVA: 0x000674B8 File Offset: 0x000656B8
 		public Vec2 GetAveragePositionOfUnits(bool excludeDetachedUnits, bool excludePlayer)
 		{
 			int num = (excludeDetachedUnits ? this.CountOfUnitsWithoutDetachedOnes : this.CountOfUnits);
@@ -1187,7 +992,6 @@ namespace TaleWorlds.MountAndBlade
 			return Vec2.Invalid;
 		}
 
-		// Token: 0x06001D25 RID: 7461 RVA: 0x000675EC File Offset: 0x000657EC
 		public Agent GetMedianAgent(bool excludeDetachedUnits, bool excludePlayer, Vec2 averagePosition)
 		{
 			excludeDetachedUnits = excludeDetachedUnits && this.CountOfUnitsWithoutDetachedOnes > 0;
@@ -1234,7 +1038,6 @@ namespace TaleWorlds.MountAndBlade
 			return agent;
 		}
 
-		// Token: 0x06001D26 RID: 7462 RVA: 0x0006775C File Offset: 0x0006595C
 		public Agent.UnderAttackType GetUnderAttackTypeOfUnits(float timeLimit = 3f)
 		{
 			float num = float.MinValue;
@@ -1269,7 +1072,6 @@ namespace TaleWorlds.MountAndBlade
 			return Agent.UnderAttackType.NotUnderAttack;
 		}
 
-		// Token: 0x06001D27 RID: 7463 RVA: 0x0006787C File Offset: 0x00065A7C
 		public Agent.MovementBehaviorType GetMovementTypeOfUnits()
 		{
 			float curMissionTime = MBCommon.GetTotalMissionTime();
@@ -1299,7 +1101,6 @@ namespace TaleWorlds.MountAndBlade
 			return Agent.MovementBehaviorType.Idle;
 		}
 
-		// Token: 0x06001D28 RID: 7464 RVA: 0x000678E8 File Offset: 0x00065AE8
 		public IEnumerable<Agent> GetUnitsWithoutDetachedOnes()
 		{
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
@@ -1317,7 +1118,6 @@ namespace TaleWorlds.MountAndBlade
 			yield break;
 		}
 
-		// Token: 0x06001D29 RID: 7465 RVA: 0x000678F8 File Offset: 0x00065AF8
 		public Vec2 GetWallDirectionOfRelativeFormationLocation(Agent unit)
 		{
 			if (unit.IsDetachedFromFormation)
@@ -1332,7 +1132,6 @@ namespace TaleWorlds.MountAndBlade
 			return Vec2.Invalid;
 		}
 
-		// Token: 0x06001D2A RID: 7466 RVA: 0x00067944 File Offset: 0x00065B44
 		public Vec2 GetDirectionOfUnit(Agent unit)
 		{
 			if (unit.IsDetachedFromFormation)
@@ -1347,7 +1146,6 @@ namespace TaleWorlds.MountAndBlade
 			return unit.GetMovementDirection();
 		}
 
-		// Token: 0x06001D2B RID: 7467 RVA: 0x00067994 File Offset: 0x00065B94
 		private WorldPosition GetOrderPositionOfUnitAux(Agent unit)
 		{
 			WorldPosition? worldPositionOfUnitOrDefault = this.Arrangement.GetWorldPositionOfUnitOrDefault(unit);
@@ -1363,7 +1161,6 @@ namespace TaleWorlds.MountAndBlade
 			return worldPosition;
 		}
 
-		// Token: 0x06001D2C RID: 7468 RVA: 0x000679FC File Offset: 0x00065BFC
 		public WorldPosition GetOrderPositionOfUnit(Agent unit)
 		{
 			if (unit.IsDetachedFromFormation && (this._movementOrder.MovementState != MovementOrder.MovementStateEnum.Charge || !unit.Detachment.IsLoose))
@@ -1398,7 +1195,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D2D RID: 7469 RVA: 0x00067ACC File Offset: 0x00065CCC
 		public Vec2 GetCurrentGlobalPositionOfUnit(Agent unit, bool blendWithOrderDirection)
 		{
 			if (unit.IsDetachedFromFormation)
@@ -1413,7 +1209,6 @@ namespace TaleWorlds.MountAndBlade
 			return unit.Position.AsVec2;
 		}
 
-		// Token: 0x06001D2E RID: 7470 RVA: 0x00067B68 File Offset: 0x00065D68
 		public float GetAverageMaximumMovementSpeedOfUnits()
 		{
 			if (this.CountOfUnitsWithoutDetachedOnes == 0)
@@ -1428,7 +1223,6 @@ namespace TaleWorlds.MountAndBlade
 			return num / (float)this.CountOfUnitsWithoutDetachedOnes;
 		}
 
-		// Token: 0x06001D2F RID: 7471 RVA: 0x00067BD4 File Offset: 0x00065DD4
 		public float GetMovementSpeedOfUnits()
 		{
 			float? num;
@@ -1476,7 +1270,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D30 RID: 7472 RVA: 0x00067CC0 File Offset: 0x00065EC0
 		public float GetFormationPower()
 		{
 			float sum = 0f;
@@ -1487,7 +1280,6 @@ namespace TaleWorlds.MountAndBlade
 			return sum;
 		}
 
-		// Token: 0x06001D31 RID: 7473 RVA: 0x00067CF8 File Offset: 0x00065EF8
 		public float GetFormationMeleeFightingPower()
 		{
 			float sum = 0f;
@@ -1498,32 +1290,27 @@ namespace TaleWorlds.MountAndBlade
 			return sum;
 		}
 
-		// Token: 0x06001D32 RID: 7474 RVA: 0x00067D38 File Offset: 0x00065F38
 		internal IDetachment GetDetachmentForDebug(Agent agent)
 		{
 			return this.Detachments.FirstOrDefault((IDetachment d) => d.IsAgentUsingOrInterested(agent));
 		}
 
-		// Token: 0x06001D33 RID: 7475 RVA: 0x00067D69 File Offset: 0x00065F69
 		public IDetachment GetDetachmentOrDefault(Agent agent)
 		{
 			return agent.Detachment;
 		}
 
-		// Token: 0x06001D34 RID: 7476 RVA: 0x00067D71 File Offset: 0x00065F71
 		public WorldFrame? GetDetachmentFrame(Agent agent)
 		{
 			return agent.Detachment.GetAgentFrame(agent);
 		}
 
-		// Token: 0x06001D35 RID: 7477 RVA: 0x00067D80 File Offset: 0x00065F80
 		public Vec2 GetMiddleFrontUnitPositionOffset()
 		{
 			Vec2 localPositionOfReservedUnitPosition = this.Arrangement.GetLocalPositionOfReservedUnitPosition();
 			return this.Direction.TransformToParentUnitF(localPositionOfReservedUnitPosition);
 		}
 
-		// Token: 0x06001D36 RID: 7478 RVA: 0x00067DA8 File Offset: 0x00065FA8
 		public List<IFormationUnit> GetUnitsToPopWithReferencePosition(int count, Vec3 targetPosition)
 		{
 			int num = MathF.Min(count, this.Arrangement.UnitCount);
@@ -1544,7 +1331,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001D37 RID: 7479 RVA: 0x00067E34 File Offset: 0x00066034
 		public List<IFormationUnit> GetUnitsToPop(int count)
 		{
 			int num = MathF.Min(count, this.Arrangement.UnitCount);
@@ -1565,40 +1351,34 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001D38 RID: 7480 RVA: 0x00067EBE File Offset: 0x000660BE
 		public IEnumerable<ValueTuple<WorldPosition, Vec2>> GetUnavailableUnitPositionsAccordingToNewOrder(Formation simulationFormation, in WorldPosition position, in Vec2 direction, float width, int unitSpacing)
 		{
 			return Formation.GetUnavailableUnitPositionsAccordingToNewOrder(this, simulationFormation, position, direction, this.Arrangement, width, unitSpacing);
 		}
 
-		// Token: 0x06001D39 RID: 7481 RVA: 0x00067EE0 File Offset: 0x000660E0
 		public void GetUnitSpawnFrameWithIndex(int unitIndex, in WorldPosition formationPosition, in Vec2 formationDirection, float width, int unitCount, int unitSpacing, bool isMountedFormation, out WorldPosition? unitSpawnPosition, out Vec2? unitSpawnDirection)
 		{
 			float num;
 			Formation.GetUnitPositionWithIndexAccordingToNewOrder(null, unitIndex, formationPosition, formationDirection, this.Arrangement, width, unitSpacing, unitCount, isMountedFormation, this.Index, out unitSpawnPosition, out unitSpawnDirection, out num);
 		}
 
-		// Token: 0x06001D3A RID: 7482 RVA: 0x00067F10 File Offset: 0x00066110
 		public void GetUnitPositionWithIndexAccordingToNewOrder(Formation simulationFormation, int unitIndex, in WorldPosition formationPosition, in Vec2 formationDirection, float width, int unitSpacing, out WorldPosition? unitSpawnPosition, out Vec2? unitSpawnDirection)
 		{
 			float num;
 			Formation.GetUnitPositionWithIndexAccordingToNewOrder(simulationFormation, unitIndex, formationPosition, formationDirection, this.Arrangement, width, unitSpacing, this.Arrangement.UnitCount, this.HasAnyMountedUnit, this.Index, out unitSpawnPosition, out unitSpawnDirection, out num);
 		}
 
-		// Token: 0x06001D3B RID: 7483 RVA: 0x00067F50 File Offset: 0x00066150
 		public void GetUnitPositionWithIndexAccordingToNewOrder(Formation simulationFormation, int unitIndex, in WorldPosition formationPosition, in Vec2 formationDirection, float width, int unitSpacing, int overridenUnitCount, out WorldPosition? unitPosition, out Vec2? unitDirection)
 		{
 			float num;
 			Formation.GetUnitPositionWithIndexAccordingToNewOrder(simulationFormation, unitIndex, formationPosition, formationDirection, this.Arrangement, width, unitSpacing, overridenUnitCount, this.HasAnyMountedUnit, this.Index, out unitPosition, out unitDirection, out num);
 		}
 
-		// Token: 0x06001D3C RID: 7484 RVA: 0x00067F88 File Offset: 0x00066188
 		public void GetUnitPositionWithIndexAccordingToNewOrder(Formation simulationFormation, int unitIndex, in WorldPosition formationPosition, in Vec2 formationDirection, float width, int unitSpacing, out WorldPosition? unitSpawnPosition, out Vec2? unitSpawnDirection, out float actualWidth)
 		{
 			Formation.GetUnitPositionWithIndexAccordingToNewOrder(simulationFormation, unitIndex, formationPosition, formationDirection, this.Arrangement, width, unitSpacing, this.Arrangement.UnitCount, this.HasAnyMountedUnit, this.Index, out unitSpawnPosition, out unitSpawnDirection, out actualWidth);
 		}
 
-		// Token: 0x06001D3D RID: 7485 RVA: 0x00067FC8 File Offset: 0x000661C8
 		public bool HasUnitsWithCondition(Func<Agent, bool> function)
 		{
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
@@ -1618,7 +1398,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001D3E RID: 7486 RVA: 0x0006805C File Offset: 0x0006625C
 		public bool HasUnitsWithCondition(Func<Agent, bool> function, out Agent result)
 		{
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
@@ -1641,7 +1420,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001D3F RID: 7487 RVA: 0x00068108 File Offset: 0x00066308
 		public bool HasAnyEnemyFormationsThatIsNotEmpty()
 		{
 			foreach (Team team in Mission.Current.Teams)
@@ -1663,7 +1441,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001D40 RID: 7488 RVA: 0x000681B0 File Offset: 0x000663B0
 		public bool HasUnitWithConditionLimitedRandom(Func<Agent, bool> function, int startingIndex, int willBeCheckedUnitCount, out Agent resultAgent)
 		{
 			int unitCount = this.Arrangement.UnitCount;
@@ -1697,7 +1474,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001D41 RID: 7489 RVA: 0x0006826C File Offset: 0x0006646C
 		public int[] CollectUnitIndices()
 		{
 			if (this._agentIndicesCache == null || this._agentIndicesCache.Length != this.CountOfUnits)
@@ -1718,7 +1494,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._agentIndicesCache;
 		}
 
-		// Token: 0x06001D42 RID: 7490 RVA: 0x00068338 File Offset: 0x00066538
 		public void ApplyActionOnEachUnit(Action<Agent> action, Agent ignoreAgent = null)
 		{
 			if (ignoreAgent == null)
@@ -1752,7 +1527,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D43 RID: 7491 RVA: 0x00068448 File Offset: 0x00066648
 		public void ApplyActionOnEachAttachedUnit(Action<Agent> action)
 		{
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
@@ -1762,7 +1536,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D44 RID: 7492 RVA: 0x000684A8 File Offset: 0x000666A8
 		public void ApplyActionOnEachDetachedUnit(Action<Agent> action)
 		{
 			for (int i = 0; i < this._detachedUnits.Count; i++)
@@ -1771,7 +1544,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D45 RID: 7493 RVA: 0x000684E0 File Offset: 0x000666E0
 		public void ApplyActionOnEachUnitViaBackupList(Action<Agent> action)
 		{
 			if (this.Arrangement.GetAllUnits().Count > 0)
@@ -1790,7 +1562,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D46 RID: 7494 RVA: 0x00068564 File Offset: 0x00066764
 		public void ApplyActionOnEachUnit(Action<Agent, List<WorldPosition>> action, List<WorldPosition> list)
 		{
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
@@ -1803,7 +1574,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D47 RID: 7495 RVA: 0x000685EC File Offset: 0x000667EC
 		public int CountUnitsOnNavMeshIDMod10(int navMeshID, bool includeOnlyPositionedUnits)
 		{
 			int num = 0;
@@ -1830,7 +1600,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001D48 RID: 7496 RVA: 0x000686C8 File Offset: 0x000668C8
 		public void OnAgentControllerChanged(Agent agent, Agent.ControllerType oldController)
 		{
 			Agent.ControllerType controller = agent.Controller;
@@ -1857,13 +1626,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D49 RID: 7497 RVA: 0x00068726 File Offset: 0x00066926
 		public void OnMassUnitTransferStart()
 		{
 			this.PostponeCostlyOperations = true;
 		}
 
-		// Token: 0x06001D4A RID: 7498 RVA: 0x00068730 File Offset: 0x00066930
 		public void OnMassUnitTransferEnd()
 		{
 			this.FormOrder = this.FormOrder;
@@ -1884,14 +1651,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D4B RID: 7499 RVA: 0x000687CE File Offset: 0x000669CE
 		public void OnBatchUnitRemovalStart()
 		{
 			this.PostponeCostlyOperations = true;
 			this.Arrangement.OnBatchRemoveStart();
 		}
 
-		// Token: 0x06001D4C RID: 7500 RVA: 0x000687E2 File Offset: 0x000669E2
 		public void OnBatchUnitRemovalEnd()
 		{
 			this.Arrangement.OnBatchRemoveEnd();
@@ -1901,7 +1666,6 @@ namespace TaleWorlds.MountAndBlade
 			this.PostponeCostlyOperations = false;
 		}
 
-		// Token: 0x06001D4D RID: 7501 RVA: 0x00068820 File Offset: 0x00066A20
 		public void OnUnitAddedOrRemoved()
 		{
 			if (!this.PostponeCostlyOperations)
@@ -1922,7 +1686,6 @@ namespace TaleWorlds.MountAndBlade
 			onUnitCountChanged(this);
 		}
 
-		// Token: 0x06001D4E RID: 7502 RVA: 0x00068873 File Offset: 0x00066A73
 		public void OnAgentLostMount(Agent agent)
 		{
 			if (!agent.IsDetachedFromFormation)
@@ -1931,7 +1694,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D4F RID: 7503 RVA: 0x00068889 File Offset: 0x00066A89
 		public void OnFormationDispersed()
 		{
 			this.Arrangement.OnFormationDispersed();
@@ -1941,7 +1703,6 @@ namespace TaleWorlds.MountAndBlade
 			}, null);
 		}
 
-		// Token: 0x06001D50 RID: 7504 RVA: 0x000688BC File Offset: 0x00066ABC
 		public void OnUnitDetachmentChanged(Agent unit, bool isOldDetachmentLoose, bool isNewDetachmentLoose)
 		{
 			if (isOldDetachmentLoose && !isNewDetachmentLoose)
@@ -1955,7 +1716,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D51 RID: 7505 RVA: 0x000688E6 File Offset: 0x00066AE6
 		public void OnUndetachableNonPlayerUnitAdded(Agent unit)
 		{
 			if (unit.Formation == this && !unit.IsPlayerControlled)
@@ -1964,7 +1724,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D52 RID: 7506 RVA: 0x0006890D File Offset: 0x00066B0D
 		public void OnUndetachableNonPlayerUnitRemoved(Agent unit)
 		{
 			if (unit.Formation == this && !unit.IsPlayerControlled)
@@ -1973,19 +1732,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D53 RID: 7507 RVA: 0x00068934 File Offset: 0x00066B34
 		public void ReleaseFormationFromAI()
 		{
 			this._isAIControlled = false;
 		}
 
-		// Token: 0x06001D54 RID: 7508 RVA: 0x0006893D File Offset: 0x00066B3D
 		public void ResetMovementOrderPositionCache()
 		{
 			this._movementOrder.ResetPositionCache();
 		}
 
-		// Token: 0x06001D55 RID: 7509 RVA: 0x0006894C File Offset: 0x00066B4C
 		public void Reset()
 		{
 			this.Arrangement = new LineFormation(this, true);
@@ -1997,7 +1753,6 @@ namespace TaleWorlds.MountAndBlade
 			this.PlayerOwner = null;
 		}
 
-		// Token: 0x06001D56 RID: 7510 RVA: 0x000689A8 File Offset: 0x00066BA8
 		public IEnumerable<Formation> Split(int count = 2)
 		{
 			foreach (Formation formation in this.Team.FormationsIncludingEmpty)
@@ -2019,7 +1774,6 @@ namespace TaleWorlds.MountAndBlade
 			return enumerable;
 		}
 
-		// Token: 0x06001D57 RID: 7511 RVA: 0x00068AA4 File Offset: 0x00066CA4
 		public void TransferUnits(Formation target, int unitCount)
 		{
 			this.PostponeCostlyOperations = true;
@@ -2033,7 +1787,6 @@ namespace TaleWorlds.MountAndBlade
 			target.Team.QuerySystem.ExpireAfterUnitAddRemove();
 		}
 
-		// Token: 0x06001D58 RID: 7512 RVA: 0x00068B18 File Offset: 0x00066D18
 		public void TransferUnitsAux(Formation target, int unitCount, bool isPlayerOrder, bool useSelectivePop)
 		{
 			if (!isPlayerOrder && !this.IsSplittableByAI)
@@ -2133,7 +1886,6 @@ namespace TaleWorlds.MountAndBlade
 			}), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06001D59 RID: 7513 RVA: 0x00068EEC File Offset: 0x000670EC
 		[Conditional("DEBUG")]
 		public void DebugArrangements()
 		{
@@ -2205,7 +1957,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D5A RID: 7514 RVA: 0x000690EC File Offset: 0x000672EC
 		public void AddUnit(Agent unit)
 		{
 			bool countOfUnits = this.CountOfUnits != 0;
@@ -2268,7 +2019,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D5B RID: 7515 RVA: 0x0006923C File Offset: 0x0006743C
 		public void RemoveUnit(Agent unit)
 		{
 			if (unit.IsDetachedFromFormation)
@@ -2309,7 +2059,6 @@ namespace TaleWorlds.MountAndBlade
 			onUnitRemoved(this, unit);
 		}
 
-		// Token: 0x06001D5C RID: 7516 RVA: 0x0006930A File Offset: 0x0006750A
 		public void DetachUnit(Agent unit, bool isLoose)
 		{
 			this.Arrangement.RemoveUnit(unit);
@@ -2321,7 +2070,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnUnitAttachedOrDetached();
 		}
 
-		// Token: 0x06001D5D RID: 7517 RVA: 0x0006933C File Offset: 0x0006753C
 		public void AttachUnit(Agent unit)
 		{
 			this._detachedUnits.Remove(unit);
@@ -2332,7 +2080,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnUnitAttachedOrDetached();
 		}
 
-		// Token: 0x06001D5E RID: 7518 RVA: 0x00069388 File Offset: 0x00067588
 		public void SwitchUnitLocations(Agent firstUnit, Agent secondUnit)
 		{
 			if (!firstUnit.IsDetachedFromFormation && !secondUnit.IsDetachedFromFormation && (((IFormationUnit)firstUnit).FormationFileIndex != -1 || ((IFormationUnit)secondUnit).FormationFileIndex != -1))
@@ -2351,7 +2098,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D5F RID: 7519 RVA: 0x000693F4 File Offset: 0x000675F4
 		public void Tick(float dt)
 		{
 			if (this.Team.HasTeamAi && (this.IsAIControlled || this.Team.IsPlayerSergeant) && this.CountOfUnitsWithoutDetachedOnes > 0)
@@ -2391,7 +2137,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D60 RID: 7520 RVA: 0x00069528 File Offset: 0x00067728
 		public void JoinDetachment(IDetachment detachment)
 		{
 			if (!this.Team.DetachmentManager.ContainsDetachment(detachment))
@@ -2402,14 +2147,12 @@ namespace TaleWorlds.MountAndBlade
 			this.Team.DetachmentManager.OnFormationJoinDetachment(this, detachment);
 		}
 
-		// Token: 0x06001D61 RID: 7521 RVA: 0x00069577 File Offset: 0x00067777
 		public void FormAttackEntityDetachment(GameEntity targetEntity)
 		{
 			this.AttackEntityOrderDetachment = new AttackEntityOrderDetachment(targetEntity);
 			this.JoinDetachment(this.AttackEntityOrderDetachment);
 		}
 
-		// Token: 0x06001D62 RID: 7522 RVA: 0x00069591 File Offset: 0x00067791
 		public void LeaveDetachment(IDetachment detachment)
 		{
 			detachment.OnFormationLeave(this);
@@ -2417,7 +2160,6 @@ namespace TaleWorlds.MountAndBlade
 			this.Team.DetachmentManager.OnFormationLeaveDetachment(this, detachment);
 		}
 
-		// Token: 0x06001D63 RID: 7523 RVA: 0x000695B9 File Offset: 0x000677B9
 		public void DisbandAttackEntityDetachment()
 		{
 			if (this.AttackEntityOrderDetachment != null)
@@ -2427,7 +2169,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D64 RID: 7524 RVA: 0x000695E0 File Offset: 0x000677E0
 		public void Rearrange(IFormationArrangement arrangement)
 		{
 			if (this.Arrangement.GetType() == arrangement.GetType())
@@ -2443,7 +2184,6 @@ namespace TaleWorlds.MountAndBlade
 			this._movementOrder.OnArrangementChanged(this);
 		}
 
-		// Token: 0x06001D65 RID: 7525 RVA: 0x00069644 File Offset: 0x00067844
 		public void TickForColumnArrangementInitialPositioning(Formation formation)
 		{
 			if ((this.ReferencePosition.Value - this.OrderPosition).LengthSquared >= 1f && !this.IsDeployment)
@@ -2452,7 +2192,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D66 RID: 7526 RVA: 0x00069690 File Offset: 0x00067890
 		public float CalculateFormationDirectionEnforcingFactorForRank(int rankIndex)
 		{
 			if (rankIndex == -1)
@@ -2462,7 +2201,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.ArrangementOrder.CalculateFormationDirectionEnforcingFactorForRank(rankIndex, this.Arrangement.RankCount);
 		}
 
-		// Token: 0x06001D67 RID: 7527 RVA: 0x000696C1 File Offset: 0x000678C1
 		public void BeginSpawn(int unitCount, bool isMounted)
 		{
 			this.IsSpawning = true;
@@ -2470,7 +2208,6 @@ namespace TaleWorlds.MountAndBlade
 			this._overridenHasAnyMountedUnit = new bool?(isMounted);
 		}
 
-		// Token: 0x06001D68 RID: 7528 RVA: 0x000696E4 File Offset: 0x000678E4
 		public void EndSpawn()
 		{
 			this.IsSpawning = false;
@@ -2478,13 +2215,11 @@ namespace TaleWorlds.MountAndBlade
 			this._overridenHasAnyMountedUnit = null;
 		}
 
-		// Token: 0x06001D69 RID: 7529 RVA: 0x00069713 File Offset: 0x00067913
 		internal bool IsUnitDetachedForDebug(Agent unit)
 		{
 			return this._detachedUnits.Contains(unit);
 		}
 
-		// Token: 0x06001D6A RID: 7530 RVA: 0x00069724 File Offset: 0x00067924
 		internal IEnumerable<IFormationUnit> GetUnitsToPopWithPriorityFunction(int count, Func<Agent, int> priorityFunction, List<Agent> excludedHeroes, bool excludeBannerman)
 		{
 			Formation.<>c__DisplayClass317_0 CS$<>8__locals1 = new Formation.<>c__DisplayClass317_0();
@@ -2566,7 +2301,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001D6B RID: 7531 RVA: 0x000699B4 File Offset: 0x00067BB4
 		internal void TransferUnitsWithPriorityFunction(Formation target, int unitCount, Func<Agent, int> priorityFunction, bool excludeBannerman, List<Agent> excludedAgents)
 		{
 			MBDebug.Print(string.Concat(new object[]
@@ -2618,7 +2352,6 @@ namespace TaleWorlds.MountAndBlade
 			}), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x06001D6C RID: 7532 RVA: 0x00069BC4 File Offset: 0x00067DC4
 		private IFormationUnit GetClosestUnitToAux(Vec2 position, MBList<IFormationUnit> unitsWithSpaces, float? maxDistance)
 		{
 			if (unitsWithSpaces == null)
@@ -2643,7 +2376,6 @@ namespace TaleWorlds.MountAndBlade
 			return formationUnit;
 		}
 
-		// Token: 0x06001D6D RID: 7533 RVA: 0x00069C4C File Offset: 0x00067E4C
 		private void CopyOrdersFrom(Formation target)
 		{
 			this.SetMovementOrder(target._movementOrder);
@@ -2662,7 +2394,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ArrangementOrder = target.ArrangementOrder;
 		}
 
-		// Token: 0x06001D6E RID: 7534 RVA: 0x00069D20 File Offset: 0x00067F20
 		private void TickDetachments(float dt)
 		{
 			if (!this.IsDeployment)
@@ -2683,7 +2414,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D6F RID: 7535 RVA: 0x00069DC0 File Offset: 0x00067FC0
 		[Conditional("DEBUG")]
 		private void TickOrderDebug()
 		{
@@ -2712,7 +2442,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D70 RID: 7536 RVA: 0x00069E50 File Offset: 0x00068050
 		[Conditional("DEBUG")]
 		private void TickDebug(float dt)
 		{
@@ -2726,31 +2455,26 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D71 RID: 7537 RVA: 0x00069E81 File Offset: 0x00068081
 		private void OnUnitAttachedOrDetached()
 		{
 			this.FormOrder = this.FormOrder;
 		}
 
-		// Token: 0x06001D72 RID: 7538 RVA: 0x00069E8F File Offset: 0x0006808F
 		[Conditional("DEBUG")]
 		private void AssertDetachments()
 		{
 		}
 
-		// Token: 0x06001D73 RID: 7539 RVA: 0x00069E91 File Offset: 0x00068091
 		private void SetOrderPosition(WorldPosition pos)
 		{
 			this._orderPosition = pos;
 		}
 
-		// Token: 0x06001D74 RID: 7540 RVA: 0x00069E9A File Offset: 0x0006809A
 		private int GetHeroPointForCaptainSelection(Agent agent)
 		{
 			return agent.Character.Level + 100 * agent.Character.GetSkillValue(DefaultSkills.Charm);
 		}
 
-		// Token: 0x06001D75 RID: 7541 RVA: 0x00069EBB File Offset: 0x000680BB
 		private void OnCaptainChanged()
 		{
 			this.ApplyActionOnEachUnit(delegate(Agent agent)
@@ -2759,7 +2483,6 @@ namespace TaleWorlds.MountAndBlade
 			}, null);
 		}
 
-		// Token: 0x06001D76 RID: 7542 RVA: 0x00069EE3 File Offset: 0x000680E3
 		private void UpdateAgentDrivenPropertiesBasedOnOrderDefensiveness()
 		{
 			this.ApplyActionOnEachUnit(delegate(Agent agent)
@@ -2768,7 +2491,6 @@ namespace TaleWorlds.MountAndBlade
 			}, null);
 		}
 
-		// Token: 0x06001D77 RID: 7543 RVA: 0x00069EF8 File Offset: 0x000680F8
 		private void ResetAux()
 		{
 			if (this._detachments != null)
@@ -2812,14 +2534,12 @@ namespace TaleWorlds.MountAndBlade
 			this.HasPlayerControlledTroop = false;
 		}
 
-		// Token: 0x06001D78 RID: 7544 RVA: 0x0006A04D File Offset: 0x0006824D
 		private void ResetForSimulation()
 		{
 			this.Arrangement.Reset();
 			this.ResetAux();
 		}
 
-		// Token: 0x06001D79 RID: 7545 RVA: 0x0006A060 File Offset: 0x00068260
 		private void TryRelocatePlayerUnit()
 		{
 			if (this.HasPlayerControlledTroop || this.IsPlayerTroopInFormation)
@@ -2832,7 +2552,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D7A RID: 7546 RVA: 0x0006A0AC File Offset: 0x000682AC
 		private void CalculateFormationClass()
 		{
 			int[] array = new int[4];
@@ -2869,13 +2588,11 @@ namespace TaleWorlds.MountAndBlade
 			this._initialClass = (FormationClass)num2;
 		}
 
-		// Token: 0x06001D7B RID: 7547 RVA: 0x0006A1D0 File Offset: 0x000683D0
 		private void SmoothAverageUnitPosition(float dt)
 		{
 			this._smoothedAverageUnitPosition = ((!this._smoothedAverageUnitPosition.IsValid) ? this.QuerySystem.AveragePosition : Vec2.Lerp(this._smoothedAverageUnitPosition, this.QuerySystem.AveragePosition, dt * 3f));
 		}
 
-		// Token: 0x06001D7C RID: 7548 RVA: 0x0006A20F File Offset: 0x0006840F
 		private void Arrangement_OnWidthChanged()
 		{
 			Action<Formation> onWidthChanged = this.OnWidthChanged;
@@ -2886,7 +2603,6 @@ namespace TaleWorlds.MountAndBlade
 			onWidthChanged(this);
 		}
 
-		// Token: 0x06001D7D RID: 7549 RVA: 0x0006A222 File Offset: 0x00068422
 		private void Arrangement_OnShapeChanged()
 		{
 			this._orderLocalAveragePositionIsDirty = true;
@@ -2897,7 +2613,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D7E RID: 7550 RVA: 0x0006A240 File Offset: 0x00068440
 		public static float GetLastSimulatedFormationsOccupationWidthIfLesserThanActualWidth(Formation simulationFormation)
 		{
 			float occupationWidth = simulationFormation.Arrangement.GetOccupationWidth(simulationFormation.OverridenUnitCount.GetValueOrDefault());
@@ -2908,7 +2623,6 @@ namespace TaleWorlds.MountAndBlade
 			return -1f;
 		}
 
-		// Token: 0x06001D7F RID: 7551 RVA: 0x0006A278 File Offset: 0x00068478
 		public static List<WorldFrame> GetFormationFramesForBeforeFormationCreation(float width, int manCount, bool areMounted, WorldPosition spawnOrigin, Mat3 spawnRotation)
 		{
 			List<Formation.AgentArrangementData> list = new List<Formation.AgentArrangementData>();
@@ -2937,7 +2651,6 @@ namespace TaleWorlds.MountAndBlade
 			return list2;
 		}
 
-		// Token: 0x06001D80 RID: 7552 RVA: 0x0006A370 File Offset: 0x00068570
 		public static float GetDefaultUnitDiameter(bool isMounted)
 		{
 			if (isMounted)
@@ -2947,7 +2660,6 @@ namespace TaleWorlds.MountAndBlade
 			return ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRadius) * 2f;
 		}
 
-		// Token: 0x06001D81 RID: 7553 RVA: 0x0006A398 File Offset: 0x00068598
 		public static float GetDefaultMinimumInterval(bool isMounted)
 		{
 			if (!isMounted)
@@ -2957,7 +2669,6 @@ namespace TaleWorlds.MountAndBlade
 			return Formation.CavalryInterval(0);
 		}
 
-		// Token: 0x06001D82 RID: 7554 RVA: 0x0006A3AA File Offset: 0x000685AA
 		public static float GetDefaultMaximumInterval(bool isMounted)
 		{
 			if (!isMounted)
@@ -2967,7 +2678,6 @@ namespace TaleWorlds.MountAndBlade
 			return Formation.CavalryInterval(2);
 		}
 
-		// Token: 0x06001D83 RID: 7555 RVA: 0x0006A3BC File Offset: 0x000685BC
 		public static float GetDefaultMinimumDistance(bool isMounted)
 		{
 			if (!isMounted)
@@ -2977,7 +2687,6 @@ namespace TaleWorlds.MountAndBlade
 			return Formation.CavalryDistance(0);
 		}
 
-		// Token: 0x06001D84 RID: 7556 RVA: 0x0006A3CE File Offset: 0x000685CE
 		public static float GetDefaultMaximumDistance(bool isMounted)
 		{
 			if (!isMounted)
@@ -2987,37 +2696,31 @@ namespace TaleWorlds.MountAndBlade
 			return Formation.CavalryDistance(2);
 		}
 
-		// Token: 0x06001D85 RID: 7557 RVA: 0x0006A3E0 File Offset: 0x000685E0
 		public static float InfantryInterval(int unitSpacing)
 		{
 			return 0.38f * (float)unitSpacing;
 		}
 
-		// Token: 0x06001D86 RID: 7558 RVA: 0x0006A3EA File Offset: 0x000685EA
 		public static float CavalryInterval(int unitSpacing)
 		{
 			return 0.18f + 0.32f * (float)unitSpacing;
 		}
 
-		// Token: 0x06001D87 RID: 7559 RVA: 0x0006A3FA File Offset: 0x000685FA
 		public static float InfantryDistance(int unitSpacing)
 		{
 			return 0.4f * (float)unitSpacing;
 		}
 
-		// Token: 0x06001D88 RID: 7560 RVA: 0x0006A404 File Offset: 0x00068604
 		public static float CavalryDistance(int unitSpacing)
 		{
 			return 1.7f + 0.3f * (float)unitSpacing;
 		}
 
-		// Token: 0x06001D89 RID: 7561 RVA: 0x0006A414 File Offset: 0x00068614
 		public static bool IsDefenseRelatedAIDrivenComponent(DrivenProperty drivenProperty)
 		{
 			return drivenProperty == DrivenProperty.AIDecideOnAttackChance || drivenProperty == DrivenProperty.AIAttackOnDecideChance || drivenProperty == DrivenProperty.AIAttackOnParryChance || drivenProperty == DrivenProperty.AiUseShieldAgainstEnemyMissileProbability || drivenProperty == DrivenProperty.AiDefendWithShieldDecisionChanceValue;
 		}
 
-		// Token: 0x06001D8A RID: 7562 RVA: 0x0006A430 File Offset: 0x00068630
 		private static void GetUnitPositionWithIndexAccordingToNewOrder(Formation simulationFormation, int unitIndex, in WorldPosition formationPosition, in Vec2 formationDirection, IFormationArrangement arrangement, float width, int unitSpacing, int unitCount, bool isMounted, int index, out WorldPosition? unitPosition, out Vec2? unitDirection, out float actualWidth)
 		{
 			unitPosition = null;
@@ -3068,7 +2771,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001D8B RID: 7563 RVA: 0x0006A631 File Offset: 0x00068831
 		private static IEnumerable<ValueTuple<WorldPosition, Vec2>> GetUnavailableUnitPositionsAccordingToNewOrder(Formation formation, Formation simulationFormation, WorldPosition position, Vec2 direction, IFormationArrangement arrangement, float width, int unitSpacing)
 		{
 			if (simulationFormation == null)
@@ -3104,7 +2806,6 @@ namespace TaleWorlds.MountAndBlade
 			yield break;
 		}
 
-		// Token: 0x06001D8C RID: 7564 RVA: 0x0006A66E File Offset: 0x0006886E
 		private static float TransformCustomWidthBetweenArrangementOrientations(ArrangementOrder.ArrangementOrderEnum orderTypeOld, ArrangementOrder.ArrangementOrderEnum orderTypeNew, float currentCustomWidth)
 		{
 			if (orderTypeOld != ArrangementOrder.ArrangementOrderEnum.Column && orderTypeNew == ArrangementOrder.ArrangementOrderEnum.Column)
@@ -3118,159 +2819,103 @@ namespace TaleWorlds.MountAndBlade
 			return currentCustomWidth;
 		}
 
-		// Token: 0x06001D8D RID: 7565 RVA: 0x0006A691 File Offset: 0x00068891
 		public override int GetHashCode()
 		{
 			return (int)(this.Team.TeamIndex * 10 + this.FormationIndex);
 		}
 
-		// Token: 0x04000979 RID: 2425
 		public const float AveragePositionCalculatePeriod = 0.05f;
 
-		// Token: 0x0400097A RID: 2426
 		public const int MinimumUnitSpacing = 0;
 
-		// Token: 0x0400097B RID: 2427
 		public const int MaximumUnitSpacing = 2;
 
-		// Token: 0x0400097C RID: 2428
 		private static Formation _simulationFormationTemp;
 
-		// Token: 0x0400097D RID: 2429
 		private static int _simulationFormationUniqueIdentifier;
 
-		// Token: 0x04000986 RID: 2438
 		public readonly Team Team;
 
-		// Token: 0x04000987 RID: 2439
 		public readonly int Index;
 
-		// Token: 0x04000988 RID: 2440
 		public readonly FormationClass FormationIndex;
 
-		// Token: 0x04000989 RID: 2441
 		public Banner Banner;
 
-		// Token: 0x0400098A RID: 2442
 		public bool HasBeenPositioned;
 
-		// Token: 0x0400098B RID: 2443
 		public Vec2? ReferencePosition;
 
-		// Token: 0x0400098C RID: 2444
 		private FormationClass _initialClass = FormationClass.NumberOfAllFormations;
 
-		// Token: 0x0400098D RID: 2445
 		private bool _formationClassNeedsUpdate;
 
-		// Token: 0x0400098E RID: 2446
 		private Agent _playerOwner;
 
-		// Token: 0x0400098F RID: 2447
 		private string _bannerCode;
 
-		// Token: 0x04000990 RID: 2448
 		private bool _isAIControlled = true;
 
-		// Token: 0x04000991 RID: 2449
 		private bool _enforceNotSplittableByAI = true;
 
-		// Token: 0x04000992 RID: 2450
 		private WorldPosition _orderPosition;
 
-		// Token: 0x04000993 RID: 2451
 		private Vec2 _direction;
 
-		// Token: 0x04000994 RID: 2452
 		private int _unitSpacing;
 
-		// Token: 0x04000995 RID: 2453
 		private Vec2 _orderLocalAveragePosition;
 
-		// Token: 0x04000996 RID: 2454
 		private bool _orderLocalAveragePositionIsDirty = true;
 
-		// Token: 0x04000997 RID: 2455
 		private int _formationOrderDefensivenessFactor = 2;
 
-		// Token: 0x04000998 RID: 2456
 		private MovementOrder _movementOrder;
 
-		// Token: 0x04000999 RID: 2457
 		private FacingOrder _facingOrder;
 
-		// Token: 0x0400099A RID: 2458
 		private ArrangementOrder _arrangementOrder;
 
-		// Token: 0x0400099B RID: 2459
 		private Timer _arrangementOrderTickOccasionallyTimer;
 
-		// Token: 0x0400099C RID: 2460
 		private FormOrder _formOrder;
 
-		// Token: 0x0400099D RID: 2461
 		private RidingOrder _ridingOrder;
 
-		// Token: 0x0400099E RID: 2462
 		private WeaponUsageOrder _weaponUsageOrder;
 
-		// Token: 0x0400099F RID: 2463
 		private Agent _captain;
 
-		// Token: 0x040009A0 RID: 2464
 		private Vec2 _smoothedAverageUnitPosition = Vec2.Invalid;
 
-		// Token: 0x040009A1 RID: 2465
 		private MBList<IDetachment> _detachments;
 
-		// Token: 0x040009A2 RID: 2466
 		private IFormationArrangement _arrangement;
 
-		// Token: 0x040009A3 RID: 2467
 		private int[] _agentIndicesCache;
 
-		// Token: 0x040009A4 RID: 2468
 		private MBList<Agent> _detachedUnits;
 
-		// Token: 0x040009A5 RID: 2469
 		private int _undetachableNonPlayerUnitCount;
 
-		// Token: 0x040009A6 RID: 2470
 		private MBList<Agent> _looseDetachedUnits;
 
-		// Token: 0x040009A7 RID: 2471
 		private bool? _overridenHasAnyMountedUnit;
 
-		// Token: 0x040009A8 RID: 2472
 		private bool _isArrangementShapeChanged;
 
-		// Token: 0x040009A9 RID: 2473
 		private int _currentSpawnIndex;
 
-		// Token: 0x0200052B RID: 1323
 		private class AgentArrangementData : IFormationUnit
 		{
-			// Token: 0x17000971 RID: 2417
-			// (get) Token: 0x0600399A RID: 14746 RVA: 0x000E8D2F File Offset: 0x000E6F2F
-			// (set) Token: 0x0600399B RID: 14747 RVA: 0x000E8D37 File Offset: 0x000E6F37
 			public IFormationArrangement Formation { get; private set; }
 
-			// Token: 0x17000972 RID: 2418
-			// (get) Token: 0x0600399C RID: 14748 RVA: 0x000E8D40 File Offset: 0x000E6F40
-			// (set) Token: 0x0600399D RID: 14749 RVA: 0x000E8D48 File Offset: 0x000E6F48
 			public int FormationFileIndex { get; set; } = -1;
 
-			// Token: 0x17000973 RID: 2419
-			// (get) Token: 0x0600399E RID: 14750 RVA: 0x000E8D51 File Offset: 0x000E6F51
-			// (set) Token: 0x0600399F RID: 14751 RVA: 0x000E8D59 File Offset: 0x000E6F59
 			public int FormationRankIndex { get; set; } = -1;
 
-			// Token: 0x17000974 RID: 2420
-			// (get) Token: 0x060039A0 RID: 14752 RVA: 0x000E8D62 File Offset: 0x000E6F62
 			public IFormationUnit FollowedUnit { get; }
 
-			// Token: 0x17000975 RID: 2421
-			// (get) Token: 0x060039A1 RID: 14753 RVA: 0x000E8D6A File Offset: 0x000E6F6A
 			public bool IsShieldUsageEncouraged
 			{
 				get
@@ -3279,8 +2924,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000976 RID: 2422
-			// (get) Token: 0x060039A2 RID: 14754 RVA: 0x000E8D6D File Offset: 0x000E6F6D
 			public bool IsPlayerUnit
 			{
 				get
@@ -3289,7 +2932,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x060039A3 RID: 14755 RVA: 0x000E8D70 File Offset: 0x000E6F70
 			public AgentArrangementData(int index, IFormationArrangement arrangement)
 			{
 				this.Formation = arrangement;

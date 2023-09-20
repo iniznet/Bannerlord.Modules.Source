@@ -10,11 +10,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 {
-	// Token: 0x02000019 RID: 25
 	public class OnlineImageTextureProvider : TextureProvider
 	{
-		// Token: 0x17000035 RID: 53
-		// (set) Token: 0x060000E4 RID: 228 RVA: 0x00005FA4 File Offset: 0x000041A4
 		public string OnlineSourceUrl
 		{
 			set
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x00005FB3 File Offset: 0x000041B3
 		public OnlineImageTextureProvider()
 		{
 			this._onlineImageCache = new Dictionary<string, PlatformFilePath>();
@@ -32,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			this.PopulateOnlineImageCache();
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x00005FE9 File Offset: 0x000041E9
 		public override void Tick(float dt)
 		{
 			base.Tick(dt);
@@ -48,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x00006020 File Offset: 0x00004220
 		private async void RefreshOnlineImage()
 		{
 			if (this._retryCount < 10)
@@ -99,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x00006059 File Offset: 0x00004259
 		public override Texture GetTexture(TwoDimensionContext twoDimensionContext, string name)
 		{
 			if (this._texture != null)
@@ -109,7 +102,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			return null;
 		}
 
-		// Token: 0x060000E9 RID: 233 RVA: 0x0000607C File Offset: 0x0000427C
 		private void PopulateOnlineImageCache()
 		{
 			foreach (PlatformFilePath platformFilePath in FileHelper.GetFiles(this._onlineImageCacheFolderPath, "*.png"))
@@ -119,7 +111,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		// Token: 0x060000EA RID: 234 RVA: 0x000060C8 File Offset: 0x000042C8
 		private static Guid ToGuid(string src)
 		{
 			byte[] bytes = Encoding.UTF8.GetBytes(src);
@@ -128,34 +119,25 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			return new Guid(array);
 		}
 
-		// Token: 0x060000EB RID: 235 RVA: 0x000060FC File Offset: 0x000042FC
 		private void OnTextureCreated(Texture texture)
 		{
 			this._texture = texture;
 		}
 
-		// Token: 0x04000083 RID: 131
 		private Dictionary<string, PlatformFilePath> _onlineImageCache;
 
-		// Token: 0x04000084 RID: 132
 		private readonly string DataFolder = "Online Images";
 
-		// Token: 0x04000085 RID: 133
 		private readonly PlatformDirectoryPath _onlineImageCacheFolderPath;
 
-		// Token: 0x04000086 RID: 134
 		private Texture _texture;
 
-		// Token: 0x04000087 RID: 135
 		private bool _requiresRetry;
 
-		// Token: 0x04000088 RID: 136
 		private int _retryCount;
 
-		// Token: 0x04000089 RID: 137
 		private const int _maxRetryCount = 10;
 
-		// Token: 0x0400008A RID: 138
 		private string _onlineSourceUrl;
 	}
 }

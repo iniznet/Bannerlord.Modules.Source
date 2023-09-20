@@ -9,11 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000140 RID: 320
 	public class DefaultSiegeLordsHallFightModel : SiegeLordsHallFightModel
 	{
-		// Token: 0x17000649 RID: 1609
-		// (get) Token: 0x060017A8 RID: 6056 RVA: 0x0007598E File Offset: 0x00073B8E
 		public override float AreaLostRatio
 		{
 			get
@@ -22,8 +19,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064A RID: 1610
-		// (get) Token: 0x060017A9 RID: 6057 RVA: 0x00075995 File Offset: 0x00073B95
 		public override float AttackerDefenderTroopCountRatio
 		{
 			get
@@ -32,8 +27,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064B RID: 1611
-		// (get) Token: 0x060017AA RID: 6058 RVA: 0x0007599C File Offset: 0x00073B9C
 		public override float DefenderMaxArcherRatio
 		{
 			get
@@ -42,8 +35,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064C RID: 1612
-		// (get) Token: 0x060017AB RID: 6059 RVA: 0x000759A3 File Offset: 0x00073BA3
 		public override int MaxDefenderSideTroopCount
 		{
 			get
@@ -52,8 +43,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064D RID: 1613
-		// (get) Token: 0x060017AC RID: 6060 RVA: 0x000759A7 File Offset: 0x00073BA7
 		public override int MaxDefenderArcherCount
 		{
 			get
@@ -62,8 +51,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064E RID: 1614
-		// (get) Token: 0x060017AD RID: 6061 RVA: 0x000759BC File Offset: 0x00073BBC
 		public override int MaxAttackerSideTroopCount
 		{
 			get
@@ -72,8 +59,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700064F RID: 1615
-		// (get) Token: 0x060017AE RID: 6062 RVA: 0x000759C0 File Offset: 0x00073BC0
 		public override int DefenderTroopNumberForSuccessfulPullBack
 		{
 			get
@@ -82,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060017AF RID: 6063 RVA: 0x000759C4 File Offset: 0x00073BC4
 		public override FlattenedTroopRoster GetPriorityListForLordsHallFightMission(MapEvent playerMapEvent, BattleSideEnum side, int troopCount)
 		{
 			List<MapEventParty> list = (from x in playerMapEvent.PartiesOnSide(side)

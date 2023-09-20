@@ -5,15 +5,10 @@ using System.Threading;
 
 namespace TaleWorlds.Network
 {
-	// Token: 0x02000023 RID: 35
 	public abstract class ServersideSessionManager
 	{
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x060000F7 RID: 247 RVA: 0x00003C9C File Offset: 0x00001E9C
-		// (set) Token: 0x060000F8 RID: 248 RVA: 0x00003CA4 File Offset: 0x00001EA4
 		public float PeerAliveCoeff { get; set; }
 
-		// Token: 0x060000F9 RID: 249 RVA: 0x00003CB0 File Offset: 0x00001EB0
 		protected ServersideSessionManager()
 		{
 			this._readerThreads = new List<Thread>();
@@ -25,7 +20,6 @@ namespace TaleWorlds.Network
 			this._disconnectedPeers = new List<ConcurrentDictionary<int, ServersideSession>>();
 		}
 
-		// Token: 0x060000FA RID: 250 RVA: 0x00003D18 File Offset: 0x00001F18
 		public void Activate(ushort port, ServersideSessionManager.ThreadType threadType = ServersideSessionManager.ThreadType.Single, int readWriteThreadCount = 1)
 		{
 			this._threadType = threadType;
@@ -83,7 +77,6 @@ namespace TaleWorlds.Network
 			this._serverThread.Start();
 		}
 
-		// Token: 0x060000FB RID: 251 RVA: 0x00003FA8 File Offset: 0x000021A8
 		private void ProcessRead(object indexObject)
 		{
 			int index = (int)indexObject;
@@ -104,7 +97,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x060000FC RID: 252 RVA: 0x00003FEC File Offset: 0x000021EC
 		private void ProcessWriter(object indexObject)
 		{
 			int index = (int)indexObject;
@@ -125,7 +117,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x060000FD RID: 253 RVA: 0x00004030 File Offset: 0x00002230
 		private void ProcessReaderWriter(object indexObject)
 		{
 			int index = (int)indexObject;
@@ -147,7 +138,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x00004074 File Offset: 0x00002274
 		private void ProcessListener()
 		{
 			TickManager.TickDelegate tickDelegate = delegate
@@ -161,7 +151,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x000040A4 File Offset: 0x000022A4
 		private void ProcessSingle()
 		{
 			TickManager.TickDelegate tickDelegate = delegate
@@ -183,7 +172,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000100 RID: 256 RVA: 0x000040D4 File Offset: 0x000022D4
 		private void RemovePeer(int peerNo)
 		{
 			ServersideSession serversideSession = null;
@@ -196,7 +184,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x0000413C File Offset: 0x0000233C
 		public ServersideSession GetPeer(int peerIndex)
 		{
 			ServersideSession serversideSession = null;
@@ -204,7 +191,6 @@ namespace TaleWorlds.Network
 			return serversideSession;
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x00004168 File Offset: 0x00002368
 		public virtual void Tick()
 		{
 			this.IncomingConnectionsTick();
@@ -213,7 +199,6 @@ namespace TaleWorlds.Network
 			this.HandleRemovedPeersTick();
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00004184 File Offset: 0x00002384
 		private void IncomingConnectionsTick()
 		{
 			TcpSocket lastIncomingConnection = this._serverSocket.GetLastIncomingConnection();
@@ -226,7 +211,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x000041E8 File Offset: 0x000023E8
 		private void MessagingTick()
 		{
 			foreach (ConcurrentQueue<IncomingServerSessionMessage> concurrentQueue in this._incomingMessages)
@@ -262,7 +246,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x000042D8 File Offset: 0x000024D8
 		private void PeerAliveCheckTick()
 		{
 			if ((long)Environment.TickCount > this._lastPeerAliveCheck + 3000L)
@@ -283,7 +266,6 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x000043BC File Offset: 0x000025BC
 		private void HandleRemovedPeersTick()
 		{
 			foreach (ConcurrentDictionary<int, ServersideSession> concurrentDictionary in this._disconnectedPeers)
@@ -295,71 +277,50 @@ namespace TaleWorlds.Network
 			}
 		}
 
-		// Token: 0x06000107 RID: 263 RVA: 0x00004448 File Offset: 0x00002648
 		internal void AddIncomingMessage(IncomingServerSessionMessage incomingMessage)
 		{
 			this._incomingMessages[incomingMessage.Peer.Index % this._readWriteThreadCount].Enqueue(incomingMessage);
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x0000446D File Offset: 0x0000266D
 		internal void AddDisconnectedPeer(ServersideSession peer)
 		{
 			this._disconnectedPeers[peer.Index % this._readWriteThreadCount].TryAdd(peer.Index, peer);
 		}
 
-		// Token: 0x06000109 RID: 265
 		protected abstract ServersideSession OnNewConnection();
 
-		// Token: 0x0600010A RID: 266
 		protected abstract void OnRemoveConnection(ServersideSession peer);
 
-		// Token: 0x04000044 RID: 68
 		private int _readWriteThreadCount = 1;
 
-		// Token: 0x04000045 RID: 69
 		private ServersideSessionManager.ThreadType _threadType;
 
-		// Token: 0x04000046 RID: 70
 		private ushort _listenPort;
 
-		// Token: 0x04000047 RID: 71
 		private TcpSocket _serverSocket;
 
-		// Token: 0x04000048 RID: 72
 		private int _lastUniqueClientId;
 
-		// Token: 0x04000049 RID: 73
 		private Thread _serverThread;
 
-		// Token: 0x0400004A RID: 74
 		private long _lastPeerAliveCheck;
 
-		// Token: 0x0400004B RID: 75
 		private List<ConcurrentQueue<IncomingServerSessionMessage>> _incomingMessages;
 
-		// Token: 0x0400004C RID: 76
 		private List<ConcurrentDictionary<int, ServersideSession>> _peers;
 
-		// Token: 0x0400004D RID: 77
 		private List<ConcurrentDictionary<int, ServersideSession>> _disconnectedPeers;
 
-		// Token: 0x0400004E RID: 78
 		private List<Thread> _readerThreads;
 
-		// Token: 0x0400004F RID: 79
 		private List<Thread> _writerThreads;
 
-		// Token: 0x04000050 RID: 80
 		private List<Thread> _singleThreads;
 
-		// Token: 0x0200003E RID: 62
 		public enum ThreadType
 		{
-			// Token: 0x040000CD RID: 205
 			Single,
-			// Token: 0x040000CE RID: 206
 			MultipleIOAndListener,
-			// Token: 0x040000CF RID: 207
 			MultipleSeperateIOAndListener
 		}
 	}

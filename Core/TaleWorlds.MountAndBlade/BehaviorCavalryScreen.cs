@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000FC RID: 252
 	public class BehaviorCavalryScreen : BehaviorComponent
 	{
-		// Token: 0x06000C72 RID: 3186 RVA: 0x00019BA0 File Offset: 0x00017DA0
 		public BehaviorCavalryScreen(Formation formation)
 			: base(formation)
 		{
@@ -19,14 +17,12 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000C73 RID: 3187 RVA: 0x00019C00 File Offset: 0x00017E00
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
 			this._mainFormation = base.Formation.Team.FormationsIncludingEmpty.FirstOrDefaultQ((Formation f) => f.CountOfUnits > 0 && f.AI.IsMainFormation);
 		}
 
-		// Token: 0x06000C74 RID: 3188 RVA: 0x00019C50 File Offset: 0x00017E50
 		protected override void CalculateCurrentOrder()
 		{
 			if (this._mainFormation == null || base.Formation.AI.IsMainFormation || (base.Formation.AI.Side != FormationAI.BehaviorSide.Left && base.Formation.AI.Side != FormationAI.BehaviorSide.Right))
@@ -83,14 +79,12 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = MovementOrder.MovementOrderMove(worldPosition);
 		}
 
-		// Token: 0x06000C75 RID: 3189 RVA: 0x00019F40 File Offset: 0x00018140
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 		}
 
-		// Token: 0x06000C76 RID: 3190 RVA: 0x00019F5C File Offset: 0x0001815C
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -102,7 +96,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000C77 RID: 3191 RVA: 0x00019FD0 File Offset: 0x000181D0
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -116,7 +109,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000C78 RID: 3192 RVA: 0x0001A080 File Offset: 0x00018280
 		protected override float GetAiWeight()
 		{
 			if (this._mainFormation == null || !this._mainFormation.AI.IsMainFormation)
@@ -130,16 +122,12 @@ namespace TaleWorlds.MountAndBlade
 			return 1.2f;
 		}
 
-		// Token: 0x040002E8 RID: 744
 		private Formation _mainFormation;
 
-		// Token: 0x040002E9 RID: 745
 		private Formation _flankingEnemyCavalryFormation;
 
-		// Token: 0x040002EA RID: 746
 		private float _threatFormationCacheTime;
 
-		// Token: 0x040002EB RID: 747
 		private const float _threatFormationCacheExpireTime = 5f;
 	}
 }

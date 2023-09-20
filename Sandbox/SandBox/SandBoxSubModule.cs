@@ -16,17 +16,14 @@ using TaleWorlds.SaveSystem.Load;
 
 namespace SandBox
 {
-	// Token: 0x02000017 RID: 23
 	public class SandBoxSubModule : MBSubModuleBase
 	{
-		// Token: 0x060000DD RID: 221 RVA: 0x000070C8 File Offset: 0x000052C8
 		protected override void OnSubModuleLoad()
 		{
 			base.OnSubModuleLoad();
 			Module.CurrentModule.SetEditorMissionTester(new SandBoxEditorMissionTester());
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x000070E0 File Offset: 0x000052E0
 		protected override void InitializeGameStarter(Game game, IGameStarter gameStarterObject)
 		{
 			if (game.GameType is Campaign)
@@ -85,7 +82,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00007310 File Offset: 0x00005510
 		public override void OnCampaignStart(Game game, object starterObject)
 		{
 			Campaign campaign = game.GameType as Campaign;
@@ -99,7 +95,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000E0 RID: 224 RVA: 0x00007360 File Offset: 0x00005560
 		private void OnRegisterTypes()
 		{
 			MBObjectManager.Instance.RegisterType<InstrumentData>("MusicInstrument", "MusicInstruments", 54U, true, false);
@@ -109,7 +104,6 @@ namespace SandBox
 			MBObjectManagerExtensions.LoadXML(MBObjectManager.Instance, "MusicTracks", false);
 		}
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x000073C4 File Offset: 0x000055C4
 		public override void OnGameInitializationFinished(Game game)
 		{
 			Campaign campaign = game.GameType as Campaign;
@@ -122,19 +116,16 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000E2 RID: 226 RVA: 0x00007407 File Offset: 0x00005607
 		public override void RegisterSubModuleObjects(bool isSavedCampaign)
 		{
 			Campaign.Current.SandBoxManager.InitializeSandboxXMLs(isSavedCampaign);
 		}
 
-		// Token: 0x060000E3 RID: 227 RVA: 0x00007419 File Offset: 0x00005619
 		public override void AfterRegisterSubModuleObjects(bool isSavedCampaign)
 		{
 			Campaign.Current.SandBoxManager.InitializeCharactersAfterLoad(isSavedCampaign);
 		}
 
-		// Token: 0x060000E4 RID: 228 RVA: 0x0000742C File Offset: 0x0000562C
 		public override void OnInitialState()
 		{
 			base.OnInitialState();
@@ -150,14 +141,12 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000E5 RID: 229 RVA: 0x000074A6 File Offset: 0x000056A6
 		private void StartGame(LoadResult loadResult)
 		{
 			MBGameManager.StartNewGame(new SandBoxGameManager(loadResult));
 			MouseManager.ShowCursor(false);
 		}
 
-		// Token: 0x060000E6 RID: 230 RVA: 0x000074BC File Offset: 0x000056BC
 		public override void OnGameLoaded(Game game, object initializerObject)
 		{
 			Campaign campaign = game.GameType as Campaign;
@@ -171,7 +160,6 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x00007509 File Offset: 0x00005709
 		protected override void OnBeforeInitialModuleScreenSetAsRoot()
 		{
 			base.OnBeforeInitialModuleScreenSetAsRoot();
@@ -182,10 +170,8 @@ namespace SandBox
 			}
 		}
 
-		// Token: 0x04000052 RID: 82
 		private bool _initialized;
 
-		// Token: 0x04000053 RID: 83
 		private bool _latestSaveLoaded;
 	}
 }

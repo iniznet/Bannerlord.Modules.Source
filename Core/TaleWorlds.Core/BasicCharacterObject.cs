@@ -9,11 +9,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000017 RID: 23
 	public class BasicCharacterObject : MBObjectBase
 	{
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x06000100 RID: 256 RVA: 0x0000509A File Offset: 0x0000329A
 		public virtual TextObject Name
 		{
 			get
@@ -22,46 +19,29 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x000050A2 File Offset: 0x000032A2
 		private void SetName(TextObject name)
 		{
 			this._basicName = name;
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x000050AB File Offset: 0x000032AB
 		public override TextObject GetName()
 		{
 			return this.Name;
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x000050B3 File Offset: 0x000032B3
 		public override string ToString()
 		{
 			return this.Name.ToString();
 		}
 
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x06000104 RID: 260 RVA: 0x000050C0 File Offset: 0x000032C0
-		// (set) Token: 0x06000105 RID: 261 RVA: 0x000050C8 File Offset: 0x000032C8
 		public virtual MBBodyProperty BodyPropertyRange { get; protected set; }
 
-		// Token: 0x17000049 RID: 73
-		// (get) Token: 0x06000106 RID: 262 RVA: 0x000050D1 File Offset: 0x000032D1
-		// (set) Token: 0x06000107 RID: 263 RVA: 0x000050D9 File Offset: 0x000032D9
 		public int DefaultFormationGroup { get; set; }
 
-		// Token: 0x1700004A RID: 74
-		// (get) Token: 0x06000108 RID: 264 RVA: 0x000050E2 File Offset: 0x000032E2
-		// (set) Token: 0x06000109 RID: 265 RVA: 0x000050EA File Offset: 0x000032EA
 		public FormationClass DefaultFormationClass { get; protected set; }
 
-		// Token: 0x1700004B RID: 75
-		// (get) Token: 0x0600010A RID: 266 RVA: 0x000050F3 File Offset: 0x000032F3
-		// (set) Token: 0x0600010B RID: 267 RVA: 0x000050FB File Offset: 0x000032FB
 		public FormationPositionPreference FormationPositionPreference { get; protected set; }
 
-		// Token: 0x1700004C RID: 76
-		// (get) Token: 0x0600010C RID: 268 RVA: 0x00005104 File Offset: 0x00003304
 		public bool IsInfantry
 		{
 			get
@@ -70,8 +50,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700004D RID: 77
-		// (get) Token: 0x0600010D RID: 269 RVA: 0x00005119 File Offset: 0x00003319
 		public virtual bool IsMounted
 		{
 			get
@@ -80,8 +58,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700004E RID: 78
-		// (get) Token: 0x0600010E RID: 270 RVA: 0x00005121 File Offset: 0x00003321
 		public virtual bool IsRanged
 		{
 			get
@@ -90,23 +66,12 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700004F RID: 79
-		// (get) Token: 0x0600010F RID: 271 RVA: 0x00005129 File Offset: 0x00003329
-		// (set) Token: 0x06000110 RID: 272 RVA: 0x00005131 File Offset: 0x00003331
 		public int Race { get; set; }
 
-		// Token: 0x17000050 RID: 80
-		// (get) Token: 0x06000111 RID: 273 RVA: 0x0000513A File Offset: 0x0000333A
-		// (set) Token: 0x06000112 RID: 274 RVA: 0x00005142 File Offset: 0x00003342
 		public virtual bool IsFemale { get; set; }
 
-		// Token: 0x17000051 RID: 81
-		// (get) Token: 0x06000113 RID: 275 RVA: 0x0000514B File Offset: 0x0000334B
-		// (set) Token: 0x06000114 RID: 276 RVA: 0x00005153 File Offset: 0x00003353
 		public bool FaceMeshCache { get; private set; }
 
-		// Token: 0x17000052 RID: 82
-		// (get) Token: 0x06000115 RID: 277 RVA: 0x0000515C File Offset: 0x0000335C
 		public virtual MBReadOnlyList<Equipment> AllEquipments
 		{
 			get
@@ -119,8 +84,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000053 RID: 83
-		// (get) Token: 0x06000116 RID: 278 RVA: 0x00005182 File Offset: 0x00003382
 		public virtual Equipment Equipment
 		{
 			get
@@ -133,24 +96,18 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000054 RID: 84
-		// (get) Token: 0x06000117 RID: 279 RVA: 0x0000519D File Offset: 0x0000339D
-		// (set) Token: 0x06000118 RID: 280 RVA: 0x000051A5 File Offset: 0x000033A5
 		public bool IsObsolete { get; private set; }
 
-		// Token: 0x06000119 RID: 281 RVA: 0x000051AE File Offset: 0x000033AE
 		private bool HasCivilianEquipment()
 		{
 			return this.AllEquipments.Any((Equipment eq) => eq.IsCivilian);
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x000051DA File Offset: 0x000033DA
 		public void InitializeEquipmentsOnLoad(BasicCharacterObject character)
 		{
 			this._equipmentRoster = character._equipmentRoster;
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x000051E8 File Offset: 0x000033E8
 		public Equipment GetFirstEquipment(bool civilianSet)
 		{
 			if (!civilianSet)
@@ -164,14 +121,8 @@ namespace TaleWorlds.Core
 			return this.AllEquipments.FirstOrDefault((Equipment eq) => eq.IsCivilian);
 		}
 
-		// Token: 0x17000055 RID: 85
-		// (get) Token: 0x0600011C RID: 284 RVA: 0x00005238 File Offset: 0x00003438
-		// (set) Token: 0x0600011D RID: 285 RVA: 0x00005240 File Offset: 0x00003440
 		public virtual int Level { get; set; }
 
-		// Token: 0x17000056 RID: 86
-		// (get) Token: 0x0600011E RID: 286 RVA: 0x00005249 File Offset: 0x00003449
-		// (set) Token: 0x0600011F RID: 287 RVA: 0x00005251 File Offset: 0x00003451
 		public BasicCultureObject Culture
 		{
 			get
@@ -184,8 +135,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000057 RID: 87
-		// (get) Token: 0x06000120 RID: 288 RVA: 0x0000525A File Offset: 0x0000345A
 		public virtual bool IsPlayerCharacter
 		{
 			get
@@ -194,9 +143,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000058 RID: 88
-		// (get) Token: 0x06000121 RID: 289 RVA: 0x0000525D File Offset: 0x0000345D
-		// (set) Token: 0x06000122 RID: 290 RVA: 0x00005265 File Offset: 0x00003465
 		public virtual float Age
 		{
 			get
@@ -209,8 +155,6 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x17000059 RID: 89
-		// (get) Token: 0x06000123 RID: 291 RVA: 0x0000526E File Offset: 0x0000346E
 		public virtual int HitPoints
 		{
 			get
@@ -219,19 +163,16 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x00005276 File Offset: 0x00003476
 		public virtual BodyProperties GetBodyPropertiesMin(bool returnBaseValue = false)
 		{
 			return this.BodyPropertyRange.BodyPropertyMin;
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x00005283 File Offset: 0x00003483
 		public virtual BodyProperties GetBodyPropertiesMax()
 		{
 			return this.BodyPropertyRange.BodyPropertyMax;
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x00005290 File Offset: 0x00003490
 		public virtual BodyProperties GetBodyProperties(Equipment equipment, int seed = -1)
 		{
 			BodyProperties bodyPropertiesMin = this.GetBodyPropertiesMin(false);
@@ -239,7 +180,6 @@ namespace TaleWorlds.Core
 			return FaceGen.GetRandomBodyProperties(this.Race, this.IsFemale, bodyPropertiesMin, bodyPropertiesMax, (int)((equipment != null) ? equipment.HairCoverType : ArmorComponent.HairCoverTypes.None), seed, this.HairTags, this.BeardTags, this.TattooTags);
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x000052DE File Offset: 0x000034DE
 		public virtual void UpdatePlayerCharacterBodyProperties(BodyProperties properties, int race, bool isFemale)
 		{
 			this.BodyPropertyRange.Init(properties, properties);
@@ -247,28 +187,14 @@ namespace TaleWorlds.Core
 			this.IsFemale = isFemale;
 		}
 
-		// Token: 0x1700005A RID: 90
-		// (get) Token: 0x06000128 RID: 296 RVA: 0x000052FB File Offset: 0x000034FB
-		// (set) Token: 0x06000129 RID: 297 RVA: 0x00005303 File Offset: 0x00003503
 		public float FaceDirtAmount { get; set; }
 
-		// Token: 0x1700005B RID: 91
-		// (get) Token: 0x0600012A RID: 298 RVA: 0x0000530C File Offset: 0x0000350C
-		// (set) Token: 0x0600012B RID: 299 RVA: 0x00005314 File Offset: 0x00003514
 		public virtual string HairTags { get; set; } = "";
 
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x0600012C RID: 300 RVA: 0x0000531D File Offset: 0x0000351D
-		// (set) Token: 0x0600012D RID: 301 RVA: 0x00005325 File Offset: 0x00003525
 		public virtual string BeardTags { get; set; } = "";
 
-		// Token: 0x1700005D RID: 93
-		// (get) Token: 0x0600012E RID: 302 RVA: 0x0000532E File Offset: 0x0000352E
-		// (set) Token: 0x0600012F RID: 303 RVA: 0x00005336 File Offset: 0x00003536
 		public virtual string TattooTags { get; set; } = "";
 
-		// Token: 0x1700005E RID: 94
-		// (get) Token: 0x06000130 RID: 304 RVA: 0x0000533F File Offset: 0x0000353F
 		public virtual bool IsHero
 		{
 			get
@@ -277,68 +203,55 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		// Token: 0x1700005F RID: 95
-		// (get) Token: 0x06000131 RID: 305 RVA: 0x00005347 File Offset: 0x00003547
-		// (set) Token: 0x06000132 RID: 306 RVA: 0x0000534F File Offset: 0x0000354F
 		public bool IsSoldier { get; private set; }
 
-		// Token: 0x06000133 RID: 307 RVA: 0x00005358 File Offset: 0x00003558
 		public BasicCharacterObject()
 		{
 			this.DefaultFormationClass = FormationClass.Infantry;
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x00005388 File Offset: 0x00003588
 		public int GetDefaultFaceSeed(int rank)
 		{
 			int num = base.StringId.GetDeterministicHashCode() * 6791 + rank * 197;
 			return ((num >= 0) ? num : (-num)) % 2000;
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x000053BE File Offset: 0x000035BE
 		public float GetStepSize()
 		{
 			return Math.Min(0.8f + 0.2f * (float)this.GetSkillValue(DefaultSkills.Athletics) * 0.00333333f, 1f);
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x000053E8 File Offset: 0x000035E8
 		public bool HasMount()
 		{
 			return this.Equipment[10].Item != null;
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x0000540D File Offset: 0x0000360D
 		public virtual int MaxHitPoints()
 		{
 			return FaceGen.GetBaseMonsterFromRace(this.Race).HitPoints;
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x00005420 File Offset: 0x00003620
 		public virtual float GetPower()
 		{
 			int num = this.Level + 10;
 			return 0.2f + (float)(num * num) * 0.0025f;
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x00005447 File Offset: 0x00003647
 		public virtual float GetBattlePower()
 		{
 			return 1f;
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x0000544E File Offset: 0x0000364E
 		public virtual float GetMoraleResistance()
 		{
 			return 1f;
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x00005455 File Offset: 0x00003655
 		public virtual int GetMountKeySeed()
 		{
 			return MBRandom.RandomInt();
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x0000545C File Offset: 0x0000365C
 		public virtual int GetBattleTier()
 		{
 			if (this.IsHero)
@@ -348,13 +261,11 @@ namespace TaleWorlds.Core
 			return MathF.Min(MathF.Max(MathF.Ceiling(((float)this.Level - 5f) / 5f), 0), 7);
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x0000548C File Offset: 0x0000368C
 		public virtual int GetSkillValue(SkillObject skill)
 		{
 			return this.CharacterSkills.Skills.GetPropertyValue(skill);
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x000054A0 File Offset: 0x000036A0
 		protected void InitializeHeroBasicCharacterOnAfterLoad(BasicCharacterObject originCharacter)
 		{
 			this.IsSoldier = originCharacter.IsSoldier;
@@ -373,7 +284,6 @@ namespace TaleWorlds.Core
 			this._equipmentRoster = originCharacter._equipmentRoster;
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x00005558 File Offset: 0x00003758
 		public override void Deserialize(MBObjectManager objectManager, XmlNode node)
 		{
 			base.Deserialize(objectManager, node);
@@ -564,7 +474,6 @@ namespace TaleWorlds.Core
 			this._isMounted = this.DefaultFormationClass == FormationClass.Cavalry || this.DefaultFormationClass == FormationClass.HorseArcher;
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x00005DFC File Offset: 0x00003FFC
 		protected int FetchDefaultFormationGroup(string innerText)
 		{
 			FormationClass formationClass;
@@ -575,48 +484,37 @@ namespace TaleWorlds.Core
 			return -1;
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x00005E17 File Offset: 0x00004017
 		public virtual FormationClass GetFormationClass()
 		{
 			return this.DefaultFormationClass;
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x00005E1F File Offset: 0x0000401F
 		internal static void AutoGeneratedStaticCollectObjectsBasicCharacterObject(object o, List<object> collectedObjects)
 		{
 			((BasicCharacterObject)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x00005E2D File Offset: 0x0000402D
 		protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x0400010E RID: 270
 		protected TextObject _basicName;
 
-		// Token: 0x04000112 RID: 274
 		private bool _isMounted;
 
-		// Token: 0x04000113 RID: 275
 		private bool _isRanged;
 
-		// Token: 0x04000118 RID: 280
 		private MBEquipmentRoster _equipmentRoster;
 
-		// Token: 0x0400011B RID: 283
 		private BasicCultureObject _culture;
 
-		// Token: 0x0400011C RID: 284
 		[CachedData]
 		private float _age;
 
-		// Token: 0x04000121 RID: 289
 		[CachedData]
 		private bool _isBasicHero;
 
-		// Token: 0x04000123 RID: 291
 		protected MBCharacterSkills CharacterSkills;
 	}
 }

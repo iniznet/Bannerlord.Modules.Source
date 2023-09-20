@@ -11,10 +11,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000017 RID: 23
 	public static class PerkHelper
 	{
-		// Token: 0x060000D4 RID: 212 RVA: 0x0000B03C File Offset: 0x0000923C
 		public static IEnumerable<PerkObject> GetCaptainPerksForTroopClasses(TroopClassFlag troopClassFlags)
 		{
 			List<PerkObject> list = new List<PerkObject>();
@@ -29,13 +27,11 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x0000B0B0 File Offset: 0x000092B0
 		public static bool PlayerHasAnyItemDonationPerk()
 		{
 			return MobileParty.MainParty.HasPerk(DefaultPerks.Steward.GivingHands, false) || MobileParty.MainParty.HasPerk(DefaultPerks.Steward.PaidInPromise, true);
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x0000B0D8 File Offset: 0x000092D8
 		public static void AddPerkBonusForParty(PerkObject perk, MobileParty party, bool isPrimaryBonus, ref ExplainedNumber stat)
 		{
 			Hero hero = ((party != null) ? party.LeaderHero : null);
@@ -166,7 +162,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x0000B4C0 File Offset: 0x000096C0
 		private static void AddToStat(ref ExplainedNumber stat, SkillEffect.EffectIncrementType effectIncrementType, float number, TextObject text)
 		{
 			if (effectIncrementType == SkillEffect.EffectIncrementType.Add)
@@ -180,7 +175,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x0000B4DC File Offset: 0x000096DC
 		public static void AddPerkBonusForCharacter(PerkObject perk, CharacterObject character, bool isPrimaryBonus, ref ExplainedNumber bonuses)
 		{
 			if (isPrimaryBonus && perk.PrimaryRole == SkillEffect.PerkRole.Personal)
@@ -212,7 +206,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x0000B600 File Offset: 0x00009800
 		public static void AddEpicPerkBonusForCharacter(PerkObject perk, CharacterObject character, SkillObject skillType, bool applyPrimaryBonus, ref ExplainedNumber bonuses, int skillRequired = 250)
 		{
 			if (character.GetPerkValue(perk))
@@ -230,7 +223,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x0000B664 File Offset: 0x00009864
 		public static void AddPerkBonusFromCaptain(PerkObject perk, CharacterObject captainCharacter, ref ExplainedNumber bonuses)
 		{
 			if (perk.PrimaryRole == SkillEffect.PerkRole.Captain)
@@ -247,7 +239,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x0000B6CC File Offset: 0x000098CC
 		public static void AddPerkBonusForTown(PerkObject perk, Town town, ref ExplainedNumber bonuses)
 		{
 			bool flag = perk.PrimaryRole == SkillEffect.PerkRole.Governor;
@@ -267,7 +258,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x0000B750 File Offset: 0x00009950
 		public static bool GetPerkValueForTown(PerkObject perk, Town town)
 		{
 			if (perk.PrimaryRole == SkillEffect.PerkRole.ClanLeader || perk.SecondaryRole == SkillEffect.PerkRole.ClanLeader)
@@ -290,7 +280,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x0000B7D8 File Offset: 0x000099D8
 		public static List<PerkObject> GetGovernorPerksForHero(Hero hero)
 		{
 			List<PerkObject> list = new List<PerkObject>();
@@ -304,7 +293,6 @@ namespace Helpers
 			return list;
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x0000B84C File Offset: 0x00009A4C
 		public static ValueTuple<TextObject, TextObject> GetGovernorEngineeringSkillEffectForHero(Hero governor)
 		{
 			if (governor != null && governor.GetSkillValue(DefaultSkills.Engineering) > 0)
@@ -318,37 +306,26 @@ namespace Helpers
 			return new ValueTuple<TextObject, TextObject>(TextObject.Empty, new TextObject("{=0rBsbw1T}No effect", null));
 		}
 
-		// Token: 0x0400000E RID: 14
 		private static readonly TextObject _textLeader = new TextObject("{=fghweLqW}Leader Perks", null);
 
-		// Token: 0x0400000F RID: 15
 		private static readonly TextObject _textScout = new TextObject("{=3UDUqYv1}Scout Perks", null);
 
-		// Token: 0x04000010 RID: 16
 		private static readonly TextObject _textQuartermaster = new TextObject("{=AvaZUvnu}Quartermaster Perks", null);
 
-		// Token: 0x04000011 RID: 17
 		private static readonly TextObject _textEngineer = new TextObject("{=Gg5dJHjC}Engineer Perks", null);
 
-		// Token: 0x04000012 RID: 18
 		private static readonly TextObject _textSurgeon = new TextObject("{=aG7KXlu0}Surgeon Perks", null);
 
-		// Token: 0x04000013 RID: 19
 		private static readonly TextObject _textSergeant = new TextObject("{=TxbjTbZf}Sergeant Perks", null);
 
-		// Token: 0x04000014 RID: 20
 		private static readonly TextObject _textGovernor = new TextObject("{=Fa2nKXxI}Governor", null);
 
-		// Token: 0x04000015 RID: 21
 		private static readonly TextObject _textClanLeader = new TextObject("{=pqfz386V}Clan Leader", null);
 
-		// Token: 0x04000016 RID: 22
 		private static readonly TextObject _textPerkBonuses = new TextObject("{=Avy8Gua1}Perks", null);
 
-		// Token: 0x04000017 RID: 23
 		private static readonly TextObject _textFeatBonuses = new TextObject("{=snSBfQkV}Feats", null);
 
-		// Token: 0x04000018 RID: 24
 		private static readonly TextObject _textMember = new TextObject("{=7rxJWqby}Party members", null);
 	}
 }

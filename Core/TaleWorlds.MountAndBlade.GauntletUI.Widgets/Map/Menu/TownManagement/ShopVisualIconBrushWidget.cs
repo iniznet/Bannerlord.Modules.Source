@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 {
-	// Token: 0x02000102 RID: 258
 	public class ShopVisualIconBrushWidget : BrushWidget
 	{
-		// Token: 0x06000D73 RID: 3443 RVA: 0x0002587E File Offset: 0x00023A7E
 		public ShopVisualIconBrushWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000D74 RID: 3444 RVA: 0x00025888 File Offset: 0x00023A88
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -156,9 +153,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x170004CC RID: 1228
-		// (get) Token: 0x06000D75 RID: 3445 RVA: 0x00025BB0 File Offset: 0x00023DB0
-		// (set) Token: 0x06000D76 RID: 3446 RVA: 0x00025BB8 File Offset: 0x00023DB8
 		[Editor(false)]
 		public string ShopId
 		{
@@ -176,10 +170,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Menu.TownManagement
 			}
 		}
 
-		// Token: 0x04000636 RID: 1590
 		private bool _initialized;
 
-		// Token: 0x04000637 RID: 1591
 		private string _shopId;
 	}
 }

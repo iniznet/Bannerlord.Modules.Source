@@ -17,10 +17,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000095 RID: 149
 	public class ClanMemberRolesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060006CE RID: 1742 RVA: 0x0003437C File Offset: 0x0003257C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.AddDialogs));
@@ -34,13 +32,11 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnHeroGetsBusyEvent.AddNonSerializedListener(this, new Action<Hero, HeroGetsBusyReasons>(this.OnHeroGetsBusy));
 		}
 
-		// Token: 0x060006CF RID: 1743 RVA: 0x00034458 File Offset: 0x00032658
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<Hero>>("_isFollowingPlayer", ref this._isFollowingPlayer);
 		}
 
-		// Token: 0x060006D0 RID: 1744 RVA: 0x0003446C File Offset: 0x0003266C
 		private static void FollowMainAgent()
 		{
 			DailyBehaviorGroup behaviorGroup = ConversationMission.OneToOneConversationAgent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetBehaviorGroup<DailyBehaviorGroup>();
@@ -48,13 +44,11 @@ namespace SandBox.CampaignBehaviors
 			behaviorGroup.SetScriptedBehavior<FollowAgentBehavior>();
 		}
 
-		// Token: 0x060006D1 RID: 1745 RVA: 0x00034497 File Offset: 0x00032697
 		public bool IsFollowingPlayer(Hero hero)
 		{
 			return this._isFollowingPlayer.Contains(hero);
 		}
 
-		// Token: 0x060006D2 RID: 1746 RVA: 0x000344A8 File Offset: 0x000326A8
 		private void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddPlayerLine("clan_member_follow", "hero_main_options", "clan_member_follow_me", "{=blqTMwQT}Follow me.", new ConversationSentence.OnConditionDelegate(this.clan_member_follow_me_on_condition), null, 100, null, null);
@@ -67,7 +61,6 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("clan_members_dont_follow_accept", "clan_members_dont_follow_me", "close_window", "{=akpaap9e}As you wish.", null, new ConversationSentence.OnConsequenceDelegate(this.clan_members_dont_follow_me_on_consequence), 100, null);
 		}
 
-		// Token: 0x060006D3 RID: 1747 RVA: 0x00034611 File Offset: 0x00032811
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (party == MobileParty.MainParty && PlayerEncounter.LocationEncounter != null)
@@ -77,7 +70,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006D4 RID: 1748 RVA: 0x00034638 File Offset: 0x00032838
 		private void BeforeMissionOpened()
 		{
 			if (PlayerEncounter.LocationEncounter != null)
@@ -92,7 +84,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006D5 RID: 1749 RVA: 0x000346A8 File Offset: 0x000328A8
 		private void OnHeroJoinedParty(Hero hero, MobileParty mobileParty)
 		{
 			if (hero.Clan == Clan.PlayerClan && mobileParty.IsMainParty && mobileParty.CurrentSettlement != null && PlayerEncounter.LocationEncounter != null && MobileParty.MainParty.IsActive && (mobileParty.CurrentSettlement.IsFortification || mobileParty.CurrentSettlement.IsVillage) && this._isFollowingPlayer.Count == 0)
@@ -101,13 +92,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006D6 RID: 1750 RVA: 0x00034712 File Offset: 0x00032912
 		private void OnMissionEnded(IMission mission)
 		{
 			this._gatherOrderedAgent = null;
 		}
 
-		// Token: 0x060006D7 RID: 1751 RVA: 0x0003471C File Offset: 0x0003291C
 		private void OnIssueUpdated(IssueBase issue, IssueBase.IssueUpdateDetails details, Hero issueSolver = null)
 		{
 			if (Mission.Current != null && issue.IsSolvingWithAlternative && details == 2)
@@ -120,7 +109,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006D8 RID: 1752 RVA: 0x00034774 File Offset: 0x00032974
 		private void OnHeroGetsBusy(Hero hero, HeroGetsBusyReasons heroGetsBusyReason)
 		{
 			if (Mission.Current != null && (heroGetsBusyReason == 2 || heroGetsBusyReason == 3))
@@ -146,7 +134,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006D9 RID: 1753 RVA: 0x00034822 File Offset: 0x00032A22
 		private void ClearGatherOrderedAgentIfExists(Agent agent)
 		{
 			if (this._gatherOrderedAgent == agent)
@@ -156,7 +143,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006DA RID: 1754 RVA: 0x00034850 File Offset: 0x00032A50
 		private void OnNewCompanionAdded(Hero newCompanion)
 		{
 			Location location = null;
@@ -182,7 +168,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006DB RID: 1755 RVA: 0x00034980 File Offset: 0x00032B80
 		private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (Campaign.Current.GameMode != 1 || MobileParty.MainParty.CurrentSettlement == null || LocationComplex.Current == null || (!settlement.IsTown && !settlement.IsCastle && !settlement.IsVillage))
@@ -207,7 +192,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006DC RID: 1756 RVA: 0x00034A30 File Offset: 0x00032C30
 		private bool clan_member_follow_me_on_condition()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.LocationComplex != null && !Settlement.CurrentSettlement.IsHideout)
@@ -226,13 +210,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006DD RID: 1757 RVA: 0x00034B14 File Offset: 0x00032D14
 		private bool clan_member_dont_follow_me_on_condition()
 		{
 			return ConversationMission.OneToOneConversationAgent != null && Hero.OneToOneConversationHero.Clan == Clan.PlayerClan && Hero.OneToOneConversationHero.PartyBelongedTo == MobileParty.MainParty && ConversationMission.OneToOneConversationAgent.GetComponent<CampaignAgentComponent>().AgentNavigator != null && ConversationMission.OneToOneConversationAgent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetActiveBehavior() is FollowAgentBehavior;
 		}
 
-		// Token: 0x060006DE RID: 1758 RVA: 0x00034B7C File Offset: 0x00032D7C
 		private bool clan_members_gather_on_condition()
 		{
 			if (GameStateManager.Current.ActiveState is MissionState)
@@ -270,7 +252,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006DF RID: 1759 RVA: 0x00034CCC File Offset: 0x00032ECC
 		private bool clan_members_gather_end_on_condition()
 		{
 			if (ConversationMission.OneToOneConversationAgent != null && this._gatherOrderedAgent == ConversationMission.OneToOneConversationAgent)
@@ -291,7 +272,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006E0 RID: 1760 RVA: 0x00034D78 File Offset: 0x00032F78
 		private void clan_member_gather_on_consequence()
 		{
 			this._gatherOrderedAgent = ConversationMission.OneToOneConversationAgent;
@@ -300,13 +280,11 @@ namespace SandBox.CampaignBehaviors
 			this._gatherOrderedAgent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetBehaviorGroup<DailyBehaviorGroup>().AddBehavior<FollowAgentBehavior>().IsActive = false;
 		}
 
-		// Token: 0x060006E1 RID: 1761 RVA: 0x00034DF3 File Offset: 0x00032FF3
 		private void clan_member_dont_follow_me_on_consequence()
 		{
 			this.RemoveFollowBehavior(ConversationMission.OneToOneConversationAgent);
 		}
 
-		// Token: 0x060006E2 RID: 1762 RVA: 0x00034E00 File Offset: 0x00033000
 		private void clan_members_dont_follow_me_on_consequence()
 		{
 			foreach (Agent agent in Mission.Current.Agents)
@@ -315,7 +293,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006E3 RID: 1763 RVA: 0x00034E58 File Offset: 0x00033058
 		private void RemoveFollowBehavior(Agent agent)
 		{
 			this.ClearGatherOrderedAgentIfExists(agent);
@@ -327,7 +304,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006E4 RID: 1764 RVA: 0x00034E98 File Offset: 0x00033098
 		private static void AdjustTheBehaviorsOfTheAgent(Agent agent)
 		{
 			DailyBehaviorGroup behaviorGroup = agent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetBehaviorGroup<DailyBehaviorGroup>();
@@ -345,7 +321,6 @@ namespace SandBox.CampaignBehaviors
 			walkingBehavior.IsActive = true;
 		}
 
-		// Token: 0x060006E5 RID: 1765 RVA: 0x00034EE8 File Offset: 0x000330E8
 		private void clan_member_follow_me_on_consequence()
 		{
 			LocationCharacter locationCharacter = LocationComplex.Current.FindCharacter(ConversationMission.OneToOneConversationAgent);
@@ -357,7 +332,6 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.ConversationManager.ConversationEndOneShot += ClanMemberRolesCampaignBehavior.FollowMainAgent;
 		}
 
-		// Token: 0x060006E6 RID: 1766 RVA: 0x00034F5C File Offset: 0x0003315C
 		private bool SelectTarget(Agent agent, ref Agent targetAgent, ref UsableMachine targetEntity, ref WorldFrame targetFrame)
 		{
 			if (Agent.Main == null)
@@ -410,7 +384,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006E7 RID: 1767 RVA: 0x00035108 File Offset: 0x00033308
 		private bool OnTargetReached(Agent agent, ref Agent targetAgent, ref UsableMachine targetEntity, ref WorldFrame targetFrame)
 		{
 			if (Agent.Main == null)
@@ -434,7 +407,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060006E8 RID: 1768 RVA: 0x00035198 File Offset: 0x00033398
 		private void UpdateAccompanyingCharacters()
 		{
 			this._isFollowingPlayer.Clear();
@@ -454,14 +426,12 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060006E9 RID: 1769 RVA: 0x00035264 File Offset: 0x00033464
 		private void RemoveAccompanyingHero(Hero hero)
 		{
 			this._isFollowingPlayer.Remove(hero);
 			PlayerEncounter.LocationEncounter.RemoveAccompanyingCharacter(hero);
 		}
 
-		// Token: 0x060006EA RID: 1770 RVA: 0x00035280 File Offset: 0x00033480
 		private bool IsAgentFollowingPlayerAsCompanion(Agent agent)
 		{
 			CharacterObject characterObject = ((agent != null) ? agent.Character : null) as CharacterObject;
@@ -474,7 +444,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060006EB RID: 1771 RVA: 0x00035304 File Offset: 0x00033504
 		private void AddClanMembersAsAccompanyingCharacter(Hero member, LocationCharacter locationCharacter = null)
 		{
 			CharacterObject characterObject = member.CharacterObject;
@@ -488,10 +457,8 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040002F5 RID: 757
 		private List<Hero> _isFollowingPlayer = new List<Hero>();
 
-		// Token: 0x040002F6 RID: 758
 		private Agent _gatherOrderedAgent;
 	}
 }

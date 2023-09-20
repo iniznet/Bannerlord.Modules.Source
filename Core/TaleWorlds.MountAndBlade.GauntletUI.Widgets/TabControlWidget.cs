@@ -4,16 +4,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x02000039 RID: 57
 	public class TabControlWidget : Widget
 	{
-		// Token: 0x06000318 RID: 792 RVA: 0x00009FE0 File Offset: 0x000081E0
 		public TabControlWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x00009FEC File Offset: 0x000081EC
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			this.SecondButton.IsSelected = this.SecondItem.IsVisible;
 		}
 
-		// Token: 0x0600031A RID: 794 RVA: 0x0000A0A0 File Offset: 0x000082A0
 		public void OnFirstButtonClick(Widget widget)
 		{
 			if (!this._firstItem.IsVisible && this._secondItem.IsVisible)
@@ -39,7 +35,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x0600031B RID: 795 RVA: 0x0000A0D4 File Offset: 0x000082D4
 		public void OnSecondButtonClick(Widget widget)
 		{
 			if (this._firstItem.IsVisible && !this._secondItem.IsVisible)
@@ -49,9 +44,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000116 RID: 278
-		// (get) Token: 0x0600031C RID: 796 RVA: 0x0000A108 File Offset: 0x00008308
-		// (set) Token: 0x0600031D RID: 797 RVA: 0x0000A110 File Offset: 0x00008310
 		[Editor(false)]
 		public ButtonWidget FirstButton
 		{
@@ -69,9 +61,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000117 RID: 279
-		// (get) Token: 0x0600031E RID: 798 RVA: 0x0000A12E File Offset: 0x0000832E
-		// (set) Token: 0x0600031F RID: 799 RVA: 0x0000A136 File Offset: 0x00008336
 		[Editor(false)]
 		public ButtonWidget SecondButton
 		{
@@ -89,9 +78,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000118 RID: 280
-		// (get) Token: 0x06000320 RID: 800 RVA: 0x0000A154 File Offset: 0x00008354
-		// (set) Token: 0x06000321 RID: 801 RVA: 0x0000A15C File Offset: 0x0000835C
 		[Editor(false)]
 		public Widget SecondItem
 		{
@@ -109,9 +95,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000119 RID: 281
-		// (get) Token: 0x06000322 RID: 802 RVA: 0x0000A17A File Offset: 0x0000837A
-		// (set) Token: 0x06000323 RID: 803 RVA: 0x0000A182 File Offset: 0x00008382
 		[Editor(false)]
 		public Widget FirstItem
 		{
@@ -129,16 +112,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x04000148 RID: 328
 		private ButtonWidget _firstButton;
 
-		// Token: 0x04000149 RID: 329
 		private ButtonWidget _secondButton;
 
-		// Token: 0x0400014A RID: 330
 		private Widget _firstItem;
 
-		// Token: 0x0400014B RID: 331
 		private Widget _secondItem;
 	}
 }

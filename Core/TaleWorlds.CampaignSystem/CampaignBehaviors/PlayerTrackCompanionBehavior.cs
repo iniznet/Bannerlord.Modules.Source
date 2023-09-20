@@ -9,10 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003C1 RID: 961
 	public class PlayerTrackCompanionBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600399B RID: 14747 RVA: 0x00109070 File Offset: 0x00107270
 		public override void RegisterEvents()
 		{
 			CampaignEvents.CharacterBecameFugitive.AddNonSerializedListener(this, new Action<Hero>(this.HeroBecameFugitive));
@@ -22,13 +20,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, new Action<Hero, PartyBase, IFaction, EndCaptivityDetail>(this.PrisonerReleased));
 		}
 
-		// Token: 0x0600399C RID: 14748 RVA: 0x001090F0 File Offset: 0x001072F0
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, CampaignTime>>("ScatteredCompanions", ref this.ScatteredCompanions);
 		}
 
-		// Token: 0x0600399D RID: 14749 RVA: 0x00109104 File Offset: 0x00107304
 		private void AddHeroToScatteredCompanions(Hero hero)
 		{
 			if (hero.IsPlayerCompanion)
@@ -42,19 +38,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600399E RID: 14750 RVA: 0x0010913F File Offset: 0x0010733F
 		private void HeroBecameFugitive(Hero hero)
 		{
 			this.AddHeroToScatteredCompanions(hero);
 		}
 
-		// Token: 0x0600399F RID: 14751 RVA: 0x00109148 File Offset: 0x00107348
 		private void PrisonerReleased(Hero releasedHero, PartyBase party, IFaction capturerFaction, EndCaptivityDetail detail)
 		{
 			this.AddHeroToScatteredCompanions(releasedHero);
 		}
 
-		// Token: 0x060039A0 RID: 14752 RVA: 0x00109154 File Offset: 0x00107354
 		private void SettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			if (party == MobileParty.MainParty)
@@ -72,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060039A1 RID: 14753 RVA: 0x00109234 File Offset: 0x00107434
 		private void CompanionAdded(Hero companion)
 		{
 			if (this.ScatteredCompanions.ContainsKey(companion))
@@ -81,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060039A2 RID: 14754 RVA: 0x00109251 File Offset: 0x00107451
 		private void CompanionRemoved(Hero companion, RemoveCompanionAction.RemoveCompanionDetail detail)
 		{
 			if (this.ScatteredCompanions.ContainsKey(companion))
@@ -90,7 +81,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040011CB RID: 4555
 		public Dictionary<Hero, CampaignTime> ScatteredCompanions = new Dictionary<Hero, CampaignTime>();
 	}
 }

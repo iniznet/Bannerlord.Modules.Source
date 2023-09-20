@@ -6,17 +6,14 @@ using SandBox.BoardGames.Pawns;
 
 namespace SandBox.BoardGames.AI
 {
-	// Token: 0x020000C6 RID: 198
 	public class BoardGameAIPuluc : BoardGameAIBase
 	{
-		// Token: 0x06000BE3 RID: 3043 RVA: 0x0005DF7A File Offset: 0x0005C17A
 		public BoardGameAIPuluc(BoardGameHelper.AIDifficulty difficulty, MissionBoardGameLogic boardGameHandler)
 			: base(difficulty, boardGameHandler)
 		{
 			this._board = base.BoardGameHandler.Board as BoardGamePuluc;
 		}
 
-		// Token: 0x06000BE4 RID: 3044 RVA: 0x0005DFB4 File Offset: 0x0005C1B4
 		protected override void InitializeDifficulty()
 		{
 			switch (base.Difficulty)
@@ -35,7 +32,6 @@ namespace SandBox.BoardGames.AI
 			}
 		}
 
-		// Token: 0x06000BE5 RID: 3045 RVA: 0x0005DFF4 File Offset: 0x0005C1F4
 		public override Move CalculateMovementStageMove()
 		{
 			Move move;
@@ -52,7 +48,6 @@ namespace SandBox.BoardGames.AI
 			return move;
 		}
 
-		// Token: 0x06000BE6 RID: 3046 RVA: 0x0005E040 File Offset: 0x0005C240
 		private float ExpectiMax(int depth, BoardGameSide side, bool chanceNode, ref Move bestMove)
 		{
 			float num;
@@ -118,13 +113,11 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BE7 RID: 3047 RVA: 0x0005E1D4 File Offset: 0x0005C3D4
 		private int Evaluation()
 		{
 			return 20 * (this._board.GetPlayerTwoUnitsAlive() - this._board.GetPlayerOneUnitsAlive()) + 5 * (this.GetUnitsBeingCaptured(true) - this.GetUnitsBeingCaptured(false)) + (this.GetUnitsInPlay(false) - this.GetUnitsInPlay(true));
 		}
 
-		// Token: 0x06000BE8 RID: 3048 RVA: 0x0005E214 File Offset: 0x0005C414
 		private int GetUnitsInSpawn(bool playerOne)
 		{
 			int num = 0;
@@ -141,7 +134,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BE9 RID: 3049 RVA: 0x0005E288 File Offset: 0x0005C488
 		private int GetUnitsBeingCaptured(bool playerOne)
 		{
 			int num = 0;
@@ -158,7 +150,6 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x06000BEA RID: 3050 RVA: 0x0005E2FC File Offset: 0x0005C4FC
 		private int GetUnitsInPlay(bool playerOne)
 		{
 			int num = 0;
@@ -173,10 +164,8 @@ namespace SandBox.BoardGames.AI
 			return num;
 		}
 
-		// Token: 0x04000436 RID: 1078
 		private readonly BoardGamePuluc _board;
 
-		// Token: 0x04000437 RID: 1079
 		private readonly float[] _diceProbabilities = new float[] { 0.0625f, 0.25f, 0.375f, 0.25f, 0.0625f };
 	}
 }

@@ -18,10 +18,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 {
-	// Token: 0x0200007B RID: 123
 	public class ItemMenuVM : ViewModel
 	{
-		// Token: 0x06000B01 RID: 2817 RVA: 0x0002AEBC File Offset: 0x000290BC
 		public ItemMenuVM(Action<ItemVM, int> resetComparedItems, InventoryLogic inventoryLogic, Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> getItemUsageSetFlags, Func<EquipmentIndex, SPItemVM> getEquipmentAtIndex)
 		{
 			this._resetComparedItems = resetComparedItems;
@@ -36,9 +34,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._tradeRumorsBehavior = Campaign.Current.GetCampaignBehavior<ITradeRumorCampaignBehavior>();
 		}
 
-		// Token: 0x17000395 RID: 917
-		// (get) Token: 0x06000B02 RID: 2818 RVA: 0x0002B1A7 File Offset: 0x000293A7
-		// (set) Token: 0x06000B03 RID: 2819 RVA: 0x0002B1AF File Offset: 0x000293AF
 		[DataSourceProperty]
 		public bool IsComparing
 		{
@@ -56,9 +51,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000396 RID: 918
-		// (get) Token: 0x06000B04 RID: 2820 RVA: 0x0002B1CD File Offset: 0x000293CD
-		// (set) Token: 0x06000B05 RID: 2821 RVA: 0x0002B1D5 File Offset: 0x000293D5
 		[DataSourceProperty]
 		public bool IsPlayerItem
 		{
@@ -76,9 +68,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000397 RID: 919
-		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x0002B1F3 File Offset: 0x000293F3
-		// (set) Token: 0x06000B07 RID: 2823 RVA: 0x0002B1FB File Offset: 0x000293FB
 		[DataSourceProperty]
 		public ImageIdentifierVM ImageIdentifier
 		{
@@ -96,9 +85,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000398 RID: 920
-		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x0002B219 File Offset: 0x00029419
-		// (set) Token: 0x06000B09 RID: 2825 RVA: 0x0002B221 File Offset: 0x00029421
 		[DataSourceProperty]
 		public ImageIdentifierVM ComparedImageIdentifier
 		{
@@ -116,9 +102,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x17000399 RID: 921
-		// (get) Token: 0x06000B0A RID: 2826 RVA: 0x0002B23F File Offset: 0x0002943F
-		// (set) Token: 0x06000B0B RID: 2827 RVA: 0x0002B247 File Offset: 0x00029447
 		[DataSourceProperty]
 		public int TransactionTotalCost
 		{
@@ -136,9 +119,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039A RID: 922
-		// (get) Token: 0x06000B0C RID: 2828 RVA: 0x0002B265 File Offset: 0x00029465
-		// (set) Token: 0x06000B0D RID: 2829 RVA: 0x0002B26D File Offset: 0x0002946D
 		[DataSourceProperty]
 		public bool IsInitializationOver
 		{
@@ -156,9 +136,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039B RID: 923
-		// (get) Token: 0x06000B0E RID: 2830 RVA: 0x0002B28B File Offset: 0x0002948B
-		// (set) Token: 0x06000B0F RID: 2831 RVA: 0x0002B293 File Offset: 0x00029493
 		[DataSourceProperty]
 		public string ItemName
 		{
@@ -176,9 +153,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039C RID: 924
-		// (get) Token: 0x06000B10 RID: 2832 RVA: 0x0002B2B6 File Offset: 0x000294B6
-		// (set) Token: 0x06000B11 RID: 2833 RVA: 0x0002B2BE File Offset: 0x000294BE
 		[DataSourceProperty]
 		public string ComparedItemName
 		{
@@ -196,9 +170,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039D RID: 925
-		// (get) Token: 0x06000B12 RID: 2834 RVA: 0x0002B2E1 File Offset: 0x000294E1
-		// (set) Token: 0x06000B13 RID: 2835 RVA: 0x0002B2E9 File Offset: 0x000294E9
 		[DataSourceProperty]
 		public MBBindingList<ItemMenuTooltipPropertyVM> TargetItemProperties
 		{
@@ -216,9 +187,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039E RID: 926
-		// (get) Token: 0x06000B14 RID: 2836 RVA: 0x0002B307 File Offset: 0x00029507
-		// (set) Token: 0x06000B15 RID: 2837 RVA: 0x0002B30F File Offset: 0x0002950F
 		[DataSourceProperty]
 		public MBBindingList<ItemMenuTooltipPropertyVM> ComparedItemProperties
 		{
@@ -236,9 +204,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x1700039F RID: 927
-		// (get) Token: 0x06000B16 RID: 2838 RVA: 0x0002B32D File Offset: 0x0002952D
-		// (set) Token: 0x06000B17 RID: 2839 RVA: 0x0002B335 File Offset: 0x00029535
 		[DataSourceProperty]
 		public MBBindingList<ItemFlagVM> TargetItemFlagList
 		{
@@ -256,9 +221,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003A0 RID: 928
-		// (get) Token: 0x06000B18 RID: 2840 RVA: 0x0002B353 File Offset: 0x00029553
-		// (set) Token: 0x06000B19 RID: 2841 RVA: 0x0002B35B File Offset: 0x0002955B
 		[DataSourceProperty]
 		public MBBindingList<ItemFlagVM> ComparedItemFlagList
 		{
@@ -276,9 +238,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003A1 RID: 929
-		// (get) Token: 0x06000B1A RID: 2842 RVA: 0x0002B379 File Offset: 0x00029579
-		// (set) Token: 0x06000B1B RID: 2843 RVA: 0x0002B381 File Offset: 0x00029581
 		[DataSourceProperty]
 		public int AlternativeUsageIndex
 		{
@@ -297,9 +256,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x170003A2 RID: 930
-		// (get) Token: 0x06000B1C RID: 2844 RVA: 0x0002B3A5 File Offset: 0x000295A5
-		// (set) Token: 0x06000B1D RID: 2845 RVA: 0x0002B3AD File Offset: 0x000295AD
 		[DataSourceProperty]
 		public MBBindingList<StringItemWithHintVM> AlternativeUsages
 		{
@@ -317,7 +273,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B1E RID: 2846 RVA: 0x0002B3CC File Offset: 0x000295CC
 		public void SetItem(SPItemVM item, ItemVM comparedItem = null, BasicCharacterObject character = null, int alternativeUsageIndex = 0)
 		{
 			this.IsInitializationOver = false;
@@ -447,7 +402,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			game.EventManager.TriggerEvent<InventoryItemInspectedEvent>(new InventoryItemInspectedEvent(item.ItemRosterElement, item.InventorySide));
 		}
 
-		// Token: 0x06000B1F RID: 2847 RVA: 0x0002B7C0 File Offset: 0x000299C0
 		private int CompareValues(float currentValue, float comparedValue)
 		{
 			int num = (int)(currentValue * 10f);
@@ -459,7 +413,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return this.CompareValues(num, num2);
 		}
 
-		// Token: 0x06000B20 RID: 2848 RVA: 0x0002B815 File Offset: 0x00029A15
 		private int CompareValues(int currentValue, int comparedValue)
 		{
 			if (this._comparedItem == null || currentValue == comparedValue)
@@ -473,7 +426,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return 1;
 		}
 
-		// Token: 0x06000B21 RID: 2849 RVA: 0x0002B82C File Offset: 0x00029A2C
 		private void AlternativeUsageIndexUpdated()
 		{
 			if (this.AlternativeUsageIndex < 0 || !this.IsInitializationOver)
@@ -505,7 +457,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B22 RID: 2850 RVA: 0x0002B938 File Offset: 0x00029B38
 		private void GetComparedWeapon(string weaponUsageId, out EquipmentElement comparedWeapon, out int comparedUsageIndex)
 		{
 			comparedWeapon = EquipmentElement.Invalid;
@@ -518,7 +469,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B23 RID: 2851 RVA: 0x0002B9A0 File Offset: 0x00029BA0
 		private void SetGeneralComponentTooltip(bool isInit = true)
 		{
 			if (this._targetItem.ItemCost >= 0)
@@ -601,7 +551,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B24 RID: 2852 RVA: 0x0002BF3C File Offset: 0x0002A13C
 		private void AddSkillRequirement(ItemVM itemVm, MBBindingList<ItemMenuTooltipPropertyVM> itemProperties, bool isComparison)
 		{
 			ItemObject item = itemVm.ItemRosterElement.EquipmentElement.Item;
@@ -620,7 +569,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(itemProperties, text2, text, this.GetColorFromBool(this._character == null || CharacterHelper.CanUseItemBasedOnSkill(this._character, itemVm.ItemRosterElement.EquipmentElement)), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B25 RID: 2853 RVA: 0x0002BFE8 File Offset: 0x0002A1E8
 		private void AddGeneralItemFlags(MBBindingList<ItemFlagVM> list, ItemObject item)
 		{
 			if (item.IsUniqueItem)
@@ -641,13 +589,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B26 RID: 2854 RVA: 0x0002C095 File Offset: 0x0002A295
 		private void AddFoodItemFlags(MBBindingList<ItemFlagVM> list, ItemObject item)
 		{
 			list.Add(new ItemFlagVM("GoodsFlagIcons\\consumable", GameTexts.FindText("str_inventory_flag_consumable", null)));
 		}
 
-		// Token: 0x06000B27 RID: 2855 RVA: 0x0002C0B4 File Offset: 0x0002A2B4
 		private void AddWeaponItemFlags(MBBindingList<ItemFlagVM> list, WeaponComponentData weapon)
 		{
 			if (weapon == null)
@@ -662,7 +608,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B28 RID: 2856 RVA: 0x0002C150 File Offset: 0x0002A350
 		private Color GetColorFromBool(bool booleanValue)
 		{
 			if (!booleanValue)
@@ -672,14 +617,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return UIColors.PositiveIndicator;
 		}
 
-		// Token: 0x06000B29 RID: 2857 RVA: 0x0002C160 File Offset: 0x0002A360
 		private void SetFoodTooltip()
 		{
 			this.CreateColoredProperty(this.TargetItemProperties, "", this._foodText.ToString(), this.ConsumableColor, 1, null, TooltipProperty.TooltipPropertyFlags.None);
 			this.AddFoodItemFlags(this.TargetItemFlagList, this._targetItem.ItemRosterElement.EquipmentElement.Item);
 		}
 
-		// Token: 0x06000B2A RID: 2858 RVA: 0x0002C1B8 File Offset: 0x0002A3B8
 		private void SetHorseComponentTooltip()
 		{
 			HorseComponent horseComponent = this._targetItem.ItemRosterElement.EquipmentElement.Item.HorseComponent;
@@ -705,7 +648,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B2B RID: 2859 RVA: 0x0002C590 File Offset: 0x0002A790
 		private void AddHorseItemFlags(MBBindingList<ItemFlagVM> list, ItemObject item, HorseComponent horse)
 		{
 			if (!horse.IsLiveStock)
@@ -725,7 +667,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B2C RID: 2860 RVA: 0x0002C614 File Offset: 0x0002A814
 		private void SetMerchandiseComponentTooltip()
 		{
 			if (Campaign.Current.GameMode == CampaignGameMode.Campaign)
@@ -782,13 +723,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B2D RID: 2861 RVA: 0x0002C8DC File Offset: 0x0002AADC
 		private float CalculateTradeRumorOldnessFactor(TradeRumor rumor)
 		{
 			return MathF.Clamp((float)((int)rumor.RumorEndTime.RemainingDaysFromNow) / 5f, 0.5f, 1f);
 		}
 
-		// Token: 0x06000B2E RID: 2862 RVA: 0x0002C910 File Offset: 0x0002AB10
 		private void SetWeaponComponentTooltip(in EquipmentElement targetWeapon, int targetWeaponUsageIndex, EquipmentElement comparedWeapon, int comparedWeaponUsageIndex, bool isInit)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -960,7 +899,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddDonationXpTooltip();
 		}
 
-		// Token: 0x06000B2F RID: 2863 RVA: 0x0002D04C File Offset: 0x0002B24C
 		private void AddIntProperty(TextObject description, int targetValue, int? comparedValue)
 		{
 			string text = targetValue.ToString();
@@ -975,7 +913,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B30 RID: 2864 RVA: 0x0002D0F0 File Offset: 0x0002B2F0
 		private void AddFloatProperty(TextObject description, Func<EquipmentElement, float> func, bool reversedCompare = false)
 		{
 			float num = func(this._targetItem.ItemRosterElement.EquipmentElement);
@@ -987,7 +924,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddFloatProperty(description, num, num2, reversedCompare);
 		}
 
-		// Token: 0x06000B31 RID: 2865 RVA: 0x0002D154 File Offset: 0x0002B354
 		private void AddFloatProperty(TextObject description, float targetValue, float? comparedValue, bool reversedCompare = false)
 		{
 			string text = targetValue.ToString("0.0");
@@ -1006,7 +942,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B32 RID: 2866 RVA: 0x0002D208 File Offset: 0x0002B408
 		private void AddComparableStringProperty(TextObject description, Func<EquipmentElement, string> valueAsStringFunc, Func<EquipmentElement, int> valueAsIntFunc)
 		{
 			string text = valueAsStringFunc(this._targetItem.ItemRosterElement.EquipmentElement);
@@ -1022,7 +957,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B33 RID: 2867 RVA: 0x0002D2E8 File Offset: 0x0002B4E8
 		private void AddSwingDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -1051,7 +985,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B34 RID: 2868 RVA: 0x0002D400 File Offset: 0x0002B600
 		private void AddMissileDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -1080,7 +1013,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B35 RID: 2869 RVA: 0x0002D518 File Offset: 0x0002B718
 		private void AddThrustDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -1109,7 +1041,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x06000B36 RID: 2870 RVA: 0x0002D630 File Offset: 0x0002B830
 		private void SetArmorComponentTooltip()
 		{
 			int num = 0;
@@ -1176,7 +1107,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddDonationXpTooltip();
 		}
 
-		// Token: 0x06000B37 RID: 2871 RVA: 0x0002DC8C File Offset: 0x0002BE8C
 		private void AddDonationXpTooltip()
 		{
 			ItemDiscardModel itemDiscardModel = Campaign.Current.Models.ItemDiscardModel;
@@ -1198,7 +1128,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B38 RID: 2872 RVA: 0x0002DDAE File Offset: 0x0002BFAE
 		private Color GetColorFromComparison(int result, bool isCompared)
 		{
 			if (result != -1)
@@ -1223,7 +1152,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		// Token: 0x06000B39 RID: 2873 RVA: 0x0002DDE0 File Offset: 0x0002BFE0
 		private int GetHorseCategoryValue(ItemCategory itemCategory)
 		{
 			if (itemCategory.IsAnimal)
@@ -1249,7 +1177,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return -1;
 		}
 
-		// Token: 0x06000B3A RID: 2874 RVA: 0x0002DE38 File Offset: 0x0002C038
 		private ItemMenuTooltipPropertyVM CreateProperty(MBBindingList<ItemMenuTooltipPropertyVM> targetList, string definition, string value, int textHeight = 0, HintViewModel hint = null)
 		{
 			ItemMenuTooltipPropertyVM itemMenuTooltipPropertyVM = new ItemMenuTooltipPropertyVM(definition, value, textHeight, false, hint);
@@ -1257,7 +1184,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return itemMenuTooltipPropertyVM;
 		}
 
-		// Token: 0x06000B3B RID: 2875 RVA: 0x0002DE5C File Offset: 0x0002C05C
 		private ItemMenuTooltipPropertyVM CreateColoredProperty(MBBindingList<ItemMenuTooltipPropertyVM> targetList, string definition, string value, Color color, int textHeight = 0, HintViewModel hint = null, TooltipProperty.TooltipPropertyFlags propertyFlags = TooltipProperty.TooltipPropertyFlags.None)
 		{
 			if (color == Colors.Black)
@@ -1270,7 +1196,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			return itemMenuTooltipPropertyVM;
 		}
 
-		// Token: 0x06000B3C RID: 2876 RVA: 0x0002DEA0 File Offset: 0x0002C0A0
 		public void SetTransactionCost(int getItemTotalPrice, int maxIndividualPrice)
 		{
 			this.TransactionTotalCost = getItemTotalPrice;
@@ -1299,184 +1224,124 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			});
 		}
 
-		// Token: 0x040004F6 RID: 1270
 		private readonly TextObject _swingDamageText = GameTexts.FindText("str_swing_damage", null);
 
-		// Token: 0x040004F7 RID: 1271
 		private readonly TextObject _swingSpeedText = new TextObject("{=345a87fcc69f626ae3916939ef2fc135}Swing Speed: ", null);
 
-		// Token: 0x040004F8 RID: 1272
 		private readonly TextObject _weaponTierText = new TextObject("{=weaponTier}Weapon Tier: ", null);
 
-		// Token: 0x040004F9 RID: 1273
 		private readonly TextObject _armorTierText = new TextObject("{=armorTier}Armor Tier: ", null);
 
-		// Token: 0x040004FA RID: 1274
 		private readonly TextObject _horseTierText = new TextObject("{=mountTier}Mount Tier: ", null);
 
-		// Token: 0x040004FB RID: 1275
 		private readonly TextObject _horseTypeText = new TextObject("{=9sxECG6e}Mount Type: ", null);
 
-		// Token: 0x040004FC RID: 1276
 		private readonly TextObject _chargeDamageText = new TextObject("{=c7638a0869219ae845de0f660fd57a9d}Charge Damage: ", null);
 
-		// Token: 0x040004FD RID: 1277
 		private readonly TextObject _hitPointsText = GameTexts.FindText("str_hit_points", null);
 
-		// Token: 0x040004FE RID: 1278
 		private readonly TextObject _speedText = new TextObject("{=74dc1908cb0b990e80fb977b5a0ef10d}Speed: ", null);
 
-		// Token: 0x040004FF RID: 1279
 		private readonly TextObject _maneuverText = new TextObject("{=3025020b83b218707499f0de3135ed0a}Maneuver: ", null);
 
-		// Token: 0x04000500 RID: 1280
 		private readonly TextObject _thrustSpeedText = GameTexts.FindText("str_thrust_speed", null);
 
-		// Token: 0x04000501 RID: 1281
 		private readonly TextObject _thrustDamageText = GameTexts.FindText("str_thrust_damage", null);
 
-		// Token: 0x04000502 RID: 1282
 		private readonly TextObject _lengthText = new TextObject("{=c6e4c8588ca9e42f6e1b47b11f0f367b}Length: ", null);
 
-		// Token: 0x04000503 RID: 1283
 		private readonly TextObject _weightText = GameTexts.FindText("str_weight_text", null);
 
-		// Token: 0x04000504 RID: 1284
 		private readonly TextObject _handlingText = new TextObject("{=ca8b1e8956057b831dfc665f54bae4b0}Handling: ", null);
 
-		// Token: 0x04000505 RID: 1285
 		private readonly TextObject _weaponLengthText = new TextObject("{=5fa36d2798479803b4518a64beb4d732}Weapon Length: ", null);
 
-		// Token: 0x04000506 RID: 1286
 		private readonly TextObject _damageText = new TextObject("{=c9c5dfed2ca6bcb7a73d905004c97b23}Damage: ", null);
 
-		// Token: 0x04000507 RID: 1287
 		private readonly TextObject _missileSpeedText = GameTexts.FindText("str_missile_speed", null);
 
-		// Token: 0x04000508 RID: 1288
 		private readonly TextObject _accuracyText = new TextObject("{=5dec16fa0be433ade3c4cb0074ef366d}Accuracy: ", null);
 
-		// Token: 0x04000509 RID: 1289
 		private readonly TextObject _stackAmountText = new TextObject("{=05fdfc6e238429753ef282f2ce97c1f8}Stack Amount: ", null);
 
-		// Token: 0x0400050A RID: 1290
 		private readonly TextObject _ammoLimitText = new TextObject("{=6adabc1f82216992571c3e22abc164d7}Ammo Limit: ", null);
 
-		// Token: 0x0400050B RID: 1291
 		private readonly TextObject _requiresText = new TextObject("{=154a34f8caccfc833238cc89d38861e8}Requires: ", null);
 
-		// Token: 0x0400050C RID: 1292
 		private readonly TextObject _foodText = new TextObject("{=qSi4DlT4}Food", null);
 
-		// Token: 0x0400050D RID: 1293
 		private readonly TextObject _partyMoraleText = new TextObject("{=a241aacb1780599430c79fd9f667b67f}Party Morale: ", null);
 
-		// Token: 0x0400050E RID: 1294
 		private readonly TextObject _typeText = new TextObject("{=08abd5af7774d311cadc3ed900b47754}Type: ", null);
 
-		// Token: 0x0400050F RID: 1295
 		private readonly TextObject _tradeRumorsText = new TextObject("{=f2971dc587a9777223ad2d7be236fb05}Trade Rumors", null);
 
-		// Token: 0x04000510 RID: 1296
 		private readonly TextObject _classText = new TextObject("{=8cad4a279770f269c4bb0dc7a357ee1e}Class: ", null);
 
-		// Token: 0x04000511 RID: 1297
 		private readonly TextObject _headArmorText = GameTexts.FindText("str_head_armor", null);
 
-		// Token: 0x04000512 RID: 1298
 		private readonly TextObject _horseArmorText = new TextObject("{=305cf7f98458b22e9af72b60a131714f}Horse Armor: ", null);
 
-		// Token: 0x04000513 RID: 1299
 		private readonly TextObject _bodyArmorText = GameTexts.FindText("str_body_armor", null);
 
-		// Token: 0x04000514 RID: 1300
 		private readonly TextObject _legArmorText = GameTexts.FindText("str_leg_armor", null);
 
-		// Token: 0x04000515 RID: 1301
 		private readonly TextObject _armArmorText = new TextObject("{=cf61cce254c7dca65be9bebac7fb9bf5}Arm Armor: ", null);
 
-		// Token: 0x04000516 RID: 1302
 		private readonly TextObject _bannerEffectText = new TextObject("{=DbXZjPdf}Banner Effect: ", null);
 
-		// Token: 0x04000517 RID: 1303
 		private readonly TextObject _noneText = new TextObject("{=koX9okuG}None", null);
 
-		// Token: 0x04000518 RID: 1304
 		private readonly string GoldIcon = "<img src=\"General\\Icons\\Coin@2x\" extend=\"8\"/>";
 
-		// Token: 0x04000519 RID: 1305
 		private readonly Color ConsumableColor = Color.FromUint(4290873921U);
 
-		// Token: 0x0400051A RID: 1306
 		private readonly Color TitleColor = Color.FromUint(4293446041U);
 
-		// Token: 0x0400051B RID: 1307
 		private TooltipProperty _costProperty;
 
-		// Token: 0x0400051C RID: 1308
 		private InventoryLogic _inventoryLogic;
 
-		// Token: 0x0400051D RID: 1309
 		private Action<ItemVM, int> _resetComparedItems;
 
-		// Token: 0x0400051E RID: 1310
 		private readonly Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
 
-		// Token: 0x0400051F RID: 1311
 		private readonly Func<EquipmentIndex, SPItemVM> _getEquipmentAtIndex;
 
-		// Token: 0x04000520 RID: 1312
 		private bool _isComparing;
 
-		// Token: 0x04000521 RID: 1313
 		private bool _isPlayerItem;
 
-		// Token: 0x04000522 RID: 1314
 		private ImageIdentifierVM _imageIdentifier;
 
-		// Token: 0x04000523 RID: 1315
 		private ImageIdentifierVM _comparedImageIdentifier;
 
-		// Token: 0x04000524 RID: 1316
 		private string _itemName;
 
-		// Token: 0x04000525 RID: 1317
 		private string _comparedItemName;
 
-		// Token: 0x04000526 RID: 1318
 		private MBBindingList<ItemMenuTooltipPropertyVM> _comparedItemProperties;
 
-		// Token: 0x04000527 RID: 1319
 		private MBBindingList<ItemMenuTooltipPropertyVM> _targetItemProperties;
 
-		// Token: 0x04000528 RID: 1320
 		private bool _isInitializationOver;
 
-		// Token: 0x04000529 RID: 1321
 		private int _transactionTotalCost = -1;
 
-		// Token: 0x0400052A RID: 1322
 		private MBBindingList<ItemFlagVM> _targetItemFlagList;
 
-		// Token: 0x0400052B RID: 1323
 		private MBBindingList<ItemFlagVM> _comparedItemFlagList;
 
-		// Token: 0x0400052C RID: 1324
 		private int _alternativeUsageIndex;
 
-		// Token: 0x0400052D RID: 1325
 		private MBBindingList<StringItemWithHintVM> _alternativeUsages;
 
-		// Token: 0x0400052E RID: 1326
 		private ITradeRumorCampaignBehavior _tradeRumorsBehavior;
 
-		// Token: 0x0400052F RID: 1327
 		private ItemVM _targetItem;
 
-		// Token: 0x04000530 RID: 1328
 		private ItemVM _comparedItem;
 
-		// Token: 0x04000531 RID: 1329
 		private BasicCharacterObject _character;
 	}
 }

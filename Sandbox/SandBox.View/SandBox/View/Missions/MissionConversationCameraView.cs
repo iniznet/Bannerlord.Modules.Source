@@ -8,16 +8,13 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000015 RID: 21
 	public class MissionConversationCameraView : MissionView
 	{
-		// Token: 0x06000078 RID: 120 RVA: 0x000052F6 File Offset: 0x000034F6
 		public override void AfterStart()
 		{
 			this._missionMainAgentController = base.Mission.GetMissionBehavior<MissionMainAgentController>();
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x0000530C File Offset: 0x0000350C
 		public override bool UpdateOverridenCamera(float dt)
 		{
 			MissionMode mode = base.Mission.Mode;
@@ -32,7 +29,6 @@ namespace SandBox.View.Missions
 			return false;
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00005368 File Offset: 0x00003568
 		private void UpdateAgentLooksForConversation()
 		{
 			Agent agent = null;
@@ -62,13 +58,11 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x00005448 File Offset: 0x00003648
 		private void SpeakerAgentIsChanged()
 		{
 			Mission.Current.ConversationCharacterChanged();
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00005454 File Offset: 0x00003654
 		private void SetFocusedObjectForCameraFocus()
 		{
 			if (this._speakerAgent == Agent.Main)
@@ -83,7 +77,6 @@ namespace SandBox.View.Missions
 			Agent.Main.SetLookAgent(this._speakerAgent);
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x0000551C File Offset: 0x0000371C
 		private void MakeAgentLookToSpeaker(Agent agent)
 		{
 			Vec3 position = agent.Position;
@@ -96,7 +89,6 @@ namespace SandBox.View.Missions
 			agent.SetLookAgent(this._speakerAgent);
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x000055BC File Offset: 0x000037BC
 		private void MakeSpeakerLookToListener()
 		{
 			Vec3 position = this._speakerAgent.Position;
@@ -109,7 +101,6 @@ namespace SandBox.View.Missions
 			this._speakerAgent.SetLookAgent(this._listenerAgent);
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00005678 File Offset: 0x00003878
 		private void SetConversationLook(Agent agent1, Agent agent2)
 		{
 			Vec3 position = agent2.Position;
@@ -126,13 +117,10 @@ namespace SandBox.View.Missions
 			agent1.SetLookAgent(agent2);
 		}
 
-		// Token: 0x0400003C RID: 60
 		private MissionMainAgentController _missionMainAgentController;
 
-		// Token: 0x0400003D RID: 61
 		private Agent _speakerAgent;
 
-		// Token: 0x0400003E RID: 62
 		private Agent _listenerAgent;
 	}
 }

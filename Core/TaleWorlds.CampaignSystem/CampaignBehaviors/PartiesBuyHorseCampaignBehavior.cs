@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003B5 RID: 949
 	public class PartiesBuyHorseCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003892 RID: 14482 RVA: 0x00101848 File Offset: 0x000FFA48
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -21,24 +19,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameStarted));
 		}
 
-		// Token: 0x06003893 RID: 14483 RVA: 0x001018B1 File Offset: 0x000FFAB1
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003894 RID: 14484 RVA: 0x001018B3 File Offset: 0x000FFAB3
 		private void OnGameStarted(CampaignGameStarter obj)
 		{
 			this.CalculateAverageHorsePrice();
 		}
 
-		// Token: 0x06003895 RID: 14485 RVA: 0x001018BB File Offset: 0x000FFABB
 		private void OnDailyTick()
 		{
 			this.CalculateAverageHorsePrice();
 		}
 
-		// Token: 0x06003896 RID: 14486 RVA: 0x001018C4 File Offset: 0x000FFAC4
 		private void CalculateAverageHorsePrice()
 		{
 			int num = 0;
@@ -60,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._averageHorsePrice = (float)(num / num2);
 		}
 
-		// Token: 0x06003897 RID: 14487 RVA: 0x0010192C File Offset: 0x000FFB2C
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null && mobileParty.MapFaction != null && !mobileParty.MapFaction.IsAtWarWith(settlement.MapFaction) && mobileParty != MobileParty.MainParty && mobileParty.IsLordParty && mobileParty.LeaderHero != null && !mobileParty.IsDisbanding && settlement.IsTown)
@@ -136,7 +129,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003898 RID: 14488 RVA: 0x00101C2C File Offset: 0x000FFE2C
 		private void BuyHorses(MobileParty mobileParty, Town town, float budget)
 		{
 			for (int i = 0; i < 2; i++)
@@ -177,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040011B0 RID: 4528
 		private float _averageHorsePrice;
 	}
 }

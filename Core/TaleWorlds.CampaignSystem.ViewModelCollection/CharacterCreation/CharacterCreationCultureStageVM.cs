@@ -9,10 +9,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 {
-	// Token: 0x02000123 RID: 291
 	public class CharacterCreationCultureStageVM : CharacterCreationStageBaseVM
 	{
-		// Token: 0x06001C19 RID: 7193 RVA: 0x00064E20 File Offset: 0x00063020
 		public CharacterCreationCultureStageVM(CharacterCreation characterCreation, Action affirmativeAction, TextObject affirmativeActionText, Action negativeAction, TextObject negativeActionText, int currentStageIndex, int totalStagesCount, int furthestIndex, Action<int> goToIndex, Action<CultureObject> onCultureSelected)
 			: base(characterCreation, affirmativeAction, affirmativeActionText, negativeAction, negativeActionText, currentStageIndex, totalStagesCount, furthestIndex, goToIndex)
 		{
@@ -38,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C1A RID: 7194 RVA: 0x00064F50 File Offset: 0x00063150
 		private void SortCultureList(MBBindingList<CharacterCreationCultureVM> listToWorkOn)
 		{
 			int num = listToWorkOn.IndexOf(listToWorkOn.Single((CharacterCreationCultureVM i) => i.CultureID.Contains("vlan")));
@@ -53,7 +50,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			this.Swap(listToWorkOn, num5, 4);
 		}
 
-		// Token: 0x06001C1B RID: 7195 RVA: 0x00065068 File Offset: 0x00063268
 		public void OnCultureSelection(CharacterCreationCultureVM selectedCulture)
 		{
 			this.InitializePlayersFaceKeyAccordingToCultureSelection(selectedCulture);
@@ -74,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			onCultureSelected(selectedCulture.Culture);
 		}
 
-		// Token: 0x06001C1C RID: 7196 RVA: 0x0006513C File Offset: 0x0006333C
 		private void InitializePlayersFaceKeyAccordingToCultureSelection(CharacterCreationCultureVM selectedCulture)
 		{
 			string text = "<BodyProperties version='4' age='25.84' weight='0.5000' build='0.5000'  key='000BAC088000100DB976648E6774B835537D86629511323BDCB177278A84F667017776140748B49500000000000000000000000000000000000000003EFC5002'/>";
@@ -120,7 +115,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			CharacterObject.PlayerCharacter.Culture = selectedCulture.Culture;
 		}
 
-		// Token: 0x06001C1D RID: 7197 RVA: 0x00065264 File Offset: 0x00063464
 		private void Swap(MBBindingList<CharacterCreationCultureVM> listToWorkOn, int swapFromIndex, int swapToIndex)
 		{
 			if (swapFromIndex != swapToIndex)
@@ -131,25 +125,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x06001C1E RID: 7198 RVA: 0x00065293 File Offset: 0x00063493
 		public override void OnNextStage()
 		{
 			this._affirmativeAction();
 		}
 
-		// Token: 0x06001C1F RID: 7199 RVA: 0x000652A0 File Offset: 0x000634A0
 		public override void OnPreviousStage()
 		{
 			this._negativeAction();
 		}
 
-		// Token: 0x06001C20 RID: 7200 RVA: 0x000652AD File Offset: 0x000634AD
 		public override bool CanAdvanceToNextStage()
 		{
 			return this.Cultures.Any((CharacterCreationCultureVM s) => s.IsSelected);
 		}
 
-		// Token: 0x06001C21 RID: 7201 RVA: 0x000652D9 File Offset: 0x000634D9
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -166,21 +156,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			doneInputKey.OnFinalize();
 		}
 
-		// Token: 0x06001C22 RID: 7202 RVA: 0x00065302 File Offset: 0x00063502
 		public void SetCancelInputKey(HotKey hotKey)
 		{
 			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x06001C23 RID: 7203 RVA: 0x00065311 File Offset: 0x00063511
 		public void SetDoneInputKey(HotKey hotKey)
 		{
 			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
 		}
 
-		// Token: 0x170009A1 RID: 2465
-		// (get) Token: 0x06001C24 RID: 7204 RVA: 0x00065320 File Offset: 0x00063520
-		// (set) Token: 0x06001C25 RID: 7205 RVA: 0x00065328 File Offset: 0x00063528
 		[DataSourceProperty]
 		public InputKeyItemVM CancelInputKey
 		{
@@ -198,9 +183,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x170009A2 RID: 2466
-		// (get) Token: 0x06001C26 RID: 7206 RVA: 0x00065346 File Offset: 0x00063546
-		// (set) Token: 0x06001C27 RID: 7207 RVA: 0x0006534E File Offset: 0x0006354E
 		[DataSourceProperty]
 		public InputKeyItemVM DoneInputKey
 		{
@@ -218,9 +200,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x170009A3 RID: 2467
-		// (get) Token: 0x06001C28 RID: 7208 RVA: 0x0006536C File Offset: 0x0006356C
-		// (set) Token: 0x06001C29 RID: 7209 RVA: 0x00065374 File Offset: 0x00063574
 		[DataSourceProperty]
 		public bool IsActive
 		{
@@ -238,9 +217,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x170009A4 RID: 2468
-		// (get) Token: 0x06001C2A RID: 7210 RVA: 0x00065392 File Offset: 0x00063592
-		// (set) Token: 0x06001C2B RID: 7211 RVA: 0x0006539A File Offset: 0x0006359A
 		[DataSourceProperty]
 		public MBBindingList<CharacterCreationCultureVM> Cultures
 		{
@@ -258,9 +234,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x06001C2C RID: 7212 RVA: 0x000653B8 File Offset: 0x000635B8
-		// (set) Token: 0x06001C2D RID: 7213 RVA: 0x000653C0 File Offset: 0x000635C0
 		[DataSourceProperty]
 		public CharacterCreationCultureVM CurrentSelectedCulture
 		{
@@ -278,22 +251,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			}
 		}
 
-		// Token: 0x04000D42 RID: 3394
 		private Action<CultureObject> _onCultureSelected;
 
-		// Token: 0x04000D43 RID: 3395
 		private InputKeyItemVM _cancelInputKey;
 
-		// Token: 0x04000D44 RID: 3396
 		private InputKeyItemVM _doneInputKey;
 
-		// Token: 0x04000D45 RID: 3397
 		private bool _isActive;
 
-		// Token: 0x04000D46 RID: 3398
 		private MBBindingList<CharacterCreationCultureVM> _cultures;
 
-		// Token: 0x04000D47 RID: 3399
 		private CharacterCreationCultureVM _currentSelectedCulture;
 	}
 }

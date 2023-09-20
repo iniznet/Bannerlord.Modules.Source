@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000107 RID: 263
 	public class BehaviorFlank : BehaviorComponent
 	{
-		// Token: 0x06000CE1 RID: 3297 RVA: 0x0001D802 File Offset: 0x0001BA02
 		public BehaviorFlank(Formation formation)
 			: base(formation)
 		{
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000CE2 RID: 3298 RVA: 0x0001D81C File Offset: 0x0001BA1C
 		protected override void CalculateCurrentOrder()
 		{
 			WorldPosition worldPosition = ((base.Formation.AI.Side == FormationAI.BehaviorSide.Right) ? base.Formation.QuerySystem.Team.RightFlankEdgePosition : base.Formation.QuerySystem.Team.LeftFlankEdgePosition);
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec);
 		}
 
-		// Token: 0x06000CE3 RID: 3299 RVA: 0x0001D8A6 File Offset: 0x0001BAA6
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -34,7 +30,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
 		}
 
-		// Token: 0x06000CE4 RID: 3300 RVA: 0x0001D8D0 File Offset: 0x0001BAD0
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -44,7 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000CE5 RID: 3301 RVA: 0x0001D92C File Offset: 0x0001BB2C
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -56,7 +50,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000CE6 RID: 3302 RVA: 0x0001D9A4 File Offset: 0x0001BBA4
 		protected override float GetAiWeight()
 		{
 			FormationQuerySystem querySystem = base.Formation.QuerySystem;

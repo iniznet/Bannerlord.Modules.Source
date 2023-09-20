@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002C5 RID: 709
 	public class FlagDominationSpawnFrameBehavior : SpawnFrameBehaviorBase
 	{
-		// Token: 0x060026FA RID: 9978 RVA: 0x000934AC File Offset: 0x000916AC
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -26,7 +24,6 @@ namespace TaleWorlds.MountAndBlade
 				select sz).ToList<GameEntity>();
 		}
 
-		// Token: 0x060026FB RID: 9979 RVA: 0x0009360C File Offset: 0x0009180C
 		public override MatrixFrame GetSpawnFrame(Team team, bool hasMount, bool isInitialSpawn)
 		{
 			GameEntity bestZone = this.GetBestZone(team, isInitialSpawn);
@@ -42,7 +39,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetBestSpawnPoint(list, hasMount);
 		}
 
-		// Token: 0x060026FC RID: 9980 RVA: 0x0009367C File Offset: 0x0009187C
 		private GameEntity GetBestZone(Team team, bool isInitialSpawn)
 		{
 			if (this._spawnZonesByTeam[(int)team.Side].Count == 0)
@@ -89,7 +85,6 @@ namespace TaleWorlds.MountAndBlade
 			return list[num];
 		}
 
-		// Token: 0x060026FD RID: 9981 RVA: 0x00093880 File Offset: 0x00091A80
 		private MatrixFrame GetBestSpawnPoint(List<GameEntity> spawnPointList, bool hasMount)
 		{
 			float num = float.MinValue;
@@ -123,10 +118,8 @@ namespace TaleWorlds.MountAndBlade
 			return globalFrame;
 		}
 
-		// Token: 0x04000E72 RID: 3698
 		private List<GameEntity>[] _spawnPointsByTeam;
 
-		// Token: 0x04000E73 RID: 3699
 		private List<GameEntity>[] _spawnZonesByTeam;
 	}
 }

@@ -15,10 +15,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Issues.IssueQuestTasks
 {
-	// Token: 0x02000082 RID: 130
 	public class ArenaDuelQuestTask : QuestTaskBase
 	{
-		// Token: 0x06000581 RID: 1409 RVA: 0x00026F6C File Offset: 0x0002516C
 		public ArenaDuelQuestTask(CharacterObject duelOpponentCharacter, Settlement settlement, Action onSucceededAction, Action onFailedAction, DialogFlow dialogFlow = null)
 			: base(dialogFlow, onSucceededAction, onFailedAction, null)
 		{
@@ -26,7 +24,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			this._settlement = settlement;
 		}
 
-		// Token: 0x06000582 RID: 1410 RVA: 0x00026F88 File Offset: 0x00025188
 		public void AfterStart(IMission mission)
 		{
 			if (Mission.Current.HasMissionBehavior<ArenaDuelMissionBehavior>() && PlayerEncounter.LocationEncounter.Settlement == this._settlement)
@@ -55,7 +52,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			}
 		}
 
-		// Token: 0x06000583 RID: 1411 RVA: 0x000270C8 File Offset: 0x000252C8
 		public override void SetReferences()
 		{
 			CampaignEvents.AfterMissionStarted.AddNonSerializedListener(this, new Action<IMission>(this.AfterStart));
@@ -63,7 +59,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			CampaignEvents.MissionTickEvent.AddNonSerializedListener(this, new Action<float>(this.MissionTick));
 		}
 
-		// Token: 0x06000584 RID: 1412 RVA: 0x0002711A File Offset: 0x0002531A
 		public void OnGameMenuOpened(MenuCallbackArgs args)
 		{
 			if (Hero.MainHero.CurrentSettlement == this._settlement)
@@ -85,7 +80,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			}
 		}
 
-		// Token: 0x06000585 RID: 1413 RVA: 0x0002715C File Offset: 0x0002535C
 		public void MissionTick(float dt)
 		{
 			if (Mission.Current.HasMissionBehavior<ArenaDuelMissionBehavior>() && PlayerEncounter.LocationEncounter.Settlement == this._settlement && ((this._playerAgent != null && !this._playerAgent.IsActive()) || (this._opponentAgent != null && !this._opponentAgent.IsActive())))
@@ -102,7 +96,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			}
 		}
 
-		// Token: 0x06000586 RID: 1414 RVA: 0x0002721C File Offset: 0x0002541C
 		private void OpenArenaDuelMission()
 		{
 			Location locationWithId = this._settlement.LocationComplex.GetLocationWithId("arena");
@@ -111,7 +104,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			this._duelStarted = true;
 		}
 
-		// Token: 0x06000587 RID: 1415 RVA: 0x00027278 File Offset: 0x00025478
 		private void InitializeTeams()
 		{
 			Mission.Current.Teams.Add(0, Hero.MainHero.MapFaction.Color, Hero.MainHero.MapFaction.Color2, null, true, false, true);
@@ -119,7 +111,6 @@ namespace SandBox.Issues.IssueQuestTasks
 			Mission.Current.PlayerTeam = Mission.Current.DefenderTeam;
 		}
 
-		// Token: 0x06000588 RID: 1416 RVA: 0x00027300 File Offset: 0x00025500
 		private Agent SpawnArenaAgent(CharacterObject character, Team team, MatrixFrame frame)
 		{
 			if (team == Mission.Current.PlayerTeam)
@@ -142,22 +133,16 @@ namespace SandBox.Issues.IssueQuestTasks
 			return agent;
 		}
 
-		// Token: 0x040002AE RID: 686
 		private Settlement _settlement;
 
-		// Token: 0x040002AF RID: 687
 		private CharacterObject _opponentCharacter;
 
-		// Token: 0x040002B0 RID: 688
 		private Agent _playerAgent;
 
-		// Token: 0x040002B1 RID: 689
 		private Agent _opponentAgent;
 
-		// Token: 0x040002B2 RID: 690
 		private bool _duelStarted;
 
-		// Token: 0x040002B3 RID: 691
 		private BasicMissionTimer _missionEndTimer;
 	}
 }

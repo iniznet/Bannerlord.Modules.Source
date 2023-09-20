@@ -11,11 +11,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000109 RID: 265
 	public class DefaultEncounterModel : EncounterModel
 	{
-		// Token: 0x170005EA RID: 1514
-		// (get) Token: 0x06001584 RID: 5508 RVA: 0x00065CCB File Offset: 0x00063ECB
 		public override float EstimatedMaximumMobilePartySpeedExceptPlayer
 		{
 			get
@@ -24,8 +21,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005EB RID: 1515
-		// (get) Token: 0x06001585 RID: 5509 RVA: 0x00065CD2 File Offset: 0x00063ED2
 		public override float NeededMaximumDistanceForEncounteringMobileParty
 		{
 			get
@@ -34,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005EC RID: 1516
-		// (get) Token: 0x06001586 RID: 5510 RVA: 0x00065CD9 File Offset: 0x00063ED9
 		public override float MaximumAllowedDistanceForEncounteringMobilePartyInArmy
 		{
 			get
@@ -44,8 +37,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005ED RID: 1517
-		// (get) Token: 0x06001587 RID: 5511 RVA: 0x00065CE0 File Offset: 0x00063EE0
 		public override float NeededMaximumDistanceForEncounteringTown
 		{
 			get
@@ -54,8 +45,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005EE RID: 1518
-		// (get) Token: 0x06001588 RID: 5512 RVA: 0x00065CE7 File Offset: 0x00063EE7
 		public override float NeededMaximumDistanceForEncounteringVillage
 		{
 			get
@@ -64,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001589 RID: 5513 RVA: 0x00065CF0 File Offset: 0x00063EF0
 		public override bool IsEncounterExemptFromHostileActions(PartyBase side1, PartyBase side2)
 		{
 			if (side1 != null && side2 != null)
@@ -82,32 +70,27 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return true;
 		}
 
-		// Token: 0x0600158A RID: 5514 RVA: 0x00065DCF File Offset: 0x00063FCF
 		public override Hero GetLeaderOfSiegeEvent(SiegeEvent siegeEvent, BattleSideEnum side)
 		{
 			return this.GetLeaderOfEventInternal(siegeEvent.GetSiegeEventSide(side).GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).ToList<PartyBase>());
 		}
 
-		// Token: 0x0600158B RID: 5515 RVA: 0x00065DE9 File Offset: 0x00063FE9
 		public override Hero GetLeaderOfMapEvent(MapEvent mapEvent, BattleSideEnum side)
 		{
 			return this.GetLeaderOfEventInternal(mapEvent.GetMapEventSide(side).Parties.Select((MapEventParty x) => x.Party).ToList<PartyBase>());
 		}
 
-		// Token: 0x0600158C RID: 5516 RVA: 0x00065E26 File Offset: 0x00064026
 		private bool IsFactionLeader(Hero hero)
 		{
 			return hero.MapFaction.IsKingdomFaction && hero.IsFactionLeader;
 		}
 
-		// Token: 0x0600158D RID: 5517 RVA: 0x00065E3D File Offset: 0x0006403D
 		private bool IsArmyLeader(Hero hero)
 		{
 			MobileParty partyBelongedTo = hero.PartyBelongedTo;
 			return ((partyBelongedTo != null) ? partyBelongedTo.Army : null) != null && hero.PartyBelongedTo.Army.LeaderParty == hero.PartyBelongedTo;
 		}
 
-		// Token: 0x0600158E RID: 5518 RVA: 0x00065E6D File Offset: 0x0006406D
 		private int GetLeadingScore(Hero hero)
 		{
 			if (!this.IsFactionLeader(hero) && !this.IsArmyLeader(hero))
@@ -117,7 +100,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)hero.PartyBelongedTo.GetTotalStrengthWithFollowers(true);
 		}
 
-		// Token: 0x0600158F RID: 5519 RVA: 0x00065E98 File Offset: 0x00064098
 		private Hero GetLeaderOfEventInternal(List<PartyBase> allPartiesThatBelongToASide)
 		{
 			Hero hero = null;
@@ -163,7 +145,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return hero;
 		}
 
-		// Token: 0x06001590 RID: 5520 RVA: 0x00065F6C File Offset: 0x0006416C
 		public override int GetCharacterSergeantScore(Hero hero)
 		{
 			int num = 0;
@@ -188,7 +169,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001591 RID: 5521 RVA: 0x00066010 File Offset: 0x00064210
 		public override IEnumerable<PartyBase> GetDefenderPartiesOfSettlement(Settlement settlement, MapEvent.BattleTypes mapEventType)
 		{
 			if (settlement.IsFortification)
@@ -206,7 +186,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return null;
 		}
 
-		// Token: 0x06001592 RID: 5522 RVA: 0x00066060 File Offset: 0x00064260
 		public override PartyBase GetNextDefenderPartyOfSettlement(Settlement settlement, ref int partyIndex, MapEvent.BattleTypes mapEventType)
 		{
 			if (settlement.IsFortification)

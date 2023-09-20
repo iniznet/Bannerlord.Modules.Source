@@ -7,10 +7,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x020000F3 RID: 243
 	public class ChatManager
 	{
-		// Token: 0x06000439 RID: 1081 RVA: 0x00006035 File Offset: 0x00004235
 		public ChatManager(IChatClientHandler chatClientHandler)
 		{
 			this._clients = new Dictionary<string, ChatClient>();
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this._chatClientHandler = chatClientHandler;
 		}
 
-		// Token: 0x0600043A RID: 1082 RVA: 0x0000605C File Offset: 0x0000425C
 		public void OnJoinChatRoom(ChatRoomInformationForClient info, PlayerId playerId, string playerName)
 		{
 			if (this._rooms.ContainsKey(info.RoomId))
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this._rooms.Add(info.RoomId, info);
 		}
 
-		// Token: 0x0600043B RID: 1083 RVA: 0x000060EC File Offset: 0x000042EC
 		public void OnTick()
 		{
 			if (!this._isCleaningUp)
@@ -66,8 +62,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x170001A2 RID: 418
-		// (get) Token: 0x0600043C RID: 1084 RVA: 0x000061E0 File Offset: 0x000043E0
 		public List<ChatRoomInformationForClient> Rooms
 		{
 			get
@@ -76,7 +70,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600043D RID: 1085 RVA: 0x000061F4 File Offset: 0x000043F4
 		public void OnChatRoomClosed(Guid roomId)
 		{
 			ChatRoomInformationForClient room;
@@ -92,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600043E RID: 1086 RVA: 0x00006288 File Offset: 0x00004488
 		private void ClientOnMessageReceived(ChatClient client, ChatMessage message)
 		{
 			ChatRoomInformationForClient chatRoomInformationForClient;
@@ -102,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600043F RID: 1087 RVA: 0x000062DC File Offset: 0x000044DC
 		public async void SendMessage(Guid roomId, string message)
 		{
 			ChatRoomInformationForClient chatRoomInformationForClient;
@@ -121,7 +112,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000440 RID: 1088 RVA: 0x00006328 File Offset: 0x00004528
 		public async void Cleanup()
 		{
 			this._isCleaningUp = true;
@@ -135,7 +125,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this._isCleaningUp = false;
 		}
 
-		// Token: 0x06000441 RID: 1089 RVA: 0x00006364 File Offset: 0x00004564
 		public ChatManager.GetChatRoomResult TryGetChatRoom(string command)
 		{
 			if (!command.StartsWith("/"))
@@ -175,37 +164,22 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return ChatManager.GetChatRoomResult.CreateFailed(textObject2);
 		}
 
-		// Token: 0x040001D6 RID: 470
 		private readonly Dictionary<string, ChatClient> _clients;
 
-		// Token: 0x040001D7 RID: 471
 		private readonly Dictionary<Guid, ChatRoomInformationForClient> _rooms;
 
-		// Token: 0x040001D8 RID: 472
 		private readonly IChatClientHandler _chatClientHandler;
 
-		// Token: 0x040001D9 RID: 473
 		private bool _isCleaningUp;
 
-		// Token: 0x02000171 RID: 369
 		public class GetChatRoomResult
 		{
-			// Token: 0x1700031C RID: 796
-			// (get) Token: 0x060008F1 RID: 2289 RVA: 0x0000FC25 File Offset: 0x0000DE25
-			// (set) Token: 0x060008F2 RID: 2290 RVA: 0x0000FC2D File Offset: 0x0000DE2D
 			public bool Successful { get; private set; }
 
-			// Token: 0x1700031D RID: 797
-			// (get) Token: 0x060008F3 RID: 2291 RVA: 0x0000FC36 File Offset: 0x0000DE36
-			// (set) Token: 0x060008F4 RID: 2292 RVA: 0x0000FC3E File Offset: 0x0000DE3E
 			public ChatRoomInformationForClient Room { get; private set; }
 
-			// Token: 0x1700031E RID: 798
-			// (get) Token: 0x060008F5 RID: 2293 RVA: 0x0000FC47 File Offset: 0x0000DE47
-			// (set) Token: 0x060008F6 RID: 2294 RVA: 0x0000FC4F File Offset: 0x0000DE4F
 			public TextObject ErrorMessage { get; private set; }
 
-			// Token: 0x060008F7 RID: 2295 RVA: 0x0000FC58 File Offset: 0x0000DE58
 			public GetChatRoomResult(bool successful, ChatRoomInformationForClient room, TextObject error)
 			{
 				this.Successful = successful;
@@ -213,13 +187,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				this.ErrorMessage = error;
 			}
 
-			// Token: 0x060008F8 RID: 2296 RVA: 0x0000FC75 File Offset: 0x0000DE75
 			public static ChatManager.GetChatRoomResult CreateSuccessful(ChatRoomInformationForClient room)
 			{
 				return new ChatManager.GetChatRoomResult(true, room, new TextObject("", null));
 			}
 
-			// Token: 0x060008F9 RID: 2297 RVA: 0x0000FC89 File Offset: 0x0000DE89
 			public static ChatManager.GetChatRoomResult CreateFailed(TextObject error)
 			{
 				return new ChatManager.GetChatRoomResult(false, null, error);

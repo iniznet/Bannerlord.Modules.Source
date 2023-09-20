@@ -15,38 +15,19 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Screens
 {
-	// Token: 0x02000030 RID: 48
 	[GameStateScreen(typeof(MissionState))]
 	public class MissionScreen : ScreenBase, IMissionSystemHandler, IGameStateListener, IMissionScreen, IMissionListener
 	{
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x060001D0 RID: 464 RVA: 0x0000F3E3 File Offset: 0x0000D5E3
-		// (set) Token: 0x060001D1 RID: 465 RVA: 0x0000F3EB File Offset: 0x0000D5EB
 		public bool LockCameraMovement { get; private set; }
 
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x060001D2 RID: 466 RVA: 0x0000F3F4 File Offset: 0x0000D5F4
-		// (remove) Token: 0x060001D3 RID: 467 RVA: 0x0000F42C File Offset: 0x0000D62C
 		public event MissionScreen.OnSpectateAgentDelegate OnSpectateAgentFocusIn;
 
-		// Token: 0x14000002 RID: 2
-		// (add) Token: 0x060001D4 RID: 468 RVA: 0x0000F464 File Offset: 0x0000D664
-		// (remove) Token: 0x060001D5 RID: 469 RVA: 0x0000F49C File Offset: 0x0000D69C
 		public event MissionScreen.OnSpectateAgentDelegate OnSpectateAgentFocusOut;
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x060001D6 RID: 470 RVA: 0x0000F4D1 File Offset: 0x0000D6D1
-		// (set) Token: 0x060001D7 RID: 471 RVA: 0x0000F4D9 File Offset: 0x0000D6D9
 		public OrderFlag OrderFlag { get; set; }
 
-		// Token: 0x17000024 RID: 36
-		// (get) Token: 0x060001D8 RID: 472 RVA: 0x0000F4E2 File Offset: 0x0000D6E2
-		// (set) Token: 0x060001D9 RID: 473 RVA: 0x0000F4EA File Offset: 0x0000D6EA
 		public Camera CombatCamera { get; private set; }
 
-		// Token: 0x17000025 RID: 37
-		// (get) Token: 0x060001DA RID: 474 RVA: 0x0000F4F3 File Offset: 0x0000D6F3
-		// (set) Token: 0x060001DB RID: 475 RVA: 0x0000F4FB File Offset: 0x0000D6FB
 		public Camera CustomCamera
 		{
 			get
@@ -59,43 +40,20 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x060001DC RID: 476 RVA: 0x0000F504 File Offset: 0x0000D704
-		// (set) Token: 0x060001DD RID: 477 RVA: 0x0000F50C File Offset: 0x0000D70C
 		public float CameraBearing { get; private set; }
 
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x060001DE RID: 478 RVA: 0x0000F515 File Offset: 0x0000D715
-		// (set) Token: 0x060001DF RID: 479 RVA: 0x0000F51D File Offset: 0x0000D71D
 		public float MaxCameraZoom { get; private set; } = 1f;
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x060001E0 RID: 480 RVA: 0x0000F526 File Offset: 0x0000D726
-		// (set) Token: 0x060001E1 RID: 481 RVA: 0x0000F52E File Offset: 0x0000D72E
 		public float CameraElevation { get; private set; }
 
-		// Token: 0x17000029 RID: 41
-		// (get) Token: 0x060001E2 RID: 482 RVA: 0x0000F537 File Offset: 0x0000D737
-		// (set) Token: 0x060001E3 RID: 483 RVA: 0x0000F53F File Offset: 0x0000D73F
 		public float CameraResultDistanceToTarget { get; private set; }
 
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x060001E4 RID: 484 RVA: 0x0000F548 File Offset: 0x0000D748
-		// (set) Token: 0x060001E5 RID: 485 RVA: 0x0000F550 File Offset: 0x0000D750
 		public float CameraViewAngle { get; private set; }
 
-		// Token: 0x1700002B RID: 43
-		// (get) Token: 0x060001E6 RID: 486 RVA: 0x0000F559 File Offset: 0x0000D759
-		// (set) Token: 0x060001E7 RID: 487 RVA: 0x0000F561 File Offset: 0x0000D761
 		public bool IsPhotoModeEnabled { get; private set; }
 
-		// Token: 0x1700002C RID: 44
-		// (get) Token: 0x060001E8 RID: 488 RVA: 0x0000F56A File Offset: 0x0000D76A
-		// (set) Token: 0x060001E9 RID: 489 RVA: 0x0000F572 File Offset: 0x0000D772
 		public bool IsConversationActive { get; private set; }
 
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x060001EA RID: 490 RVA: 0x0000F57B File Offset: 0x0000D77B
 		public bool IsDeploymentActive
 		{
 			get
@@ -104,13 +62,8 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x060001EB RID: 491 RVA: 0x0000F58B File Offset: 0x0000D78B
-		// (set) Token: 0x060001EC RID: 492 RVA: 0x0000F593 File Offset: 0x0000D793
 		public SceneLayer SceneLayer { get; private set; }
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x060001ED RID: 493 RVA: 0x0000F59C File Offset: 0x0000D79C
 		public SceneView SceneView
 		{
 			get
@@ -124,23 +77,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x060001EE RID: 494 RVA: 0x0000F5AF File Offset: 0x0000D7AF
-		// (set) Token: 0x060001EF RID: 495 RVA: 0x0000F5B7 File Offset: 0x0000D7B7
 		public Mission Mission { get; private set; }
 
-		// Token: 0x17000031 RID: 49
-		// (get) Token: 0x060001F0 RID: 496 RVA: 0x0000F5C0 File Offset: 0x0000D7C0
-		// (set) Token: 0x060001F1 RID: 497 RVA: 0x0000F5C8 File Offset: 0x0000D7C8
 		public bool IsCheatGhostMode { get; set; }
 
-		// Token: 0x17000032 RID: 50
-		// (get) Token: 0x060001F2 RID: 498 RVA: 0x0000F5D1 File Offset: 0x0000D7D1
-		// (set) Token: 0x060001F3 RID: 499 RVA: 0x0000F5D9 File Offset: 0x0000D7D9
 		public bool IsRadialMenuActive { get; private set; }
 
-		// Token: 0x17000033 RID: 51
-		// (get) Token: 0x060001F4 RID: 500 RVA: 0x0000F5E2 File Offset: 0x0000D7E2
 		public IInputContext InputManager
 		{
 			get
@@ -149,8 +91,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000034 RID: 52
-		// (get) Token: 0x060001F5 RID: 501 RVA: 0x0000F5EF File Offset: 0x0000D7EF
 		private bool IsOrderMenuOpen
 		{
 			get
@@ -159,8 +99,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000035 RID: 53
-		// (get) Token: 0x060001F6 RID: 502 RVA: 0x0000F5FC File Offset: 0x0000D7FC
 		private bool IsTransferMenuOpen
 		{
 			get
@@ -169,9 +107,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x060001F7 RID: 503 RVA: 0x0000F609 File Offset: 0x0000D809
-		// (set) Token: 0x060001F8 RID: 504 RVA: 0x0000F614 File Offset: 0x0000D814
 		public Agent LastFollowedAgent
 		{
 			get
@@ -227,18 +162,13 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x060001F9 RID: 505 RVA: 0x0000F70C File Offset: 0x0000D90C
-		// (set) Token: 0x060001FA RID: 506 RVA: 0x0000F714 File Offset: 0x0000D914
 		public IAgentVisual LastFollowedAgentVisuals { get; set; }
 
-		// Token: 0x060001FB RID: 507 RVA: 0x0000F71D File Offset: 0x0000D91D
 		float IMissionScreen.GetCameraElevation()
 		{
 			return this.CameraElevation;
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0000F725 File Offset: 0x0000D925
 		public void SetOrderFlagVisibility(bool value)
 		{
 			if (this.OrderFlag != null)
@@ -247,7 +177,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x0000F73B File Offset: 0x0000D93B
 		public string GetFollowText()
 		{
 			if (this.LastFollowedAgent == null)
@@ -257,7 +186,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return this.LastFollowedAgent.Name.ToString();
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x0000F75C File Offset: 0x0000D95C
 		public string GetFollowPartyText()
 		{
 			if (this.LastFollowedAgent != null)
@@ -269,7 +197,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return "";
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x0000F7A8 File Offset: 0x0000D9A8
 		public bool SetDisplayDialog(bool value)
 		{
 			bool flag = this._displayingDialog != value;
@@ -277,14 +204,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return flag;
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x0000F7BD File Offset: 0x0000D9BD
 		bool IMissionScreen.GetDisplayDialog()
 		{
 			return this._displayingDialog;
 		}
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x06000201 RID: 513 RVA: 0x0000F7C5 File Offset: 0x0000D9C5
 		public override bool MouseVisible
 		{
 			get
@@ -293,8 +217,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x17000039 RID: 57
-		// (get) Token: 0x06000202 RID: 514 RVA: 0x0000F7CC File Offset: 0x0000D9CC
 		public bool IsMissionTickable
 		{
 			get
@@ -303,12 +225,8 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x1700003A RID: 58
-		// (get) Token: 0x06000203 RID: 515 RVA: 0x0000F7FB File Offset: 0x0000D9FB
-		// (set) Token: 0x06000204 RID: 516 RVA: 0x0000F803 File Offset: 0x0000DA03
 		public bool PhotoModeRequiresMouse { get; private set; }
 
-		// Token: 0x06000205 RID: 517 RVA: 0x0000F80C File Offset: 0x0000DA0C
 		public MissionScreen(MissionState missionState)
 		{
 			missionState.Handler = this;
@@ -320,7 +238,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._missionViews = new List<MissionView>();
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x0000F8D4 File Offset: 0x0000DAD4
 		protected override void OnInitialize()
 		{
 			MBDebug.Print("-------MissionScreen-OnInitialize", 0, 12, 17592186044416UL);
@@ -357,7 +274,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.CustomCamera = null;
 		}
 
-		// Token: 0x06000207 RID: 519 RVA: 0x0000FA54 File Offset: 0x0000DC54
 		private void InitializeMissionView()
 		{
 			this._missionState.Paused = false;
@@ -393,7 +309,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._mpGameModeBase = this.Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
 		}
 
-		// Token: 0x06000208 RID: 520 RVA: 0x0000FC4C File Offset: 0x0000DE4C
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -409,7 +324,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000209 RID: 521 RVA: 0x0000FCA0 File Offset: 0x0000DEA0
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -424,7 +338,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600020A RID: 522 RVA: 0x0000FCEC File Offset: 0x0000DEEC
 		public override void OnFocusChangeOnGameWindow(bool focusGained)
 		{
 			base.OnFocusChangeOnGameWindow(focusGained);
@@ -467,12 +380,8 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.IsFocusLost = !focusGained;
 		}
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x0600020B RID: 523 RVA: 0x0000FDBA File Offset: 0x0000DFBA
-		// (set) Token: 0x0600020C RID: 524 RVA: 0x0000FDC2 File Offset: 0x0000DFC2
 		public bool IsFocusLost { get; private set; }
 
-		// Token: 0x0600020D RID: 525 RVA: 0x0000FDCC File Offset: 0x0000DFCC
 		public bool IsOpeningEscapeMenuOnFocusChangeAllowed()
 		{
 			Mission mission = this.Mission;
@@ -514,20 +423,17 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return true;
 		}
 
-		// Token: 0x0600020E RID: 526 RVA: 0x0000FE90 File Offset: 0x0000E090
 		public void SetExtraCameraParameters(bool newForceCanZoom, float newCameraRayCastStartingPointOffset)
 		{
 			this._forceCanZoom = newForceCanZoom;
 			this._cameraRayCastOffset = newCameraRayCastStartingPointOffset;
 		}
 
-		// Token: 0x0600020F RID: 527 RVA: 0x0000FEA0 File Offset: 0x0000E0A0
 		public void SetCustomAgentListToSpectateGatherer(MissionScreen.GatherCustomAgentListToSpectateDelegate gatherer)
 		{
 			this._gatherCustomAgentListToSpectate = gatherer;
 		}
 
-		// Token: 0x06000210 RID: 528 RVA: 0x0000FEAC File Offset: 0x0000E0AC
 		public void UpdateFreeCamera(MatrixFrame frame)
 		{
 			this.CombatCamera.Frame = frame;
@@ -538,7 +444,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.CameraElevation = MathF.Acos(Vec3.DotProduct(vec2, vec)) - 1.5707964f;
 		}
 
-		// Token: 0x06000211 RID: 529 RVA: 0x0000FF18 File Offset: 0x0000E118
 		protected override void OnFrameTick(float dt)
 		{
 			if (this.SceneLayer != null)
@@ -572,7 +477,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000212 RID: 530 RVA: 0x0000FFF4 File Offset: 0x0000E1F4
 		private void ActivateMissionView()
 		{
 			MBDebug.Print("-------MissionScreen-OnActivate", 0, 12, 17592186044416UL);
@@ -593,7 +497,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000213 RID: 531 RVA: 0x000100D4 File Offset: 0x0000E2D4
 		private void Mission_OnMainAgentChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (this.Mission.MainAgent != null)
@@ -602,7 +505,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000214 RID: 532 RVA: 0x000100EA File Offset: 0x0000E2EA
 		private void Mission_OnBeforeAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent == this._agentToFollowOverride)
@@ -616,13 +518,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000215 RID: 533 RVA: 0x00010112 File Offset: 0x0000E312
 		public void OnMainAgentWeaponChanged()
 		{
 			this.ResetMaxCameraZoom();
 		}
 
-		// Token: 0x06000216 RID: 534 RVA: 0x0001011C File Offset: 0x0000E31C
 		private void ResetMaxCameraZoom()
 		{
 			if (this.LastFollowedAgent == null || this.LastFollowedAgent != this.Mission.MainAgent)
@@ -633,7 +533,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.MaxCameraZoom = ((Mission.Current != null) ? MathF.Max(1f, Mission.Current.GetMainAgentMaxCameraZoom()) : 1f);
 		}
 
-		// Token: 0x06000217 RID: 535 RVA: 0x00010178 File Offset: 0x0000E378
 		protected override void OnDeactivate()
 		{
 			base.OnDeactivate();
@@ -652,7 +551,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._loadingScreenFramesLeft = 15;
 		}
 
-		// Token: 0x06000218 RID: 536 RVA: 0x0001022C File Offset: 0x0000E42C
 		protected override void OnFinalize()
 		{
 			MBDebug.Print("-------MissionScreen-OnFinalize", 0, 12, 17592186044416UL);
@@ -672,7 +570,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000219 RID: 537 RVA: 0x000102B8 File Offset: 0x0000E4B8
 		private static IEnumerable<MissionBehavior> AddDefaultMissionBehaviorsTo(Mission mission, IEnumerable<MissionBehavior> behaviors)
 		{
 			List<MissionBehavior> list = new List<MissionBehavior>();
@@ -681,7 +578,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return behaviors.Concat(list);
 		}
 
-		// Token: 0x0600021A RID: 538 RVA: 0x000102E0 File Offset: 0x0000E4E0
 		private void OnSkinsXMLChanged()
 		{
 			foreach (Agent agent in Mission.Current.Agents)
@@ -692,7 +588,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600021B RID: 539 RVA: 0x00010354 File Offset: 0x0000E554
 		private void OnSceneRenderingStarted()
 		{
 			LoadingWindow.DisableGlobalLoadingWindow();
@@ -703,7 +598,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600021C RID: 540 RVA: 0x000103B0 File Offset: 0x0000E5B0
 		[CommandLineFunctionality.CommandLineArgumentFunction("fix_camera_toggle", "mission")]
 		public static string ToggleFixedMissionCamera(List<string> strings)
 		{
@@ -715,7 +609,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return "Done";
 		}
 
-		// Token: 0x0600021D RID: 541 RVA: 0x000103E0 File Offset: 0x0000E5E0
 		public static void SetFixedMissionCameraActive(bool active)
 		{
 			MissionScreen missionScreen = ScreenManager.TopScreen as MissionScreen;
@@ -726,7 +619,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600021E RID: 542 RVA: 0x00010418 File Offset: 0x0000E618
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_shift_camera_speed", "mission")]
 		public static string SetShiftCameraSpeed(List<string> strings)
 		{
@@ -744,7 +636,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return "Current multiplier is " + missionScreen._shiftSpeedMultiplier.ToString();
 		}
 
-		// Token: 0x0600021F RID: 543 RVA: 0x00010474 File Offset: 0x0000E674
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_camera_position", "mission")]
 		public static string SetCameraPosition(List<string> strings)
 		{
@@ -785,7 +676,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return "Mission screen not found.";
 		}
 
-		// Token: 0x06000220 RID: 544 RVA: 0x0001057C File Offset: 0x0000E77C
 		private void CheckForUpdateCamera(float dt)
 		{
 			if (this._fixCamera && !this.IsPhotoModeEnabled)
@@ -830,7 +720,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000221 RID: 545 RVA: 0x00010708 File Offset: 0x0000E908
 		private void UpdateDragData()
 		{
 			if (this._resetDraggingMode)
@@ -855,7 +744,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000222 RID: 546 RVA: 0x000107DC File Offset: 0x0000E9DC
 		private void UpdateCamera(float dt)
 		{
 			Scene scene = this.Mission.Scene;
@@ -1678,13 +1566,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._cameraAddSpecialPositionalMovement = false;
 		}
 
-		// Token: 0x06000223 RID: 547 RVA: 0x00012E9B File Offset: 0x0001109B
 		public bool IsViewingCharacter()
 		{
 			return !this.Mission.CameraIsFirstPerson && !this.IsOrderMenuOpen && this.SceneLayer.Input.IsGameKeyDown(25);
 		}
 
-		// Token: 0x06000224 RID: 548 RVA: 0x00012EC8 File Offset: 0x000110C8
 		private void SetCameraFrameToMapView()
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -1772,7 +1658,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.CombatCamera.Frame = matrixFrame;
 		}
 
-		// Token: 0x06000225 RID: 549 RVA: 0x00013278 File Offset: 0x00011478
 		private bool HandleUserInputDebug()
 		{
 			bool flag = false;
@@ -1799,7 +1684,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return flag;
 		}
 
-		// Token: 0x06000226 RID: 550 RVA: 0x00013304 File Offset: 0x00011504
 		private void HandleUserInput(float dt)
 		{
 			bool flag = false;
@@ -2159,7 +2043,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000227 RID: 551 RVA: 0x00014188 File Offset: 0x00012388
 		public float GetCameraToggleProgress()
 		{
 			if (this._cameraToggleStartTime != 3.4028235E+38f && this.SceneLayer.Input.IsGameKeyDown(27))
@@ -2169,7 +2052,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return 0f;
 		}
 
-		// Token: 0x06000228 RID: 552 RVA: 0x000141C4 File Offset: 0x000123C4
 		private bool HandleUserInputCheatMode(float dt)
 		{
 			bool flag = false;
@@ -2334,7 +2216,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return flag;
 		}
 
-		// Token: 0x06000229 RID: 553 RVA: 0x000146CC File Offset: 0x000128CC
 		public void AddMissionView(MissionView missionView)
 		{
 			this.Mission.AddMissionBehavior(missionView);
@@ -2343,7 +2224,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			Debug.ReportMemoryBookmark("MissionView Initialized: " + missionView.GetType().Name);
 		}
 
-		// Token: 0x0600022A RID: 554 RVA: 0x00014704 File Offset: 0x00012904
 		public void ScreenPointToWorldRay(Vec2 screenPoint, out Vec3 rayBegin, out Vec3 rayEnd)
 		{
 			rayBegin = Vec3.Invalid;
@@ -2368,13 +2248,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			rayEnd = rayBegin + vec2 * MathF.Min(num2, num);
 		}
 
-		// Token: 0x0600022B RID: 555 RVA: 0x000147F4 File Offset: 0x000129F4
 		public bool GetProjectedMousePositionOnGround(out Vec3 groundPosition, out Vec3 groundNormal, BodyFlags excludeBodyOwnerFlags, bool checkOccludedSurface)
 		{
 			return this.SceneView.ProjectedMousePositionOnGround(ref groundPosition, ref groundNormal, this.MouseVisible, excludeBodyOwnerFlags, checkOccludedSurface);
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0001480C File Offset: 0x00012A0C
 		public void CancelQuickPositionOrder()
 		{
 			if (this.OrderFlag != null)
@@ -2383,13 +2261,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x00014822 File Offset: 0x00012A22
 		public bool MissionStartedRendering()
 		{
 			return this.SceneView != null && this.SceneView.ReadyToRender();
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x0001483F File Offset: 0x00012A3F
 		public Vec3 GetOrderFlagPosition()
 		{
 			if (this.OrderFlag != null)
@@ -2399,13 +2275,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return Vec3.Invalid;
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x0001485A File Offset: 0x00012A5A
 		public MatrixFrame GetOrderFlagFrame()
 		{
 			return this.OrderFlag.Frame;
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x00014868 File Offset: 0x00012A68
 		private void ActivateLoadingScreen()
 		{
 			if (this.SceneLayer != null && this.SceneLayer.SceneView != null)
@@ -2418,19 +2292,16 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x000148B0 File Offset: 0x00012AB0
 		public void SetRadialMenuActiveState(bool isActive)
 		{
 			this.IsRadialMenuActive = isActive;
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x000148B9 File Offset: 0x00012AB9
 		public void SetPhotoModeRequiresMouse(bool isRequired)
 		{
 			this.PhotoModeRequiresMouse = isRequired;
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x000148C4 File Offset: 0x00012AC4
 		public void SetPhotoModeEnabled(bool isEnabled)
 		{
 			if (this.IsPhotoModeEnabled != isEnabled && !GameNetwork.IsMultiplayer)
@@ -2459,7 +2330,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000234 RID: 564 RVA: 0x00014994 File Offset: 0x00012B94
 		public void SetConversationActive(bool isActive)
 		{
 			if (this.IsConversationActive != isActive && !GameNetwork.IsMultiplayer)
@@ -2479,37 +2349,31 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000235 RID: 565 RVA: 0x00014A08 File Offset: 0x00012C08
 		public void SetCameraLockState(bool isLocked)
 		{
 			this.LockCameraMovement = isLocked;
 		}
 
-		// Token: 0x06000236 RID: 566 RVA: 0x00014A11 File Offset: 0x00012C11
 		public void RegisterView(MissionView missionView)
 		{
 			this._missionViews.Add(missionView);
 		}
 
-		// Token: 0x06000237 RID: 567 RVA: 0x00014A1F File Offset: 0x00012C1F
 		public void UnregisterView(MissionView missionView)
 		{
 			this._missionViews.Remove(missionView);
 		}
 
-		// Token: 0x06000238 RID: 568 RVA: 0x00014A2E File Offset: 0x00012C2E
 		public IAgentVisual GetPlayerAgentVisuals(MissionPeer lobbyPeer)
 		{
 			return lobbyPeer.GetAgentVisualForPeer(0);
 		}
 
-		// Token: 0x06000239 RID: 569 RVA: 0x00014A37 File Offset: 0x00012C37
 		public void SetAgentToFollow(Agent agent)
 		{
 			this._agentToFollowOverride = agent;
 		}
 
-		// Token: 0x0600023A RID: 570 RVA: 0x00014A40 File Offset: 0x00012C40
 		public Mission.SpectatorData GetSpectatingData(Vec3 currentCameraPosition)
 		{
 			Agent agent = null;
@@ -2602,7 +2466,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return new Mission.SpectatorData(agent, agentVisual, spectatorCameraTypes2);
 		}
 
-		// Token: 0x0600023B RID: 571 RVA: 0x00014D88 File Offset: 0x00012F88
 		private Agent FindNextCameraAttachableAgent(Agent currentAgent, SpectatorCameraTypes cameraLockMode, int iterationDirection, Vec3 currentCameraPosition)
 		{
 			if (this.Mission.AllAgents == null || this.Mission.AllAgents.Count == 0)
@@ -2688,17 +2551,14 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return agent;
 		}
 
-		// Token: 0x0600023C RID: 572 RVA: 0x00014FD8 File Offset: 0x000131D8
 		void IGameStateListener.OnInitialize()
 		{
 		}
 
-		// Token: 0x0600023D RID: 573 RVA: 0x00014FDA File Offset: 0x000131DA
 		void IGameStateListener.OnFinalize()
 		{
 		}
 
-		// Token: 0x0600023E RID: 574 RVA: 0x00014FDC File Offset: 0x000131DC
 		void IGameStateListener.OnActivate()
 		{
 			if (this._isDeactivated)
@@ -2708,7 +2568,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._isDeactivated = false;
 		}
 
-		// Token: 0x0600023F RID: 575 RVA: 0x00014FF4 File Offset: 0x000131F4
 		void IGameStateListener.OnDeactivate()
 		{
 			this._isDeactivated = true;
@@ -2723,7 +2582,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.OnDeactivate();
 		}
 
-		// Token: 0x06000240 RID: 576 RVA: 0x00015068 File Offset: 0x00013268
 		void IMissionSystemHandler.OnMissionAfterStarting(Mission mission)
 		{
 			this.Mission = mission;
@@ -2741,7 +2599,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000241 RID: 577 RVA: 0x000150DC File Offset: 0x000132DC
 		void IMissionSystemHandler.OnMissionLoadingFinished(Mission mission)
 		{
 			this.Mission = mission;
@@ -2749,7 +2606,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.ActivateMissionView();
 		}
 
-		// Token: 0x06000242 RID: 578 RVA: 0x000150F4 File Offset: 0x000132F4
 		void IMissionSystemHandler.BeforeMissionTick(Mission mission, float realDt)
 		{
 			if (MBEditor.EditModeEnabled)
@@ -2806,7 +2662,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000243 RID: 579 RVA: 0x00015288 File Offset: 0x00013488
 		private bool AreViewsReady()
 		{
 			bool flag = true;
@@ -2818,7 +2673,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return flag;
 		}
 
-		// Token: 0x06000244 RID: 580 RVA: 0x000152E0 File Offset: 0x000134E0
 		private void CameraTick(Mission mission, float realDt)
 		{
 			if (mission.CurrentState == 2)
@@ -2827,7 +2681,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000245 RID: 581 RVA: 0x000152F2 File Offset: 0x000134F2
 		void IMissionSystemHandler.UpdateCamera(Mission mission, float realDt)
 		{
 			this.CameraTick(mission, realDt);
@@ -2837,7 +2690,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000246 RID: 582 RVA: 0x00015314 File Offset: 0x00013514
 		void IMissionSystemHandler.AfterMissionTick(Mission mission, float realDt)
 		{
 			if ((mission.CurrentState == 2 || (mission.MissionEnded && mission.CurrentState != 4)) && Game.Current.CheatMode && this.IsCheatGhostMode && Agent.Main != null && this.InputManager.IsHotKeyPressed("MissionScreenHotkeyTeleportMainAgent"))
@@ -2868,7 +2720,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000247 RID: 583 RVA: 0x000154E9 File Offset: 0x000136E9
 		IEnumerable<MissionBehavior> IMissionSystemHandler.OnAddBehaviors(IEnumerable<MissionBehavior> behaviors, Mission mission, string missionName, bool addDefaultMissionBehaviors)
 		{
 			if (addDefaultMissionBehaviors)
@@ -2879,7 +2730,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			return behaviors;
 		}
 
-		// Token: 0x06000248 RID: 584 RVA: 0x00015503 File Offset: 0x00013703
 		private void HandleInputs()
 		{
 			if (!MBEditor.IsEditorMissionOn() && this.MissionStartedRendering() && this.SceneLayer.Input.IsHotKeyReleased("ToggleEscapeMenu") && !LoadingWindow.IsLoadingWindowActive)
@@ -2888,7 +2738,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000249 RID: 585 RVA: 0x00015538 File Offset: 0x00013738
 		public void OnEscape()
 		{
 			if (this.IsMissionTickable)
@@ -2911,13 +2760,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x0600024A RID: 586 RVA: 0x000155F8 File Offset: 0x000137F8
 		bool IMissionSystemHandler.RenderIsReady()
 		{
 			return this.MissionStartedRendering();
 		}
 
-		// Token: 0x0600024B RID: 587 RVA: 0x00015600 File Offset: 0x00013800
 		void IMissionListener.OnEndMission()
 		{
 			this._agentToFollowOverride = null;
@@ -2932,14 +2779,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.Mission.RemoveListener(this);
 		}
 
-		// Token: 0x0600024C RID: 588 RVA: 0x00015655 File Offset: 0x00013855
 		void IMissionListener.OnEquipItemsFromSpawnEquipmentBegin(Agent agent, Agent.CreationType creationType)
 		{
 			agent.ClearEquipment();
 			agent.AgentVisuals.ClearVisualComponents(false);
 		}
 
-		// Token: 0x0600024D RID: 589 RVA: 0x0001566C File Offset: 0x0001386C
 		void IMissionListener.OnEquipItemsFromSpawnEquipment(Agent agent, Agent.CreationType creationType)
 		{
 			switch (creationType)
@@ -3113,13 +2958,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			agent.SetBodyArmorMaterialType(armorMaterialTypes);
 		}
 
-		// Token: 0x0600024E RID: 590 RVA: 0x00015B44 File Offset: 0x00013D44
 		void IMissionListener.OnConversationCharacterChanged()
 		{
 			this._cameraAddSpecialMovement = true;
 		}
 
-		// Token: 0x0600024F RID: 591 RVA: 0x00015B50 File Offset: 0x00013D50
 		void IMissionListener.OnMissionModeChange(MissionMode oldMissionMode, bool atStart)
 		{
 			if (this.Mission.Mode == 1 && oldMissionMode != 1)
@@ -3185,7 +3028,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000250 RID: 592 RVA: 0x00015DA8 File Offset: 0x00013FA8
 		void IMissionListener.OnResetMission()
 		{
 			this._agentToFollowOverride = null;
@@ -3193,7 +3035,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this.LastFollowedAgentVisuals = null;
 		}
 
-		// Token: 0x06000251 RID: 593 RVA: 0x00015DC0 File Offset: 0x00013FC0
 		void IMissionListener.OnInitialDeploymentPlanMade(BattleSideEnum battleSide, bool isFirstPlan)
 		{
 			if (!GameNetwork.IsMultiplayer && this.Mission.Mode == 6 && isFirstPlan)
@@ -3265,7 +3106,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000252 RID: 594 RVA: 0x000160D4 File Offset: 0x000142D4
 		private static void CalculateNewBearingAndElevation(Agent agentToFollow, float cameraBearing, float cameraElevation, out float newBearing, out float newElevation)
 		{
 			newBearing = cameraBearing;
@@ -3305,7 +3145,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x06000253 RID: 595 RVA: 0x0001627C File Offset: 0x0001447C
 		private static void ApplyBannerTextureToMesh(Mesh armorMesh, Texture bannerTexture)
 		{
 			if (armorMesh != null)
@@ -3319,231 +3158,154 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		// Token: 0x04000121 RID: 289
 		public const int LoadingScreenFramesLeftInitial = 15;
 
-		// Token: 0x04000123 RID: 291
 		public Func<BasicCharacterObject> GetSpectatedCharacter;
 
-		// Token: 0x04000126 RID: 294
 		private MissionScreen.GatherCustomAgentListToSpectateDelegate _gatherCustomAgentListToSpectate;
 
-		// Token: 0x04000128 RID: 296
 		public const float MinCameraAddedDistance = 0.7f;
 
-		// Token: 0x04000129 RID: 297
 		public const float MinCameraDistanceHardLimit = 0.48f;
 
-		// Token: 0x0400012A RID: 298
 		public const float MaxCameraAddedDistance = 2.4f;
 
-		// Token: 0x0400012B RID: 299
 		private const int _cheatTimeSpeedRequestId = 1121;
 
-		// Token: 0x0400012C RID: 300
 		private const string AttackerCameraEntityTag = "strategyCameraAttacker";
 
-		// Token: 0x0400012D RID: 301
 		private const string DefenderCameraEntityTag = "strategyCameraDefender";
 
-		// Token: 0x0400012E RID: 302
 		private const string CameraHeightLimiterTag = "camera_height_limiter";
 
-		// Token: 0x0400012F RID: 303
 		private float _cameraRayCastOffset;
 
-		// Token: 0x04000130 RID: 304
 		private bool _forceCanZoom;
 
-		// Token: 0x04000131 RID: 305
 		private ScreenLayer _emptyUILayer;
 
-		// Token: 0x04000132 RID: 306
 		public const float DefaultViewAngle = 65f;
 
-		// Token: 0x04000134 RID: 308
 		private Camera _customCamera;
 
-		// Token: 0x04000135 RID: 309
 		private Vec3[] _cameraNearPlanePoints = new Vec3[4];
 
-		// Token: 0x04000136 RID: 310
 		private Vec3[] _cameraBoxPoints = new Vec3[8];
 
-		// Token: 0x04000137 RID: 311
 		private Vec3 _cameraTarget;
 
-		// Token: 0x0400013B RID: 315
 		private float _cameraBearingDelta;
 
-		// Token: 0x0400013C RID: 316
 		private float _cameraElevationDelta;
 
-		// Token: 0x0400013D RID: 317
 		private float _cameraSpecialTargetAddedBearing;
 
-		// Token: 0x0400013E RID: 318
 		private float _cameraSpecialCurrentAddedBearing;
 
-		// Token: 0x0400013F RID: 319
 		private float _cameraSpecialTargetAddedElevation;
 
-		// Token: 0x04000140 RID: 320
 		private float _cameraSpecialCurrentAddedElevation;
 
-		// Token: 0x04000141 RID: 321
 		private Vec3 _cameraSpecialTargetPositionToAdd;
 
-		// Token: 0x04000142 RID: 322
 		private Vec3 _cameraSpecialCurrentPositionToAdd;
 
-		// Token: 0x04000143 RID: 323
 		private float _cameraSpecialTargetDistanceToAdd;
 
-		// Token: 0x04000144 RID: 324
 		private float _cameraSpecialCurrentDistanceToAdd;
 
-		// Token: 0x04000145 RID: 325
 		private bool _cameraAddSpecialMovement;
 
-		// Token: 0x04000146 RID: 326
 		private bool _cameraAddSpecialPositionalMovement;
 
-		// Token: 0x04000147 RID: 327
 		private bool _cameraApplySpecialMovementsInstantly;
 
-		// Token: 0x04000148 RID: 328
 		private float _cameraSpecialCurrentFOV;
 
-		// Token: 0x04000149 RID: 329
 		private float _cameraSpecialTargetFOV;
 
-		// Token: 0x0400014A RID: 330
 		private float _cameraTargetAddedHeight;
 
-		// Token: 0x0400014B RID: 331
 		private float _cameraDeploymentHeightToAdd;
 
-		// Token: 0x0400014C RID: 332
 		private float _lastCameraAddedDistance;
 
-		// Token: 0x0400014E RID: 334
 		private float _cameraAddedElevation;
 
-		// Token: 0x0400014F RID: 335
 		private float _cameraHeightLimit;
 
-		// Token: 0x04000151 RID: 337
 		private Vec3 _cameraSpeed;
 
-		// Token: 0x04000152 RID: 338
 		private float _cameraSpeedMultiplier;
 
-		// Token: 0x04000153 RID: 339
 		private bool _cameraSmoothMode;
 
-		// Token: 0x04000154 RID: 340
 		private bool _fixCamera;
 
-		// Token: 0x04000155 RID: 341
 		private int _shiftSpeedMultiplier = 3;
 
-		// Token: 0x04000156 RID: 342
 		private bool _tickEditor;
 
-		// Token: 0x04000157 RID: 343
 		private bool _playerDeploymentCancelled;
 
-		// Token: 0x0400015C RID: 348
 		private const float LookUpLimit = 1.1219975f;
 
-		// Token: 0x0400015D RID: 349
 		private const float LookDownLimit = -1.3659099f;
 
-		// Token: 0x0400015E RID: 350
 		public const float FirstPersonNearClippingDistance = 0.065f;
 
-		// Token: 0x0400015F RID: 351
 		public const float ThirdPersonNearClippingDistance = 0.1f;
 
-		// Token: 0x04000160 RID: 352
 		public const float FarClippingDistance = 12500f;
 
-		// Token: 0x04000161 RID: 353
 		private const float HoldTimeForCameraToggle = 0.5f;
 
-		// Token: 0x04000162 RID: 354
 		private bool _zoomToggled;
 
-		// Token: 0x04000163 RID: 355
 		private float _zoomToggleTime = float.MaxValue;
 
-		// Token: 0x04000164 RID: 356
 		private float _zoomAmount;
 
-		// Token: 0x04000165 RID: 357
 		private float _cameraToggleStartTime = float.MaxValue;
 
-		// Token: 0x04000167 RID: 359
 		private bool _displayingDialog;
 
-		// Token: 0x04000168 RID: 360
 		private MissionMainAgentController _missionMainAgentController;
 
-		// Token: 0x04000169 RID: 361
 		private ICameraModeLogic _missionCameraModeLogic;
 
-		// Token: 0x0400016A RID: 362
 		private MissionLobbyComponent _missionLobbyComponent;
 
-		// Token: 0x0400016C RID: 364
 		private bool _isPlayerAgentAdded = true;
 
-		// Token: 0x0400016D RID: 365
 		private bool _isRenderingStarted;
 
-		// Token: 0x0400016E RID: 366
 		private bool _onSceneRenderingStartedCalled;
 
-		// Token: 0x0400016F RID: 367
 		private int _loadingScreenFramesLeft = 15;
 
-		// Token: 0x04000170 RID: 368
 		private bool _resetDraggingMode;
 
-		// Token: 0x04000171 RID: 369
 		private bool _rightButtonDraggingMode;
 
-		// Token: 0x04000172 RID: 370
 		private Vec2 _clickedPositionPixel = Vec2.Zero;
 
-		// Token: 0x04000173 RID: 371
 		private Agent _agentToFollowOverride;
 
-		// Token: 0x04000174 RID: 372
 		private Agent _lastFollowedAgent;
 
-		// Token: 0x04000176 RID: 374
 		private MissionMultiplayerGameModeBaseClient _mpGameModeBase;
 
-		// Token: 0x04000177 RID: 375
 		private bool _isGamepadActive;
 
-		// Token: 0x04000178 RID: 376
 		private List<MissionView> _missionViews;
 
-		// Token: 0x0400017A RID: 378
 		private MissionState _missionState;
 
-		// Token: 0x0400017C RID: 380
 		private bool _isDeactivated;
 
-		// Token: 0x020000A5 RID: 165
-		// (Invoke) Token: 0x06000521 RID: 1313
 		public delegate void OnSpectateAgentDelegate(Agent followedAgent);
 
-		// Token: 0x020000A6 RID: 166
-		// (Invoke) Token: 0x06000525 RID: 1317
 		public delegate List<Agent> GatherCustomAgentListToSpectateDelegate(Agent forcedAgentToInclude);
 	}
 }

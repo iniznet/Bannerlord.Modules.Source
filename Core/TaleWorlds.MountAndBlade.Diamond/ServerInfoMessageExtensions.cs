@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x0200014D RID: 333
 	public static class ServerInfoMessageExtensions
 	{
-		// Token: 0x0600085B RID: 2139 RVA: 0x0000D7D8 File Offset: 0x0000B9D8
 		public static TextObject GetDescription(this SystemMessage message)
 		{
 			for (int i = 0; i < message.Parameters.Count; i++)

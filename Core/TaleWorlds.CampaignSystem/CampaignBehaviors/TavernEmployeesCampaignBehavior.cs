@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D6 RID: 982
 	public class TavernEmployeesCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003B49 RID: 15177 RVA: 0x00117538 File Offset: 0x00115738
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionStarted));
@@ -28,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
 		}
 
-		// Token: 0x06003B4A RID: 15178 RVA: 0x001175B8 File Offset: 0x001157B8
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Settlement>("_orderedDrinkThisDayInSettlement", ref this._orderedDrinkThisDayInSettlement);
@@ -37,26 +34,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<bool>("_hasBoughtTunToParty", ref this._hasBoughtTunToParty);
 		}
 
-		// Token: 0x06003B4B RID: 15179 RVA: 0x0011760D File Offset: 0x0011580D
 		public void DailyTick()
 		{
 			this._orderedDrinkThisDayInSettlement = null;
 		}
 
-		// Token: 0x06003B4C RID: 15180 RVA: 0x00117616 File Offset: 0x00115816
 		public void WeeklyTick()
 		{
 			this._hasBoughtTunToParty = false;
 		}
 
-		// Token: 0x06003B4D RID: 15181 RVA: 0x0011761F File Offset: 0x0011581F
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 			this._inquiryVariationIndex = MBRandom.NondeterministicRandomInt % 6;
 		}
 
-		// Token: 0x06003B4E RID: 15182 RVA: 0x00117638 File Offset: 0x00115838
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -100,13 +93,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B4F RID: 15183 RVA: 0x001177CF File Offset: 0x001159CF
 		public void OnMissionStarted(IMission mission)
 		{
 			this._orderedDrinkThisVisit = false;
 		}
 
-		// Token: 0x06003B50 RID: 15184 RVA: 0x001177D8 File Offset: 0x001159D8
 		private static LocationCharacter CreateTavernWench(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject tavernWench = culture.TavernWench;
@@ -125,7 +116,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			};
 		}
 
-		// Token: 0x06003B51 RID: 15185 RVA: 0x001178A4 File Offset: 0x00115AA4
 		private static LocationCharacter CreateTavernkeeper(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject tavernkeeper = culture.Tavernkeeper;
@@ -137,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "spawnpoint_tavernkeeper", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_tavern_keeper"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06003B52 RID: 15186 RVA: 0x00117954 File Offset: 0x00115B54
 		private static LocationCharacter CreateMusician(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject musician = culture.Musician;
@@ -149,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new LocationCharacter(agentData, new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "musician", true, relation, ActionSetCode.GenerateActionSetNameWithSuffix(agentData.AgentMonster, agentData.AgentIsFemale, "_musician"), true, false, null, false, false, true);
 		}
 
-		// Token: 0x06003B53 RID: 15187 RVA: 0x00117A04 File Offset: 0x00115C04
 		private static LocationCharacter CreateRansomBroker(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject ransomBroker = culture.RansomBroker;
@@ -160,7 +148,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(ransomBroker, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddOutdoorWandererBehaviors), "npc_common", true, relation, null, true, false, null, false, false, true);
 		}
 
-		// Token: 0x06003B54 RID: 15188 RVA: 0x00117A9C File Offset: 0x00115C9C
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("talk_common_to_tavernkeeper", "start", "tavernkeeper_talk", "{=QCuxL92I}Good day, {?PLAYER.GENDER}madam{?}sir{\\?}. How can I help you?", () => CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Tavernkeeper, null, 100, null);
@@ -235,7 +222,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.AddRansomBrokerDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x06003B55 RID: 15189 RVA: 0x00118200 File Offset: 0x00116400
 		private void SetCannotThinkOfAnyoneLine(TavernEmployeesCampaignBehavior.TavernInquiryCompanionType type)
 		{
 			TextObject textObject;
@@ -250,19 +236,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("CANNOT_THINK_OF_ANYONE_LINE", textObject, false);
 		}
 
-		// Token: 0x06003B56 RID: 15190 RVA: 0x00118258 File Offset: 0x00116458
 		private void IncreaseVariationIndex()
 		{
 			this._inquiryVariationIndex++;
 		}
 
-		// Token: 0x06003B57 RID: 15191 RVA: 0x00118268 File Offset: 0x00116468
 		private bool FoundCompanion()
 		{
 			return this._inquiryCurrentCompanion != null;
 		}
 
-		// Token: 0x06003B58 RID: 15192 RVA: 0x00118274 File Offset: 0x00116474
 		private void FindCompanionWithType(TavernEmployeesCampaignBehavior.TavernInquiryCompanionType companionType)
 		{
 			int num = 30;
@@ -332,7 +315,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SetCannotThinkOfAnyoneLine(companionType);
 		}
 
-		// Token: 0x06003B59 RID: 15193 RVA: 0x001184E8 File Offset: 0x001166E8
 		private bool conversation_talk_bard_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Musician)
@@ -356,7 +338,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003B5A RID: 15194 RVA: 0x001185DF File Offset: 0x001167DF
 		private static bool companion_type_select_clickable_condition(out TextObject explanation)
 		{
 			explanation = new TextObject("{=!}{COMPANION_INQUIRY_COST}{GOLD_ICON}", null);
@@ -369,7 +350,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B5B RID: 15195 RVA: 0x00118618 File Offset: 0x00116818
 		private void AddRansomBrokerDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("ransom_broker_start", "start", "ransom_broker_intro", "{=!}{RANSOM_BROKER_INTRO}", new ConversationSentence.OnConditionDelegate(this.conversation_ransom_broker_start_on_condition), null, 100, null);
@@ -401,13 +381,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("ransom_broker_sell_prisoners_2", "ransom_broker_sell_prisoners_2", "close_window", "{=fQaPv0Xl}I will be staying here for a few days. Let me know if you need my services.", null, null, 100, null);
 		}
 
-		// Token: 0x06003B5C RID: 15196 RVA: 0x001189DC File Offset: 0x00116BDC
 		private bool conversation_tavernmaid_offers_usual_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.TavernWench && !this._orderedDrinkThisVisit && this._orderedDrinkThisDayInSettlement == Settlement.CurrentSettlement;
 		}
 
-		// Token: 0x06003B5D RID: 15197 RVA: 0x00118A04 File Offset: 0x00116C04
 		private bool conversation_tavernmaid_offers_food_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.TavernWench && this._orderedDrinkThisDayInSettlement != Settlement.CurrentSettlement)
@@ -455,26 +433,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003B5E RID: 15198 RVA: 0x00118C5F File Offset: 0x00116E5F
 		private void conversation_tavernmaid_delivers_food_on_consequence()
 		{
 			this._orderedDrinkThisDayInSettlement = Settlement.CurrentSettlement;
 			this._orderedDrinkThisVisit = true;
 		}
 
-		// Token: 0x06003B5F RID: 15199 RVA: 0x00118C73 File Offset: 0x00116E73
 		private bool conversation_tavernmaid_gossips_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.TavernWench && this._orderedDrinkThisDayInSettlement == Settlement.CurrentSettlement;
 		}
 
-		// Token: 0x06003B60 RID: 15200 RVA: 0x00118C92 File Offset: 0x00116E92
 		private bool conversation_player_can_order_food_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.TavernWench && !this._orderedDrinkThisVisit;
 		}
 
-		// Token: 0x06003B61 RID: 15201 RVA: 0x00118CB0 File Offset: 0x00116EB0
 		private static bool tavenkeeper_has_quest_on_condition()
 		{
 			List<IssueBase> list = IssueManager.GetIssuesInSettlement(Hero.MainHero.CurrentSettlement, true).ToList<IssueBase>();
@@ -505,7 +479,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B62 RID: 15202 RVA: 0x00118DF5 File Offset: 0x00116FF5
 		private bool tavernkeeper_talk_companion_on_condition()
 		{
 			this._inquiryCurrentCompanion = null;
@@ -517,13 +490,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003B63 RID: 15203 RVA: 0x00118E2C File Offset: 0x0011702C
 		private bool conversation_tavernmaid_buy_tun_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.TavernWench && this._orderedDrinkThisDayInSettlement == Settlement.CurrentSettlement && !this._hasBoughtTunToParty && PartyBase.MainParty.MemberRoster.Count > 1;
 		}
 
-		// Token: 0x06003B64 RID: 15204 RVA: 0x00118E65 File Offset: 0x00117065
 		private bool can_buy_tun_on_clickable_condition(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
@@ -535,7 +506,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B65 RID: 15205 RVA: 0x00118E90 File Offset: 0x00117090
 		private void can_buy_tun_on_consequence()
 		{
 			int tun_price = TavernEmployeesCampaignBehavior.get_tun_price();
@@ -544,7 +514,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._hasBoughtTunToParty = true;
 		}
 
-		// Token: 0x06003B66 RID: 15206 RVA: 0x00118ED0 File Offset: 0x001170D0
 		private static bool calculate_tun_cost_on_condition()
 		{
 			int tun_price = TavernEmployeesCampaignBehavior.get_tun_price();
@@ -552,13 +521,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B67 RID: 15207 RVA: 0x00118EEF File Offset: 0x001170EF
 		private static int get_tun_price()
 		{
 			return (int)(50f + (float)MobileParty.MainParty.MemberRoster.TotalHealthyCount * 0.2f);
 		}
 
-		// Token: 0x06003B68 RID: 15208 RVA: 0x00118F10 File Offset: 0x00117110
 		private bool conversation_ransom_broker_start_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.RansomBroker && !this._hasMetWithRansomBroker)
@@ -574,84 +541,60 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003B69 RID: 15209 RVA: 0x00118F89 File Offset: 0x00117189
 		private bool conversation_ransom_broker_open_party_screen_on_condition()
 		{
 			return MobileParty.MainParty.Party.NumberOfPrisoners > 0;
 		}
 
-		// Token: 0x06003B6A RID: 15210 RVA: 0x00118F9D File Offset: 0x0011719D
 		private bool conversation_ransom_broker_start_has_met_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.RansomBroker && this._hasMetWithRansomBroker;
 		}
 
-		// Token: 0x06003B6B RID: 15211 RVA: 0x00118FB5 File Offset: 0x001171B5
 		private void conversation_ransom_broker_sell_prisoners_on_consequence()
 		{
 			PartyScreenManager.OpenScreenAsRansom();
 		}
 
-		// Token: 0x06003B6C RID: 15212 RVA: 0x00118FBC File Offset: 0x001171BC
 		private bool conversation_ransom_broker_ransom_companion_choose_on_condition()
 		{
 			return false;
 		}
 
-		// Token: 0x06003B6D RID: 15213 RVA: 0x00118FBF File Offset: 0x001171BF
 		private void conversation_ransom_broker_ransom_companion_choose_on_consequence()
 		{
 		}
 
-		// Token: 0x04001220 RID: 4640
 		private const int TavernCompanionInquiryCost = 2;
 
-		// Token: 0x04001221 RID: 4641
 		private const int MinimumTavernCompanionInquirySkillLevel = 30;
 
-		// Token: 0x04001222 RID: 4642
 		private const int BaseTunPrice = 50;
 
-		// Token: 0x04001223 RID: 4643
 		private Settlement _orderedDrinkThisDayInSettlement;
 
-		// Token: 0x04001224 RID: 4644
 		private bool _orderedDrinkThisVisit;
 
-		// Token: 0x04001225 RID: 4645
 		private bool _hasMetWithRansomBroker;
 
-		// Token: 0x04001226 RID: 4646
 		private bool _hasBoughtTunToParty;
 
-		// Token: 0x04001227 RID: 4647
 		private Hero _inquiryCurrentCompanion;
 
-		// Token: 0x04001228 RID: 4648
 		private TavernEmployeesCampaignBehavior.TavernInquiryCompanionType _selectedCompanionType;
 
-		// Token: 0x04001229 RID: 4649
 		private int _inquiryVariationIndex;
 
-		// Token: 0x0400122A RID: 4650
 		private readonly Dictionary<TavernEmployeesCampaignBehavior.TavernInquiryCompanionType, List<Hero>> _previouslyRecommendedCompanions = new Dictionary<TavernEmployeesCampaignBehavior.TavernInquiryCompanionType, List<Hero>>();
 
-		// Token: 0x0200072C RID: 1836
 		private enum TavernInquiryCompanionType
 		{
-			// Token: 0x04001D9B RID: 7579
 			Scout,
-			// Token: 0x04001D9C RID: 7580
 			Engineer,
-			// Token: 0x04001D9D RID: 7581
 			Surgeon,
-			// Token: 0x04001D9E RID: 7582
 			Quartermaster,
-			// Token: 0x04001D9F RID: 7583
 			CaravanLeader,
-			// Token: 0x04001DA0 RID: 7584
 			Leader,
-			// Token: 0x04001DA1 RID: 7585
 			Roguery
 		}
 	}

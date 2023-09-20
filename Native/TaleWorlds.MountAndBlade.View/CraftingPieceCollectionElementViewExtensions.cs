@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200000D RID: 13
 	public static class CraftingPieceCollectionElementViewExtensions
 	{
-		// Token: 0x0600005A RID: 90 RVA: 0x0000437C File Offset: 0x0000257C
 		public static MatrixFrame GetCraftingPieceFrameForInventory(this CraftingPiece craftingPiece)
 		{
 			MatrixFrame identity = MatrixFrame.Identity;

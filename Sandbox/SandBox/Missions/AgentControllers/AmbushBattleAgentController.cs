@@ -6,12 +6,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.AgentControllers
 {
-	// Token: 0x02000067 RID: 103
 	public class AmbushBattleAgentController : AgentController
 	{
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x0600046A RID: 1130 RVA: 0x000207D9 File Offset: 0x0001E9D9
-		// (set) Token: 0x06000469 RID: 1129 RVA: 0x000207BC File Offset: 0x0001E9BC
 		public bool Aggressive
 		{
 			get
@@ -28,19 +24,16 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x0600046B RID: 1131 RVA: 0x000207E1 File Offset: 0x0001E9E1
 		public override void OnInitialize()
 		{
 			this.Aggressive = false;
 		}
 
-		// Token: 0x0600046C RID: 1132 RVA: 0x000207EA File Offset: 0x0001E9EA
 		public bool CheckArrivedAtWayPoint(GameEntity waypoint)
 		{
 			return waypoint.CheckPointWithOrientedBoundingBox(base.Owner.Position);
 		}
 
-		// Token: 0x0600046D RID: 1133 RVA: 0x000207FD File Offset: 0x0001E9FD
 		public void UpdateState()
 		{
 			if (!this.IsAttacker)
@@ -51,12 +44,10 @@ namespace SandBox.Missions.AgentControllers
 			this.UpdateAttackingAIAgentState();
 		}
 
-		// Token: 0x0600046E RID: 1134 RVA: 0x00020814 File Offset: 0x0001EA14
 		private void UpdateDefendingAIAgentState()
 		{
 		}
 
-		// Token: 0x0600046F RID: 1135 RVA: 0x00020818 File Offset: 0x0001EA18
 		private void UpdateAttackingAIAgentState()
 		{
 			if (this._agentState == AmbushBattleAgentController.AgentState.MovingToBoulder || this._agentState == AmbushBattleAgentController.AgentState.SearchingForBoulder)
@@ -87,7 +78,6 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x06000470 RID: 1136 RVA: 0x0002092C File Offset: 0x0001EB2C
 		private void PickUpBoulderWithAnimation()
 		{
 			ActionIndexValueCache currentActionValue = base.Owner.GetCurrentActionValue(0);
@@ -119,48 +109,32 @@ namespace SandBox.Missions.AgentControllers
 			}
 		}
 
-		// Token: 0x0400021E RID: 542
 		private readonly ActionIndexCache act_pickup_boulder_begin = ActionIndexCache.Create("act_pickup_boulder_begin");
 
-		// Token: 0x0400021F RID: 543
 		private readonly ActionIndexCache act_pickup_boulder_end = ActionIndexCache.Create("act_pickup_boulder_end");
 
-		// Token: 0x04000220 RID: 544
 		public bool IsAttacker;
 
-		// Token: 0x04000221 RID: 545
 		private bool _aggressive;
 
-		// Token: 0x04000222 RID: 546
 		public bool IsLeader;
 
-		// Token: 0x04000223 RID: 547
 		public GameEntity BoulderTarget;
 
-		// Token: 0x04000224 RID: 548
 		public bool HasBeenPlaced;
 
-		// Token: 0x04000225 RID: 549
 		public MatrixFrame OriginalSpawnFrame;
 
-		// Token: 0x04000226 RID: 550
 		private bool _boulderAddedToEquip;
 
-		// Token: 0x04000227 RID: 551
 		private AmbushBattleAgentController.AgentState _agentState = AmbushBattleAgentController.AgentState.SearchingForBoulder;
 
-		// Token: 0x02000138 RID: 312
 		private enum AgentState
 		{
-			// Token: 0x040005D1 RID: 1489
 			None,
-			// Token: 0x040005D2 RID: 1490
 			SearchingForBoulder,
-			// Token: 0x040005D3 RID: 1491
 			MovingToBoulder,
-			// Token: 0x040005D4 RID: 1492
 			PickingUpBoulder,
-			// Token: 0x040005D5 RID: 1493
 			MovingBackToSpawn
 		}
 	}

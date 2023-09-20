@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001F3 RID: 499
 	public class CustomBattleTroopSupplier : IMissionTroopSupplier
 	{
-		// Token: 0x06001BC0 RID: 7104 RVA: 0x00062493 File Offset: 0x00060693
 		public CustomBattleTroopSupplier(CustomBattleCombatant customBattleCombatant, bool isPlayerSide, bool isPlayerGeneral, bool isSallyOut, Func<BasicCharacterObject, bool> customAllocationConditions = null)
 		{
 			this._customBattleCombatant = customBattleCombatant;
@@ -20,7 +18,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ArrangePriorities();
 		}
 
-		// Token: 0x06001BC1 RID: 7105 RVA: 0x000624D0 File Offset: 0x000606D0
 		private void ArrangePriorities()
 		{
 			this._characters = new PriorityQueue<float, BasicCharacterObject>(new GenericComparer<float>());
@@ -54,7 +51,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001BC2 RID: 7106 RVA: 0x0006261C File Offset: 0x0006081C
 		private float GetSallyOutAmbushProbabilityOfTroop(BasicCharacterObject character, int troopCountTotal, ref float heroProbability)
 		{
 			float num = 0f;
@@ -75,7 +71,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x06001BC3 RID: 7107 RVA: 0x00062664 File Offset: 0x00060864
 		private float GetDefaultProbabilityOfTroop(BasicCharacterObject character, int troopCountTotal, UnitSpawnPrioritizations unitSpawnPrioritization, ref float heroProbability, ref int[] troopCountByFormationType, ref int[] enqueuedTroopCountByFormationType)
 		{
 			FormationClass formationClass = character.GetFormationClass();
@@ -103,7 +98,6 @@ namespace TaleWorlds.MountAndBlade
 			return num4;
 		}
 
-		// Token: 0x06001BC4 RID: 7108 RVA: 0x000626D4 File Offset: 0x000608D4
 		public IEnumerable<IAgentOriginBase> SupplyTroops(int numberToAllocate)
 		{
 			List<BasicCharacterObject> list = this.AllocateTroops(numberToAllocate);
@@ -121,7 +115,6 @@ namespace TaleWorlds.MountAndBlade
 			return array;
 		}
 
-		// Token: 0x06001BC5 RID: 7109 RVA: 0x00062754 File Offset: 0x00060954
 		public IEnumerable<IAgentOriginBase> GetAllTroops()
 		{
 			CustomBattleAgentOrigin[] array = new CustomBattleAgentOrigin[this._customBattleCombatant.Characters.Count<BasicCharacterObject>()];
@@ -134,13 +127,11 @@ namespace TaleWorlds.MountAndBlade
 			return array;
 		}
 
-		// Token: 0x06001BC6 RID: 7110 RVA: 0x000627E0 File Offset: 0x000609E0
 		public BasicCharacterObject GetGeneralCharacter()
 		{
 			return this._customBattleCombatant.General;
 		}
 
-		// Token: 0x06001BC7 RID: 7111 RVA: 0x000627F0 File Offset: 0x000609F0
 		private List<BasicCharacterObject> AllocateTroops(int numberToAllocate)
 		{
 			if (numberToAllocate > this._characters.Count)
@@ -160,26 +151,21 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001BC8 RID: 7112 RVA: 0x00062861 File Offset: 0x00060A61
 		public void OnTroopWounded()
 		{
 			this._numWounded++;
 		}
 
-		// Token: 0x06001BC9 RID: 7113 RVA: 0x00062871 File Offset: 0x00060A71
 		public void OnTroopKilled()
 		{
 			this._numKilled++;
 		}
 
-		// Token: 0x06001BCA RID: 7114 RVA: 0x00062881 File Offset: 0x00060A81
 		public void OnTroopRouted()
 		{
 			this._numRouted++;
 		}
 
-		// Token: 0x17000583 RID: 1411
-		// (get) Token: 0x06001BCB RID: 7115 RVA: 0x00062891 File Offset: 0x00060A91
 		public int NumRemovedTroops
 		{
 			get
@@ -188,8 +174,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000584 RID: 1412
-		// (get) Token: 0x06001BCC RID: 7116 RVA: 0x000628A7 File Offset: 0x00060AA7
 		public int NumTroopsNotSupplied
 		{
 			get
@@ -198,14 +182,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001BCD RID: 7117 RVA: 0x000628BB File Offset: 0x00060ABB
 		public int GetNumberOfPlayerControllableTroops()
 		{
 			return this._numAllocated;
 		}
 
-		// Token: 0x17000585 RID: 1413
-		// (get) Token: 0x06001BCE RID: 7118 RVA: 0x000628C3 File Offset: 0x00060AC3
 		public bool AnyTroopRemainsToBeSupplied
 		{
 			get
@@ -214,37 +195,26 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x040008F3 RID: 2291
 		private readonly CustomBattleCombatant _customBattleCombatant;
 
-		// Token: 0x040008F4 RID: 2292
 		private PriorityQueue<float, BasicCharacterObject> _characters;
 
-		// Token: 0x040008F5 RID: 2293
 		private int _numAllocated;
 
-		// Token: 0x040008F6 RID: 2294
 		private int _numWounded;
 
-		// Token: 0x040008F7 RID: 2295
 		private int _numKilled;
 
-		// Token: 0x040008F8 RID: 2296
 		private int _numRouted;
 
-		// Token: 0x040008F9 RID: 2297
 		private Func<BasicCharacterObject, bool> _customAllocationConditions;
 
-		// Token: 0x040008FA RID: 2298
 		private bool _anyTroopRemainsToBeSupplied = true;
 
-		// Token: 0x040008FB RID: 2299
 		private readonly bool _isPlayerSide;
 
-		// Token: 0x040008FC RID: 2300
 		private readonly bool _isPlayerGeneral;
 
-		// Token: 0x040008FD RID: 2301
 		private readonly bool _isSallyOut;
 	}
 }

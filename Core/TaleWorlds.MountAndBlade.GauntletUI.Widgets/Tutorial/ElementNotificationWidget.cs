@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 {
-	// Token: 0x0200003D RID: 61
 	public class ElementNotificationWidget : Widget
 	{
-		// Token: 0x06000337 RID: 823 RVA: 0x0000A508 File Offset: 0x00008708
 		public ElementNotificationWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000338 RID: 824 RVA: 0x0000A51C File Offset: 0x0000871C
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -49,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x06000339 RID: 825 RVA: 0x0000A688 File Offset: 0x00008888
 		private Widget FindElementWithID(Widget current, string ID)
 		{
 			if (current != null)
@@ -70,7 +66,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			return null;
 		}
 
-		// Token: 0x0600033A RID: 826 RVA: 0x0000A6DA File Offset: 0x000088DA
 		private void ResetHighlight()
 		{
 			if (this.TutorialFrameWidget != null)
@@ -83,9 +78,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x17000120 RID: 288
-		// (get) Token: 0x0600033B RID: 827 RVA: 0x0000A716 File Offset: 0x00008916
-		// (set) Token: 0x0600033C RID: 828 RVA: 0x0000A720 File Offset: 0x00008920
 		[Editor(false)]
 		public string ElementID
 		{
@@ -107,9 +99,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x17000121 RID: 289
-		// (get) Token: 0x0600033D RID: 829 RVA: 0x0000A773 File Offset: 0x00008973
-		// (set) Token: 0x0600033E RID: 830 RVA: 0x0000A77B File Offset: 0x0000897B
 		[Editor(false)]
 		public Widget ElementToHighlight
 		{
@@ -127,9 +116,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x17000122 RID: 290
-		// (get) Token: 0x0600033F RID: 831 RVA: 0x0000A799 File Offset: 0x00008999
-		// (set) Token: 0x06000340 RID: 832 RVA: 0x0000A7A1 File Offset: 0x000089A1
 		[Editor(false)]
 		public TutorialHighlightItemBrushWidget TutorialFrameWidget
 		{
@@ -151,19 +137,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		// Token: 0x04000151 RID: 337
 		private bool _doesNotHaveElement;
 
-		// Token: 0x04000152 RID: 338
 		private bool _shouldSyncSize;
 
-		// Token: 0x04000153 RID: 339
 		private string _elementID = string.Empty;
 
-		// Token: 0x04000154 RID: 340
 		private Widget _elementToHighlight;
 
-		// Token: 0x04000155 RID: 341
 		private TutorialHighlightItemBrushWidget _tutorialFrameWidget;
 	}
 }

@@ -10,16 +10,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.DotNet
 {
-	// Token: 0x0200001F RID: 31
 	public static class Managed
 	{
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x06000070 RID: 112 RVA: 0x00002E01 File Offset: 0x00001001
-		// (set) Token: 0x06000071 RID: 113 RVA: 0x00002E08 File Offset: 0x00001008
 		internal static bool Closing { get; private set; } = false;
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x06000072 RID: 114 RVA: 0x00002E10 File Offset: 0x00001010
 		internal static Dictionary<string, Type> ModuleTypes
 		{
 			get
@@ -28,19 +22,13 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x06000073 RID: 115 RVA: 0x00002E17 File Offset: 0x00001017
-		// (set) Token: 0x06000074 RID: 116 RVA: 0x00002E1E File Offset: 0x0000101E
 		internal static NativeTelemetryManager NativeTelemetryManager { get; private set; } = new NativeTelemetryManager();
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00002E28 File Offset: 0x00001028
 		static Managed()
 		{
 			Debug.TelemetryManager = Managed.NativeTelemetryManager;
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x06000076 RID: 118 RVA: 0x00002EAB File Offset: 0x000010AB
 		public static string ManagedCallbacksDll
 		{
 			get
@@ -49,13 +37,11 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x00002EBC File Offset: 0x000010BC
 		[LibraryCallback]
 		internal static void SetLogsFolder(string logFolder)
 		{
 		}
 
-		// Token: 0x06000078 RID: 120 RVA: 0x00002EC0 File Offset: 0x000010C0
 		[LibraryCallback]
 		public static string GetStackTraceStr(int skipCount = 0)
 		{
@@ -69,14 +55,12 @@ namespace TaleWorlds.DotNet
 			return "";
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x00002F0D File Offset: 0x0000110D
 		[LibraryCallback]
 		public static string GetStackTraceRaw(int skipCount = 0)
 		{
 			return Managed.GetStackTraceRaw(new StackTrace(0, false), skipCount);
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00002F1C File Offset: 0x0000111C
 		public static string GetStackTraceRaw(StackTrace stack, int skipCount = 0)
 		{
 			MBStringBuilder mbstringBuilder = default(MBStringBuilder);
@@ -104,7 +88,6 @@ namespace TaleWorlds.DotNet
 			return mbstringBuilder.ToStringAndRelease();
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x00002FFC File Offset: 0x000011FC
 		[LibraryCallback]
 		public static string GetModuleList()
 		{
@@ -124,7 +107,6 @@ namespace TaleWorlds.DotNet
 			return text;
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x0000305C File Offset: 0x0000125C
 		[LibraryCallback]
 		public static void GetVersionInts(ref int major, ref int minor, ref int revision)
 		{
@@ -134,55 +116,47 @@ namespace TaleWorlds.DotNet
 			revision = applicationVersion.Revision;
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x0000308B File Offset: 0x0000128B
 		[LibraryCallback]
 		internal static DotNetObject CreateCustomParameterStringArray(int length)
 		{
 			return new CustomParameter<string[]>(new string[length]);
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00003098 File Offset: 0x00001298
 		internal static DotNetObject AddCustomParameter<T>(T parameterData) where T : class
 		{
 			return new CustomParameter<T>(parameterData);
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x000030A0 File Offset: 0x000012A0
 		[LibraryCallback]
 		internal static void GarbageCollect(bool forceTimer)
 		{
 			Common.MemoryCleanupGC(forceTimer);
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x000030A8 File Offset: 0x000012A8
 		[LibraryCallback]
 		internal static void SetStringArrayValueAtIndex(string[] array, int index, string value)
 		{
 			array[index] = value;
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x000030AE File Offset: 0x000012AE
 		[LibraryCallback]
 		internal static string GetStringArrayValueAtIndex(string[] array, int index)
 		{
 			return array[index];
 		}
 
-		// Token: 0x06000082 RID: 130 RVA: 0x000030B3 File Offset: 0x000012B3
 		internal static void PassInitializationMethodPointersForMono(IntPtr a, IntPtr b)
 		{
 			Managed.PassManagedInitializeMethodPointerMono = (Managed.PassManagedInitializeMethodPointerDelegate)Marshal.GetDelegateForFunctionPointer(a, typeof(Managed.PassManagedInitializeMethodPointerDelegate));
 			Managed.PassManagedEngineCallbackMethodPointersMono = (Managed.PassManagedCallbackMethodPointersDelegate)Marshal.GetDelegateForFunctionPointer(b, typeof(Managed.PassManagedCallbackMethodPointersDelegate));
 		}
 
-		// Token: 0x06000083 RID: 131 RVA: 0x000030E9 File Offset: 0x000012E9
 		public static void PassInitializationMethodPointersForDotNet(Delegate a, Delegate b)
 		{
 			Managed.PassManagedInitializeMethodPointerMono = a;
 			Managed.PassManagedEngineCallbackMethodPointersMono = b;
 		}
 
-		// Token: 0x06000084 RID: 132 RVA: 0x000030F8 File Offset: 0x000012F8
 		public static void Start(IEnumerable<IManagedComponent> components)
 		{
 			Managed._components.AddRange(components);
@@ -197,7 +171,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x06000085 RID: 133 RVA: 0x0000316C File Offset: 0x0000136C
 		[MonoPInvokeCallback(typeof(ManagedInitializeMethod))]
 		private static void Initialize()
 		{
@@ -230,21 +203,18 @@ namespace TaleWorlds.DotNet
 			LibraryApplicationInterface.SetObjects(Managed._callbackManager.GetScriptingInterfaceObjects());
 		}
 
-		// Token: 0x06000086 RID: 134 RVA: 0x00003254 File Offset: 0x00001454
 		[LibraryCallback]
 		internal static void CheckSharedStructureSizes()
 		{
 			Managed._callbackManager.CheckSharedStructureSizes();
 		}
 
-		// Token: 0x06000087 RID: 135 RVA: 0x00003260 File Offset: 0x00001460
 		[LibraryCallback]
 		internal static void SetClosing()
 		{
 			Managed.Closing = true;
 		}
 
-		// Token: 0x06000088 RID: 136 RVA: 0x00003268 File Offset: 0x00001468
 		[LibraryCallback]
 		internal static void PreFinalize()
 		{
@@ -254,7 +224,6 @@ namespace TaleWorlds.DotNet
 			Common.MemoryCleanupGC(false);
 		}
 
-		// Token: 0x06000089 RID: 137 RVA: 0x00003281 File Offset: 0x00001481
 		[LibraryCallback]
 		internal static void OnFinalize()
 		{
@@ -263,7 +232,6 @@ namespace TaleWorlds.DotNet
 			ManagedObjectOwner.LogFinalize();
 		}
 
-		// Token: 0x0600008A RID: 138 RVA: 0x00003294 File Offset: 0x00001494
 		[LibraryCallback]
 		internal static void ApplicationTick(float dt)
 		{
@@ -278,7 +246,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600008B RID: 139 RVA: 0x000032E8 File Offset: 0x000014E8
 		[LibraryCallback]
 		internal static void ApplicationTickLight(float dt)
 		{
@@ -291,21 +258,18 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600008C RID: 140 RVA: 0x0000332F File Offset: 0x0000152F
 		[LibraryCallback]
 		internal static bool CheckClassNameIsValid(string className)
 		{
 			return Managed._moduleTypes.ContainsKey(className);
 		}
 
-		// Token: 0x0600008D RID: 141 RVA: 0x0000333C File Offset: 0x0000153C
 		[LibraryCallback]
 		internal static int GetStringArrayLength(string[] array)
 		{
 			return array.Length;
 		}
 
-		// Token: 0x0600008E RID: 142 RVA: 0x00003344 File Offset: 0x00001544
 		[LibraryCallback]
 		internal static string[] GetClassFields(string className, bool recursive, bool includeInternal, bool includeProtected, bool includePrivate)
 		{
@@ -326,7 +290,6 @@ namespace TaleWorlds.DotNet
 			return list.ToArray();
 		}
 
-		// Token: 0x0600008F RID: 143 RVA: 0x000033DC File Offset: 0x000015DC
 		[LibraryCallback]
 		internal static ManagedObject CreateObjectClassInstanceWithPointer(string className, IntPtr pointer)
 		{
@@ -342,7 +305,6 @@ namespace TaleWorlds.DotNet
 			return null;
 		}
 
-		// Token: 0x06000090 RID: 144 RVA: 0x00003440 File Offset: 0x00001640
 		internal static string GetClassNamesAux(Type type)
 		{
 			string text = "";
@@ -382,7 +344,6 @@ namespace TaleWorlds.DotNet
 			return text;
 		}
 
-		// Token: 0x06000091 RID: 145 RVA: 0x000035B4 File Offset: 0x000017B4
 		[LibraryCallback]
 		internal static ManagedObject CreateObjectClassInstanceWithInteger(string className, int value)
 		{
@@ -398,14 +359,12 @@ namespace TaleWorlds.DotNet
 			return null;
 		}
 
-		// Token: 0x06000092 RID: 146 RVA: 0x00003616 File Offset: 0x00001816
 		[LibraryCallback]
 		internal static void SetCurrentStringReturnValue(IntPtr pointer)
 		{
 			Managed.ReturnValueFromEngine = Marshal.PtrToStringAnsi(pointer);
 		}
 
-		// Token: 0x06000093 RID: 147 RVA: 0x00003624 File Offset: 0x00001824
 		[LibraryCallback]
 		internal static void SetCurrentStringReturnValueAsUnicode(IntPtr pointer)
 		{
@@ -415,7 +374,6 @@ namespace TaleWorlds.DotNet
 			Managed.ReturnValueFromEngine = Encoding.Unicode.GetString(array);
 		}
 
-		// Token: 0x06000094 RID: 148 RVA: 0x00003670 File Offset: 0x00001870
 		[LibraryCallback]
 		internal static string GetObjectClassName(string className)
 		{
@@ -427,14 +385,12 @@ namespace TaleWorlds.DotNet
 			return "unknown";
 		}
 
-		// Token: 0x06000095 RID: 149 RVA: 0x00003698 File Offset: 0x00001898
 		[LibraryCallback]
 		internal static void EngineApiMethodInterfaceInitializer(int id, IntPtr pointer)
 		{
 			Managed._engineApiPointers.Add(id, pointer);
 		}
 
-		// Token: 0x06000096 RID: 150 RVA: 0x000036A8 File Offset: 0x000018A8
 		[LibraryCallback]
 		internal static void FillEngineApiPointers()
 		{
@@ -451,14 +407,12 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x00003750 File Offset: 0x00001950
 		[LibraryCallback]
 		internal static long GetMemoryUsage()
 		{
 			return GC.GetTotalMemory(false);
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x00003758 File Offset: 0x00001958
 		[LibraryCallback]
 		internal static void PassCustomCallbackMethodPointers(string name, IntPtr initalizer)
 		{
@@ -469,7 +423,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x000037A0 File Offset: 0x000019A0
 		[LibraryCallback]
 		internal static string CallCommandlineFunction(string functionName, string arguments)
 		{
@@ -477,7 +430,6 @@ namespace TaleWorlds.DotNet
 			return CommandLineFunctionality.CallFunction(functionName, arguments, out flag);
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x000037B8 File Offset: 0x000019B8
 		public static void InitializeTypes(Dictionary<string, Type> types)
 		{
 			Managed._moduleTypes = types;
@@ -513,7 +465,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00003910 File Offset: 0x00001B10
 		public static void AddTypes(Dictionary<string, Type> types)
 		{
 			Managed._moduleTypes = Managed._moduleTypes.Union(types).ToDictionary((KeyValuePair<string, Type> k) => k.Key, (KeyValuePair<string, Type> v) => v.Value);
@@ -549,7 +500,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00003AB4 File Offset: 0x00001CB4
 		public static void AddConstructorDelegateOfClass<T>()
 		{
 			Type typeFromHandle = typeof(T);
@@ -560,7 +510,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00003B00 File Offset: 0x00001D00
 		public static void AddConstructorDelegateOfWeakReferenceClass<T>()
 		{
 			Type typeFromHandle = typeof(T);
@@ -570,7 +519,6 @@ namespace TaleWorlds.DotNet
 			}
 		}
 
-		// Token: 0x0600009E RID: 158 RVA: 0x00003B45 File Offset: 0x00001D45
 		private static void PassManagedInitializeMethodPointer(Delegate initializer)
 		{
 			Delegate passManagedInitializeMethodPointerMono = Managed.PassManagedInitializeMethodPointerMono;
@@ -581,7 +529,6 @@ namespace TaleWorlds.DotNet
 			passManagedInitializeMethodPointerMono.DynamicInvoke(new object[] { initializer });
 		}
 
-		// Token: 0x0600009F RID: 159 RVA: 0x00003B61 File Offset: 0x00001D61
 		private static void PassManagedEngineCallbackMethodPointers(Delegate methodDelegate)
 		{
 			Delegate passManagedEngineCallbackMethodPointersMono = Managed.PassManagedEngineCallbackMethodPointersMono;
@@ -592,7 +539,6 @@ namespace TaleWorlds.DotNet
 			passManagedEngineCallbackMethodPointersMono.DynamicInvoke(new object[] { methodDelegate });
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00003B80 File Offset: 0x00001D80
 		[LibraryCallback]
 		internal static void LoadManagedComponent(string assemblyName, string managedInterface)
 		{
@@ -601,7 +547,6 @@ namespace TaleWorlds.DotNet
 			managedComponent.OnStart();
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00003BC8 File Offset: 0x00001DC8
 		internal static Dictionary<string, FieldInfo> GetEditableFieldsOfClass(string className)
 		{
 			Dictionary<string, FieldInfo> dictionary;
@@ -609,7 +554,6 @@ namespace TaleWorlds.DotNet
 			return dictionary;
 		}
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x00003BE4 File Offset: 0x00001DE4
 		internal static FieldInfo GetFieldOfClass(string className, string fieldName)
 		{
 			Dictionary<string, FieldInfo> dictionary;
@@ -622,7 +566,6 @@ namespace TaleWorlds.DotNet
 			return null;
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x00003C10 File Offset: 0x00001E10
 		internal static ConstructorInfo GetConstructorOfClass(string className)
 		{
 			ConstructorInfo constructorInfo;
@@ -630,7 +573,6 @@ namespace TaleWorlds.DotNet
 			return constructorInfo;
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00003C2C File Offset: 0x00001E2C
 		internal static Delegate GetConstructorDelegateOfClass(string className)
 		{
 			Delegate @delegate;
@@ -638,20 +580,17 @@ namespace TaleWorlds.DotNet
 			return @delegate;
 		}
 
-		// Token: 0x060000A5 RID: 165 RVA: 0x00003C48 File Offset: 0x00001E48
 		internal static Delegate GetConstructorDelegateOfWeakReferenceClass(Type classType)
 		{
 			return Managed._constructorDelegatesOfWeakReferencesCached[classType];
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x00003C55 File Offset: 0x00001E55
 		[LibraryCallback]
 		internal static bool IsClassFieldExists(string className, string fieldName)
 		{
 			return Managed.GetFieldOfClass(className, fieldName) != null;
 		}
 
-		// Token: 0x060000A7 RID: 167 RVA: 0x00003C64 File Offset: 0x00001E64
 		[LibraryCallback]
 		internal static string GetEnumNamesOfField(string className, string fieldName)
 		{
@@ -681,7 +620,6 @@ namespace TaleWorlds.DotNet
 			return string.Join(" ", enumNames);
 		}
 
-		// Token: 0x060000A8 RID: 168 RVA: 0x00003D38 File Offset: 0x00001F38
 		[CommandLineFunctionality.CommandLineArgumentFunction("show_version", "dotnet")]
 		public static string ShowDotNetVersion(List<string> strings)
 		{
@@ -690,92 +628,58 @@ namespace TaleWorlds.DotNet
 			return frameworkDescription;
 		}
 
-		// Token: 0x0400002E RID: 46
 		private static List<IManagedComponent> _components = new List<IManagedComponent>();
 
-		// Token: 0x04000030 RID: 48
 		private static ICallbackManager _callbackManager;
 
-		// Token: 0x04000031 RID: 49
 		internal static string ReturnValueFromEngine = "";
 
-		// Token: 0x04000032 RID: 50
 		private static ManagedInitializeMethod _initializer;
 
-		// Token: 0x04000033 RID: 51
 		private static Dictionary<string, Type> _moduleTypes;
 
-		// Token: 0x04000034 RID: 52
 		private static Dictionary<int, IntPtr> _engineApiPointers = new Dictionary<int, IntPtr>();
 
-		// Token: 0x04000035 RID: 53
 		private static Dictionary<string, Dictionary<string, FieldInfo>> _fieldsOfScriptsCached = new Dictionary<string, Dictionary<string, FieldInfo>>();
 
-		// Token: 0x04000036 RID: 54
 		private static Dictionary<string, Dictionary<string, FieldInfo>> _editableFieldsOfScriptsCached = new Dictionary<string, Dictionary<string, FieldInfo>>();
 
-		// Token: 0x04000037 RID: 55
 		private static Dictionary<string, ConstructorInfo> _constructorsOfScriptsCached = new Dictionary<string, ConstructorInfo>();
 
-		// Token: 0x04000038 RID: 56
 		private static Dictionary<string, Delegate> _constructorDelegatesOfScriptsCached = new Dictionary<string, Delegate>();
 
-		// Token: 0x04000039 RID: 57
 		private static Dictionary<Type, Delegate> _constructorDelegatesOfWeakReferencesCached = new Dictionary<Type, Delegate>();
 
-		// Token: 0x0400003B RID: 59
 		private static Delegate PassManagedInitializeMethodPointerMono = null;
 
-		// Token: 0x0400003C RID: 60
 		private static Delegate PassManagedEngineCallbackMethodPointersMono = null;
 
-		// Token: 0x02000035 RID: 53
-		// (Invoke) Token: 0x06000132 RID: 306
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		[MonoNativeFunctionWrapper]
 		public delegate void PassManagedInitializeMethodPointerDelegate([MarshalAs(UnmanagedType.FunctionPtr)] Delegate initalizer);
 
-		// Token: 0x02000036 RID: 54
-		// (Invoke) Token: 0x06000136 RID: 310
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		[MonoNativeFunctionWrapper]
 		public delegate void PassManagedCallbackMethodPointersDelegate([MarshalAs(UnmanagedType.FunctionPtr)] Delegate methodDelegate);
 
-		// Token: 0x02000037 RID: 55
-		// (Invoke) Token: 0x0600013A RID: 314
 		[MonoNativeFunctionWrapper]
 		public delegate void InitializerDelegate(Delegate argument);
 
-		// Token: 0x02000038 RID: 56
 		public enum RglScriptFieldType
 		{
-			// Token: 0x04000095 RID: 149
 			RglSftString,
-			// Token: 0x04000096 RID: 150
 			RglSftDouble,
-			// Token: 0x04000097 RID: 151
 			RglSftFloat,
-			// Token: 0x04000098 RID: 152
 			RglSftBool,
-			// Token: 0x04000099 RID: 153
 			RglSftInt,
-			// Token: 0x0400009A RID: 154
 			RglSftVec3,
-			// Token: 0x0400009B RID: 155
 			RglSftEntity,
-			// Token: 0x0400009C RID: 156
 			RglSftTexture,
-			// Token: 0x0400009D RID: 157
 			RglSftMesh,
-			// Token: 0x0400009E RID: 158
 			RglSftEnum,
-			// Token: 0x0400009F RID: 159
 			RglSftMaterial,
-			// Token: 0x040000A0 RID: 160
 			RglSftButton,
-			// Token: 0x040000A1 RID: 161
 			RglSftColor,
-			// Token: 0x040000A2 RID: 162
 			RglSftMatrixFrame
 		}
 	}

@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000387 RID: 903
 	public class CrimeCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003514 RID: 13588 RVA: 0x000E4C9C File Offset: 0x000E2E9C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
@@ -25,12 +23,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MakePeace.AddNonSerializedListener(this, new Action<IFaction, IFaction, MakePeaceAction.MakePeaceDetail>(this.OnMakePeace));
 		}
 
-		// Token: 0x06003515 RID: 13589 RVA: 0x000E4D1C File Offset: 0x000E2F1C
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003516 RID: 13590 RVA: 0x000E4D20 File Offset: 0x000E2F20
 		private void OnDailyTick()
 		{
 			foreach (Clan clan in Clan.NonBanditFactions)
@@ -51,13 +47,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003517 RID: 13591 RVA: 0x000E4DE8 File Offset: 0x000E2FE8
 		private void OnAfterGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06003518 RID: 13592 RVA: 0x000E4DF4 File Offset: 0x000E2FF4
 		private void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenu("town_inside_criminal", "{=XgA2JgVR}You are brought to the town square to face judgment.", new OnInitDelegate(CrimeCampaignBehavior.town_inside_criminal_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -76,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("town_discuss_criminal_surrender", "town_discuss_criminal_surrender_back", GameTexts.FindText("str_back", null).ToString(), new GameMenuOption.OnConditionDelegate(CrimeCampaignBehavior.town_discuss_criminal_surrender_on_condition), new GameMenuOption.OnConsequenceDelegate(CrimeCampaignBehavior.town_discuss_criminal_surrender_back_on_consequence), true, -1, false, null);
 		}
 
-		// Token: 0x06003519 RID: 13593 RVA: 0x000E5098 File Offset: 0x000E3298
 		private void OnHeroDeath(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			if (victim == Hero.MainHero)
@@ -92,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600351A RID: 13594 RVA: 0x000E513C File Offset: 0x000E333C
 		private void OnMakePeace(IFaction side1Faction, IFaction side2Faction, MakePeaceAction.MakePeaceDetail detail)
 		{
 			if (side1Faction == Hero.MainHero.MapFaction || side2Faction == Hero.MainHero.MapFaction)
@@ -106,7 +98,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600351B RID: 13595 RVA: 0x000E51AC File Offset: 0x000E33AC
 		private static bool CanPayCriminalRatingValueWith(IFaction faction, CrimeModel.PaymentMethod paymentMethod)
 		{
 			if (Campaign.Current.Models.CrimeModel.IsPlayerCrimeRatingModerate(Settlement.CurrentSettlement.MapFaction))
@@ -155,14 +146,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600351C RID: 13596 RVA: 0x000E5254 File Offset: 0x000E3454
 		private static bool IsCriminalPlayerInSameKingdomOf(IFaction faction)
 		{
 			Clan clan = faction as Clan;
 			return Hero.MainHero.Clan == faction || Hero.MainHero.Clan.Kingdom == faction || (clan != null && Hero.MainHero.Clan.Kingdom == clan.Kingdom);
 		}
 
-		// Token: 0x0600351D RID: 13597 RVA: 0x000E52A5 File Offset: 0x000E34A5
 		[GameMenuInitializationHandler("town_discuss_criminal_surrender")]
 		[GameMenuInitializationHandler("town_inside_criminal")]
 		public static void game_menu_town_criminal_on_init(MenuCallbackArgs args)
@@ -170,7 +159,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.Town.WaitMeshName);
 		}
 
-		// Token: 0x0600351E RID: 13598 RVA: 0x000E52C1 File Offset: 0x000E34C1
 		public static void town_inside_criminal_on_init(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.CurrentSettlement == null)
@@ -179,19 +167,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600351F RID: 13599 RVA: 0x000E52D4 File Offset: 0x000E34D4
 		public static void town_discuss_criminal_surrender_on_init(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x06003520 RID: 13600 RVA: 0x000E52D6 File Offset: 0x000E34D6
 		public static bool criminal_inside_menu_pay_by_punishment_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
 			return CrimeCampaignBehavior.CanPayCriminalRatingValueWith(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Punishment);
 		}
 
-		// Token: 0x06003521 RID: 13601 RVA: 0x000E52F0 File Offset: 0x000E34F0
 		public static void criminal_inside_menu_pay_by_punishment_on_consequence(MenuCallbackArgs args)
 		{
 			PayForCrimeAction.Apply(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Punishment);
@@ -214,7 +199,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003522 RID: 13602 RVA: 0x000E5350 File Offset: 0x000E3550
 		public static bool criminal_inside_menu_give_money_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Trade;
@@ -229,7 +213,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return CrimeCampaignBehavior.CanPayCriminalRatingValueWith(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Gold);
 		}
 
-		// Token: 0x06003523 RID: 13603 RVA: 0x000E53D4 File Offset: 0x000E35D4
 		public static void criminal_inside_menu_give_money_on_consequence(MenuCallbackArgs args)
 		{
 			PayForCrimeAction.Apply(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Gold);
@@ -241,7 +224,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("town_outside");
 		}
 
-		// Token: 0x06003524 RID: 13604 RVA: 0x000E5408 File Offset: 0x000E3608
 		public static bool criminal_inside_menu_give_influence_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Bribe;
@@ -256,7 +238,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return CrimeCampaignBehavior.CanPayCriminalRatingValueWith(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Influence);
 		}
 
-		// Token: 0x06003525 RID: 13605 RVA: 0x000E5495 File Offset: 0x000E3695
 		public static void criminal_inside_menu_give_influence_on_consequence(MenuCallbackArgs args)
 		{
 			PayForCrimeAction.Apply(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Influence);
@@ -268,7 +249,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("town_outside");
 		}
 
-		// Token: 0x06003526 RID: 13606 RVA: 0x000E54C8 File Offset: 0x000E36C8
 		public static bool criminal_inside_menu_give_punishment_and_money_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
@@ -283,7 +263,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return CrimeCampaignBehavior.CanPayCriminalRatingValueWith(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Gold | CrimeModel.PaymentMethod.Punishment);
 		}
 
-		// Token: 0x06003527 RID: 13607 RVA: 0x000E554C File Offset: 0x000E374C
 		public static void criminal_inside_menu_give_punishment_and_money_on_consequence(MenuCallbackArgs args)
 		{
 			PayForCrimeAction.Apply(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Gold | CrimeModel.PaymentMethod.Punishment);
@@ -306,27 +285,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003528 RID: 13608 RVA: 0x000E55AA File Offset: 0x000E37AA
 		public static bool criminal_inside_menu_give_your_life_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
 			return CrimeCampaignBehavior.CanPayCriminalRatingValueWith(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Execution);
 		}
 
-		// Token: 0x06003529 RID: 13609 RVA: 0x000E55C4 File Offset: 0x000E37C4
 		public static void criminal_inside_menu_give_your_life_on_consequence(MenuCallbackArgs args)
 		{
 			PayForCrimeAction.Apply(Settlement.CurrentSettlement.MapFaction, CrimeModel.PaymentMethod.Execution);
 		}
 
-		// Token: 0x0600352A RID: 13610 RVA: 0x000E55D6 File Offset: 0x000E37D6
 		public static bool criminal_inside_menu_ignore_charges_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return CrimeCampaignBehavior.IsCriminalPlayerInSameKingdomOf(Settlement.CurrentSettlement.MapFaction);
 		}
 
-		// Token: 0x0600352B RID: 13611 RVA: 0x000E55EF File Offset: 0x000E37EF
 		public static void criminal_inside_menu_ignore_charges_on_consequence(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement.IsCastle)
@@ -337,7 +312,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("town");
 		}
 
-		// Token: 0x0600352C RID: 13612 RVA: 0x000E5612 File Offset: 0x000E3812
 		public static void town_discuss_criminal_surrender_back_on_consequence(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement.IsCastle)
@@ -348,7 +322,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("town_guard");
 		}
 
-		// Token: 0x0600352D RID: 13613 RVA: 0x000E5635 File Offset: 0x000E3835
 		public static bool town_discuss_criminal_surrender_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;

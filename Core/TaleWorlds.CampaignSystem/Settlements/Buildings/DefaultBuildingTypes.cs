@@ -5,11 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 {
-	// Token: 0x02000375 RID: 885
 	public class DefaultBuildingTypes
 	{
-		// Token: 0x17000C94 RID: 3220
-		// (get) Token: 0x06003387 RID: 13191 RVA: 0x000D4AA1 File Offset: 0x000D2CA1
 		public static IEnumerable<BuildingType> MilitaryBuildings
 		{
 			get
@@ -32,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C95 RID: 3221
-		// (get) Token: 0x06003388 RID: 13192 RVA: 0x000D4AAA File Offset: 0x000D2CAA
 		private static DefaultBuildingTypes Instance
 		{
 			get
@@ -42,8 +37,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C96 RID: 3222
-		// (get) Token: 0x06003389 RID: 13193 RVA: 0x000D4AB6 File Offset: 0x000D2CB6
 		public static BuildingType Fortifications
 		{
 			get
@@ -52,8 +45,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C97 RID: 3223
-		// (get) Token: 0x0600338A RID: 13194 RVA: 0x000D4AC2 File Offset: 0x000D2CC2
 		public static BuildingType SettlementGarrisonBarracks
 		{
 			get
@@ -62,8 +53,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C98 RID: 3224
-		// (get) Token: 0x0600338B RID: 13195 RVA: 0x000D4ACE File Offset: 0x000D2CCE
 		public static BuildingType SettlementTrainingFields
 		{
 			get
@@ -72,8 +61,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C99 RID: 3225
-		// (get) Token: 0x0600338C RID: 13196 RVA: 0x000D4ADA File Offset: 0x000D2CDA
 		public static BuildingType SettlementFairgrounds
 		{
 			get
@@ -82,8 +69,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9A RID: 3226
-		// (get) Token: 0x0600338D RID: 13197 RVA: 0x000D4AE6 File Offset: 0x000D2CE6
 		public static BuildingType SettlementMarketplace
 		{
 			get
@@ -92,8 +77,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9B RID: 3227
-		// (get) Token: 0x0600338E RID: 13198 RVA: 0x000D4AF2 File Offset: 0x000D2CF2
 		public static BuildingType SettlementAquaducts
 		{
 			get
@@ -102,8 +85,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9C RID: 3228
-		// (get) Token: 0x0600338F RID: 13199 RVA: 0x000D4AFE File Offset: 0x000D2CFE
 		public static BuildingType SettlementForum
 		{
 			get
@@ -112,8 +93,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9D RID: 3229
-		// (get) Token: 0x06003390 RID: 13200 RVA: 0x000D4B0A File Offset: 0x000D2D0A
 		public static BuildingType SettlementGranary
 		{
 			get
@@ -122,8 +101,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9E RID: 3230
-		// (get) Token: 0x06003391 RID: 13201 RVA: 0x000D4B16 File Offset: 0x000D2D16
 		public static BuildingType SettlementWorkshop
 		{
 			get
@@ -132,8 +109,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000C9F RID: 3231
-		// (get) Token: 0x06003392 RID: 13202 RVA: 0x000D4B22 File Offset: 0x000D2D22
 		public static BuildingType SettlementMilitiaBarracks
 		{
 			get
@@ -142,8 +117,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA0 RID: 3232
-		// (get) Token: 0x06003393 RID: 13203 RVA: 0x000D4B2E File Offset: 0x000D2D2E
 		public static BuildingType SettlementSiegeWorkshop
 		{
 			get
@@ -152,8 +125,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA1 RID: 3233
-		// (get) Token: 0x06003394 RID: 13204 RVA: 0x000D4B3A File Offset: 0x000D2D3A
 		public static BuildingType SettlementLimeKilns
 		{
 			get
@@ -162,8 +133,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA2 RID: 3234
-		// (get) Token: 0x06003395 RID: 13205 RVA: 0x000D4B46 File Offset: 0x000D2D46
 		public static BuildingType Wall
 		{
 			get
@@ -172,8 +141,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA3 RID: 3235
-		// (get) Token: 0x06003396 RID: 13206 RVA: 0x000D4B52 File Offset: 0x000D2D52
 		public static BuildingType CastleBarracks
 		{
 			get
@@ -182,8 +149,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA4 RID: 3236
-		// (get) Token: 0x06003397 RID: 13207 RVA: 0x000D4B5E File Offset: 0x000D2D5E
 		public static BuildingType CastleTrainingFields
 		{
 			get
@@ -192,8 +157,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA5 RID: 3237
-		// (get) Token: 0x06003398 RID: 13208 RVA: 0x000D4B6A File Offset: 0x000D2D6A
 		public static BuildingType CastleGranary
 		{
 			get
@@ -202,8 +165,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA6 RID: 3238
-		// (get) Token: 0x06003399 RID: 13209 RVA: 0x000D4B76 File Offset: 0x000D2D76
 		public static BuildingType CastleGardens
 		{
 			get
@@ -212,8 +173,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA7 RID: 3239
-		// (get) Token: 0x0600339A RID: 13210 RVA: 0x000D4B82 File Offset: 0x000D2D82
 		public static BuildingType CastleCastallansOffice
 		{
 			get
@@ -222,8 +181,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA8 RID: 3240
-		// (get) Token: 0x0600339B RID: 13211 RVA: 0x000D4B8E File Offset: 0x000D2D8E
 		public static BuildingType CastleWorkshop
 		{
 			get
@@ -232,8 +189,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CA9 RID: 3241
-		// (get) Token: 0x0600339C RID: 13212 RVA: 0x000D4B9A File Offset: 0x000D2D9A
 		public static BuildingType CastleFairgrounds
 		{
 			get
@@ -242,8 +197,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAA RID: 3242
-		// (get) Token: 0x0600339D RID: 13213 RVA: 0x000D4BA6 File Offset: 0x000D2DA6
 		public static BuildingType CastleSiegeWorkshop
 		{
 			get
@@ -252,8 +205,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAB RID: 3243
-		// (get) Token: 0x0600339E RID: 13214 RVA: 0x000D4BB2 File Offset: 0x000D2DB2
 		public static BuildingType CastleMilitiaBarracks
 		{
 			get
@@ -262,8 +213,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAC RID: 3244
-		// (get) Token: 0x0600339F RID: 13215 RVA: 0x000D4BBE File Offset: 0x000D2DBE
 		public static BuildingType CastleTollCollector
 		{
 			get
@@ -272,8 +221,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAD RID: 3245
-		// (get) Token: 0x060033A0 RID: 13216 RVA: 0x000D4BCA File Offset: 0x000D2DCA
 		public static BuildingType BuildHouseDaily
 		{
 			get
@@ -282,8 +229,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAE RID: 3246
-		// (get) Token: 0x060033A1 RID: 13217 RVA: 0x000D4BD6 File Offset: 0x000D2DD6
 		public static BuildingType TrainMilitiaDaily
 		{
 			get
@@ -292,8 +237,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CAF RID: 3247
-		// (get) Token: 0x060033A2 RID: 13218 RVA: 0x000D4BE2 File Offset: 0x000D2DE2
 		public static BuildingType FestivalsAndGamesDaily
 		{
 			get
@@ -302,8 +245,6 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x17000CB0 RID: 3248
-		// (get) Token: 0x060033A3 RID: 13219 RVA: 0x000D4BEE File Offset: 0x000D2DEE
 		public static BuildingType IrrigationDaily
 		{
 			get
@@ -312,13 +253,11 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}
 		}
 
-		// Token: 0x060033A4 RID: 13220 RVA: 0x000D4BFA File Offset: 0x000D2DFA
 		public DefaultBuildingTypes()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x060033A5 RID: 13221 RVA: 0x000D4C08 File Offset: 0x000D2E08
 		private void RegisterAll()
 		{
 			this._buildingFortifications = this.Create("building_fortifications");
@@ -351,13 +290,11 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			this.InitializeAll();
 		}
 
-		// Token: 0x060033A6 RID: 13222 RVA: 0x000D4DE6 File Offset: 0x000D2FE6
 		private BuildingType Create(string stringId)
 		{
 			return Game.Current.ObjectManager.RegisterPresumedObject<BuildingType>(new BuildingType(stringId));
 		}
 
-		// Token: 0x060033A7 RID: 13223 RVA: 0x000D4E00 File Offset: 0x000D3000
 		private void InitializeAll()
 		{
 			this._buildingFortifications.Initialize(new TextObject("{=CVdK1ax1}Fortifications", null), new TextObject("{=dIM6xa2O}Better fortifications and higher walls around town, also increases the max garrison limit since it provides more space for the resident troops.", null), new int[] { 0, 8000, 16000 }, BuildingLocation.Settlement, new Tuple<BuildingEffectEnum, float, float, float>[]
@@ -472,88 +409,60 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 			}, 0);
 		}
 
-		// Token: 0x040010DA RID: 4314
 		public const int MaxBuildingLevel = 3;
 
-		// Token: 0x040010DB RID: 4315
 		private BuildingType _buildingFortifications;
 
-		// Token: 0x040010DC RID: 4316
 		private BuildingType _buildingSettlementGarrisonBarracks;
 
-		// Token: 0x040010DD RID: 4317
 		private BuildingType _buildingSettlementTrainingFields;
 
-		// Token: 0x040010DE RID: 4318
 		private BuildingType _buildingSettlementFairgrounds;
 
-		// Token: 0x040010DF RID: 4319
 		private BuildingType _buildingSettlementMarketplace;
 
-		// Token: 0x040010E0 RID: 4320
 		private BuildingType _buildingSettlementAquaducts;
 
-		// Token: 0x040010E1 RID: 4321
 		private BuildingType _buildingSettlementForum;
 
-		// Token: 0x040010E2 RID: 4322
 		private BuildingType _buildingSettlementGranary;
 
-		// Token: 0x040010E3 RID: 4323
 		private BuildingType _buildingSettlementOrchard;
 
-		// Token: 0x040010E4 RID: 4324
 		private BuildingType _buildingSettlementMilitiaBarracks;
 
-		// Token: 0x040010E5 RID: 4325
 		private BuildingType _buildingSettlementSiegeWorkshop;
 
-		// Token: 0x040010E6 RID: 4326
 		private BuildingType _buildingSettlementLimeKilns;
 
-		// Token: 0x040010E7 RID: 4327
 		private BuildingType _buildingWall;
 
-		// Token: 0x040010E8 RID: 4328
 		private BuildingType _buildingCastleBarracks;
 
-		// Token: 0x040010E9 RID: 4329
 		private BuildingType _buildingCastleTrainingFields;
 
-		// Token: 0x040010EA RID: 4330
 		private BuildingType _buildingCastleGranary;
 
-		// Token: 0x040010EB RID: 4331
 		private BuildingType _buildingCastleGardens;
 
-		// Token: 0x040010EC RID: 4332
 		private BuildingType _buildingCastleCastallansOffice;
 
-		// Token: 0x040010ED RID: 4333
 		private BuildingType _buildingCastleWorkshop;
 
-		// Token: 0x040010EE RID: 4334
 		private BuildingType _buildingCastleFairgrounds;
 
-		// Token: 0x040010EF RID: 4335
 		private BuildingType _buildingCastleSiegeWorkshop;
 
-		// Token: 0x040010F0 RID: 4336
 		private BuildingType _buildingCastleMilitiaBarracks;
 
-		// Token: 0x040010F1 RID: 4337
 		private BuildingType _buildingCastleTollCollector;
 
-		// Token: 0x040010F2 RID: 4338
 		private BuildingType _buildingDailyBuildHouse;
 
-		// Token: 0x040010F3 RID: 4339
 		private BuildingType _buildingDailyTrainMilitia;
 
-		// Token: 0x040010F4 RID: 4340
 		private BuildingType _buildingDailyFestivalsAndGames;
 
-		// Token: 0x040010F5 RID: 4341
 		private BuildingType _buildingDailyIrrigation;
 	}
 }

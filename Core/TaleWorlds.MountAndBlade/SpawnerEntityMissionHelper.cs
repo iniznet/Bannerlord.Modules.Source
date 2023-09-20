@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.Objects.Siege;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200035F RID: 863
 	public class SpawnerEntityMissionHelper
 	{
-		// Token: 0x06002F27 RID: 12071 RVA: 0x000C051C File Offset: 0x000BE71C
 		public SpawnerEntityMissionHelper(SpawnerBase spawner, bool fireVersion = false)
 		{
 			this._spawner = spawner;
@@ -29,7 +27,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CallSetSpawnedFromSpawnerOfScripts();
 		}
 
-		// Token: 0x06002F28 RID: 12072 RVA: 0x000C05AC File Offset: 0x000BE7AC
 		private GameEntity SpawnPrefab(GameEntity parent, string entityName)
 		{
 			this.SpawnedEntity = GameEntity.Instantiate(parent.Scene, entityName, false);
@@ -45,14 +42,12 @@ namespace TaleWorlds.MountAndBlade
 			return this.SpawnedEntity;
 		}
 
-		// Token: 0x06002F29 RID: 12073 RVA: 0x000C0644 File Offset: 0x000BE844
 		private void RemoveChildEntity(GameEntity child)
 		{
 			child.CallScriptCallbacks();
 			child.Remove(85);
 		}
 
-		// Token: 0x06002F2A RID: 12074 RVA: 0x000C0654 File Offset: 0x000BE854
 		private void SyncMatrixFrames()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -71,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F2B RID: 12075 RVA: 0x000C072C File Offset: 0x000BE92C
 		private void CallSetSpawnedFromSpawnerOfScripts()
 		{
 			foreach (GameEntity gameEntity in this.SpawnedEntity.GetEntityAndChildren())
@@ -85,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002F2C RID: 12076 RVA: 0x000C07D8 File Offset: 0x000BE9D8
 		private string GetPrefabName()
 		{
 			string text;
@@ -112,34 +105,26 @@ namespace TaleWorlds.MountAndBlade
 			return text;
 		}
 
-		// Token: 0x06002F2D RID: 12077 RVA: 0x000C0880 File Offset: 0x000BEA80
 		private static object GetFieldValue(object src, string propName)
 		{
 			return src.GetType().GetField(propName).GetValue(src);
 		}
 
-		// Token: 0x06002F2E RID: 12078 RVA: 0x000C0894 File Offset: 0x000BEA94
 		private static bool HasField(object obj, string propertyName)
 		{
 			return obj.GetType().GetField(propertyName) != null;
 		}
 
-		// Token: 0x04001353 RID: 4947
 		private const string EnabledSuffix = "_enabled";
 
-		// Token: 0x04001354 RID: 4948
 		public GameEntity SpawnedEntity;
 
-		// Token: 0x04001355 RID: 4949
 		private GameEntity _ownerEntity;
 
-		// Token: 0x04001356 RID: 4950
 		private SpawnerBase _spawner;
 
-		// Token: 0x04001357 RID: 4951
 		private string _gameEntityName;
 
-		// Token: 0x04001358 RID: 4952
 		private bool _fireVersion;
 	}
 }

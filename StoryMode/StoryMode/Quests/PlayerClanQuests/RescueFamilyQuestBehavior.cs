@@ -24,16 +24,13 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.PlayerClanQuests
 {
-	// Token: 0x0200002E RID: 46
 	public class RescueFamilyQuestBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000270 RID: 624 RVA: 0x0000D3B3 File Offset: 0x0000B5B3
 		internal RescueFamilyQuestBehavior()
 		{
 			this._rescueFamilyQuestReadyToStart = false;
 		}
 
-		// Token: 0x06000271 RID: 625 RVA: 0x0000D3C4 File Offset: 0x0000B5C4
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -42,13 +39,11 @@ namespace StoryMode.Quests.PlayerClanQuests
 			CampaignEvents.CanHeroDieEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.CanHeroDie));
 		}
 
-		// Token: 0x06000272 RID: 626 RVA: 0x0000D42D File Offset: 0x0000B62D
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<bool>("_rescueFamilyQuestReadyToStart", ref this._rescueFamilyQuestReadyToStart);
 		}
 
-		// Token: 0x06000273 RID: 627 RVA: 0x0000D444 File Offset: 0x0000B644
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			if (this._rescueFamilyQuestReadyToStart && party == MobileParty.MainParty && settlement.IsTown && !settlement.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction) && GameStateManager.Current.ActiveState is MapState && !Campaign.Current.ConversationManager.IsConversationFlowActive)
@@ -73,7 +68,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 			}
 		}
 
-		// Token: 0x06000274 RID: 628 RVA: 0x0000D564 File Offset: 0x0000B764
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (quest is RebuildPlayerClanQuest)
@@ -89,7 +83,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 			}
 		}
 
-		// Token: 0x06000275 RID: 629 RVA: 0x0000D5B0 File Offset: 0x0000B7B0
 		private void OnCanHaveQuestsOrIssuesInfoIsRequested(Hero hero, ref bool result)
 		{
 			if (!StoryModeManager.Current.MainStoryLine.FamilyRescued && (hero == StoryModeHeroes.Radagos || hero == StoryModeHeroes.RadagosHencman))
@@ -98,7 +91,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 			}
 		}
 
-		// Token: 0x06000276 RID: 630 RVA: 0x0000D5D8 File Offset: 0x0000B7D8
 		private void CanHeroDie(Hero hero, KillCharacterAction.KillCharacterActionDetail causeOfDeath, ref bool result)
 		{
 			if (hero == StoryModeHeroes.RadagosHencman && (!StoryModeManager.Current.MainStoryLine.FamilyRescued || this._rescueFamilyQuestReadyToStart || (Campaign.Current.QuestManager.IsThereActiveQuestWithType(typeof(RescueFamilyQuestBehavior.RescueFamilyQuest)) && causeOfDeath != 6)))
@@ -107,14 +99,10 @@ namespace StoryMode.Quests.PlayerClanQuests
 			}
 		}
 
-		// Token: 0x040000C5 RID: 197
 		private bool _rescueFamilyQuestReadyToStart;
 
-		// Token: 0x02000072 RID: 114
 		public class RescueFamilyQuest : StoryModeQuestBase
 		{
-			// Token: 0x170000D8 RID: 216
-			// (get) Token: 0x06000615 RID: 1557 RVA: 0x000221C0 File Offset: 0x000203C0
 			private TextObject _startQuestLogText
 			{
 				get
@@ -126,8 +114,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x170000D9 RID: 217
-			// (get) Token: 0x06000616 RID: 1558 RVA: 0x00022208 File Offset: 0x00020408
 			private TextObject _defeatedQuestLogText
 			{
 				get
@@ -138,8 +124,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x170000DA RID: 218
-			// (get) Token: 0x06000617 RID: 1559 RVA: 0x0002223C File Offset: 0x0002043C
 			private TextObject _letGoRadagosEndQuestLogText
 			{
 				get
@@ -150,8 +134,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x170000DB RID: 219
-			// (get) Token: 0x06000618 RID: 1560 RVA: 0x00022270 File Offset: 0x00020470
 			private TextObject _executeRadagosEndQuestLogText
 			{
 				get
@@ -162,8 +144,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x170000DC RID: 220
-			// (get) Token: 0x06000619 RID: 1561 RVA: 0x000222A2 File Offset: 0x000204A2
 			public override TextObject Title
 			{
 				get
@@ -172,7 +152,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x0600061A RID: 1562 RVA: 0x000222B0 File Offset: 0x000204B0
 			public RescueFamilyQuest()
 				: base("rescue_your_family_storymode_quest", null, CampaignTime.Never)
 			{
@@ -195,7 +174,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this.AddGameMenus();
 			}
 
-			// Token: 0x0600061B RID: 1563 RVA: 0x000223AC File Offset: 0x000205AC
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this._radagos = StoryModeHeroes.Radagos;
@@ -208,7 +186,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this.SelectTargetSettlementForSiblings();
 			}
 
-			// Token: 0x0600061C RID: 1564 RVA: 0x00022422 File Offset: 0x00020622
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == StoryModeHeroes.Radagos && StoryModeManager.Current.MainStoryLine.TutorialPhase.IsCompleted && !StoryModeManager.Current.MainStoryLine.FamilyRescued)
@@ -217,7 +194,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x0600061D RID: 1565 RVA: 0x00022458 File Offset: 0x00020658
 			protected override void OnCompleteWithSuccess()
 			{
 				StoryModeHeroes.ElderBrother.Clan = Clan.PlayerClan;
@@ -260,21 +236,18 @@ namespace StoryMode.Quests.PlayerClanQuests
 				StoryModeHeroes.ElderBrother.EncyclopediaText = textObject3;
 			}
 
-			// Token: 0x0600061E RID: 1566 RVA: 0x0002262F File Offset: 0x0002082F
 			protected override void OnFinalize()
 			{
 				base.OnFinalize();
 				StoryModeManager.Current.MainStoryLine.BusyHideouts.Remove(this._hideout.Hideout);
 			}
 
-			// Token: 0x0600061F RID: 1567 RVA: 0x00022657 File Offset: 0x00020857
 			private void InitializeHideout()
 			{
 				this.CheckIfHideoutIsReady();
 				this._hideoutBattleEndState = RescueFamilyQuestBehavior.RescueFamilyQuest.HideoutBattleEndState.None;
 			}
 
-			// Token: 0x06000620 RID: 1568 RVA: 0x00022668 File Offset: 0x00020868
 			private void CheckIfHideoutIsReady()
 			{
 				if (!this._hideout.Hideout.IsInfested)
@@ -291,7 +264,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this._hideout.IsVisible = true;
 			}
 
-			// Token: 0x06000621 RID: 1569 RVA: 0x000226D8 File Offset: 0x000208D8
 			private void AddRadagosHencmanToHideout()
 			{
 				if (!this._hideout.Parties.Any((MobileParty p) => p.IsBanditBossParty))
@@ -314,7 +286,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000622 RID: 1570 RVA: 0x00022800 File Offset: 0x00020A00
 			private void RemoveRadagosHencmanFromHideout()
 			{
 				foreach (MobileParty mobileParty in this._hideout.Parties)
@@ -329,7 +300,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000623 RID: 1571 RVA: 0x000228BC File Offset: 0x00020ABC
 			private MobileParty CreateRaiderParty(int number, bool isBanditBossParty)
 			{
 				MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("rescue_family_quest_raider_party_" + number, StoryModeHeroes.RadiersClan, this._hideout.Hideout, isBanditBossParty);
@@ -352,7 +322,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				return mobileParty;
 			}
 
-			// Token: 0x06000624 RID: 1572 RVA: 0x000229F0 File Offset: 0x00020BF0
 			private void SelectTargetSettlementForSiblings()
 			{
 				this._targetSettlementForSiblings = SettlementHelper.FindNearestTown((Settlement s) => s.OwnerClan.MapFaction == Clan.PlayerClan.MapFaction, null);
@@ -366,7 +335,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000625 RID: 1573 RVA: 0x00022A90 File Offset: 0x00020C90
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
@@ -377,7 +345,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			}
 
-			// Token: 0x06000626 RID: 1574 RVA: 0x00022B27 File Offset: 0x00020D27
 			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 			{
 				if (killer == this._radagos && victim == this._hideoutBoss)
@@ -391,7 +358,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000627 RID: 1575 RVA: 0x00022B68 File Offset: 0x00020D68
 			private void OnSettlementLeft(MobileParty party, Settlement settlement)
 			{
 				if (party.IsMainParty)
@@ -411,7 +377,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000628 RID: 1576 RVA: 0x00022BF8 File Offset: 0x00020DF8
 			private void OnMapEventEnded(MapEvent mapEvent)
 			{
 				if (PlayerEncounter.Current != null && mapEvent.IsPlayerMapEvent && Settlement.CurrentSettlement == this._hideout)
@@ -440,7 +405,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000629 RID: 1577 RVA: 0x00022CFC File Offset: 0x00020EFC
 			private void OnGameMenuOpened(MenuCallbackArgs args)
 			{
 				if (this._hideoutBattleEndState != RescueFamilyQuestBehavior.RescueFamilyQuest.HideoutBattleEndState.Victory && !this._hideoutBoss.IsHealthFull())
@@ -490,7 +454,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x0600062A RID: 1578 RVA: 0x00022EDC File Offset: 0x000210DC
 			private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 			{
 				if (this._hideoutTalkDone && settlement == this._hideout && mobileParty != null && mobileParty.IsMainParty)
@@ -503,13 +466,11 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x0600062B RID: 1579 RVA: 0x00022F48 File Offset: 0x00021148
 			private void HourlyTick()
 			{
 				this.CheckIfHideoutIsReady();
 			}
 
-			// Token: 0x0600062C RID: 1580 RVA: 0x00022F50 File Offset: 0x00021150
 			protected override void SetDialogs()
 			{
 				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=1yi00v5w}{PLAYER.NAME}! Good to see you. Believe it or not, I mean that. I've been looking for you...[if:happy][ib:demure]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.radagos_reunion_conversation_condition))
@@ -592,7 +553,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 					.CloseDialog(), this);
 			}
 
-			// Token: 0x0600062D RID: 1581 RVA: 0x00023414 File Offset: 0x00021614
 			private bool radagos_reunion_conversation_condition()
 			{
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, null, false);
@@ -600,21 +560,18 @@ namespace StoryMode.Quests.PlayerClanQuests
 				return !this._reunionTalkDone && Hero.OneToOneConversationHero == this._radagos;
 			}
 
-			// Token: 0x0600062E RID: 1582 RVA: 0x00023462 File Offset: 0x00021662
 			private void radagos_reunion_conversation_consequence()
 			{
 				this._reunionTalkDone = true;
 				base.AddLog(this._startQuestLogText, false);
 			}
 
-			// Token: 0x0600062F RID: 1583 RVA: 0x00023479 File Offset: 0x00021679
 			private bool radagos_hideout_conversation_condition()
 			{
 				StringHelpers.SetCharacterProperties("HIDEOUT_BOSS", this._hideoutBoss.CharacterObject, null, false);
 				return !this._hideoutTalkDone && Settlement.CurrentSettlement == this._hideout && Hero.OneToOneConversationHero == this._radagos;
 			}
 
-			// Token: 0x06000630 RID: 1584 RVA: 0x000234B8 File Offset: 0x000216B8
 			private void radagos_hideout_conversation_consequence()
 			{
 				this._hideoutTalkDone = true;
@@ -625,7 +582,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this.AddRadagosHencmanToHideout();
 			}
 
-			// Token: 0x06000631 RID: 1585 RVA: 0x00023510 File Offset: 0x00021710
 			private bool brother_hideout_conversation_condition()
 			{
 				if (!this._brotherConversationDone && Hero.OneToOneConversationHero == StoryModeHeroes.ElderBrother)
@@ -649,13 +605,11 @@ namespace StoryMode.Quests.PlayerClanQuests
 				return false;
 			}
 
-			// Token: 0x06000632 RID: 1586 RVA: 0x000235C4 File Offset: 0x000217C4
 			private void brother_hideout_conversation_consequence()
 			{
 				this._brotherConversationDone = true;
 			}
 
-			// Token: 0x06000633 RID: 1587 RVA: 0x000235D0 File Offset: 0x000217D0
 			private bool bandit_hideout_boss_fight_start_on_condition()
 			{
 				PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
@@ -667,26 +621,22 @@ namespace StoryMode.Quests.PlayerClanQuests
 				return encounteredParty.MapFaction.IsBanditFaction && encounteredParty.IsSettlement && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == this._hideoutBoss && encounteredParty.Settlement.IsHideout;
 			}
 
-			// Token: 0x06000634 RID: 1588 RVA: 0x00023674 File Offset: 0x00021874
 			private void bandit_hideout_start_duel_fight_on_consequence()
 			{
 				Campaign.Current.ConversationManager.ConversationEndOneShot += HideoutMissionController.StartBossFightDuelMode;
 			}
 
-			// Token: 0x06000635 RID: 1589 RVA: 0x00023691 File Offset: 0x00021891
 			private void bandit_hideout_continue_battle_on_consequence()
 			{
 				Campaign.Current.ConversationManager.ConversationEndOneShot += HideoutMissionController.StartBossFightBattleMode;
 			}
 
-			// Token: 0x06000636 RID: 1590 RVA: 0x000236AE File Offset: 0x000218AE
 			private bool hideout_boss_prisoner_talk_condition()
 			{
 				StringHelpers.SetCharacterProperties("RADAGOS", this._radagos.CharacterObject, null, false);
 				return Hero.OneToOneConversationHero == this._hideoutBoss;
 			}
 
-			// Token: 0x06000637 RID: 1591 RVA: 0x000236D5 File Offset: 0x000218D5
 			private void hideout_boss_prisoner_talk_consequence()
 			{
 				if (this._hideoutBoss.IsAlive)
@@ -695,7 +645,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			// Token: 0x06000638 RID: 1592 RVA: 0x000236FC File Offset: 0x000218FC
 			private bool goodbye_conversation_with_radagos_condition()
 			{
 				if (this._brotherConversationDone && Hero.OneToOneConversationHero == this._radagos)
@@ -707,7 +656,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				return false;
 			}
 
-			// Token: 0x06000639 RID: 1593 RVA: 0x0002374B File Offset: 0x0002194B
 			private void execute_radagos_consequence()
 			{
 				base.AddLog(this._executeRadagosEndQuestLogText, false);
@@ -716,7 +664,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this._radagosGoodByeConversationDone = true;
 			}
 
-			// Token: 0x0600063A RID: 1594 RVA: 0x0002377F File Offset: 0x0002197F
 			private void let_go_radagos_consequence()
 			{
 				base.AddLog(this._letGoRadagosEndQuestLogText, false);
@@ -725,7 +672,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				this._radagosGoodByeConversationDone = true;
 			}
 
-			// Token: 0x0600063B RID: 1595 RVA: 0x000237A8 File Offset: 0x000219A8
 			private void AddGameMenus()
 			{
 				TextObject textObject = new TextObject("{=kzgbBrYo}As you leave the hideout, {RADAGOS.LINK} comes to you and asks to talk.", null);
@@ -734,38 +680,32 @@ namespace StoryMode.Quests.PlayerClanQuests
 				base.AddGameMenuOption("radagos_goodbye_menu", "radagos_goodbye_menu_continue", new TextObject("{=DM6luo3c}Continue", null), new GameMenuOption.OnConditionDelegate(this.radagos_goodbye_menu_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.radagos_goodbye_menu_continue_on_consequence), false, -1, null);
 			}
 
-			// Token: 0x0600063C RID: 1596 RVA: 0x00023829 File Offset: 0x00021A29
 			private void radagos_goodbye_menu_on_init(MenuCallbackArgs args)
 			{
 			}
 
-			// Token: 0x0600063D RID: 1597 RVA: 0x0002382B File Offset: 0x00021A2B
 			private bool radagos_goodbye_menu_continue_on_condition(MenuCallbackArgs args)
 			{
 				args.optionLeaveType = 17;
 				return true;
 			}
 
-			// Token: 0x0600063E RID: 1598 RVA: 0x00023838 File Offset: 0x00021A38
 			private void radagos_goodbye_menu_continue_on_consequence(MenuCallbackArgs args)
 			{
 				CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, null, true, true, false, false, false, false), new ConversationCharacterData(this._radagos.CharacterObject, null, true, true, false, false, false, false));
 			}
 
-			// Token: 0x0600063F RID: 1599 RVA: 0x00023872 File Offset: 0x00021A72
 			[GameMenuInitializationHandler("radagos_goodbye_menu")]
 			private static void quest_game_menus_on_init_background(MenuCallbackArgs args)
 			{
 				args.MenuContext.SetBackgroundMeshName(SettlementHelper.FindNearestHideout(null, null).Hideout.WaitMeshName);
 			}
 
-			// Token: 0x06000640 RID: 1600 RVA: 0x00023890 File Offset: 0x00021A90
 			internal static void AutoGeneratedStaticCollectObjectsRescueFamilyQuest(object o, List<object> collectedObjects)
 			{
 				((RescueFamilyQuestBehavior.RescueFamilyQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06000641 RID: 1601 RVA: 0x0002389E File Offset: 0x00021A9E
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -773,126 +713,97 @@ namespace StoryMode.Quests.PlayerClanQuests
 				collectedObjects.Add(this._raiderParties);
 			}
 
-			// Token: 0x06000642 RID: 1602 RVA: 0x000238BF File Offset: 0x00021ABF
 			internal static object AutoGeneratedGetMemberValue_hideout(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._hideout;
 			}
 
-			// Token: 0x06000643 RID: 1603 RVA: 0x000238CC File Offset: 0x00021ACC
 			internal static object AutoGeneratedGetMemberValue_reunionTalkDone(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._reunionTalkDone;
 			}
 
-			// Token: 0x06000644 RID: 1604 RVA: 0x000238DE File Offset: 0x00021ADE
 			internal static object AutoGeneratedGetMemberValue_hideoutTalkDone(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._hideoutTalkDone;
 			}
 
-			// Token: 0x06000645 RID: 1605 RVA: 0x000238F0 File Offset: 0x00021AF0
 			internal static object AutoGeneratedGetMemberValue_brotherConversationDone(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._brotherConversationDone;
 			}
 
-			// Token: 0x06000646 RID: 1606 RVA: 0x00023902 File Offset: 0x00021B02
 			internal static object AutoGeneratedGetMemberValue_radagosGoodByeConversationDone(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._radagosGoodByeConversationDone;
 			}
 
-			// Token: 0x06000647 RID: 1607 RVA: 0x00023914 File Offset: 0x00021B14
 			internal static object AutoGeneratedGetMemberValue_hideoutBattleEndState(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._hideoutBattleEndState;
 			}
 
-			// Token: 0x06000648 RID: 1608 RVA: 0x00023926 File Offset: 0x00021B26
 			internal static object AutoGeneratedGetMemberValue_raiderParties(object o)
 			{
 				return ((RescueFamilyQuestBehavior.RescueFamilyQuest)o)._raiderParties;
 			}
 
-			// Token: 0x04000224 RID: 548
 			private const int RaiderPartySize = 10;
 
-			// Token: 0x04000225 RID: 549
 			private const int RaiderPartyCount = 2;
 
-			// Token: 0x04000226 RID: 550
 			private const string RescueFamilyRaiderPartyStringId = "rescue_family_quest_raider_party_";
 
-			// Token: 0x04000227 RID: 551
 			private Hero _radagos;
 
-			// Token: 0x04000228 RID: 552
 			private Hero _hideoutBoss;
 
-			// Token: 0x04000229 RID: 553
 			private Settlement _targetSettlementForSiblings;
 
-			// Token: 0x0400022A RID: 554
 			[SaveableField(1)]
 			private readonly Settlement _hideout;
 
-			// Token: 0x0400022B RID: 555
 			[SaveableField(2)]
 			private bool _reunionTalkDone;
 
-			// Token: 0x0400022C RID: 556
 			[SaveableField(3)]
 			private bool _hideoutTalkDone;
 
-			// Token: 0x0400022D RID: 557
 			[SaveableField(4)]
 			private bool _brotherConversationDone;
 
-			// Token: 0x0400022E RID: 558
 			[SaveableField(5)]
 			private bool _radagosGoodByeConversationDone;
 
-			// Token: 0x0400022F RID: 559
 			[SaveableField(6)]
 			private RescueFamilyQuestBehavior.RescueFamilyQuest.HideoutBattleEndState _hideoutBattleEndState;
 
-			// Token: 0x04000230 RID: 560
 			[SaveableField(7)]
 			private readonly List<MobileParty> _raiderParties;
 
-			// Token: 0x02000096 RID: 150
 			public class RebuildPlayerClanQuestBehaviorTypeDefiner : SaveableTypeDefiner
 			{
-				// Token: 0x060006DB RID: 1755 RVA: 0x00024AAC File Offset: 0x00022CAC
 				public RebuildPlayerClanQuestBehaviorTypeDefiner()
 					: base(4140000)
 				{
 				}
 
-				// Token: 0x060006DC RID: 1756 RVA: 0x00024AB9 File Offset: 0x00022CB9
 				protected override void DefineClassTypes()
 				{
 					base.AddClassDefinition(typeof(RescueFamilyQuestBehavior.RescueFamilyQuest), 1, null);
 				}
 
-				// Token: 0x060006DD RID: 1757 RVA: 0x00024ACD File Offset: 0x00022CCD
 				protected override void DefineEnumTypes()
 				{
 					base.AddEnumDefinition(typeof(RescueFamilyQuestBehavior.RescueFamilyQuest.HideoutBattleEndState), 10, null);
 				}
 			}
 
-			// Token: 0x02000097 RID: 151
 			private enum HideoutBattleEndState
 			{
-				// Token: 0x040002BD RID: 701
 				None,
-				// Token: 0x040002BE RID: 702
 				Retreated,
-				// Token: 0x040002BF RID: 703
 				Defeated,
-				// Token: 0x040002C0 RID: 704
 				Victory
 			}
 		}

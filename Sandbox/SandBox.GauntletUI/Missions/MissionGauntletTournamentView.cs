@@ -16,17 +16,14 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Missions
 {
-	// Token: 0x02000017 RID: 23
 	[OverrideView(typeof(MissionTournamentView))]
 	public class MissionGauntletTournamentView : MissionView
 	{
-		// Token: 0x060000FC RID: 252 RVA: 0x00008362 File Offset: 0x00006562
 		public MissionGauntletTournamentView()
 		{
 			this.ViewOrderPriority = 48;
 		}
 
-		// Token: 0x060000FD RID: 253 RVA: 0x0000837C File Offset: 0x0000657C
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -43,7 +40,6 @@ namespace SandBox.GauntletUI.Missions
 			base.MissionScreen.AddLayer(this._gauntletLayer);
 		}
 
-		// Token: 0x060000FE RID: 254 RVA: 0x00008484 File Offset: 0x00006684
 		public override void OnMissionScreenFinalize()
 		{
 			this._gauntletLayer.IsFocusLayer = false;
@@ -56,7 +52,6 @@ namespace SandBox.GauntletUI.Missions
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x060000FF RID: 255 RVA: 0x000084E0 File Offset: 0x000066E0
 		public override void AfterStart()
 		{
 			this._behavior = base.Mission.GetMissionBehavior<TournamentBehavior>();
@@ -66,7 +61,6 @@ namespace SandBox.GauntletUI.Missions
 			gameEntity.GetCameraParamsFromCameraScript(this._customCamera, ref vec);
 		}
 
-		// Token: 0x06000100 RID: 256 RVA: 0x00008534 File Offset: 0x00006734
 		public override void OnMissionTick(float dt)
 		{
 			if (this._behavior == null)
@@ -121,7 +115,6 @@ namespace SandBox.GauntletUI.Missions
 			}
 		}
 
-		// Token: 0x06000101 RID: 257 RVA: 0x00008704 File Offset: 0x00006904
 		private void DisableUi()
 		{
 			if (!this._viewEnabled)
@@ -134,7 +127,6 @@ namespace SandBox.GauntletUI.Missions
 			this._gauntletLayer.InputRestrictions.ResetInputRestrictions();
 		}
 
-		// Token: 0x06000102 RID: 258 RVA: 0x00008753 File Offset: 0x00006953
 		private void ShowUi()
 		{
 			if (this._viewEnabled)
@@ -146,49 +138,39 @@ namespace SandBox.GauntletUI.Missions
 			this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
 		}
 
-		// Token: 0x06000103 RID: 259 RVA: 0x00008788 File Offset: 0x00006988
 		public override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
 		{
 			return !this._viewEnabled;
 		}
 
-		// Token: 0x06000104 RID: 260 RVA: 0x00008793 File Offset: 0x00006993
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);
 			this._dataSource.OnAgentRemoved(affectedAgent);
 		}
 
-		// Token: 0x06000105 RID: 261 RVA: 0x000087AC File Offset: 0x000069AC
 		public override void OnPhotoModeActivated()
 		{
 			base.OnPhotoModeActivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 0f;
 		}
 
-		// Token: 0x06000106 RID: 262 RVA: 0x000087C9 File Offset: 0x000069C9
 		public override void OnPhotoModeDeactivated()
 		{
 			base.OnPhotoModeDeactivated();
 			this._gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
 		}
 
-		// Token: 0x04000073 RID: 115
 		private TournamentBehavior _behavior;
 
-		// Token: 0x04000074 RID: 116
 		private Camera _customCamera;
 
-		// Token: 0x04000075 RID: 117
 		private bool _viewEnabled = true;
 
-		// Token: 0x04000076 RID: 118
 		private IGauntletMovie _gauntletMovie;
 
-		// Token: 0x04000077 RID: 119
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000078 RID: 120
 		private TournamentVM _dataSource;
 	}
 }

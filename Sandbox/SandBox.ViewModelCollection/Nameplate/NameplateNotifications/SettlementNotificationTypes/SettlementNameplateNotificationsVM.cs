@@ -10,28 +10,21 @@ using TaleWorlds.Library;
 
 namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.SettlementNotificationTypes
 {
-	// Token: 0x02000021 RID: 33
 	public class SettlementNameplateNotificationsVM : ViewModel
 	{
-		// Token: 0x170000E3 RID: 227
-		// (get) Token: 0x060002BF RID: 703 RVA: 0x0000D900 File Offset: 0x0000BB00
-		// (set) Token: 0x060002C0 RID: 704 RVA: 0x0000D908 File Offset: 0x0000BB08
 		public bool IsEventsRegistered { get; private set; }
 
-		// Token: 0x060002C1 RID: 705 RVA: 0x0000D911 File Offset: 0x0000BB11
 		public SettlementNameplateNotificationsVM(Settlement settlement)
 		{
 			this._settlement = settlement;
 			this.Notifications = new MBBindingList<SettlementNotificationItemBaseVM>();
 		}
 
-		// Token: 0x060002C2 RID: 706 RVA: 0x0000D92B File Offset: 0x0000BB2B
 		public void Tick()
 		{
 			this._tickSinceEnabled++;
 		}
 
-		// Token: 0x060002C3 RID: 707 RVA: 0x0000D93C File Offset: 0x0000BB3C
 		private void OnTroopRecruited(Hero recruiterHero, Settlement settlement, Hero troopSource, CharacterObject troop, int amount)
 		{
 			if (amount > 0 && settlement == this._settlement && this._settlement.IsInspected && recruiterHero != null && (recruiterHero.CurrentSettlement == this._settlement || (recruiterHero.PartyBelongedTo != null && recruiterHero.PartyBelongedTo.LastVisitedSettlement == this._settlement)))
@@ -46,7 +39,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002C4 RID: 708 RVA: 0x0000DA08 File Offset: 0x0000BC08
 		private void OnCaravanTransactionCompleted(MobileParty caravanParty, Town town, List<ValueTuple<EquipmentElement, int>> items)
 		{
 			if (this._settlement != town.Owner.Settlement)
@@ -62,7 +54,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			this.Notifications.Add(new CaravanTransactionNotificationItemVM(new Action<SettlementNotificationItemBaseVM>(this.RemoveItem), caravanParty, items, this._tickSinceEnabled));
 		}
 
-		// Token: 0x060002C5 RID: 709 RVA: 0x0000DA80 File Offset: 0x0000BC80
 		private void OnPrisonerSold(MobileParty party, TroopRoster prisoners, Settlement currentSettlement)
 		{
 			if (this._settlement.IsInspected && prisoners.Count > 0 && party.LeaderHero != null && currentSettlement == this._settlement)
@@ -77,7 +68,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002C6 RID: 710 RVA: 0x0000DB10 File Offset: 0x0000BD10
 		private void OnTroopGivenToSettlement(Hero giverHero, Settlement givenSettlement, TroopRoster givenTroops)
 		{
 			if (this._settlement.IsInspected && givenTroops.TotalManCount > 0 && giverHero != null && givenSettlement == this._settlement)
@@ -92,7 +82,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002C7 RID: 711 RVA: 0x0000DB98 File Offset: 0x0000BD98
 		private void OnItemSold(PartyBase receiverParty, PartyBase payerParty, ItemRosterElement item, int number, Settlement currentSettlement)
 		{
 			if (this._settlement.IsInspected && number > 0 && currentSettlement == this._settlement)
@@ -108,7 +97,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x0000DC47 File Offset: 0x0000BE47
 		private void OnIssueUpdated(IssueBase issue, IssueBase.IssueUpdateDetails updateType, Hero relatedHero)
 		{
 			if (updateType == 7 && relatedHero != null && relatedHero.CurrentSettlement == this._settlement)
@@ -117,13 +105,11 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002C9 RID: 713 RVA: 0x0000DC81 File Offset: 0x0000BE81
 		private void RemoveItem(SettlementNotificationItemBaseVM item)
 		{
 			this.Notifications.Remove(item);
 		}
 
-		// Token: 0x060002CA RID: 714 RVA: 0x0000DC90 File Offset: 0x0000BE90
 		public void RegisterEvents()
 		{
 			if (!this.IsEventsRegistered)
@@ -139,7 +125,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002CB RID: 715 RVA: 0x0000DD40 File Offset: 0x0000BF40
 		public void UnloadEvents()
 		{
 			if (this.IsEventsRegistered)
@@ -155,7 +140,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x060002CC RID: 716 RVA: 0x0000DDA8 File Offset: 0x0000BFA8
 		public bool IsValidItemForNotification(ItemRosterElement item)
 		{
 			switch (item.EquipmentElement.Item.Type)
@@ -187,7 +171,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			return false;
 		}
 
-		// Token: 0x060002CD RID: 717 RVA: 0x0000DE3C File Offset: 0x0000C03C
 		private T GetUpdatableNotificationByPredicate<T>(Func<T, bool> predicate) where T : SettlementNotificationItemBaseVM
 		{
 			for (int i = 0; i < this.Notifications.Count; i++)
@@ -202,9 +185,6 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			return default(T);
 		}
 
-		// Token: 0x170000E4 RID: 228
-		// (get) Token: 0x060002CE RID: 718 RVA: 0x0000DEA7 File Offset: 0x0000C0A7
-		// (set) Token: 0x060002CF RID: 719 RVA: 0x0000DEAF File Offset: 0x0000C0AF
 		public MBBindingList<SettlementNotificationItemBaseVM> Notifications
 		{
 			get
@@ -221,16 +201,12 @@ namespace SandBox.ViewModelCollection.Nameplate.NameplateNotifications.Settlemen
 			}
 		}
 
-		// Token: 0x04000162 RID: 354
 		private readonly Settlement _settlement;
 
-		// Token: 0x04000164 RID: 356
 		private int _tickSinceEnabled;
 
-		// Token: 0x04000165 RID: 357
 		private const int _maxTickDeltaToCongregate = 10;
 
-		// Token: 0x04000166 RID: 358
 		private MBBindingList<SettlementNotificationItemBaseVM> _notifications;
 	}
 }

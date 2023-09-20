@@ -10,22 +10,18 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x0200008C RID: 140
 	public class SandboxBattleSpawnModel : BattleSpawnModel
 	{
-		// Token: 0x060005D6 RID: 1494 RVA: 0x0002C54C File Offset: 0x0002A74C
 		public override void OnMissionStart()
 		{
 			MissionReinforcementsHelper.OnMissionStart();
 		}
 
-		// Token: 0x060005D7 RID: 1495 RVA: 0x0002C553 File Offset: 0x0002A753
 		public override void OnMissionEnd()
 		{
 			MissionReinforcementsHelper.OnMissionEnd();
 		}
 
-		// Token: 0x060005D8 RID: 1496 RVA: 0x0002C55C File Offset: 0x0002A75C
 		[return: TupleElementNames(new string[] { "origin", "formationIndex" })]
 		public override List<ValueTuple<IAgentOriginBase, int>> GetInitialSpawnAssignments(BattleSideEnum battleSide, List<IAgentOriginBase> troopOrigins)
 		{
@@ -66,14 +62,12 @@ namespace SandBox.GameComponents
 			return list;
 		}
 
-		// Token: 0x060005D9 RID: 1497 RVA: 0x0002C658 File Offset: 0x0002A858
 		[return: TupleElementNames(new string[] { "origin", "formationIndex" })]
 		public override List<ValueTuple<IAgentOriginBase, int>> GetReinforcementAssignments(BattleSideEnum battleSide, List<IAgentOriginBase> troopOrigins)
 		{
 			return MissionReinforcementsHelper.GetReinforcementAssignments(battleSide, troopOrigins);
 		}
 
-		// Token: 0x060005DA RID: 1498 RVA: 0x0002C664 File Offset: 0x0002A864
 		private static bool GetOrderOfBattleConfigurationsForFormations(List<IAgentOriginBase> troopOrigins, out SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations)
 		{
 			formationOrderOfBattleConfigurations = new SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[8];
@@ -135,7 +129,6 @@ namespace SandBox.GameComponents
 			return true;
 		}
 
-		// Token: 0x060005DB RID: 1499 RVA: 0x0002C7D8 File Offset: 0x0002A9D8
 		private static int[] CalculateTroopCountsPerDefaultFormation(List<IAgentOriginBase> troopOrigins)
 		{
 			int[] array = new int[4];
@@ -152,7 +145,6 @@ namespace SandBox.GameComponents
 			return array;
 		}
 
-		// Token: 0x060005DC RID: 1500 RVA: 0x0002C878 File Offset: 0x0002AA78
 		private static FormationClass FindBestOrderOfBattleFormationClassAssignmentForTroop(IAgentOriginBase origin, SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations, out SandboxBattleSpawnModel.OrderOfBattleInnerClassType bestClassInnerClassType)
 		{
 			FormationClass formationClass = origin.Troop.DefaultFormationClass;
@@ -201,42 +193,29 @@ namespace SandBox.GameComponents
 			return formationClass2;
 		}
 
-		// Token: 0x02000167 RID: 359
 		private enum OrderOfBattleInnerClassType
 		{
-			// Token: 0x040006BA RID: 1722
 			None,
-			// Token: 0x040006BB RID: 1723
 			PrimaryClass,
-			// Token: 0x040006BC RID: 1724
 			SecondaryClass
 		}
 
-		// Token: 0x02000168 RID: 360
 		private struct FormationOrderOfBattleConfiguration
 		{
-			// Token: 0x040006BD RID: 1725
 			public DeploymentFormationClass OOBFormationClass;
 
-			// Token: 0x040006BE RID: 1726
 			public FormationClass PrimaryFormationClass;
 
-			// Token: 0x040006BF RID: 1727
 			public int PrimaryClassTroopCount;
 
-			// Token: 0x040006C0 RID: 1728
 			public int PrimaryClassDesiredTroopCount;
 
-			// Token: 0x040006C1 RID: 1729
 			public FormationClass SecondaryFormationClass;
 
-			// Token: 0x040006C2 RID: 1730
 			public int SecondaryClassTroopCount;
 
-			// Token: 0x040006C3 RID: 1731
 			public int SecondaryClassDesiredTroopCount;
 
-			// Token: 0x040006C4 RID: 1732
 			public Hero Commander;
 		}
 	}

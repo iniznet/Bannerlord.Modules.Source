@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.View
 {
-	// Token: 0x02000008 RID: 8
 	public class MainHeroSaveVisualSupplier : IMainHeroVisualSupplier
 	{
-		// Token: 0x06000025 RID: 37 RVA: 0x00003308 File Offset: 0x00001508
 		string IMainHeroVisualSupplier.GetMainHeroVisualCode()
 		{
 			Hero mainHero = Hero.MainHero;

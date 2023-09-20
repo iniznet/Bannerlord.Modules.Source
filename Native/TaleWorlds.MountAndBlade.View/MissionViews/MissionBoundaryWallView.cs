@@ -5,10 +5,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x02000046 RID: 70
 	public class MissionBoundaryWallView : MissionView
 	{
-		// Token: 0x0600031F RID: 799 RVA: 0x0001B4C0 File Offset: 0x000196C0
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x06000320 RID: 800 RVA: 0x0001B520 File Offset: 0x00019720
 		private void CreateBoundaryEntity(ICollection<Vec2> boundaryPoints)
 		{
 			Mesh mesh = BoundaryWallView.CreateBoundaryMesh(base.Mission.Scene, boundaryPoints, 536918784U);

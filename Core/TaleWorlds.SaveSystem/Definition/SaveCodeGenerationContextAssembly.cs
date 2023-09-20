@@ -6,30 +6,16 @@ using TaleWorlds.Library.CodeGeneration;
 
 namespace TaleWorlds.SaveSystem.Definition
 {
-	// Token: 0x02000066 RID: 102
 	internal class SaveCodeGenerationContextAssembly
 	{
-		// Token: 0x1700007D RID: 125
-		// (get) Token: 0x060002FD RID: 765 RVA: 0x0000C2FC File Offset: 0x0000A4FC
-		// (set) Token: 0x060002FE RID: 766 RVA: 0x0000C304 File Offset: 0x0000A504
 		public Assembly Assembly { get; private set; }
 
-		// Token: 0x1700007E RID: 126
-		// (get) Token: 0x060002FF RID: 767 RVA: 0x0000C30D File Offset: 0x0000A50D
-		// (set) Token: 0x06000300 RID: 768 RVA: 0x0000C315 File Offset: 0x0000A515
 		public string Location { get; private set; }
 
-		// Token: 0x1700007F RID: 127
-		// (get) Token: 0x06000301 RID: 769 RVA: 0x0000C31E File Offset: 0x0000A51E
-		// (set) Token: 0x06000302 RID: 770 RVA: 0x0000C326 File Offset: 0x0000A526
 		public string FileName { get; private set; }
 
-		// Token: 0x17000080 RID: 128
-		// (get) Token: 0x06000303 RID: 771 RVA: 0x0000C32F File Offset: 0x0000A52F
-		// (set) Token: 0x06000304 RID: 772 RVA: 0x0000C337 File Offset: 0x0000A537
 		public string DefaultNamespace { get; private set; }
 
-		// Token: 0x06000305 RID: 773 RVA: 0x0000C340 File Offset: 0x0000A540
 		public SaveCodeGenerationContextAssembly(DefinitionContext definitionContext, Assembly assembly, string defaultNamespace, string location, string fileName)
 		{
 			this.Assembly = assembly;
@@ -43,19 +29,16 @@ namespace TaleWorlds.SaveSystem.Definition
 			this._codeGenerationContext = new CodeGenerationContext();
 		}
 
-		// Token: 0x06000306 RID: 774 RVA: 0x0000C3A4 File Offset: 0x0000A5A4
 		public void AddClassDefinition(TypeDefinition classDefinition)
 		{
 			this._definitions.Add(classDefinition);
 		}
 
-		// Token: 0x06000307 RID: 775 RVA: 0x0000C3B2 File Offset: 0x0000A5B2
 		public void AddStructDefinition(TypeDefinition classDefinition)
 		{
 			this._structDefinitions.Add(classDefinition);
 		}
 
-		// Token: 0x06000308 RID: 776 RVA: 0x0000C3C0 File Offset: 0x0000A5C0
 		public bool CheckIfGotAnyNonPrimitiveMembers(TypeDefinition typeDefinition)
 		{
 			MemberDefinition[] array = typeDefinition.MemberDefinitions.ToArray();
@@ -74,13 +57,11 @@ namespace TaleWorlds.SaveSystem.Definition
 			return false;
 		}
 
-		// Token: 0x06000309 RID: 777 RVA: 0x0000C422 File Offset: 0x0000A622
 		private string[] GetNestedClasses(string fullClassName)
 		{
 			return fullClassName.Split(new char[] { '.' }, StringSplitOptions.None);
 		}
 
-		// Token: 0x0600030A RID: 778 RVA: 0x0000C438 File Offset: 0x0000A638
 		private bool CheckIfBaseTypeDefind(Type type)
 		{
 			Type type2 = type.BaseType;
@@ -102,7 +83,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			return typeDefinitionBase != null && !(typeDefinitionBase is BasicTypeDefinition);
 		}
 
-		// Token: 0x0600030B RID: 779 RVA: 0x0000C4B0 File Offset: 0x0000A6B0
 		private bool CheckIfTypeDefined(Type type)
 		{
 			Type type2 = type;
@@ -114,13 +94,11 @@ namespace TaleWorlds.SaveSystem.Definition
 			return typeDefinition != null && !(typeDefinition is BasicTypeDefinition);
 		}
 
-		// Token: 0x0600030C RID: 780 RVA: 0x0000C4F7 File Offset: 0x0000A6F7
 		private static bool IsBuitlinTypeByDotNet(Type type)
 		{
 			return type.FullName.StartsWith("System.");
 		}
 
-		// Token: 0x0600030D RID: 781 RVA: 0x0000C510 File Offset: 0x0000A710
 		private bool CheckIfPrimitiveOrPrimiteHolderStruct(Type type)
 		{
 			bool flag = false;
@@ -144,7 +122,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			return flag;
 		}
 
-		// Token: 0x0600030E RID: 782 RVA: 0x0000C568 File Offset: 0x0000A768
 		private int GetClassGenericInformation(string className)
 		{
 			if (className.Length > 2 && className[className.Length - 2] == '`')
@@ -154,7 +131,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			return -1;
 		}
 
-		// Token: 0x0600030F RID: 783 RVA: 0x0000C5B0 File Offset: 0x0000A7B0
 		private void GenerateForClassOrStruct(TypeDefinition typeDefinition)
 		{
 			Type type = typeDefinition.Type;
@@ -395,7 +371,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000310 RID: 784 RVA: 0x0000CEE8 File Offset: 0x0000B0E8
 		private static string GetFullTypeName(Type type)
 		{
 			if (type.IsArray)
@@ -425,13 +400,11 @@ namespace TaleWorlds.SaveSystem.Definition
 			return type.FullName.Replace('+', '.');
 		}
 
-		// Token: 0x06000311 RID: 785 RVA: 0x0000CFC5 File Offset: 0x0000B1C5
 		private static string GetUsableTypeName(Type type)
 		{
 			return type.Name.Replace('+', '.');
 		}
 
-		// Token: 0x06000312 RID: 786 RVA: 0x0000CFD8 File Offset: 0x0000B1D8
 		private void AddCustomCollectionByBuiltinTypes(CodeBlock codeBlock, Type elementType, string variableName)
 		{
 			codeBlock.AddLine("//custom code here - begins ");
@@ -465,7 +438,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000313 RID: 787 RVA: 0x0000D1D4 File Offset: 0x0000B3D4
 		private void AddCodeForType(CodeBlock codeBlock, Type elementType, string elementVariableName)
 		{
 			bool flag = this.CheckIfPrimitiveOrPrimiteHolderStruct(elementType);
@@ -490,7 +462,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000314 RID: 788 RVA: 0x0000D2A0 File Offset: 0x0000B4A0
 		private void GenerateForList(ContainerDefinition containerDefinition)
 		{
 			Type type = containerDefinition.Type;
@@ -536,7 +507,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000315 RID: 789 RVA: 0x0000D544 File Offset: 0x0000B744
 		private void GenerateForArray(ContainerDefinition containerDefinition)
 		{
 			Type type = containerDefinition.Type;
@@ -584,7 +554,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000316 RID: 790 RVA: 0x0000D818 File Offset: 0x0000BA18
 		private void GenerateForQueue(ContainerDefinition containerDefinition)
 		{
 			Type type = containerDefinition.Type;
@@ -612,7 +581,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000317 RID: 791 RVA: 0x0000DA10 File Offset: 0x0000BC10
 		private void GenerateForDictionary(ContainerDefinition containerDefinition)
 		{
 			Type type = containerDefinition.Type;
@@ -674,7 +642,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000318 RID: 792 RVA: 0x0000DDA4 File Offset: 0x0000BFA4
 		public void Generate()
 		{
 			NamespaceCode namespaceCode = this._codeGenerationContext.FindOrCreateNamespace(this.DefaultNamespace);
@@ -725,7 +692,6 @@ namespace TaleWorlds.SaveSystem.Definition
 			}
 		}
 
-		// Token: 0x06000319 RID: 793 RVA: 0x0000DF4C File Offset: 0x0000C14C
 		public string GenerateText()
 		{
 			CodeGenerationFile codeGenerationFile = new CodeGenerationFile(null);
@@ -733,37 +699,27 @@ namespace TaleWorlds.SaveSystem.Definition
 			return codeGenerationFile.GenerateText();
 		}
 
-		// Token: 0x0600031A RID: 794 RVA: 0x0000DF72 File Offset: 0x0000C172
 		internal void AddContainerDefinition(ContainerDefinition containerDefinition)
 		{
 			this._containerDefinitions.Add(containerDefinition);
 		}
 
-		// Token: 0x040000F5 RID: 245
 		private List<TypeDefinition> _definitions;
 
-		// Token: 0x040000F6 RID: 246
 		private List<TypeDefinition> _structDefinitions;
 
-		// Token: 0x040000F7 RID: 247
 		private List<ContainerDefinition> _containerDefinitions;
 
-		// Token: 0x040000F8 RID: 248
 		private CodeGenerationContext _codeGenerationContext;
 
-		// Token: 0x040000F9 RID: 249
 		private DefinitionContext _definitionContext;
 
-		// Token: 0x040000FA RID: 250
 		private ClassCode _managerClass;
 
-		// Token: 0x040000FB RID: 251
 		private MethodCode _managerMethod;
 
-		// Token: 0x040000FC RID: 252
 		private int _delegateCount;
 
-		// Token: 0x040000FD RID: 253
 		private int _containerNumber;
 	}
 }

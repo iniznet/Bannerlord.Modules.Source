@@ -10,10 +10,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000043 RID: 67
 	public class MissionAgentLookHandler : MissionLogic
 	{
-		// Token: 0x06000353 RID: 851 RVA: 0x00018270 File Offset: 0x00016470
 		public MissionAgentLookHandler()
 		{
 			this._staticPointList = new List<MissionAgentLookHandler.PointOfInterest>();
@@ -21,13 +19,11 @@ namespace SandBox.Missions.MissionLogics
 			this._selectionDelegate = new MissionAgentLookHandler.SelectionDelegate(this.SelectRandomAccordingToScore);
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x000182A0 File Offset: 0x000164A0
 		public override void AfterStart()
 		{
 			this.AddStablePointsOfInterest();
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x000182A8 File Offset: 0x000164A8
 		private void AddStablePointsOfInterest()
 		{
 			foreach (GameEntity gameEntity in base.Mission.Scene.FindEntitiesWithTag("point_of_interest"))
@@ -36,12 +32,10 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x00018314 File Offset: 0x00016514
 		private void DebugTick()
 		{
 		}
 
-		// Token: 0x06000357 RID: 855 RVA: 0x00018318 File Offset: 0x00016518
 		public override void OnMissionTick(float dt)
 		{
 			if (Game.Current.IsDevelopmentMode)
@@ -86,7 +80,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000358 RID: 856 RVA: 0x000184B0 File Offset: 0x000166B0
 		private MissionAgentLookHandler.PointOfInterest SelectFirstNonAgent(Agent agent)
 		{
 			if (agent.IsAIControlled)
@@ -113,7 +106,6 @@ namespace SandBox.Missions.MissionLogics
 			return null;
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x00018514 File Offset: 0x00016714
 		private MissionAgentLookHandler.PointOfInterest SelectBestOfLimitedNonAgent(Agent agent)
 		{
 			int num = 3;
@@ -143,7 +135,6 @@ namespace SandBox.Missions.MissionLogics
 			return pointOfInterest;
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x0001859C File Offset: 0x0001679C
 		private MissionAgentLookHandler.PointOfInterest SelectBest(Agent agent)
 		{
 			MissionAgentLookHandler.PointOfInterest pointOfInterest = null;
@@ -175,7 +166,6 @@ namespace SandBox.Missions.MissionLogics
 			return pointOfInterest;
 		}
 
-		// Token: 0x0600035B RID: 859 RVA: 0x00018680 File Offset: 0x00016880
 		private MissionAgentLookHandler.PointOfInterest SelectRandomAccordingToScore(Agent agent)
 		{
 			float num = 0f;
@@ -222,7 +212,6 @@ namespace SandBox.Missions.MissionLogics
 			return pointOfInterest3;
 		}
 
-		// Token: 0x0600035C RID: 860 RVA: 0x000187F8 File Offset: 0x000169F8
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			if (agent.IsHuman)
@@ -231,7 +220,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600035D RID: 861 RVA: 0x00018818 File Offset: 0x00016A18
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			for (int i = 0; i < this._checklist.Count; i++)
@@ -249,20 +237,14 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x040001A6 RID: 422
 		private readonly List<MissionAgentLookHandler.PointOfInterest> _staticPointList;
 
-		// Token: 0x040001A7 RID: 423
 		private readonly List<MissionAgentLookHandler.LookInfo> _checklist;
 
-		// Token: 0x040001A8 RID: 424
 		private MissionAgentLookHandler.SelectionDelegate _selectionDelegate;
 
-		// Token: 0x02000122 RID: 290
 		private class PointOfInterest
 		{
-			// Token: 0x170000EB RID: 235
-			// (get) Token: 0x06000CF3 RID: 3315 RVA: 0x00062753 File Offset: 0x00060953
 			public bool IsActive
 			{
 				get
@@ -271,7 +253,6 @@ namespace SandBox.Missions.MissionLogics
 				}
 			}
 
-			// Token: 0x06000CF4 RID: 3316 RVA: 0x0006276C File Offset: 0x0006096C
 			public PointOfInterest(Agent agent)
 			{
 				this._agent = agent;
@@ -297,7 +278,6 @@ namespace SandBox.Missions.MissionLogics
 				this._priority = 1;
 			}
 
-			// Token: 0x06000CF5 RID: 3317 RVA: 0x00062808 File Offset: 0x00060A08
 			public PointOfInterest(MatrixFrame frame)
 			{
 				this._frame = frame;
@@ -307,7 +287,6 @@ namespace SandBox.Missions.MissionLogics
 				this._priority = 2;
 			}
 
-			// Token: 0x06000CF6 RID: 3318 RVA: 0x00062834 File Offset: 0x00060A34
 			public float GetScore(Agent agent)
 			{
 				if (agent == this._agent || this.GetBasicPosition().DistanceSquared(agent.Position) > (float)(this._selectDistance * this._selectDistance))
@@ -343,7 +322,6 @@ namespace SandBox.Missions.MissionLogics
 				return num2;
 			}
 
-			// Token: 0x06000CF7 RID: 3319 RVA: 0x00062939 File Offset: 0x00060B39
 			public Vec3 GetTargetPosition()
 			{
 				Agent agent = this._agent;
@@ -354,7 +332,6 @@ namespace SandBox.Missions.MissionLogics
 				return agent.GetEyeGlobalPosition();
 			}
 
-			// Token: 0x06000CF8 RID: 3320 RVA: 0x00062956 File Offset: 0x00060B56
 			public Vec3 GetBasicPosition()
 			{
 				if (this._agent == null)
@@ -364,13 +341,11 @@ namespace SandBox.Missions.MissionLogics
 				return this._agent.Position;
 			}
 
-			// Token: 0x06000CF9 RID: 3321 RVA: 0x00062978 File Offset: 0x00060B78
 			private bool IsMoving()
 			{
 				return this._agent == null || this._agent.GetCurrentVelocity().LengthSquared > 0.040000003f;
 			}
 
-			// Token: 0x06000CFA RID: 3322 RVA: 0x000629A9 File Offset: 0x00060BA9
 			private MatrixFrame GetTargetFrame()
 			{
 				if (this._agent == null)
@@ -380,7 +355,6 @@ namespace SandBox.Missions.MissionLogics
 				return this._agent.Frame;
 			}
 
-			// Token: 0x06000CFB RID: 3323 RVA: 0x000629C8 File Offset: 0x00060BC8
 			public bool IsVisibleFor(Agent agent)
 			{
 				Vec3 basicPosition = this.GetBasicPosition();
@@ -394,48 +368,36 @@ namespace SandBox.Missions.MissionLogics
 				return Vec2.DotProduct(vec.AsVec2, agent.GetMovementDirection()) > 0.4f;
 			}
 
-			// Token: 0x06000CFC RID: 3324 RVA: 0x00062A28 File Offset: 0x00060C28
 			public bool IsRelevant(Agent agent)
 			{
 				return agent == this._agent;
 			}
 
-			// Token: 0x04000587 RID: 1415
 			public const int MaxSelectDistanceForAgent = 5;
 
-			// Token: 0x04000588 RID: 1416
 			public const int MaxSelectDistanceForFrame = 4;
 
-			// Token: 0x04000589 RID: 1417
 			private readonly int _selectDistance;
 
-			// Token: 0x0400058A RID: 1418
 			private readonly int _releaseDistanceSquare;
 
-			// Token: 0x0400058B RID: 1419
 			private readonly Agent _agent;
 
-			// Token: 0x0400058C RID: 1420
 			private readonly MatrixFrame _frame;
 
-			// Token: 0x0400058D RID: 1421
 			private readonly bool _ignoreDirection;
 
-			// Token: 0x0400058E RID: 1422
 			private readonly int _priority;
 		}
 
-		// Token: 0x02000123 RID: 291
 		private class LookInfo
 		{
-			// Token: 0x06000CFD RID: 3325 RVA: 0x00062A33 File Offset: 0x00060C33
 			public LookInfo(Agent agent, float checkTime)
 			{
 				this.Agent = agent;
 				this.CheckTimer = new Timer(Mission.Current.CurrentTime, checkTime, true);
 			}
 
-			// Token: 0x06000CFE RID: 3326 RVA: 0x00062A5C File Offset: 0x00060C5C
 			public void Reset(MissionAgentLookHandler.PointOfInterest pointOfInterest, float duration)
 			{
 				if (this.PointOfInterest != pointOfInterest)
@@ -453,18 +415,13 @@ namespace SandBox.Missions.MissionLogics
 				this.CheckTimer.Reset(Mission.Current.CurrentTime, duration);
 			}
 
-			// Token: 0x0400058F RID: 1423
 			public readonly Agent Agent;
 
-			// Token: 0x04000590 RID: 1424
 			public MissionAgentLookHandler.PointOfInterest PointOfInterest;
 
-			// Token: 0x04000591 RID: 1425
 			public readonly Timer CheckTimer;
 		}
 
-		// Token: 0x02000124 RID: 292
-		// (Invoke) Token: 0x06000D00 RID: 3328
 		private delegate MissionAgentLookHandler.PointOfInterest SelectionDelegate(Agent agent);
 	}
 }

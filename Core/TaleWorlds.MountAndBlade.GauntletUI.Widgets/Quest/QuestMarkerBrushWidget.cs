@@ -5,16 +5,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Quest
 {
-	// Token: 0x02000053 RID: 83
 	public class QuestMarkerBrushWidget : BrushWidget
 	{
-		// Token: 0x06000461 RID: 1121 RVA: 0x0000DB91 File Offset: 0x0000BD91
 		public QuestMarkerBrushWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000462 RID: 1122 RVA: 0x0000DB9C File Offset: 0x0000BD9C
 		private void UpdateMarkerState(int type)
 		{
 			string text;
@@ -62,9 +59,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Quest
 			}
 		}
 
-		// Token: 0x1700018C RID: 396
-		// (get) Token: 0x06000463 RID: 1123 RVA: 0x0000DC53 File Offset: 0x0000BE53
-		// (set) Token: 0x06000464 RID: 1124 RVA: 0x0000DC5B File Offset: 0x0000BE5B
 		public int QuestMarkerType
 		{
 			get
@@ -81,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Quest
 			}
 		}
 
-		// Token: 0x040001E8 RID: 488
 		private int _questMarkerType;
 	}
 }

@@ -8,16 +8,13 @@ using TaleWorlds.MountAndBlade.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000269 RID: 617
 	public class DeploymentMissionController : MissionLogic
 	{
-		// Token: 0x060020F4 RID: 8436 RVA: 0x00076664 File Offset: 0x00074864
 		public DeploymentMissionController(bool isPlayerAttacker)
 		{
 			this._isPlayerAttacker = isPlayerAttacker;
 		}
 
-		// Token: 0x060020F5 RID: 8437 RVA: 0x00076673 File Offset: 0x00074873
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionAgentSpawnLogic = base.Mission.GetMissionBehavior<MissionAgentSpawnLogic>();
 		}
 
-		// Token: 0x060020F6 RID: 8438 RVA: 0x000766B0 File Offset: 0x000748B0
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -38,7 +34,6 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionAgentSpawnLogic.SetReinforcementsSpawnEnabled(false, true);
 		}
 
-		// Token: 0x060020F7 RID: 8439 RVA: 0x000766F8 File Offset: 0x000748F8
 		private void SetupTeams()
 		{
 			Utilities.SetLoadingScreenPercentage(0.92f);
@@ -77,7 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F8 RID: 8440 RVA: 0x00076820 File Offset: 0x00074A20
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -95,7 +89,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F9 RID: 8441 RVA: 0x00076889 File Offset: 0x00074A89
 		[Conditional("DEBUG")]
 		private void DebugTick()
 		{
@@ -107,13 +100,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020FA RID: 8442 RVA: 0x000768C9 File Offset: 0x00074AC9
 		private void SwapTeams()
 		{
 			base.Mission.PlayerTeam = base.Mission.PlayerEnemyTeam;
 		}
 
-		// Token: 0x060020FB RID: 8443 RVA: 0x000768E4 File Offset: 0x00074AE4
 		protected virtual void SetupTeamsOfSide(BattleSideEnum side)
 		{
 			this.MissionAgentSpawnLogic.SetSpawnTroops(side, true, true);
@@ -153,7 +144,6 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionAgentSpawnLogic.OnBattleSideDeployed(team.Side);
 		}
 
-		// Token: 0x060020FC RID: 8444 RVA: 0x00076A28 File Offset: 0x00074C28
 		protected void OnSideDeploymentFinished(BattleSideEnum side)
 		{
 			Team team = ((side == BattleSideEnum.Attacker) ? base.Mission.AttackerTeam : base.Mission.DefenderTeam);
@@ -170,7 +160,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020FD RID: 8445 RVA: 0x00076AAC File Offset: 0x00074CAC
 		protected void DeployFormationsOfTeam(Team team)
 		{
 			foreach (Formation formation in team.FormationsIncludingEmpty)
@@ -192,7 +181,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Mission.ForceTickOccasionally = false;
 		}
 
-		// Token: 0x060020FE RID: 8446 RVA: 0x00076B78 File Offset: 0x00074D78
 		public void FinishDeployment()
 		{
 			this.OnBeforeDeploymentFinished();
@@ -246,31 +234,24 @@ namespace TaleWorlds.MountAndBlade
 			base.Mission.RemoveMissionBehavior(this);
 		}
 
-		// Token: 0x060020FF RID: 8447 RVA: 0x00076D20 File Offset: 0x00074F20
 		public virtual void OnBeforeDeploymentFinished()
 		{
 			this.OnSideDeploymentFinished(base.Mission.PlayerTeam.Side);
 		}
 
-		// Token: 0x06002100 RID: 8448 RVA: 0x00076D38 File Offset: 0x00074F38
 		public virtual void OnAfterDeploymentFinished()
 		{
 			base.Mission.RemoveMissionBehavior(this._battleDeploymentHandler);
 		}
 
-		// Token: 0x04000C25 RID: 3109
 		private BattleDeploymentHandler _battleDeploymentHandler;
 
-		// Token: 0x04000C26 RID: 3110
 		protected MissionBoundaryPlacer MissionBoundaryPlacer;
 
-		// Token: 0x04000C27 RID: 3111
 		protected MissionAgentSpawnLogic MissionAgentSpawnLogic;
 
-		// Token: 0x04000C28 RID: 3112
 		private readonly bool _isPlayerAttacker;
 
-		// Token: 0x04000C29 RID: 3113
 		protected bool TeamSetupOver;
 	}
 }

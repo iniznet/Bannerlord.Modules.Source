@@ -19,11 +19,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000037 RID: 55
 	public class CampaignMissionComponent : MissionLogic, ICampaignMission
 	{
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x06000282 RID: 642 RVA: 0x00010FD3 File Offset: 0x0000F1D3
 		public GameState State
 		{
 			get
@@ -32,23 +29,12 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x06000283 RID: 643 RVA: 0x00010FDB File Offset: 0x0000F1DB
-		// (set) Token: 0x06000284 RID: 644 RVA: 0x00010FE3 File Offset: 0x0000F1E3
 		public IMissionTroopSupplier AgentSupplier { get; set; }
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x06000285 RID: 645 RVA: 0x00010FEC File Offset: 0x0000F1EC
-		// (set) Token: 0x06000286 RID: 646 RVA: 0x00010FF4 File Offset: 0x0000F1F4
 		public Location Location { get; set; }
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x06000287 RID: 647 RVA: 0x00010FFD File Offset: 0x0000F1FD
-		// (set) Token: 0x06000288 RID: 648 RVA: 0x00011005 File Offset: 0x0000F205
 		public Alley LastVisitedAlley { get; set; }
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x06000289 RID: 649 RVA: 0x0001100E File Offset: 0x0000F20E
 		MissionMode ICampaignMission.Mode
 		{
 			get
@@ -57,13 +43,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600028A RID: 650 RVA: 0x0001101B File Offset: 0x0000F21B
 		void ICampaignMission.SetMissionMode(MissionMode newMode, bool atStart)
 		{
 			base.Mission.SetMissionMode(newMode, atStart);
 		}
 
-		// Token: 0x0600028B RID: 651 RVA: 0x0001102C File Offset: 0x0000F22C
 		public override void OnAgentCreated(Agent agent)
 		{
 			base.OnAgentCreated(agent);
@@ -76,7 +60,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600028C RID: 652 RVA: 0x000110A0 File Offset: 0x0000F2A0
 		public override void OnPreDisplayMissionTick(float dt)
 		{
 			base.OnPreDisplayMissionTick(dt);
@@ -88,7 +71,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600028D RID: 653 RVA: 0x000110D6 File Offset: 0x0000F2D6
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -98,7 +80,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600028E RID: 654 RVA: 0x000110F4 File Offset: 0x0000F2F4
 		protected override void OnObjectDisabled(DestructableComponent missionObject)
 		{
 			SiegeWeapon firstScriptOfType = missionObject.GameEntity.GetFirstScriptOfType<SiegeWeapon>();
@@ -114,34 +95,29 @@ namespace SandBox.Missions.MissionLogics
 			base.OnObjectDisabled(missionObject);
 		}
 
-		// Token: 0x0600028F RID: 655 RVA: 0x0001116A File Offset: 0x0000F36A
 		public override void EarlyStart()
 		{
 			this._state = Game.Current.GameStateManager.ActiveState as MissionState;
 		}
 
-		// Token: 0x06000290 RID: 656 RVA: 0x00011186 File Offset: 0x0000F386
 		public override void OnCreated()
 		{
 			CampaignMission.Current = this;
 			this._isMainAgentAnimationSet = false;
 		}
 
-		// Token: 0x06000291 RID: 657 RVA: 0x00011195 File Offset: 0x0000F395
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			CampaignEventDispatcher.Instance.OnMissionStarted(base.Mission);
 		}
 
-		// Token: 0x06000292 RID: 658 RVA: 0x000111AD File Offset: 0x0000F3AD
 		public override void AfterStart()
 		{
 			base.AfterStart();
 			CampaignEventDispatcher.Instance.OnAfterMissionStarted(base.Mission);
 		}
 
-		// Token: 0x06000293 RID: 659 RVA: 0x000111C8 File Offset: 0x0000F3C8
 		private static void SimulateRunningAwayAgents()
 		{
 			foreach (Agent agent in Mission.Current.Agents)
@@ -155,7 +131,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000294 RID: 660 RVA: 0x00011264 File Offset: 0x0000F464
 		public override void OnMissionResultReady(MissionResult missionResult)
 		{
 			if (Campaign.Current.GameMode == 1 && PlayerEncounter.IsActive && PlayerEncounter.Battle != null)
@@ -173,7 +148,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000295 RID: 661 RVA: 0x000112D0 File Offset: 0x0000F4D0
 		protected override void OnEndMission()
 		{
 			if (Campaign.Current.GameMode == 1)
@@ -196,7 +170,6 @@ namespace SandBox.Missions.MissionLogics
 			CampaignMission.Current = null;
 		}
 
-		// Token: 0x06000296 RID: 662 RVA: 0x00011378 File Offset: 0x0000F578
 		void ICampaignMission.OnCloseEncounterMenu()
 		{
 			if (base.Mission.Mode == 1)
@@ -209,13 +182,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000297 RID: 663 RVA: 0x000113C8 File Offset: 0x0000F5C8
 		bool ICampaignMission.AgentLookingAtAgent(IAgent agent1, IAgent agent2)
 		{
 			return base.Mission.AgentLookingAtAgent((Agent)agent1, (Agent)agent2);
 		}
 
-		// Token: 0x06000298 RID: 664 RVA: 0x000113E4 File Offset: 0x0000F5E4
 		void ICampaignMission.OnCharacterLocationChanged(LocationCharacter locationCharacter, Location fromLocation, Location toLocation)
 		{
 			MissionAgentHandler missionBehavior = base.Mission.GetMissionBehavior<MissionAgentHandler>();
@@ -227,17 +198,14 @@ namespace SandBox.Missions.MissionLogics
 			missionBehavior.SpawnEnteringLocationCharacter(locationCharacter, fromLocation);
 		}
 
-		// Token: 0x06000299 RID: 665 RVA: 0x00011410 File Offset: 0x0000F610
 		void ICampaignMission.OnProcessSentence()
 		{
 		}
 
-		// Token: 0x0600029A RID: 666 RVA: 0x00011412 File Offset: 0x0000F612
 		void ICampaignMission.OnConversationContinue()
 		{
 		}
 
-		// Token: 0x0600029B RID: 667 RVA: 0x00011414 File Offset: 0x0000F614
 		bool ICampaignMission.CheckIfAgentCanFollow(IAgent agent)
 		{
 			AgentNavigator agentNavigator = ((Agent)agent).GetComponent<CampaignAgentComponent>().AgentNavigator;
@@ -249,7 +217,6 @@ namespace SandBox.Missions.MissionLogics
 			return false;
 		}
 
-		// Token: 0x0600029C RID: 668 RVA: 0x0001144C File Offset: 0x0000F64C
 		void ICampaignMission.AddAgentFollowing(IAgent agent)
 		{
 			Agent agent2 = (Agent)agent;
@@ -261,7 +228,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600029D RID: 669 RVA: 0x0001148C File Offset: 0x0000F68C
 		bool ICampaignMission.CheckIfAgentCanUnFollow(IAgent agent)
 		{
 			Agent agent2 = (Agent)agent;
@@ -273,7 +239,6 @@ namespace SandBox.Missions.MissionLogics
 			return false;
 		}
 
-		// Token: 0x0600029E RID: 670 RVA: 0x000114D0 File Offset: 0x0000F6D0
 		void ICampaignMission.RemoveAgentFollowing(IAgent agent)
 		{
 			Agent agent2 = (Agent)agent;
@@ -283,13 +248,11 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600029F RID: 671 RVA: 0x00011506 File Offset: 0x0000F706
 		void ICampaignMission.EndMission()
 		{
 			base.Mission.EndMission();
 		}
 
-		// Token: 0x060002A0 RID: 672 RVA: 0x00011514 File Offset: 0x0000F714
 		private string GetIdleAnimationId(Agent agent, string selectedId, bool startingConversation)
 		{
 			Agent.ActionCodeType currentActionType = agent.GetCurrentActionType(0);
@@ -322,7 +285,6 @@ namespace SandBox.Missions.MissionLogics
 			return selectedId;
 		}
 
-		// Token: 0x060002A1 RID: 673 RVA: 0x00011598 File Offset: 0x0000F798
 		private ValueTuple<string, ConversationAnimData> GetAnimDataForMountAgent(Agent riderAgent)
 		{
 			string text = "";
@@ -339,7 +301,6 @@ namespace SandBox.Missions.MissionLogics
 			return new ValueTuple<string, ConversationAnimData>(text, conversationAnimData);
 		}
 
-		// Token: 0x060002A2 RID: 674 RVA: 0x00011654 File Offset: 0x0000F854
 		private int GetActionChannelNoForConversation(Agent agent)
 		{
 			if (agent.IsSitting())
@@ -353,7 +314,6 @@ namespace SandBox.Missions.MissionLogics
 			return 0;
 		}
 
-		// Token: 0x060002A3 RID: 675 RVA: 0x0001166C File Offset: 0x0000F86C
 		private void SetMountAgentAnimation(IAgent agent, ConversationAnimData mountAnimData, bool startingConversation)
 		{
 			Agent agent2 = (Agent)agent;
@@ -368,7 +328,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002A4 RID: 676 RVA: 0x000116D0 File Offset: 0x0000F8D0
 		void ICampaignMission.OnConversationStart(IAgent iAgent, bool setActionsInstantly)
 		{
 			((Agent)iAgent).AgentVisuals.SetAgentLodZeroOrMax(true);
@@ -381,7 +340,6 @@ namespace SandBox.Missions.MissionLogics
 			this.StartConversationAnimations(iAgent, setActionsInstantly);
 		}
 
-		// Token: 0x060002A5 RID: 677 RVA: 0x00011724 File Offset: 0x0000F924
 		private void StartConversationAnimations(IAgent iAgent, bool setActionsInstantly)
 		{
 			Agent agent = (Agent)iAgent;
@@ -402,7 +360,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002A6 RID: 678 RVA: 0x000117E0 File Offset: 0x0000F9E0
 		private void EndConversationAnimations(IAgent iAgent)
 		{
 			Agent agent = (Agent)iAgent;
@@ -443,7 +400,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002A7 RID: 679 RVA: 0x000118E0 File Offset: 0x0000FAE0
 		void ICampaignMission.OnConversationPlay(string idleActionId, string idleFaceAnimId, string reactionId, string reactionFaceAnimId, string soundPath)
 		{
 			this._currentAgent = (Agent)Campaign.Current.ConversationManager.SpeakerAgent;
@@ -481,14 +437,12 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002A8 RID: 680 RVA: 0x00011A0C File Offset: 0x0000FC0C
 		private string GetRhubarbXmlPathFromSoundPath(string soundPath)
 		{
 			int num = soundPath.LastIndexOf('.');
 			return soundPath.Substring(0, num) + ".xml";
 		}
 
-		// Token: 0x060002A9 RID: 681 RVA: 0x00011A34 File Offset: 0x0000FC34
 		public void PlayConversationSoundEvent(string soundPath)
 		{
 			Vec3 position = ConversationMission.OneToOneConversationAgent.Position;
@@ -502,7 +456,6 @@ namespace SandBox.Missions.MissionLogics
 			this._currentAgent.AgentVisuals.StartRhubarbRecord(rhubarbXmlPathFromSoundPath, soundId);
 		}
 
-		// Token: 0x060002AA RID: 682 RVA: 0x00011AF0 File Offset: 0x0000FCF0
 		private void StopPreviousSound()
 		{
 			if (this._soundEvent != null)
@@ -512,7 +465,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002AB RID: 683 RVA: 0x00011B0C File Offset: 0x0000FD0C
 		private void RemovePreviousAgentsSoundEvent()
 		{
 			if (this._soundEvent != null && this._agentSoundEvents.ContainsValue(this._soundEvent.GetSoundId()))
@@ -530,7 +482,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x060002AC RID: 684 RVA: 0x00011BB8 File Offset: 0x0000FDB8
 		void ICampaignMission.OnConversationEnd(IAgent iAgent)
 		{
 			Agent agent = (Agent)iAgent;
@@ -557,13 +508,11 @@ namespace SandBox.Missions.MissionLogics
 			this._soundEvent = null;
 		}
 
-		// Token: 0x060002AD RID: 685 RVA: 0x00011C5D File Offset: 0x0000FE5D
 		private void SetFaceIdle(Agent agent, string idleFaceAnimId)
 		{
 			agent.SetAgentFacialAnimation(1, idleFaceAnimId, true);
 		}
 
-		// Token: 0x060002AE RID: 686 RVA: 0x00011C68 File Offset: 0x0000FE68
 		private void SetConversationAgentActionAtChannel(Agent agent, ActionIndexCache action, int channelNo, bool setInstantly, bool forceFaceMorphRestart)
 		{
 			agent.SetActionChannel(channelNo, action, false, 0UL, 0f, 1f, setInstantly ? 0f : (-0.2f), 0.4f, 0f, false, -0.2f, 0, forceFaceMorphRestart);
@@ -578,33 +527,22 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x04000146 RID: 326
 		private MissionState _state;
 
-		// Token: 0x0400014A RID: 330
 		private SoundEvent _soundEvent;
 
-		// Token: 0x0400014B RID: 331
 		private Agent _currentAgent;
 
-		// Token: 0x0400014C RID: 332
 		private bool _isMainAgentAnimationSet;
 
-		// Token: 0x0400014D RID: 333
 		private readonly Dictionary<Agent, int> _agentSoundEvents = new Dictionary<Agent, int>();
 
-		// Token: 0x0400014E RID: 334
 		private readonly List<CampaignMissionComponent.AgentConversationState> _conversationAgents = new List<CampaignMissionComponent.AgentConversationState>();
 
-		// Token: 0x0200010F RID: 271
 		private class AgentConversationState
 		{
-			// Token: 0x170000E7 RID: 231
-			// (get) Token: 0x06000CBB RID: 3259 RVA: 0x00061F0D File Offset: 0x0006010D
-			// (set) Token: 0x06000CBC RID: 3260 RVA: 0x00061F15 File Offset: 0x00060115
 			public Agent Agent { get; private set; }
 
-			// Token: 0x06000CBD RID: 3261 RVA: 0x00061F1E File Offset: 0x0006011E
 			public AgentConversationState(Agent agent)
 			{
 				this.Agent = agent;
@@ -613,19 +551,16 @@ namespace SandBox.Missions.MissionLogics
 				this._actionAtChannelModified[1] = false;
 			}
 
-			// Token: 0x06000CBE RID: 3262 RVA: 0x00061F53 File Offset: 0x00060153
 			public bool IsChannelModified(int channelNo)
 			{
 				return this._actionAtChannelModified[channelNo];
 			}
 
-			// Token: 0x06000CBF RID: 3263 RVA: 0x00061F61 File Offset: 0x00060161
 			public void SetChannelModified(int channelNo)
 			{
 				this._actionAtChannelModified[channelNo] = true;
 			}
 
-			// Token: 0x0400054A RID: 1354
 			private StackArray.StackArray2Bool _actionAtChannelModified;
 		}
 	}

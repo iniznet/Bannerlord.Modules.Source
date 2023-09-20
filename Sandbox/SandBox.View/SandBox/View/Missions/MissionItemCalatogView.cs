@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000019 RID: 25
 	public class MissionItemCalatogView : MissionView
 	{
-		// Token: 0x0600009F RID: 159 RVA: 0x00008FC0 File Offset: 0x000071C0
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -18,13 +16,11 @@ namespace SandBox.View.Missions
 			this._itemCatalogController.AfterCatalogTick += this.OnAfterCatalogTick;
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00009012 File Offset: 0x00007212
 		private void OnBeforeCatalogTick(int currentItemIndex)
 		{
 			Utilities.TakeScreenshot("ItemCatalog/" + this._itemCatalogController.AllItems[currentItemIndex - 1].Name + ".bmp");
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00009040 File Offset: 0x00007240
 		private void OnAfterCatalogTick()
 		{
 			MatrixFrame matrixFrame = default(MatrixFrame);
@@ -40,7 +36,6 @@ namespace SandBox.View.Missions
 			base.MissionScreen.CustomCamera = camera;
 		}
 
-		// Token: 0x04000074 RID: 116
 		private ItemCatalogController _itemCatalogController;
 	}
 }

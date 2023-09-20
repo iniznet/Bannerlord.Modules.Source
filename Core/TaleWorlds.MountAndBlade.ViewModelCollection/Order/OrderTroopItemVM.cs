@@ -7,15 +7,10 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
-	// Token: 0x02000029 RID: 41
 	public class OrderTroopItemVM : OrderSubjectVM
 	{
-		// Token: 0x170000E2 RID: 226
-		// (get) Token: 0x060002E7 RID: 743 RVA: 0x0000D676 File Offset: 0x0000B876
-		// (set) Token: 0x060002E8 RID: 744 RVA: 0x0000D67E File Offset: 0x0000B87E
 		public bool ContainsDeadTroop { get; private set; }
 
-		// Token: 0x060002E9 RID: 745 RVA: 0x0000D688 File Offset: 0x0000B888
 		public OrderTroopItemVM(Formation formation, Action<OrderTroopItemVM> setSelected, Func<Formation, int> getMorale)
 		{
 			this.ActiveFormationClasses = new MBBindingList<OrderTroopItemFormationClassVM>();
@@ -37,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.Formation.OnUnitCountChanged += this.FormationOnOnUnitCountChanged;
 		}
 
-		// Token: 0x060002EA RID: 746 RVA: 0x0000D744 File Offset: 0x0000B944
 		public OrderTroopItemVM(OrderTroopItemVM troop, Action<OrderTroopItemVM> setSelected = null)
 		{
 			this.ActiveFormationClasses = new MBBindingList<OrderTroopItemFormationClassVM>();
@@ -60,20 +54,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.UpdateCommanderInfo();
 		}
 
-		// Token: 0x060002EB RID: 747 RVA: 0x0000D87C File Offset: 0x0000BA7C
 		public override void OnFinalize()
 		{
 			this.Formation.OnUnitCountChanged -= this.FormationOnOnUnitCountChanged;
 		}
 
-		// Token: 0x060002EC RID: 748 RVA: 0x0000D895 File Offset: 0x0000BA95
 		private void FormationOnOnUnitCountChanged(Formation formation)
 		{
 			this.CurrentMemberCount = (formation.IsPlayerTroopInFormation ? (formation.CountOfUnits - 1) : formation.CountOfUnits);
 			this.UpdateCommanderInfo();
 		}
 
-		// Token: 0x060002ED RID: 749 RVA: 0x0000D8BB File Offset: 0x0000BABB
 		public void OnFormationAgentRemoved(Agent agent)
 		{
 			if (!agent.IsActive())
@@ -83,7 +74,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.UpdateCommanderInfo();
 		}
 
-		// Token: 0x060002EE RID: 750 RVA: 0x0000D8D4 File Offset: 0x0000BAD4
 		private void UpdateCommanderInfo()
 		{
 			Formation formation = this.Formation;
@@ -106,7 +96,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.CommanderImageIdentifier = null;
 		}
 
-		// Token: 0x060002EF RID: 751 RVA: 0x0000D960 File Offset: 0x0000BB60
 		private void UpdateSelectionKeyInfo()
 		{
 			if (this.Formation == null)
@@ -154,7 +143,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			base.SelectionKey = InputKeyItemVM.CreateFromGameKey(gameKey, false);
 		}
 
-		// Token: 0x060002F0 RID: 752 RVA: 0x0000DA34 File Offset: 0x0000BC34
 		public bool SetFormationClassFromFormation(Formation formation)
 		{
 			bool flag = formation.QuerySystem.InfantryUnitRatio > 0f;
@@ -209,7 +197,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			return false;
 		}
 
-		// Token: 0x060002F1 RID: 753 RVA: 0x0000DBF4 File Offset: 0x0000BDF4
 		public void UpdateFilterData(List<int> usedFilters)
 		{
 			this.ActiveFilters.Clear();
@@ -219,15 +206,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x060002F2 RID: 754 RVA: 0x0000DC58 File Offset: 0x0000BE58
 		public void ExecuteAction()
 		{
 			this.SetSelected(this);
 		}
 
-		// Token: 0x170000E3 RID: 227
-		// (get) Token: 0x060002F3 RID: 755 RVA: 0x0000DC66 File Offset: 0x0000BE66
-		// (set) Token: 0x060002F4 RID: 756 RVA: 0x0000DC6E File Offset: 0x0000BE6E
 		[DataSourceProperty]
 		public int CurrentMemberCount
 		{
@@ -246,9 +229,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E4 RID: 228
-		// (get) Token: 0x060002F5 RID: 757 RVA: 0x0000DC96 File Offset: 0x0000BE96
-		// (set) Token: 0x060002F6 RID: 758 RVA: 0x0000DC9E File Offset: 0x0000BE9E
 		[DataSourceProperty]
 		public int Morale
 		{
@@ -266,9 +246,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E5 RID: 229
-		// (get) Token: 0x060002F7 RID: 759 RVA: 0x0000DCBC File Offset: 0x0000BEBC
-		// (set) Token: 0x060002F8 RID: 760 RVA: 0x0000DCC4 File Offset: 0x0000BEC4
 		[DataSourceProperty]
 		public float AmmoPercentage
 		{
@@ -286,9 +263,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E6 RID: 230
-		// (get) Token: 0x060002F9 RID: 761 RVA: 0x0000DCE2 File Offset: 0x0000BEE2
-		// (set) Token: 0x060002FA RID: 762 RVA: 0x0000DCEA File Offset: 0x0000BEEA
 		[DataSourceProperty]
 		public bool IsAmmoAvailable
 		{
@@ -306,9 +280,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E7 RID: 231
-		// (get) Token: 0x060002FB RID: 763 RVA: 0x0000DD08 File Offset: 0x0000BF08
-		// (set) Token: 0x060002FC RID: 764 RVA: 0x0000DD10 File Offset: 0x0000BF10
 		[DataSourceProperty]
 		public bool HaveTroops
 		{
@@ -326,9 +297,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E8 RID: 232
-		// (get) Token: 0x060002FD RID: 765 RVA: 0x0000DD2E File Offset: 0x0000BF2E
-		// (set) Token: 0x060002FE RID: 766 RVA: 0x0000DD36 File Offset: 0x0000BF36
 		[DataSourceProperty]
 		public ImageIdentifierVM CommanderImageIdentifier
 		{
@@ -346,9 +314,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000E9 RID: 233
-		// (get) Token: 0x060002FF RID: 767 RVA: 0x0000DD54 File Offset: 0x0000BF54
-		// (set) Token: 0x06000300 RID: 768 RVA: 0x0000DD5C File Offset: 0x0000BF5C
 		[DataSourceProperty]
 		public MBBindingList<OrderTroopItemFormationClassVM> ActiveFormationClasses
 		{
@@ -366,9 +331,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x170000EA RID: 234
-		// (get) Token: 0x06000301 RID: 769 RVA: 0x0000DD7A File Offset: 0x0000BF7A
-		// (set) Token: 0x06000302 RID: 770 RVA: 0x0000DD82 File Offset: 0x0000BF82
 		[DataSourceProperty]
 		public MBBindingList<OrderTroopItemFilterVM> ActiveFilters
 		{
@@ -386,55 +348,38 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		// Token: 0x0400016B RID: 363
 		public FormationClass InitialFormationClass;
 
-		// Token: 0x0400016C RID: 364
 		public Formation Formation;
 
-		// Token: 0x0400016D RID: 365
 		public Type MachineType;
 
-		// Token: 0x0400016E RID: 366
 		public Action<OrderTroopItemVM> SetSelected;
 
-		// Token: 0x04000170 RID: 368
 		private OrderTroopItemFormationClassVM _cachedInfantryItem;
 
-		// Token: 0x04000171 RID: 369
 		private OrderTroopItemFormationClassVM _cachedRangedItem;
 
-		// Token: 0x04000172 RID: 370
 		private OrderTroopItemFormationClassVM _cachedCavalryItem;
 
-		// Token: 0x04000173 RID: 371
 		private OrderTroopItemFormationClassVM _cachedHorseArcherItem;
 
-		// Token: 0x04000174 RID: 372
 		private BasicCharacterObject _cachedCommander;
 
-		// Token: 0x04000175 RID: 373
 		private int _currentMemberCount;
 
-		// Token: 0x04000176 RID: 374
 		private int _morale;
 
-		// Token: 0x04000177 RID: 375
 		private float _ammoPercentage;
 
-		// Token: 0x04000178 RID: 376
 		private bool _isAmmoAvailable;
 
-		// Token: 0x04000179 RID: 377
 		private bool _haveTroops;
 
-		// Token: 0x0400017A RID: 378
 		private ImageIdentifierVM _commanderImageIdentifier;
 
-		// Token: 0x0400017B RID: 379
 		private MBBindingList<OrderTroopItemFormationClassVM> _activeFormationClasses;
 
-		// Token: 0x0400017C RID: 380
 		private MBBindingList<OrderTroopItemFilterVM> _activeFilters;
 	}
 }

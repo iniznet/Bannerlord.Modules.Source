@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Policies
 {
-	// Token: 0x02000059 RID: 89
 	public class KingdomPoliciesVM : KingdomCategoryVM
 	{
-		// Token: 0x06000777 RID: 1911 RVA: 0x00020674 File Offset: 0x0001E874
 		public KingdomPoliciesVM(Action<KingdomDecision> forceDecide)
 		{
 			this._forceDecide = forceDecide;
@@ -25,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			this.ExecuteSwitchMode();
 		}
 
-		// Token: 0x06000778 RID: 1912 RVA: 0x000206F8 File Offset: 0x0001E8F8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -39,7 +36,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			this.RefreshPolicyList();
 		}
 
-		// Token: 0x06000779 RID: 1913 RVA: 0x000207AC File Offset: 0x0001E9AC
 		public void SelectPolicy(PolicyObject policy)
 		{
 			bool flag = false;
@@ -66,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x0600077A RID: 1914 RVA: 0x00020854 File Offset: 0x0001EA54
 		private void OnPolicySelect(KingdomPolicyItemVM policy)
 		{
 			if (this.CurrentSelectedPolicy != policy)
@@ -121,7 +116,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x0600077B RID: 1915 RVA: 0x00020A90 File Offset: 0x0001EC90
 		private bool GetCanProposeOrDisavowPolicyWithReason(bool hasUnresolvedDecision, out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -144,7 +138,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			return true;
 		}
 
-		// Token: 0x0600077C RID: 1916 RVA: 0x00020AF4 File Offset: 0x0001ECF4
 		public void RefreshPolicyList()
 		{
 			this.ActivePolicies.Clear();
@@ -167,20 +160,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			this.SetDefaultSelectedPolicy();
 		}
 
-		// Token: 0x0600077D RID: 1917 RVA: 0x00020C54 File Offset: 0x0001EE54
 		private bool IsPolicyActive(PolicyObject policy)
 		{
 			return this._playerKingdom.ActivePolicies.Contains(policy);
 		}
 
-		// Token: 0x0600077E RID: 1918 RVA: 0x00020C68 File Offset: 0x0001EE68
 		private void SetDefaultSelectedPolicy()
 		{
 			KingdomPolicyItemVM kingdomPolicyItemVM = (this.IsInProposeMode ? this.OtherPolicies.FirstOrDefault<KingdomPolicyItemVM>() : this.ActivePolicies.FirstOrDefault<KingdomPolicyItemVM>());
 			this.OnPolicySelect(kingdomPolicyItemVM);
 		}
 
-		// Token: 0x0600077F RID: 1919 RVA: 0x00020CA0 File Offset: 0x0001EEA0
 		private void ExecuteSwitchMode()
 		{
 			this.IsInProposeMode = !this.IsInProposeMode;
@@ -189,7 +179,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			this.SetDefaultSelectedPolicy();
 		}
 
-		// Token: 0x06000780 RID: 1920 RVA: 0x00020CFC File Offset: 0x0001EEFC
 		private void ExecuteProposeOrDisavow()
 		{
 			if (this._currentItemsUnresolvedDecision != null)
@@ -205,9 +194,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700023E RID: 574
-		// (get) Token: 0x06000781 RID: 1921 RVA: 0x00020D65 File Offset: 0x0001EF65
-		// (set) Token: 0x06000782 RID: 1922 RVA: 0x00020D6D File Offset: 0x0001EF6D
 		[DataSourceProperty]
 		public HintViewModel DoneHint
 		{
@@ -225,9 +211,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700023F RID: 575
-		// (get) Token: 0x06000783 RID: 1923 RVA: 0x00020D8B File Offset: 0x0001EF8B
-		// (set) Token: 0x06000784 RID: 1924 RVA: 0x00020D93 File Offset: 0x0001EF93
 		[DataSourceProperty]
 		public MBBindingList<KingdomPolicyItemVM> ActivePolicies
 		{
@@ -245,9 +228,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000240 RID: 576
-		// (get) Token: 0x06000785 RID: 1925 RVA: 0x00020DB1 File Offset: 0x0001EFB1
-		// (set) Token: 0x06000786 RID: 1926 RVA: 0x00020DB9 File Offset: 0x0001EFB9
 		[DataSourceProperty]
 		public MBBindingList<KingdomPolicyItemVM> OtherPolicies
 		{
@@ -265,9 +245,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000241 RID: 577
-		// (get) Token: 0x06000787 RID: 1927 RVA: 0x00020DD7 File Offset: 0x0001EFD7
-		// (set) Token: 0x06000788 RID: 1928 RVA: 0x00020DDF File Offset: 0x0001EFDF
 		[DataSourceProperty]
 		public KingdomPolicyItemVM CurrentSelectedPolicy
 		{
@@ -285,9 +262,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000242 RID: 578
-		// (get) Token: 0x06000789 RID: 1929 RVA: 0x00020DFD File Offset: 0x0001EFFD
-		// (set) Token: 0x0600078A RID: 1930 RVA: 0x00020E05 File Offset: 0x0001F005
 		[DataSourceProperty]
 		public bool CanProposeOrDisavowPolicy
 		{
@@ -305,9 +279,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000243 RID: 579
-		// (get) Token: 0x0600078B RID: 1931 RVA: 0x00020E23 File Offset: 0x0001F023
-		// (set) Token: 0x0600078C RID: 1932 RVA: 0x00020E2B File Offset: 0x0001F02B
 		[DataSourceProperty]
 		public int ProposalAndDisavowalCost
 		{
@@ -325,9 +296,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000244 RID: 580
-		// (get) Token: 0x0600078D RID: 1933 RVA: 0x00020E49 File Offset: 0x0001F049
-		// (set) Token: 0x0600078E RID: 1934 RVA: 0x00020E51 File Offset: 0x0001F051
 		[DataSourceProperty]
 		public string NumOfActivePoliciesText
 		{
@@ -345,9 +313,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000245 RID: 581
-		// (get) Token: 0x0600078F RID: 1935 RVA: 0x00020E74 File Offset: 0x0001F074
-		// (set) Token: 0x06000790 RID: 1936 RVA: 0x00020E7C File Offset: 0x0001F07C
 		[DataSourceProperty]
 		public string NumOfOtherPoliciesText
 		{
@@ -365,9 +330,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000246 RID: 582
-		// (get) Token: 0x06000791 RID: 1937 RVA: 0x00020E9F File Offset: 0x0001F09F
-		// (set) Token: 0x06000792 RID: 1938 RVA: 0x00020EA7 File Offset: 0x0001F0A7
 		[DataSourceProperty]
 		public bool IsInProposeMode
 		{
@@ -385,9 +347,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000247 RID: 583
-		// (get) Token: 0x06000793 RID: 1939 RVA: 0x00020EC5 File Offset: 0x0001F0C5
-		// (set) Token: 0x06000794 RID: 1940 RVA: 0x00020ECD File Offset: 0x0001F0CD
 		[DataSourceProperty]
 		public string DisavowPolicyText
 		{
@@ -405,9 +364,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000248 RID: 584
-		// (get) Token: 0x06000795 RID: 1941 RVA: 0x00020EF0 File Offset: 0x0001F0F0
-		// (set) Token: 0x06000796 RID: 1942 RVA: 0x00020EF8 File Offset: 0x0001F0F8
 		[DataSourceProperty]
 		public string CurrentActiveModeText
 		{
@@ -425,9 +381,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000249 RID: 585
-		// (get) Token: 0x06000797 RID: 1943 RVA: 0x00020F1B File Offset: 0x0001F11B
-		// (set) Token: 0x06000798 RID: 1944 RVA: 0x00020F23 File Offset: 0x0001F123
 		[DataSourceProperty]
 		public string CurrentActionText
 		{
@@ -445,9 +398,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024A RID: 586
-		// (get) Token: 0x06000799 RID: 1945 RVA: 0x00020F46 File Offset: 0x0001F146
-		// (set) Token: 0x0600079A RID: 1946 RVA: 0x00020F4E File Offset: 0x0001F14E
 		[DataSourceProperty]
 		public string ProposeNewPolicyText
 		{
@@ -465,9 +415,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024B RID: 587
-		// (get) Token: 0x0600079B RID: 1947 RVA: 0x00020F71 File Offset: 0x0001F171
-		// (set) Token: 0x0600079C RID: 1948 RVA: 0x00020F79 File Offset: 0x0001F179
 		[DataSourceProperty]
 		public string BackText
 		{
@@ -485,9 +432,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024C RID: 588
-		// (get) Token: 0x0600079D RID: 1949 RVA: 0x00020F9C File Offset: 0x0001F19C
-		// (set) Token: 0x0600079E RID: 1950 RVA: 0x00020FA4 File Offset: 0x0001F1A4
 		[DataSourceProperty]
 		public string PoliciesText
 		{
@@ -505,9 +449,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024D RID: 589
-		// (get) Token: 0x0600079F RID: 1951 RVA: 0x00020FC7 File Offset: 0x0001F1C7
-		// (set) Token: 0x060007A0 RID: 1952 RVA: 0x00020FCF File Offset: 0x0001F1CF
 		[DataSourceProperty]
 		public string ActivePoliciesText
 		{
@@ -525,9 +466,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024E RID: 590
-		// (get) Token: 0x060007A1 RID: 1953 RVA: 0x00020FF2 File Offset: 0x0001F1F2
-		// (set) Token: 0x060007A2 RID: 1954 RVA: 0x00020FFA File Offset: 0x0001F1FA
 		[DataSourceProperty]
 		public string PolicyLikelihoodText
 		{
@@ -545,9 +483,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x1700024F RID: 591
-		// (get) Token: 0x060007A3 RID: 1955 RVA: 0x0002101D File Offset: 0x0001F21D
-		// (set) Token: 0x060007A4 RID: 1956 RVA: 0x00021025 File Offset: 0x0001F225
 		[DataSourceProperty]
 		public HintViewModel LikelihoodHint
 		{
@@ -565,9 +500,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000250 RID: 592
-		// (get) Token: 0x060007A5 RID: 1957 RVA: 0x00021043 File Offset: 0x0001F243
-		// (set) Token: 0x060007A6 RID: 1958 RVA: 0x0002104B File Offset: 0x0001F24B
 		[DataSourceProperty]
 		public int PolicyLikelihood
 		{
@@ -585,9 +517,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000251 RID: 593
-		// (get) Token: 0x060007A7 RID: 1959 RVA: 0x00021069 File Offset: 0x0001F269
-		// (set) Token: 0x060007A8 RID: 1960 RVA: 0x00021071 File Offset: 0x0001F271
 		[DataSourceProperty]
 		public string OtherPoliciesText
 		{
@@ -605,9 +534,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000252 RID: 594
-		// (get) Token: 0x060007A9 RID: 1961 RVA: 0x00021094 File Offset: 0x0001F294
-		// (set) Token: 0x060007AA RID: 1962 RVA: 0x0002109C File Offset: 0x0001F29C
 		[DataSourceProperty]
 		public string ProposeOrDisavowText
 		{
@@ -625,9 +551,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x17000253 RID: 595
-		// (get) Token: 0x060007AB RID: 1963 RVA: 0x000210BF File Offset: 0x0001F2BF
-		// (set) Token: 0x060007AC RID: 1964 RVA: 0x000210C7 File Offset: 0x0001F2C7
 		[DataSourceProperty]
 		public string ProposeActionExplanationText
 		{
@@ -645,88 +568,61 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			}
 		}
 
-		// Token: 0x060007AD RID: 1965 RVA: 0x000210EA File Offset: 0x0001F2EA
 		private static int CalculateLikelihood(PolicyObject policy)
 		{
 			return MathF.Round(new KingdomElection(new KingdomPolicyDecision(Clan.PlayerClan, policy, Clan.PlayerClan.Kingdom.ActivePolicies.Contains(policy))).GetLikelihoodForSponsor(Clan.PlayerClan) * 100f);
 		}
 
-		// Token: 0x0400034C RID: 844
 		private readonly Action<KingdomDecision> _forceDecide;
 
-		// Token: 0x0400034D RID: 845
 		private readonly Kingdom _playerKingdom;
 
-		// Token: 0x0400034E RID: 846
 		private PolicyObject _currentSelectedPolicyObject;
 
-		// Token: 0x0400034F RID: 847
 		private KingdomDecision _currentItemsUnresolvedDecision;
 
-		// Token: 0x04000350 RID: 848
 		private MBBindingList<KingdomPolicyItemVM> _activePolicies;
 
-		// Token: 0x04000351 RID: 849
 		private MBBindingList<KingdomPolicyItemVM> _otherPolicies;
 
-		// Token: 0x04000352 RID: 850
 		private KingdomPolicyItemVM _currentSelectedPolicy;
 
-		// Token: 0x04000353 RID: 851
 		private bool _canProposeOrDisavowPolicy;
 
-		// Token: 0x04000354 RID: 852
 		private bool _isInProposeMode = true;
 
-		// Token: 0x04000355 RID: 853
 		private string _proposeOrDisavowText;
 
-		// Token: 0x04000356 RID: 854
 		private string _proposeActionExplanationText;
 
-		// Token: 0x04000357 RID: 855
 		private string _activePoliciesText;
 
-		// Token: 0x04000358 RID: 856
 		private string _otherPoliciesText;
 
-		// Token: 0x04000359 RID: 857
 		private string _currentActiveModeText;
 
-		// Token: 0x0400035A RID: 858
 		private string _currentActionText;
 
-		// Token: 0x0400035B RID: 859
 		private string _proposeNewPolicyText;
 
-		// Token: 0x0400035C RID: 860
 		private string _disavowPolicyText;
 
-		// Token: 0x0400035D RID: 861
 		private string _policiesText;
 
-		// Token: 0x0400035E RID: 862
 		private string _backText;
 
-		// Token: 0x0400035F RID: 863
 		private int _proposalAndDisavowalCost;
 
-		// Token: 0x04000360 RID: 864
 		private string _numOfActivePoliciesText;
 
-		// Token: 0x04000361 RID: 865
 		private string _numOfOtherPoliciesText;
 
-		// Token: 0x04000362 RID: 866
 		private HintViewModel _doneHint;
 
-		// Token: 0x04000363 RID: 867
 		private string _policyLikelihoodText;
 
-		// Token: 0x04000364 RID: 868
 		private HintViewModel _likelihoodHint;
 
-		// Token: 0x04000365 RID: 869
 		private int _policyLikelihood;
 	}
 }

@@ -12,11 +12,9 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 {
-	// Token: 0x0200003C RID: 60
 	[OverrideView(typeof(MissionMultiplayerDuelUI))]
 	public class MissionGauntletDuelUI : MissionView
 	{
-		// Token: 0x060002DC RID: 732 RVA: 0x0001013C File Offset: 0x0000E33C
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -39,7 +37,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			this._dataSource.IsEnabled = true;
 		}
 
-		// Token: 0x060002DD RID: 733 RVA: 0x00010274 File Offset: 0x0000E474
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
@@ -57,7 +54,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			NativeOptions.OnNativeOptionChanged = (NativeOptions.OnNativeOptionChangedDelegate)Delegate.Remove(NativeOptions.OnNativeOptionChanged, new NativeOptions.OnNativeOptionChangedDelegate(this.OnNativeOptionChanged));
 		}
 
-		// Token: 0x060002DE RID: 734 RVA: 0x00010310 File Offset: 0x0000E510
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -69,7 +65,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002DF RID: 735 RVA: 0x00010368 File Offset: 0x0000E568
 		private void OnNativeOptionChanged(NativeOptions.NativeOptionsType optionType)
 		{
 			if (optionType == 19)
@@ -78,7 +73,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002E0 RID: 736 RVA: 0x0001037A File Offset: 0x0000E57A
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
@@ -88,7 +82,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x0001039A File Offset: 0x0000E59A
 		public override void OnAgentBuild(Agent agent, Banner banner)
 		{
 			base.OnAgentBuild(agent, banner);
@@ -98,7 +91,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x000103B7 File Offset: 0x0000E5B7
 		public override void OnFocusGained(Agent agent, IFocusable focusableObject, bool isInteractable)
 		{
 			base.OnFocusGained(agent, focusableObject, isInteractable);
@@ -108,7 +100,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002E3 RID: 739 RVA: 0x000103E2 File Offset: 0x0000E5E2
 		public override void OnFocusLost(Agent agent, IFocusable focusableObject)
 		{
 			base.OnFocusLost(agent, focusableObject);
@@ -118,34 +109,26 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Multiplayer
 			}
 		}
 
-		// Token: 0x060002E4 RID: 740 RVA: 0x0001040C File Offset: 0x0000E60C
 		private void OnEquipmentRefreshed(MissionPeer peer)
 		{
 			this._dataSource.Markers.OnPeerEquipmentRefreshed(peer);
 		}
 
-		// Token: 0x060002E5 RID: 741 RVA: 0x0001041F File Offset: 0x0000E61F
 		private void OnPostMatchEnded()
 		{
 			this._dataSource.IsEnabled = false;
 		}
 
-		// Token: 0x0400017C RID: 380
 		private MultiplayerDuelVM _dataSource;
 
-		// Token: 0x0400017D RID: 381
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x0400017E RID: 382
 		private SpriteCategory _mpMissionCategory;
 
-		// Token: 0x0400017F RID: 383
 		private MissionMultiplayerGameModeDuelClient _client;
 
-		// Token: 0x04000180 RID: 384
 		private MissionLobbyEquipmentNetworkComponent _equipmentController;
 
-		// Token: 0x04000181 RID: 385
 		private MissionLobbyComponent _lobbyComponent;
 	}
 }

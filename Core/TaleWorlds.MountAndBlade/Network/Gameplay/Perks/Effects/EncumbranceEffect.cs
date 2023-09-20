@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003BF RID: 959
 	public class EncumbranceEffect : MPPerkEffect
 	{
-		// Token: 0x060033AA RID: 13226 RVA: 0x000D6361 File Offset: 0x000D4561
 		protected EncumbranceEffect()
 		{
 		}
 
-		// Token: 0x060033AB RID: 13227 RVA: 0x000D636C File Offset: 0x000D456C
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -80,7 +77,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			this._isOnBody = ((text6 != null) ? text6.ToLower() : null) == "true";
 		}
 
-		// Token: 0x060033AC RID: 13228 RVA: 0x000D6456 File Offset: 0x000D4656
 		public override void OnUpdate(Agent agent, bool newState)
 		{
 			agent = ((agent != null && agent.IsMount) ? agent.RiderAgent : agent);
@@ -90,7 +86,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033AD RID: 13229 RVA: 0x000D6477 File Offset: 0x000D4677
 		public override float GetEncumbrance(bool isOnBody)
 		{
 			if (isOnBody != this._isOnBody)
@@ -100,13 +95,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return this._value;
 		}
 
-		// Token: 0x040015F6 RID: 5622
 		protected static string StringType = "Encumbrance";
 
-		// Token: 0x040015F7 RID: 5623
 		private bool _isOnBody;
 
-		// Token: 0x040015F8 RID: 5624
 		private float _value;
 	}
 }

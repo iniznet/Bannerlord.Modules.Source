@@ -8,10 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x020000A4 RID: 164
 	public class TroopUpgradeTracker
 	{
-		// Token: 0x06001185 RID: 4485 RVA: 0x00050734 File Offset: 0x0004E934
 		public void AddTrackedTroop(PartyBase party, CharacterObject character)
 		{
 			if (character.IsHero)
@@ -34,7 +32,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001186 RID: 4486 RVA: 0x000507CC File Offset: 0x0004E9CC
 		public IEnumerable<SkillObject> CheckSkillUpgrades(Hero hero)
 		{
 			if (!this._heroSkills.IsEmpty<KeyValuePair<Hero, int[]>>())
@@ -58,7 +55,6 @@ namespace TaleWorlds.CampaignSystem
 			yield break;
 		}
 
-		// Token: 0x06001187 RID: 4487 RVA: 0x000507E4 File Offset: 0x0004E9E4
 		public int CheckUpgradedCount(PartyBase party, CharacterObject character)
 		{
 			int num = 0;
@@ -86,7 +82,6 @@ namespace TaleWorlds.CampaignSystem
 			return num;
 		}
 
-		// Token: 0x06001188 RID: 4488 RVA: 0x0005088C File Offset: 0x0004EA8C
 		private int CalculateReadyToUpgradeSafe(ref TroopRosterElement el, PartyBase owner)
 		{
 			int num = 0;
@@ -110,10 +105,8 @@ namespace TaleWorlds.CampaignSystem
 			return MathF.Max(MathF.Min(el.Number, num), 0);
 		}
 
-		// Token: 0x04000616 RID: 1558
 		private Dictionary<Tuple<PartyBase, CharacterObject>, int> _upgradedRegulars = new Dictionary<Tuple<PartyBase, CharacterObject>, int>();
 
-		// Token: 0x04000617 RID: 1559
 		private Dictionary<Hero, int[]> _heroSkills = new Dictionary<Hero, int[]>();
 	}
 }

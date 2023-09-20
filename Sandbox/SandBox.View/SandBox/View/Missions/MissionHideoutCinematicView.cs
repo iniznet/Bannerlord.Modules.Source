@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x02000018 RID: 24
 	public class MissionHideoutCinematicView : MissionView
 	{
-		// Token: 0x06000096 RID: 150 RVA: 0x00008BC8 File Offset: 0x00006DC8
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -25,7 +23,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x00008C18 File Offset: 0x00006E18
 		private void SetCameraFrame(Vec3 position, Vec3 direction, out MatrixFrame cameraFrame)
 		{
 			cameraFrame.origin = position;
@@ -35,7 +32,6 @@ namespace SandBox.View.Missions
 			cameraFrame.rotation.Orthonormalize();
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x00008C68 File Offset: 0x00006E68
 		private void SetupCamera()
 		{
 			this._camera = Camera.CreateCamera();
@@ -68,7 +64,6 @@ namespace SandBox.View.Missions
 			base.MissionScreen.CustomCamera = this._camera;
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x00008E00 File Offset: 0x00007000
 		private void UpdateCamera(float dt)
 		{
 			Vec3 vec = this._cameraFrame.origin + this._cameraMoveDir * this._cameraSpeed * dt;
@@ -79,7 +74,6 @@ namespace SandBox.View.Missions
 			this._camera.Frame = this._cameraFrame;
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x00008E71 File Offset: 0x00007071
 		private void ReleaseCamera()
 		{
 			base.MissionScreen.UpdateFreeCamera(base.MissionScreen.CustomCamera.Frame);
@@ -87,7 +81,6 @@ namespace SandBox.View.Missions
 			this._camera.ReleaseCamera();
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00008EA5 File Offset: 0x000070A5
 		private void OnCinematicStateChanged(HideoutCinematicController.HideoutCinematicState state)
 		{
 			if (this._isInitialized)
@@ -105,7 +98,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00008ED5 File Offset: 0x000070D5
 		private void OnCinematicTransition(HideoutCinematicController.HideoutCinematicState nextState, float duration)
 		{
 			if (this._isInitialized)
@@ -122,7 +114,6 @@ namespace SandBox.View.Missions
 			}
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00008F10 File Offset: 0x00007110
 		private void InitializeView()
 		{
 			this._cinematicLogicController = base.Mission.GetMissionBehavior<HideoutCinematicController>();
@@ -136,34 +127,24 @@ namespace SandBox.View.Missions
 			cinematicLogicController.SetStateTransitionCallback(new HideoutCinematicController.OnHideoutCinematicStateChanged(this.OnCinematicStateChanged), new HideoutCinematicController.OnHideoutCinematicTransition(this.OnCinematicTransition));
 		}
 
-		// Token: 0x0400006A RID: 106
 		private bool _isInitialized;
 
-		// Token: 0x0400006B RID: 107
 		private HideoutCinematicController _cinematicLogicController;
 
-		// Token: 0x0400006C RID: 108
 		private MissionCameraFadeView _cameraFadeViewController;
 
-		// Token: 0x0400006D RID: 109
 		private HideoutCinematicController.HideoutCinematicState _currentState;
 
-		// Token: 0x0400006E RID: 110
 		private HideoutCinematicController.HideoutCinematicState _nextState;
 
-		// Token: 0x0400006F RID: 111
 		private Camera _camera;
 
-		// Token: 0x04000070 RID: 112
 		private MatrixFrame _cameraFrame = MatrixFrame.Identity;
 
-		// Token: 0x04000071 RID: 113
 		private readonly Vec3 _cameraOffset = new Vec3(0.3f, 0.3f, 1.2f, -1f);
 
-		// Token: 0x04000072 RID: 114
 		private Vec3 _cameraMoveDir = Vec3.Forward;
 
-		// Token: 0x04000073 RID: 115
 		private float _cameraSpeed;
 	}
 }

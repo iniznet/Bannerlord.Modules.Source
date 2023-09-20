@@ -3,24 +3,20 @@ using System.Collections.Generic;
 
 namespace psai.net
 {
-	// Token: 0x02000021 RID: 33
 	public class Soundtrack
 	{
-		// Token: 0x0600022B RID: 555 RVA: 0x0000941E File Offset: 0x0000761E
 		public Soundtrack()
 		{
 			this.m_themes = new Dictionary<int, Theme>();
 			this.m_snippets = new Dictionary<int, Segment>();
 		}
 
-		// Token: 0x0600022C RID: 556 RVA: 0x0000943C File Offset: 0x0000763C
 		public void Clear()
 		{
 			this.m_themes.Clear();
 			this.m_snippets.Clear();
 		}
 
-		// Token: 0x0600022D RID: 557 RVA: 0x00009454 File Offset: 0x00007654
 		public Theme getThemeById(int id)
 		{
 			Theme theme;
@@ -28,7 +24,6 @@ namespace psai.net
 			return theme;
 		}
 
-		// Token: 0x0600022E RID: 558 RVA: 0x00009474 File Offset: 0x00007674
 		public Segment GetSegmentById(int id)
 		{
 			Segment segment;
@@ -36,7 +31,6 @@ namespace psai.net
 			return segment;
 		}
 
-		// Token: 0x0600022F RID: 559 RVA: 0x00009494 File Offset: 0x00007694
 		public SoundtrackInfo getSoundtrackInfo()
 		{
 			SoundtrackInfo soundtrackInfo = new SoundtrackInfo();
@@ -51,7 +45,6 @@ namespace psai.net
 			return soundtrackInfo;
 		}
 
-		// Token: 0x06000230 RID: 560 RVA: 0x00009524 File Offset: 0x00007724
 		public ThemeInfo getThemeInfo(int themeId)
 		{
 			Theme themeById = this.getThemeById(themeId);
@@ -71,7 +64,6 @@ namespace psai.net
 			return null;
 		}
 
-		// Token: 0x06000231 RID: 561 RVA: 0x000095B0 File Offset: 0x000077B0
 		public SegmentInfo getSegmentInfo(int snippetId)
 		{
 			SegmentInfo segmentInfo = new SegmentInfo();
@@ -91,7 +83,6 @@ namespace psai.net
 			return segmentInfo;
 		}
 
-		// Token: 0x06000232 RID: 562 RVA: 0x0000964C File Offset: 0x0000784C
 		public void UpdateMaxPreBeatMsOfCompatibleMiddleOrBridgeSnippets()
 		{
 			foreach (Segment segment in this.m_snippets.Values)
@@ -114,7 +105,6 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x06000233 RID: 563 RVA: 0x00009714 File Offset: 0x00007914
 		public void BuildAllIndirectionSequences()
 		{
 			foreach (Theme theme in this.m_themes.Values)
@@ -130,10 +120,8 @@ namespace psai.net
 			}
 		}
 
-		// Token: 0x04000134 RID: 308
 		public Dictionary<int, Theme> m_themes;
 
-		// Token: 0x04000135 RID: 309
 		public Dictionary<int, Segment> m_snippets;
 	}
 }

@@ -12,11 +12,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
-	// Token: 0x0200004F RID: 79
 	public class StoryModeTutorialBoxCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x06000443 RID: 1091 RVA: 0x00019B8D File Offset: 0x00017D8D
 		public MBReadOnlyList<CampaignTutorial> AvailableTutorials
 		{
 			get
@@ -25,7 +22,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000444 RID: 1092 RVA: 0x00019B95 File Offset: 0x00017D95
 		public StoryModeTutorialBoxCampaignBehavior()
 		{
 			this._shownTutorials = new List<string>();
@@ -33,7 +29,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this._tutorialBackup = new Dictionary<string, int>();
 		}
 
-		// Token: 0x06000445 RID: 1093 RVA: 0x00019BC0 File Offset: 0x00017DC0
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -45,14 +40,12 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			Game.Current.EventManager.RegisterEvent<ResetAllTutorialsEvent>(new Action<ResetAllTutorialsEvent>(this.OnResetAllTutorials));
 		}
 
-		// Token: 0x06000446 RID: 1094 RVA: 0x00019C72 File Offset: 0x00017E72
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<string>>("_shownTutorials", ref this._shownTutorials);
 			dataStore.SyncData<Dictionary<string, int>>("_tutorialBackup", ref this._tutorialBackup);
 		}
 
-		// Token: 0x06000447 RID: 1095 RVA: 0x00019C98 File Offset: 0x00017E98
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.BackupTutorial("MovementInMissionTutorial", 5);
@@ -104,7 +97,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000448 RID: 1096 RVA: 0x00019F98 File Offset: 0x00018198
 		private void OnTravelToVillageTutorialQuestStarted()
 		{
 			this.AddTutorial("SeeMarkersInMissionTutorial", 1);
@@ -113,7 +105,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this.AddTutorial("EnterVillageTutorial", 4);
 		}
 
-		// Token: 0x06000449 RID: 1097 RVA: 0x00019FCC File Offset: 0x000181CC
 		private void OnQuestStarted(QuestBase quest)
 		{
 			if (quest is PurchaseGrainTutorialQuest)
@@ -141,7 +132,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x0600044A RID: 1098 RVA: 0x0001A094 File Offset: 0x00018294
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.RecruitAndPurchaseStarted && (quest is RecruitTroopsTutorialQuest || quest is PurchaseGrainTutorialQuest))
@@ -156,7 +146,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			});
 		}
 
-		// Token: 0x0600044B RID: 1099 RVA: 0x0001A104 File Offset: 0x00018304
 		private void OnTutorialCompleted(string completedTutorialType)
 		{
 			CampaignTutorial campaignTutorial = this._availableTutorials.Find((CampaignTutorial t) => t.TutorialTypeId == completedTutorialType);
@@ -168,7 +157,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600044C RID: 1100 RVA: 0x0001A16C File Offset: 0x0001836C
 		private void OnTutorialListRequested(List<CampaignTutorial> campaignTutorials)
 		{
 			if (!BannerlordConfig.EnableTutorialHints)
@@ -182,7 +170,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600044D RID: 1101 RVA: 0x0001A1E8 File Offset: 0x000183E8
 		private void BackupTutorial(string tutorialTypeId, int priority)
 		{
 			if (!this._shownTutorials.Contains(tutorialTypeId) && !this._tutorialBackup.ContainsKey(tutorialTypeId))
@@ -191,7 +178,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600044E RID: 1102 RVA: 0x0001A214 File Offset: 0x00018414
 		private void AddTutorial(string tutorialTypeId, int priority)
 		{
 			if (!this._shownTutorials.Contains(tutorialTypeId))
@@ -205,19 +191,15 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600044F RID: 1103 RVA: 0x0001A25E File Offset: 0x0001845E
 		public void OnResetAllTutorials(ResetAllTutorialsEvent obj)
 		{
 			this._shownTutorials.Clear();
 		}
 
-		// Token: 0x040001C0 RID: 448
 		private List<string> _shownTutorials;
 
-		// Token: 0x040001C1 RID: 449
 		private readonly MBList<CampaignTutorial> _availableTutorials;
 
-		// Token: 0x040001C2 RID: 450
 		private Dictionary<string, int> _tutorialBackup;
 	}
 }

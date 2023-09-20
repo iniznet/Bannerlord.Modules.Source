@@ -7,29 +7,22 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.CampaignSystem.Conversation
 {
-	// Token: 0x020001EB RID: 491
 	public class ConversationAnimationManager
 	{
-		// Token: 0x17000756 RID: 1878
-		// (get) Token: 0x06001D39 RID: 7481 RVA: 0x0008383E File Offset: 0x00081A3E
-		// (set) Token: 0x06001D3A RID: 7482 RVA: 0x00083846 File Offset: 0x00081A46
 		public Dictionary<string, ConversationAnimData> ConversationAnims { get; private set; }
 
-		// Token: 0x06001D3B RID: 7483 RVA: 0x0008384F File Offset: 0x00081A4F
 		public ConversationAnimationManager()
 		{
 			this.ConversationAnims = new Dictionary<string, ConversationAnimData>();
 			this.LoadConversationAnimData(ModuleHelper.GetModuleFullPath("Sandbox") + "ModuleData/conversation_animations.xml");
 		}
 
-		// Token: 0x06001D3C RID: 7484 RVA: 0x0008387C File Offset: 0x00081A7C
 		private void LoadConversationAnimData(string xmlPath)
 		{
 			XmlDocument xmlDocument = this.LoadXmlFile(xmlPath);
 			this.LoadFromXml(xmlDocument);
 		}
 
-		// Token: 0x06001D3D RID: 7485 RVA: 0x00083898 File Offset: 0x00081A98
 		private XmlDocument LoadXmlFile(string path)
 		{
 			Debug.Print("opening " + path, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -41,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			return xmlDocument;
 		}
 
-		// Token: 0x06001D3E RID: 7486 RVA: 0x000838E4 File Offset: 0x00081AE4
 		private void LoadFromXml(XmlDocument doc)
 		{
 			if (doc.ChildNodes.Count <= 1)

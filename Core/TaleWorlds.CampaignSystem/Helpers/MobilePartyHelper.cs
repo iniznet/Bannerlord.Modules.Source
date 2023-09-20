@@ -13,28 +13,23 @@ using TaleWorlds.Library;
 
 namespace Helpers
 {
-	// Token: 0x0200000E RID: 14
 	public static class MobilePartyHelper
 	{
-		// Token: 0x0600006E RID: 110 RVA: 0x0000697E File Offset: 0x00004B7E
 		public static MobileParty SpawnLordParty(Hero hero, Settlement spawnSettlement)
 		{
 			return MobilePartyHelper.SpawnLordPartyAux(hero, spawnSettlement.GatePosition, 0f, spawnSettlement);
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x00006992 File Offset: 0x00004B92
 		public static MobileParty SpawnLordParty(Hero hero, Vec2 position, float spawnRadius)
 		{
 			return MobilePartyHelper.SpawnLordPartyAux(hero, position, spawnRadius, null);
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x0000699D File Offset: 0x00004B9D
 		private static MobileParty SpawnLordPartyAux(Hero hero, Vec2 position, float spawnRadius, Settlement spawnSettlement)
 		{
 			return LordPartyComponent.CreateLordParty(hero.CharacterObject.StringId, hero, position, spawnRadius, spawnSettlement, hero);
 		}
 
-		// Token: 0x06000071 RID: 113 RVA: 0x000069B4 File Offset: 0x00004BB4
 		public static void CreateNewClanMobileParty(Hero partyLeader, Clan clan, out bool leaderCameFromMainParty)
 		{
 			leaderCameFromMainParty = PartyBase.MainParty.MemberRoster.Contains(partyLeader.CharacterObject);
@@ -42,7 +37,6 @@ namespace Helpers
 			clan.CreateNewMobileParty(partyLeader).Ai.SetMoveModeHold();
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x000069EC File Offset: 0x00004BEC
 		public static void DesertTroopsFromParty(MobileParty party, int stackNo, int numberOfDeserters, int numberOfWoundedDeserters, ref TroopRoster desertedTroopList)
 		{
 			TroopRosterElement elementCopyAtIndex = party.MemberRoster.GetElementCopyAtIndex(stackNo);
@@ -54,31 +48,26 @@ namespace Helpers
 			desertedTroopList.AddToCounts(elementCopyAtIndex.Character, numberOfDeserters + numberOfWoundedDeserters, false, numberOfWoundedDeserters, 0, true, -1);
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x00006A4C File Offset: 0x00004C4C
 		public static bool IsHeroAssignableForScoutInParty(Hero hero, MobileParty party)
 		{
 			return hero.PartyBelongedTo == party && hero != party.GetRoleHolder(SkillEffect.PerkRole.Scout) && hero.GetSkillValue(DefaultSkills.Scouting) >= 0;
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x00006A75 File Offset: 0x00004C75
 		public static bool IsHeroAssignableForEngineerInParty(Hero hero, MobileParty party)
 		{
 			return hero.PartyBelongedTo == party && hero != party.GetRoleHolder(SkillEffect.PerkRole.Engineer) && hero.GetSkillValue(DefaultSkills.Engineering) >= 0;
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00006A9D File Offset: 0x00004C9D
 		public static bool IsHeroAssignableForSurgeonInParty(Hero hero, MobileParty party)
 		{
 			return hero.PartyBelongedTo == party && hero != party.GetRoleHolder(SkillEffect.PerkRole.Surgeon) && hero.GetSkillValue(DefaultSkills.Medicine) >= 0;
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x00006AC5 File Offset: 0x00004CC5
 		public static bool IsHeroAssignableForQuartermasterInParty(Hero hero, MobileParty party)
 		{
 			return hero.PartyBelongedTo == party && hero != party.GetRoleHolder(SkillEffect.PerkRole.Quartermaster) && hero.GetSkillValue(DefaultSkills.Trade) >= 0;
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x00006AF0 File Offset: 0x00004CF0
 		public static Hero GetHeroWithHighestSkill(MobileParty party, SkillObject skill)
 		{
 			Hero hero = null;
@@ -95,7 +84,6 @@ namespace Helpers
 			return hero;
 		}
 
-		// Token: 0x06000078 RID: 120 RVA: 0x00006B50 File Offset: 0x00004D50
 		public static TroopRoster GetStrongestAndPriorTroops(MobileParty mobileParty, int maxTroopCount, bool includePlayer)
 		{
 			FlattenedTroopRoster flattenedTroopRoster = mobileParty.MemberRoster.ToFlattenedRoster();
@@ -103,7 +91,6 @@ namespace Helpers
 			return MobilePartyHelper.GetStrongestAndPriorTroops(flattenedTroopRoster, maxTroopCount, includePlayer);
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x00006B8C File Offset: 0x00004D8C
 		public static TroopRoster GetStrongestAndPriorTroops(FlattenedTroopRoster roster, int maxTroopCount, bool includePlayer)
 		{
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -137,7 +124,6 @@ namespace Helpers
 			return troopRoster;
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00006CDC File Offset: 0x00004EDC
 		public static int GetMaximumXpAmountPartyCanGet(MobileParty party)
 		{
 			TroopRoster memberRoster = party.MemberRoster;
@@ -164,7 +150,6 @@ namespace Helpers
 			return num;
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x00006D98 File Offset: 0x00004F98
 		public static void PartyAddSharedXp(MobileParty party, float xpToDistribute)
 		{
 			TroopRoster memberRoster = party.MemberRoster;
@@ -194,13 +179,11 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00006E66 File Offset: 0x00005066
 		private static int GetShareWeight(ref TroopRosterElement e)
 		{
 			return MathF.Max(1, e.Character.Tier) * e.Number;
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00006E80 File Offset: 0x00005080
 		public static Vec2 FindReachablePointAroundPosition(Vec2 centerPosition, float maxDistance, float minDistance = 0f)
 		{
 			Vec2 vec = new Vec2(centerPosition.x, centerPosition.y);
@@ -227,7 +210,6 @@ namespace Helpers
 			return vec2;
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00006F4C File Offset: 0x0000514C
 		public static void TryMatchPartySpeedWithItemWeight(MobileParty party, float targetPartySpeed, ItemObject itemToUse = null)
 		{
 			targetPartySpeed = MathF.Max(1f, targetPartySpeed);
@@ -254,7 +236,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00006FE4 File Offset: 0x000051E4
 		public static void UtilizePartyEscortBehavior(MobileParty escortedParty, MobileParty escortParty, ref bool isWaitingForEscortParty, float innerRadius, float outerRadius, MobilePartyHelper.ResumePartyEscortBehaviorDelegate onPartyEscortBehaviorResumed, bool showDebugSpheres = false)
 		{
 			if (!isWaitingForEscortParty)
@@ -275,7 +256,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x00007064 File Offset: 0x00005264
 		public static Hero GetMainPartySkillCounsellor(SkillObject skill)
 		{
 			PartyBase mainParty = PartyBase.MainParty;
@@ -297,7 +277,6 @@ namespace Helpers
 			return hero ?? mainParty.LeaderHero;
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x000070DC File Offset: 0x000052DC
 		public static Settlement GetCurrentSettlementOfMobilePartyForAICalculation(MobileParty mobileParty)
 		{
 			Settlement settlement;
@@ -312,8 +291,6 @@ namespace Helpers
 			return settlement;
 		}
 
-		// Token: 0x02000463 RID: 1123
-		// (Invoke) Token: 0x06003F99 RID: 16281
 		public delegate void ResumePartyEscortBehaviorDelegate();
 	}
 }

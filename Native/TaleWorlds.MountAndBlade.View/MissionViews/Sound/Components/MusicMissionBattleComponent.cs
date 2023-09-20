@@ -7,21 +7,17 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 {
-	// Token: 0x0200005D RID: 93
 	public class MusicMissionBattleComponent : MusicMissionActionComponent
 	{
-		// Token: 0x06000418 RID: 1048 RVA: 0x00021241 File Offset: 0x0001F441
 		public MusicMissionBattleComponent()
 		{
 		}
 
-		// Token: 0x06000419 RID: 1049 RVA: 0x00021266 File Offset: 0x0001F466
 		public MusicMissionBattleComponent(BasicCultureObject playerFactionCulture)
 		{
 			this._playerFactionCulture = playerFactionCulture;
 		}
 
-		// Token: 0x0600041A RID: 1050 RVA: 0x00021294 File Offset: 0x0001F494
 		public override void PreInitialize()
 		{
 			base.PreInitialize();
@@ -40,13 +36,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			MBMusicManagerOld.StopMusic(true);
 		}
 
-		// Token: 0x0600041B RID: 1051 RVA: 0x00021374 File Offset: 0x0001F574
 		private bool CheckIfBattleHasStarted()
 		{
 			return Mission.GetUnderAttackTypeOfAgents(Mission.Current.Agents, 3f) > 0;
 		}
 
-		// Token: 0x0600041C RID: 1052 RVA: 0x00021390 File Offset: 0x0001F590
 		protected override MBMusicManagerOld.MusicMood HandleNormalTrackSelection(bool forceUpdate = false)
 		{
 			if (this._battleProcess == MusicMissionBattleComponent.BattleProcess.Initialized)
@@ -82,7 +76,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return -1;
 		}
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x00021449 File Offset: 0x0001F649
 		private MBMusicManagerOld.MusicMood BattleFinalizingTrackSelection(BattleSideEnum side)
 		{
 			if (side == Mission.Current.PlayerTeam.Side)
@@ -92,7 +85,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return 11;
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x00021464 File Offset: 0x0001F664
 		private MBMusicManagerOld.MusicMood BattleNormalTrackSelection()
 		{
 			if (this._normalTrackFirstTick && MBRandom.RandomFloat > 0.3f)
@@ -115,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return 12;
 		}
 
-		// Token: 0x0600041F RID: 1055 RVA: 0x000214EC File Offset: 0x0001F6EC
 		protected unsafe override bool HandleFeedbackTrackSelection(out MBMusicManagerOld.MusicMood feedbackTrack)
 		{
 			Mission mission = Mission.Current;
@@ -149,7 +140,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return base.HandleFeedbackTrackSelection(out feedbackTrack);
 		}
 
-		// Token: 0x06000420 RID: 1056 RVA: 0x00021558 File Offset: 0x0001F758
 		protected override MBMusicManagerOld.MusicMood SelectEndingTrack(bool victory)
 		{
 			if (!victory)
@@ -187,13 +177,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			return 11;
 		}
 
-		// Token: 0x06000421 RID: 1057 RVA: 0x000215E0 File Offset: 0x0001F7E0
 		private void AdjustCooldownByCombatSize()
 		{
 			this._initialCooldown = ((this._scale > 0.2f) ? 25 : ((this._scale > 0.1f) ? 23 : 20));
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x0002160C File Offset: 0x0001F80C
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, killingBlow);
@@ -210,7 +198,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x00021668 File Offset: 0x0001F868
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, int damage, in MissionWeapon attackerWeapon)
 		{
 			base.OnAgentHit(affectedAgent, affectorAgent, damage, attackerWeapon);
@@ -220,7 +207,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000424 RID: 1060 RVA: 0x0002168C File Offset: 0x0001F88C
 		public override void OnEntityRemoved(GameEntity entity)
 		{
 			base.OnEntityRemoved(entity);
@@ -236,7 +222,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x06000425 RID: 1061 RVA: 0x00021729 File Offset: 0x0001F929
 		private void PlayShockEvent(bool isPositive)
 		{
 			if (this.CurrentMood != 15 && this.CurrentMood != 14)
@@ -253,45 +238,30 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components
 			}
 		}
 
-		// Token: 0x0400029E RID: 670
 		private MusicMissionBattleComponent.BattleProcess _battleProcess;
 
-		// Token: 0x0400029F RID: 671
 		private int _initialCooldown;
 
-		// Token: 0x040002A0 RID: 672
 		private BasicCultureObject _playerFactionCulture;
 
-		// Token: 0x040002A1 RID: 673
 		private bool _normalTrackFlag;
 
-		// Token: 0x040002A2 RID: 674
 		private bool _normalTrackFirstTick = true;
 
-		// Token: 0x040002A3 RID: 675
 		private float _scale;
 
-		// Token: 0x040002A4 RID: 676
 		private bool _hasMissionStarted;
 
-		// Token: 0x040002A5 RID: 677
 		private readonly MBList<Formation> _retreatedEnemyFormations = new MBList<Formation>();
 
-		// Token: 0x040002A6 RID: 678
 		private readonly MBList<Formation> _retreatedPlayerFormations = new MBList<Formation>();
 
-		// Token: 0x020000C5 RID: 197
 		private enum BattleProcess
 		{
-			// Token: 0x04000380 RID: 896
 			Initialized,
-			// Token: 0x04000381 RID: 897
 			Started,
-			// Token: 0x04000382 RID: 898
 			Ongoing,
-			// Token: 0x04000383 RID: 899
 			SideAdvantage,
-			// Token: 0x04000384 RID: 900
 			Ended
 		}
 	}

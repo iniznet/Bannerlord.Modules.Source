@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000166 RID: 358
 	public class FormationQuerySystem
 	{
-		// Token: 0x170003AD RID: 941
-		// (get) Token: 0x06001215 RID: 4629 RVA: 0x00046360 File Offset: 0x00044560
 		public TeamQuerySystem Team
 		{
 			get
@@ -20,8 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003AE RID: 942
-		// (get) Token: 0x06001216 RID: 4630 RVA: 0x00046372 File Offset: 0x00044572
 		public float FormationPower
 		{
 			get
@@ -30,8 +25,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003AF RID: 943
-		// (get) Token: 0x06001217 RID: 4631 RVA: 0x0004637F File Offset: 0x0004457F
 		public float FormationMeleeFightingPower
 		{
 			get
@@ -40,8 +33,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B0 RID: 944
-		// (get) Token: 0x06001218 RID: 4632 RVA: 0x0004638C File Offset: 0x0004458C
 		public Vec2 AveragePosition
 		{
 			get
@@ -50,8 +41,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B1 RID: 945
-		// (get) Token: 0x06001219 RID: 4633 RVA: 0x00046399 File Offset: 0x00044599
 		public Vec2 CurrentVelocity
 		{
 			get
@@ -60,8 +49,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B2 RID: 946
-		// (get) Token: 0x0600121A RID: 4634 RVA: 0x000463A6 File Offset: 0x000445A6
 		public Vec2 EstimatedDirection
 		{
 			get
@@ -70,8 +57,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B3 RID: 947
-		// (get) Token: 0x0600121B RID: 4635 RVA: 0x000463B3 File Offset: 0x000445B3
 		public float EstimatedInterval
 		{
 			get
@@ -80,8 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B4 RID: 948
-		// (get) Token: 0x0600121C RID: 4636 RVA: 0x000463C0 File Offset: 0x000445C0
 		public WorldPosition MedianPosition
 		{
 			get
@@ -90,8 +73,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B5 RID: 949
-		// (get) Token: 0x0600121D RID: 4637 RVA: 0x000463CD File Offset: 0x000445CD
 		public Vec2 AverageAllyPosition
 		{
 			get
@@ -100,8 +81,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x0600121E RID: 4638 RVA: 0x000463DA File Offset: 0x000445DA
 		public float IdealAverageDisplacement
 		{
 			get
@@ -110,8 +89,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x0600121F RID: 4639 RVA: 0x000463E7 File Offset: 0x000445E7
 		public float FormationDispersedness
 		{
 			get
@@ -120,8 +97,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B8 RID: 952
-		// (get) Token: 0x06001220 RID: 4640 RVA: 0x000463F4 File Offset: 0x000445F4
 		public FormationQuerySystem.FormationIntegrityDataGroup FormationIntegrityData
 		{
 			get
@@ -130,8 +105,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003B9 RID: 953
-		// (get) Token: 0x06001221 RID: 4641 RVA: 0x00046401 File Offset: 0x00044601
 		public MBList<Agent> LocalAllyUnits
 		{
 			get
@@ -140,8 +113,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BA RID: 954
-		// (get) Token: 0x06001222 RID: 4642 RVA: 0x0004640E File Offset: 0x0004460E
 		public MBList<Agent> LocalEnemyUnits
 		{
 			get
@@ -150,8 +121,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BB RID: 955
-		// (get) Token: 0x06001223 RID: 4643 RVA: 0x0004641B File Offset: 0x0004461B
 		public FormationClass MainClass
 		{
 			get
@@ -160,8 +129,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BC RID: 956
-		// (get) Token: 0x06001224 RID: 4644 RVA: 0x00046428 File Offset: 0x00044628
 		public float InfantryUnitRatio
 		{
 			get
@@ -170,8 +137,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BD RID: 957
-		// (get) Token: 0x06001225 RID: 4645 RVA: 0x00046435 File Offset: 0x00044635
 		public float HasShieldUnitRatio
 		{
 			get
@@ -180,8 +145,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BE RID: 958
-		// (get) Token: 0x06001226 RID: 4646 RVA: 0x00046442 File Offset: 0x00044642
 		public float RangedUnitRatio
 		{
 			get
@@ -190,8 +153,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003BF RID: 959
-		// (get) Token: 0x06001227 RID: 4647 RVA: 0x0004644F File Offset: 0x0004464F
 		public int InsideCastleUnitCountIncludingUnpositioned
 		{
 			get
@@ -200,8 +161,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C0 RID: 960
-		// (get) Token: 0x06001228 RID: 4648 RVA: 0x0004645C File Offset: 0x0004465C
 		public int InsideCastleUnitCountPositioned
 		{
 			get
@@ -210,8 +169,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C1 RID: 961
-		// (get) Token: 0x06001229 RID: 4649 RVA: 0x00046469 File Offset: 0x00044669
 		public float CavalryUnitRatio
 		{
 			get
@@ -220,8 +177,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C2 RID: 962
-		// (get) Token: 0x0600122A RID: 4650 RVA: 0x00046476 File Offset: 0x00044676
 		public float GetCavalryUnitRatioWithoutExpiration
 		{
 			get
@@ -230,8 +185,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C3 RID: 963
-		// (get) Token: 0x0600122B RID: 4651 RVA: 0x00046483 File Offset: 0x00044683
 		public float RangedCavalryUnitRatio
 		{
 			get
@@ -240,8 +193,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C4 RID: 964
-		// (get) Token: 0x0600122C RID: 4652 RVA: 0x00046490 File Offset: 0x00044690
 		public float GetRangedCavalryUnitRatioWithoutExpiration
 		{
 			get
@@ -250,8 +201,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C5 RID: 965
-		// (get) Token: 0x0600122D RID: 4653 RVA: 0x0004649D File Offset: 0x0004469D
 		public bool IsMeleeFormation
 		{
 			get
@@ -260,8 +209,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C6 RID: 966
-		// (get) Token: 0x0600122E RID: 4654 RVA: 0x000464AA File Offset: 0x000446AA
 		public bool IsInfantryFormation
 		{
 			get
@@ -270,8 +217,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C7 RID: 967
-		// (get) Token: 0x0600122F RID: 4655 RVA: 0x000464B7 File Offset: 0x000446B7
 		public bool HasShield
 		{
 			get
@@ -280,8 +225,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C8 RID: 968
-		// (get) Token: 0x06001230 RID: 4656 RVA: 0x000464C4 File Offset: 0x000446C4
 		public bool IsRangedFormation
 		{
 			get
@@ -290,8 +233,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003C9 RID: 969
-		// (get) Token: 0x06001231 RID: 4657 RVA: 0x000464D1 File Offset: 0x000446D1
 		public bool IsCavalryFormation
 		{
 			get
@@ -300,8 +241,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CA RID: 970
-		// (get) Token: 0x06001232 RID: 4658 RVA: 0x000464DE File Offset: 0x000446DE
 		public bool IsRangedCavalryFormation
 		{
 			get
@@ -310,8 +249,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CB RID: 971
-		// (get) Token: 0x06001233 RID: 4659 RVA: 0x000464EB File Offset: 0x000446EB
 		public float MovementSpeedMaximum
 		{
 			get
@@ -320,8 +257,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CC RID: 972
-		// (get) Token: 0x06001234 RID: 4660 RVA: 0x000464F8 File Offset: 0x000446F8
 		public float MovementSpeed
 		{
 			get
@@ -330,8 +265,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CD RID: 973
-		// (get) Token: 0x06001235 RID: 4661 RVA: 0x00046505 File Offset: 0x00044705
 		public float MaximumMissileRange
 		{
 			get
@@ -340,8 +273,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CE RID: 974
-		// (get) Token: 0x06001236 RID: 4662 RVA: 0x00046512 File Offset: 0x00044712
 		public float MissileRangeAdjusted
 		{
 			get
@@ -350,8 +281,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003CF RID: 975
-		// (get) Token: 0x06001237 RID: 4663 RVA: 0x0004651F File Offset: 0x0004471F
 		public float LocalInfantryUnitRatio
 		{
 			get
@@ -360,8 +289,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D0 RID: 976
-		// (get) Token: 0x06001238 RID: 4664 RVA: 0x0004652C File Offset: 0x0004472C
 		public float LocalRangedUnitRatio
 		{
 			get
@@ -370,8 +297,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D1 RID: 977
-		// (get) Token: 0x06001239 RID: 4665 RVA: 0x00046539 File Offset: 0x00044739
 		public float LocalCavalryUnitRatio
 		{
 			get
@@ -380,8 +305,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D2 RID: 978
-		// (get) Token: 0x0600123A RID: 4666 RVA: 0x00046546 File Offset: 0x00044746
 		public float LocalRangedCavalryUnitRatio
 		{
 			get
@@ -390,8 +313,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D3 RID: 979
-		// (get) Token: 0x0600123B RID: 4667 RVA: 0x00046553 File Offset: 0x00044753
 		public float LocalAllyPower
 		{
 			get
@@ -400,8 +321,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D4 RID: 980
-		// (get) Token: 0x0600123C RID: 4668 RVA: 0x00046560 File Offset: 0x00044760
 		public float LocalEnemyPower
 		{
 			get
@@ -410,8 +329,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D5 RID: 981
-		// (get) Token: 0x0600123D RID: 4669 RVA: 0x0004656D File Offset: 0x0004476D
 		public float LocalPowerRatio
 		{
 			get
@@ -420,8 +337,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D6 RID: 982
-		// (get) Token: 0x0600123E RID: 4670 RVA: 0x0004657A File Offset: 0x0004477A
 		public float CasualtyRatio
 		{
 			get
@@ -430,8 +345,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D7 RID: 983
-		// (get) Token: 0x0600123F RID: 4671 RVA: 0x00046587 File Offset: 0x00044787
 		public bool IsUnderRangedAttack
 		{
 			get
@@ -440,8 +353,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D8 RID: 984
-		// (get) Token: 0x06001240 RID: 4672 RVA: 0x00046594 File Offset: 0x00044794
 		public float UnderRangedAttackRatio
 		{
 			get
@@ -450,8 +361,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003D9 RID: 985
-		// (get) Token: 0x06001241 RID: 4673 RVA: 0x000465A1 File Offset: 0x000447A1
 		public float MakingRangedAttackRatio
 		{
 			get
@@ -460,8 +369,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DA RID: 986
-		// (get) Token: 0x06001242 RID: 4674 RVA: 0x000465AE File Offset: 0x000447AE
 		public Formation MainFormation
 		{
 			get
@@ -470,8 +377,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DB RID: 987
-		// (get) Token: 0x06001243 RID: 4675 RVA: 0x000465BB File Offset: 0x000447BB
 		public float MainFormationReliabilityFactor
 		{
 			get
@@ -480,8 +385,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DC RID: 988
-		// (get) Token: 0x06001244 RID: 4676 RVA: 0x000465C8 File Offset: 0x000447C8
 		public Vec2 WeightedAverageEnemyPosition
 		{
 			get
@@ -490,8 +393,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DD RID: 989
-		// (get) Token: 0x06001245 RID: 4677 RVA: 0x000465D8 File Offset: 0x000447D8
 		public FormationQuerySystem ClosestEnemyFormation
 		{
 			get
@@ -509,8 +410,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DE RID: 990
-		// (get) Token: 0x06001246 RID: 4678 RVA: 0x00046628 File Offset: 0x00044828
 		public FormationQuerySystem ClosestSignificantlyLargeEnemyFormation
 		{
 			get
@@ -528,8 +427,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003DF RID: 991
-		// (get) Token: 0x06001247 RID: 4679 RVA: 0x00046678 File Offset: 0x00044878
 		public FormationQuerySystem FastestSignificantlyLargeEnemyFormation
 		{
 			get
@@ -547,8 +444,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170003E0 RID: 992
-		// (get) Token: 0x06001248 RID: 4680 RVA: 0x000466C5 File Offset: 0x000448C5
 		public Vec2 HighGroundCloseToForeseenBattleGround
 		{
 			get
@@ -557,7 +452,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001249 RID: 4681 RVA: 0x000466D4 File Offset: 0x000448D4
 		public FormationQuerySystem(Formation formation)
 		{
 			FormationQuerySystem.<>c__DisplayClass156_0 CS$<>8__locals1 = new FormationQuerySystem.<>c__DisplayClass156_0();
@@ -1128,7 +1022,6 @@ namespace TaleWorlds.MountAndBlade
 			this.InitializeTelemetryScopeNames();
 		}
 
-		// Token: 0x0600124A RID: 4682 RVA: 0x00046E14 File Offset: 0x00045014
 		public void EvaluateAllPreliminaryQueryData()
 		{
 			float currentTime = Mission.Current.CurrentTime;
@@ -1145,13 +1038,11 @@ namespace TaleWorlds.MountAndBlade
 			this._isMeleeFormation.Evaluate(currentTime);
 		}
 
-		// Token: 0x0600124B RID: 4683 RVA: 0x00046EB0 File Offset: 0x000450B0
 		public void ForceExpireCavalryUnitRatio()
 		{
 			this._cavalryUnitRatio.Expire();
 		}
 
-		// Token: 0x0600124C RID: 4684 RVA: 0x00046EC0 File Offset: 0x000450C0
 		public void Expire()
 		{
 			this._formationPower.Expire();
@@ -1202,7 +1093,6 @@ namespace TaleWorlds.MountAndBlade
 			this._highGroundCloseToForeseenBattleGround.Expire();
 		}
 
-		// Token: 0x0600124D RID: 4685 RVA: 0x000470C8 File Offset: 0x000452C8
 		public void ExpireAfterUnitAddRemove()
 		{
 			this._formationPower.Expire();
@@ -1235,186 +1125,128 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600124E RID: 4686 RVA: 0x0004722E File Offset: 0x0004542E
 		private void InitializeTelemetryScopeNames()
 		{
 		}
 
-		// Token: 0x0600124F RID: 4687 RVA: 0x00047230 File Offset: 0x00045430
 		public Vec2 GetAveragePositionWithMaxAge(float age)
 		{
 			return this._averagePosition.GetCachedValueWithMaxAge(age);
 		}
 
-		// Token: 0x06001250 RID: 4688 RVA: 0x0004723E File Offset: 0x0004543E
 		public float GetClassWeightedFactor(float infantryWeight, float rangedWeight, float cavalryWeight, float rangedCavalryWeight)
 		{
 			return this.InfantryUnitRatio * infantryWeight + this.RangedUnitRatio * rangedWeight + this.CavalryUnitRatio * cavalryWeight + this.RangedCavalryUnitRatio * rangedCavalryWeight;
 		}
 
-		// Token: 0x040004CA RID: 1226
 		public readonly Formation Formation;
 
-		// Token: 0x040004CB RID: 1227
 		private readonly QueryData<float> _formationPower;
 
-		// Token: 0x040004CC RID: 1228
 		private readonly QueryData<float> _formationMeleeFightingPower;
 
-		// Token: 0x040004CD RID: 1229
 		private readonly QueryData<Vec2> _averagePosition;
 
-		// Token: 0x040004CE RID: 1230
 		private readonly QueryData<Vec2> _currentVelocity;
 
-		// Token: 0x040004CF RID: 1231
 		private float _lastAveragePositionCalculateTime;
 
-		// Token: 0x040004D0 RID: 1232
 		private readonly QueryData<Vec2> _estimatedDirection;
 
-		// Token: 0x040004D1 RID: 1233
 		private readonly QueryData<float> _estimatedInterval;
 
-		// Token: 0x040004D2 RID: 1234
 		private readonly QueryData<WorldPosition> _medianPosition;
 
-		// Token: 0x040004D3 RID: 1235
 		private readonly QueryData<Vec2> _averageAllyPosition;
 
-		// Token: 0x040004D4 RID: 1236
 		private readonly QueryData<float> _idealAverageDisplacement;
 
-		// Token: 0x040004D5 RID: 1237
 		private readonly QueryData<float> _formationDispersedness;
 
-		// Token: 0x040004D6 RID: 1238
 		private readonly QueryData<FormationQuerySystem.FormationIntegrityDataGroup> _formationIntegrityData;
 
-		// Token: 0x040004D7 RID: 1239
 		private readonly QueryData<MBList<Agent>> _localAllyUnits;
 
-		// Token: 0x040004D8 RID: 1240
 		private readonly QueryData<MBList<Agent>> _localEnemyUnits;
 
-		// Token: 0x040004D9 RID: 1241
 		private readonly QueryData<FormationClass> _mainClass;
 
-		// Token: 0x040004DA RID: 1242
 		private readonly QueryData<float> _infantryUnitRatio;
 
-		// Token: 0x040004DB RID: 1243
 		private readonly QueryData<float> _hasShieldUnitRatio;
 
-		// Token: 0x040004DC RID: 1244
 		private readonly QueryData<float> _rangedUnitRatio;
 
-		// Token: 0x040004DD RID: 1245
 		private readonly QueryData<int> _insideCastleUnitCountIncludingUnpositioned;
 
-		// Token: 0x040004DE RID: 1246
 		private readonly QueryData<int> _insideCastleUnitCountPositioned;
 
-		// Token: 0x040004DF RID: 1247
 		private readonly QueryData<float> _cavalryUnitRatio;
 
-		// Token: 0x040004E0 RID: 1248
 		private readonly QueryData<float> _rangedCavalryUnitRatio;
 
-		// Token: 0x040004E1 RID: 1249
 		private readonly QueryData<bool> _isMeleeFormation;
 
-		// Token: 0x040004E2 RID: 1250
 		private readonly QueryData<bool> _isInfantryFormation;
 
-		// Token: 0x040004E3 RID: 1251
 		private readonly QueryData<bool> _hasShield;
 
-		// Token: 0x040004E4 RID: 1252
 		private readonly QueryData<bool> _isRangedFormation;
 
-		// Token: 0x040004E5 RID: 1253
 		private readonly QueryData<bool> _isCavalryFormation;
 
-		// Token: 0x040004E6 RID: 1254
 		private readonly QueryData<bool> _isRangedCavalryFormation;
 
-		// Token: 0x040004E7 RID: 1255
 		private readonly QueryData<float> _movementSpeedMaximum;
 
-		// Token: 0x040004E8 RID: 1256
 		private readonly QueryData<float> _movementSpeed;
 
-		// Token: 0x040004E9 RID: 1257
 		private readonly QueryData<float> _maximumMissileRange;
 
-		// Token: 0x040004EA RID: 1258
 		private readonly QueryData<float> _missileRangeAdjusted;
 
-		// Token: 0x040004EB RID: 1259
 		private readonly QueryData<float> _localInfantryUnitRatio;
 
-		// Token: 0x040004EC RID: 1260
 		private readonly QueryData<float> _localRangedUnitRatio;
 
-		// Token: 0x040004ED RID: 1261
 		private readonly QueryData<float> _localCavalryUnitRatio;
 
-		// Token: 0x040004EE RID: 1262
 		private readonly QueryData<float> _localRangedCavalryUnitRatio;
 
-		// Token: 0x040004EF RID: 1263
 		private readonly QueryData<float> _localAllyPower;
 
-		// Token: 0x040004F0 RID: 1264
 		private readonly QueryData<float> _localEnemyPower;
 
-		// Token: 0x040004F1 RID: 1265
 		private readonly QueryData<float> _localPowerRatio;
 
-		// Token: 0x040004F2 RID: 1266
 		private readonly QueryData<float> _casualtyRatio;
 
-		// Token: 0x040004F3 RID: 1267
 		private readonly QueryData<bool> _isUnderRangedAttack;
 
-		// Token: 0x040004F4 RID: 1268
 		private readonly QueryData<float> _underRangedAttackRatio;
 
-		// Token: 0x040004F5 RID: 1269
 		private readonly QueryData<float> _makingRangedAttackRatio;
 
-		// Token: 0x040004F6 RID: 1270
 		private readonly QueryData<Formation> _mainFormation;
 
-		// Token: 0x040004F7 RID: 1271
 		private readonly QueryData<float> _mainFormationReliabilityFactor;
 
-		// Token: 0x040004F8 RID: 1272
 		private readonly QueryData<Vec2> _weightedAverageEnemyPosition;
 
-		// Token: 0x040004F9 RID: 1273
 		private readonly QueryData<Formation> _closestEnemyFormation;
 
-		// Token: 0x040004FA RID: 1274
 		private readonly QueryData<Formation> _closestSignificantlyLargeEnemyFormation;
 
-		// Token: 0x040004FB RID: 1275
 		private readonly QueryData<Formation> _fastestSignificantlyLargeEnemyFormation;
 
-		// Token: 0x040004FC RID: 1276
 		private readonly QueryData<Vec2> _highGroundCloseToForeseenBattleGround;
 
-		// Token: 0x020004D4 RID: 1236
 		public struct FormationIntegrityDataGroup
 		{
-			// Token: 0x04001AE4 RID: 6884
 			public Vec2 AverageVelocityExcludeFarAgents;
 
-			// Token: 0x04001AE5 RID: 6885
 			public float DeviationOfPositionsExcludeFarAgents;
 
-			// Token: 0x04001AE6 RID: 6886
 			public float AverageMaxUnlimitedSpeedExcludeFarAgents;
 		}
 	}

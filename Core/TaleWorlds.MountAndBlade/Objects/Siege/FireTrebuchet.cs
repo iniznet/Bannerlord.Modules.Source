@@ -4,16 +4,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Objects.Siege
 {
-	// Token: 0x020003A5 RID: 933
 	public class FireTrebuchet : Trebuchet
 	{
-		// Token: 0x060032CD RID: 13005 RVA: 0x000D2335 File Offset: 0x000D0535
 		public override SiegeEngineType GetSiegeEngineType()
 		{
 			return DefaultSiegeEngineTypes.FireTrebuchet;
 		}
 
-		// Token: 0x060032CE RID: 13006 RVA: 0x000D233C File Offset: 0x000D053C
 		public override float ProcessTargetValue(float baseValue, TargetFlags flags)
 		{
 			if (flags.HasAnyFlag(TargetFlags.NotAThreat))

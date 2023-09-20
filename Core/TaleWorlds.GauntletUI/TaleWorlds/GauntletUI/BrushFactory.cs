@@ -10,11 +10,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI
 {
-	// Token: 0x0200000B RID: 11
 	public class BrushFactory
 	{
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x060000A4 RID: 164 RVA: 0x00003A41 File Offset: 0x00001C41
 		public IEnumerable<Brush> Brushes
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x060000A5 RID: 165 RVA: 0x00003A4E File Offset: 0x00001C4E
 		public Brush DefaultBrush
 		{
 			get
@@ -37,7 +32,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000A6 RID: 166 RVA: 0x00003A74 File Offset: 0x00001C74
 		public BrushFactory(ResourceDepot resourceDepot, string resourceFolder, SpriteData spriteData, FontFactory fontFactory)
 		{
 			this._spriteData = spriteData;
@@ -50,19 +44,16 @@ namespace TaleWorlds.GauntletUI
 			this._lastWriteTimes = new Dictionary<string, DateTime>();
 		}
 
-		// Token: 0x060000A7 RID: 167 RVA: 0x00003ADC File Offset: 0x00001CDC
 		private void OnResourceChange()
 		{
 			this.CheckForUpdates();
 		}
 
-		// Token: 0x060000A8 RID: 168 RVA: 0x00003AE4 File Offset: 0x00001CE4
 		public void Initialize()
 		{
 			this.LoadBrushes();
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x00003AEC File Offset: 0x00001CEC
 		private BrushAnimation LoadBrushAnimationFrom(XmlNode animationNode)
 		{
 			BrushAnimation brushAnimation = new BrushAnimation();
@@ -160,7 +151,6 @@ namespace TaleWorlds.GauntletUI
 			return brushAnimation;
 		}
 
-		// Token: 0x060000AA RID: 170 RVA: 0x00003E80 File Offset: 0x00002080
 		private void LoadBrushLayerInto(XmlNode styleSpriteNode, IBrushLayerData brushLayer)
 		{
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -290,7 +280,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000AB RID: 171 RVA: 0x00004374 File Offset: 0x00002574
 		private void LoadStyleInto(XmlNode styleNode, Style style)
 		{
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -387,7 +376,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000AC RID: 172 RVA: 0x00004738 File Offset: 0x00002938
 		private void LoadSoundPropertiesInto(XmlNode soundPropertiesNode, SoundProperties soundProperties)
 		{
 			XmlNode xmlNode = soundPropertiesNode.SelectSingleNode("StateSounds");
@@ -418,7 +406,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000AD RID: 173 RVA: 0x00004870 File Offset: 0x00002A70
 		private Brush LoadBrushFrom(XmlNode brushNode)
 		{
 			Brush brush = new Brush();
@@ -544,7 +531,6 @@ namespace TaleWorlds.GauntletUI
 			return brush;
 		}
 
-		// Token: 0x060000AE RID: 174 RVA: 0x00004D2C File Offset: 0x00002F2C
 		private void SaveBrushTo(XmlNode brushNode, Brush brush)
 		{
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -759,7 +745,6 @@ namespace TaleWorlds.GauntletUI
 			brushNode.OwnerDocument.Save(uri.LocalPath);
 		}
 
-		// Token: 0x060000AF RID: 175 RVA: 0x000058DC File Offset: 0x00003ADC
 		private void AddAttributeTo(PropertyInfo targetPropertyInfo, object targetPropertyValue, Dictionary<string, string> attributePairs)
 		{
 			if (targetPropertyInfo.PropertyType != typeof(string) && (targetPropertyInfo.PropertyType.GetInterface("IEnumerable") != null || targetPropertyInfo.PropertyType.GetInterface("ICollection") != null || targetPropertyInfo.PropertyType.GetInterface("IList") != null))
@@ -805,7 +790,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000B0 RID: 176 RVA: 0x00005A38 File Offset: 0x00003C38
 		private void LoadBrushes()
 		{
 			this._brushes.Clear();
@@ -822,7 +806,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000B1 RID: 177 RVA: 0x00005AC4 File Offset: 0x00003CC4
 		public void LoadBrushFile(string name)
 		{
 			string filePath = this._resourceDepot.GetFilePath(this._resourceFolder + "/" + name + ".xml");
@@ -866,7 +849,6 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x060000B2 RID: 178 RVA: 0x00005C44 File Offset: 0x00003E44
 		public Brush GetBrush(string name)
 		{
 			Brush brush;
@@ -877,7 +859,6 @@ namespace TaleWorlds.GauntletUI
 			return null;
 		}
 
-		// Token: 0x060000B3 RID: 179 RVA: 0x00005C64 File Offset: 0x00003E64
 		public bool SaveBrushAs(string name, Brush brush)
 		{
 			if (!this._brushCategories.ContainsKey(name))
@@ -903,7 +884,6 @@ namespace TaleWorlds.GauntletUI
 			return false;
 		}
 
-		// Token: 0x060000B4 RID: 180 RVA: 0x00005D7C File Offset: 0x00003F7C
 		private List<string> GetBrushesNames()
 		{
 			string[] files = this._resourceDepot.GetFiles(this._resourceFolder, ".xml", false);
@@ -917,7 +897,6 @@ namespace TaleWorlds.GauntletUI
 			return list;
 		}
 
-		// Token: 0x060000B5 RID: 181 RVA: 0x00005DC8 File Offset: 0x00003FC8
 		public void CheckForUpdates()
 		{
 			bool flag = false;
@@ -956,30 +935,20 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
-		// Token: 0x14000001 RID: 1
-		// (add) Token: 0x060000B6 RID: 182 RVA: 0x00005ED4 File Offset: 0x000040D4
-		// (remove) Token: 0x060000B7 RID: 183 RVA: 0x00005F0C File Offset: 0x0000410C
 		public event Action BrushChange;
 
-		// Token: 0x04000038 RID: 56
 		private Dictionary<string, Brush> _brushes;
 
-		// Token: 0x04000039 RID: 57
 		private Dictionary<string, string> _brushCategories;
 
-		// Token: 0x0400003A RID: 58
 		private ResourceDepot _resourceDepot;
 
-		// Token: 0x0400003B RID: 59
 		private readonly string _resourceFolder;
 
-		// Token: 0x0400003C RID: 60
 		private Dictionary<string, DateTime> _lastWriteTimes;
 
-		// Token: 0x0400003D RID: 61
 		private SpriteData _spriteData;
 
-		// Token: 0x0400003E RID: 62
 		private FontFactory _fontFactory;
 	}
 }

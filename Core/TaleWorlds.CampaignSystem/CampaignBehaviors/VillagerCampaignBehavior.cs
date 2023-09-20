@@ -18,10 +18,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003E2 RID: 994
 	public class VillagerCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003C4F RID: 15439 RVA: 0x0011E018 File Offset: 0x0011C218
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.HourlyTickSettlement));
@@ -34,7 +32,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.DistributeLootToPartyEvent.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, Dictionary<PartyBase, ItemRoster>>(this.OnVillagerPartyLooted));
 		}
 
-		// Token: 0x06003C50 RID: 15440 RVA: 0x0011E0E0 File Offset: 0x0011C2E0
 		private void OnVillagerPartyLooted(MapEvent mapEvent, PartyBase party, Dictionary<PartyBase, ItemRoster> loot)
 		{
 			foreach (PartyBase partyBase in loot.Keys)
@@ -46,7 +43,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C51 RID: 15441 RVA: 0x0011E164 File Offset: 0x0011C364
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<float>("_collectFoodWaitHoursProgress", ref this._collectFoodWaitHoursProgress);
@@ -57,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<Dictionary<MobileParty, List<Settlement>>>("_previouslyChangedVillagerTargetsDueToEnemyOnWay", ref this._previouslyChangedVillagerTargetsDueToEnemyOnWay);
 		}
 
-		// Token: 0x06003C52 RID: 15442 RVA: 0x0011E1E0 File Offset: 0x0011C3E0
 		private void DeleteExpiredLootedVillagers()
 		{
 			List<MobileParty> list = new List<MobileParty>();
@@ -74,13 +69,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C53 RID: 15443 RVA: 0x0011E2A8 File Offset: 0x0011C4A8
 		public void DailyTick()
 		{
 			this.DeleteExpiredLootedVillagers();
 		}
 
-		// Token: 0x06003C54 RID: 15444 RVA: 0x0011E2B0 File Offset: 0x0011C4B0
 		private void TickVillageThink(Settlement settlement)
 		{
 			Village village = settlement.Village;
@@ -90,7 +83,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C55 RID: 15445 RVA: 0x0011E2E4 File Offset: 0x0011C4E4
 		private void ThinkAboutSendingItemToTown(Village village)
 		{
 			if (MBRandom.RandomFloat < 0.15f)
@@ -132,7 +124,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C56 RID: 15446 RVA: 0x0011E420 File Offset: 0x0011C620
 		private void AddVillagersToParty(MobileParty villagerParty, int numberOfVillagersToAdd)
 		{
 			if (numberOfVillagersToAdd > (int)villagerParty.HomeSettlement.Village.Hearth)
@@ -144,7 +135,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			villagerParty.MemberRoster.AddToCounts(character, numberOfVillagersToAdd, false, 0, 0, true, -1);
 		}
 
-		// Token: 0x06003C57 RID: 15447 RVA: 0x0011E4A4 File Offset: 0x0011C6A4
 		private int FindIdealPartySize(Village village)
 		{
 			float num = 0f;
@@ -157,13 +147,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return 12 + (int)(village.Hearth / num3);
 		}
 
-		// Token: 0x06003C58 RID: 15448 RVA: 0x0011E55C File Offset: 0x0011C75C
 		private void CreateVillagerParty(Village village)
 		{
 			EnterSettlementAction.ApplyForParty(VillagerPartyComponent.CreateVillagerParty(village.Settlement.Culture.VillagerPartyTemplate.StringId + "_1", village, this.FindIdealPartySize(village)), village.Settlement);
 		}
 
-		// Token: 0x06003C59 RID: 15449 RVA: 0x0011E598 File Offset: 0x0011C798
 		private void LoadAndSendVillagerParty(Village village, MobileParty villagerParty)
 		{
 			if (!this._villageLastVillagerSendTime.ContainsKey(village))
@@ -178,7 +166,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SendVillagerPartyToTradeBoundTown(villagerParty);
 		}
 
-		// Token: 0x06003C5A RID: 15450 RVA: 0x0011E5E8 File Offset: 0x0011C7E8
 		private static void MoveItemsToVillagerParty(Village village, MobileParty villagerParty)
 		{
 			ItemRoster itemRoster = village.Settlement.ItemRoster;
@@ -212,7 +199,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C5B RID: 15451 RVA: 0x0011E6E1 File Offset: 0x0011C8E1
 		private void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
 		{
 			if (this._interactedVillagers.ContainsKey(mobileParty))
@@ -225,7 +211,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C5C RID: 15452 RVA: 0x0011E719 File Offset: 0x0011C919
 		private void OnMobilePartyCreated(MobileParty mobileParty)
 		{
 			if (mobileParty.IsVillager)
@@ -234,7 +219,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C5D RID: 15453 RVA: 0x0011E734 File Offset: 0x0011C934
 		private void HourlyTickSettlement(Settlement settlement)
 		{
 			this.DestroyVillagerPartyIfMemberCountIsZero(settlement);
@@ -242,7 +226,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.TickVillageThink(settlement);
 		}
 
-		// Token: 0x06003C5E RID: 15454 RVA: 0x0011E74C File Offset: 0x0011C94C
 		private void DestroyVillagerPartyIfMemberCountIsZero(Settlement settlement)
 		{
 			Village village = settlement.Village;
@@ -252,7 +235,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C5F RID: 15455 RVA: 0x0011E7A8 File Offset: 0x0011C9A8
 		private void HourlyTickParty(MobileParty villagerParty)
 		{
 			if (!villagerParty.IsVillager || villagerParty.MapEvent != null)
@@ -293,13 +275,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C60 RID: 15456 RVA: 0x0011E89D File Offset: 0x0011CA9D
 		private void SendVillagerPartyToVillage(MobileParty villagerParty)
 		{
 			villagerParty.Ai.SetMoveGoToSettlement(villagerParty.HomeSettlement);
 		}
 
-		// Token: 0x06003C61 RID: 15457 RVA: 0x0011E8B0 File Offset: 0x0011CAB0
 		private void SendVillagerPartyToTradeBoundTown(MobileParty villagerParty)
 		{
 			Settlement tradeBound = villagerParty.HomeSettlement.Village.TradeBound;
@@ -309,7 +289,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C62 RID: 15458 RVA: 0x0011E8E8 File Offset: 0x0011CAE8
 		private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null && mobileParty.IsActive && mobileParty.IsVillager)
@@ -332,7 +311,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C63 RID: 15459 RVA: 0x0011E9CB File Offset: 0x0011CBCB
 		private void SetPlayerInteraction(MobileParty mobileParty, VillagerCampaignBehavior.PlayerInteraction interaction)
 		{
 			if (this._interactedVillagers.ContainsKey(mobileParty))
@@ -343,7 +321,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._interactedVillagers.Add(mobileParty, interaction);
 		}
 
-		// Token: 0x06003C64 RID: 15460 RVA: 0x0011E9F8 File Offset: 0x0011CBF8
 		private VillagerCampaignBehavior.PlayerInteraction GetPlayerInteraction(MobileParty mobileParty)
 		{
 			VillagerCampaignBehavior.PlayerInteraction playerInteraction;
@@ -354,7 +331,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return VillagerCampaignBehavior.PlayerInteraction.None;
 		}
 
-		// Token: 0x06003C65 RID: 15461 RVA: 0x0011EA18 File Offset: 0x0011CC18
 		private void ThinkAboutSendingInsideVillagersToTheirHomeVillage(Settlement settlement)
 		{
 			if ((settlement.IsVillage || settlement.IsTown) && !settlement.IsUnderSiege && settlement.Party.MapEvent == null)
@@ -377,31 +353,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003C66 RID: 15462 RVA: 0x0011EAC8 File Offset: 0x0011CCC8
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 			this.AddMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06003C67 RID: 15463 RVA: 0x0011EAD8 File Offset: 0x0011CCD8
 		protected void AddDialogs(CampaignGameStarter campaignGameSystemStarter)
 		{
 			this.AddVillageFarmerTradeAndLootDialogs(campaignGameSystemStarter);
 		}
 
-		// Token: 0x06003C68 RID: 15464 RVA: 0x0011EAE1 File Offset: 0x0011CCE1
 		private void AddMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 		}
 
-		// Token: 0x06003C69 RID: 15465 RVA: 0x0011EAE3 File Offset: 0x0011CCE3
 		private void take_food_confirm_forget_it_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village_hostile_action");
 		}
 
-		// Token: 0x06003C6A RID: 15466 RVA: 0x0011EAF0 File Offset: 0x0011CCF0
 		public bool taking_food_from_villagers_wait_on_condition(MenuCallbackArgs args)
 		{
 			int skillValue = MobilePartyHelper.GetHeroWithHighestSkill(MobileParty.MainParty, DefaultSkills.Roguery).GetSkillValue(DefaultSkills.Roguery);
@@ -410,7 +381,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C6B RID: 15467 RVA: 0x0011EB50 File Offset: 0x0011CD50
 		public bool press_into_service_confirm_on_condition(MenuCallbackArgs args)
 		{
 			int skillValue = MobilePartyHelper.GetHeroWithHighestSkill(MobileParty.MainParty, DefaultSkills.Roguery).GetSkillValue(DefaultSkills.Roguery);
@@ -419,21 +389,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C6C RID: 15468 RVA: 0x0011EBAE File Offset: 0x0011CDAE
 		public void taking_food_from_villagers_wait_on_tick(MenuCallbackArgs args, CampaignTime campaignTime)
 		{
 			this._collectFoodWaitHoursProgress += (float)campaignTime.ToHours;
 			args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(this._collectFoodWaitHoursProgress / this._collectFoodTotalWaitHours);
 		}
 
-		// Token: 0x06003C6D RID: 15469 RVA: 0x0011EBE2 File Offset: 0x0011CDE2
 		public void press_into_service_confirm_on_tick(MenuCallbackArgs args, CampaignTime campaignTime)
 		{
 			this._collectVolunteerWaitHoursProgress += (float)campaignTime.ToHours;
 			args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(this._collectVolunteerWaitHoursProgress / this._collectVolunteersTotalWaitHours);
 		}
 
-		// Token: 0x06003C6E RID: 15470 RVA: 0x0011EC16 File Offset: 0x0011CE16
 		public void taking_food_from_villagers_wait_on_consequence(MenuCallbackArgs args)
 		{
 			Village village = Settlement.CurrentSettlement.Village;
@@ -441,7 +408,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ChangeVillageStateAction.ApplyBySettingToNormal(MobileParty.MainParty.CurrentSettlement);
 		}
 
-		// Token: 0x06003C6F RID: 15471 RVA: 0x0011EC3C File Offset: 0x0011CE3C
 		private void press_into_service_confirm_on_consequence(MenuCallbackArgs args)
 		{
 			Village village = Settlement.CurrentSettlement.Village;
@@ -449,7 +415,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			ChangeVillageStateAction.ApplyBySettingToNormal(MobileParty.MainParty.CurrentSettlement);
 		}
 
-		// Token: 0x06003C70 RID: 15472 RVA: 0x0011EC64 File Offset: 0x0011CE64
 		private void AddVillageFarmerTradeAndLootDialogs(CampaignGameStarter starter)
 		{
 			starter.AddDialogLine("village_farmer_talk_start", "start", "village_farmer_talk", "{=ddymPMWg}{VILLAGER_GREETING}", new ConversationSentence.OnConditionDelegate(this.village_farmer_talk_start_on_condition), null, 100, null);
@@ -482,7 +447,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("village_farmer_surrender_leave", "village_farmer_end_talk_surrender", "close_window", "{=Pa1ZtapI}Okay. Okay then. We're going.", new ConversationSentence.OnConditionDelegate(this.conversation_village_farmer_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_surrender_leave_on_consequence), 100, null);
 		}
 
-		// Token: 0x06003C71 RID: 15473 RVA: 0x0011F088 File Offset: 0x0011D288
 		private bool village_farmer_loot_on_clickable_condition(out TextObject explanation)
 		{
 			if (this._lootedVillagers.ContainsKey(MobileParty.ConversationParty))
@@ -504,7 +468,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C72 RID: 15474 RVA: 0x0011F0EC File Offset: 0x0011D2EC
 		private bool village_farmer_talk_start_on_condition()
 		{
 			PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
@@ -555,19 +518,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003C73 RID: 15475 RVA: 0x0011F29E File Offset: 0x0011D49E
 		private bool village_farmer_loot_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsVillager && MobileParty.ConversationParty.Party.MapFaction != Hero.MainHero.MapFaction;
 		}
 
-		// Token: 0x06003C74 RID: 15476 RVA: 0x0011F2D3 File Offset: 0x0011D4D3
 		private void conversation_village_farmer_leave_on_consequence()
 		{
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003C75 RID: 15477 RVA: 0x0011F2DC File Offset: 0x0011D4DC
 		private bool village_farmer_buy_products_on_condition()
 		{
 			bool flag = true;
@@ -615,7 +575,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003C76 RID: 15478 RVA: 0x0011F4D0 File Offset: 0x0011D6D0
 		private void conversation_player_decided_to_buy_on_consequence()
 		{
 			if (MobileParty.ConversationParty.IsVillager && MobileParty.ConversationParty.ItemRoster.Count > 0)
@@ -641,25 +600,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003C77 RID: 15479 RVA: 0x0011F609 File Offset: 0x0011D809
 		private bool conversation_village_farmer_not_bribe_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsVillager && !this.IsBribeFeasible(MobileParty.ConversationParty);
 		}
 
-		// Token: 0x06003C78 RID: 15480 RVA: 0x0011F62E File Offset: 0x0011D82E
 		private bool conversation_village_farmer_not_surrender_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsVillager && !this.IsSurrenderFeasible(MobileParty.ConversationParty);
 		}
 
-		// Token: 0x06003C79 RID: 15481 RVA: 0x0011F653 File Offset: 0x0011D853
 		private bool conversation_village_farmer_looted_leave_on_condition()
 		{
 			return MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsVillager;
 		}
 
-		// Token: 0x06003C7A RID: 15482 RVA: 0x0011F668 File Offset: 0x0011D868
 		private bool conversation_warn_player_on_condition()
 		{
 			IFaction mapFaction = MobileParty.ConversationParty.MapFaction;
@@ -667,7 +622,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !MobileParty.MainParty.MapFaction.IsAtWarWith(MobileParty.ConversationParty.MapFaction);
 		}
 
-		// Token: 0x06003C7B RID: 15483 RVA: 0x0011F6B0 File Offset: 0x0011D8B0
 		private void conversation_village_farmer_took_prisoner_on_consequence()
 		{
 			ItemRoster itemRoster = new ItemRoster(PlayerEncounter.EncounteredParty.ItemRoster);
@@ -697,14 +651,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003C7C RID: 15484 RVA: 0x0011F7EC File Offset: 0x0011D9EC
 		private void conversation_village_farmer_fight_on_consequence()
 		{
 			PlayerEncounter.Current.IsEnemy = true;
 			this.SetPlayerInteraction(MobileParty.ConversationParty, VillagerCampaignBehavior.PlayerInteraction.Hostile);
 		}
 
-		// Token: 0x06003C7D RID: 15485 RVA: 0x0011F808 File Offset: 0x0011DA08
 		private bool conversation_village_farmer_give_goods_on_condition()
 		{
 			int num;
@@ -789,7 +741,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003C7E RID: 15486 RVA: 0x0011FAF8 File Offset: 0x0011DCF8
 		private void conversation_village_farmer_looted_leave_on_consequence()
 		{
 			int num;
@@ -811,7 +762,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003C7F RID: 15487 RVA: 0x0011FBB8 File Offset: 0x0011DDB8
 		private void conversation_village_farmer_surrender_leave_on_consequence()
 		{
 			ItemRoster itemRoster = new ItemRoster(MobileParty.ConversationParty.ItemRoster);
@@ -835,7 +785,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.LeaveEncounter = true;
 		}
 
-		// Token: 0x06003C80 RID: 15488 RVA: 0x0011FC6C File Offset: 0x0011DE6C
 		private bool IsBribeFeasible(MobileParty conversationParty)
 		{
 			int num = (PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.05f) ? 33 : 67);
@@ -846,7 +795,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return conversationParty.Party.RandomIntWithSeed(3U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(conversationParty, MobileParty.MainParty, 0.4f);
 		}
 
-		// Token: 0x06003C81 RID: 15489 RVA: 0x0011FCE8 File Offset: 0x0011DEE8
 		private bool IsSurrenderFeasible(MobileParty conversationParty)
 		{
 			int num = (PartyBaseHelper.DoesSurrenderIsLogicalForParty(MobileParty.ConversationParty, MobileParty.MainParty, 0.05f) ? 33 : 67);
@@ -857,7 +805,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return conversationParty.Party.RandomIntWithSeed(4U, 100) <= 100 - num && PartyBaseHelper.DoesSurrenderIsLogicalForParty(conversationParty, MobileParty.MainParty, 0.1f);
 		}
 
-		// Token: 0x06003C82 RID: 15490 RVA: 0x0011FD64 File Offset: 0x0011DF64
 		private void CalculateConversationPartyBribeAmount(out int gold, out ItemRoster items)
 		{
 			int num = 0;
@@ -899,68 +846,49 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			items = itemRoster;
 		}
 
-		// Token: 0x0400124E RID: 4686
 		private const int MinimumNumberOfVillagersAtVillagerParty = 12;
 
-		// Token: 0x0400124F RID: 4687
 		private const int OneVillagerPerHearth = 40;
 
-		// Token: 0x04001250 RID: 4688
 		private float _collectFoodTotalWaitHours;
 
-		// Token: 0x04001251 RID: 4689
 		private float _collectVolunteersTotalWaitHours;
 
-		// Token: 0x04001252 RID: 4690
 		private float _collectFoodWaitHoursProgress;
 
-		// Token: 0x04001253 RID: 4691
 		private float _collectVolunteerWaitHoursProgress;
 
-		// Token: 0x04001254 RID: 4692
 		private Dictionary<MobileParty, CampaignTime> _lootedVillagers = new Dictionary<MobileParty, CampaignTime>();
 
-		// Token: 0x04001255 RID: 4693
 		private Dictionary<MobileParty, VillagerCampaignBehavior.PlayerInteraction> _interactedVillagers = new Dictionary<MobileParty, VillagerCampaignBehavior.PlayerInteraction>();
 
-		// Token: 0x04001256 RID: 4694
 		private Dictionary<Village, CampaignTime> _villageLastVillagerSendTime = new Dictionary<Village, CampaignTime>();
 
-		// Token: 0x04001257 RID: 4695
 		private Dictionary<MobileParty, List<Settlement>> _previouslyChangedVillagerTargetsDueToEnemyOnWay = new Dictionary<MobileParty, List<Settlement>>();
 
-		// Token: 0x02000741 RID: 1857
 		public class VillagerCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x0600566D RID: 22125 RVA: 0x0016E529 File Offset: 0x0016C729
 			public VillagerCampaignBehaviorTypeDefiner()
 				: base(140000)
 			{
 			}
 
-			// Token: 0x0600566E RID: 22126 RVA: 0x0016E536 File Offset: 0x0016C736
 			protected override void DefineEnumTypes()
 			{
 				base.AddEnumDefinition(typeof(VillagerCampaignBehavior.PlayerInteraction), 1, null);
 			}
 
-			// Token: 0x0600566F RID: 22127 RVA: 0x0016E54A File Offset: 0x0016C74A
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, VillagerCampaignBehavior.PlayerInteraction>));
 			}
 		}
 
-		// Token: 0x02000742 RID: 1858
 		private enum PlayerInteraction
 		{
-			// Token: 0x04001DF3 RID: 7667
 			None,
-			// Token: 0x04001DF4 RID: 7668
 			Friendly,
-			// Token: 0x04001DF5 RID: 7669
 			TradedWith,
-			// Token: 0x04001DF6 RID: 7670
 			Hostile
 		}
 	}

@@ -4,11 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x02000078 RID: 120
 	public class DefaultSkillEffects
 	{
-		// Token: 0x170003D7 RID: 983
-		// (get) Token: 0x06000EF1 RID: 3825 RVA: 0x00045BE1 File Offset: 0x00043DE1
 		private static DefaultSkillEffects Instance
 		{
 			get
@@ -17,8 +14,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D8 RID: 984
-		// (get) Token: 0x06000EF2 RID: 3826 RVA: 0x00045BED File Offset: 0x00043DED
 		public static SkillEffect OneHandedSpeed
 		{
 			get
@@ -27,8 +22,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003D9 RID: 985
-		// (get) Token: 0x06000EF3 RID: 3827 RVA: 0x00045BF9 File Offset: 0x00043DF9
 		public static SkillEffect OneHandedDamage
 		{
 			get
@@ -37,8 +30,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DA RID: 986
-		// (get) Token: 0x06000EF4 RID: 3828 RVA: 0x00045C05 File Offset: 0x00043E05
 		public static SkillEffect TwoHandedSpeed
 		{
 			get
@@ -47,8 +38,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DB RID: 987
-		// (get) Token: 0x06000EF5 RID: 3829 RVA: 0x00045C11 File Offset: 0x00043E11
 		public static SkillEffect TwoHandedDamage
 		{
 			get
@@ -57,8 +46,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DC RID: 988
-		// (get) Token: 0x06000EF6 RID: 3830 RVA: 0x00045C1D File Offset: 0x00043E1D
 		public static SkillEffect PolearmSpeed
 		{
 			get
@@ -67,8 +54,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DD RID: 989
-		// (get) Token: 0x06000EF7 RID: 3831 RVA: 0x00045C29 File Offset: 0x00043E29
 		public static SkillEffect PolearmDamage
 		{
 			get
@@ -77,8 +62,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DE RID: 990
-		// (get) Token: 0x06000EF8 RID: 3832 RVA: 0x00045C35 File Offset: 0x00043E35
 		public static SkillEffect BowLevel
 		{
 			get
@@ -87,8 +70,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003DF RID: 991
-		// (get) Token: 0x06000EF9 RID: 3833 RVA: 0x00045C41 File Offset: 0x00043E41
 		public static SkillEffect BowDamage
 		{
 			get
@@ -97,8 +78,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E0 RID: 992
-		// (get) Token: 0x06000EFA RID: 3834 RVA: 0x00045C4D File Offset: 0x00043E4D
 		public static SkillEffect BowAccuracy
 		{
 			get
@@ -107,8 +86,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06000EFB RID: 3835 RVA: 0x00045C59 File Offset: 0x00043E59
 		public static SkillEffect ThrowingSpeed
 		{
 			get
@@ -117,8 +94,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06000EFC RID: 3836 RVA: 0x00045C65 File Offset: 0x00043E65
 		public static SkillEffect ThrowingDamage
 		{
 			get
@@ -127,8 +102,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E3 RID: 995
-		// (get) Token: 0x06000EFD RID: 3837 RVA: 0x00045C71 File Offset: 0x00043E71
 		public static SkillEffect ThrowingAccuracy
 		{
 			get
@@ -137,8 +110,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E4 RID: 996
-		// (get) Token: 0x06000EFE RID: 3838 RVA: 0x00045C7D File Offset: 0x00043E7D
 		public static SkillEffect CrossbowReloadSpeed
 		{
 			get
@@ -147,8 +118,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E5 RID: 997
-		// (get) Token: 0x06000EFF RID: 3839 RVA: 0x00045C89 File Offset: 0x00043E89
 		public static SkillEffect CrossbowAccuracy
 		{
 			get
@@ -157,8 +126,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E6 RID: 998
-		// (get) Token: 0x06000F00 RID: 3840 RVA: 0x00045C95 File Offset: 0x00043E95
 		public static SkillEffect HorseLevel
 		{
 			get
@@ -167,8 +134,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E7 RID: 999
-		// (get) Token: 0x06000F01 RID: 3841 RVA: 0x00045CA1 File Offset: 0x00043EA1
 		public static SkillEffect HorseSpeed
 		{
 			get
@@ -177,8 +142,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E8 RID: 1000
-		// (get) Token: 0x06000F02 RID: 3842 RVA: 0x00045CAD File Offset: 0x00043EAD
 		public static SkillEffect HorseManeuver
 		{
 			get
@@ -187,8 +150,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003E9 RID: 1001
-		// (get) Token: 0x06000F03 RID: 3843 RVA: 0x00045CB9 File Offset: 0x00043EB9
 		public static SkillEffect HorseWeaponDamagePenalty
 		{
 			get
@@ -197,8 +158,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06000F04 RID: 3844 RVA: 0x00045CC5 File Offset: 0x00043EC5
 		public static SkillEffect HorseWeaponSpeedPenalty
 		{
 			get
@@ -207,8 +166,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06000F05 RID: 3845 RVA: 0x00045CD1 File Offset: 0x00043ED1
 		public static SkillEffect DismountResistance
 		{
 			get
@@ -217,8 +174,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06000F06 RID: 3846 RVA: 0x00045CDD File Offset: 0x00043EDD
 		public static SkillEffect AthleticsSpeedFactor
 		{
 			get
@@ -227,8 +182,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06000F07 RID: 3847 RVA: 0x00045CE9 File Offset: 0x00043EE9
 		public static SkillEffect AthleticsWeightFactor
 		{
 			get
@@ -237,8 +190,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06000F08 RID: 3848 RVA: 0x00045CF5 File Offset: 0x00043EF5
 		public static SkillEffect KnockBackResistance
 		{
 			get
@@ -247,8 +198,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06000F09 RID: 3849 RVA: 0x00045D01 File Offset: 0x00043F01
 		public static SkillEffect KnockDownResistance
 		{
 			get
@@ -257,8 +206,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F0 RID: 1008
-		// (get) Token: 0x06000F0A RID: 3850 RVA: 0x00045D0D File Offset: 0x00043F0D
 		public static SkillEffect SmithingLevel
 		{
 			get
@@ -267,8 +214,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F1 RID: 1009
-		// (get) Token: 0x06000F0B RID: 3851 RVA: 0x00045D19 File Offset: 0x00043F19
 		public static SkillEffect TacticsAdvantage
 		{
 			get
@@ -277,8 +222,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F2 RID: 1010
-		// (get) Token: 0x06000F0C RID: 3852 RVA: 0x00045D25 File Offset: 0x00043F25
 		public static SkillEffect TacticsTroopSacrificeReduction
 		{
 			get
@@ -287,8 +230,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F3 RID: 1011
-		// (get) Token: 0x06000F0D RID: 3853 RVA: 0x00045D31 File Offset: 0x00043F31
 		public static SkillEffect TrackingRadius
 		{
 			get
@@ -297,8 +238,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F4 RID: 1012
-		// (get) Token: 0x06000F0E RID: 3854 RVA: 0x00045D3D File Offset: 0x00043F3D
 		public static SkillEffect TrackingLevel
 		{
 			get
@@ -307,8 +246,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F5 RID: 1013
-		// (get) Token: 0x06000F0F RID: 3855 RVA: 0x00045D49 File Offset: 0x00043F49
 		public static SkillEffect TrackingSpottingDistance
 		{
 			get
@@ -317,8 +254,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F6 RID: 1014
-		// (get) Token: 0x06000F10 RID: 3856 RVA: 0x00045D55 File Offset: 0x00043F55
 		public static SkillEffect TrackingTrackInformation
 		{
 			get
@@ -327,8 +262,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F7 RID: 1015
-		// (get) Token: 0x06000F11 RID: 3857 RVA: 0x00045D61 File Offset: 0x00043F61
 		public static SkillEffect RogueryLootBonus
 		{
 			get
@@ -337,8 +270,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F8 RID: 1016
-		// (get) Token: 0x06000F12 RID: 3858 RVA: 0x00045D6D File Offset: 0x00043F6D
 		public static SkillEffect CharmRelationBonus
 		{
 			get
@@ -347,8 +278,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003F9 RID: 1017
-		// (get) Token: 0x06000F13 RID: 3859 RVA: 0x00045D79 File Offset: 0x00043F79
 		public static SkillEffect TradePenaltyReduction
 		{
 			get
@@ -357,8 +286,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FA RID: 1018
-		// (get) Token: 0x06000F14 RID: 3860 RVA: 0x00045D85 File Offset: 0x00043F85
 		public static SkillEffect SurgeonSurvivalBonus
 		{
 			get
@@ -367,8 +294,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FB RID: 1019
-		// (get) Token: 0x06000F15 RID: 3861 RVA: 0x00045D91 File Offset: 0x00043F91
 		public static SkillEffect SiegeEngineProductionBonus
 		{
 			get
@@ -377,8 +302,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FC RID: 1020
-		// (get) Token: 0x06000F16 RID: 3862 RVA: 0x00045D9D File Offset: 0x00043F9D
 		public static SkillEffect TownProjectBuildingBonus
 		{
 			get
@@ -387,8 +310,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FD RID: 1021
-		// (get) Token: 0x06000F17 RID: 3863 RVA: 0x00045DA9 File Offset: 0x00043FA9
 		public static SkillEffect HealingRateBonusForHeroes
 		{
 			get
@@ -397,8 +318,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FE RID: 1022
-		// (get) Token: 0x06000F18 RID: 3864 RVA: 0x00045DB5 File Offset: 0x00043FB5
 		public static SkillEffect HealingRateBonusForRegulars
 		{
 			get
@@ -407,8 +326,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x170003FF RID: 1023
-		// (get) Token: 0x06000F19 RID: 3865 RVA: 0x00045DC1 File Offset: 0x00043FC1
 		public static SkillEffect GovernorHealingRateBonus
 		{
 			get
@@ -417,8 +334,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000400 RID: 1024
-		// (get) Token: 0x06000F1A RID: 3866 RVA: 0x00045DCD File Offset: 0x00043FCD
 		public static SkillEffect LeadershipMoraleBonus
 		{
 			get
@@ -427,8 +342,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000401 RID: 1025
-		// (get) Token: 0x06000F1B RID: 3867 RVA: 0x00045DD9 File Offset: 0x00043FD9
 		public static SkillEffect LeadershipGarrisonSizeBonus
 		{
 			get
@@ -437,8 +350,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000402 RID: 1026
-		// (get) Token: 0x06000F1C RID: 3868 RVA: 0x00045DE5 File Offset: 0x00043FE5
 		public static SkillEffect StewardPartySizeBonus
 		{
 			get
@@ -447,8 +358,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000403 RID: 1027
-		// (get) Token: 0x06000F1D RID: 3869 RVA: 0x00045DF1 File Offset: 0x00043FF1
 		public static SkillEffect EngineerLevel
 		{
 			get
@@ -457,13 +366,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000F1E RID: 3870 RVA: 0x00045DFD File Offset: 0x00043FFD
 		public DefaultSkillEffects()
 		{
 			this.RegisterAll();
 		}
 
-		// Token: 0x06000F1F RID: 3871 RVA: 0x00045E0C File Offset: 0x0004400C
 		private void RegisterAll()
 		{
 			this._effectOneHandedSpeed = this.Create("OneHandedSpeed");
@@ -513,13 +420,11 @@ namespace TaleWorlds.CampaignSystem
 			this.InitializeAll();
 		}
 
-		// Token: 0x06000F20 RID: 3872 RVA: 0x0004610B File Offset: 0x0004430B
 		private SkillEffect Create(string stringId)
 		{
 			return Game.Current.ObjectManager.RegisterPresumedObject<SkillEffect>(new SkillEffect(stringId));
 		}
 
-		// Token: 0x06000F21 RID: 3873 RVA: 0x00046124 File Offset: 0x00044324
 		private void InitializeAll()
 		{
 			this._effectOneHandedSpeed.Initialize(new TextObject("{=hjxRvb9l}One handed weapon speed: +{a0}%", null), new SkillObject[] { DefaultSkills.OneHanded }, SkillEffect.PerkRole.Personal, 0.07f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
@@ -568,136 +473,92 @@ namespace TaleWorlds.CampaignSystem
 			this._effectEngineerLevel.Initialize(new TextObject("{=aQduWCrg}Max difficulty of siege engine that can be built: {a0}", null), new SkillObject[] { DefaultSkills.Engineering }, SkillEffect.PerkRole.Engineer, 1f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 0f, 0f);
 		}
 
-		// Token: 0x040004F8 RID: 1272
 		private SkillEffect _effectOneHandedSpeed;
 
-		// Token: 0x040004F9 RID: 1273
 		private SkillEffect _effectOneHandedDamage;
 
-		// Token: 0x040004FA RID: 1274
 		private SkillEffect _effectTwoHandedSpeed;
 
-		// Token: 0x040004FB RID: 1275
 		private SkillEffect _effectTwoHandedDamage;
 
-		// Token: 0x040004FC RID: 1276
 		private SkillEffect _effectPolearmSpeed;
 
-		// Token: 0x040004FD RID: 1277
 		private SkillEffect _effectPolearmDamage;
 
-		// Token: 0x040004FE RID: 1278
 		private SkillEffect _effectBowLevel;
 
-		// Token: 0x040004FF RID: 1279
 		private SkillEffect _effectBowDamage;
 
-		// Token: 0x04000500 RID: 1280
 		private SkillEffect _effectBowAccuracy;
 
-		// Token: 0x04000501 RID: 1281
 		private SkillEffect _effectThrowingSpeed;
 
-		// Token: 0x04000502 RID: 1282
 		private SkillEffect _effectThrowingDamage;
 
-		// Token: 0x04000503 RID: 1283
 		private SkillEffect _effectThrowingAccuracy;
 
-		// Token: 0x04000504 RID: 1284
 		private SkillEffect _effectCrossbowReloadSpeed;
 
-		// Token: 0x04000505 RID: 1285
 		private SkillEffect _effectCrossbowAccuracy;
 
-		// Token: 0x04000506 RID: 1286
 		private SkillEffect _effectHorseLevel;
 
-		// Token: 0x04000507 RID: 1287
 		private SkillEffect _effectHorseSpeed;
 
-		// Token: 0x04000508 RID: 1288
 		private SkillEffect _effectHorseManeuver;
 
-		// Token: 0x04000509 RID: 1289
 		private SkillEffect _effectHorseWeaponDamagePenalty;
 
-		// Token: 0x0400050A RID: 1290
 		private SkillEffect _effectHorseWeaponSpeedPenalty;
 
-		// Token: 0x0400050B RID: 1291
 		private SkillEffect _effectDismountResistance;
 
-		// Token: 0x0400050C RID: 1292
 		private SkillEffect _effectAthleticsSpeedFactor;
 
-		// Token: 0x0400050D RID: 1293
 		private SkillEffect _effectAthleticsWeightFactor;
 
-		// Token: 0x0400050E RID: 1294
 		private SkillEffect _effectKnockBackResistance;
 
-		// Token: 0x0400050F RID: 1295
 		private SkillEffect _effectKnockDownResistance;
 
-		// Token: 0x04000510 RID: 1296
 		private SkillEffect _effectSmithingLevel;
 
-		// Token: 0x04000511 RID: 1297
 		private SkillEffect _effectTacticsAdvantage;
 
-		// Token: 0x04000512 RID: 1298
 		private SkillEffect _effectTacticsTroopSacrificeReduction;
 
-		// Token: 0x04000513 RID: 1299
 		private SkillEffect _effectTrackingLevel;
 
-		// Token: 0x04000514 RID: 1300
 		private SkillEffect _effectTrackingRadius;
 
-		// Token: 0x04000515 RID: 1301
 		private SkillEffect _effectTrackingSpottingDistance;
 
-		// Token: 0x04000516 RID: 1302
 		private SkillEffect _effectTrackingTrackInformation;
 
-		// Token: 0x04000517 RID: 1303
 		private SkillEffect _effectRogueryLootBonus;
 
-		// Token: 0x04000518 RID: 1304
 		private SkillEffect _effectCharmRelationBonus;
 
-		// Token: 0x04000519 RID: 1305
 		private SkillEffect _effectTradePenaltyReduction;
 
-		// Token: 0x0400051A RID: 1306
 		private SkillEffect _effectSurgeonSurvivalBonus;
 
-		// Token: 0x0400051B RID: 1307
 		private SkillEffect _effectSiegeEngineProductionBonus;
 
-		// Token: 0x0400051C RID: 1308
 		private SkillEffect _effectTownProjectBuildingBonus;
 
-		// Token: 0x0400051D RID: 1309
 		private SkillEffect _effectHealingRateBonusForHeroes;
 
-		// Token: 0x0400051E RID: 1310
 		private SkillEffect _effectHealingRateBonusForRegulars;
 
-		// Token: 0x0400051F RID: 1311
 		private SkillEffect _effectGovernorHealingRateBonus;
 
-		// Token: 0x04000520 RID: 1312
 		private SkillEffect _effectLeadershipMoraleBonus;
 
-		// Token: 0x04000521 RID: 1313
 		private SkillEffect _effectLeadershipGarrisonSizeBonus;
 
-		// Token: 0x04000522 RID: 1314
 		private SkillEffect _effectStewardPartySizeBonus;
 
-		// Token: 0x04000523 RID: 1315
 		private SkillEffect _effectEngineerLevel;
 	}
 }

@@ -3,22 +3,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200012A RID: 298
 	public class CircularFormation : LineFormation
 	{
-		// Token: 0x06000DED RID: 3565 RVA: 0x00027944 File Offset: 0x00025B44
 		public CircularFormation(IFormation owner)
 			: base(owner, true, true)
 		{
 		}
 
-		// Token: 0x06000DEE RID: 3566 RVA: 0x0002794F File Offset: 0x00025B4F
 		public override IFormationArrangement Clone(IFormation formation)
 		{
 			return new CircularFormation(formation);
 		}
 
-		// Token: 0x06000DEF RID: 3567 RVA: 0x00027958 File Offset: 0x00025B58
 		private float GetDistanceFromCenterOfRank(int rankIndex)
 		{
 			float num = this.Radius - (float)rankIndex * (base.Distance + base.UnitDiameter);
@@ -29,19 +25,16 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		// Token: 0x06000DF0 RID: 3568 RVA: 0x0002798C File Offset: 0x00025B8C
 		protected override bool IsDeepenApplicable()
 		{
 			return this.Radius - (float)base.RankCount * (base.Distance + base.UnitDiameter) >= 0f;
 		}
 
-		// Token: 0x06000DF1 RID: 3569 RVA: 0x000279B4 File Offset: 0x00025BB4
 		protected override bool IsNarrowApplicable(int amount)
 		{
 			return ((float)(base.FileCount - 1 - amount) * (base.Interval + base.UnitDiameter) + base.UnitDiameter) / 6.2831855f - (float)base.RankCount * (base.Distance + base.UnitDiameter) >= 0f;
 		}
 
-		// Token: 0x06000DF2 RID: 3570 RVA: 0x00027A08 File Offset: 0x00025C08
 		private int GetUnitCountOfRank(int rankIndex)
 		{
 			if (rankIndex == 0)
@@ -53,9 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Max(1, num);
 		}
 
-		// Token: 0x17000329 RID: 809
-		// (get) Token: 0x06000DF3 RID: 3571 RVA: 0x00027A49 File Offset: 0x00025C49
-		// (set) Token: 0x06000DF4 RID: 3572 RVA: 0x00027A54 File Offset: 0x00025C54
 		public override float Width
 		{
 			get
@@ -69,8 +59,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032A RID: 810
-		// (get) Token: 0x06000DF5 RID: 3573 RVA: 0x00027A72 File Offset: 0x00025C72
 		public override float Depth
 		{
 			get
@@ -79,8 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032B RID: 811
-		// (get) Token: 0x06000DF6 RID: 3574 RVA: 0x00027A7A File Offset: 0x00025C7A
 		private float Diameter
 		{
 			get
@@ -89,8 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032C RID: 812
-		// (get) Token: 0x06000DF7 RID: 3575 RVA: 0x00027A88 File Offset: 0x00025C88
 		private float Radius
 		{
 			get
@@ -99,8 +83,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032D RID: 813
-		// (get) Token: 0x06000DF8 RID: 3576 RVA: 0x00027AA0 File Offset: 0x00025CA0
 		public override float MinimumWidth
 		{
 			get
@@ -113,8 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032E RID: 814
-		// (get) Token: 0x06000DF9 RID: 3577 RVA: 0x00027AF4 File Offset: 0x00025CF4
 		public override float MaximumWidth
 		{
 			get
@@ -125,8 +105,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700032F RID: 815
-		// (get) Token: 0x06000DFA RID: 3578 RVA: 0x00027B2F File Offset: 0x00025D2F
 		private int MaxRank
 		{
 			get
@@ -135,7 +113,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DFB RID: 3579 RVA: 0x00027B4C File Offset: 0x00025D4C
 		protected override bool IsUnitPositionRestrained(int fileIndex, int rankIndex)
 		{
 			if (base.IsUnitPositionRestrained(fileIndex, rankIndex))
@@ -151,7 +128,6 @@ namespace TaleWorlds.MountAndBlade
 			return fileIndex < num || fileIndex >= num + unitCountOfRank;
 		}
 
-		// Token: 0x06000DFC RID: 3580 RVA: 0x00027B90 File Offset: 0x00025D90
 		protected override void MakeRestrainedPositionsUnavailable()
 		{
 			for (int i = 0; i < base.FileCount; i++)
@@ -166,7 +142,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000DFD RID: 3581 RVA: 0x00027BD8 File Offset: 0x00025DD8
 		protected override Vec2 GetLocalDirectionOfUnit(int fileIndex, int rankIndex)
 		{
 			int unitCountOfRank = this.GetUnitCountOfRank(rankIndex);
@@ -176,7 +151,6 @@ namespace TaleWorlds.MountAndBlade
 			return vec;
 		}
 
-		// Token: 0x06000DFE RID: 3582 RVA: 0x00027C24 File Offset: 0x00025E24
 		protected override Vec2 GetLocalPositionOfUnit(int fileIndex, int rankIndex)
 		{
 			Vec2 vec = new Vec2(0f, -this.Radius);
@@ -185,13 +159,11 @@ namespace TaleWorlds.MountAndBlade
 			return vec + localDirectionOfUnit * distanceFromCenterOfRank;
 		}
 
-		// Token: 0x06000DFF RID: 3583 RVA: 0x00027C5F File Offset: 0x00025E5F
 		protected override Vec2 GetLocalPositionOfUnitWithAdjustment(int fileIndex, int rankIndex, float distanceBetweenAgentsAdjustment)
 		{
 			return this.GetLocalPositionOfUnit(fileIndex, rankIndex);
 		}
 
-		// Token: 0x06000E00 RID: 3584 RVA: 0x00027C6C File Offset: 0x00025E6C
 		protected override bool TryGetUnitPositionIndexFromLocalPosition(Vec2 localPosition, out int fileIndex, out int rankIndex)
 		{
 			Vec2 vec = new Vec2(0f, -this.Radius);
@@ -222,7 +194,6 @@ namespace TaleWorlds.MountAndBlade
 			return fileIndex >= 0 && fileIndex < base.FileCount;
 		}
 
-		// Token: 0x06000E01 RID: 3585 RVA: 0x00027D74 File Offset: 0x00025F74
 		protected int GetCurrentMaximumRankCount(int unitCount)
 		{
 			int num = 0;
@@ -239,7 +210,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Max(num, 1);
 		}
 
-		// Token: 0x06000E02 RID: 3586 RVA: 0x00027DD0 File Offset: 0x00025FD0
 		public float GetCircumferenceFromRankCount(int rankCount)
 		{
 			int unitCountWithOverride = base.GetUnitCountWithOverride();
@@ -249,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetCircumferenceAux(unitCountWithOverride, rankCount, num, num2);
 		}
 
-		// Token: 0x06000E03 RID: 3587 RVA: 0x00027E1C File Offset: 0x0002601C
 		public void FormFromCircumference(float circumference)
 		{
 			int unitCountWithOverride = base.GetUnitCountWithOverride();
@@ -262,7 +231,6 @@ namespace TaleWorlds.MountAndBlade
 			base.FlankWidth = Math.Max(circumference - base.Interval, base.UnitDiameter);
 		}
 
-		// Token: 0x06000E04 RID: 3588 RVA: 0x00027E98 File Offset: 0x00026098
 		protected float GetCircumferenceAux(int unitCount, int rankCount, float radialInterval, float distanceInterval)
 		{
 			float num = (float)(6.283185307179586 * (double)distanceInterval);
@@ -279,7 +247,6 @@ namespace TaleWorlds.MountAndBlade
 			return num3;
 		}
 
-		// Token: 0x06000E05 RID: 3589 RVA: 0x00027EEC File Offset: 0x000260EC
 		private static int GetUnitCountAux(float circumference, int rankCount, float radialInterval, float distanceInterval)
 		{
 			int num = 0;

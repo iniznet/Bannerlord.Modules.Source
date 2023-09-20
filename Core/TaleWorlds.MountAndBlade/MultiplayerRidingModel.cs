@@ -4,10 +4,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001ED RID: 493
 	public class MultiplayerRidingModel : RidingModel
 	{
-		// Token: 0x06001B96 RID: 7062 RVA: 0x00061CF8 File Offset: 0x0005FEF8
 		public override float CalculateAcceleration(in EquipmentElement mountElement, in EquipmentElement harnessElement, int ridingSkill)
 		{
 			EquipmentElement equipmentElement = mountElement;

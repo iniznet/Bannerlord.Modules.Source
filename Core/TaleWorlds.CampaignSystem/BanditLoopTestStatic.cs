@@ -8,10 +8,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x020000A3 RID: 163
 	public static class BanditLoopTestStatic
 	{
-		// Token: 0x06001183 RID: 4483 RVA: 0x00050418 File Offset: 0x0004E618
 		public static void Init()
 		{
 			BanditLoopTestStatic.IsBanditLoopTest = true;
@@ -58,19 +56,14 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x04000611 RID: 1553
 		public static bool IsBanditLoopTest;
 
-		// Token: 0x04000612 RID: 1554
 		public static MobileParty BanditLoopPlayerParty;
 
-		// Token: 0x04000613 RID: 1555
 		public static MobileParty BanditLoopBandit1Party;
 
-		// Token: 0x04000614 RID: 1556
 		public static MobileParty BanditLoopBandit2Party;
 
-		// Token: 0x04000615 RID: 1557
 		public static Settlement BanditLoopSettlement;
 	}
 }

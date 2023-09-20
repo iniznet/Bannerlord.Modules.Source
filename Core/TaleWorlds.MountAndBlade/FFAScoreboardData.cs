@@ -4,10 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002BD RID: 701
 	public class FFAScoreboardData : IScoreboardData
 	{
-		// Token: 0x060026E9 RID: 9961 RVA: 0x00092760 File Offset: 0x00090960
 		public MissionScoreboardComponent.ScoreboardHeader[] GetScoreboardHeaders()
 		{
 			GameNetwork.MyPeer.GetComponent<MissionRepresentativeBase>();

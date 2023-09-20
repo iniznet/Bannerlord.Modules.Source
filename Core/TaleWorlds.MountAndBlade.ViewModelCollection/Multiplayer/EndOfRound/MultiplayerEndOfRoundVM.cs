@@ -7,10 +7,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 {
-	// Token: 0x020000C6 RID: 198
 	public class MultiplayerEndOfRoundVM : ViewModel
 	{
-		// Token: 0x0600128C RID: 4748 RVA: 0x0003CE60 File Offset: 0x0003B060
 		public MultiplayerEndOfRoundVM(MissionScoreboardComponent scoreboardComponent, MissionLobbyComponent missionLobbyComponent, IRoundComponent multiplayerRoundComponent)
 		{
 			this._scoreboardComponent = scoreboardComponent;
@@ -37,7 +35,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			this.DefenderSide = new MultiplayerEndOfRoundSideVM();
 		}
 
-		// Token: 0x0600128D RID: 4749 RVA: 0x0003CF83 File Offset: 0x0003B183
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -47,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x0600128E RID: 4750 RVA: 0x0003CF9C File Offset: 0x0003B19C
 		public void Refresh()
 		{
 			BattleSideEnum allyBattleSide = BattleSideEnum.None;
@@ -114,7 +110,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x0600128F RID: 4751 RVA: 0x0003D26C File Offset: 0x0003B46C
 		public void OnMVPSelected(MissionPeer mvpPeer)
 		{
 			BasicCharacterObject @object = MBObjectManager.Instance.GetObject<BasicCharacterObject>("mp_character");
@@ -140,7 +135,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			this.HasDefenderMVP = true;
 		}
 
-		// Token: 0x06001290 RID: 4752 RVA: 0x0003D3D4 File Offset: 0x0003B5D4
 		private string GetMVPTitleText(BasicCultureObject culture)
 		{
 			if (culture.StringId == "vlandia")
@@ -171,7 +165,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			return string.Empty;
 		}
 
-		// Token: 0x06001291 RID: 4753 RVA: 0x0003D4D1 File Offset: 0x0003B6D1
 		private void OnIsShownChanged()
 		{
 			if (!this.IsShown)
@@ -181,9 +174,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x1700060E RID: 1550
-		// (get) Token: 0x06001292 RID: 4754 RVA: 0x0003D4E9 File Offset: 0x0003B6E9
-		// (set) Token: 0x06001293 RID: 4755 RVA: 0x0003D4F1 File Offset: 0x0003B6F1
 		[DataSourceProperty]
 		public bool IsShown
 		{
@@ -202,9 +192,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x1700060F RID: 1551
-		// (get) Token: 0x06001294 RID: 4756 RVA: 0x0003D515 File Offset: 0x0003B715
-		// (set) Token: 0x06001295 RID: 4757 RVA: 0x0003D51D File Offset: 0x0003B71D
 		[DataSourceProperty]
 		public bool HasAttackerMVP
 		{
@@ -222,9 +209,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000610 RID: 1552
-		// (get) Token: 0x06001296 RID: 4758 RVA: 0x0003D53B File Offset: 0x0003B73B
-		// (set) Token: 0x06001297 RID: 4759 RVA: 0x0003D543 File Offset: 0x0003B743
 		[DataSourceProperty]
 		public bool HasDefenderMVP
 		{
@@ -242,9 +226,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000611 RID: 1553
-		// (get) Token: 0x06001298 RID: 4760 RVA: 0x0003D561 File Offset: 0x0003B761
-		// (set) Token: 0x06001299 RID: 4761 RVA: 0x0003D569 File Offset: 0x0003B769
 		[DataSourceProperty]
 		public string Title
 		{
@@ -262,9 +243,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000612 RID: 1554
-		// (get) Token: 0x0600129A RID: 4762 RVA: 0x0003D58C File Offset: 0x0003B78C
-		// (set) Token: 0x0600129B RID: 4763 RVA: 0x0003D594 File Offset: 0x0003B794
 		[DataSourceProperty]
 		public string Description
 		{
@@ -282,9 +260,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000613 RID: 1555
-		// (get) Token: 0x0600129C RID: 4764 RVA: 0x0003D5B7 File Offset: 0x0003B7B7
-		// (set) Token: 0x0600129D RID: 4765 RVA: 0x0003D5BF File Offset: 0x0003B7BF
 		[DataSourceProperty]
 		public string CultureId
 		{
@@ -302,9 +277,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000614 RID: 1556
-		// (get) Token: 0x0600129E RID: 4766 RVA: 0x0003D5E2 File Offset: 0x0003B7E2
-		// (set) Token: 0x0600129F RID: 4767 RVA: 0x0003D5EA File Offset: 0x0003B7EA
 		[DataSourceProperty]
 		public bool IsRoundWinner
 		{
@@ -322,9 +294,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000615 RID: 1557
-		// (get) Token: 0x060012A0 RID: 4768 RVA: 0x0003D608 File Offset: 0x0003B808
-		// (set) Token: 0x060012A1 RID: 4769 RVA: 0x0003D610 File Offset: 0x0003B810
 		[DataSourceProperty]
 		public MultiplayerEndOfRoundSideVM AttackerSide
 		{
@@ -342,9 +311,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000616 RID: 1558
-		// (get) Token: 0x060012A2 RID: 4770 RVA: 0x0003D62E File Offset: 0x0003B82E
-		// (set) Token: 0x060012A3 RID: 4771 RVA: 0x0003D636 File Offset: 0x0003B836
 		[DataSourceProperty]
 		public MultiplayerEndOfRoundSideVM DefenderSide
 		{
@@ -362,9 +328,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000617 RID: 1559
-		// (get) Token: 0x060012A4 RID: 4772 RVA: 0x0003D654 File Offset: 0x0003B854
-		// (set) Token: 0x060012A5 RID: 4773 RVA: 0x0003D65C File Offset: 0x0003B85C
 		[DataSourceProperty]
 		public MPPlayerVM AttackerMVP
 		{
@@ -382,9 +345,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000618 RID: 1560
-		// (get) Token: 0x060012A6 RID: 4774 RVA: 0x0003D67A File Offset: 0x0003B87A
-		// (set) Token: 0x060012A7 RID: 4775 RVA: 0x0003D682 File Offset: 0x0003B882
 		[DataSourceProperty]
 		public MPPlayerVM DefenderMVP
 		{
@@ -402,9 +362,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x17000619 RID: 1561
-		// (get) Token: 0x060012A8 RID: 4776 RVA: 0x0003D6A0 File Offset: 0x0003B8A0
-		// (set) Token: 0x060012A9 RID: 4777 RVA: 0x0003D6A8 File Offset: 0x0003B8A8
 		[DataSourceProperty]
 		public string AttackerMVPTitleText
 		{
@@ -422,9 +379,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x1700061A RID: 1562
-		// (get) Token: 0x060012AA RID: 4778 RVA: 0x0003D6CB File Offset: 0x0003B8CB
-		// (set) Token: 0x060012AB RID: 4779 RVA: 0x0003D6D3 File Offset: 0x0003B8D3
 		[DataSourceProperty]
 		public string DefenderMVPTitleText
 		{
@@ -442,79 +396,54 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.EndOfRound
 			}
 		}
 
-		// Token: 0x040008DB RID: 2267
 		private readonly MissionScoreboardComponent _scoreboardComponent;
 
-		// Token: 0x040008DC RID: 2268
 		private readonly MissionLobbyComponent _missionLobbyComponent;
 
-		// Token: 0x040008DD RID: 2269
 		private readonly IRoundComponent _multiplayerRoundComponent;
 
-		// Token: 0x040008DE RID: 2270
 		private readonly string _victoryText;
 
-		// Token: 0x040008DF RID: 2271
 		private readonly string _defeatText;
 
-		// Token: 0x040008E0 RID: 2272
 		private readonly TextObject _roundEndReasonAllyTeamSideDepletedTextObject;
 
-		// Token: 0x040008E1 RID: 2273
 		private readonly TextObject _roundEndReasonEnemyTeamSideDepletedTextObject;
 
-		// Token: 0x040008E2 RID: 2274
 		private readonly TextObject _roundEndReasonAllyTeamRoundTimeEndedTextObject;
 
-		// Token: 0x040008E3 RID: 2275
 		private readonly TextObject _roundEndReasonEnemyTeamRoundTimeEndedTextObject;
 
-		// Token: 0x040008E4 RID: 2276
 		private readonly TextObject _roundEndReasonAllyTeamGameModeSpecificEndedTextObject;
 
-		// Token: 0x040008E5 RID: 2277
 		private readonly TextObject _roundEndReasonEnemyTeamGameModeSpecificEndedTextObject;
 
-		// Token: 0x040008E6 RID: 2278
 		private readonly TextObject _roundEndReasonRoundTimeEndedWithDrawTextObject;
 
-		// Token: 0x040008E7 RID: 2279
 		private bool _isShown;
 
-		// Token: 0x040008E8 RID: 2280
 		private bool _hasAttackerMVP;
 
-		// Token: 0x040008E9 RID: 2281
 		private bool _hasDefenderMVP;
 
-		// Token: 0x040008EA RID: 2282
 		private string _title;
 
-		// Token: 0x040008EB RID: 2283
 		private string _description;
 
-		// Token: 0x040008EC RID: 2284
 		private string _cultureId;
 
-		// Token: 0x040008ED RID: 2285
 		private bool _isRoundWinner;
 
-		// Token: 0x040008EE RID: 2286
 		private MultiplayerEndOfRoundSideVM _attackerSide;
 
-		// Token: 0x040008EF RID: 2287
 		private MultiplayerEndOfRoundSideVM _defenderSide;
 
-		// Token: 0x040008F0 RID: 2288
 		private MPPlayerVM _attackerMVP;
 
-		// Token: 0x040008F1 RID: 2289
 		private MPPlayerVM _defenderMVP;
 
-		// Token: 0x040008F2 RID: 2290
 		private string _attackerMVPTitleText;
 
-		// Token: 0x040008F3 RID: 2291
 		private string _defenderMVPTitleText;
 	}
 }

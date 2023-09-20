@@ -7,18 +7,15 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x0200001C RID: 28
 	[DefaultView]
 	public class MissionSettlementPrepareView : MissionView
 	{
-		// Token: 0x060000A8 RID: 168 RVA: 0x0000926F File Offset: 0x0000746F
 		public override void AfterStart()
 		{
 			base.AfterStart();
 			this.SetOwnerBanner();
 		}
 
-		// Token: 0x060000A9 RID: 169 RVA: 0x00009280 File Offset: 0x00007480
 		private void SetOwnerBanner()
 		{
 			Campaign campaign = Campaign.Current;

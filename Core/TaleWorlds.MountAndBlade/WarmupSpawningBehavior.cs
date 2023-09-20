@@ -7,16 +7,13 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002CE RID: 718
 	public class WarmupSpawningBehavior : SpawningBehaviorBase
 	{
-		// Token: 0x06002753 RID: 10067 RVA: 0x00096EE6 File Offset: 0x000950E6
 		public WarmupSpawningBehavior()
 		{
 			this.IsSpawningEnabled = true;
 		}
 
-		// Token: 0x06002754 RID: 10068 RVA: 0x00096EF5 File Offset: 0x000950F5
 		public override void OnTick(float dt)
 		{
 			if (this.IsSpawningEnabled && this._spawnCheckTimer.Check(base.Mission.CurrentTime))
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnTick(dt);
 		}
 
-		// Token: 0x06002755 RID: 10069 RVA: 0x00096F24 File Offset: 0x00095124
 		protected override void SpawnAgents()
 		{
 			BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
@@ -118,25 +114,21 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002756 RID: 10070 RVA: 0x00097384 File Offset: 0x00095584
 		public override bool AllowEarlyAgentVisualsDespawning(MissionPeer lobbyPeer)
 		{
 			return true;
 		}
 
-		// Token: 0x06002757 RID: 10071 RVA: 0x00097387 File Offset: 0x00095587
 		public override int GetMaximumReSpawnPeriodForPeer(MissionPeer peer)
 		{
 			return 3;
 		}
 
-		// Token: 0x06002758 RID: 10072 RVA: 0x0009738A File Offset: 0x0009558A
 		protected override bool IsRoundInProgress()
 		{
 			return Mission.Current.CurrentState == Mission.State.Continuing;
 		}
 
-		// Token: 0x06002759 RID: 10073 RVA: 0x00097399 File Offset: 0x00095599
 		public override void Clear()
 		{
 			base.Clear();

@@ -4,10 +4,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.AfterBattle
 {
-	// Token: 0x020000AB RID: 171
 	public class MPAfterBattleLootRewardItemVM : MPAfterBattleRewardItemVM
 	{
-		// Token: 0x06001054 RID: 4180 RVA: 0x000363A8 File Offset: 0x000345A8
 		public MPAfterBattleLootRewardItemVM(int lootGained, int additionalLootFromBadges)
 		{
 			base.Type = 0;

@@ -6,10 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000012 RID: 18
 	public static class MountVisualCreator
 	{
-		// Token: 0x06000074 RID: 116 RVA: 0x000055A4 File Offset: 0x000037A4
 		public static void SetMaterialProperties(ItemObject mountItem, MetaMesh mountMesh, MountCreationKey key, ref uint maneMeshMultiplier)
 		{
 			HorseComponent horseComponent = mountItem.HorseComponent;
@@ -30,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.View
 			mountMesh.SetMaterial(fromResource);
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00005648 File Offset: 0x00003848
 		public static List<MetaMesh> AddMountMesh(MBAgentVisuals agentVisual, ItemObject mountItem, ItemObject harnessItem, string mountCreationKeyStr, Agent agent = null)
 		{
 			List<MetaMesh> list = new List<MetaMesh>();
@@ -151,20 +148,17 @@ namespace TaleWorlds.MountAndBlade.View
 			return list;
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x00005928 File Offset: 0x00003B28
 		public static void SetHorseColors(MetaMesh horseMesh, MountCreationKey mountCreationKey)
 		{
 			horseMesh.SetVectorArgument((float)mountCreationKey._leftFrontLegColorIndex, (float)mountCreationKey._rightFrontLegColorIndex, (float)mountCreationKey._leftBackLegColorIndex, (float)mountCreationKey._rightBackLegColorIndex);
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x0000594C File Offset: 0x00003B4C
 		public static void ClearMountMesh(GameEntity gameEntity)
 		{
 			gameEntity.RemoveAllChildren();
 			gameEntity.Remove(106);
 		}
 
-		// Token: 0x06000078 RID: 120 RVA: 0x0000595C File Offset: 0x00003B5C
 		private static void SetVoiceDefinition(Agent agent, int seedForRandomVoiceTypeAndPitch)
 		{
 			MBAgentVisuals mbagentVisuals = ((agent != null) ? agent.AgentVisuals : null);
@@ -194,7 +188,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x000059DC File Offset: 0x00003BDC
 		public static void AddMountMeshToEntity(GameEntity gameEntity, ItemObject mountItem, ItemObject harnessItem, string mountCreationKeyStr, Agent agent = null)
 		{
 			foreach (MetaMesh metaMesh in MountVisualCreator.AddMountMesh(null, mountItem, harnessItem, mountCreationKeyStr, agent))
@@ -204,7 +197,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00005A3C File Offset: 0x00003C3C
 		public static void AddMountMeshToAgentVisual(MBAgentVisuals agentVisual, ItemObject mountItem, ItemObject harnessItem, string mountCreationKeyStr, Agent agent = null)
 		{
 			foreach (MetaMesh metaMesh in MountVisualCreator.AddMountMesh(agentVisual, mountItem, harnessItem, mountCreationKeyStr, agent))

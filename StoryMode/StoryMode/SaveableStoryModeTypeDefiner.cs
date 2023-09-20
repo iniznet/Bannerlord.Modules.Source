@@ -13,16 +13,13 @@ using TaleWorlds.SaveSystem;
 
 namespace StoryMode
 {
-	// Token: 0x0200000B RID: 11
 	public class SaveableStoryModeTypeDefiner : SaveableTypeDefiner
 	{
-		// Token: 0x06000045 RID: 69 RVA: 0x00002569 File Offset: 0x00000769
 		public SaveableStoryModeTypeDefiner()
 			: base(320000)
 		{
 		}
 
-		// Token: 0x06000046 RID: 70 RVA: 0x00002578 File Offset: 0x00000778
 		protected override void DefineClassTypes()
 		{
 			base.AddClassDefinition(typeof(CampaignStoryMode), 1, null);
@@ -59,12 +56,10 @@ namespace StoryMode
 			base.AddClassDefinition(typeof(RebuildPlayerClanQuest), 3780001, null);
 		}
 
-		// Token: 0x06000047 RID: 71 RVA: 0x0000280D File Offset: 0x00000A0D
 		protected override void DefineStructTypes()
 		{
 		}
 
-		// Token: 0x06000048 RID: 72 RVA: 0x00002810 File Offset: 0x00000A10
 		protected override void DefineEnumTypes()
 		{
 			base.AddEnumDefinition(typeof(MainStoryLineSide), 2001, null);
@@ -74,27 +69,22 @@ namespace StoryMode
 			base.AddEnumDefinition(typeof(ArzagosBannerPieceQuest.HideoutBattleEndState), 681010, null);
 		}
 
-		// Token: 0x06000049 RID: 73 RVA: 0x0000288B File Offset: 0x00000A8B
 		protected override void DefineInterfaceTypes()
 		{
 		}
 
-		// Token: 0x0600004A RID: 74 RVA: 0x0000288D File Offset: 0x00000A8D
 		protected override void DefineRootClassTypes()
 		{
 		}
 
-		// Token: 0x0600004B RID: 75 RVA: 0x0000288F File Offset: 0x00000A8F
 		protected override void DefineGenericClassDefinitions()
 		{
 		}
 
-		// Token: 0x0600004C RID: 76 RVA: 0x00002891 File Offset: 0x00000A91
 		protected override void DefineGenericStructDefinitions()
 		{
 		}
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00002894 File Offset: 0x00000A94
 		protected override void DefineContainerDefinitions()
 		{
 			base.ConstructContainerDefinition(typeof(List<TrainingField>));

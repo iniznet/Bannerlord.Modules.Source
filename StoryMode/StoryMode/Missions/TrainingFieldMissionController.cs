@@ -20,22 +20,16 @@ using TaleWorlds.ObjectSystem;
 
 namespace StoryMode.Missions
 {
-	// Token: 0x02000038 RID: 56
 	public class TrainingFieldMissionController : MissionLogic
 	{
-		// Token: 0x170000C2 RID: 194
-		// (get) Token: 0x06000346 RID: 838 RVA: 0x00011C6D File Offset: 0x0000FE6D
-		// (set) Token: 0x06000347 RID: 839 RVA: 0x00011C75 File Offset: 0x0000FE75
 		public TextObject InitialCurrentObjective { get; private set; }
 
-		// Token: 0x06000348 RID: 840 RVA: 0x00011C7E File Offset: 0x0000FE7E
 		public override void OnCreated()
 		{
 			base.OnCreated();
 			base.Mission.DoesMissionRequireCivilianEquipment = false;
 		}
 
-		// Token: 0x06000349 RID: 841 RVA: 0x00011C94 File Offset: 0x0000FE94
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -62,13 +56,11 @@ namespace StoryMode.Missions
 			this._playerCampaignHealth = Agent.Main.Health;
 		}
 
-		// Token: 0x0600034A RID: 842 RVA: 0x00011D94 File Offset: 0x0000FF94
 		private void LoadTutorialScores()
 		{
 			this._tutorialScores = StoryModeManager.Current.MainStoryLine.GetTutorialScores();
 		}
 
-		// Token: 0x0600034B RID: 843 RVA: 0x00011DAB File Offset: 0x0000FFAB
 		protected override void OnEndMission()
 		{
 			base.OnEndMission();
@@ -76,7 +68,6 @@ namespace StoryMode.Missions
 			StoryModeManager.Current.MainStoryLine.SetTutorialScores(this._tutorialScores);
 		}
 
-		// Token: 0x0600034C RID: 844 RVA: 0x00011DD8 File Offset: 0x0000FFD8
 		public override void OnRenderingStarted()
 		{
 			base.OnRenderingStarted();
@@ -86,7 +77,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600034D RID: 845 RVA: 0x00011E00 File Offset: 0x00010000
 		public override void OnMissionTick(float dt)
 		{
 			this.TrainingAreaUpdate();
@@ -106,7 +96,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600034E RID: 846 RVA: 0x00011E6C File Offset: 0x0001006C
 		private void UpdateObjectives()
 		{
 			if (this._trainingSubTypeIndex == -1 || this._showTutorialObjectivesAnyway)
@@ -128,7 +117,6 @@ namespace StoryMode.Missions
 			TrainingFieldMissionController._updateObjectivesWillBeCalled = false;
 		}
 
-		// Token: 0x0600034F RID: 847 RVA: 0x00011EC0 File Offset: 0x000100C0
 		private int GetSelectedTrainingSubTypeIndex()
 		{
 			TrainingIcon activeTrainingIcon = this._activeTutorialArea.GetActiveTrainingIcon();
@@ -142,7 +130,6 @@ namespace StoryMode.Missions
 			return -1;
 		}
 
-		// Token: 0x06000350 RID: 848 RVA: 0x00011F08 File Offset: 0x00010108
 		private string GetHighlightedWeaponRack()
 		{
 			foreach (TrainingIcon trainingIcon in this._activeTutorialArea.TrainingIconsReadOnly)
@@ -155,7 +142,6 @@ namespace StoryMode.Missions
 			return "";
 		}
 
-		// Token: 0x06000351 RID: 849 RVA: 0x00011F74 File Offset: 0x00010174
 		private void EnableAllTrainingIcons()
 		{
 			foreach (TrainingIcon trainingIcon in this._activeTutorialArea.TrainingIconsReadOnly)
@@ -164,7 +150,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000352 RID: 850 RVA: 0x00011FCC File Offset: 0x000101CC
 		private void TrainingAreaUpdate()
 		{
 			this.CheckMainAgentEquipment();
@@ -201,7 +186,6 @@ namespace StoryMode.Missions
 			this.UpdateConversationPermission();
 		}
 
-		// Token: 0x06000353 RID: 851 RVA: 0x0001209C File Offset: 0x0001029C
 		private void UpdateConversationPermission()
 		{
 			if (this._brotherConversationAgent == null || Mission.Current.MainAgent == null || (this._brotherConversationAgent.Position - Mission.Current.MainAgent.Position).LengthSquared > 4f)
@@ -212,14 +196,12 @@ namespace StoryMode.Missions
 			this._missionConversationHandler.DisableStartConversation(false);
 		}
 
-		// Token: 0x06000354 RID: 852 RVA: 0x00012104 File Offset: 0x00010304
 		private void ResetTrainingArea()
 		{
 			this.OnTrainingAreaExit(true);
 			this.OnTrainingAreaEnter();
 		}
 
-		// Token: 0x06000355 RID: 853 RVA: 0x00012114 File Offset: 0x00010314
 		private void OnTrainingAreaExit(bool enableTrainingIcons)
 		{
 			this._activeTutorialArea.MarkTrainingIcons(false);
@@ -249,7 +231,6 @@ namespace StoryMode.Missions
 			this.UIEndTimer();
 		}
 
-		// Token: 0x06000356 RID: 854 RVA: 0x00012204 File Offset: 0x00010404
 		private bool CheckAllObjectivesFinished()
 		{
 			using (List<TrainingFieldMissionController.TutorialObjective>.Enumerator enumerator = this._tutorialObjectives.GetEnumerator())
@@ -265,7 +246,6 @@ namespace StoryMode.Missions
 			return true;
 		}
 
-		// Token: 0x06000357 RID: 855 RVA: 0x00012260 File Offset: 0x00010460
 		private void OnTrainingAreaEnter()
 		{
 			this._tutorialObjectives.Find((TrainingFieldMissionController.TutorialObjective x) => x.Id == this._activeTutorialArea.TypeOfTraining.ToString()).SetActive(true);
@@ -277,7 +257,6 @@ namespace StoryMode.Missions
 			this._activeTutorialArea.MarkTrainingIcons(true);
 		}
 
-		// Token: 0x06000358 RID: 856 RVA: 0x000122D4 File Offset: 0x000104D4
 		private void InTrainingArea()
 		{
 			int selectedTrainingSubTypeIndex = this.GetSelectedTrainingSubTypeIndex();
@@ -324,7 +303,6 @@ namespace StoryMode.Missions
 			this.SpecialInTrainingAreaUpdate(this._activeTutorialArea.TypeOfTraining);
 		}
 
-		// Token: 0x06000359 RID: 857 RVA: 0x0001240C File Offset: 0x0001060C
 		private void OnStartTraining(int index)
 		{
 			this._showTutorialObjectivesAnyway = false;
@@ -341,7 +319,6 @@ namespace StoryMode.Missions
 			this.UpdateObjectives();
 		}
 
-		// Token: 0x0600035A RID: 858 RVA: 0x0001248E File Offset: 0x0001068E
 		private void EndTraining()
 		{
 			this._trainingProgress = 0;
@@ -349,7 +326,6 @@ namespace StoryMode.Missions
 			this._activeTutorialArea = null;
 		}
 
-		// Token: 0x0600035B RID: 859 RVA: 0x000124A8 File Offset: 0x000106A8
 		private void SuccessfullyFinishTraining(float score)
 		{
 			this._tutorialObjectives.Find((TrainingFieldMissionController.TutorialObjective x) => x.Id == this._activeTutorialArea.TypeOfTraining.ToString()).FinishSubTask(this._activeTrainingSubTypeTag, score);
@@ -367,7 +343,6 @@ namespace StoryMode.Missions
 			this.UpdateObjectives();
 		}
 
-		// Token: 0x0600035C RID: 860 RVA: 0x0001254C File Offset: 0x0001074C
 		private void RefillAmmoOfAgent(Agent agent)
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
@@ -379,7 +354,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600035D RID: 861 RVA: 0x000125B0 File Offset: 0x000107B0
 		private void SpecialTrainingAreaExit(TutorialArea.TrainingType trainingType)
 		{
 			if (this._trainingSubTypeIndex != -1)
@@ -404,7 +378,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600035E RID: 862 RVA: 0x00012603 File Offset: 0x00010803
 		private void SpecialTrainingAreaEnter(TutorialArea.TrainingType trainingType)
 		{
 			switch (trainingType)
@@ -423,7 +396,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600035F RID: 863 RVA: 0x0001262C File Offset: 0x0001082C
 		private void SpecialTrainingStart(TutorialArea.TrainingType trainingType)
 		{
 			if (this._trainingSubTypeIndex != -1)
@@ -448,7 +420,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000360 RID: 864 RVA: 0x0001267F File Offset: 0x0001087F
 		private void SpecialInTrainingAreaUpdate(TutorialArea.TrainingType trainingType)
 		{
 			switch (trainingType)
@@ -470,7 +441,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000361 RID: 865 RVA: 0x000126B4 File Offset: 0x000108B4
 		private void DropAllWeaponsOfMainAgent()
 		{
 			Mission.Current.MainAgent.SetActionChannel(1, ActionIndexCache.act_none, true, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
@@ -483,7 +453,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000362 RID: 866 RVA: 0x00012738 File Offset: 0x00010938
 		private void RemoveAllWeaponsFromMainAgent()
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex <= 3; equipmentIndex++)
@@ -495,7 +464,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000363 RID: 867 RVA: 0x00012780 File Offset: 0x00010980
 		private void CollectWeaponsAndObjectives()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -555,7 +523,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000364 RID: 868 RVA: 0x00012A40 File Offset: 0x00010C40
 		private void MakeAllAgentsImmortal()
 		{
 			foreach (Agent agent in Mission.Current.Agents)
@@ -569,13 +536,11 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000365 RID: 869 RVA: 0x00012AB4 File Offset: 0x00010CB4
 		private bool HasAllWeaponsPicked()
 		{
 			return this._activeTutorialArea.HasMainAgentPickedAll(this._trainingSubTypeIndex);
 		}
 
-		// Token: 0x06000366 RID: 870 RVA: 0x00012AC7 File Offset: 0x00010CC7
 		private void CheckMainAgentEquipment()
 		{
 			if (this._trainingSubTypeIndex == -1)
@@ -586,19 +551,16 @@ namespace StoryMode.Missions
 			this._activeTutorialArea.CheckMainAgentEquipment(this._trainingSubTypeIndex);
 		}
 
-		// Token: 0x06000367 RID: 871 RVA: 0x00012AEA File Offset: 0x00010CEA
 		private void StartTimer()
 		{
 			this._beginningTime = base.Mission.CurrentTime;
 		}
 
-		// Token: 0x06000368 RID: 872 RVA: 0x00012AFD File Offset: 0x00010CFD
 		private void EndTimer()
 		{
 			this._timeScore = base.Mission.CurrentTime - this._beginningTime;
 		}
 
-		// Token: 0x06000369 RID: 873 RVA: 0x00012B18 File Offset: 0x00010D18
 		private void SpawnConversationBrother()
 		{
 			if (!TutorialPhase.Instance.TalkedWithBrotherForTheFirstTime)
@@ -622,7 +584,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600036A RID: 874 RVA: 0x00012C98 File Offset: 0x00010E98
 		private void InitializeBowTraining()
 		{
 			this._shootingPosition.SetVisibilityExcludeParents(false);
@@ -634,7 +595,6 @@ namespace StoryMode.Missions
 			this.GiveMoveOrderToRangedAgent(ModuleExtensions.ToWorldPosition(this._shootingPosition.GlobalPosition), this._shootingPosition.GetGlobalFrame().rotation.f.NormalizedCopy());
 		}
 
-		// Token: 0x0600036B RID: 875 RVA: 0x00012D70 File Offset: 0x00010F70
 		private void GiveMoveOrderToRangedAgent(WorldPosition worldPosition, Vec3 rotation)
 		{
 			if (worldPosition.AsVec2.NearlyEquals(this._rangedTargetPosition.AsVec2, 0.001f) && worldPosition.GetGroundVec3().NearlyEquals(this._rangedTargetPosition.GetGroundVec3(), 0.001f) && rotation.NearlyEquals(this._rangedTargetRotation, 1E-05f))
@@ -652,7 +612,6 @@ namespace StoryMode.Missions
 			}, 2f, "move order for ranged npc."));
 		}
 
-		// Token: 0x0600036C RID: 876 RVA: 0x00012E3C File Offset: 0x0001103C
 		private GameEntity GetValidTarget()
 		{
 			foreach (DestructableComponent destructableComponent in this._targetsForRangedNpc)
@@ -671,7 +630,6 @@ namespace StoryMode.Missions
 			return this._lastTargetGiven.GameEntity;
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x00012F04 File Offset: 0x00011104
 		private void UpdateBowTraining()
 		{
 			if ((this._bowNpc.MovementFlags & 63) == null && (this._rangedTargetPosition.GetGroundVec3() - this._bowNpc.Position).LengthSquared < 0.16000001f)
@@ -698,12 +656,10 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x00013047 File Offset: 0x00011247
 		private void OnBowTrainingEnter()
 		{
 		}
 
-		// Token: 0x0600036F RID: 879 RVA: 0x0001304C File Offset: 0x0001124C
 		private Agent SpawnBowNPC()
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -736,7 +692,6 @@ namespace StoryMode.Missions
 			return agent;
 		}
 
-		// Token: 0x06000370 RID: 880 RVA: 0x00013220 File Offset: 0x00011420
 		private void BowInTrainingAreaUpdate()
 		{
 			if (this._trainingProgress == 1)
@@ -794,7 +749,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000371 RID: 881 RVA: 0x000134F8 File Offset: 0x000116F8
 		public void LoadCrossbowForStarting()
 		{
 			for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
@@ -811,7 +765,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000372 RID: 882 RVA: 0x00013588 File Offset: 0x00011788
 		public override void OnAgentShootMissile(Agent shooterAgent, EquipmentIndex weaponIndex, Vec3 position, Vec3 velocity, Mat3 orientation, bool hasRigidBody, int forcedMissileIndex = -1)
 		{
 			base.OnAgentShootMissile(shooterAgent, weaponIndex, position, velocity, orientation, hasRigidBody, forcedMissileIndex);
@@ -828,7 +781,6 @@ namespace StoryMode.Missions
 			this.RefillAmmoOfAgent(shooterAgent);
 		}
 
-		// Token: 0x06000373 RID: 883 RVA: 0x00013638 File Offset: 0x00011838
 		private void BowTrainingEndedSuccessfully()
 		{
 			this.EndTimer();
@@ -843,7 +795,6 @@ namespace StoryMode.Missions
 			Mission.Current.MakeSound(SoundEvent.GetEventIdFromString("event:/mission/tutorial/vo/archery/finish"), Agent.Main.GetEyeGlobalPosition(), true, false, -1, -1);
 		}
 
-		// Token: 0x06000374 RID: 884 RVA: 0x000136E0 File Offset: 0x000118E0
 		private void OnBowTrainingStart()
 		{
 			this._shootingPosition.SetVisibilityExcludeParents(false);
@@ -855,7 +806,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000375 RID: 885 RVA: 0x0001377C File Offset: 0x0001197C
 		private void OnBowTrainingExit()
 		{
 			this._shootingPosition.SetVisibilityExcludeParents(false);
@@ -867,7 +817,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000376 RID: 886 RVA: 0x00013818 File Offset: 0x00011A18
 		private void InitializeAdvancedMeleeTraining()
 		{
 			this._advancedMeleeTrainerEasy = this.SpawnAdvancedMeleeTrainerEasy();
@@ -883,7 +832,6 @@ namespace StoryMode.Missions
 			this.BeginNPCFight();
 		}
 
-		// Token: 0x06000377 RID: 887 RVA: 0x00013920 File Offset: 0x00011B20
 		private Agent SpawnAdvancedMeleeTrainerEasy()
 		{
 			this._advancedMeleeTrainerEasyInitialPosition = MatrixFrame.Identity;
@@ -912,7 +860,6 @@ namespace StoryMode.Missions
 			return agent;
 		}
 
-		// Token: 0x06000378 RID: 888 RVA: 0x00013A8C File Offset: 0x00011C8C
 		private Agent SpawnAdvancedMeleeTrainerNormal()
 		{
 			this._advancedMeleeTrainerNormalInitialPosition = MatrixFrame.Identity;
@@ -941,7 +888,6 @@ namespace StoryMode.Missions
 			return agent;
 		}
 
-		// Token: 0x06000379 RID: 889 RVA: 0x00013BF8 File Offset: 0x00011DF8
 		private void AdvancedMeleeTrainingUpdate()
 		{
 			if (this._trainingSubTypeIndex != -1)
@@ -1105,7 +1051,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600037A RID: 890 RVA: 0x000143D4 File Offset: 0x000125D4
 		private void CheckAndHandlePlayerInsideBattleArea()
 		{
 			string[] array;
@@ -1128,7 +1073,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600037B RID: 891 RVA: 0x00014454 File Offset: 0x00012654
 		private void OnPlayerLeftBattleArea()
 		{
 			if (this._trainingProgress == 4)
@@ -1146,7 +1090,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600037C RID: 892 RVA: 0x00014508 File Offset: 0x00012708
 		private void OnPlayerReEnteredBattleArea()
 		{
 			if (this._trainingProgress == 4)
@@ -1162,7 +1105,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600037D RID: 893 RVA: 0x00014558 File Offset: 0x00012758
 		private void OnEasyTrainerBeaten()
 		{
 			this._advancedMeleeTrainerEasy.SetWatchState(0);
@@ -1174,7 +1116,6 @@ namespace StoryMode.Missions
 			Agent.Main.Health = Agent.Main.HealthLimit;
 		}
 
-		// Token: 0x0600037E RID: 894 RVA: 0x0001460C File Offset: 0x0001280C
 		private void MakeTrainersPatrolling()
 		{
 			WorldPosition worldPosition = ModuleExtensions.ToWorldPosition(this._advancedMeleeTrainerEasyInitialPosition.origin);
@@ -1193,13 +1134,11 @@ namespace StoryMode.Missions
 			}, 1.5f, "Agent health recover after advanced melee fight"));
 		}
 
-		// Token: 0x0600037F RID: 895 RVA: 0x00014732 File Offset: 0x00012932
 		private void OnLost()
 		{
 			this.MakeTrainersPatrolling();
 		}
 
-		// Token: 0x06000380 RID: 896 RVA: 0x0001473C File Offset: 0x0001293C
 		private void BeginNPCFight()
 		{
 			this._advancedMeleeTrainerEasy.DisableScriptedMovement();
@@ -1212,34 +1151,29 @@ namespace StoryMode.Missions
 			this.SetAgentDefensiveness(this._advancedMeleeTrainerNormal, 4f);
 		}
 
-		// Token: 0x06000381 RID: 897 RVA: 0x000147C5 File Offset: 0x000129C5
 		private void OnAdvancedTrainingStart()
 		{
 			this.MakeTrainersPatrolling();
 			Agent.Main.Health = Agent.Main.HealthLimit;
 		}
 
-		// Token: 0x06000382 RID: 898 RVA: 0x000147E1 File Offset: 0x000129E1
 		private void OnAdvancedTrainingExit()
 		{
 			Agent.Main.Health = Agent.Main.HealthLimit;
 			this.BeginNPCFight();
 		}
 
-		// Token: 0x06000383 RID: 899 RVA: 0x000147FD File Offset: 0x000129FD
 		private void OnAdvancedTrainingAreaEnter()
 		{
 			this.MakeTrainersPatrolling();
 			Mission.Current.MakeSound(SoundEvent.GetEventIdFromString("event:/mission/tutorial/vo/fighting/greet"), this._advancedMeleeTrainerNormal.GetEyeGlobalPosition(), true, false, -1, -1);
 		}
 
-		// Token: 0x06000384 RID: 900 RVA: 0x00014828 File Offset: 0x00012A28
 		private void SetAgentDefensiveness(Agent agent, float formationOrderDefensivenessFactor)
 		{
 			agent.Defensiveness = formationOrderDefensivenessFactor;
 		}
 
-		// Token: 0x06000385 RID: 901 RVA: 0x00014834 File Offset: 0x00012A34
 		private void InitializeMeleeTraining()
 		{
 			MatrixFrame matrixFrame = MatrixFrame.Identity;
@@ -1269,7 +1203,6 @@ namespace StoryMode.Missions
 			this._meleeTrainerDefaultPosition = this._meleeTrainer.GetWorldPosition();
 		}
 
-		// Token: 0x06000386 RID: 902 RVA: 0x000149A4 File Offset: 0x00012BA4
 		private void MeleeTrainingUpdate()
 		{
 			if ((this._meleeTrainer.Position - this._meleeTrainerDefaultPosition.GetGroundVec3()).LengthSquared > 1f)
@@ -1293,7 +1226,6 @@ namespace StoryMode.Missions
 			this.SwordTraining();
 		}
 
-		// Token: 0x06000387 RID: 903 RVA: 0x00014A74 File Offset: 0x00012C74
 		private void SwordTraining()
 		{
 			if (this._trainingProgress == 1)
@@ -1438,7 +1370,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000388 RID: 904 RVA: 0x00015034 File Offset: 0x00013234
 		private void ShieldTraining()
 		{
 			if (this._trainingProgress == 1)
@@ -1505,7 +1436,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000389 RID: 905 RVA: 0x0001525C File Offset: 0x0001345C
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			base.OnScoreHit(affectedAgent, affectorAgent, attackerWeapon, isBlocked, isSiegeEngineHit, ref blow, ref collisionData, damagedHp, hitDistance, shotDifficulty);
@@ -1627,7 +1557,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600038A RID: 906 RVA: 0x00015852 File Offset: 0x00013A52
 		private void TickMouseObjective(TrainingFieldMissionController.MouseObjectives objective)
 		{
 			Action<TrainingFieldMissionController.MouseObjectives> currentMouseObjectiveTick = this.CurrentMouseObjectiveTick;
@@ -1638,13 +1567,11 @@ namespace StoryMode.Missions
 			currentMouseObjectiveTick(this.GetAdjustedMouseObjective(objective));
 		}
 
-		// Token: 0x0600038B RID: 907 RVA: 0x0001586B File Offset: 0x00013A6B
 		private bool IsAttackDirection(TrainingFieldMissionController.MouseObjectives objective)
 		{
 			return objective - TrainingFieldMissionController.MouseObjectives.AttackLeft <= 3 || (objective - TrainingFieldMissionController.MouseObjectives.DefendLeft > 3 && false);
 		}
 
-		// Token: 0x0600038C RID: 908 RVA: 0x00015880 File Offset: 0x00013A80
 		private TrainingFieldMissionController.MouseObjectives GetAdjustedMouseObjective(TrainingFieldMissionController.MouseObjectives baseObjective)
 		{
 			if (this.IsAttackDirection(baseObjective))
@@ -1670,7 +1597,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600038D RID: 909 RVA: 0x000158BC File Offset: 0x00013ABC
 		private TrainingFieldMissionController.MouseObjectives GetInverseDirection(TrainingFieldMissionController.MouseObjectives objective)
 		{
 			switch (objective)
@@ -1699,7 +1625,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600038E RID: 910 RVA: 0x0001592C File Offset: 0x00013B2C
 		private void InitializeMountedTraining()
 		{
 			this._horse = this.SpawnHorse();
@@ -1720,7 +1645,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600038F RID: 911 RVA: 0x00015A74 File Offset: 0x00013C74
 		private Agent SpawnMountedAI()
 		{
 			this._mountedAISpawnPosition = MatrixFrame.Identity;
@@ -1749,7 +1673,6 @@ namespace StoryMode.Missions
 			return agent;
 		}
 
-		// Token: 0x06000390 RID: 912 RVA: 0x00015BE0 File Offset: 0x00013DE0
 		private void UpdateMountedAIBehavior()
 		{
 			if (this._mountedAICurrentCheckpointTarget == -1)
@@ -1819,7 +1742,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000391 RID: 913 RVA: 0x00015F8C File Offset: 0x0001418C
 		private void GoToStartingPosition()
 		{
 			WorldPosition worldPosition = ModuleExtensions.ToWorldPosition(this._mountedAISpawnPosition.origin);
@@ -1827,7 +1749,6 @@ namespace StoryMode.Missions
 			this.RestoreAndShowAllMountedAITargets();
 		}
 
-		// Token: 0x06000392 RID: 914 RVA: 0x00015FDC File Offset: 0x000141DC
 		private void RestoreAndShowAllMountedAITargets()
 		{
 			this._allTargetsDestroyed = false;
@@ -1838,7 +1759,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000393 RID: 915 RVA: 0x00016040 File Offset: 0x00014240
 		private void HideAllMountedAITargets()
 		{
 			this._allTargetsDestroyed = true;
@@ -1849,7 +1769,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000394 RID: 916 RVA: 0x000160A4 File Offset: 0x000142A4
 		private void UpdateHorseBehavior()
 		{
 			if (this._horse != null && this._horse.RiderAgent == null)
@@ -1956,7 +1875,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000395 RID: 917 RVA: 0x00016430 File Offset: 0x00014630
 		private Agent SpawnHorse()
 		{
 			MatrixFrame globalFrame = base.Mission.Scene.FindEntityWithTag("spawner_horse").GetGlobalFrame();
@@ -1980,7 +1898,6 @@ namespace StoryMode.Missions
 			return agent;
 		}
 
-		// Token: 0x06000396 RID: 918 RVA: 0x000164EC File Offset: 0x000146EC
 		private void MountedTrainingUpdate()
 		{
 			bool flag = false;
@@ -2073,7 +1990,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x06000397 RID: 919 RVA: 0x00016870 File Offset: 0x00014A70
 		private void ResetCheckpoints()
 		{
 			for (int i = 0; i < this._checkpoints.Count; i++)
@@ -2083,7 +1999,6 @@ namespace StoryMode.Missions
 			this._currentCheckpointIndex = -1;
 		}
 
-		// Token: 0x06000398 RID: 920 RVA: 0x000168C0 File Offset: 0x00014AC0
 		private bool CheckpointUpdate()
 		{
 			for (int i = 0; i < this._checkpoints.Count; i++)
@@ -2134,7 +2049,6 @@ namespace StoryMode.Missions
 			return flag;
 		}
 
-		// Token: 0x06000399 RID: 921 RVA: 0x00016AA0 File Offset: 0x00014CA0
 		private void SetHorseMountable(bool mountable)
 		{
 			if (mountable)
@@ -2145,7 +2059,6 @@ namespace StoryMode.Missions
 			Agent.Main.SetAgentFlags(Agent.Main.GetAgentFlags() & -8193);
 		}
 
-		// Token: 0x0600039A RID: 922 RVA: 0x00016ADA File Offset: 0x00014CDA
 		private void OnMountedTrainingStart()
 		{
 			this.ResetCheckpoints();
@@ -2153,7 +2066,6 @@ namespace StoryMode.Missions
 			this.HideAllMountedAITargets();
 		}
 
-		// Token: 0x0600039B RID: 923 RVA: 0x00016AEF File Offset: 0x00014CEF
 		private void OnMountedTrainingExit()
 		{
 			this.SetHorseMountable(false);
@@ -2162,7 +2074,6 @@ namespace StoryMode.Missions
 			this.GoToStartingPosition();
 		}
 
-		// Token: 0x0600039C RID: 924 RVA: 0x00016B0C File Offset: 0x00014D0C
 		private void SetFinishGateStatus(bool open)
 		{
 			if (open)
@@ -2186,7 +2097,6 @@ namespace StoryMode.Missions
 			}
 		}
 
-		// Token: 0x0600039D RID: 925 RVA: 0x00016B80 File Offset: 0x00014D80
 		private void MountedTrainingEndedSuccessfully()
 		{
 			this.UIEndTimer();
@@ -2218,260 +2128,176 @@ namespace StoryMode.Missions
 			this.SuccessfullyFinishTraining(num);
 		}
 
-		// Token: 0x040000FD RID: 253
 		private const string SoundBasicMeleeGreet = "event:/mission/tutorial/vo/parrying/greet";
 
-		// Token: 0x040000FE RID: 254
 		private const string SoundBasicMeleeBlockLeft = "event:/mission/tutorial/vo/parrying/block_left";
 
-		// Token: 0x040000FF RID: 255
 		private const string SoundBasicMeleeBlockRight = "event:/mission/tutorial/vo/parrying/block_right";
 
-		// Token: 0x04000100 RID: 256
 		private const string SoundBasicMeleeBlockUp = "event:/mission/tutorial/vo/parrying/block_up";
 
-		// Token: 0x04000101 RID: 257
 		private const string SoundBasicMeleeBlockDown = "event:/mission/tutorial/vo/parrying/block_down";
 
-		// Token: 0x04000102 RID: 258
 		private const string SoundBasicMeleeAttackLeft = "event:/mission/tutorial/vo/parrying/attack_left";
 
-		// Token: 0x04000103 RID: 259
 		private const string SoundBasicMeleeAttackRight = "event:/mission/tutorial/vo/parrying/attack_right";
 
-		// Token: 0x04000104 RID: 260
 		private const string SoundBasicMeleeAttackUp = "event:/mission/tutorial/vo/parrying/attack_up";
 
-		// Token: 0x04000105 RID: 261
 		private const string SoundBasicMeleeAttackDown = "event:/mission/tutorial/vo/parrying/attack_down";
 
-		// Token: 0x04000106 RID: 262
 		private const string SoundBasicMeleeRemark = "event:/mission/tutorial/vo/parrying/remark";
 
-		// Token: 0x04000107 RID: 263
 		private const string SoundBasicMeleePraise = "event:/mission/tutorial/vo/parrying/praise";
 
-		// Token: 0x04000108 RID: 264
 		private const string SoundAdvancedMeleeGreet = "event:/mission/tutorial/vo/fighting/greet";
 
-		// Token: 0x04000109 RID: 265
 		private const string SoundAdvancedMeleeWarning = "event:/mission/tutorial/vo/fighting/warning";
 
-		// Token: 0x0400010A RID: 266
 		private const string SoundAdvancedMeleePlayerLose = "event:/mission/tutorial/vo/fighting/player_lose";
 
-		// Token: 0x0400010B RID: 267
 		private const string SoundAdvancedMeleePlayerWin = "event:/mission/tutorial/vo/fighting/player_win";
 
-		// Token: 0x0400010C RID: 268
 		private const string SoundRangedPickPrefix = "event:/mission/tutorial/vo/archery/pick_";
 
-		// Token: 0x0400010D RID: 269
 		private const string SoundRangedStartTraining = "event:/mission/tutorial/vo/archery/start_training";
 
-		// Token: 0x0400010E RID: 270
 		private const string SoundRangedHitTarget = "event:/mission/tutorial/vo/archery/hit_target";
 
-		// Token: 0x0400010F RID: 271
 		private const string SoundRangedMissTarget = "event:/mission/tutorial/vo/archery/miss_target";
 
-		// Token: 0x04000110 RID: 272
 		private const string SoundRangedFinish = "event:/mission/tutorial/vo/archery/finish";
 
-		// Token: 0x04000111 RID: 273
 		private const string SoundMountedPickPrefix = "event:/mission/tutorial/vo/riding/pick_";
 
-		// Token: 0x04000112 RID: 274
 		private const string SoundMountedMountHorse = "event:/mission/tutorial/vo/riding/mount_horse";
 
-		// Token: 0x04000113 RID: 275
 		private const string SoundMountedStartCourse = "event:/mission/tutorial/vo/riding/start_course";
 
-		// Token: 0x04000114 RID: 276
 		private const string SoundMountedCourseFinish = "event:/mission/tutorial/vo/riding/course_finish";
 
-		// Token: 0x04000115 RID: 277
 		private const string SoundMountedCoursePerfect = "event:/mission/tutorial/vo/riding/course_perfect";
 
-		// Token: 0x04000116 RID: 278
 		private const string FinishCourseSound = "event:/mission/tutorial/finish_course";
 
-		// Token: 0x04000117 RID: 279
 		private const string FinishTaskSound = "event:/mission/tutorial/finish_task";
 
-		// Token: 0x04000118 RID: 280
 		private const string HitTargetSound = "event:/mission/tutorial/hit_target";
 
-		// Token: 0x04000119 RID: 281
 		private TextObject _trainingFinishedText = new TextObject("{=cRvSuYC8}Choose another weapon or go to another training area.", null);
 
-		// Token: 0x0400011A RID: 282
 		private List<TrainingFieldMissionController.DelayedAction> _delayedActions = new List<TrainingFieldMissionController.DelayedAction>();
 
-		// Token: 0x0400011B RID: 283
 		private MissionConversationLogic _missionConversationHandler;
 
-		// Token: 0x0400011C RID: 284
 		private const string RangedNpcCharacter = "tutorial_npc_ranged";
 
-		// Token: 0x0400011D RID: 285
 		private const string BowTrainingShootingPositionTag = "bow_training_shooting_position";
 
-		// Token: 0x0400011E RID: 286
 		private const string SpawnerRangedNpcTag = "spawner_ranged_npc_tag";
 
-		// Token: 0x0400011F RID: 287
 		private const string RangedNpcSecondPosTag = "_ranged_npc_second_pos_tag";
 
-		// Token: 0x04000120 RID: 288
 		private const string RangedNpcTargetTag = "_ranged_npc_target";
 
-		// Token: 0x04000121 RID: 289
 		private const float ShootingPositionActivationDistance = 2f;
 
-		// Token: 0x04000122 RID: 290
 		private const string NameOfTheMeleeTraining = "Melee Training";
 
-		// Token: 0x04000123 RID: 291
 		private const string BasicMeleeNpcSpawnPointTag = "spawner_melee_npc";
 
-		// Token: 0x04000124 RID: 292
 		private const string BasicMeleeNpcCharacter = "tutorial_npc_basic_melee";
 
-		// Token: 0x04000125 RID: 293
 		private const string AdvancedMeleeNpcSpawnPointTagEasy = "spawner_adv_melee_npc_easy";
 
-		// Token: 0x04000126 RID: 294
 		private const string AdvancedMeleeNpcSpawnPointTagNormal = "spawner_adv_melee_npc_normal";
 
-		// Token: 0x04000127 RID: 295
 		private const string AdvancedMeleeNpcEasySecondPositionTag = "adv_melee_npc_easy_second_pos";
 
-		// Token: 0x04000128 RID: 296
 		private const string AdvancedMeleeNpcNormalSecondPositionTag = "adv_melee_npc_normal_second_pos";
 
-		// Token: 0x04000129 RID: 297
 		private const string AdvancedMeleeEasyNpcCharacter = "tutorial_npc_advanced_melee_easy";
 
-		// Token: 0x0400012A RID: 298
 		private const string AdvancedMeleeNormalNpcCharacter = "tutorial_npc_advanced_melee_normal";
 
-		// Token: 0x0400012B RID: 299
 		private const string AdvancedMeleeBattleAreaTag = "battle_area";
 
-		// Token: 0x0400012C RID: 300
 		private const string MountedAISpawnPositionTag = "_mounted_ai_spawn_position";
 
-		// Token: 0x0400012D RID: 301
 		private const string MountedAICharacter = "tutorial_npc_mounted_ai";
 
-		// Token: 0x0400012E RID: 302
 		private const string MountedAITargetTag = "_mounted_ai_target";
 
-		// Token: 0x0400012F RID: 303
 		private const string MountedAIWaitingPositionTag = "_mounted_ai_waiting_position";
 
-		// Token: 0x04000130 RID: 304
 		private const string CheckpointTag = "mounted_checkpoint";
 
-		// Token: 0x04000131 RID: 305
 		private const string HorseSpawnPositionTag = "spawner_horse";
 
-		// Token: 0x04000132 RID: 306
 		private const string FinishGateClosedTag = "finish_gate_closed";
 
-		// Token: 0x04000133 RID: 307
 		private const string FinishGateOpenTag = "finish_gate_open";
 
-		// Token: 0x04000134 RID: 308
 		private const string NameOfTheHorse = "old_horse";
 
-		// Token: 0x04000135 RID: 309
 		private List<TutorialArea> _trainingAreas = new List<TutorialArea>();
 
-		// Token: 0x04000136 RID: 310
 		private TutorialArea _activeTutorialArea;
 
-		// Token: 0x04000137 RID: 311
 		private List<Agent> _agents = new List<Agent>();
 
-		// Token: 0x04000138 RID: 312
 		private bool _courseFinished;
 
-		// Token: 0x04000139 RID: 313
 		private int _trainingProgress;
 
-		// Token: 0x0400013A RID: 314
 		private int _trainingSubTypeIndex = -1;
 
-		// Token: 0x0400013B RID: 315
 		private string _activeTrainingSubTypeTag = "";
 
-		// Token: 0x0400013C RID: 316
 		private float _beginningTime;
 
-		// Token: 0x0400013D RID: 317
 		private float _timeScore;
 
-		// Token: 0x0400013E RID: 318
 		private bool _showTutorialObjectivesAnyway;
 
-		// Token: 0x0400013F RID: 319
 		private Dictionary<string, float> _tutorialScores;
 
-		// Token: 0x04000140 RID: 320
 		private GameEntity _shootingPosition;
 
-		// Token: 0x04000141 RID: 321
 		private Agent _bowNpc;
 
-		// Token: 0x04000142 RID: 322
 		private WorldPosition _rangedNpcSpawnPosition;
 
-		// Token: 0x04000143 RID: 323
 		private WorldPosition _rangedTargetPosition;
 
-		// Token: 0x04000144 RID: 324
 		private Vec3 _rangedTargetRotation;
 
-		// Token: 0x04000145 RID: 325
 		private GameEntity _rangedNpcSpawnPoint;
 
-		// Token: 0x04000146 RID: 326
 		private int _rangedLastBrokenTargetCount;
 
-		// Token: 0x04000147 RID: 327
 		private List<DestructableComponent> _targetsForRangedNpc = new List<DestructableComponent>();
 
-		// Token: 0x04000148 RID: 328
 		private DestructableComponent _lastTargetGiven;
 
-		// Token: 0x04000149 RID: 329
 		private bool _atShootingPosition;
 
-		// Token: 0x0400014A RID: 330
 		private bool _targetPositionSet;
 
-		// Token: 0x0400014B RID: 331
 		private List<TrainingFieldMissionController.TutorialObjective> _rangedObjectives = new List<TrainingFieldMissionController.TutorialObjective>
 		{
 			new TrainingFieldMissionController.TutorialObjective("ranged_go_to_shooting_position", false, false),
 			new TrainingFieldMissionController.TutorialObjective("ranged_shoot_targets", false, false)
 		};
 
-		// Token: 0x0400014C RID: 332
 		private TextObject _remainingTargetText = new TextObject("{=gBbm9beO}Hit all of the targets. {REMAINING_TARGET} {?REMAINING_TARGET>1}targets{?}target{\\?} left.", null);
 
-		// Token: 0x0400014D RID: 333
 		private Agent _meleeTrainer;
 
-		// Token: 0x0400014E RID: 334
 		private WorldPosition _meleeTrainerDefaultPosition;
 
-		// Token: 0x0400014F RID: 335
 		private float _timer;
 
-		// Token: 0x04000150 RID: 336
 		private List<TrainingFieldMissionController.TutorialObjective> _meleeObjectives = new List<TrainingFieldMissionController.TutorialObjective>
 		{
 			new TrainingFieldMissionController.TutorialObjective("melee_go_to_trainer", false, false),
@@ -2479,46 +2305,32 @@ namespace StoryMode.Missions
 			new TrainingFieldMissionController.TutorialObjective("melee_attack", false, false)
 		};
 
-		// Token: 0x04000151 RID: 337
 		private Agent _advancedMeleeTrainerEasy;
 
-		// Token: 0x04000152 RID: 338
 		private Agent _advancedMeleeTrainerNormal;
 
-		// Token: 0x04000153 RID: 339
 		private WorldPosition _advancedEasyMeleeTrainerDefaultPosition;
 
-		// Token: 0x04000154 RID: 340
 		private WorldPosition _advancedNormalMeleeTrainerDefaultPosition;
 
-		// Token: 0x04000155 RID: 341
 		private float _playerCampaignHealth;
 
-		// Token: 0x04000156 RID: 342
 		private float _playerHealth = 100f;
 
-		// Token: 0x04000157 RID: 343
 		private float _advancedMeleeTrainerEasyHealth = 100f;
 
-		// Token: 0x04000158 RID: 344
 		private float _advancedMeleeTrainerNormalHealth = 100f;
 
-		// Token: 0x04000159 RID: 345
 		private MatrixFrame _advancedMeleeTrainerEasyInitialPosition;
 
-		// Token: 0x0400015A RID: 346
 		private MatrixFrame _advancedMeleeTrainerEasySecondPosition;
 
-		// Token: 0x0400015B RID: 347
 		private MatrixFrame _advancedMeleeTrainerNormalInitialPosition;
 
-		// Token: 0x0400015C RID: 348
 		private MatrixFrame _advancedMeleeTrainerNormalSecondPosition;
 
-		// Token: 0x0400015D RID: 349
 		private TextObject _fightStartsIn = new TextObject("{=TNxWBS07}Fight will start in {REMAINING_TIME} {?REMAINING_TIME>1}seconds{?}second{\\?}...", null);
 
-		// Token: 0x0400015E RID: 350
 		private List<TrainingFieldMissionController.TutorialObjective> _advMeleeObjectives = new List<TrainingFieldMissionController.TutorialObjective>
 		{
 			new TrainingFieldMissionController.TutorialObjective("adv_melee_go_to_trainer", false, false),
@@ -2526,141 +2338,90 @@ namespace StoryMode.Missions
 			new TrainingFieldMissionController.TutorialObjective("adv_melee_beat_normal_trainer", false, false)
 		};
 
-		// Token: 0x0400015F RID: 351
 		private ActionIndexCache FallBackRiseAnimation = ActionIndexCache.Create("act_strike_fall_back_back_rise");
 
-		// Token: 0x04000160 RID: 352
 		private ActionIndexCache FallBackRiseAnimationContinue = ActionIndexCache.Create("act_strike_fall_back_back_rise_continue");
 
-		// Token: 0x04000161 RID: 353
 		private bool _playerLeftBattleArea;
 
-		// Token: 0x04000162 RID: 354
 		private GameEntity _finishGateClosed;
 
-		// Token: 0x04000163 RID: 355
 		private GameEntity _finishGateOpen;
 
-		// Token: 0x04000164 RID: 356
 		private int _finishGateStatus;
 
-		// Token: 0x04000165 RID: 357
 		private List<ValueTuple<VolumeBox, bool>> _checkpoints = new List<ValueTuple<VolumeBox, bool>>();
 
-		// Token: 0x04000166 RID: 358
 		private int _currentCheckpointIndex = -1;
 
-		// Token: 0x04000167 RID: 359
 		private int _mountedLastBrokenTargetCount;
 
-		// Token: 0x04000168 RID: 360
 		private float _enteringDotProduct;
 
-		// Token: 0x04000169 RID: 361
 		private Agent _horse;
 
-		// Token: 0x0400016A RID: 362
 		private WorldPosition _horseBeginningPosition;
 
-		// Token: 0x0400016B RID: 363
 		private TrainingFieldMissionController.HorseReturningSituation _horseBehaviorMode = TrainingFieldMissionController.HorseReturningSituation.ReturnCompleted;
 
-		// Token: 0x0400016C RID: 364
 		private List<TrainingFieldMissionController.TutorialObjective> _mountedObjectives = new List<TrainingFieldMissionController.TutorialObjective>
 		{
 			new TrainingFieldMissionController.TutorialObjective("mounted_mount_the_horse", false, false),
 			new TrainingFieldMissionController.TutorialObjective("mounted_hit_targets", false, false)
 		};
 
-		// Token: 0x0400016D RID: 365
 		private Agent _mountedAI;
 
-		// Token: 0x0400016E RID: 366
 		private MatrixFrame _mountedAISpawnPosition;
 
-		// Token: 0x0400016F RID: 367
 		private MatrixFrame _mountedAIWaitingPosition;
 
-		// Token: 0x04000170 RID: 368
 		private int _mountedAICurrentCheckpointTarget = -1;
 
-		// Token: 0x04000171 RID: 369
 		private int _mountedAICurrentHitTarget;
 
-		// Token: 0x04000172 RID: 370
 		private bool _enteredRadiusOfTarget;
 
-		// Token: 0x04000173 RID: 371
 		private bool _allTargetsDestroyed;
 
-		// Token: 0x04000174 RID: 372
 		private List<DestructableComponent> _mountedAITargets = new List<DestructableComponent>();
 
-		// Token: 0x04000175 RID: 373
 		private bool _continueLoop = true;
 
-		// Token: 0x04000176 RID: 374
 		private List<Vec3> _mountedAICheckpointList = new List<Vec3>();
 
-		// Token: 0x04000177 RID: 375
 		private List<TrainingFieldMissionController.TutorialObjective> _detailedObjectives = new List<TrainingFieldMissionController.TutorialObjective>();
 
-		// Token: 0x04000178 RID: 376
 		private List<TrainingFieldMissionController.TutorialObjective> _tutorialObjectives = new List<TrainingFieldMissionController.TutorialObjective>();
 
-		// Token: 0x04000179 RID: 377
 		public Action UIStartTimer;
 
-		// Token: 0x0400017A RID: 378
 		public Func<float> UIEndTimer;
 
-		// Token: 0x0400017B RID: 379
 		public Action<string> TimerTick;
 
-		// Token: 0x0400017C RID: 380
 		public Action<TextObject> CurrentObjectiveTick;
 
-		// Token: 0x0400017D RID: 381
 		public Action<TrainingFieldMissionController.MouseObjectives> CurrentMouseObjectiveTick;
 
-		// Token: 0x0400017E RID: 382
 		public Action<List<TrainingFieldMissionController.TutorialObjective>> AllObjectivesTick;
 
-		// Token: 0x0400017F RID: 383
 		private static bool _updateObjectivesWillBeCalled;
 
-		// Token: 0x04000181 RID: 385
 		private Agent _brotherConversationAgent;
 
-		// Token: 0x0200007D RID: 125
 		public class TutorialObjective
 		{
-			// Token: 0x170000DD RID: 221
-			// (get) Token: 0x0600066F RID: 1647 RVA: 0x00023D50 File Offset: 0x00021F50
-			// (set) Token: 0x06000670 RID: 1648 RVA: 0x00023D58 File Offset: 0x00021F58
 			public string Id { get; private set; }
 
-			// Token: 0x170000DE RID: 222
-			// (get) Token: 0x06000671 RID: 1649 RVA: 0x00023D61 File Offset: 0x00021F61
-			// (set) Token: 0x06000672 RID: 1650 RVA: 0x00023D69 File Offset: 0x00021F69
 			public bool IsFinished { get; private set; }
 
-			// Token: 0x170000DF RID: 223
-			// (get) Token: 0x06000673 RID: 1651 RVA: 0x00023D72 File Offset: 0x00021F72
-			// (set) Token: 0x06000674 RID: 1652 RVA: 0x00023D7A File Offset: 0x00021F7A
 			public bool IsActive { get; private set; }
 
-			// Token: 0x170000E0 RID: 224
-			// (get) Token: 0x06000675 RID: 1653 RVA: 0x00023D83 File Offset: 0x00021F83
-			// (set) Token: 0x06000676 RID: 1654 RVA: 0x00023D8B File Offset: 0x00021F8B
 			public List<TrainingFieldMissionController.TutorialObjective> SubTasks { get; private set; }
 
-			// Token: 0x170000E1 RID: 225
-			// (get) Token: 0x06000677 RID: 1655 RVA: 0x00023D94 File Offset: 0x00021F94
-			// (set) Token: 0x06000678 RID: 1656 RVA: 0x00023D9C File Offset: 0x00021F9C
 			public float Score { get; private set; }
 
-			// Token: 0x06000679 RID: 1657 RVA: 0x00023DA8 File Offset: 0x00021FA8
 			public TutorialObjective(string id, bool isFinished = false, bool isActive = false)
 			{
 				this._name = GameTexts.FindText("str_tutorial_" + id, null);
@@ -2671,7 +2432,6 @@ namespace StoryMode.Missions
 				this.Score = 0f;
 			}
 
-			// Token: 0x0600067A RID: 1658 RVA: 0x00023DFD File Offset: 0x00021FFD
 			public void SetTextVariableOfName(string tag, int variable)
 			{
 				string text = this._name.ToString();
@@ -2682,7 +2442,6 @@ namespace StoryMode.Missions
 				}
 			}
 
-			// Token: 0x0600067B RID: 1659 RVA: 0x00023E30 File Offset: 0x00022030
 			public string GetNameString()
 			{
 				if (this._name == null)
@@ -2692,7 +2451,6 @@ namespace StoryMode.Missions
 				return this._name.ToString();
 			}
 
-			// Token: 0x0600067C RID: 1660 RVA: 0x00023E4B File Offset: 0x0002204B
 			public bool SetActive(bool isActive)
 			{
 				if (this.IsActive == isActive)
@@ -2704,7 +2462,6 @@ namespace StoryMode.Missions
 				return true;
 			}
 
-			// Token: 0x0600067D RID: 1661 RVA: 0x00023E66 File Offset: 0x00022066
 			public bool FinishTask()
 			{
 				if (this.IsFinished)
@@ -2716,7 +2473,6 @@ namespace StoryMode.Missions
 				return true;
 			}
 
-			// Token: 0x0600067E RID: 1662 RVA: 0x00023E80 File Offset: 0x00022080
 			public void FinishSubTask(string subTaskName, float score)
 			{
 				TrainingFieldMissionController.TutorialObjective tutorialObjective = this.SubTasks.Find((TrainingFieldMissionController.TutorialObjective x) => x.Id == subTaskName);
@@ -2732,7 +2488,6 @@ namespace StoryMode.Missions
 				TrainingFieldMissionController._updateObjectivesWillBeCalled = true;
 			}
 
-			// Token: 0x0600067F RID: 1663 RVA: 0x00023F18 File Offset: 0x00022118
 			public bool SetAllSubTasksInactive()
 			{
 				bool flag = false;
@@ -2753,28 +2508,23 @@ namespace StoryMode.Missions
 				return flag;
 			}
 
-			// Token: 0x06000680 RID: 1664 RVA: 0x00023F98 File Offset: 0x00022198
 			public void AddSubTask(TrainingFieldMissionController.TutorialObjective newSubTask)
 			{
 				this.SubTasks.Add(newSubTask);
 				TrainingFieldMissionController._updateObjectivesWillBeCalled = true;
 			}
 
-			// Token: 0x06000681 RID: 1665 RVA: 0x00023FAC File Offset: 0x000221AC
 			public void RestoreScoreFromSave(float score)
 			{
 				this.Score = score;
 				TrainingFieldMissionController._updateObjectivesWillBeCalled = true;
 			}
 
-			// Token: 0x04000255 RID: 597
 			private TextObject _name;
 		}
 
-		// Token: 0x0200007E RID: 126
 		public struct DelayedAction
 		{
-			// Token: 0x06000682 RID: 1666 RVA: 0x00023FBB File Offset: 0x000221BB
 			public DelayedAction(Action order, float delayTime, string explanation)
 			{
 				this._orderGivenTime = Mission.Current.CurrentTime;
@@ -2783,7 +2533,6 @@ namespace StoryMode.Missions
 				this._explanation = explanation;
 			}
 
-			// Token: 0x06000683 RID: 1667 RVA: 0x00023FE2 File Offset: 0x000221E2
 			public bool Update()
 			{
 				if (Mission.Current.CurrentTime - this._orderGivenTime > this._delayTime)
@@ -2794,54 +2543,34 @@ namespace StoryMode.Missions
 				return false;
 			}
 
-			// Token: 0x0400025B RID: 603
 			private float _orderGivenTime;
 
-			// Token: 0x0400025C RID: 604
 			private float _delayTime;
 
-			// Token: 0x0400025D RID: 605
 			private Action _order;
 
-			// Token: 0x0400025E RID: 606
 			private string _explanation;
 		}
 
-		// Token: 0x0200007F RID: 127
 		public enum MouseObjectives
 		{
-			// Token: 0x04000260 RID: 608
 			None,
-			// Token: 0x04000261 RID: 609
 			AttackLeft,
-			// Token: 0x04000262 RID: 610
 			AttackRight,
-			// Token: 0x04000263 RID: 611
 			AttackUp,
-			// Token: 0x04000264 RID: 612
 			AttackDown,
-			// Token: 0x04000265 RID: 613
 			DefendLeft,
-			// Token: 0x04000266 RID: 614
 			DefendRight,
-			// Token: 0x04000267 RID: 615
 			DefendUp,
-			// Token: 0x04000268 RID: 616
 			DefendDown
 		}
 
-		// Token: 0x02000080 RID: 128
 		private enum HorseReturningSituation
 		{
-			// Token: 0x0400026A RID: 618
 			NotInPosition,
-			// Token: 0x0400026B RID: 619
 			BeginReturn,
-			// Token: 0x0400026C RID: 620
 			Returning,
-			// Token: 0x0400026D RID: 621
 			ReturnCompleted,
-			// Token: 0x0400026E RID: 622
 			Following
 		}
 	}

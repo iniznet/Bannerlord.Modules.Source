@@ -4,10 +4,8 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200011F RID: 287
 	public class DefaultNotableSpawnModel : NotableSpawnModel
 	{
-		// Token: 0x0600164D RID: 5709 RVA: 0x0006AD10 File Offset: 0x00068F10
 		public override int GetTargetNotableCountForSettlement(Settlement settlement, Occupation occupation)
 		{
 			int num = 0;

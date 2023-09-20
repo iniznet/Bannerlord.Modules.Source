@@ -5,16 +5,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 {
-	// Token: 0x02000081 RID: 129
 	public class MultiplayerTeamPlayerAvatarButtonWidget : ButtonWidget
 	{
-		// Token: 0x060006FD RID: 1789 RVA: 0x00014B1F File Offset: 0x00012D1F
 		public MultiplayerTeamPlayerAvatarButtonWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x060006FE RID: 1790 RVA: 0x00014B33 File Offset: 0x00012D33
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		// Token: 0x060006FF RID: 1791 RVA: 0x00014B70 File Offset: 0x00012D70
 		private void UpdateGlobalAlpha()
 		{
 			if (this._isInitialized)
@@ -38,9 +34,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		// Token: 0x17000279 RID: 633
-		// (get) Token: 0x06000700 RID: 1792 RVA: 0x00014BBC File Offset: 0x00012DBC
-		// (set) Token: 0x06000701 RID: 1793 RVA: 0x00014BC4 File Offset: 0x00012DC4
 		[DataSourceProperty]
 		public bool IsDead
 		{
@@ -59,9 +52,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		// Token: 0x1700027A RID: 634
-		// (get) Token: 0x06000702 RID: 1794 RVA: 0x00014BE8 File Offset: 0x00012DE8
-		// (set) Token: 0x06000703 RID: 1795 RVA: 0x00014BF0 File Offset: 0x00012DF0
 		[DataSourceProperty]
 		public float DeathAlphaFactor
 		{
@@ -79,9 +69,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		// Token: 0x1700027B RID: 635
-		// (get) Token: 0x06000704 RID: 1796 RVA: 0x00014C0E File Offset: 0x00012E0E
-		// (set) Token: 0x06000705 RID: 1797 RVA: 0x00014C16 File Offset: 0x00012E16
 		[DataSourceProperty]
 		public ImageIdentifierWidget AvatarImage
 		{
@@ -99,19 +86,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		// Token: 0x0400031A RID: 794
 		private bool _isInitialized;
 
-		// Token: 0x0400031B RID: 795
 		private float _originalAvatarImageAlpha = 1f;
 
-		// Token: 0x0400031C RID: 796
 		private bool _isDead;
 
-		// Token: 0x0400031D RID: 797
 		private float _deathAlphaFactor;
 
-		// Token: 0x0400031E RID: 798
 		private ImageIdentifierWidget _avatarImage;
 	}
 }

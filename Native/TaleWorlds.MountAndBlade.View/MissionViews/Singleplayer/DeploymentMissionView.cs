@@ -4,10 +4,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews.Order;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
-	// Token: 0x02000061 RID: 97
 	public class DeploymentMissionView : MissionView
 	{
-		// Token: 0x06000431 RID: 1073 RVA: 0x00021855 File Offset: 0x0001FA55
 		public override void AfterStart()
 		{
 			this._orderTroopPlacer = base.Mission.GetMissionBehavior<OrderTroopPlacer>();
@@ -15,7 +13,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			this._deploymentBoundaryMarkerHandler = base.Mission.GetMissionBehavior<MissionDeploymentBoundaryMarker>();
 		}
 
-		// Token: 0x06000432 RID: 1074 RVA: 0x0002188C File Offset: 0x0001FA8C
 		public override void OnInitialDeploymentPlanMadeForSide(BattleSideEnum side, bool isFirstPlan)
 		{
 			if (side == base.Mission.PlayerTeam.Side && base.Mission.DeploymentPlan.HasDeploymentBoundaries(base.Mission.PlayerTeam.Side, 0))
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000433 RID: 1075 RVA: 0x000218E0 File Offset: 0x0001FAE0
 		public override void OnDeploymentFinished()
 		{
 			this.OnDeploymentFinish();
@@ -56,16 +52,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x040002A8 RID: 680
 		private OrderTroopPlacer _orderTroopPlacer;
 
-		// Token: 0x040002A9 RID: 681
 		private MissionDeploymentBoundaryMarker _deploymentBoundaryMarkerHandler;
 
-		// Token: 0x040002AA RID: 682
 		private MissionEntitySelectionUIHandler _entitySelectionHandler;
 
-		// Token: 0x040002AB RID: 683
 		public OnPlayerDeploymentFinishDelegate OnDeploymentFinish;
 	}
 }

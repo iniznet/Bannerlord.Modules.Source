@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000241 RID: 577
 	public static class MBSceneUtilities
 	{
-		// Token: 0x06001F6F RID: 8047 RVA: 0x0006F680 File Offset: 0x0006D880
 		public static MBList<Path> GetAllSpawnPaths(Scene scene)
 		{
 			MBList<Path> mblist = new MBList<Path>();
@@ -26,7 +24,6 @@ namespace TaleWorlds.MountAndBlade
 			return mblist;
 		}
 
-		// Token: 0x06001F70 RID: 8048 RVA: 0x0006F6DC File Offset: 0x0006D8DC
 		public static List<Vec2> GetSceneBoundaryPoints(Scene scene, out string boundaryName)
 		{
 			List<Vec2> list = new List<Vec2>();
@@ -60,7 +57,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06001F71 RID: 8049 RVA: 0x0006F7F4 File Offset: 0x0006D9F4
 		public static void ProjectPositionToDeploymentBoundaries(BattleSideEnum side, ref WorldPosition position)
 		{
 			Mission mission = Mission.Current;
@@ -79,7 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F72 RID: 8050 RVA: 0x0006F864 File Offset: 0x0006DA64
 		public static void RadialSortBoundaries(ref List<Vec2> boundaries)
 		{
 			MBSceneUtilities.<>c__DisplayClass8_0 CS$<>8__locals1 = new MBSceneUtilities.<>c__DisplayClass8_0();
@@ -99,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			boundaries = boundaries.OrderBy((Vec2 b) => (b - CS$<>8__locals1.boundaryCenter).RotationInRadians).ToList<Vec2>();
 		}
 
-		// Token: 0x06001F73 RID: 8051 RVA: 0x0006F924 File Offset: 0x0006DB24
 		public static bool IsPointInsideBoundaries(in Vec2 point, List<Vec2> boundaries, float acceptanceThreshold = 0.01f)
 		{
 			acceptanceThreshold = MathF.Max(0f, acceptanceThreshold);
@@ -122,7 +116,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x06001F74 RID: 8052 RVA: 0x0006F9B0 File Offset: 0x0006DBB0
 		public static float FindClosestPointToBoundaries(in Vec2 position, List<Vec2> boundaries, out Vec2 closestPoint)
 		{
 			closestPoint = position;
@@ -142,19 +135,14 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x04000B89 RID: 2953
 		public const int MaxNumberOfSpawnPaths = 32;
 
-		// Token: 0x04000B8A RID: 2954
 		public const string SpawnPathPrefix = "spawn_path_";
 
-		// Token: 0x04000B8B RID: 2955
 		public const string SoftBorderVertexTag = "walk_area_vertex";
 
-		// Token: 0x04000B8C RID: 2956
 		public const string SoftBoundaryName = "walk_area";
 
-		// Token: 0x04000B8D RID: 2957
 		public const string SceneBoundaryName = "scene_boundary";
 	}
 }

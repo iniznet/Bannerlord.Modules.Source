@@ -2,10 +2,8 @@
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 {
-	// Token: 0x02000083 RID: 131
 	public static class WidgetsMultiplayerHelper
 	{
-		// Token: 0x06000710 RID: 1808 RVA: 0x00014DE8 File Offset: 0x00012FE8
 		public static string GetFactionColorCode(string lowercaseFactionCode, bool useSecondary)
 		{
 			if (useSecondary)

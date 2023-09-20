@@ -10,17 +10,14 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Towns
 {
-	// Token: 0x0200005C RID: 92
 	public class TownAmbushMissionController : MissionLogic
 	{
-		// Token: 0x06000406 RID: 1030 RVA: 0x0001CFF2 File Offset: 0x0001B1F2
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			this._missionAgentHandler = base.Mission.GetMissionBehavior<MissionAgentHandler>();
 		}
 
-		// Token: 0x06000407 RID: 1031 RVA: 0x0001D00C File Offset: 0x0001B20C
 		public override void AfterStart()
 		{
 			base.Mission.SetMissionMode(0, true);
@@ -43,7 +40,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x06000408 RID: 1032 RVA: 0x0001D13C File Offset: 0x0001B33C
 		public override void OnMissionTick(float dt)
 		{
 			if (base.Mission.MainAgent == null)
@@ -68,7 +64,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x06000409 RID: 1033 RVA: 0x0001D260 File Offset: 0x0001B460
 		private bool GuardCanSeeThePlayer(Agent guard, ref List<Agent> alarmedGuards)
 		{
 			if (guard.Position.DistanceSquared(Agent.Main.Position) <= 225f)
@@ -95,7 +90,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			return false;
 		}
 
-		// Token: 0x0600040A RID: 1034 RVA: 0x0001D360 File Offset: 0x0001B560
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectedAgent.IsEnemyOf(base.Mission.MainAgent))
@@ -112,7 +106,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			}
 		}
 
-		// Token: 0x0600040B RID: 1035 RVA: 0x0001D3F0 File Offset: 0x0001B5F0
 		public override bool MissionEnded(ref MissionResult missionResult)
 		{
 			if (this._enemiesAliveCount == 0)
@@ -128,13 +121,11 @@ namespace SandBox.Missions.MissionLogics.Towns
 			return false;
 		}
 
-		// Token: 0x0600040C RID: 1036 RVA: 0x0001D422 File Offset: 0x0001B622
 		public bool IsPlayerDead()
 		{
 			return base.Mission.MainAgent == null || !base.Mission.MainAgent.IsActive();
 		}
 
-		// Token: 0x0600040D RID: 1037 RVA: 0x0001D448 File Offset: 0x0001B648
 		protected override void OnEndMission()
 		{
 			Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
@@ -153,19 +144,14 @@ namespace SandBox.Missions.MissionLogics.Towns
 			base.Mission.EndMission();
 		}
 
-		// Token: 0x040001E0 RID: 480
 		private MissionAgentHandler _missionAgentHandler;
 
-		// Token: 0x040001E1 RID: 481
 		private int _enemiesAliveCount;
 
-		// Token: 0x040001E2 RID: 482
 		private const int _guardsNoticeRange = 15;
 
-		// Token: 0x040001E3 RID: 483
 		private Dictionary<Agent, Timer> _guardRaycheckTimers = new Dictionary<Agent, Timer>();
 
-		// Token: 0x040001E4 RID: 484
 		private const float _raycheckMaxTime = 2f;
 	}
 }

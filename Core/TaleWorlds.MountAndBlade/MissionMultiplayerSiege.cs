@@ -11,11 +11,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002A2 RID: 674
 	public class MissionMultiplayerSiege : MissionMultiplayerGameModeBase, IAnalyticsFlagInfo, IMissionBehavior
 	{
-		// Token: 0x170006DF RID: 1759
-		// (get) Token: 0x0600251A RID: 9498 RVA: 0x0008ACCC File Offset: 0x00088ECC
 		public override bool IsGameModeHidingAllAgentVisuals
 		{
 			get
@@ -24,8 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x170006E0 RID: 1760
-		// (get) Token: 0x0600251B RID: 9499 RVA: 0x0008ACCF File Offset: 0x00088ECF
 		public override bool IsGameModeUsingOpposingTeams
 		{
 			get
@@ -34,22 +29,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x14000055 RID: 85
-		// (add) Token: 0x0600251C RID: 9500 RVA: 0x0008ACD4 File Offset: 0x00088ED4
-		// (remove) Token: 0x0600251D RID: 9501 RVA: 0x0008AD0C File Offset: 0x00088F0C
 		public event MissionMultiplayerSiege.OnDestructableComponentDestroyedDelegate OnDestructableComponentDestroyed;
 
-		// Token: 0x14000056 RID: 86
-		// (add) Token: 0x0600251E RID: 9502 RVA: 0x0008AD44 File Offset: 0x00088F44
-		// (remove) Token: 0x0600251F RID: 9503 RVA: 0x0008AD7C File Offset: 0x00088F7C
 		public event MissionMultiplayerSiege.OnObjectiveGoldGainedDelegate OnObjectiveGoldGained;
 
-		// Token: 0x170006E1 RID: 1761
-		// (get) Token: 0x06002520 RID: 9504 RVA: 0x0008ADB1 File Offset: 0x00088FB1
-		// (set) Token: 0x06002521 RID: 9505 RVA: 0x0008ADB9 File Offset: 0x00088FB9
 		public MBReadOnlyList<FlagCapturePoint> AllCapturePoints { get; private set; }
 
-		// Token: 0x06002522 RID: 9506 RVA: 0x0008ADC4 File Offset: 0x00088FC4
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -117,7 +102,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002523 RID: 9507 RVA: 0x0008B0F0 File Offset: 0x000892F0
 		private static DestructableComponent GetDestructableCompoenentClosestToTheRoot(GameEntity entity)
 		{
 			DestructableComponent destructableComponent = entity.GetFirstScriptOfType<DestructableComponent>();
@@ -135,7 +119,6 @@ namespace TaleWorlds.MountAndBlade
 			return destructableComponent;
 		}
 
-		// Token: 0x06002524 RID: 9508 RVA: 0x0008B134 File Offset: 0x00089334
 		private void RangedSiegeMachineOnAgentLoadsMachine(RangedSiegeWeapon siegeWeapon, Agent reloadingAgent)
 		{
 			for (int i = 0; i < this._lastReloadingAgentPerRangedSiegeMachine.Length; i++)
@@ -147,7 +130,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002525 RID: 9509 RVA: 0x0008B17C File Offset: 0x0008937C
 		private void DestructableComponentOnHitTaken(DestructableComponent destructableComponent, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			if (!this.WarmupComponent.IsInWarmup)
@@ -224,7 +206,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002526 RID: 9510 RVA: 0x0008B3F0 File Offset: 0x000895F0
 		private void DestructableComponentOnDestroyed(DestructableComponent destructableComponent, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			GameEntity root = destructableComponent.GameEntity.Root;
@@ -259,19 +240,16 @@ namespace TaleWorlds.MountAndBlade
 			onDestructableComponentDestroyed(destructableComponent, attackerScriptComponentBehavior, list.ToArray());
 		}
 
-		// Token: 0x06002527 RID: 9511 RVA: 0x0008B584 File Offset: 0x00089784
 		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
 		{
 			return MissionLobbyComponent.MultiplayerGameType.Siege;
 		}
 
-		// Token: 0x06002528 RID: 9512 RVA: 0x0008B587 File Offset: 0x00089787
 		public override bool UseRoundController()
 		{
 			return false;
 		}
 
-		// Token: 0x06002529 RID: 9513 RVA: 0x0008B58C File Offset: 0x0008978C
 		public override void AfterStart()
 		{
 			BasicCultureObject @object = MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
@@ -293,7 +271,6 @@ namespace TaleWorlds.MountAndBlade
 			this._warmupComponent.OnWarmupEnding += this.OnWarmupEnding;
 		}
 
-		// Token: 0x0600252A RID: 9514 RVA: 0x0008B700 File Offset: 0x00089900
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -320,7 +297,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600252B RID: 9515 RVA: 0x0008B7E4 File Offset: 0x000899E4
 		private void CheckMorales(float dt)
 		{
 			this._dtSumCheckMorales += dt;
@@ -342,13 +318,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600252C RID: 9516 RVA: 0x0008B89D File Offset: 0x00089A9D
 		public override bool CheckForMatchEnd()
 		{
 			return this._morales.Any((int morale) => morale == 0);
 		}
 
-		// Token: 0x0600252D RID: 9517 RVA: 0x0008B8CC File Offset: 0x00089ACC
 		public override Team GetWinnerTeam()
 		{
 			Team team = null;
@@ -365,7 +339,6 @@ namespace TaleWorlds.MountAndBlade
 			return team;
 		}
 
-		// Token: 0x0600252E RID: 9518 RVA: 0x0008B954 File Offset: 0x00089B54
 		private int GetMoraleGain(BattleSideEnum side)
 		{
 			int num = 0;
@@ -436,13 +409,11 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x0600252F RID: 9519 RVA: 0x0008BB88 File Offset: 0x00089D88
 		public Team GetFlagOwnerTeam(FlagCapturePoint flag)
 		{
 			return this._capturePointOwners[flag.FlagIndex];
 		}
 
-		// Token: 0x06002530 RID: 9520 RVA: 0x0008BB97 File Offset: 0x00089D97
 		private bool CheckObjectives(float dt)
 		{
 			this._dtSumObjectiveCheck += dt;
@@ -454,7 +425,6 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06002531 RID: 9521 RVA: 0x0008BBCC File Offset: 0x00089DCC
 		private void TickFlags(float dt)
 		{
 			foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints)
@@ -538,7 +508,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002532 RID: 9522 RVA: 0x0008BDDC File Offset: 0x00089FDC
 		private void TickObjectives(float dt)
 		{
 			for (int i = this._movingObjectives.Length - 1; i >= 0; i--)
@@ -600,13 +569,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002533 RID: 9523 RVA: 0x0008C034 File Offset: 0x0008A234
 		private void OnWarmupEnding()
 		{
 			this.NotificationsComponent.WarmupEnding();
 		}
 
-		// Token: 0x06002534 RID: 9524 RVA: 0x0008C044 File Offset: 0x0008A244
 		public override bool CheckForWarmupEnd()
 		{
 			int[] array = new int[2];
@@ -621,13 +588,11 @@ namespace TaleWorlds.MountAndBlade
 			return array.Sum() >= MultiplayerOptions.OptionType.MaxNumberOfPlayers.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 		}
 
-		// Token: 0x06002535 RID: 9525 RVA: 0x0008C0E4 File Offset: 0x0008A2E4
 		protected override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			networkPeer.AddComponent<SiegeMissionRepresentative>();
 		}
 
-		// Token: 0x06002536 RID: 9526 RVA: 0x0008C0F0 File Offset: 0x0008A2F0
 		protected override void HandleNewClientAfterSynchronized(NetworkCommunicator networkPeer)
 		{
 			int num = 120;
@@ -652,7 +617,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002537 RID: 9527 RVA: 0x0008C1D8 File Offset: 0x0008A3D8
 		public override void OnPeerChangedTeam(NetworkCommunicator peer, Team oldTeam, Team newTeam)
 		{
 			if (this.MissionLobbyComponent.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing && oldTeam != null && oldTeam != newTeam)
@@ -661,7 +625,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002538 RID: 9528 RVA: 0x0008C200 File Offset: 0x0008A400
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			if (this.MissionLobbyComponent.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing && blow.DamageType != DamageTypes.Invalid && (agentState == AgentState.Unconscious || agentState == AgentState.Killed) && affectedAgent.IsHuman)
@@ -740,7 +703,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002539 RID: 9529 RVA: 0x0008C558 File Offset: 0x0008A758
 		protected override void HandleNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
 		{
 			GameNetwork.BeginBroadcastModuleEvent();
@@ -748,14 +710,12 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 		}
 
-		// Token: 0x0600253A RID: 9530 RVA: 0x0008C586 File Offset: 0x0008A786
 		public override void OnRemoveBehavior()
 		{
 			base.OnRemoveBehavior();
 			this._warmupComponent.OnWarmupEnding -= this.OnWarmupEnding;
 		}
 
-		// Token: 0x0600253B RID: 9531 RVA: 0x0008C5A8 File Offset: 0x0008A7A8
 		public override void OnClearScene()
 		{
 			base.OnClearScene();
@@ -769,106 +729,73 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000DA1 RID: 3489
 		public const int NumberOfFlagsInGame = 7;
 
-		// Token: 0x04000DA2 RID: 3490
 		public const int NumberOfFlagsAffectingMoraleInGame = 6;
 
-		// Token: 0x04000DA3 RID: 3491
 		public const int MaxMorale = 1440;
 
-		// Token: 0x04000DA4 RID: 3492
 		public const int StartingMorale = 360;
 
-		// Token: 0x04000DA5 RID: 3493
 		private const int FirstSpawnGold = 120;
 
-		// Token: 0x04000DA6 RID: 3494
 		private const int FirstSpawnGoldForEarlyJoin = 160;
 
-		// Token: 0x04000DA7 RID: 3495
 		private const int RespawnGold = 100;
 
-		// Token: 0x04000DA8 RID: 3496
 		private const float ObjectiveCheckPeriod = 0.25f;
 
-		// Token: 0x04000DA9 RID: 3497
 		private const float MoraleTickTimeInSeconds = 1f;
 
-		// Token: 0x04000DAA RID: 3498
 		public const int MaxMoraleGainPerFlag = 90;
 
-		// Token: 0x04000DAB RID: 3499
 		private const int MoraleBoostOnFlagRemoval = 90;
 
-		// Token: 0x04000DAC RID: 3500
 		private const int MoraleDecayInTick = -1;
 
-		// Token: 0x04000DAD RID: 3501
 		private const int MoraleDecayOnDefenderInTick = -6;
 
-		// Token: 0x04000DAE RID: 3502
 		public const int MoraleGainPerFlag = 1;
 
-		// Token: 0x04000DAF RID: 3503
 		public const int GoldBonusOnFlagRemoval = 35;
 
-		// Token: 0x04000DB0 RID: 3504
 		public const string MasterFlagTag = "keep_capture_point";
 
-		// Token: 0x04000DB3 RID: 3507
 		private int[] _morales;
 
-		// Token: 0x04000DB4 RID: 3508
 		private Agent _masterFlagBestAgent;
 
-		// Token: 0x04000DB5 RID: 3509
 		private FlagCapturePoint _masterFlag;
 
-		// Token: 0x04000DB6 RID: 3510
 		private Team[] _capturePointOwners;
 
-		// Token: 0x04000DB7 RID: 3511
 		private int[] _capturePointRemainingMoraleGains;
 
-		// Token: 0x04000DB9 RID: 3513
 		private float _dtSumCheckMorales;
 
-		// Token: 0x04000DBA RID: 3514
 		private float _dtSumObjectiveCheck;
 
-		// Token: 0x04000DBB RID: 3515
 		private MissionMultiplayerSiege.ObjectiveSystem _objectiveSystem;
 
-		// Token: 0x04000DBC RID: 3516
 		private ValueTuple<IMoveableSiegeWeapon, Vec3>[] _movingObjectives;
 
-		// Token: 0x04000DBD RID: 3517
 		private ValueTuple<RangedSiegeWeapon, Agent>[] _lastReloadingAgentPerRangedSiegeMachine;
 
-		// Token: 0x04000DBE RID: 3518
 		private MissionMultiplayerSiegeClient _gameModeSiegeClient;
 
-		// Token: 0x04000DBF RID: 3519
 		private MultiplayerWarmupComponent _warmupComponent;
 
-		// Token: 0x04000DC0 RID: 3520
 		private Dictionary<GameEntity, List<DestructableComponent>> _childDestructableComponents;
 
-		// Token: 0x04000DC1 RID: 3521
 		private bool _firstTickDone;
 
-		// Token: 0x020005C1 RID: 1473
 		private class ObjectiveSystem
 		{
-			// Token: 0x06003BC8 RID: 15304 RVA: 0x000F0080 File Offset: 0x000EE280
 			public ObjectiveSystem()
 			{
 				this._objectiveContributorMap = new Dictionary<GameEntity, List<MissionMultiplayerSiege.ObjectiveSystem.ObjectiveContributor>[]>();
 			}
 
-			// Token: 0x06003BC9 RID: 15305 RVA: 0x000F0094 File Offset: 0x000EE294
 			public bool RegisterObjective(GameEntity entity)
 			{
 				if (!this._objectiveContributorMap.ContainsKey(entity))
@@ -883,7 +810,6 @@ namespace TaleWorlds.MountAndBlade
 				return false;
 			}
 
-			// Token: 0x06003BCA RID: 15306 RVA: 0x000F00E4 File Offset: 0x000EE2E4
 			public void AddContributionForObjective(GameEntity objectiveEntity, MissionPeer contributorPeer, float contribution)
 			{
 				string text = objectiveEntity.Tags.FirstOrDefault((string x) => x.StartsWith("mp_siege_objective_")) ?? "";
@@ -924,7 +850,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003BCB RID: 15307 RVA: 0x000F026C File Offset: 0x000EE46C
 			public List<KeyValuePair<MissionPeer, float>> GetAllContributorsForSideAndClear(GameEntity objectiveEntity, BattleSideEnum side)
 			{
 				List<KeyValuePair<MissionPeer, float>> list = new List<KeyValuePair<MissionPeer, float>>();
@@ -944,41 +869,29 @@ namespace TaleWorlds.MountAndBlade
 				return list;
 			}
 
-			// Token: 0x04001E09 RID: 7689
 			private readonly Dictionary<GameEntity, List<MissionMultiplayerSiege.ObjectiveSystem.ObjectiveContributor>[]> _objectiveContributorMap;
 
-			// Token: 0x020006FF RID: 1791
 			private class ObjectiveContributor
 			{
-				// Token: 0x17000A25 RID: 2597
-				// (get) Token: 0x0600407C RID: 16508 RVA: 0x000FA09F File Offset: 0x000F829F
-				// (set) Token: 0x0600407D RID: 16509 RVA: 0x000FA0A7 File Offset: 0x000F82A7
 				public float Contribution { get; private set; }
 
-				// Token: 0x0600407E RID: 16510 RVA: 0x000FA0B0 File Offset: 0x000F82B0
 				public ObjectiveContributor(MissionPeer peer, float initialContribution)
 				{
 					this.Peer = peer;
 					this.Contribution = initialContribution;
 				}
 
-				// Token: 0x0600407F RID: 16511 RVA: 0x000FA0C6 File Offset: 0x000F82C6
 				public void IncreaseAmount(float deltaContribution)
 				{
 					this.Contribution += deltaContribution;
 				}
 
-				// Token: 0x04002348 RID: 9032
 				public readonly MissionPeer Peer;
 			}
 		}
 
-		// Token: 0x020005C2 RID: 1474
-		// (Invoke) Token: 0x06003BCD RID: 15309
 		public delegate void OnDestructableComponentDestroyedDelegate(DestructableComponent destructableComponent, ScriptComponentBehavior attackerScriptComponentBehaviour, MissionPeer[] contributors);
 
-		// Token: 0x020005C3 RID: 1475
-		// (Invoke) Token: 0x06003BD1 RID: 15313
 		public delegate void OnObjectiveGoldGainedDelegate(MissionPeer peer, int goldGain);
 	}
 }

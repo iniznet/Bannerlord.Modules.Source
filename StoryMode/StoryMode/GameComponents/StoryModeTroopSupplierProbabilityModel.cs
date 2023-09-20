@@ -10,10 +10,8 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace StoryMode.GameComponents
 {
-	// Token: 0x02000048 RID: 72
 	public class StoryModeTroopSupplierProbabilityModel : DefaultTroopSupplierProbabilityModel
 	{
-		// Token: 0x060003C9 RID: 969 RVA: 0x00017618 File Offset: 0x00015818
 		public override void EnqueueTroopSpawnProbabilitiesAccordingToUnitSpawnPrioritization(MapEventParty battleParty, FlattenedTroopRoster priorityTroops, bool includePlayers, int sizeOfSide, bool forcePriorityTroops, List<ValueTuple<FlattenedTroopRosterElement, MapEventParty, float>> priorityList)
 		{
 			int count = priorityList.Count;

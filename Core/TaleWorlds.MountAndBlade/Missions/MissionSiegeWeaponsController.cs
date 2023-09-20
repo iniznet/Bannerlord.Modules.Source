@@ -6,10 +6,8 @@ using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade.Missions
 {
-	// Token: 0x02000400 RID: 1024
 	public class MissionSiegeWeaponsController : IMissionSiegeWeaponsController
 	{
-		// Token: 0x0600351B RID: 13595 RVA: 0x000DD67E File Offset: 0x000DB87E
 		public MissionSiegeWeaponsController(BattleSideEnum side, List<MissionSiegeWeapon> weapons)
 		{
 			this._side = side;
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			this._deployedWeapons = new Dictionary<DestructableComponent, MissionSiegeWeapon>();
 		}
 
-		// Token: 0x0600351C RID: 13596 RVA: 0x000DD6B0 File Offset: 0x000DB8B0
 		public int GetMaxDeployableWeaponCount(Type t)
 		{
 			int num = 0;
@@ -35,13 +32,11 @@ namespace TaleWorlds.MountAndBlade.Missions
 			return num;
 		}
 
-		// Token: 0x0600351D RID: 13597 RVA: 0x000DD714 File Offset: 0x000DB914
 		public IEnumerable<IMissionSiegeWeapon> GetSiegeWeapons()
 		{
 			return this._weapons.Cast<IMissionSiegeWeapon>();
 		}
 
-		// Token: 0x0600351E RID: 13598 RVA: 0x000DD724 File Offset: 0x000DB924
 		public void OnWeaponDeployed(SiegeWeapon missionWeapon)
 		{
 			SiegeEngineType missionWeaponType = missionWeapon.GetSiegeEngineType();
@@ -56,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			this._deployedWeapons.Add(destructionComponent, missionSiegeWeapon);
 		}
 
-		// Token: 0x0600351F RID: 13599 RVA: 0x000DD7C4 File Offset: 0x000DB9C4
 		public void OnWeaponUndeployed(SiegeWeapon missionWeapon)
 		{
 			DestructableComponent destructionComponent = missionWeapon.DestructionComponent;
@@ -71,7 +65,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			this._undeployedWeapons.Add(missionSiegeWeapon);
 		}
 
-		// Token: 0x06003520 RID: 13600 RVA: 0x000DD844 File Offset: 0x000DBA44
 		private void OnWeaponHit(DestructableComponent target, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			MissionSiegeWeapon missionSiegeWeapon;
@@ -82,7 +75,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			}
 		}
 
-		// Token: 0x06003521 RID: 13601 RVA: 0x000DD88C File Offset: 0x000DBA8C
 		private void OnWeaponDestroyed(DestructableComponent target, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage)
 		{
 			MissionSiegeWeapon missionSiegeWeapon;
@@ -95,7 +87,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			}
 		}
 
-		// Token: 0x06003522 RID: 13602 RVA: 0x000DD8F4 File Offset: 0x000DBAF4
 		public static Type GetWeaponType(ScriptComponentBehavior weapon)
 		{
 			if (weapon is UsableGameObjectGroup)
@@ -106,7 +97,6 @@ namespace TaleWorlds.MountAndBlade.Missions
 			return weapon.GetType();
 		}
 
-		// Token: 0x06003523 RID: 13603 RVA: 0x000DD968 File Offset: 0x000DBB68
 		private static Type GetSiegeWeaponBaseType(SiegeEngineType siegeWeaponType)
 		{
 			if (siegeWeaponType == DefaultSiegeEngineTypes.Ladder)
@@ -144,16 +134,12 @@ namespace TaleWorlds.MountAndBlade.Missions
 			return null;
 		}
 
-		// Token: 0x040016C8 RID: 5832
 		private readonly List<MissionSiegeWeapon> _weapons;
 
-		// Token: 0x040016C9 RID: 5833
 		private readonly List<MissionSiegeWeapon> _undeployedWeapons;
 
-		// Token: 0x040016CA RID: 5834
 		private readonly Dictionary<DestructableComponent, MissionSiegeWeapon> _deployedWeapons;
 
-		// Token: 0x040016CB RID: 5835
 		private BattleSideEnum _side;
 	}
 }

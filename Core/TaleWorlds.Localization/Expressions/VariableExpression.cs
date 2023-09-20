@@ -4,11 +4,8 @@ using TaleWorlds.Localization.TextProcessor;
 
 namespace TaleWorlds.Localization.Expressions
 {
-	// Token: 0x0200001F RID: 31
 	internal class VariableExpression : TextExpression
 	{
-		// Token: 0x17000025 RID: 37
-		// (get) Token: 0x060000C5 RID: 197 RVA: 0x00004A2F File Offset: 0x00002C2F
 		public string IdentifierName
 		{
 			get
@@ -17,7 +14,6 @@ namespace TaleWorlds.Localization.Expressions
 			}
 		}
 
-		// Token: 0x060000C6 RID: 198 RVA: 0x00004A37 File Offset: 0x00002C37
 		public VariableExpression(string identifierName, VariableExpression innerExpression)
 		{
 			base.RawValue = identifierName;
@@ -25,7 +21,6 @@ namespace TaleWorlds.Localization.Expressions
 			this._innerVariable = innerExpression;
 		}
 
-		// Token: 0x060000C7 RID: 199 RVA: 0x00004A54 File Offset: 0x00002C54
 		internal MultiStatement GetValue(TextProcessingContext context, TextObject parent)
 		{
 			if (this._innerVariable == null)
@@ -51,7 +46,6 @@ namespace TaleWorlds.Localization.Expressions
 			return null;
 		}
 
-		// Token: 0x060000C8 RID: 200 RVA: 0x00004B1C File Offset: 0x00002D1C
 		internal override string EvaluateString(TextProcessingContext context, TextObject parent)
 		{
 			MultiStatement value = this.GetValue(context, parent);
@@ -71,8 +65,6 @@ namespace TaleWorlds.Localization.Expressions
 			return "";
 		}
 
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x060000C9 RID: 201 RVA: 0x00004BAC File Offset: 0x00002DAC
 		internal override TokenType TokenType
 		{
 			get
@@ -81,10 +73,8 @@ namespace TaleWorlds.Localization.Expressions
 			}
 		}
 
-		// Token: 0x04000049 RID: 73
 		private VariableExpression _innerVariable;
 
-		// Token: 0x0400004A RID: 74
 		private string _identifierName;
 	}
 }

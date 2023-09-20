@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200044E RID: 1102
 	public static class MarriageAction
 	{
-		// Token: 0x06003F39 RID: 16185 RVA: 0x0012E7A8 File Offset: 0x0012C9A8
 		private static void ApplyInternal(Hero firstHero, Hero secondHero, bool showNotification)
 		{
 			if (!Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(firstHero, secondHero))
@@ -130,7 +128,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnHeroesMarried(firstHero, secondHero, showNotification);
 		}
 
-		// Token: 0x06003F3A RID: 16186 RVA: 0x0012EB5C File Offset: 0x0012CD5C
 		public static void Apply(Hero firstHero, Hero secondHero, bool showNotification = true)
 		{
 			MarriageAction.ApplyInternal(firstHero, secondHero, showNotification);

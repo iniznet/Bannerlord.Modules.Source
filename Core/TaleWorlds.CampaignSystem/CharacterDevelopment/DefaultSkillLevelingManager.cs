@@ -12,10 +12,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 {
-	// Token: 0x02000350 RID: 848
 	public class DefaultSkillLevelingManager : ISkillLevelingManager
 	{
-		// Token: 0x06002F66 RID: 12134 RVA: 0x000C9608 File Offset: 0x000C7808
 		public void OnCombatHit(CharacterObject affectorCharacter, CharacterObject affectedCharacter, CharacterObject captain, Hero commander, float speedBonusFromMovement, float shotDifficulty, WeaponComponentData affectorWeapon, float hitPointRatio, CombatXpModel.MissionTypeEnum missionType, bool isAffectorMounted, bool isTeamKill, bool isAffectorUnderCommand, float damageAmount, bool isFatal, bool isSiegeEngineHit, bool isHorseCharge)
 		{
 			if (isTeamKill)
@@ -90,7 +88,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F67 RID: 12135 RVA: 0x000C97E8 File Offset: 0x000C79E8
 		public void OnSiegeEngineDestroyed(MobileParty party, SiegeEngineType destroyedSiegeEngine)
 		{
 			if (((party != null) ? party.EffectiveEngineer : null) != null)
@@ -100,7 +97,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F68 RID: 12136 RVA: 0x000C9820 File Offset: 0x000C7A20
 		public void OnSimulationCombatKill(CharacterObject affectorCharacter, CharacterObject affectedCharacter, PartyBase affectorParty, PartyBase commanderParty)
 		{
 			int xpReward = Campaign.Current.Models.PartyTrainingModel.GetXpReward(affectedCharacter);
@@ -130,7 +126,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F69 RID: 12137 RVA: 0x000C9920 File Offset: 0x000C7B20
 		public void OnTradeProfitMade(PartyBase party, int tradeProfit)
 		{
 			if (tradeProfit > 0)
@@ -140,7 +135,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F6A RID: 12138 RVA: 0x000C994C File Offset: 0x000C7B4C
 		public void OnTradeProfitMade(Hero hero, int tradeProfit)
 		{
 			if (tradeProfit > 0)
@@ -150,13 +144,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F6B RID: 12139 RVA: 0x000C997A File Offset: 0x000C7B7A
 		public void OnSettlementProjectFinished(Settlement settlement)
 		{
 			DefaultSkillLevelingManager.OnSettlementSkillExercised(settlement, DefaultSkills.Steward, 1000f);
 		}
 
-		// Token: 0x06002F6C RID: 12140 RVA: 0x000C998C File Offset: 0x000C7B8C
 		public void OnSettlementGoverned(Hero governor, Settlement settlement)
 		{
 			float prosperityChange = settlement.Town.ProsperityChange;
@@ -167,7 +159,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F6D RID: 12141 RVA: 0x000C99C4 File Offset: 0x000C7BC4
 		public void OnInfluenceSpent(Hero hero, float amountSpent)
 		{
 			if (hero.PartyBelongedTo != null)
@@ -177,7 +168,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F6E RID: 12142 RVA: 0x000C99F4 File Offset: 0x000C7BF4
 		public void OnGainRelation(Hero hero, Hero gainedRelationWith, float relationChange, ChangeRelationAction.ChangeRelationDetail detail = ChangeRelationAction.ChangeRelationDetail.Default)
 		{
 			if ((hero.PartyBelongedTo == null && detail != ChangeRelationAction.ChangeRelationDetail.Emissary) || relationChange <= 0f)
@@ -193,7 +183,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			DefaultSkillLevelingManager.OnPersonalSkillExercised(hero, DefaultSkills.Charm, (float)charmExperienceFromRelationGain, true);
 		}
 
-		// Token: 0x06002F6F RID: 12143 RVA: 0x000C9A5C File Offset: 0x000C7C5C
 		public void OnTroopRecruited(Hero hero, int amount, int tier)
 		{
 			if (amount > 0)
@@ -203,7 +192,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F70 RID: 12144 RVA: 0x000C9A84 File Offset: 0x000C7C84
 		public void OnBribeGiven(int amount)
 		{
 			if (amount > 0)
@@ -213,7 +201,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F71 RID: 12145 RVA: 0x000C9AAF File Offset: 0x000C7CAF
 		public void OnBanditsRecruited(MobileParty mobileParty, CharacterObject bandit, int count)
 		{
 			if (count > 0)
@@ -222,28 +209,24 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F72 RID: 12146 RVA: 0x000C9AD4 File Offset: 0x000C7CD4
 		public void OnMainHeroReleasedFromCaptivity(float captivityTime)
 		{
 			float num = captivityTime * 0.5f;
 			DefaultSkillLevelingManager.OnPersonalSkillExercised(Hero.MainHero, DefaultSkills.Roguery, num, true);
 		}
 
-		// Token: 0x06002F73 RID: 12147 RVA: 0x000C9AFC File Offset: 0x000C7CFC
 		public void OnMainHeroTortured()
 		{
 			float num = MBRandom.RandomFloatRanged(50f, 100f);
 			DefaultSkillLevelingManager.OnPersonalSkillExercised(Hero.MainHero, DefaultSkills.Roguery, num, true);
 		}
 
-		// Token: 0x06002F74 RID: 12148 RVA: 0x000C9B2C File Offset: 0x000C7D2C
 		public void OnMainHeroDisguised(bool isNotCaught)
 		{
 			float num = (isNotCaught ? MBRandom.RandomFloatRanged(10f, 25f) : MBRandom.RandomFloatRanged(1f, 10f));
 			DefaultSkillLevelingManager.OnPartySkillExercised(MobileParty.MainParty, DefaultSkills.Roguery, num, SkillEffect.PerkRole.PartyLeader);
 		}
 
-		// Token: 0x06002F75 RID: 12149 RVA: 0x000C9B70 File Offset: 0x000C7D70
 		public void OnRaid(MobileParty attackerParty, ItemRoster lootedItems)
 		{
 			if (attackerParty.LeaderHero != null)
@@ -253,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F76 RID: 12150 RVA: 0x000C9BA8 File Offset: 0x000C7DA8
 		public void OnLoot(MobileParty attackerParty, MobileParty forcedParty, ItemRoster lootedItems, bool attacked)
 		{
 			if (attackerParty.LeaderHero != null)
@@ -272,21 +254,18 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F77 RID: 12151 RVA: 0x000C9C14 File Offset: 0x000C7E14
 		public void OnPrisonerSell(MobileParty mobileParty, float count)
 		{
 			float num = 6f * count;
 			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Roguery, num, SkillEffect.PerkRole.PartyLeader);
 		}
 
-		// Token: 0x06002F78 RID: 12152 RVA: 0x000C9C38 File Offset: 0x000C7E38
 		public void OnSurgeryApplied(MobileParty party, bool surgerySuccess, int troopTier)
 		{
 			float num = (float)(surgerySuccess ? (10 * troopTier) : (5 * troopTier));
 			DefaultSkillLevelingManager.OnPartySkillExercised(party, DefaultSkills.Medicine, num, SkillEffect.PerkRole.Surgeon);
 		}
 
-		// Token: 0x06002F79 RID: 12153 RVA: 0x000C9C60 File Offset: 0x000C7E60
 		public void OnTacticsUsed(MobileParty party, float xp)
 		{
 			if (xp > 0f)
@@ -295,33 +274,28 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F7A RID: 12154 RVA: 0x000C9C77 File Offset: 0x000C7E77
 		public void OnHideoutSpotted(MobileParty party, PartyBase spottedParty)
 		{
 			DefaultSkillLevelingManager.OnPartySkillExercised(party, DefaultSkills.Scouting, 100f, SkillEffect.PerkRole.Scout);
 		}
 
-		// Token: 0x06002F7B RID: 12155 RVA: 0x000C9C8C File Offset: 0x000C7E8C
 		public void OnTrackDetected(Track track)
 		{
 			float skillFromTrackDetected = Campaign.Current.Models.MapTrackModel.GetSkillFromTrackDetected(track);
 			DefaultSkillLevelingManager.OnPartySkillExercised(MobileParty.MainParty, DefaultSkills.Scouting, skillFromTrackDetected, SkillEffect.PerkRole.Scout);
 		}
 
-		// Token: 0x06002F7C RID: 12156 RVA: 0x000C9CC1 File Offset: 0x000C7EC1
 		public void OnTravelOnFoot(Hero hero, float speed)
 		{
 			hero.AddSkillXp(DefaultSkills.Athletics, (float)(MBRandom.RoundRandomized(0.2f * speed) + 1));
 		}
 
-		// Token: 0x06002F7D RID: 12157 RVA: 0x000C9CE0 File Offset: 0x000C7EE0
 		public void OnTravelOnHorse(Hero hero, float speed)
 		{
 			ItemObject item = hero.CharacterObject.Equipment.Horse.Item;
 			DefaultSkillLevelingManager.OnGainingRidingExperience(hero, (float)MBRandom.RoundRandomized(0.3f * speed), item);
 		}
 
-		// Token: 0x06002F7E RID: 12158 RVA: 0x000C9D1C File Offset: 0x000C7F1C
 		public void OnHeroHealedWhileWaiting(Hero hero, int healingAmount)
 		{
 			if (hero.PartyBelongedTo != null && hero.PartyBelongedTo.EffectiveSurgeon != null)
@@ -333,7 +307,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F7F RID: 12159 RVA: 0x000C9DC8 File Offset: 0x000C7FC8
 		public void OnRegularTroopHealedWhileWaiting(MobileParty mobileParty, int healedTroopCount, float averageTier)
 		{
 			float num = (float)(Campaign.Current.Models.PartyHealingModel.GetSkillXpFromHealingTroop(mobileParty.Party) * healedTroopCount) * averageTier;
@@ -342,14 +315,12 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Medicine, num, SkillEffect.PerkRole.Surgeon);
 		}
 
-		// Token: 0x06002F80 RID: 12160 RVA: 0x000C9E28 File Offset: 0x000C8028
 		public void OnLeadingArmy(MobileParty mobileParty)
 		{
 			float num = mobileParty.GetTotalStrengthWithFollowers(true) * 0.0004f * mobileParty.Army.Morale;
 			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Leadership, num, SkillEffect.PerkRole.PartyLeader);
 		}
 
-		// Token: 0x06002F81 RID: 12161 RVA: 0x000C9E5C File Offset: 0x000C805C
 		public void OnSieging(MobileParty mobileParty)
 		{
 			int num = mobileParty.MemberRoster.TotalManCount;
@@ -367,14 +338,12 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Engineering, num2, SkillEffect.PerkRole.Engineer);
 		}
 
-		// Token: 0x06002F82 RID: 12162 RVA: 0x000C9EFC File Offset: 0x000C80FC
 		public void OnSiegeEngineBuilt(MobileParty mobileParty, SiegeEngineType siegeEngine)
 		{
 			float num = 30f + 2f * (float)siegeEngine.Difficulty;
 			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Engineering, num, SkillEffect.PerkRole.Engineer);
 		}
 
-		// Token: 0x06002F83 RID: 12163 RVA: 0x000C9F2C File Offset: 0x000C812C
 		public void OnUpgradeTroops(PartyBase party, CharacterObject troop, CharacterObject upgrade, int numberOfTroops)
 		{
 			Hero hero = party.LeaderHero ?? party.Owner;
@@ -392,7 +361,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F84 RID: 12164 RVA: 0x000C9F98 File Offset: 0x000C8198
 		public void OnPersuasionSucceeded(Hero targetHero, SkillObject skill, PersuasionDifficulty difficulty, int argumentDifficultyBonusCoefficient)
 		{
 			float num = (float)Campaign.Current.Models.PersuasionModel.GetSkillXpFromPersuasion(difficulty, argumentDifficultyBonusCoefficient);
@@ -402,7 +370,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F85 RID: 12165 RVA: 0x000C9FD0 File Offset: 0x000C81D0
 		public void OnPrisonBreakEnd(Hero prisonerHero, bool isSucceeded)
 		{
 			float rogueryRewardOnPrisonBreak = Campaign.Current.Models.PrisonBreakModel.GetRogueryRewardOnPrisonBreak(prisonerHero, isSucceeded);
@@ -412,7 +379,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F86 RID: 12166 RVA: 0x000CA00C File Offset: 0x000C820C
 		public void OnWallBreached(MobileParty party)
 		{
 			if (((party != null) ? party.EffectiveEngineer : null) != null)
@@ -421,7 +387,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F87 RID: 12167 RVA: 0x000CA030 File Offset: 0x000C8230
 		public void OnForceVolunteers(MobileParty attackerParty, PartyBase forcedParty)
 		{
 			if (attackerParty.LeaderHero != null)
@@ -431,7 +396,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F88 RID: 12168 RVA: 0x000CA074 File Offset: 0x000C8274
 		public void OnForceSupplies(MobileParty attackerParty, ItemRoster lootedItems, bool attacked)
 		{
 			if (attackerParty.LeaderHero != null)
@@ -442,14 +406,12 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F89 RID: 12169 RVA: 0x000CA0B8 File Offset: 0x000C82B8
 		public void OnAIPartiesTravel(Hero hero, bool isCaravanParty, TerrainType currentTerrainType)
 		{
 			int num = ((currentTerrainType == TerrainType.Forest) ? MBRandom.RoundRandomized(5f) : MBRandom.RoundRandomized(3f));
 			hero.AddSkillXp(DefaultSkills.Scouting, isCaravanParty ? ((float)num / 2f) : ((float)num));
 		}
 
-		// Token: 0x06002F8A RID: 12170 RVA: 0x000CA0FC File Offset: 0x000C82FC
 		public void OnTraverseTerrain(MobileParty mobileParty, TerrainType currentTerrainType)
 		{
 			float num = 0f;
@@ -469,7 +431,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F8B RID: 12171 RVA: 0x000CA188 File Offset: 0x000C8388
 		public void OnBattleEnd(PartyBase party, FlattenedTroopRoster flattenedTroopRoster)
 		{
 			Hero hero = party.LeaderHero ?? party.Owner;
@@ -506,7 +467,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F8C RID: 12172 RVA: 0x000CA2F0 File Offset: 0x000C84F0
 		public void OnFoodConsumed(MobileParty mobileParty, bool wasStarving)
 		{
 			if (!wasStarving && mobileParty.ItemRoster.FoodVariety > 3 && mobileParty.EffectiveQuartermaster != null)
@@ -516,13 +476,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F8D RID: 12173 RVA: 0x000CA348 File Offset: 0x000C8548
 		public void OnAlleyCleared(Alley alley)
 		{
 			Hero.MainHero.AddSkillXp(DefaultSkills.Roguery, Campaign.Current.Models.AlleyModel.GetInitialXpGainForMainHero());
 		}
 
-		// Token: 0x06002F8E RID: 12174 RVA: 0x000CA370 File Offset: 0x000C8570
 		public void OnDailyAlleyTick(Alley alley, Hero alleyLeader)
 		{
 			Hero.MainHero.AddSkillXp(DefaultSkills.Roguery, Campaign.Current.Models.AlleyModel.GetDailyXpGainForMainHero());
@@ -532,7 +490,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F8F RID: 12175 RVA: 0x000CA3CC File Offset: 0x000C85CC
 		public void OnBoardGameWonAgainstLord(Hero lord, BoardGameHelper.AIDifficulty difficulty, bool extraXpGain)
 		{
 			switch (difficulty)
@@ -553,7 +510,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F90 RID: 12176 RVA: 0x000CA440 File Offset: 0x000C8640
 		private static void OnPersonalSkillExercised(Hero hero, SkillObject skill, float skillXp, bool shouldNotify = true)
 		{
 			if (hero != null)
@@ -562,7 +518,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F91 RID: 12177 RVA: 0x000CA454 File Offset: 0x000C8654
 		private static void OnSettlementSkillExercised(Settlement settlement, SkillObject skill, float skillXp)
 		{
 			Town town = settlement.Town;
@@ -574,7 +529,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			hero.AddSkillXp(skill, skillXp);
 		}
 
-		// Token: 0x06002F92 RID: 12178 RVA: 0x000CA4A4 File Offset: 0x000C86A4
 		private static void OnGainingRidingExperience(Hero hero, float baseXpAmount, ItemObject horse)
 		{
 			if (horse != null)
@@ -584,7 +538,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		// Token: 0x06002F93 RID: 12179 RVA: 0x000CA4D6 File Offset: 0x000C86D6
 		private static void OnPartySkillExercised(MobileParty party, SkillObject skill, float skillXp, SkillEffect.PerkRole perkRole = SkillEffect.PerkRole.PartyLeader)
 		{
 			Hero effectiveRoleHolder = party.GetEffectiveRoleHolder(perkRole);
@@ -595,7 +548,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			effectiveRoleHolder.AddSkillXp(skill, skillXp);
 		}
 
-		// Token: 0x04000FA1 RID: 4001
 		private const float TacticsXpCoefficient = 0.02f;
 	}
 }

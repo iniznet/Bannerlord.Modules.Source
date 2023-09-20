@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.CustomBattle.CustomBattle;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000007 RID: 7
 	public class ArmyCompositionGroupVM : ViewModel
 	{
-		// Token: 0x0600001E RID: 30 RVA: 0x00004C88 File Offset: 0x00002E88
 		public ArmyCompositionGroupVM(bool isPlayerSide, TroopTypeSelectionPopUpVM troopTypeSelectionPopUp)
 		{
 			this._isPlayerSide = isPlayerSide;
@@ -35,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.RefreshValues();
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x00004E3C File Offset: 0x0000303C
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -46,7 +43,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.RangedCavalryComposition.RefreshValues();
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x00004E94 File Offset: 0x00003094
 		private static int SumOfValues(int[] array, bool[] enabledArray, int excludedIndex = -1)
 		{
 			int num = 0;
@@ -60,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return num;
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x00004EC4 File Offset: 0x000030C4
 		public void SetCurrentSelectedCulture(BasicCultureObject selectedCulture)
 		{
 			if (this._selectedCulture != selectedCulture)
@@ -73,7 +68,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x00004F14 File Offset: 0x00003114
 		private void UpdateSliders(int value, int changedSliderIndex)
 		{
 			if (this._updatingSliders)
@@ -185,14 +179,12 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this._updatingSliders = false;
 		}
 
-		// Token: 0x06000023 RID: 35 RVA: 0x000051F0 File Offset: 0x000033F0
 		private void SetArmyCompositionValue(int index, int value, ArmyCompositionItemVM composition)
 		{
 			this.CompositionValues[index] = value;
 			composition.RefreshCompositionValue();
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00005204 File Offset: 0x00003404
 		public void ExecuteRandomize()
 		{
 			this.ArmySize = MBRandom.RandomInt(this.MaxArmySize);
@@ -211,7 +203,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.RangedCavalryComposition.ExecuteRandomize(num9);
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x000052C8 File Offset: 0x000034C8
 		public void OnPlayerTypeChange(CustomBattlePlayerType playerType)
 		{
 			bool flag = this.ArmySize == this.MinArmySize;
@@ -219,9 +210,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this.ArmySize = (flag ? this.MinArmySize : this._armySize);
 		}
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000026 RID: 38 RVA: 0x00005308 File Offset: 0x00003508
-		// (set) Token: 0x06000027 RID: 39 RVA: 0x00005310 File Offset: 0x00003510
 		[DataSourceProperty]
 		public ArmyCompositionItemVM MeleeInfantryComposition
 		{
@@ -239,9 +227,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000028 RID: 40 RVA: 0x0000532E File Offset: 0x0000352E
-		// (set) Token: 0x06000029 RID: 41 RVA: 0x00005336 File Offset: 0x00003536
 		[DataSourceProperty]
 		public ArmyCompositionItemVM RangedInfantryComposition
 		{
@@ -259,9 +244,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x0600002A RID: 42 RVA: 0x00005354 File Offset: 0x00003554
-		// (set) Token: 0x0600002B RID: 43 RVA: 0x0000535C File Offset: 0x0000355C
 		[DataSourceProperty]
 		public ArmyCompositionItemVM MeleeCavalryComposition
 		{
@@ -279,9 +261,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600002C RID: 44 RVA: 0x0000537A File Offset: 0x0000357A
-		// (set) Token: 0x0600002D RID: 45 RVA: 0x00005382 File Offset: 0x00003582
 		[DataSourceProperty]
 		public ArmyCompositionItemVM RangedCavalryComposition
 		{
@@ -299,9 +278,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x0600002E RID: 46 RVA: 0x000053A0 File Offset: 0x000035A0
-		// (set) Token: 0x0600002F RID: 47 RVA: 0x000053A8 File Offset: 0x000035A8
 		[DataSourceProperty]
 		public string ArmySizeTitle
 		{
@@ -319,9 +295,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x06000030 RID: 48 RVA: 0x000053CB File Offset: 0x000035CB
-		// (set) Token: 0x06000031 RID: 49 RVA: 0x000053D4 File Offset: 0x000035D4
 		public int ArmySize
 		{
 			get
@@ -338,9 +311,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000032 RID: 50 RVA: 0x0000542C File Offset: 0x0000362C
-		// (set) Token: 0x06000033 RID: 51 RVA: 0x00005434 File Offset: 0x00003634
 		public int MaxArmySize
 		{
 			get
@@ -357,9 +327,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000034 RID: 52 RVA: 0x00005452 File Offset: 0x00003652
-		// (set) Token: 0x06000035 RID: 53 RVA: 0x0000545A File Offset: 0x0000365A
 		public int MinArmySize
 		{
 			get
@@ -376,46 +343,32 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x0400002C RID: 44
 		public int[] CompositionValues;
 
-		// Token: 0x0400002D RID: 45
 		private readonly bool _isPlayerSide;
 
-		// Token: 0x0400002E RID: 46
 		private bool _updatingSliders;
 
-		// Token: 0x0400002F RID: 47
 		private BasicCultureObject _selectedCulture;
 
-		// Token: 0x04000030 RID: 48
 		private readonly MBReadOnlyList<SkillObject> _allSkills = Game.Current.ObjectManager.GetObjectTypeList<SkillObject>();
 
-		// Token: 0x04000031 RID: 49
 		private readonly List<BasicCharacterObject> _allCharacterObjects = new List<BasicCharacterObject>();
 
-		// Token: 0x04000032 RID: 50
 		private ArmyCompositionItemVM _meleeInfantryComposition;
 
-		// Token: 0x04000033 RID: 51
 		private ArmyCompositionItemVM _rangedInfantryComposition;
 
-		// Token: 0x04000034 RID: 52
 		private ArmyCompositionItemVM _meleeCavalryComposition;
 
-		// Token: 0x04000035 RID: 53
 		private ArmyCompositionItemVM _rangedCavalryComposition;
 
-		// Token: 0x04000036 RID: 54
 		private int _armySize;
 
-		// Token: 0x04000037 RID: 55
 		private int _maxArmySize;
 
-		// Token: 0x04000038 RID: 56
 		private int _minArmySize;
 
-		// Token: 0x04000039 RID: 57
 		private string _armySizeTitle;
 	}
 }

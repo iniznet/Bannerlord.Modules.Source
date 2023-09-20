@@ -13,11 +13,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.BoardGames
 {
-	// Token: 0x020000B0 RID: 176
 	public class BoardGameSeega : BoardGameBase
 	{
-		// Token: 0x1700009D RID: 157
-		// (get) Token: 0x06000ACD RID: 2765 RVA: 0x00058CBC File Offset: 0x00056EBC
 		public override int TileCount
 		{
 			get
@@ -26,8 +23,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x1700009E RID: 158
-		// (get) Token: 0x06000ACE RID: 2766 RVA: 0x00058CC9 File Offset: 0x00056EC9
 		protected override int UnitsToPlacePerTurnInPreMovementStage
 		{
 			get
@@ -36,8 +31,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x1700009F RID: 159
-		// (get) Token: 0x06000ACF RID: 2767 RVA: 0x00058CCC File Offset: 0x00056ECC
 		protected override bool RotateBoard
 		{
 			get
@@ -46,8 +39,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x170000A0 RID: 160
-		// (get) Token: 0x06000AD0 RID: 2768 RVA: 0x00058CCF File Offset: 0x00056ECF
 		protected override bool PreMovementStagePresent
 		{
 			get
@@ -56,8 +47,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x170000A1 RID: 161
-		// (get) Token: 0x06000AD1 RID: 2769 RVA: 0x00058CD2 File Offset: 0x00056ED2
 		protected override bool DiceRollRequired
 		{
 			get
@@ -66,14 +55,12 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AD2 RID: 2770 RVA: 0x00058CD5 File Offset: 0x00056ED5
 		public BoardGameSeega(MissionBoardGameLogic mission, PlayerTurn startingPlayer)
 			: base(mission, new TextObject("{=C4n1rgBC}Seega", null), startingPlayer)
 		{
 			this.SelectedUnit = null;
 		}
 
-		// Token: 0x06000AD3 RID: 2771 RVA: 0x00058CFC File Offset: 0x00056EFC
 		public override void InitializeUnits()
 		{
 			base.PlayerOneUnits.Clear();
@@ -103,7 +90,6 @@ namespace SandBox.BoardGames
 			while (gameEntity != null);
 		}
 
-		// Token: 0x06000AD4 RID: 2772 RVA: 0x00058DC4 File Offset: 0x00056FC4
 		public override void InitializeTiles()
 		{
 			int x;
@@ -133,7 +119,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AD5 RID: 2773 RVA: 0x00058F11 File Offset: 0x00057111
 		public override void InitializeSound()
 		{
 			PawnBase.PawnMoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/move_stone");
@@ -142,7 +127,6 @@ namespace SandBox.BoardGames
 			PawnBase.PawnRemoveSoundCodeID = SoundEvent.GetEventIdFromString("event:/mission/movement/foley/minigame/out_stone");
 		}
 
-		// Token: 0x06000AD6 RID: 2774 RVA: 0x00058F4F File Offset: 0x0005714F
 		public override void Reset()
 		{
 			base.Reset();
@@ -156,7 +140,6 @@ namespace SandBox.BoardGames
 			this.RestoreStartingBoard();
 		}
 
-		// Token: 0x06000AD7 RID: 2775 RVA: 0x00058F80 File Offset: 0x00057180
 		public override List<Move> CalculateValidMoves(PawnBase pawn)
 		{
 			List<Move> list = new List<Move>();
@@ -230,7 +213,6 @@ namespace SandBox.BoardGames
 			return list;
 		}
 
-		// Token: 0x06000AD8 RID: 2776 RVA: 0x0005915C File Offset: 0x0005735C
 		public override void SetPawnCaptured(PawnBase pawn, bool aiSimulation = false)
 		{
 			base.SetPawnCaptured(pawn, aiSimulation);
@@ -245,7 +227,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AD9 RID: 2777 RVA: 0x000591F8 File Offset: 0x000573F8
 		protected override void OnPawnArrivesGoalPosition(PawnBase pawn, Vec3 prevPos, Vec3 currentPos)
 		{
 			if (pawn.MovingToDifferentTile)
@@ -316,7 +297,6 @@ namespace SandBox.BoardGames
 			base.OnPawnArrivesGoalPosition(pawn, prevPos, currentPos);
 		}
 
-		// Token: 0x06000ADA RID: 2778 RVA: 0x000593F8 File Offset: 0x000575F8
 		protected override void SwitchPlayerTurn()
 		{
 			this.SelectedUnit = null;
@@ -363,7 +343,6 @@ namespace SandBox.BoardGames
 			base.SwitchPlayerTurn();
 		}
 
-		// Token: 0x06000ADB RID: 2779 RVA: 0x00059534 File Offset: 0x00057734
 		protected override PawnBase SelectPawn(PawnBase pawn)
 		{
 			if (base.PlayerTurn == PlayerTurn.PlayerOne)
@@ -400,7 +379,6 @@ namespace SandBox.BoardGames
 			return pawn;
 		}
 
-		// Token: 0x06000ADC RID: 2780 RVA: 0x000595A4 File Offset: 0x000577A4
 		protected override void MovePawnToTileDelayed(PawnBase pawn, TileBase tile, bool instantMove, bool displayMessage, float delay)
 		{
 			base.MovePawnToTileDelayed(pawn, tile, instantMove, displayMessage, delay);
@@ -449,7 +427,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000ADD RID: 2781 RVA: 0x0005970C File Offset: 0x0005790C
 		protected override void HandlePreMovementStage(float dt)
 		{
 			if (this._blockingPawns != null && this._blockingPawns.Count > 0)
@@ -478,13 +455,11 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000ADE RID: 2782 RVA: 0x0005979C File Offset: 0x0005799C
 		protected override void HandlePreMovementStageAI(Move move)
 		{
 			this.MovePawnToTile(move.Unit, move.GoalTile, false, true);
 		}
 
-		// Token: 0x06000ADF RID: 2783 RVA: 0x000597B4 File Offset: 0x000579B4
 		protected override bool CheckGameEnded()
 		{
 			if (this.ReadyToPlay)
@@ -503,7 +478,6 @@ namespace SandBox.BoardGames
 			return !this.ReadyToPlay;
 		}
 
-		// Token: 0x06000AE0 RID: 2784 RVA: 0x0005980A File Offset: 0x00057A0A
 		protected override void OnAfterBoardSetUp()
 		{
 			if (this._startState.PawnInformation == null)
@@ -513,7 +487,6 @@ namespace SandBox.BoardGames
 			this.ReadyToPlay = true;
 		}
 
-		// Token: 0x06000AE1 RID: 2785 RVA: 0x0005982C File Offset: 0x00057A2C
 		public void AIMakeMove(Move move)
 		{
 			Tile2D tile2D = move.GoalTile as Tile2D;
@@ -530,7 +503,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AE2 RID: 2786 RVA: 0x000598B4 File Offset: 0x00057AB4
 		public Dictionary<PawnBase, int> GetBlockingPawns(bool playerOneBlocked)
 		{
 			Dictionary<PawnBase, int> dictionary = new Dictionary<PawnBase, int>();
@@ -560,7 +532,6 @@ namespace SandBox.BoardGames
 			return dictionary;
 		}
 
-		// Token: 0x06000AE3 RID: 2787 RVA: 0x000599C4 File Offset: 0x00057BC4
 		public BoardGameSeega.BoardInformation TakeBoardSnapshot()
 		{
 			BoardGameSeega.PawnInformation[] array = new BoardGameSeega.PawnInformation[base.PlayerOneUnits.Count + base.PlayerTwoUnits.Count];
@@ -586,7 +557,6 @@ namespace SandBox.BoardGames
 			return new BoardGameSeega.BoardInformation(ref array, ref array2);
 		}
 
-		// Token: 0x06000AE4 RID: 2788 RVA: 0x00059B64 File Offset: 0x00057D64
 		public void UndoMove(ref BoardGameSeega.BoardInformation board)
 		{
 			int num = 0;
@@ -621,31 +591,26 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AE5 RID: 2789 RVA: 0x00059D5C File Offset: 0x00057F5C
 		public TileBase GetTile(int x, int y)
 		{
 			return base.Tiles[y * BoardGameSeega.BoardWidth + x];
 		}
 
-		// Token: 0x06000AE6 RID: 2790 RVA: 0x00059D6E File Offset: 0x00057F6E
 		private void SetTile(TileBase tile, int x, int y)
 		{
 			base.Tiles[y * BoardGameSeega.BoardWidth + x] = tile;
 		}
 
-		// Token: 0x06000AE7 RID: 2791 RVA: 0x00059D81 File Offset: 0x00057F81
 		private bool IsCentralTile(Tile2D tile)
 		{
 			return tile.X == 2 && tile.Y == 2;
 		}
 
-		// Token: 0x06000AE8 RID: 2792 RVA: 0x00059D97 File Offset: 0x00057F97
 		private bool IsOnCentralTile(PawnSeega pawn)
 		{
 			return pawn.X == 2 && pawn.Y == 2;
 		}
 
-		// Token: 0x06000AE9 RID: 2793 RVA: 0x00059DB0 File Offset: 0x00057FB0
 		private void PreplaceUnits()
 		{
 			this.MovePawnToTileDelayed(base.PlayerOneUnits[0], this.GetTile(0, 2), false, false, 0.55f);
@@ -654,7 +619,6 @@ namespace SandBox.BoardGames
 			this.MovePawnToTileDelayed(base.PlayerTwoUnits[1], this.GetTile(2, 4), false, false, 1f);
 		}
 
-		// Token: 0x06000AEA RID: 2794 RVA: 0x00059E44 File Offset: 0x00058044
 		private void RestoreStartingBoard()
 		{
 			int num = 0;
@@ -712,7 +676,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AEB RID: 2795 RVA: 0x0005A174 File Offset: 0x00058374
 		private bool CheckPlacementStageOver()
 		{
 			if (!this._placementStageOver)
@@ -751,7 +714,6 @@ namespace SandBox.BoardGames
 			return this._placementStageOver;
 		}
 
-		// Token: 0x06000AEC RID: 2796 RVA: 0x0005A23C File Offset: 0x0005843C
 		private bool CheckIfPawnCapturedEnemyPawn(PawnSeega pawn, bool aiSimulation, Tile2D victimTile, TileBase helperTile, bool setCaptured)
 		{
 			bool flag = false;
@@ -771,7 +733,6 @@ namespace SandBox.BoardGames
 			return flag;
 		}
 
-		// Token: 0x06000AED RID: 2797 RVA: 0x0005A29C File Offset: 0x0005849C
 		private int CheckIfPawnCaptures(PawnSeega pawn, bool aiSimulation = false, bool setCaptured = true)
 		{
 			int num = 0;
@@ -796,7 +757,6 @@ namespace SandBox.BoardGames
 			return num;
 		}
 
-		// Token: 0x06000AEE RID: 2798 RVA: 0x0005A378 File Offset: 0x00058578
 		private void CheckIfPlayerIsStuck(bool playerOne)
 		{
 			List<List<Move>> list = this.CalculateAllValidMoves(playerOne ? BoardGameSide.Player : BoardGameSide.AI);
@@ -812,7 +772,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AEF RID: 2799 RVA: 0x0005A3F8 File Offset: 0x000585F8
 		private void FocusBlockingPawns()
 		{
 			foreach (KeyValuePair<PawnBase, int> keyValuePair in this._blockingPawns)
@@ -821,7 +780,6 @@ namespace SandBox.BoardGames
 			}
 		}
 
-		// Token: 0x06000AF0 RID: 2800 RVA: 0x0005A464 File Offset: 0x00058664
 		private void UnfocusBlockingPawns()
 		{
 			foreach (KeyValuePair<PawnBase, int> keyValuePair in this._blockingPawns)
@@ -831,7 +789,6 @@ namespace SandBox.BoardGames
 			this._blockingPawns.Clear();
 		}
 
-		// Token: 0x06000AF1 RID: 2801 RVA: 0x0005A4D8 File Offset: 0x000586D8
 		private BoardGameSeega.BarrierInfo CheckIfBarrier(Vec2i pawnNewPos)
 		{
 			if (pawnNewPos.X > 0 && pawnNewPos.X < BoardGameSeega.BoardWidth - 1)
@@ -875,7 +832,6 @@ namespace SandBox.BoardGames
 			return null;
 		}
 
-		// Token: 0x06000AF2 RID: 2802 RVA: 0x0005A5F0 File Offset: 0x000587F0
 		private bool CheckIfUnitsIsolatedByBarrier(Vec2i pawnNewPos)
 		{
 			BoardGameSeega.BarrierInfo barrierInfo = this.CheckIfBarrier(pawnNewPos);
@@ -903,31 +859,22 @@ namespace SandBox.BoardGames
 			return false;
 		}
 
-		// Token: 0x040003C7 RID: 967
 		private const int CentralTileX = 2;
 
-		// Token: 0x040003C8 RID: 968
 		private const int CentralTileY = 2;
 
-		// Token: 0x040003C9 RID: 969
 		public static readonly int BoardWidth = 5;
 
-		// Token: 0x040003CA RID: 970
 		public static readonly int BoardHeight = 5;
 
-		// Token: 0x040003CB RID: 971
 		private Dictionary<PawnBase, int> _blockingPawns = new Dictionary<PawnBase, int>();
 
-		// Token: 0x040003CC RID: 972
 		private BoardGameSeega.BoardInformation _startState;
 
-		// Token: 0x040003CD RID: 973
 		private bool _placementStageOver;
 
-		// Token: 0x020001AC RID: 428
 		public class BarrierInfo
 		{
-			// Token: 0x060012A6 RID: 4774 RVA: 0x00074B91 File Offset: 0x00072D91
 			public BarrierInfo(bool isHor, int pos, bool playerOne)
 			{
 				this.IsHorizontal = isHor;
@@ -935,37 +882,28 @@ namespace SandBox.BoardGames
 				this.PlayerOne = playerOne;
 			}
 
-			// Token: 0x04000800 RID: 2048
 			public bool IsHorizontal;
 
-			// Token: 0x04000801 RID: 2049
 			public int Position;
 
-			// Token: 0x04000802 RID: 2050
 			public bool PlayerOne;
 		}
 
-		// Token: 0x020001AD RID: 429
 		public struct BoardInformation
 		{
-			// Token: 0x060012A7 RID: 4775 RVA: 0x00074BAE File Offset: 0x00072DAE
 			public BoardInformation(ref BoardGameSeega.PawnInformation[] pawns, ref TileBaseInformation[,] tiles)
 			{
 				this.PawnInformation = pawns;
 				this.TileInformation = tiles;
 			}
 
-			// Token: 0x04000803 RID: 2051
 			public readonly BoardGameSeega.PawnInformation[] PawnInformation;
 
-			// Token: 0x04000804 RID: 2052
 			public readonly TileBaseInformation[,] TileInformation;
 		}
 
-		// Token: 0x020001AE RID: 430
 		public struct PawnInformation
 		{
-			// Token: 0x060012A8 RID: 4776 RVA: 0x00074BC0 File Offset: 0x00072DC0
 			public PawnInformation(int x, int y, int prevX, int prevY, bool movedThisTurn, bool captured, Vec3 position)
 			{
 				this.X = x;
@@ -977,25 +915,18 @@ namespace SandBox.BoardGames
 				this.Position = position;
 			}
 
-			// Token: 0x04000805 RID: 2053
 			public readonly int X;
 
-			// Token: 0x04000806 RID: 2054
 			public readonly int Y;
 
-			// Token: 0x04000807 RID: 2055
 			public readonly int PrevX;
 
-			// Token: 0x04000808 RID: 2056
 			public readonly int PrevY;
 
-			// Token: 0x04000809 RID: 2057
 			public readonly bool MovedThisTurn;
 
-			// Token: 0x0400080A RID: 2058
 			public readonly bool IsCaptured;
 
-			// Token: 0x0400080B RID: 2059
 			public readonly Vec3 Position;
 		}
 	}

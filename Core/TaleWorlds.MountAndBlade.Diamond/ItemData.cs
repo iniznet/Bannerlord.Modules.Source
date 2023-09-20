@@ -2,25 +2,14 @@
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x0200011B RID: 283
 	public class ItemData
 	{
-		// Token: 0x17000205 RID: 517
-		// (get) Token: 0x0600055C RID: 1372 RVA: 0x00007EE8 File Offset: 0x000060E8
-		// (set) Token: 0x0600055D RID: 1373 RVA: 0x00007EF0 File Offset: 0x000060F0
 		public string TypeId { get; set; }
 
-		// Token: 0x17000206 RID: 518
-		// (get) Token: 0x0600055E RID: 1374 RVA: 0x00007EF9 File Offset: 0x000060F9
-		// (set) Token: 0x0600055F RID: 1375 RVA: 0x00007F01 File Offset: 0x00006101
 		public string ModifierId { get; set; }
 
-		// Token: 0x17000207 RID: 519
-		// (get) Token: 0x06000560 RID: 1376 RVA: 0x00007F0A File Offset: 0x0000610A
-		// (set) Token: 0x06000561 RID: 1377 RVA: 0x00007F12 File Offset: 0x00006112
 		public int? Index { get; set; }
 
-		// Token: 0x06000562 RID: 1378 RVA: 0x00007F1B File Offset: 0x0000611B
 		public void CopyItemData(ItemData itemdata)
 		{
 			this.TypeId = itemdata.TypeId;
@@ -28,8 +17,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this.Index = itemdata.Index;
 		}
 
-		// Token: 0x17000208 RID: 520
-		// (get) Token: 0x06000563 RID: 1379 RVA: 0x00007F41 File Offset: 0x00006141
 		private ItemType ItemType
 		{
 			get
@@ -38,7 +25,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x06000564 RID: 1380 RVA: 0x00007F50 File Offset: 0x00006150
 		private static int GetInventoryItemTypeOfItem(ItemType itemType)
 		{
 			switch (itemType)
@@ -91,13 +77,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return 0;
 		}
 
-		// Token: 0x06000565 RID: 1381 RVA: 0x00008007 File Offset: 0x00006207
 		public bool CanItemToEquipmentDragPossible(int equipmentIndex)
 		{
 			return ItemData.CanItemToEquipmentDragPossible(this.TypeId, equipmentIndex);
 		}
 
-		// Token: 0x06000566 RID: 1382 RVA: 0x00008018 File Offset: 0x00006218
 		public static bool CanItemToEquipmentDragPossible(string itemTypeId, int equipmentIndex)
 		{
 			InventoryItemType inventoryItemTypeOfItem = (InventoryItemType)ItemData.GetInventoryItemTypeOfItem(ItemList.GetItemTypeOf(itemTypeId));
@@ -137,8 +121,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return flag;
 		}
 
-		// Token: 0x17000209 RID: 521
-		// (get) Token: 0x06000567 RID: 1383 RVA: 0x000080AC File Offset: 0x000062AC
 		public int Price
 		{
 			get
@@ -147,8 +129,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x1700020A RID: 522
-		// (get) Token: 0x06000568 RID: 1384 RVA: 0x000080BF File Offset: 0x000062BF
 		public bool IsValid
 		{
 			get
@@ -157,8 +137,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x1700020B RID: 523
-		// (get) Token: 0x06000569 RID: 1385 RVA: 0x000080D2 File Offset: 0x000062D2
 		public string ItemKey
 		{
 			get
@@ -167,13 +145,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x0600056A RID: 1386 RVA: 0x000080EA File Offset: 0x000062EA
 		public static int GetPriceOf(string itemId, string modifierId)
 		{
 			return ItemList.GetPriceOf(itemId, modifierId);
 		}
 
-		// Token: 0x0600056B RID: 1387 RVA: 0x000080F3 File Offset: 0x000062F3
 		public static bool IsItemValid(string itemId, string modifierId)
 		{
 			return ItemList.IsItemValid(itemId, modifierId);

@@ -17,22 +17,18 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000398 RID: 920
 	public class HideoutCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060036F7 RID: 14071 RVA: 0x000F770C File Offset: 0x000F590C
 		public void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x060036F8 RID: 14072 RVA: 0x000F7715 File Offset: 0x000F5915
 		public void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x060036F9 RID: 14073 RVA: 0x000F7720 File Offset: 0x000F5920
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.HourlyTickSettlement));
@@ -41,20 +37,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnHideoutSpottedEvent.AddNonSerializedListener(this, new Action<PartyBase, PartyBase>(this.OnHideoutSpotted));
 		}
 
-		// Token: 0x060036FA RID: 14074 RVA: 0x000F7789 File Offset: 0x000F5989
 		private void OnHideoutSpotted(PartyBase party, PartyBase hideout)
 		{
 			SkillLevelingManager.OnHideoutSpotted(party.MobileParty, hideout);
 		}
 
-		// Token: 0x060036FB RID: 14075 RVA: 0x000F7797 File Offset: 0x000F5997
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<float>("_hideoutWaitProgressHours", ref this._hideoutWaitProgressHours);
 			dataStore.SyncData<float>("_hideoutWaitTargetHours", ref this._hideoutWaitTargetHours);
 		}
 
-		// Token: 0x060036FC RID: 14076 RVA: 0x000F77C0 File Offset: 0x000F59C0
 		public void HourlyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsHideout && settlement.Hideout.IsInfested && !settlement.Hideout.IsSpotted)
@@ -71,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036FD RID: 14077 RVA: 0x000F788C File Offset: 0x000F5A8C
 		protected void AddGameMenus(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddGameMenu("hideout_place", "{=Vo64LSGP}{HIDEOUT_TEXT}", new OnInitDelegate(this.game_menu_hideout_place_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -87,20 +79,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddGameMenuOption("hideout_after_defeated_and_saved", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_hideout_leave_on_consequence), true, -1, false, null);
 		}
 
-		// Token: 0x060036FE RID: 14078 RVA: 0x000F7A8C File Offset: 0x000F5C8C
 		private bool IsHideoutAttackableNow()
 		{
 			float currentHourInDay = CampaignTime.Now.CurrentHourInDay;
 			return (this.CanAttackHideoutStart > this.CanAttackHideoutEnd && (currentHourInDay >= (float)this.CanAttackHideoutStart || currentHourInDay <= (float)this.CanAttackHideoutEnd)) || (this.CanAttackHideoutStart < this.CanAttackHideoutEnd && currentHourInDay >= (float)this.CanAttackHideoutStart && currentHourInDay <= (float)this.CanAttackHideoutEnd);
 		}
 
-		// Token: 0x060036FF RID: 14079 RVA: 0x000F7AF4 File Offset: 0x000F5CF4
 		public bool hideout_wait_menu_on_condition(MenuCallbackArgs args)
 		{
 			return true;
 		}
 
-		// Token: 0x06003700 RID: 14080 RVA: 0x000F7AF8 File Offset: 0x000F5CF8
 		public void hideout_wait_menu_on_tick(MenuCallbackArgs args, CampaignTime campaignTime)
 		{
 			this._hideoutWaitProgressHours += (float)campaignTime.ToHours;
@@ -111,20 +100,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(this._hideoutWaitProgressHours / this._hideoutWaitTargetHours);
 		}
 
-		// Token: 0x06003701 RID: 14081 RVA: 0x000F7B54 File Offset: 0x000F5D54
 		public void hideout_wait_menu_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("hideout_after_wait");
 		}
 
-		// Token: 0x06003702 RID: 14082 RVA: 0x000F7B60 File Offset: 0x000F5D60
 		private bool leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x06003703 RID: 14083 RVA: 0x000F7B6C File Offset: 0x000F5D6C
 		[GameMenuInitializationHandler("hideout_wait")]
 		[GameMenuInitializationHandler("hideout_after_wait")]
 		private static void game_menu_hideout_ui_place_on_init(MenuCallbackArgs args)
@@ -133,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(currentSettlement.Hideout.WaitMeshName);
 		}
 
-		// Token: 0x06003704 RID: 14084 RVA: 0x000F7B98 File Offset: 0x000F5D98
 		[GameMenuInitializationHandler("hideout_place")]
 		private static void game_menu_hideout_sound_place_on_init(MenuCallbackArgs args)
 		{
@@ -142,7 +127,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(currentSettlement.Hideout.WaitMeshName);
 		}
 
-		// Token: 0x06003705 RID: 14085 RVA: 0x000F7BD1 File Offset: 0x000F5DD1
 		private void game_menu_hideout_after_defeated_and_saved_on_init(MenuCallbackArgs args)
 		{
 			if (!Settlement.CurrentSettlement.IsHideout)
@@ -155,7 +139,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003706 RID: 14086 RVA: 0x000F7BF4 File Offset: 0x000F5DF4
 		private void game_menu_hideout_place_on_init(MenuCallbackArgs args)
 		{
 			if (!Settlement.CurrentSettlement.IsHideout)
@@ -232,13 +215,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003707 RID: 14087 RVA: 0x000F7E44 File Offset: 0x000F6044
 		private void CalculateHideoutAttackTime()
 		{
 			this._hideoutWaitTargetHours = (((float)this.CanAttackHideoutStart > CampaignTime.Now.CurrentHourInDay) ? ((float)this.CanAttackHideoutStart - CampaignTime.Now.CurrentHourInDay) : (24f - CampaignTime.Now.CurrentHourInDay + (float)this.CanAttackHideoutStart));
 		}
 
-		// Token: 0x06003708 RID: 14088 RVA: 0x000F7EA0 File Offset: 0x000F60A0
 		private void SetCleanHideoutRelations(Settlement hideout)
 		{
 			List<Settlement> list = new List<Settlement>();
@@ -273,7 +254,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(new TextObject("{=o0qwDa0q}Your relation increased by {RELATION_VALUE} with nearby notables.", null), 0, null, "");
 		}
 
-		// Token: 0x06003709 RID: 14089 RVA: 0x000F8000 File Offset: 0x000F6200
 		private void hideout_after_wait_menu_on_init(MenuCallbackArgs args)
 		{
 			TextObject textObject = new TextObject("{=VbU8Ue0O}After waiting for a while you find a good opportunity to close in undetected beneath the shroud of the night.", null);
@@ -287,7 +267,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("HIDEOUT_TEXT", textObject, false);
 		}
 
-		// Token: 0x0600370A RID: 14090 RVA: 0x000F8058 File Offset: 0x000F6258
 		private bool game_menu_attack_hideout_parties_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
@@ -302,7 +281,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600370B RID: 14091 RVA: 0x000F80E4 File Offset: 0x000F62E4
 		private void game_menu_encounter_attack_on_consequence(MenuCallbackArgs args)
 		{
 			int playerMaximumTroopCountForHideoutMission = Campaign.Current.Models.BanditDensityModel.GetPlayerMaximumTroopCountForHideoutMission(MobileParty.MainParty);
@@ -314,7 +292,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.OpenTroopSelection(MobileParty.MainParty.MemberRoster, troopRoster, new Func<CharacterObject, bool>(this.CanChangeStatusOfTroop), new Action<TroopRoster>(this.OnTroopRosterManageDone), num, 1);
 		}
 
-		// Token: 0x0600370C RID: 14092 RVA: 0x000F8178 File Offset: 0x000F6378
 		private void ArrangeHideoutTroopCountsForMission()
 		{
 			int numberOfMinimumBanditTroopsInHideoutMission = Campaign.Current.Models.BanditDensityModel.NumberOfMinimumBanditTroopsInHideoutMission;
@@ -367,7 +344,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600370D RID: 14093 RVA: 0x000F8428 File Offset: 0x000F6628
 		private void OnTroopRosterManageDone(TroopRoster hideoutTroops)
 		{
 			this.ArrangeHideoutTroopCountsForMission();
@@ -390,13 +366,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMission.OpenHideoutBattleMission(Settlement.CurrentSettlement.Hideout.SceneName, (hideoutTroops != null) ? hideoutTroops.ToFlattenedRoster() : null);
 		}
 
-		// Token: 0x0600370E RID: 14094 RVA: 0x000F84B4 File Offset: 0x000F66B4
 		private bool CanChangeStatusOfTroop(CharacterObject character)
 		{
 			return !character.IsPlayerCharacter && !character.IsNotTransferableInHideouts;
 		}
 
-		// Token: 0x0600370F RID: 14095 RVA: 0x000F84CC File Offset: 0x000F66CC
 		private bool game_menu_talk_to_leader_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -404,7 +378,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return party != null && party.LeaderHero != null && party.LeaderHero != Hero.MainHero;
 		}
 
-		// Token: 0x06003710 RID: 14096 RVA: 0x000F8514 File Offset: 0x000F6714
 		private void game_menu_talk_to_leader_on_consequence(MenuCallbackArgs args)
 		{
 			PartyBase party = Settlement.CurrentSettlement.Parties[0].Party;
@@ -413,20 +386,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMission.OpenConversationMission(conversationCharacterData, conversationCharacterData2, "", "");
 		}
 
-		// Token: 0x06003711 RID: 14097 RVA: 0x000F8574 File Offset: 0x000F6774
 		private bool game_menu_wait_until_nightfall_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Wait;
 			return Settlement.CurrentSettlement.Parties.Any((MobileParty t) => t != MobileParty.MainParty) && !this.IsHideoutAttackableNow();
 		}
 
-		// Token: 0x06003712 RID: 14098 RVA: 0x000F85C4 File Offset: 0x000F67C4
 		private void game_menu_wait_until_nightfall_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("hideout_wait");
 		}
 
-		// Token: 0x06003713 RID: 14099 RVA: 0x000F85D0 File Offset: 0x000F67D0
 		private void game_menu_hideout_leave_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -437,22 +407,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x04001179 RID: 4473
 		private const int MaxDistanceSquaredBetweenHideoutAndBoundVillage = 1600;
 
-		// Token: 0x0400117A RID: 4474
 		private const int HideoutClearRelationEffect = 2;
 
-		// Token: 0x0400117B RID: 4475
 		private readonly int CanAttackHideoutStart = 23;
 
-		// Token: 0x0400117C RID: 4476
 		private readonly int CanAttackHideoutEnd = 2;
 
-		// Token: 0x0400117D RID: 4477
 		private float _hideoutWaitProgressHours;
 
-		// Token: 0x0400117E RID: 4478
 		private float _hideoutWaitTargetHours;
 	}
 }

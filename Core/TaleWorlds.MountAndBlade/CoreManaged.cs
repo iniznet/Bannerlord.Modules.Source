@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000240 RID: 576
 	public class CoreManaged : IManagedComponent
 	{
-		// Token: 0x17000628 RID: 1576
-		// (get) Token: 0x06001F60 RID: 8032 RVA: 0x0006F328 File Offset: 0x0006D528
 		public string ManagedCallbacksDll
 		{
 			get
@@ -20,20 +17,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F61 RID: 8033 RVA: 0x0006F339 File Offset: 0x0006D539
 		public CoreManaged()
 		{
 			CoreManaged._instance = this;
 		}
 
-		// Token: 0x06001F62 RID: 8034 RVA: 0x0006F347 File Offset: 0x0006D547
 		[MBCallback]
 		public static void Start()
 		{
 			Managed.Start(new IManagedComponent[0]);
 		}
 
-		// Token: 0x06001F63 RID: 8035 RVA: 0x0006F354 File Offset: 0x0006D554
 		void IManagedComponent.OnStart()
 		{
 			Debug.DebugManager = new MBDebugManager();
@@ -46,7 +40,6 @@ namespace TaleWorlds.MountAndBlade
 			Managed.InitializeTypes(dictionary);
 		}
 
-		// Token: 0x06001F64 RID: 8036 RVA: 0x0006F3EC File Offset: 0x0006D5EC
 		private Dictionary<string, Type> CollectModuleAssemblyTypes(Assembly moduleAssembly)
 		{
 			Dictionary<string, Type> dictionary = new Dictionary<string, Type>();
@@ -67,14 +60,12 @@ namespace TaleWorlds.MountAndBlade
 			return dictionary;
 		}
 
-		// Token: 0x06001F65 RID: 8037 RVA: 0x0006F468 File Offset: 0x0006D668
 		[MBCallback]
 		internal static void OnLoadCommonFinished()
 		{
 			FaceGen.CreateInstance();
 		}
 
-		// Token: 0x06001F66 RID: 8038 RVA: 0x0006F470 File Offset: 0x0006D670
 		private void OnInitialize()
 		{
 			Type[] types = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypes();
@@ -106,7 +97,6 @@ namespace TaleWorlds.MountAndBlade
 			Module.CreateModule();
 		}
 
-		// Token: 0x06001F67 RID: 8039 RVA: 0x0006F558 File Offset: 0x0006D758
 		void IManagedComponent.OnCustomCallbackMethodPassed(string name, Delegate method)
 		{
 			if (name == "MBCore")
@@ -116,7 +106,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F68 RID: 8040 RVA: 0x0006F573 File Offset: 0x0006D773
 		[MBCallback]
 		internal static void Finalize()
 		{
@@ -124,27 +113,23 @@ namespace TaleWorlds.MountAndBlade
 			Common.MemoryCleanupGC(false);
 		}
 
-		// Token: 0x06001F69 RID: 8041 RVA: 0x0006F580 File Offset: 0x0006D780
 		void IManagedComponent.OnApplicationTick(float dt)
 		{
 			Module.CurrentModule.OnApplicationTick(dt);
 		}
 
-		// Token: 0x06001F6A RID: 8042 RVA: 0x0006F58D File Offset: 0x0006D78D
 		[MBCallback]
 		internal static void CheckSharedStructureSizes()
 		{
 			CoreManaged._callbackManager.CheckSharedStructureSizes();
 		}
 
-		// Token: 0x06001F6B RID: 8043 RVA: 0x0006F599 File Offset: 0x0006D799
 		[MBCallback]
 		internal static void EngineApiMethodInterfaceInitializer(int id, IntPtr pointer)
 		{
 			CoreManaged._engineApiPointers.Add(id, pointer);
 		}
 
-		// Token: 0x06001F6C RID: 8044 RVA: 0x0006F5A8 File Offset: 0x0006D7A8
 		[MBCallback]
 		internal static void FillEngineApiPointers()
 		{
@@ -161,7 +146,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001F6D RID: 8045 RVA: 0x0006F650 File Offset: 0x0006D850
 		private static void PassManagedCoreCallbackMethodPointers(Delegate methodDelegate)
 		{
 			Delegate passManagedCoreCallbackMethodPointersMono = CoreManaged._passManagedCoreCallbackMethodPointersMono;
@@ -172,16 +156,12 @@ namespace TaleWorlds.MountAndBlade
 			passManagedCoreCallbackMethodPointersMono.DynamicInvoke(new object[] { methodDelegate });
 		}
 
-		// Token: 0x04000B85 RID: 2949
 		private static CoreManaged _instance;
 
-		// Token: 0x04000B86 RID: 2950
 		private static ICallbackManager _callbackManager;
 
-		// Token: 0x04000B87 RID: 2951
 		private static readonly Dictionary<int, IntPtr> _engineApiPointers = new Dictionary<int, IntPtr>();
 
-		// Token: 0x04000B88 RID: 2952
 		private static Delegate _passManagedCoreCallbackMethodPointersMono = null;
 	}
 }

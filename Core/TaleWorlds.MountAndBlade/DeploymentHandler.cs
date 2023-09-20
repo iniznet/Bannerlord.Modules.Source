@@ -9,11 +9,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000268 RID: 616
 	public class DeploymentHandler : MissionLogic
 	{
-		// Token: 0x17000652 RID: 1618
-		// (get) Token: 0x060020E5 RID: 8421 RVA: 0x00076009 File Offset: 0x00074209
 		public Team team
 		{
 			get
@@ -22,8 +19,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000653 RID: 1619
-		// (get) Token: 0x060020E6 RID: 8422 RVA: 0x00076016 File Offset: 0x00074216
 		public bool IsPlayerAttacker
 		{
 			get
@@ -32,20 +27,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020E7 RID: 8423 RVA: 0x0007601E File Offset: 0x0007421E
 		public DeploymentHandler(bool isPlayerAttacker)
 		{
 			this.isPlayerAttacker = isPlayerAttacker;
 		}
 
-		// Token: 0x060020E8 RID: 8424 RVA: 0x00076030 File Offset: 0x00074230
 		public override void EarlyStart()
 		{
 			BattleSideEnum battleSideEnum = (this.isPlayerAttacker ? BattleSideEnum.Attacker : BattleSideEnum.Defender);
 			this.SetDeploymentBoundary(battleSideEnum);
 		}
 
-		// Token: 0x060020E9 RID: 8425 RVA: 0x00076051 File Offset: 0x00074251
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -54,13 +46,11 @@ namespace TaleWorlds.MountAndBlade
 			this.team.OnOrderIssued += this.OrderController_OnOrderIssued;
 		}
 
-		// Token: 0x060020EA RID: 8426 RVA: 0x0007608E File Offset: 0x0007428E
 		private void OrderController_OnOrderIssued(OrderType orderType, MBReadOnlyList<Formation> appliedFormations, params object[] delegateParams)
 		{
 			DeploymentHandler.OrderController_OnOrderIssued_Aux(orderType, appliedFormations, delegateParams);
 		}
 
-		// Token: 0x060020EB RID: 8427 RVA: 0x00076098 File Offset: 0x00074298
 		internal static void OrderController_OnOrderIssued_Aux(OrderType orderType, MBReadOnlyList<Formation> appliedFormations, params object[] delegateParams)
 		{
 			DeploymentHandler.<>c__DisplayClass10_0 CS$<>8__locals1;
@@ -160,18 +150,15 @@ namespace TaleWorlds.MountAndBlade
 			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "OrderController_OnOrderIssued_Aux", 187);
 		}
 
-		// Token: 0x060020EC RID: 8428 RVA: 0x00076280 File Offset: 0x00074480
 		public void ForceUpdateAllUnits()
 		{
 			this.OrderController_OnOrderIssued(OrderType.Move, this.team.FormationsIncludingSpecialAndEmpty, Array.Empty<object>());
 		}
 
-		// Token: 0x060020ED RID: 8429 RVA: 0x00076299 File Offset: 0x00074499
 		public virtual void FinishDeployment()
 		{
 		}
 
-		// Token: 0x060020EE RID: 8430 RVA: 0x0007629B File Offset: 0x0007449B
 		public override void OnRemoveBehavior()
 		{
 			if (this.team != null)
@@ -182,7 +169,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		// Token: 0x060020EF RID: 8431 RVA: 0x000762D4 File Offset: 0x000744D4
 		public void SetDeploymentBoundary(BattleSideEnum side)
 		{
 			IEnumerable<GameEntity> enumerable = base.Mission.Scene.FindEntitiesWithTagExpression("deployment_castle_boundary(_\\d+)*");
@@ -220,7 +206,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F0 RID: 8432 RVA: 0x00076418 File Offset: 0x00074618
 		public void RemoveAllBoundaries()
 		{
 			List<string> list = new List<string>();
@@ -234,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F1 RID: 8433 RVA: 0x000764C0 File Offset: 0x000746C0
 		public void InitializeDeploymentPoints()
 		{
 			if (!this.areDeploymentPointsInitialized)
@@ -247,7 +231,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F2 RID: 8434 RVA: 0x00076524 File Offset: 0x00074724
 		[CompilerGenerated]
 		internal unsafe static void <OrderController_OnOrderIssued_Aux>g__ForceUpdateFormationParams|10_0(ref DeploymentHandler.<>c__DisplayClass10_0 A_0)
 		{
@@ -268,7 +251,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060020F3 RID: 8435 RVA: 0x000765CC File Offset: 0x000747CC
 		[CompilerGenerated]
 		internal unsafe static void <OrderController_OnOrderIssued_Aux>g__ForcePositioning|10_1(ref DeploymentHandler.<>c__DisplayClass10_0 A_0)
 		{
@@ -284,16 +266,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000C21 RID: 3105
 		protected MissionMode previousMissionMode;
 
-		// Token: 0x04000C22 RID: 3106
 		protected readonly bool isPlayerAttacker;
 
-		// Token: 0x04000C23 RID: 3107
 		private const string BoundaryTagExpression = "deployment_castle_boundary(_\\d+)*";
 
-		// Token: 0x04000C24 RID: 3108
 		private bool areDeploymentPointsInitialized;
 	}
 }

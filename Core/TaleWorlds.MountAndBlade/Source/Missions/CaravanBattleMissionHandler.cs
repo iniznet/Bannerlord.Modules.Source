@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Source.Missions
 {
-	// Token: 0x020003F0 RID: 1008
 	public class CaravanBattleMissionHandler : MissionLogic
 	{
-		// Token: 0x060034C5 RID: 13509 RVA: 0x000DB2D8 File Offset: 0x000D94D8
 		public CaravanBattleMissionHandler(int unitCount, bool isCamelCulture, bool isCaravan)
 		{
 			this._unitCount = unitCount;
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			this._isCaravan = isCaravan;
 		}
 
-		// Token: 0x060034C6 RID: 13510 RVA: 0x000DB378 File Offset: 0x000D9578
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -88,34 +85,24 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		// Token: 0x04001697 RID: 5783
 		private GameEntity _entity;
 
-		// Token: 0x04001698 RID: 5784
 		private int _unitCount;
 
-		// Token: 0x04001699 RID: 5785
 		private bool _isCamelCulture;
 
-		// Token: 0x0400169A RID: 5786
 		private bool _isCaravan;
 
-		// Token: 0x0400169B RID: 5787
 		private readonly string[] _camelLoadHarnesses = new string[] { "camel_saddle_a", "camel_saddle_b" };
 
-		// Token: 0x0400169C RID: 5788
 		private readonly string[] _camelMountableHarnesses = new string[] { "camel_saddle" };
 
-		// Token: 0x0400169D RID: 5789
 		private readonly string[] _muleLoadHarnesses = new string[] { "mule_load_a", "mule_load_b", "mule_load_c" };
 
-		// Token: 0x0400169E RID: 5790
 		private readonly string[] _muleMountableHarnesses = new string[] { "aseran_village_harness", "steppe_fur_harness", "steppe_harness" };
 
-		// Token: 0x0400169F RID: 5791
 		private const string CaravanPrefabName = "caravan_scattered_goods_prop";
 
-		// Token: 0x040016A0 RID: 5792
 		private const string VillagerGoodsPrefabName = "villager_scattered_goods_prop";
 	}
 }

@@ -5,16 +5,13 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 {
-	// Token: 0x020000F1 RID: 241
 	public class ArmyOverlayWidget : OverlayBaseWidget
 	{
-		// Token: 0x06000C7C RID: 3196 RVA: 0x00023027 File Offset: 0x00021227
 		public ArmyOverlayWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000C7D RID: 3197 RVA: 0x00023038 File Offset: 0x00021238
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			this._initialized = true;
 		}
 
-		// Token: 0x06000C7E RID: 3198 RVA: 0x000230B8 File Offset: 0x000212B8
 		private void RefreshOverlayExtendState(bool forceSetPosition)
 		{
 			string text = (this._isInfoBarExtended ? "MapExtended" : "MapNormal");
@@ -73,7 +69,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x06000C7F RID: 3199 RVA: 0x00023214 File Offset: 0x00021414
 		private void UpdateExtendButtonVisual()
 		{
 			foreach (Style style in this.ExtendButton.Brush.Styles)
@@ -85,7 +80,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x06000C80 RID: 3200 RVA: 0x000232B0 File Offset: 0x000214B0
 		private void OnExtendButtonClick(Widget button)
 		{
 			this._isOverlayExtended = !this._isOverlayExtended;
@@ -93,7 +87,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			this.RefreshOverlayExtendState(false);
 		}
 
-		// Token: 0x06000C81 RID: 3201 RVA: 0x000232D0 File Offset: 0x000214D0
 		private void OnArmyListPageCountChanged()
 		{
 			if (this.PageControlWidget.PageCount == 1)
@@ -106,9 +99,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			this.ExtendButton.PositionXOffset = 0f;
 		}
 
-		// Token: 0x17000477 RID: 1143
-		// (get) Token: 0x06000C82 RID: 3202 RVA: 0x0002332C File Offset: 0x0002152C
-		// (set) Token: 0x06000C83 RID: 3203 RVA: 0x00023334 File Offset: 0x00021534
 		[Editor(false)]
 		public Widget Overlay
 		{
@@ -126,9 +116,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x17000478 RID: 1144
-		// (get) Token: 0x06000C84 RID: 3204 RVA: 0x00023352 File Offset: 0x00021552
-		// (set) Token: 0x06000C85 RID: 3205 RVA: 0x0002335A File Offset: 0x0002155A
 		[Editor(false)]
 		public GridWidget ArmyListGridWidget
 		{
@@ -146,9 +133,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x17000479 RID: 1145
-		// (get) Token: 0x06000C86 RID: 3206 RVA: 0x00023378 File Offset: 0x00021578
-		// (set) Token: 0x06000C87 RID: 3207 RVA: 0x00023380 File Offset: 0x00021580
 		[Editor(false)]
 		public ButtonWidget ExtendButton
 		{
@@ -170,9 +154,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x1700047A RID: 1146
-		// (get) Token: 0x06000C88 RID: 3208 RVA: 0x000233CD File Offset: 0x000215CD
-		// (set) Token: 0x06000C89 RID: 3209 RVA: 0x000233D5 File Offset: 0x000215D5
 		[Editor(false)]
 		public bool IsInfoBarExtended
 		{
@@ -190,9 +171,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x1700047B RID: 1147
-		// (get) Token: 0x06000C8A RID: 3210 RVA: 0x000233F3 File Offset: 0x000215F3
-		// (set) Token: 0x06000C8B RID: 3211 RVA: 0x000233FC File Offset: 0x000215FC
 		[Editor(false)]
 		public ContainerPageControlWidget PageControlWidget
 		{
@@ -215,28 +193,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Menu.Overlay
 			}
 		}
 
-		// Token: 0x040005C1 RID: 1473
 		private bool _isOverlayExtended = true;
 
-		// Token: 0x040005C2 RID: 1474
 		private int _armyItemCount;
 
-		// Token: 0x040005C3 RID: 1475
 		private bool _initialized;
 
-		// Token: 0x040005C4 RID: 1476
 		private Widget _overlay;
 
-		// Token: 0x040005C5 RID: 1477
 		private bool _isInfoBarExtended;
 
-		// Token: 0x040005C6 RID: 1478
 		private ButtonWidget _extendButton;
 
-		// Token: 0x040005C7 RID: 1479
 		private GridWidget _armyListGridWidget;
 
-		// Token: 0x040005C8 RID: 1480
 		private ContainerPageControlWidget _pageControlWidget;
 	}
 }

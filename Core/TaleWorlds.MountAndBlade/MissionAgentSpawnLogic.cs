@@ -9,11 +9,8 @@ using TaleWorlds.MountAndBlade.Missions.Handlers;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200026F RID: 623
 	public class MissionAgentSpawnLogic : MissionLogic, IMissionAgentSpawnLogic, IMissionBehavior
 	{
-		// Token: 0x17000658 RID: 1624
-		// (get) Token: 0x0600212D RID: 8493 RVA: 0x00078669 File Offset: 0x00076869
 		public static int MaxNumberOfAgentsForMission
 		{
 			get
@@ -26,8 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000659 RID: 1625
-		// (get) Token: 0x0600212E RID: 8494 RVA: 0x00078686 File Offset: 0x00076886
 		private static int MaxNumberOfTroopsForMission
 		{
 			get
@@ -36,18 +31,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1400002E RID: 46
-		// (add) Token: 0x0600212F RID: 8495 RVA: 0x00078690 File Offset: 0x00076890
-		// (remove) Token: 0x06002130 RID: 8496 RVA: 0x000786C8 File Offset: 0x000768C8
 		public event Action<BattleSideEnum, int> OnReinforcementsSpawned;
 
-		// Token: 0x1400002F RID: 47
-		// (add) Token: 0x06002131 RID: 8497 RVA: 0x00078700 File Offset: 0x00076900
-		// (remove) Token: 0x06002132 RID: 8498 RVA: 0x00078738 File Offset: 0x00076938
 		public event Action<BattleSideEnum, int> OnInitialTroopsSpawned;
 
-		// Token: 0x1700065A RID: 1626
-		// (get) Token: 0x06002133 RID: 8499 RVA: 0x0007876D File Offset: 0x0007696D
 		public int NumberOfAgents
 		{
 			get
@@ -56,8 +43,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700065B RID: 1627
-		// (get) Token: 0x06002134 RID: 8500 RVA: 0x0007877F File Offset: 0x0007697F
 		public int NumberOfRemainingTroops
 		{
 			get
@@ -69,8 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700065C RID: 1628
-		// (get) Token: 0x06002135 RID: 8501 RVA: 0x000787A6 File Offset: 0x000769A6
 		public int NumberOfActiveDefenderTroops
 		{
 			get
@@ -84,8 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700065D RID: 1629
-		// (get) Token: 0x06002136 RID: 8502 RVA: 0x000787B9 File Offset: 0x000769B9
 		public int NumberOfActiveAttackerTroops
 		{
 			get
@@ -99,8 +80,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700065E RID: 1630
-		// (get) Token: 0x06002137 RID: 8503 RVA: 0x000787CC File Offset: 0x000769CC
 		public int NumberOfRemainingDefenderTroops
 		{
 			get
@@ -114,8 +93,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700065F RID: 1631
-		// (get) Token: 0x06002138 RID: 8504 RVA: 0x000787DF File Offset: 0x000769DF
 		public int NumberOfRemainingAttackerTroops
 		{
 			get
@@ -129,8 +106,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000660 RID: 1632
-		// (get) Token: 0x06002139 RID: 8505 RVA: 0x000787F2 File Offset: 0x000769F2
 		public int BattleSize
 		{
 			get
@@ -139,8 +114,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000661 RID: 1633
-		// (get) Token: 0x0600213A RID: 8506 RVA: 0x000787FA File Offset: 0x000769FA
 		public bool IsInitialSpawnOver
 		{
 			get
@@ -149,8 +122,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000662 RID: 1634
-		// (get) Token: 0x0600213B RID: 8507 RVA: 0x00078816 File Offset: 0x00076A16
 		public bool IsDeploymentOver
 		{
 			get
@@ -159,8 +130,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000663 RID: 1635
-		// (get) Token: 0x0600213C RID: 8508 RVA: 0x0007882D File Offset: 0x00076A2D
 		public ref readonly MissionSpawnSettings ReinforcementSpawnSettings
 		{
 			get
@@ -169,8 +138,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000664 RID: 1636
-		// (get) Token: 0x0600213D RID: 8509 RVA: 0x00078835 File Offset: 0x00076A35
 		private int TotalSpawnNumber
 		{
 			get
@@ -182,8 +149,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000665 RID: 1637
-		// (get) Token: 0x0600213E RID: 8510 RVA: 0x0007885C File Offset: 0x00076A5C
 		private MissionAgentSpawnLogic.SpawnPhase DefenderActivePhase
 		{
 			get
@@ -192,8 +157,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x17000666 RID: 1638
-		// (get) Token: 0x0600213F RID: 8511 RVA: 0x0007886B File Offset: 0x00076A6B
 		private MissionAgentSpawnLogic.SpawnPhase AttackerActivePhase
 		{
 			get
@@ -202,7 +165,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002140 RID: 8512 RVA: 0x0007887C File Offset: 0x00076A7C
 		public override void AfterStart()
 		{
 			this._bannerBearerLogic = base.Mission.GetMissionBehavior<BannerBearerLogic>();
@@ -216,7 +178,6 @@ namespace TaleWorlds.MountAndBlade
 			MissionGameModels.Current.BattleSpawnModel.OnMissionStart();
 		}
 
-		// Token: 0x06002141 RID: 8513 RVA: 0x000788D0 File Offset: 0x00076AD0
 		public int GetNumberOfPlayerControllableTroops()
 		{
 			MissionAgentSpawnLogic.MissionSide playerSide = this._playerSide;
@@ -227,7 +188,6 @@ namespace TaleWorlds.MountAndBlade
 			return playerSide.GetNumberOfPlayerControllableTroops();
 		}
 
-		// Token: 0x06002142 RID: 8514 RVA: 0x000788E3 File Offset: 0x00076AE3
 		public void InitWithSinglePhase(int defenderTotalSpawn, int attackerTotalSpawn, int defenderInitialSpawn, int attackerInitialSpawn, bool spawnDefenders, bool spawnAttackers, in MissionSpawnSettings spawnSettings)
 		{
 			this.AddPhase(BattleSideEnum.Defender, defenderTotalSpawn, defenderInitialSpawn);
@@ -235,13 +195,11 @@ namespace TaleWorlds.MountAndBlade
 			this.Init(spawnDefenders, spawnAttackers, spawnSettings);
 		}
 
-		// Token: 0x06002143 RID: 8515 RVA: 0x00078904 File Offset: 0x00076B04
 		public IEnumerable<IAgentOriginBase> GetAllTroopsForSide(BattleSideEnum side)
 		{
 			return this._missionSides[(int)side].GetAllTroops();
 		}
 
-		// Token: 0x06002144 RID: 8516 RVA: 0x00078920 File Offset: 0x00076B20
 		public override void OnMissionTick(float dt)
 		{
 			if (!MBNetwork.IsClient && !this.CheckDeployment())
@@ -266,7 +224,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002145 RID: 8517 RVA: 0x00078984 File Offset: 0x00076B84
 		public MissionAgentSpawnLogic(IMissionTroopSupplier[] suppliers, BattleSideEnum playerSide, Mission.BattleSizeType battleSizeType)
 		{
 			switch (battleSizeType)
@@ -307,13 +264,11 @@ namespace TaleWorlds.MountAndBlade
 			this._reinforcementSpawnEnabled = false;
 		}
 
-		// Token: 0x06002146 RID: 8518 RVA: 0x00078AB3 File Offset: 0x00076CB3
 		public void SetCustomReinforcementSpawnTimer(ICustomReinforcementSpawnTimer timer)
 		{
 			this._customReinforcementSpawnTimer = timer;
 		}
 
-		// Token: 0x06002147 RID: 8519 RVA: 0x00078ABC File Offset: 0x00076CBC
 		public void SetSpawnTroops(BattleSideEnum side, bool spawnTroops, bool enforceSpawning = false)
 		{
 			this._missionSides[(int)side].SetSpawnTroops(spawnTroops);
@@ -323,46 +278,39 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002148 RID: 8520 RVA: 0x00078AD8 File Offset: 0x00076CD8
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
 			MissionGameModels.Current.BattleInitializationModel.InitializeModel();
 		}
 
-		// Token: 0x06002149 RID: 8521 RVA: 0x00078AEF File Offset: 0x00076CEF
 		protected override void OnEndMission()
 		{
 			MissionGameModels.Current.BattleSpawnModel.OnMissionEnd();
 			MissionGameModels.Current.BattleInitializationModel.FinalizeModel();
 		}
 
-		// Token: 0x0600214A RID: 8522 RVA: 0x00078B0F File Offset: 0x00076D0F
 		public void SetSpawnHorses(BattleSideEnum side, bool spawnHorses)
 		{
 			this._missionSides[(int)side].SetSpawnWithHorses(spawnHorses);
 			base.Mission.SetDeploymentPlanSpawnWithHorses(side, spawnHorses);
 		}
 
-		// Token: 0x0600214B RID: 8523 RVA: 0x00078B2C File Offset: 0x00076D2C
 		public void StartSpawner(BattleSideEnum side)
 		{
 			this._missionSides[(int)side].SetSpawnTroops(true);
 		}
 
-		// Token: 0x0600214C RID: 8524 RVA: 0x00078B3C File Offset: 0x00076D3C
 		public void StopSpawner(BattleSideEnum side)
 		{
 			this._missionSides[(int)side].SetSpawnTroops(false);
 		}
 
-		// Token: 0x0600214D RID: 8525 RVA: 0x00078B4C File Offset: 0x00076D4C
 		public bool IsSideSpawnEnabled(BattleSideEnum side)
 		{
 			return this._missionSides[(int)side].TroopSpawnActive;
 		}
 
-		// Token: 0x0600214E RID: 8526 RVA: 0x00078B5C File Offset: 0x00076D5C
 		public void OnBattleSideDeployed(BattleSideEnum side)
 		{
 			foreach (Team team in base.Mission.Teams)
@@ -400,13 +348,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600214F RID: 8527 RVA: 0x00078CEC File Offset: 0x00076EEC
 		public float GetReinforcementInterval()
 		{
 			return this._globalReinforcementInterval;
 		}
 
-		// Token: 0x06002150 RID: 8528 RVA: 0x00078CF4 File Offset: 0x00076EF4
 		public void SetReinforcementsSpawnEnabled(bool value, bool resetTimers = true)
 		{
 			if (this._reinforcementSpawnEnabled != value)
@@ -430,13 +376,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002151 RID: 8529 RVA: 0x00078D53 File Offset: 0x00076F53
 		public int GetTotalNumberOfTroopsForSide(BattleSideEnum side)
 		{
 			return this._numberOfTroopsInTotal[(int)side];
 		}
 
-		// Token: 0x06002152 RID: 8530 RVA: 0x00078D60 File Offset: 0x00076F60
 		public BasicCharacterObject GetGeneralCharacterOfSide(BattleSideEnum side)
 		{
 			if (side >= BattleSideEnum.Defender && side < BattleSideEnum.NumSides)
@@ -446,13 +390,11 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		// Token: 0x06002153 RID: 8531 RVA: 0x00078D86 File Offset: 0x00076F86
 		public bool GetSpawnHorses(BattleSideEnum side)
 		{
 			return this._missionSides[(int)side].SpawnWithHorses;
 		}
 
-		// Token: 0x06002154 RID: 8532 RVA: 0x00078D98 File Offset: 0x00076F98
 		private bool CheckMinimumBatchQuotaRequirement()
 		{
 			int num = MissionAgentSpawnLogic.MaxNumberOfAgentsForMission - this.NumberOfAgents;
@@ -464,7 +406,6 @@ namespace TaleWorlds.MountAndBlade
 			return num >= num2;
 		}
 
-		// Token: 0x06002155 RID: 8533 RVA: 0x00078DD8 File Offset: 0x00076FD8
 		private void CheckGlobalReinforcementBatch()
 		{
 			if (this._globalReinforcementSpawnTimer.ElapsedTime >= this._globalReinforcementInterval)
@@ -482,7 +423,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002156 RID: 8534 RVA: 0x00078E40 File Offset: 0x00077040
 		private void CheckCustomReinforcementBatch()
 		{
 			bool flag = false;
@@ -507,20 +447,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002157 RID: 8535 RVA: 0x00078EBF File Offset: 0x000770BF
 		public bool IsSideDepleted(BattleSideEnum side)
 		{
 			return this._phases[(int)side].Count == 1 && this._missionSides[(int)side].NumberOfActiveTroops == 0 && this.GetActivePhaseForSide(side).RemainingSpawnNumber == 0;
 		}
 
-		// Token: 0x06002158 RID: 8536 RVA: 0x00078EF1 File Offset: 0x000770F1
 		public void AddPhaseChangeAction(BattleSideEnum side, MissionAgentSpawnLogic.OnPhaseChangedDelegate onPhaseChanged)
 		{
 			MissionAgentSpawnLogic.OnPhaseChangedDelegate[] onPhaseChanged2 = this._onPhaseChanged;
 			onPhaseChanged2[(int)side] = (MissionAgentSpawnLogic.OnPhaseChangedDelegate)Delegate.Combine(onPhaseChanged2[(int)side], onPhaseChanged);
 		}
 
-		// Token: 0x06002159 RID: 8537 RVA: 0x00078F10 File Offset: 0x00077110
 		private void Init(bool spawnDefenders, bool spawnAttackers, in MissionSpawnSettings reinforcementSpawnSettings)
 		{
 			List<MissionAgentSpawnLogic.SpawnPhase>[] phases = this._phases;
@@ -606,7 +543,6 @@ namespace TaleWorlds.MountAndBlade
 			this._missionSides[num2].SetSpawnTroops(spawnAttackers);
 		}
 
-		// Token: 0x0600215A RID: 8538 RVA: 0x00079324 File Offset: 0x00077524
 		private void AddPhase(BattleSideEnum side, int totalSpawn, int initialSpawn)
 		{
 			MissionAgentSpawnLogic.SpawnPhase spawnPhase = new MissionAgentSpawnLogic.SpawnPhase
@@ -619,7 +555,6 @@ namespace TaleWorlds.MountAndBlade
 			this._numberOfTroopsInTotal[(int)side] += totalSpawn;
 		}
 
-		// Token: 0x0600215B RID: 8539 RVA: 0x00079370 File Offset: 0x00077570
 		private void PhaseTick()
 		{
 			for (int i = 0; i < 2; i++)
@@ -653,7 +588,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600215C RID: 8540 RVA: 0x00079468 File Offset: 0x00077668
 		private bool CheckDeployment()
 		{
 			bool flag = this.IsDeploymentOver;
@@ -736,7 +670,6 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x0600215D RID: 8541 RVA: 0x0007971C File Offset: 0x0007791C
 		private void CheckReinforcementSpawn()
 		{
 			int num = 0;
@@ -788,7 +721,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600215E RID: 8542 RVA: 0x000798C0 File Offset: 0x00077AC0
 		private void NotifyReinforcementTroopsSpawned(BattleSideEnum battleSide, bool checkEmptyReserves = false)
 		{
 			MissionAgentSpawnLogic.MissionSide missionSide = this._missionSides[(int)battleSide];
@@ -804,19 +736,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600215F RID: 8543 RVA: 0x00079911 File Offset: 0x00077B11
 		private void OrderController_OnOrderIssued(OrderType orderType, MBReadOnlyList<Formation> appliedFormations, params object[] delegateParams)
 		{
 			DeploymentHandler.OrderController_OnOrderIssued_Aux(orderType, appliedFormations, delegateParams);
 		}
 
-		// Token: 0x06002160 RID: 8544 RVA: 0x0007991B File Offset: 0x00077B1B
 		private int GetBattleSizeForActivePhase()
 		{
 			return MathF.Max(this.DefenderActivePhase.TotalSpawnNumber, this.AttackerActivePhase.TotalSpawnNumber);
 		}
 
-		// Token: 0x06002161 RID: 8545 RVA: 0x00079938 File Offset: 0x00077B38
 		private MissionAgentSpawnLogic.SpawnPhase GetActivePhaseForSide(BattleSideEnum side)
 		{
 			if (side == BattleSideEnum.Defender)
@@ -831,59 +760,40 @@ namespace TaleWorlds.MountAndBlade
 			return this.AttackerActivePhase;
 		}
 
-		// Token: 0x04000C4A RID: 3146
 		private static int _maxNumberOfAgentsForMissionCache;
 
-		// Token: 0x04000C4D RID: 3149
 		private readonly MissionAgentSpawnLogic.OnPhaseChangedDelegate[] _onPhaseChanged = new MissionAgentSpawnLogic.OnPhaseChangedDelegate[2];
 
-		// Token: 0x04000C4E RID: 3150
 		private readonly List<MissionAgentSpawnLogic.SpawnPhase>[] _phases;
 
-		// Token: 0x04000C4F RID: 3151
 		private readonly int[] _numberOfTroopsInTotal;
 
-		// Token: 0x04000C50 RID: 3152
 		private readonly MissionAgentSpawnLogic.FormationSpawnData[] _formationSpawnData;
 
-		// Token: 0x04000C51 RID: 3153
 		private readonly int _battleSize;
 
-		// Token: 0x04000C52 RID: 3154
 		private bool _reinforcementSpawnEnabled = true;
 
-		// Token: 0x04000C53 RID: 3155
 		private bool _spawningReinforcements;
 
-		// Token: 0x04000C54 RID: 3156
 		private readonly BasicMissionTimer _globalReinforcementSpawnTimer;
 
-		// Token: 0x04000C55 RID: 3157
 		private ICustomReinforcementSpawnTimer _customReinforcementSpawnTimer;
 
-		// Token: 0x04000C56 RID: 3158
 		private float _globalReinforcementInterval;
 
-		// Token: 0x04000C57 RID: 3159
 		private MissionSpawnSettings _spawnSettings;
 
-		// Token: 0x04000C58 RID: 3160
 		private readonly MissionAgentSpawnLogic.MissionSide[] _missionSides;
 
-		// Token: 0x04000C59 RID: 3161
 		private BannerBearerLogic _bannerBearerLogic;
 
-		// Token: 0x04000C5A RID: 3162
 		private List<BattleSideEnum> _sidesWhereSpawnOccured = new List<BattleSideEnum>();
 
-		// Token: 0x04000C5B RID: 3163
 		private readonly MissionAgentSpawnLogic.MissionSide _playerSide;
 
-		// Token: 0x0200057A RID: 1402
 		private struct FormationSpawnData
 		{
-			// Token: 0x1700098E RID: 2446
-			// (get) Token: 0x06003AC9 RID: 15049 RVA: 0x000ECE0F File Offset: 0x000EB00F
 			public int NumTroops
 			{
 				get
@@ -892,32 +802,19 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001D3B RID: 7483
 			public int FootTroopCount;
 
-			// Token: 0x04001D3C RID: 7484
 			public int MountedTroopCount;
 		}
 
-		// Token: 0x0200057B RID: 1403
 		private class MissionSide
 		{
-			// Token: 0x1700098F RID: 2447
-			// (get) Token: 0x06003ACA RID: 15050 RVA: 0x000ECE1E File Offset: 0x000EB01E
-			// (set) Token: 0x06003ACB RID: 15051 RVA: 0x000ECE26 File Offset: 0x000EB026
 			public bool TroopSpawnActive { get; private set; }
 
-			// Token: 0x17000990 RID: 2448
-			// (get) Token: 0x06003ACC RID: 15052 RVA: 0x000ECE2F File Offset: 0x000EB02F
 			public bool IsPlayerSide { get; }
 
-			// Token: 0x17000991 RID: 2449
-			// (get) Token: 0x06003ACD RID: 15053 RVA: 0x000ECE37 File Offset: 0x000EB037
-			// (set) Token: 0x06003ACE RID: 15054 RVA: 0x000ECE3F File Offset: 0x000EB03F
 			public bool ReinforcementSpawnActive { get; private set; }
 
-			// Token: 0x17000992 RID: 2450
-			// (get) Token: 0x06003ACF RID: 15055 RVA: 0x000ECE48 File Offset: 0x000EB048
 			public bool SpawnWithHorses
 			{
 				get
@@ -926,13 +823,8 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000993 RID: 2451
-			// (get) Token: 0x06003AD0 RID: 15056 RVA: 0x000ECE50 File Offset: 0x000EB050
-			// (set) Token: 0x06003AD1 RID: 15057 RVA: 0x000ECE58 File Offset: 0x000EB058
 			public bool ReinforcementsNotifiedOnLastBatch { get; private set; }
 
-			// Token: 0x17000994 RID: 2452
-			// (get) Token: 0x06003AD2 RID: 15058 RVA: 0x000ECE61 File Offset: 0x000EB061
 			public int NumberOfActiveTroops
 			{
 				get
@@ -941,8 +833,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000995 RID: 2453
-			// (get) Token: 0x06003AD3 RID: 15059 RVA: 0x000ECE75 File Offset: 0x000EB075
 			public int ReinforcementQuotaRequirement
 			{
 				get
@@ -951,8 +841,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000996 RID: 2454
-			// (get) Token: 0x06003AD4 RID: 15060 RVA: 0x000ECE7D File Offset: 0x000EB07D
 			public int ReinforcementsSpawnedInLastBatch
 			{
 				get
@@ -961,8 +849,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000997 RID: 2455
-			// (get) Token: 0x06003AD5 RID: 15061 RVA: 0x000ECE85 File Offset: 0x000EB085
 			public float ReinforcementBatchSize
 			{
 				get
@@ -971,8 +857,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000998 RID: 2456
-			// (get) Token: 0x06003AD6 RID: 15062 RVA: 0x000ECE8E File Offset: 0x000EB08E
 			public bool HasReservedTroops
 			{
 				get
@@ -981,8 +865,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x17000999 RID: 2457
-			// (get) Token: 0x06003AD7 RID: 15063 RVA: 0x000ECE9E File Offset: 0x000EB09E
 			public float ReinforcementBatchPriority
 			{
 				get
@@ -991,14 +873,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003AD8 RID: 15064 RVA: 0x000ECEA6 File Offset: 0x000EB0A6
 			public int GetNumberOfPlayerControllableTroops()
 			{
 				return this._troopSupplier.GetNumberOfPlayerControllableTroops();
 			}
 
-			// Token: 0x1700099A RID: 2458
-			// (get) Token: 0x06003AD9 RID: 15065 RVA: 0x000ECEB3 File Offset: 0x000EB0B3
 			public int ReservedTroopsCount
 			{
 				get
@@ -1007,7 +886,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003ADA RID: 15066 RVA: 0x000ECEC0 File Offset: 0x000EB0C0
 			public MissionSide(MissionAgentSpawnLogic spawnLogic, BattleSideEnum side, IMissionTroopSupplier troopSupplier, bool isPlayerSide)
 			{
 				this._spawnLogic = spawnLogic;
@@ -1023,7 +901,6 @@ namespace TaleWorlds.MountAndBlade
 				this.ReinforcementsNotifiedOnLastBatch = false;
 			}
 
-			// Token: 0x06003ADB RID: 15067 RVA: 0x000ECF3C File Offset: 0x000EB13C
 			public int TryReinforcementSpawn()
 			{
 				int num = 0;
@@ -1049,7 +926,6 @@ namespace TaleWorlds.MountAndBlade
 				return num;
 			}
 
-			// Token: 0x06003ADC RID: 15068 RVA: 0x000ECFF8 File Offset: 0x000EB1F8
 			public void GetFormationSpawnData(MissionAgentSpawnLogic.FormationSpawnData[] formationSpawnData)
 			{
 				if (formationSpawnData != null && formationSpawnData.Length == 11)
@@ -1082,7 +958,6 @@ namespace TaleWorlds.MountAndBlade
 				Debug.FailedAssert("Formation troop counts parameter is not set correctly.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\MissionAgentSpawnLogic.cs", "GetFormationSpawnData", 155);
 			}
 
-			// Token: 0x06003ADD RID: 15069 RVA: 0x000ED0D0 File Offset: 0x000EB2D0
 			public void ReserveTroops(int number)
 			{
 				if (number > 0 && this._troopSupplier.AnyTroopRemainsToBeSupplied)
@@ -1091,8 +966,6 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x1700099B RID: 2459
-			// (get) Token: 0x06003ADE RID: 15070 RVA: 0x000ED0FA File Offset: 0x000EB2FA
 			public bool HasSpawnableReinforcements
 			{
 				get
@@ -1101,13 +974,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003ADF RID: 15071 RVA: 0x000ED11B File Offset: 0x000EB31B
 			public BasicCharacterObject GetGeneralCharacter()
 			{
 				return this._troopSupplier.GetGeneralCharacter();
 			}
 
-			// Token: 0x06003AE0 RID: 15072 RVA: 0x000ED128 File Offset: 0x000EB328
 			public unsafe bool CheckReinforcementBatch()
 			{
 				MissionAgentSpawnLogic.SpawnPhase spawnPhase = ((this._side == BattleSideEnum.Defender) ? this._spawnLogic.DefenderActivePhase : this._spawnLogic.AttackerActivePhase);
@@ -1161,13 +1032,11 @@ namespace TaleWorlds.MountAndBlade
 				return this.ReinforcementSpawnActive;
 			}
 
-			// Token: 0x06003AE1 RID: 15073 RVA: 0x000ED2C0 File Offset: 0x000EB4C0
 			public IEnumerable<IAgentOriginBase> GetAllTroops()
 			{
 				return this._troopSupplier.GetAllTroops();
 			}
 
-			// Token: 0x06003AE2 RID: 15074 RVA: 0x000ED2D0 File Offset: 0x000EB4D0
 			public int SpawnTroops(int number, bool isReinforcement)
 			{
 				if (number <= 0)
@@ -1350,13 +1219,11 @@ namespace TaleWorlds.MountAndBlade
 				return num4;
 			}
 
-			// Token: 0x06003AE3 RID: 15075 RVA: 0x000ED934 File Offset: 0x000EBB34
 			public void SetSpawnWithHorses(bool spawnWithHorses)
 			{
 				this._spawnWithHorses = spawnWithHorses;
 			}
 
-			// Token: 0x06003AE4 RID: 15076 RVA: 0x000ED940 File Offset: 0x000EBB40
 			private unsafe int ComputeBalancedBatch(MissionAgentSpawnLogic.SpawnPhase activePhase)
 			{
 				int num = 0;
@@ -1376,7 +1243,6 @@ namespace TaleWorlds.MountAndBlade
 				return num;
 			}
 
-			// Token: 0x06003AE5 RID: 15077 RVA: 0x000ED9E8 File Offset: 0x000EBBE8
 			private unsafe int ComputeFixedBatch(MissionAgentSpawnLogic.SpawnPhase activePhase)
 			{
 				int num = 0;
@@ -1395,7 +1261,6 @@ namespace TaleWorlds.MountAndBlade
 				return num;
 			}
 
-			// Token: 0x06003AE6 RID: 15078 RVA: 0x000EDA68 File Offset: 0x000EBC68
 			private unsafe int ComputeWaveBatch(MissionAgentSpawnLogic.SpawnPhase activePhase)
 			{
 				int num = 0;
@@ -1417,13 +1282,11 @@ namespace TaleWorlds.MountAndBlade
 				return num;
 			}
 
-			// Token: 0x06003AE7 RID: 15079 RVA: 0x000EDAED File Offset: 0x000EBCED
 			public void SetBannerBearerLogic(BannerBearerLogic bannerBearerLogic)
 			{
 				this._bannerBearerLogic = bannerBearerLogic;
 			}
 
-			// Token: 0x06003AE8 RID: 15080 RVA: 0x000EDAF8 File Offset: 0x000EBCF8
 			private void UpdateReinforcementQuotaRequirement(int previousBatchSize)
 			{
 				if (this._reinforcementBatchSize < previousBatchSize)
@@ -1444,13 +1307,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003AE9 RID: 15081 RVA: 0x000EDB8C File Offset: 0x000EBD8C
 			public void SetReinforcementsNotifiedOnLastBatch(bool value)
 			{
 				this.ReinforcementsNotifiedOnLastBatch = value;
 			}
 
-			// Token: 0x06003AEA RID: 15082 RVA: 0x000EDB98 File Offset: 0x000EBD98
 			private void ResetReinforcementSpawnedUnitCountsPerFormation()
 			{
 				for (int i = 0; i < 8; i++)
@@ -1469,13 +1330,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x06003AEB RID: 15083 RVA: 0x000EDC68 File Offset: 0x000EBE68
 			public void SetSpawnTroops(bool spawnTroops)
 			{
 				this.TroopSpawnActive = spawnTroops;
 			}
 
-			// Token: 0x06003AEC RID: 15084 RVA: 0x000EDC71 File Offset: 0x000EBE71
 			private int GetReservedTroopQuota(int index)
 			{
 				if (!this._spawnWithHorses || !this._reservedTroops[index].Troop.IsMounted)
@@ -1485,7 +1344,6 @@ namespace TaleWorlds.MountAndBlade
 				return 2;
 			}
 
-			// Token: 0x06003AED RID: 15085 RVA: 0x000EDC98 File Offset: 0x000EBE98
 			public void OnInitialSpawnOver()
 			{
 				foreach (Formation formation in this._spawnedFormations)
@@ -1494,82 +1352,58 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			// Token: 0x04001D3D RID: 7485
 			private readonly MissionAgentSpawnLogic _spawnLogic;
 
-			// Token: 0x04001D3E RID: 7486
 			private readonly BattleSideEnum _side;
 
-			// Token: 0x04001D3F RID: 7487
 			private readonly IMissionTroopSupplier _troopSupplier;
 
-			// Token: 0x04001D40 RID: 7488
 			private BannerBearerLogic _bannerBearerLogic;
 
-			// Token: 0x04001D41 RID: 7489
 			private readonly MBArrayList<Formation> _spawnedFormations;
 
-			// Token: 0x04001D42 RID: 7490
 			private bool _spawnWithHorses;
 
-			// Token: 0x04001D43 RID: 7491
 			private float _reinforcementBatchPriority;
 
-			// Token: 0x04001D44 RID: 7492
 			private int _reinforcementQuotaRequirement;
 
-			// Token: 0x04001D45 RID: 7493
 			private int _reinforcementBatchSize;
 
-			// Token: 0x04001D46 RID: 7494
 			private int _reinforcementsSpawnedInLastBatch;
 
-			// Token: 0x04001D47 RID: 7495
 			private int _numSpawnedTroops;
 
-			// Token: 0x04001D48 RID: 7496
 			private readonly List<IAgentOriginBase> _reservedTroops = new List<IAgentOriginBase>();
 
-			// Token: 0x04001D49 RID: 7497
 			[TupleElementNames(new string[] { "team", "origins" })]
 			private List<ValueTuple<Team, List<IAgentOriginBase>>> _troopOriginsToSpawnPerTeam;
 
-			// Token: 0x04001D4E RID: 7502
 			[TupleElementNames(new string[] { "currentTroopIndex", "troopCount" })]
 			private readonly ValueTuple<int, int>[] _reinforcementSpawnedUnitCountPerFormation;
 
-			// Token: 0x04001D4F RID: 7503
 			private readonly Dictionary<IAgentOriginBase, int> _reinforcementTroopFormationAssignments;
 		}
 
-		// Token: 0x0200057C RID: 1404
 		private class SpawnPhase
 		{
-			// Token: 0x06003AEE RID: 15086 RVA: 0x000EDCE4 File Offset: 0x000EBEE4
 			public void OnInitialTroopsSpawned()
 			{
 				this.InitialSpawnedNumber = this.InitialSpawnNumber;
 				this.InitialSpawnNumber = 0;
 			}
 
-			// Token: 0x04001D50 RID: 7504
 			public int TotalSpawnNumber;
 
-			// Token: 0x04001D51 RID: 7505
 			public int InitialSpawnedNumber;
 
-			// Token: 0x04001D52 RID: 7506
 			public int InitialSpawnNumber;
 
-			// Token: 0x04001D53 RID: 7507
 			public int RemainingSpawnNumber;
 
-			// Token: 0x04001D54 RID: 7508
 			public int NumberActiveTroops;
 		}
 
-		// Token: 0x0200057D RID: 1405
-		// (Invoke) Token: 0x06003AF1 RID: 15089
 		public delegate void OnPhaseChangedDelegate();
 	}
 }

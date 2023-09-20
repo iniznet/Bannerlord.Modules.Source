@@ -16,10 +16,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Encyclopedia
 {
-	// Token: 0x02000034 RID: 52
 	public class EncyclopediaData
 	{
-		// Token: 0x060001D4 RID: 468 RVA: 0x0000CF50 File Offset: 0x0000B150
 		public EncyclopediaData(GauntletMapEncyclopediaView manager, ScreenBase screen, EncyclopediaHomeVM homeDatasource, EncyclopediaNavigatorVM navigatorDatasource)
 		{
 			this._manager = manager;
@@ -52,7 +50,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			Game.Current.EventManager.RegisterEvent<TutorialContextChangedEvent>(new Action<TutorialContextChangedEvent>(this.OnTutorialContextChanged));
 		}
 
-		// Token: 0x060001D5 RID: 469 RVA: 0x0000D0E8 File Offset: 0x0000B2E8
 		private void OnTutorialContextChanged(TutorialContextChangedEvent obj)
 		{
 			if (obj.NewContext != 9)
@@ -61,7 +58,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			}
 		}
 
-		// Token: 0x060001D6 RID: 470 RVA: 0x0000D100 File Offset: 0x0000B300
 		internal void OnTick()
 		{
 			this._navigatorDatasource.CanSwitchTabs = !Input.IsGamepadActive || !InformationManager.GetIsAnyTooltipActiveAndExtended();
@@ -114,7 +110,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			activeDatasource.OnTick();
 		}
 
-		// Token: 0x060001D7 RID: 471 RVA: 0x0000D250 File Offset: 0x0000B450
 		private void SetEncyclopediaPage(string pageId, object obj)
 		{
 			GauntletLayer activeGauntletLayer = this._activeGauntletLayer;
@@ -184,14 +179,12 @@ namespace SandBox.GauntletUI.Encyclopedia
 			this._previousPageID = pageId;
 		}
 
-		// Token: 0x060001D8 RID: 472 RVA: 0x0000D583 File Offset: 0x0000B783
 		internal EncyclopediaPageVM ExecuteLink(string pageId, object obj, bool needsRefresh)
 		{
 			this.SetEncyclopediaPage(pageId, obj);
 			return this._activeDatasource;
 		}
 
-		// Token: 0x060001D9 RID: 473 RVA: 0x0000D594 File Offset: 0x0000B794
 		private EncyclopediaPageVM GetEncyclopediaPageInstance(EncyclopediaPage page, object o)
 		{
 			EncyclopediaPageArgs encyclopediaPageArgs;
@@ -214,7 +207,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			return null;
 		}
 
-		// Token: 0x060001DA RID: 474 RVA: 0x0000D644 File Offset: 0x0000B844
 		public void OnFinalize()
 		{
 			Game.Current.GameStateManager.UnregisterActiveStateDisableRequest(this);
@@ -230,7 +222,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			Game.Current.EventManager.UnregisterEvent<TutorialContextChangedEvent>(new Action<TutorialContextChangedEvent>(this.OnTutorialContextChanged));
 		}
 
-		// Token: 0x060001DB RID: 475 RVA: 0x0000D6BC File Offset: 0x0000B8BC
 		public void CloseEncyclopedia()
 		{
 			EncyclopediaListVM encyclopediaListVM;
@@ -247,7 +238,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(this._prevContext));
 		}
 
-		// Token: 0x060001DC RID: 476 RVA: 0x0000D760 File Offset: 0x0000B960
 		private void ResetPageFilters()
 		{
 			foreach (EncyclopediaListVM encyclopediaListVM in this._lists.Values)
@@ -262,7 +252,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			}
 		}
 
-		// Token: 0x060001DD RID: 477 RVA: 0x0000D81C File Offset: 0x0000BA1C
 		private void SetTutorialPageContext(EncyclopediaPageVM _page)
 		{
 			if (_page is EncyclopediaClanPageVM)
@@ -296,7 +285,6 @@ namespace SandBox.GauntletUI.Encyclopedia
 			}
 		}
 
-		// Token: 0x060001DE RID: 478 RVA: 0x0000D8E8 File Offset: 0x0000BAE8
 		private void SetTutorialListPageContext(EncyclopediaPage _page)
 		{
 			if (_page is DefaultEncyclopediaClanPage)
@@ -330,46 +318,32 @@ namespace SandBox.GauntletUI.Encyclopedia
 			}
 		}
 
-		// Token: 0x040000F0 RID: 240
 		private Dictionary<string, EncyclopediaPage> _pages;
 
-		// Token: 0x040000F1 RID: 241
 		private string _previousPageID;
 
-		// Token: 0x040000F2 RID: 242
 		private EncyclopediaHomeVM _homeDatasource;
 
-		// Token: 0x040000F3 RID: 243
 		private IGauntletMovie _homeGauntletMovie;
 
-		// Token: 0x040000F4 RID: 244
 		private Dictionary<EncyclopediaPage, EncyclopediaListVM> _lists;
 
-		// Token: 0x040000F5 RID: 245
 		private EncyclopediaPageVM _activeDatasource;
 
-		// Token: 0x040000F6 RID: 246
 		private GauntletLayer _activeGauntletLayer;
 
-		// Token: 0x040000F7 RID: 247
 		private IGauntletMovie _activeGauntletMovie;
 
-		// Token: 0x040000F8 RID: 248
 		private EncyclopediaNavigatorVM _navigatorDatasource;
 
-		// Token: 0x040000F9 RID: 249
 		private IGauntletMovie _navigatorActiveGauntletMovie;
 
-		// Token: 0x040000FA RID: 250
 		private readonly ScreenBase _screen;
 
-		// Token: 0x040000FB RID: 251
 		private TutorialContexts _prevContext;
 
-		// Token: 0x040000FC RID: 252
 		private readonly GauntletMapEncyclopediaView _manager;
 
-		// Token: 0x040000FD RID: 253
 		private object _initialState;
 	}
 }

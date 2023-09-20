@@ -4,10 +4,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000004 RID: 4
 	public class CustomBattleAutoBlockModel : AutoBlockModel
 	{
-		// Token: 0x06000014 RID: 20 RVA: 0x00004718 File Offset: 0x00002918
 		public override Agent.UsageDirection GetBlockDirection(Mission mission)
 		{
 			Agent mainAgent = mission.MainAgent;

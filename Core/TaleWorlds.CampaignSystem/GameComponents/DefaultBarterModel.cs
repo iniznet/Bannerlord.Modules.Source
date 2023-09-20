@@ -8,11 +8,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F1 RID: 241
 	public class DefaultBarterModel : BarterModel
 	{
-		// Token: 0x170005C4 RID: 1476
-		// (get) Token: 0x0600147B RID: 5243 RVA: 0x0005B230 File Offset: 0x00059430
 		public override int BarterCooldownWithHeroInDays
 		{
 			get
@@ -21,8 +18,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005C5 RID: 1477
-		// (get) Token: 0x0600147C RID: 5244 RVA: 0x0005B233 File Offset: 0x00059433
 		private int MaximumOverpayRelationBonus
 		{
 			get
@@ -31,8 +26,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005C6 RID: 1478
-		// (get) Token: 0x0600147D RID: 5245 RVA: 0x0005B236 File Offset: 0x00059436
 		public override float MaximumPercentageOfNpcGoldToSpendAtBarter
 		{
 			get
@@ -41,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600147E RID: 5246 RVA: 0x0005B240 File Offset: 0x00059440
 		public override int CalculateOverpayRelationIncreaseCosts(Hero hero, float overpayAmount)
 		{
 			int num = (int)hero.GetRelationWithPlayer();
@@ -74,7 +66,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num3;
 		}
 
-		// Token: 0x0600147F RID: 5247 RVA: 0x0005B2D8 File Offset: 0x000594D8
 		public override ExplainedNumber GetBarterPenalty(IFaction faction, ItemBarterable itemBarterable, Hero otherHero, PartyBase otherParty)
 		{
 			ExplainedNumber explainedNumber;

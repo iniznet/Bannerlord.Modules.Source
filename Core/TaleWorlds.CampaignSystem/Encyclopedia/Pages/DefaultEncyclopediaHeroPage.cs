@@ -8,17 +8,14 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 {
-	// Token: 0x02000168 RID: 360
 	[EncyclopediaModel(new Type[] { typeof(Hero) })]
 	public class DefaultEncyclopediaHeroPage : EncyclopediaPage
 	{
-		// Token: 0x060018A4 RID: 6308 RVA: 0x0007C3AB File Offset: 0x0007A5AB
 		public DefaultEncyclopediaHeroPage()
 		{
 			base.HomePageOrderIndex = 200;
 		}
 
-		// Token: 0x060018A5 RID: 6309 RVA: 0x0007C3BE File Offset: 0x0007A5BE
 		protected override IEnumerable<EncyclopediaListItem> InitializeListItems()
 		{
 			int comingOfAge = Campaign.Current.Models.AgeModel.HeroComesOfAge;
@@ -88,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			yield break;
 		}
 
-		// Token: 0x060018A6 RID: 6310 RVA: 0x0007C3D0 File Offset: 0x0007A5D0
 		protected override IEnumerable<EncyclopediaFilterGroup> InitializeFilterItems()
 		{
 			List<EncyclopediaFilterGroup> list = new List<EncyclopediaFilterGroup>();
@@ -135,7 +131,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			return list;
 		}
 
-		// Token: 0x060018A7 RID: 6311 RVA: 0x0007C7D4 File Offset: 0x0007A9D4
 		protected override IEnumerable<EncyclopediaSortController> InitializeSortControllers()
 		{
 			return new List<EncyclopediaSortController>
@@ -145,37 +140,31 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			};
 		}
 
-		// Token: 0x060018A8 RID: 6312 RVA: 0x0007C811 File Offset: 0x0007AA11
 		public override string GetViewFullyQualifiedName()
 		{
 			return "EncyclopediaHeroPage";
 		}
 
-		// Token: 0x060018A9 RID: 6313 RVA: 0x0007C818 File Offset: 0x0007AA18
 		public override string GetStringID()
 		{
 			return "EncyclopediaHero";
 		}
 
-		// Token: 0x060018AA RID: 6314 RVA: 0x0007C81F File Offset: 0x0007AA1F
 		public override TextObject GetName()
 		{
 			return GameTexts.FindText("str_encyclopedia_heroes", null);
 		}
 
-		// Token: 0x060018AB RID: 6315 RVA: 0x0007C82C File Offset: 0x0007AA2C
 		public override TextObject GetDescriptionText()
 		{
 			return GameTexts.FindText("str_hero_description", null);
 		}
 
-		// Token: 0x060018AC RID: 6316 RVA: 0x0007C839 File Offset: 0x0007AA39
 		public override MBObjectBase GetObject(string typeName, string stringID)
 		{
 			return Campaign.Current.CampaignObjectManager.Find<Hero>(stringID);
 		}
 
-		// Token: 0x060018AD RID: 6317 RVA: 0x0007C84C File Offset: 0x0007AA4C
 		public override bool IsValidEncyclopediaItem(object o)
 		{
 			Hero hero = o as Hero;
@@ -190,22 +179,18 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			return false;
 		}
 
-		// Token: 0x060018AE RID: 6318 RVA: 0x0007C89A File Offset: 0x0007AA9A
 		private static bool CanPlayerSeeValuesOf(Hero hero)
 		{
 			return Campaign.Current.Models.InformationRestrictionModel.DoesPlayerKnowDetailsOf(hero);
 		}
 
-		// Token: 0x02000538 RID: 1336
 		private class EncyclopediaListHeroAgeComparer : DefaultEncyclopediaHeroPage.EncyclopediaListHeroComparer
 		{
-			// Token: 0x06004303 RID: 17155 RVA: 0x001366BE File Offset: 0x001348BE
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareHeroes(x, y, DefaultEncyclopediaHeroPage.EncyclopediaListHeroAgeComparer._comparison);
 			}
 
-			// Token: 0x06004304 RID: 17156 RVA: 0x001366D0 File Offset: 0x001348D0
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Hero hero;
@@ -221,20 +206,16 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return ((int)hero.Age).ToString();
 			}
 
-			// Token: 0x0400162A RID: 5674
 			private static Func<Hero, Hero, int> _comparison = (Hero h1, Hero h2) => h1.Age.CompareTo(h2.Age);
 		}
 
-		// Token: 0x02000539 RID: 1337
 		private class EncyclopediaListHeroRelationComparer : DefaultEncyclopediaHeroPage.EncyclopediaListHeroComparer
 		{
-			// Token: 0x06004307 RID: 17159 RVA: 0x0013674D File Offset: 0x0013494D
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
 				return base.CompareHeroes(x, y, DefaultEncyclopediaHeroPage.EncyclopediaListHeroRelationComparer._comparison);
 			}
 
-			// Token: 0x06004308 RID: 17160 RVA: 0x0013675C File Offset: 0x0013495C
 			public override string GetComparedValueText(EncyclopediaListItem item)
 			{
 				Hero hero;
@@ -256,14 +237,11 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return GameTexts.FindText("str_plus_with_number", null).ToString();
 			}
 
-			// Token: 0x0400162B RID: 5675
 			private static Func<Hero, Hero, int> _comparison = (Hero h1, Hero h2) => h1.GetRelationWithPlayer().CompareTo(h2.GetRelationWithPlayer());
 		}
 
-		// Token: 0x0200053A RID: 1338
 		public abstract class EncyclopediaListHeroComparer : EncyclopediaListItemComparerBase
 		{
-			// Token: 0x0600430B RID: 17163 RVA: 0x001367FC File Offset: 0x001349FC
 			protected bool CompareVisibility(Hero h1, Hero h2, out int comparisonResult)
 			{
 				bool flag = DefaultEncyclopediaHeroPage.CanPlayerSeeValuesOf(h1);
@@ -287,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				return false;
 			}
 
-			// Token: 0x0600430C RID: 17164 RVA: 0x0013684C File Offset: 0x00134A4C
 			protected int CompareHeroes(EncyclopediaListItem x, EncyclopediaListItem y, Func<Hero, Hero, int> comparison)
 			{
 				Hero hero;
@@ -317,8 +294,6 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				}
 			}
 
-			// Token: 0x02000783 RID: 1923
-			// (Invoke) Token: 0x060056DD RID: 22237
 			protected delegate bool HeroVisibilityComparerDelegate(Hero h1, Hero h2, out int comparisonResult);
 		}
 	}

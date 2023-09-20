@@ -4,11 +4,9 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000286 RID: 646
 	[MissionManager]
 	public static class MultiplayerMissions
 	{
-		// Token: 0x06002244 RID: 8772 RVA: 0x0007D4D1 File Offset: 0x0007B6D1
 		[MissionMethod]
 		public static void OpenFreeForAllMission(string scene)
 		{
@@ -66,7 +64,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06002245 RID: 8773 RVA: 0x0007D505 File Offset: 0x0007B705
 		[MissionMethod]
 		public static void OpenTeamDeathmatchMission(string scene)
 		{
@@ -124,7 +121,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06002246 RID: 8774 RVA: 0x0007D539 File Offset: 0x0007B739
 		[MissionMethod]
 		public static void OpenDuelMission(string scene)
 		{
@@ -180,7 +176,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06002247 RID: 8775 RVA: 0x0007D570 File Offset: 0x0007B770
 		[MissionMethod]
 		public static void OpenSiegeMission(string scene)
 		{
@@ -244,7 +239,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06002248 RID: 8776 RVA: 0x0007D5C6 File Offset: 0x0007B7C6
 		[MissionMethod]
 		public static void OpenBattleMission(string scene)
 		{
@@ -305,7 +299,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x06002249 RID: 8777 RVA: 0x0007D5FA File Offset: 0x0007B7FA
 		[MissionMethod]
 		public static void OpenCaptainMission(string scene)
 		{
@@ -369,7 +362,6 @@ namespace TaleWorlds.MountAndBlade
 			}, true, true);
 		}
 
-		// Token: 0x0600224A RID: 8778 RVA: 0x0007D62E File Offset: 0x0007B82E
 		[MissionMethod]
 		public static void OpenSkirmishMission(string scene)
 		{

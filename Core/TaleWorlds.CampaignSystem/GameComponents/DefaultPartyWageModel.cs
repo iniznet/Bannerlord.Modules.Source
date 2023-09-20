@@ -13,11 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200012A RID: 298
 	public class DefaultPartyWageModel : PartyWageModel
 	{
-		// Token: 0x17000611 RID: 1553
-		// (get) Token: 0x060016B7 RID: 5815 RVA: 0x0006EC45 File Offset: 0x0006CE45
 		public override int MaxWage
 		{
 			get
@@ -26,7 +23,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060016B8 RID: 5816 RVA: 0x0006EC4C File Offset: 0x0006CE4C
 		public override int GetCharacterWage(CharacterObject character)
 		{
 			int num;
@@ -64,7 +60,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060016B9 RID: 5817 RVA: 0x0006ECBC File Offset: 0x0006CEBC
 		public override ExplainedNumber GetTotalWage(MobileParty mobileParty, bool includeDescriptions = false)
 		{
 			int num = 0;
@@ -267,7 +262,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber2;
 		}
 
-		// Token: 0x060016BA RID: 5818 RVA: 0x0006F45C File Offset: 0x0006D65C
 		private void CalculatePartialGarrisonWageReduction(float troopRatio, MobileParty mobileParty, PerkObject perk, ref ExplainedNumber garrisonWageReductionMultiplier, bool isSecondaryEffect)
 		{
 			if (troopRatio > 0f && mobileParty.CurrentSettlement.Town.Governor != null && PerkHelper.GetPerkValueForTown(perk, mobileParty.CurrentSettlement.Town))
@@ -276,7 +270,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060016BB RID: 5819 RVA: 0x0006F4BC File Offset: 0x0006D6BC
 		public override int GetTroopRecruitmentCost(CharacterObject troop, Hero buyerHero, bool withoutItemCost = false)
 		{
 			int num = 10 * MathF.Round((float)troop.Level * MathF.Pow((float)troop.Level, 0.65f) * 0.2f);
@@ -393,13 +386,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x04000814 RID: 2068
 		private static readonly TextObject _cultureText = GameTexts.FindText("str_culture", null);
 
-		// Token: 0x04000815 RID: 2069
 		private static readonly TextObject _buildingEffects = GameTexts.FindText("str_building_effects", null);
 
-		// Token: 0x04000816 RID: 2070
 		private const float MercenaryWageFactor = 1.5f;
 	}
 }

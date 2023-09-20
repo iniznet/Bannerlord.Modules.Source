@@ -13,10 +13,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x02000085 RID: 133
 	public static class HeroCreator
 	{
-		// Token: 0x0600105A RID: 4186 RVA: 0x00049930 File Offset: 0x00047B30
 		public static Hero CreateHeroAtOccupation(Occupation neededOccupation, Settlement forcedHomeSettlement = null)
 		{
 			Settlement settlement = forcedHomeSettlement ?? SettlementHelper.GetRandomTown(null);
@@ -78,7 +76,6 @@ namespace TaleWorlds.CampaignSystem
 			return hero;
 		}
 
-		// Token: 0x0600105B RID: 4187 RVA: 0x00049B68 File Offset: 0x00047D68
 		private static Hero CreateNewHero(CharacterObject template, int age = -1)
 		{
 			Debug.Print("creating hero from template with id: " + template.StringId, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -128,7 +125,6 @@ namespace TaleWorlds.CampaignSystem
 			return newCharacter.HeroObject;
 		}
 
-		// Token: 0x0600105C RID: 4188 RVA: 0x00049D90 File Offset: 0x00047F90
 		public static Hero CreateSpecialHero(CharacterObject template, Settlement bornSettlement = null, Clan faction = null, Clan supporterOfClan = null, int age = -1)
 		{
 			Hero hero = HeroCreator.CreateNewHero(template, age);
@@ -163,7 +159,6 @@ namespace TaleWorlds.CampaignSystem
 			return hero;
 		}
 
-		// Token: 0x0600105D RID: 4189 RVA: 0x00049E20 File Offset: 0x00048020
 		public static Hero CreateRelativeNotableHero(Hero relative)
 		{
 			Hero hero = HeroCreator.CreateHeroAtOccupation(relative.CharacterObject.Occupation, relative.HomeSettlement);
@@ -177,7 +172,6 @@ namespace TaleWorlds.CampaignSystem
 			return hero;
 		}
 
-		// Token: 0x0600105E RID: 4190 RVA: 0x00049EBC File Offset: 0x000480BC
 		public static bool CreateBasicHero(CharacterObject character, out Hero hero, string stringId = "")
 		{
 			if (string.IsNullOrEmpty(stringId))
@@ -200,7 +194,6 @@ namespace TaleWorlds.CampaignSystem
 			return true;
 		}
 
-		// Token: 0x0600105F RID: 4191 RVA: 0x00049F48 File Offset: 0x00048148
 		private static void ModifyAppearanceByTraits(Hero hero)
 		{
 			int num = MBRandom.RandomInt(0, 100);
@@ -394,7 +387,6 @@ namespace TaleWorlds.CampaignSystem
 			hero.ModifyHair(num3, num4, num5);
 		}
 
-		// Token: 0x06001060 RID: 4192 RVA: 0x0004A1A4 File Offset: 0x000483A4
 		private static void AddRandomVarianceToTraits(Hero hero)
 		{
 			foreach (TraitObject traitObject in TraitObject.All)
@@ -437,7 +429,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06001061 RID: 4193 RVA: 0x0004A2C8 File Offset: 0x000484C8
 		public static Hero DeliverOffSpring(Hero mother, Hero father, bool isOffspringFemale)
 		{
 			Debug.SilentAssert(mother.CharacterObject.Race == father.CharacterObject.Race, "", false, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\HeroCreator.cs", "DeliverOffSpring", 477);
@@ -495,7 +486,6 @@ namespace TaleWorlds.CampaignSystem
 			return hero;
 		}
 
-		// Token: 0x06001062 RID: 4194 RVA: 0x0004A584 File Offset: 0x00048784
 		private static Settlement DecideBornSettlement(Hero child)
 		{
 			Settlement settlement;
@@ -538,7 +528,6 @@ namespace TaleWorlds.CampaignSystem
 			return settlement;
 		}
 
-		// Token: 0x06001063 RID: 4195 RVA: 0x0004A69C File Offset: 0x0004889C
 		private static FormationClass GetRandomPreferredUpgradeFormation()
 		{
 			int num = MBRandom.RandomInt(10);

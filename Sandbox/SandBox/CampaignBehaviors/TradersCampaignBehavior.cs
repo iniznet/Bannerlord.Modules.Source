@@ -11,27 +11,22 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x020000A4 RID: 164
 	public class TradersCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060009C3 RID: 2499 RVA: 0x00050A60 File Offset: 0x0004EC60
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 		}
 
-		// Token: 0x060009C4 RID: 2500 RVA: 0x00050A79 File Offset: 0x0004EC79
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060009C5 RID: 2501 RVA: 0x00050A7B File Offset: 0x0004EC7B
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060009C6 RID: 2502 RVA: 0x00050A84 File Offset: 0x0004EC84
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("weaponsmith_talk_start_normal", "start", "weaponsmith_talk_player", "{=7IxFrati}Greetings my {?PLAYER.GENDER}lady{?}lord{\\?}, how may I help you?", new ConversationSentence.OnConditionDelegate(this.conversation_weaponsmith_talk_start_normal_on_condition), null, 100, null);
@@ -48,31 +43,26 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("weaponsmith_talk_end", "player_merchant_talk_close", "close_window", "{=Yh0danUf}Thank you and good day my {?PLAYER.GENDER}lady{?}lord{\\?}.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_weaponsmith_talk_player_on_consequence), 100, null);
 		}
 
-		// Token: 0x060009C7 RID: 2503 RVA: 0x00050C4B File Offset: 0x0004EE4B
 		private bool conversation_open_crafting_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter != null && CharacterObject.OneToOneConversationCharacter.Occupation == 28;
 		}
 
-		// Token: 0x060009C8 RID: 2504 RVA: 0x00050C64 File Offset: 0x0004EE64
 		private bool conversation_weaponsmith_talk_start_normal_on_condition()
 		{
 			return !Campaign.Current.IsMainHeroDisguised && this.IsTrader();
 		}
 
-		// Token: 0x060009C9 RID: 2505 RVA: 0x00050C7A File Offset: 0x0004EE7A
 		private bool conversation_weaponsmith_talk_start_to_player_in_disguise_on_condition()
 		{
 			return Campaign.Current.IsMainHeroDisguised && this.IsTrader();
 		}
 
-		// Token: 0x060009CA RID: 2506 RVA: 0x00050C90 File Offset: 0x0004EE90
 		private bool IsTrader()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == 10 || CharacterObject.OneToOneConversationCharacter.Occupation == 11 || CharacterObject.OneToOneConversationCharacter.Occupation == 12 || CharacterObject.OneToOneConversationCharacter.Occupation == 4 || CharacterObject.OneToOneConversationCharacter.Occupation == 28;
 		}
 
-		// Token: 0x060009CB RID: 2507 RVA: 0x00050CE4 File Offset: 0x0004EEE4
 		private void conversation_weaponsmith_talk_player_on_consequence()
 		{
 			Debug.Print("conversation_weaponsmith_talk_player_on_consequence", 0, 8, 17592186044416UL);
@@ -112,13 +102,11 @@ namespace SandBox.CampaignBehaviors
 			InventoryManager.OpenScreenAsTrade(currentSettlement.ItemRoster, currentSettlement.Town, inventoryCategoryType, null);
 		}
 
-		// Token: 0x060009CC RID: 2508 RVA: 0x00050D84 File Offset: 0x0004EF84
 		private void conversation_weaponsmith_craft_on_consequence()
 		{
 			CraftingHelper.OpenCrafting(CraftingTemplate.All[0], null);
 		}
 
-		// Token: 0x060009CD RID: 2509 RVA: 0x00050D98 File Offset: 0x0004EF98
 		private void OnInventoryScreenDone()
 		{
 			foreach (Agent agent in Mission.Current.Agents)

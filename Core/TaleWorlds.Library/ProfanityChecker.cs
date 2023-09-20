@@ -7,10 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000079 RID: 121
 	public class ProfanityChecker
 	{
-		// Token: 0x0600041B RID: 1051 RVA: 0x0000CE54 File Offset: 0x0000B054
 		public ProfanityChecker(string[] profanityList, string[] allowList)
 		{
 			this.ProfanityList = profanityList;
@@ -25,7 +23,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x0600041C RID: 1052 RVA: 0x0000CEC5 File Offset: 0x0000B0C5
 		public bool IsProfane(string word)
 		{
 			if (string.IsNullOrEmpty(word) || word.Length == 0)
@@ -36,7 +33,6 @@ namespace TaleWorlds.Library
 			return !this.AllowList.Contains(word) && this.ProfanityList.Contains(word);
 		}
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x0000CF00 File Offset: 0x0000B100
 		public bool ContainsProfanity(string text, ProfanityChecker.ProfanityChechkerType checkType)
 		{
 			if (string.IsNullOrEmpty(text) || text.Length == 0)
@@ -85,7 +81,6 @@ namespace TaleWorlds.Library
 			return false;
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x0000D07C File Offset: 0x0000B27C
 		public string CensorText(string text)
 		{
 			if (!string.IsNullOrEmpty(text))
@@ -123,18 +118,13 @@ namespace TaleWorlds.Library
 			return string.Empty;
 		}
 
-		// Token: 0x0400013A RID: 314
 		private readonly string[] ProfanityList;
 
-		// Token: 0x0400013B RID: 315
 		private readonly string[] AllowList;
 
-		// Token: 0x020000CD RID: 205
 		public enum ProfanityChechkerType
 		{
-			// Token: 0x0400028F RID: 655
 			FalsePositive,
-			// Token: 0x04000290 RID: 656
 			FalseNegative
 		}
 	}

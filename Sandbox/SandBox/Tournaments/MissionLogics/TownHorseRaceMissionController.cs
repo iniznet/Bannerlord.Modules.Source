@@ -11,22 +11,16 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Tournaments.MissionLogics
 {
-	// Token: 0x0200001E RID: 30
 	public class TownHorseRaceMissionController : MissionLogic, ITournamentGameBehavior
 	{
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000167 RID: 359 RVA: 0x0000AAF6 File Offset: 0x00008CF6
-		// (set) Token: 0x06000168 RID: 360 RVA: 0x0000AAFE File Offset: 0x00008CFE
 		public List<TownHorseRaceMissionController.CheckPoint> CheckPoints { get; private set; }
 
-		// Token: 0x06000169 RID: 361 RVA: 0x0000AB07 File Offset: 0x00008D07
 		public TownHorseRaceMissionController(CultureObject culture)
 		{
 			this._culture = culture;
 			this._agents = new List<TownHorseRaceAgentController>();
 		}
 
-		// Token: 0x0600016A RID: 362 RVA: 0x0000AB24 File Offset: 0x00008D24
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -38,7 +32,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this._startTimer = new BasicMissionTimer();
 		}
 
-		// Token: 0x0600016B RID: 363 RVA: 0x0000AB8C File Offset: 0x00008D8C
 		public override void OnMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -51,7 +44,6 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600016C RID: 364 RVA: 0x0000AC00 File Offset: 0x00008E00
 		private void CollectCheckPointsAndStartPoints()
 		{
 			this.CheckPoints = new List<TownHorseRaceMissionController.CheckPoint>();
@@ -67,7 +59,6 @@ namespace SandBox.Tournaments.MissionLogics
 			this._startPoints = base.Mission.Scene.FindEntitiesWithTag("sp_horse_race").ToList<GameEntity>();
 		}
 
-		// Token: 0x0600016D RID: 365 RVA: 0x0000ACE8 File Offset: 0x00008EE8
 		private MatrixFrame GetStartFrame(int index)
 		{
 			MatrixFrame matrixFrame;
@@ -83,7 +74,6 @@ namespace SandBox.Tournaments.MissionLogics
 			return matrixFrame;
 		}
 
-		// Token: 0x0600016E RID: 366 RVA: 0x0000AD4C File Offset: 0x00008F4C
 		private void SetItemsAndSpawnCharacter(CharacterObject troop)
 		{
 			int count = this._agents.Count;
@@ -107,13 +97,11 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x0600016F RID: 367 RVA: 0x0000AEBC File Offset: 0x000090BC
 		private TownHorseRaceAgentController AddHorseRaceAgentController(Agent agent)
 		{
 			return agent.AddController(typeof(TownHorseRaceAgentController)) as TownHorseRaceAgentController;
 		}
 
-		// Token: 0x06000170 RID: 368 RVA: 0x0000AED4 File Offset: 0x000090D4
 		private void InitializeTeams(int count)
 		{
 			this._teams = new List<Team>();
@@ -123,53 +111,40 @@ namespace SandBox.Tournaments.MissionLogics
 			}
 		}
 
-		// Token: 0x06000171 RID: 369 RVA: 0x0000AF1A File Offset: 0x0000911A
 		public void StartMatch(TournamentMatch match, bool isLastRound)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06000172 RID: 370 RVA: 0x0000AF21 File Offset: 0x00009121
 		public void SkipMatch(TournamentMatch match)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06000173 RID: 371 RVA: 0x0000AF28 File Offset: 0x00009128
 		public bool IsMatchEnded()
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x06000174 RID: 372 RVA: 0x0000AF2F File Offset: 0x0000912F
 		public void OnMatchEnded()
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x04000095 RID: 149
 		public const int TourCount = 2;
 
-		// Token: 0x04000097 RID: 151
 		private readonly List<TownHorseRaceAgentController> _agents;
 
-		// Token: 0x04000098 RID: 152
 		private List<Team> _teams;
 
-		// Token: 0x04000099 RID: 153
 		private List<GameEntity> _startPoints;
 
-		// Token: 0x0400009A RID: 154
 		private BasicMissionTimer _startTimer;
 
-		// Token: 0x0400009B RID: 155
 		private CultureObject _culture;
 
-		// Token: 0x020000FE RID: 254
 		public class CheckPoint
 		{
-			// Token: 0x170000E2 RID: 226
-			// (get) Token: 0x06000C9A RID: 3226 RVA: 0x00061A5F File Offset: 0x0005FC5F
 			public string Name
 			{
 				get
@@ -178,7 +153,6 @@ namespace SandBox.Tournaments.MissionLogics
 				}
 			}
 
-			// Token: 0x06000C9B RID: 3227 RVA: 0x00061A74 File Offset: 0x0005FC74
 			public CheckPoint(VolumeBox volumeBox)
 			{
 				this._volumeBox = volumeBox;
@@ -186,7 +160,6 @@ namespace SandBox.Tournaments.MissionLogics
 				this._volumeBox.SetIsOccupiedDelegate(new VolumeBox.VolumeBoxDelegate(this.OnAgentsEnterCheckBox));
 			}
 
-			// Token: 0x06000C9C RID: 3228 RVA: 0x00061AC0 File Offset: 0x0005FCC0
 			public Vec3 GetBestTargetPosition()
 			{
 				Vec3 vec;
@@ -201,19 +174,16 @@ namespace SandBox.Tournaments.MissionLogics
 				return vec;
 			}
 
-			// Token: 0x06000C9D RID: 3229 RVA: 0x00061B1A File Offset: 0x0005FD1A
 			public void AddToCheckList(Agent agent)
 			{
 				this._volumeBox.AddToCheckList(agent);
 			}
 
-			// Token: 0x06000C9E RID: 3230 RVA: 0x00061B28 File Offset: 0x0005FD28
 			public void RemoveFromCheckList(Agent agent)
 			{
 				this._volumeBox.RemoveFromCheckList(agent);
 			}
 
-			// Token: 0x06000C9F RID: 3231 RVA: 0x00061B38 File Offset: 0x0005FD38
 			private void OnAgentsEnterCheckBox(VolumeBox volumeBox, List<Agent> agentsInVolume)
 			{
 				foreach (Agent agent in agentsInVolume)
@@ -223,10 +193,8 @@ namespace SandBox.Tournaments.MissionLogics
 				}
 			}
 
-			// Token: 0x040004F5 RID: 1269
 			private readonly VolumeBox _volumeBox;
 
-			// Token: 0x040004F6 RID: 1270
 			private readonly List<GameEntity> _bestTargetList;
 		}
 	}

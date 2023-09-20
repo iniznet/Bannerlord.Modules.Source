@@ -10,17 +10,14 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x02000027 RID: 39
 	[OverrideView(typeof(MapEscapeMenuView))]
 	public class GauntletMapEscapeMenuView : MapView
 	{
-		// Token: 0x06000174 RID: 372 RVA: 0x0000B523 File Offset: 0x00009723
 		public GauntletMapEscapeMenuView(List<EscapeMenuItemVM> items)
 		{
 			this._menuItems = items;
 		}
 
-		// Token: 0x06000175 RID: 373 RVA: 0x0000B534 File Offset: 0x00009734
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -38,7 +35,6 @@ namespace SandBox.GauntletUI.Map
 			ScreenManager.TrySetFocus(base.Layer);
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x0000B5F8 File Offset: 0x000097F8
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -48,7 +44,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000177 RID: 375 RVA: 0x0000B644 File Offset: 0x00009844
 		protected override void OnIdleTick(float dt)
 		{
 			base.OnIdleTick(dt);
@@ -58,13 +53,11 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x0000B690 File Offset: 0x00009890
 		protected override bool IsEscaped()
 		{
 			return base.Layer.Input.IsHotKeyReleased("ToggleEscapeMenu");
 		}
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000B6A8 File Offset: 0x000098A8
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -78,16 +71,12 @@ namespace SandBox.GauntletUI.Map
 			this._escapeMenuMovie = null;
 		}
 
-		// Token: 0x040000BF RID: 191
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x040000C0 RID: 192
 		private EscapeMenuVM _escapeMenuDatasource;
 
-		// Token: 0x040000C1 RID: 193
 		private IGauntletMovie _escapeMenuMovie;
 
-		// Token: 0x040000C2 RID: 194
 		private readonly List<EscapeMenuItemVM> _menuItems;
 	}
 }

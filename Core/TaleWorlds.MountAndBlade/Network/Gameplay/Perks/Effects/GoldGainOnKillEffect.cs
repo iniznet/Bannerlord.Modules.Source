@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003C1 RID: 961
 	public class GoldGainOnKillEffect : MPPerkEffect
 	{
-		// Token: 0x060033B3 RID: 13235 RVA: 0x000D655C File Offset: 0x000D475C
 		protected GoldGainOnKillEffect()
 		{
 		}
 
-		// Token: 0x060033B4 RID: 13236 RVA: 0x000D6564 File Offset: 0x000D4764
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -85,7 +82,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x060033B5 RID: 13237 RVA: 0x000D6668 File Offset: 0x000D4868
 		public override int GetGoldOnKill(float attackerValue, float victimValue)
 		{
 			switch (this._enemyValue)
@@ -109,23 +105,16 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x040015FB RID: 5627
 		protected static string StringType = "GoldGainOnKill";
 
-		// Token: 0x040015FC RID: 5628
 		private int _value;
 
-		// Token: 0x040015FD RID: 5629
 		private GoldGainOnKillEffect.EnemyValue _enemyValue;
 
-		// Token: 0x020006C1 RID: 1729
 		private enum EnemyValue
 		{
-			// Token: 0x04002296 RID: 8854
 			Any,
-			// Token: 0x04002297 RID: 8855
 			Higher,
-			// Token: 0x04002298 RID: 8856
 			Lower
 		}
 	}

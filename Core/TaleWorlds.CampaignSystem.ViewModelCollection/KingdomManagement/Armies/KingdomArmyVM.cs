@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 {
-	// Token: 0x02000076 RID: 118
 	public class KingdomArmyVM : KingdomCategoryVM
 	{
-		// Token: 0x06000A75 RID: 2677 RVA: 0x00029898 File Offset: 0x00027A98
 		public KingdomArmyVM(Action onManageArmy, Action refreshDecision, Action<Army> showArmyOnMap)
 		{
 			this._onManageArmy = onManageArmy;
@@ -34,7 +32,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000A76 RID: 2678 RVA: 0x00029958 File Offset: 0x00027B58
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -65,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			currentSelectedArmy.RefreshValues();
 		}
 
-		// Token: 0x06000A77 RID: 2679 RVA: 0x00029B0C File Offset: 0x00027D0C
 		public void RefreshArmyList()
 		{
 			base.NotificationCount = PlayerUpdateTracker.Current.NumKingdomArmyNotifications;
@@ -98,13 +94,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A78 RID: 2680 RVA: 0x00029C18 File Offset: 0x00027E18
 		private void ExecuteManageArmy()
 		{
 			this._onManageArmy();
 		}
 
-		// Token: 0x06000A79 RID: 2681 RVA: 0x00029C25 File Offset: 0x00027E25
 		private void ExecuteShowOnMap()
 		{
 			if (this.CurrentSelectedArmy != null)
@@ -113,7 +107,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A7A RID: 2682 RVA: 0x00029C48 File Offset: 0x00027E48
 		private void RefreshCurrentArmyVisuals(KingdomArmyItemVM item)
 		{
 			if (item != null)
@@ -141,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A7B RID: 2683 RVA: 0x00029D54 File Offset: 0x00027F54
 		private bool GetCanManageCurrentArmyWithReason(out TextObject disabledReason)
 		{
 			if (Hero.MainHero.IsPrisoner)
@@ -173,7 +165,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			return true;
 		}
 
-		// Token: 0x06000A7C RID: 2684 RVA: 0x00029E08 File Offset: 0x00028008
 		private bool GetCanDisbandCurrentArmyWithReason(KingdomArmyItemVM armyItem, int disbandCost, out TextObject disabledReason)
 		{
 			TextObject textObject;
@@ -206,7 +197,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			return true;
 		}
 
-		// Token: 0x06000A7D RID: 2685 RVA: 0x00029EAC File Offset: 0x000280AC
 		public void SelectArmy(Army army)
 		{
 			foreach (KingdomArmyItemVM kingdomArmyItemVM in this.Armies)
@@ -219,7 +209,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A7E RID: 2686 RVA: 0x00029F04 File Offset: 0x00028104
 		private void OnSelection(KingdomArmyItemVM item)
 		{
 			if (this.CurrentSelectedArmy != item)
@@ -230,7 +219,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A7F RID: 2687 RVA: 0x00029F28 File Offset: 0x00028128
 		private void ExecuteDisbandCurrentArmy()
 		{
 			if (this.CurrentSelectedArmy != null && Hero.MainHero.Clan.Influence >= (float)this.DisbandCost)
@@ -239,7 +227,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A80 RID: 2688 RVA: 0x00029FC0 File Offset: 0x000281C0
 		private void DisbandCurrentArmy()
 		{
 			if (this.CurrentSelectedArmy != null && Hero.MainHero.Clan.Influence >= (float)this.DisbandCost)
@@ -249,7 +236,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x06000A81 RID: 2689 RVA: 0x00029FF8 File Offset: 0x000281F8
 		private void RefreshCanManageArmy()
 		{
 			TextObject textObject;
@@ -282,9 +268,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			this.CreateArmyHint.HintText = TextObject.Empty;
 		}
 
-		// Token: 0x17000363 RID: 867
-		// (get) Token: 0x06000A82 RID: 2690 RVA: 0x0002A0E9 File Offset: 0x000282E9
-		// (set) Token: 0x06000A83 RID: 2691 RVA: 0x0002A0F1 File Offset: 0x000282F1
 		[DataSourceProperty]
 		public KingdomArmySortControllerVM ArmySortController
 		{
@@ -302,9 +285,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000364 RID: 868
-		// (get) Token: 0x06000A84 RID: 2692 RVA: 0x0002A10F File Offset: 0x0002830F
-		// (set) Token: 0x06000A85 RID: 2693 RVA: 0x0002A117 File Offset: 0x00028317
 		[DataSourceProperty]
 		public string CreateArmyText
 		{
@@ -322,9 +302,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000365 RID: 869
-		// (get) Token: 0x06000A86 RID: 2694 RVA: 0x0002A13A File Offset: 0x0002833A
-		// (set) Token: 0x06000A87 RID: 2695 RVA: 0x0002A142 File Offset: 0x00028342
 		[DataSourceProperty]
 		public string DisbandActionExplanationText
 		{
@@ -342,9 +319,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000366 RID: 870
-		// (get) Token: 0x06000A88 RID: 2696 RVA: 0x0002A165 File Offset: 0x00028365
-		// (set) Token: 0x06000A89 RID: 2697 RVA: 0x0002A16D File Offset: 0x0002836D
 		[DataSourceProperty]
 		public string ManageActionExplanationText
 		{
@@ -362,9 +336,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000367 RID: 871
-		// (get) Token: 0x06000A8A RID: 2698 RVA: 0x0002A190 File Offset: 0x00028390
-		// (set) Token: 0x06000A8B RID: 2699 RVA: 0x0002A198 File Offset: 0x00028398
 		[DataSourceProperty]
 		public KingdomArmyItemVM CurrentSelectedArmy
 		{
@@ -382,9 +353,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000368 RID: 872
-		// (get) Token: 0x06000A8C RID: 2700 RVA: 0x0002A1B6 File Offset: 0x000283B6
-		// (set) Token: 0x06000A8D RID: 2701 RVA: 0x0002A1BE File Offset: 0x000283BE
 		[DataSourceProperty]
 		public HintViewModel CreateArmyHint
 		{
@@ -402,9 +370,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000369 RID: 873
-		// (get) Token: 0x06000A8E RID: 2702 RVA: 0x0002A1DC File Offset: 0x000283DC
-		// (set) Token: 0x06000A8F RID: 2703 RVA: 0x0002A1E4 File Offset: 0x000283E4
 		[DataSourceProperty]
 		public HintViewModel ManageArmyHint
 		{
@@ -422,9 +387,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036A RID: 874
-		// (get) Token: 0x06000A90 RID: 2704 RVA: 0x0002A202 File Offset: 0x00028402
-		// (set) Token: 0x06000A91 RID: 2705 RVA: 0x0002A20A File Offset: 0x0002840A
 		[DataSourceProperty]
 		public bool PlayerHasArmy
 		{
@@ -442,9 +404,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036B RID: 875
-		// (get) Token: 0x06000A92 RID: 2706 RVA: 0x0002A228 File Offset: 0x00028428
-		// (set) Token: 0x06000A93 RID: 2707 RVA: 0x0002A230 File Offset: 0x00028430
 		[DataSourceProperty]
 		public bool CanCreateArmy
 		{
@@ -462,9 +421,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036C RID: 876
-		// (get) Token: 0x06000A94 RID: 2708 RVA: 0x0002A24E File Offset: 0x0002844E
-		// (set) Token: 0x06000A95 RID: 2709 RVA: 0x0002A256 File Offset: 0x00028456
 		[DataSourceProperty]
 		public string LeaderText
 		{
@@ -482,9 +438,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036D RID: 877
-		// (get) Token: 0x06000A96 RID: 2710 RVA: 0x0002A278 File Offset: 0x00028478
-		// (set) Token: 0x06000A97 RID: 2711 RVA: 0x0002A280 File Offset: 0x00028480
 		[DataSourceProperty]
 		public string ShowOnMapText
 		{
@@ -502,9 +455,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036E RID: 878
-		// (get) Token: 0x06000A98 RID: 2712 RVA: 0x0002A2A3 File Offset: 0x000284A3
-		// (set) Token: 0x06000A99 RID: 2713 RVA: 0x0002A2AB File Offset: 0x000284AB
 		[DataSourceProperty]
 		public string ArmyNameText
 		{
@@ -522,9 +472,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700036F RID: 879
-		// (get) Token: 0x06000A9A RID: 2714 RVA: 0x0002A2CD File Offset: 0x000284CD
-		// (set) Token: 0x06000A9B RID: 2715 RVA: 0x0002A2D5 File Offset: 0x000284D5
 		[DataSourceProperty]
 		public string StrengthText
 		{
@@ -542,9 +489,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000370 RID: 880
-		// (get) Token: 0x06000A9C RID: 2716 RVA: 0x0002A2F7 File Offset: 0x000284F7
-		// (set) Token: 0x06000A9D RID: 2717 RVA: 0x0002A2FF File Offset: 0x000284FF
 		[DataSourceProperty]
 		public string PartiesText
 		{
@@ -562,9 +506,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000371 RID: 881
-		// (get) Token: 0x06000A9E RID: 2718 RVA: 0x0002A322 File Offset: 0x00028522
-		// (set) Token: 0x06000A9F RID: 2719 RVA: 0x0002A32A File Offset: 0x0002852A
 		[DataSourceProperty]
 		public string LocationText
 		{
@@ -582,9 +523,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000372 RID: 882
-		// (get) Token: 0x06000AA0 RID: 2720 RVA: 0x0002A34C File Offset: 0x0002854C
-		// (set) Token: 0x06000AA1 RID: 2721 RVA: 0x0002A354 File Offset: 0x00028554
 		[DataSourceProperty]
 		public MBBindingList<KingdomArmyItemVM> Armies
 		{
@@ -602,9 +540,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000373 RID: 883
-		// (get) Token: 0x06000AA2 RID: 2722 RVA: 0x0002A372 File Offset: 0x00028572
-		// (set) Token: 0x06000AA3 RID: 2723 RVA: 0x0002A37A File Offset: 0x0002857A
 		[DataSourceProperty]
 		public bool CanDisbandCurrentArmy
 		{
@@ -622,9 +557,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000374 RID: 884
-		// (get) Token: 0x06000AA4 RID: 2724 RVA: 0x0002A398 File Offset: 0x00028598
-		// (set) Token: 0x06000AA5 RID: 2725 RVA: 0x0002A3A0 File Offset: 0x000285A0
 		[DataSourceProperty]
 		public bool CanManageCurrentArmy
 		{
@@ -642,9 +574,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000375 RID: 885
-		// (get) Token: 0x06000AA6 RID: 2726 RVA: 0x0002A3BE File Offset: 0x000285BE
-		// (set) Token: 0x06000AA7 RID: 2727 RVA: 0x0002A3C6 File Offset: 0x000285C6
 		[DataSourceProperty]
 		public bool CanChangeLeaderOfCurrentArmy
 		{
@@ -662,9 +591,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000376 RID: 886
-		// (get) Token: 0x06000AA8 RID: 2728 RVA: 0x0002A3E4 File Offset: 0x000285E4
-		// (set) Token: 0x06000AA9 RID: 2729 RVA: 0x0002A3EC File Offset: 0x000285EC
 		[DataSourceProperty]
 		public bool CanShowLocationOfCurrentArmy
 		{
@@ -682,9 +608,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000377 RID: 887
-		// (get) Token: 0x06000AAA RID: 2730 RVA: 0x0002A40A File Offset: 0x0002860A
-		// (set) Token: 0x06000AAB RID: 2731 RVA: 0x0002A412 File Offset: 0x00028612
 		[DataSourceProperty]
 		public string DisbandText
 		{
@@ -702,9 +625,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000378 RID: 888
-		// (get) Token: 0x06000AAC RID: 2732 RVA: 0x0002A435 File Offset: 0x00028635
-		// (set) Token: 0x06000AAD RID: 2733 RVA: 0x0002A43D File Offset: 0x0002863D
 		[DataSourceProperty]
 		public string ManageText
 		{
@@ -722,9 +642,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x17000379 RID: 889
-		// (get) Token: 0x06000AAE RID: 2734 RVA: 0x0002A460 File Offset: 0x00028660
-		// (set) Token: 0x06000AAF RID: 2735 RVA: 0x0002A468 File Offset: 0x00028668
 		[DataSourceProperty]
 		public int DisbandCost
 		{
@@ -742,9 +659,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700037A RID: 890
-		// (get) Token: 0x06000AB0 RID: 2736 RVA: 0x0002A486 File Offset: 0x00028686
-		// (set) Token: 0x06000AB1 RID: 2737 RVA: 0x0002A48E File Offset: 0x0002868E
 		[DataSourceProperty]
 		public string ChangeLeaderText
 		{
@@ -762,9 +676,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700037B RID: 891
-		// (get) Token: 0x06000AB2 RID: 2738 RVA: 0x0002A4B1 File Offset: 0x000286B1
-		// (set) Token: 0x06000AB3 RID: 2739 RVA: 0x0002A4B9 File Offset: 0x000286B9
 		[DataSourceProperty]
 		public int ChangeLeaderCost
 		{
@@ -782,9 +693,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x1700037C RID: 892
-		// (get) Token: 0x06000AB4 RID: 2740 RVA: 0x0002A4D7 File Offset: 0x000286D7
-		// (set) Token: 0x06000AB5 RID: 2741 RVA: 0x0002A4DF File Offset: 0x000286DF
 		[DataSourceProperty]
 		public HintViewModel DisbandHint
 		{
@@ -802,94 +710,64 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
-		// Token: 0x040004B9 RID: 1209
 		private readonly Action _onManageArmy;
 
-		// Token: 0x040004BA RID: 1210
 		private readonly Action _refreshDecision;
 
-		// Token: 0x040004BB RID: 1211
 		private readonly Action<Army> _showArmyOnMap;
 
-		// Token: 0x040004BC RID: 1212
 		private Kingdom _kingdom;
 
-		// Token: 0x040004BD RID: 1213
 		private MBBindingList<KingdomArmyItemVM> _armies;
 
-		// Token: 0x040004BE RID: 1214
 		private KingdomArmyItemVM _currentSelectedArmy;
 
-		// Token: 0x040004BF RID: 1215
 		private HintViewModel _disbandHint;
 
-		// Token: 0x040004C0 RID: 1216
 		private string _categoryLeaderName;
 
-		// Token: 0x040004C1 RID: 1217
 		private string _categoryLordCount;
 
-		// Token: 0x040004C2 RID: 1218
 		private string _categoryStrength;
 
-		// Token: 0x040004C3 RID: 1219
 		private string _categoryObjective;
 
-		// Token: 0x040004C4 RID: 1220
 		private string _categoryParties;
 
-		// Token: 0x040004C5 RID: 1221
 		private string _createArmyText;
 
-		// Token: 0x040004C6 RID: 1222
 		private string _disbandText;
 
-		// Token: 0x040004C7 RID: 1223
 		private string _manageText;
 
-		// Token: 0x040004C8 RID: 1224
 		private string _changeLeaderText;
 
-		// Token: 0x040004C9 RID: 1225
 		private string _showOnMapText;
 
-		// Token: 0x040004CA RID: 1226
 		private string _disbandActionExplanationText;
 
-		// Token: 0x040004CB RID: 1227
 		private string _manageActionExplanationText;
 
-		// Token: 0x040004CC RID: 1228
 		private bool _canCreateArmy;
 
-		// Token: 0x040004CD RID: 1229
 		private bool _playerHasArmy;
 
-		// Token: 0x040004CE RID: 1230
 		private HintViewModel _createArmyHint;
 
-		// Token: 0x040004CF RID: 1231
 		private HintViewModel _manageArmyHint;
 
-		// Token: 0x040004D0 RID: 1232
 		private bool _canChangeLeaderOfCurrentArmy;
 
-		// Token: 0x040004D1 RID: 1233
 		private bool _canDisbandCurrentArmy;
 
-		// Token: 0x040004D2 RID: 1234
 		private bool _canShowLocationOfCurrentArmy;
 
-		// Token: 0x040004D3 RID: 1235
 		private bool _canManageCurrentArmy;
 
-		// Token: 0x040004D4 RID: 1236
 		private int _disbandCost;
 
-		// Token: 0x040004D5 RID: 1237
 		private int _changeLeaderCost;
 
-		// Token: 0x040004D6 RID: 1238
 		private KingdomArmySortControllerVM _armySortController;
 	}
 }

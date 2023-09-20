@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace SandBox.GameComponents
 {
-	// Token: 0x02000089 RID: 137
 	public class SandboxAutoBlockModel : AutoBlockModel
 	{
-		// Token: 0x060005C9 RID: 1481 RVA: 0x0002B850 File Offset: 0x00029A50
 		public override Agent.UsageDirection GetBlockDirection(Mission mission)
 		{
 			Agent mainAgent = mission.MainAgent;

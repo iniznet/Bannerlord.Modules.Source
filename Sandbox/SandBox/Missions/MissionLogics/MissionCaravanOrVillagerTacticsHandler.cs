@@ -5,10 +5,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000046 RID: 70
 	public class MissionCaravanOrVillagerTacticsHandler : MissionLogic
 	{
-		// Token: 0x06000374 RID: 884 RVA: 0x00019280 File Offset: 0x00017480
 		public override void EarlyStart()
 		{
 			foreach (Team team in Mission.Current.Teams)

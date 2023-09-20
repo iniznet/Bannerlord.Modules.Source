@@ -9,10 +9,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.GamepadNavigation
 {
-	// Token: 0x02000042 RID: 66
 	internal static class GamepadNavigationHelper
 	{
-		// Token: 0x060003DA RID: 986 RVA: 0x00010B88 File Offset: 0x0000ED88
 		internal static void GetRelatedLineOfScope(GamepadNavigationScope scope, Vector2 fromPosition, GamepadNavigationTypes movement, out Vector2 lineBegin, out Vector2 lineEnd, out bool isFromWidget)
 		{
 			Rectangle discoveryRectangle = scope.GetDiscoveryRectangle();
@@ -60,7 +58,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			lineEnd = Vector2.Zero;
 		}
 
-		// Token: 0x060003DB RID: 987 RVA: 0x00010C94 File Offset: 0x0000EE94
 		internal static void GetRelatedLineOfWidget(Widget widget, GamepadNavigationTypes movement, out Vector2 lineBegin, out Vector2 lineEnd)
 		{
 			Vector2 globalPosition = widget.GlobalPosition;
@@ -95,7 +92,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			lineEnd = Vector2.Zero;
 		}
 
-		// Token: 0x060003DC RID: 988 RVA: 0x00010D70 File Offset: 0x0000EF70
 		internal static float GetDistanceToClosestWidgetEdge(Widget widget, Vector2 point, GamepadNavigationTypes movement, out Vector2 closestPointOnEdge)
 		{
 			Vector2 globalPosition = widget.GlobalPosition;
@@ -133,14 +129,12 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return Vector2.Distance(closestPointOnEdge, point);
 		}
 
-		// Token: 0x060003DD RID: 989 RVA: 0x00010EE8 File Offset: 0x0000F0E8
 		internal static float GetDistanceToClosestWidgetEdge(Widget widget, Vector2 point, GamepadNavigationTypes movement)
 		{
 			Vector2 vector;
 			return GamepadNavigationHelper.GetDistanceToClosestWidgetEdge(widget, point, movement, out vector);
 		}
 
-		// Token: 0x060003DE RID: 990 RVA: 0x00010F00 File Offset: 0x0000F100
 		internal static Vector2 GetClosestPointOnLineSegment(Vector2 lineBegin, Vector2 lineEnd, Vector2 point)
 		{
 			Vector2 vector = point - lineBegin;
@@ -158,7 +152,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return lineBegin + vector2 * num2;
 		}
 
-		// Token: 0x060003DF RID: 991 RVA: 0x00010F50 File Offset: 0x0000F150
 		internal static GamepadNavigationTypes GetMovementsToReachRectangle(Vector2 fromPosition, Rectangle rect)
 		{
 			GamepadNavigationTypes gamepadNavigationTypes = GamepadNavigationTypes.None;
@@ -181,7 +174,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return gamepadNavigationTypes;
 		}
 
-		// Token: 0x060003E0 RID: 992 RVA: 0x00010FBC File Offset: 0x0000F1BC
 		internal static Vector2 GetMovementVectorForNavigation(GamepadNavigationTypes navigationMovement)
 		{
 			return Vector2.Normalize(new Vector2
@@ -191,13 +183,11 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			});
 		}
 
-		// Token: 0x060003E1 RID: 993 RVA: 0x00011005 File Offset: 0x0000F205
 		internal static GamepadNavigationScope GetClosestChildScopeAtDirection(GamepadNavigationScope parentScope, Vector2 fromPosition, GamepadNavigationTypes movement, bool checkForAutoGain, out float distanceToScope)
 		{
 			return GamepadNavigationHelper.GetClosestScopeAtDirectionFromList(parentScope.ChildScopes.ToList<GamepadNavigationScope>(), fromPosition, movement, checkForAutoGain, true, out distanceToScope, Array.Empty<GamepadNavigationScope>());
 		}
 
-		// Token: 0x060003E2 RID: 994 RVA: 0x00011024 File Offset: 0x0000F224
 		internal static GamepadNavigationScope GetClosestScopeAtDirectionFromList(List<GamepadNavigationScope> scopesList, GamepadNavigationScope fromScope, Vector2 fromPosition, GamepadNavigationTypes movement, bool checkForAutoGain, out float distanceToScope)
 		{
 			distanceToScope = -1f;
@@ -232,7 +222,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return GamepadNavigationHelper.GetClosestScopeAtDirectionFromList(scopesList, fromPosition, movement, checkForAutoGain, false, out distanceToScope, new GamepadNavigationScope[] { fromScope });
 		}
 
-		// Token: 0x060003E3 RID: 995 RVA: 0x000110F0 File Offset: 0x0000F2F0
 		internal static GamepadNavigationScope GetClosestScopeFromList(List<GamepadNavigationScope> scopeList, Vector2 fromPosition, bool checkForAutoGain)
 		{
 			float num = float.MaxValue;
@@ -286,7 +275,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return null;
 		}
 
-		// Token: 0x060003E4 RID: 996 RVA: 0x00011230 File Offset: 0x0000F430
 		internal static GamepadNavigationScope GetClosestScopeAtDirectionFromList(List<GamepadNavigationScope> scopesList, Vector2 fromPosition, GamepadNavigationTypes movement, bool checkForAutoGain, bool checkOnlyOneDirection, out float distanceToScope, params GamepadNavigationScope[] scopesToIgnore)
 		{
 			distanceToScope = -1f;
@@ -349,7 +337,6 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return null;
 		}
 
-		// Token: 0x060003E5 RID: 997 RVA: 0x000113C0 File Offset: 0x0000F5C0
 		internal static float GetDirectionalDistanceBetweenTwoPoints(GamepadNavigationTypes movement, Vector2 p1, Vector2 p2)
 		{
 			if (movement == GamepadNavigationTypes.Right || movement == GamepadNavigationTypes.Left)

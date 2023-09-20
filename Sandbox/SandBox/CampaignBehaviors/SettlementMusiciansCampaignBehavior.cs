@@ -13,16 +13,13 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x020000A2 RID: 162
 	public class SettlementMusiciansCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000972 RID: 2418 RVA: 0x0004EED8 File Offset: 0x0004D0D8
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionStarted));
 		}
 
-		// Token: 0x06000973 RID: 2419 RVA: 0x0004EEF4 File Offset: 0x0004D0F4
 		private void OnMissionStarted(IMission mission)
 		{
 			Mission mission2;
@@ -38,7 +35,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000974 RID: 2420 RVA: 0x0004EF88 File Offset: 0x0004D188
 		private List<SettlementMusicData> CreateRandomPlayList(Settlement settlement)
 		{
 			List<string> listOfLocationTags = new List<string>();
@@ -139,7 +135,6 @@ namespace SandBox.CampaignBehaviors
 			return list2;
 		}
 
-		// Token: 0x06000975 RID: 2421 RVA: 0x0004F3DC File Offset: 0x0004D5DC
 		private void PopulatePlayList(List<SettlementMusicData> playList, List<SettlementMusicData> settlementMusicDatas, CultureObject culture, int count)
 		{
 			List<SettlementMusicData> list = settlementMusicDatas.Where((SettlementMusicData x) => x.Culture == culture).ToList<SettlementMusicData>();
@@ -152,7 +147,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000976 RID: 2422 RVA: 0x0004F437 File Offset: 0x0004D637
 		public override void SyncData(IDataStore dataStore)
 		{
 		}

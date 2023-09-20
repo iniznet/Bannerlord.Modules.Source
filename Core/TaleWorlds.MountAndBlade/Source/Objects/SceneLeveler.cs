@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.Source.Objects
 {
-	// Token: 0x020003EC RID: 1004
 	public class SceneLeveler : ScriptComponentBehavior
 	{
-		// Token: 0x06003499 RID: 13465 RVA: 0x000DA37C File Offset: 0x000D857C
 		protected internal override void OnEditorVariableChanged(string variableName)
 		{
 			uint num = <PrivateImplementationDetails>.ComputeStringHash(variableName);
@@ -100,7 +98,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			}
 		}
 
-		// Token: 0x0600349A RID: 13466 RVA: 0x000DA474 File Offset: 0x000D8674
 		private void OnLevelizeButtonPressed(int level)
 		{
 			if (this.SourceSelectionSetName.IsEmpty<char>())
@@ -159,7 +156,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			Utilities.CreateSelectionInEditor(list2, this.TargetSelectionSetName);
 		}
 
-		// Token: 0x0600349B RID: 13467 RVA: 0x000DA620 File Offset: 0x000D8820
 		private void CopyScriptParameters(GameEntity entity, GameEntity copyFromEntity)
 		{
 			if (copyFromEntity.HasScriptComponent("WallSegment") && !entity.HasScriptComponent("WallSegment"))
@@ -178,7 +174,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			}
 		}
 
-		// Token: 0x0600349C RID: 13468 RVA: 0x000DA6A7 File Offset: 0x000D88A7
 		private GameEntity.UpgradeLevelMask GetLevelMask(int level)
 		{
 			if (level == 1)
@@ -192,7 +187,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			return GameEntity.UpgradeLevelMask.Level2;
 		}
 
-		// Token: 0x0600349D RID: 13469 RVA: 0x000DA6B6 File Offset: 0x000D88B6
 		private string GetLevelSubString(GameEntity.UpgradeLevelMask levelMask)
 		{
 			if (levelMask == GameEntity.UpgradeLevelMask.Level1)
@@ -210,7 +204,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			return "_l3";
 		}
 
-		// Token: 0x0600349E RID: 13470 RVA: 0x000DA6E0 File Offset: 0x000D88E0
 		private string ConvertPrefabName(string prefabName, GameEntity.UpgradeLevelMask newLevelMask)
 		{
 			string text = prefabName;
@@ -234,7 +227,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			return text;
 		}
 
-		// Token: 0x0600349F RID: 13471 RVA: 0x000DA740 File Offset: 0x000D8940
 		private string FindPossiblePrefabName(GameEntity gameEntity)
 		{
 			string prefabName = gameEntity.GetPrefabName();
@@ -245,7 +237,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			return prefabName;
 		}
 
-		// Token: 0x060034A0 RID: 13472 RVA: 0x000DA764 File Offset: 0x000D8964
 		private void OnDeleteButtonPressed(int level)
 		{
 			if (this.SourceSelectionSetName.IsEmpty<char>())
@@ -281,7 +272,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			MessageManager.DisplayMessage(textObject2.ToString());
 		}
 
-		// Token: 0x060034A1 RID: 13473 RVA: 0x000DA860 File Offset: 0x000D8A60
 		private void OnSelectEntitiesWithoutLevelButtonPressed()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -296,7 +286,6 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			}
 		}
 
-		// Token: 0x060034A2 RID: 13474 RVA: 0x000DA8DC File Offset: 0x000D8ADC
 		private List<GameEntity> CollectEntitiesWithLevel()
 		{
 			List<GameEntity> list = new List<GameEntity>();
@@ -311,31 +300,22 @@ namespace TaleWorlds.MountAndBlade.Source.Objects
 			return list;
 		}
 
-		// Token: 0x04001678 RID: 5752
 		public string SourceSelectionSetName = "";
 
-		// Token: 0x04001679 RID: 5753
 		public string TargetSelectionSetName = "";
 
-		// Token: 0x0400167A RID: 5754
 		public SimpleButton CreateLevel1;
 
-		// Token: 0x0400167B RID: 5755
 		public SimpleButton CreateLevel2;
 
-		// Token: 0x0400167C RID: 5756
 		public SimpleButton CreateLevel3;
 
-		// Token: 0x0400167D RID: 5757
 		public SimpleButton DeleteLevel1;
 
-		// Token: 0x0400167E RID: 5758
 		public SimpleButton DeleteLevel2;
 
-		// Token: 0x0400167F RID: 5759
 		public SimpleButton DeleteLevel3;
 
-		// Token: 0x04001680 RID: 5760
 		public SimpleButton SelectEntitiesWithoutLevel;
 	}
 }

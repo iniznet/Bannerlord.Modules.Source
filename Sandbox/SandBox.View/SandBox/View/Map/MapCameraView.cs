@@ -11,26 +11,14 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x0200003D RID: 61
 	public class MapCameraView : MapView
 	{
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x060001D4 RID: 468 RVA: 0x0001219C File Offset: 0x0001039C
-		// (set) Token: 0x060001D5 RID: 469 RVA: 0x000121A4 File Offset: 0x000103A4
 		protected virtual MapCameraView.CameraFollowMode CurrentCameraFollowMode { get; set; }
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x060001D6 RID: 470 RVA: 0x000121AD File Offset: 0x000103AD
-		// (set) Token: 0x060001D7 RID: 471 RVA: 0x000121B5 File Offset: 0x000103B5
 		public virtual float CameraFastMoveMultiplier { get; protected set; }
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x060001D8 RID: 472 RVA: 0x000121BE File Offset: 0x000103BE
-		// (set) Token: 0x060001D9 RID: 473 RVA: 0x000121C6 File Offset: 0x000103C6
 		protected virtual float CameraBearing { get; set; }
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x060001DA RID: 474 RVA: 0x000121CF File Offset: 0x000103CF
 		protected virtual float MaximumCameraHeight
 		{
 			get
@@ -39,44 +27,20 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x060001DB RID: 475 RVA: 0x000121E1 File Offset: 0x000103E1
-		// (set) Token: 0x060001DC RID: 476 RVA: 0x000121E9 File Offset: 0x000103E9
 		protected virtual float CameraBearingVelocity { get; set; }
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x060001DD RID: 477 RVA: 0x000121F2 File Offset: 0x000103F2
-		// (set) Token: 0x060001DE RID: 478 RVA: 0x000121FA File Offset: 0x000103FA
 		public virtual float CameraDistance { get; protected set; }
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x060001DF RID: 479 RVA: 0x00012203 File Offset: 0x00010403
-		// (set) Token: 0x060001E0 RID: 480 RVA: 0x0001220B File Offset: 0x0001040B
 		protected virtual float TargetCameraDistance { get; set; }
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x060001E1 RID: 481 RVA: 0x00012214 File Offset: 0x00010414
-		// (set) Token: 0x060001E2 RID: 482 RVA: 0x0001221C File Offset: 0x0001041C
 		protected virtual float AdditionalElevation { get; set; }
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x060001E3 RID: 483 RVA: 0x00012225 File Offset: 0x00010425
-		// (set) Token: 0x060001E4 RID: 484 RVA: 0x0001222D File Offset: 0x0001042D
 		public virtual bool CameraAnimationInProgress { get; protected set; }
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x060001E5 RID: 485 RVA: 0x00012236 File Offset: 0x00010436
-		// (set) Token: 0x060001E6 RID: 486 RVA: 0x0001223E File Offset: 0x0001043E
 		public virtual bool ProcessCameraInput { get; protected set; }
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x060001E7 RID: 487 RVA: 0x00012247 File Offset: 0x00010447
-		// (set) Token: 0x060001E8 RID: 488 RVA: 0x0001224F File Offset: 0x0001044F
 		public virtual Camera Camera { get; protected set; }
 
-		// Token: 0x17000024 RID: 36
-		// (get) Token: 0x060001E9 RID: 489 RVA: 0x00012258 File Offset: 0x00010458
-		// (set) Token: 0x060001EA RID: 490 RVA: 0x00012260 File Offset: 0x00010460
 		public virtual MatrixFrame CameraFrame
 		{
 			get
@@ -89,17 +53,10 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x17000025 RID: 37
-		// (get) Token: 0x060001EB RID: 491 RVA: 0x00012269 File Offset: 0x00010469
-		// (set) Token: 0x060001EC RID: 492 RVA: 0x00012271 File Offset: 0x00010471
 		protected virtual Vec3 IdealCameraTarget { get; set; }
 
-		// Token: 0x17000026 RID: 38
-		// (get) Token: 0x060001ED RID: 493 RVA: 0x0001227A File Offset: 0x0001047A
-		// (set) Token: 0x060001EE RID: 494 RVA: 0x00012281 File Offset: 0x00010481
 		private static MapCameraView Instance { get; set; }
 
-		// Token: 0x060001EF RID: 495 RVA: 0x0001228C File Offset: 0x0001048C
 		public MapCameraView()
 		{
 			this.Camera = Camera.CreateCamera();
@@ -116,7 +73,6 @@ namespace SandBox.View.Map
 			MapCameraView.Instance = this;
 		}
 
-		// Token: 0x060001F0 RID: 496 RVA: 0x0001235D File Offset: 0x0001055D
 		public virtual void OnActivate(bool leftButtonDraggingMode, Vec3 clickedPosition)
 		{
 			this.SetCameraMode(MapCameraView.CameraFollowMode.FollowParty);
@@ -124,7 +80,6 @@ namespace SandBox.View.Map
 			this.UpdateMapCamera(leftButtonDraggingMode, clickedPosition);
 		}
 
-		// Token: 0x060001F1 RID: 497 RVA: 0x0001237C File Offset: 0x0001057C
 		public virtual void Initialize()
 		{
 			if (MobileParty.MainParty != null && PartyBase.MainParty.IsValid)
@@ -136,20 +91,17 @@ namespace SandBox.View.Map
 			this._cameraTarget = this.IdealCameraTarget;
 		}
 
-		// Token: 0x060001F2 RID: 498 RVA: 0x000123EC File Offset: 0x000105EC
 		protected internal override void OnFinalize()
 		{
 			base.OnFinalize();
 			MapCameraView.Instance = null;
 		}
 
-		// Token: 0x060001F3 RID: 499 RVA: 0x000123FA File Offset: 0x000105FA
 		public virtual void SetCameraMode(MapCameraView.CameraFollowMode cameraMode)
 		{
 			this.CurrentCameraFollowMode = cameraMode;
 		}
 
-		// Token: 0x060001F4 RID: 500 RVA: 0x00012403 File Offset: 0x00010603
 		public virtual void ResetCamera(bool resetDistance, bool teleportToMainParty)
 		{
 			if (teleportToMainParty)
@@ -165,7 +117,6 @@ namespace SandBox.View.Map
 			this._cameraElevation = 1f;
 		}
 
-		// Token: 0x060001F5 RID: 501 RVA: 0x00012440 File Offset: 0x00010640
 		public virtual void TeleportCameraToMainParty()
 		{
 			this.CurrentCameraFollowMode = MapCameraView.CameraFollowMode.FollowParty;
@@ -175,7 +126,6 @@ namespace SandBox.View.Map
 			this._cameraTarget = this.IdealCameraTarget;
 		}
 
-		// Token: 0x060001F6 RID: 502 RVA: 0x000124A0 File Offset: 0x000106A0
 		public virtual void FastMoveCameraToMainParty()
 		{
 			this.CurrentCameraFollowMode = MapCameraView.CameraFollowMode.FollowParty;
@@ -185,7 +135,6 @@ namespace SandBox.View.Map
 			this.TargetCameraDistance = 15f;
 		}
 
-		// Token: 0x060001F7 RID: 503 RVA: 0x000124F0 File Offset: 0x000106F0
 		public virtual void FastMoveCameraToPosition(Vec2 target, bool isInMenu)
 		{
 			if (!isInMenu)
@@ -197,13 +146,11 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x0001251B File Offset: 0x0001071B
 		public virtual bool IsCameraLockedToPlayerParty()
 		{
 			return this.CurrentCameraFollowMode == MapCameraView.CameraFollowMode.FollowParty && Campaign.Current.CameraFollowParty == MobileParty.MainParty.Party;
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x0001253E File Offset: 0x0001073E
 		public virtual void StartCameraAnimation(Vec2 targetPosition, float animationStopDuration)
 		{
 			this.CameraAnimationInProgress = true;
@@ -213,7 +160,6 @@ namespace SandBox.View.Map
 			Campaign.Current.SetTimeControlModeLock(true);
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x0001256B File Offset: 0x0001076B
 		public virtual void SiegeEngineClick(MatrixFrame siegeEngineFrame)
 		{
 			if (this.TargetCameraDistance > 18f)
@@ -222,19 +168,16 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x00012585 File Offset: 0x00010785
 		public virtual void OnExit()
 		{
 			this.ProcessCameraInput = true;
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0001258E File Offset: 0x0001078E
 		public virtual void OnEscapeMenuToggled(bool isOpened)
 		{
 			this.ProcessCameraInput = !isOpened;
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x0001259C File Offset: 0x0001079C
 		public virtual void HandleMouse(bool rightMouseButtonPressed, float verticalCameraInput, float mouseMoveY, float dt)
 		{
 			float num = 0.3f / 700f;
@@ -250,7 +193,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x00012636 File Offset: 0x00010836
 		public virtual void HandleLeftMouseButtonClick(bool isMouseActive)
 		{
 			if (isMouseActive)
@@ -260,7 +202,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x00012651 File Offset: 0x00010851
 		public virtual void OnSetMapSiegeOverlayState(bool isActive, bool isMapSiegeOverlayViewNull)
 		{
 			if (isActive && isMapSiegeOverlayViewNull && PlayerSiege.PlayerSiegeEvent != null)
@@ -269,7 +210,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x0001266A File Offset: 0x0001086A
 		public virtual void OnRefreshMapSiegeOverlayRequired(bool isMapSiegeOverlayViewNull)
 		{
 			if (PlayerSiege.PlayerSiegeEvent != null && isMapSiegeOverlayViewNull)
@@ -278,7 +218,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		// Token: 0x06000201 RID: 513 RVA: 0x00012684 File Offset: 0x00010884
 		public virtual void OnBeforeTick(in MapCameraView.InputInformation inputInformation)
 		{
 			float num = MathF.Min(1f, MathF.Max(0f, 1f - this.CameraFrame.rotation.f.z)) + 0.15f;
@@ -389,7 +328,6 @@ namespace SandBox.View.Map
 			this.UpdateMapCamera(inputInformation.LeftButtonDraggingMode, inputInformation.ClickedPosition);
 		}
 
-		// Token: 0x06000202 RID: 514 RVA: 0x00012A80 File Offset: 0x00010C80
 		protected virtual void UpdateMapCamera(bool _leftButtonDraggingMode, Vec3 _clickedPosition)
 		{
 			this._lastUsedIdealCameraTarget = this.IdealCameraTarget.AsVec2;
@@ -497,14 +435,12 @@ namespace SandBox.View.Map
 			SoundManager.SetListenerFrame(identity);
 		}
 
-		// Token: 0x06000203 RID: 515 RVA: 0x000131C0 File Offset: 0x000113C0
 		protected virtual Vec3 GetCameraTargetForPosition(Vec2 targetPosition)
 		{
 			float terrainHeight = this._mapScene.GetTerrainHeight(targetPosition, true);
 			return new Vec3(targetPosition, terrainHeight + 1f, -1f);
 		}
 
-		// Token: 0x06000204 RID: 516 RVA: 0x000131F0 File Offset: 0x000113F0
 		protected virtual Vec3 GetCameraTargetForParty(PartyBase party)
 		{
 			Vec2 vec;
@@ -531,7 +467,6 @@ namespace SandBox.View.Map
 			return this.GetCameraTargetForPosition(vec);
 		}
 
-		// Token: 0x06000205 RID: 517 RVA: 0x000132B0 File Offset: 0x000114B0
 		protected virtual bool GetMapCameraInput(MapCameraView.InputInformation inputInformation)
 		{
 			bool flag = false;
@@ -672,7 +607,6 @@ namespace SandBox.View.Map
 			return flag2;
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x00013A38 File Offset: 0x00011C38
 		protected virtual MatrixFrame ComputeMapCamera(ref Vec3 cameraTarget, float cameraBearing, float cameraElevation, float cameraDistance, ref Vec2 lastUsedIdealCameraTarget)
 		{
 			Vec2 asVec = cameraTarget.AsVec2;
@@ -694,13 +628,11 @@ namespace SandBox.View.Map
 			return identity;
 		}
 
-		// Token: 0x06000207 RID: 519 RVA: 0x00013BC3 File Offset: 0x00011DC3
 		protected virtual float CalculateCameraElevation(float cameraDistance)
 		{
 			return cameraDistance * 0.5f * 0.015f + 0.35f;
 		}
 
-		// Token: 0x06000208 RID: 520 RVA: 0x00013BD8 File Offset: 0x00011DD8
 		[CommandLineFunctionality.CommandLineArgumentFunction("set_custom_maximum_map_height", "campaign")]
 		protected static string SetCustomMaximumHeight(List<string> strings)
 		{
@@ -721,159 +653,107 @@ namespace SandBox.View.Map
 			return text;
 		}
 
-		// Token: 0x040000FC RID: 252
 		private const float VerticalHalfViewAngle = 0.34906584f;
 
-		// Token: 0x040000FD RID: 253
 		private Vec3 _cameraTarget;
 
-		// Token: 0x040000FE RID: 254
 		private bool _doFastCameraMovementToTarget;
 
-		// Token: 0x040000FF RID: 255
 		private float _cameraElevation;
 
-		// Token: 0x04000100 RID: 256
 		private Vec2 _lastUsedIdealCameraTarget;
 
-		// Token: 0x04000101 RID: 257
 		private Vec2 _cameraAnimationTarget;
 
-		// Token: 0x04000102 RID: 258
 		private float _cameraAnimationStopDuration;
 
-		// Token: 0x04000103 RID: 259
 		private readonly Scene _mapScene;
 
-		// Token: 0x04000107 RID: 263
 		protected float _customMaximumCameraHeight;
 
-		// Token: 0x0400010F RID: 271
 		private MatrixFrame _cameraFrame;
 
-		// Token: 0x02000077 RID: 119
 		public enum CameraFollowMode
 		{
-			// Token: 0x0400029A RID: 666
 			Free,
-			// Token: 0x0400029B RID: 667
 			FollowParty,
-			// Token: 0x0400029C RID: 668
 			MoveToPosition
 		}
 
-		// Token: 0x02000078 RID: 120
 		public struct InputInformation
 		{
-			// Token: 0x0400029D RID: 669
 			public bool IsMainPartyValid;
 
-			// Token: 0x0400029E RID: 670
 			public bool IsMapReady;
 
-			// Token: 0x0400029F RID: 671
 			public bool IsControlDown;
 
-			// Token: 0x040002A0 RID: 672
 			public bool IsMouseActive;
 
-			// Token: 0x040002A1 RID: 673
 			public bool CheatModeEnabled;
 
-			// Token: 0x040002A2 RID: 674
 			public bool LeftMouseButtonPressed;
 
-			// Token: 0x040002A3 RID: 675
 			public bool LeftMouseButtonDown;
 
-			// Token: 0x040002A4 RID: 676
 			public bool LeftMouseButtonReleased;
 
-			// Token: 0x040002A5 RID: 677
 			public bool MiddleMouseButtonDown;
 
-			// Token: 0x040002A6 RID: 678
 			public bool RightMouseButtonDown;
 
-			// Token: 0x040002A7 RID: 679
 			public bool RotateLeftKeyDown;
 
-			// Token: 0x040002A8 RID: 680
 			public bool RotateRightKeyDown;
 
-			// Token: 0x040002A9 RID: 681
 			public bool PartyMoveUpKey;
 
-			// Token: 0x040002AA RID: 682
 			public bool PartyMoveDownKey;
 
-			// Token: 0x040002AB RID: 683
 			public bool PartyMoveLeftKey;
 
-			// Token: 0x040002AC RID: 684
 			public bool PartyMoveRightKey;
 
-			// Token: 0x040002AD RID: 685
 			public bool CameraFollowModeKeyPressed;
 
-			// Token: 0x040002AE RID: 686
 			public bool LeftButtonDraggingMode;
 
-			// Token: 0x040002AF RID: 687
 			public bool IsInMenu;
 
-			// Token: 0x040002B0 RID: 688
 			public bool RayCastForClosestEntityOrTerrainCondition;
 
-			// Token: 0x040002B1 RID: 689
 			public float MapZoomIn;
 
-			// Token: 0x040002B2 RID: 690
 			public float MapZoomOut;
 
-			// Token: 0x040002B3 RID: 691
 			public float DeltaMouseScroll;
 
-			// Token: 0x040002B4 RID: 692
 			public float MouseSensitivity;
 
-			// Token: 0x040002B5 RID: 693
 			public float MouseMoveX;
 
-			// Token: 0x040002B6 RID: 694
 			public float MouseMoveY;
 
-			// Token: 0x040002B7 RID: 695
 			public float HorizontalCameraInput;
 
-			// Token: 0x040002B8 RID: 696
 			public float RX;
 
-			// Token: 0x040002B9 RID: 697
 			public float RY;
 
-			// Token: 0x040002BA RID: 698
 			public float RS;
 
-			// Token: 0x040002BB RID: 699
 			public float Dt;
 
-			// Token: 0x040002BC RID: 700
 			public Vec2 MousePositionPixel;
 
-			// Token: 0x040002BD RID: 701
 			public Vec2 ClickedPositionPixel;
 
-			// Token: 0x040002BE RID: 702
 			public Vec3 ClickedPosition;
 
-			// Token: 0x040002BF RID: 703
 			public Vec3 ProjectedPosition;
 
-			// Token: 0x040002C0 RID: 704
 			public Vec3 WorldMouseNear;
 
-			// Token: 0x040002C1 RID: 705
 			public Vec3 WorldMouseFar;
 		}
 	}

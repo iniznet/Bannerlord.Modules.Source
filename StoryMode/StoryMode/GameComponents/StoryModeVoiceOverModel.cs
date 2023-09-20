@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace StoryMode.GameComponents
 {
-	// Token: 0x02000049 RID: 73
 	public class StoryModeVoiceOverModel : DefaultVoiceOverModel
 	{
-		// Token: 0x060003CB RID: 971 RVA: 0x0001779C File Offset: 0x0001599C
 		public override string GetSoundPathForCharacter(CharacterObject character, VoiceObject voiceObject)
 		{
 			if (voiceObject == null)

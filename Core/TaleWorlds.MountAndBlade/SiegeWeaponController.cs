@@ -7,11 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000153 RID: 339
 	public class SiegeWeaponController
 	{
-		// Token: 0x170003A2 RID: 930
-		// (get) Token: 0x060010F7 RID: 4343 RVA: 0x00037D3C File Offset: 0x00035F3C
 		public MBReadOnlyList<SiegeWeapon> SelectedWeapons
 		{
 			get
@@ -20,17 +17,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1400000C RID: 12
-		// (add) Token: 0x060010F8 RID: 4344 RVA: 0x00037D44 File Offset: 0x00035F44
-		// (remove) Token: 0x060010F9 RID: 4345 RVA: 0x00037D7C File Offset: 0x00035F7C
 		public event Action<SiegeWeaponOrderType, IEnumerable<SiegeWeapon>> OnOrderIssued;
 
-		// Token: 0x1400000D RID: 13
-		// (add) Token: 0x060010FA RID: 4346 RVA: 0x00037DB4 File Offset: 0x00035FB4
-		// (remove) Token: 0x060010FB RID: 4347 RVA: 0x00037DEC File Offset: 0x00035FEC
 		public event Action OnSelectedSiegeWeaponsChanged;
 
-		// Token: 0x060010FC RID: 4348 RVA: 0x00037E21 File Offset: 0x00036021
 		public SiegeWeaponController(Mission mission, Team team)
 		{
 			this._mission = mission;
@@ -39,7 +29,6 @@ namespace TaleWorlds.MountAndBlade
 			this.InitializeWeaponsForDeployment();
 		}
 
-		// Token: 0x060010FD RID: 4349 RVA: 0x00037E48 File Offset: 0x00036048
 		private void InitializeWeaponsForDeployment()
 		{
 			IEnumerable<SiegeWeapon> enumerable = from w in (from dp in this._mission.ActiveMissionObjects.FindAllWithType<DeploymentPoint>()
@@ -49,7 +38,6 @@ namespace TaleWorlds.MountAndBlade
 			this._availableWeapons = enumerable.ToList<SiegeWeapon>();
 		}
 
-		// Token: 0x060010FE RID: 4350 RVA: 0x00037ECC File Offset: 0x000360CC
 		private void InitializeWeapons()
 		{
 			this._availableWeapons = new List<SiegeWeapon>();
@@ -65,7 +53,6 @@ namespace TaleWorlds.MountAndBlade
 			this._availableWeapons.Sort((SiegeWeapon w1, SiegeWeapon w2) => this.GetShortcutIndexOf(w1).CompareTo(this.GetShortcutIndexOf(w2)));
 		}
 
-		// Token: 0x060010FF RID: 4351 RVA: 0x00037F74 File Offset: 0x00036174
 		public void Select(SiegeWeapon weapon)
 		{
 			if (this.SelectedWeapons.Contains(weapon) || !SiegeWeaponController.IsWeaponSelectable(weapon))
@@ -88,7 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			onSelectedSiegeWeaponsChanged();
 		}
 
-		// Token: 0x06001100 RID: 4352 RVA: 0x00037FE6 File Offset: 0x000361E6
 		public void ClearSelectedWeapons()
 		{
 			bool isClient = GameNetwork.IsClient;
@@ -101,7 +87,6 @@ namespace TaleWorlds.MountAndBlade
 			onSelectedSiegeWeaponsChanged();
 		}
 
-		// Token: 0x06001101 RID: 4353 RVA: 0x0003800C File Offset: 0x0003620C
 		public void Deselect(SiegeWeapon weapon)
 		{
 			if (!this.SelectedWeapons.Contains(weapon))
@@ -124,7 +109,6 @@ namespace TaleWorlds.MountAndBlade
 			onSelectedSiegeWeaponsChanged();
 		}
 
-		// Token: 0x06001102 RID: 4354 RVA: 0x00038078 File Offset: 0x00036278
 		public void SelectAll()
 		{
 			if (GameNetwork.IsClient)
@@ -146,13 +130,11 @@ namespace TaleWorlds.MountAndBlade
 			onSelectedSiegeWeaponsChanged();
 		}
 
-		// Token: 0x06001103 RID: 4355 RVA: 0x00038108 File Offset: 0x00036308
 		public static bool IsWeaponSelectable(SiegeWeapon weapon)
 		{
 			return !weapon.IsDeactivated;
 		}
 
-		// Token: 0x06001104 RID: 4356 RVA: 0x00038114 File Offset: 0x00036314
 		public static SiegeWeaponOrderType GetActiveOrderOf(SiegeWeapon weapon)
 		{
 			if (!weapon.ForcedUse)
@@ -179,7 +161,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001105 RID: 4357 RVA: 0x0003817B File Offset: 0x0003637B
 		public static SiegeWeaponOrderType GetActiveMovementOrderOf(SiegeWeapon weapon)
 		{
 			if (!weapon.ForcedUse)
@@ -189,7 +170,6 @@ namespace TaleWorlds.MountAndBlade
 			return SiegeWeaponOrderType.Attack;
 		}
 
-		// Token: 0x06001106 RID: 4358 RVA: 0x00038188 File Offset: 0x00036388
 		public static SiegeWeaponOrderType GetActiveFacingOrderOf(SiegeWeapon weapon)
 		{
 			if (!(weapon is RangedSiegeWeapon))
@@ -212,7 +192,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001107 RID: 4359 RVA: 0x000381E5 File Offset: 0x000363E5
 		public static SiegeWeaponOrderType GetActiveFiringOrderOf(SiegeWeapon weapon)
 		{
 			if (!weapon.ForcedUse)
@@ -222,7 +201,6 @@ namespace TaleWorlds.MountAndBlade
 			return SiegeWeaponOrderType.Attack;
 		}
 
-		// Token: 0x06001108 RID: 4360 RVA: 0x000381F2 File Offset: 0x000363F2
 		public static SiegeWeaponOrderType GetActiveAIControlOrderOf(SiegeWeapon weapon)
 		{
 			if (weapon.ForcedUse)
@@ -232,7 +210,6 @@ namespace TaleWorlds.MountAndBlade
 			return SiegeWeaponOrderType.AIControlOff;
 		}
 
-		// Token: 0x06001109 RID: 4361 RVA: 0x00038200 File Offset: 0x00036400
 		private void SetOrderAux(SiegeWeaponOrderType order, SiegeWeapon weapon)
 		{
 			switch (order)
@@ -295,7 +272,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600110A RID: 4362 RVA: 0x000382C4 File Offset: 0x000364C4
 		public void SetOrder(SiegeWeaponOrderType order)
 		{
 			if (GameNetwork.IsClient)
@@ -316,7 +292,6 @@ namespace TaleWorlds.MountAndBlade
 			onOrderIssued(order, this.SelectedWeapons);
 		}
 
-		// Token: 0x0600110B RID: 4363 RVA: 0x0003834C File Offset: 0x0003654C
 		public int GetShortcutIndexOf(SiegeWeapon weapon)
 		{
 			FormationAI.BehaviorSide sideOf = SiegeWeaponController.GetSideOf(weapon);
@@ -328,7 +303,6 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x0600110C RID: 4364 RVA: 0x0003837C File Offset: 0x0003657C
 		private static FormationAI.BehaviorSide GetSideOf(SiegeWeapon weapon)
 		{
 			IPrimarySiegeWeapon primarySiegeWeapon = weapon as IPrimarySiegeWeapon;
@@ -344,16 +318,12 @@ namespace TaleWorlds.MountAndBlade
 			return FormationAI.BehaviorSide.Middle;
 		}
 
-		// Token: 0x04000458 RID: 1112
 		private readonly Mission _mission;
 
-		// Token: 0x04000459 RID: 1113
 		private readonly Team _team;
 
-		// Token: 0x0400045A RID: 1114
 		private List<SiegeWeapon> _availableWeapons;
 
-		// Token: 0x0400045B RID: 1115
 		private MBList<SiegeWeapon> _selectedWeapons;
 	}
 }

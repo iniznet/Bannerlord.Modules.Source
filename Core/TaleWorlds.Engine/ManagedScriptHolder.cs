@@ -5,17 +5,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000057 RID: 87
 	public sealed class ManagedScriptHolder : DotNetObject
 	{
-		// Token: 0x06000738 RID: 1848 RVA: 0x000060BC File Offset: 0x000042BC
 		[EngineCallback]
 		internal static ManagedScriptHolder CreateManagedScriptHolder()
 		{
 			return new ManagedScriptHolder();
 		}
 
-		// Token: 0x06000739 RID: 1849 RVA: 0x000060C4 File Offset: 0x000042C4
 		public ManagedScriptHolder()
 		{
 			this.TickComponentsParallelAuxMTPredicate = new TWParallel.ParallelForWithDtAuxPredicate(this.TickComponentsParallelAuxMT);
@@ -23,7 +20,6 @@ namespace TaleWorlds.Engine
 			this.TickComponentsOccasionallyParallelAuxMTPredicate = new TWParallel.ParallelForWithDtAuxPredicate(this.TickComponentsOccasionallyParallelAuxMT);
 		}
 
-		// Token: 0x0600073A RID: 1850 RVA: 0x000061C8 File Offset: 0x000043C8
 		[EngineCallback]
 		public void SetScriptComponentHolder(ScriptComponentBehavior sc)
 		{
@@ -39,7 +35,6 @@ namespace TaleWorlds.Engine
 			sc.SetScriptComponentToTick(sc.GetTickRequirement());
 		}
 
-		// Token: 0x0600073B RID: 1851 RVA: 0x00006208 File Offset: 0x00004408
 		public void AddScriptComponentToTickOccasionallyList(ScriptComponentBehavior sc)
 		{
 			int num = this._scriptComponentsToRemoveFromTickOccasionally.IndexOf(sc);
@@ -51,7 +46,6 @@ namespace TaleWorlds.Engine
 			this._scriptComponentsToAddToTickOccasionally.Add(sc);
 		}
 
-		// Token: 0x0600073C RID: 1852 RVA: 0x00006240 File Offset: 0x00004440
 		public void AddScriptComponentToTickList(ScriptComponentBehavior sc)
 		{
 			int num = this._scriptComponentsToRemoveFromTick.IndexOf(sc);
@@ -63,7 +57,6 @@ namespace TaleWorlds.Engine
 			this._scriptComponentsToAddToTick.Add(sc);
 		}
 
-		// Token: 0x0600073D RID: 1853 RVA: 0x00006278 File Offset: 0x00004478
 		public void AddScriptComponentToParallelTickList(ScriptComponentBehavior sc)
 		{
 			int num = this._scriptComponentsToRemoveFromParallelTick.IndexOf(sc);
@@ -75,7 +68,6 @@ namespace TaleWorlds.Engine
 			this._scriptComponentsToAddToParallelTick.Add(sc);
 		}
 
-		// Token: 0x0600073E RID: 1854 RVA: 0x000062B0 File Offset: 0x000044B0
 		public void AddScriptComponentToParallelTick2List(ScriptComponentBehavior sc)
 		{
 			int num = this._scriptComponentsToRemoveFromParallelTick2.IndexOf(sc);
@@ -87,7 +79,6 @@ namespace TaleWorlds.Engine
 			this._scriptComponentsToAddToParallelTick2.Add(sc);
 		}
 
-		// Token: 0x0600073F RID: 1855 RVA: 0x000062E8 File Offset: 0x000044E8
 		[EngineCallback]
 		public void RemoveScriptComponentFromAllTickLists(ScriptComponentBehavior sc)
 		{
@@ -106,7 +97,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000740 RID: 1856 RVA: 0x00006364 File Offset: 0x00004564
 		public void RemoveScriptComponentFromTickList(ScriptComponentBehavior sc)
 		{
 			if (this._scriptComponentsToAddToTick.IndexOf(sc) >= 0)
@@ -120,7 +110,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000741 RID: 1857 RVA: 0x000063B8 File Offset: 0x000045B8
 		public void RemoveScriptComponentFromParallelTickList(ScriptComponentBehavior sc)
 		{
 			if (this._scriptComponentsToAddToParallelTick.IndexOf(sc) >= 0)
@@ -134,7 +123,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000742 RID: 1858 RVA: 0x0000640C File Offset: 0x0000460C
 		public void RemoveScriptComponentFromParallelTick2List(ScriptComponentBehavior sc)
 		{
 			if (this._scriptComponentsToAddToParallelTick2.IndexOf(sc) >= 0)
@@ -148,7 +136,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000743 RID: 1859 RVA: 0x00006460 File Offset: 0x00004660
 		public void RemoveScriptComponentFromTickOccasionallyList(ScriptComponentBehavior sc)
 		{
 			if (this._scriptComponentsToAddToTickOccasionally.IndexOf(sc) >= 0)
@@ -162,14 +149,12 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000744 RID: 1860 RVA: 0x000064B4 File Offset: 0x000046B4
 		[EngineCallback]
 		internal int GetNumberOfScripts()
 		{
 			return this._scriptComponentsToTick.Count;
 		}
 
-		// Token: 0x06000745 RID: 1861 RVA: 0x000064C4 File Offset: 0x000046C4
 		private void TickComponentsParallelAuxMT(int startInclusive, int endExclusive, float dt)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -178,7 +163,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000746 RID: 1862 RVA: 0x000064F0 File Offset: 0x000046F0
 		private void TickComponentsParallel2AuxMT(int startInclusive, int endExclusive, float dt)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -187,7 +171,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000747 RID: 1863 RVA: 0x0000651C File Offset: 0x0000471C
 		private void TickComponentsOccasionallyParallelAuxMT(int startInclusive, int endExclusive, float dt)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -196,7 +179,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x06000748 RID: 1864 RVA: 0x00006548 File Offset: 0x00004748
 		[EngineCallback]
 		internal void TickComponents(float dt)
 		{
@@ -258,7 +240,6 @@ namespace TaleWorlds.Engine
 			this._nextIndexToTickOccasionally = 0;
 		}
 
-		// Token: 0x06000749 RID: 1865 RVA: 0x000068F4 File Offset: 0x00004AF4
 		[EngineCallback]
 		internal void TickComponentsEditor(float dt)
 		{
@@ -281,64 +262,44 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x040000BE RID: 190
 		public static object AddRemoveLockObject = new object();
 
-		// Token: 0x040000BF RID: 191
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToTick = new List<ScriptComponentBehavior>(512);
 
-		// Token: 0x040000C0 RID: 192
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToParallelTick = new List<ScriptComponentBehavior>(64);
 
-		// Token: 0x040000C1 RID: 193
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToParallelTick2 = new List<ScriptComponentBehavior>(512);
 
-		// Token: 0x040000C2 RID: 194
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToTickOccasionally = new List<ScriptComponentBehavior>(512);
 
-		// Token: 0x040000C3 RID: 195
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToTickForEditor = new List<ScriptComponentBehavior>(512);
 
-		// Token: 0x040000C4 RID: 196
 		private int _nextIndexToTickOccasionally;
 
-		// Token: 0x040000C5 RID: 197
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToAddToTick = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000C6 RID: 198
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToRemoveFromTick = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000C7 RID: 199
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToAddToParallelTick = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000C8 RID: 200
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToRemoveFromParallelTick = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000C9 RID: 201
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToAddToParallelTick2 = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CA RID: 202
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToRemoveFromParallelTick2 = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CB RID: 203
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToAddToTickOccasionally = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CC RID: 204
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToRemoveFromTickOccasionally = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CD RID: 205
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToAddToTickForEditor = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CE RID: 206
 		private readonly List<ScriptComponentBehavior> _scriptComponentsToRemoveFromTickForEditor = new List<ScriptComponentBehavior>();
 
-		// Token: 0x040000CF RID: 207
 		private readonly TWParallel.ParallelForWithDtAuxPredicate TickComponentsParallelAuxMTPredicate;
 
-		// Token: 0x040000D0 RID: 208
 		private readonly TWParallel.ParallelForWithDtAuxPredicate TickComponentsParallel2AuxMTPredicate;
 
-		// Token: 0x040000D1 RID: 209
 		private readonly TWParallel.ParallelForWithDtAuxPredicate TickComponentsOccasionallyParallelAuxMTPredicate;
 	}
 }

@@ -19,10 +19,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x02000044 RID: 68
 	public class MissionAlleyHandler : MissionLogic
 	{
-		// Token: 0x0600035E RID: 862 RVA: 0x00018894 File Offset: 0x00016A94
 		public override void OnRenderingStarted()
 		{
 			foreach (Agent agent in base.Mission.Agents)
@@ -48,7 +46,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600035F RID: 863 RVA: 0x00018948 File Offset: 0x00016B48
 		public override void OnMissionTick(float dt)
 		{
 			if (Mission.Current.Mode == 2)
@@ -62,7 +59,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000361 RID: 865 RVA: 0x0001897C File Offset: 0x00016B7C
 		private void CheckAndTriggerConversationWithRivalThug()
 		{
 			if (!this._conversationTriggeredWithRivalThug && !Campaign.Current.ConversationManager.IsConversationFlowActive && Agent.Main != null)
@@ -83,7 +79,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000362 RID: 866 RVA: 0x00018A44 File Offset: 0x00016C44
 		public override void AfterStart()
 		{
 			MissionAlleyHandler._guardAgents = new List<Agent>();
@@ -92,7 +87,6 @@ namespace SandBox.Missions.MissionLogics
 			this._missionFightHandler = Mission.Current.GetMissionBehavior<MissionFightHandler>();
 		}
 
-		// Token: 0x06000363 RID: 867 RVA: 0x00018A78 File Offset: 0x00016C78
 		private void EndFightIfPlayerIsFarAwayOrNearGuard()
 		{
 			if (Agent.Main != null)
@@ -117,7 +111,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x06000364 RID: 868 RVA: 0x00018B38 File Offset: 0x00016D38
 		private ValueTuple<bool, string> CanPlayerOccupyTheCurrentAlley()
 		{
 			TextObject textObject = TextObject.Empty;
@@ -144,7 +137,6 @@ namespace SandBox.Missions.MissionLogics
 			return new ValueTuple<bool, string>(true, null);
 		}
 
-		// Token: 0x06000365 RID: 869 RVA: 0x00018CA4 File Offset: 0x00016EA4
 		private void EndFight()
 		{
 			this._missionFightHandler.EndFight();
@@ -156,19 +148,16 @@ namespace SandBox.Missions.MissionLogics
 			Mission.Current.SetMissionMode(0, false);
 		}
 
-		// Token: 0x06000366 RID: 870 RVA: 0x00018D2C File Offset: 0x00016F2C
 		private void OnTakeOverTheAlley()
 		{
 			AlleyHelper.CreateMultiSelectionInquiryForSelectingClanMemberToAlley(CampaignMission.Current.LastVisitedAlley, new Action<List<InquiryElement>>(this.OnCompanionSelectedForNewAlley), new Action<List<InquiryElement>>(this.OnCompanionSelectionCancel));
 		}
 
-		// Token: 0x06000367 RID: 871 RVA: 0x00018D55 File Offset: 0x00016F55
 		private void OnCompanionSelectionCancel(List<InquiryElement> obj)
 		{
 			this.OnLeaveItEmpty();
 		}
 
-		// Token: 0x06000368 RID: 872 RVA: 0x00018D60 File Offset: 0x00016F60
 		private void OnCompanionSelectedForNewAlley(List<InquiryElement> companion)
 		{
 			CharacterObject characterObject = companion.First<InquiryElement>().Identifier as CharacterObject;
@@ -177,13 +166,11 @@ namespace SandBox.Missions.MissionLogics
 			AlleyHelper.OpenScreenForManagingAlley(troopRoster, new PartyPresentationDoneButtonDelegate(this.OnPartyScreenDoneClicked), new TextObject("{=s8dsW6m0}New Alley", null), new PartyPresentationCancelButtonDelegate(this.OnPartyScreenCancel));
 		}
 
-		// Token: 0x06000369 RID: 873 RVA: 0x00018DB9 File Offset: 0x00016FB9
 		private void OnPartyScreenCancel()
 		{
 			this.OnLeaveItEmpty();
 		}
 
-		// Token: 0x0600036A RID: 874 RVA: 0x00018DC4 File Offset: 0x00016FC4
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
 			if (!affectedAgent.IsHuman)
@@ -204,14 +191,12 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		// Token: 0x0600036B RID: 875 RVA: 0x00018E48 File Offset: 0x00017048
 		private bool OnPartyScreenDoneClicked(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty, PartyBase rightParty)
 		{
 			CampaignEventDispatcher.Instance.OnAlleyOccupiedByPlayer(CampaignMission.Current.LastVisitedAlley, leftMemberRoster);
 			return true;
 		}
 
-		// Token: 0x0600036C RID: 876 RVA: 0x00018E60 File Offset: 0x00017060
 		public void StartCommonAreaBattle(Alley alley)
 		{
 			MissionAlleyHandler._guardAgents.Clear();
@@ -236,13 +221,11 @@ namespace SandBox.Missions.MissionLogics
 			Mission.Current.GetMissionBehavior<MissionFightHandler>().StartCustomFight(list, list2, false, false, new MissionFightHandler.OnFightEndDelegate(this.OnAlleyFightEnd));
 		}
 
-		// Token: 0x0600036D RID: 877 RVA: 0x00018FB0 File Offset: 0x000171B0
 		private void OnLeaveItEmpty()
 		{
 			CampaignEventDispatcher.Instance.OnAlleyClearedByPlayer(CampaignMission.Current.LastVisitedAlley);
 		}
 
-		// Token: 0x0600036E RID: 878 RVA: 0x00018FC8 File Offset: 0x000171C8
 		private void OnAlleyFightEnd(bool isPlayerSideWon)
 		{
 			if (isPlayerSideWon)
@@ -261,28 +244,20 @@ namespace SandBox.Missions.MissionLogics
 			MissionAlleyHandler._fightPosition = Vec3.Invalid;
 		}
 
-		// Token: 0x040001A9 RID: 425
 		private const float ConstantForInitiatingConversation = 5f;
 
-		// Token: 0x040001AA RID: 426
 		private static Vec3 _fightPosition = Vec3.Invalid;
 
-		// Token: 0x040001AB RID: 427
 		private Dictionary<Agent, AgentNavigator> _rivalThugAgentsAndAgentNavigators;
 
-		// Token: 0x040001AC RID: 428
 		private const int DistanceForEndingAlleyFight = 20;
 
-		// Token: 0x040001AD RID: 429
 		private const int GuardAgentSafeZone = 10;
 
-		// Token: 0x040001AE RID: 430
 		private static List<Agent> _guardAgents;
 
-		// Token: 0x040001AF RID: 431
 		private bool _conversationTriggeredWithRivalThug;
 
-		// Token: 0x040001B0 RID: 432
 		private MissionFightHandler _missionFightHandler;
 	}
 }

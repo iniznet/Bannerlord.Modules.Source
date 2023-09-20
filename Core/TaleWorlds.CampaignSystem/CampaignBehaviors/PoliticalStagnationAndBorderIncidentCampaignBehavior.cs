@@ -6,22 +6,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003C4 RID: 964
 	public class PoliticalStagnationAndBorderIncidentCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060039CA RID: 14794 RVA: 0x00109855 File Offset: 0x00107A55
 		public override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 			CampaignEvents.HourlyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.HourlyTickSettlement));
 		}
 
-		// Token: 0x060039CB RID: 14795 RVA: 0x00109885 File Offset: 0x00107A85
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060039CC RID: 14796 RVA: 0x00109888 File Offset: 0x00107A88
 		public void HourlyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsFortification || settlement.IsVillage)
@@ -66,7 +62,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060039CD RID: 14797 RVA: 0x00109A4C File Offset: 0x00107C4C
 		public void DailyTick()
 		{
 			foreach (Kingdom kingdom in Kingdom.All)
@@ -75,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060039CE RID: 14798 RVA: 0x00109A9C File Offset: 0x00107C9C
 		private static void UpdatePoliticallyStagnation(Kingdom kingdom)
 		{
 			float num = 1f + (float)MathF.Min(60, kingdom.Fiefs.Count) * 0.2f;
@@ -108,7 +102,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060039CF RID: 14799 RVA: 0x00109B94 File Offset: 0x00107D94
 		private void BorderIncidents()
 		{
 		}

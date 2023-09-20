@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 {
-	// Token: 0x020000D2 RID: 210
 	public class MultiSelectionQueryPopUpVM : PopUpBaseVM
 	{
-		// Token: 0x060013AE RID: 5038 RVA: 0x00040AB7 File Offset: 0x0003ECB7
 		public MultiSelectionQueryPopUpVM(Action closeQuery)
 			: base(closeQuery)
 		{
@@ -18,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			this.MaxSelectableOptionCount = -1;
 		}
 
-		// Token: 0x060013AF RID: 5039 RVA: 0x00040AD4 File Offset: 0x0003ECD4
 		public void SetData(MultiSelectionInquiryData data)
 		{
 			this._data = data;
@@ -37,7 +34,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.IsButtonCancelShown = this._data.IsExitShown;
 		}
 
-		// Token: 0x060013B0 RID: 5040 RVA: 0x00040BE4 File Offset: 0x0003EDE4
 		public override void ExecuteAffirmativeAction()
 		{
 			if (this._data.AffirmativeAction != null)
@@ -55,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.CloseQuery();
 		}
 
-		// Token: 0x060013B1 RID: 5041 RVA: 0x00040C68 File Offset: 0x0003EE68
 		public override void ExecuteNegativeAction()
 		{
 			Action<List<InquiryElement>> negativeAction = this._data.NegativeAction;
@@ -66,7 +61,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.CloseQuery();
 		}
 
-		// Token: 0x060013B2 RID: 5042 RVA: 0x00040C8B File Offset: 0x0003EE8B
 		public override void OnClearData()
 		{
 			base.OnClearData();
@@ -74,9 +68,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			this.MaxSelectableOptionCount = -1;
 		}
 
-		// Token: 0x17000680 RID: 1664
-		// (get) Token: 0x060013B4 RID: 5044 RVA: 0x00040CBF File Offset: 0x0003EEBF
-		// (set) Token: 0x060013B3 RID: 5043 RVA: 0x00040CA1 File Offset: 0x0003EEA1
 		[DataSourceProperty]
 		public MBBindingList<InquiryElementVM> InquiryElements
 		{
@@ -94,9 +85,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x17000681 RID: 1665
-		// (get) Token: 0x060013B5 RID: 5045 RVA: 0x00040CC7 File Offset: 0x0003EEC7
-		// (set) Token: 0x060013B6 RID: 5046 RVA: 0x00040CCF File Offset: 0x0003EECF
 		[DataSourceProperty]
 		public int MaxSelectableOptionCount
 		{
@@ -114,13 +102,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
-		// Token: 0x04000975 RID: 2421
 		private MultiSelectionInquiryData _data;
 
-		// Token: 0x04000976 RID: 2422
 		private MBBindingList<InquiryElementVM> _inquiryElements;
 
-		// Token: 0x04000977 RID: 2423
 		private int _maxSelectableOptionCount;
 	}
 }

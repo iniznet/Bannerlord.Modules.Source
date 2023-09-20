@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.Options;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOptions
 {
-	// Token: 0x020000FE RID: 254
 	public class GamepadOptionCategoryVM : GroupedOptionCategoryVM
 	{
-		// Token: 0x06001685 RID: 5765 RVA: 0x00048CAC File Offset: 0x00046EAC
 		public GamepadOptionCategoryVM(OptionsVM options, TextObject name, OptionCategory category, bool isEnabled, bool isResetSupported = false)
 			: base(options, name, category, isEnabled, isResetSupported)
 		{
@@ -35,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			base.IsEnabled = Input.IsGamepadActive;
 		}
 
-		// Token: 0x06001686 RID: 5766 RVA: 0x00048DD4 File Offset: 0x00046FD4
 		private void OnCategoryChange(SelectorVM<SelectorItemVM> obj)
 		{
 			if (obj.SelectedIndex >= 0)
@@ -91,7 +88,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x06001687 RID: 5767 RVA: 0x00048F40 File Offset: 0x00047140
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -162,27 +158,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			});
 		}
 
-		// Token: 0x06001688 RID: 5768 RVA: 0x000490D2 File Offset: 0x000472D2
 		private void SetCurrentGamepadType(GamepadOptionCategoryVM.GamepadType type)
 		{
 			this.CurrentGamepadType = (int)type;
 		}
 
-		// Token: 0x06001689 RID: 5769 RVA: 0x000490DC File Offset: 0x000472DC
 		private void OnGamepadActiveStateChanged()
 		{
 			base.IsEnabled = Input.IsGamepadActive;
 			Debug.Print("GAMEPAD TAB ENABLED: " + base.IsEnabled.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
-		// Token: 0x0600168A RID: 5770 RVA: 0x0004911D File Offset: 0x0004731D
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		// Token: 0x0600168B RID: 5771 RVA: 0x00049145 File Offset: 0x00047345
 		private static IEnumerable<GamepadOptionKeyItemVM> GetActionKeys()
 		{
 			yield return new GamepadOptionKeyItemVM(InputKey.ControllerLStick, new TextObject("{=i28Kjuay}Move Character", null));
@@ -206,7 +198,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			yield break;
 		}
 
-		// Token: 0x0600168C RID: 5772 RVA: 0x0004914E File Offset: 0x0004734E
 		private static IEnumerable<GamepadOptionKeyItemVM> GetMapKeys()
 		{
 			yield return new GamepadOptionKeyItemVM(InputKey.ControllerLStick, new TextObject("{=hdGay8xc}Map Cursor Move", null));
@@ -229,9 +220,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			yield break;
 		}
 
-		// Token: 0x1700075C RID: 1884
-		// (get) Token: 0x0600168D RID: 5773 RVA: 0x00049157 File Offset: 0x00047357
-		// (set) Token: 0x0600168E RID: 5774 RVA: 0x0004915F File Offset: 0x0004735F
 		[DataSourceProperty]
 		public int CurrentGamepadType
 		{
@@ -249,9 +237,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x1700075D RID: 1885
-		// (get) Token: 0x0600168F RID: 5775 RVA: 0x0004917D File Offset: 0x0004737D
-		// (set) Token: 0x06001690 RID: 5776 RVA: 0x00049185 File Offset: 0x00047385
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> OtherKeys
 		{
@@ -269,9 +254,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x1700075E RID: 1886
-		// (get) Token: 0x06001691 RID: 5777 RVA: 0x000491A3 File Offset: 0x000473A3
-		// (set) Token: 0x06001692 RID: 5778 RVA: 0x000491AB File Offset: 0x000473AB
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> DpadKeys
 		{
@@ -289,9 +271,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x1700075F RID: 1887
-		// (get) Token: 0x06001693 RID: 5779 RVA: 0x000491C9 File Offset: 0x000473C9
-		// (set) Token: 0x06001694 RID: 5780 RVA: 0x000491D1 File Offset: 0x000473D1
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> LeftTriggerAndBumperKeys
 		{
@@ -309,9 +288,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000760 RID: 1888
-		// (get) Token: 0x06001695 RID: 5781 RVA: 0x000491EF File Offset: 0x000473EF
-		// (set) Token: 0x06001696 RID: 5782 RVA: 0x000491F7 File Offset: 0x000473F7
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> RightTriggerAndBumperKeys
 		{
@@ -329,9 +305,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000761 RID: 1889
-		// (get) Token: 0x06001697 RID: 5783 RVA: 0x00049215 File Offset: 0x00047415
-		// (set) Token: 0x06001698 RID: 5784 RVA: 0x0004921D File Offset: 0x0004741D
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> RightAnalogKeys
 		{
@@ -349,9 +322,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000762 RID: 1890
-		// (get) Token: 0x06001699 RID: 5785 RVA: 0x0004923B File Offset: 0x0004743B
-		// (set) Token: 0x0600169A RID: 5786 RVA: 0x00049243 File Offset: 0x00047443
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> LeftAnalogKeys
 		{
@@ -369,9 +339,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000763 RID: 1891
-		// (get) Token: 0x0600169B RID: 5787 RVA: 0x00049261 File Offset: 0x00047461
-		// (set) Token: 0x0600169C RID: 5788 RVA: 0x00049269 File Offset: 0x00047469
 		[DataSourceProperty]
 		public MBBindingList<GamepadOptionKeyItemVM> FaceKeys
 		{
@@ -389,9 +356,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x17000764 RID: 1892
-		// (get) Token: 0x0600169D RID: 5789 RVA: 0x00049287 File Offset: 0x00047487
-		// (set) Token: 0x0600169E RID: 5790 RVA: 0x0004928F File Offset: 0x0004748F
 		[DataSourceProperty]
 		public MBBindingList<SelectorVM<SelectorItemVM>> Actions
 		{
@@ -409,44 +373,30 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			}
 		}
 
-		// Token: 0x04000AB3 RID: 2739
 		private SelectorVM<SelectorItemVM> _categories;
 
-		// Token: 0x04000AB4 RID: 2740
 		private int _currentGamepadType = -1;
 
-		// Token: 0x04000AB5 RID: 2741
 		private MBBindingList<GamepadOptionKeyItemVM> _leftAnalogKeys;
 
-		// Token: 0x04000AB6 RID: 2742
 		private MBBindingList<GamepadOptionKeyItemVM> _rightAnalogKeys;
 
-		// Token: 0x04000AB7 RID: 2743
 		private MBBindingList<GamepadOptionKeyItemVM> _dpadKeys;
 
-		// Token: 0x04000AB8 RID: 2744
 		private MBBindingList<GamepadOptionKeyItemVM> _rightTriggerAndBumperKeys;
 
-		// Token: 0x04000AB9 RID: 2745
 		private MBBindingList<GamepadOptionKeyItemVM> _leftTriggerAndBumperKeys;
 
-		// Token: 0x04000ABA RID: 2746
 		private MBBindingList<GamepadOptionKeyItemVM> _otherKeys;
 
-		// Token: 0x04000ABB RID: 2747
 		private MBBindingList<GamepadOptionKeyItemVM> _faceKeys;
 
-		// Token: 0x04000ABC RID: 2748
 		private MBBindingList<SelectorVM<SelectorItemVM>> _actions;
 
-		// Token: 0x0200024A RID: 586
 		private enum GamepadType
 		{
-			// Token: 0x04000F1A RID: 3866
 			Xbox,
-			// Token: 0x04000F1B RID: 3867
 			Playstation4,
-			// Token: 0x04000F1C RID: 3868
 			Playstation5
 		}
 	}

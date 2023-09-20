@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 {
-	// Token: 0x020000BA RID: 186
 	public class MissionMultiplayerHUDExtensionVM : ViewModel
 	{
-		// Token: 0x060011A5 RID: 4517 RVA: 0x0003A03C File Offset: 0x0003823C
 		public MissionMultiplayerHUDExtensionVM(Mission mission)
 		{
 			this._mission = mission;
@@ -46,7 +44,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.RefreshValues();
 		}
 
-		// Token: 0x060011A6 RID: 4518 RVA: 0x0003A1D8 File Offset: 0x000383D8
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -57,13 +54,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.SpectatorControls.RefreshValues();
 		}
 
-		// Token: 0x060011A7 RID: 4519 RVA: 0x0003A22E File Offset: 0x0003842E
 		private void OnMissionReset(object sender, PropertyChangedEventArgs e)
 		{
 			this.IsGeneralWarningCountdownActive = false;
 		}
 
-		// Token: 0x060011A8 RID: 4520 RVA: 0x0003A238 File Offset: 0x00038438
 		private void OnPeerComponentAdded(PeerComponent component)
 		{
 			if (component.IsMine && component is MissionRepresentativeBase)
@@ -84,7 +79,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011A9 RID: 4521 RVA: 0x0003A308 File Offset: 0x00038508
 		public override void OnFinalize()
 		{
 			MissionPeer.OnTeamChanged -= this.OnTeamChanged;
@@ -113,7 +107,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			base.OnFinalize();
 		}
 
-		// Token: 0x060011AA RID: 4522 RVA: 0x0003A3D8 File Offset: 0x000385D8
 		public void Tick(float dt)
 		{
 			this.IsInWarmup = this._gameMode.IsInWarmup;
@@ -136,7 +129,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			spectatorControls.Tick(dt);
 		}
 
-		// Token: 0x060011AB RID: 4523 RVA: 0x0003A434 File Offset: 0x00038634
 		private void CheckTimers(bool forceUpdate = false)
 		{
 			int num;
@@ -153,13 +145,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011AC RID: 4524 RVA: 0x0003A499 File Offset: 0x00038699
 		private void OnToggleLoadout(bool isActive)
 		{
 			this.ShowHud = !isActive;
 		}
 
-		// Token: 0x060011AD RID: 4525 RVA: 0x0003A4A5 File Offset: 0x000386A5
 		public void OnSpectatedAgentFocusIn(Agent followedAgent)
 		{
 			MissionMultiplayerSpectatorHUDVM spectatorControls = this._spectatorControls;
@@ -170,7 +160,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			spectatorControls.OnSpectatedAgentFocusIn(followedAgent);
 		}
 
-		// Token: 0x060011AE RID: 4526 RVA: 0x0003A4B8 File Offset: 0x000386B8
 		public void OnSpectatedAgentFocusOut(Agent followedPeer)
 		{
 			MissionMultiplayerSpectatorHUDVM spectatorControls = this._spectatorControls;
@@ -181,13 +170,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			spectatorControls.OnSpectatedAgentFocusOut(followedPeer);
 		}
 
-		// Token: 0x060011AF RID: 4527 RVA: 0x0003A4CB File Offset: 0x000386CB
 		private void OnCurrentGameModeStateChanged()
 		{
 			this.CheckTimers(true);
 		}
 
-		// Token: 0x060011B0 RID: 4528 RVA: 0x0003A4D4 File Offset: 0x000386D4
 		private void UpdateTeamScores()
 		{
 			if (this._isTeamScoresEnabled)
@@ -199,7 +186,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011B1 RID: 4529 RVA: 0x0003A528 File Offset: 0x00038728
 		private void UpdateTeamBanners()
 		{
 			Team attackerTeam = Mission.Current.AttackerTeam;
@@ -210,7 +196,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.EnemyBanner = (this._isAttackerTeamAlly ? imageIdentifierVM2 : imageIdentifierVM);
 		}
 
-		// Token: 0x060011B2 RID: 4530 RVA: 0x0003A5A0 File Offset: 0x000387A0
 		private void OnTeamChanged(NetworkCommunicator peer, Team previousTeam, Team newTeam)
 		{
 			if (peer.IsMine)
@@ -268,7 +253,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			this.UpdateTeamBanners();
 		}
 
-		// Token: 0x060011B3 RID: 4531 RVA: 0x0003A70C File Offset: 0x0003890C
 		private void GetTeamColors(Team team, out string color, out string color2)
 		{
 			color = team.Color.ToString("X");
@@ -279,7 +263,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			color2 = "#" + color2 + "FF";
 		}
 
-		// Token: 0x060011B4 RID: 4532 RVA: 0x0003A780 File Offset: 0x00038980
 		private void OnRefreshTeamMembers()
 		{
 			List<MPPlayerVM> list = this.Teammates.ToList<MPPlayerVM>();
@@ -313,7 +296,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011B5 RID: 4533 RVA: 0x0003A8F0 File Offset: 0x00038AF0
 		private void OnRefreshEnemyMembers()
 		{
 			List<MPPlayerVM> list = this.Enemies.ToList<MPPlayerVM>();
@@ -345,14 +327,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x060011B6 RID: 4534 RVA: 0x0003AA6C File Offset: 0x00038C6C
 		private void UpdateShowTeamScores()
 		{
 			this.ShowTeamScores = !this._gameMode.IsInWarmup && this.ShowCommanderInfo && this._gameMode.GameType != MissionLobbyComponent.MultiplayerGameType.Siege;
 		}
 
-		// Token: 0x170005B7 RID: 1463
-		// (get) Token: 0x060011B7 RID: 4535 RVA: 0x0003AAA0 File Offset: 0x00038CA0
 		private Team _playerTeam
 		{
 			get
@@ -378,9 +357,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005B8 RID: 1464
-		// (get) Token: 0x060011B8 RID: 4536 RVA: 0x0003AAE9 File Offset: 0x00038CE9
-		// (set) Token: 0x060011B9 RID: 4537 RVA: 0x0003AAF1 File Offset: 0x00038CF1
 		[DataSourceProperty]
 		public bool IsOrderActive
 		{
@@ -398,9 +374,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005B9 RID: 1465
-		// (get) Token: 0x060011BA RID: 4538 RVA: 0x0003AB0F File Offset: 0x00038D0F
-		// (set) Token: 0x060011BB RID: 4539 RVA: 0x0003AB17 File Offset: 0x00038D17
 		[DataSourceProperty]
 		public CommanderInfoVM CommanderInfo
 		{
@@ -418,9 +391,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BA RID: 1466
-		// (get) Token: 0x060011BC RID: 4540 RVA: 0x0003AB35 File Offset: 0x00038D35
-		// (set) Token: 0x060011BD RID: 4541 RVA: 0x0003AB3D File Offset: 0x00038D3D
 		[DataSourceProperty]
 		public MissionMultiplayerSpectatorHUDVM SpectatorControls
 		{
@@ -438,9 +408,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BB RID: 1467
-		// (get) Token: 0x060011BE RID: 4542 RVA: 0x0003AB5B File Offset: 0x00038D5B
-		// (set) Token: 0x060011BF RID: 4543 RVA: 0x0003AB63 File Offset: 0x00038D63
 		[DataSourceProperty]
 		public MBBindingList<MPPlayerVM> Teammates
 		{
@@ -458,9 +425,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BC RID: 1468
-		// (get) Token: 0x060011C0 RID: 4544 RVA: 0x0003AB81 File Offset: 0x00038D81
-		// (set) Token: 0x060011C1 RID: 4545 RVA: 0x0003AB89 File Offset: 0x00038D89
 		[DataSourceProperty]
 		public MBBindingList<MPPlayerVM> Enemies
 		{
@@ -478,9 +442,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BD RID: 1469
-		// (get) Token: 0x060011C2 RID: 4546 RVA: 0x0003ABA7 File Offset: 0x00038DA7
-		// (set) Token: 0x060011C3 RID: 4547 RVA: 0x0003ABAF File Offset: 0x00038DAF
 		[DataSourceProperty]
 		public ImageIdentifierVM AllyBanner
 		{
@@ -498,9 +459,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BE RID: 1470
-		// (get) Token: 0x060011C4 RID: 4548 RVA: 0x0003ABCD File Offset: 0x00038DCD
-		// (set) Token: 0x060011C5 RID: 4549 RVA: 0x0003ABD5 File Offset: 0x00038DD5
 		[DataSourceProperty]
 		public ImageIdentifierVM EnemyBanner
 		{
@@ -518,9 +476,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005BF RID: 1471
-		// (get) Token: 0x060011C6 RID: 4550 RVA: 0x0003ABF3 File Offset: 0x00038DF3
-		// (set) Token: 0x060011C7 RID: 4551 RVA: 0x0003ABFB File Offset: 0x00038DFB
 		[DataSourceProperty]
 		public bool IsRoundCountdownAvailable
 		{
@@ -538,9 +493,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C0 RID: 1472
-		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0003AC19 File Offset: 0x00038E19
-		// (set) Token: 0x060011C9 RID: 4553 RVA: 0x0003AC21 File Offset: 0x00038E21
 		[DataSourceProperty]
 		public bool IsRoundCountdownSuspended
 		{
@@ -558,9 +510,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C1 RID: 1473
-		// (get) Token: 0x060011CA RID: 4554 RVA: 0x0003AC3F File Offset: 0x00038E3F
-		// (set) Token: 0x060011CB RID: 4555 RVA: 0x0003AC47 File Offset: 0x00038E47
 		[DataSourceProperty]
 		public bool ShowTeamScores
 		{
@@ -578,9 +527,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C2 RID: 1474
-		// (get) Token: 0x060011CC RID: 4556 RVA: 0x0003AC65 File Offset: 0x00038E65
-		// (set) Token: 0x060011CD RID: 4557 RVA: 0x0003AC6D File Offset: 0x00038E6D
 		[DataSourceProperty]
 		public string RemainingRoundTime
 		{
@@ -598,9 +544,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C3 RID: 1475
-		// (get) Token: 0x060011CE RID: 4558 RVA: 0x0003AC90 File Offset: 0x00038E90
-		// (set) Token: 0x060011CF RID: 4559 RVA: 0x0003AC98 File Offset: 0x00038E98
 		[DataSourceProperty]
 		public bool WarnRemainingTime
 		{
@@ -618,9 +561,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C4 RID: 1476
-		// (get) Token: 0x060011D0 RID: 4560 RVA: 0x0003ACB6 File Offset: 0x00038EB6
-		// (set) Token: 0x060011D1 RID: 4561 RVA: 0x0003ACBE File Offset: 0x00038EBE
 		[DataSourceProperty]
 		public int AllyTeamScore
 		{
@@ -638,9 +578,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C5 RID: 1477
-		// (get) Token: 0x060011D2 RID: 4562 RVA: 0x0003ACDC File Offset: 0x00038EDC
-		// (set) Token: 0x060011D3 RID: 4563 RVA: 0x0003ACE4 File Offset: 0x00038EE4
 		[DataSourceProperty]
 		public int EnemyTeamScore
 		{
@@ -658,9 +595,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C6 RID: 1478
-		// (get) Token: 0x060011D4 RID: 4564 RVA: 0x0003AD02 File Offset: 0x00038F02
-		// (set) Token: 0x060011D5 RID: 4565 RVA: 0x0003AD0A File Offset: 0x00038F0A
 		[DataSourceProperty]
 		public string AllyTeamColor
 		{
@@ -678,9 +612,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C7 RID: 1479
-		// (get) Token: 0x060011D6 RID: 4566 RVA: 0x0003AD2D File Offset: 0x00038F2D
-		// (set) Token: 0x060011D7 RID: 4567 RVA: 0x0003AD35 File Offset: 0x00038F35
 		[DataSourceProperty]
 		public string AllyTeamColor2
 		{
@@ -698,9 +629,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C8 RID: 1480
-		// (get) Token: 0x060011D8 RID: 4568 RVA: 0x0003AD58 File Offset: 0x00038F58
-		// (set) Token: 0x060011D9 RID: 4569 RVA: 0x0003AD60 File Offset: 0x00038F60
 		[DataSourceProperty]
 		public string EnemyTeamColor
 		{
@@ -718,9 +646,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005C9 RID: 1481
-		// (get) Token: 0x060011DA RID: 4570 RVA: 0x0003AD83 File Offset: 0x00038F83
-		// (set) Token: 0x060011DB RID: 4571 RVA: 0x0003AD8B File Offset: 0x00038F8B
 		[DataSourceProperty]
 		public string EnemyTeamColor2
 		{
@@ -738,9 +663,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CA RID: 1482
-		// (get) Token: 0x060011DC RID: 4572 RVA: 0x0003ADAE File Offset: 0x00038FAE
-		// (set) Token: 0x060011DD RID: 4573 RVA: 0x0003ADB6 File Offset: 0x00038FB6
 		[DataSourceProperty]
 		public bool ShowHud
 		{
@@ -758,9 +680,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CB RID: 1483
-		// (get) Token: 0x060011DE RID: 4574 RVA: 0x0003ADD4 File Offset: 0x00038FD4
-		// (set) Token: 0x060011DF RID: 4575 RVA: 0x0003ADDC File Offset: 0x00038FDC
 		[DataSourceProperty]
 		public bool ShowCommanderInfo
 		{
@@ -779,9 +698,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CC RID: 1484
-		// (get) Token: 0x060011E0 RID: 4576 RVA: 0x0003AE00 File Offset: 0x00039000
-		// (set) Token: 0x060011E1 RID: 4577 RVA: 0x0003AE08 File Offset: 0x00039008
 		[DataSourceProperty]
 		public bool ShowPowerLevels
 		{
@@ -799,9 +715,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CD RID: 1485
-		// (get) Token: 0x060011E2 RID: 4578 RVA: 0x0003AE26 File Offset: 0x00039026
-		// (set) Token: 0x060011E3 RID: 4579 RVA: 0x0003AE2E File Offset: 0x0003902E
 		[DataSourceProperty]
 		public bool IsInWarmup
 		{
@@ -826,9 +739,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CE RID: 1486
-		// (get) Token: 0x060011E4 RID: 4580 RVA: 0x0003AE68 File Offset: 0x00039068
-		// (set) Token: 0x060011E5 RID: 4581 RVA: 0x0003AE70 File Offset: 0x00039070
 		[DataSourceProperty]
 		public string WarmupInfoText
 		{
@@ -846,9 +756,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005CF RID: 1487
-		// (get) Token: 0x060011E6 RID: 4582 RVA: 0x0003AE93 File Offset: 0x00039093
-		// (set) Token: 0x060011E7 RID: 4583 RVA: 0x0003AE9B File Offset: 0x0003909B
 		[DataSourceProperty]
 		public int GeneralWarningCountdown
 		{
@@ -866,9 +773,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x170005D0 RID: 1488
-		// (get) Token: 0x060011E8 RID: 4584 RVA: 0x0003AEB9 File Offset: 0x000390B9
-		// (set) Token: 0x060011E9 RID: 4585 RVA: 0x0003AEC1 File Offset: 0x000390C1
 		[DataSourceProperty]
 		public bool IsGeneralWarningCountdownActive
 		{
@@ -886,115 +790,78 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.HUDExtensions
 			}
 		}
 
-		// Token: 0x04000866 RID: 2150
 		private const float RemainingTimeWarningThreshold = 5f;
 
-		// Token: 0x04000867 RID: 2151
 		private readonly Mission _mission;
 
-		// Token: 0x04000868 RID: 2152
 		private readonly Dictionary<MissionPeer, MPPlayerVM> _teammateDictionary;
 
-		// Token: 0x04000869 RID: 2153
 		private readonly Dictionary<MissionPeer, MPPlayerVM> _enemyDictionary;
 
-		// Token: 0x0400086A RID: 2154
 		private readonly MissionScoreboardComponent _missionScoreboardComponent;
 
-		// Token: 0x0400086B RID: 2155
 		private readonly MissionLobbyEquipmentNetworkComponent _missionLobbyEquipmentNetworkComponent;
 
-		// Token: 0x0400086C RID: 2156
 		private readonly MissionMultiplayerGameModeBaseClient _gameMode;
 
-		// Token: 0x0400086D RID: 2157
 		private readonly bool _isTeamsEnabled;
 
-		// Token: 0x0400086E RID: 2158
 		private bool _isAttackerTeamAlly;
 
-		// Token: 0x0400086F RID: 2159
 		private bool _isTeammateAndEnemiesRelevant;
 
-		// Token: 0x04000870 RID: 2160
 		private bool _isTeamScoresEnabled;
 
-		// Token: 0x04000871 RID: 2161
 		private bool _isTeamMemberCountsEnabled;
 
-		// Token: 0x04000872 RID: 2162
 		private bool _isOrderActive;
 
-		// Token: 0x04000873 RID: 2163
 		private CommanderInfoVM _commanderInfo;
 
-		// Token: 0x04000874 RID: 2164
 		private MissionMultiplayerSpectatorHUDVM _spectatorControls;
 
-		// Token: 0x04000875 RID: 2165
 		private bool _warnRemainingTime;
 
-		// Token: 0x04000876 RID: 2166
 		private bool _isRoundCountdownAvailable;
 
-		// Token: 0x04000877 RID: 2167
 		private bool _isRoundCountdownSuspended;
 
-		// Token: 0x04000878 RID: 2168
 		private bool _showTeamScores;
 
-		// Token: 0x04000879 RID: 2169
 		private string _remainingRoundTime;
 
-		// Token: 0x0400087A RID: 2170
 		private string _allyTeamColor;
 
-		// Token: 0x0400087B RID: 2171
 		private string _allyTeamColor2;
 
-		// Token: 0x0400087C RID: 2172
 		private string _enemyTeamColor;
 
-		// Token: 0x0400087D RID: 2173
 		private string _enemyTeamColor2;
 
-		// Token: 0x0400087E RID: 2174
 		private string _warmupInfoText;
 
-		// Token: 0x0400087F RID: 2175
 		private int _allyTeamScore = -1;
 
-		// Token: 0x04000880 RID: 2176
 		private int _enemyTeamScore = -1;
 
-		// Token: 0x04000881 RID: 2177
 		private MBBindingList<MPPlayerVM> _teammatesList;
 
-		// Token: 0x04000882 RID: 2178
 		private MBBindingList<MPPlayerVM> _enemiesList;
 
-		// Token: 0x04000883 RID: 2179
 		private bool _showHUD;
 
-		// Token: 0x04000884 RID: 2180
 		private bool _showCommanderInfo;
 
-		// Token: 0x04000885 RID: 2181
 		private bool _showPowerLevels;
 
-		// Token: 0x04000886 RID: 2182
 		private bool _isInWarmup;
 
-		// Token: 0x04000887 RID: 2183
 		private int _generalWarningCountdown;
 
-		// Token: 0x04000888 RID: 2184
 		private bool _isGeneralWarningCountdownActive;
 
-		// Token: 0x04000889 RID: 2185
 		private ImageIdentifierVM _defenderBanner;
 
-		// Token: 0x0400088A RID: 2186
 		private ImageIdentifierVM _attackerBanner;
 	}
 }

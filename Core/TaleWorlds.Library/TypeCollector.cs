@@ -4,15 +4,10 @@ using System.Reflection;
 
 namespace TaleWorlds.Library
 {
-	// Token: 0x02000095 RID: 149
 	public class TypeCollector<T> where T : class
 	{
-		// Token: 0x1700008B RID: 139
-		// (get) Token: 0x06000504 RID: 1284 RVA: 0x0000FEBC File Offset: 0x0000E0BC
-		// (set) Token: 0x06000505 RID: 1285 RVA: 0x0000FEC4 File Offset: 0x0000E0C4
 		public Type BaseType { get; private set; }
 
-		// Token: 0x06000506 RID: 1286 RVA: 0x0000FECD File Offset: 0x0000E0CD
 		public TypeCollector()
 		{
 			this.BaseType = typeof(T);
@@ -20,7 +15,6 @@ namespace TaleWorlds.Library
 			this._currentAssembly = this.BaseType.Assembly;
 		}
 
-		// Token: 0x06000507 RID: 1287 RVA: 0x0000FF04 File Offset: 0x0000E104
 		public void Collect()
 		{
 			List<Type> list = this.CollectTypes();
@@ -31,7 +25,6 @@ namespace TaleWorlds.Library
 			}
 		}
 
-		// Token: 0x06000508 RID: 1288 RVA: 0x0000FF70 File Offset: 0x0000E170
 		public T Instantiate(string typeName, params object[] parameters)
 		{
 			T t = default(T);
@@ -43,7 +36,6 @@ namespace TaleWorlds.Library
 			return t;
 		}
 
-		// Token: 0x06000509 RID: 1289 RVA: 0x0000FFB8 File Offset: 0x0000E1B8
 		public Type GetType(string typeName)
 		{
 			Type type;
@@ -54,7 +46,6 @@ namespace TaleWorlds.Library
 			return null;
 		}
 
-		// Token: 0x0600050A RID: 1290 RVA: 0x0000FFD8 File Offset: 0x0000E1D8
 		private bool CheckAssemblyReferencesThis(Assembly assembly)
 		{
 			AssemblyName[] referencedAssemblies = assembly.GetReferencedAssemblies();
@@ -68,7 +59,6 @@ namespace TaleWorlds.Library
 			return false;
 		}
 
-		// Token: 0x0600050B RID: 1291 RVA: 0x0001001C File Offset: 0x0000E21C
 		private List<Type> CollectTypes()
 		{
 			List<Type> list = new List<Type>();
@@ -88,10 +78,8 @@ namespace TaleWorlds.Library
 			return list;
 		}
 
-		// Token: 0x0400017F RID: 383
 		private Dictionary<string, Type> _types;
 
-		// Token: 0x04000180 RID: 384
 		private Assembly _currentAssembly;
 	}
 }

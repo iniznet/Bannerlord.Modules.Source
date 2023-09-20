@@ -10,11 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000118 RID: 280
 	public class DefaultMapTrackModel : MapTrackModel
 	{
-		// Token: 0x17000601 RID: 1537
-		// (get) Token: 0x060015F6 RID: 5622 RVA: 0x00068342 File Offset: 0x00066542
 		public override float MaxTrackLife
 		{
 			get
@@ -23,7 +20,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060015F7 RID: 5623 RVA: 0x0006834C File Offset: 0x0006654C
 		public override float GetMaxTrackSpottingDistanceForMainParty()
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
@@ -32,13 +28,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x060015F8 RID: 5624 RVA: 0x00068398 File Offset: 0x00066598
 		public override bool CanPartyLeaveTrack(MobileParty mobileParty)
 		{
 			return mobileParty.SiegeEvent == null && mobileParty.MapEvent == null && !mobileParty.IsGarrison && !mobileParty.IsMilitia && !mobileParty.IsBanditBossParty && !mobileParty.IsMainParty && (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty);
 		}
 
-		// Token: 0x060015F9 RID: 5625 RVA: 0x000683F0 File Offset: 0x000665F0
 		public override int GetTrackLife(MobileParty mobileParty)
 		{
 			bool flag = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(mobileParty.CurrentNavigationFace) == TerrainType.Snow;
@@ -51,7 +45,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(Campaign.Current.Models.MapTrackModel.MaxTrackLife * num2);
 		}
 
-		// Token: 0x060015FA RID: 5626 RVA: 0x000684B4 File Offset: 0x000666B4
 		public override float GetTrackDetectionDifficultyForMainParty(Track track, float trackSpottingDistance)
 		{
 			int size = track.Size;
@@ -65,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num2;
 		}
 
-		// Token: 0x060015FB RID: 5627 RVA: 0x00068564 File Offset: 0x00066764
 		public override float GetSkillFromTrackDetected(Track track)
 		{
 			float num = 0.2f * (1f + track.CreationTime.ElapsedHoursUntilNow) * (1f + 0.02f * MathF.Max(0f, 100f - (float)track.NumberOfAllMembers));
@@ -76,7 +68,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060015FC RID: 5628 RVA: 0x000685F0 File Offset: 0x000667F0
 		public override float GetSkipTrackChance(MobileParty mobileParty)
 		{
 			float num = 0.5f;
@@ -84,7 +75,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Max(num - num2 * 0.01f, 0f);
 		}
 
-		// Token: 0x060015FD RID: 5629 RVA: 0x00068630 File Offset: 0x00066830
 		public override TextObject TrackTitle(Track track)
 		{
 			if (track.IsPointer)
@@ -99,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return track.PartyName;
 		}
 
-		// Token: 0x060015FE RID: 5630 RVA: 0x0006867C File Offset: 0x0006687C
 		private string UncertainifyNumber(float num, float baseNum, int skillLevel)
 		{
 			float num2 = baseNum * MathF.Max(0f, 1f - (float)(skillLevel / 30) * 0.1f);
@@ -112,7 +101,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num3.ToString("0.0") + "-" + num4.ToString("0.0");
 		}
 
-		// Token: 0x060015FF RID: 5631 RVA: 0x000686E4 File Offset: 0x000668E4
 		private string UncertainifyNumber(int num, int baseNum, int skillLevel)
 		{
 			int num2 = MathF.Round((float)baseNum * MathF.Max(0f, 1f - (float)(skillLevel / 30) * 0.1f));
@@ -133,7 +121,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num3.ToString() + "-" + num4.ToString();
 		}
 
-		// Token: 0x06001600 RID: 5632 RVA: 0x00068754 File Offset: 0x00066954
 		public override IEnumerable<ValueTuple<TextObject, string>> GetTrackDescription(Track track)
 		{
 			List<ValueTuple<TextObject, string>> list = new List<ValueTuple<TextObject, string>>();
@@ -190,7 +177,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x06001601 RID: 5633 RVA: 0x000689B4 File Offset: 0x00066BB4
 		public override uint GetTrackColor(Track track)
 		{
 			if (track.IsPointer)
@@ -226,7 +212,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return vec4.ToARGB;
 		}
 
-		// Token: 0x06001602 RID: 5634 RVA: 0x00068B54 File Offset: 0x00066D54
 		public override float GetTrackScale(Track track)
 		{
 			if (track.IsPointer)
@@ -237,13 +222,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Min(1f, num);
 		}
 
-		// Token: 0x040007AC RID: 1964
 		private const float MinimumTrackSize = 0.1f;
 
-		// Token: 0x040007AD RID: 1965
 		private const float MaximumTrackSize = 1f;
 
-		// Token: 0x040007AE RID: 1966
 		private static TextObject _defaultTrackTitle = new TextObject("{=maptrack}Track", null);
 	}
 }

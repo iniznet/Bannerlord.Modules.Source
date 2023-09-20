@@ -4,15 +4,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003D4 RID: 980
 	public class TroopCountEffect : MPOnSpawnPerkEffect
 	{
-		// Token: 0x06003407 RID: 13319 RVA: 0x000D7C8C File Offset: 0x000D5E8C
 		protected TroopCountEffect()
 		{
 		}
 
-		// Token: 0x06003408 RID: 13320 RVA: 0x000D7C94 File Offset: 0x000D5E94
 		protected override void Deserialize(XmlNode node)
 		{
 			base.Deserialize(node);
@@ -61,7 +58,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			this._isMultiplier = ((text4 != null) ? text4.ToLower() : null) == "true";
 		}
 
-		// Token: 0x06003409 RID: 13321 RVA: 0x000D7D3F File Offset: 0x000D5F3F
 		public override float GetTroopCountMultiplier()
 		{
 			if (!this._isMultiplier)
@@ -71,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return this._value;
 		}
 
-		// Token: 0x0600340A RID: 13322 RVA: 0x000D7D55 File Offset: 0x000D5F55
 		public override float GetExtraTroopCount()
 		{
 			if (!this._isMultiplier)
@@ -81,13 +76,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return 0f;
 		}
 
-		// Token: 0x04001629 RID: 5673
 		protected static string StringType = "TroopCountOnSpawn";
 
-		// Token: 0x0400162A RID: 5674
 		private bool _isMultiplier;
 
-		// Token: 0x0400162B RID: 5675
 		private float _value;
 	}
 }

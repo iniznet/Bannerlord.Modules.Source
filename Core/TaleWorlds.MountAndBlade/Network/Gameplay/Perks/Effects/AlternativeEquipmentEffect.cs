@@ -6,15 +6,12 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003B8 RID: 952
 	public class AlternativeEquipmentEffect : MPOnSpawnPerkEffect
 	{
-		// Token: 0x0600338D RID: 13197 RVA: 0x000D5C9B File Offset: 0x000D3E9B
 		protected AlternativeEquipmentEffect()
 		{
 		}
 
-		// Token: 0x0600338E RID: 13198 RVA: 0x000D5CA4 File Offset: 0x000D3EA4
 		protected override void Deserialize(XmlNode node)
 		{
 			base.Deserialize(node);
@@ -53,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x0600338F RID: 13199 RVA: 0x000D5D40 File Offset: 0x000D3F40
 		public override List<ValueTuple<EquipmentIndex, EquipmentElement>> GetAlternativeEquipments(bool isPlayer, List<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments, bool getAll)
 		{
 			if (this.EffectTarget == MPOnSpawnPerkEffectBase.Target.Any || (isPlayer ? (this.EffectTarget == MPOnSpawnPerkEffectBase.Target.Player) : (this.EffectTarget == MPOnSpawnPerkEffectBase.Target.Troops)))
@@ -73,13 +69,10 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return alternativeEquipments;
 		}
 
-		// Token: 0x040015E3 RID: 5603
 		protected static string StringType = "AlternativeEquipmentOnSpawn";
 
-		// Token: 0x040015E4 RID: 5604
 		private EquipmentElement _item;
 
-		// Token: 0x040015E5 RID: 5605
 		private EquipmentIndex _index;
 	}
 }

@@ -6,11 +6,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000121 RID: 289
 	public class DefaultPartyFoodBuyingModel : PartyFoodBuyingModel
 	{
-		// Token: 0x17000608 RID: 1544
-		// (get) Token: 0x06001652 RID: 5714 RVA: 0x0006AE37 File Offset: 0x00069037
 		public override float MinimumDaysFoodToLastWhileBuyingFoodFromTown
 		{
 			get
@@ -19,8 +16,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x17000609 RID: 1545
-		// (get) Token: 0x06001653 RID: 5715 RVA: 0x0006AE3E File Offset: 0x0006903E
 		public override float MinimumDaysFoodToLastWhileBuyingFoodFromVillage
 		{
 			get
@@ -29,8 +24,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700060A RID: 1546
-		// (get) Token: 0x06001654 RID: 5716 RVA: 0x0006AE45 File Offset: 0x00069045
 		public override float LowCostFoodPriceAverage
 		{
 			get
@@ -39,7 +32,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001655 RID: 5717 RVA: 0x0006AE4C File Offset: 0x0006904C
 		public override void FindItemToBuy(MobileParty mobileParty, Settlement settlement, out ItemRosterElement itemElement, out float itemElementsPrice)
 		{
 			itemElement = ItemRosterElement.Invalid;

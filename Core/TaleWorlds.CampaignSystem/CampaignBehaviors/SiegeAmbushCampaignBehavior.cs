@@ -10,10 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003D4 RID: 980
 	public class SiegeAmbushCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003B14 RID: 15124 RVA: 0x00115D2C File Offset: 0x00113F2C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnAfterSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterSessionLaunched));
@@ -23,19 +21,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionEnded));
 		}
 
-		// Token: 0x06003B15 RID: 15125 RVA: 0x00115DAC File Offset: 0x00113FAC
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<CampaignTime>("_lastAmbushTime", ref this._lastAmbushTime);
 		}
 
-		// Token: 0x06003B16 RID: 15126 RVA: 0x00115DC0 File Offset: 0x00113FC0
 		private void OnAfterSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x06003B17 RID: 15127 RVA: 0x00115DC9 File Offset: 0x00113FC9
 		private void OnPlayerSiegeStarted()
 		{
 			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.IsPreparationComplete)
@@ -44,7 +39,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B18 RID: 15128 RVA: 0x00115DE7 File Offset: 0x00113FE7
 		private void OnSiegeEventEnded(SiegeEvent siegeEvent)
 		{
 			if (siegeEvent == PlayerSiege.PlayerSiegeEvent)
@@ -53,7 +47,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B19 RID: 15129 RVA: 0x00115DFC File Offset: 0x00113FFC
 		private void HourlyTick()
 		{
 			if (PlayerSiege.PlayerSiegeEvent != null && this._lastAmbushTime == CampaignTime.Never && PlayerSiege.PlayerSiegeEvent.BesiegerCamp.IsPreparationComplete)
@@ -62,7 +55,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003B1A RID: 15130 RVA: 0x00115E33 File Offset: 0x00114033
 		private void OnMissionEnded(IMission mission)
 		{
 			PlayerEncounter playerEncounter = PlayerEncounter.Current;
@@ -73,7 +65,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			playerEncounter.SetIsSallyOutAmbush(false);
 		}
 
-		// Token: 0x06003B1B RID: 15131 RVA: 0x00115E48 File Offset: 0x00114048
 		private bool CanMainHeroAmbush(out TextObject reason)
 		{
 			if (this._lastAmbushTime.ElapsedHoursUntilNow < 24f)
@@ -106,13 +97,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B1C RID: 15132 RVA: 0x00115F30 File Offset: 0x00114130
 		private void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
 			campaignGameSystemStarter.AddGameMenuOption("menu_siege_strategies", "menu_siege_strategies_ambush", "{=LEKzuGzi}Ambush", new GameMenuOption.OnConditionDelegate(this.menu_siege_strategies_ambush_condition), new GameMenuOption.OnConsequenceDelegate(this.menu_siege_strategies_ambush_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x06003B1D RID: 15133 RVA: 0x00115F70 File Offset: 0x00114170
 		private bool menu_siege_strategies_ambush_condition(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSide != BattleSideEnum.Defender)
@@ -129,7 +118,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003B1E RID: 15134 RVA: 0x00115FB0 File Offset: 0x001141B0
 		private void menu_siege_strategies_ambush_on_consequence(MenuCallbackArgs args)
 		{
 			this._lastAmbushTime = CampaignTime.Now;
@@ -142,10 +130,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MenuHelper.EncounterAttackConsequence(args);
 		}
 
-		// Token: 0x04001217 RID: 4631
 		private const int SiegeAmbushCooldownPeriodAsHours = 24;
 
-		// Token: 0x04001218 RID: 4632
 		private CampaignTime _lastAmbushTime = CampaignTime.Never;
 	}
 }

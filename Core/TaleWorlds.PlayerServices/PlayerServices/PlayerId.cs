@@ -3,12 +3,9 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.PlayerServices
 {
-	// Token: 0x02000003 RID: 3
 	[Serializable]
 	public struct PlayerId : IComparable<PlayerId>
 	{
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x0600000A RID: 10 RVA: 0x000021F0 File Offset: 0x000003F0
 		public ulong Id1
 		{
 			get
@@ -17,8 +14,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x0600000B RID: 11 RVA: 0x000021F8 File Offset: 0x000003F8
 		public ulong Id2
 		{
 			get
@@ -27,8 +22,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x0600000C RID: 12 RVA: 0x00002200 File Offset: 0x00000400
 		public bool IsValid
 		{
 			get
@@ -37,8 +30,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x0600000D RID: 13 RVA: 0x00002216 File Offset: 0x00000416
 		public PlayerIdProvidedTypes ProvidedType
 		{
 			get
@@ -47,8 +38,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x0600000E RID: 14 RVA: 0x00002220 File Offset: 0x00000420
 		public ulong Part1
 		{
 			get
@@ -57,8 +46,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x0600000F RID: 15 RVA: 0x00002281 File Offset: 0x00000481
 		public ulong Part2
 		{
 			get
@@ -67,8 +54,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000010 RID: 16 RVA: 0x00002289 File Offset: 0x00000489
 		public ulong Part3
 		{
 			get
@@ -77,8 +62,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000011 RID: 17 RVA: 0x00002291 File Offset: 0x00000491
 		public ulong Part4
 		{
 			get
@@ -87,8 +70,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000012 RID: 18 RVA: 0x00002299 File Offset: 0x00000499
 		public static PlayerId Empty
 		{
 			get
@@ -97,7 +78,6 @@ namespace TaleWorlds.PlayerServices
 			}
 		}
 
-		// Token: 0x06000013 RID: 19 RVA: 0x000022A8 File Offset: 0x000004A8
 		public PlayerId(byte providedType, ulong id1, ulong id2)
 		{
 			this._providedType = providedType;
@@ -113,7 +93,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = id2;
 		}
 
-		// Token: 0x06000014 RID: 20 RVA: 0x00002304 File Offset: 0x00000504
 		public PlayerId(byte providedType, ulong reservedBig, ulong id1, ulong id2)
 		{
 			this._providedType = providedType;
@@ -129,7 +108,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = id2;
 		}
 
-		// Token: 0x06000015 RID: 21 RVA: 0x00002360 File Offset: 0x00000560
 		public PlayerId(byte providedType, string guid)
 		{
 			byte[] array = Guid.Parse(guid).ToByteArray();
@@ -146,7 +124,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = BitConverter.ToUInt64(array, 8);
 		}
 
-		// Token: 0x06000016 RID: 22 RVA: 0x000023D8 File Offset: 0x000005D8
 		public PlayerId(ulong part1, ulong part2, ulong part3, ulong part4)
 		{
 			byte[] bytes = BitConverter.GetBytes(part1);
@@ -163,7 +140,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = part4;
 		}
 
-		// Token: 0x06000017 RID: 23 RVA: 0x0000244C File Offset: 0x0000064C
 		public PlayerId(byte[] data)
 		{
 			this._providedType = data[0];
@@ -179,7 +155,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = BitConverter.ToUInt64(data, 24);
 		}
 
-		// Token: 0x06000018 RID: 24 RVA: 0x000024CC File Offset: 0x000006CC
 		public PlayerId(Guid guid)
 		{
 			byte[] array = guid.ToByteArray();
@@ -196,7 +171,6 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = BitConverter.ToUInt64(array, 8);
 		}
 
-		// Token: 0x06000019 RID: 25 RVA: 0x0000253C File Offset: 0x0000073C
 		public byte[] ToByteArray()
 		{
 			byte[] array = new byte[32];
@@ -220,7 +194,6 @@ namespace TaleWorlds.PlayerServices
 			return array;
 		}
 
-		// Token: 0x0600001A RID: 26 RVA: 0x000025EE File Offset: 0x000007EE
 		public void Serialize(IWriter writer)
 		{
 			writer.WriteULong(this.Part1);
@@ -229,7 +202,6 @@ namespace TaleWorlds.PlayerServices
 			writer.WriteULong(this.Part4);
 		}
 
-		// Token: 0x0600001B RID: 27 RVA: 0x00002620 File Offset: 0x00000820
 		public void Deserialize(IReader reader)
 		{
 			ulong num = reader.ReadULong();
@@ -250,25 +222,21 @@ namespace TaleWorlds.PlayerServices
 			this._id2 = num4;
 		}
 
-		// Token: 0x0600001C RID: 28 RVA: 0x000026AC File Offset: 0x000008AC
 		public override string ToString()
 		{
 			return string.Concat(new object[] { this.Part1, ".", this.Part2, ".", this.Part3, ".", this.Part4 });
 		}
 
-		// Token: 0x0600001D RID: 29 RVA: 0x00002714 File Offset: 0x00000914
 		public static bool operator ==(PlayerId a, PlayerId b)
 		{
 			return a.Part1 == b.Part1 && a.Part2 == b.Part2 && a.Part3 == b.Part3 && a.Part4 == b.Part4;
 		}
 
-		// Token: 0x0600001E RID: 30 RVA: 0x00002764 File Offset: 0x00000964
 		public static bool operator !=(PlayerId a, PlayerId b)
 		{
 			return a.Part1 != b.Part1 || a.Part2 != b.Part2 || a.Part3 != b.Part3 || a.Part4 != b.Part4;
 		}
 
-		// Token: 0x0600001F RID: 31 RVA: 0x000027B8 File Offset: 0x000009B8
 		public override bool Equals(object o)
 		{
 			if (o != null && o is PlayerId)
@@ -282,7 +250,6 @@ namespace TaleWorlds.PlayerServices
 			return false;
 		}
 
-		// Token: 0x06000020 RID: 32 RVA: 0x000027E8 File Offset: 0x000009E8
 		public override int GetHashCode()
 		{
 			int hashCode = this.Part1.GetHashCode();
@@ -292,7 +259,6 @@ namespace TaleWorlds.PlayerServices
 			return hashCode ^ hashCode2 ^ hashCode3 ^ hashCode4;
 		}
 
-		// Token: 0x06000021 RID: 33 RVA: 0x00002838 File Offset: 0x00000A38
 		public static PlayerId FromString(string id)
 		{
 			if (!string.IsNullOrEmpty(id))
@@ -307,7 +273,6 @@ namespace TaleWorlds.PlayerServices
 			return default(PlayerId);
 		}
 
-		// Token: 0x06000022 RID: 34 RVA: 0x00002898 File Offset: 0x00000A98
 		public int CompareTo(PlayerId other)
 		{
 			if (this.Part1 != other.Part1)
@@ -325,37 +290,26 @@ namespace TaleWorlds.PlayerServices
 			return this.Part4.CompareTo(other.Part4);
 		}
 
-		// Token: 0x04000004 RID: 4
 		private byte _providedType;
 
-		// Token: 0x04000005 RID: 5
 		private byte _reserved1;
 
-		// Token: 0x04000006 RID: 6
 		private byte _reserved2;
 
-		// Token: 0x04000007 RID: 7
 		private byte _reserved3;
 
-		// Token: 0x04000008 RID: 8
 		private byte _reserved4;
 
-		// Token: 0x04000009 RID: 9
 		private byte _reserved5;
 
-		// Token: 0x0400000A RID: 10
 		private byte _reserved6;
 
-		// Token: 0x0400000B RID: 11
 		private byte _reserved7;
 
-		// Token: 0x0400000C RID: 12
 		private ulong _reservedBig;
 
-		// Token: 0x0400000D RID: 13
 		private ulong _id1;
 
-		// Token: 0x0400000E RID: 14
 		private ulong _id2;
 	}
 }

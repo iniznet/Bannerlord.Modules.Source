@@ -15,10 +15,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000012 RID: 18
 	public static class CharacterHelper
 	{
-		// Token: 0x06000091 RID: 145 RVA: 0x00007864 File Offset: 0x00005A64
 		public static DynamicBodyProperties GetDynamicBodyPropertiesBetweenMinMaxRange(CharacterObject character)
 		{
 			BodyProperties bodyPropertyMin = character.BodyPropertyRange.BodyPropertyMin;
@@ -35,7 +33,6 @@ namespace Helpers
 			return new DynamicBodyProperties(num7, num8, num9);
 		}
 
-		// Token: 0x06000092 RID: 146 RVA: 0x00007978 File Offset: 0x00005B78
 		public static TextObject GetReputationDescription(CharacterObject character)
 		{
 			TextObject textObject = new TextObject("{=!}{REPUTATION_SUMMARY}", null);
@@ -45,7 +42,6 @@ namespace Helpers
 			return textObject;
 		}
 
-		// Token: 0x06000093 RID: 147 RVA: 0x000079C4 File Offset: 0x00005BC4
 		[return: TupleElementNames(new string[] { "color1", "color2" })]
 		public static ValueTuple<uint, uint> GetDeterministicColorsForCharacter(CharacterObject character)
 		{
@@ -97,13 +93,11 @@ namespace Helpers
 			return new ValueTuple<uint, uint>((mapFaction9 != null) ? mapFaction9.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.KhuzaitHeroClothColors));
 		}
 
-		// Token: 0x06000094 RID: 148 RVA: 0x00007C49 File Offset: 0x00005E49
 		private static uint GetDeterministicColorFromListForHero(Hero hero, uint[] colors)
 		{
 			return colors.ElementAt(hero.RandomIntWithSeed(39U) % colors.Length);
 		}
 
-		// Token: 0x06000095 RID: 149 RVA: 0x00007C5D File Offset: 0x00005E5D
 		public static IFaceGeneratorCustomFilter GetFaceGeneratorFilter()
 		{
 			IFacegenCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IFacegenCampaignBehavior>();
@@ -114,7 +108,6 @@ namespace Helpers
 			return campaignBehavior.GetFaceGenFilter();
 		}
 
-		// Token: 0x06000096 RID: 150 RVA: 0x00007C74 File Offset: 0x00005E74
 		public static string GetNonconversationPose(CharacterObject character)
 		{
 			if (character.HeroObject.IsGangLeader)
@@ -160,7 +153,6 @@ namespace Helpers
 			return "normal";
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x00007DEC File Offset: 0x00005FEC
 		public static string GetNonconversationFacialIdle(CharacterObject character)
 		{
 			string text = "convo_normal";
@@ -244,7 +236,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x00007FAC File Offset: 0x000061AC
 		public static string GetStandingBodyIdle(CharacterObject character)
 		{
 			HeroHelper.WillLordAttack();
@@ -425,7 +416,6 @@ namespace Helpers
 			return text;
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x000083F8 File Offset: 0x000065F8
 		public static string GetDefaultFaceIdle(CharacterObject character)
 		{
 			string text = "convo_normal";
@@ -588,7 +578,6 @@ namespace Helpers
 			return text;
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x000087F8 File Offset: 0x000069F8
 		private static int GetSuperiorityState(CharacterObject character)
 		{
 			if (Hero.MainHero.MapFaction != null && Hero.MainHero.MapFaction.Leader == Hero.MainHero && character.HeroObject.MapFaction == Hero.MainHero.MapFaction)
@@ -610,7 +599,6 @@ namespace Helpers
 			return 0;
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x000088B8 File Offset: 0x00006AB8
 		private static bool MorePowerThanPlayer(CharacterObject otherCharacter)
 		{
 			float num;
@@ -626,7 +614,6 @@ namespace Helpers
 			return num > totalStrength;
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00008914 File Offset: 0x00006B14
 		public static CharacterObject FindUpgradeRootOf(CharacterObject character)
 		{
 			foreach (CharacterObject characterObject in CharacterObject.All)
@@ -639,7 +626,6 @@ namespace Helpers
 			return character;
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00008978 File Offset: 0x00006B78
 		private static bool UpgradeTreeContains(CharacterObject rootTroop, CharacterObject baseTroop, CharacterObject character)
 		{
 			if (baseTroop == character)
@@ -660,7 +646,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x0600009E RID: 158 RVA: 0x000089C0 File Offset: 0x00006BC0
 		public static ItemObject GetDefaultWeapon(CharacterObject affectorCharacter)
 		{
 			for (int i = 0; i <= 4; i++)
@@ -675,7 +660,6 @@ namespace Helpers
 			return null;
 		}
 
-		// Token: 0x0600009F RID: 159 RVA: 0x00008A20 File Offset: 0x00006C20
 		public static bool CanUseItemBasedOnSkill(BasicCharacterObject currentCharacter, EquipmentElement itemRosterElement)
 		{
 			ItemObject item = itemRosterElement.Item;
@@ -683,20 +667,17 @@ namespace Helpers
 			return (relevantSkill == null || currentCharacter.GetSkillValue(relevantSkill) >= item.Difficulty) && (!currentCharacter.IsFemale || !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByFemale)) && (currentCharacter.IsFemale || !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale));
 		}
 
-		// Token: 0x060000A0 RID: 160 RVA: 0x00008A8C File Offset: 0x00006C8C
 		public static int GetPartyMemberFaceSeed(PartyBase party, BasicCharacterObject character, int rank)
 		{
 			int num = party.Index * 171 + character.StringId.GetDeterministicHashCode() * 6791 + rank * 197;
 			return ((num >= 0) ? num : (-num)) % 2000;
 		}
 
-		// Token: 0x060000A1 RID: 161 RVA: 0x00008ACF File Offset: 0x00006CCF
 		public static int GetDefaultFaceSeed(BasicCharacterObject character, int rank)
 		{
 			return character.GetDefaultFaceSeed(rank);
 		}
 
-		// Token: 0x060000A2 RID: 162 RVA: 0x00008AD8 File Offset: 0x00006CD8
 		public static bool SearchForFormationInTroopTree(CharacterObject baseTroop, FormationClass formation)
 		{
 			if (baseTroop.UpgradeTargets.Length == 0 && baseTroop.DefaultFormationClass == formation)
@@ -713,7 +694,6 @@ namespace Helpers
 			return false;
 		}
 
-		// Token: 0x060000A3 RID: 163 RVA: 0x00008B2C File Offset: 0x00006D2C
 		public static IEnumerable<CharacterObject> GetTroopTree(CharacterObject baseTroop, float minTier = -1f, float maxTier = 3.4028235E+38f)
 		{
 			MBQueue<CharacterObject> queue = new MBQueue<CharacterObject>();
@@ -734,7 +714,6 @@ namespace Helpers
 			yield break;
 		}
 
-		// Token: 0x060000A4 RID: 164 RVA: 0x00008B4C File Offset: 0x00006D4C
 		public static void DeleteQuestCharacter(CharacterObject character, Settlement questSettlement)
 		{
 			if (questSettlement != null)

@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 {
-	// Token: 0x02000024 RID: 36
 	public class PartyCompositionVM : ViewModel
 	{
-		// Token: 0x060002CD RID: 717 RVA: 0x00012C50 File Offset: 0x00010E50
 		public PartyCompositionVM()
 		{
 			this.InfantryHint = new HintViewModel(new TextObject("{=1Bm1Wk1v}Infantry", null), null);
@@ -19,7 +17,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			this.HorseArcherHint = new HintViewModel(new TextObject("{=I1CMeL9R}Mounted Archers", null), null);
 		}
 
-		// Token: 0x060002CE RID: 718 RVA: 0x00012CC0 File Offset: 0x00010EC0
 		public void OnTroopRemoved(FormationClass formationClass, int count)
 		{
 			if (this.IsInfantry(formationClass))
@@ -40,7 +37,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x060002CF RID: 719 RVA: 0x00012D2C File Offset: 0x00010F2C
 		public void OnTroopAdded(FormationClass formationClass, int count)
 		{
 			if (this.IsInfantry(formationClass))
@@ -61,7 +57,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x060002D0 RID: 720 RVA: 0x00012D98 File Offset: 0x00010F98
 		public void RefreshCounts(MBBindingList<PartyCharacterVM> list)
 		{
 			int num = 0;
@@ -95,33 +90,26 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			this.HorseArcherCount = num4;
 		}
 
-		// Token: 0x060002D1 RID: 721 RVA: 0x00012E59 File Offset: 0x00011059
 		private bool IsInfantry(FormationClass formationClass)
 		{
 			return formationClass == FormationClass.Infantry || formationClass == FormationClass.HeavyInfantry || formationClass == FormationClass.NumberOfDefaultFormations;
 		}
 
-		// Token: 0x060002D2 RID: 722 RVA: 0x00012E68 File Offset: 0x00011068
 		private bool IsRanged(FormationClass formationClass)
 		{
 			return formationClass == FormationClass.Ranged;
 		}
 
-		// Token: 0x060002D3 RID: 723 RVA: 0x00012E6E File Offset: 0x0001106E
 		private bool IsCavalry(FormationClass formationClass)
 		{
 			return formationClass == FormationClass.Cavalry || formationClass == FormationClass.LightCavalry || formationClass == FormationClass.HeavyCavalry;
 		}
 
-		// Token: 0x060002D4 RID: 724 RVA: 0x00012E7E File Offset: 0x0001107E
 		private bool IsHorseArcher(FormationClass formationClass)
 		{
 			return formationClass == FormationClass.HorseArcher;
 		}
 
-		// Token: 0x170000C0 RID: 192
-		// (get) Token: 0x060002D5 RID: 725 RVA: 0x00012E84 File Offset: 0x00011084
-		// (set) Token: 0x060002D6 RID: 726 RVA: 0x00012E8C File Offset: 0x0001108C
 		[DataSourceProperty]
 		public int InfantryCount
 		{
@@ -139,9 +127,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C1 RID: 193
-		// (get) Token: 0x060002D7 RID: 727 RVA: 0x00012EAA File Offset: 0x000110AA
-		// (set) Token: 0x060002D8 RID: 728 RVA: 0x00012EB2 File Offset: 0x000110B2
 		[DataSourceProperty]
 		public int RangedCount
 		{
@@ -159,9 +144,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C2 RID: 194
-		// (get) Token: 0x060002D9 RID: 729 RVA: 0x00012ED0 File Offset: 0x000110D0
-		// (set) Token: 0x060002DA RID: 730 RVA: 0x00012ED8 File Offset: 0x000110D8
 		[DataSourceProperty]
 		public int CavalryCount
 		{
@@ -179,9 +161,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C3 RID: 195
-		// (get) Token: 0x060002DB RID: 731 RVA: 0x00012EF6 File Offset: 0x000110F6
-		// (set) Token: 0x060002DC RID: 732 RVA: 0x00012EFE File Offset: 0x000110FE
 		[DataSourceProperty]
 		public int HorseArcherCount
 		{
@@ -199,9 +178,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C4 RID: 196
-		// (get) Token: 0x060002DD RID: 733 RVA: 0x00012F1C File Offset: 0x0001111C
-		// (set) Token: 0x060002DE RID: 734 RVA: 0x00012F24 File Offset: 0x00011124
 		[DataSourceProperty]
 		public HintViewModel InfantryHint
 		{
@@ -219,9 +195,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C5 RID: 197
-		// (get) Token: 0x060002DF RID: 735 RVA: 0x00012F42 File Offset: 0x00011142
-		// (set) Token: 0x060002E0 RID: 736 RVA: 0x00012F4A File Offset: 0x0001114A
 		[DataSourceProperty]
 		public HintViewModel RangedHint
 		{
@@ -239,9 +212,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C6 RID: 198
-		// (get) Token: 0x060002E1 RID: 737 RVA: 0x00012F68 File Offset: 0x00011168
-		// (set) Token: 0x060002E2 RID: 738 RVA: 0x00012F70 File Offset: 0x00011170
 		[DataSourceProperty]
 		public HintViewModel CavalryHint
 		{
@@ -259,9 +229,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x170000C7 RID: 199
-		// (get) Token: 0x060002E3 RID: 739 RVA: 0x00012F8E File Offset: 0x0001118E
-		// (set) Token: 0x060002E4 RID: 740 RVA: 0x00012F96 File Offset: 0x00011196
 		[DataSourceProperty]
 		public HintViewModel HorseArcherHint
 		{
@@ -279,28 +246,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
-		// Token: 0x04000144 RID: 324
 		private int _infantryCount;
 
-		// Token: 0x04000145 RID: 325
 		private int _rangedCount;
 
-		// Token: 0x04000146 RID: 326
 		private int _cavalryCount;
 
-		// Token: 0x04000147 RID: 327
 		private int _horseArcherCount;
 
-		// Token: 0x04000148 RID: 328
 		private HintViewModel _infantryHint;
 
-		// Token: 0x04000149 RID: 329
 		private HintViewModel _rangedHint;
 
-		// Token: 0x0400014A RID: 330
 		private HintViewModel _cavalryHint;
 
-		// Token: 0x0400014B RID: 331
 		private HintViewModel _horseArcherHint;
 	}
 }

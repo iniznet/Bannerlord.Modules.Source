@@ -8,12 +8,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Objects.Cinematics
 {
-	// Token: 0x0200002C RID: 44
 	public class HideoutBossFightBehavior : ScriptComponentBehavior
 	{
-		// Token: 0x17000036 RID: 54
-		// (get) Token: 0x060001EF RID: 495 RVA: 0x0000D324 File Offset: 0x0000B524
-		// (set) Token: 0x060001EE RID: 494 RVA: 0x0000D314 File Offset: 0x0000B514
 		public int PerturbSeed
 		{
 			get
@@ -27,7 +23,6 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x060001F0 RID: 496 RVA: 0x0000D32C File Offset: 0x0000B52C
 		public void GetPlayerFrames(out MatrixFrame initialFrame, out MatrixFrame targetFrame, float perturbAmount = 0f)
 		{
 			this.ReSeedPerturbRng(0);
@@ -40,7 +35,6 @@ namespace SandBox.Objects.Cinematics
 			this.ComputeSpawnWorldFrame(3.1415927f, this.InnerRadius, vec, out targetFrame);
 		}
 
-		// Token: 0x060001F1 RID: 497 RVA: 0x0000D388 File Offset: 0x0000B588
 		public void GetBossFrames(out MatrixFrame initialFrame, out MatrixFrame targetFrame, float perturbAmount = 0f)
 		{
 			this.ReSeedPerturbRng(1);
@@ -53,7 +47,6 @@ namespace SandBox.Objects.Cinematics
 			this.ComputeSpawnWorldFrame(0f, this.InnerRadius, vec, out targetFrame);
 		}
 
-		// Token: 0x060001F2 RID: 498 RVA: 0x0000D3E4 File Offset: 0x0000B5E4
 		public void GetAllyFrames(out List<MatrixFrame> initialFrames, out List<MatrixFrame> targetFrames, int agentCount = 10, float agentOffsetAngle = 0.15707964f, float perturbAmount = 0f)
 		{
 			this.ReSeedPerturbRng(2);
@@ -62,7 +55,6 @@ namespace SandBox.Objects.Cinematics
 			targetFrames = this.ComputeSpawnWorldFrames(agentCount, this.OuterRadius, Vec3.Zero, 3.1415927f, agentOffsetAngle, perturbAmount).ToList<MatrixFrame>();
 		}
 
-		// Token: 0x060001F3 RID: 499 RVA: 0x0000D450 File Offset: 0x0000B650
 		public void GetBanditFrames(out List<MatrixFrame> initialFrames, out List<MatrixFrame> targetFrames, int agentCount = 10, float agentOffsetAngle = 0.15707964f, float perturbAmount = 0f)
 		{
 			this.ReSeedPerturbRng(3);
@@ -71,7 +63,6 @@ namespace SandBox.Objects.Cinematics
 			targetFrames = this.ComputeSpawnWorldFrames(agentCount, this.OuterRadius, Vec3.Zero, 0f, agentOffsetAngle, perturbAmount).ToList<MatrixFrame>();
 		}
 
-		// Token: 0x060001F4 RID: 500 RVA: 0x0000D4BC File Offset: 0x0000B6BC
 		public void GetAllyInitialFormationFrame(out MatrixFrame frame)
 		{
 			float num = 3.1415927f;
@@ -80,7 +71,6 @@ namespace SandBox.Objects.Cinematics
 			this.ComputeSpawnWorldFrame(num, outerRadius, vec, out frame);
 		}
 
-		// Token: 0x060001F5 RID: 501 RVA: 0x0000D4F0 File Offset: 0x0000B6F0
 		public void GetBanditInitialFormationFrame(out MatrixFrame frame)
 		{
 			float num = 0f;
@@ -89,14 +79,12 @@ namespace SandBox.Objects.Cinematics
 			this.ComputeSpawnWorldFrame(num, outerRadius, vec, out frame);
 		}
 
-		// Token: 0x060001F6 RID: 502 RVA: 0x0000D524 File Offset: 0x0000B724
 		public bool IsWorldPointInsideCameraVolume(in Vec3 worldPoint)
 		{
 			Vec3 vec = base.GameEntity.GetGlobalFrame().TransformToLocal(worldPoint);
 			return this.IsLocalPointInsideCameraVolume(vec);
 		}
 
-		// Token: 0x060001F7 RID: 503 RVA: 0x0000D554 File Offset: 0x0000B754
 		public bool ClampWorldPointToCameraVolume(in Vec3 worldPoint, out Vec3 clampedPoint)
 		{
 			MatrixFrame globalFrame = base.GameEntity.GetGlobalFrame();
@@ -116,7 +104,6 @@ namespace SandBox.Objects.Cinematics
 			return flag;
 		}
 
-		// Token: 0x060001F8 RID: 504 RVA: 0x0000D5FC File Offset: 0x0000B7FC
 		protected override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -132,7 +119,6 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x060001F9 RID: 505 RVA: 0x0000D668 File Offset: 0x0000B868
 		protected override void OnEditorTick(float dt)
 		{
 			base.OnEditorTick(dt);
@@ -147,14 +133,12 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x060001FA RID: 506 RVA: 0x0000D6DD File Offset: 0x0000B8DD
 		protected override void OnRemoved(int removeReason)
 		{
 			base.OnRemoved(removeReason);
 			this.RemovePreview();
 		}
 
-		// Token: 0x060001FB RID: 507 RVA: 0x0000D6EC File Offset: 0x0000B8EC
 		private void UpdatePreview()
 		{
 			if (this._previewEntities == null)
@@ -209,7 +193,6 @@ namespace SandBox.Objects.Cinematics
 			this._previewCamera.SetFrame(ref frame);
 		}
 
-		// Token: 0x060001FC RID: 508 RVA: 0x0000D95C File Offset: 0x0000BB5C
 		private void GeneratePreview()
 		{
 			Scene scene = base.GameEntity.Scene;
@@ -252,7 +235,6 @@ namespace SandBox.Objects.Cinematics
 			this._previewEntities.AddChild(this._previewCamera, false);
 		}
 
-		// Token: 0x060001FD RID: 509 RVA: 0x0000DAE8 File Offset: 0x0000BCE8
 		private void RemovePreview()
 		{
 			if (this._previewEntities != null)
@@ -261,7 +243,6 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x060001FE RID: 510 RVA: 0x0000DB05 File Offset: 0x0000BD05
 		private void TogglePreviewVisibility(bool value)
 		{
 			if (this._previewEntities != null)
@@ -270,7 +251,6 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x060001FF RID: 511 RVA: 0x0000DB24 File Offset: 0x0000BD24
 		private void ReadPrefabEntity(GameEntity entity, out GameEntity initialEntity, out GameEntity targetEntity)
 		{
 			GameEntity firstChildEntityWithTag = MBExtensions.GetFirstChildEntityWithTag(entity, "initial_frame");
@@ -287,7 +267,6 @@ namespace SandBox.Objects.Cinematics
 			targetEntity = firstChildEntityWithTag2;
 		}
 
-		// Token: 0x06000200 RID: 512 RVA: 0x0000DBB4 File Offset: 0x0000BDB4
 		private void FindRadialPlacementFrame(float angle, float radius, out MatrixFrame frame)
 		{
 			float num;
@@ -300,7 +279,6 @@ namespace SandBox.Objects.Cinematics
 			frame = new MatrixFrame(mat, vec2);
 		}
 
-		// Token: 0x06000201 RID: 513 RVA: 0x0000DC28 File Offset: 0x0000BE28
 		private void SnapOnClosestCollider(ref MatrixFrame frameWs)
 		{
 			Scene scene = base.GameEntity.Scene;
@@ -316,13 +294,11 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x06000202 RID: 514 RVA: 0x0000DC93 File Offset: 0x0000BE93
 		private void ReSeedPerturbRng(int seedOffset = 0)
 		{
 			this._perturbRng = new Random(this._perturbSeed + seedOffset);
 		}
 
-		// Token: 0x06000203 RID: 515 RVA: 0x0000DCA8 File Offset: 0x0000BEA8
 		private void ComputeSpawnWorldFrame(float localAngle, float localRadius, in Vec3 localOffset, out MatrixFrame worldFrame)
 		{
 			MatrixFrame matrixFrame;
@@ -332,7 +308,6 @@ namespace SandBox.Objects.Cinematics
 			this.SnapOnClosestCollider(ref worldFrame);
 		}
 
-		// Token: 0x06000204 RID: 516 RVA: 0x0000DCFF File Offset: 0x0000BEFF
 		private IEnumerable<MatrixFrame> ComputeSpawnWorldFrames(int spawnCount, float localRadius, Vec3 localOffset, float localBaseAngle, float localOffsetAngle, float localPerturbAmount = 0f)
 		{
 			float[] localPlacementAngles = new float[]
@@ -358,7 +333,6 @@ namespace SandBox.Objects.Cinematics
 			yield break;
 		}
 
-		// Token: 0x06000205 RID: 517 RVA: 0x0000DD3C File Offset: 0x0000BF3C
 		private void ComputePerturbedSpawnOffset(float perturbAmount, out Vec3 perturbVector)
 		{
 			perturbVector = Vec3.Zero;
@@ -373,7 +347,6 @@ namespace SandBox.Objects.Cinematics
 			}
 		}
 
-		// Token: 0x06000206 RID: 518 RVA: 0x0000DD90 File Offset: 0x0000BF90
 		private bool IsLocalPointInsideCameraVolume(in Vec3 localPoint)
 		{
 			float num = 5f;
@@ -381,89 +354,60 @@ namespace SandBox.Objects.Cinematics
 			return localPoint.x >= -num && localPoint.x <= num && localPoint.y >= -num2 && localPoint.y <= num2 && localPoint.z >= 0f && localPoint.z <= 5f;
 		}
 
-		// Token: 0x040000D1 RID: 209
 		private const int PreviewPerturbSeed = 0;
 
-		// Token: 0x040000D2 RID: 210
 		private const float PreviewPerturbAmount = 0.25f;
 
-		// Token: 0x040000D3 RID: 211
 		private const int PreviewTroopCount = 10;
 
-		// Token: 0x040000D4 RID: 212
 		private const float PreviewPlacementAngle = 0.15707964f;
 
-		// Token: 0x040000D5 RID: 213
 		private const string InitialFrameTag = "initial_frame";
 
-		// Token: 0x040000D6 RID: 214
 		private const string TargetFrameTag = "target_frame";
 
-		// Token: 0x040000D7 RID: 215
 		private const string BossPreviewPrefab = "hideout_boss_fight_preview_boss";
 
-		// Token: 0x040000D8 RID: 216
 		private const string PlayerPreviewPrefab = "hideout_boss_fight_preview_player";
 
-		// Token: 0x040000D9 RID: 217
 		private const string AllyPreviewPrefab = "hideout_boss_fight_preview_ally";
 
-		// Token: 0x040000DA RID: 218
 		private const string BanditPreviewPrefab = "hideout_boss_fight_preview_bandit";
 
-		// Token: 0x040000DB RID: 219
 		private const string PreviewCameraPrefab = "hideout_boss_fight_camera_preview";
 
-		// Token: 0x040000DC RID: 220
 		public const float MaxCameraHeight = 5f;
 
-		// Token: 0x040000DD RID: 221
 		public const float MaxCameraWidth = 10f;
 
-		// Token: 0x040000DE RID: 222
 		public float InnerRadius = 2.5f;
 
-		// Token: 0x040000DF RID: 223
 		public float OuterRadius = 6f;
 
-		// Token: 0x040000E0 RID: 224
 		public float WalkDistance = 3f;
 
-		// Token: 0x040000E1 RID: 225
 		public bool ShowPreview;
 
-		// Token: 0x040000E2 RID: 226
 		private int _perturbSeed;
 
-		// Token: 0x040000E3 RID: 227
 		private Random _perturbRng = new Random(0);
 
-		// Token: 0x040000E4 RID: 228
 		private MatrixFrame _previousEntityFrame = MatrixFrame.Identity;
 
-		// Token: 0x040000E5 RID: 229
 		private GameEntity _previewEntities;
 
-		// Token: 0x040000E6 RID: 230
 		private List<HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo> _previewAllies = new List<HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo>();
 
-		// Token: 0x040000E7 RID: 231
 		private List<HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo> _previewBandits = new List<HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo>();
 
-		// Token: 0x040000E8 RID: 232
 		private HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo _previewBoss = HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo.Invalid;
 
-		// Token: 0x040000E9 RID: 233
 		private HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo _previewPlayer = HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo.Invalid;
 
-		// Token: 0x040000EA RID: 234
 		private GameEntity _previewCamera;
 
-		// Token: 0x02000106 RID: 262
 		private readonly struct HideoutBossFightPreviewEntityInfo
 		{
-			// Token: 0x170000E3 RID: 227
-			// (get) Token: 0x06000CAD RID: 3245 RVA: 0x00061C7B File Offset: 0x0005FE7B
 			public static HideoutBossFightBehavior.HideoutBossFightPreviewEntityInfo Invalid
 			{
 				get
@@ -472,8 +416,6 @@ namespace SandBox.Objects.Cinematics
 				}
 			}
 
-			// Token: 0x170000E4 RID: 228
-			// (get) Token: 0x06000CAE RID: 3246 RVA: 0x00061C85 File Offset: 0x0005FE85
 			public bool IsValid
 			{
 				get
@@ -482,7 +424,6 @@ namespace SandBox.Objects.Cinematics
 				}
 			}
 
-			// Token: 0x06000CAF RID: 3247 RVA: 0x00061C93 File Offset: 0x0005FE93
 			public HideoutBossFightPreviewEntityInfo(GameEntity baseEntity, GameEntity initialEntity, GameEntity targetEntity)
 			{
 				this.BaseEntity = baseEntity;
@@ -490,26 +431,18 @@ namespace SandBox.Objects.Cinematics
 				this.TargetEntity = targetEntity;
 			}
 
-			// Token: 0x04000515 RID: 1301
 			public readonly GameEntity BaseEntity;
 
-			// Token: 0x04000516 RID: 1302
 			public readonly GameEntity InitialEntity;
 
-			// Token: 0x04000517 RID: 1303
 			public readonly GameEntity TargetEntity;
 		}
 
-		// Token: 0x02000107 RID: 263
 		private enum HideoutSeedPerturbOffset
 		{
-			// Token: 0x04000519 RID: 1305
 			Player,
-			// Token: 0x0400051A RID: 1306
 			Boss,
-			// Token: 0x0400051B RID: 1307
 			Ally,
-			// Token: 0x0400051C RID: 1308
 			Bandit
 		}
 	}

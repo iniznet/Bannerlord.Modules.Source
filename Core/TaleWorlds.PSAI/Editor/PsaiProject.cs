@@ -8,22 +8,12 @@ using psai.net;
 
 namespace psai.Editor
 {
-	// Token: 0x02000008 RID: 8
 	public class PsaiProject : ICloneable
 	{
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x0600005F RID: 95 RVA: 0x00002E30 File Offset: 0x00001030
-		// (set) Token: 0x06000060 RID: 96 RVA: 0x00002E38 File Offset: 0x00001038
 		public string InitialExportDirectory { get; set; }
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x06000061 RID: 97 RVA: 0x00002E41 File Offset: 0x00001041
-		// (set) Token: 0x06000062 RID: 98 RVA: 0x00002E49 File Offset: 0x00001049
 		public string SerializedByProtocolVersion { get; set; }
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x06000063 RID: 99 RVA: 0x00002E52 File Offset: 0x00001052
-		// (set) Token: 0x06000064 RID: 100 RVA: 0x00002E5A File Offset: 0x0000105A
 		public ProjectProperties Properties
 		{
 			get
@@ -36,9 +26,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x06000065 RID: 101 RVA: 0x00002E63 File Offset: 0x00001063
-		// (set) Token: 0x06000066 RID: 102 RVA: 0x00002E6B File Offset: 0x0000106B
 		public List<Theme> Themes
 		{
 			get
@@ -51,14 +38,12 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x06000067 RID: 103 RVA: 0x00002E74 File Offset: 0x00001074
 		public void Init()
 		{
 			this._projectProperties = new ProjectProperties();
 			this._themes.Clear();
 		}
 
-		// Token: 0x06000068 RID: 104 RVA: 0x00002E8C File Offset: 0x0000108C
 		public static PsaiProject LoadProjectFromStream(Stream stream)
 		{
 			PsaiProject psaiProject = null;
@@ -76,7 +61,6 @@ namespace psai.Editor
 			return psaiProject;
 		}
 
-		// Token: 0x06000069 RID: 105 RVA: 0x00002ED4 File Offset: 0x000010D4
 		public static PsaiProject LoadProjectFromXmlFile(string filename)
 		{
 			PsaiProject psaiProject;
@@ -99,7 +83,6 @@ namespace psai.Editor
 			return psaiProject;
 		}
 
-		// Token: 0x0600006A RID: 106 RVA: 0x00002F0C File Offset: 0x0000110C
 		public void SaveAsXmlFile(string filename)
 		{
 			this.PrepareForXmlSerialization();
@@ -115,12 +98,10 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x0600006B RID: 107 RVA: 0x00002F4C File Offset: 0x0000114C
 		public void Report(bool reportGroups, bool reportSegments)
 		{
 		}
 
-		// Token: 0x0600006C RID: 108 RVA: 0x00002F50 File Offset: 0x00001150
 		public bool ConvertProjectFile_From_Legacy_To_0_9_12(string pathToProjectFile)
 		{
 			if (File.Exists(pathToProjectFile))
@@ -134,7 +115,6 @@ namespace psai.Editor
 			return false;
 		}
 
-		// Token: 0x0600006D RID: 109 RVA: 0x00002F98 File Offset: 0x00001198
 		public void ReconstructReferencesAfterXmlDeserialization()
 		{
 			foreach (Theme theme in this._themes)
@@ -227,7 +207,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x0600006E RID: 110 RVA: 0x0000348C File Offset: 0x0000168C
 		public Soundtrack BuildPsaiDotNetSoundtrackFromProject()
 		{
 			Soundtrack soundtrack = new Soundtrack();
@@ -255,7 +234,6 @@ namespace psai.Editor
 			return soundtrack;
 		}
 
-		// Token: 0x0600006F RID: 111 RVA: 0x000035CC File Offset: 0x000017CC
 		private void PrepareForXmlSerialization()
 		{
 			this.SerializedByProtocolVersion = PsaiProject.SERIALIZATION_PROTOCOL_VERSION;
@@ -327,7 +305,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x06000070 RID: 112 RVA: 0x000039F8 File Offset: 0x00001BF8
 		public HashSet<Segment> GetSegmentsOfAllThemes()
 		{
 			HashSet<Segment> hashSet = new HashSet<Segment>();
@@ -338,7 +315,6 @@ namespace psai.Editor
 			return hashSet;
 		}
 
-		// Token: 0x06000071 RID: 113 RVA: 0x00003A58 File Offset: 0x00001C58
 		public Theme GetThemeById(int themeId)
 		{
 			foreach (Theme theme in this.Themes)
@@ -351,7 +327,6 @@ namespace psai.Editor
 			return null;
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x00003AB4 File Offset: 0x00001CB4
 		public Segment GetSnippetById(int id)
 		{
 			foreach (Theme theme in this.Themes)
@@ -367,7 +342,6 @@ namespace psai.Editor
 			return null;
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x00003B4C File Offset: 0x00001D4C
 		public Group GetGroupBySerializationId(int id)
 		{
 			foreach (Theme theme in this._themes)
@@ -383,13 +357,11 @@ namespace psai.Editor
 			return null;
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x00003BE4 File Offset: 0x00001DE4
 		public void AddPsaiMusicEntity(PsaiMusicEntity entity)
 		{
 			this.AddPsaiMusicEntity(entity, -1);
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00003BF0 File Offset: 0x00001DF0
 		public void AddPsaiMusicEntity(PsaiMusicEntity entity, int targetIndex)
 		{
 			if (entity is Segment)
@@ -425,7 +397,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x00003CA8 File Offset: 0x00001EA8
 		public void DeleteMusicEntity(PsaiMusicEntity entity)
 		{
 			if (entity is Segment)
@@ -490,7 +461,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x00003E70 File Offset: 0x00002070
 		public int GetHighestSegmentId()
 		{
 			int num = 0;
@@ -504,7 +474,6 @@ namespace psai.Editor
 			return num;
 		}
 
-		// Token: 0x06000078 RID: 120 RVA: 0x00003ED0 File Offset: 0x000020D0
 		public int GetNextFreeSnippetId(int idToStartSearchFrom)
 		{
 			int num = idToStartSearchFrom;
@@ -519,7 +488,6 @@ namespace psai.Editor
 			return num;
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x00003EF8 File Offset: 0x000020F8
 		public HashSet<Group> GetGroupsOfAllThemes()
 		{
 			HashSet<Group> hashSet = new HashSet<Group>();
@@ -533,19 +501,16 @@ namespace psai.Editor
 			return hashSet;
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00003F8C File Offset: 0x0000218C
 		public bool CheckIfSnippetIsManualBridgeSnippetForSourceGroup(Segment snippet, Group sourceGroup)
 		{
 			return sourceGroup.ManualBridgeSnippetsOfTargetGroups.Contains(snippet);
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x00003F9A File Offset: 0x0000219A
 		public bool CheckIfThereIsAtLeastOneBridgeSnippetFromSourceGroupToTargetGroup(Group sourceGroup, Group targetGroup)
 		{
 			return targetGroup.ContainsAtLeastOneAutomaticBridgeSegment() || targetGroup.ContainsAtLeastOneManualBridgeSegmentForSourceGroup(sourceGroup);
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00003FB0 File Offset: 0x000021B0
 		public bool CheckIfSnippetIsManualBridgeSnippetToAnyGroup(Segment snippet, bool getGroups, out List<Group> groups)
 		{
 			groups = new List<Group>();
@@ -566,7 +531,6 @@ namespace psai.Editor
 			return groups.Count > 0;
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00004068 File Offset: 0x00002268
 		public void DoUpdateAllParentThemeIdsAndGroupsOfChildPsaiEntities()
 		{
 			foreach (Theme theme in this.Themes)
@@ -583,7 +547,6 @@ namespace psai.Editor
 			}
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00004148 File Offset: 0x00002348
 		public int GetNextFreeThemeId(int idToStartSearchFrom)
 		{
 			int num = idToStartSearchFrom;
@@ -598,7 +561,6 @@ namespace psai.Editor
 			return num;
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00004170 File Offset: 0x00002370
 		public bool CheckIfThemeIdIsInUse(int themeId)
 		{
 			using (List<Theme>.Enumerator enumerator = this.Themes.GetEnumerator())
@@ -614,7 +576,6 @@ namespace psai.Editor
 			return false;
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x000041CC File Offset: 0x000023CC
 		public List<Segment> GetSnippetsById(int id)
 		{
 			List<Segment> list = new List<Segment>();
@@ -628,7 +589,6 @@ namespace psai.Editor
 			return list;
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x00004230 File Offset: 0x00002430
 		public object Clone()
 		{
 			PsaiProject psaiProject = new PsaiProject();
@@ -720,16 +680,12 @@ namespace psai.Editor
 			return psaiProject;
 		}
 
-		// Token: 0x04000033 RID: 51
 		public static readonly string SERIALIZATION_PROTOCOL_VERSION = "1.0";
 
-		// Token: 0x04000034 RID: 52
 		private ProjectProperties _projectProperties = new ProjectProperties();
 
-		// Token: 0x04000035 RID: 53
 		private List<Theme> _themes = new List<Theme>();
 
-		// Token: 0x04000036 RID: 54
 		private static XmlSerializer _serializer = new XmlSerializer(typeof(PsaiProject));
 	}
 }

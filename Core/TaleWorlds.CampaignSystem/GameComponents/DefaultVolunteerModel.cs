@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x0200014D RID: 333
 	public class DefaultVolunteerModel : VolunteerModel
 	{
-		// Token: 0x06001815 RID: 6165 RVA: 0x0007A3E0 File Offset: 0x000785E0
 		public override int MaximumIndexHeroCanRecruitFromHero(Hero buyerHero, Hero sellerHero, int useValueAsRelation = -101)
 		{
 			Settlement currentSettlement = sellerHero.CurrentSettlement;
@@ -72,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Min(6, MathF.Max(0, num + num3 + num7 + num2 + num4 + num5 + num8));
 		}
 
-		// Token: 0x06001816 RID: 6166 RVA: 0x0007A648 File Offset: 0x00078848
 		public override float GetDailyVolunteerProductionProbability(Hero hero, int index, Settlement settlement)
 		{
 			float num = 0.7f;
@@ -108,7 +105,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x06001817 RID: 6167 RVA: 0x0007A818 File Offset: 0x00078A18
 		public override CharacterObject GetBasicVolunteer(Hero sellerHero)
 		{
 			if (sellerHero.IsRuralNotable && sellerHero.CurrentSettlement.Village.Bound.IsCastle)
@@ -118,15 +114,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return sellerHero.Culture.BasicTroop;
 		}
 
-		// Token: 0x06001818 RID: 6168 RVA: 0x0007A850 File Offset: 0x00078A50
 		public override bool CanHaveRecruits(Hero hero)
 		{
 			Occupation occupation = hero.Occupation;
 			return occupation == Occupation.Mercenary || occupation - Occupation.Artisan <= 5;
 		}
 
-		// Token: 0x17000660 RID: 1632
-		// (get) Token: 0x06001819 RID: 6169 RVA: 0x0007A872 File Offset: 0x00078A72
 		public override int MaxVolunteerTier
 		{
 			get

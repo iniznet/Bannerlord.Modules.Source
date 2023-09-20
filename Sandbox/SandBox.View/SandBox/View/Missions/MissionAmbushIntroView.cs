@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 
 namespace SandBox.View.Missions
 {
-	// Token: 0x0200000F RID: 15
 	public class MissionAmbushIntroView : MissionView
 	{
-		// Token: 0x06000057 RID: 87 RVA: 0x000044A0 File Offset: 0x000026A0
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -23,7 +21,6 @@ namespace SandBox.View.Missions
 			this._ambushIntroLogic.StartIntroAction = new Action(this.StartIntro);
 		}
 
-		// Token: 0x06000058 RID: 88 RVA: 0x00004574 File Offset: 0x00002774
 		public void StartIntro()
 		{
 			this._started = true;
@@ -33,7 +30,6 @@ namespace SandBox.View.Missions
 			base.MissionScreen.CustomCamera = this._camera;
 		}
 
-		// Token: 0x06000059 RID: 89 RVA: 0x000045CC File Offset: 0x000027CC
 		public override void OnMissionTick(float dt)
 		{
 			if (this._firstTick)
@@ -57,7 +53,6 @@ namespace SandBox.View.Missions
 			this.CleanUp();
 		}
 
-		// Token: 0x0600005A RID: 90 RVA: 0x00004691 File Offset: 0x00002891
 		private void CleanUp()
 		{
 			base.MissionScreen.CustomCamera = null;
@@ -65,37 +60,26 @@ namespace SandBox.View.Missions
 			base.Mission.RemoveMissionBehavior(this);
 		}
 
-		// Token: 0x0400001B RID: 27
 		private AmbushMissionController _ambushMissionController;
 
-		// Token: 0x0400001C RID: 28
 		private AmbushIntroLogic _ambushIntroLogic;
 
-		// Token: 0x0400001D RID: 29
 		private bool _isPlayerAmbusher;
 
-		// Token: 0x0400001E RID: 30
 		private MatrixFrame _cameraStart;
 
-		// Token: 0x0400001F RID: 31
 		private MatrixFrame _cameraEnd;
 
-		// Token: 0x04000020 RID: 32
 		private float _cameraMoveSpeed = 0.1f;
 
-		// Token: 0x04000021 RID: 33
 		private float _cameraLerping;
 
-		// Token: 0x04000022 RID: 34
 		private Camera _camera;
 
-		// Token: 0x04000023 RID: 35
 		public Action IntroEndAction;
 
-		// Token: 0x04000024 RID: 36
 		private bool _started;
 
-		// Token: 0x04000025 RID: 37
 		private bool _firstTick = true;
 	}
 }

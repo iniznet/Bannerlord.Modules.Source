@@ -11,11 +11,9 @@ using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace SandBox
 {
-	// Token: 0x0200000F RID: 15
 	[MissionManager]
 	public static class TestMissions
 	{
-		// Token: 0x060000BD RID: 189 RVA: 0x0000629A File Offset: 0x0000449A
 		[MissionMethod]
 		public static Mission OpenEquipmentTestMission(string scene)
 		{
@@ -31,7 +29,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000BE RID: 190 RVA: 0x000062D0 File Offset: 0x000044D0
 		[MissionMethod(UsableByEditor = true)]
 		public static Mission OpenFacialAnimTestMission(string scene, string sceneLevels = "")
 		{
@@ -55,7 +52,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000BF RID: 191 RVA: 0x00006368 File Offset: 0x00004568
 		[MissionMethod(UsableByEditor = true)]
 		public static void OpenConversationMissionForEditor(string scene, string sceneLevels)
 		{
@@ -75,7 +71,6 @@ namespace SandBox
 			}, true, true);
 		}
 
-		// Token: 0x060000C0 RID: 192 RVA: 0x000063C4 File Offset: 0x000045C4
 		[MissionMethod(UsableByEditor = true)]
 		public static Mission OpenSimpleMountedPlayerMission(string scene, string sceneLevels)
 		{

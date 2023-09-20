@@ -5,22 +5,18 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200023B RID: 571
 	public static class WeaponComponentMissionExtensions
 	{
-		// Token: 0x06001F55 RID: 8021 RVA: 0x0006EFE9 File Offset: 0x0006D1E9
 		public static int GetItemUsageIndex(this WeaponComponentData weaponComponentData)
 		{
 			return MBItem.GetItemUsageIndex(weaponComponentData.ItemUsage);
 		}
 
-		// Token: 0x06001F56 RID: 8022 RVA: 0x0006EFF6 File Offset: 0x0006D1F6
 		public static Vec3 GetWeaponCenterOfMass(this PhysicsShape body)
 		{
 			return WeaponComponentMissionExtensions.CalculateCenterOfMass(body);
 		}
 
-		// Token: 0x06001F57 RID: 8023 RVA: 0x0006F000 File Offset: 0x0006D200
 		[MBCallback]
 		internal static Vec3 CalculateCenterOfMass(PhysicsShape body)
 		{

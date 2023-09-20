@@ -16,11 +16,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
 
 namespace SandBox.ViewModelCollection
 {
-	// Token: 0x02000006 RID: 6
 	public class SPScoreboardVM : ScoreboardBaseVM, IBattleObserver
 	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000023 RID: 35 RVA: 0x0000416C File Offset: 0x0000236C
 		private bool _isPlayerDefendingSiege
 		{
 			get
@@ -30,14 +27,12 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00004192 File Offset: 0x00002392
 		public SPScoreboardVM(BattleSimulation simulation)
 		{
 			this._battleSimulation = simulation;
 			this.BattleResults = new MBBindingList<BattleResultVM>();
 		}
 
-		// Token: 0x06000025 RID: 37 RVA: 0x000041AC File Offset: 0x000023AC
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -47,7 +42,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000026 RID: 38 RVA: 0x000041D4 File Offset: 0x000023D4
 		public override void Initialize(IMissionScreen missionScreen, Mission mission, Action releaseSimulationSources, Action<bool> onToggle)
 		{
 			base.Initialize(missionScreen, mission, releaseSimulationSources, onToggle);
@@ -129,7 +123,6 @@ namespace SandBox.ViewModelCollection
 			base.MissionTimeInSeconds = -1;
 		}
 
-		// Token: 0x06000027 RID: 39 RVA: 0x000045C8 File Offset: 0x000027C8
 		public override void Tick(float dt)
 		{
 			SallyOutEndLogic missionBehavior = Mission.Current.GetMissionBehavior<SallyOutEndLogic>();
@@ -161,7 +154,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000028 RID: 40 RVA: 0x000046A2 File Offset: 0x000028A2
 		public override void ExecutePlayAction()
 		{
 			if (base.IsSimulation)
@@ -170,7 +162,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000029 RID: 41 RVA: 0x000046B7 File Offset: 0x000028B7
 		public override void ExecuteFastForwardAction()
 		{
 			if (!base.IsSimulation)
@@ -186,7 +177,6 @@ namespace SandBox.ViewModelCollection
 			this._battleSimulation.FastForward();
 		}
 
-		// Token: 0x0600002A RID: 42 RVA: 0x000046F1 File Offset: 0x000028F1
 		public override void ExecuteEndSimulationAction()
 		{
 			if (base.IsSimulation)
@@ -195,13 +185,11 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600002B RID: 43 RVA: 0x00004706 File Offset: 0x00002906
 		public override void ExecuteQuitAction()
 		{
 			this.OnExitBattle();
 		}
 
-		// Token: 0x0600002C RID: 44 RVA: 0x00004710 File Offset: 0x00002910
 		private void GetBattleRewards(bool playerVictory)
 		{
 			this.BattleResults.Clear();
@@ -250,7 +238,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600002D RID: 45 RVA: 0x00004AA0 File Offset: 0x00002CA0
 		public void OnBattleOver()
 		{
 			ScoreboardBaseVM.BattleResultType battleResultType = -1;
@@ -321,7 +308,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600002E RID: 46 RVA: 0x00004C04 File Offset: 0x00002E04
 		public void OnExitBattle()
 		{
 			if (base.IsSimulation)
@@ -368,7 +354,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600002F RID: 47 RVA: 0x00004D38 File Offset: 0x00002F38
 		public void TroopNumberChanged(BattleSideEnum side, IBattleCombatant battleCombatant, BasicCharacterObject character, int number = 0, int numberDead = 0, int numberWounded = 0, int numberRouted = 0, int numberKilled = 0, int numberReadyToUpgrade = 0)
 		{
 			PartyBase partyBase = battleCombatant as PartyBase;
@@ -377,7 +362,6 @@ namespace SandBox.ViewModelCollection
 			base.PowerComparer.Update((double)base.Defenders.CurrentPower, (double)base.Attackers.CurrentPower, (double)base.Defenders.InitialPower, (double)base.Attackers.InitialPower);
 		}
 
-		// Token: 0x06000030 RID: 48 RVA: 0x00004DB8 File Offset: 0x00002FB8
 		public void HeroSkillIncreased(BattleSideEnum side, IBattleCombatant battleCombatant, BasicCharacterObject heroCharacter, SkillObject upgradedSkill)
 		{
 			PartyBase partyBase = battleCombatant as PartyBase;
@@ -385,7 +369,6 @@ namespace SandBox.ViewModelCollection
 			base.GetSide(side).UpdateHeroSkills(battleCombatant, flag, heroCharacter, upgradedSkill);
 		}
 
-		// Token: 0x06000031 RID: 49 RVA: 0x00004DF0 File Offset: 0x00002FF0
 		public void BattleResultsReady()
 		{
 			if (!base.IsOver)
@@ -394,7 +377,6 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000032 RID: 50 RVA: 0x00004E00 File Offset: 0x00003000
 		public void TroopSideChanged(BattleSideEnum prevSide, BattleSideEnum newSide, IBattleCombatant battleCombatant, BasicCharacterObject character)
 		{
 			SPScoreboardStatsVM spscoreboardStatsVM = base.GetSide(prevSide).RemoveTroop(battleCombatant, character);
@@ -402,9 +384,6 @@ namespace SandBox.ViewModelCollection
 			base.GetSide(newSide).AddTroop(battleCombatant, character, spscoreboardStatsVM);
 		}
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000033 RID: 51 RVA: 0x00004E3C File Offset: 0x0000303C
-		// (set) Token: 0x06000034 RID: 52 RVA: 0x00004E44 File Offset: 0x00003044
 		[DataSourceProperty]
 		public override MBBindingList<BattleResultVM> BattleResults
 		{
@@ -422,28 +401,20 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
-		// Token: 0x04000007 RID: 7
 		private readonly BattleSimulation _battleSimulation;
 
-		// Token: 0x04000008 RID: 8
 		private static readonly TextObject _renownStr = new TextObject("{=eiWQoW9j}You gained {A0} renown.", null);
 
-		// Token: 0x04000009 RID: 9
 		private static readonly TextObject _influenceStr = new TextObject("{=5zeL8sa9}You gained {A0} influence.", null);
 
-		// Token: 0x0400000A RID: 10
 		private static readonly TextObject _moraleStr = new TextObject("{=WAKz9xX8}You gained {A0} morale.", null);
 
-		// Token: 0x0400000B RID: 11
 		private static readonly TextObject _lootStr = new TextObject("{=xu5NA6AW}You earned {A0}% of the loot.", null);
 
-		// Token: 0x0400000C RID: 12
 		private static readonly TextObject _deadLordStr = new TextObject("{=gDKhs4lD}{A0} has died on the battlefield.", null);
 
-		// Token: 0x0400000D RID: 13
 		private float _missionEndScoreboardDelayTimer;
 
-		// Token: 0x0400000E RID: 14
 		private MBBindingList<BattleResultVM> _battleResults;
 	}
 }

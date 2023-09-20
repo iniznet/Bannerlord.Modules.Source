@@ -6,16 +6,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200000B RID: 11
 	public class CraftedDataView
 	{
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000046 RID: 70 RVA: 0x00003A07 File Offset: 0x00001C07
-		// (set) Token: 0x06000047 RID: 71 RVA: 0x00003A0F File Offset: 0x00001C0F
 		public WeaponDesign CraftedData { get; private set; }
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x06000048 RID: 72 RVA: 0x00003A18 File Offset: 0x00001C18
 		public MetaMesh WeaponMesh
 		{
 			get
@@ -28,8 +22,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x06000049 RID: 73 RVA: 0x00003A58 File Offset: 0x00001C58
 		public MetaMesh HolsterMesh
 		{
 			get
@@ -43,8 +35,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x0600004A RID: 74 RVA: 0x00003A80 File Offset: 0x00001C80
 		public MetaMesh HolsterMeshWithWeapon
 		{
 			get
@@ -57,8 +47,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x0600004B RID: 75 RVA: 0x00003AC0 File Offset: 0x00001CC0
 		public MetaMesh NonBatchedWeaponMesh
 		{
 			get
@@ -72,8 +60,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x0600004C RID: 76 RVA: 0x00003AE8 File Offset: 0x00001CE8
 		public MetaMesh NonBatchedHolsterMesh
 		{
 			get
@@ -87,8 +73,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x0600004D RID: 77 RVA: 0x00003B10 File Offset: 0x00001D10
 		public MetaMesh NonBatchedHolsterMeshWithWeapon
 		{
 			get
@@ -102,13 +86,11 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600004E RID: 78 RVA: 0x00003B37 File Offset: 0x00001D37
 		public CraftedDataView(WeaponDesign craftedData)
 		{
 			this.CraftedData = craftedData;
 		}
 
-		// Token: 0x0600004F RID: 79 RVA: 0x00003B46 File Offset: 0x00001D46
 		public void Clear()
 		{
 			this._weaponMesh = null;
@@ -119,7 +101,6 @@ namespace TaleWorlds.MountAndBlade.View
 			this._nonBatchedHolsterMeshWithWeapon = null;
 		}
 
-		// Token: 0x06000050 RID: 80 RVA: 0x00003B72 File Offset: 0x00001D72
 		private MetaMesh GenerateWeaponMesh(bool batchMeshes)
 		{
 			if (this.CraftedData.UsedPieces != null)
@@ -129,7 +110,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return null;
 		}
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00003B95 File Offset: 0x00001D95
 		private MetaMesh GenerateHolsterMesh()
 		{
 			if (this.CraftedData.UsedPieces != null)
@@ -139,7 +119,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return null;
 		}
 
-		// Token: 0x06000052 RID: 82 RVA: 0x00003BB1 File Offset: 0x00001DB1
 		private MetaMesh GenerateHolsterMeshWithWeapon(bool batchMeshes)
 		{
 			if (this.CraftedData.UsedPieces != null)
@@ -149,7 +128,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return null;
 		}
 
-		// Token: 0x06000053 RID: 83 RVA: 0x00003BD4 File Offset: 0x00001DD4
 		public static MetaMesh BuildWeaponMesh(WeaponDesign craftedData, float pivotDiff, bool pieceTypeHidingEnabledForHolster, bool batchAllMeshes)
 		{
 			CraftingTemplate template = craftedData.Template;
@@ -220,7 +198,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return metaMesh;
 		}
 
-		// Token: 0x06000054 RID: 84 RVA: 0x00003E00 File Offset: 0x00002000
 		public static MetaMesh BuildHolsterMesh(WeaponDesign craftedData)
 		{
 			if (craftedData.Template.UseWeaponAsHolsterMesh)
@@ -248,7 +225,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return metaMesh;
 		}
 
-		// Token: 0x06000055 RID: 85 RVA: 0x00003F20 File Offset: 0x00002120
 		public static MetaMesh BuildHolsterMeshWithWeapon(WeaponDesign craftedData, float pivotDiff, bool batchAllMeshes)
 		{
 			if (craftedData.Template.UseWeaponAsHolsterMesh)
@@ -339,22 +315,16 @@ namespace TaleWorlds.MountAndBlade.View
 			return metaMesh;
 		}
 
-		// Token: 0x0400000F RID: 15
 		private MetaMesh _weaponMesh;
 
-		// Token: 0x04000010 RID: 16
 		private MetaMesh _holsterMesh;
 
-		// Token: 0x04000011 RID: 17
 		private MetaMesh _holsterMeshWithWeapon;
 
-		// Token: 0x04000012 RID: 18
 		private MetaMesh _nonBatchedWeaponMesh;
 
-		// Token: 0x04000013 RID: 19
 		private MetaMesh _nonBatchedHolsterMesh;
 
-		// Token: 0x04000014 RID: 20
 		private MetaMesh _nonBatchedHolsterMeshWithWeapon;
 	}
 }

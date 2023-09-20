@@ -10,11 +10,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F3 RID: 243
 	public class DefaultBattleRewardModel : BattleRewardModel
 	{
-		// Token: 0x170005C7 RID: 1479
-		// (get) Token: 0x06001483 RID: 5251 RVA: 0x0005B5EC File Offset: 0x000597EC
 		public override float DestroyHideoutBannerLootChance
 		{
 			get
@@ -23,8 +20,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005C8 RID: 1480
-		// (get) Token: 0x06001484 RID: 5252 RVA: 0x0005B5F3 File Offset: 0x000597F3
 		public override float CaptureSettlementBannerLootChance
 		{
 			get
@@ -33,8 +28,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005C9 RID: 1481
-		// (get) Token: 0x06001485 RID: 5253 RVA: 0x0005B5FA File Offset: 0x000597FA
 		public override float DefeatRegularHeroBannerLootChance
 		{
 			get
@@ -43,8 +36,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005CA RID: 1482
-		// (get) Token: 0x06001486 RID: 5254 RVA: 0x0005B601 File Offset: 0x00059801
 		public override float DefeatClanLeaderBannerLootChance
 		{
 			get
@@ -53,8 +44,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005CB RID: 1483
-		// (get) Token: 0x06001487 RID: 5255 RVA: 0x0005B608 File Offset: 0x00059808
 		public override float DefeatKingdomRulerBannerLootChance
 		{
 			get
@@ -63,7 +52,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001488 RID: 5256 RVA: 0x0005B610 File Offset: 0x00059810
 		public override int GetPlayerGainedRelationAmount(MapEvent mapEvent, Hero hero)
 		{
 			MapEventSide mapEventSide = (mapEvent.AttackerSide.IsMainPartyAmongParties() ? mapEvent.AttackerSide : mapEvent.DefenderSide);
@@ -79,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x06001489 RID: 5257 RVA: 0x0005B718 File Offset: 0x00059918
 		public override ExplainedNumber CalculateRenownGain(PartyBase party, float renownValueOfBattle, float contributionShare)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(renownValueOfBattle * contributionShare, true, null);
@@ -105,7 +92,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600148A RID: 5258 RVA: 0x0005B7DC File Offset: 0x000599DC
 		public override ExplainedNumber CalculateInfluenceGain(PartyBase party, float influenceValueOfBattle, float contributionShare)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(party.MapFaction.IsKingdomFaction ? (influenceValueOfBattle * contributionShare) : 0f, true, null);
@@ -117,7 +103,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600148B RID: 5259 RVA: 0x0005B840 File Offset: 0x00059A40
 		public override ExplainedNumber CalculateMoraleGainVictory(PartyBase party, float renownValueOfBattle, float contributionShare)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0.5f + renownValueOfBattle * contributionShare * 0.5f, true, null);
@@ -132,7 +117,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0600148C RID: 5260 RVA: 0x0005B8C4 File Offset: 0x00059AC4
 		public override int CalculateGoldLossAfterDefeat(Hero partyLeaderHero)
 		{
 			float num = (float)partyLeaderHero.Gold * 0.05f;
@@ -143,14 +127,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)num;
 		}
 
-		// Token: 0x0600148D RID: 5261 RVA: 0x0005B8F0 File Offset: 0x00059AF0
 		public override EquipmentElement GetLootedItemFromTroop(CharacterObject character, float targetValue)
 		{
 			Equipment randomElement = character.AllEquipments.GetRandomElement<Equipment>();
 			return this.GetRandomItem(randomElement, targetValue);
 		}
 
-		// Token: 0x0600148E RID: 5262 RVA: 0x0005B914 File Offset: 0x00059B14
 		private EquipmentElement GetRandomItem(Equipment equipment, float targetValue = 0f)
 		{
 			int num = 0;
@@ -214,7 +196,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return default(EquipmentElement);
 		}
 
-		// Token: 0x0600148F RID: 5263 RVA: 0x0005BADC File Offset: 0x00059CDC
 		public override float GetPartySavePrisonerAsMemberShareProbability(PartyBase winnerParty, float lootAmount)
 		{
 			float num = lootAmount;
@@ -225,19 +206,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001490 RID: 5264 RVA: 0x0005BB26 File Offset: 0x00059D26
 		public override float GetExpectedLootedItemValue(CharacterObject character)
 		{
 			return 6f * (float)(character.Level * character.Level);
 		}
 
-		// Token: 0x06001491 RID: 5265 RVA: 0x0005BB3C File Offset: 0x00059D3C
 		public override float GetAITradePenalty()
 		{
 			return 0.018181818f;
 		}
 
-		// Token: 0x04000732 RID: 1842
 		private static int[] _indices = new int[12];
 	}
 }

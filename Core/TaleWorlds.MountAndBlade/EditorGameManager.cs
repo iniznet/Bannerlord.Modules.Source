@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000203 RID: 515
 	public class EditorGameManager : MBGameManager
 	{
-		// Token: 0x06001C87 RID: 7303 RVA: 0x00065854 File Offset: 0x00063A54
 		protected override void DoLoadingForGameManager(GameManagerLoadingSteps gameManagerLoadingStep, out GameManagerLoadingSteps nextStep)
 		{
 			nextStep = GameManagerLoadingSteps.None;
@@ -46,7 +44,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001C88 RID: 7304 RVA: 0x00065928 File Offset: 0x00063B28
 		public override void OnLoadFinished()
 		{
 			base.OnLoadFinished();

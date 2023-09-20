@@ -6,10 +6,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 {
-	// Token: 0x0200004A RID: 74
 	public class MultiplayerCultureSelectVM : ViewModel
 	{
-		// Token: 0x06000614 RID: 1556 RVA: 0x00019454 File Offset: 0x00017654
 		public MultiplayerCultureSelectVM(Action<BasicCultureObject> onCultureSelected, Action onClose)
 		{
 			this._onCultureSelected = onCultureSelected;
@@ -21,7 +19,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000615 RID: 1557 RVA: 0x000194D0 File Offset: 0x000176D0
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			this.SecondCultureName = this._secondCulture.Name.ToString();
 		}
 
-		// Token: 0x06000616 RID: 1558 RVA: 0x00019544 File Offset: 0x00017744
 		public void ExecuteSelectCulture(int cultureIndex)
 		{
 			if (cultureIndex == 0)
@@ -61,7 +57,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x06000617 RID: 1559 RVA: 0x0001959C File Offset: 0x0001779C
 		public void ExecuteClose()
 		{
 			Action onClose = this._onClose;
@@ -72,9 +67,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			onClose();
 		}
 
-		// Token: 0x170001CA RID: 458
-		// (get) Token: 0x06000618 RID: 1560 RVA: 0x000195AE File Offset: 0x000177AE
-		// (set) Token: 0x06000619 RID: 1561 RVA: 0x000195B6 File Offset: 0x000177B6
 		[DataSourceProperty]
 		public string GameModeText
 		{
@@ -92,9 +84,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x170001CB RID: 459
-		// (get) Token: 0x0600061A RID: 1562 RVA: 0x000195D9 File Offset: 0x000177D9
-		// (set) Token: 0x0600061B RID: 1563 RVA: 0x000195E1 File Offset: 0x000177E1
 		[DataSourceProperty]
 		public string CultureSelectionText
 		{
@@ -112,9 +101,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x170001CC RID: 460
-		// (get) Token: 0x0600061C RID: 1564 RVA: 0x00019604 File Offset: 0x00017804
-		// (set) Token: 0x0600061D RID: 1565 RVA: 0x0001960C File Offset: 0x0001780C
 		[DataSourceProperty]
 		public string FirstCultureName
 		{
@@ -132,9 +118,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x170001CD RID: 461
-		// (get) Token: 0x0600061E RID: 1566 RVA: 0x0001962F File Offset: 0x0001782F
-		// (set) Token: 0x0600061F RID: 1567 RVA: 0x00019637 File Offset: 0x00017837
 		[DataSourceProperty]
 		public string SecondCultureName
 		{
@@ -152,9 +135,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x170001CE RID: 462
-		// (get) Token: 0x06000620 RID: 1568 RVA: 0x0001965A File Offset: 0x0001785A
-		// (set) Token: 0x06000621 RID: 1569 RVA: 0x00019662 File Offset: 0x00017862
 		[DataSourceProperty]
 		public string FirstCultureCode
 		{
@@ -172,9 +152,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x170001CF RID: 463
-		// (get) Token: 0x06000622 RID: 1570 RVA: 0x00019685 File Offset: 0x00017885
-		// (set) Token: 0x06000623 RID: 1571 RVA: 0x0001968D File Offset: 0x0001788D
 		[DataSourceProperty]
 		public string SecondCultureCode
 		{
@@ -192,34 +169,24 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.TeamSelection
 			}
 		}
 
-		// Token: 0x04000311 RID: 785
 		private BasicCultureObject _firstCulture;
 
-		// Token: 0x04000312 RID: 786
 		private BasicCultureObject _secondCulture;
 
-		// Token: 0x04000313 RID: 787
 		private Action<BasicCultureObject> _onCultureSelected;
 
-		// Token: 0x04000314 RID: 788
 		private Action _onClose;
 
-		// Token: 0x04000315 RID: 789
 		private string _gameModeText;
 
-		// Token: 0x04000316 RID: 790
 		private string _cultureSelectionText;
 
-		// Token: 0x04000317 RID: 791
 		private string _firstCultureName;
 
-		// Token: 0x04000318 RID: 792
 		private string _secondCultureName;
 
-		// Token: 0x04000319 RID: 793
 		private string _firstCultureCode;
 
-		// Token: 0x0400031A RID: 794
 		private string _secondCultureCode;
 	}
 }

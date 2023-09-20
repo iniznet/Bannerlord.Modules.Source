@@ -13,16 +13,10 @@ using TaleWorlds.MountAndBlade.Objects;
 
 namespace SandBox.Objects.AreaMarkers
 {
-	// Token: 0x0200002E RID: 46
 	public class CommonAreaMarker : AreaMarker
 	{
-		// Token: 0x17000037 RID: 55
-		// (get) Token: 0x0600020F RID: 527 RVA: 0x0000E0DD File Offset: 0x0000C2DD
-		// (set) Token: 0x06000210 RID: 528 RVA: 0x0000E0E5 File Offset: 0x0000C2E5
 		public List<MatrixFrame> HiddenSpawnFrames { get; private set; }
 
-		// Token: 0x17000038 RID: 56
-		// (get) Token: 0x06000211 RID: 529 RVA: 0x0000E0EE File Offset: 0x0000C2EE
 		public override string Tag
 		{
 			get
@@ -36,13 +30,11 @@ namespace SandBox.Objects.AreaMarkers
 			}
 		}
 
-		// Token: 0x06000212 RID: 530 RVA: 0x0000E101 File Offset: 0x0000C301
 		protected override void OnInit()
 		{
 			this.HiddenSpawnFrames = new List<MatrixFrame>();
 		}
 
-		// Token: 0x06000213 RID: 531 RVA: 0x0000E110 File Offset: 0x0000C310
 		public override List<UsableMachine> GetUsableMachinesInRange(string excludeTag = null)
 		{
 			List<UsableMachine> usableMachinesInRange = base.GetUsableMachinesInRange(null);
@@ -79,7 +71,6 @@ namespace SandBox.Objects.AreaMarkers
 			return usableMachinesInRange;
 		}
 
-		// Token: 0x06000214 RID: 532 RVA: 0x0000E270 File Offset: 0x0000C470
 		public Alley GetAlley()
 		{
 			Alley alley = null;
@@ -91,7 +82,6 @@ namespace SandBox.Objects.AreaMarkers
 			return alley;
 		}
 
-		// Token: 0x06000215 RID: 533 RVA: 0x0000E2CC File Offset: 0x0000C4CC
 		public override TextObject GetName()
 		{
 			Alley alley = this.GetAlley();
@@ -102,7 +92,6 @@ namespace SandBox.Objects.AreaMarkers
 			return alley.Name;
 		}
 
-		// Token: 0x040000F1 RID: 241
 		public string Type = "";
 	}
 }

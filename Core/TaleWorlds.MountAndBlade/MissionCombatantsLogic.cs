@@ -5,11 +5,8 @@ using TaleWorlds.Core;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000272 RID: 626
 	public class MissionCombatantsLogic : MissionLogic
 	{
-		// Token: 0x17000667 RID: 1639
-		// (get) Token: 0x06002179 RID: 8569 RVA: 0x00079FD2 File Offset: 0x000781D2
 		public BattleSideEnum PlayerSide
 		{
 			get
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600217A RID: 8570 RVA: 0x00079FF0 File Offset: 0x000781F0
 		public MissionCombatantsLogic(IEnumerable<IBattleCombatant> battleCombatants, IBattleCombatant playerBattleCombatant, IBattleCombatant defenderLeaderBattleCombatant, IBattleCombatant attackerLeaderBattleCombatant, Mission.MissionTeamAITypeEnum teamAIType, bool isPlayerSergeant)
 		{
 			if (battleCombatants == null)
@@ -41,7 +37,6 @@ namespace TaleWorlds.MountAndBlade
 			this._isPlayerSergeant = isPlayerSergeant;
 		}
 
-		// Token: 0x0600217B RID: 8571 RVA: 0x0007A044 File Offset: 0x00078244
 		public Banner GetBannerForSide(BattleSideEnum side)
 		{
 			if (side != BattleSideEnum.Defender)
@@ -51,7 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._defenderLeaderBattleCombatant.Banner;
 		}
 
-		// Token: 0x0600217C RID: 8572 RVA: 0x0007A060 File Offset: 0x00078260
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -80,7 +74,6 @@ namespace TaleWorlds.MountAndBlade
 			this.AddPlayerAllyTeam(side);
 		}
 
-		// Token: 0x0600217D RID: 8573 RVA: 0x0007A0D4 File Offset: 0x000782D4
 		public override void EarlyStart()
 		{
 			Mission.Current.MissionTeamAIType = this._teamAIType;
@@ -248,13 +241,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600217E RID: 8574 RVA: 0x0007A698 File Offset: 0x00078898
 		public override void AfterStart()
 		{
 			base.Mission.SetMissionMode(MissionMode.Battle, true);
 		}
 
-		// Token: 0x0600217F RID: 8575 RVA: 0x0007A6A7 File Offset: 0x000788A7
 		public IEnumerable<IBattleCombatant> GetAllCombatants()
 		{
 			foreach (IBattleCombatant battleCombatant in this._battleCombatants)
@@ -266,21 +257,18 @@ namespace TaleWorlds.MountAndBlade
 			yield break;
 		}
 
-		// Token: 0x06002180 RID: 8576 RVA: 0x0007A6B8 File Offset: 0x000788B8
 		private void AddPlayerTeam(BattleSideEnum playerSide)
 		{
 			base.Mission.Teams.Add(playerSide, this._playerBattleCombatant.PrimaryColorPair.Item1, this._playerBattleCombatant.PrimaryColorPair.Item2, this._playerBattleCombatant.Banner, true, false, true);
 			base.Mission.PlayerTeam = ((playerSide == BattleSideEnum.Attacker) ? base.Mission.AttackerTeam : base.Mission.DefenderTeam);
 		}
 
-		// Token: 0x06002181 RID: 8577 RVA: 0x0007A72C File Offset: 0x0007892C
 		private void AddEnemyTeam(BattleSideEnum enemySide)
 		{
 			IBattleCombatant battleCombatant = ((enemySide == BattleSideEnum.Attacker) ? this._attackerLeaderBattleCombatant : this._defenderLeaderBattleCombatant);
 			base.Mission.Teams.Add(enemySide, battleCombatant.PrimaryColorPair.Item1, battleCombatant.PrimaryColorPair.Item2, battleCombatant.Banner, true, false, true);
 		}
 
-		// Token: 0x06002182 RID: 8578 RVA: 0x0007A780 File Offset: 0x00078980
 		private void AddPlayerAllyTeam(BattleSideEnum playerSide)
 		{
 			if (this._battleCombatants != null)
@@ -302,22 +290,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000C63 RID: 3171
 		private readonly IEnumerable<IBattleCombatant> _battleCombatants;
 
-		// Token: 0x04000C64 RID: 3172
 		private readonly IBattleCombatant _playerBattleCombatant;
 
-		// Token: 0x04000C65 RID: 3173
 		private readonly IBattleCombatant _defenderLeaderBattleCombatant;
 
-		// Token: 0x04000C66 RID: 3174
 		private readonly IBattleCombatant _attackerLeaderBattleCombatant;
 
-		// Token: 0x04000C67 RID: 3175
 		private readonly Mission.MissionTeamAITypeEnum _teamAIType;
 
-		// Token: 0x04000C68 RID: 3176
 		private readonly bool _isPlayerSergeant;
 	}
 }

@@ -14,11 +14,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000395 RID: 917
 	public class HeroAgentSpawnCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000CC7 RID: 3271
-		// (get) Token: 0x060036AB RID: 13995 RVA: 0x000F4430 File Offset: 0x000F2630
 		private static Location Prison
 		{
 			get
@@ -27,8 +24,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CC8 RID: 3272
-		// (get) Token: 0x060036AC RID: 13996 RVA: 0x000F4441 File Offset: 0x000F2641
 		private static Location LordsHall
 		{
 			get
@@ -37,8 +32,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CC9 RID: 3273
-		// (get) Token: 0x060036AD RID: 13997 RVA: 0x000F4452 File Offset: 0x000F2652
 		private static Location Tavern
 		{
 			get
@@ -47,8 +40,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CCA RID: 3274
-		// (get) Token: 0x060036AE RID: 13998 RVA: 0x000F4463 File Offset: 0x000F2663
 		private static Location Alley
 		{
 			get
@@ -57,8 +48,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CCB RID: 3275
-		// (get) Token: 0x060036AF RID: 13999 RVA: 0x000F4474 File Offset: 0x000F2674
 		private static Location Center
 		{
 			get
@@ -67,8 +56,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CCC RID: 3276
-		// (get) Token: 0x060036B0 RID: 14000 RVA: 0x000F4485 File Offset: 0x000F2685
 		private static Location VillageCenter
 		{
 			get
@@ -77,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B1 RID: 14001 RVA: 0x000F4498 File Offset: 0x000F2698
 		public override void RegisterEvents()
 		{
 			CampaignEvents.PrisonersChangeInSettlement.AddNonSerializedListener(this, new Action<Settlement, FlattenedTroopRoster, Hero, bool>(this.OnPrisonersChangeInSettlement));
@@ -90,12 +76,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionEnded));
 		}
 
-		// Token: 0x060036B2 RID: 14002 RVA: 0x000F455D File Offset: 0x000F275D
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060036B3 RID: 14003 RVA: 0x000F4560 File Offset: 0x000F2760
 		private void OnGovernorChanged(Town town, Hero oldGovernor, Hero newGovernor)
 		{
 			if (oldGovernor != null)
@@ -127,7 +111,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B4 RID: 14004 RVA: 0x000F4640 File Offset: 0x000F2840
 		private void OnMissionEnded(IMission mission)
 		{
 			if (LocationComplex.Current != null && PlayerEncounter.LocationEncounter != null && Settlement.CurrentSettlement != null && !Hero.MainHero.IsPrisoner && !Settlement.CurrentSettlement.IsUnderSiege)
@@ -137,7 +120,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B5 RID: 14005 RVA: 0x000F468C File Offset: 0x000F288C
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (LocationComplex.Current != null && PlayerEncounter.LocationEncounter != null)
@@ -171,7 +153,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B6 RID: 14006 RVA: 0x000F4718 File Offset: 0x000F2918
 		public void OnSettlementLeft(MobileParty mobileParty, Settlement settlement)
 		{
 			if (mobileParty != MobileParty.MainParty && MobileParty.MainParty.CurrentSettlement == settlement && mobileParty.LeaderHero != null && LocationComplex.Current != null)
@@ -184,7 +165,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B7 RID: 14007 RVA: 0x000F4769 File Offset: 0x000F2969
 		private void OnGameLoadFinished()
 		{
 			if (Settlement.CurrentSettlement != null && !Hero.MainHero.IsPrisoner && LocationComplex.Current != null && PlayerEncounter.LocationEncounter != null && !Settlement.CurrentSettlement.IsUnderSiege)
@@ -193,7 +173,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B8 RID: 14008 RVA: 0x000F47A4 File Offset: 0x000F29A4
 		private void AddSettlementLocationCharacters(Settlement settlement)
 		{
 			if (settlement.IsFortification || settlement.IsVillage)
@@ -221,7 +200,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036B9 RID: 14009 RVA: 0x000F485C File Offset: 0x000F2A5C
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -232,7 +210,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BA RID: 14010 RVA: 0x000F48AC File Offset: 0x000F2AAC
 		private void AddCompanionsAndClanMembersToSettlement(Settlement settlement)
 		{
 			if (settlement.IsFortification || settlement.IsVillage)
@@ -285,7 +262,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BB RID: 14011 RVA: 0x000F4C0C File Offset: 0x000F2E0C
 		private void AddPartyHero(MobileParty mobileParty, Settlement settlement)
 		{
 			Hero leaderHero = mobileParty.LeaderHero;
@@ -320,7 +296,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BC RID: 14012 RVA: 0x000F4D17 File Offset: 0x000F2F17
 		private void OnHeroPrisonerTaken(PartyBase capturerParty, Hero prisoner)
 		{
 			if (capturerParty.IsSettlement)
@@ -329,7 +304,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BD RID: 14013 RVA: 0x000F4D30 File Offset: 0x000F2F30
 		public void OnPrisonersChangeInSettlement(Settlement settlement, FlattenedTroopRoster prisonerRoster, Hero prisonerHero, bool takenFromDungeon)
 		{
 			if (settlement != null && settlement.IsFortification && LocationComplex.Current == settlement.LocationComplex)
@@ -351,7 +325,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BE RID: 14014 RVA: 0x000F4DBC File Offset: 0x000F2FBC
 		private void SendPrisonerHeroToNextLocation(Settlement settlement, Hero hero, bool takenFromDungeon)
 		{
 			Location locationOfCharacter = LocationComplex.Current.GetLocationOfCharacter(hero);
@@ -371,7 +344,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036BF RID: 14015 RVA: 0x000F4E0C File Offset: 0x000F300C
 		private Location DecideNewLocationOnPrisonerChange(Settlement settlement, Hero hero, bool takenFromDungeon)
 		{
 			if (hero.IsPrisoner)
@@ -400,7 +372,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C0 RID: 14016 RVA: 0x000F4E6C File Offset: 0x000F306C
 		private void AddHeroToDecidedLocation(Location location, Hero hero, Settlement settlement)
 		{
 			if (location == HeroAgentSpawnCampaignBehavior.Prison)
@@ -444,7 +415,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C1 RID: 14017 RVA: 0x000F510C File Offset: 0x000F330C
 		private void AddLordsHallCharacters(Settlement settlement, ref List<MobileParty> partiesToBeSpawn)
 		{
 			Hero hero = null;
@@ -518,7 +488,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C2 RID: 14018 RVA: 0x000F552C File Offset: 0x000F372C
 		private void RefreshPrisonCharacters(Settlement settlement)
 		{
 			HeroAgentSpawnCampaignBehavior.Prison.RemoveAllHeroCharactersFromPrison();
@@ -564,7 +533,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C3 RID: 14019 RVA: 0x000F5704 File Offset: 0x000F3904
 		private void AddNotablesAndWanderers(Settlement settlement)
 		{
 			if (Campaign.Current.GameMode == CampaignGameMode.Campaign)
@@ -583,7 +551,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C4 RID: 14020 RVA: 0x000F57E0 File Offset: 0x000F39E0
 		private void AddWandererLocationCharacter(Hero wanderer, Settlement settlement)
 		{
 			bool flag = settlement.Culture.StringId.ToLower() == "aserai" || settlement.Culture.StringId.ToLower() == "khuzait";
@@ -612,7 +579,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			HeroAgentSpawnCampaignBehavior.VillageCenter.AddCharacter(locationCharacter);
 		}
 
-		// Token: 0x060036C5 RID: 14021 RVA: 0x000F5908 File Offset: 0x000F3B08
 		private void AddNotableLocationCharacter(Hero notable, Settlement settlement)
 		{
 			string text = (notable.IsArtisan ? "_villager_artisan" : (notable.IsMerchant ? "_villager_merchant" : (notable.IsPreacher ? "_villager_preacher" : (notable.IsGangLeader ? "_villager_gangleader" : (notable.IsRuralNotable ? "_villager_ruralnotable" : (notable.IsFemale ? "_lord" : "_villager_merchant"))))));
@@ -640,7 +606,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			HeroAgentSpawnCampaignBehavior.Center.AddCharacter(locationCharacter);
 		}
 
-		// Token: 0x060036C6 RID: 14022 RVA: 0x000F5AD4 File Offset: 0x000F3CD4
 		private void AddHeroesWithoutPartyCharactersToVillage(Settlement settlement)
 		{
 			foreach (Hero hero in settlement.HeroesWithoutParty)
@@ -651,7 +616,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C7 RID: 14023 RVA: 0x000F5B90 File Offset: 0x000F3D90
 		private void SpawnNotableHelperCharacters(Settlement settlement)
 		{
 			int num = settlement.Notables.Count((Hero x) => x.IsGangLeader);
@@ -666,7 +630,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SpawnNotableHelperCharacter(settlement.Culture.MerchantNotary, "_merchant_notary", "sp_merchant_notary", num5);
 		}
 
-		// Token: 0x060036C8 RID: 14024 RVA: 0x000F5D04 File Offset: 0x000F3F04
 		private void SpawnNotableHelperCharacter(CharacterObject character, string actionSetSuffix, string tag, int characterToSpawnCount)
 		{
 			Location location = HeroAgentSpawnCampaignBehavior.Center ?? HeroAgentSpawnCampaignBehavior.VillageCenter;
@@ -683,14 +646,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060036C9 RID: 14025 RVA: 0x000F5DD8 File Offset: 0x000F3FD8
 		private static Tuple<string, Monster> GetActionSetAndMonster(CharacterObject character)
 		{
 			Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(character.Race, "_settlement");
 			return new Tuple<string, Monster>(ActionSetCode.GenerateActionSetNameWithSuffix(monsterWithSuffix, character.IsFemale, "_lord"), monsterWithSuffix);
 		}
 
-		// Token: 0x04001175 RID: 4469
 		[NonSerialized]
 		private bool _addNotableHelperCharacters;
 	}

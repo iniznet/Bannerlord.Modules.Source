@@ -8,17 +8,14 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x020000F8 RID: 248
 	public class DefaultCharacterDevelopmentModel : CharacterDevelopmentModel
 	{
-		// Token: 0x060014AC RID: 5292 RVA: 0x0005C52E File Offset: 0x0005A72E
 		public DefaultCharacterDevelopmentModel()
 		{
 			this.InitializeSkillsRequiredForLevel();
 			this.InitializeXpRequiredForSkillLevel();
 		}
 
-		// Token: 0x060014AD RID: 5293 RVA: 0x0005C560 File Offset: 0x0005A760
 		public override List<Tuple<SkillObject, int>> GetSkillsDerivedFromTraits(Hero hero = null, CharacterObject templateCharacter = null, bool isByNaturalGrowth = false)
 		{
 			List<Tuple<SkillObject, int>> list = new List<Tuple<SkillObject, int>>();
@@ -255,7 +252,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return list;
 		}
 
-		// Token: 0x060014AE RID: 5294 RVA: 0x0005CCD0 File Offset: 0x0005AED0
 		private void InitializeSkillsRequiredForLevel()
 		{
 			int num = 1000;
@@ -270,8 +266,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005D0 RID: 1488
-		// (get) Token: 0x060014AF RID: 5295 RVA: 0x0005CD23 File Offset: 0x0005AF23
 		public override int MaxFocusPerSkill
 		{
 			get
@@ -280,8 +274,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005D1 RID: 1489
-		// (get) Token: 0x060014B0 RID: 5296 RVA: 0x0005CD26 File Offset: 0x0005AF26
 		public override int MaxAttribute
 		{
 			get
@@ -290,7 +282,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014B1 RID: 5297 RVA: 0x0005CD2A File Offset: 0x0005AF2A
 		public override int SkillsRequiredForLevel(int level)
 		{
 			if (level > 62)
@@ -300,13 +291,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this._skillsRequiredForLevel[level];
 		}
 
-		// Token: 0x060014B2 RID: 5298 RVA: 0x0005CD3F File Offset: 0x0005AF3F
 		public override int GetMaxSkillPoint()
 		{
 			return int.MaxValue;
 		}
 
-		// Token: 0x060014B3 RID: 5299 RVA: 0x0005CD48 File Offset: 0x0005AF48
 		private void InitializeXpRequiredForSkillLevel()
 		{
 			int num = 30;
@@ -318,7 +307,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014B4 RID: 5300 RVA: 0x0005CD8C File Offset: 0x0005AF8C
 		public override int GetXpRequiredForSkillLevel(int skillLevel)
 		{
 			if (skillLevel > 1024)
@@ -332,7 +320,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this._xpRequiredForSkillLevel[skillLevel - 1];
 		}
 
-		// Token: 0x060014B5 RID: 5301 RVA: 0x0005CDB0 File Offset: 0x0005AFB0
 		public override int GetSkillLevelChange(Hero hero, SkillObject skill, float skillXp)
 		{
 			int num = 0;
@@ -352,14 +339,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x060014B6 RID: 5302 RVA: 0x0005CDF8 File Offset: 0x0005AFF8
 		public override int GetXpAmountForSkillLevelChange(Hero hero, SkillObject skill, int skillLevelChange)
 		{
 			int skillValue = hero.GetSkillValue(skill);
 			return this._xpRequiredForSkillLevel[skillValue + skillLevelChange] - this._xpRequiredForSkillLevel[skillValue];
 		}
 
-		// Token: 0x060014B7 RID: 5303 RVA: 0x0005CE20 File Offset: 0x0005B020
 		public override void GetTraitLevelForTraitXp(Hero hero, TraitObject trait, int xpValue, out int traitLevel, out int clampedTraitXp)
 		{
 			clampedTraitXp = xpValue;
@@ -385,7 +370,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014B8 RID: 5304 RVA: 0x0005CEE9 File Offset: 0x0005B0E9
 		public override int GetTraitXpRequiredForTraitLevel(TraitObject trait, int traitLevel)
 		{
 			if (traitLevel < -1)
@@ -407,8 +391,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1000;
 		}
 
-		// Token: 0x170005D2 RID: 1490
-		// (get) Token: 0x060014B9 RID: 5305 RVA: 0x0005CF13 File Offset: 0x0005B113
 		public override int AttributePointsAtStart
 		{
 			get
@@ -417,8 +399,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005D3 RID: 1491
-		// (get) Token: 0x060014BA RID: 5306 RVA: 0x0005CF17 File Offset: 0x0005B117
 		public override int LevelsPerAttributePoint
 		{
 			get
@@ -427,8 +407,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005D4 RID: 1492
-		// (get) Token: 0x060014BB RID: 5307 RVA: 0x0005CF1A File Offset: 0x0005B11A
 		public override int FocusPointsPerLevel
 		{
 			get
@@ -437,8 +415,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005D5 RID: 1493
-		// (get) Token: 0x060014BC RID: 5308 RVA: 0x0005CF1D File Offset: 0x0005B11D
 		public override int FocusPointsAtStart
 		{
 			get
@@ -447,7 +423,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x060014BD RID: 5309 RVA: 0x0005CF20 File Offset: 0x0005B120
 		public override ExplainedNumber CalculateLearningLimit(int attributeValue, int focusValue, TextObject attributeName, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -457,7 +432,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x060014BE RID: 5310 RVA: 0x0005CF6C File Offset: 0x0005B16C
 		public override float CalculateLearningRate(Hero hero, SkillObject skill)
 		{
 			int level = hero.Level;
@@ -467,7 +441,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.CalculateLearningRate(attributeValue, focus, skillValue, level, skill.CharacterAttribute.Name, false).ResultNumber;
 		}
 
-		// Token: 0x060014BF RID: 5311 RVA: 0x0005CFC4 File Offset: 0x0005B1C4
 		public override ExplainedNumber CalculateLearningRate(int attributeValue, int focusValue, int skillValue, int characterLevel, TextObject attributeName, bool includeDescriptions = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(1.25f, includeDescriptions, null);
@@ -483,67 +456,46 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x0400073E RID: 1854
 		private const int MaxCharacterLevels = 62;
 
-		// Token: 0x0400073F RID: 1855
 		private const int SkillPointsAtLevel1 = 1;
 
-		// Token: 0x04000740 RID: 1856
 		private const int SkillPointsGainNeededInitialValue = 1000;
 
-		// Token: 0x04000741 RID: 1857
 		private const int SkillPointsGainNeededIncreasePerLevel = 1000;
 
-		// Token: 0x04000742 RID: 1858
 		private readonly int[] _skillsRequiredForLevel = new int[63];
 
-		// Token: 0x04000743 RID: 1859
 		private const int FocusPointsPerLevelConst = 1;
 
-		// Token: 0x04000744 RID: 1860
 		private const int LevelsPerAttributePointConst = 4;
 
-		// Token: 0x04000745 RID: 1861
 		private const int FocusPointsAtStartConst = 5;
 
-		// Token: 0x04000746 RID: 1862
 		private const int AttributePointsAtStartConst = 15;
 
-		// Token: 0x04000747 RID: 1863
 		private const int MaxSkillLevels = 1024;
 
-		// Token: 0x04000748 RID: 1864
 		private readonly int[] _xpRequiredForSkillLevel = new int[1024];
 
-		// Token: 0x04000749 RID: 1865
 		private const int XpRequirementForFirstLevel = 30;
 
-		// Token: 0x0400074A RID: 1866
 		private const int MaxSkillPoint = 2147483647;
 
-		// Token: 0x0400074B RID: 1867
 		private const float BaseLearningRate = 1.25f;
 
-		// Token: 0x0400074C RID: 1868
 		private const int TraitThreshold2 = 4000;
 
-		// Token: 0x0400074D RID: 1869
 		private const int TraitMaxValue1 = 2500;
 
-		// Token: 0x0400074E RID: 1870
 		private const int TraitThreshold1 = 1000;
 
-		// Token: 0x0400074F RID: 1871
 		private const int TraitMaxValue2 = 6000;
 
-		// Token: 0x04000750 RID: 1872
 		private const int SkillLevelVariant = 10;
 
-		// Token: 0x04000751 RID: 1873
 		private static readonly TextObject _skillFocusText = new TextObject("{=MRktqZwu}Skill Focus", null);
 
-		// Token: 0x04000752 RID: 1874
 		private static readonly TextObject _overLimitText = new TextObject("{=bcA7ZuyO}Learning Limit Exceeded", null);
 	}
 }

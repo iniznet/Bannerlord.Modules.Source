@@ -7,10 +7,8 @@ using TaleWorlds.Library;
 
 namespace Helpers
 {
-	// Token: 0x0200001D RID: 29
 	public static class MiscHelper
 	{
-		// Token: 0x060000F1 RID: 241 RVA: 0x0000C228 File Offset: 0x0000A428
 		public static XmlDocument LoadXmlFile(string path)
 		{
 			Debug.Print("opening " + path, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -22,7 +20,6 @@ namespace Helpers
 			return xmlDocument;
 		}
 
-		// Token: 0x060000F2 RID: 242 RVA: 0x0000C274 File Offset: 0x0000A474
 		public static string GenerateCampaignId(int length)
 		{
 			string text2;

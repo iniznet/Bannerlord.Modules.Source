@@ -14,10 +14,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace StoryMode
 {
-	// Token: 0x02000015 RID: 21
 	public class StoryModeSubModule : MBSubModuleBase
 	{
-		// Token: 0x06000096 RID: 150 RVA: 0x00004CB0 File Offset: 0x00002EB0
 		protected override void InitializeGameStarter(Game game, IGameStarter gameStarterObject)
 		{
 			CampaignStoryMode campaignStoryMode = game.GameType as CampaignStoryMode;
@@ -31,7 +29,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x00004CF3 File Offset: 0x00002EF3
 		public override void OnGameEnd(Game game)
 		{
 			base.OnGameEnd(game);
@@ -41,7 +38,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x00004D1C File Offset: 0x00002F1C
 		private void AddGameMenus(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddGameMenu("menu_story_mode_welcome", "{=GGfM1HKn}Welcome to MBII Bannerlord", null, 0, 0, null);
@@ -52,7 +48,6 @@ namespace StoryMode
 			}, null, false, -1, false, null);
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x00004D78 File Offset: 0x00002F78
 		private void AddBehaviors(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddBehavior(new LordConversationsStoryModeBehavior());
@@ -83,7 +78,6 @@ namespace StoryMode
 			campaignGameStarter.AddBehavior(new RescueFamilyQuestBehavior());
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x00004E74 File Offset: 0x00003074
 		private void AddModels(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddModel(new StoryModeBanditDensityModel());
@@ -105,7 +99,6 @@ namespace StoryMode
 			campaignGameStarter.AddModel(new StoryModeVoiceOverModel());
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00004F3C File Offset: 0x0000313C
 		public override void RegisterSubModuleObjects(bool isSavedCampaign)
 		{
 			if (StoryModeManager.Current != null)
@@ -114,7 +107,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00004F65 File Offset: 0x00003165
 		protected override void OnApplicationTick(float dt)
 		{
 			base.OnApplicationTick(dt);
@@ -124,7 +116,6 @@ namespace StoryMode
 			}
 		}
 
-		// Token: 0x0600009D RID: 157 RVA: 0x00004F80 File Offset: 0x00003180
 		public override void OnConfigChanged()
 		{
 			if (StoryModeManager.Current != null)

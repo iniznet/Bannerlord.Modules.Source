@@ -20,10 +20,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
-	// Token: 0x02000019 RID: 25
 	public static class PropertyBasedTooltipVMExtensions
 	{
-		// Token: 0x06000173 RID: 371 RVA: 0x0000AC38 File Offset: 0x00008E38
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Track track)
 		{
 			propertyBasedTooltipVM.Mode = 1;
@@ -40,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000174 RID: 372 RVA: 0x0000ACD8 File Offset: 0x00008ED8
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Hero hero, bool isNear)
 		{
 			StringHelpers.SetCharacterProperties("NPC", hero.CharacterObject, null, false);
@@ -296,7 +293,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000175 RID: 373 RVA: 0x0000B8A8 File Offset: 0x00009AA8
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, InventoryLogic inventory)
 		{
 			propertyBasedTooltipVM.Mode = 0;
@@ -372,7 +368,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000176 RID: 374 RVA: 0x0000BB38 File Offset: 0x00009D38
 		private static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, WeaponDesignElement craftingPiece)
 		{
 			propertyBasedTooltipVM.Mode = 0;
@@ -440,7 +435,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000177 RID: 375 RVA: 0x0000BFCC File Offset: 0x0000A1CC
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, CharacterObject character)
 		{
 			propertyBasedTooltipVM.Mode = 1;
@@ -473,7 +467,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000178 RID: 376 RVA: 0x0000C188 File Offset: 0x0000A388
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, EquipmentElement? equipmentElement)
 		{
 			ItemObject item = equipmentElement.Value.Item;
@@ -702,7 +695,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000179 RID: 377 RVA: 0x0000CE30 File Offset: 0x0000B030
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Building building)
 		{
 			propertyBasedTooltipVM.Mode = 1;
@@ -719,7 +711,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			propertyBasedTooltipVM.AddProperty("", building.GetBonusExplanation().ToString(), 0, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
-		// Token: 0x0600017A RID: 378 RVA: 0x0000CEE4 File Offset: 0x0000B0E4
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Workshop workshop)
 		{
 			propertyBasedTooltipVM.Mode = 1;
@@ -751,7 +742,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600017B RID: 379 RVA: 0x0000D124 File Offset: 0x0000B324
 		private static void AddEncounterParties(this PropertyBasedTooltipVM propertyBasedTooltipVM, MBReadOnlyList<MapEventParty> parties1, MBReadOnlyList<MapEventParty> parties2, bool isExtended)
 		{
 			propertyBasedTooltipVM.AddProperty("", "", 0, TooltipProperty.TooltipPropertyFlags.BattleMode);
@@ -969,7 +959,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			propertyBasedTooltipVM.AddProperty("", "", 0, TooltipProperty.TooltipPropertyFlags.BattleModeOver);
 		}
 
-		// Token: 0x0600017C RID: 380 RVA: 0x0000D6C8 File Offset: 0x0000B8C8
 		public static void UpdateEncounterTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, int side)
 		{
 			List<MobileParty> list = new List<MobileParty> { MobileParty.MainParty };
@@ -1057,7 +1046,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600017D RID: 381 RVA: 0x0000D9A4 File Offset: 0x0000BBA4
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, MapEvent mapEvent)
 		{
 			propertyBasedTooltipVM.Mode = 4;
@@ -1115,7 +1103,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600017E RID: 382 RVA: 0x0000DBD8 File Offset: 0x0000BDD8
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Settlement settlement, bool openedFromMenuLayout)
 		{
 			PropertyBasedTooltipVMExtensions.<>c__DisplayClass15_0 CS$<>8__locals1 = new PropertyBasedTooltipVMExtensions.<>c__DisplayClass15_0();
@@ -1391,7 +1378,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600017F RID: 383 RVA: 0x0000E80C File Offset: 0x0000CA0C
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, MobileParty mobileParty, bool openedFromMenuLayout, bool checkForMapVisibility)
 		{
 			if (mobileParty != null)
@@ -1510,7 +1496,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000180 RID: 384 RVA: 0x0000ECE0 File Offset: 0x0000CEE0
 		public static void UpdateTooltip(this PropertyBasedTooltipVM propertyBasedTooltipVM, Army army, bool openedFromMenuLayout, bool checkForMapVisibility)
 		{
 			PropertyBasedTooltipVMExtensions.<>c__DisplayClass17_0 CS$<>8__locals1 = new PropertyBasedTooltipVMExtensions.<>c__DisplayClass17_0();
@@ -1575,7 +1560,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000181 RID: 385 RVA: 0x0000EFA8 File Offset: 0x0000D1A8
 		public static void AddPartyTroopProperties(this PropertyBasedTooltipVM propertyBasedTooltipVM, TroopRoster troopRoster, TextObject title, bool isInspected, Func<TroopRoster> funcToDoBeforeLambda = null)
 		{
 			propertyBasedTooltipVM.AddProperty(string.Empty, string.Empty, -1, TooltipProperty.TooltipPropertyFlags.None);
@@ -1684,7 +1668,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000182 RID: 386 RVA: 0x0000F2FC File Offset: 0x0000D4FC
 		public static void FillCampaignTooltipTypes()
 		{
 			PropertyBasedTooltipVM.AddTooltipType(typeof(List<MobileParty>), new Action<PropertyBasedTooltipVM, object[]>(PropertyBasedTooltipVMExtensions.EncounterAction));
@@ -1702,94 +1685,77 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			PropertyBasedTooltipVM.AddTooltipType(typeof(Workshop), new Action<PropertyBasedTooltipVM, object[]>(PropertyBasedTooltipVMExtensions.WorkshopTypeTooltipAction));
 		}
 
-		// Token: 0x06000183 RID: 387 RVA: 0x0000F468 File Offset: 0x0000D668
 		private static void EncounterAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateEncounterTooltip((int)args[0]);
 		}
 
-		// Token: 0x06000184 RID: 388 RVA: 0x0000F478 File Offset: 0x0000D678
 		private static void TrackBaseAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as Track);
 		}
 
-		// Token: 0x06000185 RID: 389 RVA: 0x0000F488 File Offset: 0x0000D688
 		private static void MobilePartyAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip((MobileParty)args[0], (bool)args[1], (bool)args[2]);
 		}
 
-		// Token: 0x06000186 RID: 390 RVA: 0x0000F4A8 File Offset: 0x0000D6A8
 		private static void SettlementAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip((Settlement)args[0], (bool)args[1]);
 		}
 
-		// Token: 0x06000187 RID: 391 RVA: 0x0000F4C0 File Offset: 0x0000D6C0
 		private static void MapEventAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip((MapEvent)args[0]);
 		}
 
-		// Token: 0x06000188 RID: 392 RVA: 0x0000F4D0 File Offset: 0x0000D6D0
 		private static void ArmyAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip((Army)args[0], (bool)args[1], (bool)args[2]);
 		}
 
-		// Token: 0x06000189 RID: 393 RVA: 0x0000F4F0 File Offset: 0x0000D6F0
 		private static void HeroAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as Hero, (bool)args[1]);
 		}
 
-		// Token: 0x0600018A RID: 394 RVA: 0x0000F508 File Offset: 0x0000D708
 		private static void CharacterAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as CharacterObject);
 		}
 
-		// Token: 0x0600018B RID: 395 RVA: 0x0000F518 File Offset: 0x0000D718
 		private static void CraftingPartAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as WeaponDesignElement);
 		}
 
-		// Token: 0x0600018C RID: 396 RVA: 0x0000F528 File Offset: 0x0000D728
 		private static void InventoryTooltipAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as InventoryLogic);
 		}
 
-		// Token: 0x0600018D RID: 397 RVA: 0x0000F538 File Offset: 0x0000D738
 		public static void BuildingTooltipAction(this PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as Building);
 		}
 
-		// Token: 0x0600018E RID: 398 RVA: 0x0000F548 File Offset: 0x0000D748
 		public static void WorkshopTypeTooltipAction(this PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as Workshop);
 		}
 
-		// Token: 0x0600018F RID: 399 RVA: 0x0000F558 File Offset: 0x0000D758
 		private static void ItemTooltipAction(PropertyBasedTooltipVM propertyBasedTooltipVM, object[] args)
 		{
 			propertyBasedTooltipVM.UpdateTooltip(args[0] as EquipmentElement?);
 		}
 
-		// Token: 0x040000B0 RID: 176
 		private static readonly IEqualityComparer<ValueTuple<ItemCategory, int>> itemCategoryDistinctComparer = new CampaignUIHelper.ProductInputOutputEqualityComparer();
 
-		// Token: 0x040000B1 RID: 177
 		private static string ExtendKeyId = "ExtendModifier";
 
-		// Token: 0x040000B2 RID: 178
 		private static string FollowModifierKeyId = "FollowModifier";
 
-		// Token: 0x040000B3 RID: 179
 		private static string MapClickKeyId = "MapClick";
 	}
 }

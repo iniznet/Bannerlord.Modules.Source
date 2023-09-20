@@ -10,11 +10,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003AB RID: 939
 	public class MapTracksCampaignBehavior : CampaignBehaviorBase, IMapTracksCampaignBehavior, ICampaignBehavior
 	{
-		// Token: 0x17000CD3 RID: 3283
-		// (get) Token: 0x06003824 RID: 14372 RVA: 0x000FEACD File Offset: 0x000FCCCD
 		public MBReadOnlyList<Track> DetectedTracks
 		{
 			get
@@ -23,13 +20,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003825 RID: 14373 RVA: 0x000FEAD8 File Offset: 0x000FCCD8
 		public MapTracksCampaignBehavior()
 		{
 			this._trackPool = new MapTracksCampaignBehavior.TrackPool(2048);
 		}
 
-		// Token: 0x06003826 RID: 14374 RVA: 0x000FEB30 File Offset: 0x000FCD30
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
@@ -39,7 +34,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
 		}
 
-		// Token: 0x06003827 RID: 14375 RVA: 0x000FEBB0 File Offset: 0x000FCDB0
 		private void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
 		{
 			if (this._trackDataDictionary.ContainsKey(mobileParty))
@@ -48,21 +42,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003828 RID: 14376 RVA: 0x000FEBCD File Offset: 0x000FCDCD
 		private void OnNewGameCreated(CampaignGameStarter gameStarted)
 		{
 			this._trackDataDictionary = new Dictionary<MobileParty, Vec2>();
 			this.AddEventHandler();
 		}
 
-		// Token: 0x06003829 RID: 14377 RVA: 0x000FEBE0 File Offset: 0x000FCDE0
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<Track>>("_allTracks", ref this._allTracks);
 			dataStore.SyncData<Dictionary<MobileParty, Vec2>>("_trackDataDictionary", ref this._trackDataDictionary);
 		}
 
-		// Token: 0x0600382A RID: 14378 RVA: 0x000FEC08 File Offset: 0x000FCE08
 		private void OnHourlyTickParty(MobileParty mobileParty)
 		{
 			if (Campaign.Current.Models.MapTrackModel.CanPartyLeaveTrack(mobileParty))
@@ -83,13 +74,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600382B RID: 14379 RVA: 0x000FEC9C File Offset: 0x000FCE9C
 		private void OnHourlyTick()
 		{
 			this.RemoveExpiredTracks();
 		}
 
-		// Token: 0x0600382C RID: 14380 RVA: 0x000FECA4 File Offset: 0x000FCEA4
 		private void GameLoadFinished()
 		{
 			this._allTracks.RemoveAll((Track x) => x.IsExpired);
@@ -108,14 +97,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600382D RID: 14381 RVA: 0x000FEDC0 File Offset: 0x000FCFC0
 		private void AddEventHandler()
 		{
 			this._quarterHourlyTick = CampaignPeriodicEventManager.CreatePeriodicEvent(CampaignTime.Hours(0.25f), CampaignTime.Hours(0.1f));
 			this._quarterHourlyTick.AddHandler(new MBCampaignEvent.CampaignEventDelegate(this.QuarterHourlyTick));
 		}
 
-		// Token: 0x0600382E RID: 14382 RVA: 0x000FEDF8 File Offset: 0x000FCFF8
 		private void QuarterHourlyTick(MBCampaignEvent campaignEvent, object[] delegateParams)
 		{
 			if (!PartyBase.MainParty.IsValid)
@@ -137,7 +124,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600382F RID: 14383 RVA: 0x000FEEC0 File Offset: 0x000FD0C0
 		private void RemoveExpiredTracks()
 		{
 			for (int i = this._allTracks.Count - 1; i >= 0; i--)
@@ -157,7 +143,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003830 RID: 14384 RVA: 0x000FEF45 File Offset: 0x000FD145
 		private void TrackDetected(Track track)
 		{
 			track.IsDetected = true;
@@ -166,7 +151,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			SkillLevelingManager.OnTrackDetected(track);
 		}
 
-		// Token: 0x06003831 RID: 14385 RVA: 0x000FEF6C File Offset: 0x000FD16C
 		public bool IsTrackDropped(MobileParty mobileParty)
 		{
 			float skipTrackChance = Campaign.Current.Models.MapTrackModel.GetSkipTrackChance(mobileParty);
@@ -179,7 +163,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num2 * num2 > num;
 		}
 
-		// Token: 0x06003832 RID: 14386 RVA: 0x000FEFDC File Offset: 0x000FD1DC
 		public void AddTrack(MobileParty party, Vec2 trackPosition, Vec2 trackDirection)
 		{
 			Track track = this._trackPool.RequestTrack(party, trackPosition, trackDirection);
@@ -187,7 +170,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._trackLocator.UpdateLocator(track);
 		}
 
-		// Token: 0x06003833 RID: 14387 RVA: 0x000FF014 File Offset: 0x000FD214
 		public void AddMapArrow(TextObject pointerName, Vec2 trackPosition, Vec2 trackDirection, float life)
 		{
 			Track track = this._trackPool.RequestMapArrow(pointerName, trackPosition, trackDirection, life);
@@ -196,36 +178,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.TrackDetected(track);
 		}
 
-		// Token: 0x04001196 RID: 4502
 		private const float PartyTrackPositionDelta = 5f;
 
-		// Token: 0x04001197 RID: 4503
 		private List<Track> _allTracks = new List<Track>();
 
-		// Token: 0x04001198 RID: 4504
 		private MBList<Track> _detectedTracksCache = new MBList<Track>();
 
-		// Token: 0x04001199 RID: 4505
 		private Dictionary<MobileParty, Vec2> _trackDataDictionary = new Dictionary<MobileParty, Vec2>();
 
-		// Token: 0x0400119A RID: 4506
 		private MBCampaignEvent _quarterHourlyTick;
 
-		// Token: 0x0400119B RID: 4507
 		private LocatorGrid<Track> _trackLocator = new LocatorGrid<Track>(5f, 32, 32);
 
-		// Token: 0x0400119C RID: 4508
 		private MapTracksCampaignBehavior.TrackPool _trackPool;
 
-		// Token: 0x02000705 RID: 1797
 		private class TrackPool
 		{
-			// Token: 0x17001363 RID: 4963
-			// (get) Token: 0x06005564 RID: 21860 RVA: 0x0016CF35 File Offset: 0x0016B135
 			private int MaxSize { get; }
 
-			// Token: 0x17001364 RID: 4964
-			// (get) Token: 0x06005565 RID: 21861 RVA: 0x0016CF3D File Offset: 0x0016B13D
 			public int Size
 			{
 				get
@@ -239,7 +209,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005566 RID: 21862 RVA: 0x0016CF50 File Offset: 0x0016B150
 			public TrackPool(int size)
 			{
 				this.MaxSize = size;
@@ -250,7 +219,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x06005567 RID: 21863 RVA: 0x0016CF94 File Offset: 0x0016B194
 			public Track RequestTrack(MobileParty party, Vec2 trackPosition, Vec2 trackDirection)
 			{
 				Track track = ((this._stack.Count > 0) ? this._stack.Pop() : new Track());
@@ -300,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return track;
 			}
 
-			// Token: 0x06005568 RID: 21864 RVA: 0x0016D1E4 File Offset: 0x0016B3E4
 			public Track RequestMapArrow(TextObject pointerName, Vec2 trackPosition, Vec2 trackDirection, float life)
 			{
 				Track track = ((this._stack.Count > 0) ? this._stack.Pop() : new Track());
@@ -314,7 +281,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return track;
 			}
 
-			// Token: 0x06005569 RID: 21865 RVA: 0x0016D24D File Offset: 0x0016B44D
 			public void ReleaseTrack(Track track)
 			{
 				track.Reset();
@@ -324,13 +290,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 			}
 
-			// Token: 0x0600556A RID: 21866 RVA: 0x0016D274 File Offset: 0x0016B474
 			public override string ToString()
 			{
 				return string.Format("TrackPool: {0}", this.Size);
 			}
 
-			// Token: 0x04001CDB RID: 7387
 			private Stack<Track> _stack;
 		}
 	}

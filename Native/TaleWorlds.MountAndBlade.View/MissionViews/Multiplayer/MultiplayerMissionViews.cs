@@ -3,11 +3,9 @@ using System.Collections.Generic;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 {
-	// Token: 0x02000095 RID: 149
 	[ViewCreatorModule]
 	public class MultiplayerMissionViews
 	{
-		// Token: 0x060004F2 RID: 1266 RVA: 0x00025DF4 File Offset: 0x00023FF4
 		[ViewMethod("MultiplayerFreeForAll")]
 		public static MissionView[] OpenFreeForAllMission(Mission mission)
 		{
@@ -37,7 +35,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F3 RID: 1267 RVA: 0x00025EF4 File Offset: 0x000240F4
 		[ViewMethod("MultiplayerTeamDeathmatch")]
 		public static MissionView[] OpenTeamDeathmatchMission(Mission mission)
 		{
@@ -72,7 +69,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F4 RID: 1268 RVA: 0x0002602C File Offset: 0x0002422C
 		[ViewMethod("MultiplayerDuel")]
 		public static MissionView[] OpenDuelMission(Mission mission)
 		{
@@ -103,7 +99,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F5 RID: 1269 RVA: 0x00026134 File Offset: 0x00024334
 		[ViewMethod("MultiplayerSiege")]
 		public static MissionView[] OpenSiegeMission(Mission mission)
 		{
@@ -138,7 +133,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F6 RID: 1270 RVA: 0x0002626C File Offset: 0x0002446C
 		[ViewMethod("MultiplayerBattle")]
 		public static MissionView[] OpenBattle(Mission mission)
 		{
@@ -176,7 +170,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F7 RID: 1271 RVA: 0x000263C8 File Offset: 0x000245C8
 		[ViewMethod("MultiplayerCaptain")]
 		public static MissionView[] OpenCaptain(Mission mission)
 		{
@@ -215,7 +208,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Multiplayer
 			return list.ToArray();
 		}
 
-		// Token: 0x060004F8 RID: 1272 RVA: 0x0002652C File Offset: 0x0002472C
 		[ViewMethod("MultiplayerSkirmish")]
 		public static MissionView[] OpenSkirmish(Mission mission)
 		{

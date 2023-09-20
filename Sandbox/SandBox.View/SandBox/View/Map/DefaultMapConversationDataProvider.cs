@@ -3,10 +3,8 @@ using TaleWorlds.Core;
 
 namespace SandBox.View.Map
 {
-	// Token: 0x02000043 RID: 67
 	public class DefaultMapConversationDataProvider : IMapConversationDataProvider
 	{
-		// Token: 0x06000244 RID: 580 RVA: 0x00015110 File Offset: 0x00013310
 		string IMapConversationDataProvider.GetAtmosphereNameFromData(MapConversationTableauData data)
 		{
 			string text;

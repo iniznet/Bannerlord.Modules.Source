@@ -19,11 +19,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.Issues
 {
-	// Token: 0x0200031D RID: 797
 	public class RevenueFarmingIssueBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x17000AD5 RID: 2773
-		// (get) Token: 0x06002D54 RID: 11604 RVA: 0x000BD32A File Offset: 0x000BB52A
 		private float IncidentChance
 		{
 			get
@@ -32,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x17000AD6 RID: 2774
-		// (get) Token: 0x06002D55 RID: 11605 RVA: 0x000BD354 File Offset: 0x000BB554
 		private static RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest Instance
 		{
 			get
@@ -59,7 +54,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x06002D56 RID: 11606 RVA: 0x000BD3EC File Offset: 0x000BB5EC
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnCheckForIssueEvent.AddNonSerializedListener(this, new Action<Hero>(this.OnCheckForIssue));
@@ -67,7 +61,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			CampaignEvents.OnAfterSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterSessionLaunchedEvent));
 		}
 
-		// Token: 0x06002D57 RID: 11607 RVA: 0x000BD440 File Offset: 0x000BB640
 		private void OnAfterSessionLaunchedEvent(CampaignGameStarter gameStarter)
 		{
 			gameStarter.AddGameMenuOption("town_guard", "talk_to_steward_for_revenue_town", "{=voXpzZdH}Hand over the revenue", new GameMenuOption.OnConditionDelegate(this.talk_to_steward_on_condition), new GameMenuOption.OnConsequenceDelegate(this.talk_to_steward_on_consequence), false, 2, false, null);
@@ -75,7 +68,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			gameStarter.AddGameMenuOption("castle_guard", "talk_to_steward_for_revenue_castle", "{=voXpzZdH}Hand over the revenue", new GameMenuOption.OnConditionDelegate(this.talk_to_steward_on_condition), new GameMenuOption.OnConsequenceDelegate(this.talk_to_steward_on_consequence), false, 2, false, null);
 		}
 
-		// Token: 0x06002D58 RID: 11608 RVA: 0x000BD4E4 File Offset: 0x000BB6E4
 		private void OnSessionLaunched(CampaignGameStarter gameStarter)
 		{
 			gameStarter.AddGameMenuOption("village", "revenue_farming_quest_collect_tax_menu_button", "{=mcrjFxDQ}Collect revenue", new GameMenuOption.OnConditionDelegate(this.collect_revenue_menu_condition), new GameMenuOption.OnConsequenceDelegate(this.collect_revenue_menu_consequence), false, 5, false, null);
@@ -84,7 +76,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			this.AddVillageEvents(gameStarter);
 		}
 
-		// Token: 0x06002D59 RID: 11609 RVA: 0x000BD590 File Offset: 0x000BB790
 		private bool talk_to_steward_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Manage;
@@ -106,7 +97,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return false;
 		}
 
-		// Token: 0x06002D5A RID: 11610 RVA: 0x000BD622 File Offset: 0x000BB822
 		private void talk_to_steward_on_consequence(MenuCallbackArgs args)
 		{
 			RevenueFarmingIssueBehavior.Instance.RevenuesAreDeliveredToSteward();
@@ -118,7 +108,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			GameMenu.SwitchToMenu("town");
 		}
 
-		// Token: 0x06002D5B RID: 11611 RVA: 0x000BD650 File Offset: 0x000BB850
 		private void AddVillageEvents(CampaignGameStarter gameStarter)
 		{
 			this._villageEvents = new List<RevenueFarmingIssueBehavior.VillageEvent>();
@@ -466,7 +455,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x06002D5C RID: 11612 RVA: 0x000BDC0C File Offset: 0x000BBE0C
 		private void AddVillageEventMenus(RevenueFarmingIssueBehavior.VillageEvent villageEvent, CampaignGameStarter gameStarter)
 		{
 			gameStarter.AddGameMenu(villageEvent.Id, villageEvent.MainEventText, null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -477,7 +465,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x06002D5D RID: 11613 RVA: 0x000BDC8C File Offset: 0x000BBE8C
 		private bool collect_revenue_menu_condition(MenuCallbackArgs args)
 		{
 			if (RevenueFarmingIssueBehavior.Instance == null || !RevenueFarmingIssueBehavior.Instance.IsOngoing)
@@ -496,7 +483,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return false;
 		}
 
-		// Token: 0x06002D5E RID: 11614 RVA: 0x000BDD2C File Offset: 0x000BBF2C
 		private void collecting_menu_on_init(MenuCallbackArgs args)
 		{
 			if (RevenueFarmingIssueBehavior.Instance.FindCurrentRevenueVillage().CollectedAmount == 0)
@@ -509,35 +495,30 @@ namespace TaleWorlds.CampaignSystem.Issues
 			args.MenuContext.GameMenu.StartWait();
 		}
 
-		// Token: 0x06002D5F RID: 11615 RVA: 0x000BDD92 File Offset: 0x000BBF92
 		private bool leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x06002D60 RID: 11616 RVA: 0x000BDD9D File Offset: 0x000BBF9D
 		private void leave_consequence(MenuCallbackArgs args)
 		{
 			RevenueFarmingIssueBehavior.Instance.CollectingRevenues = false;
 			GameMenu.SwitchToMenu("village");
 		}
 
-		// Token: 0x06002D61 RID: 11617 RVA: 0x000BDDB4 File Offset: 0x000BBFB4
 		private void collection_menu_on_tick(MenuCallbackArgs args, CampaignTime dt)
 		{
 			RevenueFarmingIssueBehavior.RevenueVillage revenueVillage = RevenueFarmingIssueBehavior.Instance.FindCurrentRevenueVillage();
 			args.MenuContext.GameMenu.SetProgressOfWaitingInMenu(revenueVillage.CollectProgress);
 		}
 
-		// Token: 0x06002D62 RID: 11618 RVA: 0x000BDDE2 File Offset: 0x000BBFE2
 		private void collect_revenue_menu_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village_collect_revenue");
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.UnstoppablePlay;
 		}
 
-		// Token: 0x06002D63 RID: 11619 RVA: 0x000BDDF9 File Offset: 0x000BBFF9
 		[GameMenuInitializationHandler("village_collect_revenue")]
 		private static void village_collect_revenue_game_menu_on_init(MenuCallbackArgs args)
 		{
@@ -545,7 +526,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.UnstoppablePlay;
 		}
 
-		// Token: 0x06002D64 RID: 11620 RVA: 0x000BDE20 File Offset: 0x000BC020
 		[GameMenuInitializationHandler("offer_goods_and_troops")]
 		[GameMenuInitializationHandler("brawl_breaks_out")]
 		[GameMenuInitializationHandler("landlord_asks_for_money")]
@@ -557,7 +537,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.SettlementComponent.WaitMeshName);
 		}
 
-		// Token: 0x06002D65 RID: 11621 RVA: 0x000BDE3C File Offset: 0x000BC03C
 		private void ChangeRelationWithNotables(int relation)
 		{
 			foreach (Hero hero in Settlement.CurrentSettlement.Notables)
@@ -578,7 +557,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 		}
 
-		// Token: 0x06002D66 RID: 11622 RVA: 0x000BDED8 File Offset: 0x000BC0D8
 		private void CompleteCurrentRevenueCollection(bool addLog = true)
 		{
 			RevenueFarmingIssueBehavior.RevenueVillage revenueVillage = RevenueFarmingIssueBehavior.Instance.FindCurrentRevenueVillage();
@@ -591,7 +569,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06002D67 RID: 11623 RVA: 0x000BDF3C File Offset: 0x000BC13C
 		private void GiveVillageGoods(out int amount)
 		{
 			RevenueFarmingIssueBehavior.RevenueVillage revenueVillage = RevenueFarmingIssueBehavior.Instance.FindCurrentRevenueVillage();
@@ -599,19 +576,16 @@ namespace TaleWorlds.CampaignSystem.Issues
 			MobileParty.MainParty.ItemRoster.AddToCounts(revenueVillage.Village.VillageType.PrimaryProduction, amount);
 		}
 
-		// Token: 0x06002D68 RID: 11624 RVA: 0x000BDFA0 File Offset: 0x000BC1A0
 		public void OnVillageEventWithIdSpawned(string Id)
 		{
 			RevenueFarmingIssueBehavior.VillageEvent villageEvent = this._villageEvents.FirstOrDefault((RevenueFarmingIssueBehavior.VillageEvent x) => x.Id == Id);
 			RevenueFarmingIssueBehavior.Instance.AddLog(villageEvent.MainLog, false);
 		}
 
-		// Token: 0x06002D69 RID: 11625 RVA: 0x000BDFE4 File Offset: 0x000BC1E4
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06002D6A RID: 11626 RVA: 0x000BDFE8 File Offset: 0x000BC1E8
 		private bool ConditionsHold(Hero issueGiver, out Settlement targetSettlement)
 		{
 			targetSettlement = null;
@@ -622,7 +596,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			return targetSettlement != null;
 		}
 
-		// Token: 0x06002D6B RID: 11627 RVA: 0x000BE05C File Offset: 0x000BC25C
 		public void OnCheckForIssue(Hero hero)
 		{
 			Settlement settlement;
@@ -634,49 +607,38 @@ namespace TaleWorlds.CampaignSystem.Issues
 			Campaign.Current.IssueManager.AddPotentialIssueData(hero, new PotentialIssueData(typeof(RevenueFarmingIssueBehavior.RevenueFarmingIssue), IssueBase.IssueFrequency.VeryCommon));
 		}
 
-		// Token: 0x06002D6C RID: 11628 RVA: 0x000BE0C4 File Offset: 0x000BC2C4
 		private IssueBase OnSelected(in PotentialIssueData pid, Hero issueOwner)
 		{
 			PotentialIssueData potentialIssueData = pid;
 			return new RevenueFarmingIssueBehavior.RevenueFarmingIssue(issueOwner, potentialIssueData.RelatedObject as Settlement);
 		}
 
-		// Token: 0x04000DA9 RID: 3497
 		private const int CollectAllVillageTaxesAfterHours = 10;
 
-		// Token: 0x04000DAA RID: 3498
 		private const IssueBase.IssueFrequency RevenueFarmingIssueFrequency = IssueBase.IssueFrequency.VeryCommon;
 
-		// Token: 0x04000DAB RID: 3499
 		private List<RevenueFarmingIssueBehavior.VillageEvent> _villageEvents;
 
-		// Token: 0x04000DAC RID: 3500
 		private RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest _cachedQuest;
 
-		// Token: 0x0200065E RID: 1630
 		public class RevenueFarmingIssue : IssueBase
 		{
-			// Token: 0x0600504F RID: 20559 RVA: 0x00162E1D File Offset: 0x0016101D
 			internal static void AutoGeneratedStaticCollectObjectsRevenueFarmingIssue(object o, List<object> collectedObjects)
 			{
 				((RevenueFarmingIssueBehavior.RevenueFarmingIssue)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005050 RID: 20560 RVA: 0x00162E2B File Offset: 0x0016102B
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 				collectedObjects.Add(this._targetSettlement);
 			}
 
-			// Token: 0x06005051 RID: 20561 RVA: 0x00162E40 File Offset: 0x00161040
 			internal static object AutoGeneratedGetMemberValue_targetSettlement(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssue)o)._targetSettlement;
 			}
 
-			// Token: 0x17001150 RID: 4432
-			// (get) Token: 0x06005052 RID: 20562 RVA: 0x00162E4D File Offset: 0x0016104D
 			protected override int RewardGold
 			{
 				get
@@ -685,8 +647,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001151 RID: 4433
-			// (get) Token: 0x06005053 RID: 20563 RVA: 0x00162E50 File Offset: 0x00161050
 			protected int TotalRequestedDenars
 			{
 				get
@@ -703,8 +663,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001152 RID: 4434
-			// (get) Token: 0x06005054 RID: 20564 RVA: 0x00162ED0 File Offset: 0x001610D0
 			public override TextObject IssueBriefByIssueGiver
 			{
 				get
@@ -713,8 +671,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001153 RID: 4435
-			// (get) Token: 0x06005055 RID: 20565 RVA: 0x00162EDD File Offset: 0x001610DD
 			public override TextObject IssueAcceptByPlayer
 			{
 				get
@@ -723,8 +679,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001154 RID: 4436
-			// (get) Token: 0x06005056 RID: 20566 RVA: 0x00162EEA File Offset: 0x001610EA
 			public override TextObject IssueQuestSolutionExplanationByIssueGiver
 			{
 				get
@@ -735,8 +689,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001155 RID: 4437
-			// (get) Token: 0x06005057 RID: 20567 RVA: 0x00162F09 File Offset: 0x00161109
 			public override TextObject IssueQuestSolutionAcceptByPlayer
 			{
 				get
@@ -745,8 +697,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001156 RID: 4438
-			// (get) Token: 0x06005058 RID: 20568 RVA: 0x00162F16 File Offset: 0x00161116
 			public override bool IsThereAlternativeSolution
 			{
 				get
@@ -755,8 +705,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001157 RID: 4439
-			// (get) Token: 0x06005059 RID: 20569 RVA: 0x00162F19 File Offset: 0x00161119
 			public override bool IsThereLordSolution
 			{
 				get
@@ -765,8 +713,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001158 RID: 4440
-			// (get) Token: 0x0600505A RID: 20570 RVA: 0x00162F1C File Offset: 0x0016111C
 			public override TextObject Title
 			{
 				get
@@ -775,8 +721,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001159 RID: 4441
-			// (get) Token: 0x0600505B RID: 20571 RVA: 0x00162F29 File Offset: 0x00161129
 			public override TextObject Description
 			{
 				get
@@ -787,14 +731,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x0600505C RID: 20572 RVA: 0x00162F4E File Offset: 0x0016114E
 			public RevenueFarmingIssue(Hero issueOwner, Settlement targetSettlement)
 				: base(issueOwner, CampaignTime.DaysFromNow(20f))
 			{
 				this._targetSettlement = targetSettlement;
 			}
 
-			// Token: 0x0600505D RID: 20573 RVA: 0x00162F68 File Offset: 0x00161168
 			protected override float GetIssueEffectAmountInternal(IssueEffect issueEffect)
 			{
 				if (issueEffect == DefaultIssueEffects.ClanInfluence)
@@ -804,13 +746,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return 0f;
 			}
 
-			// Token: 0x0600505E RID: 20574 RVA: 0x00162F7D File Offset: 0x0016117D
 			public override IssueBase.IssueFrequency GetFrequency()
 			{
 				return IssueBase.IssueFrequency.VeryCommon;
 			}
 
-			// Token: 0x0600505F RID: 20575 RVA: 0x00162F80 File Offset: 0x00161180
 			public override bool IssueStayAliveConditions()
 			{
 				if (this._targetSettlement.OwnerClan == base.IssueOwner.Clan)
@@ -820,7 +760,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return false;
 			}
 
-			// Token: 0x06005060 RID: 20576 RVA: 0x00162FD8 File Offset: 0x001611D8
 			protected override bool CanPlayerTakeQuestConditions(Hero issueGiver, out IssueBase.PreconditionFlags flags, out Hero relationHero, out SkillObject skill)
 			{
 				flags = IssueBase.PreconditionFlags.None;
@@ -842,12 +781,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return flags == IssueBase.PreconditionFlags.None;
 			}
 
-			// Token: 0x06005061 RID: 20577 RVA: 0x00163045 File Offset: 0x00161245
 			protected override void OnGameLoad()
 			{
 			}
 
-			// Token: 0x06005062 RID: 20578 RVA: 0x00163048 File Offset: 0x00161248
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				List<RevenueFarmingIssueBehavior.RevenueVillage> list = new List<RevenueFarmingIssueBehavior.RevenueVillage>();
@@ -861,32 +798,25 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return new RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(20f), list);
 			}
 
-			// Token: 0x06005063 RID: 20579 RVA: 0x001630EC File Offset: 0x001612EC
 			protected override void CompleteIssueWithTimedOutConsequences()
 			{
 			}
 
-			// Token: 0x04001AB6 RID: 6838
 			private const int IssueAndQuestDuration = 20;
 
-			// Token: 0x04001AB7 RID: 6839
 			private const int MinimumRequiredMenCount = 40;
 
-			// Token: 0x04001AB8 RID: 6840
 			[SaveableField(1)]
 			private Settlement _targetSettlement;
 		}
 
-		// Token: 0x0200065F RID: 1631
 		public class RevenueFarmingIssueQuest : QuestBase
 		{
-			// Token: 0x06005064 RID: 20580 RVA: 0x001630EE File Offset: 0x001612EE
 			internal static void AutoGeneratedStaticCollectObjectsRevenueFarmingIssueQuest(object o, List<object> collectedObjects)
 			{
 				((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005065 RID: 20581 RVA: 0x001630FC File Offset: 0x001612FC
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -895,44 +825,36 @@ namespace TaleWorlds.CampaignSystem.Issues
 				collectedObjects.Add(this._questProgressLog);
 			}
 
-			// Token: 0x06005066 RID: 20582 RVA: 0x00163129 File Offset: 0x00161329
 			internal static object AutoGeneratedGetMemberValue_totalRequestedDenars(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o)._totalRequestedDenars;
 			}
 
-			// Token: 0x06005067 RID: 20583 RVA: 0x0016313B File Offset: 0x0016133B
 			internal static object AutoGeneratedGetMemberValueCollectingRevenues(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o).CollectingRevenues;
 			}
 
-			// Token: 0x06005068 RID: 20584 RVA: 0x0016314D File Offset: 0x0016134D
 			internal static object AutoGeneratedGetMemberValue_allRevenuesAreCollected(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o)._allRevenuesAreCollected;
 			}
 
-			// Token: 0x06005069 RID: 20585 RVA: 0x0016315F File Offset: 0x0016135F
 			internal static object AutoGeneratedGetMemberValue_revenueVillages(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o)._revenueVillages;
 			}
 
-			// Token: 0x0600506A RID: 20586 RVA: 0x0016316C File Offset: 0x0016136C
 			internal static object AutoGeneratedGetMemberValue_currentVillageEvents(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o)._currentVillageEvents;
 			}
 
-			// Token: 0x0600506B RID: 20587 RVA: 0x00163179 File Offset: 0x00161379
 			internal static object AutoGeneratedGetMemberValue_questProgressLog(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueFarmingIssueQuest)o)._questProgressLog;
 			}
 
-			// Token: 0x1700115A RID: 4442
-			// (get) Token: 0x0600506C RID: 20588 RVA: 0x00163186 File Offset: 0x00161386
 			public override TextObject Title
 			{
 				get
@@ -941,8 +863,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x1700115B RID: 4443
-			// (get) Token: 0x0600506D RID: 20589 RVA: 0x00163193 File Offset: 0x00161393
 			public override bool IsRemainingTimeHidden
 			{
 				get
@@ -951,8 +871,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x1700115C RID: 4444
-			// (get) Token: 0x0600506E RID: 20590 RVA: 0x00163196 File Offset: 0x00161396
 			public List<RevenueFarmingIssueBehavior.RevenueVillage> RevenueVillages
 			{
 				get
@@ -961,13 +879,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x1700115D RID: 4445
-			// (get) Token: 0x0600506F RID: 20591 RVA: 0x0016319E File Offset: 0x0016139E
-			// (set) Token: 0x06005070 RID: 20592 RVA: 0x001631A6 File Offset: 0x001613A6
 			public Settlement TargetSettlement { get; private set; }
 
-			// Token: 0x1700115E RID: 4446
-			// (get) Token: 0x06005071 RID: 20593 RVA: 0x001631B0 File Offset: 0x001613B0
 			private TextObject QuestStartedLogText
 			{
 				get
@@ -980,8 +893,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x1700115F RID: 4447
-			// (get) Token: 0x06005072 RID: 20594 RVA: 0x0016320C File Offset: 0x0016140C
 			private TextObject QuestCanceledWarDeclaredLog
 			{
 				get
@@ -992,8 +903,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001160 RID: 4448
-			// (get) Token: 0x06005073 RID: 20595 RVA: 0x00163240 File Offset: 0x00161440
 			private TextObject PlayerDeclaredWarQuestLogText
 			{
 				get
@@ -1004,8 +913,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001161 RID: 4449
-			// (get) Token: 0x06005074 RID: 20596 RVA: 0x00163274 File Offset: 0x00161474
 			private TextObject QuestSuccessLog
 			{
 				get
@@ -1016,8 +923,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001162 RID: 4450
-			// (get) Token: 0x06005075 RID: 20597 RVA: 0x001632A8 File Offset: 0x001614A8
 			private TextObject QuestBetrayedLog
 			{
 				get
@@ -1028,8 +933,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001163 RID: 4451
-			// (get) Token: 0x06005076 RID: 20598 RVA: 0x001632DC File Offset: 0x001614DC
 			private TextObject QuestFailedWithTimeOutLogText
 			{
 				get
@@ -1040,8 +943,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x17001164 RID: 4452
-			// (get) Token: 0x06005077 RID: 20599 RVA: 0x00163310 File Offset: 0x00161510
 			private TextObject AllRevenuesAreCollectedLogText
 			{
 				get
@@ -1053,7 +954,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005078 RID: 20600 RVA: 0x00163354 File Offset: 0x00161554
 			public RevenueFarmingIssueQuest(string questId, Hero giverHero, CampaignTime duration, List<RevenueFarmingIssueBehavior.RevenueVillage> revenueVillages)
 				: base(questId, giverHero, duration, 0)
 			{
@@ -1071,7 +971,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.InitializeQuestOnCreation();
 			}
 
-			// Token: 0x06005079 RID: 20601 RVA: 0x0016344C File Offset: 0x0016164C
 			private void QuestAcceptedConsequences()
 			{
 				base.StartQuest();
@@ -1082,7 +981,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x0600507A RID: 20602 RVA: 0x001634DC File Offset: 0x001616DC
 			protected override void SetDialogs()
 			{
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=PXigJyMs}Excellent. You are acting in my name now. Try to be polite but you have every right to use force if they don't cough up what's owed. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
@@ -1120,7 +1018,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.EndPlayerOptions();
 			}
 
-			// Token: 0x0600507B RID: 20603 RVA: 0x0016368A File Offset: 0x0016188A
 			private bool TurnQuestInClickableCondition(out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
@@ -1132,7 +1029,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return true;
 			}
 
-			// Token: 0x0600507C RID: 20604 RVA: 0x001636BC File Offset: 0x001618BC
 			protected override void OnBeforeTimedOut(ref bool completeWithSuccess, ref bool doNotResolveTheQuest)
 			{
 				this.RelationshipChangeWithQuestGiver = -5;
@@ -1147,13 +1043,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x0600507D RID: 20605 RVA: 0x0016370C File Offset: 0x0016190C
 			protected override void OnTimedOut()
 			{
 				base.AddLog(this.QuestFailedWithTimeOutLogText, false);
 			}
 
-			// Token: 0x0600507E RID: 20606 RVA: 0x0016371C File Offset: 0x0016191C
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
@@ -1164,7 +1058,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 			}
 
-			// Token: 0x0600507F RID: 20607 RVA: 0x001637B4 File Offset: 0x001619B4
 			private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 			{
 				if (settlement == this.TargetSettlement && oldOwner == base.QuestGiver)
@@ -1176,7 +1069,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005080 RID: 20608 RVA: 0x00163816 File Offset: 0x00161A16
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 			{
 				if (QuestHelper.CheckMinorMajorCoercion(this, mapEvent, attackerParty))
@@ -1185,7 +1077,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005081 RID: 20609 RVA: 0x0016382C File Offset: 0x00161A2C
 			private void OnVillageRaid(Village village)
 			{
 				RevenueFarmingIssueBehavior.RevenueVillage revenueVillage = this._revenueVillages.FirstOrDefault((RevenueFarmingIssueBehavior.RevenueVillage x) => x.Village.Id == village.Id);
@@ -1212,7 +1103,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005082 RID: 20610 RVA: 0x00163954 File Offset: 0x00161B54
 			private void OnHourlyTick()
 			{
 				if (base.IsOngoing)
@@ -1231,21 +1121,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005083 RID: 20611 RVA: 0x001639B1 File Offset: 0x00161BB1
 			private void OnAllRevenuesAreCollected()
 			{
 				this._allRevenuesAreCollected = true;
 				base.AddLog(this.AllRevenuesAreCollectedLogText, false);
 			}
 
-			// Token: 0x06005084 RID: 20612 RVA: 0x001639C8 File Offset: 0x00161BC8
 			public void RevenuesAreDeliveredToSteward()
 			{
 				MBInformationManager.AddQuickInformation(new TextObject("{=RCa0DpAo}You have handed over the revenue to the steward", null), 0, null, "");
 				this.QuestCompletedWithSuccess();
 			}
 
-			// Token: 0x06005085 RID: 20613 RVA: 0x001639E8 File Offset: 0x00161BE8
 			private void ShowQuestResolvePopUp()
 			{
 				TextObject textObject = new TextObject("{=I9GYdYZx}{?QUEST_GIVER.GENDER}Lady{?}Lord{\\?} {QUEST_GIVER.NAME} wants {TOTAL_REQUESTED_DENARS}{GOLD_ICON} denars that you have collected from {?QUEST_GIVER.GENDER}her{?}his{\\?} fiefs. {?QUEST_GIVER.GENDER}She{?}He{\\?} has sent {?QUEST_GIVER.GENDER}her{?}his{\\?} steward to you to collect it. If you refuse this will be counted as a crime and {?QUEST_GIVER.GENDER}her{?}his{\\?} faction may declare war on you.", null);
@@ -1259,7 +1146,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005086 RID: 20614 RVA: 0x00163AAC File Offset: 0x00161CAC
 			private void QuestCompletedWithSuccess()
 			{
 				GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, this._totalRequestedDenars, false);
@@ -1272,7 +1158,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			// Token: 0x06005087 RID: 20615 RVA: 0x00163B08 File Offset: 0x00161D08
 			private void QuestCompletedWithBetray()
 			{
 				ChangeCrimeRatingAction.Apply(base.QuestGiver.MapFaction, 45f, true);
@@ -1285,7 +1170,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithBetrayal(null);
 			}
 
-			// Token: 0x06005088 RID: 20616 RVA: 0x00163B68 File Offset: 0x00161D68
 			private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 			{
 				if (base.QuestGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
@@ -1294,13 +1178,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x06005089 RID: 20617 RVA: 0x00163B92 File Offset: 0x00161D92
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
 				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog);
 			}
 
-			// Token: 0x0600508A RID: 20618 RVA: 0x00163BAC File Offset: 0x00161DAC
 			protected override void OnFinalize()
 			{
 				if (Campaign.Current.CurrentMenuContext != null)
@@ -1317,14 +1199,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x0600508B RID: 20619 RVA: 0x00163C38 File Offset: 0x00161E38
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.TargetSettlement = this._revenueVillages[0].Village.Bound;
 				this.SetDialogs();
 			}
 
-			// Token: 0x0600508C RID: 20620 RVA: 0x00163C5C File Offset: 0x00161E5C
 			public RevenueFarmingIssueBehavior.RevenueVillage FindCurrentRevenueVillage()
 			{
 				foreach (RevenueFarmingIssueBehavior.RevenueVillage revenueVillage in this._revenueVillages)
@@ -1337,7 +1217,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return null;
 			}
 
-			// Token: 0x0600508D RID: 20621 RVA: 0x00163CD0 File Offset: 0x00161ED0
 			private void ProgressRevenueCollectionForVillage()
 			{
 				RevenueFarmingIssueBehavior.RevenueVillage revenueVillage = this.FindCurrentRevenueVillage();
@@ -1360,7 +1239,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x0600508E RID: 20622 RVA: 0x00163DA8 File Offset: 0x00161FA8
 			public void SetVillageAsCompleted(RevenueFarmingIssueBehavior.RevenueVillage village, bool addLog = true)
 			{
 				this.CollectingRevenues = false;
@@ -1384,46 +1262,36 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x04001AB9 RID: 6841
 			[SaveableField(10)]
 			internal int _totalRequestedDenars;
 
-			// Token: 0x04001ABA RID: 6842
 			[SaveableField(20)]
 			private readonly List<RevenueFarmingIssueBehavior.RevenueVillage> _revenueVillages;
 
-			// Token: 0x04001ABC RID: 6844
 			[SaveableField(30)]
 			public bool CollectingRevenues;
 
-			// Token: 0x04001ABD RID: 6845
 			[SaveableField(40)]
 			private readonly Dictionary<string, bool> _currentVillageEvents = new Dictionary<string, bool>();
 
-			// Token: 0x04001ABE RID: 6846
 			[SaveableField(50)]
 			internal bool _allRevenuesAreCollected;
 
-			// Token: 0x04001ABF RID: 6847
 			[SaveableField(60)]
 			private JournalLog _questProgressLog;
 		}
 
-		// Token: 0x02000660 RID: 1632
 		public class VillageEvent
 		{
-			// Token: 0x06005095 RID: 20629 RVA: 0x00163EBD File Offset: 0x001620BD
 			internal static void AutoGeneratedStaticCollectObjectsVillageEvent(object o, List<object> collectedObjects)
 			{
 				((RevenueFarmingIssueBehavior.VillageEvent)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005096 RID: 20630 RVA: 0x00163ECB File Offset: 0x001620CB
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 			}
 
-			// Token: 0x06005097 RID: 20631 RVA: 0x00163ECD File Offset: 0x001620CD
 			public VillageEvent(string id, string mainEventText, TextObject mainLog, List<RevenueFarmingIssueBehavior.VillageEventOptionData> optionConditionsAndConsequences)
 			{
 				this.Id = id;
@@ -1432,84 +1300,67 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.OptionConditionsAndConsequences = optionConditionsAndConsequences;
 			}
 
-			// Token: 0x04001AC0 RID: 6848
 			public readonly string Id;
 
-			// Token: 0x04001AC1 RID: 6849
 			public readonly string MainEventText;
 
-			// Token: 0x04001AC2 RID: 6850
 			public TextObject MainLog;
 
-			// Token: 0x04001AC3 RID: 6851
 			public List<RevenueFarmingIssueBehavior.VillageEventOptionData> OptionConditionsAndConsequences;
 		}
 
-		// Token: 0x02000661 RID: 1633
 		public class RevenueVillage
 		{
-			// Token: 0x06005098 RID: 20632 RVA: 0x00163EF2 File Offset: 0x001620F2
 			internal static void AutoGeneratedStaticCollectObjectsRevenueVillage(object o, List<object> collectedObjects)
 			{
 				((RevenueFarmingIssueBehavior.RevenueVillage)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005099 RID: 20633 RVA: 0x00163F00 File Offset: 0x00162100
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.Village);
 			}
 
-			// Token: 0x0600509A RID: 20634 RVA: 0x00163F0E File Offset: 0x0016210E
 			internal static object AutoGeneratedGetMemberValueVillage(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).Village;
 			}
 
-			// Token: 0x0600509B RID: 20635 RVA: 0x00163F1B File Offset: 0x0016211B
 			internal static object AutoGeneratedGetMemberValueTargetAmount(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).TargetAmount;
 			}
 
-			// Token: 0x0600509C RID: 20636 RVA: 0x00163F2D File Offset: 0x0016212D
 			internal static object AutoGeneratedGetMemberValueCollectedAmount(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).CollectedAmount;
 			}
 
-			// Token: 0x0600509D RID: 20637 RVA: 0x00163F3F File Offset: 0x0016213F
 			internal static object AutoGeneratedGetMemberValueHourlyGain(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).HourlyGain;
 			}
 
-			// Token: 0x0600509E RID: 20638 RVA: 0x00163F51 File Offset: 0x00162151
 			internal static object AutoGeneratedGetMemberValueEventOccurred(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).EventOccurred;
 			}
 
-			// Token: 0x0600509F RID: 20639 RVA: 0x00163F63 File Offset: 0x00162163
 			internal static object AutoGeneratedGetMemberValueIsRaided(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o).IsRaided;
 			}
 
-			// Token: 0x060050A0 RID: 20640 RVA: 0x00163F75 File Offset: 0x00162175
 			internal static object AutoGeneratedGetMemberValue_isDone(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o)._isDone;
 			}
 
-			// Token: 0x060050A1 RID: 20641 RVA: 0x00163F87 File Offset: 0x00162187
 			internal static object AutoGeneratedGetMemberValue_customProgress(object o)
 			{
 				return ((RevenueFarmingIssueBehavior.RevenueVillage)o)._customProgress;
 			}
 
-			// Token: 0x17001165 RID: 4453
-			// (get) Token: 0x060050A2 RID: 20642 RVA: 0x00163F99 File Offset: 0x00162199
 			public float CollectProgress
 			{
 				get
@@ -1518,13 +1369,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			// Token: 0x060050A3 RID: 20643 RVA: 0x00163FC0 File Offset: 0x001621C0
 			public void SetDone()
 			{
 				this._isDone = true;
 			}
 
-			// Token: 0x060050A4 RID: 20644 RVA: 0x00163FCC File Offset: 0x001621CC
 			public RevenueVillage(Village village, int targetAmount)
 			{
 				this.Village = village;
@@ -1537,61 +1386,48 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._customProgress = 0f;
 			}
 
-			// Token: 0x060050A5 RID: 20645 RVA: 0x0016401E File Offset: 0x0016221E
 			public void SetAdditionalProgress(float progress)
 			{
 				this._customProgress = progress;
 			}
 
-			// Token: 0x060050A6 RID: 20646 RVA: 0x00164027 File Offset: 0x00162227
 			public bool GetIsCompleted()
 			{
 				return this._isDone || this.CollectProgress >= 1f || this.CollectedAmount >= this.TargetAmount;
 			}
 
-			// Token: 0x04001AC4 RID: 6852
 			[SaveableField(1)]
 			public readonly Village Village;
 
-			// Token: 0x04001AC5 RID: 6853
 			[SaveableField(2)]
 			public readonly int TargetAmount;
 
-			// Token: 0x04001AC6 RID: 6854
 			[SaveableField(3)]
 			public int CollectedAmount;
 
-			// Token: 0x04001AC7 RID: 6855
 			[SaveableField(4)]
 			public int HourlyGain;
 
-			// Token: 0x04001AC8 RID: 6856
 			[SaveableField(5)]
 			private bool _isDone;
 
-			// Token: 0x04001AC9 RID: 6857
 			[SaveableField(6)]
 			public bool EventOccurred;
 
-			// Token: 0x04001ACA RID: 6858
 			[SaveableField(7)]
 			public bool IsRaided;
 
-			// Token: 0x04001ACB RID: 6859
 			[SaveableField(8)]
 			private float _customProgress;
 		}
 
-		// Token: 0x02000662 RID: 1634
 		public class RevenueFarmingIssueBehaviorTypeDefiner : SaveableTypeDefiner
 		{
-			// Token: 0x060050A7 RID: 20647 RVA: 0x00164051 File Offset: 0x00162251
 			public RevenueFarmingIssueBehaviorTypeDefiner()
 				: base(850000)
 			{
 			}
 
-			// Token: 0x060050A8 RID: 20648 RVA: 0x00164060 File Offset: 0x00162260
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(RevenueFarmingIssueBehavior.RevenueFarmingIssue), 1, null);
@@ -1600,7 +1436,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddClassDefinition(typeof(RevenueFarmingIssueBehavior.RevenueVillage), 4, null);
 			}
 
-			// Token: 0x060050A9 RID: 20649 RVA: 0x001640B5 File Offset: 0x001622B5
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(List<RevenueFarmingIssueBehavior.RevenueVillage>));
@@ -1609,10 +1444,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 		}
 
-		// Token: 0x02000663 RID: 1635
 		public struct VillageEventOptionData
 		{
-			// Token: 0x060050AA RID: 20650 RVA: 0x001640E7 File Offset: 0x001622E7
 			public VillageEventOptionData(string text, GameMenuOption.OnConditionDelegate onCondition, GameMenuOption.OnConsequenceDelegate onConsequence, bool isLeave = false)
 			{
 				this.Text = text;
@@ -1621,16 +1454,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.IsLeave = isLeave;
 			}
 
-			// Token: 0x04001ACC RID: 6860
 			public readonly string Text;
 
-			// Token: 0x04001ACD RID: 6861
 			public readonly GameMenuOption.OnConditionDelegate OnCondition;
 
-			// Token: 0x04001ACE RID: 6862
 			public readonly GameMenuOption.OnConsequenceDelegate OnConsequence;
 
-			// Token: 0x04001ACF RID: 6863
 			public readonly bool IsLeave;
 		}
 	}

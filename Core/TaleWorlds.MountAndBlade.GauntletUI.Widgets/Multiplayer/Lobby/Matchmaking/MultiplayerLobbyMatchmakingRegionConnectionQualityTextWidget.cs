@@ -4,10 +4,8 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Matchmaking
 {
-	// Token: 0x020000A0 RID: 160
 	public class MultiplayerLobbyMatchmakingRegionConnectionQualityTextWidget : TextWidget
 	{
-		// Token: 0x0600086D RID: 2157 RVA: 0x000186E1 File Offset: 0x000168E1
 		public MultiplayerLobbyMatchmakingRegionConnectionQualityTextWidget(UIContext context)
 			: base(context)
 		{
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Matchmak
 			this.ConnectionQualityLevelUpdated();
 		}
 
-		// Token: 0x0600086E RID: 2158 RVA: 0x00018714 File Offset: 0x00016914
 		private void ConnectionQualityLevelUpdated()
 		{
 			switch (this.ConnectionQualityLevel)
@@ -37,9 +34,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Matchmak
 			}
 		}
 
-		// Token: 0x170002F5 RID: 757
-		// (get) Token: 0x0600086F RID: 2159 RVA: 0x0001876B File Offset: 0x0001696B
-		// (set) Token: 0x06000870 RID: 2160 RVA: 0x00018773 File Offset: 0x00016973
 		[Editor(false)]
 		public int ConnectionQualityLevel
 		{
@@ -58,7 +52,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Matchmak
 			}
 		}
 
-		// Token: 0x040003DA RID: 986
 		private int _connectionQualityLevel;
 	}
 }

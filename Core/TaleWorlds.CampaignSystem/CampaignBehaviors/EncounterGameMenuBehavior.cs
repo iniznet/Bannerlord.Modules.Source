@@ -23,10 +23,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000390 RID: 912
 	public class EncounterGameMenuBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060035B1 RID: 13745 RVA: 0x000EDD9C File Offset: 0x000EBF9C
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<TroopRoster>("_breakInOutCasualties", ref this._breakInOutCasualties);
@@ -37,14 +35,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<bool>("_playerIsAlreadyInCastle", ref this._playerIsAlreadyInCastle);
 		}
 
-		// Token: 0x060035B2 RID: 13746 RVA: 0x000EDE15 File Offset: 0x000EC015
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 		}
 
-		// Token: 0x060035B3 RID: 13747 RVA: 0x000EDE45 File Offset: 0x000EC045
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (party == MobileParty.MainParty)
@@ -53,14 +49,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035B4 RID: 13748 RVA: 0x000EDE56 File Offset: 0x000EC056
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.InitializeAccessDetails();
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x060035B5 RID: 13749 RVA: 0x000EDE68 File Offset: 0x000EC068
 		private void InitializeAccessDetails()
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -70,7 +64,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035B6 RID: 13750 RVA: 0x000EDEB0 File Offset: 0x000EC0B0
 		private void AddGameMenus(CampaignGameStarter gameSystemInitializer)
 		{
 			gameSystemInitializer.AddGameMenu("taken_prisoner", "{=ezClQMBj}Your enemies take you as a prisoner.", new OnInitDelegate(this.game_menu_taken_prisoner_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -247,7 +240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			gameSystemInitializer.AddGameMenuOption("break_out_debrief_menu", "break_out_debrief_continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(this.break_out_debrief_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.break_out_debrief_continue_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x060035B7 RID: 13751 RVA: 0x000EF4F4 File Offset: 0x000ED6F4
 		private bool game_menu_encounter_army_lead_inf_on_condition(MenuCallbackArgs args)
 		{
 			bool flag = MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.MapEvent.DefenderSide.TroopCount == 0;
@@ -258,13 +250,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060035B8 RID: 13752 RVA: 0x000EF594 File Offset: 0x000ED794
 		private void game_menu_encounter_army_lead_inf_on_consequence(MenuCallbackArgs args)
 		{
 			this.game_menu_encounter_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035B9 RID: 13753 RVA: 0x000EF5A0 File Offset: 0x000ED7A0
 		private bool game_menu_encounter_army_lead_arc_on_condition(MenuCallbackArgs args)
 		{
 			bool flag = MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.MapEvent.DefenderSide.TroopCount == 0;
@@ -275,13 +265,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060035BA RID: 13754 RVA: 0x000EF640 File Offset: 0x000ED840
 		private void game_menu_encounter_army_lead_arc_on_consequence(MenuCallbackArgs args)
 		{
 			this.game_menu_encounter_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035BB RID: 13755 RVA: 0x000EF64C File Offset: 0x000ED84C
 		private bool game_menu_encounter_army_lead_cav_on_condition(MenuCallbackArgs args)
 		{
 			bool flag = MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.MapEvent.DefenderSide.TroopCount == 0;
@@ -292,19 +280,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060035BC RID: 13756 RVA: 0x000EF6EC File Offset: 0x000ED8EC
 		private void game_menu_encounter_army_lead_cav_on_consequence(MenuCallbackArgs args)
 		{
 			this.game_menu_encounter_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035BD RID: 13757 RVA: 0x000EF6F5 File Offset: 0x000ED8F5
 		public static void game_menu_captivity_taken_prisoner_cheat_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x060035BE RID: 13758 RVA: 0x000EF700 File Offset: 0x000ED900
 		private bool game_menu_encounter_army_lead_har_on_condition(MenuCallbackArgs args)
 		{
 			bool flag = MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.MapEvent.DefenderSide.TroopCount == 0;
@@ -315,13 +300,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060035BF RID: 13759 RVA: 0x000EF7A0 File Offset: 0x000ED9A0
 		private void game_menu_encounter_army_lead_har_on_consequence(MenuCallbackArgs args)
 		{
 			this.game_menu_encounter_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035C0 RID: 13760 RVA: 0x000EF7AC File Offset: 0x000ED9AC
 		private void game_menu_join_encounter_on_init(MenuCallbackArgs args)
 		{
 			MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
@@ -377,7 +360,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("JOIN_ENCOUNTER_TEXT", GameTexts.FindText("str_come_across_battle", null), false);
 		}
 
-		// Token: 0x060035C1 RID: 13761 RVA: 0x000EF928 File Offset: 0x000EDB28
 		private bool game_menu_join_encounter_help_attackers_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.DefendAction;
@@ -387,7 +369,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, encounteredBattle, BattleSideEnum.Attacker);
 		}
 
-		// Token: 0x060035C2 RID: 13762 RVA: 0x000EF964 File Offset: 0x000EDB64
 		private void game_menu_join_encounter_help_attackers_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.InsideSettlement && PlayerEncounter.EncounterSettlement.IsUnderSiege)
@@ -444,14 +425,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035C3 RID: 13763 RVA: 0x000EFABF File Offset: 0x000EDCBF
 		private bool game_menu_join_encounter_abandon_army_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty;
 		}
 
-		// Token: 0x060035C4 RID: 13764 RVA: 0x000EFAF0 File Offset: 0x000EDCF0
 		private bool game_menu_join_encounter_help_defenders_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.DefendAction;
@@ -461,14 +440,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, encounteredBattle, BattleSideEnum.Defender);
 		}
 
-		// Token: 0x060035C5 RID: 13765 RVA: 0x000EFB2C File Offset: 0x000EDD2C
 		public static bool game_menu_captivity_castle_taken_prisoner_cont_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x060035C6 RID: 13766 RVA: 0x000EFB38 File Offset: 0x000EDD38
 		private void game_menu_join_encounter_help_defenders_on_consequence(MenuCallbackArgs args)
 		{
 			PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
@@ -488,12 +465,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035C7 RID: 13767 RVA: 0x000EFBCC File Offset: 0x000EDDCC
 		private void game_menu_join_siege_event_on_init(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x060035C8 RID: 13768 RVA: 0x000EFBCE File Offset: 0x000EDDCE
 		private void game_menu_join_sally_out_on_init(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Current != null)
@@ -502,7 +477,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035C9 RID: 13769 RVA: 0x000EFBE4 File Offset: 0x000EDDE4
 		private bool game_menu_join_siege_event_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
@@ -515,7 +489,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Attacker);
 		}
 
-		// Token: 0x060035CA RID: 13770 RVA: 0x000EFC34 File Offset: 0x000EDE34
 		private void game_menu_join_siege_event_on_consequence(MenuCallbackArgs args)
 		{
 			if (!Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.IsMainParty && !Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Attacker))
@@ -546,27 +519,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Campaign.Current.TimeControlMode = CampaignTimeControlMode.UnstoppablePlay;
 		}
 
-		// Token: 0x060035CB RID: 13771 RVA: 0x000EFD2E File Offset: 0x000EDF2E
 		private bool game_menu_join_sally_out_event_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
 			return true;
 		}
 
-		// Token: 0x060035CC RID: 13772 RVA: 0x000EFD39 File Offset: 0x000EDF39
 		private bool game_menu_stay_in_settlement_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060035CD RID: 13773 RVA: 0x000EFD44 File Offset: 0x000EDF44
 		private void game_menu_join_sally_out_on_consequence(MenuCallbackArgs args)
 		{
 			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, MobileParty.MainParty.CurrentSettlement.Town.GarrisonParty.MapEvent.DefenderSide.LeaderParty);
 		}
 
-		// Token: 0x060035CE RID: 13774 RVA: 0x000EFD78 File Offset: 0x000EDF78
 		private void game_menu_stay_in_settlement_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("menu_siege_strategies");
@@ -576,14 +545,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035CF RID: 13775 RVA: 0x000EFD96 File Offset: 0x000EDF96
 		private bool break_in_to_help_defender_side_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.DefendAction;
 			return this.common_join_siege_event_button_condition(args);
 		}
 
-		// Token: 0x060035D0 RID: 13776 RVA: 0x000EFDA8 File Offset: 0x000EDFA8
 		private bool common_join_siege_event_button_condition(MenuCallbackArgs args)
 		{
 			MobileParty mainParty = MobileParty.MainParty;
@@ -605,20 +572,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return siegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Defender);
 		}
 
-		// Token: 0x060035D1 RID: 13777 RVA: 0x000EFE51 File Offset: 0x000EE051
 		private bool attack_besieger_side_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.HostileAction;
 			return this.common_join_siege_event_button_condition(args);
 		}
 
-		// Token: 0x060035D2 RID: 13778 RVA: 0x000EFE62 File Offset: 0x000EE062
 		private void game_menu_join_siege_event_on_defender_side_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("break_in_menu");
 		}
 
-		// Token: 0x060035D3 RID: 13779 RVA: 0x000EFE70 File Offset: 0x000EE070
 		private bool game_menu_join_encounter_leave_no_army_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -631,7 +595,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060035D4 RID: 13780 RVA: 0x000EFEC0 File Offset: 0x000EE0C0
 		private bool game_menu_join_encounter_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -639,7 +602,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return mobileParty == null || !mobileParty.IsMainParty;
 		}
 
-		// Token: 0x060035D5 RID: 13781 RVA: 0x000EFF08 File Offset: 0x000EE108
 		private void game_menu_hostile_action_end_by_peace_on_init(MenuCallbackArgs args)
 		{
 			PlayerEncounter playerEncounter = PlayerEncounter.Current;
@@ -658,7 +620,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035D6 RID: 13782 RVA: 0x000EFFAF File Offset: 0x000EE1AF
 		private bool game_menu_siege_attacker_left_return_to_settlement_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
@@ -666,7 +627,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060035D7 RID: 13783 RVA: 0x000EFFD4 File Offset: 0x000EE1D4
 		private void game_menu_siege_attacker_left_return_to_settlement_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Current == null && MobileParty.MainParty.AttachedTo == null)
@@ -686,27 +646,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu(genericStateMenu);
 		}
 
-		// Token: 0x060035D8 RID: 13784 RVA: 0x000F003D File Offset: 0x000EE23D
 		private bool game_menu_siege_attacker_left_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060035D9 RID: 13785 RVA: 0x000F0048 File Offset: 0x000EE248
 		private bool game_menu_siege_attacker_defeated_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060035DA RID: 13786 RVA: 0x000F0053 File Offset: 0x000EE253
 		private bool game_menu_encounter_cheat_on_condition(MenuCallbackArgs args)
 		{
 			return Game.Current.CheatMode;
 		}
 
-		// Token: 0x060035DB RID: 13787 RVA: 0x000F0060 File Offset: 0x000EE260
 		private void game_menu_encounter_interrupted_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -715,7 +671,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("DEFENDER", currentSettlement.Name, false);
 		}
 
-		// Token: 0x060035DC RID: 13788 RVA: 0x000F00A4 File Offset: 0x000EE2A4
 		private void game_menu_encounter_interrupted_siege_preparations_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -729,7 +684,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035DD RID: 13789 RVA: 0x000F0114 File Offset: 0x000EE314
 		private bool game_menu_encounter_interrupted_siege_preparations_leave_town_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -737,7 +691,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.MainHero.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction);
 		}
 
-		// Token: 0x060035DE RID: 13790 RVA: 0x000F0180 File Offset: 0x000EE380
 		private void game_menu_encounter_interrupted_by_raid_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -751,14 +704,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035DF RID: 13791 RVA: 0x000F01F4 File Offset: 0x000EE3F4
 		private bool game_menu_encounter_interrupted_by_raid_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x060035E0 RID: 13792 RVA: 0x000F0200 File Offset: 0x000EE400
 		private void game_menu_settlement_hide_and_wait_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -779,14 +730,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035E1 RID: 13793 RVA: 0x000F025C File Offset: 0x000EE45C
 		private bool game_menu_settlement_hide_and_wait_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060035E2 RID: 13794 RVA: 0x000F0267 File Offset: 0x000EE467
 		private bool wait_menu_settlement_hide_and_wait_on_condition(MenuCallbackArgs args)
 		{
 			args.MenuContext.GameMenu.GetText().SetTextVariable("SETTLEMENT", Settlement.CurrentSettlement.Name);
@@ -795,7 +744,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060035E3 RID: 13795 RVA: 0x000F02A4 File Offset: 0x000EE4A4
 		private bool game_menu_encounter_interrupted_siege_preparations_break_out_of_town_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.LeaveTroopsAndFlee;
@@ -818,7 +766,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, siegeEvent.BesiegerCamp.BesiegerParty.MapFaction);
 		}
 
-		// Token: 0x060035E4 RID: 13796 RVA: 0x000F0398 File Offset: 0x000EE598
 		private bool game_menu_encounter_interrupted_siege_preparations_hide_in_town_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Wait;
@@ -828,13 +775,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return mapFaction != siegeEvent.BesiegerCamp.BesiegerParty.MapFaction && (FactionManager.IsAtWarAgainstFaction(mapFaction2, mapFaction) || FactionManager.IsNeutralWithFaction(mapFaction2, mapFaction));
 		}
 
-		// Token: 0x060035E5 RID: 13797 RVA: 0x000F03F5 File Offset: 0x000EE5F5
 		private void game_menu_encounter_interrupted_break_out_of_town_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("break_out_menu");
 		}
 
-		// Token: 0x060035E6 RID: 13798 RVA: 0x000F0404 File Offset: 0x000EE604
 		private void game_menu_encounter_interrupted_siege_preparations_join_defend_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -843,7 +788,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerSiege.StartSiegePreparation();
 		}
 
-		// Token: 0x060035E7 RID: 13799 RVA: 0x000F0434 File Offset: 0x000EE634
 		private bool game_menu_encounter_interrupted_siege_preparations_join_defend_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.DefendAction;
@@ -851,72 +795,61 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(PartyBase.MainParty, BattleSideEnum.Defender);
 		}
 
-		// Token: 0x060035E8 RID: 13800 RVA: 0x000F0467 File Offset: 0x000EE667
 		private void game_menu_encounter_interrupted_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x060035E9 RID: 13801 RVA: 0x000F046F File Offset: 0x000EE66F
 		public static void menu_sneak_into_town_succeeded_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town");
 		}
 
-		// Token: 0x060035EA RID: 13802 RVA: 0x000F047B File Offset: 0x000EE67B
 		public static bool menu_sneak_into_town_succeeded_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x060035EB RID: 13803 RVA: 0x000F0486 File Offset: 0x000EE686
 		public static void game_menu_sneak_into_town_caught_on_init(MenuCallbackArgs args)
 		{
 			ChangeCrimeRatingAction.Apply(Settlement.CurrentSettlement.MapFaction, 10f, true);
 		}
 
-		// Token: 0x060035EC RID: 13804 RVA: 0x000F049D File Offset: 0x000EE69D
 		public static void mno_sneak_caught_surrender_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("menu_captivity_castle_taken_prisoner");
 		}
 
-		// Token: 0x060035ED RID: 13805 RVA: 0x000F04A9 File Offset: 0x000EE6A9
 		public static bool mno_sneak_caught_surrender_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
 			return true;
 		}
 
-		// Token: 0x060035EE RID: 13806 RVA: 0x000F04B4 File Offset: 0x000EE6B4
 		private void game_menu_encounter_interrupted_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("join_encounter");
 		}
 
-		// Token: 0x060035EF RID: 13807 RVA: 0x000F04C0 File Offset: 0x000EE6C0
 		private bool game_menu_encounter_interrupted_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x060035F0 RID: 13808 RVA: 0x000F04CB File Offset: 0x000EE6CB
 		private void game_menu_town_assault_on_init(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("encounter");
 			this.game_menu_encounter_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035F1 RID: 13809 RVA: 0x000F04DE File Offset: 0x000EE6DE
 		private void game_menu_town_assault_order_attack_on_init(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("encounter");
 			this.game_menu_encounter_order_attack_on_consequence(args);
 		}
 
-		// Token: 0x060035F2 RID: 13810 RVA: 0x000F04F4 File Offset: 0x000EE6F4
 		private void game_menu_army_encounter_on_init(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.LeaveEncounter)
@@ -954,7 +887,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035F3 RID: 13811 RVA: 0x000F05D4 File Offset: 0x000EE7D4
 		private void game_menu_encounter_on_init(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Battle == null)
@@ -976,7 +908,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035F4 RID: 13812 RVA: 0x000F0624 File Offset: 0x000EE824
 		private void UpdateVillageHostileActionEncounter(MenuCallbackArgs args)
 		{
 			MapEvent battle = PlayerEncounter.Battle;
@@ -1018,13 +949,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060035F5 RID: 13813 RVA: 0x000F0773 File Offset: 0x000EE973
 		public static bool game_menu_captivity_taken_prisoner_cheat_on_condition(MenuCallbackArgs args)
 		{
 			return Game.Current.IsDevelopmentMode;
 		}
 
-		// Token: 0x060035F6 RID: 13814 RVA: 0x000F0780 File Offset: 0x000EE980
 		private bool ConsiderMilitiaSurrenderPossibility()
 		{
 			bool flag = false;
@@ -1074,14 +1003,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x060035F7 RID: 13815 RVA: 0x000F09DC File Offset: 0x000EEBDC
 		private bool game_menu_encounter_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && MapEventHelper.CanLeaveBattle(MobileParty.MainParty) && (!MobileParty.MainParty.MapEvent.IsSallyOut || MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Defender || MobileParty.MainParty.CurrentSettlement == null);
 		}
 
-		// Token: 0x060035F8 RID: 13816 RVA: 0x000F0A54 File Offset: 0x000EEC54
 		private bool game_menu_sally_out_go_back_to_settlement_on_condition(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.IsSallyOut && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.CurrentSettlement != null && (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && (MobileParty.MainParty.SiegeEvent == null || !MobileParty.MainParty.SiegeEvent.BesiegerCamp.IsBesiegerSideParty(MobileParty.MainParty)) && !PlayerEncounter.Current.CheckIfBattleShouldContinueAfterBattleMission())
@@ -1093,7 +1020,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060035F9 RID: 13817 RVA: 0x000F0B20 File Offset: 0x000EED20
 		private void game_menu_sally_out_go_back_to_settlement_consequence(MenuCallbackArgs args)
 		{
 			MapEvent playerMapEvent = MapEvent.PlayerMapEvent;
@@ -1109,14 +1035,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("menu_siege_strategies");
 		}
 
-		// Token: 0x060035FA RID: 13818 RVA: 0x000F0B76 File Offset: 0x000EED76
 		private bool game_menu_encounter_abandon_army_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MapEventHelper.CanLeaveBattle(MobileParty.MainParty);
 		}
 
-		// Token: 0x060035FB RID: 13819 RVA: 0x000F0BB0 File Offset: 0x000EEDB0
 		private void game_menu_army_talk_to_leader_on_consequence(MenuCallbackArgs args)
 		{
 			Campaign.Current.CurrentConversationContext = ConversationContext.PartyEncounter;
@@ -1127,7 +1051,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMapConversation.OpenConversation(conversationCharacterData, conversationCharacterData2);
 		}
 
-		// Token: 0x060035FC RID: 13820 RVA: 0x000F0C0C File Offset: 0x000EEE0C
 		private bool game_menu_army_talk_to_leader_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -1139,7 +1062,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060035FD RID: 13821 RVA: 0x000F0C3A File Offset: 0x000EEE3A
 		public static void game_menu_captivity_castle_taken_prisoner_cont_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.ExitToLast();
@@ -1147,7 +1069,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			TakePrisonerAction.Apply(Settlement.CurrentSettlement.Party, Hero.MainHero);
 		}
 
-		// Token: 0x060035FE RID: 13822 RVA: 0x000F0C68 File Offset: 0x000EEE68
 		private bool game_menu_army_talk_to_other_members_on_condition(MenuCallbackArgs args)
 		{
 			foreach (MobileParty mobileParty in PlayerEncounter.EncounteredMobileParty.Army.LeaderParty.AttachedParties)
@@ -1162,13 +1083,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return !FactionManager.IsAtWarAgainstFaction(MobileParty.MainParty.MapFaction, PlayerEncounter.EncounteredMobileParty.MapFaction) && PlayerEncounter.EncounteredMobileParty.Army.LeaderParty.AttachedParties.Count > 0;
 		}
 
-		// Token: 0x060035FF RID: 13823 RVA: 0x000F0D14 File Offset: 0x000EEF14
 		private void game_menu_army_talk_to_other_members_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("game_menu_army_talk_to_other_members");
 		}
 
-		// Token: 0x06003600 RID: 13824 RVA: 0x000F0D20 File Offset: 0x000EEF20
 		private void game_menu_army_talk_to_other_members_on_init(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.LeaveEncounter)
@@ -1183,7 +1102,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003601 RID: 13825 RVA: 0x000F0D84 File Offset: 0x000EEF84
 		private bool game_menu_army_talk_to_other_members_item_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -1196,7 +1114,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003602 RID: 13826 RVA: 0x000F0DE0 File Offset: 0x000EEFE0
 		private void game_menu_army_talk_to_other_members_item_on_consequence(MenuCallbackArgs args)
 		{
 			MobileParty mobileParty = args.MenuContext.GetSelectedObject() as MobileParty;
@@ -1204,20 +1121,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, PartyBase.MainParty, false, false, false, false, false, false), new ConversationCharacterData(ConversationHelper.GetConversationCharacterPartyLeader(mobileParty.Party), mobileParty.Party, false, false, false, false, false, false));
 		}
 
-		// Token: 0x06003603 RID: 13827 RVA: 0x000F0E3F File Offset: 0x000EF03F
 		private bool game_menu_army_talk_to_other_members_back_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x06003604 RID: 13828 RVA: 0x000F0E4A File Offset: 0x000EF04A
 		private void game_menu_army_talk_to_other_members_back_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("army_encounter");
 		}
 
-		// Token: 0x06003605 RID: 13829 RVA: 0x000F0E56 File Offset: 0x000EF056
 		private bool game_menu_army_attack_on_condition(MenuCallbackArgs args)
 		{
 			this.CheckEnemyAttackableHonorably(args);
@@ -1225,7 +1139,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerEncounter.EncounteredMobileParty.MapFaction);
 		}
 
-		// Token: 0x06003606 RID: 13830 RVA: 0x000F0E80 File Offset: 0x000EF080
 		private void CheckEnemyAttackableHonorably(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
@@ -1256,7 +1169,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003607 RID: 13831 RVA: 0x000F0F08 File Offset: 0x000EF108
 		private void CheckFactionAttackableHonorably(MenuCallbackArgs args, IFaction faction)
 		{
 			if (faction.NotAttackableByPlayerUntilTime.IsFuture)
@@ -1266,7 +1178,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003608 RID: 13832 RVA: 0x000F0F38 File Offset: 0x000EF138
 		private void CheckFortificationAttackableHonorably(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
@@ -1281,20 +1192,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003609 RID: 13833 RVA: 0x000F0F9A File Offset: 0x000EF19A
 		private bool game_menu_army_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x0600360A RID: 13834 RVA: 0x000F0FA5 File Offset: 0x000EF1A5
 		private void game_menu_army_attack_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x0600360B RID: 13835 RVA: 0x000F0FB4 File Offset: 0x000EF1B4
 		private bool game_menu_army_join_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
@@ -1320,7 +1228,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return MobileParty.MainParty.Army == null && PlayerEncounter.EncounteredMobileParty.MapFaction == MobileParty.MainParty.MapFaction;
 		}
 
-		// Token: 0x0600360C RID: 13836 RVA: 0x000F10A4 File Offset: 0x000EF2A4
 		private void game_menu_army_join_on_consequence(MenuCallbackArgs args)
 		{
 			MobileParty.MainParty.Army = PlayerEncounter.EncounteredMobileParty.Army;
@@ -1328,19 +1235,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600360D RID: 13837 RVA: 0x000F10D4 File Offset: 0x000EF2D4
 		private void army_encounter_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600360E RID: 13838 RVA: 0x000F10DC File Offset: 0x000EF2DC
 		private void game_menu_encounter_leave_on_consequence(MenuCallbackArgs args)
 		{
 			MenuHelper.EncounterLeaveConsequence(args);
 		}
 
-		// Token: 0x0600360F RID: 13839 RVA: 0x000F10E4 File Offset: 0x000EF2E4
 		private void game_menu_encounter_abandon_on_consequence(MenuCallbackArgs args)
 		{
 			((PlayerEncounter.Battle != null) ? PlayerEncounter.Battle : PlayerEncounter.EncounteredBattle).BeginWait();
@@ -1353,14 +1257,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003610 RID: 13840 RVA: 0x000F1148 File Offset: 0x000EF348
 		private bool game_menu_encounter_surrender_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
 			return MobileParty.MainParty.MapEvent != null && !MapEventHelper.CanLeaveBattle(MobileParty.MainParty) && PartyBase.MainParty.Side == BattleSideEnum.Defender && MobileParty.MainParty.MapEvent.DefenderSide.TroopCount == MobileParty.MainParty.Party.NumberOfHealthyMembers;
 		}
 
-		// Token: 0x06003611 RID: 13841 RVA: 0x000F11A9 File Offset: 0x000EF3A9
 		private void game_menu_encounter_surrender_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.PlayerSurrender = true;
@@ -1371,32 +1273,27 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003612 RID: 13842 RVA: 0x000F11CC File Offset: 0x000EF3CC
 		private bool game_menu_encounter_attack_on_condition(MenuCallbackArgs args)
 		{
 			this.CheckEnemyAttackableHonorably(args);
 			return MenuHelper.EncounterAttackCondition(args);
 		}
 
-		// Token: 0x06003613 RID: 13843 RVA: 0x000F11DB File Offset: 0x000EF3DB
 		private bool game_menu_encounter_capture_the_enemy_on_condition(MenuCallbackArgs args)
 		{
 			return MenuHelper.EncounterCaptureEnemyCondition(args);
 		}
 
-		// Token: 0x06003614 RID: 13844 RVA: 0x000F11E3 File Offset: 0x000EF3E3
 		private void game_menu_encounter_attack_on_consequence(MenuCallbackArgs args)
 		{
 			MenuHelper.EncounterAttackConsequence(args);
 		}
 
-		// Token: 0x06003615 RID: 13845 RVA: 0x000F11EB File Offset: 0x000EF3EB
 		private void game_menu_capture_the_enemy_on_consequence(MenuCallbackArgs args)
 		{
 			MenuHelper.EncounterCaptureTheEnemyOnConsequence(args);
 		}
 
-		// Token: 0x06003616 RID: 13846 RVA: 0x000F11F4 File Offset: 0x000EF3F4
 		private bool game_menu_encounter_order_attack_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.OrderTroopsToAttack;
@@ -1459,13 +1356,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003617 RID: 13847 RVA: 0x000F1328 File Offset: 0x000EF528
 		private void game_menu_encounter_order_attack_on_consequence(MenuCallbackArgs args)
 		{
 			MenuHelper.EncounterOrderAttackConsequence(args);
 		}
 
-		// Token: 0x06003618 RID: 13848 RVA: 0x000F1330 File Offset: 0x000EF530
 		private bool game_menu_encounter_leave_your_soldiers_behind_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.LeaveTroopsAndFlee;
@@ -1491,7 +1386,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003619 RID: 13849 RVA: 0x000F1444 File Offset: 0x000EF644
 		private void game_menu_leave_soldiers_behind_on_init(MenuCallbackArgs args)
 		{
 			Hero heroWithHighestSkill = MobilePartyHelper.GetHeroWithHighestSkill(MobileParty.MainParty, DefaultSkills.Tactics);
@@ -1502,31 +1396,26 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("SOLDIER_OR_SOLDIERS", (this._intEncounterVariable <= 1) ? GameTexts.FindText("str_soldier", null) : GameTexts.FindText("str_soldiers", null), false);
 		}
 
-		// Token: 0x0600361A RID: 13850 RVA: 0x000F14E3 File Offset: 0x000EF6E3
 		public static void game_request_entry_to_castle_approved_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("castle");
 		}
 
-		// Token: 0x0600361B RID: 13851 RVA: 0x000F14EF File Offset: 0x000EF6EF
 		public static bool game_request_entry_to_castle_approved_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x0600361C RID: 13852 RVA: 0x000F14FA File Offset: 0x000EF6FA
 		public static void game_request_entry_to_castle_rejected_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("castle_outside");
 		}
 
-		// Token: 0x0600361D RID: 13853 RVA: 0x000F1506 File Offset: 0x000EF706
 		public static void menu_castle_entry_denied_on_init(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x0600361E RID: 13854 RVA: 0x000F1508 File Offset: 0x000EF708
 		private void game_menu_encounter_leave_your_soldiers_behind_accept_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.SacrificeTroops(this._intEncounterVariable, out this._getAwayCasualties, out this._getAwayLostBaggage);
@@ -1543,7 +1432,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ActivateGameMenu("try_to_get_away_debrief");
 		}
 
-		// Token: 0x0600361F RID: 13855 RVA: 0x000F1574 File Offset: 0x000EF774
 		private void game_menu_get_away_debrief_on_init(MenuCallbackArgs args)
 		{
 			TextObject textObject = GameTexts.FindText("str_STR1_space_STR2", null);
@@ -1574,28 +1462,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("CASUALTIES_AND_LOST_BAGGAGE", textObject, false);
 		}
 
-		// Token: 0x06003620 RID: 13856 RVA: 0x000F163F File Offset: 0x000EF83F
 		private bool game_menu_try_to_get_away_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003621 RID: 13857 RVA: 0x000F164A File Offset: 0x000EF84A
 		private bool game_menu_try_to_get_away_reject_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x06003622 RID: 13858 RVA: 0x000F1655 File Offset: 0x000EF855
 		private bool game_menu_try_to_get_away_accept_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003623 RID: 13859 RVA: 0x000F1660 File Offset: 0x000EF860
 		private void game_menu_try_to_get_away_end(MenuCallbackArgs args)
 		{
 			foreach (MapEventParty mapEventParty in PlayerEncounter.Battle.PartiesOnSide(BattleSideEnum.Defender))
@@ -1617,7 +1501,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06003624 RID: 13860 RVA: 0x000F172C File Offset: 0x000EF92C
 		private bool game_menu_town_besiege_continue_siege_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
@@ -1630,7 +1513,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return encounteredBattle != null && encounteredBattle.GetLeaderParty(PartyBase.MainParty.Side) == PartyBase.MainParty && encounteredParty.IsSettlement && encounteredParty.Settlement.IsFortification && FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, encounteredParty.MapFaction) && encounteredParty.Settlement.IsUnderSiege && encounteredParty.Settlement.CurrentSiegeState == Settlement.SiegeState.OnTheWalls;
 		}
 
-		// Token: 0x06003625 RID: 13861 RVA: 0x000F17B5 File Offset: 0x000EF9B5
 		private void game_menu_town_besiege_continue_siege_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Battle != null)
@@ -1640,7 +1522,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerSiege.StartSiegePreparation();
 		}
 
-		// Token: 0x06003626 RID: 13862 RVA: 0x000F17CC File Offset: 0x000EF9CC
 		private bool game_menu_village_hostile_action_on_condition(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement == null || !Settlement.CurrentSettlement.IsVillage)
@@ -1656,7 +1537,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003627 RID: 13863 RVA: 0x000F1839 File Offset: 0x000EFA39
 		private void game_menu_village_raid_no_resist_on_consequence(MenuCallbackArgs args)
 		{
 			BeHostileAction.ApplyEncounterHostileAction(PartyBase.MainParty, Settlement.CurrentSettlement.Party);
@@ -1670,39 +1550,33 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003628 RID: 13864 RVA: 0x000F186C File Offset: 0x000EFA6C
 		private void game_menu_village_force_supplies_no_resist_loot_on_consequence(MenuCallbackArgs args)
 		{
 			BeHostileAction.ApplyMinorCoercionHostileAction(PartyBase.MainParty, Settlement.CurrentSettlement.Party);
 			GameMenu.ActivateGameMenu("force_supplies_village");
 		}
 
-		// Token: 0x06003629 RID: 13865 RVA: 0x000F188C File Offset: 0x000EFA8C
 		private void game_menu_village_force_volunteers_no_resist_loot_on_consequence(MenuCallbackArgs args)
 		{
 			BeHostileAction.ApplyMajorCoercionHostileAction(PartyBase.MainParty, Settlement.CurrentSettlement.Party);
 			GameMenu.ActivateGameMenu("force_volunteers_village");
 		}
 
-		// Token: 0x0600362A RID: 13866 RVA: 0x000F18AC File Offset: 0x000EFAAC
 		private void game_menu_taken_prisoner_on_init(MenuCallbackArgs args)
 		{
 		}
 
-		// Token: 0x0600362B RID: 13867 RVA: 0x000F18AE File Offset: 0x000EFAAE
 		private bool game_menu_taken_prisoner_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x0600362C RID: 13868 RVA: 0x000F18B9 File Offset: 0x000EFAB9
 		private void game_menu_taken_prisoner_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x0600362D RID: 13869 RVA: 0x000F18C0 File Offset: 0x000EFAC0
 		private void game_menu_encounter_meeting_on_init(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Current == null || ((PlayerEncounter.Battle == null || PlayerEncounter.Battle.AttackerSide.LeaderParty == PartyBase.MainParty || PlayerEncounter.Battle.DefenderSide.LeaderParty == PartyBase.MainParty) && !PlayerEncounter.MeetingDone))
@@ -1727,13 +1601,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x0600362E RID: 13870 RVA: 0x000F194B File Offset: 0x000EFB4B
 		private void VillageOutsideOnInit(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("village");
 		}
 
-		// Token: 0x0600362F RID: 13871 RVA: 0x000F1958 File Offset: 0x000EFB58
 		private void game_menu_town_outside_on_init(MenuCallbackArgs args)
 		{
 			Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
@@ -1802,7 +1674,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003630 RID: 13872 RVA: 0x000F1B98 File Offset: 0x000EFD98
 		private void game_menu_fortification_high_crime_rating_on_init(MenuCallbackArgs args)
 		{
 			TextObject textObject = new TextObject("{=DdeIg5hz}As you move through the streets, you hear whispers of an upcoming war between your faction and {SETTLEMENT_FACTION}. Upon hearing this, you slink away without attracting any suspicion.", null);
@@ -1810,14 +1681,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("FORTIFICATION_CRIME_RATING_TEXT", textObject, false);
 		}
 
-		// Token: 0x06003631 RID: 13873 RVA: 0x000F1BD8 File Offset: 0x000EFDD8
 		private bool game_menu_fortification_high_crime_rating_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003632 RID: 13874 RVA: 0x000F1BE4 File Offset: 0x000EFDE4
 		private void game_menu_army_left_settlement_due_to_war_on_init(MenuCallbackArgs args)
 		{
 			TextObject textObject = new TextObject("{=Nsb6SD4y}After receiving word of an upcoming war against {ENEMY_FACTION}, {ARMY_NAME} decided to leave {SETTLEMENT_NAME}.", null);
@@ -1827,14 +1696,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBTextManager.SetTextVariable("ARMY_LEFT_SETTLEMENT_DUE_TO_WAR_TEXT", textObject, false);
 		}
 
-		// Token: 0x06003633 RID: 13875 RVA: 0x000F1C55 File Offset: 0x000EFE55
 		private bool game_menu_army_left_settlement_due_to_war_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003634 RID: 13876 RVA: 0x000F1C60 File Offset: 0x000EFE60
 		private void game_menu_castle_outside_on_init(MenuCallbackArgs args)
 		{
 			Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
@@ -1894,7 +1761,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._playerIsAlreadyInCastle = false;
 		}
 
-		// Token: 0x06003635 RID: 13877 RVA: 0x000F1E78 File Offset: 0x000F0078
 		private void game_menu_army_left_settlement_due_to_war_on_consequence(MenuCallbackArgs args)
 		{
 			MobileParty leaderParty = MobileParty.MainParty.Army.LeaderParty;
@@ -1903,26 +1769,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			SetPartyAiAction.GetActionForPatrollingAroundSettlement(leaderParty, currentSettlement);
 		}
 
-		// Token: 0x06003636 RID: 13878 RVA: 0x000F1EA6 File Offset: 0x000F00A6
 		private void game_menu_town_outside_approach_gates_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town_guard");
 		}
 
-		// Token: 0x06003637 RID: 13879 RVA: 0x000F1EB2 File Offset: 0x000F00B2
 		private bool game_menu_castle_outside_approach_gates_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return true;
 		}
 
-		// Token: 0x06003638 RID: 13880 RVA: 0x000F1EBC File Offset: 0x000F00BC
 		private void game_menu_castle_outside_approach_gates_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("castle_guard");
 		}
 
-		// Token: 0x06003639 RID: 13881 RVA: 0x000F1EC8 File Offset: 0x000F00C8
 		private void game_menu_fortification_high_crime_rating_continue_on_consequence(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement.IsTown)
@@ -1936,40 +1798,34 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600363A RID: 13882 RVA: 0x000F1EF7 File Offset: 0x000F00F7
 		private bool outside_menu_criminal_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return this._accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.CrimeRating;
 		}
 
-		// Token: 0x0600363B RID: 13883 RVA: 0x000F1F1E File Offset: 0x000F011E
 		private void outside_menu_criminal_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town_discuss_criminal_surrender");
 		}
 
-		// Token: 0x0600363C RID: 13884 RVA: 0x000F1F2A File Offset: 0x000F012A
 		private void caught_outside_menu_criminal_on_consequence(MenuCallbackArgs args)
 		{
 			ChangeCrimeRatingAction.Apply(Settlement.CurrentSettlement.MapFaction, 10f, true);
 			GameMenu.SwitchToMenu("town_inside_criminal");
 		}
 
-		// Token: 0x0600363D RID: 13885 RVA: 0x000F1F4B File Offset: 0x000F014B
 		private bool caught_outside_menu_enemy_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Surrender;
 			return Hero.MainHero.MapFaction.IsAtWarWith(Settlement.CurrentSettlement.MapFaction);
 		}
 
-		// Token: 0x0600363E RID: 13886 RVA: 0x000F1F6E File Offset: 0x000F016E
 		private void caught_outside_menu_enemy_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("taken_prisoner");
 		}
 
-		// Token: 0x0600363F RID: 13887 RVA: 0x000F1F7C File Offset: 0x000F017C
 		private bool game_menu_town_disguise_yourself_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.SneakIn;
@@ -1977,7 +1833,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return this._accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && this._accessDetails.LimitedAccessSolution == SettlementAccessModel.LimitedAccessSolution.Disguise;
 		}
 
-		// Token: 0x06003640 RID: 13888 RVA: 0x000F1FE0 File Offset: 0x000F01E0
 		private void game_menu_town_disguise_yourself_on_consequence(MenuCallbackArgs args)
 		{
 			bool flag = Campaign.Current.Models.DisguiseDetectionModel.CalculateDisguiseDetectionProbability(Settlement.CurrentSettlement) > MBRandom.RandomFloat;
@@ -1991,7 +1846,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("menu_sneak_into_town_caught");
 		}
 
-		// Token: 0x06003641 RID: 13889 RVA: 0x000F2038 File Offset: 0x000F0238
 		private void game_menu_castle_town_sneak_grappling_hook_on_consequence(MenuCallbackArgs args)
 		{
 			bool flag = false;
@@ -2013,13 +1867,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(new TextObject("{=!}TODO You have not any grappling hook!", null), 0, null, "");
 		}
 
-		// Token: 0x06003642 RID: 13890 RVA: 0x000F20E5 File Offset: 0x000F02E5
 		private bool game_menu_town_sneak_grappling_hook_on_condition(MenuCallbackArgs args)
 		{
 			return Campaign.Current.IsNight;
 		}
 
-		// Token: 0x06003643 RID: 13891 RVA: 0x000F20F4 File Offset: 0x000F02F4
 		private bool game_menu_town_town_besiege_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.BesiegeTown;
@@ -2027,28 +1879,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Settlement.CurrentSettlement.MapFaction) && PartyBase.MainParty.NumberOfHealthyMembers > 0 && !Settlement.CurrentSettlement.IsUnderSiege;
 		}
 
-		// Token: 0x06003644 RID: 13892 RVA: 0x000F2147 File Offset: 0x000F0347
 		private void leave_siege_after_attack_on_consequence(MenuCallbackArgs args)
 		{
 			MobileParty.MainParty.BesiegerCamp = null;
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003645 RID: 13893 RVA: 0x000F2159 File Offset: 0x000F0359
 		private bool leave_siege_after_attack_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty;
 		}
 
-		// Token: 0x06003646 RID: 13894 RVA: 0x000F2187 File Offset: 0x000F0387
 		private bool leave_army_after_attack_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty;
 		}
 
-		// Token: 0x06003647 RID: 13895 RVA: 0x000F21B8 File Offset: 0x000F03B8
 		private void leave_army_after_attack_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Current != null)
@@ -2067,7 +1915,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003648 RID: 13896 RVA: 0x000F2204 File Offset: 0x000F0404
 		private void game_menu_town_town_besiege_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -2080,46 +1927,39 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerSiege.StartSiegePreparation();
 		}
 
-		// Token: 0x06003649 RID: 13897 RVA: 0x000F2247 File Offset: 0x000F0447
 		private void continue_siege_after_attack_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerSiege.StartSiegePreparation();
 		}
 
-		// Token: 0x0600364A RID: 13898 RVA: 0x000F224E File Offset: 0x000F044E
 		private bool continue_siege_after_attack_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x0600364B RID: 13899 RVA: 0x000F2259 File Offset: 0x000F0459
 		private bool game_menu_town_outside_cheat_enter_on_condition(MenuCallbackArgs args)
 		{
 			return Game.Current.CheatMode;
 		}
 
-		// Token: 0x0600364C RID: 13900 RVA: 0x000F2265 File Offset: 0x000F0465
 		private void game_menu_town_outside_enter_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("town");
 			PlayerEncounter.LocationEncounter.IsInsideOfASettlement = true;
 		}
 
-		// Token: 0x0600364D RID: 13901 RVA: 0x000F227C File Offset: 0x000F047C
 		private bool game_menu_castle_outside_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return true;
 		}
 
-		// Token: 0x0600364E RID: 13902 RVA: 0x000F2287 File Offset: 0x000F0487
 		private void game_menu_castle_outside_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600364F RID: 13903 RVA: 0x000F2290 File Offset: 0x000F0490
 		private bool game_menu_town_guard_request_shelter_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
@@ -2133,7 +1973,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003650 RID: 13904 RVA: 0x000F2313 File Offset: 0x000F0513
 		private void game_menu_request_entry_to_castle_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -2146,7 +1985,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("menu_castle_entry_denied");
 		}
 
-		// Token: 0x06003651 RID: 13905 RVA: 0x000F2348 File Offset: 0x000F0548
 		private bool game_menu_request_meeting_someone_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -2160,13 +1998,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return flag;
 		}
 
-		// Token: 0x06003652 RID: 13906 RVA: 0x000F23C6 File Offset: 0x000F05C6
 		private void game_menu_request_meeting_someone_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("request_meeting");
 		}
 
-		// Token: 0x06003653 RID: 13907 RVA: 0x000F23D2 File Offset: 0x000F05D2
 		private void game_menu_town_guard_back_on_consequence(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsCastle)
@@ -2177,14 +2013,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("town_outside");
 		}
 
-		// Token: 0x06003654 RID: 13908 RVA: 0x000F23FC File Offset: 0x000F05FC
 		private void game_menu_town_menu_request_meeting_on_init(MenuCallbackArgs args)
 		{
 			List<Hero> heroesToMeetInTown = TownHelpers.GetHeroesToMeetInTown(Settlement.CurrentSettlement);
 			args.MenuContext.SetRepeatObjectList(heroesToMeetInTown);
 		}
 
-		// Token: 0x06003655 RID: 13909 RVA: 0x000F2420 File Offset: 0x000F0620
 		private bool game_menu_request_meeting_with_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -2198,7 +2032,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003656 RID: 13910 RVA: 0x000F2468 File Offset: 0x000F0668
 		private void game_menu_town_menu_request_meeting_with_besiegers_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -2232,7 +2065,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetRepeatObjectList(list.AsReadOnly());
 		}
 
-		// Token: 0x06003657 RID: 13911 RVA: 0x000F253C File Offset: 0x000F073C
 		private bool game_menu_request_meeting_with_besiegers_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Conversation;
@@ -2246,7 +2078,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06003658 RID: 13912 RVA: 0x000F25C4 File Offset: 0x000F07C4
 		private string GetMeetingScene(out string sceneLevel)
 		{
 			string text = GameSceneDataManager.Instance.MeetingScenes.GetRandomElementWithPredicate((MeetingSceneData x) => x.Culture == Settlement.CurrentSettlement.Culture).SceneID;
@@ -2262,7 +2093,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return text;
 		}
 
-		// Token: 0x06003659 RID: 13913 RVA: 0x000F2664 File Offset: 0x000F0864
 		private void game_menu_request_meeting_with_besiegers_on_consequence(MenuCallbackArgs args)
 		{
 			string text;
@@ -2273,7 +2103,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMission.OpenConversationMission(conversationCharacterData, conversationCharacterData2, meetingScene, text);
 		}
 
-		// Token: 0x0600365A RID: 13914 RVA: 0x000F26CC File Offset: 0x000F08CC
 		private void game_menu_request_meeting_with_on_consequence(MenuCallbackArgs args)
 		{
 			string text;
@@ -2286,21 +2115,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignMission.OpenConversationMission(conversationCharacterData, conversationCharacterData2, meetingScene, text);
 		}
 
-		// Token: 0x0600365B RID: 13915 RVA: 0x000F273B File Offset: 0x000F093B
 		private bool game_meeting_town_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return Settlement.CurrentSettlement.IsTown;
 		}
 
-		// Token: 0x0600365C RID: 13916 RVA: 0x000F274F File Offset: 0x000F094F
 		private bool game_meeting_castle_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return Settlement.CurrentSettlement.IsCastle;
 		}
 
-		// Token: 0x0600365D RID: 13917 RVA: 0x000F2764 File Offset: 0x000F0964
 		private void game_menu_request_meeting_town_leave_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSiegeEvent.BesiegedSettlement != Settlement.CurrentSettlement)
@@ -2322,7 +2148,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600365E RID: 13918 RVA: 0x000F27D4 File Offset: 0x000F09D4
 		private void game_menu_request_meeting_castle_leave_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSiegeEvent.BesiegedSettlement != Settlement.CurrentSettlement)
@@ -2344,46 +2169,39 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600365F RID: 13919 RVA: 0x000F2844 File Offset: 0x000F0A44
 		private void game_menu_village_loot_complete_on_init(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Update();
 		}
 
-		// Token: 0x06003660 RID: 13920 RVA: 0x000F284B File Offset: 0x000F0A4B
 		private void game_menu_village_loot_complete_continue_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06003661 RID: 13921 RVA: 0x000F2853 File Offset: 0x000F0A53
 		private bool game_menu_village_loot_complete_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003662 RID: 13922 RVA: 0x000F285E File Offset: 0x000F0A5E
 		private void game_menu_raid_interrupted_continue_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("encounter");
 		}
 
-		// Token: 0x06003663 RID: 13923 RVA: 0x000F286A File Offset: 0x000F0A6A
 		private bool game_menu_raid_interrupted_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003664 RID: 13924 RVA: 0x000F2875 File Offset: 0x000F0A75
 		private void break_out_menu_accept_on_consequence(MenuCallbackArgs args)
 		{
 			BreakInOutBesiegedSettlementAction.ApplyBreakOut(out this._breakInOutCasualties, out this._breakInOutArmyCasualties);
 			GameMenu.SwitchToMenu("break_out_debrief_menu");
 		}
 
-		// Token: 0x06003665 RID: 13925 RVA: 0x000F2894 File Offset: 0x000F0A94
 		private bool break_out_menu_accept_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.LeaveTroopsAndFlee;
@@ -2400,14 +2218,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003666 RID: 13926 RVA: 0x000F2909 File Offset: 0x000F0B09
 		private void break_in_menu_accept_on_consequence(MenuCallbackArgs args)
 		{
 			BreakInOutBesiegedSettlementAction.ApplyBreakIn(out this._breakInOutCasualties, out this._breakInOutArmyCasualties);
 			GameMenu.SwitchToMenu("break_in_debrief_menu");
 		}
 
-		// Token: 0x06003667 RID: 13927 RVA: 0x000F2928 File Offset: 0x000F0B28
 		private bool break_in_menu_accept_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.LeaveTroopsAndFlee;
@@ -2424,7 +2240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06003668 RID: 13928 RVA: 0x000F299D File Offset: 0x000F0B9D
 		private void break_out_menu_reject_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerSiege.PlayerSiegeEvent != null)
@@ -2435,27 +2250,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.SwitchToMenu("encounter_interrupted_siege_preparations");
 		}
 
-		// Token: 0x06003669 RID: 13929 RVA: 0x000F29BB File Offset: 0x000F0BBB
 		private bool break_out_menu_reject_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return true;
 		}
 
-		// Token: 0x0600366A RID: 13930 RVA: 0x000F29C5 File Offset: 0x000F0BC5
 		private void break_in_menu_reject_on_consequence(MenuCallbackArgs args)
 		{
 			GameMenu.SwitchToMenu("join_siege_event");
 		}
 
-		// Token: 0x0600366B RID: 13931 RVA: 0x000F29D1 File Offset: 0x000F0BD1
 		private bool break_in_menu_reject_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return true;
 		}
 
-		// Token: 0x0600366C RID: 13932 RVA: 0x000F29DC File Offset: 0x000F0BDC
 		private void break_in_out_menu_on_init(MenuCallbackArgs args)
 		{
 			MobileParty mainParty = MobileParty.MainParty;
@@ -2466,7 +2277,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			text.SetTextVariable("PLURAL", (lostTroopCountForBreakingInBesiegedSettlement > 1) ? 1 : 0);
 		}
 
-		// Token: 0x0600366D RID: 13933 RVA: 0x000F2A44 File Offset: 0x000F0C44
 		private void break_in_out_debrief_menu_on_init(MenuCallbackArgs args)
 		{
 			TextObject text = args.MenuContext.GameMenu.GetText();
@@ -2482,7 +2292,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			text.SetTextVariable("OTHER_CASUALTIES", TextObject.Empty);
 		}
 
-		// Token: 0x0600366E RID: 13934 RVA: 0x000F2AD8 File Offset: 0x000F0CD8
 		private void break_out_debrief_continue_on_consequence(MenuCallbackArgs args)
 		{
 			Settlement besiegedSettlement = PlayerSiege.PlayerSiegeEvent.BesiegedSettlement;
@@ -2495,21 +2304,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerEncounter.ProtectPlayerSide(1f);
 		}
 
-		// Token: 0x0600366F RID: 13935 RVA: 0x000F2B0F File Offset: 0x000F0D0F
 		private bool break_out_debrief_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003670 RID: 13936 RVA: 0x000F2B1A File Offset: 0x000F0D1A
 		private bool break_in_debrief_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003671 RID: 13937 RVA: 0x000F2B28 File Offset: 0x000F0D28
 		private void break_in_debrief_continue_on_consequence(MenuCallbackArgs args)
 		{
 			if (Hero.MainHero.CurrentSettlement == null)
@@ -2528,7 +2334,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			PlayerSiege.StartSiegePreparation();
 		}
 
-		// Token: 0x06003672 RID: 13938 RVA: 0x000F2B7C File Offset: 0x000F0D7C
 		[GameMenuInitializationHandler("army_encounter")]
 		[GameMenuInitializationHandler("game_menu_army_talk_to_other_members")]
 		private static void army_encounter_background_on_init(MenuCallbackArgs args)
@@ -2541,7 +2346,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("wait_fallback");
 		}
 
-		// Token: 0x06003673 RID: 13939 RVA: 0x000F2BD4 File Offset: 0x000F0DD4
 		[GameMenuInitializationHandler("castle_outside")]
 		[GameMenuInitializationHandler("town_outside")]
 		[GameMenuInitializationHandler("fortification_crime_rating")]
@@ -2553,7 +2357,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(currentSettlement.SettlementComponent.WaitMeshName);
 		}
 
-		// Token: 0x06003674 RID: 13940 RVA: 0x000F2BFD File Offset: 0x000F0DFD
 		[GameMenuInitializationHandler("menu_castle_taken")]
 		[GameMenuInitializationHandler("menu_settlement_taken")]
 		private static void encounter_menu_settlement_taken_on_init(MenuCallbackArgs args)
@@ -2561,21 +2364,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("encounter_win");
 		}
 
-		// Token: 0x06003675 RID: 13941 RVA: 0x000F2C0F File Offset: 0x000F0E0F
 		[GameMenuInitializationHandler("encounter_meeting")]
 		private static void game_menu_encounter_meeting_background_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounteredParty.MapFaction.Culture.EncounterBackgroundMesh);
 		}
 
-		// Token: 0x06003676 RID: 13942 RVA: 0x000F2C30 File Offset: 0x000F0E30
 		[GameMenuInitializationHandler("menu_castle_entry_denied")]
 		private static void game_menu_castle_guard_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("encounter_guards");
 		}
 
-		// Token: 0x06003677 RID: 13943 RVA: 0x000F2C42 File Offset: 0x000F0E42
 		[GameMenuInitializationHandler("break_in_menu")]
 		[GameMenuInitializationHandler("break_in_debrief_menu")]
 		[GameMenuInitializationHandler("break_out_menu")]
@@ -2586,31 +2386,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");
 		}
 
-		// Token: 0x04001166 RID: 4454
 		private static readonly TextObject EnemyNotAttackableTooltip = GameTexts.FindText("str_enemy_not_attackable_tooltip", null);
 
-		// Token: 0x04001167 RID: 4455
 		private int _intEncounterVariable;
 
-		// Token: 0x04001168 RID: 4456
 		private TroopRoster _breakInOutCasualties;
 
-		// Token: 0x04001169 RID: 4457
 		private int _breakInOutArmyCasualties;
 
-		// Token: 0x0400116A RID: 4458
 		private SettlementAccessModel.AccessDetails _accessDetails;
 
-		// Token: 0x0400116B RID: 4459
 		private TroopRoster _getAwayCasualties;
 
-		// Token: 0x0400116C RID: 4460
 		private ItemRoster _getAwayLostBaggage;
 
-		// Token: 0x0400116D RID: 4461
 		private bool _playerIsAlreadyInCastle;
 
-		// Token: 0x0400116E RID: 4462
 		private const float SmugglingCrimeRate = 10f;
 	}
 }

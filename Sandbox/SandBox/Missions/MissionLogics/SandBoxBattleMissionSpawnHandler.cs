@@ -3,10 +3,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics
 {
-	// Token: 0x0200004E RID: 78
 	public class SandBoxBattleMissionSpawnHandler : SandBoxMissionSpawnHandler
 	{
-		// Token: 0x060003AC RID: 940 RVA: 0x0001B1D0 File Offset: 0x000193D0
 		public override void AfterStart()
 		{
 			int numberOfInvolvedMen = this._mapEvent.GetNumberOfInvolvedMen(0);

@@ -19,10 +19,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x0200009C RID: 156
 	public class DefaultNotificationsCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060007AB RID: 1963 RVA: 0x0003C388 File Offset: 0x0003A588
 		public override void RegisterEvents()
 		{
 			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
@@ -67,7 +65,6 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnHeroTeleportationRequestedEvent.AddNonSerializedListener(this, new Action<Hero, Settlement, MobileParty, TeleportHeroAction.TeleportationDetail>(this.OnHeroTeleportationRequested));
 		}
 
-		// Token: 0x060007AC RID: 1964 RVA: 0x0003C730 File Offset: 0x0003A930
 		private void OnCompanionRemoved(Hero hero, RemoveCompanionAction.RemoveCompanionDetail detail)
 		{
 			if (detail == 3)
@@ -85,13 +82,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007AD RID: 1965 RVA: 0x0003C7B1 File Offset: 0x0003A9B1
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<Tuple<bool, float>>>("_foodNotificationList", ref this._foodNotificationList);
 		}
 
-		// Token: 0x060007AE RID: 1966 RVA: 0x0003C7C5 File Offset: 0x0003A9C5
 		private void OnHourlyTick()
 		{
 			if (MobileParty.MainParty.Army != null)
@@ -100,7 +95,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007AF RID: 1967 RVA: 0x0003C7DC File Offset: 0x0003A9DC
 		private void OnIssueUpdated(IssueBase issue, IssueBase.IssueUpdateDetails details, Hero issueSolver)
 		{
 			if (details == 2)
@@ -125,7 +119,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B0 RID: 1968 RVA: 0x0003C896 File Offset: 0x0003AA96
 		private void OnQuestLogAdded(QuestBase quest, bool hideInformation)
 		{
 			if (!hideInformation)
@@ -136,7 +129,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B1 RID: 1969 RVA: 0x0003C8C4 File Offset: 0x0003AAC4
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (detail == 1)
@@ -155,7 +147,6 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject2, 0, null, "event:/ui/notification/quest_fail");
 		}
 
-		// Token: 0x060007B2 RID: 1970 RVA: 0x0003C947 File Offset: 0x0003AB47
 		private void OnQuestStarted(QuestBase quest)
 		{
 			TextObject textObject = GameTexts.FindText("str_quest_started", null);
@@ -163,7 +154,6 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "event:/ui/notification/quest_start");
 		}
 
-		// Token: 0x060007B3 RID: 1971 RVA: 0x0003C974 File Offset: 0x0003AB74
 		private void OnRenownGained(Hero hero, int gainedRenown, bool doNotNotifyPlayer)
 		{
 			if (hero.Clan == Clan.PlayerClan && !doNotNotifyPlayer)
@@ -185,7 +175,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B4 RID: 1972 RVA: 0x0003CA27 File Offset: 0x0003AC27
 		private void OnHideoutSpotted(PartyBase party, PartyBase hideoutParty)
 		{
 			if (party == PartyBase.MainParty)
@@ -194,7 +183,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B5 RID: 1973 RVA: 0x0003CA64 File Offset: 0x0003AC64
 		private void OnPrisonerTaken(PartyBase capturer, Hero prisoner)
 		{
 			if (prisoner.Clan == Clan.PlayerClan)
@@ -215,7 +203,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B6 RID: 1974 RVA: 0x0003CB08 File Offset: 0x0003AD08
 		private void OnPrisonerReleased(Hero hero, PartyBase party, IFaction capturerFaction, EndCaptivityDetail detail)
 		{
 			TextObject textObject = null;
@@ -249,7 +236,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B7 RID: 1975 RVA: 0x0003CBF4 File Offset: 0x0003ADF4
 		private void OnBattleStarted(PartyBase attackerParty, PartyBase defenderParty, object subject, bool showNotification)
 		{
 			Settlement settlement;
@@ -262,7 +248,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B8 RID: 1976 RVA: 0x0003CCD4 File Offset: 0x0003AED4
 		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
 			if (siegeEvent.BesiegedSettlement != null && siegeEvent.BesiegedSettlement.OwnerClan == Clan.PlayerClan && siegeEvent.BesiegerCamp.BesiegerParty != null)
@@ -274,7 +259,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007B9 RID: 1977 RVA: 0x0003CDA0 File Offset: 0x0003AFA0
 		private void OnClanTierIncreased(Clan clan, bool shouldNotify = true)
 		{
 			if (shouldNotify && clan == Clan.PlayerClan)
@@ -285,7 +269,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BA RID: 1978 RVA: 0x0003CDF0 File Offset: 0x0003AFF0
 		private void OnItemsLooted(MobileParty mobileParty, ItemRoster items)
 		{
 			if (mobileParty == MobileParty.MainParty)
@@ -313,7 +296,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BB RID: 1979 RVA: 0x0003CEEC File Offset: 0x0003B0EC
 		private void OnRelationChanged(Hero effectiveHero, Hero effectiveHeroGainedRelationWith, int relationChange, bool showNotification, ChangeRelationAction.ChangeRelationDetail detail, Hero originalHero, Hero originalGainedRelationWith)
 		{
 			if (showNotification && relationChange != 0 && (effectiveHero == Hero.MainHero || effectiveHeroGainedRelationWith == Hero.MainHero))
@@ -336,7 +318,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BC RID: 1980 RVA: 0x0003CFFC File Offset: 0x0003B1FC
 		private void OnHeroLevelledUp(Hero hero, bool shouldNotify = true)
 		{
 			if (!shouldNotify)
@@ -351,7 +332,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BD RID: 1981 RVA: 0x0003D050 File Offset: 0x0003B250
 		private void OnHeroGainedSkill(Hero hero, SkillObject skill, int change = 1, bool shouldNotify = true)
 		{
 			if (shouldNotify && BannerlordConfig.ReportExperience && (hero == Hero.MainHero || hero.Clan == Clan.PlayerClan || hero.PartyBelongedTo == MobileParty.MainParty || (hero.CompanionOf != null && hero.CompanionOf == Clan.PlayerClan)))
@@ -366,7 +346,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BE RID: 1982 RVA: 0x0003D120 File Offset: 0x0003B320
 		private void OnTroopsDeserted(MobileParty mobileParty, TroopRoster desertedTroops)
 		{
 			if (mobileParty == MobileParty.MainParty || mobileParty.Party.Owner == Hero.MainHero)
@@ -379,7 +358,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007BF RID: 1983 RVA: 0x0003D19C File Offset: 0x0003B39C
 		private void OnClanChangedFaction(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
 			if (clan == Clan.PlayerClan || Hero.MainHero.MapFaction == oldKingdom || Hero.MainHero.MapFaction == newKingdom)
@@ -396,7 +374,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C0 RID: 1984 RVA: 0x0003D1EC File Offset: 0x0003B3EC
 		private void OnRegularClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -431,7 +408,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C1 RID: 1985 RVA: 0x0003D2CC File Offset: 0x0003B4CC
 		private void OnMercenaryClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom)
 		{
 			if (clan == Clan.PlayerClan || Hero.MainHero.MapFaction == oldKingdom || Hero.MainHero.MapFaction == newKingdom)
@@ -453,7 +429,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C2 RID: 1986 RVA: 0x0003D3CC File Offset: 0x0003B5CC
 		private void OnArmyCreated(Army army)
 		{
 			if (army.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army == null)
@@ -465,7 +440,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C3 RID: 1987 RVA: 0x0003D454 File Offset: 0x0003B654
 		private void OnArmyLeaderThink(Hero hero, Army.ArmyLeaderThinkReason reason)
 		{
 			TextObject textObject = TextObject.Empty;
@@ -480,7 +454,6 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, hero.CharacterObject, "");
 		}
 
-		// Token: 0x060007C4 RID: 1988 RVA: 0x0003D4A8 File Offset: 0x0003B6A8
 		private void OnSiegeBombardmentHit(MobileParty besiegerParty, Settlement besiegedSettlement, BattleSideEnum side, SiegeEngineType weapon, SiegeBombardTargets target)
 		{
 			if ((besiegerParty.Army != null && besiegerParty.Army.Parties.Contains(MobileParty.MainParty)) || besiegerParty == MobileParty.MainParty || (MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement == besiegedSettlement))
@@ -508,7 +481,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C5 RID: 1989 RVA: 0x0003D5C0 File Offset: 0x0003B7C0
 		private void OnSiegeBombardmentWallHit(MobileParty besiegerParty, Settlement besiegedSettlement, BattleSideEnum side, SiegeEngineType weapon, bool isWallCracked)
 		{
 			if ((besiegerParty.Army != null && besiegerParty.Army.Parties.Contains(MobileParty.MainParty)) || besiegerParty == MobileParty.MainParty || (MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement == besiegedSettlement))
@@ -527,7 +499,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C6 RID: 1990 RVA: 0x0003D6A8 File Offset: 0x0003B8A8
 		private void OnSiegeEngineDestroyed(MobileParty besiegerParty, Settlement besiegedSettlement, BattleSideEnum side, SiegeEngineType destroyedEngine)
 		{
 			if ((besiegerParty.Army != null && besiegerParty.Army.Parties.Contains(MobileParty.MainParty)) || besiegerParty == MobileParty.MainParty || (MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement == besiegedSettlement))
@@ -540,7 +511,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C7 RID: 1991 RVA: 0x0003D754 File Offset: 0x0003B954
 		private void OnHeroOrPartyTradedGold(ValueTuple<Hero, PartyBase> giverSide, ValueTuple<Hero, PartyBase> recipientSide, ValueTuple<int, string> transactionAmountAndId, bool displayNotification)
 		{
 			if (displayNotification)
@@ -561,7 +531,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C8 RID: 1992 RVA: 0x0003D818 File Offset: 0x0003BA18
 		private void OnPartyJoinedArmy(MobileParty party)
 		{
 			if (party.Army == MobileParty.MainParty.Army && party.LeaderHero != party.Army.LeaderParty.LeaderHero)
@@ -573,7 +542,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007C9 RID: 1993 RVA: 0x0003D894 File Offset: 0x0003BA94
 		private void OnPartyAttachedAnotherParty(MobileParty party)
 		{
 			if (party.Army == MobileParty.MainParty.Army && party.LeaderHero != party.Army.LeaderParty.LeaderHero)
@@ -585,7 +553,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CA RID: 1994 RVA: 0x0003D918 File Offset: 0x0003BB18
 		private void OnPartyRemovedFromArmy(MobileParty party)
 		{
 			if (party.Army == MobileParty.MainParty.Army)
@@ -601,7 +568,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CB RID: 1995 RVA: 0x0003D988 File Offset: 0x0003BB88
 		private void OnArmyDispersed(Army army, Army.ArmyDispersionReason reason, bool isPlayersArmy)
 		{
 			if (isPlayersArmy)
@@ -610,7 +576,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CC RID: 1996 RVA: 0x0003D994 File Offset: 0x0003BB94
 		private void OnHeroesMarried(Hero firstHero, Hero secondHero, bool showNotification)
 		{
 			if (showNotification && (firstHero.Clan == Clan.PlayerClan || secondHero.Clan == Clan.PlayerClan))
@@ -621,7 +586,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CD RID: 1997 RVA: 0x0003D9FC File Offset: 0x0003BBFC
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero previousOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 		{
 			if (detail == 1 && settlement.MapFaction == Hero.MainHero.MapFaction && settlement.IsFortification)
@@ -632,7 +596,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CE RID: 1998 RVA: 0x0003DA70 File Offset: 0x0003BC70
 		private void OnChildConceived(Hero mother)
 		{
 			if (mother == Hero.MainHero)
@@ -655,7 +618,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007CF RID: 1999 RVA: 0x0003DB0C File Offset: 0x0003BD0C
 		private void OnGivenBirth(Hero mother, List<Hero> aliveOffsprings, int stillbornCount)
 		{
 			if (mother == Hero.MainHero || mother == Hero.MainHero.Spouse || mother.Clan == Clan.PlayerClan)
@@ -698,7 +660,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D0 RID: 2000 RVA: 0x0003DC50 File Offset: 0x0003BE50
 		private void OnHeroKilled(Hero victimHero, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
 			if (showNotification && victimHero != null && victimHero.Clan == Clan.PlayerClan)
@@ -727,7 +688,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D1 RID: 2001 RVA: 0x0003DD39 File Offset: 0x0003BF39
 		private void OnHeroSharedFoodWithAnotherHero(Hero supporterHero, Hero supportedHero, float influence)
 		{
 			if (supporterHero == Hero.MainHero)
@@ -741,7 +701,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D2 RID: 2002 RVA: 0x0003DD70 File Offset: 0x0003BF70
 		private void CheckFoodNotifications()
 		{
 			float num = 0f;
@@ -778,7 +737,6 @@ namespace SandBox.CampaignBehaviors
 			this._foodNotificationList.Clear();
 		}
 
-		// Token: 0x060007D3 RID: 2003 RVA: 0x0003DE88 File Offset: 0x0003C088
 		private void OnClanDestroyed(Clan destroyedClan)
 		{
 			TextObject textObject = new TextObject("{=PBq1FyrJ}{CLAN_NAME} clan was destroyed.", null);
@@ -786,7 +744,6 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 		}
 
-		// Token: 0x060007D4 RID: 2004 RVA: 0x0003DEB4 File Offset: 0x0003C0B4
 		private void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemObject item, int count, bool showNotification)
 		{
 			if (showNotification && item != null && count > 0)
@@ -827,7 +784,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D5 RID: 2005 RVA: 0x0003DFE8 File Offset: 0x0003C1E8
 		private void OnRebellionFinished(Settlement settlement, Clan oldOwnerClan)
 		{
 			TextObject textObject = GameTexts.FindText("str_rebellion_finished", null);
@@ -836,7 +792,6 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 		}
 
-		// Token: 0x060007D6 RID: 2006 RVA: 0x0003E038 File Offset: 0x0003C238
 		private void OnTournamentFinished(CharacterObject winner, MBReadOnlyList<CharacterObject> participants, Town town, ItemObject prize)
 		{
 			if (winner.IsHero && winner.HeroObject.Clan == Clan.PlayerClan && winner.HeroObject.PartyBelongedTo == MobileParty.MainParty)
@@ -848,7 +803,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D7 RID: 2007 RVA: 0x0003E0A8 File Offset: 0x0003C2A8
 		private void OnBuildingLevelChanged(Town town, Building building, int levelChange)
 		{
 			if (levelChange > 0 && town.OwnerClan == Clan.PlayerClan)
@@ -860,7 +814,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060007D8 RID: 2008 RVA: 0x0003E134 File Offset: 0x0003C334
 		private void OnHeroTeleportationRequested(Hero hero, Settlement targetSettlement, MobileParty targetParty, TeleportHeroAction.TeleportationDetail detail)
 		{
 			if (detail == 1 && targetParty == MobileParty.MainParty && MobileParty.MainParty.IsActive)
@@ -871,7 +824,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x04000320 RID: 800
 		private List<Tuple<bool, float>> _foodNotificationList = new List<Tuple<bool, float>>();
 	}
 }

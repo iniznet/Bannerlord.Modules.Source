@@ -5,10 +5,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	// Token: 0x0200043D RID: 1085
 	public static class DisbandPartyAction
 	{
-		// Token: 0x06003EED RID: 16109 RVA: 0x0012C994 File Offset: 0x0012AB94
 		public static void StartDisband(MobileParty disbandParty)
 		{
 			if (disbandParty.IsDisbanding)
@@ -42,7 +40,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			CampaignEventDispatcher.Instance.OnPartyDisbandStarted(disbandParty);
 		}
 
-		// Token: 0x06003EEE RID: 16110 RVA: 0x0012CA4A File Offset: 0x0012AC4A
 		public static void CancelDisband(MobileParty disbandParty)
 		{
 			CampaignEventDispatcher.Instance.OnPartyDisbandCanceled(disbandParty);

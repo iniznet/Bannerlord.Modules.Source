@@ -3,10 +3,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.Core
 {
-	// Token: 0x02000076 RID: 118
 	public static class HyperlinkTexts
 	{
-		// Token: 0x06000762 RID: 1890 RVA: 0x0001966C File Offset: 0x0001786C
 		public static TextObject GetSettlementHyperlinkText(string link, TextObject settlementName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Settlement\" href=\"event:{LINK}\"><b>{SETTLEMENT_NAME}</b></a>", null);
@@ -15,7 +13,6 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000763 RID: 1891 RVA: 0x00019693 File Offset: 0x00017893
 		public static TextObject GetKingdomHyperlinkText(string link, TextObject kingdomName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Kingdom\" href=\"event:{LINK}\"><b>{KINGDOM_NAME}</b></a>", null);
@@ -24,7 +21,6 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000764 RID: 1892 RVA: 0x000196BA File Offset: 0x000178BA
 		public static TextObject GetHeroHyperlinkText(string link, TextObject heroName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Hero\" href=\"event:{LINK}\"><b>{HERO_NAME}</b></a>", null);
@@ -33,7 +29,6 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000765 RID: 1893 RVA: 0x000196E1 File Offset: 0x000178E1
 		public static TextObject GetConceptHyperlinkText(string link, TextObject conceptName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Concept\" href=\"event:{LINK}\"><b>{CONCEPT_NAME}</b></a>", null);
@@ -42,7 +37,6 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000766 RID: 1894 RVA: 0x00019708 File Offset: 0x00017908
 		public static TextObject GetClanHyperlinkText(string link, TextObject clanName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Clan\" href=\"event:{LINK}\"><b>{CLAN_NAME}</b></a>", null);
@@ -51,7 +45,6 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000767 RID: 1895 RVA: 0x0001972F File Offset: 0x0001792F
 		public static TextObject GetUnitHyperlinkText(string link, TextObject unitName)
 		{
 			TextObject textObject = new TextObject("{=!}{.link}<a style=\"Link.Unit\" href=\"event:{LINK}\"><b>{UNIT_NAME}</b></a>", null);
@@ -60,13 +53,11 @@ namespace TaleWorlds.Core
 			return textObject;
 		}
 
-		// Token: 0x06000768 RID: 1896 RVA: 0x00019756 File Offset: 0x00017956
 		public static string GetGenericHyperlinkText(string link, string name)
 		{
 			return string.Concat(new string[] { "<a style=\"Link\" href=\"event:", link, "\"><b>", name, "</b></a>" });
 		}
 
-		// Token: 0x06000769 RID: 1897 RVA: 0x00019784 File Offset: 0x00017984
 		public static string GetKeyHyperlinkText(string keyID)
 		{
 			string text = "None";
@@ -1535,74 +1526,50 @@ namespace TaleWorlds.Core
 			return string.Format("<img src=\"General\\InputKeys\\{0}\" extend=\"{1}\">", text, num);
 		}
 
-		// Token: 0x040003BB RID: 955
 		public const string GoldIcon = "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">";
 
-		// Token: 0x040003BC RID: 956
 		public const string MoraleIcon = "{=!}<img src=\"General\\Icons\\Morale@2x\" extend=\"8\">";
 
-		// Token: 0x040003BD RID: 957
 		public const string InfluenceIcon = "{=!}<img src=\"General\\Icons\\Influence@2x\" extend=\"7\">";
 
-		// Token: 0x040003BE RID: 958
 		public const string IssueAvailableIcon = "{=!}<img src=\"General\\Icons\\icon_issue_available_square\" extend=\"4\">";
 
-		// Token: 0x040003BF RID: 959
 		public const string IssueActiveIcon = "{=!}<img src=\"General\\Icons\\icon_issue_active_square\" extend=\"4\">";
 
-		// Token: 0x040003C0 RID: 960
 		public const string TrackedIssueIcon = "{=!}<img src=\"General\\Icons\\issue_target_icon\" extend=\"4\">";
 
-		// Token: 0x040003C1 RID: 961
 		public const string QuestAvailableIcon = "{=!}<img src=\"General\\Icons\\icon_quest_available_square\" extend=\"4\">";
 
-		// Token: 0x040003C2 RID: 962
 		public const string QuestActiveIcon = "{=!}<img src=\"General\\Icons\\icon_issue_active_square\" extend=\"4\">";
 
-		// Token: 0x040003C3 RID: 963
 		public const string StoryQuestActiveIcon = "{=!}<img src=\"General\\Icons\\icon_story_quest_active_square\" extend=\"4\">";
 
-		// Token: 0x040003C4 RID: 964
 		public const string TrackedStoryQuestIcon = "{=!}<img src=\"General\\Icons\\quest_target_icon\" extend=\"4\">";
 
-		// Token: 0x040003C5 RID: 965
 		public const string InPrisonIcon = "{=!}<img src=\"Clan\\Status\\icon_inprison\">";
 
-		// Token: 0x040003C6 RID: 966
 		public const string ChildIcon = "{=!}<img src=\"Clan\\Status\\icon_ischild\">";
 
-		// Token: 0x040003C7 RID: 967
 		public const string PregnantIcon = "{=!}<img src=\"Clan\\Status\\icon_pregnant\">";
 
-		// Token: 0x040003C8 RID: 968
 		public const string IllIcon = "{=!}<img src=\"Clan\\Status\\icon_terminallyill\">";
 
-		// Token: 0x040003C9 RID: 969
 		public const string HeirIcon = "{=!}<img src=\"Clan\\Status\\icon_heir\">";
 
-		// Token: 0x040003CA RID: 970
 		public const string UnreadIcon = "{=!}<img src=\"MapMenuUnread2x\">";
 
-		// Token: 0x040003CB RID: 971
 		public const string UnselectedPerkIcon = "{=!}<img src=\"CharacterDeveloper\\UnselectedPerksIcon\" extend=\"2\">";
 
-		// Token: 0x040003CC RID: 972
 		public const string HorseIcon = "{=!}<img src=\"StdAssets\\ItemIcons\\Mount\" extend=\"16\">";
 
-		// Token: 0x040003CD RID: 973
 		public const string CrimeIcon = "{=!}<img src=\"SPGeneral\\MapOverlay\\Settlement\\icon_crime\" extend=\"16\">";
 
-		// Token: 0x040003CE RID: 974
 		public const string UpgradeAvailableIcon = "{=!}<img src=\"PartyScreen\\upgrade_icon\" extend=\"5\">";
 
-		// Token: 0x02000101 RID: 257
 		private enum ConsoleType
 		{
-			// Token: 0x040006D2 RID: 1746
 			Xbox,
-			// Token: 0x040006D3 RID: 1747
 			Ps4,
-			// Token: 0x040006D4 RID: 1748
 			Ps5
 		}
 	}

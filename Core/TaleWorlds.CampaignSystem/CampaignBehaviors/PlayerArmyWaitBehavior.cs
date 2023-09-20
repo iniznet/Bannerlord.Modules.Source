@@ -12,10 +12,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x020003BE RID: 958
 	public class PlayerArmyWaitBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003901 RID: 14593 RVA: 0x00104329 File Offset: 0x00102529
 		public PlayerArmyWaitBehavior()
 		{
 			this._leadingArmyDescriptionText = GameTexts.FindText("str_you_are_leading_army", null);
@@ -23,7 +21,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._disbandingArmyDescriptionText = new TextObject("{=Yan3ZG1w}Disbanding Army!", null);
 		}
 
-		// Token: 0x06003902 RID: 14594 RVA: 0x00104364 File Offset: 0x00102564
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -31,12 +28,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.TickEvent.AddNonSerializedListener(this, new Action<float>(this.OnTick));
 		}
 
-		// Token: 0x06003903 RID: 14595 RVA: 0x001043B6 File Offset: 0x001025B6
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003904 RID: 14596 RVA: 0x001043B8 File Offset: 0x001025B8
 		private void AddMenus(CampaignGameStarter starter)
 		{
 			starter.AddWaitGameMenu("army_wait", "{=0gwQGnm4}{ARMY_OWNER_TEXT} {ARMY_BEHAVIOR}", new OnInitDelegate(this.wait_menu_army_wait_on_init), new OnConditionDelegate(this.wait_menu_army_wait_on_condition), null, new OnTickDelegate(this.ArmyWaitMenuTick), GameMenu.MenuAndOptionType.WaitMenuHideProgressAndHoursOption, GameOverlays.MenuOverlayType.None, 0f, GameMenu.MenuFlags.None, null);
@@ -49,7 +44,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddGameMenuOption("army_dispersed", "army_dispersed_continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(this.army_dispersed_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.army_dispersed_continue_on_consequence), false, -1, false, null);
 		}
 
-		// Token: 0x06003905 RID: 14597 RVA: 0x0010454C File Offset: 0x0010274C
 		private void ArmyWaitMenuTick(MenuCallbackArgs args, CampaignTime dt)
 		{
 			string genericStateMenu = Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu();
@@ -67,13 +61,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ExitToLast();
 		}
 
-		// Token: 0x06003906 RID: 14598 RVA: 0x001045A7 File Offset: 0x001027A7
 		private void OnSessionLaunched(CampaignGameStarter starter)
 		{
 			this.AddMenus(starter);
 		}
 
-		// Token: 0x06003907 RID: 14599 RVA: 0x001045B0 File Offset: 0x001027B0
 		private void OnArmyDispersed(Army army, Army.ArmyDispersionReason reason, bool isPlayersArmy)
 		{
 			if (isPlayersArmy && army.LeaderParty != MobileParty.MainParty && Campaign.Current.CurrentMenuContext != null)
@@ -102,7 +94,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003908 RID: 14600 RVA: 0x00104674 File Offset: 0x00102874
 		private void wait_menu_army_wait_on_init(MenuCallbackArgs args)
 		{
 			Army army = MobileParty.MainParty.Army;
@@ -128,7 +119,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.RefreshArmyTexts(args);
 		}
 
-		// Token: 0x06003909 RID: 14601 RVA: 0x001046E8 File Offset: 0x001028E8
 		private void wait_menu_army_wait_at_settlement_on_init(MenuCallbackArgs args)
 		{
 			if (!PlayerEncounter.InsideSettlement && MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)
@@ -144,7 +134,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.RefreshArmyTexts(args);
 		}
 
-		// Token: 0x0600390A RID: 14602 RVA: 0x00104768 File Offset: 0x00102968
 		private void wait_menu_army_wait_at_settlement_on_tick(MenuCallbackArgs args, CampaignTime dt)
 		{
 			string genericStateMenu = Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu();
@@ -160,14 +149,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600390B RID: 14603 RVA: 0x001047BB File Offset: 0x001029BB
 		[GameMenuInitializationHandler("army_wait")]
 		private static void wait_menu_ui_army_wait_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(Hero.MainHero.MapFaction.Culture.EncounterBackgroundMesh);
 		}
 
-		// Token: 0x0600390C RID: 14604 RVA: 0x001047DC File Offset: 0x001029DC
 		private void RefreshArmyTexts(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army != null)
@@ -186,13 +173,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600390D RID: 14605 RVA: 0x0010489D File Offset: 0x00102A9D
 		private bool wait_menu_army_wait_on_condition(MenuCallbackArgs args)
 		{
 			return true;
 		}
 
-		// Token: 0x0600390E RID: 14606 RVA: 0x001048A0 File Offset: 0x00102AA0
 		private bool wait_menu_army_abandon_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
@@ -205,14 +190,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600390F RID: 14607 RVA: 0x0010491C File Offset: 0x00102B1C
 		private bool wait_menu_army_enter_settlement_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
 			return (MobileParty.MainParty.Army != null && MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.MapEvent == null && MobileParty.MainParty.BesiegedSettlement == null) || (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement != null && MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement.Position2D.Distance(MobileParty.MainParty.Army.LeaderParty.Position2D) < 1f);
 		}
 
-		// Token: 0x06003910 RID: 14608 RVA: 0x001049D8 File Offset: 0x00102BD8
 		private void wait_menu_army_enter_settlement_on_consequence(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MobileParty.MainParty.CurrentSettlement == null)
@@ -234,14 +217,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GameMenu.ActivateGameMenu("village");
 		}
 
-		// Token: 0x06003911 RID: 14609 RVA: 0x00104A6D File Offset: 0x00102C6D
 		private bool wait_menu_army_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			return MobileParty.MainParty.Army != null && MobileParty.MainParty.MapEvent == null && MobileParty.MainParty.BesiegedSettlement == null;
 		}
 
-		// Token: 0x06003912 RID: 14610 RVA: 0x00104AA0 File Offset: 0x00102CA0
 		private void wait_menu_army_leave_on_consequence(MenuCallbackArgs args)
 		{
 			if (PlayerEncounter.Current != null)
@@ -260,7 +241,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003913 RID: 14611 RVA: 0x00104AEC File Offset: 0x00102CEC
 		private void wait_menu_army_abandon_on_consequence(MenuCallbackArgs args)
 		{
 			ChangeClanInfluenceAction.Apply(Clan.PlayerClan, (float)(-(float)Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAbandoningArmy()));
@@ -275,7 +255,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MobileParty.MainParty.Army = null;
 		}
 
-		// Token: 0x06003914 RID: 14612 RVA: 0x00104B38 File Offset: 0x00102D38
 		private void OnTick(float dt)
 		{
 			if (MobileParty.MainParty.AttachedTo != null)
@@ -300,7 +279,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003915 RID: 14613 RVA: 0x00104BD0 File Offset: 0x00102DD0
 		private void army_dispersed_continue_on_consequence(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.CurrentSettlement == null)
@@ -326,14 +304,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			LeaveSettlementAction.ApplyForParty(MobileParty.MainParty);
 		}
 
-		// Token: 0x06003916 RID: 14614 RVA: 0x00104C80 File Offset: 0x00102E80
 		private bool army_dispersed_continue_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Continue;
 			return true;
 		}
 
-		// Token: 0x06003917 RID: 14615 RVA: 0x00104C8C File Offset: 0x00102E8C
 		[GameMenuInitializationHandler("army_wait_at_settlement")]
 		private static void game_menu_army_wait_at_settlement_on_init(MenuCallbackArgs args)
 		{
@@ -341,20 +317,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(settlement.SettlementComponent.WaitMeshName);
 		}
 
-		// Token: 0x06003918 RID: 14616 RVA: 0x00104CE5 File Offset: 0x00102EE5
 		[GameMenuInitializationHandler("army_dispersed")]
 		private static void game_menu_army_dispersed_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("wait_fallback");
 		}
 
-		// Token: 0x040011C1 RID: 4545
 		private readonly TextObject _leadingArmyDescriptionText;
 
-		// Token: 0x040011C2 RID: 4546
 		private readonly TextObject _armyDescriptionText;
 
-		// Token: 0x040011C3 RID: 4547
 		private readonly TextObject _disbandingArmyDescriptionText;
 	}
 }

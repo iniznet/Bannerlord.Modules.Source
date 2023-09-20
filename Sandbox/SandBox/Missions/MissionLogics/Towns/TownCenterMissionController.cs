@@ -4,17 +4,14 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.Missions.MissionLogics.Towns
 {
-	// Token: 0x0200005D RID: 93
 	public class TownCenterMissionController : MissionLogic
 	{
-		// Token: 0x0600040F RID: 1039 RVA: 0x0001D4FC File Offset: 0x0001B6FC
 		public override void OnCreated()
 		{
 			base.OnCreated();
 			base.Mission.DoesMissionRequireCivilianEquipment = true;
 		}
 
-		// Token: 0x06000410 RID: 1040 RVA: 0x0001D510 File Offset: 0x0001B710
 		public override void AfterStart()
 		{
 			bool isNight = Campaign.Current.IsNight;

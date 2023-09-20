@@ -6,10 +6,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200011F RID: 287
 	public class BehaviorSkirmishBehindFormation : BehaviorComponent
 	{
-		// Token: 0x06000D91 RID: 3473 RVA: 0x00023F6B File Offset: 0x0002216B
 		public BehaviorSkirmishBehindFormation(Formation formation)
 			: base(formation)
 		{
@@ -17,7 +15,6 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 		}
 
-		// Token: 0x06000D92 RID: 3474 RVA: 0x00023F94 File Offset: 0x00022194
 		protected override void CalculateCurrentOrder()
 		{
 			Vec2 vec;
@@ -58,7 +55,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000D93 RID: 3475 RVA: 0x000242F4 File Offset: 0x000224F4
 		public override void TickOccasionally()
 		{
 			this.CalculateCurrentOrder();
@@ -79,7 +75,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
 		}
 
-		// Token: 0x06000D94 RID: 3476 RVA: 0x00024458 File Offset: 0x00022658
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -91,7 +86,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x06000D95 RID: 3477 RVA: 0x000244D0 File Offset: 0x000226D0
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -103,16 +97,13 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000D96 RID: 3478 RVA: 0x00024547 File Offset: 0x00022747
 		protected override float GetAiWeight()
 		{
 			return 10f;
 		}
 
-		// Token: 0x0400034D RID: 845
 		public Formation ReferenceFormation;
 
-		// Token: 0x0400034E RID: 846
 		private bool _isFireAtWill = true;
 	}
 }

@@ -22,11 +22,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	// Token: 0x02000386 RID: 902
 	public class CraftingCampaignBehavior : CampaignBehaviorBase, ICraftingCampaignBehavior, ICampaignBehavior
 	{
-		// Token: 0x17000CBF RID: 3263
-		// (get) Token: 0x060034DC RID: 13532 RVA: 0x000E29D2 File Offset: 0x000E0BD2
 		public IReadOnlyDictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots> CraftingOrders
 		{
 			get
@@ -35,8 +32,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CC0 RID: 3264
-		// (get) Token: 0x060034DD RID: 13533 RVA: 0x000E29DA File Offset: 0x000E0BDA
 		public IReadOnlyCollection<WeaponDesign> CraftingHistory
 		{
 			get
@@ -45,12 +40,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x17000CC1 RID: 3265
-		// (get) Token: 0x060034DE RID: 13534 RVA: 0x000E29E2 File Offset: 0x000E0BE2
-		// (set) Token: 0x060034DF RID: 13535 RVA: 0x000E29E9 File Offset: 0x000E0BE9
 		public static bool WeaponTypeDebugEnabled { get; private set; }
 
-		// Token: 0x060034E0 RID: 13536 RVA: 0x000E29F4 File Offset: 0x000E0BF4
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<ItemObject>("_latestCraftedItem", ref this._latestCraftedItem);
@@ -82,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E1 RID: 13537 RVA: 0x000E2B98 File Offset: 0x000E0D98
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEndEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreatedPartialFollowUpEnd));
@@ -95,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
 		}
 
-		// Token: 0x060034E2 RID: 13538 RVA: 0x000E2C60 File Offset: 0x000E0E60
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
 			this.InitializeLists();
@@ -125,7 +114,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E3 RID: 13539 RVA: 0x000E2D70 File Offset: 0x000E0F70
 		private void DailyTickSettlement(Settlement settlement)
 		{
 			if (settlement.IsTown && this.CraftingOrders[settlement.Town].IsThereAvailableSlot())
@@ -154,7 +142,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E4 RID: 13540 RVA: 0x000E2E88 File Offset: 0x000E1088
 		private void DailyTick()
 		{
 			foreach (KeyValuePair<Town, CraftingCampaignBehavior.CraftingOrderSlots> keyValuePair in this.CraftingOrders)
@@ -169,7 +156,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E5 RID: 13541 RVA: 0x000E2F10 File Offset: 0x000E1110
 		private void HourlyTick()
 		{
 			foreach (KeyValuePair<Hero, CraftingCampaignBehavior.HeroCraftingRecord> keyValuePair in this._heroCraftingRecords)
@@ -187,13 +173,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E6 RID: 13542 RVA: 0x000E2FBC File Offset: 0x000E11BC
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			this.RemoveOrdersOfHeroWithoutCompletionIfExists(victim);
 		}
 
-		// Token: 0x060034E7 RID: 13543 RVA: 0x000E2FC8 File Offset: 0x000E11C8
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.InitializeLists();
@@ -210,7 +194,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034E8 RID: 13544 RVA: 0x000E3068 File Offset: 0x000E1268
 		private int GetStaminaHourlyRecoveryRate(Hero hero)
 		{
 			int num = 5 + MathF.Round((float)hero.GetSkillValue(DefaultSkills.Crafting) * 0.025f);
@@ -221,7 +204,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		// Token: 0x060034E9 RID: 13545 RVA: 0x000E30B4 File Offset: 0x000E12B4
 		private void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
 		{
 			if (!this._craftedItemDictionary.ContainsKey(itemObject))
@@ -232,7 +214,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034EA RID: 13546 RVA: 0x000E3108 File Offset: 0x000E1308
 		private void AddResearchPoints(CraftingTemplate craftingTemplate, int researchPoints)
 		{
 			Dictionary<CraftingTemplate, float> dictionary = this._openNewPartXpDictionary;
@@ -258,7 +239,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			while (this._openNewPartXpDictionary[craftingTemplate] > num2 && num < count);
 		}
 
-		// Token: 0x060034EB RID: 13547 RVA: 0x000E322C File Offset: 0x000E142C
 		private bool OpenNewPart(CraftingTemplate craftingTemplate)
 		{
 			int num = int.MaxValue;
@@ -285,7 +265,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060034EC RID: 13548 RVA: 0x000E32DC File Offset: 0x000E14DC
 		private void OpenPart(CraftingPiece selectedPiece, CraftingTemplate craftingTemplate, bool showNotification = true)
 		{
 			this._openedPartsDictionary[craftingTemplate].Add(selectedPiece);
@@ -299,13 +278,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034ED RID: 13549 RVA: 0x000E3344 File Offset: 0x000E1544
 		public bool IsOpened(CraftingPiece craftingPiece, CraftingTemplate craftingTemplate)
 		{
 			return craftingPiece.IsGivenByDefault || this._openedPartsDictionary[craftingTemplate].Contains(craftingPiece);
 		}
 
-		// Token: 0x060034EE RID: 13550 RVA: 0x000E3364 File Offset: 0x000E1564
 		public void InitializeCraftingElements()
 		{
 			List<ItemObject> list = new List<ItemObject>();
@@ -352,13 +329,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034EF RID: 13551 RVA: 0x000E35B0 File Offset: 0x000E17B0
 		public int GetCraftingDifficulty(WeaponDesign weaponDesign)
 		{
 			return Campaign.Current.Models.SmithingModel.CalculateWeaponDesignDifficulty(weaponDesign);
 		}
 
-		// Token: 0x060034F0 RID: 13552 RVA: 0x000E35C8 File Offset: 0x000E17C8
 		private void InitializeLists()
 		{
 			if (this._craftingOrders.IsEmpty<KeyValuePair<Town, CraftingCampaignBehavior.CraftingOrderSlots>>())
@@ -405,7 +380,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060034F1 RID: 13553 RVA: 0x000E3800 File Offset: 0x000E1A00
 		private void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("blacksmith_begin", "start", "blacksmith_player", "{=gYByVHQy}Good day, {?PLAYER.GENDER}madam{?}sir{\\?}. How may I help you?", new ConversationSentence.OnConditionDelegate(this.conversation_blacksmith_begin_on_condition), null, 100, null);
@@ -418,25 +392,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("blacksmith_leave_1", "blacksmith_player_1", "close_window", "{=iW9iKbb8}Nothing.", null, null, 100, null, null);
 		}
 
-		// Token: 0x060034F2 RID: 13554 RVA: 0x000E399B File Offset: 0x000E1B9B
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060034F3 RID: 13555 RVA: 0x000E39A4 File Offset: 0x000E1BA4
 		private bool conversation_blacksmith_begin_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Blacksmith;
 		}
 
-		// Token: 0x060034F4 RID: 13556 RVA: 0x000E39B4 File Offset: 0x000E1BB4
 		private void conversation_blacksmith_craft_items_on_consequence()
 		{
 			CraftingHelper.OpenCrafting(CraftingTemplate.All[0], null);
 		}
 
-		// Token: 0x060034F5 RID: 13557 RVA: 0x000E39C8 File Offset: 0x000E1BC8
 		private bool conversation_blacksmith_player_ok_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Blacksmith)
@@ -457,7 +427,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060034F6 RID: 13558 RVA: 0x000E3A40 File Offset: 0x000E1C40
 		private bool conversation_blacksmith_player_after_craft_accept_on_condition()
 		{
 			if (this._latestCraftedItem != null)
@@ -468,7 +437,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060034F7 RID: 13559 RVA: 0x000E3A73 File Offset: 0x000E1C73
 		private void conversation_blacksmith_player_after_craft_accept_on_consequence()
 		{
 			ItemRoster itemRoster = new ItemRoster();
@@ -477,26 +445,22 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			InventoryManager.OpenScreenAsTrade(itemRoster, Settlement.CurrentSettlement.Town, InventoryManager.InventoryCategoryType.None, null);
 		}
 
-		// Token: 0x060034F8 RID: 13560 RVA: 0x000E3AA0 File Offset: 0x000E1CA0
 		private bool conversation_blacksmith_player_after_craft_anything_else_on_condition()
 		{
 			this._latestCraftedItem = null;
 			return true;
 		}
 
-		// Token: 0x060034F9 RID: 13561 RVA: 0x000E3AAA File Offset: 0x000E1CAA
 		public bool CanHeroUsePart(Hero hero, CraftingPiece craftingPiece)
 		{
 			return true;
 		}
 
-		// Token: 0x060034FA RID: 13562 RVA: 0x000E3AAD File Offset: 0x000E1CAD
 		public int GetHeroCraftingStamina(Hero hero)
 		{
 			return this.GetRecordForCompanion(hero).CraftingStamina;
 		}
 
-		// Token: 0x060034FB RID: 13563 RVA: 0x000E3ABC File Offset: 0x000E1CBC
 		private CraftingCampaignBehavior.HeroCraftingRecord GetRecordForCompanion(Hero hero)
 		{
 			CraftingCampaignBehavior.HeroCraftingRecord heroCraftingRecord;
@@ -508,19 +472,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return heroCraftingRecord;
 		}
 
-		// Token: 0x060034FC RID: 13564 RVA: 0x000E3AF4 File Offset: 0x000E1CF4
 		public void SetHeroCraftingStamina(Hero hero, int value)
 		{
 			this.GetRecordForCompanion(hero).CraftingStamina = MathF.Max(0, value);
 		}
 
-		// Token: 0x060034FD RID: 13565 RVA: 0x000E3B09 File Offset: 0x000E1D09
 		public int GetMaxHeroCraftingStamina(Hero hero)
 		{
 			return 100 + MathF.Round((float)hero.GetSkillValue(DefaultSkills.Crafting) * 0.5f);
 		}
 
-		// Token: 0x060034FE RID: 13566 RVA: 0x000E3B28 File Offset: 0x000E1D28
 		public void DoRefinement(Hero hero, Crafting.RefiningFormula refineFormula)
 		{
 			ItemRoster itemRoster = MobileParty.MainParty.ItemRoster;
@@ -549,7 +510,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SetHeroCraftingStamina(hero, this.GetHeroCraftingStamina(hero) - energyCostForRefining);
 		}
 
-		// Token: 0x060034FF RID: 13567 RVA: 0x000E3C58 File Offset: 0x000E1E58
 		public void DoSmelting(Hero hero, EquipmentElement equipmentElement)
 		{
 			ItemRoster itemRoster = MobileParty.MainParty.ItemRoster;
@@ -570,7 +530,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnEquipmentSmeltedByHero(hero, equipmentElement);
 		}
 
-		// Token: 0x06003500 RID: 13568 RVA: 0x000E3D4C File Offset: 0x000E1F4C
 		public ItemObject CreateCraftedWeaponInFreeBuildMode(Hero hero, WeaponDesign weaponDesign, int modifierTier, Crafting.OverrideData overrideData)
 		{
 			CraftingCampaignBehavior.SpendMaterials(weaponDesign);
@@ -597,7 +556,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003501 RID: 13569 RVA: 0x000E3E8C File Offset: 0x000E208C
 		public ItemObject CreateCraftedWeaponInCraftingOrderMode(Hero crafterHero, CraftingOrder craftingOrder, WeaponDesign weaponDesign, int modifierTier, Crafting.OverrideData overrideData)
 		{
 			CraftingCampaignBehavior.SpendMaterials(weaponDesign);
@@ -619,7 +577,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x06003502 RID: 13570 RVA: 0x000E3F74 File Offset: 0x000E2174
 		private static void SpendMaterials(WeaponDesign weaponDesign)
 		{
 			ItemRoster itemRoster = MobileParty.MainParty.ItemRoster;
@@ -633,7 +590,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003503 RID: 13571 RVA: 0x000E3FD2 File Offset: 0x000E21D2
 		private void AddItemToHistory(WeaponDesign design)
 		{
 			while (this._craftingHistory.Count >= 10)
@@ -643,7 +599,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._craftingHistory.Add(design);
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x000E4000 File Offset: 0x000E2200
 		public void CreateTownOrder(Hero orderOwner, int orderSlot)
 		{
 			if (orderOwner.CurrentSettlement == null || !orderOwner.CurrentSettlement.IsTown)
@@ -665,7 +620,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._craftingOrders[orderOwner.CurrentSettlement.Town].AddTownOrder(new CraftingOrder(orderOwner, townOrderDifficulty, weaponDesign, randomElement, orderSlot));
 		}
 
-		// Token: 0x06003505 RID: 13573 RVA: 0x000E40F8 File Offset: 0x000E22F8
 		private float GetTownOrderDifficulty(Town town, int orderSlot)
 		{
 			int num = 0;
@@ -693,7 +647,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (float)num + town.Prosperity / 500f;
 		}
 
-		// Token: 0x06003506 RID: 13574 RVA: 0x000E4194 File Offset: 0x000E2394
 		public CraftingOrder CreateRandomQuestOrderForHero(Hero orderOwner, string questId)
 		{
 			float randomOrderDifficulty = this.GetRandomOrderDifficulty(orderOwner.CurrentSettlement.Town);
@@ -705,7 +658,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return craftingOrder;
 		}
 
-		// Token: 0x06003507 RID: 13575 RVA: 0x000E420C File Offset: 0x000E240C
 		public CraftingOrder CreateQuestOrderForHero(Hero orderOwner, string questId, float orderDifficulty = -1f, WeaponDesign weaponDesign = null, CraftingTemplate craftingTemplate = null)
 		{
 			if (orderDifficulty < 0f)
@@ -726,7 +678,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return craftingOrder;
 		}
 
-		// Token: 0x06003508 RID: 13576 RVA: 0x000E429C File Offset: 0x000E249C
 		private float GetRandomOrderDifficulty(Town town)
 		{
 			int num = MBRandom.RandomInt(0, 6);
@@ -755,7 +706,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (float)num2 + town.Prosperity / 500f;
 		}
 
-		// Token: 0x06003509 RID: 13577 RVA: 0x000E4340 File Offset: 0x000E2540
 		private WeaponDesignElement[] GetWeaponPieces(CraftingTemplate craftingTemplate, int pieceTier)
 		{
 			WeaponDesignElement[] array = new WeaponDesignElement[4];
@@ -814,7 +764,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return array;
 		}
 
-		// Token: 0x0600350A RID: 13578 RVA: 0x000E44CC File Offset: 0x000E26CC
 		private void ReplaceCraftingOrder(Town town, CraftingOrder order)
 		{
 			MBList<Hero> mblist = new MBList<Hero>();
@@ -836,7 +785,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			mblist = null;
 		}
 
-		// Token: 0x0600350B RID: 13579 RVA: 0x000E4584 File Offset: 0x000E2784
 		public void GetOrderResult(CraftingOrder craftingOrder, ItemObject craftedItem, out bool isSucceed, out TextObject orderRemark, out TextObject orderResult, out int finalReward)
 		{
 			finalReward = this.CalculateOrderPriceDifference(craftingOrder, craftedItem);
@@ -887,7 +835,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600350C RID: 13580 RVA: 0x000E467C File Offset: 0x000E287C
 		private int CalculateOrderPriceDifference(CraftingOrder craftingOrder, ItemObject craftedItem)
 		{
 			float num;
@@ -915,7 +862,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (int)num3;
 		}
 
-		// Token: 0x0600350D RID: 13581 RVA: 0x000E4764 File Offset: 0x000E2964
 		public void CompleteOrder(Town town, CraftingOrder craftingOrder, ItemObject craftedItem, Hero completerHero)
 		{
 			int num = this.CalculateOrderPriceDifference(craftingOrder, craftedItem);
@@ -948,7 +894,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._craftingOrders[town].RemoveTownOrder(craftingOrder);
 		}
 
-		// Token: 0x0600350E RID: 13582 RVA: 0x000E4844 File Offset: 0x000E2A44
 		private void RemoveOrdersOfHeroWithoutCompletionIfExists(Hero hero)
 		{
 			new List<CraftingOrder>();
@@ -964,13 +909,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600350F RID: 13583 RVA: 0x000E48E4 File Offset: 0x000E2AE4
 		private void CancelOrder(Town town, CraftingOrder craftingOrder)
 		{
 			this._craftingOrders[town].RemoveTownOrder(craftingOrder);
 		}
 
-		// Token: 0x06003510 RID: 13584 RVA: 0x000E48F8 File Offset: 0x000E2AF8
 		private void ChangeCraftedOrderWithTheNoblesWeaponIfItIsBetter(ItemObject craftedItem, CraftingOrder craftingOrder)
 		{
 			Equipment battleEquipment = craftingOrder.OrderOwner.BattleEquipment;
@@ -1014,7 +957,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06003511 RID: 13585 RVA: 0x000E4AE0 File Offset: 0x000E2CE0
 		private void GiveTroopToNobleAtWeaponTier(int tier, Hero noble)
 		{
 			CharacterObject characterObject = noble.Culture.BasicTroop;
@@ -1028,7 +970,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			noble.PartyBelongedTo.AddElementToMemberRoster(characterObject, 1, false);
 		}
 
-		// Token: 0x06003512 RID: 13586 RVA: 0x000E4B2C File Offset: 0x000E2D2C
 		[CommandLineFunctionality.CommandLineArgumentFunction("unlock_all_crafting_pieces", "campaign")]
 		public static string UnlockCraftingPieces(List<string> strings)
 		{
@@ -1064,64 +1005,45 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return "Success";
 		}
 
-		// Token: 0x04001134 RID: 4404
 		private const float WaitTargetHours = 8f;
 
-		// Token: 0x04001135 RID: 4405
 		private const float CraftingOrderReplaceChance = 0.05f;
 
-		// Token: 0x04001136 RID: 4406
 		private const float CreateCraftingOrderChance = 0.05f;
 
-		// Token: 0x04001137 RID: 4407
 		private const int TownCraftingOrderCount = 6;
 
-		// Token: 0x04001138 RID: 4408
 		private const int DefaultCraftingOrderPieceTier = 1;
 
-		// Token: 0x04001139 RID: 4409
 		private const int CraftingOrderTroopBonusAmount = 1;
 
-		// Token: 0x0400113A RID: 4410
 		private const int MinOrderDifficulty = 40;
 
-		// Token: 0x0400113B RID: 4411
 		private const int MaxOrderDifficulty = 240;
 
-		// Token: 0x0400113C RID: 4412
 		private const int MaxCraftingHistoryDesigns = 10;
 
-		// Token: 0x0400113D RID: 4413
 		private ItemObject _latestCraftedItem;
 
-		// Token: 0x0400113E RID: 4414
 		private Dictionary<CraftingTemplate, List<CraftingPiece>> _openedPartsDictionary = new Dictionary<CraftingTemplate, List<CraftingPiece>>();
 
-		// Token: 0x0400113F RID: 4415
 		private Dictionary<CraftingTemplate, float> _openNewPartXpDictionary = new Dictionary<CraftingTemplate, float>();
 
-		// Token: 0x04001140 RID: 4416
 		private Dictionary<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData> _craftedItemDictionary = new Dictionary<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData>();
 
-		// Token: 0x04001141 RID: 4417
 		private Dictionary<Hero, CraftingCampaignBehavior.HeroCraftingRecord> _heroCraftingRecords = new Dictionary<Hero, CraftingCampaignBehavior.HeroCraftingRecord>();
 
-		// Token: 0x04001142 RID: 4418
 		private List<WeaponDesign> _craftingHistory = new List<WeaponDesign>();
 
-		// Token: 0x04001143 RID: 4419
 		private Dictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots> _craftingOrders = new Dictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots>();
 
-		// Token: 0x020006CB RID: 1739
 		public class CraftingCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
 		{
-			// Token: 0x0600545E RID: 21598 RVA: 0x0016ABF5 File Offset: 0x00168DF5
 			public CraftingCampaignBehaviorTypeDefiner()
 				: base(150000)
 			{
 			}
 
-			// Token: 0x0600545F RID: 21599 RVA: 0x0016AC02 File Offset: 0x00168E02
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(CraftingCampaignBehavior.CraftedItemInitializationData), 10, null);
@@ -1129,7 +1051,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				base.AddClassDefinition(typeof(CraftingCampaignBehavior.CraftingOrderSlots), 30, null);
 			}
 
-			// Token: 0x06005460 RID: 21600 RVA: 0x0016AC3D File Offset: 0x00168E3D
 			protected override void DefineContainerDefinitions()
 			{
 				base.ConstructContainerDefinition(typeof(Dictionary<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData>));
@@ -1138,10 +1059,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x020006CC RID: 1740
 		internal class CraftedItemInitializationData
 		{
-			// Token: 0x06005461 RID: 21601 RVA: 0x0016AC6F File Offset: 0x00168E6F
 			public CraftedItemInitializationData(WeaponDesign craftedData, TextObject itemName, CultureObject culture)
 			{
 				this.CraftedData = craftedData;
@@ -1149,13 +1068,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.Culture = culture;
 			}
 
-			// Token: 0x06005462 RID: 21602 RVA: 0x0016AC8C File Offset: 0x00168E8C
 			internal static void AutoGeneratedStaticCollectObjectsCraftedItemInitializationData(object o, List<object> collectedObjects)
 			{
 				((CraftingCampaignBehavior.CraftedItemInitializationData)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005463 RID: 21603 RVA: 0x0016AC9A File Offset: 0x00168E9A
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.CraftedData);
@@ -1163,72 +1080,58 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				collectedObjects.Add(this.Culture);
 			}
 
-			// Token: 0x06005464 RID: 21604 RVA: 0x0016ACC0 File Offset: 0x00168EC0
 			internal static object AutoGeneratedGetMemberValueCraftedData(object o)
 			{
 				return ((CraftingCampaignBehavior.CraftedItemInitializationData)o).CraftedData;
 			}
 
-			// Token: 0x06005465 RID: 21605 RVA: 0x0016ACCD File Offset: 0x00168ECD
 			internal static object AutoGeneratedGetMemberValueItemName(object o)
 			{
 				return ((CraftingCampaignBehavior.CraftedItemInitializationData)o).ItemName;
 			}
 
-			// Token: 0x06005466 RID: 21606 RVA: 0x0016ACDA File Offset: 0x00168EDA
 			internal static object AutoGeneratedGetMemberValueCulture(object o)
 			{
 				return ((CraftingCampaignBehavior.CraftedItemInitializationData)o).Culture;
 			}
 
-			// Token: 0x04001BFD RID: 7165
 			[SaveableField(10)]
 			public readonly WeaponDesign CraftedData;
 
-			// Token: 0x04001BFE RID: 7166
 			[SaveableField(20)]
 			public readonly TextObject ItemName;
 
-			// Token: 0x04001BFF RID: 7167
 			[SaveableField(30)]
 			public readonly CultureObject Culture;
 		}
 
-		// Token: 0x020006CD RID: 1741
 		internal class HeroCraftingRecord
 		{
-			// Token: 0x06005467 RID: 21607 RVA: 0x0016ACE7 File Offset: 0x00168EE7
 			public HeroCraftingRecord(int maxStamina)
 			{
 				this.CraftingStamina = maxStamina;
 			}
 
-			// Token: 0x06005468 RID: 21608 RVA: 0x0016ACF6 File Offset: 0x00168EF6
 			internal static void AutoGeneratedStaticCollectObjectsHeroCraftingRecord(object o, List<object> collectedObjects)
 			{
 				((CraftingCampaignBehavior.HeroCraftingRecord)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005469 RID: 21609 RVA: 0x0016AD04 File Offset: 0x00168F04
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 			}
 
-			// Token: 0x0600546A RID: 21610 RVA: 0x0016AD06 File Offset: 0x00168F06
 			internal static object AutoGeneratedGetMemberValueCraftingStamina(object o)
 			{
 				return ((CraftingCampaignBehavior.HeroCraftingRecord)o).CraftingStamina;
 			}
 
-			// Token: 0x04001C00 RID: 7168
 			[SaveableField(10)]
 			public int CraftingStamina;
 		}
 
-		// Token: 0x020006CE RID: 1742
 		public class CraftingOrderSlots
 		{
-			// Token: 0x0600546B RID: 21611 RVA: 0x0016AD18 File Offset: 0x00168F18
 			public CraftingOrderSlots()
 			{
 				this.Slots = new CraftingOrder[6];
@@ -1240,14 +1143,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.QuestOrders = this._questOrders.GetReadOnlyDictionary<string, List<CraftingOrder>>();
 			}
 
-			// Token: 0x0600546C RID: 21612 RVA: 0x0016AD68 File Offset: 0x00168F68
 			[LoadInitializationCallback]
 			private void OnLoad(MetaData metaData)
 			{
 				this.QuestOrders = this._questOrders.GetReadOnlyDictionary<string, List<CraftingOrder>>();
 			}
 
-			// Token: 0x0600546D RID: 21613 RVA: 0x0016AD7C File Offset: 0x00168F7C
 			public bool IsThereAvailableSlot()
 			{
 				for (int i = 0; i < 6; i++)
@@ -1260,7 +1161,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return false;
 			}
 
-			// Token: 0x0600546E RID: 21614 RVA: 0x0016ADA4 File Offset: 0x00168FA4
 			public int GetAvailableSlot()
 			{
 				for (int i = 0; i < 6; i++)
@@ -1273,19 +1173,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return -1;
 			}
 
-			// Token: 0x0600546F RID: 21615 RVA: 0x0016ADCA File Offset: 0x00168FCA
 			internal void AddTownOrder(CraftingOrder craftingOrder)
 			{
 				this.Slots[craftingOrder.DifficultyLevel] = craftingOrder;
 			}
 
-			// Token: 0x06005470 RID: 21616 RVA: 0x0016ADDA File Offset: 0x00168FDA
 			internal void RemoveTownOrder(CraftingOrder craftingOrder)
 			{
 				this.Slots[craftingOrder.DifficultyLevel] = null;
 			}
 
-			// Token: 0x06005471 RID: 21617 RVA: 0x0016ADEA File Offset: 0x00168FEA
 			internal void AddQuestOrder(string questId, CraftingOrder order)
 			{
 				if (!this._questOrders.ContainsKey(questId))
@@ -1295,55 +1192,45 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this._questOrders[questId].Add(order);
 			}
 
-			// Token: 0x06005472 RID: 21618 RVA: 0x0016AE1D File Offset: 0x0016901D
 			internal void RemoveQuestOrder(string questId, CraftingOrder order)
 			{
 				this._questOrders[questId].Remove(order);
 			}
 
-			// Token: 0x06005473 RID: 21619 RVA: 0x0016AE32 File Offset: 0x00169032
 			internal void RemoveAllQuestOrders(string questId)
 			{
 				this._questOrders.Remove(questId);
 			}
 
-			// Token: 0x06005474 RID: 21620 RVA: 0x0016AE41 File Offset: 0x00169041
 			internal static void AutoGeneratedStaticCollectObjectsCraftingOrderSlots(object o, List<object> collectedObjects)
 			{
 				((CraftingCampaignBehavior.CraftingOrderSlots)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06005475 RID: 21621 RVA: 0x0016AE4F File Offset: 0x0016904F
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.Slots);
 				collectedObjects.Add(this._questOrders);
 			}
 
-			// Token: 0x06005476 RID: 21622 RVA: 0x0016AE69 File Offset: 0x00169069
 			internal static object AutoGeneratedGetMemberValueSlots(object o)
 			{
 				return ((CraftingCampaignBehavior.CraftingOrderSlots)o).Slots;
 			}
 
-			// Token: 0x06005477 RID: 21623 RVA: 0x0016AE76 File Offset: 0x00169076
 			internal static object AutoGeneratedGetMemberValue_questOrders(object o)
 			{
 				return ((CraftingCampaignBehavior.CraftingOrderSlots)o)._questOrders;
 			}
 
-			// Token: 0x04001C01 RID: 7169
 			private const int SlotCount = 6;
 
-			// Token: 0x04001C02 RID: 7170
 			[SaveableField(10)]
 			public CraftingOrder[] Slots;
 
-			// Token: 0x04001C03 RID: 7171
 			[SaveableField(20)]
 			private readonly Dictionary<string, List<CraftingOrder>> _questOrders;
 
-			// Token: 0x04001C04 RID: 7172
 			public MBReadOnlyDictionary<string, List<CraftingOrder>> QuestOrders;
 		}
 	}

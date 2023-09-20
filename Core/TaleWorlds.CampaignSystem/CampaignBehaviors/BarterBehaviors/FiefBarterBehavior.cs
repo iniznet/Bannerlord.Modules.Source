@@ -6,21 +6,17 @@ using TaleWorlds.CampaignSystem.Settlements;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 {
-	// Token: 0x020003F7 RID: 1015
 	public class FiefBarterBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06003D02 RID: 15618 RVA: 0x0012244B File Offset: 0x0012064B
 		public override void RegisterEvents()
 		{
 			CampaignEvents.BarterablesRequested.AddNonSerializedListener(this, new Action<BarterData>(this.CheckForBarters));
 		}
 
-		// Token: 0x06003D03 RID: 15619 RVA: 0x00122464 File Offset: 0x00120664
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06003D04 RID: 15620 RVA: 0x00122468 File Offset: 0x00120668
 		public void CheckForBarters(BarterData args)
 		{
 			if (args.OffererHero != null && args.OtherHero != null && args.OffererHero.GetPerkValue(DefaultPerks.Trade.EverythingHasAPrice))

@@ -4,10 +4,8 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001DE RID: 478
 	public class CustomBattleApplyWeatherEffectsModel : ApplyWeatherEffectsModel
 	{
-		// Token: 0x06001B37 RID: 6967 RVA: 0x0005FC68 File Offset: 0x0005DE68
 		public override void ApplyWeatherEffects()
 		{
 			Scene scene = Mission.Current.Scene;

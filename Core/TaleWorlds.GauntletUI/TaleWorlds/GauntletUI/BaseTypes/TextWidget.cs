@@ -5,17 +5,10 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.BaseTypes
 {
-	// Token: 0x0200006C RID: 108
 	public class TextWidget : ImageWidget
 	{
-		// Token: 0x17000205 RID: 517
-		// (get) Token: 0x06000705 RID: 1797 RVA: 0x0001EC91 File Offset: 0x0001CE91
-		// (set) Token: 0x06000706 RID: 1798 RVA: 0x0001EC99 File Offset: 0x0001CE99
 		public bool AutoHideIfEmpty { get; set; }
 
-		// Token: 0x17000206 RID: 518
-		// (get) Token: 0x06000707 RID: 1799 RVA: 0x0001ECA2 File Offset: 0x0001CEA2
-		// (set) Token: 0x06000708 RID: 1800 RVA: 0x0001ECAF File Offset: 0x0001CEAF
 		[Editor(false)]
 		public string Text
 		{
@@ -32,9 +25,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x17000207 RID: 519
-		// (get) Token: 0x06000709 RID: 1801 RVA: 0x0001ECCC File Offset: 0x0001CECC
-		// (set) Token: 0x0600070A RID: 1802 RVA: 0x0001ECF0 File Offset: 0x0001CEF0
 		[Editor(false)]
 		public int IntText
 		{
@@ -56,9 +46,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x17000208 RID: 520
-		// (get) Token: 0x0600070B RID: 1803 RVA: 0x0001ED18 File Offset: 0x0001CF18
-		// (set) Token: 0x0600070C RID: 1804 RVA: 0x0001ED40 File Offset: 0x0001CF40
 		[Editor(false)]
 		public float FloatText
 		{
@@ -80,7 +67,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x0600070D RID: 1805 RVA: 0x0001ED68 File Offset: 0x0001CF68
 		public TextWidget(UIContext context)
 			: base(context)
 		{
@@ -89,7 +75,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			base.LayoutImp = new TextLayout(this._text);
 		}
 
-		// Token: 0x0600070E RID: 1806 RVA: 0x0001EDD0 File Offset: 0x0001CFD0
 		protected virtual void SetText(string value)
 		{
 			base.SetMeasureAndLayoutDirty();
@@ -106,7 +91,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			this.IsTextValueDirty = true;
 		}
 
-		// Token: 0x0600070F RID: 1807 RVA: 0x0001EE68 File Offset: 0x0001D068
 		protected void RefreshTextParameters()
 		{
 			float num = (float)base.ReadOnlyBrush.FontSize * base._scaleToUse;
@@ -146,7 +130,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
-		// Token: 0x06000710 RID: 1808 RVA: 0x0001EFD4 File Offset: 0x0001D1D4
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			base.OnRender(twoDimensionContext, drawContext);
@@ -157,10 +140,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			drawContext.Draw(this._text, textMaterial, cachedGlobalPosition.X, cachedGlobalPosition.Y, base.Size.X, base.Size.Y);
 		}
 
-		// Token: 0x0400034F RID: 847
 		protected readonly Text _text;
 
-		// Token: 0x04000351 RID: 849
 		protected bool IsTextValueDirty = true;
 	}
 }

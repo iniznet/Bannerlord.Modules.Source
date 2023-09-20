@@ -7,11 +7,8 @@ using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
-	// Token: 0x02000106 RID: 262
 	public static class CosmeticsManager
 	{
-		// Token: 0x170001D6 RID: 470
-		// (get) Token: 0x060004BB RID: 1211 RVA: 0x00006AC2 File Offset: 0x00004CC2
 		public static MBReadOnlyList<CosmeticsManager.CosmeticElement> GetCosmeticElementList
 		{
 			get
@@ -24,7 +21,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		// Token: 0x060004BC RID: 1212 RVA: 0x00006AEC File Offset: 0x00004CEC
 		public static CosmeticsManager.CosmeticElement GetCosmeticElement(string cosmeticId)
 		{
 			MBReadOnlyList<CosmeticsManager.CosmeticElement> getCosmeticElementList = CosmeticsManager.GetCosmeticElementList;
@@ -42,7 +38,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return null;
 		}
 
-		// Token: 0x060004BD RID: 1213 RVA: 0x00006B54 File Offset: 0x00004D54
 		public static void LoadFromXml(string path)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -156,7 +151,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			CosmeticsManager.HasXMLRead = true;
 		}
 
-		// Token: 0x060004BE RID: 1214 RVA: 0x00006F58 File Offset: 0x00005158
 		private static bool CheckForCosmeticsListDuplicatesDebug()
 		{
 			for (int i = 0; i < CosmeticsManager.CosmeticElementList.Count; i++)
@@ -173,41 +167,27 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return true;
 		}
 
-		// Token: 0x0400021C RID: 540
 		private static MBReadOnlyList<CosmeticsManager.CosmeticElement> CosmeticElementList;
 
-		// Token: 0x0400021D RID: 541
 		public static bool HasXMLRead;
 
-		// Token: 0x02000175 RID: 373
 		public enum CosmeticRarity
 		{
-			// Token: 0x040004EF RID: 1263
 			Default,
-			// Token: 0x040004F0 RID: 1264
 			Common,
-			// Token: 0x040004F1 RID: 1265
 			Rare,
-			// Token: 0x040004F2 RID: 1266
 			Unique
 		}
 
-		// Token: 0x02000176 RID: 374
 		public enum CosmeticType
 		{
-			// Token: 0x040004F4 RID: 1268
 			Clothing,
-			// Token: 0x040004F5 RID: 1269
 			Frame,
-			// Token: 0x040004F6 RID: 1270
 			Sigil
 		}
 
-		// Token: 0x02000177 RID: 375
 		public class CosmeticElement
 		{
-			// Token: 0x1700031F RID: 799
-			// (get) Token: 0x06000900 RID: 2304 RVA: 0x0000FF26 File Offset: 0x0000E126
 			public bool IsFree
 			{
 				get
@@ -216,7 +196,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				}
 			}
 
-			// Token: 0x06000901 RID: 2305 RVA: 0x0000FF34 File Offset: 0x0000E134
 			public CosmeticElement(string id, CosmeticsManager.CosmeticRarity rarity, int cost, CosmeticsManager.CosmeticType type)
 			{
 				this.Id = id;
@@ -225,23 +204,17 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				this.Type = type;
 			}
 
-			// Token: 0x040004F7 RID: 1271
 			public string Id;
 
-			// Token: 0x040004F8 RID: 1272
 			public CosmeticsManager.CosmeticRarity Rarity;
 
-			// Token: 0x040004F9 RID: 1273
 			public int Cost;
 
-			// Token: 0x040004FA RID: 1274
 			public CosmeticsManager.CosmeticType Type;
 		}
 
-		// Token: 0x02000178 RID: 376
 		public class ClothingCosmeticElement : CosmeticsManager.CosmeticElement
 		{
-			// Token: 0x06000902 RID: 2306 RVA: 0x0000FF59 File Offset: 0x0000E159
 			public ClothingCosmeticElement(string id, CosmeticsManager.CosmeticRarity rarity, int cost, List<string> replaceItemsId, List<Tuple<string, string>> replaceItemless)
 				: base(id, rarity, cost, CosmeticsManager.CosmeticType.Clothing)
 			{
@@ -249,24 +222,19 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				this.ReplaceItemless = replaceItemless;
 			}
 
-			// Token: 0x040004FB RID: 1275
 			public readonly List<string> ReplaceItemsId;
 
-			// Token: 0x040004FC RID: 1276
 			public readonly List<Tuple<string, string>> ReplaceItemless;
 		}
 
-		// Token: 0x02000179 RID: 377
 		public class SigilCosmeticElement : CosmeticsManager.CosmeticElement
 		{
-			// Token: 0x06000903 RID: 2307 RVA: 0x0000FF75 File Offset: 0x0000E175
 			public SigilCosmeticElement(string id, CosmeticsManager.CosmeticRarity rarity, int cost, string bannerCode)
 				: base(id, rarity, cost, CosmeticsManager.CosmeticType.Sigil)
 			{
 				this.BannerCode = bannerCode;
 			}
 
-			// Token: 0x040004FD RID: 1277
 			public string BannerCode;
 		}
 	}

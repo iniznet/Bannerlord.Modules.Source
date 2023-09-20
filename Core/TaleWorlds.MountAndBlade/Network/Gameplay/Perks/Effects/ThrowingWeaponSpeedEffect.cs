@@ -5,15 +5,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 {
-	// Token: 0x020003D3 RID: 979
 	public class ThrowingWeaponSpeedEffect : MPPerkEffect
 	{
-		// Token: 0x06003403 RID: 13315 RVA: 0x000D7BB3 File Offset: 0x000D5DB3
 		protected ThrowingWeaponSpeedEffect()
 		{
 		}
 
-		// Token: 0x06003404 RID: 13316 RVA: 0x000D7BBC File Offset: 0x000D5DBC
 		protected override void Deserialize(XmlNode node)
 		{
 			string text;
@@ -61,7 +58,6 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			}
 		}
 
-		// Token: 0x06003405 RID: 13317 RVA: 0x000D7C60 File Offset: 0x000D5E60
 		public override float GetThrowingWeaponSpeed(WeaponComponentData attackerWeapon)
 		{
 			if (attackerWeapon == null || WeaponComponentData.GetItemTypeFromWeaponClass(attackerWeapon.WeaponClass) != ItemObject.ItemTypeEnum.Thrown)
@@ -71,10 +67,8 @@ namespace TaleWorlds.MountAndBlade.Network.Gameplay.Perks.Effects
 			return this._value;
 		}
 
-		// Token: 0x04001627 RID: 5671
 		protected static string StringType = "ThrowingWeaponSpeed";
 
-		// Token: 0x04001628 RID: 5672
 		private float _value;
 	}
 }

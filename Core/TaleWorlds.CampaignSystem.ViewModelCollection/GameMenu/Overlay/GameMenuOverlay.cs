@@ -12,16 +12,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 {
-	// Token: 0x020000A1 RID: 161
 	public class GameMenuOverlay : ViewModel
 	{
-		// Token: 0x06001008 RID: 4104 RVA: 0x0003F290 File Offset: 0x0003D490
 		public GameMenuOverlay()
 		{
 			this.ContextList = new MBBindingList<StringItemWithEnabledAndHintVM>();
 		}
 
-		// Token: 0x06001009 RID: 4105 RVA: 0x0003F2B1 File Offset: 0x0003D4B1
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -33,13 +30,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			contextMenuItem.RefreshValues();
 		}
 
-		// Token: 0x0600100A RID: 4106 RVA: 0x0003F2C9 File Offset: 0x0003D4C9
 		protected virtual void ExecuteOnSetAsActiveContextMenuItem(GameMenuPartyItemVM troop)
 		{
 			this._contextMenuItem = troop;
 		}
 
-		// Token: 0x0600100B RID: 4107 RVA: 0x0003F2D2 File Offset: 0x0003D4D2
 		public virtual void ExecuteOnOverlayClosed()
 		{
 			if (!this._closedHandled)
@@ -49,13 +44,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600100C RID: 4108 RVA: 0x0003F2ED File Offset: 0x0003D4ED
 		public virtual void ExecuteOnOverlayOpened()
 		{
 			this._closedHandled = false;
 		}
 
-		// Token: 0x0600100D RID: 4109 RVA: 0x0003F2F6 File Offset: 0x0003D4F6
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -65,7 +58,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600100E RID: 4110 RVA: 0x0003F30C File Offset: 0x0003D50C
 		protected void ExecuteTroopAction(object o)
 		{
 			switch ((GameMenuOverlay.MenuOverlayContextList)o)
@@ -247,7 +239,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x0600100F RID: 4111 RVA: 0x0003F980 File Offset: 0x0003DB80
 		private void ConverseWithLeader(PartyBase mainParty1, PartyBase party2)
 		{
 			bool flag;
@@ -271,12 +262,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(locationOfCharacter, null, party2.LeaderHero.CharacterObject, null);
 		}
 
-		// Token: 0x06001010 RID: 4112 RVA: 0x0003FA1D File Offset: 0x0003DC1D
 		public void ClearOverlay()
 		{
 		}
 
-		// Token: 0x06001011 RID: 4113 RVA: 0x0003FA20 File Offset: 0x0003DC20
 		public static GameMenuOverlay GetOverlay(GameOverlays.MenuOverlayType menuOverlayType)
 		{
 			if (menuOverlayType == GameOverlays.MenuOverlayType.Encounter)
@@ -291,31 +280,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			return null;
 		}
 
-		// Token: 0x06001012 RID: 4114 RVA: 0x0003FA7B File Offset: 0x0003DC7B
 		public virtual void Refresh()
 		{
 		}
 
-		// Token: 0x06001013 RID: 4115 RVA: 0x0003FA7D File Offset: 0x0003DC7D
 		public virtual void UpdateOverlayType(GameOverlays.MenuOverlayType newType)
 		{
 			this.Refresh();
 		}
 
-		// Token: 0x06001014 RID: 4116 RVA: 0x0003FA85 File Offset: 0x0003DC85
 		public virtual void OnFrameTick(float dt)
 		{
 		}
 
-		// Token: 0x06001015 RID: 4117 RVA: 0x0003FA87 File Offset: 0x0003DC87
 		public void HourlyTick()
 		{
 			this.Refresh();
 		}
 
-		// Token: 0x1700054A RID: 1354
-		// (get) Token: 0x06001016 RID: 4118 RVA: 0x0003FA8F File Offset: 0x0003DC8F
-		// (set) Token: 0x06001017 RID: 4119 RVA: 0x0003FA97 File Offset: 0x0003DC97
 		[DataSourceProperty]
 		public bool IsContextMenuEnabled
 		{
@@ -330,9 +312,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700054B RID: 1355
-		// (get) Token: 0x06001018 RID: 4120 RVA: 0x0003FAAC File Offset: 0x0003DCAC
-		// (set) Token: 0x06001019 RID: 4121 RVA: 0x0003FAB4 File Offset: 0x0003DCB4
 		[DataSourceProperty]
 		public bool IsInitializationOver
 		{
@@ -347,9 +326,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700054C RID: 1356
-		// (get) Token: 0x0600101A RID: 4122 RVA: 0x0003FAC9 File Offset: 0x0003DCC9
-		// (set) Token: 0x0600101B RID: 4123 RVA: 0x0003FAD1 File Offset: 0x0003DCD1
 		[DataSourceProperty]
 		public bool IsInfoBarExtended
 		{
@@ -364,9 +340,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700054D RID: 1357
-		// (get) Token: 0x0600101C RID: 4124 RVA: 0x0003FAE6 File Offset: 0x0003DCE6
-		// (set) Token: 0x0600101D RID: 4125 RVA: 0x0003FAEE File Offset: 0x0003DCEE
 		[DataSourceProperty]
 		public MBBindingList<StringItemWithEnabledAndHintVM> ContextList
 		{
@@ -384,9 +357,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x1700054E RID: 1358
-		// (get) Token: 0x0600101E RID: 4126 RVA: 0x0003FB0C File Offset: 0x0003DD0C
-		// (set) Token: 0x0600101F RID: 4127 RVA: 0x0003FB14 File Offset: 0x0003DD14
 		[DataSourceProperty]
 		public int CurrentOverlayType
 		{
@@ -404,52 +374,33 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		// Token: 0x04000774 RID: 1908
 		public string GameMenuOverlayName;
 
-		// Token: 0x04000775 RID: 1909
 		private bool _closedHandled = true;
 
-		// Token: 0x04000776 RID: 1910
 		private bool _isContextMenuEnabled;
 
-		// Token: 0x04000777 RID: 1911
 		private int _currentOverlayType = -1;
 
-		// Token: 0x04000778 RID: 1912
 		private bool _isInfoBarExtended;
 
-		// Token: 0x04000779 RID: 1913
 		private bool _isInitializationOver;
 
-		// Token: 0x0400077A RID: 1914
 		private MBBindingList<StringItemWithEnabledAndHintVM> _contextList;
 
-		// Token: 0x0400077B RID: 1915
 		protected GameMenuPartyItemVM _contextMenuItem;
 
-		// Token: 0x020001E1 RID: 481
 		protected internal enum MenuOverlayContextList
 		{
-			// Token: 0x0400100A RID: 4106
 			Encyclopedia,
-			// Token: 0x0400100B RID: 4107
 			Conversation,
-			// Token: 0x0400100C RID: 4108
 			QuickConversation,
-			// Token: 0x0400100D RID: 4109
 			ConverseWithLeader,
-			// Token: 0x0400100E RID: 4110
 			ArmyDismiss,
-			// Token: 0x0400100F RID: 4111
 			ManageGarrison,
-			// Token: 0x04001010 RID: 4112
 			DonateTroops,
-			// Token: 0x04001011 RID: 4113
 			JoinArmy,
-			// Token: 0x04001012 RID: 4114
 			TakeToParty,
-			// Token: 0x04001013 RID: 4115
 			ManageTroops
 		}
 	}

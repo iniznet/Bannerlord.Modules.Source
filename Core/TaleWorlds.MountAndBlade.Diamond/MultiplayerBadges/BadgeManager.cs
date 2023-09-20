@@ -6,20 +6,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 {
-	// Token: 0x0200015C RID: 348
 	public static class BadgeManager
 	{
-		// Token: 0x17000311 RID: 785
-		// (get) Token: 0x060008AF RID: 2223 RVA: 0x0000EC4B File Offset: 0x0000CE4B
-		// (set) Token: 0x060008B0 RID: 2224 RVA: 0x0000EC52 File Offset: 0x0000CE52
 		public static List<Badge> Badges { get; private set; }
 
-		// Token: 0x17000312 RID: 786
-		// (get) Token: 0x060008B1 RID: 2225 RVA: 0x0000EC5A File Offset: 0x0000CE5A
-		// (set) Token: 0x060008B2 RID: 2226 RVA: 0x0000EC61 File Offset: 0x0000CE61
 		public static bool IsInitialized { get; private set; }
 
-		// Token: 0x060008B3 RID: 2227 RVA: 0x0000EC69 File Offset: 0x0000CE69
 		public static void InitializeWithXML(string xmlPath)
 		{
 			Debug.Print("BadgeManager::InitializeWithXML", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -31,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			BadgeManager.IsInitialized = true;
 		}
 
-		// Token: 0x060008B4 RID: 2228 RVA: 0x0000EC98 File Offset: 0x0000CE98
 		public static void OnFinalize()
 		{
 			Debug.Print("BadgeManager::OnFinalize", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -48,7 +39,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			BadgeManager.IsInitialized = false;
 		}
 
-		// Token: 0x060008B5 RID: 2229 RVA: 0x0000ECFC File Offset: 0x0000CEFC
 		private static void LoadFromXml(string path)
 		{
 			XmlDocument xmlDocument = new XmlDocument();
@@ -104,7 +94,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			}
 		}
 
-		// Token: 0x060008B6 RID: 2230 RVA: 0x0000EF18 File Offset: 0x0000D118
 		public static Badge GetByIndex(int index)
 		{
 			if (index == -1 || BadgeManager.Badges == null || BadgeManager.Badges.Count <= index || index < 0)
@@ -114,7 +103,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			return BadgeManager.Badges[index];
 		}
 
-		// Token: 0x060008B7 RID: 2231 RVA: 0x0000EF44 File Offset: 0x0000D144
 		public static Badge GetById(string id)
 		{
 			Badge badge;
@@ -125,7 +113,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			return badge;
 		}
 
-		// Token: 0x060008B8 RID: 2232 RVA: 0x0000EF68 File Offset: 0x0000D168
 		public static List<Badge> GetByType(BadgeType type)
 		{
 			List<Badge> list;
@@ -137,7 +124,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			return list;
 		}
 
-		// Token: 0x060008B9 RID: 2233 RVA: 0x0000EF98 File Offset: 0x0000D198
 		public static string GetBadgeConditionValue(this PlayerData playerData, BadgeCondition condition)
 		{
 			if (playerData == null)
@@ -158,7 +144,6 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			return "";
 		}
 
-		// Token: 0x060008BA RID: 2234 RVA: 0x0000F014 File Offset: 0x0000D214
 		public static int GetBadgeConditionNumericValue(this PlayerData playerData, BadgeCondition condition)
 		{
 			if (playerData == null)
@@ -287,25 +272,18 @@ namespace TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges
 			return num;
 		}
 
-		// Token: 0x0400049A RID: 1178
 		public const string PropertyParameterName = "property";
 
-		// Token: 0x0400049B RID: 1179
 		public const string ValueParameterName = "value";
 
-		// Token: 0x0400049C RID: 1180
 		public const string MinValueParameterName = "min_value";
 
-		// Token: 0x0400049D RID: 1181
 		public const string MaxValueParameterName = "max_value";
 
-		// Token: 0x0400049E RID: 1182
 		public const string IsBestParameterName = "is_best";
 
-		// Token: 0x040004A1 RID: 1185
 		private static Dictionary<string, Badge> _badgesById;
 
-		// Token: 0x040004A2 RID: 1186
 		private static Dictionary<BadgeType, List<Badge>> _badgesByType;
 	}
 }

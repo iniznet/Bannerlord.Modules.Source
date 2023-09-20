@@ -8,11 +8,8 @@ using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200031B RID: 795
 	public class MPPerkSelectionManager
 	{
-		// Token: 0x170007A9 RID: 1961
-		// (get) Token: 0x06002AF6 RID: 10998 RVA: 0x000A831E File Offset: 0x000A651E
 		public static MPPerkSelectionManager Instance
 		{
 			get
@@ -26,7 +23,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002AF7 RID: 10999 RVA: 0x000A8334 File Offset: 0x000A6534
 		public static void FreeInstance()
 		{
 			if (MPPerkSelectionManager._instance != null)
@@ -45,7 +41,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002AF8 RID: 11000 RVA: 0x000A8370 File Offset: 0x000A6570
 		public void InitializeForUser(string username, PlayerId playerId)
 		{
 			if (this._playerIdOfSelectionsOwner != playerId)
@@ -74,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002AF9 RID: 11001 RVA: 0x000A8430 File Offset: 0x000A6630
 		public void ResetPendingChanges()
 		{
 			Dictionary<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>> pendingChanges = this._pendingChanges;
@@ -90,7 +84,6 @@ namespace TaleWorlds.MountAndBlade
 			onAfterResetPendingChanges();
 		}
 
-		// Token: 0x06002AFA RID: 11002 RVA: 0x000A8454 File Offset: 0x000A6654
 		public void TryToApplyAndSavePendingChanges()
 		{
 			if (this._pendingChanges != null)
@@ -123,7 +116,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002AFB RID: 11003 RVA: 0x000A858C File Offset: 0x000A678C
 		public List<MPPerkSelectionManager.MPPerkSelection> GetSelectionsForHeroClass(MultiplayerClassDivisions.MPHeroClass currentHeroClass)
 		{
 			List<MPPerkSelectionManager.MPPerkSelection> list = new List<MPPerkSelectionManager.MPPerkSelection>();
@@ -134,7 +126,6 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		// Token: 0x06002AFC RID: 11004 RVA: 0x000A85D4 File Offset: 0x000A67D4
 		public void SetSelectionsForHeroClassTemporarily(MultiplayerClassDivisions.MPHeroClass currentHeroClass, List<MPPerkSelectionManager.MPPerkSelection> perkChoices)
 		{
 			if (this._pendingChanges == null)
@@ -158,7 +149,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002AFD RID: 11005 RVA: 0x000A8640 File Offset: 0x000A6840
 		private Dictionary<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>> LoadSelectionsForUserFromXML()
 		{
 			Dictionary<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>> dictionary = null;
@@ -229,7 +219,6 @@ namespace TaleWorlds.MountAndBlade
 			return dictionary;
 		}
 
-		// Token: 0x06002AFE RID: 11006 RVA: 0x000A8860 File Offset: 0x000A6A60
 		private bool SaveAsXML(List<KeyValuePair<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>>> selections)
 		{
 			bool flag = true;
@@ -263,38 +252,28 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		// Token: 0x04001057 RID: 4183
 		private static MPPerkSelectionManager _instance;
 
-		// Token: 0x04001058 RID: 4184
 		public Action OnAfterResetPendingChanges;
 
-		// Token: 0x04001059 RID: 4185
 		private Dictionary<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>> _selections;
 
-		// Token: 0x0400105A RID: 4186
 		private Dictionary<MultiplayerClassDivisions.MPHeroClass, List<MPPerkSelectionManager.MPPerkSelection>> _pendingChanges;
 
-		// Token: 0x0400105B RID: 4187
 		private PlatformFilePath _xmlPath;
 
-		// Token: 0x0400105C RID: 4188
 		private PlayerId _playerIdOfSelectionsOwner;
 
-		// Token: 0x0200063A RID: 1594
 		public struct MPPerkSelection
 		{
-			// Token: 0x06003E12 RID: 15890 RVA: 0x000F4970 File Offset: 0x000F2B70
 			public MPPerkSelection(int index, int listIndex)
 			{
 				this.Index = index;
 				this.ListIndex = listIndex;
 			}
 
-			// Token: 0x0400202E RID: 8238
 			public readonly int Index;
 
-			// Token: 0x0400202F RID: 8239
 			public readonly int ListIndex;
 		}
 	}

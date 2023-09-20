@@ -7,15 +7,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000144 RID: 324
 	public struct MovementOrder
 	{
-		// Token: 0x1700038D RID: 909
-		// (get) Token: 0x0600107C RID: 4220 RVA: 0x00034DFD File Offset: 0x00032FFD
 		public Agent _targetAgent { get; }
 
-		// Token: 0x1700038E RID: 910
-		// (get) Token: 0x0600107D RID: 4221 RVA: 0x00034E08 File Offset: 0x00033008
 		public OrderType OrderType
 		{
 			get
@@ -51,8 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x1700038F RID: 911
-		// (get) Token: 0x0600107E RID: 4222 RVA: 0x00034E84 File Offset: 0x00033084
 		public MovementOrder.MovementStateEnum MovementState
 		{
 			get
@@ -72,7 +65,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600107F RID: 4223 RVA: 0x00034ECC File Offset: 0x000330CC
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum)
 		{
 			this.OrderEnum = orderEnum;
@@ -111,7 +103,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001080 RID: 4224 RVA: 0x00034FA8 File Offset: 0x000331A8
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum, Formation targetFormation)
 		{
 			this.OrderEnum = orderEnum;
@@ -130,7 +121,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001081 RID: 4225 RVA: 0x00035040 File Offset: 0x00033240
 		private WorldPosition ComputeAttackEntityWaitPosition(Formation formation, GameEntity targetEntity)
 		{
 			Scene scene = formation.Team.Mission.Scene;
@@ -170,7 +160,6 @@ namespace TaleWorlds.MountAndBlade
 			return worldPosition2;
 		}
 
-		// Token: 0x06001082 RID: 4226 RVA: 0x000351F4 File Offset: 0x000333F4
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum, GameEntity targetEntity, bool surroundEntity)
 		{
 			targetEntity.GetFirstScriptOfType<UsableMachine>();
@@ -226,7 +215,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001083 RID: 4227 RVA: 0x000352B4 File Offset: 0x000334B4
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum, Agent targetAgent)
 		{
 			this.OrderEnum = orderEnum;
@@ -269,7 +257,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001084 RID: 4228 RVA: 0x00035384 File Offset: 0x00033584
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum, GameEntity targetEntity)
 		{
 			this.OrderEnum = orderEnum;
@@ -293,7 +280,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001085 RID: 4229 RVA: 0x00035438 File Offset: 0x00033638
 		private MovementOrder(MovementOrder.MovementOrderEnum orderEnum, WorldPosition position)
 		{
 			this.OrderEnum = orderEnum;
@@ -312,7 +298,6 @@ namespace TaleWorlds.MountAndBlade
 			this._departStartTime = -1f;
 		}
 
-		// Token: 0x06001086 RID: 4230 RVA: 0x000354CC File Offset: 0x000336CC
 		public override bool Equals(object obj)
 		{
 			if (obj is MovementOrder)
@@ -323,61 +308,51 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001087 RID: 4231 RVA: 0x000354F7 File Offset: 0x000336F7
 		public override int GetHashCode()
 		{
 			return (int)this.OrderEnum;
 		}
 
-		// Token: 0x06001088 RID: 4232 RVA: 0x000354FF File Offset: 0x000336FF
 		public static bool operator !=(in MovementOrder m, MovementOrder obj)
 		{
 			return m.OrderEnum != obj.OrderEnum;
 		}
 
-		// Token: 0x06001089 RID: 4233 RVA: 0x00035512 File Offset: 0x00033712
 		public static bool operator ==(in MovementOrder m, MovementOrder obj)
 		{
 			return m.OrderEnum == obj.OrderEnum;
 		}
 
-		// Token: 0x0600108A RID: 4234 RVA: 0x00035522 File Offset: 0x00033722
 		public static MovementOrder MovementOrderChargeToTarget(Formation targetFormation)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.ChargeToTarget, targetFormation);
 		}
 
-		// Token: 0x0600108B RID: 4235 RVA: 0x0003552B File Offset: 0x0003372B
 		public static MovementOrder MovementOrderFollow(Agent targetAgent)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.Follow, targetAgent);
 		}
 
-		// Token: 0x0600108C RID: 4236 RVA: 0x00035534 File Offset: 0x00033734
 		public static MovementOrder MovementOrderGuard(Agent targetAgent)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.Guard, targetAgent);
 		}
 
-		// Token: 0x0600108D RID: 4237 RVA: 0x0003553D File Offset: 0x0003373D
 		public static MovementOrder MovementOrderFollowEntity(GameEntity targetEntity)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.FollowEntity, targetEntity);
 		}
 
-		// Token: 0x0600108E RID: 4238 RVA: 0x00035546 File Offset: 0x00033746
 		public static MovementOrder MovementOrderMove(WorldPosition position)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.Move, position);
 		}
 
-		// Token: 0x0600108F RID: 4239 RVA: 0x0003554F File Offset: 0x0003374F
 		public static MovementOrder MovementOrderAttackEntity(GameEntity targetEntity, bool surroundEntity)
 		{
 			return new MovementOrder(MovementOrder.MovementOrderEnum.AttackEntity, targetEntity, surroundEntity);
 		}
 
-		// Token: 0x06001090 RID: 4240 RVA: 0x00035559 File Offset: 0x00033759
 		public static int GetMovementOrderDefensiveness(MovementOrder.MovementOrderEnum orderEnum)
 		{
 			if (orderEnum == MovementOrder.MovementOrderEnum.Charge || orderEnum == MovementOrder.MovementOrderEnum.ChargeToTarget)
@@ -387,7 +362,6 @@ namespace TaleWorlds.MountAndBlade
 			return 1;
 		}
 
-		// Token: 0x06001091 RID: 4241 RVA: 0x00035566 File Offset: 0x00033766
 		public static int GetMovementOrderDefensivenessChange(MovementOrder.MovementOrderEnum previousOrderEnum, MovementOrder.MovementOrderEnum nextOrderEnum)
 		{
 			if (previousOrderEnum == MovementOrder.MovementOrderEnum.Charge || previousOrderEnum == MovementOrder.MovementOrderEnum.ChargeToTarget)
@@ -408,7 +382,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001092 RID: 4242 RVA: 0x00035588 File Offset: 0x00033788
 		public static void SetDefensiveArrangementMoveBehaviorValues(Agent unit)
 		{
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 8f, 5f, 20f, 6f);
@@ -420,7 +393,6 @@ namespace TaleWorlds.MountAndBlade
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
 		}
 
-		// Token: 0x06001093 RID: 4243 RVA: 0x00035678 File Offset: 0x00033878
 		public static void SetFollowBehaviorValues(Agent unit)
 		{
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
@@ -432,7 +404,6 @@ namespace TaleWorlds.MountAndBlade
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
 		}
 
-		// Token: 0x06001094 RID: 4244 RVA: 0x00035768 File Offset: 0x00033968
 		public static void SetDefaultMoveBehaviorValues(Agent unit)
 		{
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
@@ -444,7 +415,6 @@ namespace TaleWorlds.MountAndBlade
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
 		}
 
-		// Token: 0x06001095 RID: 4245 RVA: 0x00035858 File Offset: 0x00033A58
 		private static void SetChargeBehaviorValues(Agent unit)
 		{
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
@@ -456,7 +426,6 @@ namespace TaleWorlds.MountAndBlade
 			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
 		}
 
-		// Token: 0x06001096 RID: 4246 RVA: 0x00035948 File Offset: 0x00033B48
 		private static void RetreatAux(Formation formation)
 		{
 			for (int i = formation.Detachments.Count - 1; i >= 0; i--)
@@ -472,7 +441,6 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
-		// Token: 0x06001097 RID: 4247 RVA: 0x000359A4 File Offset: 0x00033BA4
 		private static WorldPosition GetAlternatePositionForNavmeshlessOrOutOfBoundsPosition(Formation f, WorldPosition originalPosition)
 		{
 			float num = 1f;
@@ -485,13 +453,11 @@ namespace TaleWorlds.MountAndBlade
 			return alternatePositionForNavmeshlessOrOutOfBoundsPosition;
 		}
 
-		// Token: 0x06001098 RID: 4248 RVA: 0x00035A00 File Offset: 0x00033C00
 		private static void OnUnitJoinOrLeaveAux(Agent unit, Agent target, bool isJoining)
 		{
 			unit.SetGuardState(target, isJoining);
 		}
 
-		// Token: 0x06001099 RID: 4249 RVA: 0x00035A0C File Offset: 0x00033C0C
 		private void GetPositionAuxFollow(Formation f)
 		{
 			Vec2 vec = Vec2.Zero;
@@ -524,13 +490,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600109A RID: 4250 RVA: 0x00035B20 File Offset: 0x00033D20
 		public Vec2 GetPosition(Formation f)
 		{
 			return this.CreateNewOrderWorldPosition(f, WorldPosition.WorldPositionEnforcedCache.None).AsVec2;
 		}
 
-		// Token: 0x0600109B RID: 4251 RVA: 0x00035B40 File Offset: 0x00033D40
 		public WorldPosition CreateNewOrderWorldPosition(Formation f, WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
 		{
 			if (!this.IsApplicable(f))
@@ -630,14 +594,12 @@ namespace TaleWorlds.MountAndBlade
 			return worldPosition;
 		}
 
-		// Token: 0x0600109C RID: 4252 RVA: 0x00035CF6 File Offset: 0x00033EF6
 		public void ResetPositionCache()
 		{
 			this._getPositionFirstSectionCache = WorldPosition.Invalid;
 			this._getPositionResultCache = WorldPosition.Invalid;
 		}
 
-		// Token: 0x0600109D RID: 4253 RVA: 0x00035D10 File Offset: 0x00033F10
 		public bool AreOrdersPracticallySame(MovementOrder m1, MovementOrder m2, bool isAIControlled)
 		{
 			if (m1.OrderEnum != m2.OrderEnum)
@@ -673,7 +635,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600109E RID: 4254 RVA: 0x00035DFC File Offset: 0x00033FFC
 		public void OnApply(Formation formation)
 		{
 			switch (this.OrderEnum)
@@ -721,7 +682,6 @@ namespace TaleWorlds.MountAndBlade
 			formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetDefensiveArrangementMoveBehaviorValues), null);
 		}
 
-		// Token: 0x0600109F RID: 4255 RVA: 0x00035F64 File Offset: 0x00034164
 		public void OnCancel(Formation formation)
 		{
 			switch (this.OrderEnum)
@@ -806,7 +766,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A0 RID: 4256 RVA: 0x00036124 File Offset: 0x00034324
 		public void OnUnitJoinOrLeave(Formation formation, Agent unit, bool isJoining)
 		{
 			if (!this.IsApplicable(formation))
@@ -850,7 +809,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A1 RID: 4257 RVA: 0x000361E0 File Offset: 0x000343E0
 		public bool IsApplicable(Formation formation)
 		{
 			switch (this.OrderEnum)
@@ -893,13 +851,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A2 RID: 4258 RVA: 0x000362E1 File Offset: 0x000344E1
 		private bool IsInstance()
 		{
 			return this.OrderEnum != MovementOrder.MovementOrderEnum.Invalid && this.OrderEnum != MovementOrder.MovementOrderEnum.Charge && this.OrderEnum != MovementOrder.MovementOrderEnum.Retreat && this.OrderEnum != MovementOrder.MovementOrderEnum.Stop && this.OrderEnum != MovementOrder.MovementOrderEnum.Advance && this.OrderEnum != MovementOrder.MovementOrderEnum.FallBack;
 		}
 
-		// Token: 0x060010A3 RID: 4259 RVA: 0x00036320 File Offset: 0x00034520
 		public bool Tick(Formation formation)
 		{
 			object obj = !this.IsInstance() || this._tickTimer.Check(Mission.Current.CurrentTime);
@@ -912,7 +868,6 @@ namespace TaleWorlds.MountAndBlade
 			return obj2 != null;
 		}
 
-		// Token: 0x060010A4 RID: 4260 RVA: 0x00036360 File Offset: 0x00034560
 		private void TickOccasionally(Formation formation, float dt)
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
@@ -1109,7 +1064,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A5 RID: 4261 RVA: 0x00036948 File Offset: 0x00034B48
 		private void TickAux()
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
@@ -1150,7 +1104,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A6 RID: 4262 RVA: 0x00036A04 File Offset: 0x00034C04
 		public void OnArrangementChanged(Formation formation)
 		{
 			if (!this.IsApplicable(formation))
@@ -1164,7 +1117,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x060010A7 RID: 4263 RVA: 0x00036A38 File Offset: 0x00034C38
 		public void Advance(Formation formation, float distance)
 		{
 			WorldPosition currentPosition = this.CreateNewOrderWorldPosition(formation, WorldPosition.WorldPositionEnforcedCache.None);
@@ -1173,13 +1125,11 @@ namespace TaleWorlds.MountAndBlade
 			this._positionLambda = (Formation f) => currentPosition;
 		}
 
-		// Token: 0x060010A8 RID: 4264 RVA: 0x00036A94 File Offset: 0x00034C94
 		public void FallBack(Formation formation, float distance)
 		{
 			this.Advance(formation, -distance);
 		}
 
-		// Token: 0x060010A9 RID: 4265 RVA: 0x00036AA0 File Offset: 0x00034CA0
 		private ValueTuple<Agent, float> GetBestAgent(List<Agent> candidateAgents)
 		{
 			if (candidateAgents.IsEmpty<Agent>())
@@ -1192,7 +1142,6 @@ namespace TaleWorlds.MountAndBlade
 			return new ValueTuple<Agent, float>(agent, agent.Position.DistanceSquared(targetEntityPos));
 		}
 
-		// Token: 0x060010AA RID: 4266 RVA: 0x00036B08 File Offset: 0x00034D08
 		private ValueTuple<Agent, float> GetWorstAgent(List<Agent> currentAgents, int requiredAgentCount)
 		{
 			if (requiredAgentCount <= 0 || currentAgents.Count < requiredAgentCount)
@@ -1205,7 +1154,6 @@ namespace TaleWorlds.MountAndBlade
 			return new ValueTuple<Agent, float>(agent, agent.Position.DistanceSquared(targetEntityPos));
 		}
 
-		// Token: 0x060010AB RID: 4267 RVA: 0x00036B74 File Offset: 0x00034D74
 		public MovementOrder GetSubstituteOrder(Formation formation)
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
@@ -1216,7 +1164,6 @@ namespace TaleWorlds.MountAndBlade
 			return MovementOrder.MovementOrderCharge;
 		}
 
-		// Token: 0x060010AC RID: 4268 RVA: 0x00036B98 File Offset: 0x00034D98
 		private Vec2 GetDirectionAux(Formation f)
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
@@ -1234,7 +1181,6 @@ namespace TaleWorlds.MountAndBlade
 			return (closestEnemyFormation.MedianPosition.AsVec2 - querySystem.AveragePosition).Normalized();
 		}
 
-		// Token: 0x060010AD RID: 4269 RVA: 0x00036C0C File Offset: 0x00034E0C
 		private WorldPosition GetPositionAux(Formation f, WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
@@ -1289,128 +1235,81 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000423 RID: 1059
 		public static readonly MovementOrder MovermentOrderNull = new MovementOrder(MovementOrder.MovementOrderEnum.Invalid);
 
-		// Token: 0x04000424 RID: 1060
 		public static readonly MovementOrder MovementOrderCharge = new MovementOrder(MovementOrder.MovementOrderEnum.Charge);
 
-		// Token: 0x04000425 RID: 1061
 		public static readonly MovementOrder MovementOrderRetreat = new MovementOrder(MovementOrder.MovementOrderEnum.Retreat);
 
-		// Token: 0x04000426 RID: 1062
 		public static readonly MovementOrder MovementOrderStop = new MovementOrder(MovementOrder.MovementOrderEnum.Stop);
 
-		// Token: 0x04000427 RID: 1063
 		public static readonly MovementOrder MovementOrderAdvance = new MovementOrder(MovementOrder.MovementOrderEnum.Advance);
 
-		// Token: 0x04000428 RID: 1064
 		public static readonly MovementOrder MovementOrderFallBack = new MovementOrder(MovementOrder.MovementOrderEnum.FallBack);
 
-		// Token: 0x04000429 RID: 1065
 		private MovementOrder.FollowState _followState;
 
-		// Token: 0x0400042A RID: 1066
 		private float _departStartTime;
 
-		// Token: 0x0400042B RID: 1067
 		public readonly MovementOrder.MovementOrderEnum OrderEnum;
 
-		// Token: 0x0400042C RID: 1068
 		private Func<Formation, WorldPosition> _positionLambda;
 
-		// Token: 0x0400042D RID: 1069
 		private WorldPosition _position;
 
-		// Token: 0x0400042E RID: 1070
 		private WorldPosition _getPositionResultCache;
 
-		// Token: 0x0400042F RID: 1071
 		private bool _getPositionIsNavmeshlessCache;
 
-		// Token: 0x04000430 RID: 1072
 		private WorldPosition _getPositionFirstSectionCache;
 
-		// Token: 0x04000431 RID: 1073
 		public Formation TargetFormation;
 
-		// Token: 0x04000432 RID: 1074
 		public GameEntity TargetEntity;
 
-		// Token: 0x04000434 RID: 1076
 		private readonly Timer _tickTimer;
 
-		// Token: 0x04000435 RID: 1077
 		private WorldPosition _lastPosition;
 
-		// Token: 0x04000436 RID: 1078
 		public readonly bool _isFacingDirection;
 
-		// Token: 0x02000485 RID: 1157
 		public enum MovementOrderEnum
 		{
-			// Token: 0x0400197B RID: 6523
 			Invalid,
-			// Token: 0x0400197C RID: 6524
 			AttackEntity,
-			// Token: 0x0400197D RID: 6525
 			Charge,
-			// Token: 0x0400197E RID: 6526
 			ChargeToTarget,
-			// Token: 0x0400197F RID: 6527
 			Follow,
-			// Token: 0x04001980 RID: 6528
 			FollowEntity,
-			// Token: 0x04001981 RID: 6529
 			Guard,
-			// Token: 0x04001982 RID: 6530
 			Move,
-			// Token: 0x04001983 RID: 6531
 			Retreat,
-			// Token: 0x04001984 RID: 6532
 			Stop,
-			// Token: 0x04001985 RID: 6533
 			Advance,
-			// Token: 0x04001986 RID: 6534
 			FallBack
 		}
 
-		// Token: 0x02000486 RID: 1158
 		public enum MovementStateEnum
 		{
-			// Token: 0x04001988 RID: 6536
 			Charge,
-			// Token: 0x04001989 RID: 6537
 			Hold,
-			// Token: 0x0400198A RID: 6538
 			Retreat,
-			// Token: 0x0400198B RID: 6539
 			StandGround
 		}
 
-		// Token: 0x02000487 RID: 1159
 		public enum Side
 		{
-			// Token: 0x0400198D RID: 6541
 			Front,
-			// Token: 0x0400198E RID: 6542
 			Rear,
-			// Token: 0x0400198F RID: 6543
 			Left,
-			// Token: 0x04001990 RID: 6544
 			Right
 		}
 
-		// Token: 0x02000488 RID: 1160
 		private enum FollowState
 		{
-			// Token: 0x04001992 RID: 6546
 			Stop,
-			// Token: 0x04001993 RID: 6547
 			Depart,
-			// Token: 0x04001994 RID: 6548
 			Move,
-			// Token: 0x04001995 RID: 6549
 			Arrive
 		}
 	}

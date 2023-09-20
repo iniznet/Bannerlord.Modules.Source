@@ -19,10 +19,8 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x02000092 RID: 146
 	public class ArenaMasterCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x0600065C RID: 1628 RVA: 0x00030E3C File Offset: 0x0002F03C
 		public override void RegisterEvents()
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -31,27 +29,23 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.AfterMissionStarted.AddNonSerializedListener(this, new Action<IMission>(this.AfterMissionStarted));
 		}
 
-		// Token: 0x0600065D RID: 1629 RVA: 0x00030EA5 File Offset: 0x0002F0A5
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<List<Settlement>>("_arenaMasterHasMetInSettlements", ref this._arenaMasterHasMetInSettlements);
 			dataStore.SyncData<bool>("_knowTournaments", ref this._knowTournaments);
 		}
 
-		// Token: 0x0600065E RID: 1630 RVA: 0x00030ECB File Offset: 0x0002F0CB
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogs(campaignGameStarter);
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		// Token: 0x0600065F RID: 1631 RVA: 0x00030EDC File Offset: 0x0002F0DC
 		private void AddGameMenus(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddGameMenuOption("town_arena", "mno_enter_practice_fight", "{=9pg3qc6N}Practice fight", new GameMenuOption.OnConditionDelegate(this.game_menu_enter_practice_fight_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_enter_practice_fight_on_consequence), false, 1, false, null);
 		}
 
-		// Token: 0x06000660 RID: 1632 RVA: 0x00030F1A File Offset: 0x0002F11A
 		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != MobileParty.MainParty || !settlement.IsTown)
@@ -61,7 +55,6 @@ namespace SandBox.CampaignBehaviors
 			this.AddArenaMaster(settlement);
 		}
 
-		// Token: 0x06000661 RID: 1633 RVA: 0x00030F34 File Offset: 0x0002F134
 		private void OnGameLoadFinished()
 		{
 			if (Settlement.CurrentSettlement != null && !Hero.MainHero.IsPrisoner && LocationComplex.Current != null && Settlement.CurrentSettlement.IsTown && PlayerEncounter.LocationEncounter != null && !Settlement.CurrentSettlement.IsUnderSiege)
@@ -70,13 +63,11 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000662 RID: 1634 RVA: 0x00030F85 File Offset: 0x0002F185
 		private void AddArenaMaster(Settlement settlement)
 		{
 			settlement.LocationComplex.GetLocationWithId("arena").AddLocationCharacters(new CreateLocationCharacterDelegate(ArenaMasterCampaignBehavior.CreateTournamentMaster), settlement.Culture, 0, 1);
 		}
 
-		// Token: 0x06000663 RID: 1635 RVA: 0x00030FB0 File Offset: 0x0002F1B0
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("arena_master_tournament_meet", "start", "arena_intro_1", "{=GAsVO8cZ}Good day, friend. I'll bet you came here for the games, or as they say nowadays, the tournament!", new ConversationSentence.OnConditionDelegate(this.conversation_arena_master_tournament_meet_on_condition), null, 100, null);
@@ -131,7 +122,6 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("2594", "arena_master_practice_fight_reject", "close_window", "{=Q7B68CVK}{?PLAYER.GENDER}Splendid{?}Good man{\\?}! That's clever of you.[ib:normal]", null, null, 100, null);
 		}
 
-		// Token: 0x06000664 RID: 1636 RVA: 0x000316C4 File Offset: 0x0002F8C4
 		private static LocationCharacter CreateTournamentMaster(CultureObject culture, LocationCharacter.CharacterRelations relation)
 		{
 			CharacterObject tournamentMaster = culture.TournamentMaster;
@@ -142,7 +132,6 @@ namespace SandBox.CampaignBehaviors
 			return new LocationCharacter(new AgentData(new SimpleAgentOrigin(tournamentMaster, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddFixedCharacterBehaviors), "spawnpoint_tournamentmaster", true, relation, null, true, true, null, false, false, true);
 		}
 
-		// Token: 0x06000665 RID: 1637 RVA: 0x0003175C File Offset: 0x0002F95C
 		private bool conversation_arena_master_practice_fights_meet_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 5 && !this._knowTournaments)
@@ -155,13 +144,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000666 RID: 1638 RVA: 0x000317AD File Offset: 0x0002F9AD
 		private bool conversation_town_has_tournament_on_condition()
 		{
 			return Settlement.CurrentSettlement.IsTown && Campaign.Current.TournamentManager.GetTournamentGame(Settlement.CurrentSettlement.Town) != null;
 		}
 
-		// Token: 0x06000667 RID: 1639 RVA: 0x000317DC File Offset: 0x0002F9DC
 		public static bool conversation_tournament_soon_on_condition()
 		{
 			List<Town> list = Town.AllTowns.Where((Town x) => Campaign.Current.TournamentManager.GetTournamentGame(x) != null && x != Settlement.CurrentSettlement.Town).ToList<Town>();
@@ -186,19 +173,16 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000668 RID: 1640 RVA: 0x000318E0 File Offset: 0x0002FAE0
 		private bool conversation_arena_join_practice_fight_confirm_on_condition()
 		{
 			return !Settlement.CurrentSettlement.Town.HasTournament;
 		}
 
-		// Token: 0x06000669 RID: 1641 RVA: 0x000318F4 File Offset: 0x0002FAF4
 		private bool conversation_arena_join_practice_fight_decline_on_condition()
 		{
 			return Settlement.CurrentSettlement.Town.HasTournament;
 		}
 
-		// Token: 0x0600066A RID: 1642 RVA: 0x00031908 File Offset: 0x0002FB08
 		private bool conversation_town_arena_fight_join_check_on_condition(out TextObject explanation)
 		{
 			if (Hero.MainHero.IsWounded && Campaign.Current.IsMainHeroDisguised)
@@ -220,7 +204,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600066B RID: 1643 RVA: 0x00031978 File Offset: 0x0002FB78
 		private bool conversation_arena_master_tournament_meet_on_condition()
 		{
 			if (Settlement.CurrentSettlement == null)
@@ -238,7 +221,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600066C RID: 1644 RVA: 0x000319F0 File Offset: 0x0002FBF0
 		private bool conversation_arena_master_no_tournament_meet_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 5 && !this._knowTournaments)
@@ -251,7 +233,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600066D RID: 1645 RVA: 0x00031A44 File Offset: 0x0002FC44
 		private static bool conversation_arena_practice_fight_explain_reward_on_condition()
 		{
 			MBTextManager.SetTextVariable("OPPONENT_COUNT_1", "3", false);
@@ -267,14 +248,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600066E RID: 1646 RVA: 0x00031AF8 File Offset: 0x0002FCF8
 		private static bool conversation_arena_tournament_explain_reward_on_condition()
 		{
 			MBTextManager.SetTextVariable("TOURNAMENT_REWARD", new TextObject("{=1esi62Zb}Well - we like tournaments to be memorable. So the sponsors pitch together and buy a prize that they'll be talking about in the markets for weeks. A jeweled blade, say, or a fine-bred warhorse. Something a champion would be proud to own.", null), false);
 			return true;
 		}
 
-		// Token: 0x0600066F RID: 1647 RVA: 0x00031B14 File Offset: 0x0002FD14
 		private bool conversation_arena_master_meet_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 5 && this._knowTournaments && Settlement.CurrentSettlement.IsTown && !this._arenaMasterHasMetInSettlements.Contains(Settlement.CurrentSettlement))
@@ -286,39 +265,33 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000670 RID: 1648 RVA: 0x00031B7C File Offset: 0x0002FD7C
 		private bool conversation_arena_master_meet_start_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == 5 && this._knowTournaments && Settlement.CurrentSettlement.IsTown && this._arenaMasterHasMetInSettlements.Contains(Settlement.CurrentSettlement) && !Mission.Current.GetMissionBehavior<ArenaPracticeFightMissionController>().AfterPractice;
 		}
 
-		// Token: 0x06000671 RID: 1649 RVA: 0x00031BD0 File Offset: 0x0002FDD0
 		private bool conversation_arena_master_player_knows_arenas_on_condition()
 		{
 			return CharacterObject.OneToOneConversationCharacter.Occupation == 5 && this._knowTournaments && Settlement.CurrentSettlement.IsTown && !this._arenaMasterHasMetInSettlements.Contains(Settlement.CurrentSettlement) && !Mission.Current.GetMissionBehavior<ArenaPracticeFightMissionController>().AfterPractice;
 		}
 
-		// Token: 0x06000672 RID: 1650 RVA: 0x00031C24 File Offset: 0x0002FE24
 		public static void conversation_arena_join_tournament_on_consequence()
 		{
 			Mission.Current.EndMission();
 			Campaign.Current.GameMenuManager.SetNextMenu("menu_town_tournament_join");
 		}
 
-		// Token: 0x06000673 RID: 1651 RVA: 0x00031C44 File Offset: 0x0002FE44
 		public static void conversation_arena_join_fight_on_consequence()
 		{
 			Campaign.Current.ConversationManager.ConversationEndOneShot += ArenaMasterCampaignBehavior.StartPlayerPracticeAfterConversationEnd;
 		}
 
-		// Token: 0x06000674 RID: 1652 RVA: 0x00031C61 File Offset: 0x0002FE61
 		private static void StartPlayerPracticeAfterConversationEnd()
 		{
 			Mission.Current.SetMissionMode(2, false);
 			Mission.Current.GetMissionBehavior<ArenaPracticeFightMissionController>().StartPlayerPractice();
 		}
 
-		// Token: 0x06000675 RID: 1653 RVA: 0x00031C80 File Offset: 0x0002FE80
 		private bool conversation_arena_master_post_fight_on_condition()
 		{
 			Mission mission = Mission.Current;
@@ -379,7 +352,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x06000676 RID: 1654 RVA: 0x00031DA7 File Offset: 0x0002FFA7
 		private void AfterMissionStarted(IMission obj)
 		{
 			if (this._enteredPracticeFightFromMenu)
@@ -390,7 +362,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000677 RID: 1655 RVA: 0x00031DD4 File Offset: 0x0002FFD4
 		private void game_menu_enter_practice_fight_on_consequence(MenuCallbackArgs args)
 		{
 			if (!this._arenaMasterHasMetInSettlements.Contains(Settlement.CurrentSettlement))
@@ -401,7 +372,6 @@ namespace SandBox.CampaignBehaviors
 			this._enteredPracticeFightFromMenu = true;
 		}
 
-		// Token: 0x06000678 RID: 1656 RVA: 0x00031E28 File Offset: 0x00030028
 		private bool game_menu_enter_practice_fight_on_condition(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -439,13 +409,10 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x040002E5 RID: 741
 		private List<Settlement> _arenaMasterHasMetInSettlements = new List<Settlement>();
 
-		// Token: 0x040002E6 RID: 742
 		private bool _knowTournaments;
 
-		// Token: 0x040002E7 RID: 743
 		private bool _enteredPracticeFightFromMenu;
 	}
 }

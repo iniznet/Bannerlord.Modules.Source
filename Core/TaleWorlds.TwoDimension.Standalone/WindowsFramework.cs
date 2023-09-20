@@ -8,15 +8,10 @@ using TaleWorlds.TwoDimension.Standalone.Native.Windows;
 
 namespace TaleWorlds.TwoDimension.Standalone
 {
-	// Token: 0x02000010 RID: 16
 	public class WindowsFramework
 	{
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x060000D4 RID: 212 RVA: 0x000049AE File Offset: 0x00002BAE
-		// (set) Token: 0x060000D5 RID: 213 RVA: 0x000049B6 File Offset: 0x00002BB6
 		public WindowsFrameworkThreadConfig ThreadConfig { get; set; }
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x000049BF File Offset: 0x00002BBF
 		public WindowsFramework()
 		{
 			this._timer = new Stopwatch();
@@ -24,7 +19,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this.IsActive = false;
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x000049E4 File Offset: 0x00002BE4
 		public void Initialize(FrameworkDomain[] frameworkDomains)
 		{
 			this._frameworkDomains = frameworkDomains;
@@ -45,7 +39,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00004A48 File Offset: 0x00002C48
 		private void CreateThread(int index)
 		{
 			Common.SetInvariantCulture();
@@ -56,19 +49,16 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this._frameworkDomainThreads[index].CurrentUICulture = CultureInfo.InvariantCulture;
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x00004AC9 File Offset: 0x00002CC9
 		public void RegisterMessageCommunicator(IMessageCommunicator communicator)
 		{
 			this._messageCommunicators.Add(communicator);
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x00004AD7 File Offset: 0x00002CD7
 		public void UnRegisterMessageCommunicator(IMessageCommunicator communicator)
 		{
 			this._messageCommunicators.Remove(communicator);
 		}
 
-		// Token: 0x060000DB RID: 219 RVA: 0x00004AE8 File Offset: 0x00002CE8
 		private void MessageLoop()
 		{
 			try
@@ -93,7 +83,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x060000DC RID: 220 RVA: 0x00004B88 File Offset: 0x00002D88
 		private void MainLoop(object parameter)
 		{
 			try
@@ -127,13 +116,11 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x060000DD RID: 221 RVA: 0x00004C40 File Offset: 0x00002E40
 		public void Stop()
 		{
 			this.IsActive = false;
 		}
 
-		// Token: 0x060000DE RID: 222 RVA: 0x00004C4C File Offset: 0x00002E4C
 		public void OnFinalize()
 		{
 			if (this._abortedThreadCount != this._frameworkDomainThreads.Length)
@@ -149,7 +136,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			this.IsFinalized = true;
 		}
 
-		// Token: 0x060000DF RID: 223 RVA: 0x00004C98 File Offset: 0x00002E98
 		public void Start()
 		{
 			this._timer.Start();
@@ -194,8 +180,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x060000E0 RID: 224 RVA: 0x00004D7B File Offset: 0x00002F7B
 		public long ElapsedTicks
 		{
 			get
@@ -204,8 +188,6 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x060000E1 RID: 225 RVA: 0x00004D88 File Offset: 0x00002F88
 		public long TicksPerSecond
 		{
 			get
@@ -214,25 +196,18 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		// Token: 0x04000051 RID: 81
 		public bool IsActive;
 
-		// Token: 0x04000052 RID: 82
 		private FrameworkDomain[] _frameworkDomains;
 
-		// Token: 0x04000053 RID: 83
 		private Thread[] _frameworkDomainThreads;
 
-		// Token: 0x04000054 RID: 84
 		private Stopwatch _timer;
 
-		// Token: 0x04000056 RID: 86
 		private List<IMessageCommunicator> _messageCommunicators;
 
-		// Token: 0x04000057 RID: 87
 		public bool IsFinalized;
 
-		// Token: 0x04000058 RID: 88
 		private int _abortedThreadCount;
 	}
 }

@@ -6,11 +6,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	// Token: 0x02000041 RID: 65
 	internal class EngineManaged : IManagedComponent
 	{
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x0600059A RID: 1434 RVA: 0x00003320 File Offset: 0x00001520
 		public string ManagedCallbacksDll
 		{
 			get
@@ -19,18 +16,15 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x0600059B RID: 1435 RVA: 0x00003331 File Offset: 0x00001531
 		public EngineManaged()
 		{
 			EngineManaged._instance = this;
 		}
 
-		// Token: 0x0600059C RID: 1436 RVA: 0x0000333F File Offset: 0x0000153F
 		void IManagedComponent.OnStart()
 		{
 		}
 
-		// Token: 0x0600059D RID: 1437 RVA: 0x00003341 File Offset: 0x00001541
 		void IManagedComponent.OnCustomCallbackMethodPassed(string name, Delegate method)
 		{
 			if (name == "Engine")
@@ -40,13 +34,11 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x0600059E RID: 1438 RVA: 0x0000335C File Offset: 0x0000155C
 		void IManagedComponent.OnApplicationTick(float dt)
 		{
 			EngineController.OnApplicationTick(dt);
 		}
 
-		// Token: 0x0600059F RID: 1439 RVA: 0x00003364 File Offset: 0x00001564
 		private void OnInitialize()
 		{
 			Type[] types = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypes();
@@ -82,21 +74,18 @@ namespace TaleWorlds.Engine
 			EngineScreenManager.Initialize();
 		}
 
-		// Token: 0x060005A0 RID: 1440 RVA: 0x00003460 File Offset: 0x00001660
 		[EngineCallback]
 		internal static void EngineApiMethodInterfaceInitializer(int id, IntPtr pointer)
 		{
 			EngineManaged._engineApiPointers.Add(id, pointer);
 		}
 
-		// Token: 0x060005A1 RID: 1441 RVA: 0x0000346E File Offset: 0x0000166E
 		[EngineCallback]
 		internal static void CheckSharedStructureSizes()
 		{
 			EngineManaged._callbackManager.CheckSharedStructureSizes();
 		}
 
-		// Token: 0x060005A2 RID: 1442 RVA: 0x0000347C File Offset: 0x0000167C
 		[EngineCallback]
 		internal static void FillEngineApiPointers()
 		{
@@ -113,7 +102,6 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x060005A3 RID: 1443 RVA: 0x00003524 File Offset: 0x00001724
 		private static void PassManagedEngineCallbackMethodPointers(Delegate methodDelegate)
 		{
 			if (EngineManaged.PassManagedEngineCallbackMethodPointersMono != null)
@@ -122,16 +110,12 @@ namespace TaleWorlds.Engine
 			}
 		}
 
-		// Token: 0x0400004A RID: 74
 		private static EngineManaged _instance;
 
-		// Token: 0x0400004B RID: 75
 		private static Dictionary<int, IntPtr> _engineApiPointers = new Dictionary<int, IntPtr>();
 
-		// Token: 0x0400004C RID: 76
 		private static ICallbackManager _callbackManager;
 
-		// Token: 0x0400004D RID: 77
 		private static Delegate PassManagedEngineCallbackMethodPointersMono = null;
 	}
 }

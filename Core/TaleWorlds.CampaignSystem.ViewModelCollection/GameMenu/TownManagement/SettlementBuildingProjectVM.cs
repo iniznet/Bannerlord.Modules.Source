@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 {
-	// Token: 0x0200008C RID: 140
 	public class SettlementBuildingProjectVM : SettlementProjectVM
 	{
-		// Token: 0x06000DBE RID: 3518 RVA: 0x000377B0 File Offset: 0x000359B0
 		public SettlementBuildingProjectVM(Action<SettlementProjectVM, bool> onSelection, Action<SettlementProjectVM> onSetAsCurrent, Action onResetCurrent, Building building)
 			: base(onSelection, onSetAsCurrent, onResetCurrent, building)
 		{
@@ -23,14 +21,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			this.RefreshValues();
 		}
 
-		// Token: 0x06000DBF RID: 3519 RVA: 0x00037814 File Offset: 0x00035A14
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
 			this.AlreadyAtMaxText = new TextObject("{=ybLA7ZXp}Already at Max", null).ToString();
 		}
 
-		// Token: 0x06000DC0 RID: 3520 RVA: 0x00037834 File Offset: 0x00035A34
 		public override void RefreshProductionText()
 		{
 			base.RefreshProductionText();
@@ -63,7 +59,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			base.ProductionText = " ";
 		}
 
-		// Token: 0x06000DC1 RID: 3521 RVA: 0x00037945 File Offset: 0x00035B45
 		public override void ExecuteAddToQueue()
 		{
 			if (this._onSelection != null && this.CanBuild)
@@ -72,7 +67,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x06000DC2 RID: 3522 RVA: 0x00037964 File Offset: 0x00035B64
 		public override void ExecuteSetAsActiveDevelopment()
 		{
 			if (this._onSelection != null && this.CanBuild)
@@ -81,7 +75,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x06000DC3 RID: 3523 RVA: 0x00037983 File Offset: 0x00035B83
 		public override void ExecuteSetAsCurrent()
 		{
 			Action<SettlementProjectVM> onSetAsCurrent = this._onSetAsCurrent;
@@ -92,7 +85,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			onSetAsCurrent(this);
 		}
 
-		// Token: 0x06000DC4 RID: 3524 RVA: 0x00037996 File Offset: 0x00035B96
 		public override void ExecuteResetCurrent()
 		{
 			Action onResetCurrent = this._onResetCurrent;
@@ -103,9 +95,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			onResetCurrent();
 		}
 
-		// Token: 0x17000477 RID: 1143
-		// (get) Token: 0x06000DC5 RID: 3525 RVA: 0x000379A8 File Offset: 0x00035BA8
-		// (set) Token: 0x06000DC6 RID: 3526 RVA: 0x000379B0 File Offset: 0x00035BB0
 		[DataSourceProperty]
 		public bool IsSelected
 		{
@@ -123,9 +112,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x17000478 RID: 1144
-		// (get) Token: 0x06000DC7 RID: 3527 RVA: 0x000379CE File Offset: 0x00035BCE
-		// (set) Token: 0x06000DC8 RID: 3528 RVA: 0x000379D6 File Offset: 0x00035BD6
 		[DataSourceProperty]
 		public string DevelopmentLevelText
 		{
@@ -143,9 +129,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x17000479 RID: 1145
-		// (get) Token: 0x06000DC9 RID: 3529 RVA: 0x000379F9 File Offset: 0x00035BF9
-		// (set) Token: 0x06000DCA RID: 3530 RVA: 0x00037A01 File Offset: 0x00035C01
 		[DataSourceProperty]
 		public int Level
 		{
@@ -163,9 +146,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x1700047A RID: 1146
-		// (get) Token: 0x06000DCB RID: 3531 RVA: 0x00037A1F File Offset: 0x00035C1F
-		// (set) Token: 0x06000DCC RID: 3532 RVA: 0x00037A27 File Offset: 0x00035C27
 		[DataSourceProperty]
 		public int MaxLevel
 		{
@@ -183,9 +163,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x1700047B RID: 1147
-		// (get) Token: 0x06000DCD RID: 3533 RVA: 0x00037A45 File Offset: 0x00035C45
-		// (set) Token: 0x06000DCE RID: 3534 RVA: 0x00037A4D File Offset: 0x00035C4D
 		[DataSourceProperty]
 		public int DevelopmentQueueIndex
 		{
@@ -203,9 +180,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x1700047C RID: 1148
-		// (get) Token: 0x06000DCF RID: 3535 RVA: 0x00037A6B File Offset: 0x00035C6B
-		// (set) Token: 0x06000DD0 RID: 3536 RVA: 0x00037A73 File Offset: 0x00035C73
 		[DataSourceProperty]
 		public bool IsInQueue
 		{
@@ -223,9 +197,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x1700047D RID: 1149
-		// (get) Token: 0x06000DD1 RID: 3537 RVA: 0x00037A91 File Offset: 0x00035C91
-		// (set) Token: 0x06000DD2 RID: 3538 RVA: 0x00037A99 File Offset: 0x00035C99
 		[DataSourceProperty]
 		public string AlreadyAtMaxText
 		{
@@ -243,9 +214,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x1700047E RID: 1150
-		// (get) Token: 0x06000DD3 RID: 3539 RVA: 0x00037ABC File Offset: 0x00035CBC
-		// (set) Token: 0x06000DD4 RID: 3540 RVA: 0x00037AC4 File Offset: 0x00035CC4
 		[DataSourceProperty]
 		public bool CanBuild
 		{
@@ -263,28 +231,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
-		// Token: 0x04000665 RID: 1637
 		private bool _isSelected;
 
-		// Token: 0x04000666 RID: 1638
 		private string _alreadyAtMaxText;
 
-		// Token: 0x04000667 RID: 1639
 		private string _developmentLevelText;
 
-		// Token: 0x04000668 RID: 1640
 		private int _level;
 
-		// Token: 0x04000669 RID: 1641
 		private int _maxLevel;
 
-		// Token: 0x0400066A RID: 1642
 		private int _developmentQueueIndex = -1;
 
-		// Token: 0x0400066B RID: 1643
 		private bool _canBuild;
 
-		// Token: 0x0400066C RID: 1644
 		private bool _isInQueue;
 	}
 }

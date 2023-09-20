@@ -3,12 +3,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000142 RID: 322
 	public struct FormOrder
 	{
-		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x06001066 RID: 4198 RVA: 0x0003494B File Offset: 0x00032B4B
-		// (set) Token: 0x06001067 RID: 4199 RVA: 0x00034953 File Offset: 0x00032B53
 		public float CustomFlankWidth
 		{
 			get
@@ -21,21 +17,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001068 RID: 4200 RVA: 0x0003495C File Offset: 0x00032B5C
 		private FormOrder(FormOrder.FormOrderEnum orderEnum, float customFlankWidth = -1f)
 		{
 			this.OrderEnum = orderEnum;
 			this._customFlankWidth = customFlankWidth;
 		}
 
-		// Token: 0x06001069 RID: 4201 RVA: 0x0003496C File Offset: 0x00032B6C
 		public static FormOrder FormOrderCustom(float customWidth)
 		{
 			return new FormOrder(FormOrder.FormOrderEnum.Custom, customWidth);
 		}
 
-		// Token: 0x17000388 RID: 904
-		// (get) Token: 0x0600106A RID: 4202 RVA: 0x00034978 File Offset: 0x00032B78
 		public OrderType OrderType
 		{
 			get
@@ -54,13 +46,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600106B RID: 4203 RVA: 0x000349AD File Offset: 0x00032BAD
 		public void OnApply(Formation formation)
 		{
 			this.OnApplyToArrangement(formation, formation.Arrangement);
 		}
 
-		// Token: 0x0600106C RID: 4204 RVA: 0x000349BC File Offset: 0x00032BBC
 		public static int GetUnitCountOf(Formation formation)
 		{
 			if (formation.OverridenUnitCount == null)
@@ -70,13 +60,11 @@ namespace TaleWorlds.MountAndBlade
 			return formation.OverridenUnitCount.Value;
 		}
 
-		// Token: 0x0600106D RID: 4205 RVA: 0x000349EE File Offset: 0x00032BEE
 		public bool OnApplyToCustomArrangement(Formation formation, IFormationArrangement arrangement)
 		{
 			return false;
 		}
 
-		// Token: 0x0600106E RID: 4206 RVA: 0x000349F4 File Offset: 0x00032BF4
 		private void OnApplyToArrangement(Formation formation, IFormationArrangement arrangement)
 		{
 			if (!this.OnApplyToCustomArrangement(formation, arrangement))
@@ -190,19 +178,16 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600106F RID: 4207 RVA: 0x00034C51 File Offset: 0x00032E51
 		private int? GetFileCount(int unitCount)
 		{
 			return FormOrder.GetFileCountStatic(this.OrderEnum, unitCount);
 		}
 
-		// Token: 0x06001070 RID: 4208 RVA: 0x00034C5F File Offset: 0x00032E5F
 		public static int? GetFileCountStatic(FormOrder.FormOrderEnum order, int unitCount)
 		{
 			return FormOrder.GetFileCountAux(order, unitCount);
 		}
 
-		// Token: 0x06001071 RID: 4209 RVA: 0x00034C68 File Offset: 0x00032E68
 		private int GetRankVerticalFormFileCount()
 		{
 			switch (this.OrderEnum)
@@ -221,7 +206,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001072 RID: 4210 RVA: 0x00034CC0 File Offset: 0x00032EC0
 		private static int? GetFileCountAux(FormOrder.FormOrderEnum order, int unitCount)
 		{
 			switch (order)
@@ -240,7 +224,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001073 RID: 4211 RVA: 0x00034D74 File Offset: 0x00032F74
 		public override bool Equals(object obj)
 		{
 			if (obj is FormOrder)
@@ -251,49 +234,36 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		// Token: 0x06001074 RID: 4212 RVA: 0x00034DA0 File Offset: 0x00032FA0
 		public override int GetHashCode()
 		{
 			return (int)this.OrderEnum;
 		}
 
-		// Token: 0x06001075 RID: 4213 RVA: 0x00034DA8 File Offset: 0x00032FA8
 		public static bool operator !=(FormOrder f1, FormOrder f2)
 		{
 			return f1.OrderEnum != f2.OrderEnum;
 		}
 
-		// Token: 0x06001076 RID: 4214 RVA: 0x00034DBB File Offset: 0x00032FBB
 		public static bool operator ==(FormOrder f1, FormOrder f2)
 		{
 			return f1.OrderEnum == f2.OrderEnum;
 		}
 
-		// Token: 0x0400041E RID: 1054
 		private float _customFlankWidth;
 
-		// Token: 0x0400041F RID: 1055
 		public readonly FormOrder.FormOrderEnum OrderEnum;
 
-		// Token: 0x04000420 RID: 1056
 		public static readonly FormOrder FormOrderDeep = new FormOrder(FormOrder.FormOrderEnum.Deep, -1f);
 
-		// Token: 0x04000421 RID: 1057
 		public static readonly FormOrder FormOrderWide = new FormOrder(FormOrder.FormOrderEnum.Wide, -1f);
 
-		// Token: 0x04000422 RID: 1058
 		public static readonly FormOrder FormOrderWider = new FormOrder(FormOrder.FormOrderEnum.Wider, -1f);
 
-		// Token: 0x02000484 RID: 1156
 		public enum FormOrderEnum
 		{
-			// Token: 0x04001976 RID: 6518
 			Deep,
-			// Token: 0x04001977 RID: 6519
 			Wide,
-			// Token: 0x04001978 RID: 6520
 			Wider,
-			// Token: 0x04001979 RID: 6521
 			Custom
 		}
 	}

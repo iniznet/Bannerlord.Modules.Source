@@ -4,36 +4,21 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Save
 {
-	// Token: 0x0200002F RID: 47
 	internal abstract class VariableSaveData
 	{
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x060001B3 RID: 435 RVA: 0x000082F4 File Offset: 0x000064F4
-		// (set) Token: 0x060001B4 RID: 436 RVA: 0x000082FC File Offset: 0x000064FC
 		public ISaveContext Context { get; private set; }
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x060001B5 RID: 437 RVA: 0x00008305 File Offset: 0x00006505
-		// (set) Token: 0x060001B6 RID: 438 RVA: 0x0000830D File Offset: 0x0000650D
 		public SavedMemberType MemberType { get; private set; }
 
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x060001B7 RID: 439 RVA: 0x00008316 File Offset: 0x00006516
-		// (set) Token: 0x060001B8 RID: 440 RVA: 0x0000831E File Offset: 0x0000651E
 		public object Value { get; private set; }
 
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x060001B9 RID: 441 RVA: 0x00008327 File Offset: 0x00006527
-		// (set) Token: 0x060001BA RID: 442 RVA: 0x0000832F File Offset: 0x0000652F
 		public MemberTypeId MemberSaveId { get; private set; }
 
-		// Token: 0x060001BB RID: 443 RVA: 0x00008338 File Offset: 0x00006538
 		protected VariableSaveData(ISaveContext context)
 		{
 			this.Context = context;
 		}
 
-		// Token: 0x060001BC RID: 444 RVA: 0x00008347 File Offset: 0x00006547
 		protected void InitializeDataAsNullObject(MemberTypeId memberSaveId)
 		{
 			this.MemberSaveId = memberSaveId;
@@ -41,7 +26,6 @@ namespace TaleWorlds.SaveSystem.Save
 			this.Value = -1;
 		}
 
-		// Token: 0x060001BD RID: 445 RVA: 0x00008363 File Offset: 0x00006563
 		protected void InitializeDataAsCustomStruct(MemberTypeId memberSaveId, int structId)
 		{
 			this.MemberSaveId = memberSaveId;
@@ -49,7 +33,6 @@ namespace TaleWorlds.SaveSystem.Save
 			this.Value = structId;
 		}
 
-		// Token: 0x060001BE RID: 446 RVA: 0x00008380 File Offset: 0x00006580
 		protected void InitializeData(MemberTypeId memberSaveId, Type memberType, TypeDefinitionBase definition, object data)
 		{
 			this.MemberSaveId = memberSaveId;
@@ -103,7 +86,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x060001BF RID: 447 RVA: 0x000084F0 File Offset: 0x000066F0
 		public void SaveTo(IWriter writer)
 		{
 			writer.WriteByte((byte)this.MemberType);
@@ -143,7 +125,6 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 		}
 
-		// Token: 0x04000084 RID: 132
 		private TypeDefinitionBase _typeDefinition;
 	}
 }

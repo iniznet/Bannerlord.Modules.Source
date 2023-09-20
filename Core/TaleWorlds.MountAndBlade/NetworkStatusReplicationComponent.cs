@@ -7,10 +7,8 @@ using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002FD RID: 765
 	internal sealed class NetworkStatusReplicationComponent : UdpNetworkComponent
 	{
-		// Token: 0x0600298C RID: 10636 RVA: 0x000A0DE0 File Offset: 0x0009EFE0
 		public override void OnUdpNetworkHandlerTick(float dt)
 		{
 			if (GameNetwork.IsServer)
@@ -70,7 +68,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600298D RID: 10637 RVA: 0x000A0FD4 File Offset: 0x0009F1D4
 		public NetworkStatusReplicationComponent()
 		{
 			if (GameNetwork.IsClientOrReplay)
@@ -79,7 +76,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600298E RID: 10638 RVA: 0x000A0FF4 File Offset: 0x0009F1F4
 		public override void OnUdpNetworkHandlerClose()
 		{
 			base.OnUdpNetworkHandlerClose();
@@ -89,7 +85,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600298F RID: 10639 RVA: 0x000A1009 File Offset: 0x0009F209
 		private static void HandleServerMessagePingReplication(PingReplication message)
 		{
 			NetworkCommunicator peer = message.Peer;
@@ -100,7 +95,6 @@ namespace TaleWorlds.MountAndBlade
 			peer.SetAveragePingInMillisecondsAsClient((double)message.PingValue);
 		}
 
-		// Token: 0x06002990 RID: 10640 RVA: 0x000A1022 File Offset: 0x0009F222
 		private static void HandleServerMessageLossReplication(LossReplicationMessage message)
 		{
 			if (GameNetwork.IsMyPeerReady)
@@ -109,7 +103,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002991 RID: 10641 RVA: 0x000A103C File Offset: 0x0009F23C
 		private static void HandleServerMessageServerPerformanceStateReplication(ServerPerformanceStateReplicationMessage message)
 		{
 			if (GameNetwork.IsMyPeerReady)
@@ -118,7 +111,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002992 RID: 10642 RVA: 0x000A1055 File Offset: 0x0009F255
 		private static void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode mode)
 		{
 			GameNetwork.NetworkMessageHandlerRegisterer networkMessageHandlerRegisterer = new GameNetwork.NetworkMessageHandlerRegisterer(mode);
@@ -127,7 +119,6 @@ namespace TaleWorlds.MountAndBlade
 			networkMessageHandlerRegisterer.Register<ServerPerformanceStateReplicationMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<ServerPerformanceStateReplicationMessage>(NetworkStatusReplicationComponent.HandleServerMessageServerPerformanceStateReplication));
 		}
 
-		// Token: 0x06002993 RID: 10643 RVA: 0x000A1094 File Offset: 0x0009F294
 		private ServerPerformanceState GetServerPerformanceState()
 		{
 			if (Mission.Current == null)
@@ -146,31 +137,22 @@ namespace TaleWorlds.MountAndBlade
 			return ServerPerformanceState.Low;
 		}
 
-		// Token: 0x04000F81 RID: 3969
 		private List<NetworkStatusReplicationComponent.NetworkStatusData> _peerData = new List<NetworkStatusReplicationComponent.NetworkStatusData>();
 
-		// Token: 0x04000F82 RID: 3970
 		private float _nextPerformanceStateTrySendTime;
 
-		// Token: 0x04000F83 RID: 3971
 		private ServerPerformanceState _lastSentPerformanceState;
 
-		// Token: 0x02000611 RID: 1553
 		private class NetworkStatusData
 		{
-			// Token: 0x04001F90 RID: 8080
 			public float NextPingForceSendTime;
 
-			// Token: 0x04001F91 RID: 8081
 			public float NextPingTrySendTime;
 
-			// Token: 0x04001F92 RID: 8082
 			public int LastSentPingValue = -1;
 
-			// Token: 0x04001F93 RID: 8083
 			public float NextLossTrySendTime;
 
-			// Token: 0x04001F94 RID: 8084
 			public int LastSentLossValue;
 		}
 	}

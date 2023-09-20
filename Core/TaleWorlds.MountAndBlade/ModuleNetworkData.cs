@@ -5,10 +5,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x02000306 RID: 774
 	public static class ModuleNetworkData
 	{
-		// Token: 0x06002A01 RID: 10753 RVA: 0x000A2870 File Offset: 0x000A0A70
 		public static EquipmentElement ReadItemReferenceFromPacket(MBObjectManager objectManager, ref bool bufferReadValid)
 		{
 			MBObjectBase mbobjectBase = GameNetworkMessage.ReadObjectReferenceFromPacket(objectManager, CompressionBasic.GUIDCompressionInfo, ref bufferReadValid);
@@ -22,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 			return new EquipmentElement(itemObject, null, mbobjectBase2 as ItemObject, false);
 		}
 
-		// Token: 0x06002A02 RID: 10754 RVA: 0x000A28B4 File Offset: 0x000A0AB4
 		public static void WriteItemReferenceToPacket(EquipmentElement equipElement)
 		{
 			GameNetworkMessage.WriteObjectReferenceToPacket(equipElement.Item, CompressionBasic.GUIDCompressionInfo);
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteBoolToPacket(false);
 		}
 
-		// Token: 0x06002A03 RID: 10755 RVA: 0x000A28EC File Offset: 0x000A0AEC
 		public static MissionWeapon ReadWeaponReferenceFromPacket(MBObjectManager objectManager, ref bool bufferReadValid)
 		{
 			if (GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid))
@@ -72,7 +68,6 @@ namespace TaleWorlds.MountAndBlade
 			};
 		}
 
-		// Token: 0x06002A04 RID: 10756 RVA: 0x000A29C4 File Offset: 0x000A0BC4
 		public static void WriteWeaponReferenceToPacket(MissionWeapon weapon)
 		{
 			GameNetworkMessage.WriteBoolToPacket(weapon.IsEmpty);
@@ -99,7 +94,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002A05 RID: 10757 RVA: 0x000A2A8C File Offset: 0x000A0C8C
 		public static MissionWeapon ReadMissileWeaponReferenceFromPacket(MBObjectManager objectManager, ref bool bufferReadValid)
 		{
 			MBObjectBase mbobjectBase = GameNetworkMessage.ReadObjectReferenceFromPacket(objectManager, CompressionBasic.GUIDCompressionInfo, ref bufferReadValid);
@@ -111,7 +105,6 @@ namespace TaleWorlds.MountAndBlade
 			};
 		}
 
-		// Token: 0x06002A06 RID: 10758 RVA: 0x000A2ACC File Offset: 0x000A0CCC
 		public static void WriteMissileWeaponReferenceToPacket(MissionWeapon weapon)
 		{
 			GameNetworkMessage.WriteObjectReferenceToPacket(weapon.Item, CompressionBasic.GUIDCompressionInfo);

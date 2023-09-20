@@ -7,12 +7,8 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 {
-	// Token: 0x020001E3 RID: 483
 	public class CharacterCreationState : PlayerGameState
 	{
-		// Token: 0x1700074B RID: 1867
-		// (get) Token: 0x06001C2B RID: 7211 RVA: 0x0007E42E File Offset: 0x0007C62E
-		// (set) Token: 0x06001C2C RID: 7212 RVA: 0x0007E436 File Offset: 0x0007C636
 		public CharacterCreation CharacterCreation
 		{
 			get
@@ -25,9 +21,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x1700074C RID: 1868
-		// (get) Token: 0x06001C2D RID: 7213 RVA: 0x0007E43F File Offset: 0x0007C63F
-		// (set) Token: 0x06001C2E RID: 7214 RVA: 0x0007E447 File Offset: 0x0007C647
 		public ICharacterCreationStateHandler Handler
 		{
 			get
@@ -40,12 +33,8 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x1700074D RID: 1869
-		// (get) Token: 0x06001C2F RID: 7215 RVA: 0x0007E450 File Offset: 0x0007C650
-		// (set) Token: 0x06001C30 RID: 7216 RVA: 0x0007E458 File Offset: 0x0007C658
 		public CharacterCreationStageBase CurrentStage { get; private set; }
 
-		// Token: 0x06001C31 RID: 7217 RVA: 0x0007E464 File Offset: 0x0007C664
 		public CharacterCreationState(CharacterCreationContentBase baseContent)
 		{
 			this.CharacterCreation = new CharacterCreation();
@@ -66,19 +55,16 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001C32 RID: 7218 RVA: 0x0007E534 File Offset: 0x0007C734
 		public CharacterCreationState()
 		{
 		}
 
-		// Token: 0x06001C33 RID: 7219 RVA: 0x0007E543 File Offset: 0x0007C743
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
 			Game.Current.GameStateManager.RegisterActiveStateDisableRequest(this);
 		}
 
-		// Token: 0x06001C34 RID: 7220 RVA: 0x0007E55B File Offset: 0x0007C75B
 		protected override void OnActivate()
 		{
 			base.OnActivate();
@@ -88,7 +74,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x06001C35 RID: 7221 RVA: 0x0007E57C File Offset: 0x0007C77C
 		public void FinalizeCharacterCreation()
 		{
 			this.CharacterCreation.ApplyFinalEffects();
@@ -104,7 +89,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			CampaignEventDispatcher.Instance.OnCharacterCreationIsOver();
 		}
 
-		// Token: 0x06001C36 RID: 7222 RVA: 0x0007E5F8 File Offset: 0x0007C7F8
 		public void NextStage()
 		{
 			this._stageIndex++;
@@ -124,7 +108,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.Refresh();
 		}
 
-		// Token: 0x06001C37 RID: 7223 RVA: 0x0007E67C File Offset: 0x0007C87C
 		public void PreviousStage()
 		{
 			CharacterCreationStageBase currentStage = this.CurrentStage;
@@ -138,7 +121,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.Refresh();
 		}
 
-		// Token: 0x06001C38 RID: 7224 RVA: 0x0007E6CF File Offset: 0x0007C8CF
 		private void CreateStage(Type type)
 		{
 			this.CurrentStage = Activator.CreateInstance(type, new object[] { this }) as CharacterCreationStageBase;
@@ -150,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			handler.OnStageCreated(this.CurrentStage);
 		}
 
-		// Token: 0x06001C39 RID: 7225 RVA: 0x0007E704 File Offset: 0x0007C904
 		public void Refresh()
 		{
 			if (this.CurrentStage == null || this._stageIndex < 0 || this._stageIndex >= this._stages.Count)
@@ -166,25 +147,21 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			handler.OnRefresh();
 		}
 
-		// Token: 0x06001C3A RID: 7226 RVA: 0x0007E75F File Offset: 0x0007C95F
 		public int GetTotalStagesCount()
 		{
 			return this._stages.Count;
 		}
 
-		// Token: 0x06001C3B RID: 7227 RVA: 0x0007E76C File Offset: 0x0007C96C
 		public int GetIndexOfCurrentStage()
 		{
 			return this._stageIndex;
 		}
 
-		// Token: 0x06001C3C RID: 7228 RVA: 0x0007E774 File Offset: 0x0007C974
 		public int GetFurthestIndex()
 		{
 			return this._furthestStageIndex;
 		}
 
-		// Token: 0x06001C3D RID: 7229 RVA: 0x0007E77C File Offset: 0x0007C97C
 		public void GoToStage(int stageIndex)
 		{
 			if (stageIndex >= 0 && stageIndex < this._stages.Count && stageIndex != this._stageIndex && stageIndex <= this._furthestStageIndex)
@@ -194,22 +171,16 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			}
 		}
 
-		// Token: 0x040008E9 RID: 2281
 		private CharacterCreation _characterCreation;
 
-		// Token: 0x040008EA RID: 2282
 		private ICharacterCreationStateHandler _handler;
 
-		// Token: 0x040008EB RID: 2283
 		private readonly List<KeyValuePair<int, Type>> _stages;
 
-		// Token: 0x040008EC RID: 2284
 		private int _stageIndex = -1;
 
-		// Token: 0x040008EE RID: 2286
 		private int _furthestStageIndex;
 
-		// Token: 0x040008EF RID: 2287
 		public readonly CharacterCreationContentBase CurrentCharacterCreationContent;
 	}
 }

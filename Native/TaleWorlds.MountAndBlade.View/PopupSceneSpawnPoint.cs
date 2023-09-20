@@ -6,22 +6,16 @@ using TaleWorlds.MountAndBlade.View.Scripts;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000016 RID: 22
 	public class PopupSceneSpawnPoint : ScriptComponentBehavior
 	{
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x06000093 RID: 147 RVA: 0x000064B3 File Offset: 0x000046B3
-		// (set) Token: 0x06000094 RID: 148 RVA: 0x000064BB File Offset: 0x000046BB
 		public CompositeComponent AddedPrefabComponent { get; private set; }
 
-		// Token: 0x06000095 RID: 149 RVA: 0x000064C4 File Offset: 0x000046C4
 		protected override void OnInit()
 		{
 			base.OnInit();
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
-		// Token: 0x06000096 RID: 150 RVA: 0x000064D8 File Offset: 0x000046D8
 		public void InitializeWithAgentVisuals(AgentVisuals humanVisuals, AgentVisuals mountVisuals = null)
 		{
 			this._humanAgentVisuals = humanVisuals;
@@ -147,7 +141,6 @@ namespace TaleWorlds.MountAndBlade.View
 			skeleton2.ForceUpdateBoneFrames();
 		}
 
-		// Token: 0x06000097 RID: 151 RVA: 0x0000685C File Offset: 0x00004A5C
 		public void SetInitialState()
 		{
 			if (this._initialStateActionCode != null)
@@ -178,7 +171,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000098 RID: 152 RVA: 0x0000694C File Offset: 0x00004B4C
 		public void SetPositiveState()
 		{
 			if (this._positiveStateActionCode != null)
@@ -208,7 +200,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x06000099 RID: 153 RVA: 0x00006A2C File Offset: 0x00004C2C
 		public void SetNegativeState()
 		{
 			if (this._negativeStateActionCode != null)
@@ -238,7 +229,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x0600009A RID: 154 RVA: 0x00006B0C File Offset: 0x00004D0C
 		public void Destroy()
 		{
 			AgentVisuals humanAgentVisuals = this._humanAgentVisuals;
@@ -258,13 +248,11 @@ namespace TaleWorlds.MountAndBlade.View
 			this._negativeStateActionCode = null;
 		}
 
-		// Token: 0x0600009B RID: 155 RVA: 0x00006B5E File Offset: 0x00004D5E
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return 2 | base.GetTickRequirement();
 		}
 
-		// Token: 0x0600009C RID: 156 RVA: 0x00006B68 File Offset: 0x00004D68
 		protected override void OnTick(float dt)
 		{
 			AgentVisuals mountAgentVisuals = this._mountAgentVisuals;
@@ -308,64 +296,44 @@ namespace TaleWorlds.MountAndBlade.View
 			skeleton2.ForceUpdateBoneFrames();
 		}
 
-		// Token: 0x04000029 RID: 41
 		public string InitialAction = "";
 
-		// Token: 0x0400002A RID: 42
 		public string NegativeAction = "";
 
-		// Token: 0x0400002B RID: 43
 		public string InitialFaceAnimCode = "";
 
-		// Token: 0x0400002C RID: 44
 		public string PositiveFaceAnimCode = "";
 
-		// Token: 0x0400002D RID: 45
 		public string NegativeFaceAnimCode = "";
 
-		// Token: 0x0400002E RID: 46
 		public string PositiveAction = "";
 
-		// Token: 0x0400002F RID: 47
 		public string LeftHandWieldedItem = "";
 
-		// Token: 0x04000030 RID: 48
 		public string RightHandWieldedItem = "";
 
-		// Token: 0x04000031 RID: 49
 		public string BannerTagToUseForAddedPrefab = "";
 
-		// Token: 0x04000032 RID: 50
 		public bool StartWithRandomProgress;
 
-		// Token: 0x04000033 RID: 51
 		public Vec3 AttachedPrefabOffset = Vec3.Zero;
 
-		// Token: 0x04000034 RID: 52
 		public string PrefabItem = "";
 
-		// Token: 0x04000035 RID: 53
 		public HumanBone PrefabBone = 27;
 
-		// Token: 0x04000036 RID: 54
 		private AgentVisuals _mountAgentVisuals;
 
-		// Token: 0x04000037 RID: 55
 		private AgentVisuals _humanAgentVisuals;
 
-		// Token: 0x04000038 RID: 56
 		private ActionIndexCache _initialStateActionCode;
 
-		// Token: 0x04000039 RID: 57
 		private ActionIndexCache _positiveStateActionCode;
 
-		// Token: 0x0400003A RID: 58
 		private ActionIndexCache _negativeStateActionCode;
 
-		// Token: 0x0400003B RID: 59
 		private static readonly ActionIndexCache default_act_horse_stand = ActionIndexCache.Create("act_horse_stand_1");
 
-		// Token: 0x0400003C RID: 60
 		private static readonly ActionIndexCache default_act_camel_stand = ActionIndexCache.Create("act_camel_stand_1");
 	}
 }

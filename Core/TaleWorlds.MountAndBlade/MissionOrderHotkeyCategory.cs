@@ -3,10 +3,8 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200021B RID: 539
 	public class MissionOrderHotkeyCategory : GameKeyContext
 	{
-		// Token: 0x06001DE2 RID: 7650 RVA: 0x0006C1AC File Offset: 0x0006A3AC
 		public MissionOrderHotkeyCategory()
 			: base("MissionOrderHotkeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
 		{
@@ -15,12 +13,10 @@ namespace TaleWorlds.MountAndBlade
 			this.RegisterGameAxisKeys();
 		}
 
-		// Token: 0x06001DE3 RID: 7651 RVA: 0x0006C1CE File Offset: 0x0006A3CE
 		private void RegisterHotKeys()
 		{
 		}
 
-		// Token: 0x06001DE4 RID: 7652 RVA: 0x0006C1D0 File Offset: 0x0006A3D0
 		private void RegisterGameKeys()
 		{
 			base.RegisterGameKey(new GameKey(67, "ViewOrders", "MissionOrderHotkeyCategory", InputKey.BackSpace, GameKeyMainCategories.OrderMenuCategory), true);
@@ -48,81 +44,56 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterGameKey(new GameKey(89, "ToggleGroupSelection", "MissionOrderHotkeyCategory", InputKey.Invalid, InputKey.ControllerLDown, GameKeyMainCategories.OrderMenuCategory), true);
 		}
 
-		// Token: 0x06001DE5 RID: 7653 RVA: 0x0006C4BE File Offset: 0x0006A6BE
 		private void RegisterGameAxisKeys()
 		{
 		}
 
-		// Token: 0x04000AC2 RID: 2754
 		public const string CategoryId = "MissionOrderHotkeyCategory";
 
-		// Token: 0x04000AC3 RID: 2755
 		public const int ViewOrders = 67;
 
-		// Token: 0x04000AC4 RID: 2756
 		public const int SelectOrder1 = 68;
 
-		// Token: 0x04000AC5 RID: 2757
 		public const int SelectOrder2 = 69;
 
-		// Token: 0x04000AC6 RID: 2758
 		public const int SelectOrder3 = 70;
 
-		// Token: 0x04000AC7 RID: 2759
 		public const int SelectOrder4 = 71;
 
-		// Token: 0x04000AC8 RID: 2760
 		public const int SelectOrder5 = 72;
 
-		// Token: 0x04000AC9 RID: 2761
 		public const int SelectOrder6 = 73;
 
-		// Token: 0x04000ACA RID: 2762
 		public const int SelectOrder7 = 74;
 
-		// Token: 0x04000ACB RID: 2763
 		public const int SelectOrder8 = 75;
 
-		// Token: 0x04000ACC RID: 2764
 		public const int SelectOrderReturn = 76;
 
-		// Token: 0x04000ACD RID: 2765
 		public const int EveryoneHear = 77;
 
-		// Token: 0x04000ACE RID: 2766
 		public const int Group0Hear = 78;
 
-		// Token: 0x04000ACF RID: 2767
 		public const int Group1Hear = 79;
 
-		// Token: 0x04000AD0 RID: 2768
 		public const int Group2Hear = 80;
 
-		// Token: 0x04000AD1 RID: 2769
 		public const int Group3Hear = 81;
 
-		// Token: 0x04000AD2 RID: 2770
 		public const int Group4Hear = 82;
 
-		// Token: 0x04000AD3 RID: 2771
 		public const int Group5Hear = 83;
 
-		// Token: 0x04000AD4 RID: 2772
 		public const int Group6Hear = 84;
 
-		// Token: 0x04000AD5 RID: 2773
 		public const int Group7Hear = 85;
 
-		// Token: 0x04000AD6 RID: 2774
 		public const int HoldOrder = 86;
 
-		// Token: 0x04000AD7 RID: 2775
 		public const int SelectNextGroup = 87;
 
-		// Token: 0x04000AD8 RID: 2776
 		public const int SelectPreviousGroup = 88;
 
-		// Token: 0x04000AD9 RID: 2777
 		public const int ToggleGroupSelection = 89;
 	}
 }

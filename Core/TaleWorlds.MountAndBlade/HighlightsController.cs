@@ -7,21 +7,12 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x0200026C RID: 620
 	public class HighlightsController : MissionLogic
 	{
-		// Token: 0x17000655 RID: 1621
-		// (get) Token: 0x06002111 RID: 8465 RVA: 0x000775FF File Offset: 0x000757FF
-		// (set) Token: 0x06002112 RID: 8466 RVA: 0x00077606 File Offset: 0x00075806
 		private protected static List<HighlightsController.HighlightType> HighlightTypes { protected get; private set; }
 
-		// Token: 0x17000656 RID: 1622
-		// (get) Token: 0x06002113 RID: 8467 RVA: 0x0007760E File Offset: 0x0007580E
-		// (set) Token: 0x06002114 RID: 8468 RVA: 0x00077615 File Offset: 0x00075815
 		public static bool IsHighlightsInitialized { get; private set; }
 
-		// Token: 0x17000657 RID: 1623
-		// (get) Token: 0x06002115 RID: 8469 RVA: 0x0007761D File Offset: 0x0007581D
 		public bool IsAnyHighlightSaved
 		{
 			get
@@ -30,7 +21,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002116 RID: 8470 RVA: 0x00077630 File Offset: 0x00075830
 		public static void RemoveHighlights()
 		{
 			if (HighlightsController.IsHighlightsInitialized)
@@ -42,13 +32,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002117 RID: 8471 RVA: 0x00077690 File Offset: 0x00075890
 		public HighlightsController.HighlightType GetHighlightTypeWithId(string highlightId)
 		{
 			return HighlightsController.HighlightTypes.First((HighlightsController.HighlightType h) => h.Id == highlightId);
 		}
 
-		// Token: 0x06002118 RID: 8472 RVA: 0x000776C0 File Offset: 0x000758C0
 		private void SaveVideo(string highlightID, string groupID, int startDelta, int endDelta)
 		{
 			Highlights.SaveVideo(highlightID, groupID, startDelta, endDelta);
@@ -58,7 +46,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002119 RID: 8473 RVA: 0x000776E8 File Offset: 0x000758E8
 		public override void AfterStart()
 		{
 			if (!HighlightsController.IsHighlightsInitialized)
@@ -92,7 +79,6 @@ namespace TaleWorlds.MountAndBlade
 			this._savedHighlightGroups = new List<string>();
 		}
 
-		// Token: 0x0600211A RID: 8474 RVA: 0x00077954 File Offset: 0x00075B54
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
 			if (affectorAgent != null && affectedAgent != null && affectorAgent.IsHuman && affectedAgent.IsHuman && (agentState == AgentState.Killed || agentState == AgentState.Unconscious))
@@ -163,7 +149,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600211B RID: 8475 RVA: 0x00077C9C File Offset: 0x00075E9C
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
 			bool flag = affectorAgent != null && affectorAgent.IsMainAgent;
@@ -204,7 +189,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600211C RID: 8476 RVA: 0x00077E70 File Offset: 0x00076070
 		public override void OnMissionTick(float dt)
 		{
 			if (this._isArcherSalvoHappening && this._archerSalvoKillTimes[0] + 4f < Mission.Current.CurrentTime)
@@ -230,7 +214,6 @@ namespace TaleWorlds.MountAndBlade
 			this.TickHighlightsToBeSaved();
 		}
 
-		// Token: 0x0600211D RID: 8477 RVA: 0x00077F8C File Offset: 0x0007618C
 		protected override void OnEndMission()
 		{
 			base.OnEndMission();
@@ -245,7 +228,6 @@ namespace TaleWorlds.MountAndBlade
 			this._cavalryChargeHitTimes = null;
 		}
 
-		// Token: 0x0600211E RID: 8478 RVA: 0x00078008 File Offset: 0x00076208
 		public static void AddHighlightType(HighlightsController.HighlightType highlightType)
 		{
 			if (!HighlightsController.HighlightTypes.Any((HighlightsController.HighlightType h) => h.Id == highlightType.Id))
@@ -258,13 +240,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x0600211F RID: 8479 RVA: 0x0007806C File Offset: 0x0007626C
 		public void SaveHighlight(HighlightsController.Highlight highlight)
 		{
 			this._highlightSaveQueue.Add(highlight);
 		}
 
-		// Token: 0x06002120 RID: 8480 RVA: 0x0007807A File Offset: 0x0007627A
 		public void SaveHighlight(HighlightsController.Highlight highlight, Vec3 position)
 		{
 			if (this.CanSaveHighlight(highlight.HighlightType, position))
@@ -273,13 +253,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002121 RID: 8481 RVA: 0x00078098 File Offset: 0x00076298
 		public bool CanSaveHighlight(HighlightsController.HighlightType highlightType, Vec3 position)
 		{
 			return highlightType.MaxHighlightDistance >= Mission.Current.Scene.LastFinalRenderCameraFrame.origin.Distance(position) && highlightType.MinVisibilityScore <= this.GetPlayerIsLookingAtPositionScore(position) && (!highlightType.IsVisibilityRequired || this.CanSeePosition(position));
 		}
 
-		// Token: 0x06002122 RID: 8482 RVA: 0x000780F0 File Offset: 0x000762F0
 		public float GetPlayerIsLookingAtPositionScore(Vec3 position)
 		{
 			Vec3 vec = -Mission.Current.Scene.LastFinalRenderCameraFrame.rotation.u;
@@ -287,7 +265,6 @@ namespace TaleWorlds.MountAndBlade
 			return MathF.Max(Vec3.DotProduct(vec.NormalizedCopy(), (position - origin).NormalizedCopy()), 0f);
 		}
 
-		// Token: 0x06002123 RID: 8483 RVA: 0x00078158 File Offset: 0x00076358
 		public bool CanSeePosition(Vec3 position)
 		{
 			Vec3 origin = Mission.Current.Scene.LastFinalRenderCameraFrame.origin;
@@ -295,7 +272,6 @@ namespace TaleWorlds.MountAndBlade
 			return !Mission.Current.Scene.RayCastForClosestEntityOrTerrain(origin, position, out num, 0.01f, BodyFlags.CameraCollisionRayCastExludeFlags) || MathF.Abs(position.Distance(origin) - num) < 0.1f;
 		}
 
-		// Token: 0x06002124 RID: 8484 RVA: 0x000781B1 File Offset: 0x000763B1
 		public void ShowSummary()
 		{
 			if (this.IsAnyHighlightSaved)
@@ -304,7 +280,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06002125 RID: 8485 RVA: 0x000781C8 File Offset: 0x000763C8
 		private void TickHighlightsToBeSaved()
 		{
 			if (this._highlightSaveQueue != null)
@@ -360,104 +335,60 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x04000C33 RID: 3123
 		private bool _isKillingSpreeHappening;
 
-		// Token: 0x04000C34 RID: 3124
 		private List<float> _playerKillTimes;
 
-		// Token: 0x04000C35 RID: 3125
 		private const int MinKillingSpreeKills = 4;
 
-		// Token: 0x04000C36 RID: 3126
 		private const float MaxKillingSpreeDuration = 10f;
 
-		// Token: 0x04000C37 RID: 3127
 		private const float HighShotDifficultyThreshold = 7.5f;
 
-		// Token: 0x04000C38 RID: 3128
 		private bool _isArcherSalvoHappening;
 
-		// Token: 0x04000C39 RID: 3129
 		private List<float> _archerSalvoKillTimes;
 
-		// Token: 0x04000C3A RID: 3130
 		private const int MinArcherSalvoKills = 5;
 
-		// Token: 0x04000C3B RID: 3131
 		private const float MaxArcherSalvoDuration = 4f;
 
-		// Token: 0x04000C3C RID: 3132
 		private bool _isFirstImpact = true;
 
-		// Token: 0x04000C3D RID: 3133
 		private List<float> _cavalryChargeHitTimes;
 
-		// Token: 0x04000C3E RID: 3134
 		private const float CavalryChargeImpactTimeFrame = 3f;
 
-		// Token: 0x04000C3F RID: 3135
 		private const int MinCavalryChargeHits = 5;
 
-		// Token: 0x04000C40 RID: 3136
 		private Tuple<float, float> _lastSavedHighlightData;
 
-		// Token: 0x04000C41 RID: 3137
 		private List<HighlightsController.Highlight> _highlightSaveQueue;
 
-		// Token: 0x04000C42 RID: 3138
 		private const float IgnoreIfOverlapsLastVideoPercent = 0.5f;
 
-		// Token: 0x04000C43 RID: 3139
 		private List<string> _savedHighlightGroups;
 
-		// Token: 0x04000C44 RID: 3140
 		private List<string> _highlightGroupIds = new List<string> { "grpid_incidents", "grpid_achievements" };
 
-		// Token: 0x02000575 RID: 1397
 		public struct HighlightType
 		{
-			// Token: 0x17000986 RID: 2438
-			// (get) Token: 0x06003AAE RID: 15022 RVA: 0x000ECCA3 File Offset: 0x000EAEA3
-			// (set) Token: 0x06003AAF RID: 15023 RVA: 0x000ECCAB File Offset: 0x000EAEAB
 			public string Id { get; private set; }
 
-			// Token: 0x17000987 RID: 2439
-			// (get) Token: 0x06003AB0 RID: 15024 RVA: 0x000ECCB4 File Offset: 0x000EAEB4
-			// (set) Token: 0x06003AB1 RID: 15025 RVA: 0x000ECCBC File Offset: 0x000EAEBC
 			public string Description { get; private set; }
 
-			// Token: 0x17000988 RID: 2440
-			// (get) Token: 0x06003AB2 RID: 15026 RVA: 0x000ECCC5 File Offset: 0x000EAEC5
-			// (set) Token: 0x06003AB3 RID: 15027 RVA: 0x000ECCCD File Offset: 0x000EAECD
 			public string GroupId { get; private set; }
 
-			// Token: 0x17000989 RID: 2441
-			// (get) Token: 0x06003AB4 RID: 15028 RVA: 0x000ECCD6 File Offset: 0x000EAED6
-			// (set) Token: 0x06003AB5 RID: 15029 RVA: 0x000ECCDE File Offset: 0x000EAEDE
 			public int StartDelta { get; private set; }
 
-			// Token: 0x1700098A RID: 2442
-			// (get) Token: 0x06003AB6 RID: 15030 RVA: 0x000ECCE7 File Offset: 0x000EAEE7
-			// (set) Token: 0x06003AB7 RID: 15031 RVA: 0x000ECCEF File Offset: 0x000EAEEF
 			public int EndDelta { get; private set; }
 
-			// Token: 0x1700098B RID: 2443
-			// (get) Token: 0x06003AB8 RID: 15032 RVA: 0x000ECCF8 File Offset: 0x000EAEF8
-			// (set) Token: 0x06003AB9 RID: 15033 RVA: 0x000ECD00 File Offset: 0x000EAF00
 			public float MinVisibilityScore { get; private set; }
 
-			// Token: 0x1700098C RID: 2444
-			// (get) Token: 0x06003ABA RID: 15034 RVA: 0x000ECD09 File Offset: 0x000EAF09
-			// (set) Token: 0x06003ABB RID: 15035 RVA: 0x000ECD11 File Offset: 0x000EAF11
 			public float MaxHighlightDistance { get; private set; }
 
-			// Token: 0x1700098D RID: 2445
-			// (get) Token: 0x06003ABC RID: 15036 RVA: 0x000ECD1A File Offset: 0x000EAF1A
-			// (set) Token: 0x06003ABD RID: 15037 RVA: 0x000ECD22 File Offset: 0x000EAF22
 			public bool IsVisibilityRequired { get; private set; }
 
-			// Token: 0x06003ABE RID: 15038 RVA: 0x000ECD2B File Offset: 0x000EAF2B
 			public HighlightType(string id, string description, string groupId, int startDelta, int endDelta, float minVisibilityScore, float maxHighlightDistance, bool isVisibilityRequired)
 			{
 				this.Id = id;
@@ -471,16 +402,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x02000576 RID: 1398
 		public struct Highlight
 		{
-			// Token: 0x04001D31 RID: 7473
 			public HighlightsController.HighlightType HighlightType;
 
-			// Token: 0x04001D32 RID: 7474
 			public float Start;
 
-			// Token: 0x04001D33 RID: 7475
 			public float End;
 		}
 	}

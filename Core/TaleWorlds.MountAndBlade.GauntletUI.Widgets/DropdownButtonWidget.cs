@@ -6,12 +6,8 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x02000017 RID: 23
 	public class DropdownButtonWidget : ButtonWidget
 	{
-		// Token: 0x1700005C RID: 92
-		// (get) Token: 0x06000114 RID: 276 RVA: 0x00004D9F File Offset: 0x00002F9F
-		// (set) Token: 0x06000115 RID: 277 RVA: 0x00004DA8 File Offset: 0x00002FA8
 		public Widget DisplayedList
 		{
 			get
@@ -42,19 +38,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x00004E82 File Offset: 0x00003082
 		public DropdownButtonWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x00004E8B File Offset: 0x0000308B
 		private void OnListItemSelected(Widget list)
 		{
 			this.HideList();
 		}
 
-		// Token: 0x06000118 RID: 280 RVA: 0x00004E94 File Offset: 0x00003094
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -74,7 +67,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x00004F9C File Offset: 0x0000319C
 		private void DisplayList()
 		{
 			this.DisplayedList.ParentWidget = base.EventManager.Root;
@@ -85,7 +77,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			base.DoNotUseCustomScaleAndChildren = false;
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x00004FF4 File Offset: 0x000031F4
 		private void HideList()
 		{
 			this.DisplayedList.ParentWidget = this;
@@ -96,7 +87,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			base.DoNotUseCustomScaleAndChildren = true;
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x00005047 File Offset: 0x00003247
 		protected override void OnClick()
 		{
 			base.OnClick();
@@ -111,10 +101,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x04000086 RID: 134
 		private Widget _displayedList;
 
-		// Token: 0x04000087 RID: 135
 		private bool _isDisplayingList;
 	}
 }

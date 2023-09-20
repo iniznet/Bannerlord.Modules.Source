@@ -9,10 +9,8 @@ using TaleWorlds.Library;
 
 namespace Helpers
 {
-	// Token: 0x0200001A RID: 26
 	public static class BuildingHelper
 	{
-		// Token: 0x060000E6 RID: 230 RVA: 0x0000BD4C File Offset: 0x00009F4C
 		public static void ChangeCurrentBuilding(BuildingType buildingType, Town town)
 		{
 			Queue<Building> queue = new Queue<Building>();
@@ -31,7 +29,6 @@ namespace Helpers
 			town.BuildingsInProgress = queue;
 		}
 
-		// Token: 0x060000E7 RID: 231 RVA: 0x0000BDFC File Offset: 0x00009FFC
 		public static void ChangeDefaultBuilding(Building newDefault, Town town)
 		{
 			foreach (Building building in town.Buildings)
@@ -47,7 +44,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000E8 RID: 232 RVA: 0x0000BE64 File Offset: 0x0000A064
 		public static void ChangeCurrentBuildingQueue(List<Building> buildings, Town town)
 		{
 			town.BuildingsInProgress = new Queue<Building>();
@@ -60,7 +56,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000E9 RID: 233 RVA: 0x0000BED0 File Offset: 0x0000A0D0
 		public static float GetProgressOfBuilding(Building building, Town town)
 		{
 			using (List<Building>.Enumerator enumerator = town.Buildings.GetEnumerator())
@@ -77,7 +72,6 @@ namespace Helpers
 			return 0f;
 		}
 
-		// Token: 0x060000EA RID: 234 RVA: 0x0000BF60 File Offset: 0x0000A160
 		public static int GetDaysToComplete(Building building, Town town)
 		{
 			BuildingConstructionModel buildingConstructionModel = Campaign.Current.Models.BuildingConstructionModel;
@@ -113,7 +107,6 @@ namespace Helpers
 			return 0;
 		}
 
-		// Token: 0x060000EB RID: 235 RVA: 0x0000C090 File Offset: 0x0000A290
 		public static int GetTierOfBuilding(BuildingType buildingType, Town town)
 		{
 			foreach (Building building in town.Buildings)
@@ -127,7 +120,6 @@ namespace Helpers
 			return 0;
 		}
 
-		// Token: 0x060000EC RID: 236 RVA: 0x0000C11C File Offset: 0x0000A31C
 		public static void BoostBuildingProcessWithGold(int gold, Town town)
 		{
 			if (gold < town.BoostBuildingProcess)
@@ -141,7 +133,6 @@ namespace Helpers
 			town.BoostBuildingProcess = gold;
 		}
 
-		// Token: 0x060000ED RID: 237 RVA: 0x0000C16C File Offset: 0x0000A36C
 		public static void AddDefaultDailyBonus(Town fortification, BuildingEffectEnum effect, ref ExplainedNumber result)
 		{
 			float buildingEffectAmount = Campaign.Current.Models.BuildingEffectModel.GetBuildingEffectAmount(fortification.CurrentDefaultBuilding, effect);

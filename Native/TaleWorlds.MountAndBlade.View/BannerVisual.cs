@@ -6,38 +6,29 @@ using TaleWorlds.MountAndBlade.View.Tableaus;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x02000006 RID: 6
 	public class BannerVisual : IBannerVisual
 	{
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000035 RID: 53 RVA: 0x00003407 File Offset: 0x00001607
-		// (set) Token: 0x06000036 RID: 54 RVA: 0x0000340F File Offset: 0x0000160F
 		public Banner Banner { get; private set; }
 
-		// Token: 0x06000037 RID: 55 RVA: 0x00003418 File Offset: 0x00001618
 		public BannerVisual(Banner banner)
 		{
 			this.Banner = banner;
 		}
 
-		// Token: 0x06000038 RID: 56 RVA: 0x00003427 File Offset: 0x00001627
 		public void ValidateCreateTableauTextures()
 		{
 		}
 
-		// Token: 0x06000039 RID: 57 RVA: 0x00003429 File Offset: 0x00001629
 		public Texture GetTableauTextureSmall(Action<Texture> setAction, bool isTableauOrNineGrid = true)
 		{
 			return TableauCacheManager.Current.BeginCreateBannerTexture(BannerCode.CreateFrom(this.Banner), setAction, isTableauOrNineGrid, false);
 		}
 
-		// Token: 0x0600003A RID: 58 RVA: 0x00003443 File Offset: 0x00001643
 		public Texture GetTableauTextureLarge(Action<Texture> setAction, bool isTableauOrNineGrid = true)
 		{
 			return TableauCacheManager.Current.BeginCreateBannerTexture(BannerCode.CreateFrom(this.Banner), setAction, isTableauOrNineGrid, true);
 		}
 
-		// Token: 0x0600003B RID: 59 RVA: 0x00003460 File Offset: 0x00001660
 		public static MatrixFrame GetMeshMatrix(ref Mesh mesh, float marginLeft, float marginTop, float width, float height, bool mirrored, float rotation, float deltaZ)
 		{
 			MatrixFrame identity = MatrixFrame.Identity;
@@ -59,7 +50,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return identity;
 		}
 
-		// Token: 0x0600003C RID: 60 RVA: 0x0000353C File Offset: 0x0000173C
 		public MetaMesh ConvertToMultiMesh()
 		{
 			BannerData bannerData = this.Banner.BannerDataList[0];

@@ -17,15 +17,12 @@ using TaleWorlds.MountAndBlade;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
-	// Token: 0x02000051 RID: 81
 	public class TrainingFieldCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000455 RID: 1109 RVA: 0x0001A3BF File Offset: 0x000185BF
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06000456 RID: 1110 RVA: 0x0001A3C4 File Offset: 0x000185C4
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
@@ -33,7 +30,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, new Action(this.OnCharacterCreationIsOver));
 		}
 
-		// Token: 0x06000457 RID: 1111 RVA: 0x0001A418 File Offset: 0x00018618
 		private void OnCharacterCreationIsOver()
 		{
 			if (!this.SkipTutorialMission)
@@ -54,7 +50,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000458 RID: 1112 RVA: 0x0001A510 File Offset: 0x00018710
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddGameMenu("training_field_menu", "{=5g9ZFGrN}You are at a training field. You can learn the basics of combat here.", new OnInitDelegate(this.game_menu_training_field_on_init), 0, 0, null);
@@ -96,7 +91,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}, 100, null, null);
 		}
 
-		// Token: 0x06000459 RID: 1113 RVA: 0x0001A88C File Offset: 0x00018A8C
 		private void OnMissionEnded(IMission mission)
 		{
 			if (this._completeTutorial)
@@ -106,7 +100,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600045A RID: 1114 RVA: 0x0001A8B0 File Offset: 0x00018AB0
 		private void game_menu_training_field_on_init(MenuCallbackArgs args)
 		{
 			Settlement settlement = ((Settlement.CurrentSettlement == null) ? MobileParty.MainParty.CurrentSettlement : Settlement.CurrentSettlement);
@@ -121,13 +114,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600045B RID: 1115 RVA: 0x0001A93C File Offset: 0x00018B3C
 		private static void game_menu_enter_training_field_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationWithId("training_field"), null, null, null);
 		}
 
-		// Token: 0x0600045C RID: 1116 RVA: 0x0001A95C File Offset: 0x00018B5C
 		[GameMenuInitializationHandler("training_field_menu")]
 		private static void storymode_tutorial_training_field_game_menu_on_init_background(MenuCallbackArgs args)
 		{
@@ -135,14 +126,12 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			args.MenuContext.SetBackgroundMeshName(trainingField.WaitMeshName);
 		}
 
-		// Token: 0x0600045D RID: 1117 RVA: 0x0001A98A File Offset: 0x00018B8A
 		private static void game_menu_settlement_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.LeaveSettlement();
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x0600045E RID: 1118 RVA: 0x0001A998 File Offset: 0x00018B98
 		private bool storymode_training_field_start_on_condition()
 		{
 			StringHelpers.SetCharacterProperties("PLAYER_LITTLE_BROTHER", StoryModeHeroes.LittleBrother.CharacterObject, null, false);
@@ -158,7 +147,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x0600045F RID: 1119 RVA: 0x0001AA20 File Offset: 0x00018C20
 		private void storymode_go_to_end_tutorial_village_consequence()
 		{
 			TutorialPhase.Instance.PlayerTalkedWithBrotherForTheFirstTime();
@@ -171,67 +159,54 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000460 RID: 1120 RVA: 0x0001AA6D File Offset: 0x00018C6D
 		private bool storymode_skip_tutorial_from_conversation_clickable_condition(out TextObject explanation)
 		{
 			explanation = new TextObject("{=XlSHcfsP}This option will end the tutorial!", null);
 			return true;
 		}
 
-		// Token: 0x06000461 RID: 1121 RVA: 0x0001AA7D File Offset: 0x00018C7D
 		private void storymode_skip_tutorial_from_conversation_consequence()
 		{
 			this._completeTutorial = true;
 		}
 
-		// Token: 0x06000462 RID: 1122 RVA: 0x0001AA86 File Offset: 0x00018C86
 		private bool storymode_asked_about_raiders_1_clickable_condition(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
 			return !this._askedAboutRaiders1;
 		}
 
-		// Token: 0x06000463 RID: 1123 RVA: 0x0001AA98 File Offset: 0x00018C98
 		private bool storymode_asked_about_raiders_2_clickable_condition(out TextObject explanation)
 		{
 			explanation = TextObject.Empty;
 			return !this._askedAboutRaiders2;
 		}
 
-		// Token: 0x06000464 RID: 1124 RVA: 0x0001AAAA File Offset: 0x00018CAA
 		private void storymode_asked_about_raiders_1_consequence()
 		{
 			this._askedAboutRaiders1 = true;
 		}
 
-		// Token: 0x06000465 RID: 1125 RVA: 0x0001AAB3 File Offset: 0x00018CB3
 		private void storymode_asked_about_raiders_2_consequence()
 		{
 			this._askedAboutRaiders2 = true;
 		}
 
-		// Token: 0x06000466 RID: 1126 RVA: 0x0001AABC File Offset: 0x00018CBC
 		private bool story_mode_training_field_default_conversation_with_brother_condition()
 		{
 			return StoryModeManager.Current.MainStoryLine.IsPlayerInteractionRestricted && (Settlement.CurrentSettlement == null || Settlement.CurrentSettlement.StringId != "village_ES3_2") && CharacterObject.OneToOneConversationCharacter == StoryModeHeroes.ElderBrother.CharacterObject && this._talkedWithBrotherForTheFirstTime;
 		}
 
-		// Token: 0x040001C4 RID: 452
 		public bool SkipTutorialMission;
 
-		// Token: 0x040001C5 RID: 453
 		private const string TrainingFieldLocationId = "training_field";
 
-		// Token: 0x040001C6 RID: 454
 		private bool _completeTutorial;
 
-		// Token: 0x040001C7 RID: 455
 		private bool _askedAboutRaiders1;
 
-		// Token: 0x040001C8 RID: 456
 		private bool _askedAboutRaiders2;
 
-		// Token: 0x040001C9 RID: 457
 		private bool _talkedWithBrotherForTheFirstTime;
 	}
 }

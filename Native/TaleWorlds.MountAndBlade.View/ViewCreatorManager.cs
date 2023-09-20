@@ -7,10 +7,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View
 {
-	// Token: 0x0200001A RID: 26
 	public static class ViewCreatorManager
 	{
-		// Token: 0x060000D0 RID: 208 RVA: 0x00007200 File Offset: 0x00005400
 		static ViewCreatorManager()
 		{
 			Assembly[] viewAssemblies = ViewCreatorManager.GetViewAssemblies();
@@ -34,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x00007298 File Offset: 0x00005498
 		private static void CheckAssemblyScreens(Assembly assembly)
 		{
 			foreach (Type type in assembly.GetTypes())
@@ -54,7 +51,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x00007340 File Offset: 0x00005540
 		private static Assembly[] GetViewAssemblies()
 		{
 			List<Assembly> list = new List<Assembly>();
@@ -74,7 +70,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return list.ToArray();
 		}
 
-		// Token: 0x060000D3 RID: 211 RVA: 0x000073CC File Offset: 0x000055CC
 		internal static IEnumerable<MissionBehavior> CreateDefaultMissionBehaviors(Mission mission)
 		{
 			List<MissionBehavior> list = new List<MissionBehavior>();
@@ -86,7 +81,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return list;
 		}
 
-		// Token: 0x060000D4 RID: 212 RVA: 0x00007430 File Offset: 0x00005630
 		internal static IEnumerable<MissionBehavior> CollectMissionBehaviors(string missionName, Mission mission, IEnumerable<MissionBehavior> behaviors)
 		{
 			List<MissionBehavior> list = new List<MissionBehavior>();
@@ -98,7 +92,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return behaviors.Concat(list);
 		}
 
-		// Token: 0x060000D5 RID: 213 RVA: 0x00007484 File Offset: 0x00005684
 		public static ScreenBase CreateScreenView<T>() where T : ScreenBase, new()
 		{
 			if (ViewCreatorManager._actualViewTypes.ContainsKey(typeof(T)))
@@ -108,7 +101,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return new T();
 		}
 
-		// Token: 0x060000D6 RID: 214 RVA: 0x000074D0 File Offset: 0x000056D0
 		public static ScreenBase CreateScreenView<T>(params object[] parameters) where T : ScreenBase
 		{
 			Type type = typeof(T);
@@ -119,7 +111,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return Activator.CreateInstance(type, parameters) as ScreenBase;
 		}
 
-		// Token: 0x060000D7 RID: 215 RVA: 0x00007520 File Offset: 0x00005720
 		public static MissionView CreateMissionView<T>(bool isNetwork = false, Mission mission = null, params object[] parameters) where T : MissionView, new()
 		{
 			if (ViewCreatorManager._actualViewTypes.ContainsKey(typeof(T)))
@@ -129,7 +120,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return new T();
 		}
 
-		// Token: 0x060000D8 RID: 216 RVA: 0x00007570 File Offset: 0x00005770
 		public static MissionView CreateMissionViewWithArgs<T>(params object[] parameters) where T : MissionView
 		{
 			Type type = typeof(T);
@@ -140,7 +130,6 @@ namespace TaleWorlds.MountAndBlade.View
 			return Activator.CreateInstance(type, parameters) as MissionView;
 		}
 
-		// Token: 0x060000D9 RID: 217 RVA: 0x000075C0 File Offset: 0x000057C0
 		private static void CheckOverridenViews(Assembly assembly)
 		{
 			foreach (Type type in assembly.GetTypes())
@@ -177,7 +166,6 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x060000DA RID: 218 RVA: 0x000076D4 File Offset: 0x000058D4
 		private static void CollectDefaults(Assembly assembly)
 		{
 			foreach (Type type in assembly.GetTypes())
@@ -189,13 +177,10 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		// Token: 0x04000042 RID: 66
 		private static Dictionary<string, MethodInfo> _viewCreators = new Dictionary<string, MethodInfo>();
 
-		// Token: 0x04000043 RID: 67
 		private static Dictionary<Type, Type> _actualViewTypes = new Dictionary<Type, Type>();
 
-		// Token: 0x04000044 RID: 68
 		private static List<Type> _defaultTypes = new List<Type>();
 	}
 }

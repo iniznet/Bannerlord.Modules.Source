@@ -9,42 +9,35 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	// Token: 0x0200000B RID: 11
 	public class CharacterTableauWidget : TextureWidget
 	{
-		// Token: 0x06000039 RID: 57 RVA: 0x000027BD File Offset: 0x000009BD
 		public CharacterTableauWidget(UIContext context)
 			: base(context)
 		{
 			base.TextureProviderName = "CharacterTableauTextureProvider";
 		}
 
-		// Token: 0x0600003A RID: 58 RVA: 0x000027D1 File Offset: 0x000009D1
 		protected override void OnMousePressed()
 		{
 			base.SetTextureProviderProperty("CurrentlyRotating", true);
 		}
 
-		// Token: 0x0600003B RID: 59 RVA: 0x000027E4 File Offset: 0x000009E4
 		protected override void OnMouseReleased()
 		{
 			base.SetTextureProviderProperty("CurrentlyRotating", false);
 		}
 
-		// Token: 0x0600003C RID: 60 RVA: 0x000027F7 File Offset: 0x000009F7
 		private void OnSwapClick(Widget obj)
 		{
 			this._isCharacterMountSwapped = !this._isCharacterMountSwapped;
 			base.SetTextureProviderProperty("TriggerCharacterMountPlacesSwap", this._isCharacterMountSwapped);
 		}
 
-		// Token: 0x0600003D RID: 61 RVA: 0x0000281E File Offset: 0x00000A1E
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
 		}
 
-		// Token: 0x0600003E RID: 62 RVA: 0x00002828 File Offset: 0x00000A28
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			this._isRenderRequestedPreviousFrame = true;
@@ -100,9 +93,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x0600003F RID: 63 RVA: 0x00002A26 File Offset: 0x00000C26
-		// (set) Token: 0x06000040 RID: 64 RVA: 0x00002A2E File Offset: 0x00000C2E
 		[Editor(false)]
 		public string BannerCodeText
 		{
@@ -121,9 +111,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000015 RID: 21
-		// (get) Token: 0x06000041 RID: 65 RVA: 0x00002A5D File Offset: 0x00000C5D
-		// (set) Token: 0x06000042 RID: 66 RVA: 0x00002A65 File Offset: 0x00000C65
 		[Editor(false)]
 		public ButtonWidget SwapPlacesButtonWidget
 		{
@@ -145,9 +132,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000016 RID: 22
-		// (get) Token: 0x06000043 RID: 67 RVA: 0x00002AA2 File Offset: 0x00000CA2
-		// (set) Token: 0x06000044 RID: 68 RVA: 0x00002AAA File Offset: 0x00000CAA
 		[Editor(false)]
 		public string BodyProperties
 		{
@@ -166,9 +150,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000017 RID: 23
-		// (get) Token: 0x06000045 RID: 69 RVA: 0x00002AD9 File Offset: 0x00000CD9
-		// (set) Token: 0x06000046 RID: 70 RVA: 0x00002AE1 File Offset: 0x00000CE1
 		[Editor(false)]
 		public float CustomRenderScale
 		{
@@ -187,9 +168,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000018 RID: 24
-		// (get) Token: 0x06000047 RID: 71 RVA: 0x00002B10 File Offset: 0x00000D10
-		// (set) Token: 0x06000048 RID: 72 RVA: 0x00002B18 File Offset: 0x00000D18
 		[Editor(false)]
 		public string CharStringId
 		{
@@ -208,9 +186,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000019 RID: 25
-		// (get) Token: 0x06000049 RID: 73 RVA: 0x00002B47 File Offset: 0x00000D47
-		// (set) Token: 0x0600004A RID: 74 RVA: 0x00002B4F File Offset: 0x00000D4F
 		[Editor(false)]
 		public int StanceIndex
 		{
@@ -229,9 +204,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001A RID: 26
-		// (get) Token: 0x0600004B RID: 75 RVA: 0x00002B7E File Offset: 0x00000D7E
-		// (set) Token: 0x0600004C RID: 76 RVA: 0x00002B86 File Offset: 0x00000D86
 		[Editor(false)]
 		public bool IsEquipmentAnimActive
 		{
@@ -250,9 +222,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001B RID: 27
-		// (get) Token: 0x0600004D RID: 77 RVA: 0x00002BB5 File Offset: 0x00000DB5
-		// (set) Token: 0x0600004E RID: 78 RVA: 0x00002BBD File Offset: 0x00000DBD
 		[Editor(false)]
 		public bool IsFemale
 		{
@@ -271,9 +240,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001C RID: 28
-		// (get) Token: 0x0600004F RID: 79 RVA: 0x00002BEC File Offset: 0x00000DEC
-		// (set) Token: 0x06000050 RID: 80 RVA: 0x00002BF4 File Offset: 0x00000DF4
 		[Editor(false)]
 		public int Race
 		{
@@ -292,9 +258,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001D RID: 29
-		// (get) Token: 0x06000051 RID: 81 RVA: 0x00002C23 File Offset: 0x00000E23
-		// (set) Token: 0x06000052 RID: 82 RVA: 0x00002C2B File Offset: 0x00000E2B
 		[Editor(false)]
 		public string EquipmentCode
 		{
@@ -313,9 +276,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001E RID: 30
-		// (get) Token: 0x06000053 RID: 83 RVA: 0x00002C5A File Offset: 0x00000E5A
-		// (set) Token: 0x06000054 RID: 84 RVA: 0x00002C62 File Offset: 0x00000E62
 		[Editor(false)]
 		public string MountCreationKey
 		{
@@ -334,9 +294,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x1700001F RID: 31
-		// (get) Token: 0x06000055 RID: 85 RVA: 0x00002C91 File Offset: 0x00000E91
-		// (set) Token: 0x06000056 RID: 86 RVA: 0x00002C99 File Offset: 0x00000E99
 		[Editor(false)]
 		public string IdleAction
 		{
@@ -355,9 +312,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000020 RID: 32
-		// (get) Token: 0x06000057 RID: 87 RVA: 0x00002CC8 File Offset: 0x00000EC8
-		// (set) Token: 0x06000058 RID: 88 RVA: 0x00002CD0 File Offset: 0x00000ED0
 		[Editor(false)]
 		public string IdleFaceAnim
 		{
@@ -376,9 +330,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000021 RID: 33
-		// (get) Token: 0x06000059 RID: 89 RVA: 0x00002CFF File Offset: 0x00000EFF
-		// (set) Token: 0x0600005A RID: 90 RVA: 0x00002D07 File Offset: 0x00000F07
 		[Editor(false)]
 		public uint ArmorColor1
 		{
@@ -397,9 +348,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000022 RID: 34
-		// (get) Token: 0x0600005B RID: 91 RVA: 0x00002D36 File Offset: 0x00000F36
-		// (set) Token: 0x0600005C RID: 92 RVA: 0x00002D3E File Offset: 0x00000F3E
 		[Editor(false)]
 		public uint ArmorColor2
 		{
@@ -418,9 +366,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x17000023 RID: 35
-		// (get) Token: 0x0600005D RID: 93 RVA: 0x00002D6D File Offset: 0x00000F6D
-		// (set) Token: 0x0600005E RID: 94 RVA: 0x00002D75 File Offset: 0x00000F75
 		[Editor(false)]
 		public bool IsBannerShownInBackground
 		{
@@ -439,55 +384,38 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
-		// Token: 0x04000018 RID: 24
 		private ButtonWidget _swapPlacesButtonWidget;
 
-		// Token: 0x04000019 RID: 25
 		private string _bannerCode;
 
-		// Token: 0x0400001A RID: 26
 		private string _bodyProperties;
 
-		// Token: 0x0400001B RID: 27
 		private string _charStringId;
 
-		// Token: 0x0400001C RID: 28
 		private string _equipmentCode;
 
-		// Token: 0x0400001D RID: 29
 		private string _mountCreationKey;
 
-		// Token: 0x0400001E RID: 30
 		private string _idleAction;
 
-		// Token: 0x0400001F RID: 31
 		private string _idleFaceAnim;
 
-		// Token: 0x04000020 RID: 32
 		private uint _armorColor1;
 
-		// Token: 0x04000021 RID: 33
 		private uint _armorColor2;
 
-		// Token: 0x04000022 RID: 34
 		private int _stanceIndex;
 
-		// Token: 0x04000023 RID: 35
 		private int _race;
 
-		// Token: 0x04000024 RID: 36
 		private bool _isEquipmentAnimActive;
 
-		// Token: 0x04000025 RID: 37
 		private bool _isFemale;
 
-		// Token: 0x04000026 RID: 38
 		private bool _isCharacterMountSwapped;
 
-		// Token: 0x04000027 RID: 39
 		private bool _isBannerShownInBackground;
 
-		// Token: 0x04000028 RID: 40
 		private float _customRenderScale;
 	}
 }

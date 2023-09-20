@@ -7,10 +7,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020000FA RID: 250
 	public class BehaviorAssaultWalls : BehaviorComponent
 	{
-		// Token: 0x06000C5D RID: 3165 RVA: 0x000186C8 File Offset: 0x000168C8
 		private void ResetOrderPositions()
 		{
 			this._primarySiegeWeapons = this._teamAISiegeComponent.PrimarySiegeWeapons.ToList<IPrimarySiegeWeapon>();
@@ -54,7 +52,6 @@ namespace TaleWorlds.MountAndBlade
 			this._facingOrder = FacingOrder.FacingOrderLookAtEnemy;
 		}
 
-		// Token: 0x06000C5E RID: 3166 RVA: 0x00018938 File Offset: 0x00016B38
 		public BehaviorAssaultWalls(Formation formation)
 			: base(formation)
 		{
@@ -66,7 +63,6 @@ namespace TaleWorlds.MountAndBlade
 			base.CurrentOrder = this._stopOrder;
 		}
 
-		// Token: 0x06000C5F RID: 3167 RVA: 0x00018998 File Offset: 0x00016B98
 		public override TextObject GetBehaviorString()
 		{
 			TextObject behaviorString = base.GetBehaviorString();
@@ -76,7 +72,6 @@ namespace TaleWorlds.MountAndBlade
 			return behaviorString;
 		}
 
-		// Token: 0x06000C60 RID: 3168 RVA: 0x000189F4 File Offset: 0x00016BF4
 		private BehaviorAssaultWalls.BehaviorState CheckAndChangeState()
 		{
 			switch (this._behaviorState)
@@ -162,7 +157,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C61 RID: 3169 RVA: 0x00018C44 File Offset: 0x00016E44
 		protected override void CalculateCurrentOrder()
 		{
 			switch (this._behaviorState)
@@ -226,7 +220,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C62 RID: 3170 RVA: 0x00018E14 File Offset: 0x00017014
 		public override void OnValidBehaviorSideChanged()
 		{
 			base.OnValidBehaviorSideChanged();
@@ -234,7 +227,6 @@ namespace TaleWorlds.MountAndBlade
 			this._behaviorState = BehaviorAssaultWalls.BehaviorState.Deciding;
 		}
 
-		// Token: 0x06000C63 RID: 3171 RVA: 0x00018E2C File Offset: 0x0001702C
 		public override void TickOccasionally()
 		{
 			BehaviorAssaultWalls.BehaviorState behaviorState = this.CheckAndChangeState();
@@ -283,7 +275,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = this.CurrentArrangementOrder;
 		}
 
-		// Token: 0x06000C64 RID: 3172 RVA: 0x00019000 File Offset: 0x00017200
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.CalculateCurrentOrder();
@@ -295,8 +286,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
-		// Token: 0x1700030A RID: 778
-		// (get) Token: 0x06000C65 RID: 3173 RVA: 0x00019075 File Offset: 0x00017275
 		public override float NavmeshlessTargetPositionPenalty
 		{
 			get
@@ -305,7 +294,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06000C66 RID: 3174 RVA: 0x0001907C File Offset: 0x0001727C
 		protected override float GetAiWeight()
 		{
 			float num = 0f;
@@ -330,64 +318,42 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		// Token: 0x040002CF RID: 719
 		private BehaviorAssaultWalls.BehaviorState _behaviorState;
 
-		// Token: 0x040002D0 RID: 720
 		private List<IPrimarySiegeWeapon> _primarySiegeWeapons;
 
-		// Token: 0x040002D1 RID: 721
 		private WallSegment _wallSegment;
 
-		// Token: 0x040002D2 RID: 722
 		private CastleGate _innerGate;
 
-		// Token: 0x040002D3 RID: 723
 		private TeamAISiegeComponent _teamAISiegeComponent;
 
-		// Token: 0x040002D4 RID: 724
 		private MovementOrder _attackEntityOrderInnerGate;
 
-		// Token: 0x040002D5 RID: 725
 		private MovementOrder _attackEntityOrderOuterGate;
 
-		// Token: 0x040002D6 RID: 726
 		private MovementOrder _chargeOrder;
 
-		// Token: 0x040002D7 RID: 727
 		private MovementOrder _stopOrder;
 
-		// Token: 0x040002D8 RID: 728
 		private MovementOrder _castleGateMoveOrder;
 
-		// Token: 0x040002D9 RID: 729
 		private MovementOrder _wallSegmentMoveOrder;
 
-		// Token: 0x040002DA RID: 730
 		private FacingOrder _facingOrder;
 
-		// Token: 0x040002DB RID: 731
 		protected ArrangementOrder CurrentArrangementOrder;
 
-		// Token: 0x040002DC RID: 732
 		private bool _isGateLane;
 
-		// Token: 0x0200043A RID: 1082
 		private enum BehaviorState
 		{
-			// Token: 0x04001833 RID: 6195
 			Deciding,
-			// Token: 0x04001834 RID: 6196
 			ClimbWall,
-			// Token: 0x04001835 RID: 6197
 			AttackEntity,
-			// Token: 0x04001836 RID: 6198
 			TakeControl,
-			// Token: 0x04001837 RID: 6199
 			MoveToGate,
-			// Token: 0x04001838 RID: 6200
 			Charging,
-			// Token: 0x04001839 RID: 6201
 			Stop
 		}
 	}

@@ -5,16 +5,13 @@ using TaleWorlds.SaveSystem.Definition;
 
 namespace TaleWorlds.SaveSystem.Load
 {
-	// Token: 0x02000035 RID: 53
 	internal class FieldLoadData : MemberLoadData
 	{
-		// Token: 0x060001E6 RID: 486 RVA: 0x00008DC3 File Offset: 0x00006FC3
 		public FieldLoadData(ObjectLoadData objectLoadData, IReader reader)
 			: base(objectLoadData, reader)
 		{
 		}
 
-		// Token: 0x060001E7 RID: 487 RVA: 0x00008DD0 File Offset: 0x00006FD0
 		public void FillObject()
 		{
 			FieldDefinition fieldDefinitionWithId;

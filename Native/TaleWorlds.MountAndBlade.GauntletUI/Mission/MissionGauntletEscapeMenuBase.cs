@@ -10,10 +10,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 {
-	// Token: 0x02000028 RID: 40
 	public abstract class MissionGauntletEscapeMenuBase : MissionEscapeMenuView
 	{
-		// Token: 0x060001CF RID: 463 RVA: 0x00009EA6 File Offset: 0x000080A6
 		protected MissionGauntletEscapeMenuBase(string viewFile)
 		{
 			base.OnMissionScreenInitialize();
@@ -21,13 +19,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			this.ViewOrderPriority = 50;
 		}
 
-		// Token: 0x060001D0 RID: 464 RVA: 0x00009EC3 File Offset: 0x000080C3
 		protected virtual List<EscapeMenuItemVM> GetEscapeMenuItems()
 		{
 			return null;
 		}
 
-		// Token: 0x060001D1 RID: 465 RVA: 0x00009EC6 File Offset: 0x000080C6
 		public override void OnMissionScreenFinalize()
 		{
 			this.DataSource.OnFinalize();
@@ -37,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x060001D2 RID: 466 RVA: 0x00009EEE File Offset: 0x000080EE
 		public override bool OnEscape()
 		{
 			if (!this._isRenderingStarted)
@@ -51,7 +46,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			return this.OnEscapeMenuToggled(!base.IsActive);
 		}
 
-		// Token: 0x060001D3 RID: 467 RVA: 0x00009F24 File Offset: 0x00008124
 		protected bool OnEscapeMenuToggled(bool isOpened)
 		{
 			if (base.IsActive == isOpened)
@@ -90,7 +84,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			return true;
 		}
 
-		// Token: 0x060001D4 RID: 468 RVA: 0x0000A048 File Offset: 0x00008248
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -100,26 +93,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 		}
 
-		// Token: 0x060001D5 RID: 469 RVA: 0x0000A09A File Offset: 0x0000829A
 		public override void OnSceneRenderingStarted()
 		{
 			base.OnSceneRenderingStarted();
 			this._isRenderingStarted = true;
 		}
 
-		// Token: 0x040000D6 RID: 214
 		protected EscapeMenuVM DataSource;
 
-		// Token: 0x040000D7 RID: 215
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x040000D8 RID: 216
 		private IGauntletMovie _movie;
 
-		// Token: 0x040000D9 RID: 217
 		private string _viewFile;
 
-		// Token: 0x040000DA RID: 218
 		private bool _isRenderingStarted;
 	}
 }

@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGame.Ho
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGame
 {
-	// Token: 0x02000075 RID: 117
 	public class MPHostGameOptionsVM : ViewModel
 	{
-		// Token: 0x06000AB0 RID: 2736 RVA: 0x000263F1 File Offset: 0x000245F1
 		public MPHostGameOptionsVM(bool isInMission, MPCustomGameVM.CustomGameMode customGameMode = MPCustomGameVM.CustomGameMode.CustomServer)
 		{
 			this.IsInMission = isInMission;
@@ -21,7 +19,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			this.InitializeDefaultOptionList();
 		}
 
-		// Token: 0x06000AB1 RID: 2737 RVA: 0x0002642E File Offset: 0x0002462E
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -31,7 +28,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			});
 		}
 
-		// Token: 0x06000AB2 RID: 2738 RVA: 0x00026460 File Offset: 0x00024660
 		private void InitializeDefaultOptionList()
 		{
 			this.IsRefreshed = false;
@@ -56,7 +52,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000AB3 RID: 2739 RVA: 0x00026528 File Offset: 0x00024728
 		private void OnChangeSelected(MultipleSelectionHostGameOptionDataVM option)
 		{
 			this.IsRefreshed = false;
@@ -67,7 +62,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			this.IsRefreshed = true;
 		}
 
-		// Token: 0x06000AB4 RID: 2740 RVA: 0x0002657C File Offset: 0x0002477C
 		private void OnGameModeChanged(string gameModeName)
 		{
 			this._hostGameItemsForNextTick.Clear();
@@ -87,7 +81,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			this.GeneralOptions.Sort(this._optionComparer);
 		}
 
-		// Token: 0x06000AB5 RID: 2741 RVA: 0x00026600 File Offset: 0x00024800
 		private void FillOptionsForCustomServer(string gameModeName)
 		{
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
@@ -122,7 +115,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x06000AB6 RID: 2742 RVA: 0x000266C8 File Offset: 0x000248C8
 		private void FillOptionsForPremadeGame()
 		{
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
@@ -150,7 +142,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x06000AB7 RID: 2743 RVA: 0x00026768 File Offset: 0x00024968
 		private GenericHostGameOptionDataVM CreateOption(MultiplayerOptions.OptionType type, int preferredIndex)
 		{
 			GenericHostGameOptionDataVM genericHostGameOptionDataVM = null;
@@ -177,7 +168,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			return genericHostGameOptionDataVM;
 		}
 
-		// Token: 0x06000AB8 RID: 2744 RVA: 0x000267E0 File Offset: 0x000249E0
 		private OptionsVM.OptionsDataType GetSpecificHostGameOptionTypeOf(MultiplayerOptions.OptionType type)
 		{
 			MultiplayerOptionsProperty optionProperty = type.GetOptionProperty();
@@ -200,9 +190,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x17000353 RID: 851
-		// (get) Token: 0x06000AB9 RID: 2745 RVA: 0x00026826 File Offset: 0x00024A26
-		// (set) Token: 0x06000ABA RID: 2746 RVA: 0x0002682E File Offset: 0x00024A2E
 		[DataSourceProperty]
 		public MBBindingList<GenericHostGameOptionDataVM> GeneralOptions
 		{
@@ -220,9 +207,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x17000354 RID: 852
-		// (get) Token: 0x06000ABB RID: 2747 RVA: 0x0002684C File Offset: 0x00024A4C
-		// (set) Token: 0x06000ABC RID: 2748 RVA: 0x00026854 File Offset: 0x00024A54
 		[DataSourceProperty]
 		public bool IsRefreshed
 		{
@@ -240,9 +224,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x17000355 RID: 853
-		// (get) Token: 0x06000ABD RID: 2749 RVA: 0x00026872 File Offset: 0x00024A72
-		// (set) Token: 0x06000ABE RID: 2750 RVA: 0x0002687A File Offset: 0x00024A7A
 		[DataSourceProperty]
 		public bool IsInMission
 		{
@@ -260,28 +241,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby.HostGam
 			}
 		}
 
-		// Token: 0x04000530 RID: 1328
 		private List<GenericHostGameOptionDataVM> _hostGameItemsForNextTick = new List<GenericHostGameOptionDataVM>();
 
-		// Token: 0x04000531 RID: 1329
 		private MPHostGameOptionsVM.OptionPreferredIndexComparer _optionComparer;
 
-		// Token: 0x04000532 RID: 1330
 		private MPCustomGameVM.CustomGameMode _customGameMode;
 
-		// Token: 0x04000533 RID: 1331
 		private bool _isRefreshed;
 
-		// Token: 0x04000534 RID: 1332
 		private bool _isInMission;
 
-		// Token: 0x04000535 RID: 1333
 		private MBBindingList<GenericHostGameOptionDataVM> _generalOptions;
 
-		// Token: 0x0200019F RID: 415
 		private class OptionPreferredIndexComparer : IComparer<GenericHostGameOptionDataVM>
 		{
-			// Token: 0x060019C6 RID: 6598 RVA: 0x00053500 File Offset: 0x00051700
 			public int Compare(GenericHostGameOptionDataVM x, GenericHostGameOptionDataVM y)
 			{
 				return x.PreferredIndex.CompareTo(y.PreferredIndex);

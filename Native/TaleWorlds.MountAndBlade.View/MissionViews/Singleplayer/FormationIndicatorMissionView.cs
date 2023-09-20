@@ -8,10 +8,8 @@ using TaleWorlds.MountAndBlade.View.Screens;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
-	// Token: 0x02000065 RID: 101
 	public class FormationIndicatorMissionView : MissionView
 	{
-		// Token: 0x06000440 RID: 1088 RVA: 0x00021A04 File Offset: 0x0001FC04
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -29,7 +27,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x06000441 RID: 1089 RVA: 0x00021A88 File Offset: 0x0001FC88
 		private GameEntity CreateBannerEntity(Formation formation)
 		{
 			GameEntity gameEntity = GameEntity.CreateEmpty(this.mission.Scene, true);
@@ -77,7 +74,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			return gameEntity;
 		}
 
-		// Token: 0x06000442 RID: 1090 RVA: 0x00021BE4 File Offset: 0x0001FDE4
 		private int GetFormationTeamIndex(Formation formation)
 		{
 			int num;
@@ -92,7 +88,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			return num;
 		}
 
-		// Token: 0x06000443 RID: 1091 RVA: 0x00021C68 File Offset: 0x0001FE68
 		public override void OnMissionScreenTick(float dt)
 		{
 			this.OnMissionTick(dt);
@@ -202,19 +197,14 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 		}
 
-		// Token: 0x040002AD RID: 685
 		private FormationIndicatorMissionView.Indicator[,] _indicators;
 
-		// Token: 0x040002AE RID: 686
 		private Mission mission;
 
-		// Token: 0x040002AF RID: 687
 		private bool _isEnabled;
 
-		// Token: 0x020000C7 RID: 199
 		public class Indicator
 		{
-			// Token: 0x0600057D RID: 1405 RVA: 0x00027024 File Offset: 0x00025224
 			private Vec3? GetCurrentPosition()
 			{
 				if (Mission.Current.MainAgent != null)
@@ -228,7 +218,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 				return null;
 			}
 
-			// Token: 0x0600057E RID: 1406 RVA: 0x000270AC File Offset: 0x000252AC
 			public void DetermineIndicatorState(float dt, Vec3 position)
 			{
 				Mission mission = Mission.Current;
@@ -300,40 +289,28 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 				this.indicatorVisible = true;
 			}
 
-			// Token: 0x04000389 RID: 905
 			public MissionScreen missionScreen;
 
-			// Token: 0x0400038A RID: 906
 			public bool indicatorVisible;
 
-			// Token: 0x0400038B RID: 907
 			public MatrixFrame indicatorFrame;
 
-			// Token: 0x0400038C RID: 908
 			public bool firstTime = true;
 
-			// Token: 0x0400038D RID: 909
 			public GameEntity indicatorEntity;
 
-			// Token: 0x0400038E RID: 910
 			public Vec3 nextIndicatorPosition;
 
-			// Token: 0x0400038F RID: 911
 			public Vec3 prevIndicatorPosition;
 
-			// Token: 0x04000390 RID: 912
 			public float indicatorAlpha = 1f;
 
-			// Token: 0x04000391 RID: 913
 			private float _drawIndicatorElapsedTime;
 
-			// Token: 0x04000392 RID: 914
 			private const float IndicatorExpireTime = 0.5f;
 
-			// Token: 0x04000393 RID: 915
 			private bool _isSeenByPlayer = true;
 
-			// Token: 0x04000394 RID: 916
 			internal bool _isMovingTooFast;
 		}
 	}

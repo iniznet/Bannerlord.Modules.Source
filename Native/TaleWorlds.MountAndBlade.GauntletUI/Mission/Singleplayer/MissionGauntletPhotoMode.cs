@@ -12,12 +12,9 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 {
-	// Token: 0x02000033 RID: 51
 	[OverrideView(typeof(PhotoModeView))]
 	public class MissionGauntletPhotoMode : MissionView
 	{
-		// Token: 0x17000052 RID: 82
-		// (get) Token: 0x0600026D RID: 621 RVA: 0x0000D4A4 File Offset: 0x0000B6A4
 		private Scene _missionScene
 		{
 			get
@@ -26,8 +23,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x17000053 RID: 83
-		// (get) Token: 0x0600026E RID: 622 RVA: 0x0000D4B6 File Offset: 0x0000B6B6
 		private InputContext _input
 		{
 			get
@@ -36,7 +31,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x0600026F RID: 623 RVA: 0x0000D4C8 File Offset: 0x0000B6C8
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
@@ -70,7 +64,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource.AddKey(HotKeyManager.GetCategory("PhotoModeHotKeyCategory").GetGameKey(105));
 		}
 
-		// Token: 0x06000270 RID: 624 RVA: 0x0000D6E0 File Offset: 0x0000B8E0
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
@@ -223,13 +216,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		// Token: 0x06000271 RID: 625 RVA: 0x0000DB97 File Offset: 0x0000BD97
 		private bool GetCanTakePicture()
 		{
 			return !this._gauntletLayer._gauntletUIContext.EventManager.IsControllerActive || !base.MissionScreen.PhotoModeRequiresMouse;
 		}
 
-		// Token: 0x06000272 RID: 626 RVA: 0x0000DBC0 File Offset: 0x0000BDC0
 		private void ResetChanges()
 		{
 			this._photoModeOrbitState = false;
@@ -247,7 +238,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource.Reset();
 		}
 
-		// Token: 0x06000273 RID: 627 RVA: 0x0000DC6D File Offset: 0x0000BE6D
 		public override bool OnEscape()
 		{
 			if (base.MissionScreen.IsPhotoModeEnabled)
@@ -261,13 +251,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			return false;
 		}
 
-		// Token: 0x06000274 RID: 628 RVA: 0x0000DCA3 File Offset: 0x0000BEA3
 		public override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
 		{
 			return !base.MissionScreen.IsPhotoModeEnabled;
 		}
 
-		// Token: 0x06000275 RID: 629 RVA: 0x0000DCB3 File Offset: 0x0000BEB3
 		public override void OnMissionScreenFinalize()
 		{
 			this._gauntletLayer = null;
@@ -277,58 +265,40 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.OnMissionScreenFinalize();
 		}
 
-		// Token: 0x04000133 RID: 307
 		private readonly TextObject _screenShotTakenMessage = new TextObject("{=1e12bdjj}Screenshot has been saved in {PATH}", null);
 
-		// Token: 0x04000134 RID: 308
 		private const float _cameraRollAmount = 0.1f;
 
-		// Token: 0x04000135 RID: 309
 		private const float _cameraFocusAmount = 0.1f;
 
-		// Token: 0x04000136 RID: 310
 		private GauntletLayer _gauntletLayer;
 
-		// Token: 0x04000137 RID: 311
 		private PhotoModeVM _dataSource;
 
-		// Token: 0x04000138 RID: 312
 		private bool _registered;
 
-		// Token: 0x04000139 RID: 313
 		private SpriteCategory _photoModeCategory;
 
-		// Token: 0x0400013A RID: 314
 		private float _cameraRoll;
 
-		// Token: 0x0400013B RID: 315
 		private bool _photoModeOrbitState;
 
-		// Token: 0x0400013C RID: 316
 		private bool _suspended = true;
 
-		// Token: 0x0400013D RID: 317
 		private bool _vignetteMode;
 
-		// Token: 0x0400013E RID: 318
 		private bool _hideAgentsMode;
 
-		// Token: 0x0400013F RID: 319
 		private int _takePhoto = -1;
 
-		// Token: 0x04000140 RID: 320
 		private bool _saveAmbientOcclusionPass;
 
-		// Token: 0x04000141 RID: 321
 		private bool _saveObjectIdPass;
 
-		// Token: 0x04000142 RID: 322
 		private bool _saveShadowPass;
 
-		// Token: 0x04000143 RID: 323
 		private bool _prevUIDisabled;
 
-		// Token: 0x04000144 RID: 324
 		private bool _prevMouseEnabled;
 	}
 }

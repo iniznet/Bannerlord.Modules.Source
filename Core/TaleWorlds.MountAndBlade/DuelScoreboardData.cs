@@ -6,10 +6,8 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020002BC RID: 700
 	public class DuelScoreboardData : IScoreboardData
 	{
-		// Token: 0x060026E7 RID: 9959 RVA: 0x00092510 File Offset: 0x00090710
 		public MissionScoreboardComponent.ScoreboardHeader[] GetScoreboardHeaders()
 		{
 			GameNetwork.MyPeer.GetComponent<MissionRepresentativeBase>();

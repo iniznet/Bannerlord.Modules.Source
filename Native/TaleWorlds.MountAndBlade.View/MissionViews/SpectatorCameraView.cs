@@ -7,17 +7,14 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade.View.MissionViews
 {
-	// Token: 0x02000055 RID: 85
 	public class SpectatorCameraView : MissionView
 	{
-		// Token: 0x060003B7 RID: 951 RVA: 0x0001F886 File Offset: 0x0001DA86
 		public override void OnMissionScreenInitialize()
 		{
 			base.OnMissionScreenInitialize();
 			base.MissionScreen.SceneLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("MultiplayerHotkeyCategory"));
 		}
 
-		// Token: 0x060003B8 RID: 952 RVA: 0x0001F8B0 File Offset: 0x0001DAB0
 		public override void AfterStart()
 		{
 			for (int i = 0; i < 10; i++)
@@ -35,7 +32,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
-		// Token: 0x0400026A RID: 618
 		private List<MatrixFrame> _spectateCamerFrames = new List<MatrixFrame>();
 	}
 }

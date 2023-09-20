@@ -10,10 +10,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace SandBox.Missions.MissionLogics.Test
 {
-	// Token: 0x0200005F RID: 95
 	public class ArmorAndColorTestMissionController : MissionLogic
 	{
-		// Token: 0x0600041B RID: 1051 RVA: 0x0001DD18 File Offset: 0x0001BF18
 		public ArmorAndColorTestMissionController(bool spawnSoldiers, bool spawnLords, bool spawnBandits, bool spawnLadies, string oneTypeSoldierStringId = null, int testTypeId = 2, bool spawnHelmetTestCharacters = false)
 		{
 			this._spawnLords = spawnLords;
@@ -25,7 +23,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			this._spawnHelmetTestCharacters = spawnHelmetTestCharacters;
 		}
 
-		// Token: 0x0600041C RID: 1052 RVA: 0x0001DDDB File Offset: 0x0001BFDB
 		public override void AfterStart()
 		{
 			this.InitializeColors();
@@ -34,7 +31,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			this.SpawnCharacters();
 		}
 
-		// Token: 0x0600041D RID: 1053 RVA: 0x0001DDF8 File Offset: 0x0001BFF8
 		private void InitializeColors()
 		{
 			this._colorDictionary = new Dictionary<IFaction, uint[]>();
@@ -45,13 +41,11 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x0600041E RID: 1054 RVA: 0x0001DE60 File Offset: 0x0001C060
 		private void InitializeTeams()
 		{
 			base.Mission.PlayerTeam = base.Mission.Teams.Add(0, Hero.MainHero.MapFaction.Color, Hero.MainHero.MapFaction.Color2, null, true, false, true);
 		}
 
-		// Token: 0x0600041F RID: 1055 RVA: 0x0001DEAC File Offset: 0x0001C0AC
 		private void SpawnPlayer()
 		{
 			CharacterObject characterObject = CharacterObject.PlayerCharacter ?? Game.Current.ObjectManager.GetObject<CharacterObject>("main_hero");
@@ -66,7 +60,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			this.SetCoordniateNewHorizontalLine();
 		}
 
-		// Token: 0x06000420 RID: 1056 RVA: 0x0001DF8C File Offset: 0x0001C18C
 		private void SpawnCharacters()
 		{
 			if (this._spawnLords && this._spawnLadies)
@@ -96,7 +89,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000421 RID: 1057 RVA: 0x0001DFF8 File Offset: 0x0001C1F8
 		private void SpawnHelmetTestCharacters()
 		{
 			List<CharacterObject> list = (from character in Game.Current.ObjectManager.GetObjectTypeList<CharacterObject>()
@@ -115,7 +107,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000422 RID: 1058 RVA: 0x0001E114 File Offset: 0x0001C314
 		private void SpawnLordAndLadies()
 		{
 			foreach (CharacterObject characterObject in (from character in Game.Current.ObjectManager.GetObjectTypeList<CharacterObject>()
@@ -146,7 +137,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000423 RID: 1059 RVA: 0x0001E218 File Offset: 0x0001C418
 		private void SpawnLords()
 		{
 			foreach (CharacterObject characterObject in (from character in Game.Current.ObjectManager.GetObjectTypeList<CharacterObject>()
@@ -177,7 +167,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000424 RID: 1060 RVA: 0x0001E31C File Offset: 0x0001C51C
 		private void SpawnBandits()
 		{
 			foreach (CharacterObject characterObject in (from character in Game.Current.ObjectManager.GetObjectTypeList<CharacterObject>()
@@ -204,7 +193,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000425 RID: 1061 RVA: 0x0001E494 File Offset: 0x0001C694
 		private void SpawnSoldiers()
 		{
 			List<CharacterObject> list = new List<CharacterObject>();
@@ -254,7 +242,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000426 RID: 1062 RVA: 0x0001E698 File Offset: 0x0001C898
 		private void SpawnOneTypeSoldier()
 		{
 			CharacterObject @object = MBObjectManager.Instance.GetObject<CharacterObject>(this._oneTypeSoldierStringId);
@@ -283,7 +270,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000427 RID: 1063 RVA: 0x0001E798 File Offset: 0x0001C998
 		private void SpawnCharacter(CharacterObject character, uint[] colors, bool spawnAllEquipmentSets = true)
 		{
 			List<Equipment> list = character.AllEquipments.ToList<Equipment>();
@@ -339,7 +325,6 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x06000428 RID: 1064 RVA: 0x0001E9E0 File Offset: 0x0001CBE0
 		private MatrixFrame GetNextSpawnFrame()
 		{
 			this._coordinate += new Vec3(1.5f, 0f, 0f, -1f);
@@ -353,20 +338,17 @@ namespace SandBox.Missions.MissionLogics.Test
 			return identity;
 		}
 
-		// Token: 0x06000429 RID: 1065 RVA: 0x0001EA56 File Offset: 0x0001CC56
 		private void SetCoordniateNewHorizontalLine()
 		{
 			this._coordinate.x = 3f;
 			this._coordinate.y = this._coordinate.y + 3f;
 		}
 
-		// Token: 0x0600042A RID: 1066 RVA: 0x0001EA7C File Offset: 0x0001CC7C
 		private bool CheckIfEquipmentSetCountExceedsMapHorizontalEnd(int equipmentSetCount)
 		{
 			return this._coordinate.x + 1.5f * (float)equipmentSetCount > (float)this._mapHorizontalEndCoordinate;
 		}
 
-		// Token: 0x0600042B RID: 1067 RVA: 0x0001EA9C File Offset: 0x0001CC9C
 		private void GetUpgradeTargets(CharacterObject troop, ref List<CharacterObject> list)
 		{
 			list.Add(troop);
@@ -379,46 +361,32 @@ namespace SandBox.Missions.MissionLogics.Test
 			}
 		}
 
-		// Token: 0x040001EC RID: 492
 		private const float HorizontalGap = 1.5f;
 
-		// Token: 0x040001ED RID: 493
 		private const float VerticalGap = 3f;
 
-		// Token: 0x040001EE RID: 494
 		private readonly string[] _factionIdList = new string[] { "vlandia", "empire", "empire_w", "empire_s", "sturgia", "aserai", "battania", "khuzait" };
 
-		// Token: 0x040001EF RID: 495
 		private readonly bool _spawnLords;
 
-		// Token: 0x040001F0 RID: 496
 		private readonly bool _spawnSoldiers;
 
-		// Token: 0x040001F1 RID: 497
 		private readonly bool _spawnBandits;
 
-		// Token: 0x040001F2 RID: 498
 		private readonly bool _spawnLadies;
 
-		// Token: 0x040001F3 RID: 499
 		private readonly bool _spawnHelmetTestCharacters;
 
-		// Token: 0x040001F4 RID: 500
 		private string _oneTypeSoldierStringId;
 
-		// Token: 0x040001F5 RID: 501
 		private int _testTypeId;
 
-		// Token: 0x040001F6 RID: 502
 		private Vec3 _coordinate = new Vec3(3f, 3f, 0f, -1f);
 
-		// Token: 0x040001F7 RID: 503
 		private int _mapHorizontalEndCoordinate = 50;
 
-		// Token: 0x040001F8 RID: 504
 		private int OneTypeSoldierSpawnCount = 100;
 
-		// Token: 0x040001F9 RID: 505
 		private Dictionary<IFaction, uint[]> _colorDictionary;
 	}
 }

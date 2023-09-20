@@ -13,11 +13,9 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.GauntletUI.Map
 {
-	// Token: 0x02000032 RID: 50
 	[OverrideView(typeof(MapSettlementNameplateView))]
 	public class GauntletMapSettlementNameplateView : MapView, IGauntletMapEventVisualHandler
 	{
-		// Token: 0x060001C4 RID: 452 RVA: 0x0000CA50 File Offset: 0x0000AC50
 		protected override void CreateLayout()
 		{
 			base.CreateLayout();
@@ -49,7 +47,6 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x060001C5 RID: 453 RVA: 0x0000CBC4 File Offset: 0x0000ADC4
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -59,14 +56,12 @@ namespace SandBox.GauntletUI.Map
 			}
 		}
 
-		// Token: 0x060001C6 RID: 454 RVA: 0x0000CC1C File Offset: 0x0000AE1C
 		protected override void OnMapScreenUpdate(float dt)
 		{
 			base.OnMapScreenUpdate(dt);
 			this._dataSource.Update();
 		}
 
-		// Token: 0x060001C7 RID: 455 RVA: 0x0000CC30 File Offset: 0x0000AE30
 		protected override void OnFinalize()
 		{
 			GauntletMapEventVisualCreator gauntletMapEventVisualCreator;
@@ -83,7 +78,6 @@ namespace SandBox.GauntletUI.Map
 			base.OnFinalize();
 		}
 
-		// Token: 0x060001C8 RID: 456 RVA: 0x0000CCA0 File Offset: 0x0000AEA0
 		private SettlementNameplateVM GetNameplateOfMapEvent(GauntletMapEventVisual mapEvent)
 		{
 			bool flag;
@@ -150,7 +144,6 @@ namespace SandBox.GauntletUI.Map
 			return null;
 		}
 
-		// Token: 0x060001C9 RID: 457 RVA: 0x0000CDDE File Offset: 0x0000AFDE
 		void IGauntletMapEventVisualHandler.OnNewEventStarted(GauntletMapEventVisual newEvent)
 		{
 			SettlementNameplateVM nameplateOfMapEvent = this.GetNameplateOfMapEvent(newEvent);
@@ -161,7 +154,6 @@ namespace SandBox.GauntletUI.Map
 			nameplateOfMapEvent.OnMapEventStartedOnSettlement(newEvent.MapEvent);
 		}
 
-		// Token: 0x060001CA RID: 458 RVA: 0x0000CDF7 File Offset: 0x0000AFF7
 		void IGauntletMapEventVisualHandler.OnInitialized(GauntletMapEventVisual newEvent)
 		{
 			SettlementNameplateVM nameplateOfMapEvent = this.GetNameplateOfMapEvent(newEvent);
@@ -172,7 +164,6 @@ namespace SandBox.GauntletUI.Map
 			nameplateOfMapEvent.OnMapEventStartedOnSettlement(newEvent.MapEvent);
 		}
 
-		// Token: 0x060001CB RID: 459 RVA: 0x0000CE10 File Offset: 0x0000B010
 		void IGauntletMapEventVisualHandler.OnEventEnded(GauntletMapEventVisual newEvent)
 		{
 			SettlementNameplateVM nameplateOfMapEvent = this.GetNameplateOfMapEvent(newEvent);
@@ -183,18 +174,14 @@ namespace SandBox.GauntletUI.Map
 			nameplateOfMapEvent.OnMapEventEndedOnSettlement();
 		}
 
-		// Token: 0x060001CC RID: 460 RVA: 0x0000CE23 File Offset: 0x0000B023
 		void IGauntletMapEventVisualHandler.OnEventVisibilityChanged(GauntletMapEventVisual visibilityChangedEvent)
 		{
 		}
 
-		// Token: 0x040000EA RID: 234
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x040000EB RID: 235
 		private IGauntletMovie _movie;
 
-		// Token: 0x040000EC RID: 236
 		private SettlementNameplatesVM _dataSource;
 	}
 }

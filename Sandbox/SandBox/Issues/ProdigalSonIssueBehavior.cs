@@ -31,21 +31,17 @@ using TaleWorlds.SaveSystem;
 
 namespace SandBox.Issues
 {
-	// Token: 0x0200007D RID: 125
 	public class ProdigalSonIssueBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000555 RID: 1365 RVA: 0x00026321 File Offset: 0x00024521
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnCheckForIssueEvent.AddNonSerializedListener(this, new Action<Hero>(this.CheckForIssue));
 		}
 
-		// Token: 0x06000556 RID: 1366 RVA: 0x0002633A File Offset: 0x0002453A
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x06000557 RID: 1367 RVA: 0x0002633C File Offset: 0x0002453C
 		public void CheckForIssue(Hero hero)
 		{
 			Hero hero2;
@@ -58,7 +54,6 @@ namespace SandBox.Issues
 			Campaign.Current.IssueManager.AddPotentialIssueData(hero, new PotentialIssueData(typeof(ProdigalSonIssueBehavior.ProdigalSonIssue), 2));
 		}
 
-		// Token: 0x06000558 RID: 1368 RVA: 0x000263AC File Offset: 0x000245AC
 		private bool ConditionsHoldForSettlement(Settlement settlement, Hero issueGiver)
 		{
 			if (settlement.IsTown && settlement != issueGiver.CurrentSettlement && settlement.OwnerClan != issueGiver.Clan && settlement.OwnerClan != Clan.PlayerClan)
@@ -71,7 +66,6 @@ namespace SandBox.Issues
 			return false;
 		}
 
-		// Token: 0x06000559 RID: 1369 RVA: 0x00026448 File Offset: 0x00024648
 		private bool ConditionsHold(Hero issueGiver, out Hero selectedHero, out Hero targetHero)
 		{
 			selectedHero = null;
@@ -122,7 +116,6 @@ namespace SandBox.Issues
 			return selectedHero != null && targetHero != null;
 		}
 
-		// Token: 0x0600055A RID: 1370 RVA: 0x000265F0 File Offset: 0x000247F0
 		private IssueBase OnStartIssue(in PotentialIssueData pid, Hero issueOwner)
 		{
 			PotentialIssueData potentialIssueData = pid;
@@ -130,28 +123,21 @@ namespace SandBox.Issues
 			return new ProdigalSonIssueBehavior.ProdigalSonIssue(issueOwner, tuple.Item1, tuple.Item2);
 		}
 
-		// Token: 0x040002A2 RID: 674
 		private const IssueBase.IssueFrequency ProdigalSonIssueFrequency = 2;
 
-		// Token: 0x040002A3 RID: 675
 		private const int AgeLimitForSon = 35;
 
-		// Token: 0x040002A4 RID: 676
 		private const int AgeLimitForIssueOwner = 30;
 
-		// Token: 0x040002A5 RID: 677
 		private const int MinimumAgeDifference = 10;
 
-		// Token: 0x02000153 RID: 339
 		public class ProdigalSonIssueTypeDefiner : SaveableTypeDefiner
 		{
-			// Token: 0x06000EEC RID: 3820 RVA: 0x0006A39B File Offset: 0x0006859B
 			public ProdigalSonIssueTypeDefiner()
 				: base(345000)
 			{
 			}
 
-			// Token: 0x06000EED RID: 3821 RVA: 0x0006A3A8 File Offset: 0x000685A8
 			protected override void DefineClassTypes()
 			{
 				base.AddClassDefinition(typeof(ProdigalSonIssueBehavior.ProdigalSonIssue), 1, null);
@@ -159,11 +145,8 @@ namespace SandBox.Issues
 			}
 		}
 
-		// Token: 0x02000154 RID: 340
 		public class ProdigalSonIssue : IssueBase
 		{
-			// Token: 0x17000140 RID: 320
-			// (get) Token: 0x06000EEE RID: 3822 RVA: 0x0006A3CE File Offset: 0x000685CE
 			public override IssueBase.AlternativeSolutionScaleFlag AlternativeSolutionScaleFlags
 			{
 				get
@@ -172,8 +155,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000141 RID: 321
-			// (get) Token: 0x06000EEF RID: 3823 RVA: 0x0006A3D1 File Offset: 0x000685D1
 			private Clan Clan
 			{
 				get
@@ -182,8 +163,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000142 RID: 322
-			// (get) Token: 0x06000EF0 RID: 3824 RVA: 0x0006A3DE File Offset: 0x000685DE
 			protected override int RewardGold
 			{
 				get
@@ -192,8 +171,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000143 RID: 323
-			// (get) Token: 0x06000EF1 RID: 3825 RVA: 0x0006A3F4 File Offset: 0x000685F4
 			public override TextObject IssueBriefByIssueGiver
 			{
 				get
@@ -206,8 +183,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000144 RID: 324
-			// (get) Token: 0x06000EF2 RID: 3826 RVA: 0x0006A455 File Offset: 0x00068655
 			public override TextObject IssueAcceptByPlayer
 			{
 				get
@@ -216,8 +191,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000145 RID: 325
-			// (get) Token: 0x06000EF3 RID: 3827 RVA: 0x0006A462 File Offset: 0x00068662
 			public override TextObject IssueQuestSolutionExplanationByIssueGiver
 			{
 				get
@@ -228,8 +201,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000146 RID: 326
-			// (get) Token: 0x06000EF4 RID: 3828 RVA: 0x0006A486 File Offset: 0x00068686
 			public override TextObject IssuePlayerResponseAfterAlternativeExplanation
 			{
 				get
@@ -238,8 +209,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000147 RID: 327
-			// (get) Token: 0x06000EF5 RID: 3829 RVA: 0x0006A493 File Offset: 0x00068693
 			public override TextObject IssueAlternativeSolutionExplanationByIssueGiver
 			{
 				get
@@ -251,8 +220,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000148 RID: 328
-			// (get) Token: 0x06000EF6 RID: 3830 RVA: 0x0006A4C4 File Offset: 0x000686C4
 			public override TextObject IssueQuestSolutionAcceptByPlayer
 			{
 				get
@@ -261,8 +228,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000149 RID: 329
-			// (get) Token: 0x06000EF7 RID: 3831 RVA: 0x0006A4D1 File Offset: 0x000686D1
 			public override TextObject IssueAlternativeSolutionAcceptByPlayer
 			{
 				get
@@ -274,8 +239,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014A RID: 330
-			// (get) Token: 0x06000EF8 RID: 3832 RVA: 0x0006A502 File Offset: 0x00068702
 			public override TextObject IssueDiscussAlternativeSolution
 			{
 				get
@@ -284,8 +247,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014B RID: 331
-			// (get) Token: 0x06000EF9 RID: 3833 RVA: 0x0006A50F File Offset: 0x0006870F
 			public override TextObject IssueAlternativeSolutionResponseByIssueGiver
 			{
 				get
@@ -294,8 +255,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014C RID: 332
-			// (get) Token: 0x06000EFA RID: 3834 RVA: 0x0006A51C File Offset: 0x0006871C
 			protected override TextObject AlternativeSolutionStartLog
 			{
 				get
@@ -312,8 +271,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014D RID: 333
-			// (get) Token: 0x06000EFB RID: 3835 RVA: 0x0006A5D8 File Offset: 0x000687D8
 			public override TextObject IssueAlternativeSolutionSuccessLog
 			{
 				get
@@ -326,8 +283,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014E RID: 334
-			// (get) Token: 0x06000EFC RID: 3836 RVA: 0x0006A634 File Offset: 0x00068834
 			public override bool IsThereAlternativeSolution
 			{
 				get
@@ -336,8 +291,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700014F RID: 335
-			// (get) Token: 0x06000EFD RID: 3837 RVA: 0x0006A637 File Offset: 0x00068837
 			public override int AlternativeSolutionBaseNeededMenCount
 			{
 				get
@@ -346,8 +299,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000150 RID: 336
-			// (get) Token: 0x06000EFE RID: 3838 RVA: 0x0006A64C File Offset: 0x0006884C
 			protected override int AlternativeSolutionBaseDurationInDaysInternal
 			{
 				get
@@ -356,8 +307,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000151 RID: 337
-			// (get) Token: 0x06000EFF RID: 3839 RVA: 0x0006A661 File Offset: 0x00068861
 			protected override int CompanionSkillRewardXP
 			{
 				get
@@ -366,8 +315,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000152 RID: 338
-			// (get) Token: 0x06000F00 RID: 3840 RVA: 0x0006A676 File Offset: 0x00068876
 			public override bool IsThereLordSolution
 			{
 				get
@@ -376,8 +323,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000153 RID: 339
-			// (get) Token: 0x06000F01 RID: 3841 RVA: 0x0006A679 File Offset: 0x00068879
 			public override TextObject Title
 			{
 				get
@@ -388,8 +333,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000154 RID: 340
-			// (get) Token: 0x06000F02 RID: 3842 RVA: 0x0006A6A0 File Offset: 0x000688A0
 			public override TextObject Description
 			{
 				get
@@ -400,7 +343,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F03 RID: 3843 RVA: 0x0006A6D4 File Offset: 0x000688D4
 			public ProdigalSonIssue(Hero issueOwner, Hero prodigalSon, Hero targetGangHero)
 				: base(issueOwner, CampaignTime.DaysFromNow(50f))
 			{
@@ -414,7 +356,6 @@ namespace SandBox.Issues
 				DisableHeroAction.Apply(this._prodigalSon);
 			}
 
-			// Token: 0x06000F04 RID: 3844 RVA: 0x0006A787 File Offset: 0x00068987
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == this._targetHero || hero == this._prodigalSon)
@@ -423,7 +364,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F05 RID: 3845 RVA: 0x0006A79E File Offset: 0x0006899E
 			protected override float GetIssueEffectAmountInternal(IssueEffect issueEffect)
 			{
 				if (issueEffect == DefaultIssueEffects.IssueOwnerPower)
@@ -433,13 +373,11 @@ namespace SandBox.Issues
 				return 0f;
 			}
 
-			// Token: 0x06000F06 RID: 3846 RVA: 0x0006A7B3 File Offset: 0x000689B3
 			public override ValueTuple<SkillObject, int> GetAlternativeSolutionSkill(Hero hero)
 			{
 				return new ValueTuple<SkillObject, int>((hero.GetSkillValue(DefaultSkills.Charm) >= hero.GetSkillValue(DefaultSkills.Roguery)) ? DefaultSkills.Charm : DefaultSkills.Roguery, 120);
 			}
 
-			// Token: 0x06000F07 RID: 3847 RVA: 0x0006A7E0 File Offset: 0x000689E0
 			protected override void OnGameLoad()
 			{
 				Town town = Town.AllTowns.FirstOrDefault((Town x) => x.Settlement.LocationComplex.GetListOfLocations().Contains(this._targetHouse));
@@ -449,19 +387,16 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F08 RID: 3848 RVA: 0x0006A813 File Offset: 0x00068A13
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new ProdigalSonIssueBehavior.ProdigalSonIssueQuest(questId, base.IssueOwner, this._targetHero, this._prodigalSon, this._targetHouse, base.IssueDifficultyMultiplier, CampaignTime.DaysFromNow(24f), this.RewardGold);
 			}
 
-			// Token: 0x06000F09 RID: 3849 RVA: 0x0006A849 File Offset: 0x00068A49
 			public override IssueBase.IssueFrequency GetFrequency()
 			{
 				return 2;
 			}
 
-			// Token: 0x06000F0A RID: 3850 RVA: 0x0006A84C File Offset: 0x00068A4C
 			protected override bool CanPlayerTakeQuestConditions(Hero issueGiver, out IssueBase.PreconditionFlags flag, out Hero relationHero, out SkillObject skill)
 			{
 				bool flag2 = issueGiver.GetRelationWithPlayer() >= -10f && !issueGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction) && Clan.PlayerClan.Tier >= 1;
@@ -471,38 +406,32 @@ namespace SandBox.Issues
 				return flag2;
 			}
 
-			// Token: 0x06000F0B RID: 3851 RVA: 0x0006A8D1 File Offset: 0x00068AD1
 			public override bool IssueStayAliveConditions()
 			{
 				return this._targetHero.IsActive;
 			}
 
-			// Token: 0x06000F0C RID: 3852 RVA: 0x0006A8DE File Offset: 0x00068ADE
 			protected override void CompleteIssueWithTimedOutConsequences()
 			{
 			}
 
-			// Token: 0x06000F0D RID: 3853 RVA: 0x0006A8E0 File Offset: 0x00068AE0
 			public override bool DoTroopsSatisfyAlternativeSolution(TroopRoster troopRoster, out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(troopRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06000F0E RID: 3854 RVA: 0x0006A8F8 File Offset: 0x00068AF8
 			public override bool IsTroopTypeNeededByAlternativeSolution(CharacterObject character)
 			{
 				return character.Tier >= 2;
 			}
 
-			// Token: 0x06000F0F RID: 3855 RVA: 0x0006A906 File Offset: 0x00068B06
 			public override bool AlternativeSolutionCondition(out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
 				return QuestHelper.CheckRosterForAlternativeSolution(MobileParty.MainParty.MemberRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
-			// Token: 0x06000F10 RID: 3856 RVA: 0x0006A927 File Offset: 0x00068B27
 			protected override void AlternativeSolutionEndWithSuccessConsequence()
 			{
 				base.AlternativeSolutionHero.AddSkillXp(DefaultSkills.Charm, (float)((int)(700f + 900f * base.IssueDifficultyMultiplier)));
@@ -510,13 +439,11 @@ namespace SandBox.Issues
 				GainRenownAction.Apply(Hero.MainHero, 3f, false);
 			}
 
-			// Token: 0x06000F11 RID: 3857 RVA: 0x0006A964 File Offset: 0x00068B64
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				this.RelationshipChangeWithIssueOwner = -5;
 			}
 
-			// Token: 0x06000F12 RID: 3858 RVA: 0x0006A96E File Offset: 0x00068B6E
 			protected override void OnIssueFinalized()
 			{
 				if (this._prodigalSon.HeroState == 6)
@@ -525,13 +452,11 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F13 RID: 3859 RVA: 0x0006A98A File Offset: 0x00068B8A
 			internal static void AutoGeneratedStaticCollectObjectsProdigalSonIssue(object o, List<object> collectedObjects)
 			{
 				((ProdigalSonIssueBehavior.ProdigalSonIssue)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06000F14 RID: 3860 RVA: 0x0006A998 File Offset: 0x00068B98
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -540,57 +465,43 @@ namespace SandBox.Issues
 				collectedObjects.Add(this._targetHouse);
 			}
 
-			// Token: 0x06000F15 RID: 3861 RVA: 0x0006A9C5 File Offset: 0x00068BC5
 			internal static object AutoGeneratedGetMemberValue_prodigalSon(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssue)o)._prodigalSon;
 			}
 
-			// Token: 0x06000F16 RID: 3862 RVA: 0x0006A9D2 File Offset: 0x00068BD2
 			internal static object AutoGeneratedGetMemberValue_targetHero(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssue)o)._targetHero;
 			}
 
-			// Token: 0x06000F17 RID: 3863 RVA: 0x0006A9DF File Offset: 0x00068BDF
 			internal static object AutoGeneratedGetMemberValue_targetHouse(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssue)o)._targetHouse;
 			}
 
-			// Token: 0x04000638 RID: 1592
 			private const int IssueDurationInDays = 50;
 
-			// Token: 0x04000639 RID: 1593
 			private const int QuestDurationInDays = 24;
 
-			// Token: 0x0400063A RID: 1594
 			private const int TroopTierForAlternativeSolution = 2;
 
-			// Token: 0x0400063B RID: 1595
 			private const int RequiredSkillValueForAlternativeSolution = 120;
 
-			// Token: 0x0400063C RID: 1596
 			[SaveableField(10)]
 			private readonly Hero _prodigalSon;
 
-			// Token: 0x0400063D RID: 1597
 			[SaveableField(20)]
 			private readonly Hero _targetHero;
 
-			// Token: 0x0400063E RID: 1598
 			[SaveableField(30)]
 			private readonly Location _targetHouse;
 
-			// Token: 0x0400063F RID: 1599
 			private Settlement _targetSettlement;
 		}
 
-		// Token: 0x02000155 RID: 341
 		public class ProdigalSonIssueQuest : QuestBase
 		{
-			// Token: 0x17000155 RID: 341
-			// (get) Token: 0x06000F19 RID: 3865 RVA: 0x0006AA09 File Offset: 0x00068C09
 			public override TextObject Title
 			{
 				get
@@ -601,8 +512,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000156 RID: 342
-			// (get) Token: 0x06000F1A RID: 3866 RVA: 0x0006AA32 File Offset: 0x00068C32
 			public override bool IsRemainingTimeHidden
 			{
 				get
@@ -611,8 +520,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000157 RID: 343
-			// (get) Token: 0x06000F1B RID: 3867 RVA: 0x0006AA35 File Offset: 0x00068C35
 			private Settlement Settlement
 			{
 				get
@@ -621,8 +528,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000158 RID: 344
-			// (get) Token: 0x06000F1C RID: 3868 RVA: 0x0006AA42 File Offset: 0x00068C42
 			private int DebtWithInterest
 			{
 				get
@@ -631,8 +536,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000159 RID: 345
-			// (get) Token: 0x06000F1D RID: 3869 RVA: 0x0006AA54 File Offset: 0x00068C54
 			private TextObject QuestStartedLog
 			{
 				get
@@ -646,8 +549,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015A RID: 346
-			// (get) Token: 0x06000F1E RID: 3870 RVA: 0x0006AAD4 File Offset: 0x00068CD4
 			private TextObject PlayerDefeatsThugsQuestSuccessLog
 			{
 				get
@@ -660,8 +561,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015B RID: 347
-			// (get) Token: 0x06000F1F RID: 3871 RVA: 0x0006AB30 File Offset: 0x00068D30
 			private TextObject PlayerPaysTheDebtQuestSuccessLog
 			{
 				get
@@ -675,8 +574,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015C RID: 348
-			// (get) Token: 0x06000F20 RID: 3872 RVA: 0x0006ABA4 File Offset: 0x00068DA4
 			private TextObject QuestTimeOutFailLog
 			{
 				get
@@ -688,8 +585,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015D RID: 349
-			// (get) Token: 0x06000F21 RID: 3873 RVA: 0x0006ABF0 File Offset: 0x00068DF0
 			private TextObject PlayerHasDefeatedQuestFailLog
 			{
 				get
@@ -701,8 +596,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015E RID: 350
-			// (get) Token: 0x06000F22 RID: 3874 RVA: 0x0006AC3C File Offset: 0x00068E3C
 			private TextObject PlayerConvincesGangLeaderQuestSuccessLog
 			{
 				get
@@ -716,8 +609,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x1700015F RID: 351
-			// (get) Token: 0x06000F23 RID: 3875 RVA: 0x0006ACB0 File Offset: 0x00068EB0
 			private TextObject WarDeclaredQuestCancelLog
 			{
 				get
@@ -728,8 +619,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000160 RID: 352
-			// (get) Token: 0x06000F24 RID: 3876 RVA: 0x0006ACE4 File Offset: 0x00068EE4
 			private TextObject PlayerDeclaredWarQuestLogText
 			{
 				get
@@ -740,8 +629,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x17000161 RID: 353
-			// (get) Token: 0x06000F25 RID: 3877 RVA: 0x0006AD16 File Offset: 0x00068F16
 			private TextObject CrimeRatingCancelLog
 			{
 				get
@@ -753,7 +640,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F26 RID: 3878 RVA: 0x0006AD51 File Offset: 0x00068F51
 			public ProdigalSonIssueQuest(string questId, Hero questGiver, Hero targetHero, Hero prodigalSon, Location targetHouse, float questDifficulty, CampaignTime duration, int rewardGold)
 				: base(questId, questGiver, duration, rewardGold)
 			{
@@ -765,7 +651,6 @@ namespace SandBox.Issues
 				base.InitializeQuestOnCreation();
 			}
 
-			// Token: 0x06000F27 RID: 3879 RVA: 0x0006AD8C File Offset: 0x00068F8C
 			protected override void SetDialogs()
 			{
 				TextObject textObject = new TextObject("{=bQnVtegC}Good, even better. You can find the house easily when you go to {SETTLEMENT} and walk around the town square. Or you could just speak to this gang leader, {TARGET_HERO.LINK}, and make {?TARGET_HERO.GENDER}her{?}him{\\?} understand and get my boy released. Good luck. I await good news.", null);
@@ -791,13 +676,11 @@ namespace SandBox.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetProdigalSonDialogFlow(), this);
 			}
 
-			// Token: 0x06000F28 RID: 3880 RVA: 0x0006AF1D File Offset: 0x0006911D
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
 			}
 
-			// Token: 0x06000F29 RID: 3881 RVA: 0x0006AF28 File Offset: 0x00069128
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.BeforeMissionOpenedEvent.AddNonSerializedListener(this, new Action(this.BeforeMissionOpened));
@@ -808,7 +691,6 @@ namespace SandBox.Issues
 				CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionStarted));
 			}
 
-			// Token: 0x06000F2A RID: 3882 RVA: 0x0006AFBF File Offset: 0x000691BF
 			private void OnMissionStarted(IMission mission)
 			{
 				ICampaignMission campaignMission = CampaignMission.Current;
@@ -818,7 +700,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F2B RID: 3883 RVA: 0x0006AFE1 File Offset: 0x000691E1
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == this._prodigalSon || hero == this._targetHero)
@@ -827,7 +708,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F2C RID: 3884 RVA: 0x0006AFF8 File Offset: 0x000691F8
 			public override void OnHeroCanMoveToSettlementInfoIsRequested(Hero hero, ref bool result)
 			{
 				if (hero == this._prodigalSon)
@@ -836,7 +716,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F2D RID: 3885 RVA: 0x0006B006 File Offset: 0x00069206
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 			{
 				if (QuestHelper.CheckMinorMajorCoercion(this, mapEvent, attackerParty))
@@ -845,7 +724,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F2E RID: 3886 RVA: 0x0006B01C File Offset: 0x0006921C
 			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 			{
 				if (victim == this._targetHero || victim == this._prodigalSon)
@@ -858,19 +736,16 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F2F RID: 3887 RVA: 0x0006B089 File Offset: 0x00069289
 			protected override void OnTimedOut()
 			{
 				this.FinishQuestFail1();
 			}
 
-			// Token: 0x06000F30 RID: 3888 RVA: 0x0006B091 File Offset: 0x00069291
 			protected override void OnFinalize()
 			{
 				this._targetHouse.RemoveReservation();
 			}
 
-			// Token: 0x06000F31 RID: 3889 RVA: 0x0006B0A0 File Offset: 0x000692A0
 			private void BeforeMissionOpened()
 			{
 				if (Settlement.CurrentSettlement == this.Settlement && LocationComplex.Current != null)
@@ -898,7 +773,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F32 RID: 3890 RVA: 0x0006B174 File Offset: 0x00069374
 			private void OnMissionTick(float dt)
 			{
 				if (CampaignMission.Current.Location == this._targetHouse)
@@ -935,7 +809,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F33 RID: 3891 RVA: 0x0006B2E0 File Offset: 0x000694E0
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
 				if (base.QuestGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
@@ -958,7 +831,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F34 RID: 3892 RVA: 0x0006B368 File Offset: 0x00069568
 			private void HouseFightFinished(bool isPlayerSideWon)
 			{
 				if (isPlayerSideWon)
@@ -983,7 +855,6 @@ namespace SandBox.Issues
 				this._isHouseFightFinished = true;
 			}
 
-			// Token: 0x06000F35 RID: 3893 RVA: 0x0006B401 File Offset: 0x00069601
 			private bool OnTargetReached(Agent agent, ref Agent targetAgent, ref UsableMachine targetUsableMachine, ref WorldFrame targetFrame)
 			{
 				Mission.Current.GetMissionBehavior<MissionConversationLogic>().StartConversation(agent, false, false);
@@ -991,7 +862,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F36 RID: 3894 RVA: 0x0006B41C File Offset: 0x0006961C
 			private bool SelectPlayerAsTarget(Agent agent, ref Agent targetAgent, ref UsableMachine targetUsableMachine, ref WorldFrame targetFrame)
 			{
 				targetAgent = null;
@@ -1002,7 +872,6 @@ namespace SandBox.Issues
 				return targetAgent != null;
 			}
 
-			// Token: 0x06000F37 RID: 3895 RVA: 0x0006B460 File Offset: 0x00069660
 			private void SpawnProdigalSonInHouse()
 			{
 				Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(this._prodigalSon.CharacterObject.Race, "_settlement");
@@ -1010,7 +879,6 @@ namespace SandBox.Issues
 				this._targetHouse.AddCharacter(locationCharacter);
 			}
 
-			// Token: 0x06000F38 RID: 3896 RVA: 0x0006B4E4 File Offset: 0x000696E4
 			private void SpawnThugsInHouse()
 			{
 				CharacterObject @object = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_1");
@@ -1046,7 +914,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F39 RID: 3897 RVA: 0x0006B634 File Offset: 0x00069834
 			private void QuestAcceptedConsequences()
 			{
 				base.StartQuest();
@@ -1055,7 +922,6 @@ namespace SandBox.Issues
 				base.AddLog(this.QuestStartedLog, false);
 			}
 
-			// Token: 0x06000F3A RID: 3898 RVA: 0x0006B664 File Offset: 0x00069864
 			private DialogFlow GetProdigalSonDialogFlow()
 			{
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=DYq30shK}Thank you, {?PLAYER.GENDER}milady{?}sir{\\?}.", null, null).Condition(() => Hero.OneToOneConversationHero == this._prodigalSon)
@@ -1076,7 +942,6 @@ namespace SandBox.Issues
 					.CloseDialog();
 			}
 
-			// Token: 0x06000F3B RID: 3899 RVA: 0x0006B6F0 File Offset: 0x000698F0
 			private DialogFlow GetTargetHeroDialogFlow()
 			{
 				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=M0vxXQGB}Yes? Do you have something to say?", null), () => Hero.OneToOneConversationHero == this._targetHero && !this._playerTalkedToTargetHero, null, null)
@@ -1134,7 +999,6 @@ namespace SandBox.Issues
 				return dialogFlow;
 			}
 
-			// Token: 0x06000F3C RID: 3900 RVA: 0x0006B81C File Offset: 0x00069A1C
 			private void AddPersuasionDialogs(DialogFlow dialog)
 			{
 				dialog.AddDialogLine("persuade_gang_introduction", "persuade_gang_start_reservation", "persuade_gang_player_option", "{=EIsQnfLP}Tell me how it's in my interest...", new ConversationSentence.OnConditionDelegate(this.persuasion_start_on_condition), null, this, 100, null, null, null);
@@ -1170,13 +1034,11 @@ namespace SandBox.Issues
 				dialog.AddDialogLine("persuade_gang_option_reaction", "persuade_gang_player_option_response", "persuade_gang_start_reservation", "{=!}{PERSUASION_REACTION}", new ConversationSentence.OnConditionDelegate(this.persuasion_selected_option_response_on_condition), new ConversationSentence.OnConsequenceDelegate(this.persuasion_selected_option_response_on_consequence), this, 100, null, null, null);
 			}
 
-			// Token: 0x06000F3D RID: 3901 RVA: 0x0006B9F6 File Offset: 0x00069BF6
 			private bool is_talking_to_quest_giver()
 			{
 				return Hero.OneToOneConversationHero == base.QuestGiver;
 			}
 
-			// Token: 0x06000F3E RID: 3902 RVA: 0x0006BA08 File Offset: 0x00069C08
 			private bool persuasion_start_on_condition()
 			{
 				if (Hero.OneToOneConversationHero == this._targetHero && !ConversationManager.GetPersuasionIsFailure())
@@ -1186,7 +1048,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F3F RID: 3903 RVA: 0x0006BA5C File Offset: 0x00069C5C
 			private void persuasion_selected_option_response_on_consequence()
 			{
 				Tuple<PersuasionOptionArgs, PersuasionOptionResult> tuple = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>();
@@ -1197,7 +1058,6 @@ namespace SandBox.Issues
 				this._task.ApplyEffects(num, num2);
 			}
 
-			// Token: 0x06000F40 RID: 3904 RVA: 0x0006BAB8 File Offset: 0x00069CB8
 			private bool persuasion_selected_option_response_on_condition()
 			{
 				PersuasionOptionResult item = ConversationManager.GetPersuasionChosenOptions().Last<Tuple<PersuasionOptionArgs, PersuasionOptionResult>>().Item2;
@@ -1209,7 +1069,6 @@ namespace SandBox.Issues
 				return true;
 			}
 
-			// Token: 0x06000F41 RID: 3905 RVA: 0x0006BAF8 File Offset: 0x00069CF8
 			private bool persuasion_select_option_1_on_condition()
 			{
 				if (this._task.Options.Count > 0)
@@ -1223,7 +1082,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F42 RID: 3906 RVA: 0x0006BB78 File Offset: 0x00069D78
 			private bool persuasion_select_option_2_on_condition()
 			{
 				if (this._task.Options.Count > 1)
@@ -1237,7 +1095,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F43 RID: 3907 RVA: 0x0006BBF8 File Offset: 0x00069DF8
 			private bool persuasion_select_option_3_on_condition()
 			{
 				if (this._task.Options.Count > 2)
@@ -1251,7 +1108,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F44 RID: 3908 RVA: 0x0006BC78 File Offset: 0x00069E78
 			private void persuasion_select_option_1_on_consequence()
 			{
 				if (this._task.Options.Count > 0)
@@ -1260,7 +1116,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F45 RID: 3909 RVA: 0x0006BCA4 File Offset: 0x00069EA4
 			private void persuasion_select_option_2_on_consequence()
 			{
 				if (this._task.Options.Count > 1)
@@ -1269,7 +1124,6 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F46 RID: 3910 RVA: 0x0006BCD0 File Offset: 0x00069ED0
 			private void persuasion_select_option_3_on_consequence()
 			{
 				if (this._task.Options.Count > 2)
@@ -1278,25 +1132,21 @@ namespace SandBox.Issues
 				}
 			}
 
-			// Token: 0x06000F47 RID: 3911 RVA: 0x0006BCFC File Offset: 0x00069EFC
 			private PersuasionOptionArgs persuasion_setup_option_1()
 			{
 				return this._task.Options.ElementAt(0);
 			}
 
-			// Token: 0x06000F48 RID: 3912 RVA: 0x0006BD0F File Offset: 0x00069F0F
 			private PersuasionOptionArgs persuasion_setup_option_2()
 			{
 				return this._task.Options.ElementAt(1);
 			}
 
-			// Token: 0x06000F49 RID: 3913 RVA: 0x0006BD22 File Offset: 0x00069F22
 			private PersuasionOptionArgs persuasion_setup_option_3()
 			{
 				return this._task.Options.ElementAt(2);
 			}
 
-			// Token: 0x06000F4A RID: 3914 RVA: 0x0006BD38 File Offset: 0x00069F38
 			private bool persuasion_clickable_option_1_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1308,7 +1158,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F4B RID: 3915 RVA: 0x0006BDA4 File Offset: 0x00069FA4
 			private bool persuasion_clickable_option_2_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1320,7 +1169,6 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F4C RID: 3916 RVA: 0x0006BE10 File Offset: 0x0006A010
 			private bool persuasion_clickable_option_3_on_condition(out TextObject hintText)
 			{
 				hintText = new TextObject("{=9ACJsI6S}Blocked", null);
@@ -1332,14 +1180,12 @@ namespace SandBox.Issues
 				return false;
 			}
 
-			// Token: 0x06000F4D RID: 3917 RVA: 0x0006BE7B File Offset: 0x0006A07B
 			private void persuasion_success_on_consequence()
 			{
 				ConversationManager.EndPersuasion();
 				this.FinishQuestSuccess3();
 			}
 
-			// Token: 0x06000F4E RID: 3918 RVA: 0x0006BE88 File Offset: 0x0006A088
 			private void OnEndHouseMissionDialog()
 			{
 				Campaign.Current.GameMenuManager.NextLocation = LocationComplex.Current.GetLocationWithId("center");
@@ -1348,7 +1194,6 @@ namespace SandBox.Issues
 				this.FinishQuestSuccess1();
 			}
 
-			// Token: 0x06000F4F RID: 3919 RVA: 0x0006BEDC File Offset: 0x0006A0DC
 			private PersuasionTask GetPersuasionTask()
 			{
 				PersuasionTask persuasionTask = new PersuasionTask(0);
@@ -1364,13 +1209,11 @@ namespace SandBox.Issues
 				return persuasionTask;
 			}
 
-			// Token: 0x06000F50 RID: 3920 RVA: 0x0006BF92 File Offset: 0x0006A192
 			private void persuasion_start_on_consequence()
 			{
 				ConversationManager.StartPersuasion(2f, 1f, 1f, 2f, 2f, 0f, 5);
 			}
 
-			// Token: 0x06000F51 RID: 3921 RVA: 0x0006BFB8 File Offset: 0x0006A1B8
 			private void FinishQuestSuccess1()
 			{
 				base.CompleteQuestWithSuccess();
@@ -1380,7 +1223,6 @@ namespace SandBox.Issues
 				GiveGoldAction.ApplyForQuestBetweenCharacters(base.QuestGiver, Hero.MainHero, this.RewardGold, false);
 			}
 
-			// Token: 0x06000F52 RID: 3922 RVA: 0x0006C010 File Offset: 0x0006A210
 			private void FinishQuestSuccess3()
 			{
 				base.CompleteQuestWithSuccess();
@@ -1390,7 +1232,6 @@ namespace SandBox.Issues
 				GiveGoldAction.ApplyForQuestBetweenCharacters(base.QuestGiver, Hero.MainHero, this.RewardGold, false);
 			}
 
-			// Token: 0x06000F53 RID: 3923 RVA: 0x0006C068 File Offset: 0x0006A268
 			private void FinishQuestSuccess4()
 			{
 				GainRenownAction.Apply(Hero.MainHero, 1f, false);
@@ -1401,14 +1242,12 @@ namespace SandBox.Issues
 				GiveGoldAction.ApplyForQuestBetweenCharacters(base.QuestGiver, Hero.MainHero, this.RewardGold, false);
 			}
 
-			// Token: 0x06000F54 RID: 3924 RVA: 0x0006C0D5 File Offset: 0x0006A2D5
 			private void FinishQuestFail1()
 			{
 				base.AddLog(this.QuestTimeOutFailLog, false);
 				ChangeRelationAction.ApplyPlayerRelation(base.QuestGiver, -5, true, true);
 			}
 
-			// Token: 0x06000F55 RID: 3925 RVA: 0x0006C0F4 File Offset: 0x0006A2F4
 			private void FinishQuestFail2()
 			{
 				base.CompleteQuestWithFail(null);
@@ -1416,13 +1255,11 @@ namespace SandBox.Issues
 				ChangeRelationAction.ApplyPlayerRelation(base.QuestGiver, -5, true, true);
 			}
 
-			// Token: 0x06000F56 RID: 3926 RVA: 0x0006C11A File Offset: 0x0006A31A
 			internal static void AutoGeneratedStaticCollectObjectsProdigalSonIssueQuest(object o, List<object> collectedObjects)
 			{
 				((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 			}
 
-			// Token: 0x06000F57 RID: 3927 RVA: 0x0006C128 File Offset: 0x0006A328
 			protected override void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
@@ -1431,95 +1268,74 @@ namespace SandBox.Issues
 				collectedObjects.Add(this._targetHouse);
 			}
 
-			// Token: 0x06000F58 RID: 3928 RVA: 0x0006C155 File Offset: 0x0006A355
 			internal static object AutoGeneratedGetMemberValue_targetHero(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._targetHero;
 			}
 
-			// Token: 0x06000F59 RID: 3929 RVA: 0x0006C162 File Offset: 0x0006A362
 			internal static object AutoGeneratedGetMemberValue_prodigalSon(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._prodigalSon;
 			}
 
-			// Token: 0x06000F5A RID: 3930 RVA: 0x0006C16F File Offset: 0x0006A36F
 			internal static object AutoGeneratedGetMemberValue_playerTalkedToTargetHero(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._playerTalkedToTargetHero;
 			}
 
-			// Token: 0x06000F5B RID: 3931 RVA: 0x0006C181 File Offset: 0x0006A381
 			internal static object AutoGeneratedGetMemberValue_targetHouse(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._targetHouse;
 			}
 
-			// Token: 0x06000F5C RID: 3932 RVA: 0x0006C18E File Offset: 0x0006A38E
 			internal static object AutoGeneratedGetMemberValue_questDifficulty(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._questDifficulty;
 			}
 
-			// Token: 0x06000F5D RID: 3933 RVA: 0x0006C1A0 File Offset: 0x0006A3A0
 			internal static object AutoGeneratedGetMemberValue_isHouseFightFinished(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._isHouseFightFinished;
 			}
 
-			// Token: 0x06000F5E RID: 3934 RVA: 0x0006C1B2 File Offset: 0x0006A3B2
 			internal static object AutoGeneratedGetMemberValue_playerTriedToPersuade(object o)
 			{
 				return ((ProdigalSonIssueBehavior.ProdigalSonIssueQuest)o)._playerTriedToPersuade;
 			}
 
-			// Token: 0x04000640 RID: 1600
 			private const PersuasionDifficulty Difficulty = 5;
 
-			// Token: 0x04000641 RID: 1601
 			private const int DistanceSquaredToStartConversation = 4;
 
-			// Token: 0x04000642 RID: 1602
 			private const int CrimeRatingCancelRelationshipPenalty = -5;
 
-			// Token: 0x04000643 RID: 1603
 			private const int CrimeRatingCancelHonorXpPenalty = -50;
 
-			// Token: 0x04000644 RID: 1604
 			[SaveableField(10)]
 			private readonly Hero _targetHero;
 
-			// Token: 0x04000645 RID: 1605
 			[SaveableField(20)]
 			private readonly Hero _prodigalSon;
 
-			// Token: 0x04000646 RID: 1606
 			[SaveableField(30)]
 			private bool _playerTalkedToTargetHero;
 
-			// Token: 0x04000647 RID: 1607
 			[SaveableField(40)]
 			private readonly Location _targetHouse;
 
-			// Token: 0x04000648 RID: 1608
 			[SaveableField(50)]
 			private readonly float _questDifficulty;
 
-			// Token: 0x04000649 RID: 1609
 			[SaveableField(60)]
 			private bool _isHouseFightFinished;
 
-			// Token: 0x0400064A RID: 1610
 			[SaveableField(70)]
 			private bool _playerTriedToPersuade;
 
-			// Token: 0x0400064B RID: 1611
 			private PersuasionTask _task;
 
-			// Token: 0x0400064C RID: 1612
 			private bool _isMissionFightInitialized;
 
-			// Token: 0x0400064D RID: 1613
 			private bool _isFirstMissionTick;
 		}
 	}

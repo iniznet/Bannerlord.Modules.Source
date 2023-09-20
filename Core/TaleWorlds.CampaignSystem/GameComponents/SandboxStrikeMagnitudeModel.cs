@@ -6,16 +6,13 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000150 RID: 336
 	public class SandboxStrikeMagnitudeModel : StrikeMagnitudeCalculationModel
 	{
-		// Token: 0x0600182B RID: 6187 RVA: 0x0007AB3E File Offset: 0x00078D3E
 		public override float CalculateHorseArcheryFactor(BasicCharacterObject characterObject)
 		{
 			return 100f;
 		}
 
-		// Token: 0x0600182C RID: 6188 RVA: 0x0007AB48 File Offset: 0x00078D48
 		public override float CalculateStrikeMagnitudeForSwing(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float swingSpeed, float impactPointAsPercent, float weaponWeight, WeaponComponentData weaponUsageComponent, float weaponLength, float weaponInertia, float weaponCoM, float extraLinearSpeed, bool doesAttackerHaveMount)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
@@ -53,7 +50,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return CombatStatCalculator.CalculateStrikeMagnitudeForSwing(swingSpeed, impactPointAsPercent, weaponWeight, weaponLength, weaponInertia, weaponCoM, explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x0600182D RID: 6189 RVA: 0x0007AC58 File Offset: 0x00078E58
 		public override float CalculateStrikeMagnitudeForThrust(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float thrustWeaponSpeed, float weaponWeight, WeaponComponentData weaponUsageComponent, float extraLinearSpeed, bool doesAttackerHaveMount, bool isThrown = false)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
@@ -84,7 +80,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return CombatStatCalculator.CalculateStrikeMagnitudeForThrust(thrustWeaponSpeed, weaponWeight, explainedNumber.ResultNumber, isThrown);
 		}
 
-		// Token: 0x0600182E RID: 6190 RVA: 0x0007AD30 File Offset: 0x00078F30
 		public override float CalculateSpeedBonusMultiplierForMissile(BasicCharacterObject attackerCharacter, WeaponClass ammoClass)
 		{
 			float num = 0f;
@@ -96,7 +91,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600182F RID: 6191 RVA: 0x0007AD8C File Offset: 0x00078F8C
 		public override float ComputeRawDamage(DamageTypes damageType, float magnitude, float armorEffectiveness, float absorbedDamageRatio)
 		{
 			float bluntDamageFactorByDamageType = this.GetBluntDamageFactorByDamageType(damageType);
@@ -123,7 +117,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num3 * absorbedDamageRatio;
 		}
 
-		// Token: 0x06001830 RID: 6192 RVA: 0x0007AE44 File Offset: 0x00079044
 		public override float GetBluntDamageFactorByDamageType(DamageTypes damageType)
 		{
 			float num = 0f;
@@ -142,7 +135,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001831 RID: 6193 RVA: 0x0007AE84 File Offset: 0x00079084
 		public override float CalculateAdjustedArmorForBlow(float baseArmor, BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, BasicCharacterObject victimCharacter, BasicCharacterObject victimCaptainCharacter, WeaponComponentData weaponComponent)
 		{
 			bool flag = false;

@@ -18,11 +18,8 @@ using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
-	// Token: 0x0200001F RID: 31
 	public class Army
 	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x060000F6 RID: 246 RVA: 0x0000C443 File Offset: 0x0000A643
 		public MBReadOnlyList<MobileParty> Parties
 		{
 			get
@@ -31,8 +28,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x060000F7 RID: 247 RVA: 0x0000C44B File Offset: 0x0000A64B
 		public TextObject EncyclopediaLinkWithName
 		{
 			get
@@ -41,32 +36,18 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x060000F8 RID: 248 RVA: 0x0000C458 File Offset: 0x0000A658
-		// (set) Token: 0x060000F9 RID: 249 RVA: 0x0000C460 File Offset: 0x0000A660
 		[SaveableProperty(2)]
 		public Army.AIBehaviorFlags AIBehavior { get; set; }
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x060000FA RID: 250 RVA: 0x0000C469 File Offset: 0x0000A669
-		// (set) Token: 0x060000FB RID: 251 RVA: 0x0000C471 File Offset: 0x0000A671
 		[SaveableProperty(3)]
 		public Army.ArmyTypes ArmyType { get; set; }
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x060000FC RID: 252 RVA: 0x0000C47A File Offset: 0x0000A67A
-		// (set) Token: 0x060000FD RID: 253 RVA: 0x0000C482 File Offset: 0x0000A682
 		[SaveableProperty(4)]
 		public Hero ArmyOwner { get; set; }
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x060000FE RID: 254 RVA: 0x0000C48B File Offset: 0x0000A68B
-		// (set) Token: 0x060000FF RID: 255 RVA: 0x0000C493 File Offset: 0x0000A693
 		[SaveableProperty(5)]
 		public float Cohesion { get; set; }
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x06000100 RID: 256 RVA: 0x0000C49C File Offset: 0x0000A69C
 		public float DailyCohesionChange
 		{
 			get
@@ -75,8 +56,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x06000101 RID: 257 RVA: 0x0000C4C7 File Offset: 0x0000A6C7
 		public ExplainedNumber DailyCohesionChangeExplanation
 		{
 			get
@@ -85,8 +64,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000102 RID: 258 RVA: 0x0000C4DF File Offset: 0x0000A6DF
 		public int CohesionThresholdForDispersion
 		{
 			get
@@ -95,20 +72,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x1700000A RID: 10
-		// (get) Token: 0x06000103 RID: 259 RVA: 0x0000C4F5 File Offset: 0x0000A6F5
-		// (set) Token: 0x06000104 RID: 260 RVA: 0x0000C4FD File Offset: 0x0000A6FD
 		[SaveableProperty(13)]
 		public float Morale { get; private set; }
 
-		// Token: 0x1700000B RID: 11
-		// (get) Token: 0x06000105 RID: 261 RVA: 0x0000C506 File Offset: 0x0000A706
-		// (set) Token: 0x06000106 RID: 262 RVA: 0x0000C50E File Offset: 0x0000A70E
 		[SaveableProperty(14)]
 		public MobileParty LeaderParty { get; private set; }
 
-		// Token: 0x1700000C RID: 12
-		// (get) Token: 0x06000107 RID: 263 RVA: 0x0000C517 File Offset: 0x0000A717
 		public int LeaderPartyAndAttachedPartiesCount
 		{
 			get
@@ -117,14 +86,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000108 RID: 264 RVA: 0x0000C52B File Offset: 0x0000A72B
 		public override string ToString()
 		{
 			return this.Name.ToString();
 		}
 
-		// Token: 0x1700000D RID: 13
-		// (get) Token: 0x06000109 RID: 265 RVA: 0x0000C538 File Offset: 0x0000A738
 		public float TotalStrength
 		{
 			get
@@ -138,9 +104,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x1700000E RID: 14
-		// (get) Token: 0x0600010A RID: 266 RVA: 0x0000C5AC File Offset: 0x0000A7AC
-		// (set) Token: 0x0600010B RID: 267 RVA: 0x0000C5B4 File Offset: 0x0000A7B4
 		public Kingdom Kingdom
 		{
 			get
@@ -167,8 +130,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x1700000F RID: 15
-		// (get) Token: 0x0600010C RID: 268 RVA: 0x0000C5E9 File Offset: 0x0000A7E9
 		public Kingdom MapFaction
 		{
 			get
@@ -177,9 +138,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000010 RID: 16
-		// (get) Token: 0x0600010D RID: 269 RVA: 0x0000C5F1 File Offset: 0x0000A7F1
-		// (set) Token: 0x0600010E RID: 270 RVA: 0x0000C5FC File Offset: 0x0000A7FC
 		public IMapPoint AiBehaviorObject
 		{
 			get
@@ -201,14 +159,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000011 RID: 17
-		// (get) Token: 0x0600010F RID: 271 RVA: 0x0000C64F File Offset: 0x0000A84F
-		// (set) Token: 0x06000110 RID: 272 RVA: 0x0000C657 File Offset: 0x0000A857
 		[SaveableProperty(17)]
 		public TextObject Name { get; private set; }
 
-		// Token: 0x17000012 RID: 18
-		// (get) Token: 0x06000111 RID: 273 RVA: 0x0000C660 File Offset: 0x0000A860
 		public int TotalHealthyMembers
 		{
 			get
@@ -217,8 +170,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x06000112 RID: 274 RVA: 0x0000C6B0 File Offset: 0x0000A8B0
 		public int TotalManCount
 		{
 			get
@@ -227,8 +178,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x06000113 RID: 275 RVA: 0x0000C704 File Offset: 0x0000A904
 		public int TotalRegularCount
 		{
 			get
@@ -237,7 +186,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x0000C758 File Offset: 0x0000A958
 		public Army(Kingdom kingdom, MobileParty leaderParty, Army.ArmyTypes armyType)
 		{
 			this.Kingdom = kingdom;
@@ -253,14 +201,12 @@ namespace TaleWorlds.CampaignSystem
 			this.Cohesion = 100f;
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x0000C7D8 File Offset: 0x0000A9D8
 		public void UpdateName()
 		{
 			this.Name = new TextObject("{=nbmctMLk}{LEADER_NAME}{.o} Army", null);
 			this.Name.SetTextVariable("LEADER_NAME", (this.ArmyOwner != null) ? this.ArmyOwner.Name : ((this.LeaderParty.PartyComponent.PartyOwner != null) ? this.LeaderParty.PartyComponent.PartyOwner.Name : TextObject.Empty));
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x0000C84C File Offset: 0x0000AA4C
 		private void AddEventHandlers()
 		{
 			if (this._creationTime == default(CampaignTime))
@@ -275,13 +221,11 @@ namespace TaleWorlds.CampaignSystem
 			this._tickEvent.AddHandler(new MBCampaignEvent.CampaignEventDelegate(this.Tick));
 		}
 
-		// Token: 0x06000117 RID: 279 RVA: 0x0000C914 File Offset: 0x0000AB14
 		internal void OnAfterLoad()
 		{
 			this.AddEventHandlers();
 		}
 
-		// Token: 0x06000118 RID: 280 RVA: 0x0000C91C File Offset: 0x0000AB1C
 		[LoadInitializationCallback]
 		private void OnLoad(MetaData metaData)
 		{
@@ -291,13 +235,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000119 RID: 281 RVA: 0x0000C92D File Offset: 0x0000AB2D
 		public bool DoesLeaderPartyAndAttachedPartiesContain(MobileParty party)
 		{
 			return this.LeaderParty == party || this.LeaderParty.AttachedParties.IndexOf(party) >= 0;
 		}
 
-		// Token: 0x0600011A RID: 282 RVA: 0x0000C954 File Offset: 0x0000AB54
 		public void BoostCohesionWithInfluence(float cohesionToGain, int cost)
 		{
 			if (this.LeaderParty.LeaderHero.Clan.Influence >= (float)cost)
@@ -308,7 +250,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600011B RID: 283 RVA: 0x0000C9B0 File Offset: 0x0000ABB0
 		private void ThinkAboutCohesionBoost()
 		{
 			float num = 0f;
@@ -348,7 +289,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600011C RID: 284 RVA: 0x0000CBB4 File Offset: 0x0000ADB4
 		public void RecalculateArmyMorale()
 		{
 			float num = 0f;
@@ -359,7 +299,6 @@ namespace TaleWorlds.CampaignSystem
 			this.Morale = num / (float)this.Parties.Count;
 		}
 
-		// Token: 0x0600011D RID: 285 RVA: 0x0000CC24 File Offset: 0x0000AE24
 		private void HourlyTick(MBCampaignEvent campaignEvent, object[] delegateParams)
 		{
 			if (this.LeaderParty.MapEvent != null)
@@ -428,7 +367,6 @@ namespace TaleWorlds.CampaignSystem
 			this.ApplyHostileActionInfluenceAwards();
 		}
 
-		// Token: 0x0600011E RID: 286 RVA: 0x0000CD64 File Offset: 0x0000AF64
 		private void Tick(MBCampaignEvent campaignevent, object[] delegateparams)
 		{
 			foreach (MobileParty mobileParty in this._parties)
@@ -445,7 +383,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600011F RID: 287 RVA: 0x0000CE44 File Offset: 0x0000B044
 		private void CheckArmyDispersion()
 		{
 			if (this.LeaderParty == MobileParty.MainParty)
@@ -497,7 +434,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000120 RID: 288 RVA: 0x0000CF90 File Offset: 0x0000B190
 		private void MoveLeaderToGatheringLocationIfNeeded()
 		{
 			if (this.AiBehaviorObject != null && (this.AIBehavior == Army.AIBehaviorFlags.Gathering || this.AIBehavior == Army.AIBehaviorFlags.WaitingForArmyMembers) && this.LeaderParty.MapEvent == null && this.LeaderParty.ShortTermBehavior == AiBehavior.Hold)
@@ -511,7 +447,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000121 RID: 289 RVA: 0x0000D01C File Offset: 0x0000B21C
 		private void CheckMainPartyTravelingToAssignment()
 		{
 			float num;
@@ -521,7 +456,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000122 RID: 290 RVA: 0x0000D06C File Offset: 0x0000B26C
 		private void CallArmyMembersToArmyIfNeeded()
 		{
 			for (int i = this.Parties.Count - 1; i >= 0; i--)
@@ -538,7 +472,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000123 RID: 291 RVA: 0x0000D0EC File Offset: 0x0000B2EC
 		private void ApplyHostileActionInfluenceAwards()
 		{
 			if (this.LeaderParty.LeaderHero != null && this.LeaderParty.MapEvent != null)
@@ -557,7 +490,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000124 RID: 292 RVA: 0x0000D1C0 File Offset: 0x0000B3C0
 		private void CheckMainPartyGathering()
 		{
 			float num;
@@ -567,7 +499,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000125 RID: 293 RVA: 0x0000D210 File Offset: 0x0000B410
 		private Army.MainPartyCurrentAction GetMainPartyCurrentAction()
 		{
 			if (PlayerEncounter.EncounterSettlement == null)
@@ -597,7 +528,6 @@ namespace TaleWorlds.CampaignSystem
 			return Army.MainPartyCurrentAction.GoToSettlement;
 		}
 
-		// Token: 0x06000126 RID: 294 RVA: 0x0000D280 File Offset: 0x0000B480
 		public static Army.ArmyLeaderThinkReason GetBehaviorChangeExplanation(Army.AIBehaviorFlags previousBehavior, Army.AIBehaviorFlags currentBehavior)
 		{
 			switch (previousBehavior)
@@ -681,7 +611,6 @@ namespace TaleWorlds.CampaignSystem
 			return Army.ArmyLeaderThinkReason.Unknown;
 		}
 
-		// Token: 0x06000127 RID: 295 RVA: 0x0000D33C File Offset: 0x0000B53C
 		public TextObject GetNotificationText()
 		{
 			if (this.LeaderParty != MobileParty.MainParty)
@@ -694,7 +623,6 @@ namespace TaleWorlds.CampaignSystem
 			return null;
 		}
 
-		// Token: 0x06000128 RID: 296 RVA: 0x0000D39C File Offset: 0x0000B59C
 		public TextObject GetBehaviorText(bool setWithLink = false)
 		{
 			if (this.LeaderParty == MobileParty.MainParty)
@@ -877,7 +805,6 @@ namespace TaleWorlds.CampaignSystem
 			return new TextObject("{=av14a64q}Thinking", null);
 		}
 
-		// Token: 0x06000129 RID: 297 RVA: 0x0000DA58 File Offset: 0x0000BC58
 		public void Gather(Settlement initialHostileSettlement)
 		{
 			this._armyGatheringTime = Campaign.CurrentTime;
@@ -896,7 +823,6 @@ namespace TaleWorlds.CampaignSystem
 			GatherArmyAction.Apply(this.LeaderParty, (Settlement)this.AiBehaviorObject);
 		}
 
-		// Token: 0x0600012A RID: 298 RVA: 0x0000DB04 File Offset: 0x0000BD04
 		private Settlement FindBestInitialGatheringSettlement(Settlement initialHostileTargetSettlement)
 		{
 			Settlement settlement = null;
@@ -971,7 +897,6 @@ namespace TaleWorlds.CampaignSystem
 			return settlement;
 		}
 
-		// Token: 0x0600012B RID: 299 RVA: 0x0000DD60 File Offset: 0x0000BF60
 		private void CallPartiesToArmy()
 		{
 			foreach (MobileParty mobileParty in Campaign.Current.Models.ArmyManagementCalculationModel.GetMobilePartiesToCallToArmy(this.LeaderParty))
@@ -985,7 +910,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600012C RID: 300 RVA: 0x0000DE10 File Offset: 0x0000C010
 		public void ThinkAboutConcludingArmyGathering()
 		{
 			float currentTime = Campaign.CurrentTime;
@@ -1011,7 +935,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600012D RID: 301 RVA: 0x0000DEAC File Offset: 0x0000C0AC
 		public void ThinkAboutTravelingToAssignment()
 		{
 			bool flag = false;
@@ -1032,14 +955,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x0000DF3C File Offset: 0x0000C13C
 		private bool AnyoneBesiegingTarget()
 		{
 			Settlement settlement = (Settlement)this.AiBehaviorObject;
 			return this.ArmyType == Army.ArmyTypes.Besieger && settlement.IsUnderSiege && !settlement.SiegeEvent.BesiegerCamp.IsBesiegerSideParty(this.LeaderParty);
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x0000DF80 File Offset: 0x0000C180
 		private void IsAtSiegeLocation()
 		{
 			if (this.LeaderParty.Position2D.DistanceSquared(this.AiBehaviorObject.Position2D) < 100f && this.AIBehavior != Army.AIBehaviorFlags.Besieging)
@@ -1058,14 +979,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x0000E031 File Offset: 0x0000C231
 		public void FinishArmyObjective()
 		{
 			this.AIBehavior = Army.AIBehaviorFlags.Unassigned;
 			this.AiBehaviorObject = null;
 		}
 
-		// Token: 0x06000131 RID: 305 RVA: 0x0000E044 File Offset: 0x0000C244
 		internal void DisperseInternal(Army.ArmyDispersionReason reason = Army.ArmyDispersionReason.Unknown)
 		{
 			if (this._armyIsDispersing)
@@ -1100,7 +1019,6 @@ namespace TaleWorlds.CampaignSystem
 			this._armyIsDispersing = false;
 		}
 
-		// Token: 0x06000132 RID: 306 RVA: 0x0000E148 File Offset: 0x0000C348
 		public Vec2 GetRelativePositionForParty(MobileParty mobileParty, Vec2 armyFacing)
 		{
 			float num = 0.5f;
@@ -1135,7 +1053,6 @@ namespace TaleWorlds.CampaignSystem
 			return new Vec2((flag ? (-num * 0.5f) : 0f) + (float)num5 * num + mobileParty.Party.RandomFloat(-0.25f, 0.25f) * 0.6f * num, ((float)(-(float)num4) + mobileParty.Party.RandomFloatWithSeed(1U, -0.25f, 0.25f)) * num6 * 0.3f);
 		}
 
-		// Token: 0x06000133 RID: 307 RVA: 0x0000E36C File Offset: 0x0000C56C
 		public void AddPartyToMergedParties(MobileParty mobileParty)
 		{
 			mobileParty.AttachedTo = this.LeaderParty;
@@ -1154,7 +1071,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000134 RID: 308 RVA: 0x0000E3CC File Offset: 0x0000C5CC
 		internal void OnRemovePartyInternal(MobileParty mobileParty)
 		{
 			mobileParty.Ai.SetInitiative(1f, 1f, 24f);
@@ -1214,7 +1130,6 @@ namespace TaleWorlds.CampaignSystem
 			mobileParty.Party.UpdateVisibilityAndInspected(0f, false);
 		}
 
-		// Token: 0x06000135 RID: 309 RVA: 0x0000E544 File Offset: 0x0000C744
 		internal void OnAddPartyInternal(MobileParty mobileParty)
 		{
 			this._parties.Add(mobileParty);
@@ -1230,7 +1145,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000136 RID: 310 RVA: 0x0000E5EC File Offset: 0x0000C7EC
 		private void StartTrackingTargetSettlement(IMapPoint targetObject)
 		{
 			Settlement settlement = targetObject as Settlement;
@@ -1240,7 +1154,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000137 RID: 311 RVA: 0x0000E614 File Offset: 0x0000C814
 		private void StopTrackingTargetSettlement()
 		{
 			Settlement settlement = this.AiBehaviorObject as Settlement;
@@ -1250,13 +1163,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		// Token: 0x06000138 RID: 312 RVA: 0x0000E641 File Offset: 0x0000C841
 		internal static void AutoGeneratedStaticCollectObjectsArmy(object o, List<object> collectedObjects)
 		{
 			((Army)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
 
-		// Token: 0x06000139 RID: 313 RVA: 0x0000E650 File Offset: 0x0000C850
 		protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 		{
 			collectedObjects.Add(this._parties);
@@ -1268,292 +1179,199 @@ namespace TaleWorlds.CampaignSystem
 			collectedObjects.Add(this.Name);
 		}
 
-		// Token: 0x0600013A RID: 314 RVA: 0x0000E6B6 File Offset: 0x0000C8B6
 		internal static object AutoGeneratedGetMemberValueAIBehavior(object o)
 		{
 			return ((Army)o).AIBehavior;
 		}
 
-		// Token: 0x0600013B RID: 315 RVA: 0x0000E6C8 File Offset: 0x0000C8C8
 		internal static object AutoGeneratedGetMemberValueArmyType(object o)
 		{
 			return ((Army)o).ArmyType;
 		}
 
-		// Token: 0x0600013C RID: 316 RVA: 0x0000E6DA File Offset: 0x0000C8DA
 		internal static object AutoGeneratedGetMemberValueArmyOwner(object o)
 		{
 			return ((Army)o).ArmyOwner;
 		}
 
-		// Token: 0x0600013D RID: 317 RVA: 0x0000E6E7 File Offset: 0x0000C8E7
 		internal static object AutoGeneratedGetMemberValueCohesion(object o)
 		{
 			return ((Army)o).Cohesion;
 		}
 
-		// Token: 0x0600013E RID: 318 RVA: 0x0000E6F9 File Offset: 0x0000C8F9
 		internal static object AutoGeneratedGetMemberValueMorale(object o)
 		{
 			return ((Army)o).Morale;
 		}
 
-		// Token: 0x0600013F RID: 319 RVA: 0x0000E70B File Offset: 0x0000C90B
 		internal static object AutoGeneratedGetMemberValueLeaderParty(object o)
 		{
 			return ((Army)o).LeaderParty;
 		}
 
-		// Token: 0x06000140 RID: 320 RVA: 0x0000E718 File Offset: 0x0000C918
 		internal static object AutoGeneratedGetMemberValueName(object o)
 		{
 			return ((Army)o).Name;
 		}
 
-		// Token: 0x06000141 RID: 321 RVA: 0x0000E725 File Offset: 0x0000C925
 		internal static object AutoGeneratedGetMemberValue_parties(object o)
 		{
 			return ((Army)o)._parties;
 		}
 
-		// Token: 0x06000142 RID: 322 RVA: 0x0000E732 File Offset: 0x0000C932
 		internal static object AutoGeneratedGetMemberValue_creationTime(object o)
 		{
 			return ((Army)o)._creationTime;
 		}
 
-		// Token: 0x06000143 RID: 323 RVA: 0x0000E744 File Offset: 0x0000C944
 		internal static object AutoGeneratedGetMemberValue_armyGatheringTime(object o)
 		{
 			return ((Army)o)._armyGatheringTime;
 		}
 
-		// Token: 0x06000144 RID: 324 RVA: 0x0000E756 File Offset: 0x0000C956
 		internal static object AutoGeneratedGetMemberValue_waitTimeStart(object o)
 		{
 			return ((Army)o)._waitTimeStart;
 		}
 
-		// Token: 0x06000145 RID: 325 RVA: 0x0000E768 File Offset: 0x0000C968
 		internal static object AutoGeneratedGetMemberValue_armyIsDispersing(object o)
 		{
 			return ((Army)o)._armyIsDispersing;
 		}
 
-		// Token: 0x06000146 RID: 326 RVA: 0x0000E77A File Offset: 0x0000C97A
 		internal static object AutoGeneratedGetMemberValue_numberOfBoosts(object o)
 		{
 			return ((Army)o)._numberOfBoosts;
 		}
 
-		// Token: 0x06000147 RID: 327 RVA: 0x0000E78C File Offset: 0x0000C98C
 		internal static object AutoGeneratedGetMemberValue_kingdom(object o)
 		{
 			return ((Army)o)._kingdom;
 		}
 
-		// Token: 0x06000148 RID: 328 RVA: 0x0000E799 File Offset: 0x0000C999
 		internal static object AutoGeneratedGetMemberValue_aiBehaviorObject(object o)
 		{
 			return ((Army)o)._aiBehaviorObject;
 		}
 
-		// Token: 0x04000019 RID: 25
 		private const float MaximumWaitTime = 72f;
 
-		// Token: 0x0400001A RID: 26
 		private const float ArmyGatheringConcludingTickFrequency = 1f;
 
-		// Token: 0x0400001B RID: 27
 		private const float GatheringDistance = 3.5f;
 
-		// Token: 0x0400001C RID: 28
 		private const float DefaultGatheringWaitTime = 24f;
 
-		// Token: 0x0400001D RID: 29
 		private const float MinimumDistanceWhileGatheringAsAttackerArmy = 40f;
 
-		// Token: 0x0400001E RID: 30
 		private const float CheckingForBoostingCohesionThreshold = 50f;
 
-		// Token: 0x0400001F RID: 31
 		private const float DisbandCohesionThreshold = 30f;
 
-		// Token: 0x04000020 RID: 32
 		private const float StrengthThresholdRatioForGathering = 0.7f;
 
-		// Token: 0x04000021 RID: 33
 		[SaveableField(1)]
 		private readonly MBList<MobileParty> _parties;
 
-		// Token: 0x04000026 RID: 38
 		[SaveableField(19)]
 		private CampaignTime _creationTime;
 
-		// Token: 0x04000027 RID: 39
 		[SaveableField(7)]
 		private float _armyGatheringTime;
 
-		// Token: 0x04000028 RID: 40
 		[SaveableField(9)]
 		private float _waitTimeStart;
 
-		// Token: 0x04000029 RID: 41
 		[SaveableField(10)]
 		private bool _armyIsDispersing;
 
-		// Token: 0x0400002A RID: 42
 		[SaveableField(11)]
 		private int _numberOfBoosts;
 
-		// Token: 0x0400002D RID: 45
 		[SaveableField(15)]
 		private Kingdom _kingdom;
 
-		// Token: 0x0400002E RID: 46
 		[SaveableField(16)]
 		private IMapPoint _aiBehaviorObject;
 
-		// Token: 0x04000030 RID: 48
 		[CachedData]
 		private MBCampaignEvent _hourlyTickEvent;
 
-		// Token: 0x04000031 RID: 49
 		[CachedData]
 		private MBCampaignEvent _tickEvent;
 
-		// Token: 0x02000472 RID: 1138
 		public enum AIBehaviorFlags
 		{
-			// Token: 0x0400132F RID: 4911
 			Unassigned,
-			// Token: 0x04001330 RID: 4912
 			PreGathering,
-			// Token: 0x04001331 RID: 4913
 			Gathering,
-			// Token: 0x04001332 RID: 4914
 			WaitingForArmyMembers,
-			// Token: 0x04001333 RID: 4915
 			TravellingToAssignment,
-			// Token: 0x04001334 RID: 4916
 			Besieging,
-			// Token: 0x04001335 RID: 4917
 			AssaultingTown,
-			// Token: 0x04001336 RID: 4918
 			Raiding,
-			// Token: 0x04001337 RID: 4919
 			Defending,
-			// Token: 0x04001338 RID: 4920
 			Patrolling,
-			// Token: 0x04001339 RID: 4921
 			GoToSettlement,
-			// Token: 0x0400133A RID: 4922
 			NumberOfAIBehaviorFlags
 		}
 
-		// Token: 0x02000473 RID: 1139
 		public enum ArmyTypes
 		{
-			// Token: 0x0400133C RID: 4924
 			Besieger,
-			// Token: 0x0400133D RID: 4925
 			Raider,
-			// Token: 0x0400133E RID: 4926
 			Defender,
-			// Token: 0x0400133F RID: 4927
 			Patrolling,
-			// Token: 0x04001340 RID: 4928
 			NumberOfArmyTypes
 		}
 
-		// Token: 0x02000474 RID: 1140
 		private enum MainPartyCurrentAction
 		{
-			// Token: 0x04001342 RID: 4930
 			Idle,
-			// Token: 0x04001343 RID: 4931
 			GatherAroundHero,
-			// Token: 0x04001344 RID: 4932
 			GatherAroundSettlement,
-			// Token: 0x04001345 RID: 4933
 			GoToSettlement,
-			// Token: 0x04001346 RID: 4934
 			RaidSettlement,
-			// Token: 0x04001347 RID: 4935
 			BesiegeSettlement,
-			// Token: 0x04001348 RID: 4936
 			PatrolAroundSettlement,
-			// Token: 0x04001349 RID: 4937
 			DefendingSettlement
 		}
 
-		// Token: 0x02000475 RID: 1141
 		public enum ArmyDispersionReason
 		{
-			// Token: 0x0400134B RID: 4939
 			Unknown,
-			// Token: 0x0400134C RID: 4940
 			DismissalRequestedWithInfluence,
-			// Token: 0x0400134D RID: 4941
 			NotEnoughParty,
-			// Token: 0x0400134E RID: 4942
 			KingdomChanged,
-			// Token: 0x0400134F RID: 4943
 			CohesionDepleted,
-			// Token: 0x04001350 RID: 4944
 			ObjectiveFinished,
-			// Token: 0x04001351 RID: 4945
 			LeaderPartyRemoved,
-			// Token: 0x04001352 RID: 4946
 			PlayerTakenPrisoner,
-			// Token: 0x04001353 RID: 4947
 			CannotElectNewLeader,
-			// Token: 0x04001354 RID: 4948
 			LeaderCannotArrivePointOnTime,
-			// Token: 0x04001355 RID: 4949
 			ArmyLeaderIsDead,
-			// Token: 0x04001356 RID: 4950
 			FoodProblem,
-			// Token: 0x04001357 RID: 4951
 			NotEnoughTroop,
-			// Token: 0x04001358 RID: 4952
 			NoActiveWar
 		}
 
-		// Token: 0x02000476 RID: 1142
 		public enum ArmyLeaderThinkReason
 		{
-			// Token: 0x0400135A RID: 4954
 			Unknown,
-			// Token: 0x0400135B RID: 4955
 			FromGatheringToWaiting,
-			// Token: 0x0400135C RID: 4956
 			FromTravellingToBesieging,
-			// Token: 0x0400135D RID: 4957
 			FromWaitingToTravelling,
-			// Token: 0x0400135E RID: 4958
 			ChangingTarget,
-			// Token: 0x0400135F RID: 4959
 			FromTravellingToRaiding,
-			// Token: 0x04001360 RID: 4960
 			FromTravellingToDefending,
-			// Token: 0x04001361 RID: 4961
 			FromRaidingToTravelling,
-			// Token: 0x04001362 RID: 4962
 			FromBesiegingToTravelling,
-			// Token: 0x04001363 RID: 4963
 			FromDefendingToTravelling,
-			// Token: 0x04001364 RID: 4964
 			FromPatrollingToDefending,
-			// Token: 0x04001365 RID: 4965
 			FromBesiegingToDefending,
-			// Token: 0x04001366 RID: 4966
 			FromDefendingToBesieging,
-			// Token: 0x04001367 RID: 4967
 			FromDefendingToPatrolling,
-			// Token: 0x04001368 RID: 4968
 			FromUnassignedToPatrolling,
-			// Token: 0x04001369 RID: 4969
 			FromUnassignedToTravelling
 		}
 	}

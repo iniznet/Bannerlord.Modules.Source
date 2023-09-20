@@ -5,16 +5,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.Personal
 {
-	// Token: 0x020000DF RID: 223
 	public class SingleplayerPersonalKillFeedWidget : Widget
 	{
-		// Token: 0x06000B9A RID: 2970 RVA: 0x000204AA File Offset: 0x0001E6AA
 		public SingleplayerPersonalKillFeedWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000B9B RID: 2971 RVA: 0x000204C8 File Offset: 0x0001E6C8
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
@@ -29,7 +26,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.Personal
 			}
 		}
 
-		// Token: 0x06000B9C RID: 2972 RVA: 0x00020545 File Offset: 0x0001E745
 		protected override void OnChildAdded(Widget child)
 		{
 			base.OnChildAdded(child);
@@ -37,13 +33,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.Personal
 			this.UpdateSpeedModifiers();
 		}
 
-		// Token: 0x06000B9D RID: 2973 RVA: 0x0002056C File Offset: 0x0001E76C
 		private float GetVerticalPositionOfChildByIndex(int indexOfChild, int numOfTotalChild)
 		{
 			return -(this._normalWidgetHeight * (float)indexOfChild);
 		}
 
-		// Token: 0x06000B9E RID: 2974 RVA: 0x00020578 File Offset: 0x0001E778
 		private void UpdateSpeedModifiers()
 		{
 			if (base.ChildCount > this._speedUpWidgetLimit)
@@ -56,10 +50,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.Personal
 			}
 		}
 
-		// Token: 0x0400054E RID: 1358
 		private float _normalWidgetHeight = -1f;
 
-		// Token: 0x0400054F RID: 1359
 		private int _speedUpWidgetLimit = 3;
 	}
 }

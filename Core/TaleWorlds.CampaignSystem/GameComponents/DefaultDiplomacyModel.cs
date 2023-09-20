@@ -20,11 +20,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000105 RID: 261
 	public class DefaultDiplomacyModel : DiplomacyModel
 	{
-		// Token: 0x170005E2 RID: 1506
-		// (get) Token: 0x06001532 RID: 5426 RVA: 0x00061316 File Offset: 0x0005F516
 		public override int MinimumRelationWithConversationCharacterToJoinKingdom
 		{
 			get
@@ -33,8 +30,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E3 RID: 1507
-		// (get) Token: 0x06001533 RID: 5427 RVA: 0x0006131A File Offset: 0x0005F51A
 		public override int GiftingTownRelationshipBonus
 		{
 			get
@@ -43,8 +38,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E4 RID: 1508
-		// (get) Token: 0x06001534 RID: 5428 RVA: 0x0006131E File Offset: 0x0005F51E
 		public override int GiftingCastleRelationshipBonus
 		{
 			get
@@ -53,8 +46,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E5 RID: 1509
-		// (get) Token: 0x06001535 RID: 5429 RVA: 0x00061322 File Offset: 0x0005F522
 		public override int MaxRelationLimit
 		{
 			get
@@ -63,8 +54,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E6 RID: 1510
-		// (get) Token: 0x06001536 RID: 5430 RVA: 0x00061326 File Offset: 0x0005F526
 		public override int MinRelationLimit
 		{
 			get
@@ -73,8 +62,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E7 RID: 1511
-		// (get) Token: 0x06001537 RID: 5431 RVA: 0x0006132A File Offset: 0x0005F52A
 		public override int MaxNeutralRelationLimit
 		{
 			get
@@ -83,8 +70,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x170005E8 RID: 1512
-		// (get) Token: 0x06001538 RID: 5432 RVA: 0x0006132E File Offset: 0x0005F52E
 		public override int MinNeutralRelationLimit
 		{
 			get
@@ -93,13 +78,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001539 RID: 5433 RVA: 0x00061332 File Offset: 0x0005F532
 		public override float GetStrengthThresholdForNonMutualWarsToBeIgnoredToJoinKingdom(Kingdom kingdomToJoin)
 		{
 			return kingdomToJoin.TotalStrength * 0.05f;
 		}
 
-		// Token: 0x0600153A RID: 5434 RVA: 0x00061340 File Offset: 0x0005F540
 		public override float GetClanStrength(Clan clan)
 		{
 			float num = 0f;
@@ -114,7 +97,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num + num3 + num5;
 		}
 
-		// Token: 0x0600153B RID: 5435 RVA: 0x000613CC File Offset: 0x0005F5CC
 		public override float GetHeroCommandingStrengthForClan(Hero hero)
 		{
 			if (!hero.IsAlive)
@@ -162,7 +144,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num18;
 		}
 
-		// Token: 0x0600153C RID: 5436 RVA: 0x00061580 File Offset: 0x0005F780
 		public override float GetHeroGoverningStrengthForClan(Hero hero)
 		{
 			if (hero.IsAlive)
@@ -200,7 +181,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0f;
 		}
 
-		// Token: 0x0600153D RID: 5437 RVA: 0x0006170C File Offset: 0x0005F90C
 		public override float GetRelationIncreaseFactor(Hero hero1, Hero hero2, float relationChange)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(relationChange, false, null);
@@ -236,7 +216,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x0600153E RID: 5438 RVA: 0x00061830 File Offset: 0x0005FA30
 		public override int GetInfluenceAwardForSettlementCapturer(Settlement settlement)
 		{
 			if (settlement.IsTown || settlement.IsCastle)
@@ -252,7 +231,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 10;
 		}
 
-		// Token: 0x0600153F RID: 5439 RVA: 0x000618B4 File Offset: 0x0005FAB4
 		public override float GetHourlyInfluenceAwardForBeingArmyMember(MobileParty mobileParty)
 		{
 			float totalStrength = mobileParty.Party.TotalStrength;
@@ -264,7 +242,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001540 RID: 5440 RVA: 0x000618F4 File Offset: 0x0005FAF4
 		public override float GetHourlyInfluenceAwardForRaidingEnemyVillage(MobileParty mobileParty)
 		{
 			int num = 0;
@@ -283,7 +260,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (MathF.Sqrt((float)num) + 2f) / 240f;
 		}
 
-		// Token: 0x06001541 RID: 5441 RVA: 0x000619B4 File Offset: 0x0005FBB4
 		public override float GetHourlyInfluenceAwardForBesiegingEnemyFortification(MobileParty mobileParty)
 		{
 			int num = 0;
@@ -297,7 +273,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (MathF.Sqrt((float)num) + 2f) / 240f;
 		}
 
-		// Token: 0x06001542 RID: 5442 RVA: 0x00061A58 File Offset: 0x0005FC58
 		public override float GetScoreOfClanToJoinKingdom(Clan clan, Kingdom kingdom)
 		{
 			if (clan.Kingdom != null && clan.Kingdom.RulingClan == clan)
@@ -354,7 +329,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num15;
 		}
 
-		// Token: 0x06001543 RID: 5443 RVA: 0x00061D64 File Offset: 0x0005FF64
 		public override float GetScoreOfClanToLeaveKingdom(Clan clan, Kingdom kingdom)
 		{
 			int relationBetweenClans = FactionManager.GetRelationBetweenClans(kingdom.RulingClan, clan);
@@ -443,7 +417,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num20 + ((kingdom.Leader == Hero.MainHero) ? (-(1000000f * num5)) : 0f);
 		}
 
-		// Token: 0x06001544 RID: 5444 RVA: 0x00062138 File Offset: 0x00060338
 		public override float GetScoreOfKingdomToGetClan(Kingdom kingdom, Clan clan)
 		{
 			float num = MathF.Min(2f, MathF.Max(0.33f, 1f + 0.02f * (float)FactionManager.GetRelationBetweenClans(kingdom.RulingClan, clan)));
@@ -457,7 +430,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (clan.CalculateTotalSettlementValueForFaction(kingdom) * 0.1f + num3) * num * num2 * num4;
 		}
 
-		// Token: 0x06001545 RID: 5445 RVA: 0x0006220C File Offset: 0x0006040C
 		public override float GetScoreOfKingdomToSackClan(Kingdom kingdom, Clan clan)
 		{
 			float num = MathF.Min(2f, MathF.Max(0.33f, 1f + 0.02f * (float)FactionManager.GetRelationBetweenClans(kingdom.RulingClan, clan)));
@@ -468,7 +440,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 10f - 1f * num3 * num2 * num - num4;
 		}
 
-		// Token: 0x06001546 RID: 5446 RVA: 0x000622A4 File Offset: 0x000604A4
 		public override float GetScoreOfMercenaryToJoinKingdom(Clan mercenaryClan, Kingdom kingdom)
 		{
 			int num = ((mercenaryClan.Kingdom == kingdom) ? mercenaryClan.MercenaryAwardMultiplier : Campaign.Current.Models.MinorFactionsModel.GetMercenaryAwardFactorToJoinKingdom(mercenaryClan, kingdom, false));
@@ -481,14 +452,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (float)(num - mercenaryAwardFactorToJoinKingdom) * num2 * 0.5f;
 		}
 
-		// Token: 0x06001547 RID: 5447 RVA: 0x00062328 File Offset: 0x00060528
 		public override float GetScoreOfMercenaryToLeaveKingdom(Clan mercenaryClan, Kingdom kingdom)
 		{
 			float num = 0.005f * MathF.Min(200f, mercenaryClan.LastFactionChangeTime.ElapsedDaysUntilNow);
 			return 10000f * num - 5000f - this.GetScoreOfMercenaryToJoinKingdom(mercenaryClan, kingdom);
 		}
 
-		// Token: 0x06001548 RID: 5448 RVA: 0x0006236C File Offset: 0x0006056C
 		public override float GetScoreOfKingdomToHireMercenary(Kingdom kingdom, Clan mercenaryClan)
 		{
 			int num = 0;
@@ -502,7 +471,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num2 + (float)num3;
 		}
 
-		// Token: 0x06001549 RID: 5449 RVA: 0x000623F4 File Offset: 0x000605F4
 		public override float GetScoreOfKingdomToSackMercenary(Kingdom kingdom, Clan mercenaryClan)
 		{
 			float num = (((float)kingdom.Leader.Gold > 20000f) ? (MathF.Sqrt((float)kingdom.Leader.Gold / 20000f) - 1f) : (-1f));
@@ -511,7 +479,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (MathF.Min(2f + (float)relationBetweenClans / 100f - num2, num) * -1f - 0.1f) * 50f * mercenaryClan.TotalStrength * 5f;
 		}
 
-		// Token: 0x0600154A RID: 5450 RVA: 0x0006248C File Offset: 0x0006068C
 		public override float GetScoreOfDeclaringPeace(IFaction factionDeclaresPeace, IFaction factionDeclaredPeace, IFaction evaluatingClan, out TextObject peaceReason)
 		{
 			float num = -this.GetScoreOfWarInternal(factionDeclaresPeace, factionDeclaredPeace, evaluatingClan, true, out peaceReason);
@@ -526,7 +493,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (float)((int)(num2 * num) + num5);
 		}
 
-		// Token: 0x0600154B RID: 5451 RVA: 0x00062588 File Offset: 0x00060788
 		private float GetWarFatiqueScoreNew(IFaction factionDeclaresWar, IFaction factionDeclaredWar, IFaction evaluatingClan)
 		{
 			float num = 0f;
@@ -638,7 +604,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Min(300000f, num31 + num25 - num26 + num27 + num28 + num29 + num30 + num23 + num24);
 		}
 
-		// Token: 0x0600154C RID: 5452 RVA: 0x00062C00 File Offset: 0x00060E00
 		private DefaultDiplomacyModel.WarStats CalculateWarStats(IFaction faction, IFaction targetFaction)
 		{
 			float num = faction.TotalStrength * 0.85f;
@@ -693,7 +658,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			};
 		}
 
-		// Token: 0x0600154D RID: 5453 RVA: 0x00062F34 File Offset: 0x00061134
 		[return: TupleElementNames(new string[] { "kingdom1", "kingdom1Score", "kingdom2", "kingdom2Score" })]
 		private ValueTuple<Kingdom, float, Kingdom, float> GetTopDogs()
 		{
@@ -709,7 +673,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return new ValueTuple<Kingdom, float, Kingdom, float>(item, num4, item2, num5);
 		}
 
-		// Token: 0x0600154E RID: 5454 RVA: 0x00062FE0 File Offset: 0x000611E0
 		private float GetTopDogScore(IFaction factionDeclaresWar, IFaction factionDeclaredWar)
 		{
 			float num = 0f;
@@ -741,7 +704,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600154F RID: 5455 RVA: 0x000630E0 File Offset: 0x000612E0
 		private float GetBottomScore(IFaction factionDeclaresWar, IFaction factionDeclaredWar)
 		{
 			float num = 0f;
@@ -755,7 +717,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001550 RID: 5456 RVA: 0x00063124 File Offset: 0x00061324
 		private float CalculateClanRiskScoreOfWar(float squareRootOfPowerRatio, IFaction factionDeclaredWar, IFaction evaluatingClan)
 		{
 			float num = 0f;
@@ -795,7 +756,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001551 RID: 5457 RVA: 0x000632DC File Offset: 0x000614DC
 		private float GetScoreOfWarInternal(IFaction factionDeclaresWar, IFaction factionDeclaredWar, IFaction evaluatingClan, bool evaluatingPeace, out TextObject reason)
 		{
 			reason = TextObject.Empty;
@@ -1129,7 +1089,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num7 * num35;
 		}
 
-		// Token: 0x06001552 RID: 5458 RVA: 0x00064240 File Offset: 0x00062440
 		private float CalculateBenefitScore(ref DefaultDiplomacyModel.WarStats faction1Stats, ref DefaultDiplomacyModel.WarStats faction2Stats, int valorLevelOfEvaluatingClan, bool evaluatingPeace, float distanceToClosestEnemyFief, bool calculatingRisk = false)
 		{
 			float valueOfSettlements = faction2Stats.ValueOfSettlements;
@@ -1160,7 +1119,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num10 * MathF.Max(0.25f, num11);
 		}
 
-		// Token: 0x06001553 RID: 5459 RVA: 0x0006441C File Offset: 0x0006261C
 		private ValueTuple<Settlement, float>[] GetClosestSettlementsToOtherFactionsNearestSettlementToMidPoint(IFaction faction1, IFaction faction2)
 		{
 			Settlement settlement = null;
@@ -1211,7 +1169,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return array;
 		}
 
-		// Token: 0x06001554 RID: 5460 RVA: 0x00064624 File Offset: 0x00062824
 		private float GetDistance(IFaction factionDeclaresWar, IFaction factionDeclaredWar)
 		{
 			if (factionDeclaresWar.Fiefs.Count != 0 && factionDeclaredWar.Fiefs.Count != 0)
@@ -1265,7 +1222,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0.4f * (factionDeclaresWar.InitialPosition - factionDeclaredWar.InitialPosition).Length;
 		}
 
-		// Token: 0x06001555 RID: 5461 RVA: 0x000647BC File Offset: 0x000629BC
 		public override float GetScoreOfDeclaringWar(IFaction factionDeclaresWar, IFaction factionDeclaredWar, IFaction evaluatingClan, out TextObject warReason)
 		{
 			float scoreOfWarInternal = this.GetScoreOfWarInternal(factionDeclaresWar, factionDeclaredWar, evaluatingClan, false, out warReason);
@@ -1283,7 +1239,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return scoreOfWarInternal + (float)num4 - (float)num;
 		}
 
-		// Token: 0x06001556 RID: 5462 RVA: 0x00064910 File Offset: 0x00062B10
 		private static int GetWarFatiqueScore(IFaction factionDeclaresWar, IFaction factionDeclaredWar)
 		{
 			int num = 0;
@@ -1299,7 +1254,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num + 60000;
 		}
 
-		// Token: 0x06001557 RID: 5463 RVA: 0x000649DC File Offset: 0x00062BDC
 		public override float GetScoreOfLettingPartyGo(MobileParty party, MobileParty partyToLetGo)
 		{
 			float num = 0f;
@@ -1351,31 +1305,26 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -1000f + (1f - num) * num4 - num * num9 - num * num8 + (1f - num) * num7 + num * num6 + (num3 * (1f - num) - num * num2);
 		}
 
-		// Token: 0x06001558 RID: 5464 RVA: 0x00064D04 File Offset: 0x00062F04
 		public override float GetValueOfHeroForFaction(Hero examinedHero, IFaction targetFaction, bool forMarriage = false)
 		{
 			return this.GetHeroCommandingStrengthForClan(examinedHero) * 10f;
 		}
 
-		// Token: 0x06001559 RID: 5465 RVA: 0x00064D13 File Offset: 0x00062F13
 		public override int GetRelationCostOfExpellingClanFromKingdom()
 		{
 			return -20;
 		}
 
-		// Token: 0x0600155A RID: 5466 RVA: 0x00064D17 File Offset: 0x00062F17
 		public override int GetInfluenceCostOfSupportingClan()
 		{
 			return 50;
 		}
 
-		// Token: 0x0600155B RID: 5467 RVA: 0x00064D1B File Offset: 0x00062F1B
 		public override int GetInfluenceCostOfExpellingClan()
 		{
 			return 200;
 		}
 
-		// Token: 0x0600155C RID: 5468 RVA: 0x00064D24 File Offset: 0x00062F24
 		public override int GetInfluenceCostOfProposingPeace()
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
@@ -1383,7 +1332,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x0600155D RID: 5469 RVA: 0x00064D54 File Offset: 0x00062F54
 		public override int GetInfluenceCostOfProposingWar(Kingdom proposingKingdom)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
@@ -1397,19 +1345,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x0600155E RID: 5470 RVA: 0x00064DAA File Offset: 0x00062FAA
 		public override int GetInfluenceValueOfSupportingClan()
 		{
 			return this.GetInfluenceCostOfSupportingClan() / 4;
 		}
 
-		// Token: 0x0600155F RID: 5471 RVA: 0x00064DB4 File Offset: 0x00062FB4
 		public override int GetRelationValueOfSupportingClan()
 		{
 			return 1;
 		}
 
-		// Token: 0x06001560 RID: 5472 RVA: 0x00064DB8 File Offset: 0x00062FB8
 		public override int GetInfluenceCostOfAnnexation(Kingdom proposingKingdom)
 		{
 			float num = 1f;
@@ -1427,13 +1372,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return (int)(200f * num);
 		}
 
-		// Token: 0x06001561 RID: 5473 RVA: 0x00064E0A File Offset: 0x0006300A
 		public override int GetInfluenceCostOfChangingLeaderOfArmy()
 		{
 			return 30;
 		}
 
-		// Token: 0x06001562 RID: 5474 RVA: 0x00064E10 File Offset: 0x00063010
 		public override int GetInfluenceCostOfDisbandingArmy()
 		{
 			int num = 30;
@@ -1444,7 +1387,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x06001563 RID: 5475 RVA: 0x00064E47 File Offset: 0x00063047
 		public override int GetRelationCostOfDisbandingArmy(bool isLeaderParty)
 		{
 			if (!isLeaderParty)
@@ -1454,7 +1396,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -4;
 		}
 
-		// Token: 0x06001564 RID: 5476 RVA: 0x00064E50 File Offset: 0x00063050
 		public override int GetInfluenceCostOfPolicyProposalAndDisavowal()
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
@@ -1462,13 +1403,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		// Token: 0x06001565 RID: 5477 RVA: 0x00064E7F File Offset: 0x0006307F
 		public override int GetInfluenceCostOfAbandoningArmy()
 		{
 			return 2;
 		}
 
-		// Token: 0x06001566 RID: 5478 RVA: 0x00064E82 File Offset: 0x00063082
 		private void GetPerkEffectsOnKingdomDecisionInfluenceCost(ref ExplainedNumber cost)
 		{
 			if (Hero.MainHero.GetPerkValue(DefaultPerks.Charm.Firebrand))
@@ -1477,19 +1416,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001567 RID: 5479 RVA: 0x00064EAF File Offset: 0x000630AF
 		private int GetBaseRelationBetweenHeroes(Hero hero1, Hero hero2)
 		{
 			return CharacterRelationManager.GetHeroRelation(hero1, hero2);
 		}
 
-		// Token: 0x06001568 RID: 5480 RVA: 0x00064EB8 File Offset: 0x000630B8
 		public override int GetBaseRelation(Hero hero1, Hero hero2)
 		{
 			return this.GetBaseRelationBetweenHeroes(hero1, hero2);
 		}
 
-		// Token: 0x06001569 RID: 5481 RVA: 0x00064EC4 File Offset: 0x000630C4
 		public override int GetEffectiveRelation(Hero hero1, Hero hero2)
 		{
 			Hero hero3;
@@ -1504,7 +1440,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MBMath.ClampInt(baseRelationBetweenHeroes, this.MinRelationLimit, this.MaxRelationLimit);
 		}
 
-		// Token: 0x0600156A RID: 5482 RVA: 0x00064F0C File Offset: 0x0006310C
 		public override void GetHeroesForEffectiveRelation(Hero hero1, Hero hero2, out Hero effectiveHero1, out Hero effectiveHero2)
 		{
 			Clan neutralFaction = CampaignData.NeutralFaction;
@@ -1517,13 +1452,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600156B RID: 5483 RVA: 0x00064F90 File Offset: 0x00063190
 		public override int GetRelationChangeAfterClanLeaderIsDead(Hero deadLeader, Hero relationHero)
 		{
 			return (int)((float)CharacterRelationManager.GetHeroRelation(deadLeader, relationHero) * 0.7f);
 		}
 
-		// Token: 0x0600156C RID: 5484 RVA: 0x00064FA4 File Offset: 0x000631A4
 		public override int GetRelationChangeAfterVotingInSettlementOwnerPreliminaryDecision(Hero supporter, bool hasHeroVotedAgainstOwner)
 		{
 			int num;
@@ -1542,7 +1475,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		// Token: 0x0600156D RID: 5485 RVA: 0x00064FDF File Offset: 0x000631DF
 		private void GetPersonalityEffects(ref int effectiveRelation, Hero hero1, Hero effectiveHero2)
 		{
 			this.GetTraitEffect(ref effectiveRelation, hero1, effectiveHero2, DefaultTraits.Honor, 2);
@@ -1550,7 +1482,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.GetTraitEffect(ref effectiveRelation, hero1, effectiveHero2, DefaultTraits.Mercy, 1);
 		}
 
-		// Token: 0x0600156E RID: 5486 RVA: 0x00065010 File Offset: 0x00063210
 		private void GetTraitEffect(ref int effectiveRelation, Hero hero1, Hero effectiveHero2, TraitObject trait, int effectMagnitude)
 		{
 			int traitLevel = hero1.GetTraitLevel(trait);
@@ -1567,7 +1498,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600156F RID: 5487 RVA: 0x00065048 File Offset: 0x00063248
 		public override int GetCharmExperienceFromRelationGain(Hero hero, float relationChange, ChangeRelationAction.ChangeRelationDetail detail)
 		{
 			float num = 20f;
@@ -1607,7 +1537,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Round(num * relationChange);
 		}
 
-		// Token: 0x06001570 RID: 5488 RVA: 0x0006510C File Offset: 0x0006330C
 		public override uint GetNotificationColor(ChatNotificationType notificationType)
 		{
 			switch (notificationType)
@@ -1645,19 +1574,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001571 RID: 5489 RVA: 0x000651B2 File Offset: 0x000633B2
 		public override float DenarsToInfluence()
 		{
 			return 0.002f;
 		}
 
-		// Token: 0x06001572 RID: 5490 RVA: 0x000651B9 File Offset: 0x000633B9
 		public override bool CanSettlementBeGifted(Settlement settlementToGift)
 		{
 			return settlementToGift.Town != null && !settlementToGift.Town.IsOwnerUnassigned;
 		}
 
-		// Token: 0x06001573 RID: 5491 RVA: 0x000651D3 File Offset: 0x000633D3
 		public override IEnumerable<BarterGroup> GetBarterGroups()
 		{
 			return new BarterGroup[]
@@ -1671,85 +1597,61 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			};
 		}
 
-		// Token: 0x06001574 RID: 5492 RVA: 0x0006520B File Offset: 0x0006340B
 		public override int GetValueOfDailyTribute(int dailyTributeAmount)
 		{
 			return dailyTributeAmount * 70;
 		}
 
-		// Token: 0x06001575 RID: 5493 RVA: 0x00065211 File Offset: 0x00063411
 		public override int GetDailyTributeForValue(int value)
 		{
 			return value / 70 / 10 * 10;
 		}
 
-		// Token: 0x06001576 RID: 5494 RVA: 0x0006521D File Offset: 0x0006341D
 		public override bool IsClanEligibleToBecomeRuler(Clan clan)
 		{
 			return !clan.IsEliminated && clan.Leader.IsAlive && !clan.IsUnderMercenaryService;
 		}
 
-		// Token: 0x04000784 RID: 1924
 		private const int DailyValueFactorForTributes = 70;
 
-		// Token: 0x04000785 RID: 1925
 		private static float HearthRiskValueFactor = 500f;
 
-		// Token: 0x04000786 RID: 1926
 		private static float LordRiskValueFactor = 1000f;
 
-		// Token: 0x04000787 RID: 1927
 		private static float FoodRiskValueFactor = 750f;
 
-		// Token: 0x04000788 RID: 1928
 		private static float GarrisonRiskValueFactor = 2000f;
 
-		// Token: 0x04000789 RID: 1929
 		private static float SiegeRiskValueFactor = 3000f;
 
-		// Token: 0x0400078A RID: 1930
 		private static float LoyalityRiskValueFactor = 500f;
 
-		// Token: 0x0400078B RID: 1931
 		private static float ProsperityValueFactor = 50f;
 
-		// Token: 0x0400078C RID: 1932
 		private static float HappenedSiegesDifFactor = 1500f;
 
-		// Token: 0x0400078D RID: 1933
 		private static float HappenedRaidsDifFactor = 500f;
 
-		// Token: 0x0400078E RID: 1934
 		private static float StrengthValueFactor = 100f;
 
-		// Token: 0x0400078F RID: 1935
 		private static TextObject _personalityEffectText = new TextObject("{=HDBryERe}Personalities", null);
 
-		// Token: 0x04000790 RID: 1936
 		private const float strengthFactor = 50f;
 
-		// Token: 0x04000791 RID: 1937
 		private static float _MaxValue = 10000000f;
 
-		// Token: 0x04000792 RID: 1938
 		private static float _MeaningfulValue = 2000000f;
 
-		// Token: 0x04000793 RID: 1939
 		private static float _MinValue = 10000f;
 
-		// Token: 0x02000504 RID: 1284
 		private struct WarStats
 		{
-			// Token: 0x04001596 RID: 5526
 			public Clan RulingClan;
 
-			// Token: 0x04001597 RID: 5527
 			public float Strength;
 
-			// Token: 0x04001598 RID: 5528
 			public float ValueOfSettlements;
 
-			// Token: 0x04001599 RID: 5529
 			public float TotalStrengthOfEnemies;
 		}
 	}

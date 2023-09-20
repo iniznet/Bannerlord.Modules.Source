@@ -25,10 +25,8 @@ using TaleWorlds.Localization;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
-	// Token: 0x02000052 RID: 82
 	public class TutorialPhaseCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x06000469 RID: 1129 RVA: 0x0001AB24 File Offset: 0x00018D24
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
@@ -45,7 +43,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			StoryModeEvents.OnStoryModeTutorialEndedEvent.AddNonSerializedListener(this, new Action(this.OnStoryModeTutorialEnded));
 		}
 
-		// Token: 0x0600046A RID: 1130 RVA: 0x0001AC48 File Offset: 0x00018E48
 		private void OnCanHaveQuestsOrIssuesInfoIsRequested(Hero hero, ref bool result)
 		{
 			Settlement settlement = Settlement.Find("village_ES3_2");
@@ -55,7 +52,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600046B RID: 1131 RVA: 0x0001AC87 File Offset: 0x00018E87
 		private void CanHeroMarry(Hero hero, ref bool result)
 		{
 			if (!TutorialPhase.Instance.IsCompleted && hero.Clan == Clan.PlayerClan)
@@ -64,14 +60,12 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600046C RID: 1132 RVA: 0x0001ACA5 File Offset: 0x00018EA5
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Equipment[]>("_mainHeroEquipmentBackup", ref this._mainHeroEquipmentBackup);
 			dataStore.SyncData<Equipment[]>("_brotherEquipmentBackup", ref this._brotherEquipmentBackup);
 		}
 
-		// Token: 0x0600046D RID: 1133 RVA: 0x0001ACCC File Offset: 0x00018ECC
 		private void Tick(float dt)
 		{
 			if (TutorialPhase.Instance.TutorialFocusSettlement == null && TutorialPhase.Instance.TutorialFocusMobileParty == null)
@@ -111,7 +105,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600046E RID: 1134 RVA: 0x0001AE58 File Offset: 0x00019058
 		private void OnCharacterCreationIsOver()
 		{
 			ActivityManager.SetActivityAvailability("CompleteMainQuest", true);
@@ -127,7 +120,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			Hero.MainHero.Father.UpdateLastKnownClosestSettlement(settlement);
 		}
 
-		// Token: 0x0600046F RID: 1135 RVA: 0x0001AF1D File Offset: 0x0001911D
 		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter campaignGameStarter, int i)
 		{
 			if (i == 99)
@@ -138,7 +130,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000470 RID: 1136 RVA: 0x0001AF40 File Offset: 0x00019140
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddDialogAndGameMenus(campaignGameStarter);
@@ -158,7 +149,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000471 RID: 1137 RVA: 0x0001AFF0 File Offset: 0x000191F0
 		private void OnStoryModeTutorialEnded()
 		{
 			Settlement settlement = Settlement.Find("village_ES3_2");
@@ -234,7 +224,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000472 RID: 1138 RVA: 0x0001B3A0 File Offset: 0x000195A0
 		private void InitializeTutorial()
 		{
 			Hero elderBrother = StoryModeHeroes.ElderBrother;
@@ -253,7 +242,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			PartyBase.MainParty.ItemRoster.AddToCounts(DefaultItems.Grain, 1);
 		}
 
-		// Token: 0x06000473 RID: 1139 RVA: 0x0001B438 File Offset: 0x00019638
 		private void CreateHeadman(Settlement settlement)
 		{
 			Hero hero = HeroCreator.CreateHeroAtOccupation(20, settlement);
@@ -265,7 +253,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			TutorialPhase.Instance.TutorialVillageHeadman = hero;
 		}
 
-		// Token: 0x06000474 RID: 1140 RVA: 0x0001B4AC File Offset: 0x000196AC
 		private void AddDialogAndGameMenus(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("storymode_conversation_blocker", "start", "close_window", "{=9XnFlRR0}Interaction with this person is disabled during tutorial stage.", new ConversationSentence.OnConditionDelegate(this.storymode_conversation_blocker_on_condition), null, 1000000, null);
@@ -280,21 +267,18 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			campaignGameStarter.AddGameMenuOption("storymode_tutorial_village_game_menu", "storymode_tutorial_village_leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.game_menu_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_leave_on_consequence), true, -1, false, null);
 		}
 
-		// Token: 0x06000475 RID: 1141 RVA: 0x0001B666 File Offset: 0x00019866
 		private bool recruit_troops_village_menu_option_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 13;
 			return this.RecruitAndBuyProductsConditionsHold(args);
 		}
 
-		// Token: 0x06000476 RID: 1142 RVA: 0x0001B677 File Offset: 0x00019877
 		private bool buy_products_village_menu_option_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 14;
 			return this.RecruitAndBuyProductsConditionsHold(args);
 		}
 
-		// Token: 0x06000477 RID: 1143 RVA: 0x0001B688 File Offset: 0x00019888
 		private bool RecruitAndBuyProductsConditionsHold(MenuCallbackArgs args)
 		{
 			bool flag = TutorialPhase.Instance.TutorialQuestPhase >= TutorialQuestPhase.RecruitAndPurchaseStarted;
@@ -303,21 +287,18 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000478 RID: 1144 RVA: 0x0001B6C9 File Offset: 0x000198C9
 		private bool raid_village_menu_option_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 12;
 			return this.PlaceholderOptionsClickableCondition(args);
 		}
 
-		// Token: 0x06000479 RID: 1145 RVA: 0x0001B6DA File Offset: 0x000198DA
 		private bool wait_village_menu_option_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 15;
 			return this.PlaceholderOptionsClickableCondition(args);
 		}
 
-		// Token: 0x0600047A RID: 1146 RVA: 0x0001B6EB File Offset: 0x000198EB
 		private bool PlaceholderOptionsClickableCondition(MenuCallbackArgs args)
 		{
 			args.IsEnabled = false;
@@ -325,34 +306,29 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x0600047B RID: 1147 RVA: 0x0001B706 File Offset: 0x00019906
 		private void storymode_recruit_volunteers_on_consequence(MenuCallbackArgs args)
 		{
 			TutorialPhase.Instance.PrepareRecruitOptionForTutorial();
 			args.MenuContext.OpenRecruitVolunteers();
 		}
 
-		// Token: 0x0600047C RID: 1148 RVA: 0x0001B71D File Offset: 0x0001991D
 		private void storymode_ui_village_buy_good_on_consequence(MenuCallbackArgs args)
 		{
 			InventoryManager.OpenScreenAsTrade(TutorialPhase.Instance.GetAndPrepareBuyProductsOptionForTutorial(Settlement.CurrentSettlement.Village), Settlement.CurrentSettlement.Village, -1, null);
 		}
 
-		// Token: 0x0600047D RID: 1149 RVA: 0x0001B744 File Offset: 0x00019944
 		[GameMenuInitializationHandler("storymode_tutorial_village_game_menu")]
 		private static void storymode_tutorial_village_game_menu_on_init_background(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.Village.WaitMeshName);
 		}
 
-		// Token: 0x0600047E RID: 1150 RVA: 0x0001B760 File Offset: 0x00019960
 		[GameMenuInitializationHandler("storymode_game_menu_blocker")]
 		private static void storymode_tutorial_blocker_game_menu_on_init_background(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(SettlementHelper.FindNearestVillage(null, null).Village.WaitMeshName);
 		}
 
-		// Token: 0x0600047F RID: 1151 RVA: 0x0001B77E File Offset: 0x0001997E
 		private void storymode_game_menu_blocker_on_init(MenuCallbackArgs args)
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.StringId == "village_ES3_2")
@@ -361,7 +337,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000480 RID: 1152 RVA: 0x0001B7A8 File Offset: 0x000199A8
 		private void storymode_tutorial_village_game_menu_on_init(MenuCallbackArgs args)
 		{
 			if (!StoryModeManager.Current.MainStoryLine.IsPlayerInteractionRestricted)
@@ -374,13 +349,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			Campaign.Current.GameMenuManager.MenuLocations.AddRange(currentSettlement.LocationComplex.GetListOfLocations());
 		}
 
-		// Token: 0x06000481 RID: 1153 RVA: 0x0001B80A File Offset: 0x00019A0A
 		private bool storymode_conversation_blocker_on_condition()
 		{
 			return StoryModeManager.Current.MainStoryLine.IsPlayerInteractionRestricted;
 		}
 
-		// Token: 0x06000482 RID: 1154 RVA: 0x0001B81C File Offset: 0x00019A1C
 		private bool storymode_tutorial_village_enter_on_condition(MenuCallbackArgs args)
 		{
 			List<Location> list = Settlement.CurrentSettlement.LocationComplex.GetListOfLocations().ToList<Location>();
@@ -403,7 +376,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x06000483 RID: 1155 RVA: 0x0001B8C8 File Offset: 0x00019AC8
 		private void storymode_tutorial_village_enter_on_consequence(MenuCallbackArgs args)
 		{
 			if (MobileParty.MainParty.CurrentSettlement == null)
@@ -419,27 +391,23 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			villageEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationWithId("village_center"), null, null, null);
 		}
 
-		// Token: 0x06000484 RID: 1156 RVA: 0x0001B939 File Offset: 0x00019B39
 		private bool game_menu_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 16;
 			return true;
 		}
 
-		// Token: 0x06000485 RID: 1157 RVA: 0x0001B944 File Offset: 0x00019B44
 		private bool game_menu_leave_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = 16;
 			return true;
 		}
 
-		// Token: 0x06000486 RID: 1158 RVA: 0x0001B94F File Offset: 0x00019B4F
 		private void game_menu_leave_on_consequence(MenuCallbackArgs args)
 		{
 			PlayerEncounter.Finish(true);
 		}
 
-		// Token: 0x06000487 RID: 1159 RVA: 0x0001B958 File Offset: 0x00019B58
 		private void SpawnYourBrotherInLocation(Hero hero, string locationId)
 		{
 			if (LocationComplex.Current != null)
@@ -451,7 +419,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000488 RID: 1160 RVA: 0x0001B9E0 File Offset: 0x00019BE0
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
 			if (quest is TravelToVillageTutorialQuest)
@@ -473,7 +440,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x06000489 RID: 1161 RVA: 0x0001BABC File Offset: 0x00019CBC
 		private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
 		{
 			if (settlement.StringId == "village_ES3_2" && !TutorialPhase.Instance.IsCompleted)
@@ -496,7 +462,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600048A RID: 1162 RVA: 0x0001BB68 File Offset: 0x00019D68
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
 		{
 			if (settlement.StringId == "tutorial_training_field" && party == MobileParty.MainParty && TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.None)
@@ -511,14 +476,12 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600048B RID: 1163 RVA: 0x0001BBCF File Offset: 0x00019DCF
 		private void DailyTick()
 		{
 			Campaign.Current.IssueManager.ToggleAllIssueTracks(false);
 			this.CheckIfMainPartyStarving();
 		}
 
-		// Token: 0x0600048C RID: 1164 RVA: 0x0001BBE7 File Offset: 0x00019DE7
 		private void OnGameLoadFinished()
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.StringId == "village_ES3_2" && !TutorialPhase.Instance.IsCompleted)
@@ -527,7 +490,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600048D RID: 1165 RVA: 0x0001BC22 File Offset: 0x00019E22
 		private void CheckIfMainPartyStarving()
 		{
 			if (!TutorialPhase.Instance.IsCompleted && PartyBase.MainParty.IsStarving)
@@ -536,7 +498,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0600048E RID: 1166 RVA: 0x0001BC54 File Offset: 0x00019E54
 		private void SpawnAllNotablesForVillage(Village village)
 		{
 			int targetNotableCountForSettlement = Campaign.Current.Models.NotableSpawnModel.GetTargetNotableCountForSettlement(village.Settlement, 22);
@@ -546,16 +507,12 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x040001CA RID: 458
 		private bool _controlledByBrother;
 
-		// Token: 0x040001CB RID: 459
 		private bool _notifyPlayerAboutPosition;
 
-		// Token: 0x040001CC RID: 460
 		private Equipment[] _mainHeroEquipmentBackup = new Equipment[2];
 
-		// Token: 0x040001CD RID: 461
 		private Equipment[] _brotherEquipmentBackup = new Equipment[2];
 	}
 }

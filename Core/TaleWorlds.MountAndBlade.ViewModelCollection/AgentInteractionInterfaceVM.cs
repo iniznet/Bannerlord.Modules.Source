@@ -8,11 +8,8 @@ using TaleWorlds.MountAndBlade.MissionRepresentatives;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection
 {
-	// Token: 0x02000007 RID: 7
 	public class AgentInteractionInterfaceVM : ViewModel
 	{
-		// Token: 0x17000027 RID: 39
-		// (get) Token: 0x06000071 RID: 113 RVA: 0x00003351 File Offset: 0x00001551
 		private bool IsPlayerActive
 		{
 			get
@@ -22,14 +19,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000072 RID: 114 RVA: 0x0000336A File Offset: 0x0000156A
 		public AgentInteractionInterfaceVM(Mission mission)
 		{
 			this._mission = mission;
 			this.IsActive = false;
 		}
 
-		// Token: 0x06000073 RID: 115 RVA: 0x00003380 File Offset: 0x00001580
 		internal void Tick()
 		{
 			if (this.IsActive && this._mission.Mode == MissionMode.StartUp && this._currentFocusedObject is Agent && ((Agent)this._currentFocusedObject).IsEnemyOf(this._mission.MainAgent))
@@ -38,7 +33,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000074 RID: 116 RVA: 0x000033D3 File Offset: 0x000015D3
 		internal void CheckAndClearFocusedAgent(Agent agent)
 		{
 			if (this._currentFocusedObject != null && this._currentFocusedObject as Agent == agent)
@@ -49,13 +43,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000075 RID: 117 RVA: 0x00003403 File Offset: 0x00001603
 		public void OnFocusedHealthChanged(IFocusable focusable, float healthPercentage, bool hideHealthbarWhenFull)
 		{
 			this.SetHealth(healthPercentage, hideHealthbarWhenFull);
 		}
 
-		// Token: 0x06000076 RID: 118 RVA: 0x00003410 File Offset: 0x00001610
 		internal void OnFocusGained(Agent mainAgent, IFocusable focusableObject, bool isInteractable)
 		{
 			if (this.IsPlayerActive && (this._currentFocusedObject != focusableObject || this._currentObjectInteractable != isInteractable))
@@ -104,14 +96,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000077 RID: 119 RVA: 0x000034D3 File Offset: 0x000016D3
 		internal void OnFocusLost(Agent agent, IFocusable focusableObject)
 		{
 			this.ResetFocus();
 			this.IsActive = false;
 		}
 
-		// Token: 0x06000078 RID: 120 RVA: 0x000034E2 File Offset: 0x000016E2
 		internal void OnAgentInteraction(Agent userAgent, Agent agent)
 		{
 			if (this._mission.Mode == MissionMode.Stealth && agent.IsHuman && agent.IsActive() && !agent.IsEnemyOf(userAgent))
@@ -120,7 +110,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000079 RID: 121 RVA: 0x00003514 File Offset: 0x00001714
 		private void SetItem(SpawnedItemEntity item, bool canQuickPickup, bool isInteractable)
 		{
 			this.IsFocusedOnExit = false;
@@ -174,7 +163,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600007A RID: 122 RVA: 0x00003784 File Offset: 0x00001984
 		private void SetUsableMissionObject(UsableMissionObject usableObject, bool isInteractable)
 		{
 			this.FocusType = (int)usableObject.FocusableObjectType;
@@ -207,7 +195,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.IsActive = true;
 		}
 
-		// Token: 0x0600007B RID: 123 RVA: 0x0000386C File Offset: 0x00001A6C
 		private void SetUsableMachine(UsableMachine machine, bool isInteractable)
 		{
 			this.PrimaryInteractionMessage = machine.GetDescriptionText(machine.GameEntity) ?? "";
@@ -224,7 +211,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.IsActive = true;
 		}
 
-		// Token: 0x0600007C RID: 124 RVA: 0x000038E8 File Offset: 0x00001AE8
 		private void SetDestructibleComponent(DestructableComponent machine, bool isInteractable)
 		{
 			string descriptionText = machine.GetDescriptionText(machine.GameEntity);
@@ -236,7 +222,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.IsActive = flag;
 		}
 
-		// Token: 0x0600007D RID: 125 RVA: 0x00003968 File Offset: 0x00001B68
 		private void SetAgent(Agent mainAgent, Agent focusedAgent, bool isInteractable)
 		{
 			this.IsFocusedOnExit = false;
@@ -298,7 +283,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.IsActive = flag;
 		}
 
-		// Token: 0x0600007E RID: 126 RVA: 0x00003BE0 File Offset: 0x00001DE0
 		private void SetMount(Agent agent, Agent focusedAgent, bool isInteractable)
 		{
 			this.IsFocusedOnExit = false;
@@ -331,7 +315,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x0600007F RID: 127 RVA: 0x00003D0A File Offset: 0x00001F0A
 		private void SetHealth(float healthPercentage, bool hideHealthBarWhenFull)
 		{
 			this.TargetHealth = (int)(100f * healthPercentage);
@@ -343,7 +326,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.ShowHealthBar = true;
 		}
 
-		// Token: 0x06000080 RID: 128 RVA: 0x00003D35 File Offset: 0x00001F35
 		public void ResetFocus()
 		{
 			this._currentFocusedObject = null;
@@ -351,7 +333,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			this.FocusType = -1;
 		}
 
-		// Token: 0x06000081 RID: 129 RVA: 0x00003D50 File Offset: 0x00001F50
 		private UsableMachine GetUsableMachineFromPoint(UsableMissionObject standingPoint)
 		{
 			GameEntity gameEntity = standingPoint.GameEntity;
@@ -367,9 +348,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			return usableMachine;
 		}
 
-		// Token: 0x17000028 RID: 40
-		// (get) Token: 0x06000082 RID: 130 RVA: 0x00003D8B File Offset: 0x00001F8B
-		// (set) Token: 0x06000083 RID: 131 RVA: 0x00003D93 File Offset: 0x00001F93
 		[DataSourceProperty]
 		public bool IsFocusedOnExit
 		{
@@ -387,9 +365,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000029 RID: 41
-		// (get) Token: 0x06000084 RID: 132 RVA: 0x00003DB1 File Offset: 0x00001FB1
-		// (set) Token: 0x06000085 RID: 133 RVA: 0x00003DB9 File Offset: 0x00001FB9
 		[DataSourceProperty]
 		public int TargetHealth
 		{
@@ -407,9 +382,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002A RID: 42
-		// (get) Token: 0x06000086 RID: 134 RVA: 0x00003DD7 File Offset: 0x00001FD7
-		// (set) Token: 0x06000087 RID: 135 RVA: 0x00003DDF File Offset: 0x00001FDF
 		[DataSourceProperty]
 		public bool ShowHealthBar
 		{
@@ -427,9 +399,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002B RID: 43
-		// (get) Token: 0x06000088 RID: 136 RVA: 0x00003DFD File Offset: 0x00001FFD
-		// (set) Token: 0x06000089 RID: 137 RVA: 0x00003E05 File Offset: 0x00002005
 		[DataSourceProperty]
 		public int FocusType
 		{
@@ -447,9 +416,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002C RID: 44
-		// (get) Token: 0x0600008A RID: 138 RVA: 0x00003E23 File Offset: 0x00002023
-		// (set) Token: 0x0600008B RID: 139 RVA: 0x00003E2B File Offset: 0x0000202B
 		[DataSourceProperty]
 		public string PrimaryInteractionMessage
 		{
@@ -471,9 +437,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002D RID: 45
-		// (get) Token: 0x0600008C RID: 140 RVA: 0x00003E65 File Offset: 0x00002065
-		// (set) Token: 0x0600008D RID: 141 RVA: 0x00003E6D File Offset: 0x0000206D
 		[DataSourceProperty]
 		public string SecondaryInteractionMessage
 		{
@@ -491,9 +454,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002E RID: 46
-		// (get) Token: 0x0600008E RID: 142 RVA: 0x00003E90 File Offset: 0x00002090
-		// (set) Token: 0x0600008F RID: 143 RVA: 0x00003E98 File Offset: 0x00002098
 		[DataSourceProperty]
 		public string BackgroundColor
 		{
@@ -511,9 +471,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x1700002F RID: 47
-		// (get) Token: 0x06000090 RID: 144 RVA: 0x00003EBB File Offset: 0x000020BB
-		// (set) Token: 0x06000091 RID: 145 RVA: 0x00003EC3 File Offset: 0x000020C3
 		[DataSourceProperty]
 		public string TextColor
 		{
@@ -531,9 +488,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x17000030 RID: 48
-		// (get) Token: 0x06000092 RID: 146 RVA: 0x00003EE6 File Offset: 0x000020E6
-		// (set) Token: 0x06000093 RID: 147 RVA: 0x00003EEE File Offset: 0x000020EE
 		[DataSourceProperty]
 		public bool IsActive
 		{
@@ -557,7 +511,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			}
 		}
 
-		// Token: 0x06000094 RID: 148 RVA: 0x00003F2C File Offset: 0x0000212C
 		private string GetWeaponSpecificText(SpawnedItemEntity spawnedItem)
 		{
 			MissionWeapon weaponCopy = spawnedItem.WeaponCopy;
@@ -578,40 +531,28 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			return "";
 		}
 
-		// Token: 0x04000032 RID: 50
 		private readonly Mission _mission;
 
-		// Token: 0x04000033 RID: 51
 		private bool _currentObjectInteractable;
 
-		// Token: 0x04000034 RID: 52
 		private IFocusable _currentFocusedObject;
 
-		// Token: 0x04000035 RID: 53
 		private bool _isActive;
 
-		// Token: 0x04000036 RID: 54
 		private string _secondaryInteractionMessage;
 
-		// Token: 0x04000037 RID: 55
 		private string _primaryInteractionMessage;
 
-		// Token: 0x04000038 RID: 56
 		private int _focusType;
 
-		// Token: 0x04000039 RID: 57
 		private int _targetHealth;
 
-		// Token: 0x0400003A RID: 58
 		private bool _showHealthBar;
 
-		// Token: 0x0400003B RID: 59
 		private bool _isFocusedOnExit;
 
-		// Token: 0x0400003C RID: 60
 		private string _backgroundColor;
 
-		// Token: 0x0400003D RID: 61
 		private string _textColor;
 	}
 }

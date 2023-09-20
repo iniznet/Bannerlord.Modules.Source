@@ -12,10 +12,8 @@ using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
-	// Token: 0x02000002 RID: 2
 	public class CPUBenchmarkMissionLogic : MissionLogic
 	{
-		// Token: 0x06000001 RID: 1 RVA: 0x00002048 File Offset: 0x00000248
 		public CPUBenchmarkMissionLogic(int attackerInfCount, int attackerRangedCount, int attackerCavCount, int defenderInfCount, int defenderCavCount)
 		{
 			this._attackerInfCount = attackerInfCount;
@@ -25,7 +23,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this._defenderCavCount = defenderCavCount;
 		}
 
-		// Token: 0x06000002 RID: 2 RVA: 0x00002080 File Offset: 0x00000280
 		public override void OnBehaviorInitialize()
 		{
 			base.OnBehaviorInitialize();
@@ -52,7 +49,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000003 RID: 3 RVA: 0x000021E8 File Offset: 0x000003E8
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -66,7 +62,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000004 RID: 4 RVA: 0x0000227C File Offset: 0x0000047C
 		private void SetupFormations()
 		{
 			if (CPUBenchmarkMissionLogic._isSiege)
@@ -251,19 +246,16 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			this._formationsSetUp = true;
 		}
 
-		// Token: 0x06000005 RID: 5 RVA: 0x00002F7C File Offset: 0x0000117C
 		public override void OnMissionTick(float dt)
 		{
 			this._benchmarkStarted = true;
 		}
 
-		// Token: 0x06000006 RID: 6 RVA: 0x00002F85 File Offset: 0x00001185
 		protected override void OnEndMission()
 		{
 			Utilities.SetBenchmarkStatus(0, "");
 		}
 
-		// Token: 0x06000007 RID: 7 RVA: 0x00002F94 File Offset: 0x00001194
 		public override void OnPreMissionTick(float dt)
 		{
 			base.OnMissionTick(dt);
@@ -378,7 +370,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000008 RID: 8 RVA: 0x00003550 File Offset: 0x00001750
 		private void Check()
 		{
 			float currentTime = base.Mission.CurrentTime;
@@ -619,13 +610,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			}
 		}
 
-		// Token: 0x06000009 RID: 9 RVA: 0x00004014 File Offset: 0x00002214
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
 		{
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 		}
 
-		// Token: 0x0600000A RID: 10 RVA: 0x00004021 File Offset: 0x00002221
 		[CommandLineFunctionality.CommandLineArgumentFunction("cpu_benchmark_mission", "benchmark")]
 		public static string CPUBenchmarkMission(List<string> strings)
 		{
@@ -633,7 +622,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return "Success";
 		}
 
-		// Token: 0x0600000B RID: 11 RVA: 0x00004034 File Offset: 0x00002234
 		[CommandLineFunctionality.CommandLineArgumentFunction("cpu_benchmark", "benchmark")]
 		public static string CPUBenchmark(List<string> strings)
 		{
@@ -651,7 +639,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return "";
 		}
 
-		// Token: 0x0600000C RID: 12 RVA: 0x0000409C File Offset: 0x0000229C
 		[CommandLineFunctionality.CommandLineArgumentFunction("benchmark_start", "state_string")]
 		public static string BenchmarkStateStart(List<string> strings)
 		{
@@ -675,7 +662,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return "";
 		}
 
-		// Token: 0x0600000D RID: 13 RVA: 0x000040FE File Offset: 0x000022FE
 		[CommandLineFunctionality.CommandLineArgumentFunction("benchmark_end", "state_string")]
 		public static string BenchmarkStateEnd(List<string> strings)
 		{
@@ -687,7 +673,6 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return "";
 		}
 
-		// Token: 0x0600000E RID: 14 RVA: 0x0000412C File Offset: 0x0000232C
 		public static Mission OpenCPUBenchmarkMission(string scene)
 		{
 			int realBattleSize = BannerlordConfig.GetRealBattleSize();
@@ -774,171 +759,110 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			return mission;
 		}
 
-		// Token: 0x04000001 RID: 1
 		private const float FormationDistDiff = 20f;
 
-		// Token: 0x04000002 RID: 2
 		private const float PressTimeForExit = 0.05f;
 
-		// Token: 0x04000003 RID: 3
 		private const float ResultTime = 9f;
 
-		// Token: 0x04000004 RID: 4
 		private readonly int _attackerInfCount;
 
-		// Token: 0x04000005 RID: 5
 		private readonly int _attackerRangedCount;
 
-		// Token: 0x04000006 RID: 6
 		private readonly int _attackerCavCount;
 
-		// Token: 0x04000007 RID: 7
 		private readonly int _defenderInfCount;
 
-		// Token: 0x04000008 RID: 8
 		private readonly int _defenderCavCount;
 
-		// Token: 0x04000009 RID: 9
 		private int _curPath;
 
-		// Token: 0x0400000A RID: 10
 		private float _benchmarkExit;
 
-		// Token: 0x0400000B RID: 11
 		private bool _benchmarkFinished;
 
-		// Token: 0x0400000C RID: 12
 		private static bool _isSiege;
 
-		// Token: 0x0400000D RID: 13
 		private float _showResultTime = 92f;
 
-		// Token: 0x0400000E RID: 14
 		private Path[] _paths;
 
-		// Token: 0x0400000F RID: 15
 		private Path[] _targets;
 
-		// Token: 0x04000010 RID: 16
 		private float _cameraSpeed;
 
-		// Token: 0x04000011 RID: 17
 		private float _curPathSpeed;
 
-		// Token: 0x04000012 RID: 18
 		private float _curPathLenght;
 
-		// Token: 0x04000013 RID: 19
 		private float _nextPathSpeed;
 
-		// Token: 0x04000014 RID: 20
 		private float _prevPathSpeed;
 
-		// Token: 0x04000015 RID: 21
 		private float _cameraPassedDistanceOnPath;
 
-		// Token: 0x04000016 RID: 22
 		private MissionAgentSpawnLogic _missionAgentSpawnLogic;
 
-		// Token: 0x04000017 RID: 23
 		private bool _formationsSetUp;
 
-		// Token: 0x04000018 RID: 24
 		private Formation _defLeftInf;
 
-		// Token: 0x04000019 RID: 25
 		private Formation _defMidCav;
 
-		// Token: 0x0400001A RID: 26
 		private Formation _defRightInf;
 
-		// Token: 0x0400001B RID: 27
 		private Formation _defLeftBInf;
 
-		// Token: 0x0400001C RID: 28
 		private Formation _defMidBInf;
 
-		// Token: 0x0400001D RID: 29
 		private Formation _defRightBInf;
 
-		// Token: 0x0400001E RID: 30
 		private Formation _attLeftInf;
 
-		// Token: 0x0400001F RID: 31
 		private Formation _attRightInf;
 
-		// Token: 0x04000020 RID: 32
 		private Formation _attLeftRanged;
 
-		// Token: 0x04000021 RID: 33
 		private Formation _attRightRanged;
 
-		// Token: 0x04000022 RID: 34
 		private Formation _attLeftCav;
 
-		// Token: 0x04000023 RID: 35
 		private Formation _attRightCav;
 
-		// Token: 0x04000024 RID: 36
 		private Camera _benchmarkCamera;
 
-		// Token: 0x04000025 RID: 37
 		private CPUBenchmarkMissionLogic.BattlePhase _battlePhase;
 
-		// Token: 0x04000026 RID: 38
 		private bool _isCurPhaseInPlay;
 
-		// Token: 0x04000027 RID: 39
 		private float _totalTime;
 
-		// Token: 0x04000028 RID: 40
 		private bool _benchmarkStarted;
 
-		// Token: 0x0200002A RID: 42
-		// (Invoke) Token: 0x060001DC RID: 476
 		private delegate void MainThreadJobDelegate();
 
-		// Token: 0x0200002B RID: 43
 		private enum BattlePhase
 		{
-			// Token: 0x0400012D RID: 301
 			Start,
-			// Token: 0x0400012E RID: 302
 			ArrowShower,
-			// Token: 0x0400012F RID: 303
 			MeleePosition,
-			// Token: 0x04000130 RID: 304
 			Cav1Pos,
-			// Token: 0x04000131 RID: 305
 			Cav1PosDef,
-			// Token: 0x04000132 RID: 306
 			CavalryPosition,
-			// Token: 0x04000133 RID: 307
 			MeleeAttack,
-			// Token: 0x04000134 RID: 308
 			RangedAdvance,
-			// Token: 0x04000135 RID: 309
 			CavalryAdvance,
-			// Token: 0x04000136 RID: 310
 			CavalryCharge,
-			// Token: 0x04000137 RID: 311
 			CavalryCharge2,
-			// Token: 0x04000138 RID: 312
 			RangedAdvance2,
-			// Token: 0x04000139 RID: 313
 			FullCharge
 		}
 
-		// Token: 0x0200002C RID: 44
 		private enum BenchmarkStatus
 		{
-			// Token: 0x0400013B RID: 315
 			Inactive,
-			// Token: 0x0400013C RID: 316
 			Active,
-			// Token: 0x0400013D RID: 317
 			Result,
-			// Token: 0x0400013E RID: 318
 			SetDefinition
 		}
 	}

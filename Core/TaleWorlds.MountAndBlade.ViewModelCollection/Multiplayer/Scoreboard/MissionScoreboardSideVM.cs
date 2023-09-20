@@ -7,10 +7,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 {
-	// Token: 0x02000051 RID: 81
 	public class MissionScoreboardSideVM : ViewModel
 	{
-		// Token: 0x060006A7 RID: 1703 RVA: 0x0001ACDC File Offset: 0x00018EDC
 		public MissionScoreboardSideVM(MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide, Action<MissionScoreboardPlayerVM> executeActivate, bool isSingleSide, bool isSecondSide)
 		{
 			this._executeActivate = executeActivate;
@@ -43,7 +41,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x060006A8 RID: 1704 RVA: 0x0001AED0 File Offset: 0x000190D0
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -72,7 +69,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			playerSortController.RefreshValues();
 		}
 
-		// Token: 0x060006A9 RID: 1705 RVA: 0x0001AFB0 File Offset: 0x000191B0
 		public void Tick(float dt)
 		{
 			foreach (MissionScoreboardPlayerVM missionScoreboardPlayerVM in this.Players)
@@ -81,7 +77,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x060006AA RID: 1706 RVA: 0x0001AFFC File Offset: 0x000191FC
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
@@ -89,14 +84,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
 		}
 
-		// Token: 0x060006AB RID: 1707 RVA: 0x0001B035 File Offset: 0x00019235
 		public void UpdateRoundAttributes()
 		{
 			this.RoundsWon = this._missionScoreboardSide.SideScore;
 			this.SortPlayers();
 		}
 
-		// Token: 0x060006AC RID: 1708 RVA: 0x0001B050 File Offset: 0x00019250
 		public void UpdateBotAttributes()
 		{
 			int num = ((this._missionScoreboardSide.Side == BattleSideEnum.Attacker) ? MultiplayerOptions.OptionType.NumberOfBotsTeam1.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) : MultiplayerOptions.OptionType.NumberOfBotsTeam2.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions));
@@ -117,7 +110,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			this.SortPlayers();
 		}
 
-		// Token: 0x060006AD RID: 1709 RVA: 0x0001B100 File Offset: 0x00019300
 		public void UpdatePlayerAttributes(MissionPeer player)
 		{
 			if (this._playersMap.ContainsKey(player))
@@ -129,7 +121,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			this.SortPlayers();
 		}
 
-		// Token: 0x060006AE RID: 1710 RVA: 0x0001B14E File Offset: 0x0001934E
 		public void RemovePlayer(MissionPeer peer)
 		{
 			this.Players.Remove(this._playersMap[peer]);
@@ -138,7 +129,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			this.UpdatePlayersText();
 		}
 
-		// Token: 0x060006AF RID: 1711 RVA: 0x0001B184 File Offset: 0x00019384
 		public void AddPlayer(MissionPeer peer)
 		{
 			if (!this._playersMap.ContainsKey(peer))
@@ -154,7 +144,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			this.UpdatePlayersText();
 		}
 
-		// Token: 0x060006B0 RID: 1712 RVA: 0x0001B1FC File Offset: 0x000193FC
 		private void UpdatePlayersText()
 		{
 			TextObject textObject = new TextObject("{=R28ac5ij}{NUMBER} Players", null);
@@ -162,13 +151,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			this.PlayersText = textObject.ToString();
 		}
 
-		// Token: 0x060006B1 RID: 1713 RVA: 0x0001B238 File Offset: 0x00019438
 		private void SortPlayers()
 		{
 			this.PlayerSortController.SortByCurrentState();
 		}
 
-		// Token: 0x060006B2 RID: 1714 RVA: 0x0001B248 File Offset: 0x00019448
 		private void OnPeerPingUpdated(NetworkCommunicator peer)
 		{
 			MissionPeer component = peer.GetComponent<MissionPeer>();
@@ -178,7 +165,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x060006B3 RID: 1715 RVA: 0x0001B268 File Offset: 0x00019468
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
 			if (changedManagedOptionsType == ManagedOptions.ManagedOptionsType.EnableGenericAvatars)
@@ -190,9 +176,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000203 RID: 515
-		// (get) Token: 0x060006B4 RID: 1716 RVA: 0x0001B2B8 File Offset: 0x000194B8
-		// (set) Token: 0x060006B5 RID: 1717 RVA: 0x0001B2C0 File Offset: 0x000194C0
 		[DataSourceProperty]
 		public MBBindingList<MissionScoreboardPlayerVM> Players
 		{
@@ -210,9 +193,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000204 RID: 516
-		// (get) Token: 0x060006B6 RID: 1718 RVA: 0x0001B2DE File Offset: 0x000194DE
-		// (set) Token: 0x060006B7 RID: 1719 RVA: 0x0001B2E6 File Offset: 0x000194E6
 		[DataSourceProperty]
 		public MBBindingList<MissionScoreboardHeaderItemVM> EntryProperties
 		{
@@ -230,9 +210,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000205 RID: 517
-		// (get) Token: 0x060006B8 RID: 1720 RVA: 0x0001B304 File Offset: 0x00019504
-		// (set) Token: 0x060006B9 RID: 1721 RVA: 0x0001B30C File Offset: 0x0001950C
 		[DataSourceProperty]
 		public MissionScoreboardPlayerSortControllerVM PlayerSortController
 		{
@@ -250,9 +227,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000206 RID: 518
-		// (get) Token: 0x060006BA RID: 1722 RVA: 0x0001B32A File Offset: 0x0001952A
-		// (set) Token: 0x060006BB RID: 1723 RVA: 0x0001B332 File Offset: 0x00019532
 		[DataSourceProperty]
 		public bool IsSingleSide
 		{
@@ -270,9 +244,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000207 RID: 519
-		// (get) Token: 0x060006BC RID: 1724 RVA: 0x0001B350 File Offset: 0x00019550
-		// (set) Token: 0x060006BD RID: 1725 RVA: 0x0001B358 File Offset: 0x00019558
 		[DataSourceProperty]
 		public bool IsSecondSide
 		{
@@ -290,9 +261,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000208 RID: 520
-		// (get) Token: 0x060006BE RID: 1726 RVA: 0x0001B376 File Offset: 0x00019576
-		// (set) Token: 0x060006BF RID: 1727 RVA: 0x0001B37E File Offset: 0x0001957E
 		[DataSourceProperty]
 		public bool UseSecondary
 		{
@@ -310,9 +278,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x17000209 RID: 521
-		// (get) Token: 0x060006C0 RID: 1728 RVA: 0x0001B39C File Offset: 0x0001959C
-		// (set) Token: 0x060006C1 RID: 1729 RVA: 0x0001B3A4 File Offset: 0x000195A4
 		[DataSourceProperty]
 		public bool ShowAttackerOrDefenderIcons
 		{
@@ -330,9 +295,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020A RID: 522
-		// (get) Token: 0x060006C2 RID: 1730 RVA: 0x0001B3C2 File Offset: 0x000195C2
-		// (set) Token: 0x060006C3 RID: 1731 RVA: 0x0001B3CA File Offset: 0x000195CA
 		[DataSourceProperty]
 		public bool IsAttacker
 		{
@@ -350,9 +312,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020B RID: 523
-		// (get) Token: 0x060006C4 RID: 1732 RVA: 0x0001B3E8 File Offset: 0x000195E8
-		// (set) Token: 0x060006C5 RID: 1733 RVA: 0x0001B3F0 File Offset: 0x000195F0
 		[DataSourceProperty]
 		public string Name
 		{
@@ -370,9 +329,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020C RID: 524
-		// (get) Token: 0x060006C6 RID: 1734 RVA: 0x0001B413 File Offset: 0x00019613
-		// (set) Token: 0x060006C7 RID: 1735 RVA: 0x0001B41B File Offset: 0x0001961B
 		[DataSourceProperty]
 		public string PlayersText
 		{
@@ -390,9 +346,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020D RID: 525
-		// (get) Token: 0x060006C8 RID: 1736 RVA: 0x0001B43E File Offset: 0x0001963E
-		// (set) Token: 0x060006C9 RID: 1737 RVA: 0x0001B446 File Offset: 0x00019646
 		[DataSourceProperty]
 		public string CultureId
 		{
@@ -410,9 +363,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020E RID: 526
-		// (get) Token: 0x060006CA RID: 1738 RVA: 0x0001B469 File Offset: 0x00019669
-		// (set) Token: 0x060006CB RID: 1739 RVA: 0x0001B471 File Offset: 0x00019671
 		[DataSourceProperty]
 		public int RoundsWon
 		{
@@ -430,9 +380,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x1700020F RID: 527
-		// (get) Token: 0x060006CC RID: 1740 RVA: 0x0001B48F File Offset: 0x0001968F
-		// (set) Token: 0x060006CD RID: 1741 RVA: 0x0001B497 File Offset: 0x00019697
 		[DataSourceProperty]
 		public string TeamColor
 		{
@@ -450,64 +397,44 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Scoreboard
 			}
 		}
 
-		// Token: 0x04000364 RID: 868
 		private readonly MissionScoreboardComponent.MissionScoreboardSide _missionScoreboardSide;
 
-		// Token: 0x04000365 RID: 869
 		private readonly Dictionary<MissionPeer, MissionScoreboardPlayerVM> _playersMap;
 
-		// Token: 0x04000366 RID: 870
 		private MissionScoreboardPlayerVM _bot;
 
-		// Token: 0x04000367 RID: 871
 		private Action<MissionScoreboardPlayerVM> _executeActivate;
 
-		// Token: 0x04000368 RID: 872
 		private const string _avatarHeaderId = "avatar";
 
-		// Token: 0x04000369 RID: 873
 		private readonly int _avatarHeaderIndex;
 
-		// Token: 0x0400036A RID: 874
 		private List<string> _irregularHeaderIDs = new List<string> { "name", "avatar", "score", "kill", "assist" };
 
-		// Token: 0x0400036B RID: 875
 		private MBBindingList<MissionScoreboardPlayerVM> _players;
 
-		// Token: 0x0400036C RID: 876
 		private MBBindingList<MissionScoreboardHeaderItemVM> _entryProperties;
 
-		// Token: 0x0400036D RID: 877
 		private MissionScoreboardPlayerSortControllerVM _playerSortController;
 
-		// Token: 0x0400036E RID: 878
 		private bool _isSingleSide;
 
-		// Token: 0x0400036F RID: 879
 		private bool _isSecondSide;
 
-		// Token: 0x04000370 RID: 880
 		private bool _useSecondary;
 
-		// Token: 0x04000371 RID: 881
 		private bool _showAttackerOrDefenderIcons;
 
-		// Token: 0x04000372 RID: 882
 		private bool _isAttacker;
 
-		// Token: 0x04000373 RID: 883
 		private int _roundsWon;
 
-		// Token: 0x04000374 RID: 884
 		private string _name;
 
-		// Token: 0x04000375 RID: 885
 		private string _cultureId;
 
-		// Token: 0x04000376 RID: 886
 		private string _teamColor;
 
-		// Token: 0x04000377 RID: 887
 		private string _playersText;
 	}
 }

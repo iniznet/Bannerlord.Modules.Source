@@ -5,16 +5,13 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.ExtraWidgets
 {
-	// Token: 0x0200000A RID: 10
 	public class FillBarWidget : Widget
 	{
-		// Token: 0x06000090 RID: 144 RVA: 0x00003708 File Offset: 0x00001908
 		public FillBarWidget(UIContext context)
 			: base(context)
 		{
 		}
 
-		// Token: 0x06000091 RID: 145 RVA: 0x00003714 File Offset: 0x00001914
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
 		{
 			if (this.FillWidget != null)
@@ -66,9 +63,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			base.OnRender(twoDimensionContext, drawContext);
 		}
 
-		// Token: 0x1700003B RID: 59
-		// (get) Token: 0x06000092 RID: 146 RVA: 0x00003981 File Offset: 0x00001B81
-		// (set) Token: 0x06000093 RID: 147 RVA: 0x0000398A File Offset: 0x00001B8A
 		[Editor(false)]
 		public int CurrentAmount
 		{
@@ -86,9 +80,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x1700003C RID: 60
-		// (get) Token: 0x06000094 RID: 148 RVA: 0x000039AA File Offset: 0x00001BAA
-		// (set) Token: 0x06000095 RID: 149 RVA: 0x000039B3 File Offset: 0x00001BB3
 		[Editor(false)]
 		public int MaxAmount
 		{
@@ -106,9 +97,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x1700003D RID: 61
-		// (get) Token: 0x06000096 RID: 150 RVA: 0x000039D3 File Offset: 0x00001BD3
-		// (set) Token: 0x06000097 RID: 151 RVA: 0x000039DC File Offset: 0x00001BDC
 		[Editor(false)]
 		public int InitialAmount
 		{
@@ -126,9 +114,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x1700003E RID: 62
-		// (get) Token: 0x06000098 RID: 152 RVA: 0x000039FC File Offset: 0x00001BFC
-		// (set) Token: 0x06000099 RID: 153 RVA: 0x00003A04 File Offset: 0x00001C04
 		[Editor(false)]
 		public float MaxAmountAsFloat
 		{
@@ -146,9 +131,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x1700003F RID: 63
-		// (get) Token: 0x0600009A RID: 154 RVA: 0x00003A22 File Offset: 0x00001C22
-		// (set) Token: 0x0600009B RID: 155 RVA: 0x00003A2A File Offset: 0x00001C2A
 		[Editor(false)]
 		public float CurrentAmountAsFloat
 		{
@@ -166,9 +148,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000040 RID: 64
-		// (get) Token: 0x0600009C RID: 156 RVA: 0x00003A48 File Offset: 0x00001C48
-		// (set) Token: 0x0600009D RID: 157 RVA: 0x00003A50 File Offset: 0x00001C50
 		[Editor(false)]
 		public float InitialAmountAsFloat
 		{
@@ -186,9 +165,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x0600009E RID: 158 RVA: 0x00003A6E File Offset: 0x00001C6E
-		// (set) Token: 0x0600009F RID: 159 RVA: 0x00003A76 File Offset: 0x00001C76
 		[Editor(false)]
 		public bool CompletelyFillChange
 		{
@@ -206,9 +182,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x060000A0 RID: 160 RVA: 0x00003A94 File Offset: 0x00001C94
-		// (set) Token: 0x060000A1 RID: 161 RVA: 0x00003A9C File Offset: 0x00001C9C
 		[Editor(false)]
 		public bool ShowNegativeChange
 		{
@@ -226,9 +199,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x060000A2 RID: 162 RVA: 0x00003ABA File Offset: 0x00001CBA
-		// (set) Token: 0x060000A3 RID: 163 RVA: 0x00003AC2 File Offset: 0x00001CC2
 		public Widget FillWidget
 		{
 			get
@@ -245,9 +215,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x060000A4 RID: 164 RVA: 0x00003AE0 File Offset: 0x00001CE0
-		// (set) Token: 0x060000A5 RID: 165 RVA: 0x00003AE8 File Offset: 0x00001CE8
 		public Widget ChangeWidget
 		{
 			get
@@ -264,9 +231,6 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x17000045 RID: 69
-		// (get) Token: 0x060000A6 RID: 166 RVA: 0x00003B06 File Offset: 0x00001D06
-		// (set) Token: 0x060000A7 RID: 167 RVA: 0x00003B0E File Offset: 0x00001D0E
 		public Widget DividerWidget
 		{
 			get
@@ -283,28 +247,20 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			}
 		}
 
-		// Token: 0x0400003F RID: 63
 		private Widget _fillWidget;
 
-		// Token: 0x04000040 RID: 64
 		private Widget _changeWidget;
 
-		// Token: 0x04000041 RID: 65
 		private Widget _dividerWidget;
 
-		// Token: 0x04000042 RID: 66
 		private float _maxAmount;
 
-		// Token: 0x04000043 RID: 67
 		private float _currentAmount;
 
-		// Token: 0x04000044 RID: 68
 		private float _initialAmount;
 
-		// Token: 0x04000045 RID: 69
 		private bool _completelyFillChange;
 
-		// Token: 0x04000046 RID: 70
 		private bool _showNegativeChange;
 	}
 }

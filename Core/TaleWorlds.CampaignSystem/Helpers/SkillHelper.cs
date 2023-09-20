@@ -8,10 +8,8 @@ using TaleWorlds.Localization;
 
 namespace Helpers
 {
-	// Token: 0x02000016 RID: 22
 	public static class SkillHelper
 	{
-		// Token: 0x060000CD RID: 205 RVA: 0x0000A9B4 File Offset: 0x00008BB4
 		public static void AddSkillBonusForParty(SkillObject skill, SkillEffect skillEffect, MobileParty party, ref ExplainedNumber stat)
 		{
 			Hero leaderHero = party.LeaderHero;
@@ -67,7 +65,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000CE RID: 206 RVA: 0x0000AB9C File Offset: 0x00008D9C
 		public static void AddSkillBonusForTown(SkillObject skill, SkillEffect skillEffect, Town town, ref ExplainedNumber bonuses)
 		{
 			if (skillEffect.PrimaryRole == SkillEffect.PerkRole.ClanLeader || skillEffect.SecondaryRole == SkillEffect.PerkRole.ClanLeader)
@@ -93,7 +90,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000CF RID: 207 RVA: 0x0000AC74 File Offset: 0x00008E74
 		public static void AddSkillBonusForCharacter(SkillObject skill, SkillEffect skillEffect, CharacterObject character, ref ExplainedNumber stat, int baseSkillOverride = -1, bool isBonusPositive = true, int extraSkillValue = 0)
 		{
 			int num = ((baseSkillOverride >= 0) ? baseSkillOverride : character.GetSkillValue(skill)) + extraSkillValue;
@@ -155,7 +151,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000D0 RID: 208 RVA: 0x0000AED4 File Offset: 0x000090D4
 		public static string GetEffectDescriptionForSkillLevel(SkillEffect effect, int level)
 		{
 			MBTextManager.SetTextVariable("a0", effect.GetPrimaryValue(level).ToString("0.0"), false);
@@ -163,7 +158,6 @@ namespace Helpers
 			return effect.Description.ToString();
 		}
 
-		// Token: 0x060000D1 RID: 209 RVA: 0x0000AF2A File Offset: 0x0000912A
 		private static void AddToStat(ref ExplainedNumber stat, SkillEffect.EffectIncrementType effectIncrementType, float number, TextObject text)
 		{
 			if (effectIncrementType == SkillEffect.EffectIncrementType.Add)
@@ -177,7 +171,6 @@ namespace Helpers
 			}
 		}
 
-		// Token: 0x060000D2 RID: 210 RVA: 0x0000AF4B File Offset: 0x0000914B
 		public static CharacterObject GetEffectivePartyLeaderForSkill(PartyBase party)
 		{
 			if (party == null)
@@ -196,34 +189,24 @@ namespace Helpers
 			return party.MemberRoster.GetCharacterAtIndex(0);
 		}
 
-		// Token: 0x04000004 RID: 4
 		private static readonly TextObject _textLeader = new TextObject("{=SrfYbg3x}Leader", null);
 
-		// Token: 0x04000005 RID: 5
 		private static readonly TextObject _textPersonal = new TextObject("{=UxAl9iyi}Personal", null);
 
-		// Token: 0x04000006 RID: 6
 		private static readonly TextObject _textScout = new TextObject("{=92M0Pb5T}Scout", null);
 
-		// Token: 0x04000007 RID: 7
 		private static readonly TextObject _textQuartermaster = new TextObject("{=redwEIlW}Quartermaster", null);
 
-		// Token: 0x04000008 RID: 8
 		private static readonly TextObject _textEngineer = new TextObject("{=7h6cXdW7}Engineer", null);
 
-		// Token: 0x04000009 RID: 9
 		private static readonly TextObject _textPartyLeader = new TextObject("{=ggpRTQQl}Party Leader", null);
 
-		// Token: 0x0400000A RID: 10
 		private static readonly TextObject _textSurgeon = new TextObject("{=QBPrRdQJ}Surgeon", null);
 
-		// Token: 0x0400000B RID: 11
 		private static readonly TextObject _textSergeant = new TextObject("{=g9VIbA9s}Sergeant", null);
 
-		// Token: 0x0400000C RID: 12
 		private static readonly TextObject _textGovernor = new TextObject("{=Fa2nKXxI}Governor", null);
 
-		// Token: 0x0400000D RID: 13
 		private static readonly TextObject _textClanLeader = new TextObject("{=pqfz386V}Clan Leader", null);
 	}
 }

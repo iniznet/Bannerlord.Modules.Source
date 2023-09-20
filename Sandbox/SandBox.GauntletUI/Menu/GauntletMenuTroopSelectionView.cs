@@ -13,11 +13,9 @@ using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Menu
 {
-	// Token: 0x0200001E RID: 30
 	[OverrideView(typeof(MenuTroopSelectionView))]
 	public class GauntletMenuTroopSelectionView : MenuView
 	{
-		// Token: 0x0600012C RID: 300 RVA: 0x000095B7 File Offset: 0x000077B7
 		public GauntletMenuTroopSelectionView(TroopRoster fullRoster, TroopRoster initialSelections, Func<CharacterObject, bool> changeChangeStatusOfTroop, Action<TroopRoster> onDone, int maxSelectableTroopCount, int minSelectableTroopCount)
 		{
 			this._onDone = onDone;
@@ -28,7 +26,6 @@ namespace SandBox.GauntletUI.Menu
 			this._minSelectableTroopCount = minSelectableTroopCount;
 		}
 
-		// Token: 0x0600012D RID: 301 RVA: 0x000095EC File Offset: 0x000077EC
 		protected override void OnInitialize()
 		{
 			base.OnInitialize();
@@ -58,7 +55,6 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x0600012E RID: 302 RVA: 0x00009769 File Offset: 0x00007969
 		private void OnDone(TroopRoster obj)
 		{
 			MapScreen.Instance.SetIsInHideoutTroopManage(false);
@@ -71,7 +67,6 @@ namespace SandBox.GauntletUI.Menu
 			Common.DynamicInvokeWithLog(onDone, new object[] { obj });
 		}
 
-		// Token: 0x0600012F RID: 303 RVA: 0x0000979C File Offset: 0x0000799C
 		protected override void OnFinalize()
 		{
 			base.Layer.IsFocusLayer = false;
@@ -87,7 +82,6 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFinalize();
 		}
 
-		// Token: 0x06000130 RID: 304 RVA: 0x0000981C File Offset: 0x00007A1C
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
@@ -124,31 +118,22 @@ namespace SandBox.GauntletUI.Menu
 			}
 		}
 
-		// Token: 0x04000088 RID: 136
 		private readonly Action<TroopRoster> _onDone;
 
-		// Token: 0x04000089 RID: 137
 		private readonly TroopRoster _fullRoster;
 
-		// Token: 0x0400008A RID: 138
 		private readonly TroopRoster _initialSelections;
 
-		// Token: 0x0400008B RID: 139
 		private readonly Func<CharacterObject, bool> _changeChangeStatusOfTroop;
 
-		// Token: 0x0400008C RID: 140
 		private readonly int _maxSelectableTroopCount;
 
-		// Token: 0x0400008D RID: 141
 		private readonly int _minSelectableTroopCount;
 
-		// Token: 0x0400008E RID: 142
 		private GauntletLayer _layerAsGauntletLayer;
 
-		// Token: 0x0400008F RID: 143
 		private GameMenuTroopSelectionVM _dataSource;
 
-		// Token: 0x04000090 RID: 144
 		private IGauntletMovie _movie;
 	}
 }

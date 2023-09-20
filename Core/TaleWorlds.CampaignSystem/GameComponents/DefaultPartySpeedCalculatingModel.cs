@@ -11,11 +11,8 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameComponents
 {
-	// Token: 0x02000126 RID: 294
 	public class DefaultPartySpeedCalculatingModel : PartySpeedModel
 	{
-		// Token: 0x1700060C RID: 1548
-		// (get) Token: 0x0600168F RID: 5775 RVA: 0x0006D596 File Offset: 0x0006B796
 		public override float BaseSpeed
 		{
 			get
@@ -24,8 +21,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x1700060D RID: 1549
-		// (get) Token: 0x06001690 RID: 5776 RVA: 0x0006D59D File Offset: 0x0006B79D
 		public override float MinimumSpeed
 		{
 			get
@@ -34,7 +29,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x06001691 RID: 5777 RVA: 0x0006D5A4 File Offset: 0x0006B7A4
 		public override ExplainedNumber CalculateBaseSpeed(MobileParty mobileParty, bool includeDescriptions = false, int additionalTroopOnFootCount = 0, int additionalTroopOnHorseCount = 0)
 		{
 			PartyBase party = mobileParty.Party;
@@ -153,7 +147,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber;
 		}
 
-		// Token: 0x06001692 RID: 5778 RVA: 0x0006DA50 File Offset: 0x0006BC50
 		private static void AddCargoStats(MobileParty mobileParty, ref int numberOfAvailableMounts, ref float totalWeightCarried, ref int herdSize)
 		{
 			ItemRoster itemRoster = mobileParty.ItemRoster;
@@ -164,13 +157,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			totalWeightCarried += itemRoster.TotalWeight;
 		}
 
-		// Token: 0x06001693 RID: 5779 RVA: 0x0006DA90 File Offset: 0x0006BC90
 		private float CalculateBaseSpeedForParty(int menCount)
 		{
 			return this.BaseSpeed * MathF.Pow(200f / (200f + (float)menCount), 0.4f);
 		}
 
-		// Token: 0x06001694 RID: 5780 RVA: 0x0006DAB4 File Offset: 0x0006BCB4
 		public override ExplainedNumber CalculateFinalSpeed(MobileParty mobileParty, ExplainedNumber finalSpeed)
 		{
 			if (mobileParty.IsCustomParty && !((CustomPartyComponent)mobileParty.PartyComponent).BaseSpeed.ApproximatelyEqualsTo(0f, 1E-05f))
@@ -260,19 +251,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return finalSpeed;
 		}
 
-		// Token: 0x06001695 RID: 5781 RVA: 0x0006DE69 File Offset: 0x0006C069
 		private float GetCargoEffect(float weightCarried, int partyCapacity)
 		{
 			return -0.02f * weightCarried / (float)partyCapacity;
 		}
 
-		// Token: 0x06001696 RID: 5782 RVA: 0x0006DE76 File Offset: 0x0006C076
 		private float GetOverBurdenedEffect(float totalWeightCarried, int partyCapacity)
 		{
 			return -0.4f * (totalWeightCarried / (float)partyCapacity);
 		}
 
-		// Token: 0x06001697 RID: 5783 RVA: 0x0006DE84 File Offset: 0x0006C084
 		private float GetOverPartySizeEffect(MobileParty mobileParty)
 		{
 			int partySizeLimit = mobileParty.Party.PartySizeLimit;
@@ -280,7 +268,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1f / ((float)numberOfAllMembers / (float)partySizeLimit) - 1f;
 		}
 
-		// Token: 0x06001698 RID: 5784 RVA: 0x0006DEBC File Offset: 0x0006C0BC
 		private float GetOverPrisonerSizeEffect(MobileParty mobileParty)
 		{
 			int prisonerSizeLimit = mobileParty.Party.PrisonerSizeLimit;
@@ -288,7 +275,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1f / ((float)numberOfPrisoners / (float)prisonerSizeLimit) - 1f;
 		}
 
-		// Token: 0x06001699 RID: 5785 RVA: 0x0006DEF2 File Offset: 0x0006C0F2
 		private float GetHerdingModifier(int totalMenCount, int herdSize)
 		{
 			herdSize -= totalMenCount;
@@ -303,7 +289,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Max(-0.8f, -0.3f * ((float)herdSize / (float)totalMenCount));
 		}
 
-		// Token: 0x0600169A RID: 5786 RVA: 0x0006DF24 File Offset: 0x0006C124
 		private float GetWoundedModifier(int totalMenCount, int numWounded, MobileParty party)
 		{
 			if (numWounded <= totalMenCount / 4)
@@ -320,7 +305,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		// Token: 0x0600169B RID: 5787 RVA: 0x0006DF7C File Offset: 0x0006C17C
 		private void GetCavalryRatioModifier(MobileParty party, int totalMenCount, int totalCavalryCount, ref ExplainedNumber result)
 		{
 			if (totalMenCount > 0 && totalCavalryCount > 0)
@@ -330,7 +314,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600169C RID: 5788 RVA: 0x0006DFAA File Offset: 0x0006C1AA
 		private float GetMountedFootmenRatioModifier(int totalMenCount, int totalCavalryCount)
 		{
 			if (totalMenCount == 0)
@@ -340,7 +323,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0.2f * (float)totalCavalryCount / (float)totalMenCount;
 		}
 
-		// Token: 0x0600169D RID: 5789 RVA: 0x0006DFC0 File Offset: 0x0006C1C0
 		private void GetFootmenPerkBonus(MobileParty party, int totalMenCount, int totalFootmenCount, ref ExplainedNumber result)
 		{
 			if (totalMenCount == 0)
@@ -354,127 +336,88 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		// Token: 0x0600169E RID: 5790 RVA: 0x0006E014 File Offset: 0x0006C214
 		private static float GetSizeModifierWounded(int totalMenCount, int totalWoundedMenCount)
 		{
 			return MathF.Pow((10f + (float)totalMenCount) / (10f + (float)totalMenCount - (float)totalWoundedMenCount), 0.33f);
 		}
 
-		// Token: 0x0600169F RID: 5791 RVA: 0x0006E034 File Offset: 0x0006C234
 		private static float GetSizeModifierPrisoner(int totalMenCount, int totalPrisonerCount)
 		{
 			return MathF.Pow((10f + (float)totalMenCount + (float)totalPrisonerCount) / (10f + (float)totalMenCount), 0.33f);
 		}
 
-		// Token: 0x040007EF RID: 2031
 		private static readonly TextObject _textCargo = new TextObject("{=fSGY71wd}Cargo within capacity", null);
 
-		// Token: 0x040007F0 RID: 2032
 		private static readonly TextObject _textOverburdened = new TextObject("{=xgO3cCgR}Overburdened", null);
 
-		// Token: 0x040007F1 RID: 2033
 		private static readonly TextObject _textOverPartySize = new TextObject("{=bO5gL3FI}Men within party size", null);
 
-		// Token: 0x040007F2 RID: 2034
 		private static readonly TextObject _textOverPrisonerSize = new TextObject("{=Ix8YjLPD}Men within prisoner size", null);
 
-		// Token: 0x040007F3 RID: 2035
 		private static readonly TextObject _textCavalry = new TextObject("{=YVGtcLHF}Cavalry", null);
 
-		// Token: 0x040007F4 RID: 2036
 		private static readonly TextObject _textKhuzaitCavalryBonus = new TextObject("{=yi07dBks}Khuzait Cavalry Bonus", null);
 
-		// Token: 0x040007F5 RID: 2037
 		private static readonly TextObject _textMountedFootmen = new TextObject("{=5bSWSaPl}Footmen on horses", null);
 
-		// Token: 0x040007F6 RID: 2038
 		private static readonly TextObject _textWounded = new TextObject("{=aLsVKIRy}Wounded Members", null);
 
-		// Token: 0x040007F7 RID: 2039
 		private static readonly TextObject _textPrisoners = new TextObject("{=N6QTvjMf}Prisoners", null);
 
-		// Token: 0x040007F8 RID: 2040
 		private static readonly TextObject _textHerd = new TextObject("{=NhAMSaWU}Herd", null);
 
-		// Token: 0x040007F9 RID: 2041
 		private static readonly TextObject _textHighMorale = new TextObject("{=aDQcIGfH}High Morale", null);
 
-		// Token: 0x040007FA RID: 2042
 		private static readonly TextObject _textLowMorale = new TextObject("{=ydspCDIy}Low Morale", null);
 
-		// Token: 0x040007FB RID: 2043
 		private static readonly TextObject _textCaravan = new TextObject("{=vvabqi2w}Caravan", null);
 
-		// Token: 0x040007FC RID: 2044
 		private static readonly TextObject _textDisorganized = new TextObject("{=JuwBb2Yg}Disorganized", null);
 
-		// Token: 0x040007FD RID: 2045
 		private static readonly TextObject _movingInForest = new TextObject("{=rTFaZCdY}Forest", null);
 
-		// Token: 0x040007FE RID: 2046
 		private static readonly TextObject _fordEffect = new TextObject("{=NT5fwUuJ}Fording", null);
 
-		// Token: 0x040007FF RID: 2047
 		private static readonly TextObject _night = new TextObject("{=fAxjyMt5}Night", null);
 
-		// Token: 0x04000800 RID: 2048
 		private static readonly TextObject _snow = new TextObject("{=vLjgcdgB}Snow", null);
 
-		// Token: 0x04000801 RID: 2049
 		private static readonly TextObject _desert = new TextObject("{=ecUwABe2}Desert", null);
 
-		// Token: 0x04000802 RID: 2050
 		private static readonly TextObject _sturgiaSnowBonus = new TextObject("{=0VfEGekD}Sturgia Snow Bonus", null);
 
-		// Token: 0x04000803 RID: 2051
 		private static readonly TextObject _culture = GameTexts.FindText("str_culture", null);
 
-		// Token: 0x04000804 RID: 2052
 		private const float MovingAtForestEffect = -0.3f;
 
-		// Token: 0x04000805 RID: 2053
 		private const float MovingAtWaterEffect = -0.3f;
 
-		// Token: 0x04000806 RID: 2054
 		private const float MovingAtNightEffect = -0.25f;
 
-		// Token: 0x04000807 RID: 2055
 		private const float MovingOnSnowEffect = -0.1f;
 
-		// Token: 0x04000808 RID: 2056
 		private const float MovingInDesertEffect = -0.1f;
 
-		// Token: 0x04000809 RID: 2057
 		private const float CavalryEffect = 0.4f;
 
-		// Token: 0x0400080A RID: 2058
 		private const float MountedFootMenEffect = 0.2f;
 
-		// Token: 0x0400080B RID: 2059
 		private const float HerdEffect = -0.4f;
 
-		// Token: 0x0400080C RID: 2060
 		private const float WoundedEffect = -0.05f;
 
-		// Token: 0x0400080D RID: 2061
 		private const float CargoEffect = -0.02f;
 
-		// Token: 0x0400080E RID: 2062
 		private const float OverburdenedEffect = -0.4f;
 
-		// Token: 0x0400080F RID: 2063
 		private const float HighMoraleThresold = 70f;
 
-		// Token: 0x04000810 RID: 2064
 		private const float LowMoraleThresold = 30f;
 
-		// Token: 0x04000811 RID: 2065
 		private const float HighMoraleEffect = 0.05f;
 
-		// Token: 0x04000812 RID: 2066
 		private const float LowMoraleEffect = -0.1f;
 
-		// Token: 0x04000813 RID: 2067
 		private const float DisorganizedEffect = -0.4f;
 	}
 }

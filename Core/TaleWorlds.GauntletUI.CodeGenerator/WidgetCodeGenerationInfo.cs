@@ -10,46 +10,22 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.GauntletUI.CodeGenerator
 {
-	// Token: 0x02000013 RID: 19
 	public class WidgetCodeGenerationInfo
 	{
-		// Token: 0x17000041 RID: 65
-		// (get) Token: 0x060000F8 RID: 248 RVA: 0x00007E6D File Offset: 0x0000606D
-		// (set) Token: 0x060000F9 RID: 249 RVA: 0x00007E75 File Offset: 0x00006075
 		public WidgetTemplateGenerateContext RootWidgetTemplateGenerateContext { get; private set; }
 
-		// Token: 0x17000042 RID: 66
-		// (get) Token: 0x060000FA RID: 250 RVA: 0x00007E7E File Offset: 0x0000607E
-		// (set) Token: 0x060000FB RID: 251 RVA: 0x00007E86 File Offset: 0x00006086
 		public WidgetTemplate WidgetTemplate { get; private set; }
 
-		// Token: 0x17000043 RID: 67
-		// (get) Token: 0x060000FC RID: 252 RVA: 0x00007E8F File Offset: 0x0000608F
-		// (set) Token: 0x060000FD RID: 253 RVA: 0x00007E97 File Offset: 0x00006097
 		public WidgetFactory WidgetFactory { get; private set; }
 
-		// Token: 0x17000044 RID: 68
-		// (get) Token: 0x060000FE RID: 254 RVA: 0x00007EA0 File Offset: 0x000060A0
-		// (set) Token: 0x060000FF RID: 255 RVA: 0x00007EA8 File Offset: 0x000060A8
 		public string VariableName { get; private set; }
 
-		// Token: 0x17000045 RID: 69
-		// (get) Token: 0x06000100 RID: 256 RVA: 0x00007EB1 File Offset: 0x000060B1
-		// (set) Token: 0x06000101 RID: 257 RVA: 0x00007EB9 File Offset: 0x000060B9
 		public WidgetCodeGenerationInfo Parent { get; private set; }
 
-		// Token: 0x17000046 RID: 70
-		// (get) Token: 0x06000102 RID: 258 RVA: 0x00007EC2 File Offset: 0x000060C2
-		// (set) Token: 0x06000103 RID: 259 RVA: 0x00007ECA File Offset: 0x000060CA
 		public WidgetCodeGenerationInfoExtension Extension { get; private set; }
 
-		// Token: 0x17000047 RID: 71
-		// (get) Token: 0x06000104 RID: 260 RVA: 0x00007ED3 File Offset: 0x000060D3
-		// (set) Token: 0x06000105 RID: 261 RVA: 0x00007EDB File Offset: 0x000060DB
 		public WidgetTemplateGenerateContext ChildWidgetTemplateGenerateContext { get; private set; }
 
-		// Token: 0x17000048 RID: 72
-		// (get) Token: 0x06000106 RID: 262 RVA: 0x00007EE4 File Offset: 0x000060E4
 		public bool IsRoot
 		{
 			get
@@ -58,8 +34,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x17000049 RID: 73
-		// (get) Token: 0x06000107 RID: 263 RVA: 0x00007EEF File Offset: 0x000060EF
 		public string Id
 		{
 			get
@@ -68,12 +42,8 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x1700004A RID: 74
-		// (get) Token: 0x06000108 RID: 264 RVA: 0x00007EFC File Offset: 0x000060FC
-		// (set) Token: 0x06000109 RID: 265 RVA: 0x00007F04 File Offset: 0x00006104
 		public List<WidgetCodeGenerationInfo> Children { get; private set; }
 
-		// Token: 0x0600010A RID: 266 RVA: 0x00007F0D File Offset: 0x0000610D
 		public WidgetCodeGenerationInfo(WidgetTemplateGenerateContext widgetTemplateGenerateContext, WidgetTemplate widgetTemplate, string variableName, WidgetCodeGenerationInfo parent)
 		{
 			this.RootWidgetTemplateGenerateContext = widgetTemplateGenerateContext;
@@ -84,7 +54,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			this.Children = new List<WidgetCodeGenerationInfo>();
 		}
 
-		// Token: 0x0600010B RID: 267 RVA: 0x00007F4C File Offset: 0x0000614C
 		public WidgetCodeGenerationInfoChildSearchResult FindChild(BindingPath path)
 		{
 			string firstNode = path.FirstNode;
@@ -132,7 +101,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x0600010C RID: 268 RVA: 0x0000804C File Offset: 0x0000624C
 		public Dictionary<string, WidgetAttributeTemplate> GetPassedParametersToChild()
 		{
 			Dictionary<string, WidgetAttributeTemplate> dictionary = new Dictionary<string, WidgetAttributeTemplate>();
@@ -159,7 +127,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return dictionary;
 		}
 
-		// Token: 0x0600010D RID: 269 RVA: 0x00008164 File Offset: 0x00006364
 		public void CheckDependendType()
 		{
 			if (!this.RootWidgetTemplateGenerateContext.IsBuiltinType(this.WidgetTemplate))
@@ -190,7 +157,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x0600010E RID: 270 RVA: 0x0000825C File Offset: 0x0000645C
 		public string GetUseableTypeName()
 		{
 			string text;
@@ -205,7 +171,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return text;
 		}
 
-		// Token: 0x0600010F RID: 271 RVA: 0x000082AC File Offset: 0x000064AC
 		public VariableCode CreateVariableCode()
 		{
 			VariableCode variableCode = new VariableCode();
@@ -216,13 +181,11 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return variableCode;
 		}
 
-		// Token: 0x06000110 RID: 272 RVA: 0x000082DF File Offset: 0x000064DF
 		internal void AddChild(WidgetCodeGenerationInfo widgetCodeGenerationInfo)
 		{
 			this.Children.Add(widgetCodeGenerationInfo);
 		}
 
-		// Token: 0x06000111 RID: 273 RVA: 0x000082F0 File Offset: 0x000064F0
 		internal void FillCreateWidgetsMethod(MethodCode methodCode)
 		{
 			string text = ((this.Parent != null) ? this.Parent.VariableName : null);
@@ -254,7 +217,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x06000112 RID: 274 RVA: 0x00008400 File Offset: 0x00006600
 		internal void FillSetAttributesMethod(MethodCode methodCode)
 		{
 			VariableCollection variableCollection = this.RootWidgetTemplateGenerateContext.VariableCollection;
@@ -340,7 +302,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x06000113 RID: 275 RVA: 0x00008734 File Offset: 0x00006934
 		private Type GetAttributeType(string propertyName)
 		{
 			PropertyInfo propertyInfo = this.RootWidgetTemplateGenerateContext.VariableCollection.GetPropertyInfo(this.WidgetTemplate, propertyName);
@@ -351,7 +312,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			return null;
 		}
 
-		// Token: 0x06000114 RID: 276 RVA: 0x0000876C File Offset: 0x0000696C
 		private void AddDefaultAttributeSet(MethodCode methodCode, string targetWidgetName, string propertyName, string value)
 		{
 			Type attributeType = this.GetAttributeType(propertyName);
@@ -488,7 +448,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x06000115 RID: 277 RVA: 0x00008CC0 File Offset: 0x00006EC0
 		internal void FillSetIdsMethod(MethodCode methodCode)
 		{
 			string text = (this.IsRoot ? "this" : this.VariableName);
@@ -512,7 +471,6 @@ namespace TaleWorlds.GauntletUI.CodeGenerator
 			}
 		}
 
-		// Token: 0x06000116 RID: 278 RVA: 0x00008DF8 File Offset: 0x00006FF8
 		internal void AddExtension(WidgetCodeGenerationInfoExtension extension)
 		{
 			this.Extension = extension;

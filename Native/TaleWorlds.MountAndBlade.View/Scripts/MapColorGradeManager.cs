@@ -7,10 +7,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Scripts
 {
-	// Token: 0x0200003F RID: 63
 	public class MapColorGradeManager : ScriptComponentBehavior
 	{
-		// Token: 0x060002DF RID: 735 RVA: 0x00019CB8 File Offset: 0x00017EB8
 		private void Init()
 		{
 			if (base.Scene.ContainsTerrain)
@@ -31,14 +29,12 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.ApplyAtmosphere(true);
 		}
 
-		// Token: 0x060002E0 RID: 736 RVA: 0x00019D5F File Offset: 0x00017F5F
 		protected override void OnInit()
 		{
 			base.OnInit();
 			this.Init();
 		}
 
-		// Token: 0x060002E1 RID: 737 RVA: 0x00019D6D File Offset: 0x00017F6D
 		protected override void OnEditorInit()
 		{
 			base.OnEditorInit();
@@ -47,13 +43,11 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.lastSceneTimeOfDay = this.TimeOfDay;
 		}
 
-		// Token: 0x060002E2 RID: 738 RVA: 0x00019D98 File Offset: 0x00017F98
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
 		{
 			return 2;
 		}
 
-		// Token: 0x060002E3 RID: 739 RVA: 0x00019D9B File Offset: 0x00017F9B
 		protected override void OnTick(float dt)
 		{
 			this.TimeOfDay = base.Scene.TimeOfDay;
@@ -62,7 +56,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			this.ApplyColorGrade(dt);
 		}
 
-		// Token: 0x060002E4 RID: 740 RVA: 0x00019DD0 File Offset: 0x00017FD0
 		protected override void OnEditorTick(float dt)
 		{
 			if (base.Scene.TimeOfDay != this.lastSceneTimeOfDay)
@@ -100,7 +93,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002E5 RID: 741 RVA: 0x00019EC4 File Offset: 0x000180C4
 		protected override void OnEditorVariableChanged(string variableName)
 		{
 			base.OnEditorVariableChanged(variableName);
@@ -127,7 +119,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002E6 RID: 742 RVA: 0x00019F38 File Offset: 0x00018138
 		private void ReadColorGradesXml()
 		{
 			List<string> list;
@@ -172,7 +163,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x060002E7 RID: 743 RVA: 0x0001A100 File Offset: 0x00018300
 		public void ApplyAtmosphere(bool forceLoadTextures)
 		{
 			this.TimeOfDay = MBMath.ClampFloat(this.TimeOfDay, 0f, 23.99f);
@@ -187,7 +177,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			MBMapScene.SetTerrainDynamicParams(base.Scene, vec);
 		}
 
-		// Token: 0x060002E8 RID: 744 RVA: 0x0001A1C0 File Offset: 0x000183C0
 		public void ApplyColorGrade(float dt)
 		{
 			Vec3 origin = base.Scene.LastFinalRenderCameraFrame.origin;
@@ -253,55 +242,38 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			}
 		}
 
-		// Token: 0x040001FF RID: 511
 		public bool ColorGradeEnabled;
 
-		// Token: 0x04000200 RID: 512
 		public bool AtmosphereSimulationEnabled;
 
-		// Token: 0x04000201 RID: 513
 		public float TimeOfDay;
 
-		// Token: 0x04000202 RID: 514
 		public float SeasonTimeFactor;
 
-		// Token: 0x04000203 RID: 515
 		private string colorGradeGridName = "worldmap_colorgrade_grid";
 
-		// Token: 0x04000204 RID: 516
 		private const int colorGradeGridSize = 262144;
 
-		// Token: 0x04000205 RID: 517
 		private byte[] colorGradeGrid = new byte[262144];
 
-		// Token: 0x04000206 RID: 518
 		private Dictionary<byte, string> colorGradeGridMapping = new Dictionary<byte, string>();
 
-		// Token: 0x04000207 RID: 519
 		private MapColorGradeManager.ColorGradeBlendRecord primaryTransitionRecord;
 
-		// Token: 0x04000208 RID: 520
 		private MapColorGradeManager.ColorGradeBlendRecord secondaryTransitionRecord;
 
-		// Token: 0x04000209 RID: 521
 		private byte lastColorGrade;
 
-		// Token: 0x0400020A RID: 522
 		private Vec2 terrainSize = new Vec2(1f, 1f);
 
-		// Token: 0x0400020B RID: 523
 		private string defaultColorGradeTextureName = "worldmap_colorgrade_stratosphere";
 
-		// Token: 0x0400020C RID: 524
 		private const float transitionSpeedFactor = 1f;
 
-		// Token: 0x0400020D RID: 525
 		private float lastSceneTimeOfDay;
 
-		// Token: 0x020000B4 RID: 180
 		private class ColorGradeBlendRecord
 		{
-			// Token: 0x0600054A RID: 1354 RVA: 0x00026E4C File Offset: 0x0002504C
 			public ColorGradeBlendRecord()
 			{
 				this.color1 = "";
@@ -309,7 +281,6 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 				this.alpha = 0f;
 			}
 
-			// Token: 0x0600054B RID: 1355 RVA: 0x00026E75 File Offset: 0x00025075
 			public ColorGradeBlendRecord(MapColorGradeManager.ColorGradeBlendRecord other)
 			{
 				this.color1 = other.color1;
@@ -317,13 +288,10 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 				this.alpha = other.alpha;
 			}
 
-			// Token: 0x04000360 RID: 864
 			public string color1;
 
-			// Token: 0x04000361 RID: 865
 			public string color2;
 
-			// Token: 0x04000362 RID: 866
 			public float alpha;
 		}
 	}

@@ -5,16 +5,10 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	// Token: 0x020001F6 RID: 502
 	public class BattleSpawnPathSelector
 	{
-		// Token: 0x17000589 RID: 1417
-		// (get) Token: 0x06001BE9 RID: 7145 RVA: 0x000630F4 File Offset: 0x000612F4
-		// (set) Token: 0x06001BEA RID: 7146 RVA: 0x000630FC File Offset: 0x000612FC
 		public bool IsInitialized { get; private set; }
 
-		// Token: 0x1700058A RID: 1418
-		// (get) Token: 0x06001BEB RID: 7147 RVA: 0x00063105 File Offset: 0x00061305
 		public Path InitialPath
 		{
 			get
@@ -23,7 +17,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		// Token: 0x06001BEC RID: 7148 RVA: 0x0006310D File Offset: 0x0006130D
 		public BattleSpawnPathSelector(Mission mission)
 		{
 			this.IsInitialized = false;
@@ -31,7 +24,6 @@ namespace TaleWorlds.MountAndBlade
 			this._mission = mission;
 		}
 
-		// Token: 0x06001BED RID: 7149 RVA: 0x0006312C File Offset: 0x0006132C
 		public void Initialize()
 		{
 			float num;
@@ -50,7 +42,6 @@ namespace TaleWorlds.MountAndBlade
 			this.IsInitialized = false;
 		}
 
-		// Token: 0x06001BEE RID: 7150 RVA: 0x000631BC File Offset: 0x000613BC
 		public bool HasPath(Path path)
 		{
 			if (!this.IsInitialized)
@@ -63,7 +54,6 @@ namespace TaleWorlds.MountAndBlade
 			return path != null && (this._initialPath.Pointer == path.Pointer || battleSideSpawnPathSelector.HasReinforcementPath(path) || battleSideSpawnPathSelector2.HasReinforcementPath(path));
 		}
 
-		// Token: 0x06001BEF RID: 7151 RVA: 0x00063230 File Offset: 0x00061430
 		public bool GetInitialPathDataOfSide(BattleSideEnum side, out SpawnPathData pathPathData)
 		{
 			if (!this.IsInitialized)
@@ -76,7 +66,6 @@ namespace TaleWorlds.MountAndBlade
 			return pathPathData.IsValid;
 		}
 
-		// Token: 0x06001BF0 RID: 7152 RVA: 0x00063281 File Offset: 0x00061481
 		public MBReadOnlyList<SpawnPathData> GetReinforcementPathsDataOfSide(BattleSideEnum side)
 		{
 			if (!this.IsInitialized)
@@ -87,7 +76,6 @@ namespace TaleWorlds.MountAndBlade
 			return this._battleSideSelectors[(int)side].ReinforcementPaths;
 		}
 
-		// Token: 0x06001BF1 RID: 7153 RVA: 0x000632B0 File Offset: 0x000614B0
 		public static Path FindBestInitialPath(Mission mission, out float centerRatio, out bool isInverted)
 		{
 			centerRatio = 0f;
@@ -177,13 +165,10 @@ namespace TaleWorlds.MountAndBlade
 			return path2;
 		}
 
-		// Token: 0x0400090A RID: 2314
 		private readonly Mission _mission;
 
-		// Token: 0x0400090B RID: 2315
 		private Path _initialPath;
 
-		// Token: 0x0400090C RID: 2316
 		private BattleSideSpawnPathSelector[] _battleSideSelectors;
 	}
 }

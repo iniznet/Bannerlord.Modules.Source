@@ -17,29 +17,24 @@ using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
 {
-	// Token: 0x020000A5 RID: 165
 	public class WorkshopsCharactersCampaignBehavior : CampaignBehaviorBase
 	{
-		// Token: 0x060009CF RID: 2511 RVA: 0x00050E44 File Offset: 0x0004F044
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
 		}
 
-		// Token: 0x060009D0 RID: 2512 RVA: 0x00050E74 File Offset: 0x0004F074
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		// Token: 0x060009D1 RID: 2513 RVA: 0x00050E76 File Offset: 0x0004F076
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
 			this.AddShopWorkerDialogs(campaignGameStarter);
 			this.AddWorkshopOwnerDialogs(campaignGameStarter);
 		}
 
-		// Token: 0x060009D2 RID: 2514 RVA: 0x00050E88 File Offset: 0x0004F088
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Location locationWithId = Settlement.CurrentSettlement.LocationComplex.GetLocationWithId("center");
@@ -49,7 +44,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060009D3 RID: 2515 RVA: 0x00050ED0 File Offset: 0x0004F0D0
 		private void AddShopWorkersToTownCenter(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -80,7 +74,6 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x060009D4 RID: 2516 RVA: 0x00051004 File Offset: 0x0004F204
 		private Workshop FindCurrentWorkshop(Agent agent)
 		{
 			if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.IsTown)
@@ -101,7 +94,6 @@ namespace SandBox.CampaignBehaviors
 			return null;
 		}
 
-		// Token: 0x060009D5 RID: 2517 RVA: 0x00051074 File Offset: 0x0004F274
 		private void AddWorkshopOwnerDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddPlayerLine("workshop_notable_owner_begin_1", "hero_main_options", "workshop_owner_notable_single_response", "{=ug5E8FCZ}I wish to buy your {.%}{WORKSHOP_NAME}{.%}.", new ConversationSentence.OnConditionDelegate(this.workshop_notable_owner_begin_single_on_condition), new ConversationSentence.OnConsequenceDelegate(this.workshop_notable_owner_begin_single_on_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.player_war_status_clickable_condition), null);
@@ -115,7 +107,6 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddRepeatablePlayerLine("workshop_player_select_workshop", "workshop_player_select_workshop", "workshop_owner_notable_single_response", "{=!}{WORKSHOP_NAME}", "{=5z4hEq68}I am thinking of a different kind of workshop.", "workshop_owner_notable_multiple_response", new ConversationSentence.OnConditionDelegate(this.workshop_notable_owner_player_select_workshop_multiple_on_condition), new ConversationSentence.OnConsequenceDelegate(this.workshop_notable_owner_player_select_workshop_multiple_on_consequence), 100, null);
 		}
 
-		// Token: 0x060009D6 RID: 2518 RVA: 0x00051228 File Offset: 0x0004F428
 		private bool workshop_notable_owner_begin_single_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.IsNotable && Hero.OneToOneConversationHero.CurrentSettlement == Settlement.CurrentSettlement)
@@ -129,13 +120,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009D7 RID: 2519 RVA: 0x000512D1 File Offset: 0x0004F4D1
 		private void workshop_notable_owner_begin_single_on_consequence()
 		{
 			this._lastSelectedWorkshop = Hero.OneToOneConversationHero.OwnedWorkshops.First((Workshop x) => !x.WorkshopType.IsHidden);
 		}
 
-		// Token: 0x060009D8 RID: 2520 RVA: 0x00051308 File Offset: 0x0004F508
 		private bool workshop_notable_owner_begin_multiple_on_condition()
 		{
 			if (Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero.IsNotable && Hero.OneToOneConversationHero.CurrentSettlement == Settlement.CurrentSettlement)
@@ -145,7 +134,6 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009D9 RID: 2521 RVA: 0x0005136C File Offset: 0x0004F56C
 		private bool workshop_notable_owner_answer_single_workshop_cost_on_condition()
 		{
 			if (this._lastSelectedWorkshop != null)
@@ -156,13 +144,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009DA RID: 2522 RVA: 0x0005139D File Offset: 0x0004F59D
 		private void workshop_notable_owner_answer_list_workshops_on_condition()
 		{
 			ConversationSentence.SetObjectsToRepeatOver(Hero.OneToOneConversationHero.OwnedWorkshops.Where((Workshop x) => !x.WorkshopType.IsHidden).ToList<Workshop>(), 5);
 		}
 
-		// Token: 0x060009DB RID: 2523 RVA: 0x000513D8 File Offset: 0x0004F5D8
 		private bool workshop_notable_owner_player_select_workshop_multiple_on_condition()
 		{
 			Workshop workshop = ConversationSentence.CurrentProcessedRepeatObject as Workshop;
@@ -174,13 +160,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009DC RID: 2524 RVA: 0x0005140C File Offset: 0x0004F60C
 		private void workshop_notable_owner_player_select_workshop_multiple_on_consequence()
 		{
 			this._lastSelectedWorkshop = ConversationSentence.SelectedRepeatObject as Workshop;
 		}
 
-		// Token: 0x060009DD RID: 2525 RVA: 0x00051420 File Offset: 0x0004F620
 		private void workshop_notable_owner_player_buys_workshop_on_consequence()
 		{
 			Workshop lastSelectedWorkshop = this._lastSelectedWorkshop;
@@ -188,13 +172,11 @@ namespace SandBox.CampaignBehaviors
 			ChangeOwnerOfWorkshopAction.ApplyByTrade(lastSelectedWorkshop, Hero.MainHero, lastSelectedWorkshop.WorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, buyingCostForPlayer, null);
 		}
 
-		// Token: 0x060009DE RID: 2526 RVA: 0x00051473 File Offset: 0x0004F673
 		private bool workshop_notable_owner_player_buys_workshop_on_clickable_condition(out TextObject explanation)
 		{
 			return this.can_player_buy_workshop_clickable_condition(this._lastSelectedWorkshop, out explanation);
 		}
 
-		// Token: 0x060009DF RID: 2527 RVA: 0x00051484 File Offset: 0x0004F684
 		private bool can_player_buy_workshop_clickable_condition(Workshop workshop, out TextObject explanation)
 		{
 			bool flag = Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(workshop);
@@ -216,7 +198,6 @@ namespace SandBox.CampaignBehaviors
 			return flag3;
 		}
 
-		// Token: 0x060009E0 RID: 2528 RVA: 0x00051514 File Offset: 0x0004F714
 		private bool player_war_status_clickable_condition(out TextObject explanation)
 		{
 			if (Hero.MainHero.MapFaction.IsAtWarWith(Settlement.CurrentSettlement.MapFaction))
@@ -228,7 +209,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009E1 RID: 2529 RVA: 0x00051548 File Offset: 0x0004F748
 		private void AddShopWorkerDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("workshop_npc_owner_begin", "start", "shopworker_npc_player", "{=DGKgQycl}{WORKSHOP_INTRO_LINE}", new ConversationSentence.OnConditionDelegate(this.workshop_npc_owner_begin_on_condition), null, 100, null);
@@ -285,7 +265,6 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("workshop_49", "player_change_production_5", "shopkeeper_start", "{=QHbcFrPX}On second thought, I don't want to change what we are producing. Go on like this.", null, null, 100, null, null);
 		}
 
-		// Token: 0x060009E2 RID: 2530 RVA: 0x00051D24 File Offset: 0x0004FF24
 		private bool workshop_npc_owner_begin_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 25)
@@ -332,13 +311,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009E3 RID: 2531 RVA: 0x00051F1F File Offset: 0x0005011F
 		private bool workshop_buy_clickable_condition(out TextObject explanation)
 		{
 			return this.player_war_status_clickable_condition(out explanation);
 		}
 
-		// Token: 0x060009E4 RID: 2532 RVA: 0x00051F28 File Offset: 0x00050128
 		private bool workshop_12_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -346,7 +323,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009E5 RID: 2533 RVA: 0x00051F5C File Offset: 0x0005015C
 		private bool workshop_13_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -355,7 +331,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009E6 RID: 2534 RVA: 0x00051FA4 File Offset: 0x000501A4
 		private bool workshop_15_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -364,21 +339,18 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009E7 RID: 2535 RVA: 0x00051FE0 File Offset: 0x000501E0
 		private bool workshop_16_clickable_condition(out TextObject explanation)
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			return this.can_player_buy_workshop_clickable_condition(workshop, out explanation);
 		}
 
-		// Token: 0x060009E8 RID: 2536 RVA: 0x00052004 File Offset: 0x00050204
 		private void workshop_19_on_consequence()
 		{
 			Workshop currentWorkshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			ConversationSentence.SetObjectsToRepeatOver(WorkshopType.All.Where((WorkshopType x) => x != currentWorkshop.WorkshopType && !x.IsHidden).ToList<WorkshopType>(), 5);
 		}
 
-		// Token: 0x060009E9 RID: 2537 RVA: 0x0005204C File Offset: 0x0005024C
 		private bool workshop_20_on_condition()
 		{
 			WorkshopType workshopType = ConversationSentence.CurrentProcessedRepeatObject as WorkshopType;
@@ -390,20 +362,17 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009EA RID: 2538 RVA: 0x00052080 File Offset: 0x00050280
 		private void workshop_20_on_consequence()
 		{
 			this._lastSelectedWorkshopType = ConversationSentence.SelectedRepeatObject as WorkshopType;
 		}
 
-		// Token: 0x060009EB RID: 2539 RVA: 0x00052094 File Offset: 0x00050294
 		private void workshop_21_on_consequence()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			this._lastSelectedWorkshopType = workshop.WorkshopType;
 		}
 
-		// Token: 0x060009EC RID: 2540 RVA: 0x000520B9 File Offset: 0x000502B9
 		private bool workshop_22_on_condition()
 		{
 			MBTextManager.SetTextVariable("WORKSHOP_DESCRIPTION", this._lastSelectedWorkshopType.Description, false);
@@ -411,7 +380,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009ED RID: 2541 RVA: 0x000520E8 File Offset: 0x000502E8
 		private void workshop_23_on_consequence()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -419,7 +387,6 @@ namespace SandBox.CampaignBehaviors
 			ChangeOwnerOfWorkshopAction.ApplyByTrade(workshop, Hero.MainHero, this._lastSelectedWorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, buyingCostForPlayer, null);
 		}
 
-		// Token: 0x060009EE RID: 2542 RVA: 0x00052140 File Offset: 0x00050340
 		private bool workshop_player_owner_begin_on_condition()
 		{
 			if (CharacterObject.OneToOneConversationCharacter.Occupation == 25)
@@ -430,21 +397,18 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009EF RID: 2543 RVA: 0x0005217C File Offset: 0x0005037C
 		private bool workshop_player_not_owner_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			return workshop != null && workshop.Owner != Hero.MainHero;
 		}
 
-		// Token: 0x060009F0 RID: 2544 RVA: 0x000521AC File Offset: 0x000503AC
 		private bool workshop_player_is_owner_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			return workshop != null && workshop.Owner == Hero.MainHero;
 		}
 
-		// Token: 0x060009F1 RID: 2545 RVA: 0x000521D7 File Offset: 0x000503D7
 		private bool workshop_42_on_clickable_condition(out TextObject explanation)
 		{
 			if (Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(null))
@@ -456,7 +420,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009F2 RID: 2546 RVA: 0x00052211 File Offset: 0x00050411
 		private bool workshop_46_on_condition()
 		{
 			MBTextManager.SetTextVariable("WORKSHOP_DESCRIPTION", this._lastSelectedWorkshopType.Description, false);
@@ -464,7 +427,6 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009F3 RID: 2547 RVA: 0x00052240 File Offset: 0x00050440
 		private bool conversation_shopworker_sell_player_workshop_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -473,7 +435,6 @@ namespace SandBox.CampaignBehaviors
 			return !this.conversation_shopworker_sell_player_workshop_no_buyer_on_condition();
 		}
 
-		// Token: 0x060009F4 RID: 2548 RVA: 0x00052284 File Offset: 0x00050484
 		private bool conversation_shopworker_sell_player_workshop_no_buyer_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -481,7 +442,6 @@ namespace SandBox.CampaignBehaviors
 			return Campaign.Current.Models.WorkshopModel.SelectNextOwnerForWorkshop(Settlement.CurrentSettlement.Town, workshop, Hero.MainHero, sellingCost) == null;
 		}
 
-		// Token: 0x060009F5 RID: 2549 RVA: 0x000522DC File Offset: 0x000504DC
 		private void conversation_shopworker_player_sell_workshop_on_consequence()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -490,7 +450,6 @@ namespace SandBox.CampaignBehaviors
 			ChangeOwnerOfWorkshopAction.ApplyByTrade(workshop, hero, workshop.WorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, sellingCost, null);
 		}
 
-		// Token: 0x060009F6 RID: 2550 RVA: 0x00052358 File Offset: 0x00050558
 		private bool conversation_player_workshop_change_production_on_condition()
 		{
 			int convertProductionCost = Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(null);
@@ -498,14 +457,12 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
-		// Token: 0x060009F7 RID: 2551 RVA: 0x00052388 File Offset: 0x00050588
 		private void conversation_player_workshop_change_production_on_consequence()
 		{
 			Workshop currentWorkshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			ConversationSentence.SetObjectsToRepeatOver(WorkshopType.All.Where((WorkshopType x) => x != currentWorkshop.WorkshopType && !x.IsHidden).ToList<WorkshopType>(), 5);
 		}
 
-		// Token: 0x060009F8 RID: 2552 RVA: 0x000523D0 File Offset: 0x000505D0
 		private bool conversation_player_workshop_player_decision_on_condition()
 		{
 			WorkshopType workshopType = ConversationSentence.CurrentProcessedRepeatObject as WorkshopType;
@@ -517,13 +474,11 @@ namespace SandBox.CampaignBehaviors
 			return false;
 		}
 
-		// Token: 0x060009F9 RID: 2553 RVA: 0x00052404 File Offset: 0x00050604
 		private void conversation_player_workshop_player_decision_on_consequence()
 		{
 			this._lastSelectedWorkshopType = ConversationSentence.SelectedRepeatObject as WorkshopType;
 		}
 
-		// Token: 0x060009FA RID: 2554 RVA: 0x00052418 File Offset: 0x00050618
 		private void conversation_player_workshop_player_changed_production_on_consequence()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
@@ -533,13 +488,10 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		// Token: 0x0400035F RID: 863
 		public const float WorkerSpawnPercentage = 0.33f;
 
-		// Token: 0x04000360 RID: 864
 		private WorkshopType _lastSelectedWorkshopType;
 
-		// Token: 0x04000361 RID: 865
 		private Workshop _lastSelectedWorkshop;
 	}
 }

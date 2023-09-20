@@ -12,15 +12,10 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinance
 {
-	// Token: 0x02000111 RID: 273
 	public class ClanFinanceWorkshopItemVM : ClanFinanceIncomeItemBaseVM
 	{
-		// Token: 0x170008D9 RID: 2265
-		// (get) Token: 0x060019D4 RID: 6612 RVA: 0x0005D62F File Offset: 0x0005B82F
-		// (set) Token: 0x060019D5 RID: 6613 RVA: 0x0005D637 File Offset: 0x0005B837
 		public Workshop Workshop { get; private set; }
 
-		// Token: 0x060019D6 RID: 6614 RVA: 0x0005D640 File Offset: 0x0005B840
 		public ClanFinanceWorkshopItemVM(Workshop workshop, Action<ClanFinanceWorkshopItemVM> onSelection, Action onRefresh, Action<ClanCardSelectionInfo> openCardSelectionPopup)
 			: base(null, onRefresh)
 		{
@@ -36,13 +31,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			this.RefreshValues();
 		}
 
-		// Token: 0x060019D7 RID: 6615 RVA: 0x0005D6DD File Offset: 0x0005B8DD
 		private void tempOnSelection(ClanFinanceIncomeItemBaseVM temp)
 		{
 			this._onSelectionT(this);
 		}
 
-		// Token: 0x060019D8 RID: 6616 RVA: 0x0005D6EC File Offset: 0x0005B8EC
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
@@ -57,7 +50,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			this.PopulateStatsList();
 		}
 
-		// Token: 0x060019D9 RID: 6617 RVA: 0x0005D7C8 File Offset: 0x0005B9C8
 		protected override void PopulateStatsList()
 		{
 			base.ItemProperties.Add(new SelectableItemPropertyVM(new TextObject("{=DzviXC3W}Level", null).ToString(), this.Workshop.Level.ToString(), null));
@@ -78,7 +70,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x060019DA RID: 6618 RVA: 0x0005D97C File Offset: 0x0005BB7C
 		private static void GetWorkshopTypeProductionTexts(WorkshopType workshopType, out TextObject inputsText, out TextObject outputsText)
 		{
 			CampaignUIHelper.ProductInputOutputEqualityComparer productInputOutputEqualityComparer = new CampaignUIHelper.ProductInputOutputEqualityComparer();
@@ -90,7 +81,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			outputsText = CampaignUIHelper.GetCommaSeparatedText(null, enumerable2);
 		}
 
-		// Token: 0x060019DB RID: 6619 RVA: 0x0005DA4B File Offset: 0x0005BC4B
 		public void ExecuteBeginWorkshopHint()
 		{
 			if (this.Workshop.WorkshopType != null)
@@ -99,13 +89,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x060019DC RID: 6620 RVA: 0x0005DA78 File Offset: 0x0005BC78
 		public void ExecuteEndHint()
 		{
 			MBInformationManager.HideInformations();
 		}
 
-		// Token: 0x060019DD RID: 6621 RVA: 0x0005DA80 File Offset: 0x0005BC80
 		public void ExecuteManageWorkshop()
 		{
 			TextObject textObject = new TextObject("{=LxWVtDF0}Manage Workshop", null);
@@ -118,7 +106,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			openCardSelectionPopup(clanCardSelectionInfo);
 		}
 
-		// Token: 0x060019DE RID: 6622 RVA: 0x0005DAC5 File Offset: 0x0005BCC5
 		private IEnumerable<ClanCardSelectionItemInfo> GetManageWorkshopItems()
 		{
 			int sellingCost = this._workshopModel.GetSellingCost(this.Workshop);
@@ -145,7 +132,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			yield break;
 		}
 
-		// Token: 0x060019DF RID: 6623 RVA: 0x0005DAD5 File Offset: 0x0005BCD5
 		private IEnumerable<ClanCardSelectionItemPropertyInfo> GetWorkshopItemProperties(WorkshopType workshopType)
 		{
 			Workshop workshop = this.Workshop;
@@ -188,7 +174,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			yield break;
 		}
 
-		// Token: 0x060019E0 RID: 6624 RVA: 0x0005DAEC File Offset: 0x0005BCEC
 		private void OnManageWorkshopDone(List<object> selectedItems, Action closePopup)
 		{
 			if (closePopup != null)
@@ -217,9 +202,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DA RID: 2266
-		// (get) Token: 0x060019E1 RID: 6625 RVA: 0x0005DBC4 File Offset: 0x0005BDC4
-		// (set) Token: 0x060019E2 RID: 6626 RVA: 0x0005DBCC File Offset: 0x0005BDCC
 		[DataSourceProperty]
 		public HintViewModel ManageWorkshopHint
 		{
@@ -237,9 +219,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DB RID: 2267
-		// (get) Token: 0x060019E3 RID: 6627 RVA: 0x0005DBEA File Offset: 0x0005BDEA
-		// (set) Token: 0x060019E4 RID: 6628 RVA: 0x0005DBF2 File Offset: 0x0005BDF2
 		public string WorkshopTypeId
 		{
 			get
@@ -256,9 +235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DC RID: 2268
-		// (get) Token: 0x060019E5 RID: 6629 RVA: 0x0005DC15 File Offset: 0x0005BE15
-		// (set) Token: 0x060019E6 RID: 6630 RVA: 0x0005DC1D File Offset: 0x0005BE1D
 		public string InputsText
 		{
 			get
@@ -275,9 +251,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DD RID: 2269
-		// (get) Token: 0x060019E7 RID: 6631 RVA: 0x0005DC40 File Offset: 0x0005BE40
-		// (set) Token: 0x060019E8 RID: 6632 RVA: 0x0005DC48 File Offset: 0x0005BE48
 		public string OutputsText
 		{
 			get
@@ -294,9 +267,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DE RID: 2270
-		// (get) Token: 0x060019E9 RID: 6633 RVA: 0x0005DC6B File Offset: 0x0005BE6B
-		// (set) Token: 0x060019EA RID: 6634 RVA: 0x0005DC73 File Offset: 0x0005BE73
 		public string InputProducts
 		{
 			get
@@ -313,9 +283,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x170008DF RID: 2271
-		// (get) Token: 0x060019EB RID: 6635 RVA: 0x0005DC96 File Offset: 0x0005BE96
-		// (set) Token: 0x060019EC RID: 6636 RVA: 0x0005DC9E File Offset: 0x0005BE9E
 		public string OutputProducts
 		{
 			get
@@ -332,31 +299,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 			}
 		}
 
-		// Token: 0x04000C42 RID: 3138
 		private readonly WorkshopModel _workshopModel;
 
-		// Token: 0x04000C43 RID: 3139
 		private Action<ClanFinanceWorkshopItemVM> _onSelectionT;
 
-		// Token: 0x04000C44 RID: 3140
 		private readonly Action<ClanCardSelectionInfo> _openCardSelectionPopup;
 
-		// Token: 0x04000C45 RID: 3141
 		private HintViewModel _manageWorkshopHint;
 
-		// Token: 0x04000C46 RID: 3142
 		private string _workshopTypeId;
 
-		// Token: 0x04000C47 RID: 3143
 		private string _inputsText;
 
-		// Token: 0x04000C48 RID: 3144
 		private string _outputsText;
 
-		// Token: 0x04000C49 RID: 3145
 		private string _inputProducts;
 
-		// Token: 0x04000C4A RID: 3146
 		private string _outputProducts;
 	}
 }
