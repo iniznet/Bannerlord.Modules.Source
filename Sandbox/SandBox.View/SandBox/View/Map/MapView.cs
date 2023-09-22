@@ -44,6 +44,11 @@ namespace SandBox.View.Map
 			return false;
 		}
 
+		protected internal virtual bool IsOpeningEscapeMenuOnFocusChangeAllowed()
+		{
+			return true;
+		}
+
 		protected internal virtual void OnOverlayCreated()
 		{
 		}

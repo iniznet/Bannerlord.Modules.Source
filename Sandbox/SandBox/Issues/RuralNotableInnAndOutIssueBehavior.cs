@@ -140,7 +140,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=T0zupcGB}Ah yes... It is a bit embarrassing to mention, but... Well, when I am in town, I often have a drink at the inn and perhaps play a round of {GAME_TYPE} or two. Normally I play for low stakes but let's just say that last time the wine went to my head, and I lost something I couldn't afford to lose.", null);
+					TextObject textObject = new TextObject("{=T0zupcGB}Ah yes... It is a bit embarrassing to mention, [ib:nervous][if:convo_nervous]but... Well, when I am in town, I often have a drink at the inn and perhaps play a round of {GAME_TYPE} or two. Normally I play for low stakes but let's just say that last time the wine went to my head, and I lost something I couldn't afford to lose.", null);
 					textObject.SetTextVariable("GAME_TYPE", GameTexts.FindText("str_boardgame_name", this._boardGameType.ToString()));
 					return textObject;
 				}
@@ -158,7 +158,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=LD4tGYCA}It's a deed to a plot of farmland. Not a big or valuable plot, mind you, but I'd rather not have to explain to my men why they won't be sowing it this year. You can find the man who took it from me at the tavern in {TARGET_SETTLEMENT}. They call him the \"Game Host\". Just be straight about what you're doing. He's in no position to work the land. I don't imagine that he'll turn down a chance to make more money off of it. Bring it back and {REWARD}{GOLD_ICON} is yours.", null);
+					TextObject textObject = new TextObject("{=LD4tGYCA}It's a deed to a plot of farmland. Not a big or valuable plot,[ib:normal][if:convo_disbelief] mind you, but I'd rather not have to explain to my men why they won't be sowing it this year. You can find the man who took it from me at the tavern in {TARGET_SETTLEMENT}. They call him the \"Game Host\". Just be straight about what you're doing. He's in no position to work the land. I don't imagine that he'll turn down a chance to make more money off of it. Bring it back and {REWARD}{GOLD_ICON} is yours.", null);
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
@@ -170,7 +170,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=urCXu9Fc}Well, I could try and buy it from him, but I would not really prefer that. I would be the joke of the tavern for months to come... If you choose to do that, I can only offer {REWARD}{GOLD_ICON} to compensate for your payment. If you have a man with a knack for such games he might do the trick.", null);
+					TextObject textObject = new TextObject("{=urCXu9Fc}Well, I could try and buy it from him, but I would not really prefer that.[if:convo_innocent_smile] I would be the joke of the tavern for months to come... If you choose to do that, I can only offer {REWARD}{GOLD_ICON} to compensate for your payment. If you have a man with a knack for such games he might do the trick.", null);
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 					return textObject;
@@ -199,7 +199,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=1yEyUHJe}I really hope your men can get my deed back. On my father's name, I will never gamble again.", null);
+					return new TextObject("{=1yEyUHJe}I really hope your men can get my deed back. [if:convo_excited]On my father's name, I will never gamble again.", null);
 				}
 			}
 
@@ -207,7 +207,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=kiaN39yb}Thank you, {PLAYER.NAME}. I'm sure your companion will be persuasive.", null);
+					TextObject textObject = new TextObject("{=kiaN39yb}Thank you, {PLAYER.NAME}. I'm sure your companion will be persuasive.[if:convo_relaxed_happy]", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
 				}
@@ -324,6 +324,10 @@ namespace SandBox.Issues
 			protected override void OnGameLoad()
 			{
 				this.InitializeQuestVariables();
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override QuestBase GenerateIssueQuest(string questId)
@@ -520,6 +524,10 @@ namespace SandBox.Issues
 				}
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.OnPlayerBoardGameOverEvent.AddNonSerializedListener(this, new Action<Hero, BoardGameHelper.BoardGameState>(this.OnBoardGameEnd));
@@ -528,6 +536,22 @@ namespace SandBox.Issues
 				CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeStarted));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 				CampaignEvents.VillageBeingRaided.AddNonSerializedListener(this, new Action<Village>(this.OnVillageBeingRaided));
+				CampaignEvents.LocationCharactersSimulatedEvent.AddNonSerializedListener(this, new Action(this.OnLocationCharactersSimulated));
+			}
+
+			private void OnLocationCharactersSimulated()
+			{
+				if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement == this._targetSettlement && Campaign.Current.GameMenuManager.MenuLocations.First<Location>().StringId == "tavern")
+				{
+					foreach (Agent agent in Mission.Current.Agents)
+					{
+						LocationCharacter locationCharacter = LocationComplex.Current.GetLocationWithId("tavern").GetLocationCharacter(agent.Origin);
+						if (locationCharacter != null && locationCharacter.Character.Occupation == 14)
+						{
+							locationCharacter.IsVisualTracked = true;
+						}
+					}
+				}
 			}
 
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
@@ -564,18 +588,18 @@ namespace SandBox.Issues
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=I6amLvVE}Good, good. That's the best way to do these things. Go to {TARGET_SETTLEMENT}, find this game host and wipe the smirk off of his face.", null);
+				TextObject textObject = new TextObject("{=I6amLvVE}Good, good. That's the best way to do these things. [if:convo_normal]Go to {TARGET_SETTLEMENT}, find this game host and wipe the smirk off of his face.", null);
 				textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=HGRWs0zE}Have you met the man who took my deed? Did you get it back?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=HGRWs0zE}Have you met the man who took my deed? Did you get it back?[if:convo_astonished]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=uJPAYUU7}I will be on my way soon enough.", null), null)
-					.NpcLine(new TextObject("{=MOmePlJQ}Could you hurry this along? I don't want him to find another buyer. Thank you.", null), null, null)
+					.NpcLine(new TextObject("{=MOmePlJQ}Could you hurry this along? I don't want him to find another buyer.[if:convo_pondering] Thank you.", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=azVhRGik}I am waiting for the right moment.", null), null)
-					.NpcLine(new TextObject("{=bRMLn0jj}Well, if he wanders off to another town, or gets his throat slit, or loses the deed, that would be the wrong moment, now wouldn't it?", null), null, null)
+					.NpcLine(new TextObject("{=bRMLn0jj}Well, if he wanders off to another town, or gets his throat slit,[if:convo_pondering] or loses the deed, that would be the wrong moment, now wouldn't it?", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetGameHostDialogFlow(), this);
@@ -584,9 +608,9 @@ namespace SandBox.Issues
 
 			private DialogFlow GetGameHostDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=dzWioKRa}Hello there, are you looking for a friendly match? A wager perhaps?", null, null).Condition(() => this.TavernHostDialogCondition(true))
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=dzWioKRa}Hello there, are you looking for a friendly match? A wager perhaps?[if:convo_mocking_aristocratic]", null, null).Condition(() => this.TavernHostDialogCondition(true))
 					.PlayerLine(new TextObject("{=eOle8pYT}You won a deed of land from my associate. I'm here to win it back.", null), null)
-					.NpcLine("{=bEipgE5E}Ah, yes, these are the most interesting kinds of games, aren't they? I won't deny myself the pleasure but clearly that deed is worth more to him than just the value of the land. I'll wager the deed, but you need to put up 1000 denars.", null, null)
+					.NpcLine("{=bEipgE5E}Ah, yes, these are the most interesting kinds of games, aren't they? [if:convo_excited]I won't deny myself the pleasure but clearly that deed is worth more to him than just the value of the land. I'll wager the deed, but you need to put up 1000 denars.", null, null)
 					.BeginPlayerOptions()
 					.PlayerOption("{=XvkSbY6N}I see your wager. Let's play.", null)
 					.Condition(() => Hero.MainHero.Gold >= 1000)
@@ -598,7 +622,7 @@ namespace SandBox.Issues
 					.CloseDialog()
 					.PlayerOption("{=WrnvRayQ}Let's just save ourselves some trouble, and I'll just pay you that amount.", null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckPlayerHasEnoughDenarsClickableCondition))
-					.NpcLine("{=pa3RY39w}Sure. I'm happy to turn paper into silver... 1000 denars it is.", null, null)
+					.NpcLine("{=pa3RY39w}Sure. I'm happy to turn paper into silver... 1000 denars it is.[if:convo_evil_smile]", null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerPaid1000QuestSuccess))
 					.CloseDialog()
 					.PlayerOption("{=BSeplVwe}That's too much. I will be back later.", null)
@@ -609,10 +633,10 @@ namespace SandBox.Issues
 
 			private DialogFlow GetGameHostDialogueAfterFirstGame()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=dyhZUHao}Well, I thought you were here to be sheared, but it looks like the sheep bites back. Very well, nicely played, here's your man's land back.", null), () => this._playerWonTheGame && this.TavernHostDialogCondition(false), null, null)
+				return DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=dyhZUHao}Well, I thought you were here to be sheared, [if:convo_shocked]but it looks like the sheep bites back. Very well, nicely played, here's your man's land back.", null), () => this._playerWonTheGame && this.TavernHostDialogCondition(false), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerWonTheBoardGame))
 					.CloseDialog()
-					.NpcOption("{=TdnD29Ax}Ah! You almost had me! Maybe you just weren't paying attention. Care to put another 1000 denars on the table and have another go?", () => !this._playerWonTheGame && this._tryCount < 2 && this.TavernHostDialogCondition(false), null, null)
+					.NpcOption("{=TdnD29Ax}Ah! You almost had me! Maybe you just weren't paying attention. [if:convo_mocking_teasing]Care to put another 1000 denars on the table and have another go?", () => !this._playerWonTheGame && this._tryCount < 2 && this.TavernHostDialogCondition(false), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption("{=fiMZ696A}Yes, I'll play again.", null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckPlayerHasEnoughDenarsClickableCondition))
@@ -623,7 +647,7 @@ namespace SandBox.Issues
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerFailAfterBoardGame))
 					.CloseDialog()
 					.EndPlayerOptions()
-					.NpcOption("{=hkNrC5d3}That was fun, but I've learned not to inflict too great a humiliation on those who carry a sword. I'll take my winnings and enjoy them now. Good-bye to you!", () => this._tryCount >= 2 && this.TavernHostDialogCondition(false), null, null)
+					.NpcOption("{=hkNrC5d3}That was fun, but I've learned not to inflict too great a humiliation on those who carry a sword.[if:convo_merry] I'll take my winnings and enjoy them now. Good-bye to you!", () => this._tryCount >= 2 && this.TavernHostDialogCondition(false), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerFailAfterBoardGame))
 					.CloseDialog()
 					.EndNpcOptions();
@@ -660,6 +684,25 @@ namespace SandBox.Issues
 				this._applyLesserReward = true;
 				GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, 1000, false);
 				base.CompleteQuestWithSuccess();
+			}
+
+			protected override void OnFinalize()
+			{
+				if (Mission.Current != null)
+				{
+					foreach (Agent agent in Mission.Current.Agents)
+					{
+						Location locationWithId = LocationComplex.Current.GetLocationWithId("tavern");
+						if (locationWithId != null)
+						{
+							LocationCharacter locationCharacter = locationWithId.GetLocationCharacter(agent.Origin);
+							if (locationCharacter != null && locationCharacter.Character.Occupation == 14)
+							{
+								locationCharacter.IsVisualTracked = false;
+							}
+						}
+					}
+				}
 			}
 
 			private void ApplySuccessRewards()
@@ -711,7 +754,7 @@ namespace SandBox.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared, false);
 			}
 
 			public override GameMenuOption.IssueQuestFlags IsLocationTrackedByQuest(Location location)

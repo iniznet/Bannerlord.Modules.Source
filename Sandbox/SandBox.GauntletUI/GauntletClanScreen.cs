@@ -10,6 +10,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -46,11 +47,13 @@ namespace SandBox.GauntletUI
 			{
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.CardSelectionPopup.ExecuteDone();
 					return;
 				}
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.CardSelectionPopup.ExecuteCancel();
 					return;
 				}
@@ -66,11 +69,13 @@ namespace SandBox.GauntletUI
 				{
 					if (this._gauntletLayer.Input.IsHotKeyReleased("SwitchToPreviousTab"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/tab");
 						this._dataSource.SelectPreviousCategory();
 						return;
 					}
 					if (this._gauntletLayer.Input.IsHotKeyReleased("SwitchToNextTab"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/tab");
 						this._dataSource.SelectNextCategory();
 					}
 				}
@@ -154,7 +159,7 @@ namespace SandBox.GauntletUI
 			}
 			this._gauntletLayer.LoadMovie("ClanScreen", this._dataSource);
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(6));
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_clan_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_clan_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
@@ -205,9 +210,8 @@ namespace SandBox.GauntletUI
 		private void CloseClanScreen()
 		{
 			Game.Current.GameStateManager.PopState(0);
+			UISoundsHelper.PlayUISound("event:/ui/default");
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_clan_open";
 
 		private ClanManagementVM _dataSource;
 

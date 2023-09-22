@@ -83,11 +83,13 @@ namespace SandBox.GauntletUI.Missions
 			{
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteBet();
 					this._dataSource.IsBetWindowEnabled = false;
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.IsBetWindowEnabled = false;
 				}
 			}

@@ -49,18 +49,59 @@ namespace SandBox.GauntletUI.Map
 			}
 			if (hasSound)
 			{
-				if (GauntletMapEventVisual._battleSountEventIndex == -1)
+				if (this.MapEvent.IsFieldBattle)
 				{
-					GauntletMapEventVisual._battleSountEventIndex = SoundEvent.GetEventIdFromString(this.MapEvent.IsRaid ? "event:/map/ambient/node/battle_raid" : "event:/map/ambient/node/battle");
+					if (GauntletMapEventVisual._battleSoundEventIndex == -1)
+					{
+						GauntletMapEventVisual._battleSoundEventIndex = SoundEvent.GetEventIdFromString("event:/map/ambient/node/battle");
+					}
+					this._battleSound = SoundEvent.CreateEvent(GauntletMapEventVisual._battleSoundEventIndex, this.MapScene);
+					this._battleSound.SetParameter("battle_size", (float)battleSizeValue);
+					float num = 0f;
+					this.MapScene.GetHeightAtPoint(position, 2208137, ref num);
+					this._battleSound.PlayInPosition(new Vec3(position.x, position.y, num + 2f, -1f));
+					if (!isVisible)
+					{
+						this._battleSound.Pause();
+						return;
+					}
 				}
-				this._battleSound = SoundEvent.CreateEvent(GauntletMapEventVisual._battleSountEventIndex, this.MapScene);
-				this._battleSound.SetParameter("battle_size", (float)battleSizeValue);
-				float num = 0f;
-				this.MapScene.GetHeightAtPoint(position, 2208137, ref num);
-				this._battleSound.PlayInPosition(new Vec3(position.x, position.y, num + 2f, -1f));
-				if (!isVisible)
+				else
 				{
-					this._battleSound.Pause();
+					if (this.MapEvent.IsSiegeAssault || this.MapEvent.IsSiegeOutside || this.MapEvent.IsSiegeAmbush)
+					{
+						float num2 = 0f;
+						Vec2 vec = ((this.MapEvent.MapEventSettlement != null) ? this.MapEvent.MapEventSettlement.GatePosition : this.MapEvent.Position);
+						Campaign.Current.MapSceneWrapper.GetHeightAtPoint(vec, ref num2);
+						Vec3 vec2;
+						vec2..ctor(vec.X, vec.Y, num2, -1f);
+						SoundEvent siegeSoundEvent = this._siegeSoundEvent;
+						if (siegeSoundEvent != null)
+						{
+							siegeSoundEvent.Stop();
+						}
+						this._siegeSoundEvent = SoundEvent.CreateEventFromString("event:/map/ambient/node/battle_siege", this.MapScene);
+						this._siegeSoundEvent.SetParameter("battle_size", 4f);
+						this._siegeSoundEvent.SetPosition(vec2);
+						this._siegeSoundEvent.Play();
+						return;
+					}
+					if (this.MapEvent.IsRaid)
+					{
+						if (this.MapEvent.MapEventSettlement.IsRaided && this._raidedSoundEvent == null)
+						{
+							this._raidedSoundEvent = SoundEvent.CreateEventFromString("event:/map/ambient/node/burning_village", this.MapScene);
+							this._raidedSoundEvent.SetParameter("battle_size", 4f);
+							this._raidedSoundEvent.SetPosition(this.MapEvent.MapEventSettlement.GetPosition());
+							this._raidedSoundEvent.Play();
+							return;
+						}
+						if (!this.MapEvent.MapEventSettlement.IsRaided && this._raidedSoundEvent != null)
+						{
+							this._raidedSoundEvent.Stop();
+							this._raidedSoundEvent = null;
+						}
+					}
 				}
 			}
 		}
@@ -76,6 +117,16 @@ namespace SandBox.GauntletUI.Map
 			{
 				this._battleSound.Stop();
 				this._battleSound = null;
+			}
+			if (this._siegeSoundEvent != null)
+			{
+				this._siegeSoundEvent.Stop();
+				this._siegeSoundEvent = null;
+			}
+			if (this._raidedSoundEvent != null)
+			{
+				this._raidedSoundEvent.Stop();
+				this._raidedSoundEvent = null;
 			}
 		}
 
@@ -93,28 +144,58 @@ namespace SandBox.GauntletUI.Map
 				if (isVisible && this._battleSound.IsPaused())
 				{
 					this._battleSound.Resume();
-					return;
 				}
-				if (!isVisible && !this._battleSound.IsPaused())
+				else if (!isVisible && !this._battleSound.IsPaused())
 				{
 					this._battleSound.Pause();
 				}
 			}
+			SoundEvent siegeSoundEvent = this._siegeSoundEvent;
+			if (siegeSoundEvent != null && siegeSoundEvent.IsValid)
+			{
+				if (isVisible && this._siegeSoundEvent.IsPaused())
+				{
+					this._siegeSoundEvent.Resume();
+				}
+				else if (!isVisible && !this._siegeSoundEvent.IsPaused())
+				{
+					this._siegeSoundEvent.Pause();
+				}
+			}
+			SoundEvent raidedSoundEvent = this._raidedSoundEvent;
+			if (raidedSoundEvent != null && raidedSoundEvent.IsValid)
+			{
+				if (isVisible && this._raidedSoundEvent.IsPaused())
+				{
+					this._raidedSoundEvent.Resume();
+					return;
+				}
+				if (!isVisible && !this._raidedSoundEvent.IsPaused())
+				{
+					this._raidedSoundEvent.Pause();
+				}
+			}
 		}
 
-		private static int _battleSountEventIndex = -1;
+		private static int _battleSoundEventIndex = -1;
 
 		private const string BattleSoundPath = "event:/map/ambient/node/battle";
 
 		private const string RaidSoundPath = "event:/map/ambient/node/battle_raid";
+
+		private const string SiegeSoundPath = "event:/map/ambient/node/battle_siege";
+
+		private SoundEvent _siegeSoundEvent;
+
+		private SoundEvent _raidedSoundEvent;
+
+		private SoundEvent _battleSound;
 
 		private readonly Action<GauntletMapEventVisual> _onDeactivate;
 
 		private readonly Action<GauntletMapEventVisual> _onInitialized;
 
 		private readonly Action<GauntletMapEventVisual> _onVisibilityChanged;
-
-		private SoundEvent _battleSound;
 
 		private Scene _mapScene;
 	}

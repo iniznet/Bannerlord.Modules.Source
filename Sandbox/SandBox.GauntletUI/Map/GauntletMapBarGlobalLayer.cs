@@ -10,6 +10,7 @@ using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
 
@@ -121,6 +122,9 @@ namespace SandBox.GauntletUI.Map
 						this._mapDataSource.MapTimeControl.IsInTownManagement = mapScreen.IsInTownManagement;
 						this._mapDataSource.MapTimeControl.IsInHideoutTroopManage = mapScreen.IsInHideoutTroopManage;
 						this._mapDataSource.MapTimeControl.IsInCampaignOptions = mapScreen.IsInCampaignOptions;
+						this._mapDataSource.MapTimeControl.IsEscapeMenuOpened = mapScreen.IsEscapeMenuOpened;
+						this._mapDataSource.MapTimeControl.IsMarriageOfferPopupActive = mapScreen.IsMarriageOfferPopupActive;
+						this._mapDataSource.MapTimeControl.IsMapCheatsActive = mapScreen.IsMapCheatsActive;
 						if (this._armyManagementVM != null)
 						{
 							this.HandleArmyManagementInput();
@@ -142,21 +146,25 @@ namespace SandBox.GauntletUI.Map
 		{
 			if (this._armyManagementLayer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._armyManagementVM.ExecuteCancel();
 				return;
 			}
 			if (this._armyManagementLayer.Input.IsHotKeyReleased("Confirm"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._armyManagementVM.ExecuteDone();
 				return;
 			}
 			if (this._armyManagementLayer.Input.IsHotKeyReleased("Reset"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._armyManagementVM.ExecuteReset();
 				return;
 			}
 			if (this._armyManagementLayer.Input.IsHotKeyReleased("RemoveParty") && this._armyManagementVM.FocusedItem != null)
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._armyManagementVM.FocusedItem.ExecuteAction();
 			}
 		}

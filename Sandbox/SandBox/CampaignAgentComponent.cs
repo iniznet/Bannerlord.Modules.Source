@@ -1,5 +1,4 @@
 ﻿using System;
-using Helpers;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements.Locations;
@@ -81,7 +80,7 @@ namespace SandBox
 			{
 				float num2;
 				float num3;
-				MapEventHelper.GetStrengthsRelativeToParty(this.OwnerParty.Side, this.OwnerParty.MapEvent, ref num2, ref num3);
+				this.OwnerParty.MapEvent.GetStrengthsRelativeToParty(this.OwnerParty.Side, ref num2, ref num3);
 				if (this.OwnerParty.IsMobile)
 				{
 					float num4 = (this.OwnerParty.MobileParty.Morale - 50f) / 2f;

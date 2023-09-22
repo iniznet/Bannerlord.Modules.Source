@@ -59,6 +59,7 @@ namespace SandBox.GauntletUI.Missions
 			{
 				if (!this._dataSource.IsOfferDisabled)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteOffer();
 					return;
 				}
@@ -67,11 +68,13 @@ namespace SandBox.GauntletUI.Missions
 			{
 				if (this.IsReleasedInGauntletLayer("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteCancel();
 					return;
 				}
 				if (this.IsReleasedInGauntletLayer("Reset"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteReset();
 				}
 			}
@@ -137,6 +140,11 @@ namespace SandBox.GauntletUI.Missions
 			{
 				this._gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
 			}
+		}
+
+		public override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
+		{
+			return true;
 		}
 
 		private GauntletLayer _gauntletLayer;

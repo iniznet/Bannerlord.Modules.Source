@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{FE195B9E-CA19-44AB-B31A-DE533EF3A54B}</ProjectGuid>
+    <ProjectGuid>{11F39AAF-7001-4559-A060-FCDBE05E6ED2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox.ViewModelCollection</RootNamespace>
     <AssemblyName>SandBox.ViewModelCollection</AssemblyName>
@@ -68,8 +68,10 @@
     <Compile Include="MapSiege\MapSiegeProductionVM.cs" />
     <Compile Include="MapSiege\MapSiegeVM.cs" />
     <Compile Include="MapSiege\PlayerStartEngineConstructionEvent.cs" />
-    <Compile Include="Map\CheatItemVM.cs" />
-    <Compile Include="Map\MapCheatsVM.cs" />
+    <Compile Include="Map\Cheat\CheatActionItemVM.cs" />
+    <Compile Include="Map\Cheat\CheatGroupItemVM.cs" />
+    <Compile Include="Map\Cheat\CheatItemBaseVM.cs" />
+    <Compile Include="Map\Cheat\GameplayCheatsVM.cs" />
     <Compile Include="Map\MapEventVisualItemVM.cs" />
     <Compile Include="Map\MapEventVisualsVM.cs" />
     <Compile Include="Map\MapMobilePartyTrackerVM.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="SaveLoad\SavedGamePropertyVM.cs" />
     <Compile Include="SaveLoad\SavedGameVM.cs" />
     <Compile Include="SaveLoad\SaveLoadVM.cs" />
+    <Compile Include="SkillObjectComparer.cs" />
     <Compile Include="SPOrderOfBattleVM.cs" />
     <Compile Include="SPScoreboardVM.cs" />
     <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
@@ -117,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SandBox\SandBox.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a548}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ecf}</Project>
       <Name>SandBox</Name>
     </ProjectReference>
   </ItemGroup>

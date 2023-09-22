@@ -34,7 +34,7 @@ namespace SandBox.Missions.MissionLogics
 			Vec2 vec = matrixFrame.rotation.f.AsVec2;
 			vec = vec.Normalized();
 			this._playerAgent = mission.SpawnAgent(agentBuildData.InitialDirection(ref vec).NoHorses(true).Controller(2), false);
-			this._playerAgent.WieldInitialWeapons(2);
+			this._playerAgent.WieldInitialWeapons(2, 0);
 		}
 
 		private void GetAllProps()

@@ -63,7 +63,7 @@ namespace SandBox.Objects.Cinematics
 			targetFrames = this.ComputeSpawnWorldFrames(agentCount, this.OuterRadius, Vec3.Zero, 0f, agentOffsetAngle, perturbAmount).ToList<MatrixFrame>();
 		}
 
-		public void GetAllyInitialFormationFrame(out MatrixFrame frame)
+		public void GetAlliesInitialFrame(out MatrixFrame frame)
 		{
 			float num = 3.1415927f;
 			float outerRadius = this.OuterRadius;
@@ -71,7 +71,7 @@ namespace SandBox.Objects.Cinematics
 			this.ComputeSpawnWorldFrame(num, outerRadius, vec, out frame);
 		}
 
-		public void GetBanditInitialFormationFrame(out MatrixFrame frame)
+		public void GetBanditsInitialFrame(out MatrixFrame frame)
 		{
 			float num = 0f;
 			float outerRadius = this.OuterRadius;

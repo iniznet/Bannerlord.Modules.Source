@@ -31,9 +31,9 @@ namespace SandBox
 				DefaultMapWeatherModel defaultMapWeatherModel = gameStarterObject.Models.FirstOrDefault((GameModel model) => model is DefaultMapWeatherModel) as DefaultMapWeatherModel;
 				if (defaultMapWeatherModel != null)
 				{
-					byte[] array = new byte[1048576];
+					byte[] array = new byte[2097152];
 					Utilities.GetSnowAmountData(array);
-					defaultMapWeatherModel.InitializeSnowAmountData(array);
+					defaultMapWeatherModel.InitializeSnowAndRainAmountData(array);
 				}
 				gameStarterObject.AddModel(new SandboxAgentStatCalculateModel());
 				gameStarterObject.AddModel(new SandboxAgentApplyDamageModel());
@@ -51,7 +51,6 @@ namespace SandBox
 				CampaignGameStarter campaignGameStarter = gameStarterObject as CampaignGameStarter;
 				if (campaignGameStarter != null)
 				{
-					campaignGameStarter.AddBehavior(new LordConversationsCampaignBehavior());
 					campaignGameStarter.AddBehavior(new HideoutConversationsCampaignBehavior());
 					campaignGameStarter.AddBehavior(new AlleyCampaignBehavior());
 					campaignGameStarter.AddBehavior(new CommonTownsfolkCampaignBehavior());
@@ -75,9 +74,10 @@ namespace SandBox
 					campaignGameStarter.AddBehavior(new ProdigalSonIssueBehavior());
 					campaignGameStarter.AddBehavior(new BarberCampaignBehavior());
 					campaignGameStarter.AddBehavior(new SnareTheWealthyIssueBehavior());
-					campaignGameStarter.AddBehavior(new ControllerEffectsCampaignBehavior());
 					campaignGameStarter.AddBehavior(new RetirementCampaignBehavior());
 					campaignGameStarter.AddBehavior(new StatisticsCampaignBehavior());
+					campaignGameStarter.AddBehavior(new DumpIntegrityCampaignBehavior());
+					campaignGameStarter.AddBehavior(new CaravanConversationsCampaignBehavior());
 				}
 			}
 		}
@@ -167,6 +167,14 @@ namespace SandBox
 			{
 				MBSaveLoad.Initialize(Module.CurrentModule.GlobalTextManager);
 				this._initialized = true;
+			}
+		}
+
+		public override void OnConfigChanged()
+		{
+			if (Campaign.Current != null)
+			{
+				CampaignEventDispatcher.Instance.OnConfigChanged();
 			}
 		}
 

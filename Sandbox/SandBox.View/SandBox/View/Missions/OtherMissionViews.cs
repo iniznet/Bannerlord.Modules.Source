@@ -5,8 +5,6 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions
 {
@@ -26,11 +24,7 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MissionSingleplayerViewHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionBattleComponent()
-				})
+				new MissionSingleplayerViewHandler()
 			}.ToArray();
 		}
 	}

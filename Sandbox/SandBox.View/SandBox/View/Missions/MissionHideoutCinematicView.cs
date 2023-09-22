@@ -102,7 +102,7 @@ namespace SandBox.View.Missions
 		{
 			if (this._isInitialized)
 			{
-				if (nextState == HideoutCinematicController.HideoutCinematicState.PreCinematic || nextState == HideoutCinematicController.HideoutCinematicState.PostCinematic)
+				if (nextState == HideoutCinematicController.HideoutCinematicState.InitialFadeOut || nextState == HideoutCinematicController.HideoutCinematicState.PostCinematic)
 				{
 					this._cameraFadeViewController.BeginFadeOut(duration);
 				}

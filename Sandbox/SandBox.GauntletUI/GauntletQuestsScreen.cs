@@ -6,6 +6,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -26,6 +27,7 @@ namespace SandBox.GauntletUI
 			LoadingWindow.DisableGlobalLoadingWindow();
 			if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit") || this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm") || this._gauntletLayer.Input.IsGameKeyDownAndReleased(42))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteClose();
 			}
 		}
@@ -61,7 +63,7 @@ namespace SandBox.GauntletUI
 			{
 				this._dataSource.SetSelectedLog(this._questsState.InitialSelectedLog);
 			}
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_quest_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_quest_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
@@ -94,8 +96,6 @@ namespace SandBox.GauntletUI
 		{
 			Game.Current.GameStateManager.PopState(0);
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_quest_open";
 
 		private QuestsVM _dataSource;
 

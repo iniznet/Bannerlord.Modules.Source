@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -12,59 +11,39 @@ namespace SandBox.ViewModelCollection.MapSiege
 {
 	public class MapSiegeVM : ViewModel
 	{
-		private SiegeEvent Siege
+		private bool IsPlayerLeaderOfSiegeEvent
 		{
 			get
 			{
-				return PlayerSiege.PlayerSiegeEvent;
+				SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
+				return playerSiegeEvent != null && playerSiegeEvent.IsPlayerSiegeEvent && Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(PlayerSiege.PlayerSiegeEvent, PlayerSiege.PlayerSide) == Hero.MainHero;
 			}
 		}
 
-		private BattleSideEnum PlayerSide
-		{
-			get
-			{
-				return PlayerSiege.PlayerSide;
-			}
-		}
-
-		private Settlement Settlement
-		{
-			get
-			{
-				return this.Siege.BesiegedSettlement;
-			}
-		}
-
-		public MapSiegeVM(Camera mapCamera)
+		public MapSiegeVM(Camera mapCamera, MatrixFrame[] batteringRamFrames, MatrixFrame[] rangedSiegeEngineFrames, MatrixFrame[] towerSiegeEngineFrames, MatrixFrame[] defenderSiegeEngineFrames, MatrixFrame[] breachableWallFrames)
 		{
 			this._mapCamera = mapCamera;
 			this.PointsOfInterest = new MBBindingList<MapSiegePOIVM>();
 			this._poiDistanceComparer = new MapSiegeVM.SiegePOIDistanceComparer();
-			for (int i = 0; i < this.Settlement.Party.Visuals.GetAttackerBatteringRamSiegeEngineFrameCount(); i++)
+			for (int i = 0; i < batteringRamFrames.Length; i++)
 			{
-				MatrixFrame attackerBatteringRamSiegeEngineFrameAtIndex = this.Settlement.Party.Visuals.GetAttackerBatteringRamSiegeEngineFrameAtIndex(i);
-				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerRamSiegeMachine, attackerBatteringRamSiegeEngineFrameAtIndex, this._mapCamera, i, new Action<MapSiegePOIVM>(this.OnPOISelection)));
+				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerRamSiegeMachine, batteringRamFrames[i], this._mapCamera, i, new Action<MapSiegePOIVM>(this.OnPOISelection)));
 			}
-			for (int j = 0; j < this.Settlement.Party.Visuals.GetAttackerRangedSiegeEngineFrameCount(); j++)
+			for (int j = 0; j < rangedSiegeEngineFrames.Length; j++)
 			{
-				MatrixFrame attackerRangedSiegeEngineFrameAtIndex = this.Settlement.Party.Visuals.GetAttackerRangedSiegeEngineFrameAtIndex(j);
-				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerRangedSiegeMachine, attackerRangedSiegeEngineFrameAtIndex, this._mapCamera, j, new Action<MapSiegePOIVM>(this.OnPOISelection)));
+				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerRangedSiegeMachine, rangedSiegeEngineFrames[j], this._mapCamera, j, new Action<MapSiegePOIVM>(this.OnPOISelection)));
 			}
-			for (int k = 0; k < this.Settlement.Party.Visuals.GetAttackerTowerSiegeEngineFrameCount(); k++)
+			for (int k = 0; k < towerSiegeEngineFrames.Length; k++)
 			{
-				MatrixFrame attackerTowerSiegeEngineFrameAtIndex = this.Settlement.Party.Visuals.GetAttackerTowerSiegeEngineFrameAtIndex(k);
-				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerTowerSiegeMachine, attackerTowerSiegeEngineFrameAtIndex, this._mapCamera, this.Settlement.Party.Visuals.GetAttackerBatteringRamSiegeEngineFrameCount() + k, new Action<MapSiegePOIVM>(this.OnPOISelection)));
+				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.AttackerTowerSiegeMachine, towerSiegeEngineFrames[k], this._mapCamera, batteringRamFrames.Length + k, new Action<MapSiegePOIVM>(this.OnPOISelection)));
 			}
-			for (int l = 0; l < this.Settlement.Party.Visuals.GetDefenderSiegeEngineFrameCount(); l++)
+			for (int l = 0; l < defenderSiegeEngineFrames.Length; l++)
 			{
-				MatrixFrame defenderSiegeEngineFrameAtIndex = this.Settlement.Party.Visuals.GetDefenderSiegeEngineFrameAtIndex(l);
-				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.DefenderSiegeMachine, defenderSiegeEngineFrameAtIndex, this._mapCamera, l, new Action<MapSiegePOIVM>(this.OnPOISelection)));
+				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.DefenderSiegeMachine, defenderSiegeEngineFrames[l], this._mapCamera, l, new Action<MapSiegePOIVM>(this.OnPOISelection)));
 			}
-			for (int m = 0; m < this.Settlement.Party.Visuals.GetBreacableWallFrameCount(); m++)
+			for (int m = 0; m < breachableWallFrames.Length; m++)
 			{
-				MatrixFrame breacableWallFrameAtIndex = this.Settlement.Party.Visuals.GetBreacableWallFrameAtIndex(m);
-				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.WallSection, breacableWallFrameAtIndex, this._mapCamera, m, new Action<MapSiegePOIVM>(this.OnPOISelection)));
+				this.PointsOfInterest.Add(new MapSiegePOIVM(MapSiegePOIVM.POIType.WallSection, breachableWallFrames[m], this._mapCamera, m, new Action<MapSiegePOIVM>(this.OnPOISelection)));
 			}
 			this.ProductionController = new MapSiegeProductionVM();
 			this.RefreshValues();
@@ -87,77 +66,43 @@ namespace SandBox.ViewModelCollection.MapSiege
 			{
 				this.ProductionController.LatestSelectedPOI.IsSelected = false;
 			}
-			SiegeEvent siege = this.Siege;
-			if (siege != null && siege.IsPlayerSiegeEvent)
+			if (this.IsPlayerLeaderOfSiegeEvent)
 			{
-				BesiegerCamp besiegerCamp = this.Siege.BesiegerCamp;
-				bool flag;
-				if (besiegerCamp == null)
-				{
-					flag = false;
-				}
-				else
-				{
-					MobileParty besiegerParty = besiegerCamp.BesiegerParty;
-					bool? flag2 = ((besiegerParty != null) ? new bool?(besiegerParty.IsMainParty) : null);
-					bool flag3 = true;
-					flag = (flag2.GetValueOrDefault() == flag3) & (flag2 != null);
-				}
-				if (flag)
-				{
-					this.ProductionController.OnMachineSelection(poi);
-				}
+				this.ProductionController.OnMachineSelection(poi);
 			}
 		}
 
 		public void OnSelectionFromScene(MatrixFrame frameOfEngine)
 		{
-			SiegeEvent siege = this.Siege;
-			if (siege != null && siege.IsPlayerSiegeEvent)
+			if (PlayerSiege.PlayerSiegeEvent != null && this.IsPlayerLeaderOfSiegeEvent)
 			{
-				BesiegerCamp besiegerCamp = this.Siege.BesiegerCamp;
-				bool flag;
-				if (besiegerCamp == null)
+				IEnumerable<MapSiegePOIVM> enumerable = this.PointsOfInterest.Where((MapSiegePOIVM poi) => frameOfEngine.NearlyEquals(poi.MapSceneLocationFrame, 1E-05f));
+				if (enumerable == null)
 				{
-					flag = false;
+					return;
 				}
-				else
+				MapSiegePOIVM mapSiegePOIVM = enumerable.FirstOrDefault<MapSiegePOIVM>();
+				if (mapSiegePOIVM == null)
 				{
-					MobileParty besiegerParty = besiegerCamp.BesiegerParty;
-					bool? flag2 = ((besiegerParty != null) ? new bool?(besiegerParty.IsMainParty) : null);
-					bool flag3 = true;
-					flag = (flag2.GetValueOrDefault() == flag3) & (flag2 != null);
+					return;
 				}
-				if (flag)
-				{
-					IEnumerable<MapSiegePOIVM> enumerable = this.PointsOfInterest.Where((MapSiegePOIVM poi) => frameOfEngine.NearlyEquals(poi.MapSceneLocationFrame, 1E-05f));
-					if (enumerable == null)
-					{
-						return;
-					}
-					MapSiegePOIVM mapSiegePOIVM = enumerable.FirstOrDefault<MapSiegePOIVM>();
-					if (mapSiegePOIVM == null)
-					{
-						return;
-					}
-					mapSiegePOIVM.ExecuteSelection();
-				}
+				mapSiegePOIVM.ExecuteSelection();
 			}
 		}
 
 		public void Update(float mapCameraDistanceValue)
 		{
-			SiegeEvent siege = this.Siege;
-			this.IsPreparationsCompleted = (siege != null && siege.BesiegerCamp.IsPreparationComplete) || PlayerSiege.PlayerSide == 0;
-			SiegeEvent siege2 = this.Siege;
+			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
+			this.IsPreparationsCompleted = (playerSiegeEvent != null && playerSiegeEvent.BesiegerCamp.IsPreparationComplete) || PlayerSiege.PlayerSide == 0;
+			SiegeEvent playerSiegeEvent2 = PlayerSiege.PlayerSiegeEvent;
 			float? num;
-			if (siege2 == null)
+			if (playerSiegeEvent2 == null)
 			{
 				num = null;
 			}
 			else
 			{
-				SiegeEvent.SiegeEnginesContainer siegeEngines = siege2.BesiegerCamp.SiegeEngines;
+				SiegeEvent.SiegeEnginesContainer siegeEngines = playerSiegeEvent2.BesiegerCamp.SiegeEngines;
 				if (siegeEngines == null)
 				{
 					num = null;

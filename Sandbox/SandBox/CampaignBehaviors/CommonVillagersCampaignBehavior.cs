@@ -9,6 +9,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Extensions;
@@ -73,6 +74,20 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
+		private float GetWeatherEffectMultiplier(Settlement settlement)
+		{
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(settlement.GatePosition);
+			if (weatherEventInPosition == 2)
+			{
+				return 0.15f;
+			}
+			if (weatherEventInPosition != 4)
+			{
+				return 1f;
+			}
+			return 0.4f;
+		}
+
 		private void AddVillageCenterCharacters(Settlement settlement, Dictionary<string, int> unusedUsablePointCount, bool isNight)
 		{
 			Location locationWithId = settlement.LocationComplex.GetLocationWithId("village_center");
@@ -83,7 +98,7 @@ namespace SandBox.CampaignBehaviors
 			unusedUsablePointCount.TryGetValue("npc_common_limited", out num2);
 			float num3 = (float)(num + num2) * 0.65f;
 			float num4 = MBMath.ClampFloat(this.GetConfigValue() / num3, 0f, 1f);
-			float num5 = this.GetSpawnRate(settlement) * num4;
+			float num5 = this.GetSpawnRate(settlement) * num4 * this.GetWeatherEffectMultiplier(settlement);
 			if (locationWithId != null && CampaignMission.Current.Location == locationWithId)
 			{
 				if (num > 0)
@@ -255,7 +270,7 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("town_or_village_talk_beggar", "town_or_village_talk", "close_window", "{=kFWmcRpV}The Heavens repay kindness with kindness, my {?PLAYER.GENDER}lady{?}lord{\\?}.", new ConversationSentence.OnConditionDelegate(this.conversation_beggar_start_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_talk", "town_or_village_talk", "town_or_village_player_children_post_rhyme", "{=jZF4l0jY}Oh, sorry, {?PLAYER.GENDER}madam{?}sir{\\?}. May I be of service?", new ConversationSentence.OnConditionDelegate(this.conversation_children_rhymes_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_talk_children", "town_or_village_talk", "town_or_village_player", "{=KPfs7L7B}Ah, my apologies, {?PLAYER.GENDER}madam{?}sir{\\?}. May I help you with something?", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("town_or_village_start", "start", "close_window", "{=IrsaIJ4u}Ay, these are hard days indeed...", new ConversationSentence.OnConditionDelegate(this.conversation_beggar_delivered_line_on_condition), null, 100, null);
+			campaignGameStarter.AddDialogLine("town_or_village_start_2", "start", "close_window", "{=IrsaIJ4u}Ay, these are hard days indeed...", new ConversationSentence.OnConditionDelegate(this.conversation_beggar_delivered_line_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_start_postrumor_liege", "start", "town_or_village_player", "{=eKLH9fOb}May I be of service, {?PLAYER.GENDER}your ladyship{?}your lordship{\\?}?", new ConversationSentence.OnConditionDelegate(this.conversation_liege_delivered_line_on_street_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_start_postrumor_children", "start", "town_or_village_children_player_no_rhyme", "{=Osaupw6M}Beg pardon, {?PLAYER.GENDER}madam{?}sir{\\?}, I need to get back to my parents. Is there anything you need?", new ConversationSentence.OnConditionDelegate(this.conversation_children_already_delivered_line_on_street_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_start_postrumor_tavern", "start", "town_or_village_player", "{=X1A4r7wY}Your good health, {?PLAYER.GENDER}madam{?}sir{\\?}. May I help you?", new ConversationSentence.OnConditionDelegate(this.conversation_already_delivered_line_in_tavern_on_condition), null, 100, null);
@@ -265,17 +280,17 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("player_run_along_children_3", "town_or_village_player_children_post_rhyme", "close_window", "{=bhkC3kcQ}Speak respectfully about your elders, you filthy ragamuffin!", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("player_run_along_children", "town_or_village_children_player_no_rhyme", "close_window", "{=PV56VAFg}Run along now, child.", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("player_ask_hero_location", "town_or_village_player", "player_ask_hero_location", "{=urieibC4}I'm looking for someone.", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_player_ask_location_of_hero_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_town_or_village_player_ask_location_of_hero_on_consequence), 100, null, null);
-			campaignGameStarter.AddDialogLine("player_ask_hero_location", "player_ask_hero_location", "player_ask_hero_location_2", "{=cqlV1YLO}Whom are you looking for?", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("player_ask_hero_location_di1", "player_ask_hero_location", "player_ask_hero_location_2", "{=cqlV1YLO}Whom are you looking for?", null, null, 100, null);
 			campaignGameStarter.AddRepeatablePlayerLine("player_ask_hero_location_2", "player_ask_hero_location_2", "player_ask_hero_location_3", "{=obY78MnQ}{HERO.LINK}", "{=4hDu8rDF}I am thinking of a different person.", "player_ask_hero_location", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_player_ask_location_of_hero_2_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_town_or_village_player_ask_location_of_hero_2_on_consequence), 100, null);
-			campaignGameStarter.AddPlayerLine("player_ask_hero_location_2", "player_ask_hero_location_2", "town_or_village_pretalk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
+			campaignGameStarter.AddPlayerLine("player_ask_hero_location_2_2", "player_ask_hero_location_2", "town_or_village_pretalk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
 			campaignGameStarter.AddDialogLine("town_or_village_pretalk", "town_or_village_pretalk", "town_or_village_player", "{=ds294zxi}Anything else?", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("player_ask_hero_location_3", "player_ask_hero_location_3", "player_ask_hero_location_4", "{=qN2LYVIO}Yes, I know {HERO.LINK}.", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_player_ask_location_of_hero_3_on_condition), null, 100, null);
-			campaignGameStarter.AddDialogLine("player_ask_hero_location_4", "player_ask_hero_location_3", "town_or_village_pretalk", "{=woMdU4Xl}I don't know where {?HERO.GENDER}she{?}he{\\?} is.", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("player_ask_hero_location_4_di", "player_ask_hero_location_3", "town_or_village_pretalk", "{=woMdU4Xl}I don't know where {?HERO.GENDER}she{?}he{\\?} is.", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("player_ask_hero_location_4", "player_ask_hero_location_4", "player_ask_hero_location_5", "{=a1FeLSbH}Can you take me to {?HERO.GENDER}her{?}him{\\?}?", null, null, 100, null, null);
-			campaignGameStarter.AddPlayerLine("player_ask_hero_location_4", "player_ask_hero_location_4", "town_or_village_pretalk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
+			campaignGameStarter.AddPlayerLine("player_ask_hero_location_4_2", "player_ask_hero_location_4", "town_or_village_pretalk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
 			campaignGameStarter.AddDialogLine("player_ask_hero_location_5", "player_ask_hero_location_5", "close_window", "{=mhgUwwZb}Sure. Follow me.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_town_or_village_player_ask_location_of_hero_5_on_consequence), 100, null);
 			campaignGameStarter.AddDialogLine("town_or_village_escort_complete", "start", "town_or_village_pretalk", "{=9PBA2OJz}Here {?HERO.GENDER}she{?}he{\\?} is.", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_escort_complete_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_town_or_village_escort_complete_on_consequence), 100, null);
-			campaignGameStarter.AddDialogLine("town_or_village_start", "start", "town_or_village_escorting", "{=ym6bSrNo}{STILL_ESCORTING_ANSWER}", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_talk_escorting_commoner_on_condition), null, 100, null);
+			campaignGameStarter.AddDialogLine("town_or_village_start_3", "start", "town_or_village_escorting", "{=ym6bSrNo}{STILL_ESCORTING_ANSWER}", new ConversationSentence.OnConditionDelegate(this.conversation_town_or_village_talk_escorting_commoner_on_condition), null, 100, null);
 			campaignGameStarter.AddPlayerLine("town_or_village_escorting_changed_my_mind", "town_or_village_escorting", "town_or_village_pretalk", "{=fkkYatnM}Actually, I've changed my mind. I'll talk to {?HERO.GENDER}her{?}him{\\?} later...", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_town_or_village_talk_stop_escorting_on_consequence), 100, null, null);
 			campaignGameStarter.AddPlayerLine("town_or_village_escorting_keep_going", "town_or_village_escorting", "close_window", "{=QTZjjOXb}Let us keep going.", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("town_or_village_player", "town_or_village_player", "close_window", "{=OlOhuO7X}No thank you. Good day to you.", null, null, 100, null, null);

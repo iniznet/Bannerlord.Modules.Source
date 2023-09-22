@@ -7,8 +7,6 @@ using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
-using TaleWorlds.CampaignSystem.Settlements;
-using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.Options;
@@ -19,7 +17,7 @@ using TaleWorlds.MountAndBlade.View.Tableaus;
 
 namespace SandBox.View.Map
 {
-	public class MapConversationTableau : ICampaignMission
+	public class MapConversationTableau
 	{
 		public Texture Texture { get; private set; }
 
@@ -45,7 +43,6 @@ namespace SandBox.View.Map
 			{
 				view.SetEnable(this._isEnabled);
 			}
-			CampaignMission.Current = this;
 			this._dataProvider = SandBoxViewSubModule.MapConversationDataProvider;
 		}
 
@@ -115,7 +112,7 @@ namespace SandBox.View.Map
 			}
 			else
 			{
-				this.RenderScale = NativeOptions.GetConfig(21) / 100f;
+				this.RenderScale = NativeOptions.GetConfig(25) / 100f;
 				num = (int)((float)width * this.RenderScale);
 				num2 = (int)((float)height * this.RenderScale);
 			}
@@ -143,7 +140,7 @@ namespace SandBox.View.Map
 			}
 		}
 
-		public void OnFinalize()
+		public void OnFinalize(bool clearNextFrame)
 		{
 			TableauView view = this.View;
 			if (view != null)
@@ -163,15 +160,15 @@ namespace SandBox.View.Map
 				agentVisuals.ResetNextFrame();
 			}
 			this._agentVisuals = null;
-			TableauView view2 = this.View;
-			if (view2 != null)
+			if (clearNextFrame)
 			{
-				view2.AddClearTask(true);
+				this.View.AddClearTask(true);
+				this.Texture.ReleaseNextFrame();
 			}
-			Texture texture = this.Texture;
-			if (texture != null)
+			else
 			{
-				texture.ReleaseNextFrame();
+				this.View.ClearAll(false, false);
+				this.Texture.Release();
 			}
 			this.Texture = null;
 			IEnumerable<GameEntity> enumerable = this._tableauScene.FindEntitiesWithTag(this._cachedAtmosphereName);
@@ -180,7 +177,6 @@ namespace SandBox.View.Map
 			{
 				gameEntity.SetVisibilityExcludeParents(false);
 			}
-			CampaignMission.Current = null;
 			TableauCacheManager.Current.ReturnCachedMapConversationTableauScene();
 			this._tableauScene = null;
 		}
@@ -190,6 +186,8 @@ namespace SandBox.View.Map
 			if (this._data != null && !this._initialized)
 			{
 				this.FirstTimeInit();
+				MapScreen instance = MapScreen.Instance;
+				((instance != null) ? instance.GetMapView<MapConversationView>() : null).ConversationMission.SetConversationTableau(this);
 			}
 			if (this._conversationSoundEvent != null && !this._conversationSoundEvent.IsPlaying())
 			{
@@ -300,13 +298,15 @@ namespace SandBox.View.Map
 			{
 				view.SetPostfxConfigParams((int)num4);
 			}
+			this._tableauScene.FindEntityWithTag(this.RainingEntityTag).SetVisibilityExcludeParents(this._data.IsRaining);
+			this._tableauScene.FindEntityWithTag(this.SnowingEntityTag).SetVisibilityExcludeParents(this._data.IsSnowing);
+			this._tableauScene.Tick(3f);
 			TableauView view2 = this.View;
 			if (view2 != null)
 			{
 				view2.SetEnable(true);
 			}
 			this._initialized = true;
-			this.OnConversationPlay(this._initialIdleActionId, this._initialFaceAnimId, this._initialReactionId, this._initialReactionFaceAnimId, this._initialSoundPath);
 		}
 
 		private void SpawnOpponentLeader()
@@ -536,65 +536,58 @@ namespace SandBox.View.Map
 			return invalid;
 		}
 
-		void ICampaignMission.OnConversationPlay(string idleActionId, string idleFaceAnimId, string reactionId, string reactionFaceAnimId, string soundPath)
+		public void OnConversationPlay(string idleActionId, string idleFaceAnimId, string reactionId, string reactionFaceAnimId, string soundPath)
 		{
-			if (this._initialized)
+			if (!this._initialized)
 			{
-				if (!Campaign.Current.ConversationManager.SpeakerAgent.Character.IsPlayerCharacter)
+				Debug.FailedAssert("Conversation Tableau shouldn't play before initialization", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\MapConversationTableau.cs", "OnConversationPlay", 586);
+				return;
+			}
+			if (!Campaign.Current.ConversationManager.SpeakerAgent.Character.IsPlayerCharacter)
+			{
+				bool flag = false;
+				bool flag2 = string.IsNullOrEmpty(idleActionId);
+				ConversationAnimData animationData;
+				if (flag2)
 				{
-					bool flag = false;
-					bool flag2 = string.IsNullOrEmpty(idleActionId);
-					ConversationAnimData animationData;
-					if (flag2)
+					MapConversationTableau.DefaultConversationAnimationData defaultAnimForCharacter = this.GetDefaultAnimForCharacter(this._data.ConversationPartnerData.Character, false);
+					animationData = defaultAnimForCharacter.AnimationData;
+					flag = defaultAnimForCharacter.AnimationDataValid;
+				}
+				else if (Campaign.Current.ConversationManager.ConversationAnimationManager.ConversationAnims.TryGetValue(idleActionId, out animationData))
+				{
+					flag = true;
+				}
+				if (flag)
+				{
+					if (!string.IsNullOrEmpty(reactionId))
 					{
-						MapConversationTableau.DefaultConversationAnimationData defaultAnimForCharacter = this.GetDefaultAnimForCharacter(this._data.ConversationPartnerData.Character, false);
-						animationData = defaultAnimForCharacter.AnimationData;
-						flag = defaultAnimForCharacter.AnimationDataValid;
+						this._agentVisuals[0].SetAction(ActionIndexCache.Create(animationData.Reactions[reactionId]), 0f, false);
 					}
-					else if (Campaign.Current.ConversationManager.ConversationAnimationManager.ConversationAnims.TryGetValue(idleActionId, out animationData))
+					else if (!flag2 || this._changeIdleActionTimer.Check(Game.Current.ApplicationTime))
 					{
-						flag = true;
-					}
-					if (flag)
-					{
-						if (!string.IsNullOrEmpty(reactionId))
+						ActionIndexCache actionIndexCache = ActionIndexCache.Create(animationData.IdleAnimStart);
+						if (!this._agentVisuals[0].DoesActionContinueWithCurrentAction(actionIndexCache))
 						{
-							this._agentVisuals[0].SetAction(ActionIndexCache.Create(animationData.Reactions[reactionId]), 0f, false);
+							this._changeIdleActionTimer.Reset(Game.Current.ApplicationTime);
+							this._agentVisuals[0].SetAction(actionIndexCache, 0f, false);
 						}
-						else if (!flag2 || this._changeIdleActionTimer.Check(Game.Current.ApplicationTime))
-						{
-							ActionIndexCache actionIndexCache = ActionIndexCache.Create(animationData.IdleAnimStart);
-							if (!this._agentVisuals[0].DoesActionContinueWithCurrentAction(actionIndexCache))
-							{
-								this._changeIdleActionTimer.Reset(Game.Current.ApplicationTime);
-								this._agentVisuals[0].SetAction(actionIndexCache, 0f, false);
-							}
-						}
-					}
-					if (!string.IsNullOrEmpty(reactionFaceAnimId))
-					{
-						MBSkeletonExtensions.SetFacialAnimation(this._agentVisuals[0].GetVisuals().GetSkeleton(), 1, reactionFaceAnimId, false, false);
-					}
-					else if (!string.IsNullOrEmpty(idleFaceAnimId))
-					{
-						MBSkeletonExtensions.SetFacialAnimation(this._agentVisuals[0].GetVisuals().GetSkeleton(), 1, idleFaceAnimId, false, true);
 					}
 				}
-				this.RemovePreviousAgentsSoundEvent();
-				this.StopConversationSoundEvent();
-				if (!string.IsNullOrEmpty(soundPath))
+				if (!string.IsNullOrEmpty(reactionFaceAnimId))
 				{
-					this.PlayConversationSoundEvent(soundPath);
-					return;
+					MBSkeletonExtensions.SetFacialAnimation(this._agentVisuals[0].GetVisuals().GetSkeleton(), 1, reactionFaceAnimId, false, false);
+				}
+				else if (!string.IsNullOrEmpty(idleFaceAnimId))
+				{
+					MBSkeletonExtensions.SetFacialAnimation(this._agentVisuals[0].GetVisuals().GetSkeleton(), 1, idleFaceAnimId, false, true);
 				}
 			}
-			else
+			this.RemovePreviousAgentsSoundEvent();
+			this.StopConversationSoundEvent();
+			if (!string.IsNullOrEmpty(soundPath))
 			{
-				this._initialIdleActionId = idleActionId;
-				this._initialFaceAnimId = idleFaceAnimId;
-				this._initialReactionId = reactionId;
-				this._initialReactionFaceAnimId = reactionFaceAnimId;
-				this._initialSoundPath = soundPath;
+				this.PlayConversationSoundEvent(soundPath);
 			}
 		}
 
@@ -631,107 +624,6 @@ namespace SandBox.View.Map
 			return soundPath.Substring(0, num) + ".xml";
 		}
 
-		GameState ICampaignMission.State
-		{
-			get
-			{
-				return Game.Current.GameStateManager.ActiveState;
-			}
-		}
-
-		IMissionTroopSupplier ICampaignMission.AgentSupplier
-		{
-			get
-			{
-				return null;
-			}
-		}
-
-		Location ICampaignMission.Location
-		{
-			get
-			{
-				return null;
-			}
-			set
-			{
-			}
-		}
-
-		Alley ICampaignMission.LastVisitedAlley
-		{
-			get
-			{
-				return null;
-			}
-			set
-			{
-			}
-		}
-
-		MissionMode ICampaignMission.Mode
-		{
-			get
-			{
-				return 1;
-			}
-		}
-
-		void ICampaignMission.AddAgentFollowing(IAgent agent)
-		{
-		}
-
-		bool ICampaignMission.AgentLookingAtAgent(IAgent agent1, IAgent agent2)
-		{
-			return false;
-		}
-
-		bool ICampaignMission.CheckIfAgentCanFollow(IAgent agent)
-		{
-			return false;
-		}
-
-		bool ICampaignMission.CheckIfAgentCanUnFollow(IAgent agent)
-		{
-			return false;
-		}
-
-		void ICampaignMission.OnConversationContinue()
-		{
-		}
-
-		void ICampaignMission.EndMission()
-		{
-		}
-
-		void ICampaignMission.OnCharacterLocationChanged(LocationCharacter locationCharacter, Location fromLocation, Location toLocation)
-		{
-		}
-
-		void ICampaignMission.OnCloseEncounterMenu()
-		{
-		}
-
-		void ICampaignMission.OnConversationEnd(IAgent agent)
-		{
-		}
-
-		void ICampaignMission.OnConversationStart(IAgent agent, bool setActionsInstantly)
-		{
-		}
-
-		void ICampaignMission.OnProcessSentence()
-		{
-		}
-
-		void ICampaignMission.RemoveAgentFollowing(IAgent agent)
-		{
-		}
-
-		void ICampaignMission.SetMissionMode(MissionMode newMode, bool atStart)
-		{
-		}
-
 		private const float MinimumTimeRequiredToChangeIdleAction = 8f;
 
 		private Scene _tableauScene;
@@ -754,16 +646,6 @@ namespace SandBox.View.Map
 
 		private bool _initialized;
 
-		private string _initialFaceAnimId;
-
-		private string _initialIdleActionId;
-
-		private string _initialReactionId;
-
-		private string _initialReactionFaceAnimId;
-
-		private string _initialSoundPath;
-
 		private Timer _changeIdleActionTimer;
 
 		private int _tableauSizeX;
@@ -777,6 +659,10 @@ namespace SandBox.View.Map
 		private List<AgentVisuals> _agentVisuals;
 
 		private static readonly string fallbackAnimActName = "act_inventory_idle_start";
+
+		private readonly string RainingEntityTag = "raining_entity";
+
+		private readonly string SnowingEntityTag = "snowing_entity";
 
 		private float _animationGap;
 

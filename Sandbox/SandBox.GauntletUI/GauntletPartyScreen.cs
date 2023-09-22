@@ -1,6 +1,7 @@
 ﻿using System;
 using SandBox.View;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
@@ -12,6 +13,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -51,37 +53,55 @@ namespace SandBox.GauntletUI
 			{
 				if (this._gauntletLayer.Input.IsHotKeyPressed("TakeAllTroops"))
 				{
-					this._dataSource.ExecuteTransferAllOtherTroops();
-					return;
-				}
-				if (this._gauntletLayer.Input.IsHotKeyPressed("GiveAllTroops"))
-				{
-					this._dataSource.ExecuteTransferAllMainTroops();
-					return;
-				}
-				if (this._gauntletLayer.Input.IsHotKeyPressed("TakeAllPrisoners"))
-				{
-					if (this._dataSource.CurrentFocusedCharacter == null || !Input.IsGamepadActive)
+					if (this._dataSource.IsOtherTroopsHaveTransferableTroops)
 					{
-						this._dataSource.ExecuteTransferAllOtherPrisoners();
+						UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
+						this._dataSource.ExecuteTransferAllOtherTroops();
 						return;
 					}
-					if (this._dataSource.CurrentFocusedCharacter.IsTroopTransferrable && this._dataSource.CurrentFocusedCharacter.Side == null)
+				}
+				else if (this._gauntletLayer.Input.IsHotKeyPressed("GiveAllTroops"))
+				{
+					if (this._dataSource.IsMainTroopsHaveTransferableTroops)
 					{
-						this._dataSource.CurrentFocusedCharacter.ExecuteTransferSingle();
+						UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
+						this._dataSource.ExecuteTransferAllMainTroops();
+						return;
+					}
+				}
+				else if (this._gauntletLayer.Input.IsHotKeyPressed("TakeAllPrisoners"))
+				{
+					if (this._dataSource.CurrentFocusedCharacter != null && Input.IsGamepadActive)
+					{
+						if (this._dataSource.CurrentFocusedCharacter.IsTroopTransferrable && this._dataSource.CurrentFocusedCharacter.Side == null)
+						{
+							this._dataSource.CurrentFocusedCharacter.ExecuteTransferSingle();
+							UISoundsHelper.PlayUISound("event:/ui/transfer");
+							return;
+						}
+					}
+					else if (this._dataSource.IsOtherPrisonersHaveTransferableTroops)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
+						this._dataSource.ExecuteTransferAllOtherPrisoners();
 						return;
 					}
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyPressed("GiveAllPrisoners"))
 				{
-					if (this._dataSource.CurrentFocusedCharacter == null || !Input.IsGamepadActive)
+					if (this._dataSource.CurrentFocusedCharacter != null && Input.IsGamepadActive)
 					{
-						this._dataSource.ExecuteTransferAllMainPrisoners();
-						return;
+						if (this._dataSource.CurrentFocusedCharacter.IsTroopTransferrable && this._dataSource.CurrentFocusedCharacter.Side == 1)
+						{
+							this._dataSource.CurrentFocusedCharacter.ExecuteTransferSingle();
+							UISoundsHelper.PlayUISound("event:/ui/transfer");
+							return;
+						}
 					}
-					if (this._dataSource.CurrentFocusedCharacter.IsTroopTransferrable && this._dataSource.CurrentFocusedCharacter.Side == 1)
+					else if (this._dataSource.IsMainPrisonersHaveTransferableTroops)
 					{
-						this._dataSource.CurrentFocusedCharacter.ExecuteTransferSingle();
+						UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
+						this._dataSource.ExecuteTransferAllMainPrisoners();
 						return;
 					}
 				}
@@ -90,6 +110,7 @@ namespace SandBox.GauntletUI
 					if (!this._dataSource.IsUpgradePopUpDisabled)
 					{
 						this._dataSource.ExecuteOpenUpgradePopUp();
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						return;
 					}
 				}
@@ -98,6 +119,7 @@ namespace SandBox.GauntletUI
 					if (!this._dataSource.IsRecruitPopUpDisabled)
 					{
 						this._dataSource.ExecuteOpenRecruitPopUp();
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						return;
 					}
 				}
@@ -112,6 +134,10 @@ namespace SandBox.GauntletUI
 				PartyUpgradeTroopVM upgradePopUp = this._dataSource.UpgradePopUp;
 				if (upgradePopUp != null && upgradePopUp.IsOpen)
 				{
+					if (this._dataSource.UpgradePopUp.IsFocusedOnACharacter && this._dataSource.UpgradePopUp.FocusedTroop.PartyCharacter.Upgrades.Count > 0 && this._dataSource.UpgradePopUp.FocusedTroop.PartyCharacter.Upgrades[0].IsAvailable)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/party/upgrade");
+					}
 					this._dataSource.UpgradePopUp.ExecuteItemPrimaryAction();
 					return;
 				}
@@ -127,12 +153,21 @@ namespace SandBox.GauntletUI
 				PartyUpgradeTroopVM upgradePopUp2 = this._dataSource.UpgradePopUp;
 				if (upgradePopUp2 != null && upgradePopUp2.IsOpen)
 				{
+					if (this._dataSource.UpgradePopUp.IsFocusedOnACharacter && this._dataSource.UpgradePopUp.FocusedTroop.PartyCharacter.Upgrades.Count > 1 && this._dataSource.UpgradePopUp.FocusedTroop.PartyCharacter.Upgrades[1].IsAvailable)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/party/upgrade");
+					}
 					this._dataSource.UpgradePopUp.ExecuteItemSecondaryAction();
 					return;
 				}
 				PartyRecruitTroopVM recruitPopUp2 = this._dataSource.RecruitPopUp;
 				if (recruitPopUp2 != null && recruitPopUp2.IsOpen)
 				{
+					PartyTroopManagerItemVM focusedTroop = this._dataSource.RecruitPopUp.FocusedTroop;
+					if (focusedTroop != null && focusedTroop.PartyCharacter.IsTroopRecruitable)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/party/recruit_prisoner");
+					}
 					this._dataSource.RecruitPopUp.ExecuteItemSecondaryAction();
 					return;
 				}
@@ -199,14 +234,14 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer.IsFocusLayer = true;
 			ScreenManager.TrySetFocus(this._gauntletLayer);
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(1));
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_party_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_party_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
 		void IGameStateListener.OnDeactivate()
 		{
 			base.OnDeactivate();
-			PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 			this._gauntletLayer.IsFocusLayer = false;
 			this._gauntletLayer.InputRestrictions.ResetInputRestrictions();
 			base.RemoveLayer(this._gauntletLayer);
@@ -220,14 +255,30 @@ namespace SandBox.GauntletUI
 
 		void IGameStateListener.OnInitialize()
 		{
+			CampaignEvents.CompanionRemoved.AddNonSerializedListener(this, new Action<Hero, RemoveCompanionAction.RemoveCompanionDetail>(this.OnCompanionRemoved));
 		}
 
 		void IGameStateListener.OnFinalize()
 		{
+			CampaignEvents.CompanionRemoved.ClearListeners(this);
 			this._dataSource.OnFinalize();
 			this._partyscreenCategory.Unload();
 			this._dataSource = null;
 			this._gauntletLayer = null;
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			PartyVM dataSource = this._dataSource;
+			if (dataSource != null && dataSource.IsInConversation)
+			{
+				this._dataSource.IsInConversation = false;
+				if (this._dataSource.PartyScreenLogic.IsDoneActive())
+				{
+					this._dataSource.PartyScreenLogic.DoneLogic(false);
+				}
+			}
 		}
 
 		private void HandleResetInput()
@@ -235,6 +286,7 @@ namespace SandBox.GauntletUI
 			if (!this._dataSource.IsAnyPopUpOpen)
 			{
 				this._dataSource.ExecuteReset();
+				UISoundsHelper.PlayUISound("event:/ui/default");
 			}
 		}
 
@@ -244,16 +296,20 @@ namespace SandBox.GauntletUI
 			if (upgradePopUp != null && upgradePopUp.IsOpen)
 			{
 				this._dataSource.UpgradePopUp.ExecuteCancel();
-				return;
 			}
-			PartyRecruitTroopVM recruitPopUp = this._dataSource.RecruitPopUp;
-			if (recruitPopUp != null && recruitPopUp.IsOpen)
+			else
 			{
-				this._dataSource.RecruitPopUp.ExecuteCancel();
-				return;
+				PartyRecruitTroopVM recruitPopUp = this._dataSource.RecruitPopUp;
+				if (recruitPopUp != null && recruitPopUp.IsOpen)
+				{
+					this._dataSource.RecruitPopUp.ExecuteCancel();
+				}
+				else
+				{
+					this._dataSource.ExecuteCancel();
+				}
 			}
-			this._partyState.PartyScreenLogic.Reset(true);
-			PartyScreenManager.CloseScreen(false, true);
+			UISoundsHelper.PlayUISound("event:/ui/default");
 		}
 
 		private void HandleDoneInput()
@@ -262,15 +318,25 @@ namespace SandBox.GauntletUI
 			if (upgradePopUp != null && upgradePopUp.IsOpen)
 			{
 				this._dataSource.UpgradePopUp.ExecuteDone();
-				return;
 			}
-			PartyRecruitTroopVM recruitPopUp = this._dataSource.RecruitPopUp;
-			if (recruitPopUp != null && recruitPopUp.IsOpen)
+			else
 			{
-				this._dataSource.RecruitPopUp.ExecuteDone();
-				return;
+				PartyRecruitTroopVM recruitPopUp = this._dataSource.RecruitPopUp;
+				if (recruitPopUp != null && recruitPopUp.IsOpen)
+				{
+					this._dataSource.RecruitPopUp.ExecuteDone();
+				}
+				else
+				{
+					this._dataSource.ExecuteDone();
+				}
 			}
-			this._dataSource.ExecuteDone();
+			UISoundsHelper.PlayUISound("event:/ui/default");
+		}
+
+		private void OnCompanionRemoved(Hero arg1, RemoveCompanionAction.RemoveCompanionDetail arg2)
+		{
+			((IChangeableScreen)this).ApplyChanges();
 		}
 
 		private string GetFiveStackShortcutkeyText()
@@ -310,8 +376,6 @@ namespace SandBox.GauntletUI
 		{
 			this._partyState.PartyScreenLogic.Reset(true);
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_party_open";
 
 		private PartyVM _dataSource;
 

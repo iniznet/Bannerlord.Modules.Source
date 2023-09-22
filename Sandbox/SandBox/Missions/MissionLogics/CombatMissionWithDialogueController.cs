@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.AI.AgentComponents;
@@ -9,11 +10,10 @@ namespace SandBox.Missions.MissionLogics
 {
 	public class CombatMissionWithDialogueController : MissionLogic, IMissionAgentSpawnLogic, IMissionBehavior
 	{
-		public CombatMissionWithDialogueController(IMissionTroopSupplier[] suppliers, BasicCharacterObject characterToTalkTo, BasicCharacterObject allyTroopsWithFixedTeam)
+		public CombatMissionWithDialogueController(IMissionTroopSupplier[] suppliers, BasicCharacterObject characterToTalkTo)
 		{
 			this._troopSuppliers = suppliers;
 			this._characterToTalkTo = characterToTalkTo;
-			this._allyTroopsWithFixedTeam = allyTroopsWithFixedTeam;
 		}
 
 		public override void OnCreated()
@@ -66,7 +66,7 @@ namespace SandBox.Missions.MissionLogics
 
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon affectorWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
-			if (!this._conversationInitialized && affectedAgent.Team != Mission.Current.PlayerTeam && affectorAgent == Agent.Main)
+			if (!this._conversationInitialized && affectedAgent.Team != Mission.Current.PlayerTeam && affectorAgent != null && affectorAgent == Agent.Main)
 			{
 				this._conversationInitialized = true;
 				this.StartFight(false);
@@ -85,7 +85,7 @@ namespace SandBox.Missions.MissionLogics
 			{
 				if (Agent.Main != agent)
 				{
-					if (hasPlayerChangedSide && agent.Team != Mission.Current.PlayerTeam && agent.Character != this._allyTroopsWithFixedTeam)
+					if (hasPlayerChangedSide && agent.Team != Mission.Current.PlayerTeam && agent.Origin.BattleCombatant as PartyBase == PartyBase.MainParty)
 					{
 						agent.SetTeam(Mission.Current.PlayerTeam, true);
 					}
@@ -116,7 +116,7 @@ namespace SandBox.Missions.MissionLogics
 			{
 				foreach (IAgentOriginBase agentOriginBase in troopSuppliers[i].SupplyTroops(25).ToList<IAgentOriginBase>())
 				{
-					Agent agent2 = Mission.Current.SpawnTroop(agentOriginBase, agentOriginBase.IsUnderPlayersCommand || agentOriginBase.Troop.IsPlayerCharacter, false, false, false, 0, 0, false, true, true, null, null, null, null, 10, false);
+					Agent agent2 = Mission.Current.SpawnTroop(agentOriginBase, agentOriginBase.BattleCombatant.Side == 1, false, false, false, 0, 0, false, true, true, null, null, null, null, 10, false);
 					this._numSpawnedTroops++;
 					if (!agent2.IsMainAgent)
 					{
@@ -133,7 +133,7 @@ namespace SandBox.Missions.MissionLogics
 				ScriptedMovementComponent component = agent3.GetComponent<ScriptedMovementComponent>();
 				if (component != null)
 				{
-					if (agent3.Team == Mission.Current.PlayerTeam)
+					if (agent3.Team.Side == Mission.Current.PlayerTeam.Side)
 					{
 						component.SetTargetAgent(agent);
 					}
@@ -142,6 +142,7 @@ namespace SandBox.Missions.MissionLogics
 						component.SetTargetAgent(Agent.Main);
 					}
 				}
+				agent3.SetFiringOrder(1);
 			}
 		}
 
@@ -183,8 +184,6 @@ namespace SandBox.Missions.MissionLogics
 		private BattleAgentLogic _battleAgentLogic;
 
 		private readonly BasicCharacterObject _characterToTalkTo;
-
-		private readonly BasicCharacterObject _allyTroopsWithFixedTeam;
 
 		private bool _isMissionInitialized;
 

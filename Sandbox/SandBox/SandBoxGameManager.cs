@@ -92,6 +92,10 @@ namespace SandBox
 			}
 		}
 
+		public override void OnAfterCampaignStart(Game game)
+		{
+		}
+
 		public override void OnLoadFinished()
 		{
 			if (!this._loadingSavedGame)
@@ -115,10 +119,6 @@ namespace SandBox
 			}
 			else
 			{
-				if (CampaignSiegeTestStatic.IsSiegeTestBuild)
-				{
-					CampaignSiegeTestStatic.DisableSiegeTest();
-				}
 				Game.Current.GameStateManager.OnSavedGameLoadFinished();
 				Game.Current.GameStateManager.CleanAndPushState(Game.Current.GameStateManager.CreateState<MapState>(), 0);
 				MapState mapState = Game.Current.GameStateManager.ActiveState as MapState;
@@ -132,15 +132,11 @@ namespace SandBox
 					}
 					Campaign.Current.GameMenuManager.SetNextMenu(text5);
 				}
-				IPartyVisual visuals = PartyBase.MainParty.Visuals;
-				if (visuals != null)
-				{
-					visuals.SetMapIconAsDirty();
-				}
+				PartyBase.MainParty.SetVisualAsDirty();
 				Campaign.Current.CampaignInformationManager.OnGameLoaded();
 				foreach (Settlement settlement in Settlement.All)
 				{
-					settlement.Party.Visuals.RefreshLevelMask(settlement.Party);
+					settlement.Party.SetLevelMaskIsDirty();
 				}
 				CampaignEventDispatcher.Instance.OnGameLoadFinished();
 				if (mapState != null)
@@ -192,7 +188,7 @@ namespace SandBox
 				for (int i = 0; i < Campaign.Current.UsedGameVersions.Count; i++)
 				{
 					string text = "";
-					if (i < Campaign.Current.UsedGameVersions.Count - 1 && ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i], 26219) > ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i + 1], 26219))
+					if (i < Campaign.Current.UsedGameVersions.Count - 1 && ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i], 24202) > ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i + 1], 24202))
 					{
 						text = "Error";
 					}

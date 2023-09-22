@@ -152,7 +152,7 @@ namespace SandBox.Missions.MissionLogics
 		{
 			if (Campaign.Current.GameMode == 1)
 			{
-				if (PlayerEncounter.Battle != null && PlayerEncounter.Battle.IsSiegeAssault && (Mission.Current.MissionTeamAIType == 2 || Mission.Current.MissionTeamAIType == 3))
+				if (PlayerEncounter.Battle != null && (PlayerEncounter.Battle.IsSiegeAssault || PlayerEncounter.Battle.IsSiegeAmbush) && (Mission.Current.MissionTeamAIType == 2 || Mission.Current.MissionTeamAIType == 3))
 				{
 					IEnumerable<IMissionSiegeWeapon> enumerable;
 					IEnumerable<IMissionSiegeWeapon> enumerable2;
@@ -270,9 +270,9 @@ namespace SandBox.Missions.MissionLogics
 			}
 			if (agent.MountAgent != null)
 			{
-				ValueTuple<string, ConversationAnimData> animDataForMountAgent = this.GetAnimDataForMountAgent(agent);
-				this.SetMountAgentAnimation(agent.MountAgent, animDataForMountAgent.Item2, startingConversation);
-				return animDataForMountAgent.Item1;
+				ValueTuple<string, ConversationAnimData> animDataForRiderAndMountAgents = this.GetAnimDataForRiderAndMountAgents(agent);
+				this.SetMountAgentAnimation(agent.MountAgent, animDataForRiderAndMountAgents.Item2, startingConversation);
+				return animDataForRiderAndMountAgents.Item1;
 			}
 			if (agent == Agent.Main)
 			{
@@ -285,17 +285,30 @@ namespace SandBox.Missions.MissionLogics
 			return selectedId;
 		}
 
-		private ValueTuple<string, ConversationAnimData> GetAnimDataForMountAgent(Agent riderAgent)
+		private ValueTuple<string, ConversationAnimData> GetAnimDataForRiderAndMountAgents(Agent riderAgent)
 		{
+			bool flag = false;
 			string text = "";
+			bool flag2 = false;
 			ConversationAnimData conversationAnimData = null;
 			foreach (KeyValuePair<string, ConversationAnimData> keyValuePair in Campaign.Current.ConversationManager.ConversationAnimationManager.ConversationAnims)
 			{
-				if (keyValuePair.Value != null && keyValuePair.Value.FamilyType == riderAgent.Monster.FamilyType && keyValuePair.Value.MountFamilyType == riderAgent.MountAgent.Monster.FamilyType)
+				if (keyValuePair.Value != null)
 				{
-					text = keyValuePair.Key;
-					conversationAnimData = keyValuePair.Value;
-					break;
+					if (keyValuePair.Value.FamilyType == riderAgent.MountAgent.Monster.FamilyType)
+					{
+						conversationAnimData = keyValuePair.Value;
+						flag2 = true;
+					}
+					else if (keyValuePair.Value.FamilyType == riderAgent.Monster.FamilyType && keyValuePair.Value.MountFamilyType == riderAgent.MountAgent.Monster.FamilyType)
+					{
+						text = keyValuePair.Key;
+						flag = true;
+					}
+					if (flag2 && flag)
+					{
+						break;
+					}
 				}
 			}
 			return new ValueTuple<string, ConversationAnimData>(text, conversationAnimData);

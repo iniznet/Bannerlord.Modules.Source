@@ -48,16 +48,23 @@ namespace SandBox.GameComponents
 			explainedNumber2..ctor(battleImportance * 4f * num2 * num, false, null);
 			if (characterObject != null)
 			{
-				Formation formation = affectorAgent.Formation;
 				object obj;
-				if (formation == null)
+				if (affectorAgent == null)
 				{
 					obj = null;
 				}
 				else
 				{
-					Agent captain = formation.Captain;
-					obj = ((captain != null) ? captain.Character : null);
+					Formation formation = affectorAgent.Formation;
+					if (formation == null)
+					{
+						obj = null;
+					}
+					else
+					{
+						Agent captain = formation.Captain;
+						obj = ((captain != null) ? captain.Character : null);
+					}
 				}
 				CharacterObject characterObject2 = obj as CharacterObject;
 				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Leadership.MakeADifference, characterObject, true, ref explainedNumber);
@@ -68,7 +75,7 @@ namespace SandBox.GameComponents
 						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.Hope, characterObject, true, ref explainedNumber);
 						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.Terror, characterObject, true, ref explainedNumber2);
 					}
-					if (affectorAgent.HasMount)
+					if (affectorAgent != null && affectorAgent.HasMount)
 					{
 						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.ThunderousCharge, characterObject, true, ref explainedNumber2);
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.ThunderousCharge, characterObject2, ref explainedNumber2);
@@ -80,7 +87,7 @@ namespace SandBox.GameComponents
 					{
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.Terror, characterObject2, ref explainedNumber2);
 					}
-					if (affectorAgent.HasMount)
+					if (affectorAgent != null && affectorAgent.HasMount)
 					{
 						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.AnnoyingBuzz, characterObject, true, ref explainedNumber2);
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.AnnoyingBuzz, characterObject2, ref explainedNumber2);
@@ -136,7 +143,7 @@ namespace SandBox.GameComponents
 					Hero hero = ((mobileParty != null) ? mobileParty.EffectiveQuartermaster : null);
 					if (hero != null)
 					{
-						PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, hero.CharacterObject, DefaultSkills.Steward, true, ref explainedNumber2, 250);
+						PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, hero.CharacterObject, DefaultSkills.Steward, true, ref explainedNumber2, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 					}
 				}
 			}
@@ -194,7 +201,7 @@ namespace SandBox.GameComponents
 				Hero hero = ((mobileParty != null) ? mobileParty.EffectiveQuartermaster : null);
 				if (hero != null)
 				{
-					PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, hero.CharacterObject, DefaultSkills.Steward, true, ref explainedNumber, 250);
+					PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, hero.CharacterObject, DefaultSkills.Steward, true, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 				}
 				if (activeBanner != null)
 				{
@@ -292,7 +299,7 @@ namespace SandBox.GameComponents
 					{
 						float num2;
 						float num3;
-						MapEventHelper.GetStrengthsRelativeToParty(partyBase.Side, partyBase.MapEvent, ref num2, ref num3);
+						partyBase.MapEvent.GetStrengthsRelativeToParty(partyBase.Side, ref num2, ref num3);
 						if (num2 < num3)
 						{
 							PerkHelper.AddPerkBonusForParty(DefaultPerks.OneHanded.StandUnited, mobileParty, true, ref explainedNumber);

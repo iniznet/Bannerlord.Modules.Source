@@ -7,8 +7,6 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions.Tournaments
 {
@@ -35,10 +33,6 @@ namespace SandBox.View.Missions.Tournaments
 				new MissionSingleplayerViewHandler(),
 				new MissionMessageUIHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionTournamentComponent()
-				}),
 				ViewCreator.CreateMissionAgentLabelUIHandler(mission),
 				new MissionItemContourControllerView(),
 				ViewCreator.CreatePhotoModeView(),
@@ -66,10 +60,6 @@ namespace SandBox.View.Missions.Tournaments
 				new MusicTournamentMissionView(),
 				new MissionSingleplayerViewHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionTournamentComponent()
-				}),
 				ViewCreator.CreateMissionAgentLabelUIHandler(mission),
 				new MissionItemContourControllerView(),
 				new MissionCampaignBattleSpectatorView(),
@@ -97,10 +87,6 @@ namespace SandBox.View.Missions.Tournaments
 				new MissionSingleplayerViewHandler(),
 				new MissionAudienceHandler(0.4f + MBRandom.RandomFloat * 0.6f),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionTournamentComponent()
-				}),
 				ViewCreator.CreateMissionAgentLabelUIHandler(mission),
 				new MissionItemContourControllerView(),
 				new MissionCampaignBattleSpectatorView(),
@@ -129,10 +115,6 @@ namespace SandBox.View.Missions.Tournaments
 				new MissionSingleplayerViewHandler(),
 				new MissionMessageUIHandler(),
 				new MissionScoreUIHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionTournamentComponent()
-				}),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				new MissionTournamentJoustingView(),
 				ViewCreator.CreateMissionAgentLabelUIHandler(mission),

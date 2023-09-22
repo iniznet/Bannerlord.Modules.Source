@@ -4,11 +4,13 @@ using System.Linq;
 using SandBox.View.Map;
 using SandBox.ViewModelCollection.Nameplate;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.GauntletUI.Map
@@ -27,10 +29,11 @@ namespace SandBox.GauntletUI.Map
 			List<Tuple<Settlement, GameEntity>> list = new List<Tuple<Settlement, GameEntity>>();
 			foreach (Settlement settlement in Settlement.All)
 			{
-				GameEntity strategicEntity = ((PartyVisual)settlement.Party.Visuals).StrategicEntity;
+				GameEntity strategicEntity = PartyVisualManager.Current.GetVisualOfParty(settlement.Party).StrategicEntity;
 				Tuple<Settlement, GameEntity> tuple = new Tuple<Settlement, GameEntity>(settlement, strategicEntity);
 				list.Add(tuple);
 			}
+			CampaignEvents.OnHideoutSpottedEvent.AddNonSerializedListener(this, new Action<PartyBase, PartyBase>(this.OnHideoutSpotted));
 			this._dataSource.Initialize(list);
 			GauntletMapEventVisualCreator gauntletMapEventVisualCreator;
 			if ((gauntletMapEventVisualCreator = Campaign.Current.VisualCreator.MapEventVisualCreator as GauntletMapEventVisualCreator) != null)
@@ -69,6 +72,7 @@ namespace SandBox.GauntletUI.Map
 			{
 				gauntletMapEventVisualCreator.Handlers.Remove(this);
 			}
+			CampaignEvents.OnHideoutSpottedEvent.ClearListeners(this);
 			this._layerAsGauntletLayer.ReleaseMovie(this._movie);
 			this._dataSource.OnFinalize();
 			this._layerAsGauntletLayer = null;
@@ -76,6 +80,11 @@ namespace SandBox.GauntletUI.Map
 			this._movie = null;
 			this._dataSource = null;
 			base.OnFinalize();
+		}
+
+		private void OnHideoutSpotted(PartyBase party, PartyBase hideoutParty)
+		{
+			MBSoundEvent.PlaySound(SoundEvent.GetEventIdFromString("event:/ui/notification/hideout_found"), hideoutParty.Settlement.GetPosition());
 		}
 
 		private SettlementNameplateVM GetNameplateOfMapEvent(GauntletMapEventVisual mapEvent)

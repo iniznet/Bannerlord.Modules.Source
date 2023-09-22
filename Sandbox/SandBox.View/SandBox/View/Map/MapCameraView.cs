@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
@@ -281,7 +280,7 @@ namespace SandBox.View.Map
 				{
 					this.CurrentCameraFollowMode = MapCameraView.CameraFollowMode.FollowParty;
 				}
-				if ((!inputInformation.IsInMenu && !inputInformation.MiddleMouseButtonDown && (MobileParty.MainParty == null || MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && inputInformation.PartyMoveRightKey) || inputInformation.PartyMoveLeftKey || inputInformation.PartyMoveUpKey || inputInformation.PartyMoveDownKey)
+				if (!inputInformation.IsInMenu && !inputInformation.MiddleMouseButtonDown && (MobileParty.MainParty == null || MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && (inputInformation.PartyMoveRightKey || inputInformation.PartyMoveLeftKey || inputInformation.PartyMoveUpKey || inputInformation.PartyMoveDownKey))
 				{
 					float num4 = 0f;
 					float num5 = 0f;
@@ -452,7 +451,7 @@ namespace SandBox.View.Map
 			{
 				if (PlayerSiege.PlayerSiegeEvent != null)
 				{
-					Vec2 asVec = party.MobileParty.BesiegedSettlement.Party.Visuals.GetSiegeCamp1GlobalFrames().First<MatrixFrame>().origin.AsVec2;
+					Vec2 asVec = party.MobileParty.BesiegedSettlement.Town.BesiegerCampPositions1.First<MatrixFrame>().origin.AsVec2;
 					vec = Vec2.Lerp(party.MobileParty.BesiegedSettlement.GatePosition, asVec, 0.75f);
 				}
 				else
@@ -582,13 +581,13 @@ namespace SandBox.View.Map
 				Vec2 vec10;
 				if (cameraFollowParty.IsMobile && cameraFollowParty.MobileParty.CurrentSettlement != null)
 				{
-					vec10 = cameraFollowParty.MobileParty.CurrentSettlement.Position2D;
+					vec10 = ((cameraFollowParty.MobileParty.CurrentSettlement.SiegeEvent != null) ? cameraFollowParty.MobileParty.CurrentSettlement.GatePosition : cameraFollowParty.MobileParty.CurrentSettlement.Position2D);
 				}
 				else if (cameraFollowParty.IsMobile && cameraFollowParty.MobileParty.BesiegedSettlement != null)
 				{
 					if (PlayerSiege.PlayerSiegeEvent != null)
 					{
-						MatrixFrame matrixFrame2 = cameraFollowParty.MobileParty.BesiegedSettlement.Party.Visuals.GetSiegeCamp1GlobalFrames().First<MatrixFrame>();
+						MatrixFrame matrixFrame2 = cameraFollowParty.MobileParty.BesiegedSettlement.Town.BesiegerCampPositions1.First<MatrixFrame>();
 						Vec2 asVec = matrixFrame2.origin.AsVec2;
 						vec10 = Vec2.Lerp(cameraFollowParty.MobileParty.BesiegedSettlement.GatePosition, asVec, 0.75f);
 					}
@@ -631,26 +630,6 @@ namespace SandBox.View.Map
 		protected virtual float CalculateCameraElevation(float cameraDistance)
 		{
 			return cameraDistance * 0.5f * 0.015f + 0.35f;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("set_custom_maximum_map_height", "campaign")]
-		protected static string SetCustomMaximumHeight(List<string> strings)
-		{
-			string text = string.Format("Format is \"campaign.set_custom_maximum_map_height [MaxHeight]\".\n If the given number is below the current base maximum: {0}, it won't be used.", Campaign.MapMaximumHeight);
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckHelp(strings))
-			{
-				return text;
-			}
-			int num;
-			if (CampaignCheats.CheckParameters(strings, 1) && int.TryParse(strings[0], out num))
-			{
-				MapCameraView.Instance._customMaximumCameraHeight = (float)num;
-			}
-			return text;
 		}
 
 		private const float VerticalHalfViewAngle = 0.34906584f;

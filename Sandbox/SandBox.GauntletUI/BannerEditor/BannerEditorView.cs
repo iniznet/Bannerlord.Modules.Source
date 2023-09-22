@@ -85,7 +85,6 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._agentVisuals = new AgentVisuals[2];
 			this._currentBannerCode = BannerCode.CreateFrom(this.Banner);
 			this.CreateScene();
-			MBMusicManagerOld.SetMood(1, 0.5f, true, false);
 			Input.ClearKeys();
 			this._weaponEquipment.AddEquipmentToSlotWithoutAgent(this.ShieldSlotIndex, this.ShieldRosterElement.EquipmentElement);
 			AgentVisualsData copyAgentVisualsData = this._agentVisuals[0].GetCopyAgentVisualsData();
@@ -201,7 +200,7 @@ namespace SandBox.GauntletUI.BannerEditor
 					PartyBase party = caravanPartyComponent.MobileParty.Party;
 					if (party != null)
 					{
-						party.Visuals.SetMapIconAsDirty();
+						party.SetVisualAsDirty();
 					}
 				}
 			}
@@ -212,7 +211,7 @@ namespace SandBox.GauntletUI.BannerEditor
 					PartyBase party2 = caravanPartyComponent2.MobileParty.Party;
 					if (party2 != null)
 					{
-						party2.Visuals.SetMapIconAsDirty();
+						party2.SetVisualAsDirty();
 					}
 				}
 			}
@@ -221,7 +220,7 @@ namespace SandBox.GauntletUI.BannerEditor
 				PartyBase party3 = warPartyComponent.MobileParty.Party;
 				if (party3 != null)
 				{
-					party3.Visuals.SetMapIconAsDirty();
+					party3.SetVisualAsDirty();
 				}
 			}
 			foreach (Settlement settlement in Clan.PlayerClan.Settlements)
@@ -231,7 +230,7 @@ namespace SandBox.GauntletUI.BannerEditor
 					PartyBase party4 = settlement.Village.VillagerPartyComponent.MobileParty.Party;
 					if (party4 != null)
 					{
-						party4.Visuals.SetMapIconAsDirty();
+						party4.SetVisualAsDirty();
 					}
 				}
 				else if ((settlement.IsCastle || settlement.IsTown) && settlement.Town.GarrisonParty != null)
@@ -239,7 +238,7 @@ namespace SandBox.GauntletUI.BannerEditor
 					PartyBase party5 = settlement.Town.GarrisonParty.Party;
 					if (party5 != null)
 					{
-						party5.Visuals.SetMapIconAsDirty();
+						party5.SetVisualAsDirty();
 					}
 				}
 			}
@@ -407,11 +406,13 @@ namespace SandBox.GauntletUI.BannerEditor
 			if (this.GauntletLayer.Input.IsHotKeyReleased("Confirm"))
 			{
 				this.DataSource.ExecuteDone();
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				return;
 			}
 			if (this.GauntletLayer.Input.IsHotKeyReleased("Exit"))
 			{
 				this.DataSource.ExecuteCancel();
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				return;
 			}
 			if (this.SceneLayer.Input.IsHotKeyReleased("Ascend") || this.SceneLayer.Input.IsHotKeyReleased("Rotate") || this.SceneLayer.Input.IsHotKeyReleased("Zoom"))
@@ -466,6 +467,7 @@ namespace SandBox.GauntletUI.BannerEditor
 			this._agentVisuals[1].Reset();
 			MBAgentRendererSceneController.DestructAgentRendererSceneController(this._scene, this._agentRendererSceneController, false);
 			this._agentRendererSceneController = null;
+			this._scene.ClearAll();
 			this._scene = null;
 		}
 

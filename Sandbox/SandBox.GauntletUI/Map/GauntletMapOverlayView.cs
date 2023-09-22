@@ -36,14 +36,10 @@ namespace SandBox.GauntletUI.Map
 			{
 				this._movie = this._layerAsGauntletLayer.LoadMovie("ArmyOverlay", this._overlayDataSource);
 				(this._overlayDataSource as ArmyMenuOverlayVM).OpenArmyManagement = new Action(this.OpenArmyManagement);
-				this._armyManagementDatasource = new ArmyManagementVM(new Action(this.CloseArmyManagement));
-				this._armyManagementDatasource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
-				this._armyManagementDatasource.SetDoneInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
-				this._armyManagementDatasource.SetResetInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Reset"));
 			}
 			else
 			{
-				Debug.FailedAssert("This kind of overlay not supported in gauntlet", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Map\\GauntletMapOverlayView.cs", "CreateLayout", 66);
+				Debug.FailedAssert("This kind of overlay not supported in gauntlet", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Map\\GauntletMapOverlayView.cs", "CreateLayout", 63);
 			}
 			base.MapScreen.AddLayer(base.Layer);
 		}
@@ -54,7 +50,7 @@ namespace SandBox.GauntletUI.Map
 			{
 				return new ArmyMenuOverlayVM();
 			}
-			Debug.FailedAssert("Game menu overlay: " + mapOverlayType.ToString() + " could not be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Map\\GauntletMapOverlayView.cs", "GetOverlay", 79);
+			Debug.FailedAssert("Game menu overlay: " + mapOverlayType.ToString() + " could not be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Map\\GauntletMapOverlayView.cs", "GetOverlay", 76);
 			return null;
 		}
 
@@ -163,9 +159,10 @@ namespace SandBox.GauntletUI.Map
 			}
 			if (this._isContextMenuEnabled && base.Layer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._overlayDataSource.IsContextMenuEnabled = false;
 			}
-			this.HadleArmyManagementInput();
+			this.HandleArmyManagementInput();
 		}
 
 		protected override void OnMenuModeTick(float dt)
@@ -247,27 +244,31 @@ namespace SandBox.GauntletUI.Map
 			Campaign.Current.TimeControlMode = this._timeControlModeBeforeArmyManagementOpened;
 		}
 
-		private void HadleArmyManagementInput()
+		private void HandleArmyManagementInput()
 		{
 			if (this._armyManagementLayer != null && this._armyManagementDatasource != null)
 			{
 				if (this._armyManagementLayer.Input.IsHotKeyReleased("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._armyManagementDatasource.ExecuteCancel();
 					return;
 				}
 				if (this._armyManagementLayer.Input.IsHotKeyReleased("Confirm"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._armyManagementDatasource.ExecuteDone();
 					return;
 				}
 				if (this._armyManagementLayer.Input.IsHotKeyReleased("Reset"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._armyManagementDatasource.ExecuteReset();
 					return;
 				}
 				if (this._armyManagementLayer.Input.IsHotKeyReleased("RemoveParty") && this._armyManagementDatasource.FocusedItem != null)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._armyManagementDatasource.FocusedItem.ExecuteAction();
 				}
 			}

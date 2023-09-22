@@ -164,7 +164,7 @@ namespace SandBox.Tournaments.MissionLogics
 			agent.GetController<JoustingAgentController>().CurrentCornerIndex = cornerIndex;
 			if (participant.Character.IsPlayerCharacter)
 			{
-				agent.WieldInitialWeapons(2);
+				agent.WieldInitialWeapons(2, 0);
 				base.Mission.PlayerTeam = team;
 				return;
 			}
@@ -268,7 +268,7 @@ namespace SandBox.Tournaments.MissionLogics
 
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
-			if (!base.Mission.IsMissionEnding && !this.IsSwordDuelStarted && affectedAgent.IsHuman && affectorAgent.IsHuman && affectedAgent != affectorAgent)
+			if (!base.Mission.IsMissionEnding && !this.IsSwordDuelStarted && affectedAgent.IsHuman && affectorAgent != null && affectorAgent.IsHuman && affectedAgent != affectorAgent)
 			{
 				JoustingAgentController controller = affectorAgent.GetController<JoustingAgentController>();
 				JoustingAgentController controller2 = affectedAgent.GetController<JoustingAgentController>();
@@ -315,7 +315,7 @@ namespace SandBox.Tournaments.MissionLogics
 
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (!base.Mission.IsMissionEnding && affectedAgent.IsHuman && affectorAgent.IsHuman && affectedAgent != affectorAgent)
+			if (!base.Mission.IsMissionEnding && affectedAgent.IsHuman && affectorAgent != null && affectorAgent.IsHuman && affectedAgent != affectorAgent)
 			{
 				if (this.IsAgentInTheTrack(affectorAgent, true) || this.IsSwordDuelStarted)
 				{

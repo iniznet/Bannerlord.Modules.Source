@@ -5,6 +5,7 @@ using SandBox.View.Map;
 using SandBox.View.Menu;
 using SandBox.View.Missions;
 using SandBox.View.Missions.Tournaments;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
@@ -40,7 +41,7 @@ namespace SandBox.View
 
 		private static void CheckAssemblyScreens(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				object[] customAttributes = type.GetCustomAttributes(typeof(ViewCreatorModule), false);
 				if (customAttributes != null && customAttributes.Length == 1 && customAttributes[0] is ViewCreatorModule)
@@ -59,7 +60,7 @@ namespace SandBox.View
 
 		private static void CheckOverridenViews(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				if (typeof(MapView).IsAssignableFrom(type) || typeof(MenuView).IsAssignableFrom(type) || typeof(MissionView).IsAssignableFrom(type) || typeof(ScreenBase).IsAssignableFrom(type))
 				{
@@ -79,11 +80,11 @@ namespace SandBox.View
 							}
 							if (SandBoxViewCreator._defaultTypes.Contains(overrideView.BaseType))
 							{
-								for (int j = 0; j < SandBoxViewCreator._defaultTypes.Count; j++)
+								for (int i = 0; i < SandBoxViewCreator._defaultTypes.Count; i++)
 								{
-									if (SandBoxViewCreator._defaultTypes[j] == overrideView.BaseType)
+									if (SandBoxViewCreator._defaultTypes[i] == overrideView.BaseType)
 									{
-										SandBoxViewCreator._defaultTypes[j] = type;
+										SandBoxViewCreator._defaultTypes[i] = type;
 									}
 								}
 							}
@@ -95,7 +96,7 @@ namespace SandBox.View
 
 		private static void CollectDefaults(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				if (typeof(MissionBehavior).IsAssignableFrom(type))
 				{

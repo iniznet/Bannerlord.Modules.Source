@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using SandBox.View.Conversation;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Inventory;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem.Settlements.Buildings;
+using TaleWorlds.CampaignSystem.Settlements.Workshops;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.Information;
+using TaleWorlds.Core.ViewModelCollection.Information.RundownTooltip;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -35,7 +42,7 @@ namespace SandBox.View
 			}
 		}
 
-		internal static Dictionary<UIntPtr, IPartyVisual> VisualsOfEntities
+		internal static Dictionary<UIntPtr, PartyVisual> VisualsOfEntities
 		{
 			get
 			{
@@ -56,17 +63,16 @@ namespace SandBox.View
 			base.OnSubModuleLoad();
 			SandBoxViewSubModule._instance = this;
 			SandBoxSaveHelper.OnStateChange += SandBoxViewSubModule.OnSaveHelperStateChange;
-			PropertyBasedTooltipVMExtensions.FillCampaignTooltipTypes();
-			TextObject coreContentDisabledReason = new TextObject("{=V8BXjyYq}Disabled during installation.", null);
+			this.RegisterTooltipTypes();
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("CampaignResumeGame", new TextObject("{=6mN03uTP}Saved Games", null), 0, delegate
 			{
 				ScreenManager.PushScreen(SandBoxViewCreator.CreateSaveLoadScreen(false));
-			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
-			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("ContinueCampaign", new TextObject("{=0tJ1oarX}Continue Campaign", null), 1, new Action(this.ContinueCampaign), () => this.IsContinueCampaignDisabled()));
+			}, () => this.IsSavedGamesDisabled(), null));
+			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("ContinueCampaign", new TextObject("{=0tJ1oarX}Continue Campaign", null), 1, new Action(this.ContinueCampaign), () => this.IsContinueCampaignDisabled(), null));
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("SandBoxNewGame", new TextObject("{=171fTtIN}SandBox", null), 3, delegate
 			{
 				MBGameManager.StartNewGame(new SandBoxGameManager());
-			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
+			}, () => this.IsSandboxDisabled(), this._sandBoxAchievementsHint));
 			Module.CurrentModule.ImguiProfilerTick += this.OnImguiProfilerTick;
 			this._mapConversationDataProvider = new DefaultMapConversationDataProvider();
 		}
@@ -75,6 +81,7 @@ namespace SandBox.View
 		{
 			Module.CurrentModule.ImguiProfilerTick -= this.OnImguiProfilerTick;
 			SandBoxSaveHelper.OnStateChange -= SandBoxViewSubModule.OnSaveHelperStateChange;
+			this.UnregisterTooltipTypes();
 			SandBoxViewSubModule._instance = null;
 			base.OnSubModuleUnloaded();
 		}
@@ -103,14 +110,18 @@ namespace SandBox.View
 			this._conversationViewManager = new ConversationViewManager();
 		}
 
+		public override void OnAfterGameInitializationFinished(Game game, object starterObject)
+		{
+			base.OnAfterGameInitializationFinished(game, starterObject);
+		}
+
 		public override void BeginGameStart(Game game)
 		{
 			base.BeginGameStart(game);
 			if (Campaign.Current != null)
 			{
-				this._visualsOfEntities = new Dictionary<UIntPtr, IPartyVisual>();
+				this._visualsOfEntities = new Dictionary<UIntPtr, PartyVisual>();
 				this._frameAndVisualOfEngines = new Dictionary<UIntPtr, Tuple<MatrixFrame, PartyVisual>>();
-				Campaign.Current.VisualCreator.PartyVisualCreator = new PartyVisualCreator();
 				Campaign.Current.SaveHandler.MainHeroVisualSupplier = new MainHeroSaveVisualSupplier();
 				TableauCacheManager.InitializeSandboxValues();
 			}
@@ -120,7 +131,7 @@ namespace SandBox.View
 		{
 			if (this._visualsOfEntities != null)
 			{
-				foreach (IPartyVisual partyVisual in this._visualsOfEntities.Values)
+				foreach (PartyVisual partyVisual in this._visualsOfEntities.Values)
 				{
 					partyVisual.ReleaseResources();
 				}
@@ -133,6 +144,19 @@ namespace SandBox.View
 				Campaign.Current.SaveHandler.MainHeroVisualSupplier = null;
 				TableauCacheManager.ReleaseSandboxValues();
 			}
+		}
+
+		private ValueTuple<bool, TextObject> IsSavedGamesDisabled()
+		{
+			if (Module.CurrentModule.IsOnlyCoreContentEnabled)
+			{
+				return new ValueTuple<bool, TextObject>(true, new TextObject("{=V8BXjyYq}Disabled during installation.", null));
+			}
+			if (MBSaveLoad.NumberOfCurrentSaves == 0)
+			{
+				return new ValueTuple<bool, TextObject>(true, new TextObject("{=XcVVE1mp}No saved games found.", null));
+			}
+			return new ValueTuple<bool, TextObject>(false, TextObject.Empty);
 		}
 
 		private ValueTuple<bool, TextObject> IsContinueCampaignDisabled()
@@ -153,6 +177,15 @@ namespace SandBox.View
 			if (saveFileWithName.IsCorrupted)
 			{
 				return new ValueTuple<bool, TextObject>(true, new TextObject("{=t6W3UjG0}Save game file appear to be corrupted. Try starting a new campaign or load another one from Saved Games menu.", null));
+			}
+			return new ValueTuple<bool, TextObject>(false, TextObject.Empty);
+		}
+
+		private ValueTuple<bool, TextObject> IsSandboxDisabled()
+		{
+			if (Module.CurrentModule.IsOnlyCoreContentEnabled)
+			{
+				return new ValueTuple<bool, TextObject>(true, new TextObject("{=V8BXjyYq}Disabled during installation.", null));
 			}
 			return new ValueTuple<bool, TextObject>(false, TextObject.Empty);
 		}
@@ -189,15 +222,16 @@ namespace SandBox.View
 				{
 					num++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).HumanAgentVisuals != null)
+				PartyVisual visualOfParty = PartyVisualManager.Current.GetVisualOfParty(mobileParty.Party);
+				if (visualOfParty.HumanAgentVisuals != null)
 				{
 					num2++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).MountAgentVisuals != null)
+				if (visualOfParty.MountAgentVisuals != null)
 				{
 					num2++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).CaravanMountAgentVisuals != null)
+				if (visualOfParty.CaravanMountAgentVisuals != null)
 				{
 					num2++;
 				}
@@ -227,6 +261,42 @@ namespace SandBox.View
 			Imgui.EndMainThreadScope();
 		}
 
+		private void RegisterTooltipTypes()
+		{
+			InformationManager.RegisterTooltip<List<MobileParty>, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshEncounterTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Track, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshTrackTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<MapEvent, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshMapEventTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Army, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshArmyTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<MobileParty, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshMobilePartyTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Hero, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshHeroTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Settlement, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshSettlementTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<CharacterObject, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshCharacterTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<WeaponDesignElement, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshCraftingPartTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<InventoryLogic, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshInventoryTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<ItemObject, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshItemTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Building, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshBuildingTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<Workshop, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(TooltipRefresherCollection.RefreshWorkshopTooltip), "PropertyBasedTooltip");
+			InformationManager.RegisterTooltip<ExplainedNumber, RundownTooltipVM>(new Action<RundownTooltipVM, object[]>(TooltipRefresherCollection.RefreshExplainedNumberTooltip), "RundownTooltip");
+		}
+
+		private void UnregisterTooltipTypes()
+		{
+			InformationManager.UnregisterTooltip<List<MobileParty>>();
+			InformationManager.UnregisterTooltip<Track>();
+			InformationManager.UnregisterTooltip<MapEvent>();
+			InformationManager.UnregisterTooltip<Army>();
+			InformationManager.UnregisterTooltip<MobileParty>();
+			InformationManager.UnregisterTooltip<Hero>();
+			InformationManager.UnregisterTooltip<Settlement>();
+			InformationManager.UnregisterTooltip<CharacterObject>();
+			InformationManager.UnregisterTooltip<WeaponDesignElement>();
+			InformationManager.UnregisterTooltip<InventoryLogic>();
+			InformationManager.UnregisterTooltip<ItemObject>();
+			InformationManager.UnregisterTooltip<Building>();
+			InformationManager.UnregisterTooltip<Workshop>();
+			InformationManager.UnregisterTooltip<ExplainedNumber>();
+		}
+
 		public static void SetMapConversationDataProvider(IMapConversationDataProvider mapConversationDataProvider)
 		{
 			SandBoxViewSubModule._instance._mapConversationDataProvider = mapConversationDataProvider;
@@ -244,10 +314,12 @@ namespace SandBox.View
 				LoadingWindow.DisableGlobalLoadingWindow();
 				return;
 			default:
-				Debug.FailedAssert("Undefined save state for listener!", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\SandBoxViewSubModule.cs", "OnSaveHelperStateChange", 294);
+				Debug.FailedAssert("Undefined save state for listener!", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\SandBoxViewSubModule.cs", "OnSaveHelperStateChange", 426);
 				return;
 			}
 		}
+
+		private TextObject _sandBoxAchievementsHint = new TextObject("{=j09m7S2E}Achievements are disabled in SandBox mode!", null);
 
 		private bool _isInitialized;
 
@@ -255,7 +327,7 @@ namespace SandBox.View
 
 		private IMapConversationDataProvider _mapConversationDataProvider;
 
-		private Dictionary<UIntPtr, IPartyVisual> _visualsOfEntities;
+		private Dictionary<UIntPtr, PartyVisual> _visualsOfEntities;
 
 		private Dictionary<UIntPtr, Tuple<MatrixFrame, PartyVisual>> _frameAndVisualOfEngines;
 

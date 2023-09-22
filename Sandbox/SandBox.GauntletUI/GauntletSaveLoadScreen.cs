@@ -61,16 +61,19 @@ namespace SandBox.GauntletUI
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
 					this._dataSource.ExecuteDone();
+					UISoundsHelper.PlayUISound("event:/ui/panels/next");
 					return;
 				}
 				if (this._gauntletLayer.Input.IsHotKeyPressed("Confirm") && !this._gauntletLayer.IsFocusedOnInput())
 				{
 					this._dataSource.ExecuteLoadSave();
+					UISoundsHelper.PlayUISound("event:/ui/panels/next");
 					return;
 				}
 				if (this._gauntletLayer.Input.IsHotKeyPressed("Delete") && !this._gauntletLayer.IsFocusedOnInput())
 				{
 					this._dataSource.DeleteSelectedSave();
+					UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				}
 			}
 		}

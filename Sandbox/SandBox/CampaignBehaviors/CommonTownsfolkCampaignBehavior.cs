@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Locations;
@@ -16,7 +17,7 @@ namespace SandBox.CampaignBehaviors
 	{
 		private float GetSpawnRate(Settlement settlement)
 		{
-			return this.TimeOfDayPercentage() * this.GetProsperityMultiplier(settlement.SettlementComponent);
+			return this.TimeOfDayPercentage() * this.GetProsperityMultiplier(settlement.SettlementComponent) * this.GetWeatherEffectMultiplier(settlement);
 		}
 
 		private float GetConfigValue()
@@ -27,6 +28,20 @@ namespace SandBox.CampaignBehaviors
 		private float GetProsperityMultiplier(SettlementComponent settlement)
 		{
 			return (settlement.GetProsperityLevel() + 1f) / 3f;
+		}
+
+		private float GetWeatherEffectMultiplier(Settlement settlement)
+		{
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(settlement.GatePosition);
+			if (weatherEventInPosition == 2)
+			{
+				return 0.15f;
+			}
+			if (weatherEventInPosition != 4)
+			{
+				return 1f;
+			}
+			return 0.4f;
 		}
 
 		private float TimeOfDayPercentage()
@@ -66,14 +81,16 @@ namespace SandBox.CampaignBehaviors
 			Location locationWithId = settlement.LocationComplex.GetLocationWithId("tavern");
 			int num;
 			unusedUsablePointCount.TryGetValue("npc_common", out num);
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(settlement.GatePosition);
+			bool flag = weatherEventInPosition == 2 || weatherEventInPosition == 4;
 			if (num > 0)
 			{
-				int num2 = (int)((float)num * 0.3f);
+				int num2 = (int)((float)num * (0.3f + (flag ? 0.2f : 0f)));
 				if (num2 > 0)
 				{
 					locationWithId.AddLocationCharacters(new CreateLocationCharacterDelegate(CommonTownsfolkCampaignBehavior.CreateTownsManForTavern), settlement.Culture, 0, num2);
 				}
-				int num3 = (int)((float)num * 0.1f);
+				int num3 = (int)((float)num * (0.1f + (flag ? 0.2f : 0f)));
 				if (num3 > 0)
 				{
 					locationWithId.AddLocationCharacters(new CreateLocationCharacterDelegate(CommonTownsfolkCampaignBehavior.CreateTownsWomanForTavern), settlement.Culture, 0, num3);
@@ -107,7 +124,9 @@ namespace SandBox.CampaignBehaviors
 						locationWithId.AddLocationCharacters(new CreateLocationCharacterDelegate(CommonTownsfolkCampaignBehavior.CreateTownsWoman), culture, 0, num7);
 					}
 				}
-				if (isDayTime)
+				MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(settlement.GatePosition);
+				bool flag = weatherEventInPosition == 2 || weatherEventInPosition == 4;
+				if (isDayTime && !flag)
 				{
 					if (num2 > 0)
 					{

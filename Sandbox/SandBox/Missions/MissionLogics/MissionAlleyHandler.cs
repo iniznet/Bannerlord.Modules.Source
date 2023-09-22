@@ -177,7 +177,7 @@ namespace SandBox.Missions.MissionLogics
 			{
 				return;
 			}
-			if (affectorAgent == Agent.Main && affectorAgent.IsHuman && affectedAgent.GetComponent<CampaignAgentComponent>().AgentNavigator != null)
+			if (affectorAgent != null && affectorAgent == Agent.Main && affectorAgent.IsHuman && affectedAgent.GetComponent<CampaignAgentComponent>().AgentNavigator != null)
 			{
 				TalkBehavior behavior = affectedAgent.GetComponent<CampaignAgentComponent>().AgentNavigator.GetBehaviorGroup<InterruptingBehaviorGroup>().GetBehavior<TalkBehavior>();
 				if (behavior != null)
@@ -200,6 +200,7 @@ namespace SandBox.Missions.MissionLogics
 		public void StartCommonAreaBattle(Alley alley)
 		{
 			MissionAlleyHandler._guardAgents.Clear();
+			this._conversationTriggeredWithRivalThug = true;
 			List<Agent> accompanyingAgents = new List<Agent>();
 			foreach (Agent agent2 in Mission.Current.Agents)
 			{

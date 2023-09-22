@@ -55,20 +55,17 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.Models.AgeModel.GetAgeLimitForLocation(shopWorker, ref num, ref num2, "");
 			foreach (Workshop workshop in settlement.Town.Workshops)
 			{
-				if (workshop.IsRunning)
+				int num3;
+				unusedUsablePointCount.TryGetValue(workshop.Tag, out num3);
+				float num4 = (float)num3 * 0.33f;
+				if (num4 > 0f)
 				{
-					int num3;
-					unusedUsablePointCount.TryGetValue(workshop.Tag, out num3);
-					float num4 = (float)num3 * 0.33f;
-					if (num4 > 0f)
+					int num5 = 0;
+					while ((float)num5 < num4)
 					{
-						int num5 = 0;
-						while ((float)num5 < num4)
-						{
-							LocationCharacter locationCharacter = new LocationCharacter(new AgentData(new SimpleAgentOrigin(shopWorker, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), workshop.Tag, true, 0, null, true, false, null, false, false, true);
-							locationWithId.AddCharacter(locationCharacter);
-							num5++;
-						}
+						LocationCharacter locationCharacter = new LocationCharacter(new AgentData(new SimpleAgentOrigin(shopWorker, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix).Age(MBRandom.RandomInt(num, num2)), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), workshop.Tag, true, 0, null, true, false, null, false, false, true);
+						locationWithId.AddCharacter(locationCharacter);
+						num5++;
 					}
 				}
 			}
@@ -138,7 +135,7 @@ namespace SandBox.CampaignBehaviors
 		{
 			if (this._lastSelectedWorkshop != null)
 			{
-				MBTextManager.SetTextVariable("COST", Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(this._lastSelectedWorkshop));
+				MBTextManager.SetTextVariable("COST", Campaign.Current.Models.WorkshopModel.GetCostForPlayer(this._lastSelectedWorkshop));
 				return true;
 			}
 			return false;
@@ -167,9 +164,7 @@ namespace SandBox.CampaignBehaviors
 
 		private void workshop_notable_owner_player_buys_workshop_on_consequence()
 		{
-			Workshop lastSelectedWorkshop = this._lastSelectedWorkshop;
-			int buyingCostForPlayer = Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(lastSelectedWorkshop);
-			ChangeOwnerOfWorkshopAction.ApplyByTrade(lastSelectedWorkshop, Hero.MainHero, lastSelectedWorkshop.WorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, buyingCostForPlayer, null);
+			ChangeOwnerOfWorkshopAction.ApplyByPlayerBuying(this._lastSelectedWorkshop);
 		}
 
 		private bool workshop_notable_owner_player_buys_workshop_on_clickable_condition(out TextObject explanation)
@@ -179,8 +174,8 @@ namespace SandBox.CampaignBehaviors
 
 		private bool can_player_buy_workshop_clickable_condition(Workshop workshop, out TextObject explanation)
 		{
-			bool flag = Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(workshop);
-			bool flag2 = Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForTier(Clan.PlayerClan.Tier) <= Hero.MainHero.OwnedWorkshops.Count;
+			bool flag = Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetCostForPlayer(workshop);
+			bool flag2 = Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForClanTier(Clan.PlayerClan.Tier) <= Hero.MainHero.OwnedWorkshops.Count;
 			bool flag3 = false;
 			if (flag)
 			{
@@ -214,29 +209,19 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("workshop_npc_owner_begin", "start", "shopworker_npc_player", "{=DGKgQycl}{WORKSHOP_INTRO_LINE}", new ConversationSentence.OnConditionDelegate(this.workshop_npc_owner_begin_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_1", "start_2", "shopworker_npc_player", "{=XZgD99ol}Anything else I can do for you?", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_2", "shopworker_npc_player", "player_ask_questions", "{=HbaziRMP}I have some questions.", null, null, 100, null, null);
-			campaignGameStarter.AddPlayerLine("workshop_3", "shopworker_npc_player", "workshop_buy", "{=p3a44dQN}I would like to buy this workshop.", null, null, 100, new ConversationSentence.OnClickableConditionDelegate(this.workshop_buy_clickable_condition), null);
+			campaignGameStarter.AddPlayerLine("workshop_3", "shopworker_npc_player", "workshop_buy_result", "{=p3a44dQN}I would like to buy this workshop.", null, null, 100, new ConversationSentence.OnClickableConditionDelegate(this.workshop_buy_clickable_condition), null);
+			campaignGameStarter.AddPlayerLine("workshop_buy_result", "workshop_buy_result", "start_2", "{=icmr0jSa}This workshop belongs to {OWNER.LINK}. You need to talk to {?OWNER.GENDER}her{?}him{\\?}.", new ConversationSentence.OnConditionDelegate(this.workshop_12_on_condition), null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("workshop_4", "shopworker_npc_player", "workshop_end_dialog", "{=90YOVmcG}Good day to you.", null, null, 100, null, null);
 			campaignGameStarter.AddDialogLine("workshop_5", "workshop_end_dialog", "close_window", "{=QwAyt4aW}Have a nice day, {?PLAYER.GENDER}madam{?}sir{\\?}.", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_6", "player_ask_questions", "player_ask_questions2", "{=AbIUjOLZ}Sure. What do you want to know?", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("workshop_6", "player_ask_questions", "player_ask_questions2", "{=!}{NPC_ANSWER}", new ConversationSentence.OnConditionDelegate(this.player_ask_questions_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_7", "player_ask_questions_return", "player_ask_questions2", "{=1psOym3y}Any other questions?", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_8", "player_ask_questions2", "player_ask_questions3", "{=hmmoXy0E}Whose workshop is this?", new ConversationSentence.OnConditionDelegate(this.workshop_player_not_owner_on_condition), null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("workshop_9", "player_ask_questions2", "player_ask_questions4", "{=5siWBRk8}What do you produce here?", null, null, 100, null, null);
-			campaignGameStarter.AddPlayerLine("workshop_10", "player_ask_questions2", "player_ask_questions5", "{=v0HhVu4z}How do workshops work?", null, null, 100, null, null);
+			campaignGameStarter.AddPlayerLine("workshop_10", "player_ask_questions2", "player_ask_questions5", "{=v0HhVu4z}How do workshops work in general?", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("workshop_11", "player_ask_questions2", "start_2", "{=rXbL9mhQ}I want to talk about other things.", new ConversationSentence.OnConditionDelegate(this.workshop_player_not_owner_on_condition), null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_12", "player_ask_questions3", "player_ask_questions_return", "{=aE0kPqcT}This workshop belongs to {OWNER.NAME}, {?PLAYER.GENDER}madam{?}sir{\\?}.", new ConversationSentence.OnConditionDelegate(this.workshop_12_on_condition), null, 100, null);
+			campaignGameStarter.AddDialogLine("workshop_12", "player_ask_questions3", "player_ask_questions_return", "{=aE0kPqcT}This workshop belongs to {OWNER.LINK}, {?PLAYER.GENDER}madam{?}sir{\\?}.", new ConversationSentence.OnConditionDelegate(this.workshop_12_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_13", "player_ask_questions4", "player_ask_questions_return", "{=LXtebqEF}This a {.%}{WORKSHOP_TYPE}{.%}, {?PLAYER.GENDER}madam{?}sir{\\?}. {WORKSHOP_DESCRIPTION}", new ConversationSentence.OnConditionDelegate(this.workshop_13_on_condition), null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_14", "player_ask_questions5", "player_ask_questions_return", "{=QKsaPj6w}We take raw materials and produce goods and sell them at the local market. After paying the wages we send profits the shop owner.", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_15", "workshop_buy", "workshop_buy_2", "{=bQ8CxZIy}Well, it will cost you {COST}{GOLD_ICON} to buy it out. Are you going to buy it?", new ConversationSentence.OnConditionDelegate(this.workshop_15_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_16", "workshop_buy_2", "workshop_buy_3", "{=aeouhelq}Yes", null, new ConversationSentence.OnConsequenceDelegate(this.workshop_19_on_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.workshop_16_clickable_condition), null);
-			campaignGameStarter.AddPlayerLine("workshop_17", "workshop_buy_2", "workshop_buy_4", "{=8OkPHu4f}No", null, null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_18", "workshop_buy_4", "start_2", "{=OiaLnmbY}Your call.", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_19", "workshop_buy_3", "workshop_buy_5", "{=UesQ8a2B}What kind of workshop do you want to open here?", null, null, 100, null);
-			campaignGameStarter.AddRepeatablePlayerLine("workshop_20", "workshop_buy_5", "workshop_buy_6", "{=242TpAqL}{WORKSHOP_TYPE}", "{=5z4hEq68}I am thinking of a different kind of workshop.", "workshop_buy_3", new ConversationSentence.OnConditionDelegate(this.workshop_20_on_condition), new ConversationSentence.OnConsequenceDelegate(this.workshop_20_on_consequence), 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_21", "workshop_buy_5", "workshop_buy_6", "{=QHbcFrPX}On second thought, I don't want to change what we are producing. Go on like this.", null, new ConversationSentence.OnConsequenceDelegate(this.workshop_21_on_consequence), 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_22", "workshop_buy_6", "workshop_buy_7", "{=QaqF7dvb}Let me just go over what we'd do there. {WORKSHOP_DESCRIPTION}. Are you sure you want to open {.%}{.a} {WORKSHOP_TYPE}{.%}?", new ConversationSentence.OnConditionDelegate(this.workshop_22_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_23", "workshop_buy_7", "close_window", "{=aeouhelq}Yes", null, new ConversationSentence.OnConsequenceDelegate(this.workshop_23_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("workshop_24", "workshop_buy_7", "workshop_buy_3", "{=EAb4hSDP}Let me think again.", null, null, 100, null, null);
-			campaignGameStarter.AddPlayerLine("workshop_25", "workshop_buy_7", "start_2", "{=pP4sdfZc}On second though I don't want to open a workshop now.", null, null, 100, null, null);
+			campaignGameStarter.AddDialogLine("workshop_14", "player_ask_questions5", "player_ask_questions_return", "{=QKsaPj6w}We take raw materials and produce goods and sell them at the local market. After paying the workers their wages we transfer the profits to the owner.", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_player_owner_begin", "start", "player_options", "{=VO8qBWrv}Hey boss, come to check on the business?", new ConversationSentence.OnConditionDelegate(this.workshop_player_owner_begin_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_26", "shopkeeper_start", "player_options", "{=XZgD99ol}Anything else I can do for you?", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_27", "player_options", "player_ask_questions", "{=uotflvH2}I would like to ask some questions.", null, null, 100, null, null);
@@ -247,22 +232,29 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("workshop_32", "player_workshop_questions", "player_workshop_questions_start", "{=Y4LhmAdi}Sure, boss. Go ahead.", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("workshop_33", "player_workshop_questions_return", "player_workshop_questions_start", "{=1psOym3y}Any other questions?", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_34", "player_ask_questions2", "shopkeeper_start", "{=rXbL9mhQ}I want to talk about other things.", new ConversationSentence.OnConditionDelegate(this.workshop_player_is_owner_on_condition), null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_35", "player_sell_workshop", "player_sell_price", "{=XQa48r6e}Really, boss, if I sell everything, and with all the money we have on hand, you can get {PRICE}{GOLD_ICON}. You sure you want to sell?", new ConversationSentence.OnConditionDelegate(this.conversation_shopworker_sell_player_workshop_on_condition), null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_36", "player_sell_workshop", "shopkeeper_start", "{=nE4Ud7Ca}Really, boss, if I sell everything, and with all the money we have on hand, you can get {PRICE}{GOLD_ICON}. But I don't know anybody who can afford this right now.", new ConversationSentence.OnConditionDelegate(this.conversation_shopworker_sell_player_workshop_no_buyer_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_37", "player_sell_price", "player_sell_1", "{=tc4DyxaL}Yes, I would like to sell.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_shopworker_player_sell_workshop_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("workshop_38", "player_sell_price", "player_sell_2", "{=bi7ZhwNO}No, we are doing fine.", null, null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_39", "player_sell_1", "close_window", "{=EPb2BDuo}We had a good run, boss. Maybe we can work again some time. It will take sometime to pack things up and everything.", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_40", "player_sell_2", "shopkeeper_start", "{=DBTOhVl0}That's the right call, boss. You should never let go of a good investment.", null, null, 100, null);
-			campaignGameStarter.AddDialogLine("workshop_41", "player_change_production", "player_change_production_1", "{=9eLyeU7M}Sure, boss. It will cost us {COST}{GOLD_ICON}. Want to go ahead?", new ConversationSentence.OnConditionDelegate(this.conversation_player_workshop_change_production_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_42", "player_change_production_1", "player_change_production_2", "{=kB65SzbF}Yes.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_player_workshop_change_production_on_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.workshop_42_on_clickable_condition), null);
+			campaignGameStarter.AddDialogLine("workshop_35", "player_sell_workshop", "player_sell_price", "{=XQa48r6e}If you say so, boss. So, if I sell everything and transfer you the money we have on hand, you can get {PRICE}{GOLD_ICON}. You sure you want to sell?", new ConversationSentence.OnConditionDelegate(this.conversation_shopworker_sell_player_workshop_on_condition), null, 100, null);
+			campaignGameStarter.AddPlayerLine("workshop_37", "player_sell_price", "player_sell_warehouse_done", "{=tc4DyxaL}Yes, I would like to sell.", null, null, 100, null, null);
+			campaignGameStarter.AddPlayerLine("workshop_38", "player_sell_price", "player_sell_decline", "{=bi7ZhwNO}No, we are doing fine.", null, null, 100, null, null);
+			campaignGameStarter.AddDialogLine("workshop_41", "player_sell_warehouse_done", "player_sell_warehouse_done_2", "{=eemYX2d4}I will transfer the goods from your warehouse to your party immediately.", new ConversationSentence.OnConditionDelegate(this.conversation_shopworker_sell_player_and_workshop_warehouse_on_condition), null, 100, null);
+			campaignGameStarter.AddPlayerLine("workshop_42", "player_sell_warehouse_done_2", "player_sell_warehouse_done", "{=eALf5d30}Thanks!", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_shopworker_player_sell_workshop_on_consequence), 100, null, null);
+			campaignGameStarter.AddDialogLine("workshop_39", "player_sell_warehouse_done", "close_window", "{=EPb2BDuo}We had a good run, boss. Maybe we can work together again in the future. For now, it will take some time to pack things up.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_shopworker_player_sell_workshop_on_consequence), 100, null);
+			campaignGameStarter.AddDialogLine("workshop_40", "player_sell_decline", "shopkeeper_start", "{=DBTOhVl0}I'm glad you reconsidered, boss. Maybe it's not my place to say, but I think you should never let go of a good investment.", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("workshop_41_1", "player_change_production", "player_change_production_1", "{=9eLyeU7M}Sure, boss. It will cost us {COST}{GOLD_ICON} for new equipment. Shall we go ahead?", new ConversationSentence.OnConditionDelegate(this.conversation_player_workshop_change_production_on_condition), null, 100, null);
+			campaignGameStarter.AddPlayerLine("workshop_42_2", "player_change_production_1", "player_change_production_2", "{=kB65SzbF}Yes.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_player_workshop_change_production_on_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.workshop_42_on_clickable_condition), null);
 			campaignGameStarter.AddPlayerLine("workshop_43", "player_change_production_1", "shopkeeper_start", "{=8OkPHu4f}No", null, null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_44", "player_change_production_2", "player_change_production_2_1", "{=WAa4yaTo}What do you want us to build?", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("workshop_44", "player_change_production_2", "player_change_production_2_1", "{=WAa4yaTo}What do you want us to make?", null, null, 100, null);
 			campaignGameStarter.AddRepeatablePlayerLine("workshop_45", "player_change_production_2_1", "player_change_production_3", "{=!}{BUILDING}", "{=5z4hEq68}I am thinking of a different kind of workshop.", "player_change_production_2", new ConversationSentence.OnConditionDelegate(this.conversation_player_workshop_player_decision_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_player_workshop_player_decision_on_consequence), 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_cancel", "player_change_production_2_1", "shopkeeper_start", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
-			campaignGameStarter.AddDialogLine("workshop_46", "player_change_production_3", "player_change_production_5", "{=8d7y1IHp}Let me just go over what we'd do there. {WORKSHOP_DESCRIPTION} Are you sure you want to change this workshop to {.%}{.a} {WORKSHOP_TYPE}{.%}?", new ConversationSentence.OnConditionDelegate(this.workshop_46_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("workshop_47", "player_change_production_5", "close_window", "{=Imes09et}I'll deposit the money. You arrange some tools and workers and let's get it built.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_player_workshop_player_changed_production_on_consequence), 100, null, null);
+			campaignGameStarter.AddDialogLine("workshop_46", "player_change_production_3", "player_change_production_5", "{=8d7y1IHp}All right. Just to confirm - {.%}{.a} {WORKSHOP_TYPE}{.%} is what you want?", new ConversationSentence.OnConditionDelegate(this.workshop_46_on_condition), null, 100, null);
+			campaignGameStarter.AddPlayerLine("workshop_50", "player_change_production_5", "player_change_production_end", "{=aeouhelq}Yes", null, null, 100, null, null);
+			campaignGameStarter.AddDialogLine("workshop_47", "player_change_production_end", "close_window", "{=Imes09et}Okay, then. We'll take that silver and buy some tools and and hire some workers with the proper skills.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_player_workshop_player_changed_production_on_consequence), 100, null);
 			campaignGameStarter.AddPlayerLine("workshop_48", "player_change_production_5", "player_change_production_2", "{=EAb4hSDP}Let me think again.", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("workshop_49", "player_change_production_5", "shopkeeper_start", "{=QHbcFrPX}On second thought, I don't want to change what we are producing. Go on like this.", null, null, 100, null, null);
+		}
+
+		private bool conversation_shopworker_sell_player_and_workshop_warehouse_on_condition()
+		{
+			return Hero.MainHero.OwnedWorkshops.Count((Workshop x) => x.Settlement == Settlement.CurrentSettlement) == 1;
 		}
 
 		private bool workshop_npc_owner_begin_on_condition()
@@ -323,68 +315,25 @@ namespace SandBox.CampaignBehaviors
 			return true;
 		}
 
+		private bool player_ask_questions_on_condition()
+		{
+			if (this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent).Owner == Hero.MainHero)
+			{
+				MBTextManager.SetTextVariable("NPC_ANSWER", new TextObject("{=Hw4mTZxm}Sure, boss. Ask me anything.", null), false);
+			}
+			else
+			{
+				MBTextManager.SetTextVariable("NPC_ANSWER", new TextObject("{=AbIUjOLZ}Sure. What do you want to know?", null), false);
+			}
+			return true;
+		}
+
 		private bool workshop_13_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
 			MBTextManager.SetTextVariable("WORKSHOP_TYPE", workshop.WorkshopType.Name, false);
 			MBTextManager.SetTextVariable("WORKSHOP_DESCRIPTION", workshop.WorkshopType.Description, false);
 			return true;
-		}
-
-		private bool workshop_15_on_condition()
-		{
-			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			int buyingCostForPlayer = Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(workshop);
-			MBTextManager.SetTextVariable("COST", buyingCostForPlayer);
-			return true;
-		}
-
-		private bool workshop_16_clickable_condition(out TextObject explanation)
-		{
-			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			return this.can_player_buy_workshop_clickable_condition(workshop, out explanation);
-		}
-
-		private void workshop_19_on_consequence()
-		{
-			Workshop currentWorkshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			ConversationSentence.SetObjectsToRepeatOver(WorkshopType.All.Where((WorkshopType x) => x != currentWorkshop.WorkshopType && !x.IsHidden).ToList<WorkshopType>(), 5);
-		}
-
-		private bool workshop_20_on_condition()
-		{
-			WorkshopType workshopType = ConversationSentence.CurrentProcessedRepeatObject as WorkshopType;
-			if (workshopType != null)
-			{
-				ConversationSentence.SelectedRepeatLine.SetTextVariable("WORKSHOP_TYPE", workshopType.Name);
-				return true;
-			}
-			return false;
-		}
-
-		private void workshop_20_on_consequence()
-		{
-			this._lastSelectedWorkshopType = ConversationSentence.SelectedRepeatObject as WorkshopType;
-		}
-
-		private void workshop_21_on_consequence()
-		{
-			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			this._lastSelectedWorkshopType = workshop.WorkshopType;
-		}
-
-		private bool workshop_22_on_condition()
-		{
-			MBTextManager.SetTextVariable("WORKSHOP_DESCRIPTION", this._lastSelectedWorkshopType.Description, false);
-			MBTextManager.SetTextVariable("WORKSHOP_TYPE", this._lastSelectedWorkshopType.Name, false);
-			return true;
-		}
-
-		private void workshop_23_on_consequence()
-		{
-			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			int buyingCostForPlayer = Campaign.Current.Models.WorkshopModel.GetBuyingCostForPlayer(workshop);
-			ChangeOwnerOfWorkshopAction.ApplyByTrade(workshop, Hero.MainHero, this._lastSelectedWorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, buyingCostForPlayer, null);
 		}
 
 		private bool workshop_player_owner_begin_on_condition()
@@ -411,7 +360,8 @@ namespace SandBox.CampaignBehaviors
 
 		private bool workshop_42_on_clickable_condition(out TextObject explanation)
 		{
-			if (Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(null))
+			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
+			if (Hero.MainHero.Gold < Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(workshop.WorkshopType))
 			{
 				explanation = new TextObject("{=EASiM8NU}You haven't got enough denars to change production.", null);
 				return false;
@@ -430,29 +380,25 @@ namespace SandBox.CampaignBehaviors
 		private bool conversation_shopworker_sell_player_workshop_on_condition()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);
-			MBTextManager.SetTextVariable("PRICE", sellingCost);
-			return !this.conversation_shopworker_sell_player_workshop_no_buyer_on_condition();
-		}
-
-		private bool conversation_shopworker_sell_player_workshop_no_buyer_on_condition()
-		{
-			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);
-			return Campaign.Current.Models.WorkshopModel.SelectNextOwnerForWorkshop(Settlement.CurrentSettlement.Town, workshop, Hero.MainHero, sellingCost) == null;
+			int costForNotable = Campaign.Current.Models.WorkshopModel.GetCostForNotable(workshop);
+			MBTextManager.SetTextVariable("PRICE", costForNotable);
+			return true;
 		}
 
 		private void conversation_shopworker_player_sell_workshop_on_consequence()
 		{
 			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
-			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);
-			Hero hero = Campaign.Current.Models.WorkshopModel.SelectNextOwnerForWorkshop(Settlement.CurrentSettlement.Town, workshop, workshop.Owner, sellingCost);
-			ChangeOwnerOfWorkshopAction.ApplyByTrade(workshop, hero, workshop.WorkshopType, Campaign.Current.Models.WorkshopModel.GetInitialCapital(1), true, sellingCost, null);
+			if (workshop.Owner == Hero.MainHero)
+			{
+				Hero notableOwnerForWorkshop = Campaign.Current.Models.WorkshopModel.GetNotableOwnerForWorkshop(workshop.Settlement);
+				ChangeOwnerOfWorkshopAction.ApplyByPlayerSelling(workshop, notableOwnerForWorkshop, workshop.WorkshopType);
+			}
 		}
 
 		private bool conversation_player_workshop_change_production_on_condition()
 		{
-			int convertProductionCost = Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(null);
+			Workshop workshop = this.FindCurrentWorkshop(ConversationMission.OneToOneConversationAgent);
+			int convertProductionCost = Campaign.Current.Models.WorkshopModel.GetConvertProductionCost(workshop.WorkshopType);
 			MBTextManager.SetTextVariable("COST", convertProductionCost);
 			return true;
 		}

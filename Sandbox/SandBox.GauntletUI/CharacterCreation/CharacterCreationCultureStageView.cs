@@ -14,6 +14,7 @@ using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -77,11 +78,13 @@ namespace SandBox.GauntletUI.CharacterCreation
 		{
 			if (this.GauntletLayer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this._dataSource.OnPreviousStage();
 				return;
 			}
 			if (this.GauntletLayer.Input.IsHotKeyReleased("Confirm") && this._dataSource.CanAdvance)
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this._dataSource.OnNextStage();
 			}
 		}

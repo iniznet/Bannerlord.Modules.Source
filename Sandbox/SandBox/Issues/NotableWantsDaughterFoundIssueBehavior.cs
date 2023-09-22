@@ -12,6 +12,7 @@ using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Conversation.Persuasion;
 using TaleWorlds.CampaignSystem.Encounters;
+using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.CampaignSystem.Issues;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
@@ -76,7 +77,7 @@ namespace SandBox.Issues
 
 		private const int BaseRewardGold = 500;
 
-		public class NotableWantsDaughterFoundIssueTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class NotableWantsDaughterFoundIssueTypeDefiner : SaveableTypeDefiner
 		{
 			public NotableWantsDaughterFoundIssueTypeDefiner()
 				: base(1088000)
@@ -166,7 +167,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=x9VgLEzi}Yes... I've suffered a great misfortune. My daughter, a headstrong girl, has been bewitched by this never-do-well. I told her to stop seeing him but she wouldn't listen! Now she's missing - I'm sure she's been abducted by him! I'm offering a bounty of {BASE_REWARD_GOLD}{GOLD_ICON} to anyone who brings her back. Please {?PLAYER.GENDER}ma'am{?}sir{\\?}! Don't let a father's heart be broken.", null);
+					TextObject textObject = new TextObject("{=x9VgLEzi}Yes... I've suffered a great misfortune. [ib:demure][if:convo_shocked]My daughter, a headstrong girl, has been bewitched by this never-do-well. I told her to stop seeing him but she wouldn't listen! Now she's missing - I'm sure she's been abducted by him! I'm offering a bounty of {BASE_REWARD_GOLD}{GOLD_ICON} to anyone who brings her back. Please {?PLAYER.GENDER}ma'am{?}sir{\\?}! Don't let a father's heart be broken.", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 					textObject.SetTextVariable("BASE_REWARD_GOLD", this.RewardGold);
@@ -186,7 +187,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=IY5b9vZV}Everything is wrong. He is from a low family, the kind who is always involved in some land fraud scheme, or seen dealing with known bandits. Every village has a black sheep like that but I never imagined he would get his hooks into my daughter!", null);
+					return new TextObject("{=IY5b9vZV}Everything is wrong. [if:convo_annoyed]He is from a low family, the kind who is always involved in some land fraud scheme, or seen dealing with known bandits. Every village has a black sheep like that but I never imagined he would get his hooks into my daughter!", null);
 				}
 			}
 
@@ -194,7 +195,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=v0XsM7Zz}If you send your best tracker with a few men, I am sure they will find my girl and be back to you in no more than {ALTERNATIVE_SOLUTION_WAIT_DAYS} days.", null);
+					TextObject textObject = new TextObject("{=v0XsM7Zz}If you send your best tracker with a few men, I am sure they will find my girl [if:convo_pondering]and be back to you in no more than {ALTERNATIVE_SOLUTION_WAIT_DAYS} days.", null);
 					textObject.SetTextVariable("ALTERNATIVE_SOLUTION_WAIT_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
 				}
@@ -230,7 +231,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=mBPcZddA}{?PLAYER.GENDER}Madam{?}Sir{\\?}, we are still waiting for your men to bring my daughter back. I pray for their success.", null);
+					return new TextObject("{=mBPcZddA}{?PLAYER.GENDER}Madam{?}Sir{\\?}, we are still waiting [ib:demure][if:convo_undecided_open]for your men to bring my daughter back. I pray for their success.", null);
 				}
 			}
 
@@ -238,7 +239,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=Hhd3KaKu}Thank you, my {?PLAYER.GENDER}lady{?}lord{\\?}. If your men can find my girl and bring her back to me, I will be so grateful. I will pay you {BASE_REWARD_GOLD}{GOLD_ICON} for your trouble.", null);
+					TextObject textObject = new TextObject("{=Hhd3KaKu}Thank you, my {?PLAYER.GENDER}lady{?}lord{\\?}. If your men can find my girl and bring her back to me, I will be so grateful.[if:convo_happy] I will pay you {BASE_REWARD_GOLD}{GOLD_ICON} for your trouble.", null);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 					textObject.SetTextVariable("BASE_REWARD_GOLD", this.RewardGold);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
@@ -288,7 +289,7 @@ namespace SandBox.Issues
 				this.RelationshipChangeWithIssueOwner = -10;
 				if (base.IssueOwner.CurrentSettlement.Village.Bound != null)
 				{
-					base.IssueOwner.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+					base.IssueOwner.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 					base.IssueOwner.CurrentSettlement.Village.Bound.Town.Security -= 5f;
 				}
 			}
@@ -347,6 +348,10 @@ namespace SandBox.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -449,8 +454,8 @@ namespace SandBox.Issues
 				get
 				{
 					TextObject textObject = new TextObject("{=1jExD58d}{QUEST_GIVER.LINK}, a merchant from {SETTLEMENT_NAME}, told you that {?QUEST_GIVER.GENDER}her{?}his{\\?} daughter {TARGET_HERO.NAME} has either been abducted or run off with a local rogue. You have agreed to search for her and bring her back to {SETTLEMENT_NAME}. If you cannot find their tracks when you exit settlement, you should visit the nearby villages of {SETTLEMENT_NAME} to look for clues and tracks of the kidnapper.", null);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
-					StringHelpers.SetCharacterProperties("TARGET_HERO", this._daughterHero.CharacterObject, textObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "TARGET_HERO", this._daughterHero.CharacterObject, false);
 					textObject.SetTextVariable("SETTLEMENT_NAME", base.QuestGiver.CurrentSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("BASE_REWARD_GOLD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -463,7 +468,7 @@ namespace SandBox.Issues
 				get
 				{
 					TextObject textObject = new TextObject("{=asVE53ac}Daughter returns to {QUEST_GIVER.LINK}. {?QUEST_GIVER.GENDER}She{?}He{\\?} is happy. Sends {?QUEST_GIVER.GENDER}her{?}his{\\?} regards with a large pouch of {BASE_REWARD}{GOLD_ICON}.", null);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 					textObject.SetTextVariable("BASE_REWARD", this.RewardGold);
 					return textObject;
@@ -475,7 +480,7 @@ namespace SandBox.Issues
 				get
 				{
 					TextObject textObject = new TextObject("{=ak2EMWWR}You failed to bring the daughter back to her {?QUEST_GIVER.GENDER}mother{?}father{\\?} as promised to {QUEST_GIVER.LINK}. {QUEST_GIVER.LINK} is furious", null);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
 					return textObject;
 				}
 			}
@@ -485,7 +490,7 @@ namespace SandBox.Issues
 				get
 				{
 					TextObject textObject = new TextObject("{=vW6kBki9}Your clan is now at war with {QUEST_GIVER.LINK}'s realm. Your agreement with {QUEST_GIVER.LINK} is canceled.", null);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
 					return textObject;
 				}
 			}
@@ -495,7 +500,18 @@ namespace SandBox.Issues
 				get
 				{
 					TextObject textObject = new TextObject("{=bqeWVVEE}Your actions have started a war with {QUEST_GIVER.LINK}'s faction. {?QUEST_GIVER.GENDER}She{?}He{\\?} cancels your agreement and the quest is a failure.", null);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
+					return textObject;
+				}
+			}
+
+			private TextObject _villageRaidedCancelQuestLogText
+			{
+				get
+				{
+					TextObject textObject = new TextObject("{=aN85Kfnq}{SETTLEMENT} was raided. Your agreement with {QUEST_GIVER.LINK} is canceled.", null);
+					TextObjectExtensions.SetCharacterProperties(textObject, "QUEST_GIVER", base.QuestGiver.CharacterObject, false);
+					textObject.SetTextVariable("SETTLEMENT", base.QuestGiver.CurrentSettlement.EncyclopediaLinkWithName);
 					return textObject;
 				}
 			}
@@ -567,7 +583,7 @@ namespace SandBox.Issues
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=PZq1EMcx}Thank you for your help. I am still very worried about my girl {TARGET_HERO.NAME}. Please find her and bring her back to me as soon as you can.", null);
+				TextObject textObject = new TextObject("{=PZq1EMcx}Thank you for your help. [if:convo_worried]I am still very worried about my girl {TARGET_HERO.FIRSTNAME}. Please find her and bring her back to me as soon as you can.", null);
 				StringHelpers.SetCharacterProperties("TARGET_HERO", this._daughterHero.CharacterObject, textObject, false);
 				TextObject textObject2 = new TextObject("{=sglD6abb}Please! Bring my daughter back.", null);
 				TextObject textObject3 = new TextObject("{=ddEu5IFQ}I hope so.", null);
@@ -605,6 +621,10 @@ namespace SandBox.Issues
 				{
 					this._rogueHero.CharacterObject.HiddenInEncylopedia = true;
 				}
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			private bool IsRougeHero(IAgent agent)
@@ -663,21 +683,21 @@ namespace SandBox.Issues
 
 			private DialogFlow GetRougeDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=ovFbMMTJ}Who are you? Are you one of the bounty hunters sent by {QUEST_GIVER.LINK} to track us? Like we're animals or something? Look friend, we have done nothing wrong. As you may have figured out already, this woman and I, we love each other. I didn't force her to do anything.[ib:closed]", null);
+				TextObject textObject = new TextObject("{=ovFbMMTJ}Who are you? Are you one of the bounty hunters sent by {QUEST_GIVER.LINK} to track us? Like we're animals or something? Look friend, we have done nothing wrong. As you may have figured out already, this woman and I, we love each other. I didn't force her to do anything.[ib:closed][if:convo_innocent_smile]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
-				TextObject textObject2 = new TextObject("{=D25oY3j1}Thank you {?PLAYER.GENDER}lady{?}sir{\\?}. For your kindness and understanding. We won't forget this.", null);
+				TextObject textObject2 = new TextObject("{=D25oY3j1}Thank you {?PLAYER.GENDER}lady{?}sir{\\?}. For your kindness and understanding. We won't forget this.[ib:demure][if:convo_happy]", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject2, false);
 				TextObject textObject3 = new TextObject("{=oL3amiu1}Come {DAUGHTER_NAME.NAME}, let's go before other hounds sniff our trail... I mean... No offense {?PLAYER.GENDER}madam{?}sir{\\?}.", null);
 				StringHelpers.SetCharacterProperties("DAUGHTER_NAME", this._daughterHero.CharacterObject, textObject3, false);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject3, false);
-				TextObject textObject4 = new TextObject("{=92sbq1YY}I'm no child, {?PLAYER.GENDER}lady{?}sir{\\?}! Draw your weapon! I challenge you to a duel!", null);
+				TextObject textObject4 = new TextObject("{=92sbq1YY}I'm no child, {?PLAYER.GENDER}lady{?}sir{\\?}! Draw your weapon! I challenge you to a duel![ib:warrior2][if:convo_excited]", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject4, false);
-				TextObject textObject5 = new TextObject("{=jfzErupx}He is right! I ran away with him willingly. I love my {?QUEST_GIVER.GENDER}mother{?}father{\\?}, but {?QUEST_GIVER.GENDER}she{?}he{\\?} can be such a tyrant. Please {?PLAYER.GENDER}lady{?}sir{\\?}, if you believe in freedom and love, please leave us be.", null);
+				TextObject textObject5 = new TextObject("{=jfzErupx}He is right! I ran away with him willingly. I love my {?QUEST_GIVER.GENDER}mother{?}father{\\?},[ib:closed][if:convo_grave] but {?QUEST_GIVER.GENDER}she{?}he{\\?} can be such a tyrant. Please {?PLAYER.GENDER}lady{?}sir{\\?}, if you believe in freedom and love, please leave us be.", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject5, false);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject5, false);
 				TextObject textObject6 = new TextObject("{=5NljlbLA}Thank you kind {?PLAYER.GENDER}lady{?}sir{\\?}, thank you.", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject6, false);
-				TextObject textObject7 = new TextObject("{=i5fNZrhh}Please, {?PLAYER.GENDER}lady{?}sir{\\?}. I love him truly and I wish to spend the rest of my life with him. I beg of you, please don't stand in our way.", null);
+				TextObject textObject7 = new TextObject("{=i5fNZrhh}Please, {?PLAYER.GENDER}lady{?}sir{\\?}. I love him truly and I wish to spend the rest of my life with him.[ib:demure][if:convo_worried] I beg of you, please don't stand in our way.", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject7, false);
 				TextObject textObject8 = new TextObject("{=0RCdPKj2}Yes {?QUEST_GIVER.GENDER}she{?}he{\\?} would probably be sad. But not because of what you think. See, {QUEST_GIVER.LINK} promised me to one of {?QUEST_GIVER.GENDER}her{?}his{\\?} allies' sons and this will devastate {?QUEST_GIVER.GENDER}her{?}his{\\?} plans. That is true.", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject8, false);
@@ -775,9 +795,9 @@ namespace SandBox.Issues
 
 			private DialogFlow GetDaughterDialogWhenVillageRaid()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=w0HPC53e}Who are you? What do you want from me?", null), null, null).Condition(() => this._villageIsRaidedTalkWithDaughter)
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=w0HPC53e}Who are you? What do you want from me?[ib:nervous][if:convo_bared_teeth]", null), null, null).Condition(() => this._villageIsRaidedTalkWithDaughter)
 					.PlayerLine(new TextObject("{=iRupMGI0}Calm down! Your father has sent me to find you.", null), null)
-					.NpcLine(new TextObject("{=dwNquUNr}My father? Oh, thank god! I saw terrible things. They took my beloved one and slew many innocents without hesitation.", null), null, null)
+					.NpcLine(new TextObject("{=dwNquUNr}My father? Oh, thank god! I saw terrible things. [ib:nervous2][if:convo_shocked]They took my beloved one and slew many innocents without hesitation.", null), null, null)
 					.PlayerLine("{=HtAr22re}Try to forget all about these and return to your father's house.", null)
 					.NpcLine("{=FgSIsasF}Yes, you are right. I shall be on my way...", null, null)
 					.Consequence(delegate
@@ -854,7 +874,7 @@ namespace SandBox.Issues
 				if (base.QuestGiver.CurrentSettlement.Village.Bound != null)
 				{
 					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security -= 5f;
-					base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 				}
 			}
 
@@ -864,7 +884,7 @@ namespace SandBox.Issues
 				if (base.QuestGiver.CurrentSettlement.Village.Bound != null)
 				{
 					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security -= 5f;
-					base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 				}
 			}
 
@@ -1245,10 +1265,23 @@ namespace SandBox.Issues
 					Location locationWithId = Settlement.CurrentSettlement.LocationComplex.GetLocationWithId("village_center");
 					if (locationWithId != null)
 					{
-						ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("short_sword_t3");
-						this._rogueHero.CivilianEquipment.AddEquipmentToSlotWithoutAgent(0, new EquipmentElement(@object, null, null, false));
+						this.HandleRogueEquipment();
 						locationWithId.AddCharacter(this.CreateQuestLocationCharacter(this._daughterHero.CharacterObject, 0));
 						locationWithId.AddCharacter(this.CreateQuestLocationCharacter(this._rogueHero.CharacterObject, 0));
+					}
+				}
+			}
+
+			private void HandleRogueEquipment()
+			{
+				ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("short_sword_t3");
+				this._rogueHero.CivilianEquipment.AddEquipmentToSlotWithoutAgent(0, new EquipmentElement(@object, null, null, false));
+				for (EquipmentIndex equipmentIndex = 0; equipmentIndex < 5; equipmentIndex++)
+				{
+					ItemObject item = this._rogueHero.BattleEquipment[equipmentIndex].Item;
+					if (item != null && item.WeaponComponent.PrimaryWeapon.IsShield)
+					{
+						this._rogueHero.BattleEquipment.AddEquipmentToSlotWithoutAgent(equipmentIndex, default(EquipmentElement));
 					}
 				}
 			}
@@ -1402,6 +1435,15 @@ namespace SandBox.Issues
 				CampaignEvents.CanHeroDieEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.CanHeroDie));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
+				CampaignEvents.RaidCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, RaidEventComponent>(this.OnRaidCompleted));
+			}
+
+			private void OnRaidCompleted(BattleSideEnum side, RaidEventComponent raidEventComponent)
+			{
+				if (raidEventComponent.MapEventSettlement == base.QuestGiver.CurrentSettlement)
+				{
+					base.CompleteQuestWithCancel(this._villageRaidedCancelQuestLogText);
+				}
 			}
 
 			public override void OnHeroCanHaveQuestOrIssueInfoIsRequested(Hero hero, ref bool result)
@@ -1438,7 +1480,7 @@ namespace SandBox.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog, false);
 			}
 
 			protected override void OnFinalize()

@@ -79,18 +79,22 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFrameTick(dt);
 			if (base.Layer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteForceQuit();
 			}
 			else if (base.Layer.Input.IsHotKeyReleased("Confirm"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteDone();
 			}
 			else if (base.Layer.Input.IsHotKeyReleased("Reset"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteReset();
 			}
 			else if (base.Layer.Input.IsHotKeyReleased("TakeAll"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteRecruitAll();
 			}
 			else if (base.Layer.Input.IsGameKeyReleased(39))

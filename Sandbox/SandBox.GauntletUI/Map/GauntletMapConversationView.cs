@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.BarterSystem;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Party;
@@ -21,30 +23,13 @@ using TaleWorlds.TwoDimension;
 namespace SandBox.GauntletUI.Map
 {
 	[OverrideView(typeof(MapConversationView))]
-	public class GauntletMapConversationView : MapView, IConversationStateHandler
+	public class GauntletMapConversationView : MapConversationView, IConversationStateHandler
 	{
 		public GauntletMapConversationView(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData)
 		{
-			float num = CampaignTime.Now.CurrentHourInDay * 1f;
-			bool isSnowTerrainInPos = Campaign.Current.Models.MapWeatherModel.GetIsSnowTerrainInPos(MobileParty.MainParty.GetPosition());
-			bool flag = false;
-			if (conversationPartnerData.Character.HeroObject != null)
-			{
-				LocationComplex locationComplex = LocationComplex.Current;
-				string text;
-				if (locationComplex == null)
-				{
-					text = null;
-				}
-				else
-				{
-					Location locationOfCharacter = locationComplex.GetLocationOfCharacter(conversationPartnerData.Character.HeroObject);
-					text = ((locationOfCharacter != null) ? locationOfCharacter.StringId : null);
-				}
-				string text2 = text;
-				flag = Hero.MainHero.CurrentSettlement != null && (text2 == "lordshall" || text2 == "tavern");
-			}
-			this._tableauData = MapConversationTableauData.CreateFrom(playerCharacterData, conversationPartnerData, Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace), num, isSnowTerrainInPos, Hero.MainHero.CurrentSettlement, flag);
+			this._conversationStateQueue = new Queue<GauntletMapConversationView.ConversationStates>();
+			this._playerCharacterData = new ConversationCharacterData?(playerCharacterData);
+			this._conversationPartnerData = new ConversationCharacterData?(conversationPartnerData);
 			this._barter = Campaign.Current.BarterManager;
 			BarterManager barter = this._barter;
 			barter.BarterBegin = (BarterManager.BarterBeginEventDelegate)Delegate.Combine(barter.BarterBegin, new BarterManager.BarterBeginEventDelegate(this.OnBarterBegin));
@@ -129,15 +114,17 @@ namespace SandBox.GauntletUI.Map
 			return !this._isConversationInstalled;
 		}
 
+		protected override bool IsOpeningEscapeMenuOnFocusChangeAllowed()
+		{
+			return true;
+		}
+
 		private void Tick()
 		{
-			if (this._enableDelayFrameCurrentCount != 0)
+			if (this._conversationStateQueue.Count > 0)
 			{
-				this._enableDelayFrameCurrentCount--;
-				if (this._enableDelayFrameCurrentCount == 0)
-				{
-					this.SetEnable(true);
-				}
+				GauntletMapConversationView.ConversationStates conversationStates = this._conversationStateQueue.Dequeue();
+				this.ProcessConversationState(conversationStates);
 			}
 			if (this._isConversationInstalled && ScreenManager.TopScreen == base.MapScreen && ScreenManager.FocusedLayer != base.Layer)
 			{
@@ -158,6 +145,7 @@ namespace SandBox.GauntletUI.Map
 			}
 			if (flag && !this._isBarterActive && this.IsReleasedInGauntletLayer("ContinueKey"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				MapConversationVM dataSource2 = this._dataSource;
 				if (dataSource2 != null)
 				{
@@ -172,6 +160,7 @@ namespace SandBox.GauntletUI.Map
 			{
 				if (this.IsReleasedInGauntletLayer("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._barterDataSource.ExecuteCancel();
 				}
 				else
@@ -181,12 +170,14 @@ namespace SandBox.GauntletUI.Map
 						BarterVM barterDataSource = this._barterDataSource;
 						if (barterDataSource != null && !barterDataSource.IsOfferDisabled)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/default");
 							this._barterDataSource.ExecuteOffer();
-							goto IL_17C;
+							goto IL_1A3;
 						}
 					}
 					if (this.IsReleasedInGauntletLayer("Reset"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._barterDataSource.ExecuteReset();
 					}
 				}
@@ -207,19 +198,9 @@ namespace SandBox.GauntletUI.Map
 					}
 				}
 			}
-			IL_17C:
+			IL_1A3:
 			BarterItemVM.IsFiveStackModifierActive = this.IsDownInGauntletLayer("FiveStackModifier");
 			BarterItemVM.IsEntireStackModifierActive = this.IsDownInGauntletLayer("EntireStackModifier");
-		}
-
-		private void SetEnable(bool isEnabled)
-		{
-			if (this._isEnabled != isEnabled)
-			{
-				this._layerAsGauntletLayer._twoDimensionView.SetEnable(isEnabled);
-				this._dataSource.IsTableauEnabled = isEnabled;
-				this._isEnabled = isEnabled;
-			}
 		}
 
 		protected override void OnMenuModeTick(float dt)
@@ -232,8 +213,9 @@ namespace SandBox.GauntletUI.Map
 		{
 			base.OnMapConversationUpdate(playerConversationData, partnerConversationData);
 			float num = CampaignTime.Now.CurrentHourInDay * 1f;
-			bool isSnowTerrainInPos = Campaign.Current.Models.MapWeatherModel.GetIsSnowTerrainInPos(MobileParty.MainParty.GetPosition());
-			bool flag = false;
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.Position2D);
+			bool flag = weatherEventInPosition == 3 || weatherEventInPosition == 4;
+			bool flag2 = false;
 			if (partnerConversationData.Character.HeroObject != null)
 			{
 				LocationComplex locationComplex = LocationComplex.Current;
@@ -248,9 +230,9 @@ namespace SandBox.GauntletUI.Map
 					text = ((locationOfCharacter != null) ? locationOfCharacter.StringId : null);
 				}
 				string text2 = text;
-				flag = Hero.MainHero.CurrentSettlement != null && (text2 == "lordshall" || text2 == "tavern");
+				flag2 = Hero.MainHero.CurrentSettlement != null && (text2 == "lordshall" || text2 == "tavern");
 			}
-			MapConversationTableauData mapConversationTableauData = MapConversationTableauData.CreateFrom(playerConversationData, partnerConversationData, Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace), num, isSnowTerrainInPos, Hero.MainHero.CurrentSettlement, flag);
+			MapConversationTableauData mapConversationTableauData = MapConversationTableauData.CreateFrom(playerConversationData, partnerConversationData, Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace), num, flag, Hero.MainHero.CurrentSettlement, flag2, weatherEventInPosition == 2, weatherEventInPosition == 4);
 			if (!GauntletMapConversationView.IsSame(mapConversationTableauData, this._tableauData))
 			{
 				this._dataSource.TableauData = mapConversationTableauData;
@@ -282,29 +264,28 @@ namespace SandBox.GauntletUI.Map
 		protected override void OnFinalize()
 		{
 			base.OnFinalize();
-			this._dataSource.OnFinalize();
-			this._dataSource = null;
-			base.MapScreen.RemoveLayer(base.Layer);
 			base.Layer.IsFocusLayer = false;
 			ScreenManager.TryLoseFocus(base.Layer);
 			BarterManager barter = this._barter;
 			barter.BarterBegin = (BarterManager.BarterBeginEventDelegate)Delegate.Remove(barter.BarterBegin, new BarterManager.BarterBeginEventDelegate(this.OnBarterBegin));
 			BarterManager barter2 = this._barter;
 			barter2.Closed = (BarterManager.BarterCloseEventDelegate)Delegate.Remove(barter2.Closed, new BarterManager.BarterCloseEventDelegate(this.OnBarterClosed));
-			base.Layer = null;
-			this._barterMovie = null;
-			this._dataSource = null;
+			this._dataSource.OnFinalize();
 			BarterVM barterDataSource = this._barterDataSource;
 			if (barterDataSource != null)
 			{
 				barterDataSource.OnFinalize();
 			}
-			this._barterDataSource = null;
+			base.MapScreen.RemoveLayer(base.Layer);
 			SpriteCategory conversationCategory = this._conversationCategory;
 			if (conversationCategory != null)
 			{
 				conversationCategory.Unload();
 			}
+			base.Layer = null;
+			this._barterMovie = null;
+			this._dataSource = null;
+			this._barterDataSource = null;
 			Campaign.Current.ConversationManager.Handler = null;
 			Game.Current.GameStateManager.UnregisterActiveStateDisableRequest(this);
 		}
@@ -319,10 +300,74 @@ namespace SandBox.GauntletUI.Map
 			return GameTexts.FindText("str_click_to_continue", null).ToString();
 		}
 
+		private void ProcessConversationState(GauntletMapConversationView.ConversationStates state)
+		{
+			switch (state)
+			{
+			case GauntletMapConversationView.ConversationStates.OnInstall:
+				this.CreateConversationTableau();
+				return;
+			case GauntletMapConversationView.ConversationStates.OnUninstall:
+				this.UninstallConversation();
+				return;
+			case GauntletMapConversationView.ConversationStates.OnActivate:
+				break;
+			case GauntletMapConversationView.ConversationStates.OnDeactivate:
+				MBInformationManager.HideInformations();
+				return;
+			case GauntletMapConversationView.ConversationStates.OnContinue:
+				this._dataSource.DialogController.OnConversationContinue();
+				return;
+			case GauntletMapConversationView.ConversationStates.ExecuteContinue:
+				this._dataSource.DialogController.ExecuteContinue();
+				break;
+			default:
+				return;
+			}
+		}
+
+		private void CreateConversationTableau()
+		{
+			float num = CampaignTime.Now.CurrentHourInDay * 1f;
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(MobileParty.MainParty.Position2D);
+			bool flag = weatherEventInPosition == 3 || weatherEventInPosition == 4;
+			bool flag2 = false;
+			if (this._conversationPartnerData.Value.Character.HeroObject != null)
+			{
+				LocationComplex locationComplex = LocationComplex.Current;
+				string text;
+				if (locationComplex == null)
+				{
+					text = null;
+				}
+				else
+				{
+					Location locationOfCharacter = locationComplex.GetLocationOfCharacter(this._conversationPartnerData.Value.Character.HeroObject);
+					text = ((locationOfCharacter != null) ? locationOfCharacter.StringId : null);
+				}
+				string text2 = text;
+				flag2 = Hero.MainHero.CurrentSettlement != null && (text2 == "lordshall" || text2 == "tavern");
+			}
+			this._tableauData = MapConversationTableauData.CreateFrom(this._playerCharacterData.Value, this._conversationPartnerData.Value, Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace), num, flag, Hero.MainHero.CurrentSettlement, flag2, weatherEventInPosition == 2, weatherEventInPosition == 4);
+			this._dataSource.TableauData = this._tableauData;
+			this._dataSource.IsTableauEnabled = true;
+			this._layerAsGauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(1, null);
+		}
+
+		private void UninstallConversation()
+		{
+			if (this._isConversationInstalled)
+			{
+				this.OnClose();
+				this._isConversationInstalled = false;
+			}
+		}
+
 		void IConversationStateHandler.OnConversationInstall()
 		{
 			if (!this._isConversationInstalled)
 			{
+				base.CreateConversationMission();
 				this._dataSource = new MapConversationVM(new Action(this.OnContinue), new Func<string>(this.GetContinueKeyText));
 				base.Layer = new GauntletLayer(205, "GauntletLayer", false);
 				this._layerAsGauntletLayer = base.Layer as GauntletLayer;
@@ -332,41 +377,57 @@ namespace SandBox.GauntletUI.Map
 				base.Layer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericPanelGameKeyCategory"));
 				base.Layer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericCampaignPanelsGameKeyCategory"));
 				base.Layer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("ConversationHotKeyCategory"));
-				this._dataSource.TableauData = this._tableauData;
 				base.MapScreen.AddLayer(base.Layer);
 				base.Layer.IsFocusLayer = true;
 				ScreenManager.TrySetFocus(base.Layer);
+				this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.OnInstall);
 				this._isConversationInstalled = true;
-				this._layerAsGauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 			}
-		}
-
-		void IConversationStateHandler.OnConversationActivate()
-		{
 		}
 
 		void IConversationStateHandler.OnConversationUninstall()
 		{
-			if (this._isConversationInstalled)
+			this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.OnUninstall);
+		}
+
+		void IConversationStateHandler.OnConversationActivate()
+		{
+			if (this._conversationStateQueue.Count > 0)
 			{
-				this.OnClose();
-				this._isConversationInstalled = false;
+				this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.OnActivate);
+				return;
 			}
+			this.ProcessConversationState(GauntletMapConversationView.ConversationStates.OnActivate);
 		}
 
 		void IConversationStateHandler.OnConversationDeactivate()
 		{
-			MBInformationManager.HideInformations();
+			if (this._conversationStateQueue.Count > 0)
+			{
+				this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.OnDeactivate);
+				return;
+			}
+			this.ProcessConversationState(GauntletMapConversationView.ConversationStates.OnDeactivate);
 		}
 
 		void IConversationStateHandler.OnConversationContinue()
 		{
-			this._dataSource.DialogController.OnConversationContinue();
+			if (this._conversationStateQueue.Count > 0)
+			{
+				this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.OnContinue);
+				return;
+			}
+			this.ProcessConversationState(GauntletMapConversationView.ConversationStates.OnContinue);
 		}
 
 		void IConversationStateHandler.ExecuteConversationContinue()
 		{
-			this._dataSource.DialogController.ExecuteContinue();
+			if (this._conversationStateQueue.Count > 0)
+			{
+				this._conversationStateQueue.Enqueue(GauntletMapConversationView.ConversationStates.ExecuteContinue);
+				return;
+			}
+			this.ProcessConversationState(GauntletMapConversationView.ConversationStates.ExecuteContinue);
 		}
 
 		private static bool IsSame(MapConversationTableauData first, MapConversationTableauData second)
@@ -389,13 +450,13 @@ namespace SandBox.GauntletUI.Map
 
 		private bool _isBarterActive;
 
+		private Queue<GauntletMapConversationView.ConversationStates> _conversationStateQueue;
+
+		private ConversationCharacterData? _playerCharacterData;
+
+		private ConversationCharacterData? _conversationPartnerData;
+
 		private bool _isConversationInstalled;
-
-		private const int _enableAfterFrameCount = 5;
-
-		private int _enableDelayFrameCurrentCount;
-
-		private bool _isEnabled = true;
 
 		private BarterManager _barter;
 
@@ -404,5 +465,15 @@ namespace SandBox.GauntletUI.Map
 		private BarterVM _barterDataSource;
 
 		private IGauntletMovie _barterMovie;
+
+		private enum ConversationStates
+		{
+			OnInstall,
+			OnUninstall,
+			OnActivate,
+			OnDeactivate,
+			OnContinue,
+			ExecuteContinue
+		}
 	}
 }

@@ -101,7 +101,7 @@ namespace SandBox.CampaignBehaviors
 					MBInformationManager.ShowSceneNotification(Campaign.Current.Models.CutsceneSelectionModel.GetKingdomDestroyedSceneNotification(kingdom));
 					return;
 				}
-				Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new KingdomDestroyedMapNotification(kingdom));
+				Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new KingdomDestroyedMapNotification(kingdom, CampaignTime.Now));
 			}
 		}
 
@@ -127,7 +127,7 @@ namespace SandBox.CampaignBehaviors
 			Hero mentorHeroForComeOfAge = this.GetMentorHeroForComeOfAge(hero);
 			TextObject textObject = new TextObject("{=t4KwQOB7}{HERO.NAME} is now of age.", null);
 			TextObjectExtensions.SetCharacterProperties(textObject, "HERO", hero.CharacterObject, false);
-			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new HeirComeOfAgeMapNotification(hero, mentorHeroForComeOfAge, textObject));
+			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new HeirComeOfAgeMapNotification(hero, mentorHeroForComeOfAge, textObject, CampaignTime.Now));
 		}
 
 		private void OnMapEventEnd(MapEvent mapEvent)
@@ -144,7 +144,7 @@ namespace SandBox.CampaignBehaviors
 			if (firstHero == Hero.MainHero || secondHero == Hero.MainHero)
 			{
 				Hero hero = (firstHero.IsFemale ? secondHero : firstHero);
-				MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(hero, hero.Spouse, 0));
+				MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(hero, hero.Spouse, CampaignTime.Now, 0));
 			}
 		}
 

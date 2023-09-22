@@ -89,7 +89,7 @@ namespace SandBox.Tournaments.MissionLogics
 			AgentBuildData agentBuildData2 = agentBuildData.InitialDirection(ref vec).Equipment(equipment).Controller((troop == CharacterObject.PlayerCharacter) ? 2 : 1);
 			Agent agent = base.Mission.SpawnAgent(agentBuildData2, false);
 			agent.Health = (float)agent.Monster.HitPoints;
-			agent.WieldInitialWeapons(2);
+			agent.WieldInitialWeapons(2, 0);
 			this._agents.Add(this.AddHorseRaceAgentController(agent));
 			if (troop == CharacterObject.PlayerCharacter)
 			{
@@ -188,7 +188,6 @@ namespace SandBox.Tournaments.MissionLogics
 			{
 				foreach (Agent agent in agentsInVolume)
 				{
-					Debug.Print(string.Concat(new object[] { agent.Name, "(", agent.Index, ") entered the checkpoint ", this.Name }), 0, 12, 17592186044416UL);
 					agent.GetController<TownHorseRaceAgentController>().OnEnterCheckPoint(volumeBox);
 				}
 			}

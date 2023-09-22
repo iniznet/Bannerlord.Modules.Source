@@ -74,7 +74,7 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.OnUnitRecruitedEvent.AddNonSerializedListener(this, new Action<CharacterObject, int>(this.OnUnitRecruited));
 			CampaignEvents.OnBeforeSaveEvent.AddNonSerializedListener(this, new Action(this.OnBeforeSave));
 			CampaignEvents.CraftingPartUnlockedEvent.AddNonSerializedListener(this, new Action<CraftingPiece>(this.OnCraftingPartUnlocked));
-			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, Crafting.OverrideData, bool>(this.OnNewItemCrafted));
+			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, ItemModifier, bool>(this.OnNewItemCrafted));
 			CampaignEvents.NewCompanionAdded.AddNonSerializedListener(this, new Action<Hero>(this.OnNewCompanionAdded));
 			CampaignEvents.HeroOrPartyTradedGold.AddNonSerializedListener(this, new Action<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ValueTuple<int, string>, bool>(this.OnHeroOrPartyTradedGold));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnd));
@@ -84,7 +84,7 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, new Action<PartyBase, Hero>(this.OnHeroPrisonerTaken));
 			CampaignEvents.OnPrisonerTakenEvent.AddNonSerializedListener(this, new Action<FlattenedTroopRoster>(this.OnPrisonersTaken));
 			CampaignEvents.RaidCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, RaidEventComponent>(this.OnRaidCompleted));
-			CampaignEvents.OnHideoutBattleCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, MapEvent>(this.OnHideoutBattleCompleted));
+			CampaignEvents.OnHideoutBattleCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, HideoutEventComponent>(this.OnHideoutBattleCompleted));
 			CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 			CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, new Action<Hero, PartyBase, IFaction, EndCaptivityDetail>(this.OnHeroPrisonerReleased));
 			CampaignEvents.OnPlayerPartyKnockedOrKilledTroopEvent.AddNonSerializedListener(this, new Action<CharacterObject>(this.OnPlayerPartyKnockedOrKilledTroop));
@@ -245,17 +245,17 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		private void OnHideoutBattleCompleted(BattleSideEnum winnerSide, MapEvent mapEvent)
+		private void OnHideoutBattleCompleted(BattleSideEnum winnerSide, HideoutEventComponent hideoutEventComponent)
 		{
-			if (mapEvent.PlayerSide == winnerSide)
+			if (hideoutEventComponent.MapEvent.PlayerSide == winnerSide)
 			{
 				this._numberOfHideoutsCleared++;
 			}
 		}
 
-		private void OnRaidCompleted(BattleSideEnum winnerSide, RaidEventComponent raidEvent)
+		private void OnRaidCompleted(BattleSideEnum winnerSide, RaidEventComponent raidEventComponent)
 		{
-			if (raidEvent.MapEvent.PlayerSide == winnerSide)
+			if (raidEventComponent.MapEvent.PlayerSide == winnerSide)
 			{
 				this._numberOfVillagesRaided++;
 			}
@@ -371,7 +371,7 @@ namespace SandBox.CampaignBehaviors
 			this._numberOfCompanionsHired++;
 		}
 
-		private void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		private void OnNewItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 		{
 			this._numberOfWeaponsCrafted++;
 			if (isCraftingOrderItem)
@@ -601,307 +601,6 @@ namespace SandBox.CampaignBehaviors
 		public ValueTuple<string, int> GetMostExpensiveItemCrafted()
 		{
 			return this._mostExpensiveItemCrafted;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("print_gameplay_statistics", "campaign")]
-		public static string PrintGameplayStatistics(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckHelp(strings))
-			{
-				return "Format is \"statistics.print_gameplay_statistics\".";
-			}
-			IStatisticsCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IStatisticsCampaignBehavior>();
-			string text = "";
-			text += "---------------------------GENERAL---------------------------\n";
-			text = string.Concat(new object[]
-			{
-				text,
-				"Played Time in Campaign Time(Days): ",
-				campaignBehavior.GetTotalTimePlayed().ToDays,
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Played Time in Real Time: ",
-				campaignBehavior.GetTotalTimePlayedInSeconds(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of children born: ",
-				campaignBehavior.GetNumberOfChildrenBorn(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total influence earned: ",
-				campaignBehavior.GetTotalInfluenceEarned(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of issues solved: ",
-				campaignBehavior.GetNumberOfIssuesSolved(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of tournaments won: ",
-				campaignBehavior.GetNumberOfTournamentWins(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Best tournament rank: ",
-				campaignBehavior.GetHighestTournamentRank(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of prisoners recruited: ",
-				campaignBehavior.GetNumberOfPrisonersRecruited(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of troops recruited: ",
-				campaignBehavior.GetNumberOfTroopsRecruited(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of enemy clans defected: ",
-				campaignBehavior.GetNumberOfClansDefected(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total crime rating gained: ",
-				campaignBehavior.GetTotalCrimeRatingGained(),
-				"\n"
-			});
-			text += "---------------------------BATTLE---------------------------\n";
-			text = string.Concat(new object[]
-			{
-				text,
-				"Battles Won / Lost: ",
-				campaignBehavior.GetNumberOfBattlesWon(),
-				" / ",
-				campaignBehavior.GetNumberOfBattlesLost(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Largest battle won as the leader: ",
-				campaignBehavior.GetLargestBattleWonAsLeader(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Largest army formed by the player: ",
-				campaignBehavior.GetLargestArmyFormedByPlayer(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of enemy clans destroyed: ",
-				campaignBehavior.GetNumberOfEnemyClansDestroyed(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Heroes killed in battle: ",
-				campaignBehavior.GetNumberOfHeroesKilledInBattle(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Troops killed or knocked out in person: ",
-				campaignBehavior.GetNumberOfTroopsKnockedOrKilledByPlayer(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Troops killed or knocked out by player party: ",
-				campaignBehavior.GetNumberOfTroopsKnockedOrKilledAsParty(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of hero prisoners taken: ",
-				campaignBehavior.GetNumberOfHeroPrisonersTaken(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of troop prisoners taken: ",
-				campaignBehavior.GetNumberOfTroopPrisonersTaken(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of captured towns: ",
-				campaignBehavior.GetNumberOfTownsCaptured(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of captured castles: ",
-				campaignBehavior.GetNumberOfCastlesCaptured(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of cleared hideouts: ",
-				campaignBehavior.GetNumberOfHideoutsCleared(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of raided villages: ",
-				campaignBehavior.GetNumberOfVillagesRaided(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of days spent as prisoner: ",
-				campaignBehavior.GetTimeSpentAsPrisoner().ToDays,
-				"\n"
-			});
-			text += "---------------------------FINANCES---------------------------\n";
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned: ",
-				campaignBehavior.GetTotalDenarsEarned(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned from caravans: ",
-				campaignBehavior.GetDenarsEarnedFromCaravans(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned from workshops: ",
-				campaignBehavior.GetDenarsEarnedFromWorkshops(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned from ransoms: ",
-				campaignBehavior.GetDenarsEarnedFromRansoms(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned from taxes: ",
-				campaignBehavior.GetDenarsEarnedFromTaxes(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars earned from tributes: ",
-				campaignBehavior.GetDenarsEarnedFromTributes(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Total denars paid in tributes: ",
-				campaignBehavior.GetDenarsPaidAsTributes(),
-				"\n"
-			});
-			text += "---------------------------CRAFTING---------------------------\n";
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of weapons crafted: ",
-				campaignBehavior.GetNumberOfWeaponsCrafted(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Most expensive weapon crafted: ",
-				campaignBehavior.GetMostExpensiveItemCrafted().Item1,
-				" - ",
-				campaignBehavior.GetMostExpensiveItemCrafted().Item2,
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Numbere of crafting parts unlocked: ",
-				campaignBehavior.GetNumberOfCraftingPartsUnlocked(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of crafting orders completed: ",
-				campaignBehavior.GetNumberOfCraftingOrdersCompleted(),
-				"\n"
-			});
-			text += "---------------------------COMPANIONS---------------------------\n";
-			text = string.Concat(new object[]
-			{
-				text,
-				"Number of hired companions: ",
-				campaignBehavior.GetNumberOfCompanionsHired(),
-				"\n"
-			});
-			text = string.Concat(new object[]
-			{
-				text,
-				"Companion with most issues solved: ",
-				campaignBehavior.GetCompanionWithMostIssuesSolved().Item1,
-				" - ",
-				campaignBehavior.GetCompanionWithMostIssuesSolved().Item2,
-				"\n"
-			});
-			return string.Concat(new object[]
-			{
-				text,
-				"Companion with most kills: ",
-				campaignBehavior.GetCompanionWithMostKills().Item1,
-				" - ",
-				campaignBehavior.GetCompanionWithMostKills().Item2,
-				"\n"
-			});
 		}
 
 		private void UpdateTotalTimePlayedInSeconds()

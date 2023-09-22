@@ -323,12 +323,12 @@ namespace SandBox.CampaignBehaviors
 
 		private void clan_member_follow_me_on_consequence()
 		{
-			LocationCharacter locationCharacter = LocationComplex.Current.FindCharacter(ConversationMission.OneToOneConversationAgent);
-			if (!this.IsFollowingPlayer(locationCharacter.Character.HeroObject))
+			LocationCharacter locationCharacterOfHero = LocationComplex.Current.GetLocationCharacterOfHero(Hero.OneToOneConversationHero);
+			if (!this.IsFollowingPlayer(locationCharacterOfHero.Character.HeroObject))
 			{
-				this._isFollowingPlayer.Add(locationCharacter.Character.HeroObject);
+				this._isFollowingPlayer.Add(locationCharacterOfHero.Character.HeroObject);
 			}
-			this.AddClanMembersAsAccompanyingCharacter(locationCharacter.Character.HeroObject, locationCharacter);
+			this.AddClanMembersAsAccompanyingCharacter(locationCharacterOfHero.Character.HeroObject, locationCharacterOfHero);
 			Campaign.Current.ConversationManager.ConversationEndOneShot += ClanMemberRolesCampaignBehavior.FollowMainAgent;
 		}
 

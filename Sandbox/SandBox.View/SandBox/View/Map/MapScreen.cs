@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using Helpers;
 using SandBox.View.Menu;
@@ -12,7 +11,6 @@ using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Inventory;
-using TaleWorlds.CampaignSystem.Issues;
 using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.CampaignSystem.Overlay;
 using TaleWorlds.CampaignSystem.Party;
@@ -53,7 +51,7 @@ namespace SandBox.View.Map
 
 		public bool IsEscapeMenuOpened { get; private set; }
 
-		public IPartyVisual CurrentVisualOfTooltip { get; private set; }
+		public PartyVisual CurrentVisualOfTooltip { get; private set; }
 
 		public SceneLayer SceneLayer { get; private set; }
 
@@ -88,6 +86,10 @@ namespace SandBox.View.Map
 		public bool IsBarExtended { get; private set; }
 
 		public bool IsInCampaignOptions { get; private set; }
+
+		public bool IsMarriageOfferPopupActive { get; private set; }
+
+		public bool IsMapCheatsActive { get; private set; }
 
 		public Dictionary<Tuple<Material, BannerCode>, Material> BannerTexturedMaterialCache
 		{
@@ -236,43 +238,16 @@ namespace SandBox.View.Map
 			this._conversationOverThisFrame = false;
 		}
 
-		private void UpdateSoundParametersOfMainMap()
-		{
-			int num = 0;
-			switch (CampaignTime.Now.GetSeasonOfYear)
-			{
-			case 0:
-				num = 3;
-				break;
-			case 1:
-				num = 0;
-				break;
-			case 2:
-				num = 1;
-				break;
-			case 3:
-				num = 2;
-				break;
-			}
-			Campaign.Current.MapSceneWrapper.SetSoundParameters(CampaignTime.Now.CurrentHourInDay, num, this._mapCameraView.CameraFrame.origin.z);
-		}
-
 		protected override void OnActivate()
 		{
 			base.OnActivate();
 			this._mapCameraView.OnActivate(this._leftButtonDraggingMode, this._clickedPosition);
 			this._activatedFrameNo = Utilities.EngineFrameNo;
 			this.HandleIfSceneIsReady();
-			this.UpdateSoundParametersOfMainMap();
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(4));
 			this.SetCameraOfSceneLayer();
 			this.RestartAmbientSounds();
-			IPartyVisual visuals = PartyBase.MainParty.Visuals;
-			if (visuals == null)
-			{
-				return;
-			}
-			visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 		}
 
 		public void ClearGPUMemory()
@@ -317,7 +292,10 @@ namespace SandBox.View.Map
 					MapEncyclopediaView encyclopediaScreenManager = this.EncyclopediaScreenManager;
 					if (encyclopediaScreenManager == null || !encyclopediaScreenManager.IsEncyclopediaOpen)
 					{
-						this.OnEscapeMenuToggled(true);
+						if (this._mapViews.All((MapView m) => m.IsOpeningEscapeMenuOnFocusChangeAllowed()))
+						{
+							this.OnEscapeMenuToggled(true);
+						}
 					}
 				}
 			}
@@ -435,6 +413,7 @@ namespace SandBox.View.Map
 			this.AddMapView<MapEventVisualsView>(Array.Empty<object>());
 			this.AddMapView<MapMobilePartyTrackerView>(Array.Empty<object>());
 			this.AddMapView<MapSaveView>(Array.Empty<object>());
+			this.AddMapView<MapGamepadEffectsView>(Array.Empty<object>());
 			this.EncyclopediaScreenManager = this.AddMapView<MapEncyclopediaView>(Array.Empty<object>()) as MapEncyclopediaView;
 			this.AddMapView<MapBarView>(Array.Empty<object>());
 			this._mapReadyView = this.AddMapView<MapReadyView>(Array.Empty<object>()) as MapReadyView;
@@ -449,10 +428,21 @@ namespace SandBox.View.Map
 			}
 			this.PrefabEntityCache = this.SceneLayer.SceneView.GetScene().GetFirstEntityWithScriptComponent<CampaignMapSiegePrefabEntityCache>().GetFirstScriptOfType<CampaignMapSiegePrefabEntityCache>();
 			CampaignEvents.OnSaveOverEvent.AddNonSerializedListener(this, new Action<bool, string>(this.OnSaveOver));
+			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnPartyLeftSettlement));
+			CampaignEvents.OnMarriageOfferedToPlayerEvent.AddNonSerializedListener(this, new Action<Hero, Hero>(this.OnMarriageOfferedToPlayer));
+			CampaignEvents.OnMarriageOfferCanceledEvent.AddNonSerializedListener(this, new Action<Hero, Hero>(this.OnMarriageOfferCanceled));
 			GameEntity firstEntityWithScriptComponent = this._mapScene.GetFirstEntityWithScriptComponent<MapColorGradeManager>();
 			if (firstEntityWithScriptComponent != null)
 			{
 				this._colorGradeManager = firstEntityWithScriptComponent.GetFirstScriptOfType<MapColorGradeManager>();
+			}
+		}
+
+		private void OnPartyLeftSettlement(MobileParty party, Settlement settlement)
+		{
+			if (party == MobileParty.MainParty)
+			{
+				this.UpdateMenuView();
 			}
 		}
 
@@ -468,16 +458,27 @@ namespace SandBox.View.Map
 			}
 		}
 
+		private void OnMarriageOfferedToPlayer(Hero suitor, Hero maiden)
+		{
+			this._marriageOfferPopupView = this.AddMapView<MarriageOfferPopupView>(new object[] { suitor, maiden });
+		}
+
+		private void OnMarriageOfferCanceled(Hero suitor, Hero maiden)
+		{
+			if (this._marriageOfferPopupView != null)
+			{
+				this.RemoveMapView(this._marriageOfferPopupView);
+				this._marriageOfferPopupView = null;
+			}
+		}
+
 		protected override void OnFinalize()
 		{
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
 			{
 				this._mapViews[i].OnFinalize();
 			}
-			foreach (Settlement settlement in Settlement.All)
-			{
-				settlement.Party.Visuals.ReleaseResources();
-			}
+			PartyVisualManager.Current.OnFinalized();
 			base.OnFinalize();
 			if (this._mapScene != null)
 			{
@@ -490,6 +491,9 @@ namespace SandBox.View.Map
 			MBMusicManager.Current.DeactivateCampaignMode();
 			MBMusicManager.Current.OnCampaignMusicHandlerFinalize();
 			CampaignEvents.OnSaveOverEvent.ClearListeners(this);
+			CampaignEvents.OnSettlementLeftEvent.ClearListeners(this);
+			CampaignEvents.OnMarriageOfferedToPlayerEvent.ClearListeners(this);
+			CampaignEvents.OnMarriageOfferCanceledEvent.ClearListeners(this);
 			this._mapScene = null;
 			this._campaign = null;
 			this._navigationHandler = null;
@@ -623,7 +627,7 @@ namespace SandBox.View.Map
 					this._mapScene.CheckResources();
 					if (this._focusLost && !this.IsEscapeMenuOpened)
 					{
-						this.OnEscapeMenuToggled(true);
+						this.OnFocusChangeOnGameWindow(false);
 					}
 				}
 			}
@@ -687,8 +691,8 @@ namespace SandBox.View.Map
 				{
 					num4 = this._mapCameraView.CameraFastMoveMultiplier;
 				}
-				num2 = this.SceneLayer.Input.GetGameKeyAxis("MovementAxisX") * num4;
-				num3 = this.SceneLayer.Input.GetGameKeyAxis("MovementAxisY") * num4;
+				num2 = this.SceneLayer.Input.GetGameKeyAxis("MapMovementAxisX") * num4;
+				num3 = this.SceneLayer.Input.GetGameKeyAxis("MapMovementAxisY") * num4;
 			}
 			this._ignoreLeftMouseRelease = false;
 			if (this.SceneLayer.Input.IsKeyPressed(224))
@@ -865,8 +869,7 @@ namespace SandBox.View.Map
 
 		void IMapStateHandler.Tick(float dt)
 		{
-			this.UpdateSoundParametersOfMainMap();
-			if (this._mapViewsCopyCache.Length != this._mapViews.Count)
+			if (this._mapViewsCopyCache.Length != this._mapViews.Count || !this._mapViewsCopyCache.SequenceEqual(this._mapViews))
 			{
 				this._mapViewsCopyCache = new MapView[this._mapViews.Count];
 				this._mapViews.CopyTo(this._mapViewsCopyCache, 0);
@@ -908,9 +911,17 @@ namespace SandBox.View.Map
 		{
 			this.HandleIfSceneIsReady();
 			this.RemoveMapTooltip();
-			for (int i = this._mapViews.Count - 1; i >= 0; i--)
+			if (this._mapViewsCopyCache.Length != this._mapViews.Count || !this._mapViewsCopyCache.SequenceEqual(this._mapViews))
 			{
-				this._mapViews[i].OnIdleTick(dt);
+				this._mapViewsCopyCache = new MapView[this._mapViews.Count];
+				this._mapViews.CopyTo(this._mapViewsCopyCache, 0);
+			}
+			for (int i = this._mapViewsCopyCache.Length - 1; i >= 0; i--)
+			{
+				if (!this._mapViewsCopyCache[i].IsFinalized)
+				{
+					this._mapViewsCopyCache[i].OnIdleTick(dt);
+				}
 			}
 			this._conversationOverThisFrame = false;
 		}
@@ -928,6 +939,7 @@ namespace SandBox.View.Map
 					GameMenuOption leaveMenuOption = Campaign.Current.GameMenuManager.GetLeaveMenuOption(this._menuViewContext.MenuContext);
 					if (leaveMenuOption != null)
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						if (this._menuViewContext.MenuContext.GameMenu.IsWaitMenu)
 						{
 							this._menuViewContext.MenuContext.GameMenu.EndWait();
@@ -936,7 +948,7 @@ namespace SandBox.View.Map
 					}
 				}
 			}
-			else if (Campaign.Current != null && !this.IsInBattleSimulation && !this.IsInArmyManagement)
+			else if (Campaign.Current != null && !this.IsInBattleSimulation && !this.IsInArmyManagement && !this.IsMarriageOfferPopupActive && !this.IsMapCheatsActive)
 			{
 				Kingdom kingdom = Clan.PlayerClan.Kingdom;
 				bool flag;
@@ -964,7 +976,7 @@ namespace SandBox.View.Map
 			if (this._partyIconNeedsRefreshing)
 			{
 				this._partyIconNeedsRefreshing = false;
-				PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+				PartyBase.MainParty.SetVisualAsDirty();
 			}
 			for (int i = this._mapViews.Count - 1; i >= 0; i--)
 			{
@@ -1133,11 +1145,6 @@ namespace SandBox.View.Map
 			}
 		}
 
-		public void FastMoveCameraToPosition(Vec2 target)
-		{
-			this._mapCameraView.FastMoveCameraToPosition(target, this.IsInMenu);
-		}
-
 		public void GetCursorIntersectionPoint(ref Vec3 clippedMouseNear, ref Vec3 clippedMouseFar, out float closestDistanceSquared, out Vec3 intersectionPoint, ref PathFaceRecord currentFace, BodyFlags excludedBodyFlags = 79617)
 		{
 			(clippedMouseFar - clippedMouseNear).Normalize();
@@ -1154,6 +1161,11 @@ namespace SandBox.View.Map
 				intersectionPoint = clippedMouseNear + vec * num2;
 			}
 			currentFace = Campaign.Current.MapSceneWrapper.GetFaceIndex(intersectionPoint.AsVec2);
+		}
+
+		public void FastMoveCameraToPosition(Vec2 target)
+		{
+			this._mapCameraView.FastMoveCameraToPosition(target, this.IsInMenu);
 		}
 
 		private void HandleMouse(float dt)
@@ -1178,43 +1190,49 @@ namespace SandBox.View.Map
 				bool flag = false;
 				float num4 = MathF.Sqrt(num) + 1f;
 				float num5 = num4;
-				IPartyVisual partyVisual = null;
-				IPartyVisual partyVisual2 = null;
+				PartyVisual partyVisual = null;
+				PartyVisual partyVisual2 = null;
 				bool flag2 = false;
 				for (int i = num3 - 1; i >= 0; i--)
 				{
 					UIntPtr uintPtr = this._intersectedEntityIDs[i];
 					if (uintPtr != UIntPtr.Zero)
 					{
-						IPartyVisual partyVisual3;
+						PartyVisual partyVisual3;
 						if (MapScreen.VisualsOfEntities.TryGetValue(uintPtr, out partyVisual3) && partyVisual3.IsVisibleOrFadingOut())
 						{
-							IMapEntity mapEntity = partyVisual3.GetMapEntity();
+							PartyVisual partyVisual4 = partyVisual3;
 							Intersection intersection = this._intersectionInfos[i];
 							vec3 = zero - intersection.IntersectionPoint;
 							float num6 = vec3.Length;
-							if (mapEntity.IsMobileEntity)
+							if (partyVisual4.PartyBase.IsMobile)
 							{
 								num6 -= 1.5f;
 							}
 							if (num6 < num5)
 							{
 								num5 = num6;
-								if (!mapEntity.IsMobileEntity || mapEntity.AttachedEntity == null)
+								if (!partyVisual4.PartyBase.IsMobile || partyVisual4.PartyBase.MobileParty.AttachedTo == null)
 								{
 									partyVisual = partyVisual3;
 								}
 								else
 								{
-									partyVisual = mapEntity.AttachedEntity.PartyVisual;
+									partyVisual = PartyVisualManager.Current.GetVisualOfParty(partyVisual4.PartyBase.MobileParty.AttachedTo.Party);
 								}
 								flag = true;
 							}
-							if (num6 < num4 && (!mapEntity.IsMobileEntity || (!mapEntity.IsMainEntity() && (mapEntity.AttachedEntity == null || !mapEntity.AttachedEntity.IsMainEntity()))))
+							if (num6 < num4 && (!partyVisual4.PartyBase.IsMobile || (partyVisual4.PartyBase != PartyBase.MainParty && (partyVisual4.PartyBase.MobileParty.AttachedTo == null || partyVisual4.PartyBase.MobileParty.AttachedTo != MobileParty.MainParty))))
 							{
 								num4 = num6;
-								IMapEntity attachedEntity = mapEntity.AttachedEntity;
-								partyVisual2 = ((attachedEntity != null) ? attachedEntity.PartyVisual : null) ?? mapEntity.PartyVisual;
+								if (partyVisual4.PartyBase.IsMobile && partyVisual4.PartyBase.MobileParty.AttachedTo != null)
+								{
+									partyVisual2 = PartyVisualManager.Current.GetVisualOfParty(partyVisual4.PartyBase.MobileParty.AttachedTo.Party);
+								}
+								else
+								{
+									partyVisual2 = partyVisual4;
+								}
 							}
 						}
 						else if (ScreenManager.FirstHitLayer == this.SceneLayer && MapScreen.FrameAndVisualOfEngines.ContainsKey(uintPtr))
@@ -1277,14 +1295,14 @@ namespace SandBox.View.Map
 						{
 							this.RemoveMapTooltip();
 						}
-						IMapEntity mapEntity2 = partyVisual.GetMapEntity();
+						IMapEntity mapEntity = partyVisual.GetMapEntity();
 						if (this.SceneLayer.Input.IsGameKeyPressed(66))
 						{
-							mapEntity2.OnOpenEncyclopedia();
+							mapEntity.OnOpenEncyclopedia();
 							this._mapCursor.SetVisible(false);
 						}
 						ITrackableCampaignObject trackableCampaignObject;
-						if ((trackableCampaignObject = mapEntity2 as ITrackableCampaignObject) != null && this.SceneLayer.Input.IsGameKeyPressed(65))
+						if ((trackableCampaignObject = mapEntity as ITrackableCampaignObject) != null && this.SceneLayer.Input.IsGameKeyPressed(65))
 						{
 							if (Campaign.Current.VisualTrackerManager.CheckTracked(trackableCampaignObject))
 							{
@@ -1295,7 +1313,7 @@ namespace SandBox.View.Map
 								Campaign.Current.VisualTrackerManager.RegisterObject(trackableCampaignObject);
 							}
 						}
-						this.OnHoverMapEntity(mapEntity2);
+						this.OnHoverMapEntity(mapEntity);
 						this.CurrentVisualOfTooltip = partyVisual;
 						return;
 					}
@@ -1321,24 +1339,23 @@ namespace SandBox.View.Map
 			}
 		}
 
-		private void HandleLeftMouseButtonClick(UIntPtr selectedSiegeEntityID, IPartyVisual visualOfSelectedEntity, Vec3 intersectionPoint, PathFaceRecord mouseOverFaceIndex)
+		private void HandleLeftMouseButtonClick(UIntPtr selectedSiegeEntityID, PartyVisual visualOfSelectedEntity, Vec3 intersectionPoint, PathFaceRecord mouseOverFaceIndex)
 		{
 			this._mapCameraView.HandleLeftMouseButtonClick(this.SceneLayer.Input.GetIsMouseActive());
-			IMapEntity mapEntity = ((visualOfSelectedEntity != null) ? visualOfSelectedEntity.GetMapEntity() : null);
 			if (!this._mapState.AtMenu)
 			{
-				if (mapEntity != null)
+				if (((visualOfSelectedEntity != null) ? visualOfSelectedEntity.GetMapEntity() : null) != null)
 				{
-					IMapEntity mapEntity2 = visualOfSelectedEntity.GetMapEntity();
-					if (mapEntity2.IsMainEntity())
+					IMapEntity mapEntity = visualOfSelectedEntity.GetMapEntity();
+					if (visualOfSelectedEntity.PartyBase == PartyBase.MainParty)
 					{
 						MobileParty.MainParty.Ai.SetMoveModeHold();
 						return;
 					}
-					PathFaceRecord faceIndex = Campaign.Current.MapSceneWrapper.GetFaceIndex(mapEntity2.InteractionPosition);
+					PathFaceRecord faceIndex = Campaign.Current.MapSceneWrapper.GetFaceIndex(mapEntity.InteractionPosition);
 					if (this._mapScene.DoesPathExistBetweenFaces(faceIndex.FaceIndex, MobileParty.MainParty.CurrentNavigationFace.FaceIndex, false) && this._mapCameraView.ProcessCameraInput && PartyBase.MainParty.MapEvent == null)
 					{
-						if (mapEntity2.OnMapClick(this.SceneLayer.Input.IsHotKeyDown("MapFollowModifier")))
+						if (mapEntity.OnMapClick(this.SceneLayer.Input.IsHotKeyDown("MapFollowModifier")))
 						{
 							if (!this._leftButtonDoubleClickOnSceneWidget && Campaign.Current.TimeControlMode == 4)
 							{
@@ -1348,6 +1365,28 @@ namespace SandBox.View.Map
 							else
 							{
 								Campaign.Current.TimeControlMode = (this._leftButtonDoubleClickOnSceneWidget ? 4 : 3);
+							}
+							if (TaleWorlds.InputSystem.Input.IsGamepadActive)
+							{
+								if (mapEntity.IsMobileEntity)
+								{
+									if (mapEntity.IsAllyOf(PartyBase.MainParty.MapFaction))
+									{
+										UISoundsHelper.PlayUISound("event:/ui/campaign/click_party");
+									}
+									else
+									{
+										UISoundsHelper.PlayUISound("event:/ui/campaign/click_party_enemy");
+									}
+								}
+								else if (mapEntity.IsAllyOf(PartyBase.MainParty.MapFaction))
+								{
+									UISoundsHelper.PlayUISound("event:/ui/campaign/click_settlement");
+								}
+								else
+								{
+									UISoundsHelper.PlayUISound("event:/ui/campaign/click_settlement_enemy");
+								}
 							}
 						}
 						MobileParty.MainParty.Ai.ForceAiNoPathMode = false;
@@ -1370,11 +1409,11 @@ namespace SandBox.View.Map
 						MobileParty.MainParty.Ai.SetMoveModeHold();
 						foreach (MobileParty mobileParty2 in MobileParty.All)
 						{
-							mobileParty2.Party.UpdateVisibilityAndInspected(0f, false);
+							mobileParty2.Party.UpdateVisibilityAndInspected(0f);
 						}
 						foreach (Settlement settlement in Settlement.All)
 						{
-							settlement.Party.UpdateVisibilityAndInspected(0f, false);
+							settlement.Party.UpdateVisibilityAndInspected(0f);
 						}
 						MBDebug.Print(string.Concat(new object[] { "main party cheat move! - ", intersectionPoint.x, " ", intersectionPoint.y }), 0, 12, 17592186044416UL);
 						flag = true;
@@ -1431,31 +1470,34 @@ namespace SandBox.View.Map
 
 		private void InitializeSiegeCircleVisuals()
 		{
-			IPartyVisual visuals = PlayerSiege.PlayerSiegeEvent.BesiegedSettlement.Party.Visuals;
+			Settlement besiegedSettlement = PlayerSiege.PlayerSiegeEvent.BesiegedSettlement;
+			PartyVisual visualOfParty = PartyVisualManager.Current.GetVisualOfParty(besiegedSettlement.Party);
 			MapScene mapScene = Campaign.Current.MapSceneWrapper as MapScene;
-			this._defenderMachinesCircleEntities = new GameEntity[visuals.GetDefenderSiegeEngineFrameCount()];
-			for (int i = 0; i < visuals.GetDefenderSiegeEngineFrameCount(); i++)
+			MatrixFrame[] array = visualOfParty.GetDefenderRangedSiegeEngineFrames();
+			this._defenderMachinesCircleEntities = new GameEntity[array.Length];
+			for (int i = 0; i < array.Length; i++)
 			{
-				MatrixFrame defenderSiegeEngineFrameAtIndex = visuals.GetDefenderSiegeEngineFrameAtIndex(i);
+				MatrixFrame matrixFrame = array[i];
 				this._defenderMachinesCircleEntities[i] = GameEntity.CreateEmpty(mapScene.Scene, true);
 				this._defenderMachinesCircleEntities[i].Name = "dRangedMachineCircle_" + i;
 				Decal decal = Decal.CreateDecal(null);
 				decal.SetMaterial(Material.GetFromResource(this._defenderRangedMachineDecalMaterialName));
 				decal.SetFactor1Linear(this._preperationOrEnemySiegeEngineDecalColor);
 				this._defenderMachinesCircleEntities[i].AddComponent(decal);
-				MatrixFrame matrixFrame = defenderSiegeEngineFrameAtIndex;
+				MatrixFrame matrixFrame2 = matrixFrame;
 				if (this._isNewDecalScaleImplementationEnabled)
 				{
-					matrixFrame.Scale(new Vec3(this._defenderMachineCircleDecalScale, this._defenderMachineCircleDecalScale, this._defenderMachineCircleDecalScale, -1f));
+					matrixFrame2.Scale(new Vec3(this._defenderMachineCircleDecalScale, this._defenderMachineCircleDecalScale, this._defenderMachineCircleDecalScale, -1f));
 				}
-				this._defenderMachinesCircleEntities[i].SetGlobalFrame(ref matrixFrame);
+				this._defenderMachinesCircleEntities[i].SetGlobalFrame(ref matrixFrame2);
 				this._defenderMachinesCircleEntities[i].SetVisibilityExcludeParents(true);
 				mapScene.Scene.AddDecalInstance(decal, "editor_set", true);
 			}
-			this._attackerRamMachinesCircleEntities = new GameEntity[visuals.GetAttackerBatteringRamSiegeEngineFrameCount()];
-			for (int j = 0; j < visuals.GetAttackerBatteringRamSiegeEngineFrameCount(); j++)
+			array = visualOfParty.GetAttackerBatteringRamSiegeEngineFrames();
+			this._attackerRamMachinesCircleEntities = new GameEntity[array.Length];
+			for (int j = 0; j < array.Length; j++)
 			{
-				MatrixFrame attackerBatteringRamSiegeEngineFrameAtIndex = visuals.GetAttackerBatteringRamSiegeEngineFrameAtIndex(j);
+				MatrixFrame matrixFrame3 = array[j];
 				this._attackerRamMachinesCircleEntities[j] = GameEntity.CreateEmpty(mapScene.Scene, true);
 				this._attackerRamMachinesCircleEntities[j].Name = "InitializeSiegeCircleVisuals";
 				this._attackerRamMachinesCircleEntities[j].Name = "aRamMachineCircle_" + j;
@@ -1463,50 +1505,52 @@ namespace SandBox.View.Map
 				decal2.SetMaterial(Material.GetFromResource(this._attackerRamMachineDecalMaterialName));
 				decal2.SetFactor1Linear(this._preperationOrEnemySiegeEngineDecalColor);
 				this._attackerRamMachinesCircleEntities[j].AddComponent(decal2);
-				MatrixFrame matrixFrame2 = attackerBatteringRamSiegeEngineFrameAtIndex;
+				MatrixFrame matrixFrame4 = matrixFrame3;
 				if (this._isNewDecalScaleImplementationEnabled)
 				{
-					matrixFrame2.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
+					matrixFrame4.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
 				}
-				this._attackerRamMachinesCircleEntities[j].SetGlobalFrame(ref matrixFrame2);
+				this._attackerRamMachinesCircleEntities[j].SetGlobalFrame(ref matrixFrame4);
 				this._attackerRamMachinesCircleEntities[j].SetVisibilityExcludeParents(true);
 				mapScene.Scene.AddDecalInstance(decal2, "editor_set", true);
 			}
-			this._attackerTowerMachinesCircleEntities = new GameEntity[visuals.GetAttackerTowerSiegeEngineFrameCount()];
-			for (int k = 0; k < visuals.GetAttackerTowerSiegeEngineFrameCount(); k++)
+			array = visualOfParty.GetAttackerTowerSiegeEngineFrames();
+			this._attackerTowerMachinesCircleEntities = new GameEntity[array.Length];
+			for (int k = 0; k < array.Length; k++)
 			{
-				MatrixFrame attackerTowerSiegeEngineFrameAtIndex = visuals.GetAttackerTowerSiegeEngineFrameAtIndex(k);
+				MatrixFrame matrixFrame5 = array[k];
 				this._attackerTowerMachinesCircleEntities[k] = GameEntity.CreateEmpty(mapScene.Scene, true);
 				this._attackerTowerMachinesCircleEntities[k].Name = "aTowerMachineCircle_" + k;
 				Decal decal3 = Decal.CreateDecal(null);
 				decal3.SetMaterial(Material.GetFromResource(this._attackerTowerMachineDecalMaterialName));
 				decal3.SetFactor1Linear(this._preperationOrEnemySiegeEngineDecalColor);
 				this._attackerTowerMachinesCircleEntities[k].AddComponent(decal3);
-				MatrixFrame matrixFrame3 = attackerTowerSiegeEngineFrameAtIndex;
+				MatrixFrame matrixFrame6 = matrixFrame5;
 				if (this._isNewDecalScaleImplementationEnabled)
 				{
-					matrixFrame3.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
+					matrixFrame6.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
 				}
-				this._attackerTowerMachinesCircleEntities[k].SetGlobalFrame(ref matrixFrame3);
+				this._attackerTowerMachinesCircleEntities[k].SetGlobalFrame(ref matrixFrame6);
 				this._attackerTowerMachinesCircleEntities[k].SetVisibilityExcludeParents(true);
 				mapScene.Scene.AddDecalInstance(decal3, "editor_set", true);
 			}
-			this._attackerRangedMachinesCircleEntities = new GameEntity[visuals.GetAttackerRangedSiegeEngineFrameCount()];
-			for (int l = 0; l < visuals.GetAttackerRangedSiegeEngineFrameCount(); l++)
+			array = visualOfParty.GetAttackerRangedSiegeEngineFrames();
+			this._attackerRangedMachinesCircleEntities = new GameEntity[array.Length];
+			for (int l = 0; l < array.Length; l++)
 			{
-				MatrixFrame attackerRangedSiegeEngineFrameAtIndex = visuals.GetAttackerRangedSiegeEngineFrameAtIndex(l);
+				MatrixFrame matrixFrame7 = array[l];
 				this._attackerRangedMachinesCircleEntities[l] = GameEntity.CreateEmpty(mapScene.Scene, true);
 				this._attackerRangedMachinesCircleEntities[l].Name = "aRangedMachineCircle_" + l;
 				Decal decal4 = Decal.CreateDecal(null);
 				decal4.SetMaterial(Material.GetFromResource(this._emptyAttackerRangedDecalMaterialName));
 				decal4.SetFactor1Linear(this._preperationOrEnemySiegeEngineDecalColor);
 				this._attackerRangedMachinesCircleEntities[l].AddComponent(decal4);
-				MatrixFrame matrixFrame4 = attackerRangedSiegeEngineFrameAtIndex;
+				MatrixFrame matrixFrame8 = matrixFrame7;
 				if (this._isNewDecalScaleImplementationEnabled)
 				{
-					matrixFrame4.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
+					matrixFrame8.Scale(new Vec3(this._attackerMachineDecalScale, this._attackerMachineDecalScale, this._attackerMachineDecalScale, -1f));
 				}
-				this._attackerRangedMachinesCircleEntities[l].SetGlobalFrame(ref matrixFrame4);
+				this._attackerRangedMachinesCircleEntities[l].SetGlobalFrame(ref matrixFrame8);
 				this._attackerRangedMachinesCircleEntities[l].SetVisibilityExcludeParents(true);
 				mapScene.Scene.AddDecalInstance(decal4, "editor_set", true);
 			}
@@ -1515,101 +1559,82 @@ namespace SandBox.View.Map
 		private void TickSiegeMachineCircles()
 		{
 			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
-			bool flag;
-			if (playerSiegeEvent.IsPlayerSiegeEvent)
-			{
-				BesiegerCamp besiegerCamp = playerSiegeEvent.BesiegerCamp;
-				if (besiegerCamp == null)
-				{
-					flag = false;
-				}
-				else
-				{
-					MobileParty besiegerParty = besiegerCamp.BesiegerParty;
-					bool? flag2 = ((besiegerParty != null) ? new bool?(besiegerParty.IsMainParty) : null);
-					bool flag3 = true;
-					flag = (flag2.GetValueOrDefault() == flag3) & (flag2 != null);
-				}
-			}
-			else
-			{
-				flag = false;
-			}
-			bool flag4 = flag;
+			bool flag = playerSiegeEvent != null && playerSiegeEvent.IsPlayerSiegeEvent && Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(playerSiegeEvent, PlayerSiege.PlayerSide) == Hero.MainHero;
 			bool isPreparationComplete = playerSiegeEvent.BesiegerCamp.IsPreparationComplete;
-			IPartyVisual visuals = playerSiegeEvent.BesiegedSettlement.Party.Visuals;
+			Settlement besiegedSettlement = playerSiegeEvent.BesiegedSettlement;
+			PartyVisual visualOfParty = PartyVisualManager.Current.GetVisualOfParty(besiegedSettlement.Party);
 			Tuple<MatrixFrame, PartyVisual> tuple = null;
 			if (this._preSelectedSiegeEntityID != UIntPtr.Zero)
 			{
 				tuple = MapScreen.FrameAndVisualOfEngines[this._preSelectedSiegeEntityID];
 			}
-			for (int i = 0; i < visuals.GetDefenderSiegeEngineFrameCount(); i++)
+			for (int i = 0; i < visualOfParty.GetDefenderRangedSiegeEngineFrames().Length; i++)
 			{
-				bool flag5 = playerSiegeEvent.GetSiegeEventSide(0).SiegeEngines.DeployedRangedSiegeEngines[i] == null;
-				bool flag6 = PlayerSiege.PlayerSide > 0;
-				string desiredMaterialName = this.GetDesiredMaterialName(true, false, flag5, false);
+				bool flag2 = playerSiegeEvent.GetSiegeEventSide(0).SiegeEngines.DeployedRangedSiegeEngines[i] == null;
+				bool flag3 = PlayerSiege.PlayerSide > 0;
+				string desiredMaterialName = this.GetDesiredMaterialName(true, false, flag2, false);
 				Decal decal = this._defenderMachinesCircleEntities[i].GetComponentAtIndex(0, 7) as Decal;
 				Material material = decal.GetMaterial();
 				if (((material != null) ? material.Name : null) != desiredMaterialName)
 				{
 					decal.SetMaterial(Material.GetFromResource(desiredMaterialName));
 				}
-				bool flag7 = tuple != null && this._defenderMachinesCircleEntities[i].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
-				uint desiredDecalColor = this.GetDesiredDecalColor(isPreparationComplete, flag7, flag6, flag5, flag4);
+				bool flag4 = tuple != null && this._defenderMachinesCircleEntities[i].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
+				uint desiredDecalColor = this.GetDesiredDecalColor(isPreparationComplete, flag4, flag3, flag2, flag);
 				if (desiredDecalColor != decal.GetFactor1())
 				{
 					decal.SetFactor1(desiredDecalColor);
 				}
 			}
-			for (int j = 0; j < visuals.GetAttackerRangedSiegeEngineFrameCount(); j++)
+			for (int j = 0; j < visualOfParty.GetAttackerRangedSiegeEngineFrames().Length; j++)
 			{
-				bool flag8 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedRangedSiegeEngines[j] == null;
-				bool flag9 = PlayerSiege.PlayerSide != 1;
-				string desiredMaterialName2 = this.GetDesiredMaterialName(true, true, flag8, false);
+				bool flag5 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedRangedSiegeEngines[j] == null;
+				bool flag6 = PlayerSiege.PlayerSide != 1;
+				string desiredMaterialName2 = this.GetDesiredMaterialName(true, true, flag5, false);
 				Decal decal2 = this._attackerRangedMachinesCircleEntities[j].GetComponentAtIndex(0, 7) as Decal;
 				Material material2 = decal2.GetMaterial();
 				if (((material2 != null) ? material2.Name : null) != desiredMaterialName2)
 				{
 					decal2.SetMaterial(Material.GetFromResource(desiredMaterialName2));
 				}
-				bool flag10 = tuple != null && this._attackerRangedMachinesCircleEntities[j].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
-				uint desiredDecalColor2 = this.GetDesiredDecalColor(isPreparationComplete, flag10, flag9, flag8, flag4);
+				bool flag7 = tuple != null && this._attackerRangedMachinesCircleEntities[j].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
+				uint desiredDecalColor2 = this.GetDesiredDecalColor(isPreparationComplete, flag7, flag6, flag5, flag);
 				if (desiredDecalColor2 != decal2.GetFactor1())
 				{
 					decal2.SetFactor1(desiredDecalColor2);
 				}
 			}
-			for (int k = 0; k < visuals.GetAttackerBatteringRamSiegeEngineFrameCount(); k++)
+			for (int k = 0; k < visualOfParty.GetAttackerBatteringRamSiegeEngineFrames().Length; k++)
 			{
-				bool flag11 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[k] == null;
-				bool flag12 = PlayerSiege.PlayerSide != 1;
-				string desiredMaterialName3 = this.GetDesiredMaterialName(false, true, flag11, false);
+				bool flag8 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[k] == null;
+				bool flag9 = PlayerSiege.PlayerSide != 1;
+				string desiredMaterialName3 = this.GetDesiredMaterialName(false, true, flag8, false);
 				Decal decal3 = this._attackerRamMachinesCircleEntities[k].GetComponentAtIndex(0, 7) as Decal;
 				Material material3 = decal3.GetMaterial();
 				if (((material3 != null) ? material3.Name : null) != desiredMaterialName3)
 				{
 					decal3.SetMaterial(Material.GetFromResource(desiredMaterialName3));
 				}
-				bool flag13 = tuple != null && this._attackerRamMachinesCircleEntities[k].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
-				uint desiredDecalColor3 = this.GetDesiredDecalColor(isPreparationComplete, flag13, flag12, flag11, flag4);
+				bool flag10 = tuple != null && this._attackerRamMachinesCircleEntities[k].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
+				uint desiredDecalColor3 = this.GetDesiredDecalColor(isPreparationComplete, flag10, flag9, flag8, flag);
 				if (desiredDecalColor3 != decal3.GetFactor1())
 				{
 					decal3.SetFactor1(desiredDecalColor3);
 				}
 			}
-			for (int l = 0; l < visuals.GetAttackerTowerSiegeEngineFrameCount(); l++)
+			for (int l = 0; l < visualOfParty.GetAttackerTowerSiegeEngineFrames().Length; l++)
 			{
-				bool flag14 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[visuals.GetAttackerBatteringRamSiegeEngineFrameCount() + l] == null;
-				bool flag15 = PlayerSiege.PlayerSide != 1;
-				string desiredMaterialName4 = this.GetDesiredMaterialName(false, true, flag14, true);
+				bool flag11 = playerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[visualOfParty.GetAttackerBatteringRamSiegeEngineFrames().Length + l] == null;
+				bool flag12 = PlayerSiege.PlayerSide != 1;
+				string desiredMaterialName4 = this.GetDesiredMaterialName(false, true, flag11, true);
 				Decal decal4 = this._attackerTowerMachinesCircleEntities[l].GetComponentAtIndex(0, 7) as Decal;
 				Material material4 = decal4.GetMaterial();
 				if (((material4 != null) ? material4.Name : null) != desiredMaterialName4)
 				{
 					decal4.SetMaterial(Material.GetFromResource(desiredMaterialName4));
 				}
-				bool flag16 = tuple != null && this._attackerTowerMachinesCircleEntities[l].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
-				uint desiredDecalColor4 = this.GetDesiredDecalColor(isPreparationComplete, flag16, flag15, flag14, flag4);
+				bool flag13 = tuple != null && this._attackerTowerMachinesCircleEntities[l].GetGlobalFrame().NearlyEquals(tuple.Item1, 1E-05f);
+				uint desiredDecalColor4 = this.GetDesiredDecalColor(isPreparationComplete, flag13, flag12, flag11, flag);
 				if (desiredDecalColor4 != decal4.GetFactor1())
 				{
 					decal4.SetFactor1(desiredDecalColor4);
@@ -1724,12 +1749,12 @@ namespace SandBox.View.Map
 					this.OpenParty();
 					flag = true;
 				}
-				else if (this.SceneLayer.Input.IsGameKeyPressed(39) && !this.IsInArmyManagement)
+				else if (this.SceneLayer.Input.IsGameKeyPressed(39) && !this.IsInArmyManagement && !this.IsMapCheatsActive)
 				{
 					this.OpenEncyclopedia();
 					flag = true;
 				}
-				else if (this.SceneLayer.Input.IsGameKeyPressed(36) && !this.IsInArmyManagement)
+				else if (this.SceneLayer.Input.IsGameKeyPressed(36) && !this.IsInArmyManagement && !this.IsMarriageOfferPopupActive && !this.IsMapCheatsActive)
 				{
 					this.OpenBannerEditorScreen();
 					flag = true;
@@ -1767,11 +1792,29 @@ namespace SandBox.View.Map
 					this.OpenFaceGeneratorScreen();
 					flag = true;
 				}
+				else if (TaleWorlds.InputSystem.Input.IsGamepadActive)
+				{
+					this.HandleCheatMenuInput(dt);
+				}
 				if (flag)
 				{
 					this._mapCursor.SetVisible(false);
 				}
 			}
+		}
+
+		private void HandleCheatMenuInput(float dt)
+		{
+			if (!this.IsMapCheatsActive && this.Input.IsKeyDown(248) && this.Input.IsKeyDown(255) && this.Input.IsKeyDown(241))
+			{
+				this._cheatPressTimer += dt;
+				if (this._cheatPressTimer > 0.55f)
+				{
+					this.OpenGameplayCheats();
+				}
+				return;
+			}
+			this._cheatPressTimer = 0f;
 		}
 
 		void IMapStateHandler.OnRefreshState()
@@ -1848,6 +1891,11 @@ namespace SandBox.View.Map
 
 		void IMapStateHandler.OnPlayerSiegeDeactivated()
 		{
+		}
+
+		void IMapStateHandler.OnGameplayCheatsEnabled()
+		{
+			this.OpenGameplayCheats();
 		}
 
 		void IGameStateListener.OnActivate()
@@ -1981,6 +2029,9 @@ namespace SandBox.View.Map
 			this._mapCursor.Initialize(this);
 			this._campaign = Campaign.Current;
 			this._campaign.AddEntityComponent<MapTracksVisual>();
+			this._campaign.AddEntityComponent<MapWeatherVisualManager>();
+			this._campaign.AddEntityComponent<MapAudioManager>();
+			this._campaign.AddEntityComponent<PartyVisualManager>();
 			this.ContourMaskEntity = GameEntity.CreateEmpty(mapScene.Scene, true);
 			this.ContourMaskEntity.Name = "aContourMask";
 		}
@@ -2035,7 +2086,7 @@ namespace SandBox.View.Map
 				{
 					bool flag6 = FactionManager.IsAtWarAgainstFaction(partyBase.MapFaction, Hero.MainHero.MapFaction);
 					bool flag7 = FactionManager.IsAlliedWithFaction(partyBase.MapFaction, Hero.MainHero.MapFaction);
-					matrixFrame = partyBase.Visuals.CircleLocalFrame;
+					matrixFrame = PartyVisualManager.Current.GetVisualOfParty(partyBase).CircleLocalFrame;
 					if (partyBase.IsMobile)
 					{
 						flag = true;
@@ -2151,7 +2202,7 @@ namespace SandBox.View.Map
 			else
 			{
 				vec = this._partyOutlineEntity.GetGlobalFrame().origin;
-				matrixFrame3.origin = this.CurrentVisualOfTooltip.GetGlobalFrame().origin + this.CurrentVisualOfTooltip.CircleLocalFrame.origin;
+				matrixFrame3.origin = this.CurrentVisualOfTooltip.GetVisualPosition() + this.CurrentVisualOfTooltip.CircleLocalFrame.origin;
 				matrixFrame3.rotation = this.CurrentVisualOfTooltip.CircleLocalFrame.rotation;
 				this._partyOutlineMesh.SetFactor1Linear(flag8 ? this._enemyPartyDecalColor : (flag9 ? this._allyPartyDecalColor : this._neutralPartyDecalColor));
 				this._partyOutlineMesh.SetVectorArgument(0.166f, 1f, 0.83f, 0f);
@@ -2227,6 +2278,23 @@ namespace SandBox.View.Map
 			}
 		}
 
+		public void SetIsMarriageOfferPopupActive(bool isMarriageOfferPopupActive)
+		{
+			if (this.IsMarriageOfferPopupActive != isMarriageOfferPopupActive)
+			{
+				this.IsMarriageOfferPopupActive = isMarriageOfferPopupActive;
+			}
+		}
+
+		public void SetIsMapCheatsActive(bool isMapCheatsActive)
+		{
+			if (this.IsMapCheatsActive != isMapCheatsActive)
+			{
+				this.IsMapCheatsActive = isMapCheatsActive;
+				this._cheatPressTimer = 0f;
+			}
+		}
+
 		private void TickVisuals(float realDt)
 		{
 			if (this._campaign.CampaignDt < 1E-05f)
@@ -2238,7 +2306,10 @@ namespace SandBox.View.Map
 				this.ApplySoundSceneProps(this._campaign.CampaignDt);
 			}
 			this._mapScene.TimeOfDay = CampaignTime.Now.CurrentHourInDay;
-			MBMapScene.SetSeasonTimeFactor(this._mapScene, Campaign.Current.Models.MapWeatherModel.GetSeasonTimeFactor());
+			float num;
+			float num2;
+			Campaign.Current.Models.MapWeatherModel.GetSeasonTimeFactorOfCampaignTime(CampaignTime.Now, ref num, ref num2, false);
+			MBMapScene.SetSeasonTimeFactor(this._mapScene, num);
 			if (!NativeConfig.DisableSound && ScreenManager.TopScreen is MapScreen)
 			{
 				this._soundCalculationTime += realDt;
@@ -2286,30 +2357,34 @@ namespace SandBox.View.Map
 
 		private void StepSounds(MobileParty party)
 		{
-			if (party.IsVisible && ((PartyVisual)party.Party.Visuals).HumanAgentVisuals != null && party.MemberRoster.TotalManCount > 0)
+			if (party.IsVisible && party.MemberRoster.TotalManCount > 0)
 			{
-				TerrainType faceTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(party.CurrentNavigationFace);
-				AgentVisuals agentVisuals = null;
-				int num = 0;
-				if (((PartyVisual)party.Party.Visuals).CaravanMountAgentVisuals != null)
+				PartyVisual visualOfParty = PartyVisualManager.Current.GetVisualOfParty(party.Party);
+				if (visualOfParty.HumanAgentVisuals != null)
 				{
-					num = 3;
-					agentVisuals = ((PartyVisual)party.Party.Visuals).CaravanMountAgentVisuals;
-				}
-				else if (((PartyVisual)party.Party.Visuals).HumanAgentVisuals != null)
-				{
-					if (((PartyVisual)party.Party.Visuals).MountAgentVisuals != null)
+					TerrainType faceTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(party.CurrentNavigationFace);
+					AgentVisuals agentVisuals = null;
+					int num = 0;
+					if (visualOfParty.CaravanMountAgentVisuals != null)
 					{
-						num = 1;
-						agentVisuals = ((PartyVisual)party.Party.Visuals).MountAgentVisuals;
+						num = 3;
+						agentVisuals = visualOfParty.CaravanMountAgentVisuals;
 					}
-					else
+					else if (visualOfParty.HumanAgentVisuals != null)
 					{
-						num = 0;
-						agentVisuals = ((PartyVisual)party.Party.Visuals).HumanAgentVisuals;
+						if (visualOfParty.MountAgentVisuals != null)
+						{
+							num = 1;
+							agentVisuals = visualOfParty.MountAgentVisuals;
+						}
+						else
+						{
+							num = 0;
+							agentVisuals = visualOfParty.HumanAgentVisuals;
+						}
 					}
+					MBMapScene.TickStepSound(this._mapScene, agentVisuals.GetVisuals(), faceTerrainType, num);
 				}
-				MBMapScene.TickStepSound(this._mapScene, agentVisuals.GetVisuals(), faceTerrainType, num);
 			}
 		}
 
@@ -2370,7 +2445,7 @@ namespace SandBox.View.Map
 			this.ApplySoundSceneProps(dt);
 		}
 
-		public static Dictionary<UIntPtr, IPartyVisual> VisualsOfEntities
+		public static Dictionary<UIntPtr, PartyVisual> VisualsOfEntities
 		{
 			get
 			{
@@ -2391,20 +2466,6 @@ namespace SandBox.View.Map
 			{
 				return SandBoxViewSubModule.FrameAndVisualOfEngines;
 			}
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("disable_core_game", "debug")]
-		public static string DisableCoreGame(List<string> parameters)
-		{
-			Utilities.DisableCoreGame();
-			return "Done";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("gather_core_game_references", "items")]
-		public static string GatherCoreGameReferences(List<string> parameters)
-		{
-			Utilities.GatherCoreGameReferences("SandBoxCore:battle_terrain_029#Native:main_menu_a#Native:scn_soldier#Native:inventory_character_scene#Native:scn_item_tableau");
-			return "Done";
 		}
 
 		private void DeleteMarkedPeriodicEvents()
@@ -2438,36 +2499,25 @@ namespace SandBox.View.Map
 			Campaign.Current.EncyclopediaManager.GoToLink("LastPage", "");
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("export_nav_mesh_face_marks", "items")]
-		public static string ExportNavMeshFaceMarks(List<string> strings)
-		{
-			if (strings.Count == 0)
-			{
-				return "Parameter missing!";
-			}
-			return Utilities.ExportNavMeshFaceMarks(strings[0]);
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("find_meshes_without_lods", "items")]
-		public static string FindMeshesWithoutLods(List<string> strings)
-		{
-			if (strings.Count != 1)
-			{
-				return "find_meshes_without_lods takes the module name as the only argument!";
-			}
-			Utilities.FindMeshesWithoutLods(strings[0]);
-			return "Processing Asynchronously...";
-		}
-
 		public void OpenSaveLoad(bool isSaving)
 		{
 			ScreenManager.PushScreen(SandBoxViewCreator.CreateSaveLoadScreen(isSaving));
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("take_ss_from_top", "items")]
-		public static string TakeSSFromTop(List<string> strings)
+		private void OpenGameplayCheats()
 		{
-			return Utilities.TakeSSFromTop("");
+			this._mapCheatsView = this.AddMapView<MapCheatsView>(Array.Empty<object>());
+			this.IsMapCheatsActive = true;
+		}
+
+		public void CloseGameplayCheats()
+		{
+			if (this._mapCheatsView != null)
+			{
+				this.RemoveMapView(this._mapCheatsView);
+				return;
+			}
+			Debug.FailedAssert("Requested remove map cheats but cheats is not enabled", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\MapScreen.cs", "CloseGameplayCheats", 3412);
 		}
 
 		public void CloseEscapeMenu()
@@ -2475,461 +2525,9 @@ namespace SandBox.View.Map
 			this.OnEscapeMenuToggled(false);
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_with_generated_lods", "items")]
-		public static string PrintAllItemsWithLod(List<string> strings)
-		{
-			HashSet<string> hashSet = new HashSet<string>();
-			if (strings.Count == 2)
-			{
-				string text = strings[1];
-				if (File.Exists(text))
-				{
-					foreach (string text2 in File.ReadAllLines(text))
-					{
-						if (!hashSet.Contains(text2))
-						{
-							hashSet.Add(text2);
-						}
-					}
-				}
-			}
-			if (Game.Current == null || Campaign.Current == null)
-			{
-				return "Campaign was not started.";
-			}
-			if (strings.Count == 0 || (strings.Count == 1 && strings[0] != "all" && strings[0] != "armor" && strings[0] != "crafting"))
-			{
-				return "Enter any filter (all, armor, crafting)";
-			}
-			string text3 = "";
-			HashSet<string> hashSet2 = new HashSet<string>();
-			if (strings[0] == "all")
-			{
-				List<MetaMesh> list = new List<MetaMesh>();
-				MetaMesh.GetAllMultiMeshes(ref list);
-				using (List<MetaMesh>.Enumerator enumerator = list.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						MetaMesh metaMesh = enumerator.Current;
-						bool flag = metaMesh.HasAnyGeneratedLods();
-						string name = metaMesh.GetName();
-						if (!hashSet2.Contains(name) && !hashSet.Contains(name) && flag)
-						{
-							text3 += name;
-							text3 += "\n";
-							hashSet2.Add(name);
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "armor")
-			{
-				using (List<ItemObject>.Enumerator enumerator2 = Game.Current.ObjectManager.GetObjectTypeList<ItemObject>().GetEnumerator())
-				{
-					while (enumerator2.MoveNext())
-					{
-						ItemObject itemObject = enumerator2.Current;
-						MetaMesh copy = MetaMesh.GetCopy(itemObject.MultiMeshName, false, true);
-						if (!(copy == null))
-						{
-							bool flag2 = copy.HasAnyGeneratedLods();
-							if (!hashSet2.Contains(itemObject.MultiMeshName) && !hashSet.Contains(itemObject.MultiMeshName) && flag2)
-							{
-								text3 += itemObject.MultiMeshName;
-								text3 += "\n";
-								hashSet2.Add(itemObject.MultiMeshName);
-							}
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "crafting")
-			{
-				foreach (CraftingPiece craftingPiece in Game.Current.ObjectManager.GetObjectTypeList<CraftingPiece>())
-				{
-					MetaMesh copy2 = MetaMesh.GetCopy(craftingPiece.MeshName, false, true);
-					if (!(copy2 == null))
-					{
-						bool flag3 = copy2.HasAnyGeneratedLods();
-						if (!hashSet2.Contains(craftingPiece.MeshName) && !hashSet.Contains(craftingPiece.MeshName) && flag3)
-						{
-							text3 += craftingPiece.MeshName;
-							text3 += "\n";
-							hashSet2.Add(craftingPiece.MeshName);
-						}
-					}
-				}
-			}
-			return text3;
-		}
-
 		public void OpenEscapeMenu()
 		{
 			this.OnEscapeMenuToggled(true);
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("illumination", "global")]
-		private static string TryGlobalIllumination(List<string> values)
-		{
-			string text = "";
-			foreach (Settlement settlement in MBObjectManager.Instance.GetObjectTypeList<Settlement>())
-			{
-				if (settlement.Culture != null)
-				{
-					string[] array = new string[5];
-					array[0] = text;
-					int num = 1;
-					Vec2 vec = settlement.Position2D;
-					array[num] = vec.x.ToString();
-					array[2] = ",";
-					int num2 = 3;
-					vec = settlement.Position2D;
-					array[num2] = vec.y.ToString();
-					array[4] = ",";
-					text = string.Concat(array);
-					text += settlement.MapFaction.Color;
-					text += "-";
-				}
-			}
-			MBMapScene.GetGlobalIlluminationOfString((ScreenManager.TopScreen as MapScreen)._mapScene, text);
-			return "";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_without_lod", "items")]
-		public static string PrintAllItemsWithoutLod(List<string> strings)
-		{
-			HashSet<string> hashSet = new HashSet<string>();
-			if (strings.Count == 2)
-			{
-				string text = strings[1];
-				if (File.Exists(text))
-				{
-					foreach (string text2 in File.ReadAllLines(text))
-					{
-						if (!hashSet.Contains(text2))
-						{
-							hashSet.Add(text2);
-						}
-					}
-				}
-			}
-			if (Game.Current == null || Campaign.Current == null)
-			{
-				return "Campaign was not started.";
-			}
-			if (strings.Count == 0 || (strings.Count == 1 && strings[0] != "all" && strings[0] != "armor" && strings[0] != "crafting"))
-			{
-				return "Enter any filter (all, armor, crafting)";
-			}
-			string text3 = "";
-			HashSet<string> hashSet2 = new HashSet<string>();
-			if (strings[0] == "all")
-			{
-				HashSet<string> hashSet3 = new HashSet<string>();
-				Module.GetItemMeshNames(hashSet3);
-				using (HashSet<string>.Enumerator enumerator = hashSet3.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						string text4 = enumerator.Current;
-						MetaMesh multiMesh = MetaMesh.GetMultiMesh(text4);
-						if (!(multiMesh == null))
-						{
-							bool flag = multiMesh.HasAnyLods();
-							if (hashSet3.Contains(text4) && !hashSet2.Contains(text4) && !hashSet.Contains(text4) && !flag)
-							{
-								text3 += text4;
-								text3 += "\n";
-								hashSet2.Add(text4);
-							}
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "armor")
-			{
-				using (List<ItemObject>.Enumerator enumerator2 = Game.Current.ObjectManager.GetObjectTypeList<ItemObject>().GetEnumerator())
-				{
-					while (enumerator2.MoveNext())
-					{
-						ItemObject itemObject = enumerator2.Current;
-						MetaMesh copy = MetaMesh.GetCopy(itemObject.MultiMeshName, false, true);
-						if (!(copy == null))
-						{
-							bool flag2 = copy.HasAnyLods();
-							if (!hashSet2.Contains(itemObject.MultiMeshName) && !hashSet.Contains(itemObject.MultiMeshName) && !flag2)
-							{
-								text3 += itemObject.MultiMeshName;
-								text3 += "\n";
-								hashSet2.Add(itemObject.MultiMeshName);
-							}
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "crafting")
-			{
-				foreach (CraftingPiece craftingPiece in Game.Current.ObjectManager.GetObjectTypeList<CraftingPiece>())
-				{
-					MetaMesh copy2 = MetaMesh.GetCopy(craftingPiece.MeshName, false, true);
-					if (!(copy2 == null))
-					{
-						bool flag3 = copy2.HasAnyLods();
-						if (!hashSet2.Contains(craftingPiece.MeshName) && !hashSet.Contains(craftingPiece.MeshName) && !flag3)
-						{
-							text3 += craftingPiece.MeshName;
-							text3 += "\n";
-							hashSet2.Add(craftingPiece.MeshName);
-						}
-					}
-				}
-			}
-			return text3;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("print_all_items_without_generated_lod", "items")]
-		public static string PrintAllItemsWithoutGeneratedLod(List<string> strings)
-		{
-			HashSet<string> hashSet = new HashSet<string>();
-			if (strings.Count == 2)
-			{
-				string text = strings[1];
-				if (File.Exists(text))
-				{
-					foreach (string text2 in File.ReadAllLines(text))
-					{
-						if (!hashSet.Contains(text2))
-						{
-							hashSet.Add(text2);
-						}
-					}
-				}
-			}
-			if (Game.Current == null || Campaign.Current == null)
-			{
-				return "Campaign was not started.";
-			}
-			if (strings.Count == 0 || (strings.Count == 1 && strings[0] != "all" && strings[0] != "armor" && strings[0] != "crafting"))
-			{
-				return "Enter any filter (all, armor, crafting)";
-			}
-			string text3 = "";
-			HashSet<string> hashSet2 = new HashSet<string>();
-			if (strings[0] == "all")
-			{
-				List<MetaMesh> list = new List<MetaMesh>();
-				MetaMesh.GetAllMultiMeshes(ref list);
-				Module.GetItemMeshNames(new HashSet<string>());
-				using (List<MetaMesh>.Enumerator enumerator = list.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						MetaMesh metaMesh = enumerator.Current;
-						bool flag = metaMesh.HasAnyGeneratedLods();
-						string name = metaMesh.GetName();
-						if (!hashSet2.Contains(name) && !hashSet.Contains(name) && !flag)
-						{
-							text3 += name;
-							text3 += "\n";
-							hashSet2.Add(name);
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "armor")
-			{
-				using (List<ItemObject>.Enumerator enumerator2 = Game.Current.ObjectManager.GetObjectTypeList<ItemObject>().GetEnumerator())
-				{
-					while (enumerator2.MoveNext())
-					{
-						ItemObject itemObject = enumerator2.Current;
-						MetaMesh copy = MetaMesh.GetCopy(itemObject.MultiMeshName, false, true);
-						if (!(copy == null))
-						{
-							bool flag2 = copy.HasAnyGeneratedLods();
-							if (!hashSet2.Contains(itemObject.MultiMeshName) && !hashSet.Contains(itemObject.MultiMeshName) && !flag2)
-							{
-								text3 += itemObject.MultiMeshName;
-								text3 += "\n";
-								hashSet2.Add(itemObject.MultiMeshName);
-							}
-						}
-					}
-					return text3;
-				}
-			}
-			if (strings[0] == "crafting")
-			{
-				foreach (CraftingPiece craftingPiece in Game.Current.ObjectManager.GetObjectTypeList<CraftingPiece>())
-				{
-					MetaMesh copy2 = MetaMesh.GetCopy(craftingPiece.MeshName, false, true);
-					if (!(copy2 == null))
-					{
-						bool flag3 = copy2.HasAnyGeneratedLods();
-						if (!hashSet2.Contains(craftingPiece.MeshName) && !hashSet.Contains(craftingPiece.MeshName) && !flag3)
-						{
-							text3 += craftingPiece.MeshName;
-							text3 += "\n";
-							hashSet2.Add(craftingPiece.MeshName);
-						}
-					}
-				}
-			}
-			return text3;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("print_faulty_materials", "items")]
-		public static string PrintFaultyMaterials(List<string> strings)
-		{
-			if (Game.Current == null || Campaign.Current == null)
-			{
-				return "Campaign was not started.";
-			}
-			if (strings.Count == 0 || (strings.Count == 1 && strings[0] != "all" && strings[0] != "armor" && strings[0] != "crafting"))
-			{
-				return "Enter any filter (all, armor, crafting)";
-			}
-			List<string> list = new List<string>();
-			list.Add("use_detailnormalmap");
-			list.Add("alpha_test");
-			list.Add("use_parallaxmapping");
-			list.Add("use_tesselation");
-			list.Add("self_illumination");
-			list.Add("alignment_deformation_with_offset");
-			list.Add("alpha_blend");
-			list.Add("two_sided");
-			list.Add("multipass_alpha");
-			list.Add("needs_forward_rendering");
-			list.Add("alpha_sort");
-			Dictionary<string, HashSet<string>> dictionary = new Dictionary<string, HashSet<string>>();
-			for (int i = 0; i < list.Count; i++)
-			{
-				dictionary[list[i]] = new HashSet<string>();
-			}
-			List<Material> list2 = new List<Material>();
-			if (strings[0] == "all")
-			{
-				List<MetaMesh> list3 = new List<MetaMesh>();
-				MetaMesh.GetAllMultiMeshes(ref list3);
-				using (List<MetaMesh>.Enumerator enumerator = list3.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						MetaMesh metaMesh = enumerator.Current;
-						for (int j = 0; j < metaMesh.MeshCount; j++)
-						{
-							Material material = metaMesh.GetMeshAtIndex(j).GetMaterial();
-							list2.Add(material);
-						}
-					}
-					goto IL_2BE;
-				}
-			}
-			if (strings[0] == "armor")
-			{
-				using (List<ItemObject>.Enumerator enumerator2 = Game.Current.ObjectManager.GetObjectTypeList<ItemObject>().GetEnumerator())
-				{
-					while (enumerator2.MoveNext())
-					{
-						ItemObject itemObject = enumerator2.Current;
-						MetaMesh copy = MetaMesh.GetCopy(itemObject.MultiMeshName, false, true);
-						if (!(copy == null))
-						{
-							for (int k = 0; k < copy.MeshCount; k++)
-							{
-								Material material2 = copy.GetMeshAtIndex(k).GetMaterial();
-								list2.Add(material2);
-							}
-						}
-					}
-					goto IL_2BE;
-				}
-			}
-			if (strings[0] == "crafting")
-			{
-				foreach (CraftingPiece craftingPiece in Game.Current.ObjectManager.GetObjectTypeList<CraftingPiece>())
-				{
-					MetaMesh copy2 = MetaMesh.GetCopy(craftingPiece.MeshName, false, true);
-					if (!(copy2 == null))
-					{
-						for (int l = 0; l < copy2.MeshCount; l++)
-						{
-							Material material3 = copy2.GetMeshAtIndex(l).GetMaterial();
-							list2.Add(material3);
-						}
-					}
-				}
-			}
-			IL_2BE:
-			foreach (Material material4 in list2)
-			{
-				foreach (string text in list)
-				{
-					if (text == "alpha_blend")
-					{
-						Material.MBAlphaBlendMode alphaBlendMode = material4.GetAlphaBlendMode();
-						if (alphaBlendMode == 2 || alphaBlendMode == 1 || alphaBlendMode == 4 || alphaBlendMode == 7)
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-					else if (text == "two_sided")
-					{
-						if (Extensions.HasAnyFlag<MaterialFlags>(material4.Flags, 32))
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-					else if (text == "multipass_alpha")
-					{
-						if (Extensions.HasAnyFlag<MaterialFlags>(material4.Flags, 262144))
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-					else if (text == "needs_forward_rendering")
-					{
-						if (Extensions.HasAnyFlag<MaterialFlags>(material4.Flags, 1048576))
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-					else if (text == "alpha_sort")
-					{
-						if (Extensions.HasAnyFlag<MaterialFlags>(material4.Flags, 64))
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-					else
-					{
-						ulong materialShaderFlagMask = material4.GetShader().GetMaterialShaderFlagMask(text, false);
-						if ((material4.GetShaderFlags() & materialShaderFlagMask) != 0UL)
-						{
-							dictionary[text].Add(material4.Name);
-						}
-					}
-				}
-			}
-			string text2 = "";
-			foreach (string text3 in list)
-			{
-				HashSet<string> hashSet = dictionary[text3];
-				text2 += "--------------------------------\n";
-				text2 = string.Concat(new object[] { text2, "!!", text3, " ", hashSet.Count, " --------------------\n" });
-				foreach (string text4 in hashSet)
-				{
-					text2 = text2 + text4 + "\n";
-				}
-				text2 += "--------------------------------\n";
-			}
-			return text2;
 		}
 
 		public void CloseCampaignOptions()
@@ -3117,152 +2715,9 @@ namespace SandBox.View.Map
 			return num;
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("export_issue_statistics", "campaign")]
-		public static string ExportIssueStatistics(List<string> strings)
-		{
-			if (Campaign.Current == null)
-			{
-				return "Campaign was not started.";
-			}
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			string text = "IssueStats";
-			int num = (int)Campaign.Current.CampaignStartTime.ElapsedDaysUntilNow;
-			PlatformDirectoryPath statisticsPath = FilePaths.StatisticsPath;
-			PlatformFilePath platformFilePath;
-			platformFilePath..ctor(statisticsPath, string.Concat(new object[] { text, "_", num, ".txt" }));
-			if (CampaignCheats.CheckHelp(strings))
-			{
-				string text2 = "";
-				text2 = string.Concat(new object[] { text2, "Writes current issue statistics to ", platformFilePath, "\n" });
-				return text2 + "File format: " + text + "_<CampaignElapsedTimeInDays>.txt";
-			}
-			MemoryStream memoryStream = new MemoryStream();
-			Dictionary<Type, int> dictionary = new Dictionary<Type, int>();
-			int num2 = 0;
-			int num3 = 0;
-			int num4 = 0;
-			Dictionary<Type, IssueBase.IssueFrequency> dictionary2 = new Dictionary<Type, IssueBase.IssueFrequency>();
-			foreach (KeyValuePair<Hero, IssueBase> keyValuePair in Campaign.Current.IssueManager.Issues)
-			{
-				Type type = keyValuePair.Value.GetType();
-				if (!dictionary.ContainsKey(type))
-				{
-					dictionary.Add(type, 1);
-					dictionary2.Add(type, keyValuePair.Value.GetFrequency());
-				}
-				else
-				{
-					dictionary[type]++;
-				}
-				num2++;
-				if (keyValuePair.Key.IsLord)
-				{
-					num4++;
-				}
-				else
-				{
-					num3++;
-				}
-			}
-			StreamWriter streamWriter = new StreamWriter(memoryStream);
-			streamWriter.WriteLine("Time (Days): " + num);
-			streamWriter.WriteLine("Total Issue Count : " + num2);
-			streamWriter.WriteLine("Noble Issues Count : " + num4);
-			streamWriter.WriteLine("Notable Issues Count : " + num3 + "\n");
-			streamWriter.WriteLine("Unique Issue Types : " + dictionary.Count + "\n");
-			foreach (KeyValuePair<Type, int> keyValuePair2 in dictionary.OrderBy((KeyValuePair<Type, int> p) => p.Key.Name.ToString().GetHashCode()))
-			{
-				string text3 = keyValuePair2.Key.ToString();
-				text3 = text3.Substring(text3.LastIndexOf('+') + 1);
-				string text4 = string.Concat(keyValuePair2.Value);
-				string text5 = string.Format("{0:0.000}", (float)keyValuePair2.Value / (float)num2);
-				streamWriter.WriteLine(string.Concat(new string[]
-				{
-					text3,
-					"\t",
-					text4,
-					"\t",
-					text5,
-					"\t",
-					dictionary2[keyValuePair2.Key].ToString()
-				}));
-			}
-			int num5 = 10;
-			int[] array = new int[10];
-			foreach (Settlement settlement in Settlement.All.Where((Settlement s) => s.IsTown))
-			{
-				int num6 = MBMath.ClampInt((int)settlement.Town.Security, 0, 99) / num5;
-				array[num6]++;
-			}
-			streamWriter.WriteLine("\nTown Security Histogram (#Bins: 10, Range: 0-100) : ");
-			string text6 = "[";
-			for (int i = 0; i < array.Length; i++)
-			{
-				text6 = string.Concat(new object[]
-				{
-					text6,
-					i * num5,
-					"-",
-					(i + 1) * num5,
-					":",
-					array[i],
-					(i < array.Length - 1) ? ", " : ""
-				});
-			}
-			text6 += "]";
-			streamWriter.WriteLine(text6);
-			streamWriter.Close();
-			byte[] array2 = memoryStream.ToArray();
-			FileHelper.SaveFile(platformFilePath, array2);
-			return "Issue statistics successfully exported to " + platformFilePath;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("open_retirement_screen", "gameover")]
-		public static string OpenGameOverRetirement(List<string> strings)
-		{
-			GameOverState gameOverState = Game.Current.GameStateManager.CreateState<GameOverState>(new object[] { 0 });
-			Game.Current.GameStateManager.PushState(gameOverState, 0);
-			return "DONE";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("open_victory_screen", "gameover")]
-		public static string OpenGameOverVictory(List<string> strings)
-		{
-			GameOverState gameOverState = Game.Current.GameStateManager.CreateState<GameOverState>(new object[] { 2 });
-			Game.Current.GameStateManager.PushState(gameOverState, 0);
-			return "DONE";
-		}
-
 		public void FastMoveCameraToMainParty()
 		{
 			this._mapCameraView.FastMoveCameraToMainParty();
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("open_clan_destroyed_screen", "gameover")]
-		public static string OpenGameOverDestroyed(List<string> strings)
-		{
-			GameOverState gameOverState = Game.Current.GameStateManager.CreateState<GameOverState>(new object[] { 1 });
-			Game.Current.GameStateManager.PushState(gameOverState, 0);
-			return "DONE";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("remove_all_circle_notifications", "campaign")]
-		public static string ClearAllCircleNotifications(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			MapScreen.Instance.MapNotificationView.ResetNotifications();
-			return "Cleared";
-		}
-
-		public bool IsCameraLockedToPlayerParty()
-		{
-			return this._mapCameraView.IsCameraLockedToPlayerParty();
 		}
 
 		public void ResetCamera(bool resetDistance, bool teleportToMainParty)
@@ -3273,6 +2728,11 @@ namespace SandBox.View.Map
 		public void TeleportCameraToMainParty()
 		{
 			this._mapCameraView.TeleportCameraToMainParty();
+		}
+
+		public bool IsCameraLockedToPlayerParty()
+		{
+			return this._mapCameraView.IsCameraLockedToPlayerParty();
 		}
 
 		private const float DoubleClickTimeLimit = 0.3f;
@@ -3307,6 +2767,10 @@ namespace SandBox.View.Map
 
 		private MapView _mapConversationView;
 
+		private MapView _marriageOfferPopupView;
+
+		private MapView _mapCheatsView;
+
 		public MapCameraView _mapCameraView;
 
 		private MapNavigationHandler _navigationHandler = new MapNavigationHandler();
@@ -3327,7 +2791,7 @@ namespace SandBox.View.Map
 
 		private Ray _mouseRay;
 
-		private IPartyVisual _preVisualOfSelectedEntity;
+		private PartyVisual _preVisualOfSelectedEntity;
 
 		private int _activatedFrameNo = Utilities.EngineFrameNo;
 
@@ -3370,6 +2834,8 @@ namespace SandBox.View.Map
 		private bool _isKingdomDecisionsDirty;
 
 		private bool _conversationOverThisFrame;
+
+		private float _cheatPressTimer;
 
 		private Dictionary<Tuple<Material, BannerCode>, Material> _bannerTexturedMaterialCache;
 

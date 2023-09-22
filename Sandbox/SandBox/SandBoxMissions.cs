@@ -42,11 +42,11 @@ namespace SandBox
 			missionInitializerRecord.DamageToFriendsMultiplier = Campaign.Current.Models.DifficultyModel.GetPlayerTroopsReceivedDamageMultiplier();
 			missionInitializerRecord.DamageFromPlayerToFriendsMultiplier = Campaign.Current.Models.DifficultyModel.GetPlayerTroopsReceivedDamageMultiplier();
 			missionInitializerRecord.PlayingInCampaignMode = Campaign.Current.GameMode == 1;
-			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(CampaignTime.Now, MobileParty.MainParty.GetLogicalPosition()) : null);
+			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(MobileParty.MainParty.GetLogicalPosition()) : AtmosphereInfo.GetInvalidAtmosphereInfo());
 			missionInitializerRecord.TerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace);
 			missionInitializerRecord.SceneLevels = sceneLevels;
 			missionInitializerRecord.DoNotUseLoadingScreen = doNotUseLoadingScreen;
-			missionInitializerRecord.AtlasGroup = decalAtlasGroup;
+			missionInitializerRecord.DecalAtlasGroup = decalAtlasGroup;
 			return missionInitializerRecord;
 		}
 
@@ -58,7 +58,7 @@ namespace SandBox
 			missionInitializerRecord.DamageToFriendsMultiplier = Campaign.Current.Models.DifficultyModel.GetPlayerTroopsReceivedDamageMultiplier();
 			missionInitializerRecord.DamageFromPlayerToFriendsMultiplier = 1f;
 			missionInitializerRecord.PlayingInCampaignMode = Campaign.Current.GameMode == 1;
-			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(CampaignTime.Now, MobileParty.MainParty.GetLogicalPosition()) : null);
+			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(MobileParty.MainParty.GetLogicalPosition()) : AtmosphereInfo.GetInvalidAtmosphereInfo());
 			missionInitializerRecord.TerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(MobileParty.MainParty.CurrentNavigationFace);
 			missionInitializerRecord.SceneLevels = sceneLevels;
 			missionInitializerRecord.DoNotUseLoadingScreen = doNotUseLoadingScreen;
@@ -99,7 +99,6 @@ namespace SandBox
 				new HeroSkillHandler(),
 				new MissionFightHandler(),
 				new MissionFacialAnimationHandler(),
-				new MissionDebugHandler(),
 				new MissionHardBorderPlacer(),
 				new MissionBoundaryPlacer(),
 				new MissionBoundaryCrossingHandler(),
@@ -144,7 +143,6 @@ namespace SandBox
 				list.Add(new HeroSkillHandler());
 				list.Add(new MissionFightHandler());
 				list.Add(new MissionFacialAnimationHandler());
-				list.Add(new MissionDebugHandler());
 				list.Add(new MissionHardBorderPlacer());
 				list.Add(new MissionBoundaryPlacer());
 				list.Add(new EquipmentControllerLeaveLogic());
@@ -182,7 +180,6 @@ namespace SandBox
 				new AgentHumanAILogic(),
 				new MissionCrimeHandler(),
 				new MissionFacialAnimationHandler(),
-				new MissionDebugHandler(),
 				new LocationItemSpawnHandler(),
 				new IndoorMissionController(),
 				new VisualTrackerMissionBehavior(),
@@ -216,10 +213,7 @@ namespace SandBox
 				list.Add(new VisualTrackerMissionBehavior());
 				list.Add(new EquipmentControllerLeaveLogic());
 				list.Add(new BattleSurgeonLogic());
-				if (Game.Current.IsDevelopmentMode)
-				{
-					list.Add(new MissionDebugHandler());
-				}
+				bool isDevelopmentMode = Game.Current.IsDevelopmentMode;
 				return list.ToArray();
 			}, true, true);
 			mission2.ForceNoFriendlyFire = true;
@@ -251,7 +245,6 @@ namespace SandBox
 				new MountAgentLogic(),
 				new AgentHumanAILogic(),
 				new MissionCrimeHandler(),
-				new MissionDebugHandler(),
 				new MissionHardBorderPlacer(),
 				new MissionBoundaryPlacer(),
 				new EquipmentControllerLeaveLogic(),
@@ -273,7 +266,6 @@ namespace SandBox
 				new MissionConversationLogic(talkToChar),
 				new HeroSkillHandler(),
 				new MissionFacialAnimationHandler(),
-				new MissionDebugHandler(),
 				new MissionAgentPanicHandler(),
 				new AgentHumanAILogic(),
 				new ArenaAgentStateDeciderLogic(),
@@ -324,7 +316,6 @@ namespace SandBox
 				new MissionOptionsComponent(),
 				new ArenaDuelMissionController(duelCharacter, requireCivilianEquipment, spawnBOthSidesWithHorse, onDuelEnd, customAgentHealth),
 				new MissionFacialAnimationHandler(),
-				new MissionDebugHandler(),
 				new MissionAgentPanicHandler(),
 				new AgentHumanAILogic(),
 				new ArenaAgentStateDeciderLogic(),
@@ -347,7 +338,6 @@ namespace SandBox
 				new MissionAgentHandler(location, null),
 				new HeroSkillHandler(),
 				new MissionFacialAnimationHandler(),
-				new MissionDebugHandler(),
 				new MissionAgentPanicHandler(),
 				new AgentHumanAILogic(),
 				new EquipmentControllerLeaveLogic(),
@@ -414,7 +404,7 @@ namespace SandBox
 			bool isPlayerInArmy = MobileParty.MainParty.Army != null;
 			return MissionState.OpenNew("Battle", rec, delegate(Mission mission)
 			{
-				MissionBehavior[] array = new MissionBehavior[32];
+				MissionBehavior[] array = new MissionBehavior[31];
 				array[0] = new MissionOptionsComponent();
 				array[1] = new CampaignMissionComponent();
 				array[2] = new BattleEndLogic();
@@ -430,27 +420,26 @@ namespace SandBox
 				array[12] = new BattleAgentLogic();
 				array[13] = new MountAgentLogic();
 				array[14] = new AgentVictoryLogic();
-				array[15] = new MissionDebugHandler();
-				array[16] = new MissionAgentPanicHandler();
-				array[17] = new MissionHardBorderPlacer();
-				array[18] = new MissionBoundaryPlacer();
-				array[19] = new MissionBoundaryCrossingHandler();
-				array[20] = new BattleMissionAgentInteractionLogic();
-				array[21] = new AgentMoraleInteractionLogic();
-				array[22] = new HighlightsController();
-				array[23] = new BattleHighlightsController();
-				array[24] = new AssignPlayerRoleInTeamMissionController(!isPlayerSergeant, isPlayerSergeant, isPlayerInArmy, null, 8);
-				int num = 25;
+				array[15] = new MissionAgentPanicHandler();
+				array[16] = new MissionHardBorderPlacer();
+				array[17] = new MissionBoundaryPlacer();
+				array[18] = new MissionBoundaryCrossingHandler();
+				array[19] = new BattleMissionAgentInteractionLogic();
+				array[20] = new AgentMoraleInteractionLogic();
+				array[21] = new HighlightsController();
+				array[22] = new BattleHighlightsController();
+				array[23] = new AssignPlayerRoleInTeamMissionController(!isPlayerSergeant, isPlayerSergeant, isPlayerInArmy, null, 8);
+				int num = 24;
 				Hero leaderHero = MapEvent.PlayerMapEvent.AttackerSide.LeaderParty.LeaderHero;
 				TextObject textObject = ((leaderHero != null) ? leaderHero.Name : null);
 				Hero leaderHero2 = MapEvent.PlayerMapEvent.DefenderSide.LeaderParty.LeaderHero;
 				array[num] = new SandboxGeneralsAndCaptainsAssignmentLogic(textObject, (leaderHero2 != null) ? leaderHero2.Name : null, null, null, true);
-				array[26] = new EquipmentControllerLeaveLogic();
-				array[27] = new MissionCaravanOrVillagerTacticsHandler();
-				array[28] = new CaravanBattleMissionHandler(MathF.Min(MapEvent.PlayerMapEvent.InvolvedParties.Where((PartyBase ip) => ip.Side == 1).Sum((PartyBase ip) => ip.MobileParty.Party.MemberRoster.TotalManCount - ip.MobileParty.Party.MemberRoster.TotalWounded), MapEvent.PlayerMapEvent.InvolvedParties.Where((PartyBase ip) => ip.Side == 0).Sum((PartyBase ip) => ip.MobileParty.Party.MemberRoster.TotalManCount - ip.MobileParty.Party.MemberRoster.TotalWounded)), MapEvent.PlayerMapEvent.InvolvedParties.Any((PartyBase ip) => (ip.MobileParty.IsCaravan || ip.MobileParty.IsVillager) && (ip.Culture.StringId == "aserai" || ip.Culture.StringId == "khuzait")), isCaravan);
-				array[29] = new BattleDeploymentHandler(isPlayerAttacker);
-				array[30] = new DeploymentMissionController(isPlayerAttacker);
-				array[31] = new BattleSurgeonLogic();
+				array[25] = new EquipmentControllerLeaveLogic();
+				array[26] = new MissionCaravanOrVillagerTacticsHandler();
+				array[27] = new CaravanBattleMissionHandler(MathF.Min(MapEvent.PlayerMapEvent.InvolvedParties.Where((PartyBase ip) => ip.Side == 1).Sum((PartyBase ip) => ip.MobileParty.Party.MemberRoster.TotalManCount - ip.MobileParty.Party.MemberRoster.TotalWounded), MapEvent.PlayerMapEvent.InvolvedParties.Where((PartyBase ip) => ip.Side == 0).Sum((PartyBase ip) => ip.MobileParty.Party.MemberRoster.TotalManCount - ip.MobileParty.Party.MemberRoster.TotalWounded)), MapEvent.PlayerMapEvent.InvolvedParties.Any((PartyBase ip) => (ip.MobileParty.IsCaravan || ip.MobileParty.IsVillager) && (ip.Culture.StringId == "aserai" || ip.Culture.StringId == "khuzait")), isCaravan);
+				array[28] = new BattleDeploymentHandler(isPlayerAttacker);
+				array[29] = new DeploymentMissionController(isPlayerAttacker);
+				array[30] = new BattleSurgeonLogic();
 				return array;
 			}, true, true);
 		}
@@ -488,7 +477,7 @@ namespace SandBox
 		}
 
 		[MissionMethod]
-		public static Mission OpenCombatMissionWithDialogue(MissionInitializerRecord rec, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam)
+		public static Mission OpenCombatMissionWithDialogue(MissionInitializerRecord rec, CharacterObject characterToTalkTo)
 		{
 			return MissionState.OpenNew("CombatWithDialogue", rec, delegate(Mission mission)
 			{
@@ -505,12 +494,11 @@ namespace SandBox
 				list.Add(new BattleSpawnLogic("battle_set"));
 				list.Add(new MissionAgentPanicHandler());
 				list.Add(new AgentHumanAILogic());
-				list.Add(new CombatMissionWithDialogueController(array, characterToTalkTo, allyTroopsWithFixedTeam));
+				list.Add(new CombatMissionWithDialogueController(array, characterToTalkTo));
 				list.Add(new MissionConversationLogic(null));
 				list.Add(new BattleObserverMissionLogic());
 				list.Add(new BattleAgentLogic());
 				list.Add(new AgentVictoryLogic());
-				list.Add(new MissionDebugHandler());
 				list.Add(new MissionHardBorderPlacer());
 				list.Add(new MissionBoundaryPlacer());
 				list.Add(new MissionBoundaryCrossingHandler());
@@ -535,8 +523,8 @@ namespace SandBox
 			MissionInitializerRecord missionInitializerRecord;
 			missionInitializerRecord..ctor(scene);
 			missionInitializerRecord.PlayingInCampaignMode = Campaign.Current.GameMode == 1;
-			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(CampaignTime.Now, MobileParty.MainParty.GetLogicalPosition()) : null);
-			missionInitializerRecord.AtlasGroup = 3;
+			missionInitializerRecord.AtmosphereOnCampaign = ((Campaign.Current.GameMode == 1) ? Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(MobileParty.MainParty.GetLogicalPosition()) : AtmosphereInfo.GetInvalidAtmosphereInfo());
+			missionInitializerRecord.DecalAtlasGroup = 3;
 			missionInitializerRecord.SceneLevels = Campaign.Current.Models.LocationModel.GetCivilianUpgradeLevelTag(upgradeLevel);
 			return MissionState.OpenNew(text, missionInitializerRecord, delegate(Mission mission)
 			{
@@ -559,7 +547,6 @@ namespace SandBox
 				list.Add(new BattleAgentLogic());
 				list.Add(new MountAgentLogic());
 				list.Add(new AgentVictoryLogic());
-				list.Add(new MissionDebugHandler());
 				list.Add(new MissionHardBorderPlacer());
 				list.Add(new MissionBoundaryPlacer());
 				list.Add(new MissionBoundaryCrossingHandler());
@@ -578,9 +565,9 @@ namespace SandBox
 		}
 
 		[MissionMethod]
-		public static Mission OpenBattleMission(string scene)
+		public static Mission OpenBattleMission(string scene, bool usesTownDecalAtlas)
 		{
-			return SandBoxMissions.OpenBattleMission(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 2));
+			return SandBoxMissions.OpenBattleMission(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, usesTownDecalAtlas ? 3 : 2));
 		}
 
 		[MissionMethod]
@@ -590,9 +577,9 @@ namespace SandBox
 		}
 
 		[MissionMethod]
-		public static Mission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam, int upgradeLevel)
+		public static Mission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, int upgradeLevel)
 		{
-			return SandBoxMissions.OpenCombatMissionWithDialogue(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, Campaign.Current.Models.LocationModel.GetCivilianUpgradeLevelTag(upgradeLevel), false, 3), characterToTalkTo, allyTroopsWithFixedTeam);
+			return SandBoxMissions.OpenCombatMissionWithDialogue(SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, Campaign.Current.Models.LocationModel.GetCivilianUpgradeLevelTag(upgradeLevel), false, 3), characterToTalkTo);
 		}
 
 		[MissionMethod]
@@ -623,7 +610,6 @@ namespace SandBox
 					new BattleAgentLogic(),
 					new MountAgentLogic(),
 					new AgentVictoryLogic(),
-					new MissionDebugHandler(),
 					new MissionAgentPanicHandler(),
 					new MissionHardBorderPlacer(),
 					new MissionBoundaryPlacer(),
@@ -668,7 +654,7 @@ namespace SandBox
 		[MissionMethod]
 		public static Mission OpenAmbushMission(string scene, MissionResult oldResult)
 		{
-			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenAmbushMission", 858);
+			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenAmbushMission", 850);
 			return MissionState.OpenNew("Ambush", SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 3), (Mission mission) => new MissionBehavior[]
 			{
 				new MissionOptionsComponent(),
@@ -979,7 +965,6 @@ namespace SandBox
 				new MissionConversationLogic(),
 				new MissionOptionsComponent(),
 				new ConversationMissionLogic(playerCharacterData, conversationPartnerData),
-				new MissionDebugHandler(),
 				new EquipmentControllerLeaveLogic()
 			}, true, false);
 		}
@@ -987,7 +972,7 @@ namespace SandBox
 		[MissionMethod]
 		public static Mission OpenMeetingMission(string scene, CharacterObject character)
 		{
-			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenMeetingMission", 1281);
+			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenMeetingMission", 1268);
 			return MissionState.OpenNew("Conversation", SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 3), (Mission mission) => new MissionBehavior[]
 			{
 				new CampaignMissionComponent(),

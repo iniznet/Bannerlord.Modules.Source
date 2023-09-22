@@ -1167,38 +1167,6 @@ namespace SandBox.View.Missions.SandBox
 			return num;
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("mission_spawnpoint_count_and_mesh_checker_ui", "debug")]
-		public static string OpenToolFromConsole(List<string> strings)
-		{
-			if (strings.Count != 1 || (strings[0] != "0" && strings[0] != "1"))
-			{
-				return "Input is incorrect.";
-			}
-			if (strings[0] == "0")
-			{
-				SpawnPointDebugView.ActivateDebugUI = false;
-				GameEntity firstEntityWithScriptComponent = Mission.Current.Scene.GetFirstEntityWithScriptComponent<SpawnPointDebugView>();
-				if (firstEntityWithScriptComponent != null)
-				{
-					SpawnPointDebugView spawnPointDebugView = firstEntityWithScriptComponent.GetScriptComponents<SpawnPointDebugView>().First<SpawnPointDebugView>();
-					spawnPointDebugView.SetScriptComponentToTick(spawnPointDebugView.GetTickRequirement());
-				}
-				return "Debug Tool: OFF";
-			}
-			if (strings[0] == "1")
-			{
-				SpawnPointDebugView.ActivateDebugUI = true;
-				GameEntity firstEntityWithScriptComponent2 = Mission.Current.Scene.GetFirstEntityWithScriptComponent<SpawnPointDebugView>();
-				if (firstEntityWithScriptComponent2 != null)
-				{
-					SpawnPointDebugView spawnPointDebugView2 = firstEntityWithScriptComponent2.GetScriptComponents<SpawnPointDebugView>().First<SpawnPointDebugView>();
-					spawnPointDebugView2.SetScriptComponentToTick(spawnPointDebugView2.GetTickRequirement());
-				}
-				return "Debug Tool: ON";
-			}
-			return " ";
-		}
-
 		private void ClearAllLists()
 		{
 			foreach (KeyValuePair<SpawnPointDebugView.CategoryId, List<SpawnPointDebugView.InvalidPosition>> keyValuePair in this._invalidSpawnPointsDictionary)

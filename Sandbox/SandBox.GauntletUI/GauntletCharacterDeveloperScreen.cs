@@ -3,11 +3,13 @@ using SandBox.View;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ViewModelCollection.Selector;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -30,11 +32,13 @@ namespace SandBox.GauntletUI
 			{
 				if (this._dataSource.CurrentCharacter.IsInspectingAnAttribute)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.CurrentCharacter.ExecuteStopInspectingCurrentAttribute();
 					return;
 				}
 				if (this._dataSource.CurrentCharacter.PerkSelection.IsActive)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.CurrentCharacter.PerkSelection.ExecuteDeactivate();
 					return;
 				}
@@ -94,7 +98,7 @@ namespace SandBox.GauntletUI
 			this._gauntletLayer.IsFocusLayer = true;
 			ScreenManager.TrySetFocus(this._gauntletLayer);
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(3));
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_character_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_character_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
@@ -121,26 +125,39 @@ namespace SandBox.GauntletUI
 
 		private void CloseCharacterDeveloperScreen()
 		{
+			UISoundsHelper.PlayUISound("event:/ui/default");
 			Game.Current.GameStateManager.PopState(0);
 		}
 
 		private void ExecuteConfirm()
 		{
+			UISoundsHelper.PlayUISound("event:/ui/default");
 			this._dataSource.ExecuteDone();
 		}
 
 		private void ExecuteReset()
 		{
+			UISoundsHelper.PlayUISound("event:/ui/default");
 			this._dataSource.ExecuteReset();
 		}
 
 		private void ExecuteSwitchToPreviousTab()
 		{
+			MBBindingList<SelectorItemVM> itemList = this._dataSource.CharacterList.ItemList;
+			if (itemList != null && itemList.Count > 1)
+			{
+				UISoundsHelper.PlayUISound("event:/ui/checkbox");
+			}
 			this._dataSource.CharacterList.ExecuteSelectPreviousItem();
 		}
 
 		private void ExecuteSwitchToNextTab()
 		{
+			MBBindingList<SelectorItemVM> itemList = this._dataSource.CharacterList.ItemList;
+			if (itemList != null && itemList.Count > 1)
+			{
+				UISoundsHelper.PlayUISound("event:/ui/checkbox");
+			}
 			this._dataSource.CharacterList.ExecuteSelectNextItem();
 		}
 
@@ -163,8 +180,6 @@ namespace SandBox.GauntletUI
 		{
 			this._dataSource.ExecuteReset();
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_character_open";
 
 		private CharacterDeveloperVM _dataSource;
 

@@ -117,13 +117,13 @@ namespace SandBox.Issues.IssueQuestTasks
 			{
 				character = CharacterObject.PlayerCharacter;
 			}
-			Equipment equipment = this._settlement.Culture.DuelPreset.Equipment;
+			Equipment randomElement = Extensions.GetRandomElement<Equipment>(this._settlement.Culture.DuelPresetEquipmentRoster.AllEquipments);
 			Mission mission = Mission.Current;
 			AgentBuildData agentBuildData = new AgentBuildData(character).Team(team).ClothingColor1(team.Color).ClothingColor2(team.Color2)
 				.InitialPosition(ref frame.origin);
 			Vec2 vec = frame.rotation.f.AsVec2;
 			vec = vec.Normalized();
-			Agent agent = mission.SpawnAgent(agentBuildData.InitialDirection(ref vec).NoHorses(true).Equipment(equipment)
+			Agent agent = mission.SpawnAgent(agentBuildData.InitialDirection(ref vec).NoHorses(true).Equipment(randomElement)
 				.TroopOrigin(new SimpleAgentOrigin(character, -1, null, default(UniqueTroopDescriptor)))
 				.Controller((character == CharacterObject.PlayerCharacter) ? 2 : 1), false);
 			if (agent.IsAIControlled)

@@ -12,6 +12,7 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.ScreenSystem;
 
 namespace SandBox.GauntletUI.Encyclopedia
@@ -45,6 +46,7 @@ namespace SandBox.GauntletUI.Encyclopedia
 				}
 			}
 			this._navigatorDatasource = navigatorDatasource;
+			this._navigatorDatasource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 			this._navigatorDatasource.SetPreviousPageInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToPreviousTab"));
 			this._navigatorDatasource.SetNextPageInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
 			Game.Current.EventManager.RegisterEvent<TutorialContextChangedEvent>(new Action<TutorialContextChangedEvent>(this.OnTutorialContextChanged));
@@ -70,6 +72,7 @@ namespace SandBox.GauntletUI.Encyclopedia
 				else
 				{
 					this._manager.CloseEncyclopedia();
+					UISoundsHelper.PlayUISound("event:/ui/default");
 				}
 			}
 			else if (!this._activeGauntletLayer.IsFocusedOnInput() && this._navigatorDatasource.CanSwitchTabs)
@@ -189,15 +192,15 @@ namespace SandBox.GauntletUI.Encyclopedia
 		{
 			EncyclopediaPageArgs encyclopediaPageArgs;
 			encyclopediaPageArgs..ctor(o);
-			foreach (Type type in typeof(EncyclopediaHomeVM).Assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(typeof(EncyclopediaHomeVM).Assembly, null))
 			{
 				if (typeof(EncyclopediaPageVM).IsAssignableFrom(type))
 				{
 					object[] customAttributes = type.GetCustomAttributes(typeof(EncyclopediaViewModel), false);
-					for (int j = 0; j < customAttributes.Length; j++)
+					for (int i = 0; i < customAttributes.Length; i++)
 					{
 						EncyclopediaViewModel encyclopediaViewModel;
-						if ((encyclopediaViewModel = customAttributes[j] as EncyclopediaViewModel) != null && page.HasIdentifierType(encyclopediaViewModel.PageTargetType))
+						if ((encyclopediaViewModel = customAttributes[i] as EncyclopediaViewModel) != null && page.HasIdentifierType(encyclopediaViewModel.PageTargetType))
 						{
 							return Activator.CreateInstance(type, new object[] { encyclopediaPageArgs }) as EncyclopediaPageVM;
 						}

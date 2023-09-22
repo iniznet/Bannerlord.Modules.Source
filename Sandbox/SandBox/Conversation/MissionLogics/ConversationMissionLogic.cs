@@ -135,7 +135,7 @@ namespace SandBox.Conversation.MissionLogics
 			{
 				agentBuildData2.Banner(characterData.Party.LeaderHero.ClanBanner);
 			}
-			else if (characterData.Party != null && characterData.Party.MapFaction != CampaignData.NeutralFaction)
+			else if (characterData.Party != null && characterData.Party.MapFaction != null)
 			{
 				AgentBuildData agentBuildData3 = agentBuildData2;
 				PartyBase party2 = characterData.Party;
@@ -382,7 +382,7 @@ namespace SandBox.Conversation.MissionLogics
 			else if (characterData.Party != null)
 			{
 				PartyBase party2 = characterData.Party;
-				if (((party2 != null) ? party2.MapFaction : null) != CampaignData.NeutralFaction)
+				if (((party2 != null) ? party2.MapFaction : null) != null)
 				{
 					agentBuildData2.Banner(characterData.Party.MapFaction.Banner);
 				}

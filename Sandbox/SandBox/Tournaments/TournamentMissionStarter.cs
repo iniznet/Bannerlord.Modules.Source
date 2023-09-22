@@ -79,7 +79,6 @@ namespace SandBox.Tournaments
 					new MissionAgentPanicHandler(),
 					new AgentHumanAILogic(),
 					new ArenaAgentStateDeciderLogic(),
-					new MissionDebugHandler(),
 					new MissionHardBorderPlacer(),
 					new MissionBoundaryPlacer(),
 					new MissionOptionsComponent()

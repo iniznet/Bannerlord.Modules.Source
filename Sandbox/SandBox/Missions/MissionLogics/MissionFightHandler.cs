@@ -114,8 +114,6 @@ namespace SandBox.Missions.MissionLogics
 			this._opponentSideAgentsOldTeamData = new Dictionary<Agent, Team>();
 			MissionFightHandler._onFightEnd = onFightEndDelegate;
 			Mission.Current.MainAgent.IsItemUseDisabled = isItemUseDisabled;
-			this._oldMissionMode = Mission.Current.Mode;
-			Mission.Current.SetMissionMode(2, false);
 			foreach (Agent agent in this._opponentSideAgents)
 			{
 				if (dropWeapons)
@@ -135,6 +133,8 @@ namespace SandBox.Missions.MissionLogics
 				this.ForceAgentForFight(agent2);
 			}
 			this.SetTeamsForFightAndDuel();
+			this._oldMissionMode = Mission.Current.Mode;
+			Mission.Current.SetMissionMode(2, false);
 		}
 
 		public override InquiryData OnEndMissionRequest(out bool canPlayerLeave)
@@ -322,7 +322,7 @@ namespace SandBox.Missions.MissionLogics
 		{
 			if (!(ownerAgent.Character is CharacterObject))
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\MissionFightHandler.cs", "GetDangerSources", 369);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\MissionFightHandler.cs", "GetDangerSources", 370);
 				return new List<Agent>();
 			}
 			if (this.IsThereActiveFight() && !MissionFightHandler.IsAgentAggressive(ownerAgent) && Agent.Main != null)

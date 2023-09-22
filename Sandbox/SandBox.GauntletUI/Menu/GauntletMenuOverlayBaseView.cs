@@ -34,11 +34,11 @@ namespace SandBox.GauntletUI.Menu
 			}
 			else if (this._overlayDataSource is ArmyMenuOverlayVM)
 			{
-				Debug.FailedAssert("Trying to open army overlay in menu. Should be opened in map overlay", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Menu\\GauntletMenuOverlayBaseView.cs", "OnInitialize", 46);
+				Debug.FailedAssert("Trying to open army overlay in menu. Should be opened in map overlay", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Menu\\GauntletMenuOverlayBaseView.cs", "OnInitialize", 47);
 			}
 			else
 			{
-				Debug.FailedAssert("Game menu overlay not supported in gauntlet overlay", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Menu\\GauntletMenuOverlayBaseView.cs", "OnInitialize", 50);
+				Debug.FailedAssert("Game menu overlay not supported in gauntlet overlay", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.GauntletUI\\Menu\\GauntletMenuOverlayBaseView.cs", "OnInitialize", 51);
 			}
 			base.OnInitialize();
 		}
@@ -71,6 +71,7 @@ namespace SandBox.GauntletUI.Menu
 			}
 			if (this._isContextMenuEnabled && base.Layer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._overlayDataSource.IsContextMenuEnabled = false;
 			}
 		}

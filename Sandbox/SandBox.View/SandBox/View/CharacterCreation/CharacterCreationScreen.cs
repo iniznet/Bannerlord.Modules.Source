@@ -6,6 +6,7 @@ using TaleWorlds.CampaignSystem.CharacterCreationContent;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.Engine;
+using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
@@ -159,17 +160,18 @@ namespace SandBox.View.CharacterCreation
 			Assembly[] array = assemblies;
 			for (int i = 0; i < array.Length; i++)
 			{
-				Type[] types = array[i].GetTypes();
-				foreach (Type type in types)
+				List<Type> typesSafe = Extensions.GetTypesSafe(array[i], null);
+				foreach (Type type in typesSafe)
 				{
 					if (typeof(CharacterCreationStageViewBase).IsAssignableFrom(type) && type.GetCustomAttributes(typeof(CharacterCreationStageViewAttribute), true).FirstOrDefault<object>() is CharacterCreationStageViewAttribute)
 					{
 						yield return type;
 					}
 				}
-				Type[] array2 = null;
+				List<Type>.Enumerator enumerator = default(List<Type>.Enumerator);
 			}
 			array = null;
+			yield break;
 			yield break;
 		}
 

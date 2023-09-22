@@ -53,20 +53,30 @@ namespace SandBox.GameComponents
 		public override void InitializeAgentStats(Agent agent, Equipment spawnEquipment, AgentDrivenProperties agentDrivenProperties, AgentBuildData agentBuildData)
 		{
 			agentDrivenProperties.ArmorEncumbrance = this.GetEffectiveArmorEncumbrance(agent, spawnEquipment);
-			if (!agent.IsHuman)
+			if (agent.IsHero)
+			{
+				CharacterObject characterObject = agent.Character as CharacterObject;
+				AgentFlag agentFlag = agent.GetAgentFlags();
+				if (characterObject.GetPerkValue(DefaultPerks.Bow.HorseMaster))
+				{
+					agentFlag |= 16777216;
+				}
+				if (characterObject.GetPerkValue(DefaultPerks.Crossbow.MountedCrossbowman))
+				{
+					agentFlag |= 33554432;
+				}
+				if (characterObject.GetPerkValue(DefaultPerks.TwoHanded.ProjectileDeflection))
+				{
+					agentFlag |= 67108864;
+				}
+				agent.SetAgentFlags(agentFlag);
+			}
+			else
 			{
 				agent.HealthLimit = this.GetEffectiveMaxHealth(agent);
 				agent.Health = agent.HealthLimit;
-				this.UpdateHorseStats(agent, agentDrivenProperties);
-				return;
 			}
-			if (!agent.IsHero)
-			{
-				agent.HealthLimit = this.GetEffectiveMaxHealth(agent);
-				agent.Health = agent.HealthLimit;
-				return;
-			}
-			this.GetInitialPerkEffectsOnAgent(agent, agentDrivenProperties);
+			this.UpdateAgentStats(agent, agentDrivenProperties);
 		}
 
 		public override void InitializeMissionEquipment(Agent agent)
@@ -167,11 +177,6 @@ namespace SandBox.GameComponents
 
 		public override void UpdateAgentStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
-			if (!agent.IsHuman || !agent.IsHero)
-			{
-				agent.HealthLimit = this.GetEffectiveMaxHealth(agent);
-				agent.Health = MathF.Min(agent.Health, agent.HealthLimit);
-			}
 			if (agent.IsHuman)
 			{
 				this.UpdateHumanStats(agent, agentDrivenProperties);
@@ -180,21 +185,23 @@ namespace SandBox.GameComponents
 			this.UpdateHorseStats(agent, agentDrivenProperties);
 		}
 
-		public override int GetEffectiveSkill(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, SkillObject skill)
+		public override int GetEffectiveSkill(Agent agent, SkillObject skill)
 		{
 			ExplainedNumber explainedNumber;
-			explainedNumber..ctor((float)base.GetEffectiveSkill(agentCharacter, agentOrigin, agentFormation, skill), false, null);
-			CharacterObject characterObject = agentCharacter as CharacterObject;
-			PartyBase partyBase = (PartyBase)((agentOrigin != null) ? agentOrigin.BattleCombatant : null);
+			explainedNumber..ctor((float)base.GetEffectiveSkill(agent, skill), false, null);
+			CharacterObject characterObject = agent.Character as CharacterObject;
+			Formation formation = agent.Formation;
+			IAgentOriginBase origin = agent.Origin;
+			PartyBase partyBase = (PartyBase)((origin != null) ? origin.BattleCombatant : null);
 			MobileParty mobileParty = ((partyBase != null && partyBase.IsMobile) ? partyBase.MobileParty : null);
 			object obj;
-			if (agentFormation == null)
+			if (formation == null)
 			{
 				obj = null;
 			}
 			else
 			{
-				Agent captain = agentFormation.Captain;
+				Agent captain = formation.Captain;
 				obj = ((captain != null) ? captain.Character : null);
 			}
 			CharacterObject characterObject2 = obj as CharacterObject;
@@ -206,7 +213,7 @@ namespace SandBox.GameComponents
 			{
 				bool flag = skill == DefaultSkills.Bow || skill == DefaultSkills.Crossbow || skill == DefaultSkills.Throwing;
 				bool flag2 = skill == DefaultSkills.OneHanded || skill == DefaultSkills.TwoHanded || skill == DefaultSkills.Polearm;
-				if ((agentCharacter.IsInfantry && flag) || (agentCharacter.IsRanged && flag2))
+				if ((characterObject.IsInfantry && flag) || (characterObject.IsRanged && flag2))
 				{
 					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.FlexibleFighter, characterObject2, ref explainedNumber);
 				}
@@ -216,7 +223,7 @@ namespace SandBox.GameComponents
 				if (characterObject2 != null)
 				{
 					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Bow.DeadAim, characterObject2, ref explainedNumber);
-					if (agentCharacter.HasMount())
+					if (characterObject.HasMount())
 					{
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Bow.HorseMaster, characterObject2, ref explainedNumber);
 					}
@@ -238,7 +245,7 @@ namespace SandBox.GameComponents
 			{
 				explainedNumber.Add(DefaultPerks.Roguery.OneOfTheFamily.PrimaryBonus, DefaultPerks.Roguery.OneOfTheFamily.Name, null);
 			}
-			if (agentCharacter.HasMount())
+			if (characterObject.HasMount())
 			{
 				if (skill == DefaultSkills.Riding && characterObject2 != null)
 				{
@@ -247,10 +254,10 @@ namespace SandBox.GameComponents
 			}
 			else
 			{
-				if (mobileParty != null && agentFormation != null)
+				if (mobileParty != null && formation != null)
 				{
 					bool flag3 = skill == DefaultSkills.OneHanded || skill == DefaultSkills.TwoHanded || skill == DefaultSkills.Polearm;
-					bool flag4 = agentFormation.ArrangementOrder.OrderEnum == 5;
+					bool flag4 = formation.ArrangementOrder.OrderEnum == 5;
 					if (flag3 && flag4)
 					{
 						PerkHelper.AddPerkBonusForParty(DefaultPerks.Polearm.Phalanx, mobileParty, true, ref explainedNumber);
@@ -262,11 +269,11 @@ namespace SandBox.GameComponents
 					{
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.WrappedHandles, characterObject2, ref explainedNumber);
 					}
-					if (skill == DefaultSkills.TwoHanded)
+					else if (skill == DefaultSkills.TwoHanded)
 					{
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.StrongGrip, characterObject2, ref explainedNumber);
 					}
-					if (skill == DefaultSkills.Polearm)
+					else if (skill == DefaultSkills.Polearm)
 					{
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.CleanThrust, characterObject2, ref explainedNumber);
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.CounterWeight, characterObject2, ref explainedNumber);
@@ -276,37 +283,37 @@ namespace SandBox.GameComponents
 			return (int)explainedNumber.ResultNumber;
 		}
 
-		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
+		public override float GetWeaponDamageMultiplier(Agent agent, WeaponComponentData weapon)
 		{
 			ExplainedNumber explainedNumber;
 			explainedNumber..ctor(1f, false, null);
 			SkillObject skillObject = ((weapon != null) ? weapon.RelevantSkill : null);
 			CharacterObject characterObject;
-			if ((characterObject = agentCharacter as CharacterObject) != null && skillObject != null)
+			if ((characterObject = agent.Character as CharacterObject) != null && skillObject != null)
 			{
 				if (skillObject == DefaultSkills.OneHanded)
 				{
-					int effectiveSkill = this.GetEffectiveSkill(characterObject, agentOrigin, agentFormation, skillObject);
+					int effectiveSkill = this.GetEffectiveSkill(agent, skillObject);
 					SkillHelper.AddSkillBonusForCharacter(skillObject, DefaultSkillEffects.OneHandedDamage, characterObject, ref explainedNumber, effectiveSkill, true, 0);
 				}
 				else if (skillObject == DefaultSkills.TwoHanded)
 				{
-					int effectiveSkill2 = this.GetEffectiveSkill(characterObject, agentOrigin, agentFormation, skillObject);
+					int effectiveSkill2 = this.GetEffectiveSkill(agent, skillObject);
 					SkillHelper.AddSkillBonusForCharacter(skillObject, DefaultSkillEffects.TwoHandedDamage, characterObject, ref explainedNumber, effectiveSkill2, true, 0);
 				}
 				else if (skillObject == DefaultSkills.Polearm)
 				{
-					int effectiveSkill3 = this.GetEffectiveSkill(characterObject, agentOrigin, agentFormation, skillObject);
+					int effectiveSkill3 = this.GetEffectiveSkill(agent, skillObject);
 					SkillHelper.AddSkillBonusForCharacter(skillObject, DefaultSkillEffects.PolearmDamage, characterObject, ref explainedNumber, effectiveSkill3, true, 0);
 				}
 				else if (skillObject == DefaultSkills.Bow)
 				{
-					int effectiveSkill4 = this.GetEffectiveSkill(characterObject, agentOrigin, agentFormation, skillObject);
+					int effectiveSkill4 = this.GetEffectiveSkill(agent, skillObject);
 					SkillHelper.AddSkillBonusForCharacter(skillObject, DefaultSkillEffects.BowDamage, characterObject, ref explainedNumber, effectiveSkill4, true, 0);
 				}
 				else if (skillObject == DefaultSkills.Throwing)
 				{
-					int effectiveSkill5 = this.GetEffectiveSkill(characterObject, agentOrigin, agentFormation, skillObject);
+					int effectiveSkill5 = this.GetEffectiveSkill(agent, skillObject);
 					SkillHelper.AddSkillBonusForCharacter(skillObject, DefaultSkillEffects.ThrowingDamage, characterObject, ref explainedNumber, effectiveSkill5, true, 0);
 				}
 			}
@@ -315,10 +322,9 @@ namespace SandBox.GameComponents
 
 		public override float GetKnockBackResistance(Agent agent)
 		{
-			CharacterObject characterObject;
-			if (agent.IsHuman && (characterObject = agent.Character as CharacterObject) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, DefaultSkills.Athletics);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
 				float num = DefaultSkillEffects.KnockBackResistance.GetPrimaryValue(effectiveSkill) * 0.01f;
 				return Math.Max(0f, num);
 			}
@@ -327,10 +333,9 @@ namespace SandBox.GameComponents
 
 		public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = -1)
 		{
-			CharacterObject characterObject;
-			if (agent.IsHuman && (characterObject = agent.Character as CharacterObject) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, DefaultSkills.Athletics);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
 				float num = DefaultSkillEffects.KnockDownResistance.GetPrimaryValue(effectiveSkill) * 0.01f;
 				if (agent.HasMount)
 				{
@@ -347,10 +352,9 @@ namespace SandBox.GameComponents
 
 		public override float GetDismountResistance(Agent agent)
 		{
-			CharacterObject characterObject;
-			if (agent.IsHuman && (characterObject = agent.Character as CharacterObject) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, DefaultSkills.Riding);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
 				float num = DefaultSkillEffects.DismountResistance.GetPrimaryValue(effectiveSkill) * 0.01f;
 				return Math.Max(0f, num);
 			}
@@ -535,7 +539,7 @@ namespace SandBox.GameComponents
 				foreach (SkillObject skillObject in Skills.All)
 				{
 					int skillValue = agent.Character.GetSkillValue(skillObject);
-					int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, skillObject);
+					int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent, skillObject);
 					string text4 = string.Format(text3, skillObject.Name, skillValue, effectiveSkill);
 					text = text + text4 + "\n";
 				}
@@ -613,17 +617,21 @@ namespace SandBox.GameComponents
 			CharacterObject characterObject;
 			if ((characterObject = agent.Character as CharacterObject) != null && characterObject.GetPerkValue(DefaultPerks.Athletics.FormFittingArmor))
 			{
-				num += DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus / 100f;
+				num += DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus;
 			}
 			return MathF.Max(0f, totalWeightOfArmor * num);
 		}
 
 		public override float GetEffectiveMaxHealth(Agent agent)
 		{
+			if (agent.IsHero)
+			{
+				return (float)agent.Character.MaxHitPoints();
+			}
 			float baseHealthLimit = agent.BaseHealthLimit;
 			ExplainedNumber explainedNumber;
 			explainedNumber..ctor(baseHealthLimit, false, null);
-			if (agent.IsHuman && !agent.IsHero)
+			if (agent.IsHuman)
 			{
 				CharacterObject characterObject = agent.Character as CharacterObject;
 				IAgentOriginBase agentOriginBase = ((agent != null) ? agent.Origin : null);
@@ -659,7 +667,7 @@ namespace SandBox.GameComponents
 					}
 					if (characterObject3.GetPerkValue(DefaultPerks.Medicine.MinisterOfHealth))
 					{
-						int num = MathF.Max(this.GetEffectiveSkill(characterObject3, agentOriginBase, null, DefaultSkills.Medicine) - 200, 0) / 2;
+						int num = (int)((float)MathF.Max(characterObject3.GetSkillValue(DefaultSkills.Medicine) - Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus, 0) * DefaultPerks.Medicine.MinisterOfHealth.PrimaryBonus);
 						if (num > 0)
 						{
 							explainedNumber.Add((float)num, null, null);
@@ -667,7 +675,7 @@ namespace SandBox.GameComponents
 					}
 				}
 			}
-			else if (!agent.IsHuman)
+			else
 			{
 				Agent riderAgent = agent.RiderAgent;
 				if (riderAgent != null)
@@ -744,28 +752,6 @@ namespace SandBox.GameComponents
 			return text;
 		}
 
-		private void GetInitialPerkEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties)
-		{
-			CharacterObject characterObject;
-			if ((characterObject = agent.Character as CharacterObject) != null)
-			{
-				AgentFlag agentFlag = agent.GetAgentFlags();
-				if (characterObject.GetPerkValue(DefaultPerks.Bow.HorseMaster))
-				{
-					agentFlag |= 16777216;
-				}
-				if (characterObject.GetPerkValue(DefaultPerks.Crossbow.MountedCrossbowman))
-				{
-					agentFlag |= 33554432;
-				}
-				if (characterObject.GetPerkValue(DefaultPerks.TwoHanded.ProjectileDeflection))
-				{
-					agentFlag |= 67108864;
-				}
-				agent.SetAgentFlags(agentFlag);
-			}
-		}
-
 		private void UpdateHumanStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
 		{
 			Equipment spawnEquipment = agent.SpawnEquipment;
@@ -791,7 +777,7 @@ namespace SandBox.GameComponents
 					bool flag = false;
 					if (characterObject != null)
 					{
-						bool flag2 = itemType == 8 && characterObject.GetPerkValue(DefaultPerks.Bow.NockingPoint);
+						bool flag2 = itemType == 8 && characterObject.GetPerkValue(DefaultPerks.Bow.RangersSwiftness);
 						bool flag3 = itemType == 9 && characterObject.GetPerkValue(DefaultPerks.Crossbow.LooseAndMove);
 						flag = flag2 || flag3;
 					}
@@ -829,8 +815,8 @@ namespace SandBox.GameComponents
 			base.SetAllWeaponInaccuracy(agent, agentDrivenProperties, wieldedItemIndex3, weaponComponentData);
 			IAgentOriginBase origin = agent.Origin;
 			Formation formation = agent.Formation;
-			int effectiveSkill = this.GetEffectiveSkill(character, origin, formation, DefaultSkills.Athletics);
-			int effectiveSkill2 = this.GetEffectiveSkill(character, origin, formation, DefaultSkills.Riding);
+			int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
+			int effectiveSkill2 = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
 			if (weaponComponentData != null)
 			{
 				WeaponComponentData weaponComponentData3 = weaponComponentData;
@@ -841,17 +827,15 @@ namespace SandBox.GameComponents
 					if (!agent.HasMount)
 					{
 						float num3 = MathF.Max(0f, 1f - (float)effectiveSkillForWeapon / 500f);
-						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = 0.125f * num3;
-						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = 0.1f * num3;
+						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = MathF.Max(0f, 0.125f * num3);
+						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = MathF.Max(0f, 0.1f * num3);
 					}
 					else
 					{
 						float num4 = MathF.Max(0f, (1f - (float)effectiveSkillForWeapon / 500f) * (1f - (float)effectiveSkill2 / 1800f));
-						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = 0.025f * num4;
-						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = 0.12f * num4;
+						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = MathF.Max(0f, 0.025f * num4);
+						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = MathF.Max(0f, 0.12f * num4);
 					}
-					agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = MathF.Max(0f, agentDrivenProperties.WeaponMaxMovementAccuracyPenalty);
-					agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = MathF.Max(0f, agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty);
 					if (weaponComponentData3.RelevantSkill == DefaultSkills.Bow)
 					{
 						float num5 = ((float)thrustSpeed - 45f) / 90f;
@@ -963,12 +947,14 @@ namespace SandBox.GameComponents
 			int num2 = equipmentElement.GetModifiedMountSpeed(ref equipmentElement2) + 1;
 			int num3 = 0;
 			float environmentSpeedFactor = this.GetEnvironmentSpeedFactor(agent);
-			if (agent.RiderAgent != null)
+			bool flag = Campaign.Current.Models.MapWeatherModel.GetWeatherEffectOnTerrainForPosition(MobileParty.MainParty.Position2D) == 1;
+			Agent riderAgent = agent.RiderAgent;
+			if (riderAgent != null)
 			{
-				CharacterObject characterObject = agent.RiderAgent.Character as CharacterObject;
-				Formation formation = agent.RiderAgent.Formation;
+				CharacterObject characterObject = riderAgent.Character as CharacterObject;
+				Formation formation = riderAgent.Formation;
 				Agent agent2 = ((formation != null) ? formation.Captain : null);
-				if (agent2 == agent.RiderAgent)
+				if (agent2 == riderAgent)
 				{
 					agent2 = null;
 				}
@@ -978,7 +964,7 @@ namespace SandBox.GameComponents
 				explainedNumber..ctor((float)modifiedMountManeuver, false, null);
 				ExplainedNumber explainedNumber2;
 				explainedNumber2..ctor((float)num2, false, null);
-				num3 = this.GetEffectiveSkill(agent.RiderAgent.Character, agent.RiderAgent.Origin, agent.RiderAgent.Formation, DefaultSkills.Riding);
+				num3 = this.GetEffectiveSkill(agent.RiderAgent, DefaultSkills.Riding);
 				SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Riding, DefaultSkillEffects.HorseManeuver, agent.RiderAgent.Character as CharacterObject, ref explainedNumber, num3, true, 0);
 				SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Riding, DefaultSkillEffects.HorseSpeed, agent.RiderAgent.Character as CharacterObject, ref explainedNumber2, num3, true, 0);
 				if (activeBanner != null)
@@ -991,10 +977,19 @@ namespace SandBox.GameComponents
 				explainedNumber3..ctor(agentDrivenProperties.ArmorTorso, false, null);
 				PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.ToughSteed, characterObject2, ref explainedNumber3);
 				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.ToughSteed, characterObject, true, ref explainedNumber3);
+				if (characterObject.GetPerkValue(DefaultPerks.Riding.TheWayOfTheSaddle))
+				{
+					float num4 = (float)MathF.Max(num3 - Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus, 0) * DefaultPerks.Riding.TheWayOfTheSaddle.PrimaryBonus;
+					explainedNumber.Add(num4, null, null);
+				}
 				if (equipmentElement2.Item == null)
 				{
 					explainedNumber.AddFactor(-0.1f, null);
 					explainedNumber2.AddFactor(-0.1f, null);
+				}
+				if (flag)
+				{
+					explainedNumber2.AddFactor(-0.25f, null);
 				}
 				agentDrivenProperties.ArmorTorso = explainedNumber3.ResultNumber;
 				agentDrivenProperties.MountManeuver = explainedNumber.ResultNumber;
@@ -1005,8 +1000,12 @@ namespace SandBox.GameComponents
 				agentDrivenProperties.MountManeuver = (float)modifiedMountManeuver;
 				agentDrivenProperties.MountSpeed = environmentSpeedFactor * 0.22f * (float)(1 + num2);
 			}
-			float num4 = equipmentElement.Weight / 2f + (equipmentElement2.IsEmpty ? 0f : equipmentElement2.Weight);
-			agentDrivenProperties.MountDashAccelerationMultiplier = ((num4 > 200f) ? ((num4 < 300f) ? (1f - (num4 - 200f) / 111f) : 0.1f) : 1f);
+			float num5 = equipmentElement.Weight / 2f + (equipmentElement2.IsEmpty ? 0f : equipmentElement2.Weight);
+			agentDrivenProperties.MountDashAccelerationMultiplier = ((num5 > 200f) ? ((num5 < 300f) ? (1f - (num5 - 200f) / 111f) : 0.1f) : 1f);
+			if (flag)
+			{
+				agentDrivenProperties.MountDashAccelerationMultiplier *= 0.75f;
+			}
 			agentDrivenProperties.TopSpeedReachDuration = Game.Current.BasicModels.RidingModel.CalculateAcceleration(ref equipmentElement, ref equipmentElement2, num3);
 			agentDrivenProperties.MountChargeDamage = (float)equipmentElement.GetModifiedMountCharge(ref equipmentElement2) * 0.004f;
 			agentDrivenProperties.MountDifficulty = (float)equipmentElement.Item.Difficulty;
@@ -1015,151 +1014,182 @@ namespace SandBox.GameComponents
 		private void GetPerkAndBannerEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
 		{
 			CharacterObject characterObject = agent.Character as CharacterObject;
-			Formation formation = agent.Formation;
-			object obj;
-			if (formation == null)
-			{
-				obj = null;
-			}
-			else
-			{
-				Agent captain = formation.Captain;
-				obj = ((captain != null) ? captain.Character : null);
-			}
-			CharacterObject characterObject2 = obj as CharacterObject;
-			EquipmentIndex wieldedItemIndex = agent.GetWieldedItemIndex(1);
-			Formation formation2 = agent.Formation;
-			if (((formation2 != null) ? formation2.Captain : null) == agent)
-			{
-				characterObject2 = null;
-			}
-			BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(agent.Formation);
-			ItemObject itemObject = null;
-			if (wieldedItemIndex != -1)
-			{
-				itemObject = agent.Equipment[wieldedItemIndex].Item;
-			}
-			bool flag = itemObject != null && itemObject.PrimaryWeapon.IsShield;
-			bool flag2 = rightHandEquippedItem != null && rightHandEquippedItem.IsRangedWeapon;
-			bool flag3 = rightHandEquippedItem != null && rightHandEquippedItem.IsMeleeWeapon;
-			ExplainedNumber explainedNumber;
-			explainedNumber..ctor(agentDrivenProperties.MaxSpeedMultiplier, false, null);
-			ExplainedNumber explainedNumber2;
-			explainedNumber2..ctor(agentDrivenProperties.CombatMaxSpeedMultiplier, false, null);
-			ExplainedNumber explainedNumber3;
-			explainedNumber3..ctor(agentDrivenProperties.WeaponInaccuracy, false, null);
-			ExplainedNumber explainedNumber4;
-			explainedNumber4..ctor(agentDrivenProperties.WeaponMaxMovementAccuracyPenalty, false, null);
-			ExplainedNumber explainedNumber5;
-			explainedNumber5..ctor(agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty, false, null);
-			ExplainedNumber explainedNumber6;
-			explainedNumber6..ctor(agentDrivenProperties.WeaponUnsteadyBeginTime, false, null);
-			ExplainedNumber explainedNumber7;
-			explainedNumber7..ctor(agentDrivenProperties.WeaponUnsteadyEndTime, false, null);
-			ExplainedNumber explainedNumber8;
-			explainedNumber8..ctor(agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians, false, null);
 			if (characterObject != null)
 			{
-				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.FleetOfFoot, characterObject, true, ref explainedNumber2);
-				ExplainedNumber explainedNumber9;
-				explainedNumber9..ctor(agentDrivenProperties.KickStunDurationMultiplier, false, null);
-				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.DirtyFighting, characterObject, true, ref explainedNumber9);
-				agentDrivenProperties.KickStunDurationMultiplier = explainedNumber9.ResultNumber;
+				Formation formation = agent.Formation;
+				object obj;
+				if (formation == null)
+				{
+					obj = null;
+				}
+				else
+				{
+					Agent captain = formation.Captain;
+					obj = ((captain != null) ? captain.Character : null);
+				}
+				CharacterObject characterObject2 = obj as CharacterObject;
+				Formation formation2 = agent.Formation;
+				if (((formation2 != null) ? formation2.Captain : null) == agent)
+				{
+					characterObject2 = null;
+				}
+				ItemObject itemObject = null;
+				EquipmentIndex wieldedItemIndex = agent.GetWieldedItemIndex(1);
+				if (wieldedItemIndex != -1)
+				{
+					itemObject = agent.Equipment[wieldedItemIndex].Item;
+				}
+				BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(agent.Formation);
+				bool flag = rightHandEquippedItem != null && rightHandEquippedItem.IsRangedWeapon;
+				bool flag2 = rightHandEquippedItem != null && rightHandEquippedItem.IsMeleeWeapon;
+				bool flag3 = itemObject != null && itemObject.PrimaryWeapon.IsShield;
+				ExplainedNumber explainedNumber;
+				explainedNumber..ctor(agentDrivenProperties.CombatMaxSpeedMultiplier, false, null);
+				ExplainedNumber explainedNumber2;
+				explainedNumber2..ctor(agentDrivenProperties.MaxSpeedMultiplier, false, null);
+				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.FleetOfFoot, characterObject, true, ref explainedNumber);
+				ExplainedNumber explainedNumber3;
+				explainedNumber3..ctor(agentDrivenProperties.KickStunDurationMultiplier, false, null);
+				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.DirtyFighting, characterObject, true, ref explainedNumber3);
+				agentDrivenProperties.KickStunDurationMultiplier = explainedNumber3.ResultNumber;
 				if (rightHandEquippedItem != null)
 				{
-					ExplainedNumber explainedNumber10;
-					explainedNumber10..ctor(agentDrivenProperties.SwingSpeedMultiplier, false, null);
-					ExplainedNumber explainedNumber11;
-					explainedNumber11..ctor(agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier, false, null);
-					ExplainedNumber explainedNumber12;
-					explainedNumber12..ctor(agentDrivenProperties.HandlingMultiplier, false, null);
-					if (flag3)
+					ExplainedNumber explainedNumber4;
+					explainedNumber4..ctor(agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier, false, null);
+					if (flag2)
 					{
+						ExplainedNumber explainedNumber5;
+						explainedNumber5..ctor(agentDrivenProperties.SwingSpeedMultiplier, false, null);
+						ExplainedNumber explainedNumber6;
+						explainedNumber6..ctor(agentDrivenProperties.HandlingMultiplier, false, null);
 						if (!agent.HasMount)
 						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.Fury, characterObject, true, ref explainedNumber12);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.Fury, characterObject, true, ref explainedNumber6);
 							if (characterObject2 != null)
 							{
-								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.Fury, characterObject2, ref explainedNumber12);
-								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.OnTheEdge, characterObject2, ref explainedNumber10);
-								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BladeMaster, characterObject2, ref explainedNumber10);
-								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.SwiftSwing, characterObject2, ref explainedNumber10);
-								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BladeMaster, characterObject2, ref explainedNumber11);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.Fury, characterObject2, ref explainedNumber6);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.OnTheEdge, characterObject2, ref explainedNumber5);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BladeMaster, characterObject2, ref explainedNumber5);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.SwiftSwing, characterObject2, ref explainedNumber5);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BladeMaster, characterObject2, ref explainedNumber4);
 							}
 						}
 						if (rightHandEquippedItem.RelevantSkill == DefaultSkills.OneHanded)
 						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.SwiftStrike, characterObject, true, ref explainedNumber10);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, true, ref explainedNumber10, 250);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, true, ref explainedNumber11, 250);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.WrappedHandles, characterObject, true, ref explainedNumber12);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.SwiftStrike, characterObject, true, ref explainedNumber5);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, true, ref explainedNumber5, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, true, ref explainedNumber4, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.WrappedHandles, characterObject, true, ref explainedNumber6);
 						}
 						else if (rightHandEquippedItem.RelevantSkill == DefaultSkills.TwoHanded)
 						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.OnTheEdge, characterObject, true, ref explainedNumber10);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, true, ref explainedNumber10, 250);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, true, ref explainedNumber11, 250);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.StrongGrip, characterObject, true, ref explainedNumber12);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.OnTheEdge, characterObject, true, ref explainedNumber5);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, true, ref explainedNumber5, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, true, ref explainedNumber4, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.StrongGrip, characterObject, true, ref explainedNumber6);
 						}
 						else if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Polearm)
 						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Footwork, characterObject, true, ref explainedNumber2);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.SwiftSwing, characterObject, true, ref explainedNumber10);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, true, ref explainedNumber10, 250);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, true, ref explainedNumber11, 250);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Footwork, characterObject, true, ref explainedNumber);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.SwiftSwing, characterObject, true, ref explainedNumber5);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, true, ref explainedNumber5, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, true, ref explainedNumber4, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 							if (rightHandEquippedItem.SwingDamageType != -1)
 							{
-								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.CounterWeight, characterObject, true, ref explainedNumber12);
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.CounterWeight, characterObject, true, ref explainedNumber6);
 							}
 						}
+						agentDrivenProperties.SwingSpeedMultiplier = explainedNumber5.ResultNumber;
+						agentDrivenProperties.HandlingMultiplier = explainedNumber6.ResultNumber;
 					}
-					if (flag2)
+					if (flag)
 					{
+						ExplainedNumber explainedNumber7;
+						explainedNumber7..ctor(agentDrivenProperties.WeaponInaccuracy, false, null);
+						ExplainedNumber explainedNumber8;
+						explainedNumber8..ctor(agentDrivenProperties.WeaponMaxMovementAccuracyPenalty, false, null);
+						ExplainedNumber explainedNumber9;
+						explainedNumber9..ctor(agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty, false, null);
+						ExplainedNumber explainedNumber10;
+						explainedNumber10..ctor(agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians, false, null);
+						ExplainedNumber explainedNumber11;
+						explainedNumber11..ctor(agentDrivenProperties.WeaponUnsteadyBeginTime, false, null);
+						ExplainedNumber explainedNumber12;
+						explainedNumber12..ctor(agentDrivenProperties.WeaponUnsteadyEndTime, false, null);
 						ExplainedNumber explainedNumber13;
 						explainedNumber13..ctor(agentDrivenProperties.ReloadMovementPenaltyFactor, false, null);
 						ExplainedNumber explainedNumber14;
 						explainedNumber14..ctor(agentDrivenProperties.ReloadSpeed, false, null);
 						ExplainedNumber explainedNumber15;
 						explainedNumber15..ctor(agentDrivenProperties.MissileSpeedMultiplier, false, null);
-						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.RangersSwiftness, characterObject, true, ref explainedNumber13);
-						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.WindWinder, characterObject, true, ref explainedNumber14);
+						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.NockingPoint, characterObject, true, ref explainedNumber13);
 						if (characterObject2 != null)
 						{
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.WindWinder, characterObject2, ref explainedNumber14);
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.LooseAndMove, characterObject2, ref explainedNumber);
+							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.LooseAndMove, characterObject2, ref explainedNumber2);
 						}
 						if (activeBanner != null)
 						{
-							BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.DecreasedRangedAccuracyPenalty, activeBanner, ref explainedNumber3);
+							BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.DecreasedRangedAccuracyPenalty, activeBanner, ref explainedNumber7);
 						}
+						if (agent.HasMount)
+						{
+							if (characterObject.GetPerkValue(DefaultPerks.Riding.Sagittarius))
+							{
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.Sagittarius, characterObject, true, ref explainedNumber8);
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.Sagittarius, characterObject, true, ref explainedNumber9);
+							}
+							if (characterObject2 != null && characterObject2.GetPerkValue(DefaultPerks.Riding.Sagittarius))
+							{
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.Sagittarius, characterObject2, ref explainedNumber8);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.Sagittarius, characterObject2, ref explainedNumber9);
+							}
+							if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Bow && characterObject.GetPerkValue(DefaultPerks.Bow.MountedArchery))
+							{
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.MountedArchery, characterObject, true, ref explainedNumber8);
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.MountedArchery, characterObject, true, ref explainedNumber9);
+							}
+							if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Throwing && characterObject.GetPerkValue(DefaultPerks.Throwing.MountedSkirmisher))
+							{
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.MountedSkirmisher, characterObject, true, ref explainedNumber8);
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.MountedSkirmisher, characterObject, true, ref explainedNumber9);
+							}
+						}
+						bool flag4 = false;
 						if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Bow)
 						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.BowControl, characterObject, true, ref explainedNumber4);
+							flag4 = true;
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.BowControl, characterObject, true, ref explainedNumber8);
 							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.RapidFire, characterObject, true, ref explainedNumber14);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.QuickAdjustments, characterObject, true, ref explainedNumber8);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.Discipline, characterObject, true, ref explainedNumber6);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.Discipline, characterObject, true, ref explainedNumber7);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.QuickDraw, characterObject, true, ref explainedNumber11);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.QuickAdjustments, characterObject, true, ref explainedNumber10);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.Discipline, characterObject, true, ref explainedNumber11);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.Discipline, characterObject, true, ref explainedNumber12);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.QuickDraw, characterObject, true, ref explainedNumber4);
 							if (characterObject2 != null)
 							{
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Bow.RapidFire, characterObject2, ref explainedNumber14);
 								if (!agent.HasMount)
 								{
-									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Bow.RangersSwiftness, characterObject2, ref explainedNumber);
+									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Bow.NockingPoint, characterObject2, ref explainedNumber2);
 								}
 							}
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Bow.Deadshot, characterObject, DefaultSkills.Bow, true, ref explainedNumber14, 200);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Bow.Deadshot, characterObject, DefaultSkills.Bow, true, ref explainedNumber14, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 						}
 						else if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Crossbow)
 						{
+							flag4 = true;
 							if (agent.HasMount)
 							{
-								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Steady, characterObject, true, ref explainedNumber4);
 								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Steady, characterObject, true, ref explainedNumber8);
+								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Steady, characterObject, true, ref explainedNumber10);
 							}
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.DonkeysSwiftness, characterObject, true, ref explainedNumber4);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Marksmen, characterObject, true, ref explainedNumber11);
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Crossbow.MightyPull, characterObject, DefaultSkills.Bow, true, ref explainedNumber14, 200);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.WindWinder, characterObject, true, ref explainedNumber14);
+							if (characterObject2 != null)
+							{
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.WindWinder, characterObject2, ref explainedNumber14);
+							}
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.DonkeysSwiftness, characterObject, true, ref explainedNumber8);
+							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Marksmen, characterObject, true, ref explainedNumber4);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Crossbow.MightyPull, characterObject, DefaultSkills.Crossbow, true, ref explainedNumber14, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 						}
 						else if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Throwing)
 						{
@@ -1170,17 +1200,25 @@ namespace SandBox.GameComponents
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.QuickDraw, characterObject2, ref explainedNumber14);
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.PerfectTechnique, characterObject2, ref explainedNumber15);
 							}
-							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Throwing.UnstoppableForce, characterObject, DefaultSkills.Throwing, true, ref explainedNumber15, 200);
+							PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Throwing.UnstoppableForce, characterObject, DefaultSkills.Throwing, true, ref explainedNumber15, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
+						}
+						if (flag4 && Campaign.Current.Models.MapWeatherModel.GetWeatherEffectOnTerrainForPosition(MobileParty.MainParty.Position2D) == 1)
+						{
+							explainedNumber15.AddFactor(-0.2f, null);
 						}
 						agentDrivenProperties.ReloadMovementPenaltyFactor = explainedNumber13.ResultNumber;
 						agentDrivenProperties.ReloadSpeed = explainedNumber14.ResultNumber;
 						agentDrivenProperties.MissileSpeedMultiplier = explainedNumber15.ResultNumber;
+						agentDrivenProperties.WeaponInaccuracy = explainedNumber7.ResultNumber;
+						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = explainedNumber8.ResultNumber;
+						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = explainedNumber9.ResultNumber;
+						agentDrivenProperties.WeaponUnsteadyBeginTime = explainedNumber11.ResultNumber;
+						agentDrivenProperties.WeaponUnsteadyEndTime = explainedNumber12.ResultNumber;
+						agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians = explainedNumber10.ResultNumber;
 					}
-					agentDrivenProperties.SwingSpeedMultiplier = explainedNumber10.ResultNumber;
-					agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier = explainedNumber11.ResultNumber;
-					agentDrivenProperties.HandlingMultiplier = explainedNumber12.ResultNumber;
+					agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier = explainedNumber4.ResultNumber;
 				}
-				if (flag)
+				if (flag3)
 				{
 					ExplainedNumber explainedNumber16;
 					explainedNumber16..ctor(agentDrivenProperties.AttributeShieldMissileCollisionBodySizeAdder, false, null);
@@ -1200,64 +1238,32 @@ namespace SandBox.GameComponents
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.Basher, characterObject, true, ref explainedNumber17);
 					agentDrivenProperties.ShieldBashStunDurationMultiplier = explainedNumber17.ResultNumber;
 				}
-				if (agent.HasMount)
-				{
-					if (flag2)
-					{
-						if (characterObject.GetPerkValue(DefaultPerks.Riding.Sagittarius))
-						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.Sagittarius, characterObject, true, ref explainedNumber4);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.Sagittarius, characterObject, true, ref explainedNumber5);
-						}
-						if (characterObject2 != null && characterObject2.GetPerkValue(DefaultPerks.Riding.Sagittarius))
-						{
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.Sagittarius, characterObject2, ref explainedNumber4);
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.Sagittarius, characterObject2, ref explainedNumber5);
-						}
-						if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Bow && characterObject.GetPerkValue(DefaultPerks.Bow.MountedArchery))
-						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.MountedArchery, characterObject, true, ref explainedNumber4);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.MountedArchery, characterObject, true, ref explainedNumber5);
-						}
-						if (rightHandEquippedItem.RelevantSkill == DefaultSkills.Throwing && characterObject.GetPerkValue(DefaultPerks.Throwing.MountedSkirmisher))
-						{
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.MountedSkirmisher, characterObject, true, ref explainedNumber4);
-							PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.MountedSkirmisher, characterObject, true, ref explainedNumber5);
-						}
-					}
-					if (characterObject.GetPerkValue(DefaultPerks.Riding.TheWayOfTheSaddle))
-					{
-						float num = MathF.Max((float)this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, DefaultSkills.Riding) - DefaultPerks.Riding.TheWayOfTheSaddle.PrimaryBonus, 0f);
-						num *= DefaultPerks.Riding.TheWayOfTheSaddle.SecondaryBonus / 10f;
-						agentDrivenProperties.MountManeuver += num;
-					}
-				}
 				else
 				{
-					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.MorningExercise, characterObject, true, ref explainedNumber);
-					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Medicine.SelfMedication, characterObject, false, ref explainedNumber);
-					if (!flag && !flag2)
+					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.MorningExercise, characterObject, true, ref explainedNumber2);
+					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Medicine.SelfMedication, characterObject, false, ref explainedNumber2);
+					if (!flag3 && !flag)
 					{
-						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.Sprint, characterObject, true, ref explainedNumber);
+						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.Sprint, characterObject, true, ref explainedNumber2);
 					}
 					if (rightHandEquippedItem == null && itemObject == null)
 					{
-						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.FleetFooted, characterObject, true, ref explainedNumber);
+						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.FleetFooted, characterObject, true, ref explainedNumber2);
 					}
 					if (characterObject2 != null)
 					{
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.MorningExercise, characterObject2, ref explainedNumber);
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.ShieldBearer, characterObject2, ref explainedNumber);
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.FleetOfFoot, characterObject2, ref explainedNumber);
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.RecklessCharge, characterObject2, ref explainedNumber);
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Footwork, characterObject2, ref explainedNumber);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.MorningExercise, characterObject2, ref explainedNumber2);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.ShieldBearer, characterObject2, ref explainedNumber2);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.FleetOfFoot, characterObject2, ref explainedNumber2);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.RecklessCharge, characterObject2, ref explainedNumber2);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Footwork, characterObject2, ref explainedNumber2);
 						if (characterObject.Tier >= 3)
 						{
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.FormFittingArmor, characterObject2, ref explainedNumber);
+							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.FormFittingArmor, characterObject2, ref explainedNumber2);
 						}
 						if (characterObject.IsInfantry)
 						{
-							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.Sprint, characterObject2, ref explainedNumber);
+							PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.Sprint, characterObject2, ref explainedNumber2);
 						}
 					}
 				}
@@ -1269,69 +1275,67 @@ namespace SandBox.GameComponents
 						agentDrivenProperties.ArmorTorso += DefaultPerks.Roguery.SmugglerConnections.PrimaryBonus;
 					}
 				}
+				float num = 0f;
 				float num2 = 0f;
-				float num3 = 0f;
-				bool flag4 = false;
+				bool flag5 = false;
 				if (characterObject2 != null)
 				{
 					if (agent.HasMount && characterObject2.GetPerkValue(DefaultPerks.Riding.DauntlessSteed))
 					{
-						num2 += DefaultPerks.Riding.DauntlessSteed.SecondaryBonus;
-						flag4 = true;
+						num += DefaultPerks.Riding.DauntlessSteed.SecondaryBonus;
+						flag5 = true;
 					}
 					else if (!agent.HasMount && characterObject2.GetPerkValue(DefaultPerks.Athletics.IgnorePain))
 					{
-						num2 += DefaultPerks.Athletics.IgnorePain.SecondaryBonus;
-						flag4 = true;
+						num += DefaultPerks.Athletics.IgnorePain.SecondaryBonus;
+						flag5 = true;
 					}
 					if (characterObject2.GetPerkValue(DefaultPerks.Engineering.Metallurgy))
 					{
-						num2 += DefaultPerks.Engineering.Metallurgy.SecondaryBonus;
-						flag4 = true;
+						num += DefaultPerks.Engineering.Metallurgy.SecondaryBonus;
+						flag5 = true;
 					}
 				}
 				if (!agent.HasMount && characterObject.GetPerkValue(DefaultPerks.Athletics.IgnorePain))
 				{
-					num3 += DefaultPerks.Athletics.IgnorePain.PrimaryBonus;
-					flag4 = true;
+					num2 += DefaultPerks.Athletics.IgnorePain.PrimaryBonus;
+					flag5 = true;
 				}
-				if (flag4)
+				if (flag5)
 				{
-					float num4 = 1f + 0.01f * num3;
-					agentDrivenProperties.ArmorHead = MathF.Max(0f, (agentDrivenProperties.ArmorHead + num2) * num4);
-					agentDrivenProperties.ArmorTorso = MathF.Max(0f, (agentDrivenProperties.ArmorTorso + num2) * num4);
-					agentDrivenProperties.ArmorArms = MathF.Max(0f, (agentDrivenProperties.ArmorArms + num2) * num4);
-					agentDrivenProperties.ArmorLegs = MathF.Max(0f, (agentDrivenProperties.ArmorLegs + num2) * num4);
+					float num3 = 1f + num2;
+					agentDrivenProperties.ArmorHead = MathF.Max(0f, (agentDrivenProperties.ArmorHead + num) * num3);
+					agentDrivenProperties.ArmorTorso = MathF.Max(0f, (agentDrivenProperties.ArmorTorso + num) * num3);
+					agentDrivenProperties.ArmorArms = MathF.Max(0f, (agentDrivenProperties.ArmorArms + num) * num3);
+					agentDrivenProperties.ArmorLegs = MathF.Max(0f, (agentDrivenProperties.ArmorLegs + num) * num3);
 				}
 				if (Mission.Current != null && Mission.Current.HasValidTerrainType)
 				{
 					TerrainType terrainType = Mission.Current.TerrainType;
 					if (terrainType == 2 || terrainType == 10)
 					{
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.ExtendedSkirmish, characterObject2, ref explainedNumber);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.ExtendedSkirmish, characterObject2, ref explainedNumber2);
 					}
 					else if (terrainType == 4 || terrainType == 3 || terrainType == 5)
 					{
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.DecisiveBattle, characterObject2, ref explainedNumber);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.DecisiveBattle, characterObject2, ref explainedNumber2);
 					}
+				}
+				if (characterObject.Tier >= 3 && characterObject.IsInfantry)
+				{
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.FormFittingArmor, characterObject2, ref explainedNumber2);
 				}
 				if (agent.Formation != null && agent.Formation.CountOfUnits <= 15)
 				{
-					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.SmallUnitTactics, characterObject2, ref explainedNumber);
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Tactics.SmallUnitTactics, characterObject2, ref explainedNumber2);
 				}
 				if (activeBanner != null)
 				{
-					BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedTroopMovementSpeed, activeBanner, ref explainedNumber);
+					BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedTroopMovementSpeed, activeBanner, ref explainedNumber2);
 				}
+				agentDrivenProperties.MaxSpeedMultiplier = explainedNumber2.ResultNumber;
+				agentDrivenProperties.CombatMaxSpeedMultiplier = explainedNumber.ResultNumber;
 			}
-			agentDrivenProperties.MaxSpeedMultiplier = explainedNumber.ResultNumber;
-			agentDrivenProperties.CombatMaxSpeedMultiplier = explainedNumber2.ResultNumber;
-			agentDrivenProperties.WeaponInaccuracy = explainedNumber3.ResultNumber;
-			agentDrivenProperties.WeaponMaxMovementAccuracyPenalty = explainedNumber4.ResultNumber;
-			agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty = explainedNumber5.ResultNumber;
-			agentDrivenProperties.WeaponUnsteadyBeginTime = explainedNumber6.ResultNumber;
-			agentDrivenProperties.WeaponUnsteadyEndTime = explainedNumber7.ResultNumber;
-			agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians = explainedNumber8.ResultNumber;
 		}
 
 		private void GetSkillEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
@@ -1342,7 +1346,7 @@ namespace SandBox.GameComponents
 			float reloadSpeed = agentDrivenProperties.ReloadSpeed;
 			if (characterObject != null && rightHandEquippedItem != null)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, rightHandEquippedItem.RelevantSkill);
+				int effectiveSkill = this.GetEffectiveSkill(agent, rightHandEquippedItem.RelevantSkill);
 				ExplainedNumber explainedNumber;
 				explainedNumber..ctor(swingSpeedMultiplier, false, null);
 				ExplainedNumber explainedNumber2;
@@ -1374,7 +1378,7 @@ namespace SandBox.GameComponents
 				}
 				if (agent.HasMount)
 				{
-					int effectiveSkill2 = this.GetEffectiveSkill(characterObject, agent.Origin, agent.Formation, DefaultSkills.Riding);
+					int effectiveSkill2 = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
 					float num = -0.01f * MathF.Max(0f, DefaultSkillEffects.HorseWeaponSpeedPenalty.GetPrimaryValue(effectiveSkill2));
 					explainedNumber.AddFactor(num, null);
 					explainedNumber2.AddFactor(num, null);

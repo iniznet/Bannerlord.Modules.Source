@@ -35,9 +35,9 @@ namespace SandBox
 			return SandBoxMissions.OpenCaravanBattleMission(rec, isCaravan);
 		}
 
-		IMission CampaignMission.ICampaignMissionManager.OpenBattleMission(string scene)
+		IMission CampaignMission.ICampaignMissionManager.OpenBattleMission(string scene, bool usesTownDecalAtlas)
 		{
-			return SandBoxMissions.OpenBattleMission(scene);
+			return SandBoxMissions.OpenBattleMission(scene, usesTownDecalAtlas);
 		}
 
 		IMission CampaignMission.ICampaignMissionManager.OpenAlleyFightMission(string scene, int upgradeLevel, Location location, TroopRoster playerSideTroops, TroopRoster rivalSideTroops)
@@ -45,19 +45,14 @@ namespace SandBox
 			return SandBoxMissions.OpenAlleyFightMission(scene, upgradeLevel, location, playerSideTroops, rivalSideTroops);
 		}
 
-		IMission CampaignMission.ICampaignMissionManager.OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam, int upgradeLevel)
+		IMission CampaignMission.ICampaignMissionManager.OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, int upgradeLevel)
 		{
-			return SandBoxMissions.OpenCombatMissionWithDialogue(scene, characterToTalkTo, allyTroopsWithFixedTeam, upgradeLevel);
+			return SandBoxMissions.OpenCombatMissionWithDialogue(scene, characterToTalkTo, upgradeLevel);
 		}
 
 		IMission CampaignMission.ICampaignMissionManager.OpenBattleMissionWhileEnteringSettlement(string scene, int upgradeLevel, int numberOfMaxTroopToBeSpawnedForPlayer, int numberOfMaxTroopToBeSpawnedForOpponent)
 		{
 			return SandBoxMissions.OpenBattleMissionWhileEnteringSettlement(scene, upgradeLevel, numberOfMaxTroopToBeSpawnedForPlayer, numberOfMaxTroopToBeSpawnedForOpponent);
-		}
-
-		IMission CampaignMission.ICampaignMissionManager.OpenConversatonTestMission(string scene)
-		{
-			return TestMissions.OpenFacialAnimTestMission(scene, "");
 		}
 
 		IMission CampaignMission.ICampaignMissionManager.OpenHideoutBattleMission(string scene, FlattenedTroopRoster playerTroops)
@@ -108,11 +103,6 @@ namespace SandBox
 		IMission CampaignMission.ICampaignMissionManager.OpenMeetingMission(string scene, CharacterObject character)
 		{
 			return SandBoxMissions.OpenMeetingMission(scene, character);
-		}
-
-		IMission CampaignMission.ICampaignMissionManager.OpenEquipmentTestMission(string scene)
-		{
-			return TestMissions.OpenEquipmentTestMission(scene);
 		}
 
 		IMission CampaignMission.ICampaignMissionManager.OpenRetirementMission(string scene, Location location, CharacterObject talkToChar, string sceneLevels)

@@ -175,7 +175,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=5a6KlSXt}I have a problem. My young kinsman {PRODIGAL_SON.LINK} has gone to town to have fun, drinking, wenching and gambling. Many young men do that, but it seems he was a bit reckless. Now he sends news that he owes a large sum of money to {TARGET_HERO.LINK}, one of the local gang bosses in the city of {SETTLEMENT_LINK}. These ruffians are holding him as a “guest” in their house until someone pays his debt.", null);
+					TextObject textObject = new TextObject("{=5a6KlSXt}I have a problem. [ib:normal2][if:convo_pondering]My young kinsman {PRODIGAL_SON.LINK} has gone to town to have fun, drinking, wenching and gambling. Many young men do that, but it seems he was a bit reckless. Now he sends news that he owes a large sum of money to {TARGET_HERO.LINK}, one of the local gang bosses in the city of {SETTLEMENT_LINK}. These ruffians are holding him as a “guest” in their house until someone pays his debt.", null);
 					StringHelpers.SetCharacterProperties("PRODIGAL_SON", this._prodigalSon.CharacterObject, textObject, false);
 					StringHelpers.SetCharacterProperties("TARGET_HERO", this._targetHero.CharacterObject, textObject, false);
 					textObject.SetTextVariable("SETTLEMENT_LINK", this._targetSettlement.EncyclopediaLinkWithName);
@@ -195,7 +195,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=ZC1slXw1}I'm not inclined to pay the debt. I'm not going to reward this kind of lawlessness, when even the best families aren't safe. I've sent word to the lord of {SETTLEMENT_NAME} but I can't say I expect to hear back, what with the wars and all. I want someone to go there and free the lad. You could pay, I suppose, but I'd prefer it if you taught those bastards a lesson. I'll pay you either way but obviously you get to keep more if you use force.", null);
+					TextObject textObject = new TextObject("{=ZC1slXw1}I'm not inclined to pay the debt. [ib:closed][if:convo_worried]I'm not going to reward this kind of lawlessness, when even the best families aren't safe. I've sent word to the lord of {SETTLEMENT_NAME} but I can't say I expect to hear back, what with the wars and all. I want someone to go there and free the lad. You could pay, I suppose, but I'd prefer it if you taught those bastards a lesson. I'll pay you either way but obviously you get to keep more if you use force.", null);
 					textObject.SetTextVariable("SETTLEMENT_NAME", this._targetSettlement.EncyclopediaLinkWithName);
 					return textObject;
 				}
@@ -213,7 +213,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=CWbAoGRu}Yes, I don't care how you solve it. Just solve it any way you like. I reckon {NEEDED_MEN_COUNT} led by someone who knows how to handle thugs could solve this in about {ALTERNATIVE_SOLUTION_DURATION} days. I'd send my own men but it could cause complications for us to go marching in wearing our clan colors in another lord's territory.", null);
+					TextObject textObject = new TextObject("{=CWbAoGRu}Yes, I don't care how you solve it. [if:convo_normal]Just solve it any way you like. I reckon {NEEDED_MEN_COUNT} led by someone who knows how to handle thugs could solve this in about {ALTERNATIVE_SOLUTION_DURATION} days. I'd send my own men but it could cause complications for us to go marching in wearing our clan colors in another lord's territory.", null);
 					textObject.SetTextVariable("NEEDED_MEN_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("ALTERNATIVE_SOLUTION_DURATION", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
@@ -243,7 +243,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=qxhMagyZ}I'm glad someone's on it. Just see that they do it quickly.", null);
+					return new TextObject("{=qxhMagyZ}I'm glad someone's on it.[if:convo_relaxed_happy] Just see that they do it quickly.", null);
 				}
 			}
 
@@ -251,7 +251,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=mDXzDXKY}Very good. I'm sure you'll chose competent men to bring our boy back.", null);
+					return new TextObject("{=mDXzDXKY}Very good. [if:convo_relaxed_happy]I'm sure you'll chose competent men to bring our boy back.", null);
 				}
 			}
 
@@ -385,6 +385,10 @@ namespace SandBox.Issues
 				{
 					this._targetSettlement = town.Settlement;
 				}
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override QuestBase GenerateIssueQuest(string questId)
@@ -653,14 +657,14 @@ namespace SandBox.Issues
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=bQnVtegC}Good, even better. You can find the house easily when you go to {SETTLEMENT} and walk around the town square. Or you could just speak to this gang leader, {TARGET_HERO.LINK}, and make {?TARGET_HERO.GENDER}her{?}him{\\?} understand and get my boy released. Good luck. I await good news.", null);
+				TextObject textObject = new TextObject("{=bQnVtegC}Good, even better. [ib:confident][if:convo_astonished]You can find the house easily when you go to {SETTLEMENT} and walk around the town square. Or you could just speak to this gang leader, {TARGET_HERO.LINK}, and make {?TARGET_HERO.GENDER}her{?}him{\\?} understand and get my boy released. Good luck. I await good news.", null);
 				StringHelpers.SetCharacterProperties("TARGET_HERO", this._targetHero.CharacterObject, textObject, false);
 				Settlement settlement = ((this._targetHero.CurrentSettlement != null) ? this._targetHero.CurrentSettlement : this._targetHero.PartyBelongedTo.HomeSettlement);
 				textObject.SetTextVariable("SETTLEMENT", settlement.EncyclopediaLinkWithName);
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.is_talking_to_quest_giver))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=TkYk5yxn}Yes? Go already. Get our boy back.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.is_talking_to_quest_giver))
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=TkYk5yxn}Yes? Go already. Get our boy back.[if:convo_excited]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.is_talking_to_quest_giver))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=kqXxvtwQ}Don't worry I'll free him.", null), null)
 					.NpcLine(new TextObject("{=ddEu5IFQ}I hope so.", null), null, null)
@@ -679,6 +683,10 @@ namespace SandBox.Issues
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override void RegisterEvents()
@@ -932,7 +940,7 @@ namespace SandBox.Issues
 						return true;
 					})
 					.PlayerLine("{=ln3bGyIO}Yes, I'm here to take you back.", null)
-					.NpcLine("{=evIohG6b}Thank you, but there's no need. Once we are out of here I can manage to return on my own. I appreciate your efforts. I'll tell everyone in my clan of your heroism.", null, null)
+					.NpcLine("{=evIohG6b}Thank you, but there's no need. Once we are out of here I can manage to return on my own.[if:convo_happy] I appreciate your efforts. I'll tell everyone in my clan of your heroism.", null, null)
 					.NpcLine("{=qsJxhNGZ}Safe travels {?PLAYER.GENDER}milady{?}sir{\\?}.", null, null)
 					.Consequence(delegate
 					{
@@ -944,7 +952,7 @@ namespace SandBox.Issues
 
 			private DialogFlow GetTargetHeroDialogFlow()
 			{
-				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=M0vxXQGB}Yes? Do you have something to say?", null), () => Hero.OneToOneConversationHero == this._targetHero && !this._playerTalkedToTargetHero, null, null)
+				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=M0vxXQGB}Yes? Do you have something to say?[ib:closed][if:convo_nonchalant]", null), () => Hero.OneToOneConversationHero == this._targetHero && !this._playerTalkedToTargetHero, null, null)
 					.Consequence(delegate
 					{
 						StringHelpers.SetCharacterProperties("PRODIGAL_SON", this._prodigalSon.CharacterObject, null, false);
@@ -952,7 +960,7 @@ namespace SandBox.Issues
 					})
 					.PlayerLine("{=K5DgDU2a}I am here for the boy. {PRODIGAL_SON.LINK}. You know who I mean.", null)
 					.GotoDialogState("start")
-					.NpcOption(new TextObject("{=I979VDEn}Yes, did you bring {GOLD_AMOUNT}{GOLD_ICON}? That's what he owes... With an interest of course.", null), delegate
+					.NpcOption(new TextObject("{=I979VDEn}Yes, did you bring {GOLD_AMOUNT}{GOLD_ICON}? [ib:hip][if:convo_stern]That's what he owes... With an interest of course.", null), delegate
 					{
 						bool flag = Hero.OneToOneConversationHero == this._targetHero && this._playerTalkedToTargetHero;
 						if (flag)
@@ -978,7 +986,7 @@ namespace SandBox.Issues
 						}
 						return flag2;
 					})
-					.NpcLine("{=7k03GxZ1}It's great doing business with you. I'll order my men to release him immediately.", null, null)
+					.NpcLine("{=7k03GxZ1}It's great doing business with you. I'll order my men to release him immediately.[if:convo_mocking_teasing]", null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.FinishQuestSuccess4))
 					.CloseDialog()
 					.PlayerOption("{=9pTkQ5o2}It would be in your interest to let this young nobleman go...", null)
@@ -1001,9 +1009,9 @@ namespace SandBox.Issues
 
 			private void AddPersuasionDialogs(DialogFlow dialog)
 			{
-				dialog.AddDialogLine("persuade_gang_introduction", "persuade_gang_start_reservation", "persuade_gang_player_option", "{=EIsQnfLP}Tell me how it's in my interest...", new ConversationSentence.OnConditionDelegate(this.persuasion_start_on_condition), null, this, 100, null, null, null);
-				dialog.AddDialogLine("persuade_gang_success", "persuade_gang_start_reservation", "close_window", "{=alruamIW}Hmm... You may be right. It's not worth it. I'll release the boy immediately.", new ConversationSentence.OnConditionDelegate(ConversationManager.GetPersuasionProgressSatisfied), new ConversationSentence.OnConsequenceDelegate(this.persuasion_success_on_consequence), this, int.MaxValue, null, null, null);
-				dialog.AddDialogLine("persuade_gang_failed", "persuade_gang_start_reservation", "start", "{=1YGgXOB7}Meh... Do you think ruling the streets of a city is easy? You underestimate us. Now, about the money.", null, new ConversationSentence.OnConsequenceDelegate(ConversationManager.EndPersuasion), this, 100, null, null, null);
+				dialog.AddDialogLine("persuade_gang_introduction", "persuade_gang_start_reservation", "persuade_gang_player_option", "{=EIsQnfLP}Tell me how it's in my interest...[ib:closed][if:convo_nonchalant]", new ConversationSentence.OnConditionDelegate(this.persuasion_start_on_condition), null, this, 100, null, null, null);
+				dialog.AddDialogLine("persuade_gang_success", "persuade_gang_start_reservation", "close_window", "{=alruamIW}Hmm... You may be right. It's not worth it. I'll release the boy immediately.[ib:hip][if:convo_pondering]", new ConversationSentence.OnConditionDelegate(ConversationManager.GetPersuasionProgressSatisfied), new ConversationSentence.OnConsequenceDelegate(this.persuasion_success_on_consequence), this, int.MaxValue, null, null, null);
+				dialog.AddDialogLine("persuade_gang_failed", "persuade_gang_start_reservation", "start", "{=1YGgXOB7}Meh... Do you think ruling the streets of a city is easy? You underestimate us. Now, about the money.[ib:closed2][if:convo_nonchalant]", null, new ConversationSentence.OnConsequenceDelegate(ConversationManager.EndPersuasion), this, 100, null, null, null);
 				string text = "persuade_gang_player_option_1";
 				string text2 = "persuade_gang_player_option";
 				string text3 = "persuade_gang_player_option_response";

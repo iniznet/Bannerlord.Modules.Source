@@ -35,7 +35,7 @@ namespace SandBox.Missions.MissionLogics
 				{
 					float primaryBonus = DefaultPerks.Riding.WellStraped.PrimaryBonus;
 					num += num * primaryBonus;
-					num2 += num * primaryBonus;
+					num2 += num2 * primaryBonus;
 				}
 				bool flag = randomFloat < num2;
 				bool flag2;

@@ -61,8 +61,9 @@ namespace SandBox.GauntletUI.Menu
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
-			if (base.Layer.Input.IsHotKeyReleased("Confirm") || base.Layer.Input.IsHotKeyReleased("Exit"))
+			if (base.Layer.Input.IsHotKeyReleased("Confirm"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				if (this._dataSource.ReserveControl.IsEnabled)
 				{
 					this._dataSource.ReserveControl.ExecuteUpdateReserve();
@@ -91,6 +92,7 @@ namespace SandBox.GauntletUI.Menu
 					}
 					else
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.ExecuteDone();
 					}
 				}

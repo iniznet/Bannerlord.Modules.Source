@@ -93,6 +93,7 @@ namespace SandBox.GauntletUI.Menu
 			ScreenLayer layer = base.Layer;
 			if (layer != null && layer.Input.IsHotKeyPressed("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteCancel();
 			}
 			else
@@ -100,6 +101,7 @@ namespace SandBox.GauntletUI.Menu
 				ScreenLayer layer2 = base.Layer;
 				if (layer2 != null && layer2.Input.IsHotKeyPressed("Confirm"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteDone();
 				}
 				else
@@ -107,6 +109,7 @@ namespace SandBox.GauntletUI.Menu
 					ScreenLayer layer3 = base.Layer;
 					if (layer3 != null && layer3.Input.IsHotKeyPressed("Reset"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.ExecuteReset();
 					}
 				}

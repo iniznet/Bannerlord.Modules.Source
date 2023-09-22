@@ -9,6 +9,7 @@ using SandBox.Objects.AnimationPoints;
 using SandBox.Objects.Usables;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -75,7 +76,11 @@ namespace SandBox.Missions.MissionLogics
 		{
 			this._passageUsageTime = base.Mission.CurrentTime + 30f;
 			this.GetAllProps();
-			this.InitializePairedUsableObjects();
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(Settlement.CurrentSettlement.Position2D);
+			if (weatherEventInPosition != 2 && weatherEventInPosition != 4)
+			{
+				this.InitializePairedUsableObjects();
+			}
 			base.Mission.SetReportStuckAgentsMode(true);
 		}
 
@@ -128,6 +133,20 @@ namespace SandBox.Missions.MissionLogics
 				if (component != null)
 				{
 					component.OnAgentRemoved(affectedAgent);
+				}
+			}
+		}
+
+		public override void OnMissionModeChange(MissionMode oldMissionMode, bool atStart)
+		{
+			if (!atStart)
+			{
+				foreach (Agent agent in base.Mission.Agents)
+				{
+					if (agent.IsHuman)
+					{
+						agent.SetAgentExcludeStateForFaceGroupId(MissionAgentHandler._disabledFaceId, agent.CurrentWatchState != 2);
+					}
 				}
 			}
 		}
@@ -537,7 +556,7 @@ namespace SandBox.Missions.MissionLogics
 			Agent agent = base.Mission.SpawnAgent(agentBuildData2, false);
 			if (wieldInitialWeapons)
 			{
-				agent.WieldInitialWeapons(2);
+				agent.WieldInitialWeapons(2, 0);
 			}
 			if (flag2)
 			{
@@ -776,7 +795,7 @@ namespace SandBox.Missions.MissionLogics
 			{
 				if (locationCharacter.CharacterRelation == 2)
 				{
-					MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(this.SpawnWanderingAgent(locationCharacter, list[num % list.Count], true), MissionAgentHandler._disabledFaceId);
+					MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(this.SpawnWanderingAgentWithInitialFrame(locationCharacter, list[num % list.Count], true), MissionAgentHandler._disabledFaceId);
 					num++;
 				}
 			}
@@ -802,13 +821,13 @@ namespace SandBox.Missions.MissionLogics
 					{
 						WorldFrame worldFrame = base.Mission.MainAgent.GetWorldFrame();
 						worldFrame.Origin.SetVec2(base.Mission.GetRandomPositionAroundPoint(worldFrame.Origin.GetNavMeshVec3(), 0.5f, 2f, false).AsVec2);
-						Agent agent = this.SpawnWanderingAgent(accompanyingCharacter.LocationCharacter, worldFrame.ToGroundMatrixFrame(), noHorse);
+						Agent agent = this.SpawnWanderingAgentWithInitialFrame(accompanyingCharacter.LocationCharacter, worldFrame.ToGroundMatrixFrame(), noHorse);
 						int num2 = 0;
 						for (;;)
 						{
 							Agent agent2 = agent;
-							WorldPosition worldPosition = base.Mission.MainAgent.GetWorldPosition();
-							if (agent2.CanMoveDirectlyToPosition(ref worldPosition) || num2 >= 50)
+							Vec2 asVec = base.Mission.MainAgent.Position.AsVec2;
+							if (agent2.CanMoveDirectlyToPosition(ref asVec) || num2 >= 50)
 							{
 								break;
 							}
@@ -873,7 +892,7 @@ namespace SandBox.Missions.MissionLogics
 						f.Normalize();
 						globalFrame.origin -= 0.3f * f;
 						globalFrame.rotation.RotateAboutUp(3.1415927f);
-						Agent agent = this.SpawnWanderingAgent(locationCharacter, globalFrame, true);
+						Agent agent = this.SpawnWanderingAgentWithInitialFrame(locationCharacter, globalFrame, true);
 						MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceId);
 						base.Mission.MakeSound(MiscSoundContainer.SoundCodeMovementFoleyDoorClose, globalFrame.origin, true, false, -1, -1);
 						agent.FadeIn();
@@ -883,55 +902,6 @@ namespace SandBox.Missions.MissionLogics
 				return;
 			}
 			this.SpawnLocationCharacter(locationCharacter, true);
-		}
-
-		public Agent SpawnHiddenLocationCharacter(LocationCharacter locationCharacter, MatrixFrame spawnFrame)
-		{
-			Agent agent = this.SpawnWanderingAgent(locationCharacter, spawnFrame, true);
-			agent.FadeIn();
-			return agent;
-		}
-
-		public void SpawnGuardsForSneakCaught()
-		{
-			List<GameEntity> list = base.Mission.Scene.FindEntitiesWithTag("spawnpoint_npc_sneak").ToList<GameEntity>();
-			IEnumerable<LocationCharacter> characterList = CampaignMission.Current.Location.GetCharacterList();
-			int num = 0;
-			foreach (LocationCharacter locationCharacter in characterList)
-			{
-				if (locationCharacter.Character.Occupation == 2)
-				{
-					MatrixFrame frame = list[num].GetFrame();
-					Mission mission = base.Mission;
-					AgentBuildData agentBuildData = new AgentBuildData(locationCharacter.Character).TroopOrigin(new SimpleAgentOrigin(locationCharacter.Character, -1, null, default(UniqueTroopDescriptor))).Team(base.Mission.PlayerEnemyTeam).InitialPosition(ref frame.origin);
-					Vec2 vec = frame.rotation.f.AsVec2;
-					vec = vec.Normalized();
-					mission.SpawnAgent(agentBuildData.InitialDirection(ref vec), false);
-					num++;
-					if (num >= list.Count)
-					{
-						break;
-					}
-				}
-			}
-		}
-
-		public void SpawnGuards()
-		{
-			List<GameEntity> list = base.Mission.Scene.FindEntitiesWithTag("sp_guard").ToList<GameEntity>();
-			int num = 0;
-			foreach (LocationCharacter locationCharacter in CampaignMission.Current.Location.GetCharacterList())
-			{
-				if (locationCharacter.Character.Occupation == 2 || locationCharacter.Character.Occupation == 24)
-				{
-					if (num >= list.Count)
-					{
-						break;
-					}
-					MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(this.SpawnWanderingAgent(locationCharacter, list[num].GetGlobalFrame(), true), MissionAgentHandler._disabledFaceId);
-					num++;
-				}
-			}
 		}
 
 		private static void SimulateAnimalAnimations(Agent agent)
@@ -1049,46 +1019,6 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		public static void SpawnCats()
-		{
-			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_cat"))
-			{
-				MatrixFrame globalFrame = gameEntity.GetGlobalFrame();
-				ItemRosterElement itemRosterElement;
-				itemRosterElement..ctor(Game.Current.ObjectManager.GetObject<ItemObject>("cat"), 0, null);
-				globalFrame.rotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
-				Mission mission = Mission.Current;
-				ItemRosterElement itemRosterElement2 = itemRosterElement;
-				ItemRosterElement itemRosterElement3 = default(ItemRosterElement);
-				Vec2 asVec = globalFrame.rotation.f.AsVec2;
-				Agent agent = mission.SpawnMonster(itemRosterElement2, itemRosterElement3, ref globalFrame.origin, ref asVec, -1);
-				MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceId);
-				MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceIdForAnimals);
-				AnimalSpawnSettings.CheckAndSetAnimalAgentFlags(gameEntity, agent);
-				MissionAgentHandler.SimulateAnimalAnimations(agent);
-			}
-		}
-
-		public static void SpawnDogs()
-		{
-			foreach (GameEntity gameEntity in Mission.Current.Scene.FindEntitiesWithTag("sp_dog").ToList<GameEntity>())
-			{
-				MatrixFrame globalFrame = gameEntity.GetGlobalFrame();
-				ItemRosterElement itemRosterElement;
-				itemRosterElement..ctor(Game.Current.ObjectManager.GetObject<ItemObject>("dog"), 0, null);
-				globalFrame.rotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
-				Mission mission = Mission.Current;
-				ItemRosterElement itemRosterElement2 = itemRosterElement;
-				ItemRosterElement itemRosterElement3 = default(ItemRosterElement);
-				Vec2 asVec = globalFrame.rotation.f.AsVec2;
-				Agent agent = mission.SpawnMonster(itemRosterElement2, itemRosterElement3, ref globalFrame.origin, ref asVec, -1);
-				MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceId);
-				MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceIdForAnimals);
-				AnimalSpawnSettings.CheckAndSetAnimalAgentFlags(gameEntity, agent);
-				MissionAgentHandler.SimulateAnimalAnimations(agent);
-			}
-		}
-
 		public static List<Agent> SpawnHorses()
 		{
 			List<Agent> list = new List<Agent>();
@@ -1137,105 +1067,82 @@ namespace SandBox.Missions.MissionLogics
 			return list;
 		}
 
+		private bool GetSpawnDataForTag(string targetTag, out MatrixFrame spawnFrame, out UsableMachine usableMachine)
+		{
+			List<UsableMachine> allUsablePointsWithTag = this.GetAllUsablePointsWithTag(targetTag);
+			spawnFrame = MatrixFrame.Identity;
+			usableMachine = null;
+			if (allUsablePointsWithTag.Count > 0)
+			{
+				foreach (UsableMachine usableMachine2 in allUsablePointsWithTag)
+				{
+					MatrixFrame matrixFrame;
+					if (this.GetSpawnFrameFromUsableMachine(usableMachine2, out matrixFrame))
+					{
+						spawnFrame = matrixFrame;
+						usableMachine = usableMachine2;
+						return true;
+					}
+				}
+				return false;
+			}
+			return false;
+		}
+
+		private bool GetSpawnDataInUsablePointsList(Dictionary<string, List<UsableMachine>> list, out MatrixFrame spawnFrame, out UsableMachine usableMachine)
+		{
+			spawnFrame = MatrixFrame.Identity;
+			usableMachine = null;
+			foreach (KeyValuePair<string, List<UsableMachine>> keyValuePair in list)
+			{
+				if (keyValuePair.Value.Count > 0)
+				{
+					foreach (UsableMachine usableMachine2 in keyValuePair.Value)
+					{
+						MatrixFrame matrixFrame;
+						if (this.GetSpawnFrameFromUsableMachine(usableMachine2, out matrixFrame))
+						{
+							spawnFrame = matrixFrame;
+							usableMachine = usableMachine2;
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
 		public Agent SpawnWanderingAgent(LocationCharacter locationCharacter)
 		{
 			bool flag = false;
-			MatrixFrame matrixFrame = MatrixFrame.Identity;
+			MatrixFrame identity = MatrixFrame.Identity;
+			UsableMachine usableMachine = null;
 			if (locationCharacter.SpecialTargetTag != null)
 			{
-				List<UsableMachine> allUsablePointsWithTag = this.GetAllUsablePointsWithTag(locationCharacter.SpecialTargetTag);
-				if (allUsablePointsWithTag.Count > 0)
-				{
-					foreach (UsableMachine usableMachine in allUsablePointsWithTag)
-					{
-						MatrixFrame matrixFrame2;
-						if (this.GetSpawnFrameFromUsableMachine(usableMachine, out matrixFrame2))
-						{
-							matrixFrame = matrixFrame2;
-							flag = true;
-							break;
-						}
-					}
-				}
+				flag = this.GetSpawnDataForTag(locationCharacter.SpecialTargetTag, out identity, out usableMachine);
 			}
 			if (!flag)
 			{
-				List<UsableMachine> allUsablePointsWithTag2 = this.GetAllUsablePointsWithTag("npc_common_limited");
-				if (allUsablePointsWithTag2.Count > 0)
-				{
-					foreach (UsableMachine usableMachine2 in allUsablePointsWithTag2)
-					{
-						MatrixFrame matrixFrame3;
-						if (this.GetSpawnFrameFromUsableMachine(usableMachine2, out matrixFrame3))
-						{
-							matrixFrame = matrixFrame3;
-							flag = true;
-							break;
-						}
-					}
-				}
+				flag = this.GetSpawnDataForTag("npc_common_limited", out identity, out usableMachine);
 			}
 			if (!flag)
 			{
-				List<UsableMachine> allUsablePointsWithTag3 = this.GetAllUsablePointsWithTag("npc_common");
-				if (allUsablePointsWithTag3.Count > 0)
-				{
-					foreach (UsableMachine usableMachine3 in allUsablePointsWithTag3)
-					{
-						MatrixFrame matrixFrame4;
-						if (this.GetSpawnFrameFromUsableMachine(usableMachine3, out matrixFrame4))
-						{
-							matrixFrame = matrixFrame4;
-							flag = true;
-							break;
-						}
-					}
-				}
+				flag = this.GetSpawnDataForTag("npc_common", out identity, out usableMachine);
 			}
 			if (!flag && this._usablePoints.Count > 0)
 			{
-				foreach (KeyValuePair<string, List<UsableMachine>> keyValuePair in this._usablePoints)
-				{
-					if (keyValuePair.Value.Count > 0)
-					{
-						foreach (UsableMachine usableMachine4 in keyValuePair.Value)
-						{
-							MatrixFrame matrixFrame5;
-							if (this.GetSpawnFrameFromUsableMachine(usableMachine4, out matrixFrame5))
-							{
-								matrixFrame = matrixFrame5;
-								flag = true;
-								break;
-							}
-						}
-					}
-				}
+				flag = this.GetSpawnDataInUsablePointsList(this._usablePoints, out identity, out usableMachine);
 			}
 			if (!flag && this._pairedUsablePoints.Count > 0)
 			{
-				foreach (KeyValuePair<string, List<UsableMachine>> keyValuePair2 in this._pairedUsablePoints)
-				{
-					if (keyValuePair2.Value.Count > 0)
-					{
-						foreach (UsableMachine usableMachine5 in keyValuePair2.Value)
-						{
-							MatrixFrame matrixFrame6;
-							if (this.GetSpawnFrameFromUsableMachine(usableMachine5, out matrixFrame6))
-							{
-								matrixFrame = matrixFrame6;
-								flag = true;
-								break;
-							}
-						}
-					}
-				}
+				flag = this.GetSpawnDataInUsablePointsList(this._pairedUsablePoints, out identity, out usableMachine);
 			}
-			matrixFrame.rotation.f.z = 0f;
-			matrixFrame.rotation.f.Normalize();
-			matrixFrame.rotation.u = Vec3.Up;
-			matrixFrame.rotation.s = Vec3.CrossProduct(matrixFrame.rotation.f, matrixFrame.rotation.u);
-			matrixFrame.rotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
-			Agent agent = this.SpawnWanderingAgent(locationCharacter, matrixFrame, true);
+			identity.rotation.f.z = 0f;
+			identity.rotation.f.Normalize();
+			identity.rotation.u = Vec3.Up;
+			identity.rotation.s = Vec3.CrossProduct(identity.rotation.f, identity.rotation.u);
+			identity.rotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
+			Agent agent = this.SpawnWanderingAgentWithUsableMachine(locationCharacter, usableMachine);
 			MissionAgentHandler.SetAgentExcludeFaceGroupIdAux(agent, MissionAgentHandler._disabledFaceId);
 			return agent;
 		}
@@ -1243,7 +1150,7 @@ namespace SandBox.Missions.MissionLogics
 		private bool GetSpawnFrameFromUsableMachine(UsableMachine usableMachine, out MatrixFrame frame)
 		{
 			frame = MatrixFrame.Identity;
-			StandingPoint randomElementWithPredicate = Extensions.GetRandomElementWithPredicate<StandingPoint>(usableMachine.StandingPoints, (StandingPoint x) => !x.IsDeactivated && !x.IsDisabled);
+			StandingPoint randomElementWithPredicate = Extensions.GetRandomElementWithPredicate<StandingPoint>(usableMachine.StandingPoints, (StandingPoint x) => !x.HasUser && !x.IsDeactivated && !x.IsDisabled);
 			if (randomElementWithPredicate != null)
 			{
 				frame = randomElementWithPredicate.GameEntity.GetGlobalFrame();
@@ -1252,7 +1159,16 @@ namespace SandBox.Missions.MissionLogics
 			return false;
 		}
 
-		private Agent SpawnWanderingAgent(LocationCharacter locationCharacter, MatrixFrame spawnPointFrame, bool noHorses = true)
+		private Agent SpawnWanderingAgentWithUsableMachine(LocationCharacter locationCharacter, UsableMachine usableMachine)
+		{
+			MatrixFrame matrixFrame;
+			this.GetSpawnFrameFromUsableMachine(usableMachine, out matrixFrame);
+			Agent agent = this.SpawnWanderingAgentWithInitialFrame(locationCharacter, matrixFrame, true);
+			agent.GetComponent<CampaignAgentComponent>().AgentNavigator.SetTarget(usableMachine, true);
+			return agent;
+		}
+
+		private Agent SpawnWanderingAgentWithInitialFrame(LocationCharacter locationCharacter, MatrixFrame spawnPointFrame, bool noHorses = true)
 		{
 			Team team = Team.Invalid;
 			switch (locationCharacter.CharacterRelation)

@@ -1,8 +1,6 @@
 ﻿using System;
-using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
-using TaleWorlds.Library.EventSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 
@@ -16,36 +14,16 @@ namespace SandBox.ViewModelCollection.Input
 
 		private InputKeyItemVM()
 		{
-			Game game = Game.Current;
-			if (game == null)
-			{
-				return;
-			}
-			EventManager eventManager = game.EventManager;
-			if (eventManager == null)
-			{
-				return;
-			}
-			eventManager.RegisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveStateChanged));
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
-			Game game = Game.Current;
-			if (game == null)
-			{
-				return;
-			}
-			EventManager eventManager = game.EventManager;
-			if (eventManager == null)
-			{
-				return;
-			}
-			eventManager.UnregisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveStateChanged));
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		private void OnGamepadActiveStateChanged(GamepadActiveStateChangedEvent obj)
+		private void OnGamepadActiveStateChanged()
 		{
 			this.ForceRefresh();
 		}
@@ -80,7 +58,7 @@ namespace SandBox.ViewModelCollection.Input
 				}
 				this.KeyID = text;
 				TextObject forcedName = this._forcedName;
-				this.KeyName = ((forcedName != null) ? forcedName.ToString() : null) ?? Game.Current.GameTextManager.FindText("str_key_name", this.GameKey.GroupId + "_" + this.GameKey.StringId).ToString();
+				this.KeyName = ((forcedName != null) ? forcedName.ToString() : null) ?? Module.CurrentModule.GlobalTextManager.FindText("str_key_name", this.GameKey.GroupId + "_" + this.GameKey.StringId).ToString();
 				return;
 			}
 			if (this.HotKey != null)

@@ -243,7 +243,7 @@ namespace SandBox.Tournaments.AgentControllers
 		public void PrepareEquipmentsForSwordDuel()
 		{
 			this.AddEquipmentsForSwordDuel();
-			base.Owner.WieldInitialWeapons(2);
+			base.Owner.WieldInitialWeapons(2, 0);
 			this.PrepareEquipmentsAfterDismount = false;
 		}
 

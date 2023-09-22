@@ -38,7 +38,6 @@ namespace SandBox.Objects.Usables
 			base.OnInit();
 			this._playList = new List<SettlementMusicData>();
 			this._musicianPoints = base.StandingPoints.OfType<PlayMusicPoint>().ToList<PlayMusicPoint>();
-			MBMusicManagerOld.StopMusic(false);
 		}
 
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
@@ -153,7 +152,6 @@ namespace SandBox.Objects.Usables
 			this._trackEvent = SoundEvent.CreateEvent(eventIdFromString, Mission.Current.Scene);
 			this._trackEvent.SetPosition(base.GameEntity.GetGlobalFrame().origin);
 			this._trackEvent.Play();
-			MBMusicManagerOld.StopMusic(true);
 			foreach (PlayMusicPoint playMusicPoint in this._musicianPoints)
 			{
 				playMusicPoint.StartLoop(this._trackEvent);

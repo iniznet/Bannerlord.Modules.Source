@@ -18,22 +18,22 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
-		public override void OnAgentRemoved(Agent affectedAgentBase, Agent affectorAgentBase, AgentState agentState, KillingBlow killingBlow)
+		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (affectorAgentBase != null && affectorAgentBase.IsMainAgent && affectedAgentBase != null && affectedAgentBase.IsHuman)
+			if (affectorAgent != null && affectorAgent.IsMainAgent && affectedAgent != null && affectedAgent.IsHuman)
 			{
 				TournamentBehavior missionBehavior = Mission.Current.GetMissionBehavior<TournamentBehavior>();
 				if (missionBehavior != null && missionBehavior.CurrentMatch != null && missionBehavior.NextRound == null)
 				{
 					foreach (TournamentParticipant tournamentParticipant in missionBehavior.CurrentMatch.Participants)
 					{
-						if (affectorAgentBase.Character == tournamentParticipant.Character && affectedAgentBase.Character != tournamentParticipant.Character)
+						if (affectorAgent.Character == tournamentParticipant.Character && affectedAgent.Character != tournamentParticipant.Character)
 						{
 							HighlightsController.Highlight highlight = default(HighlightsController.Highlight);
 							highlight.Start = Mission.Current.CurrentTime;
 							highlight.End = Mission.Current.CurrentTime;
 							highlight.HighlightType = this._highlightsController.GetHighlightTypeWithId("hlid_tournament_last_match_kill");
-							this._highlightsController.SaveHighlight(highlight, affectedAgentBase.Position);
+							this._highlightsController.SaveHighlight(highlight, affectedAgent.Position);
 							break;
 						}
 					}

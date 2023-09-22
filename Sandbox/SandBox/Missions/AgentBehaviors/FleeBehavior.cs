@@ -115,7 +115,7 @@ namespace SandBox.Missions.AgentBehaviors
 		{
 			float num = 1f;
 			NavigationPath navigationPath = new NavigationPath();
-			base.Mission.Scene.GetPathBetweenAIFaces(startWorldPos.GetNearestNavMesh(), targetWorldPos.GetNearestNavMesh(), startWorldPos.AsVec2, targetWorldPos.AsVec2, 0f, navigationPath);
+			base.Mission.Scene.GetPathBetweenAIFaces(startWorldPos.GetNearestNavMesh(), targetWorldPos.GetNearestNavMesh(), startWorldPos.AsVec2, targetWorldPos.AsVec2, 0f, navigationPath, null);
 			Vec2 asVec = this.GetDangerPosition().AsVec2;
 			float num2 = MBMath.WrapAngle((asVec - startWorldPos.AsVec2).RotationInRadians);
 			float num3 = MathF.Abs(MBMath.GetSmallestDifferenceBetweenTwoAngles(MBMath.WrapAngle((navigationPath.Size > 0) ? (navigationPath.PathPoints[0] - startWorldPos.AsVec2).RotationInRadians : (targetWorldPos.AsVec2 - startWorldPos.AsVec2).RotationInRadians), num2)) / 3.1415927f * 1f;

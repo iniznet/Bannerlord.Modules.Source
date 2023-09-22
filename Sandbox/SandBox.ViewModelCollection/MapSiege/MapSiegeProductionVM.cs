@@ -124,13 +124,13 @@ namespace SandBox.ViewModelCollection.MapSiege
 						float siegeEngineHitPoints = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineHitPoints(PlayerSiege.PlayerSiegeEvent, machine.Engine, this.PlayerSide);
 						siegeEngineConstructionProgress = new SiegeEvent.SiegeEngineConstructionProgress(machine.Engine, 0f, siegeEngineHitPoints);
 					}
-					if (siegeEventSide.SiegeStrategy != DefaultSiegeStrategies.Custom)
+					if (siegeEventSide.SiegeStrategy != DefaultSiegeStrategies.Custom && Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(this.Siege, siegeEventSide.BattleSide) == Hero.MainHero)
 					{
 						siegeEventSide.SetSiegeStrategy(DefaultSiegeStrategies.Custom);
 					}
 					siegeEventSide.SiegeEngines.DeploySiegeEngineAtIndex(siegeEngineConstructionProgress, this.LatestSelectedPOI.MachineIndex);
 				}
-				this.Siege.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.Siege.BesiegedSettlement.Party.SetVisualAsDirty();
 				Game.Current.EventManager.TriggerEvent<PlayerStartEngineConstructionEvent>(new PlayerStartEngineConstructionEvent(machine.Engine));
 			}
 			this.IsEnabled = false;

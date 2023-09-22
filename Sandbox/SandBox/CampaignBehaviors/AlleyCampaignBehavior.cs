@@ -189,6 +189,10 @@ namespace SandBox.CampaignBehaviors
 							randomElement.SetOwner(null);
 						}
 					}
+					if (!hero.IsHealthFull())
+					{
+						hero.Heal(10, false);
+					}
 				}
 			}
 		}
@@ -238,6 +242,16 @@ namespace SandBox.CampaignBehaviors
 			this._masterThug = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_3");
 			this.AddGameMenus(campaignGameStarter);
 			this.AddDialogs(campaignGameStarter);
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				foreach (AlleyCampaignBehavior.PlayerAlleyData playerAlleyData in this._playerOwnedCommonAreaData)
+				{
+					if (playerAlleyData.IsUnderAttack && playerAlleyData.UnderAttackBy.Owner == null)
+					{
+						playerAlleyData.UnderAttackBy = null;
+					}
+				}
+			}
 		}
 
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
@@ -350,7 +364,7 @@ namespace SandBox.CampaignBehaviors
 
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
-			campaignGameSystemStarter.AddGameMenuOption("town", "manage_alley", "Go to alley", new GameMenuOption.OnConditionDelegate(this.go_to_alley_on_condition), new GameMenuOption.OnConsequenceDelegate(this.go_to_alley_on_consequence), false, 5, false, null);
+			campaignGameSystemStarter.AddGameMenuOption("town", "manage_alley", "{=VkOtMe5a}Go to alley", new GameMenuOption.OnConditionDelegate(this.go_to_alley_on_condition), new GameMenuOption.OnConsequenceDelegate(this.go_to_alley_on_consequence), false, 5, false, null);
 			campaignGameSystemStarter.AddGameMenu("manage_alley", "{=dWf6ztYu}You are in your alley by the {ALLEY_TYPE}, {FURTHER_INFO}", new OnInitDelegate(this.manage_alley_menu_on_init), 3, 0, null);
 			campaignGameSystemStarter.AddGameMenuOption("manage_alley", "confront_hostile_alley_leader", "{=grhRXqen}Confront {HOSTILE_GANG_LEADER.NAME} about {?HOSTILE_GANG_LEADER.GENDER}her{?}his{\\?} attack on your alley.", new GameMenuOption.OnConditionDelegate(this.alley_under_attack_on_condition), new GameMenuOption.OnConsequenceDelegate(this.alley_under_attack_response_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("manage_alley", "change_leader_of_alley", "{=ClyaDhGU}Change the leader of the alley", new GameMenuOption.OnConditionDelegate(this.change_leader_of_alley_on_condition), new GameMenuOption.OnConsequenceDelegate(this.change_leader_of_the_alley_on_consequence), false, -1, false, null);
@@ -581,11 +595,11 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("alley_talk_start_player_owned_alley_manager_volunteers_3", "alley_player_ask_for_troops", "give_troops_to_player", "{=BNz4ZA6S}Very well. Have them join me now.", null, new ConversationSentence.OnConsequenceDelegate(this.player_recruited_troops_from_alley), 100, null, null);
 			campaignGameStarter.AddDialogLine("alley_talk_start_player_owned_alley_manager_volunteers_4", "give_troops_to_player", "start", "{=PlIYRSIz}All right my {?PLAYER.GENDER}lady{?}lord{\\?}, they will be ready.", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("alley_talk_start_player_owned_alley_manager_volunteers_5", "alley_player_ask_for_troops", "start", "{=n1qrbQVa}I don't need them right now.", null, null, 100, null, null);
-			campaignGameStarter.AddDialogLine("alley_talk_start_player_owned_alley_manager_answer_1", "alley_manager_general_answer", "start", "{=lF5HkBDy}As you wish.", null, null, 100, null);
+			campaignGameStarter.AddDialogLine("alley_talk_start_player_owned_alley_manager_answer_2_di", "alley_manager_general_answer", "start", "{=lF5HkBDy}As you wish.", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("alley_talk_start_normal", "start", "alley_talk_start", "{=qT4nbaAY}Oi, you, what are you doing here?", new ConversationSentence.OnConditionDelegate(this.alley_talk_start_normal_on_condition), null, 120, null);
-			campaignGameStarter.AddDialogLine("alley_talk_start_normal", "start", "alley_talk_start_confront", "{=MzHbdTYe}Well well well, I wasn't expecting to see you there. There must be some little birds informing you about my plans. That won't change anything, though. I'll still crush you.", new ConversationSentence.OnConditionDelegate(this.alley_confront_dialog_on_condition), null, 100, null);
-			campaignGameStarter.AddPlayerLine("alley_talk_start_normal", "alley_talk_start_confront", "close_window", "{=GMsZZQzI}Bring it on.", null, new ConversationSentence.OnConsequenceDelegate(this.start_alley_fight_after_conversation), 100, null, null);
-			campaignGameStarter.AddPlayerLine("alley_talk_start_normal", "alley_talk_start_confront", "close_window", "{=QNpuyzc4}Take it easy. I have no interest in the place any more. Take it.", null, new ConversationSentence.OnConsequenceDelegate(this.abandon_alley_from_dialog_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.alley_abandon_while_under_attack_clickable_condition), null);
+			campaignGameStarter.AddDialogLine("alley_talk_start_normal_2", "start", "alley_talk_start_confront", "{=MzHbdTYe}Well well well, I wasn't expecting to see you there. There must be some little birds informing you about my plans. That won't change anything, though. I'll still crush you.", new ConversationSentence.OnConditionDelegate(this.alley_confront_dialog_on_condition), null, 100, null);
+			campaignGameStarter.AddPlayerLine("alley_talk_start_normal_3", "alley_talk_start_confront", "close_window", "{=GMsZZQzI}Bring it on.", null, new ConversationSentence.OnConsequenceDelegate(this.start_alley_fight_after_conversation), 100, null, null);
+			campaignGameStarter.AddPlayerLine("alley_talk_start_normal_4", "alley_talk_start_confront", "close_window", "{=QNpuyzc4}Take it easy. I have no interest in the place any more. Take it.", null, new ConversationSentence.OnConsequenceDelegate(this.abandon_alley_from_dialog_consequence), 100, new ConversationSentence.OnClickableConditionDelegate(this.alley_abandon_while_under_attack_clickable_condition), null);
 			campaignGameStarter.AddPlayerLine("alley_start_1", "alley_talk_start", "alley_activity", "{=1NSRPYZt}Just passing through. What goes on here?", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("alley_start_2", "alley_talk_start", "first_entry_to_alley_2", "{=HCmQmZbe}I'm just having a look. Do you mind?", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("alley_start_3", "alley_talk_start", "close_window", "{=iW9iKbb8}Nothing.", null, null, 100, null, null);
@@ -780,14 +794,6 @@ namespace SandBox.CampaignBehaviors
 			{
 				list.Add(new TextObject("{=CqnAGehj}suppose someone wanted to buy some goods and didn't want to pay the customs tax. We might be able to help that person out.", null));
 			}
-			if (lastVisitedAlley.Owner.GetTraitLevel(DefaultTraits.Thief) > 0)
-			{
-				list.Add(new TextObject("{=HZb0PSyD}maybe you've lost something of value. Come ask us, and perhaps we can find it for you. For a fee, naturally.", null));
-			}
-			if (lastVisitedAlley.Owner.GetTraitLevel(DefaultTraits.Gambler) > 0)
-			{
-				list.Add(new TextObject("{=N6kmOVH0}some men might fancy a game of dice. Figure Lady Luck wants to give them a kiss. We're here to keep things honest.", null));
-			}
 			if (lastVisitedAlley.Owner.Gold > 100)
 			{
 				list.Add(new TextObject("{=U8iyCXmF}we help out those who are down on their luck. Give 'em a purse of silver to tide them by. With a bit of speculative interest, naturally.", null));
@@ -855,6 +861,20 @@ namespace SandBox.CampaignBehaviors
 			{
 				playerAlleyData.TroopRoster.RemoveTroop(victim.CharacterObject, 1, default(UniqueTroopDescriptor), 0);
 				Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new AlleyLeaderDiedMapNotification(playerAlleyData.Alley, new TextObject("{=EAPYyktd}One of your alleys has lost its leader or is lacking troops", null)));
+			}
+			foreach (AlleyCampaignBehavior.PlayerAlleyData playerAlleyData2 in this._playerOwnedCommonAreaData)
+			{
+				if (playerAlleyData2.IsUnderAttack && playerAlleyData2.UnderAttackBy.Owner == victim)
+				{
+					playerAlleyData2.UnderAttackBy = null;
+				}
+			}
+			if (victim.Clan != Clan.PlayerClan)
+			{
+				foreach (Alley alley in victim.OwnedAlleys.ToList<Alley>())
+				{
+					alley.SetOwner(null);
+				}
 			}
 		}
 
@@ -942,58 +962,8 @@ namespace SandBox.CampaignBehaviors
 		[GameMenuInitializationHandler("manage_alley_abandon_are_you_sure")]
 		public static void alley_related_menu_on_init(MenuCallbackArgs args)
 		{
-			args.MenuContext.SetBackgroundMeshName(Settlement.CurrentSettlement.SettlementComponent.WaitMeshName);
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("spawn_new_alley_attack", "campaign")]
-		public static string SpawnNewAlleyAttack(List<string> strings)
-		{
-			foreach (AlleyCampaignBehavior.PlayerAlleyData playerAlleyData in Campaign.Current.GetCampaignBehavior<AlleyCampaignBehavior>()._playerOwnedCommonAreaData)
-			{
-				if (!playerAlleyData.IsUnderAttack)
-				{
-					if (playerAlleyData.Alley.Settlement.Alleys.Any((Alley x) => x.State == 1))
-					{
-						Campaign.Current.GetCampaignBehavior<AlleyCampaignBehavior>().StartNewAlleyAttack(playerAlleyData);
-						return "OK.";
-					}
-				}
-			}
-			return "There is no suitable alley for spawning an alley attack.";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("make_random_gang_leader_occupy_alley_in_settlement", "campaign")]
-		public static string OccupyRandomAlley(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckHelp(strings))
-			{
-				return "Format is \"campaign.make_random_gang_leader_occupy_alley_in_settlement [TownName]\".";
-			}
-			Settlement settlement = null;
-			if (strings.Count > 0)
-			{
-				settlement = Campaign.Current.Settlements.FirstOrDefault((Settlement x) => x.Name.ToString().ToLower() == strings[0].ToString());
-			}
-			if (settlement == null)
-			{
-				return "settlement not found";
-			}
-			Hero randomElementInefficiently = Extensions.GetRandomElementInefficiently<Hero>(settlement.Notables.Where((Hero x) => x.IsGangLeader));
-			if (randomElementInefficiently == null)
-			{
-				return "there is no gang leader in the settlement";
-			}
-			IEnumerable<Alley> enumerable = settlement.Alleys.Where((Alley x) => x.State == 0);
-			if (enumerable.Any<Alley>())
-			{
-				Extensions.GetRandomElementInefficiently<Alley>(enumerable).SetOwner(randomElementInefficiently);
-				return "ok";
-			}
-			return "there is no empty alley int the settlement.";
+			string text = Settlement.CurrentSettlement.Culture.StringId + "_alley";
+			args.MenuContext.SetBackgroundMeshName(text);
 		}
 
 		private const int DesiredOccupiedAlleyPerTownFrequency = 2;
@@ -1030,7 +1000,7 @@ namespace SandBox.CampaignBehaviors
 
 		private bool _playerAbandonedAlleyFromDialogRecently;
 
-		public class AlleyCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class AlleyCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public AlleyCampaignBehaviorTypeDefiner()
 				: base(515253)
@@ -1123,7 +1093,7 @@ namespace SandBox.CampaignBehaviors
 
 			internal void DestroyAlley(bool fromAbandoning = false)
 			{
-				if (!fromAbandoning && this.AssignedClanMember.IsAlive)
+				if (!fromAbandoning && this.AssignedClanMember.IsAlive && this.AssignedClanMember.DeathMark == null)
 				{
 					MakeHeroFugitiveAction.Apply(this.AssignedClanMember);
 				}

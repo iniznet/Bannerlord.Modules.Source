@@ -14,7 +14,7 @@ namespace SandBox
 	{
 		public override int GetMinimumFormationTroopCountToBearBanners()
 		{
-			return 3;
+			return 2;
 		}
 
 		public override float GetBannerInteractionDistance(Agent interactingAgent)

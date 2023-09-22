@@ -116,18 +116,25 @@ namespace SandBox.CampaignBehaviors
 				TextObjectExtensions.SetCharacterProperties(textObject3, "HEIR", this._selectedHeir.CharacterObject, false);
 				textObject.SetTextVariable("HEIR_PART", textObject3);
 			}
-			InformationManager.ShowInquiry(new InquiryData(GameTexts.FindText("str_decision", null).ToString(), textObject.ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), delegate
+			InformationManager.ShowInquiry(new InquiryData(GameTexts.FindText("str_decision", null).ToString(), textObject.ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.DecideRetirementPositively), new Action(this.DecideRetirementNegatively), "", 0f, null, null, null), false, false);
+		}
+
+		private void DecideRetirementPositively()
+		{
+			if (this._selectedHeir != null)
 			{
-				if (this._selectedHeir != null)
-				{
-					this._hasTalkedWithHermitBefore = false;
-				}
-				else
-				{
-					this._playerEndedGame = true;
-				}
-				Mission.Current.EndMission();
-			}, null, "", 0f, null, null, null), false, false);
+				this._hasTalkedWithHermitBefore = false;
+			}
+			else
+			{
+				this._playerEndedGame = true;
+			}
+			Mission.Current.EndMission();
+		}
+
+		private void DecideRetirementNegatively()
+		{
+			this._selectedHeir = null;
 		}
 
 		private void hermit_player_select_heir_on_consequence()

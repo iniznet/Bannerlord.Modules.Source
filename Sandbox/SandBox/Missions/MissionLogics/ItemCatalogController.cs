@@ -56,7 +56,7 @@ namespace SandBox.Missions.MissionLogics
 			AgentBuildData agentBuildData2 = agentBuildData.Team(base.Mission.AttackerTeam);
 			Vec3 vec = new Vec3(15f, 12f, 1f, -1f);
 			this._playerAgent = mission.SpawnAgent(agentBuildData2.InitialPosition(ref vec).InitialDirection(ref Vec2.Forward).Controller(2), false);
-			this._playerAgent.WieldInitialWeapons(2);
+			this._playerAgent.WieldInitialWeapons(2, 0);
 			this._playerAgent.Health = 10000f;
 		}
 
@@ -136,7 +136,7 @@ namespace SandBox.Missions.MissionLogics
 				blow..ctor(this._playerAgent.Index);
 				blow.DamageType = 2;
 				blow.BaseMagnitude = 1E+09f;
-				blow.Position = this._playerAgent.Position;
+				blow.GlobalPosition = this._playerAgent.Position;
 				this._playerAgent.Die(blow, 20);
 				this._playerAgent = null;
 				for (int i = base.Mission.Agents.Count - 1; i >= 0; i--)
@@ -146,7 +146,7 @@ namespace SandBox.Missions.MissionLogics
 					blow2..ctor(agent.Index);
 					blow2.DamageType = 2;
 					blow2.BaseMagnitude = 1E+09f;
-					blow2.Position = agent.Position;
+					blow2.GlobalPosition = agent.Position;
 					Blow blow3 = blow2;
 					agent.TeleportToPosition(matrixFrame.origin);
 					agent.Die(blow3, 20);
@@ -160,7 +160,7 @@ namespace SandBox.Missions.MissionLogics
 				AgentBuildData agentBuildData2 = agentBuildData.Team(base.Mission.AttackerTeam);
 				Vec3 vec = new Vec3(15f, 12f, 1f, -1f);
 				this._playerAgent = mission.SpawnAgent(agentBuildData2.InitialPosition(ref vec).InitialDirection(ref Vec2.Forward).Controller(2), false);
-				this._playerAgent.WieldInitialWeapons(2);
+				this._playerAgent.WieldInitialWeapons(2, 0);
 				this._playerAgent.Health = 10000f;
 				Action afterCatalogTick = this.AfterCatalogTick;
 				if (afterCatalogTick != null)

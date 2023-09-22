@@ -59,11 +59,11 @@ namespace SandBox.ViewModelCollection.GameOver
 
 		private IEnumerable<StatItem> GetBattleStats(IStatisticsCampaignBehavior source)
 		{
-			int numberOfBattlesLost = source.GetNumberOfBattlesLost();
 			int numberOfBattlesWon = source.GetNumberOfBattlesWon();
-			int num = numberOfBattlesLost + numberOfBattlesWon;
-			GameTexts.SetVariable("BATTLES_WON", numberOfBattlesLost);
-			GameTexts.SetVariable("BATTLES_LOST", numberOfBattlesWon);
+			int numberOfBattlesLost = source.GetNumberOfBattlesLost();
+			int num = numberOfBattlesWon + numberOfBattlesLost;
+			GameTexts.SetVariable("BATTLES_WON", numberOfBattlesWon);
+			GameTexts.SetVariable("BATTLES_LOST", numberOfBattlesLost);
 			GameTexts.SetVariable("ALL_BATTLES", num);
 			yield return new StatItem("BattlesWonLostAll", GameTexts.FindText("str_battles_won_lost", null).ToString(), StatItem.StatType.None);
 			yield return new StatItem("BiggestBattleWonAsLeader", source.GetLargestBattleWonAsLeader().ToString(), StatItem.StatType.None);

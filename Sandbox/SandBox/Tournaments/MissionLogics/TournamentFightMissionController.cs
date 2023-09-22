@@ -267,7 +267,7 @@ namespace SandBox.Tournaments.MissionLogics
 			{
 				agent.SetWatchState(2);
 			}
-			agent.WieldInitialWeapons(2);
+			agent.WieldInitialWeapons(2, 0);
 			this._currentTournamentAgents.Add(agent);
 			if (agent.HasMount)
 			{

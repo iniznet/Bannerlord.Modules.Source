@@ -261,12 +261,14 @@ namespace SandBox.ViewModelCollection.Nameplate
 		public override void RefreshPosition()
 		{
 			base.RefreshPosition();
-			Vec3 visualPosition = this.Party.GetVisualPosition();
-			Vec3 vec = visualPosition + new Vec3(0f, 0f, 0.8f, -1f);
+			float num = 0f;
+			Campaign.Current.MapSceneWrapper.GetHeightAtPoint(this.Party.VisualPosition2DWithoutError, ref num);
+			Vec3 vec = this.Party.VisualPosition2DWithoutError.ToVec3(num);
+			Vec3 vec2 = vec + new Vec3(0f, 0f, 0.8f, -1f);
 			if (this._isMainPartyBind)
 			{
-				this.RefreshMainPartyScreenPosition(visualPosition);
-				MBWindowManager.WorldToScreenInsideUsableArea(this._mapCamera, vec, ref this._latestX, ref this._latestY, ref this._latestW);
+				this.RefreshMainPartyScreenPosition(vec);
+				MBWindowManager.WorldToScreenInsideUsableArea(this._mapCamera, vec2, ref this._latestX, ref this._latestY, ref this._latestW);
 				this._headPositionBind = new Vec2(this._latestX, this._latestY);
 			}
 			else
@@ -274,12 +276,12 @@ namespace SandBox.ViewModelCollection.Nameplate
 				this._latestX = 0f;
 				this._latestY = 0f;
 				this._latestW = 0f;
-				MBWindowManager.WorldToScreenInsideUsableArea(this._mapCamera, visualPosition, ref this._latestX, ref this._latestY, ref this._latestW);
-				this._partyPositionBind = new Vec2(this._latestX, this._latestY);
 				MBWindowManager.WorldToScreenInsideUsableArea(this._mapCamera, vec, ref this._latestX, ref this._latestY, ref this._latestW);
+				this._partyPositionBind = new Vec2(this._latestX, this._latestY);
+				MBWindowManager.WorldToScreenInsideUsableArea(this._mapCamera, vec2, ref this._latestX, ref this._latestY, ref this._latestW);
 				this._headPositionBind = new Vec2(this._latestX, this._latestY);
 			}
-			base.DistanceToCamera = visualPosition.Distance(this._mapCamera.Position);
+			base.DistanceToCamera = vec.Distance(this._mapCamera.Position);
 		}
 
 		public override void RefreshTutorialStatus(string newTutorialHighlightElementID)

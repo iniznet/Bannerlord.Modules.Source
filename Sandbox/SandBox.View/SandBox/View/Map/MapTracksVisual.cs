@@ -47,12 +47,6 @@ namespace SandBox.View.Map
 			this._tracksDirty = true;
 		}
 
-		public override void OnLoadSavedGame()
-		{
-			this.InitializeObjectPoolWithDefaultCount();
-			this.UpdateTrackMesh();
-		}
-
 		private void ParallelUpdateTrackColors(int startInclusive, int endExclusive)
 		{
 			for (int i = startInclusive; i < endExclusive; i++)
@@ -198,7 +192,7 @@ namespace SandBox.View.Map
 			identity.origin = vec;
 			float num;
 			Vec3 vec2;
-			Campaign.Current.MapSceneWrapper.GetTerrainHeightandNormal(identity.origin.AsVec2, ref num, ref vec2);
+			Campaign.Current.MapSceneWrapper.GetTerrainHeightAndNormal(identity.origin.AsVec2, ref num, ref vec2);
 			identity.origin.z = num + 0.01f;
 			identity.rotation.u = vec2;
 			Vec2 asVec = identity.rotation.f.AsVec2;

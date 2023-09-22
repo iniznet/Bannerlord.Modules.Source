@@ -87,7 +87,9 @@ namespace SandBox.ViewModelCollection.Map
 		{
 			if (this._concernedMobileParty != null)
 			{
-				Vec3 vec = this._concernedMobileParty.GetVisualPosition() + new Vec3(0f, 0f, 1f, -1f);
+				float num = 0f;
+				Campaign.Current.MapSceneWrapper.GetHeightAtPoint(this._concernedMobileParty.VisualPosition2DWithoutError, ref num);
+				Vec3 vec = this._concernedMobileParty.VisualPosition2DWithoutError.ToVec3(num) + new Vec3(0f, 0f, 1f, -1f);
 				this._latestX = 0f;
 				this._latestY = 0f;
 				this._latestW = 0f;

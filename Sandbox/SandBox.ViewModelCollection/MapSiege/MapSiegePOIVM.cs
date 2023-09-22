@@ -71,7 +71,7 @@ namespace SandBox.ViewModelCollection.MapSiege
 			}
 			else
 			{
-				IFaction mapFaction2 = this.Siege.BesiegerCamp.BesiegerParty.MapFaction;
+				IFaction mapFaction2 = this.Siege.BesiegerCamp.LeaderParty.MapFaction;
 				color = Color.FromUint((mapFaction2 != null) ? mapFaction2.Color : 0U);
 			}
 			this.SidePrimaryColor = color;
@@ -83,7 +83,7 @@ namespace SandBox.ViewModelCollection.MapSiege
 			}
 			else
 			{
-				IFaction mapFaction4 = this.Siege.BesiegerCamp.BesiegerParty.MapFaction;
+				IFaction mapFaction4 = this.Siege.BesiegerCamp.LeaderParty.MapFaction;
 				color2 = Color.FromUint((mapFaction4 != null) ? mapFaction4.Color2 : 0U);
 			}
 			this.SideSecondaryColor = color2;
@@ -154,7 +154,7 @@ namespace SandBox.ViewModelCollection.MapSiege
 			if (type == MapSiegePOIVM.POIType.WallSection)
 			{
 				MBReadOnlyList<float> settlementWallSectionHitPointsRatioList = this.Settlement.SettlementWallSectionHitPointsRatioList;
-				this._bindMaxHitpoints = this.Settlement.MaxWallHitPoints / (float)this.Settlement.Party.Visuals.GetBreacableWallFrameCount();
+				this._bindMaxHitpoints = this.Settlement.MaxWallHitPoints / (float)this.Settlement.WallSectionCount;
 				this._bindCurrentHitpoints = settlementWallSectionHitPointsRatioList[this.MachineIndex] * this._bindMaxHitpoints;
 				this._bindMachineType = ((this._bindCurrentHitpoints <= 0f) ? 1 : 0);
 				return;
@@ -234,32 +234,44 @@ namespace SandBox.ViewModelCollection.MapSiege
 			{
 				if (num <= 1820818168U)
 				{
-					if (num != 808481256U)
+					if (num <= 1241455715U)
 					{
-						if (num != 1241455715U)
+						if (num != 808481256U)
 						{
-							if (num != 1820818168U)
+							if (num != 1241455715U)
 							{
 								return MapSiegePOIVM.MachineTypes.None;
 							}
-							if (!(text == "fire_onager"))
-							{
-								return MapSiegePOIVM.MachineTypes.None;
-							}
-							return MapSiegePOIVM.MachineTypes.Mangonel;
-						}
-						else
-						{
 							if (!(text == "ram"))
 							{
 								return MapSiegePOIVM.MachineTypes.None;
 							}
 							return MapSiegePOIVM.MachineTypes.Ram;
 						}
+						else if (!(text == "fire_ballista"))
+						{
+							return MapSiegePOIVM.MachineTypes.None;
+						}
 					}
-					else if (!(text == "fire_ballista"))
+					else if (num != 1748194790U)
 					{
-						return MapSiegePOIVM.MachineTypes.None;
+						if (num != 1820818168U)
+						{
+							return MapSiegePOIVM.MachineTypes.None;
+						}
+						if (!(text == "fire_onager"))
+						{
+							return MapSiegePOIVM.MachineTypes.None;
+						}
+						return MapSiegePOIVM.MachineTypes.Mangonel;
+					}
+					else
+					{
+						if (!(text == "fire_catapult"))
+						{
+							return MapSiegePOIVM.MachineTypes.None;
+						}
+						return MapSiegePOIVM.MachineTypes.Mangonel;
 					}
 				}
 				else if (num <= 1898442385U)
@@ -656,31 +668,31 @@ namespace SandBox.ViewModelCollection.MapSiege
 
 		private bool _bindIsInVisibleRange;
 
-		private Vec2 _position;
+		private Color _sidePrimaryColor;
 
-		private bool _isInside;
+		private Color _sideSecondaryColor;
+
+		private Vec2 _position;
 
 		private float _currentHitpoints;
 
+		private int _machineType = -1;
+
 		private float _maxHitpoints;
+
+		private int _queueIndex;
+
+		private bool _isInside;
 
 		private bool _hasItem;
 
 		private bool _isConstructing;
 
+		private bool _isPlayerSidePOI;
+
 		private bool _isFireVersion;
 
 		private bool _isInVisibleRange;
-
-		private int _machineType = -1;
-
-		private Color _sidePrimaryColor;
-
-		private Color _sideSecondaryColor;
-
-		private bool _isPlayerSidePOI;
-
-		private int _queueIndex;
 
 		private bool _isSelected;
 

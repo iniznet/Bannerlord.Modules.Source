@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
@@ -27,7 +26,7 @@ namespace SandBox.GameComponents
 		{
 			List<ValueTuple<IAgentOriginBase, int>> list = new List<ValueTuple<IAgentOriginBase, int>>();
 			SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] array;
-			if (SandboxBattleSpawnModel.GetOrderOfBattleConfigurationsForFormations(troopOrigins, out array))
+			if (SandboxBattleSpawnModel.GetOrderOfBattleConfigurationsForFormations(battleSide, troopOrigins, out array))
 			{
 				using (List<IAgentOriginBase>.Enumerator enumerator = troopOrigins.GetEnumerator())
 				{
@@ -35,7 +34,7 @@ namespace SandBox.GameComponents
 					{
 						IAgentOriginBase agentOriginBase = enumerator.Current;
 						SandboxBattleSpawnModel.OrderOfBattleInnerClassType orderOfBattleInnerClassType;
-						FormationClass formationClass = SandboxBattleSpawnModel.FindBestOrderOfBattleFormationClassAssignmentForTroop(agentOriginBase, array, out orderOfBattleInnerClassType);
+						FormationClass formationClass = SandboxBattleSpawnModel.FindBestOrderOfBattleFormationClassAssignmentForTroop(battleSide, agentOriginBase, array, out orderOfBattleInnerClassType);
 						ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, formationClass);
 						list.Add(valueTuple);
 						if (orderOfBattleInnerClassType == SandboxBattleSpawnModel.OrderOfBattleInnerClassType.PrimaryClass)
@@ -56,7 +55,7 @@ namespace SandBox.GameComponents
 			}
 			foreach (IAgentOriginBase agentOriginBase2 in troopOrigins)
 			{
-				ValueTuple<IAgentOriginBase, int> valueTuple2 = new ValueTuple<IAgentOriginBase, int>(agentOriginBase2, agentOriginBase2.Troop.GetFormationClass());
+				ValueTuple<IAgentOriginBase, int> valueTuple2 = new ValueTuple<IAgentOriginBase, int>(agentOriginBase2, Mission.Current.GetAgentTroopClass(battleSide, agentOriginBase2.Troop));
 				list.Add(valueTuple2);
 			}
 			return list;
@@ -68,7 +67,7 @@ namespace SandBox.GameComponents
 			return MissionReinforcementsHelper.GetReinforcementAssignments(battleSide, troopOrigins);
 		}
 
-		private static bool GetOrderOfBattleConfigurationsForFormations(List<IAgentOriginBase> troopOrigins, out SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations)
+		private static bool GetOrderOfBattleConfigurationsForFormations(BattleSideEnum battleSide, List<IAgentOriginBase> troopOrigins, out SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations)
 		{
 			formationOrderOfBattleConfigurations = new SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[8];
 			Campaign campaign = Campaign.Current;
@@ -84,7 +83,7 @@ namespace SandBox.GameComponents
 					return false;
 				}
 			}
-			int[] array = SandboxBattleSpawnModel.CalculateTroopCountsPerDefaultFormation(troopOrigins);
+			int[] array = SandboxBattleSpawnModel.CalculateTroopCountsPerDefaultFormation(battleSide, troopOrigins);
 			for (int j = 0; j < 8; j++)
 			{
 				OrderOfBattleCampaignBehavior.OrderOfBattleFormationData formationDataAtIndex = orderOfBattleCampaignBehavior.GetFormationDataAtIndex(j, Mission.Current.IsSiegeBattle);
@@ -129,30 +128,20 @@ namespace SandBox.GameComponents
 			return true;
 		}
 
-		private static int[] CalculateTroopCountsPerDefaultFormation(List<IAgentOriginBase> troopOrigins)
+		private static int[] CalculateTroopCountsPerDefaultFormation(BattleSideEnum battleSide, List<IAgentOriginBase> troopOrigins)
 		{
 			int[] array = new int[4];
 			foreach (IAgentOriginBase agentOriginBase in troopOrigins)
 			{
-				FormationClass formationClass = agentOriginBase.Troop.DefaultFormationClass;
-				if (!ModuleExtensions.IsDefaultFormationClass(formationClass))
-				{
-					Debug.FailedAssert("Found default troop class which is not default for troop " + agentOriginBase.Troop.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\GameComponents\\SandboxBattleSpawnModel.cs", "CalculateTroopCountsPerDefaultFormation", 177);
-					formationClass = ModuleExtensions.FallbackClass(formationClass);
-				}
+				FormationClass formationClass = TroopClassExtensions.DefaultClass(Mission.Current.GetAgentTroopClass(battleSide, agentOriginBase.Troop));
 				array[formationClass]++;
 			}
 			return array;
 		}
 
-		private static FormationClass FindBestOrderOfBattleFormationClassAssignmentForTroop(IAgentOriginBase origin, SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations, out SandboxBattleSpawnModel.OrderOfBattleInnerClassType bestClassInnerClassType)
+		private static FormationClass FindBestOrderOfBattleFormationClassAssignmentForTroop(BattleSideEnum battleSide, IAgentOriginBase origin, SandboxBattleSpawnModel.FormationOrderOfBattleConfiguration[] formationOrderOfBattleConfigurations, out SandboxBattleSpawnModel.OrderOfBattleInnerClassType bestClassInnerClassType)
 		{
-			FormationClass formationClass = origin.Troop.DefaultFormationClass;
-			if (!ModuleExtensions.IsDefaultFormationClass(formationClass))
-			{
-				Debug.FailedAssert("Found default troop class which is not default for troop " + origin.Troop.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\GameComponents\\SandboxBattleSpawnModel.cs", "FindBestOrderOfBattleFormationClassAssignmentForTroop", 193);
-				formationClass = ModuleExtensions.FallbackClass(formationClass);
-			}
+			FormationClass formationClass = TroopClassExtensions.DefaultClass(Mission.Current.GetAgentTroopClass(battleSide, origin.Troop));
 			FormationClass formationClass2 = formationClass;
 			float num = float.MinValue;
 			bestClassInnerClassType = SandboxBattleSpawnModel.OrderOfBattleInnerClassType.None;

@@ -72,11 +72,13 @@ namespace SandBox.GauntletUI
 				}
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecutePreviousStage();
 					return;
 				}
 				if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm") && this._dataSource.CanAdvance)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteNextStage();
 				}
 			}

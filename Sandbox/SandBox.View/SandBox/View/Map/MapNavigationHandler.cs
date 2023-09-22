@@ -1,5 +1,6 @@
 ﻿using System;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Inventory;
@@ -70,7 +71,7 @@ namespace SandBox.View.Map
 					if (campaign == null || !campaign.SaveHandler.IsSaving)
 					{
 						MapScreen mapScreen;
-						return !this.IsNavigationLocked && (InventoryManager.InventoryLogic == null || InventoryManager.Instance.CurrentMode == null) && (PartyScreenManager.PartyScreenLogic == null || PartyScreenManager.Instance.CurrentMode == null) && PlayerEncounter.CurrentBattleSimulation == null && ((mapScreen = ScreenManager.TopScreen as MapScreen) == null || !mapScreen.IsInArmyManagement);
+						return !this.IsNavigationLocked && (InventoryManager.InventoryLogic == null || InventoryManager.Instance.CurrentMode == null) && (PartyScreenManager.PartyScreenLogic == null || PartyScreenManager.Instance.CurrentMode == null) && PlayerEncounter.CurrentBattleSimulation == null && ((mapScreen = ScreenManager.TopScreen as MapScreen) == null || (!mapScreen.IsInArmyManagement && !mapScreen.IsMarriageOfferPopupActive && !mapScreen.IsMapCheatsActive)) && !this.EscapeMenuActive;
 					}
 				}
 			}
@@ -544,6 +545,14 @@ namespace SandBox.View.Map
 			});
 		}
 
+		void INavigationHandler.OpenKingdom(KingdomDecision decision)
+		{
+			this.PrepareToOpenKingdomScreen(delegate
+			{
+				this.OpenKingdomAction(decision);
+			});
+		}
+
 		private void PrepareToOpenKingdomScreen(Action openKingdomAction)
 		{
 			if (this.KingdomPermission.IsAuthorized)
@@ -601,6 +610,12 @@ namespace SandBox.View.Map
 		private void OpenKingdomAction(IFaction faction)
 		{
 			KingdomState kingdomState = this._game.GameStateManager.CreateState<KingdomState>(new object[] { faction });
+			this._game.GameStateManager.PushState(kingdomState, 0);
+		}
+
+		private void OpenKingdomAction(KingdomDecision decision)
+		{
+			KingdomState kingdomState = this._game.GameStateManager.CreateState<KingdomState>(new object[] { decision });
 			this._game.GameStateManager.PushState(kingdomState, 0);
 		}
 

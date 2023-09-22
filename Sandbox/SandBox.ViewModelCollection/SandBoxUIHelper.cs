@@ -521,7 +521,36 @@ namespace SandBox.ViewModelCollection
 			return text;
 		}
 
-		public static SandBoxUIHelper.IssueQuestFlags[] IssueQuestFlagsValues = (SandBoxUIHelper.IssueQuestFlags[])Enum.GetValues(typeof(SandBoxUIHelper.IssueQuestFlags));
+		public static int GetSkillObjectTypeSortIndex(SkillObject skill)
+		{
+			string stringId = skill.StringId;
+			for (int i = 0; i < SandBoxUIHelper._skillImportanceIndex.Length; i++)
+			{
+				if (stringId.Equals(SandBoxUIHelper._skillImportanceIndex[i], StringComparison.InvariantCultureIgnoreCase))
+				{
+					return SandBoxUIHelper._skillImportanceIndex.Length - i;
+				}
+			}
+			return SandBoxUIHelper._skillImportanceIndex.Length + 1;
+		}
+
+		public static string GetSkillMeshId(SkillObject skill, bool useSmallestVariation = true)
+		{
+			string text = "SPGeneral\\Skills\\gui_skills_icon_" + skill.StringId.ToLower();
+			if (useSmallestVariation)
+			{
+				return text + "_tiny";
+			}
+			return text + "_small";
+		}
+
+		private static readonly string[] _skillImportanceIndex = new string[]
+		{
+			"onehanded", "twohanded", "polearm", "bow", "crossbow", "throwing", "riding", "athletics", "crafting", "scouting",
+			"tactics", "roguery", "charm", "leadership", "trade", "steward", "medicine", "engineering"
+		};
+
+		public static readonly SandBoxUIHelper.IssueQuestFlags[] IssueQuestFlagsValues = (SandBoxUIHelper.IssueQuestFlags[])Enum.GetValues(typeof(SandBoxUIHelper.IssueQuestFlags));
 
 		private static readonly TextObject _soldStr = new TextObject("{=YgyHVu8S}Sold{ITEMS}", null);
 
@@ -540,6 +569,13 @@ namespace SandBox.ViewModelCollection
 			ActiveStoryQuest = 4,
 			TrackedIssue = 8,
 			TrackedStoryQuest = 16
+		}
+
+		public enum SortState
+		{
+			Default,
+			Ascending,
+			Descending
 		}
 
 		public enum MapEventVisualTypes

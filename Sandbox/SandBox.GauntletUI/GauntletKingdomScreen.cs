@@ -10,6 +10,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -55,18 +56,22 @@ namespace SandBox.GauntletUI
 				if (this._armyManagementLayer.Input.IsHotKeyDownAndReleased("Exit"))
 				{
 					this._armyManagementDatasource.ExecuteCancel();
+					UISoundsHelper.PlayUISound("event:/ui/default");
 				}
 				else if (this._armyManagementLayer.Input.IsHotKeyDownAndReleased("Confirm"))
 				{
 					this._armyManagementDatasource.ExecuteDone();
+					UISoundsHelper.PlayUISound("event:/ui/default");
 				}
 				else if (this._armyManagementLayer.Input.IsHotKeyDownAndReleased("Reset"))
 				{
 					this._armyManagementDatasource.ExecuteReset();
+					UISoundsHelper.PlayUISound("event:/ui/default");
 				}
 				else if (this._armyManagementLayer.Input.IsHotKeyReleased("RemoveParty") && this._armyManagementDatasource.FocusedItem != null)
 				{
 					this._armyManagementDatasource.FocusedItem.ExecuteAction();
+					UISoundsHelper.PlayUISound("event:/ui/default");
 				}
 			}
 			else if (this._gauntletLayer.Input.IsHotKeyReleased("Exit") || this._gauntletLayer.Input.IsGameKeyPressed(40) || this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
@@ -78,10 +83,12 @@ namespace SandBox.GauntletUI
 				if (this._gauntletLayer.Input.IsHotKeyReleased("SwitchToPreviousTab"))
 				{
 					this.DataSource.SelectPreviousCategory();
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyReleased("SwitchToNextTab"))
 				{
 					this.DataSource.SelectNextCategory();
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 				}
 			}
 			KingdomManagementVM dataSource = this.DataSource;
@@ -111,7 +118,11 @@ namespace SandBox.GauntletUI
 			this.DataSource.SetDoneInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
 			this.DataSource.SetPreviousTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToPreviousTab"));
 			this.DataSource.SetNextTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
-			if (this._kingdomState.InitialSelectedArmy != null)
+			if (this._kingdomState.InitialSelectedDecision != null)
+			{
+				this.DataSource.Decision.HandleDecision(this._kingdomState.InitialSelectedDecision);
+			}
+			else if (this._kingdomState.InitialSelectedArmy != null)
 			{
 				this.DataSource.SelectArmy(this._kingdomState.InitialSelectedArmy);
 			}
@@ -133,7 +144,7 @@ namespace SandBox.GauntletUI
 			}
 			this._gauntletLayer.LoadMovie("KingdomManagement", this.DataSource);
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(7));
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_kingdom_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_kingdom_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
@@ -208,9 +219,8 @@ namespace SandBox.GauntletUI
 		private void CloseKingdomScreen()
 		{
 			Game.Current.GameStateManager.PopState(0);
+			UISoundsHelper.PlayUISound("event:/ui/default");
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_kingdom_open";
 
 		private GauntletLayer _gauntletLayer;
 

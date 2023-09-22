@@ -69,15 +69,6 @@ namespace SandBox.GauntletUI
 			this._facegenLayer.OnFinalize();
 			LoadingWindow.EnableGlobalLoadingWindow();
 			MBInformationManager.HideInformations();
-			Mission mission = Mission.Current;
-			if (mission != null)
-			{
-				foreach (Agent agent in mission.Agents)
-				{
-					agent.EquipItemsFromSpawnEquipment(false);
-					agent.UpdateAgentProperties();
-				}
-			}
 		}
 
 		void IGameStateListener.OnActivate()

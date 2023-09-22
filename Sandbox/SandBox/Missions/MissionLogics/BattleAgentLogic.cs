@@ -31,7 +31,7 @@ namespace SandBox.Missions.MissionLogics
 
 		public override void OnAgentHit(Agent affectedAgent, Agent affectorAgent, in MissionWeapon attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
-			if (affectedAgent.Character != null && affectorAgent != null && affectorAgent.Character != null && affectedAgent.State == 1)
+			if (affectedAgent.Character != null && affectorAgent != null && affectorAgent.Character != null && affectedAgent.State == 1 && affectorAgent != null)
 			{
 				bool flag = affectedAgent.Health - (float)blow.InflictedDamage < 1f;
 				bool flag2 = false;
@@ -103,43 +103,40 @@ namespace SandBox.Missions.MissionLogics
 
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (base.Mission.Mode != 6)
+			if (affectorAgent == null && affectedAgent.IsMount && agentState == 2)
 			{
-				if (affectorAgent == null && affectedAgent.IsMount && agentState == 2)
+				return;
+			}
+			CharacterObject characterObject = (CharacterObject)affectedAgent.Character;
+			CharacterObject characterObject2 = (CharacterObject)((affectorAgent != null) ? affectorAgent.Character : null);
+			if (affectedAgent.Origin != null)
+			{
+				PartyBase partyBase = (PartyBase)affectedAgent.Origin.BattleCombatant;
+				if (agentState == 3)
 				{
-					return;
+					affectedAgent.Origin.SetWounded();
 				}
-				CharacterObject characterObject = (CharacterObject)affectedAgent.Character;
-				CharacterObject characterObject2 = (CharacterObject)((affectorAgent != null) ? affectorAgent.Character : null);
-				if (affectedAgent.Origin != null)
+				else if (agentState == 4)
 				{
-					PartyBase partyBase = (PartyBase)affectedAgent.Origin.BattleCombatant;
-					if (agentState == 3)
+					affectedAgent.Origin.SetKilled();
+					Hero hero = (affectedAgent.IsHuman ? characterObject.HeroObject : null);
+					Hero hero2 = ((affectorAgent == null) ? null : (affectorAgent.IsHuman ? characterObject2.HeroObject : null));
+					if (hero != null && hero2 != null)
 					{
-						affectedAgent.Origin.SetWounded();
+						CampaignEventDispatcher.Instance.OnCharacterDefeated(hero2, hero);
 					}
-					else if (agentState == 4)
+					if (partyBase != null)
 					{
-						affectedAgent.Origin.SetKilled();
-						Hero hero = (affectedAgent.IsHuman ? characterObject.HeroObject : null);
-						Hero hero2 = ((affectorAgent == null) ? null : (affectorAgent.IsHuman ? characterObject2.HeroObject : null));
-						if (hero != null && hero2 != null)
-						{
-							CampaignEventDispatcher.Instance.OnCharacterDefeated(hero2, hero);
-						}
-						if (partyBase != null)
-						{
-							this.CheckUpgrade(affectedAgent.Team.Side, partyBase, characterObject);
-						}
-					}
-					else
-					{
-						affectedAgent.Origin.SetRouted();
+						this.CheckUpgrade(affectedAgent.Team.Side, partyBase, characterObject);
 					}
 				}
-				if (affectedAgent.Origin == null || affectorAgent == null || affectorAgent.Origin == null || affectorAgent.Character == null || agentState != 4)
+				else
 				{
+					affectedAgent.Origin.SetRouted();
 				}
+			}
+			if (affectedAgent.Origin == null || affectorAgent == null || affectorAgent.Origin == null || affectorAgent.Character == null || agentState != 4)
+			{
 			}
 		}
 

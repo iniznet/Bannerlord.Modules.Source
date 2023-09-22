@@ -57,7 +57,7 @@ namespace SandBox.CampaignBehaviors
 			CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, new Action<Hero, PartyBase, IFaction, EndCaptivityDetail>(this.OnPrisonerReleased));
 			CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnClanDestroyed));
 			CampaignEvents.OnIssueUpdatedEvent.AddNonSerializedListener(this, new Action<IssueBase, IssueBase.IssueUpdateDetails, Hero>(this.OnIssueUpdated));
-			CampaignEvents.HeroOrPartyGaveItem.AddNonSerializedListener(this, new Action<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemObject, int, bool>(this.OnHeroOrPartyGaveItem));
+			CampaignEvents.HeroOrPartyGaveItem.AddNonSerializedListener(this, new Action<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemRosterElement, bool>(this.OnHeroOrPartyGaveItem));
 			CampaignEvents.RebellionFinished.AddNonSerializedListener(this, new Action<Settlement, Clan>(this.OnRebellionFinished));
 			CampaignEvents.TournamentFinished.AddNonSerializedListener(this, new Action<CharacterObject, MBReadOnlyList<CharacterObject>, Town, ItemObject>(this.OnTournamentFinished));
 			CampaignEvents.OnBuildingLevelChangedEvent.AddNonSerializedListener(this, new Action<Town, Building, int>(this.OnBuildingLevelChanged));
@@ -250,10 +250,10 @@ namespace SandBox.CampaignBehaviors
 
 		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
-			if (siegeEvent.BesiegedSettlement != null && siegeEvent.BesiegedSettlement.OwnerClan == Clan.PlayerClan && siegeEvent.BesiegerCamp.BesiegerParty != null)
+			if (siegeEvent.BesiegedSettlement != null && siegeEvent.BesiegedSettlement.OwnerClan == Clan.PlayerClan && siegeEvent.BesiegerCamp.LeaderParty != null)
 			{
-				MBTextManager.SetTextVariable("PARTY", (siegeEvent.BesiegerCamp.BesiegerParty.Army != null) ? siegeEvent.BesiegerCamp.BesiegerParty.ArmyName : siegeEvent.BesiegerCamp.BesiegerParty.Name, false);
-				MBTextManager.SetTextVariable("FACTION", siegeEvent.BesiegerCamp.BesiegerParty.MapFaction.Name, false);
+				MBTextManager.SetTextVariable("PARTY", (siegeEvent.BesiegerCamp.LeaderParty.Army != null) ? siegeEvent.BesiegerCamp.LeaderParty.ArmyName : siegeEvent.BesiegerCamp.LeaderParty.Name, false);
+				MBTextManager.SetTextVariable("FACTION", siegeEvent.BesiegerCamp.LeaderParty.MapFaction.Name, false);
 				MBTextManager.SetTextVariable("SETTLEMENT", siegeEvent.BesiegedSettlement.EncyclopediaLinkWithName, false);
 				MBInformationManager.AddQuickInformation(new TextObject("{=3FvGk8k6}Your settlement {SETTLEMENT} is besieged by {PARTY} of {FACTION}!", null), 0, null, "");
 			}
@@ -301,8 +301,8 @@ namespace SandBox.CampaignBehaviors
 			if (showNotification && relationChange != 0 && (effectiveHero == Hero.MainHero || effectiveHeroGainedRelationWith == Hero.MainHero))
 			{
 				Hero hero = (effectiveHero.IsHumanPlayerCharacter ? effectiveHeroGainedRelationWith : effectiveHero);
-				TextObject textObject = TextObject.Empty;
-				if (hero.Clan == null || hero.Clan == Clan.PlayerClan || hero.Clan == CampaignData.NeutralFaction)
+				TextObject textObject;
+				if (hero.Clan == null || hero.Clan == Clan.PlayerClan)
 				{
 					textObject = ((relationChange > 0) ? GameTexts.FindText("str_your_relation_increased_with_notable", null) : GameTexts.FindText("str_your_relation_decreased_with_notable", null));
 					StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, textObject, false);
@@ -326,7 +326,7 @@ namespace SandBox.CampaignBehaviors
 			}
 			if (hero == Hero.MainHero || hero.Clan == Clan.PlayerClan)
 			{
-				TextObject textObject = new TextObject("{=3wzCrzEq}{HERO.LINK} gained a level.", null);
+				TextObject textObject = new TextObject("{=3wzCrzEq}{HERO.NAME} gained a level.", null);
 				StringHelpers.SetCharacterProperties("HERO", hero.CharacterObject, textObject, false);
 				MBInformationManager.AddQuickInformation(textObject, 0, null, "event:/ui/notification/levelup");
 			}
@@ -431,7 +431,7 @@ namespace SandBox.CampaignBehaviors
 
 		private void OnArmyCreated(Army army)
 		{
-			if (army.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army == null)
+			if ((army.Kingdom == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army == null) || this._notificationCheatEnabled)
 			{
 				TextObject textObject = new TextObject("{=NMakguW4}{LEADER.LINK} has created an army around {SETTLEMENT}.", null);
 				textObject.SetTextVariable("SETTLEMENT", army.AiBehaviorObject.Name);
@@ -463,7 +463,7 @@ namespace SandBox.CampaignBehaviors
 				{
 					if (target != 3)
 					{
-						Debug.FailedAssert("invalid bombardment type", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\CampaignBehaviors\\DefaultNotificationsCampaignBehavior.cs", "OnSiegeBombardmentHit", 562);
+						Debug.FailedAssert("invalid bombardment type", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\CampaignBehaviors\\DefaultNotificationsCampaignBehavior.cs", "OnSiegeBombardmentHit", 563);
 					}
 					else
 					{
@@ -744,9 +744,9 @@ namespace SandBox.CampaignBehaviors
 			MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 		}
 
-		private void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemObject item, int count, bool showNotification)
+		private void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemRosterElement itemRosterElement, bool showNotification)
 		{
-			if (showNotification && item != null && count > 0)
+			if (showNotification && itemRosterElement.Amount > 0)
 			{
 				TextObject textObject = null;
 				if (giver.Item1 == Hero.MainHero || giver.Item2 == PartyBase.MainParty)
@@ -777,8 +777,8 @@ namespace SandBox.CampaignBehaviors
 				}
 				if (textObject != null)
 				{
-					textObject.SetTextVariable("ITEM", item.Name);
-					textObject.SetTextVariable("COUNT", count);
+					textObject.SetTextVariable("ITEM", itemRosterElement.EquipmentElement.Item.Name);
+					textObject.SetTextVariable("COUNT", itemRosterElement.Amount);
 					InformationManager.DisplayMessage(new InformationMessage(textObject.ToString()));
 				}
 			}
@@ -825,5 +825,7 @@ namespace SandBox.CampaignBehaviors
 		}
 
 		private List<Tuple<bool, float>> _foodNotificationList = new List<Tuple<bool, float>>();
+
+		private bool _notificationCheatEnabled;
 	}
 }

@@ -96,6 +96,12 @@ namespace SandBox.ViewModelCollection.Nameplate
 				this._currentFaction = this.Settlement.MapFaction;
 			}
 			this._bindIsTracked = Campaign.Current.VisualTrackerManager.CheckTracked(this.Settlement);
+			if (this.Settlement.IsHideout)
+			{
+				ISpottable spottable = (ISpottable)this.Settlement.SettlementComponent;
+				this._bindIsInRange = spottable != null && spottable.IsSpotted;
+				return;
+			}
 			this._bindIsInRange = this.Settlement.IsInspected;
 		}
 

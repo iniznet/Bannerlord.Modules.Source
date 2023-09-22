@@ -62,6 +62,7 @@ namespace SandBox.Source.Missions.AgentBehaviors
 			base.Navigator.ClearTarget();
 			this._chair = null;
 			this._state = BoardGameAgentBehavior.State.Idle;
+			this._waitTimer = null;
 		}
 
 		public override string GetDebugInfo()
@@ -90,6 +91,7 @@ namespace SandBox.Source.Missions.AgentBehaviors
 			BoardGameAgentBehavior boardGameAgentBehavior = behaviorGroup.GetBehavior<BoardGameAgentBehavior>() ?? behaviorGroup.AddBehavior<BoardGameAgentBehavior>();
 			boardGameAgentBehavior._chair = chair;
 			boardGameAgentBehavior._state = BoardGameAgentBehavior.State.Idle;
+			boardGameAgentBehavior._waitTimer = null;
 			if (flag)
 			{
 				behaviorGroup.SetScriptedBehavior<BoardGameAgentBehavior>();

@@ -15,8 +15,8 @@ namespace SandBox.GameComponents
 		{
 			Formation attackerFormation = attackInformation.AttackerFormation;
 			BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(attackerFormation);
+			Agent agent = (attackInformation.IsAttackerAgentMount ? attackInformation.AttackerAgent.RiderAgent : attackInformation.AttackerAgent);
 			CharacterObject characterObject = (attackInformation.IsAttackerAgentMount ? attackInformation.AttackerRiderAgentCharacter : attackInformation.AttackerAgentCharacter) as CharacterObject;
-			IAgentOriginBase agentOriginBase = (attackInformation.IsAttackerAgentMount ? attackInformation.AttackerRiderAgentOrigin : attackInformation.AttackerAgentOrigin);
 			CharacterObject characterObject2 = attackInformation.AttackerCaptainCharacter as CharacterObject;
 			bool flag = attackInformation.IsAttackerAgentHuman && !attackInformation.DoesAttackerHaveMountAgent;
 			bool flag2 = attackInformation.DoesAttackerHaveMountAgent || attackInformation.DoesAttackerHaveRiderAgent;
@@ -49,7 +49,7 @@ namespace SandBox.GameComponents
 				attackCollisionData = collisionData;
 				if (attackCollisionData.CollidedWithShieldOnBack && characterObject3 != null && characterObject3.GetPerkValue(DefaultPerks.Crossbow.Pavise))
 				{
-					float num2 = MBMath.ClampFloat(DefaultPerks.Crossbow.Pavise.PrimaryBonus / 100f, 0f, 1f);
+					float num2 = MBMath.ClampFloat(DefaultPerks.Crossbow.Pavise.PrimaryBonus, 0f, 1f);
 					flag7 = MBRandom.RandomFloat <= num2;
 				}
 			}
@@ -84,19 +84,16 @@ namespace SandBox.GameComponents
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.OneHanded.Prestige, characterObject, true, ref explainedNumber);
 								}
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Roguery.Carver, characterObject2, ref explainedNumber);
-								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, false, ref explainedNumber, 250);
+								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.OneHanded.WayOfTheSword, characterObject, DefaultSkills.OneHanded, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 							}
 							else if (currentUsageItem2.RelevantSkill == DefaultSkills.TwoHanded)
 							{
 								if (flag6)
 								{
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.WoodChopper, characterObject, true, ref explainedNumber);
+									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.WoodChopper, characterObject2, ref explainedNumber);
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.ShieldBreaker, characterObject, true, ref explainedNumber);
-									if (flag)
-									{
-										PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.WoodChopper, characterObject2, ref explainedNumber);
-										PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.ShieldBreaker, characterObject2, ref explainedNumber);
-									}
+									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.ShieldBreaker, characterObject2, ref explainedNumber);
 								}
 								if (currentUsageItem2.WeaponClass == 5 || currentUsageItem2.WeaponClass == 8)
 								{
@@ -105,10 +102,7 @@ namespace SandBox.GameComponents
 								if (attackInformation.IsVictimAgentMount)
 								{
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.BeastSlayer, characterObject, true, ref explainedNumber);
-									if (flag)
-									{
-										PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BeastSlayer, characterObject2, ref explainedNumber);
-									}
+									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.TwoHanded.BeastSlayer, characterObject2, ref explainedNumber);
 								}
 								if (attackInformation.AttackerHitPointRate < 0.5f)
 								{
@@ -120,7 +114,7 @@ namespace SandBox.GameComponents
 								}
 								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.TwoHanded.BladeMaster, characterObject, true, ref explainedNumber);
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Roguery.DashAndSlash, characterObject2, ref explainedNumber);
-								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, false, ref explainedNumber, 250);
+								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.TwoHanded.WayOfTheGreatAxe, characterObject, DefaultSkills.TwoHanded, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 							}
 							else if (currentUsageItem2.RelevantSkill == DefaultSkills.Polearm)
 							{
@@ -151,7 +145,7 @@ namespace SandBox.GameComponents
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Guards, characterObject, true, ref explainedNumber);
 								}
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Phalanx, characterObject2, ref explainedNumber);
-								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, false, ref explainedNumber, 250);
+								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Polearm.WayOfTheSpear, characterObject, DefaultSkills.Polearm, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 							}
 							else if (currentUsageItem2.IsShield)
 							{
@@ -179,6 +173,7 @@ namespace SandBox.GameComponents
 							{
 								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.MountedWarrior, characterObject, true, ref explainedNumber);
 								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.MountedWarrior, characterObject2, ref explainedNumber);
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.OneHanded.Cavalry, characterObject2, ref explainedNumber);
 							}
 							else
 							{
@@ -194,7 +189,7 @@ namespace SandBox.GameComponents
 								BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedMeleeDamage, activeBanner, ref explainedNumber);
 								if (attackInformation.DoesVictimHaveMountAgent)
 								{
-									BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedDamageAgainstMountedTroops, activeBanner, ref explainedNumber);
+									BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedMeleeDamageAgainstMountedTroops, activeBanner, ref explainedNumber);
 								}
 							}
 						}
@@ -219,8 +214,8 @@ namespace SandBox.GameComponents
 									{
 										PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Bow.HunterClan, characterObject, true, ref explainedNumber);
 									}
-									PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Bow.Deadshot, characterObject, DefaultSkills.Bow, false, ref explainedNumber, 200);
-									goto IL_7CD;
+									PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Bow.Deadshot, characterObject, DefaultSkills.Bow, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
+									goto IL_81B;
 								}
 							}
 							if (currentUsageItem2.RelevantSkill == DefaultSkills.Crossbow)
@@ -238,14 +233,14 @@ namespace SandBox.GameComponents
 									{
 										PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.Sheriff, characterObject, true, ref explainedNumber);
 									}
-									if (flag3 && currentUsageItem != null && currentUsageItem.RelevantSkill == DefaultSkills.Crossbow)
+									if (flag3)
 									{
 										PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.Sheriff, characterObject2, ref explainedNumber);
 									}
 									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Crossbow.HammerBolts, characterObject2, ref explainedNumber);
 									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Engineering.DreadfulSieger, characterObject2, ref explainedNumber);
-									PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Crossbow.MightyPull, characterObject, DefaultSkills.Crossbow, false, ref explainedNumber, 200);
-									goto IL_7CD;
+									PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Crossbow.MightyPull, characterObject, DefaultSkills.Crossbow, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
+									goto IL_81B;
 								}
 							}
 							if (currentUsageItem2.RelevantSkill == DefaultSkills.Throwing)
@@ -270,10 +265,7 @@ namespace SandBox.GameComponents
 								{
 									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.MountedSkirmisher, characterObject2, ref explainedNumber);
 								}
-								else
-								{
-									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.Impale, characterObject2, ref explainedNumber);
-								}
+								PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.Impale, characterObject2, ref explainedNumber);
 								if (flag4)
 								{
 									PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Throwing.KnockOff, characterObject2, ref explainedNumber);
@@ -286,9 +278,9 @@ namespace SandBox.GameComponents
 								{
 									PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.HeadHunter, characterObject, true, ref explainedNumber);
 								}
-								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Throwing.UnstoppableForce, characterObject, DefaultSkills.Throwing, false, ref explainedNumber, 200);
+								PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Throwing.UnstoppableForce, characterObject, DefaultSkills.Throwing, false, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 							}
-							IL_7CD:
+							IL_81B:
 							if (flag2)
 							{
 								PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Riding.HorseArcher, characterObject, true, ref explainedNumber);
@@ -316,8 +308,7 @@ namespace SandBox.GameComponents
 						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.FullSpeed, characterObject2, ref explainedNumber);
 						if (characterObject.GetPerkValue(DefaultPerks.Riding.TheWayOfTheSaddle))
 						{
-							float num3 = MathF.Max((float)MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(characterObject, agentOriginBase, attackerFormation, DefaultSkills.Riding) - DefaultPerks.Riding.TheWayOfTheSaddle.PrimaryBonus, 0f);
-							num3 *= DefaultPerks.Riding.TheWayOfTheSaddle.SecondaryBonus / 10f;
+							float num3 = (float)MathF.Max(MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent, DefaultSkills.Riding) - Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus, 0) * DefaultPerks.Riding.TheWayOfTheSaddle.PrimaryBonus;
 							explainedNumber.Add(num3, null, null);
 						}
 						if (activeBanner != null)
@@ -385,7 +376,7 @@ namespace SandBox.GameComponents
 				explainedNumber..ctor(explainedNumber.ResultNumber * num4, false, null);
 				if (attackInformation.DoesAttackerHaveMountAgent && (currentUsageItem2 == null || currentUsageItem2.RelevantSkill != DefaultSkills.Crossbow))
 				{
-					int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(characterObject, agentOriginBase, attackerFormation, DefaultSkills.Riding);
+					int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent, DefaultSkills.Riding);
 					float num5 = -0.01f * MathF.Max(0f, DefaultSkillEffects.HorseWeaponDamagePenalty.GetPrimaryValue(effectiveSkill));
 					explainedNumber.AddFactor(num5, null);
 				}
@@ -578,7 +569,7 @@ namespace SandBox.GameComponents
 		{
 			float num = 0f;
 			CharacterObject characterObject;
-			if (attackerWeapon != null && attackerWeapon.RelevantSkill == DefaultSkills.Polearm && (characterObject = ((attackerAgent != null) ? attackerAgent.Character : null) as CharacterObject) != null && characterObject.GetPerkValue(DefaultPerks.Polearm.KeepAtBay))
+			if (attackerWeapon != null && attackerWeapon.RelevantSkill == DefaultSkills.Polearm && (characterObject = ((attackerAgent != null) ? attackerAgent.Character : null) as CharacterObject) != null && blow.StrikeType == 1 && characterObject.GetPerkValue(DefaultPerks.Polearm.KeepAtBay))
 			{
 				num += DefaultPerks.Polearm.KeepAtBay.PrimaryBonus;
 			}
@@ -658,7 +649,8 @@ namespace SandBox.GameComponents
 				{
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.Spartan, characterObject, true, ref explainedNumber);
 				}
-				if (!defenderAgent.WieldedWeapon.IsEmpty && defenderAgent.WieldedWeapon.CurrentUsageItem.WeaponClass == 16 && defenderAgent.GetCurrentActionType(1) == 18)
+				WeaponComponentData currentUsageItem = defenderAgent.WieldedWeapon.CurrentUsageItem;
+				if (currentUsageItem != null && currentUsageItem.WeaponClass == 16 && defenderAgent.WieldedWeapon.IsReloading)
 				{
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crossbow.DeftHands, characterObject, true, ref explainedNumber);
 					if (characterObject2 != null)
@@ -679,7 +671,7 @@ namespace SandBox.GameComponents
 				AttackCollisionData attackCollisionData = collisionData;
 				if (attackCollisionData.AttackBlockedWithShield && characterObject.GetPerkValue(DefaultPerks.Polearm.UnstoppableForce))
 				{
-					baseDamage += baseDamage * DefaultPerks.Polearm.UnstoppableForce.PrimaryBonus;
+					baseDamage *= DefaultPerks.Polearm.UnstoppableForce.PrimaryBonus;
 				}
 			}
 			return baseDamage;

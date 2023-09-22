@@ -40,9 +40,16 @@ namespace SandBox.ViewModelCollection.Map
 			CampaignEvents.ArmyDispersed.AddNonSerializedListener(this, new Action<Army, Army.ArmyDispersionReason, bool>(this.OnArmyDispersed));
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, new Action<MobileParty>(this.OnMobilePartyCreated));
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnPartyDestroyed));
+			CampaignEvents.MobilePartyQuestStatusChanged.AddNonSerializedListener(this, new Action<MobileParty, bool>(this.OnPartyQuestStatusChanged));
 			CampaignEvents.OnPartyDisbandedEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnPartyDisbanded));
 			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			CampaignEvents.OnCompanionClanCreatedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnCompanionClanCreated));
+		}
+
+		public override void OnFinalize()
+		{
+			base.OnFinalize();
+			CampaignEventDispatcher.Instance.RemoveListeners(this);
 		}
 
 		private void InitList()
@@ -159,6 +166,19 @@ namespace SandBox.ViewModelCollection.Map
 			this.RemoveIfExists(mobileParty);
 		}
 
+		private void OnPartyQuestStatusChanged(MobileParty mobileParty, bool isUsedByQuest)
+		{
+			if (isUsedByQuest)
+			{
+				this.RemoveIfExists(mobileParty);
+				return;
+			}
+			if (this.CanAddParty(mobileParty))
+			{
+				this.AddIfNotAdded(mobileParty);
+			}
+		}
+
 		private void OnPartyDisbanded(MobileParty disbandedParty, Settlement relatedSettlement)
 		{
 			this.RemoveIfExists(disbandedParty);
@@ -182,7 +202,7 @@ namespace SandBox.ViewModelCollection.Map
 
 		private void OnArmyDispersed(Army army, Army.ArmyDispersionReason arg2, bool arg3)
 		{
-			if (army.MapFaction == Hero.MainHero.MapFaction)
+			if (army.Kingdom == Hero.MainHero.MapFaction)
 			{
 				this.RemoveIfExists(army);
 			}
@@ -190,7 +210,7 @@ namespace SandBox.ViewModelCollection.Map
 
 		private void OnArmyCreated(Army army)
 		{
-			if (army.MapFaction == Hero.MainHero.MapFaction)
+			if (army.Kingdom == Hero.MainHero.MapFaction)
 			{
 				this.AddIfNotAdded(army);
 			}

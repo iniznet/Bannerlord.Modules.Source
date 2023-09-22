@@ -94,7 +94,7 @@ namespace SandBox.Issues
 
 		private const int IssueDuration = 5;
 
-		public class TheSpyPartyIssueQuestTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class TheSpyPartyIssueQuestTypeDefiner : SaveableTypeDefiner
 		{
 			public TheSpyPartyIssueQuestTypeDefiner()
 				: base(121250)
@@ -237,7 +237,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=tFPJySG7}I am hosting a tournament at {SELECTED_SETTLEMENT}. I am expecting contenders to partake from all over the realm. I have my reasons to believe one of the attending warriors is actually a spy, sent to gather information about its defenses.", null);
+					TextObject textObject = new TextObject("{=tFPJySG7}I am hosting a tournament at {SELECTED_SETTLEMENT}. [ib:convo_undecided_open][if:convo_pondering]I am expecting contenders to partake from all over the realm. I have my reasons to believe one of the attending warriors is actually a spy, sent to gather information about its defenses.", null);
 					textObject.SetTextVariable("SELECTED_SETTLEMENT", this._selectedSettlement.EncyclopediaLinkWithName);
 					return textObject;
 				}
@@ -255,7 +255,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=2lgkL9db}Of course. I have employed spies myself. But if a tournament participant is asking questions about the state of the garrison and the walls, things which would concern no honest traveler - well, between that and the private information I've received, I think we'd have our man. The spy must be hiding inside {SELECTED_SETTLEMENT}. Once you are there start questioning the townsfolk.", null);
+					TextObject textObject = new TextObject("{=2lgkL9db}Of course. I have employed spies myself. But if a tournament [if:convo_pondering][ib:confident3]participant is asking questions about the state of the garrison and the walls, things which would concern no honest traveler - well, between that and the private information I've received, I think we'd have our man. The spy must be hiding inside {SELECTED_SETTLEMENT}. Once you are there start questioning the townsfolk.", null);
 					textObject.SetTextVariable("SELECTED_SETTLEMENT", this._selectedSettlement.EncyclopediaLinkWithName);
 					return textObject;
 				}
@@ -273,7 +273,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=avVno3H8}Well, you can assign a companion of yours with a knack for this kind of game and enough muscles to back him up. Judging from what I have heard, a group of {NEEDED_MEN_COUNT} should be enough.", null);
+					TextObject textObject = new TextObject("{=avVno3H8}Well, you can assign a companion of yours with a knack for this kind of game[if:convo_thinking] and enough muscles to back him up. Judging from what I have heard, a group of {NEEDED_MEN_COUNT} should be enough.", null);
 					textObject.SetTextVariable("NEEDED_MEN_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -320,7 +320,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=O0Cjam62}I hope your people are careful about how they proceed. It would be a pity if that spy got away.", null);
+					return new TextObject("{=O0Cjam62}I hope your people are careful about how they proceed.[if:convo_focused_happy] It would be a pity if that spy got away.", null);
 				}
 			}
 
@@ -328,7 +328,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=ciXBiMMa}Thank you {PLAYER.NAME}, I hope your people will be successful.", null);
+					TextObject textObject = new TextObject("{=ciXBiMMa}Thank you {PLAYER.NAME}, I hope your people will be successful.[if:convo_focused_happy]", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
 				}
@@ -397,7 +397,7 @@ namespace SandBox.Issues
 			{
 				GainRenownAction.Apply(Hero.MainHero, 1f, false);
 				this.RelationshipChangeWithIssueOwner = 5;
-				this._selectedSettlement.Prosperity += 5f;
+				this._selectedSettlement.Town.Prosperity += 5f;
 			}
 
 			protected override void AlternativeSolutionEndWithFailureConsequence()
@@ -409,6 +409,10 @@ namespace SandBox.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -507,7 +511,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=YIxpNP4k}You received a message from {QUEST_GIVER.LINK}. \"Thank you for killing the spy. Please accept these {REWARD_GOLD}{GOLD_ICON} denars with our gratitude.\"", null);
+					TextObject textObject = new TextObject("{=YIxpNP4k}You received a message from {QUEST_GIVER.LINK}. \"Thank you for killing the spy.[ib:hip][if:convo_grateful] Please accept these {REWARD_GOLD}{GOLD_ICON} denars with our gratitude.\"", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -625,24 +629,28 @@ namespace SandBox.Issues
 				}
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=wql79Eta}Good! We understand the spy is going to {TARGET_SETTLEMENT}. If they're trying to gather information, they'll be wandering around the market asking questions in the guise of making small talk. Just go around talking to the townsfolk, and you should be able to figure out who it is.", null);
+				TextObject textObject = new TextObject("{=wql79Eta}Good! We understand the spy is going to {TARGET_SETTLEMENT}. If they're trying to gather information,[ib:aggressive2][if:convo_undecided_open] they'll be wandering around the market asking questions in the guise of making small talk. Just go around talking to the townsfolk, and you should be able to figure out who it is.", null);
 				textObject.SetTextVariable("TARGET_SETTLEMENT", this._selectedSettlement.EncyclopediaLinkWithName);
-				TextObject textObject2 = new TextObject("{=aC0Fq6IE}Do not waste time, {PLAYER.NAME}. The spy probably won't linger any longer than he has to. Or she has to.", null);
+				TextObject textObject2 = new TextObject("{=aC0Fq6IE}Do not waste time, {PLAYER.NAME}. The spy probably won't linger any longer than he has to.[if:convo_thinking] Or she has to.", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject2, false);
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=yLRfb5zb}Any news? Have you managed to find him yet?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=yLRfb5zb}Any news? Have you managed to find him yet?[if:convo_astonished]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=wErSpkjy}I'm still working on it.", null), null)
 					.NpcLine(textObject2, null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.LeaveEncounter))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=I8raOMRH}Sorry. No progress yet.", null), null)
-					.NpcLine(new TextObject("{=ajSm2FEU}I know spies are hard to catch but I tasked this to you for a reason. Do not let me down {PLAYER.NAME}.", null), null, null)
-					.NpcLine(new TextObject("{=pW69nUp8}Finish this task before it is too late.", null), null, null)
+					.NpcLine(new TextObject("{=ajSm2FEU}I know spies are hard to catch but I tasked this to you for a reason. [if:convo_stern]Do not let me down {PLAYER.NAME}.", null), null, null)
+					.NpcLine(new TextObject("{=pW69nUp8}Finish this task before it is too late.[if:convo_stern]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.LeaveEncounter))
 					.CloseDialog()
 					.EndPlayerOptions()
@@ -673,15 +681,15 @@ namespace SandBox.Issues
 
 			private DialogFlow GetSuspectsDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=IqhGJ8Dy}Hello there friend. Are you here for the tournament.", null), null, null).Condition(() => this._suspectList.Any((TheSpyPartyIssueQuestBehavior.SuspectNpc x) => x.CharacterObject == CharacterObject.OneToOneConversationCharacter))
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=IqhGJ8Dy}Hello there friend. Are you here for the tournament.[ib:confident3][if:convo_relaxed_happy]", null), null, null).Condition(() => this._suspectList.Any((TheSpyPartyIssueQuestBehavior.SuspectNpc x) => x.CharacterObject == CharacterObject.OneToOneConversationCharacter))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=SRa9NyP1}No, my friend. I am on a hunt.", null), null)
-					.NpcLine(new TextObject("{=gYCSwLB2}Eh, what do you mean by that?[ib:closed][if:convo_annoyed]", null), null, null)
+					.NpcLine(new TextObject("{=gYCSwLB2}Eh, what do you mean by that?[ib:closed][if:convo_confused_normal]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=oddzOnad}I'm hunting a spy. And now I have found him.", null), null)
-					.NpcLine(new TextObject("{=MU8nbzwJ}You have nothing on me. If you try to take me anywhere I'll kill you, and it will be in self-defense.[ib:aggressive]", null), null, null)
+					.NpcLine(new TextObject("{=MU8nbzwJ}You have nothing on me. If you try to take me anywhere I'll kill you, and it will be in self-defense.[if:convo_grave]", null), null, null)
 					.PlayerLine(new TextObject("{=WDdlPUHw}Not if it's a duel. I challenge you. No true tournament fighter would refuse.", null), null)
-					.NpcLine(new TextObject("{=Ll8q45h5}Hmf... Very well. I shall wipe out this insult with your blood.", null), null, null)
+					.NpcLine(new TextObject("{=Ll8q45h5}Hmf... Very well. I shall wipe out this insult with your blood.[ib:warrior][if:convo_furious]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.StartFightWithSpy;
@@ -706,7 +714,7 @@ namespace SandBox.Issues
 
 			private DialogFlow GetNotablesDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=0RTwaPBJ}I speak to many people. Of course, as I am loyal to {QUEST_GIVER.NAME}, I am always on the lookout for spies. But I've seen no one like this.", null);
+				TextObject textObject = new TextObject("{=0RTwaPBJ}I speak to many people. Of course, as I am loyal to {QUEST_GIVER.NAME}, [if:convo_pondering]I am always on the lookout for spies. But I've seen no one like this.", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				return DialogFlow.CreateDialogFlow("hero_main_options", 125).BeginPlayerOptions().PlayerOption(new TextObject("{=xPTxkzVM}I am looking for a spy. Have you seen any warriors in the tournament wandering about, asking too many suspicious questions?", null), null)
 					.Condition(() => Settlement.CurrentSettlement == this._selectedSettlement && Hero.OneToOneConversationHero.IsNotable)
@@ -719,7 +727,7 @@ namespace SandBox.Issues
 			{
 				return DialogFlow.CreateDialogFlow("weaponsmith_talk_player", 125).BeginPlayerOptions().PlayerOption(new TextObject("{=SHwlcdp3}I ask you because you are a trader here. Have you seen one of the warriors in the tournament walking around here, asking people a lot of suspicious questions?", null), null)
 					.Condition(() => Settlement.CurrentSettlement == this._selectedSettlement && (CharacterObject.OneToOneConversationCharacter.Occupation == 12 || CharacterObject.OneToOneConversationCharacter.Occupation == 4 || CharacterObject.OneToOneConversationCharacter.Occupation == 28 || CharacterObject.OneToOneConversationCharacter.Occupation == 10))
-					.NpcLine(new TextObject("{=ocoHNhNk}Hmm... I keep pretty busy with my own trade. I haven't heard anything like that.", null), null, null)
+					.NpcLine(new TextObject("{=ocoHNhNk}Hmm... I keep pretty busy with my own trade. I haven't heard anything like that.[if:convo_pondering]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 			}
@@ -761,19 +769,19 @@ namespace SandBox.Issues
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.AddAgentToAlreadySpokenList;
 					})
 					.BeginNpcOptions()
-					.NpcOption(new TextObject("{=8gmne3b9}Not to me sir, no. I did overhear someone talking to another merchant about such things. I remember him because he had this nasty looking sword by his side.", null), () => giveClue && this._selectedSpy.HasBigSword && !this._playerLearnedHasBigSword && this.CommonCondition(), null, null)
+					.NpcOption(new TextObject("{=8gmne3b9}Not to me {?PLAYER.GENDER}madam{?}sir{\\?}, no. I did overhear someone talking to another merchant about such things. I remember him because he had this nasty looking sword by his side.[if:convo_disbelief]", null), () => giveClue && this._selectedSpy.HasBigSword && !this._playerLearnedHasBigSword && this.CommonCondition(), null, null)
 					.PlayerLine(new TextObject("{=VP6s1YFW}Many contenders have swords on their backs. Still this information might prove useful.", null), null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerLearnedSpyHasSword))
 					.CloseDialog()
-					.NpcOption(new TextObject("{=gHnMYU9n}Why yes... At the tavern last night... Cornered a drunk and kept pressing him for information about the gatehouse. Had a beard, that one did.", null), () => giveClue && this._selectedSpy.HasBeard && !this._playerLearnedHasBeard && this.CommonCondition(), null, null)
+					.NpcOption(new TextObject("{=gHnMYU9n}Why yes... At the tavern last night... Cornered a drunk and kept pressing him for information about the gatehouse. Had a beard, that one did.[if:convo_pondering]", null), () => giveClue && this._selectedSpy.HasBeard && !this._playerLearnedHasBeard && this.CommonCondition(), null, null)
 					.PlayerLine(new TextObject("{=QaAzicqA}Many men have beards. Still, that is something.", null), null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerLearnedSpyHasBeard))
 					.CloseDialog()
-					.NpcOption(new TextObject("{=DUVqJifX}Yeah. I've seen one like that around the arena, asking all matter of outlandish questions. Middle-aged, normal head of hair, that's really all I can remember though.", null), () => giveClue && this._selectedSpy.HasHair && !this._playerLearnedHasHair && this.CommonCondition(), null, null)
+					.NpcOption(new TextObject("{=DUVqJifX}Yeah. I've seen one like that around the arena, asking all matter of outlandish questions. Middle-aged, normal head of hair, that's really all I can remember though.[if:convo_thinking]", null), () => giveClue && this._selectedSpy.HasHair && !this._playerLearnedHasHair && this.CommonCondition(), null, null)
 					.PlayerLine(new TextObject("{=JjtmptiD}More men have hair than not, but this is another tile in the mosaic.", null), null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerLearnedSpyHasHair))
 					.CloseDialog()
-					.NpcOption(new TextObject("{=tXpmCzoZ}Well, there was one warrior. A handsome young lad. Didn't have any of those scars that some fighters pick up in battle, nor any of those marks or tattoos or whatever that some of the hard cases like to show off.", null), () => giveClue && this._selectedSpy.WithoutMarkings && !this._playerLearnedHasNoMarkings && this.CommonCondition(), null, null)
+					.NpcOption(new TextObject("{=tXpmCzoZ}Well, there was one warrior. A handsome young lad. Didn't have any of those scars that some fighters pick up in battle, nor any of those marks or tattoos or whatever that [if:convo_pondering]some of the hard cases like to show off.", null), () => giveClue && this._selectedSpy.WithoutMarkings && !this._playerLearnedHasNoMarkings && this.CommonCondition(), null, null)
 					.PlayerLine(new TextObject("{=ZCbQvqqv}A face without scars and markings is usual for farmers and merchants but less so for warriors. This might be useful.", null), null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerLearnedSpyHasNoMarkings))
 					.CloseDialog()
@@ -918,7 +926,7 @@ namespace SandBox.Issues
 				GainRenownAction.Apply(Hero.MainHero, 1f, false);
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this.RewardGold, false);
 				this.RelationshipChangeWithQuestGiver = 5;
-				this._selectedSettlement.Prosperity += 5f;
+				this._selectedSettlement.Town.Prosperity += 5f;
 				base.CompleteQuestWithSuccess();
 			}
 
@@ -966,7 +974,7 @@ namespace SandBox.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._warDeclaredQuestLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._warDeclaredQuestLog, false);
 			}
 
 			private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)

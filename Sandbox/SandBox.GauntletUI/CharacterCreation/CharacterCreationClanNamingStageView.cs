@@ -206,11 +206,13 @@ namespace SandBox.GauntletUI.CharacterCreation
 		{
 			if (this.IsGameKeyReleasedInAnyLayer("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this._dataSource.OnPreviousStage();
 				return;
 			}
 			if (this.IsGameKeyReleasedInAnyLayer("Confirm") && this._dataSource.CanAdvance)
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this._dataSource.OnNextStage();
 			}
 		}

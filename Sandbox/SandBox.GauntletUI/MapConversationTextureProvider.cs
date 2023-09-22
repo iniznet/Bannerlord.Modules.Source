@@ -30,10 +30,10 @@ namespace SandBox.GauntletUI
 			this._mapConversationTableau = new MapConversationTableau();
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
-			this._mapConversationTableau.OnFinalize();
-			base.Clear();
+			this._mapConversationTableau.OnFinalize(clearNextFrame);
+			base.Clear(clearNextFrame);
 		}
 
 		private void CheckTexture()

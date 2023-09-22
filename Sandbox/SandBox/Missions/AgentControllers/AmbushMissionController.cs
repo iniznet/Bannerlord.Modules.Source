@@ -110,7 +110,7 @@ namespace SandBox.Missions.AgentControllers
 			this.CreateTroop("archer", base.Mission.AttackerTeam, 15, false);
 		}
 
-		protected override void CreateTroop(string troopName, Team troopTeam, int troopCount, bool isReinforcement = false)
+		protected void CreateTroop(string troopName, Team troopTeam, int troopCount, bool isReinforcement = false)
 		{
 			if (troopTeam.Side == 1)
 			{
@@ -123,10 +123,8 @@ namespace SandBox.Missions.AgentControllers
 				formation.SetPositioning(new WorldPosition?(worldPosition), new Vec2?(vec), null);
 				for (int i = 0; i < troopCount; i++)
 				{
-					Agent agent = base.Mission.SpawnAgent(new AgentBuildData(@object).Team(troopTeam).Formation(formation).FormationTroopSpawnCount(troopCount)
-						.FormationTroopSpawnIndex(i), false);
-					agent.SetAlwaysAttackInMelee(true);
-					(agent.AddController(typeof(AmbushBattleAgentController)) as AmbushBattleAgentController).IsAttacker = true;
+					(base.Mission.SpawnAgent(new AgentBuildData(@object).Team(troopTeam).Formation(formation).FormationTroopSpawnCount(troopCount)
+						.FormationTroopSpawnIndex(i), false).AddController(typeof(AmbushBattleAgentController)) as AmbushBattleAgentController).IsAttacker = true;
 					base.IncrementDeploymedTroops(1);
 				}
 				return;
@@ -266,8 +264,8 @@ namespace SandBox.Missions.AgentControllers
 					if (!controller.IsAttacker)
 					{
 						agent.DisableScriptedMovement();
-						FormationClass formationClass = agent.Character.GetFormationClass();
-						agent.Formation = base.Mission.DefenderTeam.GetFormation(formationClass);
+						FormationClass agentTroopClass = base.Mission.GetAgentTroopClass(0, agent.Character);
+						agent.Formation = base.Mission.DefenderTeam.GetFormation(agentTroopClass);
 						agent.Formation.SetMovementOrder(MovementOrder.MovementOrderCharge);
 					}
 				}

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Conversation;
-using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.Core;
 using TaleWorlds.Engine;
-using TaleWorlds.Library;
 
 namespace SandBox.CampaignBehaviors
 {
@@ -68,35 +64,7 @@ namespace SandBox.CampaignBehaviors
 			}
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("enable_conversation_animation_test_tool", "campaign")]
-		public static string EnableConversationAnimationTool(List<string> strings)
-		{
-			if (strings.Count != 1)
-			{
-				return "Usage: enable_conversation_animation_test_tool [1/0]";
-			}
-			if (!(Game.Current.GameStateManager.ActiveState is MapState))
-			{
-				return "Active state must be map state to use the tool.";
-			}
-			int num;
-			if (!int.TryParse(strings[0], out num))
-			{
-				return "Enter a number.";
-			}
-			if (ConversationAnimationToolCampaignBehavior._isToolEnabled && num == 1)
-			{
-				return "'Conversation Animation Test Tool' is already enabled!";
-			}
-			ConversationAnimationToolCampaignBehavior._isToolEnabled = num == 1;
-			if (!ConversationAnimationToolCampaignBehavior._isToolEnabled)
-			{
-				ConversationAnimationToolCampaignBehavior.CloseConversationAnimationTool();
-			}
-			return "'Conversation Animation Test Tool' is " + ((num == 1) ? "enabled." : "disabled.\nCampaign time must be passed to keep the tool open.");
-		}
-
-		private static void CloseConversationAnimationTool()
+		public static void CloseConversationAnimationTool()
 		{
 			ConversationAnimationToolCampaignBehavior._isToolEnabled = false;
 			ConversationAnimationToolCampaignBehavior._characterType = -1;

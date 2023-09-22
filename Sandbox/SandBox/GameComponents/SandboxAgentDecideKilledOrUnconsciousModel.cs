@@ -2,6 +2,7 @@
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
@@ -9,7 +10,7 @@ namespace SandBox.GameComponents
 {
 	public class SandboxAgentDecideKilledOrUnconsciousModel : AgentDecideKilledOrUnconsciousModel
 	{
-		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, out float useSurgeryProbability)
+		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, WeaponFlags weaponFlags, out float useSurgeryProbability)
 		{
 			useSurgeryProbability = 1f;
 			if (effectedAgent.IsHuman)
@@ -23,13 +24,13 @@ namespace SandBox.GameComponents
 					}
 					CampaignAgentComponent component = effectedAgent.GetComponent<CampaignAgentComponent>();
 					PartyBase partyBase = ((component != null) ? component.OwnerParty : null);
-					if (affectorAgent.IsHuman)
+					if (affectorAgent != null && affectorAgent.IsHuman)
 					{
 						CampaignAgentComponent component2 = affectorAgent.GetComponent<CampaignAgentComponent>();
 						PartyBase partyBase2 = ((component2 != null) ? component2.OwnerParty : null);
-						return 1f - Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(partyBase, characterObject, damageType, partyBase2);
+						return 1f - Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(partyBase, characterObject, damageType, Extensions.HasAnyFlag<WeaponFlags>(weaponFlags, 1048576L), partyBase2);
 					}
-					return 1f - Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(partyBase, characterObject, damageType, null);
+					return 1f - Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(partyBase, characterObject, damageType, Extensions.HasAnyFlag<WeaponFlags>(weaponFlags, 1048576L), null);
 				}
 			}
 			return 1f;

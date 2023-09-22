@@ -213,6 +213,7 @@ namespace SandBox.View.Menu
 			{
 				this.CheckAndInitializeOverlay();
 			}
+			this.StopAllSounds();
 		}
 
 		void IMenuContextHandler.OnMenuActivate()

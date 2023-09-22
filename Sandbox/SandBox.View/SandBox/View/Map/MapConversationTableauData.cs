@@ -17,6 +17,10 @@ namespace SandBox.View.Map
 
 		public bool IsInside { get; private set; }
 
+		public bool IsSnowing { get; private set; }
+
+		public bool IsRaining { get; private set; }
+
 		public float TimeOfDay { get; private set; }
 
 		public Settlement Settlement { get; private set; }
@@ -25,7 +29,7 @@ namespace SandBox.View.Map
 		{
 		}
 
-		public static MapConversationTableauData CreateFrom(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData, TerrainType terrainType, float timeOfDay, bool isCurrentTerrainUnderSnow, Settlement settlement, bool isInside)
+		public static MapConversationTableauData CreateFrom(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData, TerrainType terrainType, float timeOfDay, bool isCurrentTerrainUnderSnow, Settlement settlement, bool isInside, bool isRaining, bool isSnowing)
 		{
 			return new MapConversationTableauData
 			{
@@ -35,7 +39,9 @@ namespace SandBox.View.Map
 				TimeOfDay = timeOfDay,
 				IsCurrentTerrainUnderSnow = isCurrentTerrainUnderSnow,
 				Settlement = settlement,
-				IsInside = isInside
+				IsInside = isInside,
+				IsRaining = isRaining,
+				IsSnowing = isSnowing
 			};
 		}
 	}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Helpers;
@@ -20,7 +19,7 @@ using TaleWorlds.MountAndBlade.View;
 
 namespace SandBox.View.Map
 {
-	public class PartyVisual : IPartyVisual
+	public class PartyVisual
 	{
 		public MapScreen MapScreen
 		{
@@ -36,7 +35,26 @@ namespace SandBox.View.Map
 
 		public MatrixFrame CircleLocalFrame { get; private set; }
 
-		public bool EntityMoving { get; set; }
+		public Vec2 Position
+		{
+			get
+			{
+				return this.PartyBase.Position2D;
+			}
+		}
+
+		public IMapEntity GetMapEntity()
+		{
+			return this.PartyBase.MapEntity;
+		}
+
+		public bool TargetVisibility
+		{
+			get
+			{
+				return this.PartyBase.IsVisible;
+			}
+		}
 
 		private Scene MapScene
 		{
@@ -60,43 +78,30 @@ namespace SandBox.View.Map
 
 		public bool IsFriendly { get; private set; }
 
-		public PartyVisual()
+		public bool IsEntityMovingVisually()
 		{
-			this.EntityMoving = false;
-			this._isDirty = true;
-			this._siteEntities = new GameEntity[4];
+			if (!this.PartyBase.IsMobile)
+			{
+				return false;
+			}
+			if (!this.PartyBase.MobileParty.VisualPosition2DWithoutError.NearlyEquals(this._lastFrameVisualPositionWithoutError, 1E-05f))
+			{
+				if (Campaign.Current.TimeControlMode != null)
+				{
+					this._lastFrameVisualPositionWithoutError = this.PartyBase.MobileParty.VisualPosition2DWithoutError;
+				}
+				return true;
+			}
+			return false;
+		}
+
+		public PartyVisual(PartyBase partyBase)
+		{
+			this.PartyBase = partyBase;
 			this._siegeRangedMachineEntities = new List<ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity>>();
 			this._siegeMeleeMachineEntities = new List<ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity>>();
 			this._siegeMissileEntities = new List<ValueTuple<GameEntity, BattleSideEnum, int>>();
 			this.CircleLocalFrame = MatrixFrame.Identity;
-		}
-
-		void IPartyVisual.OnBesieged(Vec3 soundPosition)
-		{
-			SoundEvent siegeSoundEvent = this._siegeSoundEvent;
-			if (siegeSoundEvent != null)
-			{
-				siegeSoundEvent.Stop();
-			}
-			this._siegeSoundEvent = SoundEvent.CreateEventFromString("event:/map/ambient/node/battle_siege", this.MapScene);
-			this._siegeSoundEvent.SetParameter("battle_size", 4f);
-			this._siegeSoundEvent.SetPosition(soundPosition);
-			this._siegeSoundEvent.Play();
-		}
-
-		void IPartyVisual.OnSiegeLifted()
-		{
-			SoundEvent siegeSoundEvent = this._siegeSoundEvent;
-			if (siegeSoundEvent != null)
-			{
-				siegeSoundEvent.Stop();
-			}
-			this._siegeSoundEvent = null;
-		}
-
-		public void SetMapIconAsDirty()
-		{
-			this._isDirty = true;
 		}
 
 		private void AddMountToPartyIcon(Vec3 positionOffset, string mountItemId, string harnessItemId, uint contourColor, CharacterObject character)
@@ -126,7 +131,7 @@ namespace SandBox.View.Map
 			matrixFrame = this.StrategicEntity.GetFrame().TransformToParent(matrixFrame);
 			this.CaravanMountAgentVisuals.GetEntity().SetFrame(ref matrixFrame);
 			float num = MathF.Min(0.325f * this._speed / 0.3f, 20f);
-			this.CaravanMountAgentVisuals.Tick(null, 0.0001f, this.EntityMoving, num);
+			this.CaravanMountAgentVisuals.Tick(null, 0.0001f, this.IsEntityMovingVisually(), num);
 			this.CaravanMountAgentVisuals.GetEntity().Skeleton.ForceUpdateBoneFrames();
 		}
 
@@ -228,10 +233,10 @@ namespace SandBox.View.Map
 			float num3 = MathF.Min(0.25f * num2 * this._speed / 0.3f, 20f);
 			if (this.MountAgentVisuals != null)
 			{
-				this.MountAgentVisuals.Tick(null, 0.0001f, this.EntityMoving, num3);
+				this.MountAgentVisuals.Tick(null, 0.0001f, this.IsEntityMovingVisually(), num3);
 				this.MountAgentVisuals.GetEntity().Skeleton.ForceUpdateBoneFrames();
 			}
-			this.HumanAgentVisuals.Tick(this.MountAgentVisuals, 0.0001f, this.EntityMoving, num3);
+			this.HumanAgentVisuals.Tick(this.MountAgentVisuals, 0.0001f, this.IsEntityMovingVisually(), num3);
 			this.HumanAgentVisuals.GetEntity().Skeleton.ForceUpdateBoneFrames();
 		}
 
@@ -269,33 +274,39 @@ namespace SandBox.View.Map
 			return copy;
 		}
 
-		public void Tick(float realDt, float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
+		public void Tick(float dt, ref int dirtyPartiesCount, ref PartyVisual[] dirtyPartiesList)
 		{
-			if (party.IsSettlement)
+			if (this.PartyBase.IsSettlement)
 			{
-				this.TickSettlementVisual(realDt, dt, party, ref dirtyPartiesCount, ref dirtyPartiesList);
-				return;
+				this.TickSettlementVisual(dt, ref dirtyPartiesCount, ref dirtyPartiesList);
 			}
-			this.TickMobilePartyVisual(dt, party, ref dirtyPartiesCount, ref dirtyPartiesList);
+			else
+			{
+				this.TickMobilePartyVisual(dt, ref dirtyPartiesCount, ref dirtyPartiesList);
+			}
+			if (this.PartyBase.LevelMaskIsDirty)
+			{
+				this.RefreshLevelMask();
+			}
 		}
 
-		private void TickSettlementVisual(float realDt, float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
+		private void TickSettlementVisual(float dt, ref int dirtyPartiesCount, ref PartyVisual[] dirtyPartiesList)
 		{
 			if (this.StrategicEntity == null)
 			{
 				return;
 			}
-			if (this._targetVisibility && this._isDirty)
+			if (this.PartyBase.IsVisualDirty)
 			{
 				int num = Interlocked.Increment(ref dirtyPartiesCount);
-				dirtyPartiesList[num] = party;
+				dirtyPartiesList[num] = this;
 				return;
 			}
 			double toHours = CampaignTime.Now.ToHours;
 			foreach (ValueTuple<GameEntity, BattleSideEnum, int> valueTuple in this._siegeMissileEntities)
 			{
 				GameEntity item = valueTuple.Item1;
-				ISiegeEventSide siegeEventSide = party.Settlement.SiegeEvent.GetSiegeEventSide(valueTuple.Item2);
+				ISiegeEventSide siegeEventSide = this.PartyBase.Settlement.SiegeEvent.GetSiegeEventSide(valueTuple.Item2);
 				int item2 = valueTuple.Item3;
 				bool flag = false;
 				if (siegeEventSide.SiegeEngineMissiles.Count > item2)
@@ -412,13 +423,13 @@ namespace SandBox.View.Map
 				BattleSideEnum item6 = valueTuple4.Item2;
 				int item7 = valueTuple4.Item3;
 				GameEntity item8 = valueTuple4.Item5;
-				SiegeEngineType siegeEngine = party.Settlement.SiegeEvent.GetSiegeEventSide(item6).SiegeEngines.DeployedRangedSiegeEngines[item7].SiegeEngine;
+				SiegeEngineType siegeEngine = this.PartyBase.Settlement.SiegeEvent.GetSiegeEventSide(item6).SiegeEngines.DeployedRangedSiegeEngines[item7].SiegeEngine;
 				if (item8 != null)
 				{
 					Skeleton skeleton = item8.Skeleton;
 					string siegeEngineMapFireAnimationName = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineMapFireAnimationName(siegeEngine, item6);
 					string siegeEngineMapReloadAnimationName = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineMapReloadAnimationName(siegeEngine, item6);
-					SiegeEvent.RangedSiegeEngine rangedSiegeEngine = party.Settlement.SiegeEvent.GetSiegeEventSide(item6).SiegeEngines.DeployedRangedSiegeEngines[item7].RangedSiegeEngine;
+					SiegeEvent.RangedSiegeEngine rangedSiegeEngine = this.PartyBase.Settlement.SiegeEvent.GetSiegeEventSide(item6).SiegeEngines.DeployedRangedSiegeEngines[item7].RangedSiegeEngine;
 					PartyVisual.SiegeBombardmentData siegeBombardmentData2;
 					this.CalculateDataAndDurationsForSiegeMachine(item7, siegeEngine, item6, rangedSiegeEngine.CurrentTargetType, rangedSiegeEngine.CurrentTargetIndex, out siegeBombardmentData2);
 					MatrixFrame shooterGlobalFrame = siegeBombardmentData2.ShooterGlobalFrame;
@@ -427,18 +438,18 @@ namespace SandBox.View.Map
 						Vec3 vec5;
 						if (rangedSiegeEngine.PreviousDamagedTargetType == 1)
 						{
-							vec5 = this._currentLevelBreachableWallEntities[rangedSiegeEngine.PreviousTargetIndex].GlobalPosition;
+							vec5 = this._defenderBreachableWallEntitiesCacheForCurrentLevel[rangedSiegeEngine.PreviousTargetIndex].GlobalPosition;
 						}
 						else
 						{
-							vec5 = ((item6 == 1) ? this.GetDefenderSiegeEngineFrameAtIndex(rangedSiegeEngine.PreviousTargetIndex).origin : this.GetAttackerRangedSiegeEngineFrameAtIndex(rangedSiegeEngine.PreviousTargetIndex).origin);
+							vec5 = ((item6 == 1) ? this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[rangedSiegeEngine.PreviousTargetIndex].GetGlobalFrame().origin : this._attackerRangedEngineSpawnEntities[rangedSiegeEngine.PreviousTargetIndex].GetGlobalFrame().origin);
 						}
 						shooterGlobalFrame.rotation.f.AsVec2 = (vec5 - shooterGlobalFrame.origin).AsVec2;
 						shooterGlobalFrame.rotation.f.NormalizeWithoutChangingZ();
 						shooterGlobalFrame.rotation.Orthonormalize();
 					}
 					item5.SetGlobalFrame(ref shooterGlobalFrame);
-					skeleton.TickAnimations(realDt, MatrixFrame.Identity, false);
+					skeleton.TickAnimations(dt, MatrixFrame.Identity, false);
 					double toHours3 = rangedSiegeEngine.NextProjectileCollisionTime.ToHours;
 					if (toHours > toHours3 - (double)siegeBombardmentData2.TotalDuration)
 					{
@@ -482,46 +493,91 @@ namespace SandBox.View.Map
 			}
 		}
 
-		private void TickMobilePartyVisual(float dt, PartyBase party, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
+		private void TickMobilePartyVisual(float dt, ref int dirtyPartiesCount, ref PartyVisual[] dirtyPartiesList)
 		{
 			if (this.StrategicEntity == null)
 			{
 				return;
 			}
-			if (this._isDirty && (this._entityAlpha > 0f || this._targetVisibility))
+			if (this.PartyBase.IsVisualDirty && (this._entityAlpha > 0f || this.TargetVisibility))
 			{
 				int num = Interlocked.Increment(ref dirtyPartiesCount);
-				dirtyPartiesList[num] = party;
+				dirtyPartiesList[num] = this;
 			}
-			this._speed = party.MobileParty.Speed;
+			this._speed = this.PartyBase.MobileParty.Speed;
 			if (this._entityAlpha > 0f && this.HumanAgentVisuals != null && !this.HumanAgentVisuals.GetEquipment()[4].IsEmpty)
 			{
 				this.HumanAgentVisuals.SetClothWindToWeaponAtIndex(-this.StrategicEntity.GetGlobalFrame().rotation.f, false, 4);
 			}
 			float num2 = ((this.MountAgentVisuals != null) ? 1.3f : 1f);
 			float num3 = MathF.Min(0.25f * num2 * this._speed / 0.3f, 20f);
+			bool flag = this.IsEntityMovingVisually();
 			AgentVisuals humanAgentVisuals = this.HumanAgentVisuals;
 			if (humanAgentVisuals != null)
 			{
-				humanAgentVisuals.Tick(this.MountAgentVisuals, dt, this.EntityMoving, num3);
+				humanAgentVisuals.Tick(this.MountAgentVisuals, dt, flag, num3);
 			}
 			AgentVisuals mountAgentVisuals = this.MountAgentVisuals;
 			if (mountAgentVisuals != null)
 			{
-				mountAgentVisuals.Tick(null, dt, this.EntityMoving, num3);
+				mountAgentVisuals.Tick(null, dt, flag, num3);
 			}
 			AgentVisuals caravanMountAgentVisuals = this.CaravanMountAgentVisuals;
-			if (caravanMountAgentVisuals == null)
+			if (caravanMountAgentVisuals != null)
 			{
-				return;
+				caravanMountAgentVisuals.Tick(null, dt, flag, num3);
 			}
-			caravanMountAgentVisuals.Tick(null, dt, this.EntityMoving, num3);
+			if (this.IsVisibleOrFadingOut())
+			{
+				MobileParty mobileParty = this.PartyBase.MobileParty;
+				MatrixFrame identity = MatrixFrame.Identity;
+				identity.origin = this.GetVisualPosition();
+				if (mobileParty.Army != null && mobileParty.Army.LeaderParty.AttachedParties.Contains(mobileParty))
+				{
+					MatrixFrame frame = this.GetFrame();
+					Vec2 vec = identity.origin.AsVec2 - frame.origin.AsVec2;
+					if (vec.Length / dt > 20f)
+					{
+						identity.rotation.RotateAboutUp(this.PartyBase.AverageBearingRotation);
+					}
+					else if (mobileParty.CurrentSettlement == null)
+					{
+						float num4 = MBMath.LerpRadians(frame.rotation.f.AsVec2.RotationInRadians, (vec + Vec2.FromRotation(this.PartyBase.AverageBearingRotation) * 0.01f).RotationInRadians, 6f * dt, 0.03f * dt, 10f * dt);
+						identity.rotation.RotateAboutUp(num4);
+					}
+					else
+					{
+						float rotationInRadians = frame.rotation.f.AsVec2.RotationInRadians;
+						identity.rotation.RotateAboutUp(rotationInRadians);
+					}
+				}
+				else if (mobileParty.CurrentSettlement == null)
+				{
+					identity.rotation.RotateAboutUp(this.PartyBase.AverageBearingRotation);
+				}
+				this.SetFrame(ref identity);
+			}
+		}
+
+		public Vec3 GetVisualPosition()
+		{
+			float num = 0f;
+			Vec2 zero = Vec2.Zero;
+			if (this.PartyBase.IsMobile)
+			{
+				MobileParty mobileParty = this.PartyBase.MobileParty;
+				zero..ctor(mobileParty.EventPositionAdder.x + mobileParty.ArmyPositionAdder.x + mobileParty.ErrorPosition.x, mobileParty.EventPositionAdder.y + mobileParty.ArmyPositionAdder.y + mobileParty.ErrorPosition.y);
+			}
+			Vec2 vec;
+			vec..ctor(this.PartyBase.Position2D.x + zero.x, this.PartyBase.Position2D.y + zero.y);
+			Campaign.Current.MapSceneWrapper.GetHeightAtPoint(vec, ref num);
+			return new Vec3(vec, num, -1f);
 		}
 
 		private void CalculateDataAndDurationsForSiegeMachine(int machineSlotIndex, SiegeEngineType machineType, BattleSideEnum side, SiegeBombardTargets targetType, int targetSlotIndex, out PartyVisual.SiegeBombardmentData bombardmentData)
 		{
 			bombardmentData = default(PartyVisual.SiegeBombardmentData);
-			MatrixFrame matrixFrame = ((side == null) ? this.GetDefenderSiegeEngineFrameAtIndex(machineSlotIndex) : this.GetAttackerRangedSiegeEngineFrameAtIndex(machineSlotIndex));
+			MatrixFrame matrixFrame = ((side == null) ? this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[machineSlotIndex].GetGlobalFrame() : this._attackerRangedEngineSpawnEntities[machineSlotIndex].GetGlobalFrame());
 			matrixFrame.rotation.MakeUnit();
 			bombardmentData.ShooterGlobalFrame = matrixFrame;
 			string siegeEngineMapFireAnimationName = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineMapFireAnimationName(machineType, side);
@@ -536,11 +592,11 @@ namespace SandBox.View.Map
 			bombardmentData.Gravity = ((machineType == DefaultSiegeEngineTypes.Ballista || machineType == DefaultSiegeEngineTypes.FireBallista) ? 10f : 40f);
 			if (targetType == 2)
 			{
-				bombardmentData.TargetPosition = ((side == 1) ? this.GetDefenderSiegeEngineFrameAtIndex(targetSlotIndex).origin : this.GetAttackerRangedSiegeEngineFrameAtIndex(targetSlotIndex).origin);
+				bombardmentData.TargetPosition = ((side == 1) ? this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[targetSlotIndex].GetGlobalFrame().origin : this._attackerRangedEngineSpawnEntities[targetSlotIndex].GetGlobalFrame().origin);
 			}
 			else if (targetType == 1)
 			{
-				bombardmentData.TargetPosition = this._currentLevelBreachableWallEntities[targetSlotIndex].GlobalPosition;
+				bombardmentData.TargetPosition = this._defenderBreachableWallEntitiesCacheForCurrentLevel[targetSlotIndex].GlobalPosition;
 			}
 			else if (targetSlotIndex == -1)
 			{
@@ -548,7 +604,7 @@ namespace SandBox.View.Map
 			}
 			else
 			{
-				bombardmentData.TargetPosition = ((side == 1) ? this.GetDefenderSiegeEngineFrameAtIndex(targetSlotIndex).origin : this.GetAttackerRangedSiegeEngineFrameAtIndex(targetSlotIndex).origin);
+				bombardmentData.TargetPosition = ((side == 1) ? this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[targetSlotIndex].GetGlobalFrame().origin : this._attackerRangedEngineSpawnEntities[targetSlotIndex].GetGlobalFrame().origin);
 				bombardmentData.TargetPosition += (bombardmentData.TargetPosition - bombardmentData.ShooterGlobalFrame.origin).NormalizedCopy() * 2f;
 				Campaign.Current.MapSceneWrapper.GetHeightAtPoint(bombardmentData.TargetPosition.AsVec2, ref bombardmentData.TargetPosition.z);
 			}
@@ -593,19 +649,20 @@ namespace SandBox.View.Map
 			this.ResetPartyIcon();
 		}
 
-		public void ValidateIsDirty(PartyBase party, float realDt, float dt)
+		public void ValidateIsDirty(float realDt, float dt)
 		{
-			if (party.IsSettlement)
+			if (this.PartyBase.IsSettlement)
 			{
-				this.RefreshPartyIcon(party);
+				this.RefreshPartyIcon();
+				PartyVisualManager.Current.RegisterFadingVisual(this);
 				return;
 			}
-			if (party.MemberRoster.TotalManCount != 0)
+			if (this.PartyBase.MemberRoster.TotalManCount != 0)
 			{
-				this.RefreshPartyIcon(party);
-				if ((this._entityAlpha < 1f && this._targetVisibility) || (this._entityAlpha > 0f && !this._targetVisibility))
+				this.RefreshPartyIcon();
+				if ((this._entityAlpha < 1f && this.TargetVisibility) || (this._entityAlpha > 0f && !this.TargetVisibility))
 				{
-					Campaign.Current.RegisterFadingVisual(this);
+					PartyVisualManager.Current.RegisterFadingVisual(this);
 					return;
 				}
 			}
@@ -617,9 +674,9 @@ namespace SandBox.View.Map
 
 		public void TickFadingState(float realDt, float dt)
 		{
-			if ((this._entityAlpha < 1f && this._targetVisibility) || (this._entityAlpha > 0f && !this._targetVisibility))
+			if ((this._entityAlpha < 1f && this.TargetVisibility) || (this._entityAlpha > 0f && !this.TargetVisibility))
 			{
-				if (this._targetVisibility)
+				if (this.TargetVisibility)
 				{
 					if (this._entityAlpha <= 0f)
 					{
@@ -749,7 +806,7 @@ namespace SandBox.View.Map
 			}
 			else
 			{
-				Campaign.Current.UnregisterFadingVisual(this);
+				PartyVisualManager.Current.UnRegisterFadingVisual(this);
 			}
 		}
 
@@ -782,21 +839,17 @@ namespace SandBox.View.Map
 				}
 				this.StrategicEntity.ClearComponents();
 			}
-			for (int i = 0; i < 4; i++)
-			{
-				this._siteEntities[i] = null;
-			}
-			Campaign.Current.UnregisterFadingVisual(this);
+			PartyVisualManager.Current.UnRegisterFadingVisual(this);
 		}
 
-		private void RefreshPartyIcon(PartyBase party)
+		private void RefreshPartyIcon()
 		{
-			if (this._isDirty)
+			if (this.PartyBase.IsVisualDirty)
 			{
-				this._isDirty = false;
+				this.PartyBase.OnVisualsUpdated();
 				bool flag = true;
 				bool flag2 = true;
-				if (!party.IsSettlement)
+				if (!this.PartyBase.IsSettlement)
 				{
 					this.ResetPartyIcon();
 					MatrixFrame circleLocalFrame = this.CircleLocalFrame;
@@ -809,24 +862,24 @@ namespace SandBox.View.Map
 					this.StrategicEntity.RemoveAllParticleSystems();
 					this.StrategicEntity.EntityFlags |= 536870912;
 				}
-				MobileParty mobileParty = party.MobileParty;
+				MobileParty mobileParty = this.PartyBase.MobileParty;
 				if (((mobileParty != null) ? mobileParty.CurrentSettlement : null) != null)
 				{
-					Dictionary<int, List<GameEntity>> gateBannerEntitiesWithLevels = ((PartyVisual)party.MobileParty.CurrentSettlement.Party.Visuals)._gateBannerEntitiesWithLevels;
-					if (!party.MobileParty.MapFaction.IsAtWarWith(party.MobileParty.CurrentSettlement.MapFaction) && gateBannerEntitiesWithLevels != null && !Extensions.IsEmpty<KeyValuePair<int, List<GameEntity>>>(gateBannerEntitiesWithLevels))
+					Dictionary<int, List<GameEntity>> gateBannerEntitiesWithLevels = PartyVisualManager.Current.GetVisualOfParty(this.PartyBase.MobileParty.CurrentSettlement.Party)._gateBannerEntitiesWithLevels;
+					if (!this.PartyBase.MobileParty.MapFaction.IsAtWarWith(this.PartyBase.MobileParty.CurrentSettlement.MapFaction) && gateBannerEntitiesWithLevels != null && !Extensions.IsEmpty<KeyValuePair<int, List<GameEntity>>>(gateBannerEntitiesWithLevels))
 					{
-						Hero leaderHero = party.LeaderHero;
+						Hero leaderHero = this.PartyBase.LeaderHero;
 						if (((leaderHero != null) ? leaderHero.ClanBanner : null) != null)
 						{
-							string text = party.LeaderHero.ClanBanner.Serialize();
+							string text = this.PartyBase.LeaderHero.ClanBanner.Serialize();
 							if (string.IsNullOrEmpty(text))
 							{
-								goto IL_6A3;
+								goto IL_68F;
 							}
 							int num = 0;
-							foreach (MobileParty mobileParty2 in party.MobileParty.CurrentSettlement.Parties)
+							foreach (MobileParty mobileParty2 in this.PartyBase.MobileParty.CurrentSettlement.Parties)
 							{
-								if (mobileParty2 == party.MobileParty)
+								if (mobileParty2 == this.PartyBase.MobileParty)
 								{
 									break;
 								}
@@ -837,17 +890,17 @@ namespace SandBox.View.Map
 								}
 							}
 							MatrixFrame matrixFrame = MatrixFrame.Identity;
-							int wallLevel = party.MobileParty.CurrentSettlement.Town.GetWallLevel();
+							int wallLevel = this.PartyBase.MobileParty.CurrentSettlement.Town.GetWallLevel();
 							int count = gateBannerEntitiesWithLevels[wallLevel].Count;
 							if (count == 0)
 							{
-								Debug.FailedAssert(string.Format("{0} - has no Banner Entities at level {1}.", party.MobileParty.CurrentSettlement.Name, wallLevel), "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\PartyVisual.cs", "RefreshPartyIcon", 996);
+								Debug.FailedAssert(string.Format("{0} - has no Banner Entities at level {1}.", this.PartyBase.MobileParty.CurrentSettlement.Name, wallLevel), "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\PartyVisual.cs", "RefreshPartyIcon", 1060);
 							}
 							GameEntity gameEntity = gateBannerEntitiesWithLevels[wallLevel][num % count];
 							GameEntity child = gameEntity.GetChild(0);
 							MatrixFrame matrixFrame2 = ((child != null) ? child.GetGlobalFrame() : gameEntity.GetGlobalFrame());
 							num /= count;
-							int num2 = party.MobileParty.CurrentSettlement.Parties.Count(delegate(MobileParty p)
+							int num2 = this.PartyBase.MobileParty.CurrentSettlement.Parties.Count(delegate(MobileParty p)
 							{
 								Hero leaderHero3 = p.LeaderHero;
 								return ((leaderHero3 != null) ? leaderHero3.ClanBanner : null) != null;
@@ -862,7 +915,7 @@ namespace SandBox.View.Map
 							matrixFrame.origin = matrixFrame2.origin + vec * (float)((num + 1) / 2) * (float)(num % 2 * 2 - 1) * num3 * (float)num4;
 							MatrixFrame matrixFrame3 = this.StrategicEntity.GetGlobalFrame();
 							matrixFrame.origin = matrixFrame3.TransformToLocal(matrixFrame.origin);
-							float num5 = MBMath.Map((float)party.NumberOfAllMembers / 400f * ((party.MobileParty.Army != null && party.MobileParty.Army.LeaderParty == party.MobileParty) ? 1.25f : 1f), 0f, 1f, 0.2f, 0.5f);
+							float num5 = MBMath.Map((float)this.PartyBase.NumberOfAllMembers / 400f * ((this.PartyBase.MobileParty.Army != null && this.PartyBase.MobileParty.Army.LeaderParty == this.PartyBase.MobileParty) ? 1.25f : 1f), 0f, 1f, 0.2f, 0.5f);
 							matrixFrame = matrixFrame.Elevate(-num5);
 							matrixFrame.rotation.ApplyScaleLocal(num5);
 							matrixFrame3 = this.StrategicEntity.GetGlobalFrame();
@@ -874,7 +927,7 @@ namespace SandBox.View.Map
 							{
 								this._cachedBannerComponent.Item2.GetFirstMetaMesh().Frame = matrixFrame;
 								this.StrategicEntity.AddComponent(this._cachedBannerComponent.Item2);
-								goto IL_6A3;
+								goto IL_68F;
 							}
 							MetaMesh bannerOfCharacter = PartyVisual.GetBannerOfCharacter(new Banner(text), text2);
 							bannerOfCharacter.Frame = matrixFrame;
@@ -884,62 +937,50 @@ namespace SandBox.View.Map
 							{
 								this._cachedBannerComponent.Item1 = text + text2;
 								this._cachedBannerComponent.Item2 = this.StrategicEntity.GetComponentAtIndex(componentCount, 3);
-								goto IL_6A3;
+								goto IL_68F;
 							}
-							goto IL_6A3;
+							goto IL_68F;
 						}
 					}
 					GameEntityPhysicsExtensions.RemovePhysics(this.StrategicEntity, false);
 				}
 				else
 				{
-					this.IsEnemy = party.MapFaction != null && FactionManager.IsAtWarAgainstFaction(party.MapFaction, Hero.MainHero.MapFaction);
-					this.IsFriendly = party.MapFaction != null && FactionManager.IsAlliedWithFaction(party.MapFaction, Hero.MainHero.MapFaction);
-					this.InitializePartyCollider(party);
-					if (party.IsSettlement && party.Settlement != null)
+					this.IsEnemy = this.PartyBase.MapFaction != null && FactionManager.IsAtWarAgainstFaction(this.PartyBase.MapFaction, Hero.MainHero.MapFaction);
+					this.IsFriendly = this.PartyBase.MapFaction != null && FactionManager.IsAlliedWithFaction(this.PartyBase.MapFaction, Hero.MainHero.MapFaction);
+					this.InitializePartyCollider(this.PartyBase);
+					if (this.PartyBase.IsSettlement)
 					{
-						if (party.Settlement.IsFortification)
+						if (this.PartyBase.Settlement.IsFortification)
 						{
-							this._currentLevelBreachableWallEntities = this._breachableWallEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>();
+							this.UpdateDefenderSiegeEntitiesCache();
 						}
-						this.AddSiegeIconComponents(party);
+						this.AddSiegeIconComponents(this.PartyBase);
 						this.SetSettlementLevelVisibility();
-						this.RefreshWallState(party);
-						this.RefreshTownPhysicalEntitiesState(party);
-						this.RefreshSiegePreparations(party);
-						if (party.Settlement.IsVillage)
+						this.RefreshWallState();
+						this.RefreshTownPhysicalEntitiesState(this.PartyBase);
+						this.RefreshSiegePreparations(this.PartyBase);
+						if (this.PartyBase.Settlement.IsVillage)
 						{
-							MapEvent mapEvent = party.MapEvent;
+							MapEvent mapEvent = this.PartyBase.MapEvent;
 							if (mapEvent != null && mapEvent.IsRaid)
 							{
 								this.StrategicEntity.EntityFlags &= -536870913;
 								this.StrategicEntity.AddParticleSystemComponent("psys_fire_smoke_env_point");
 							}
-							else if (party.Settlement.IsRaided)
+							else if (this.PartyBase.Settlement.IsRaided)
 							{
 								this.StrategicEntity.EntityFlags &= -536870913;
 								this.StrategicEntity.AddParticleSystemComponent("map_icon_village_plunder_fx");
-							}
-							if (party.Settlement.IsRaided && this._raidedSoundEvent == null)
-							{
-								this._raidedSoundEvent = SoundEvent.CreateEventFromString("event:/map/ambient/node/burning_village", this.MapScene);
-								this._raidedSoundEvent.SetParameter("battle_size", 4f);
-								this._raidedSoundEvent.SetPosition(party.Settlement.GetPosition());
-								this._raidedSoundEvent.Play();
-							}
-							else if (!party.Settlement.IsRaided && this._raidedSoundEvent != null)
-							{
-								this._raidedSoundEvent.Stop();
-								this._raidedSoundEvent = null;
 							}
 						}
 					}
 					else
 					{
-						this.AddMobileIconComponents(party, ref flag2, ref flag2);
+						this.AddMobileIconComponents(this.PartyBase, ref flag2, ref flag2);
 					}
 				}
-				IL_6A3:
+				IL_68F:
 				if (flag)
 				{
 					this._cachedBannerComponent = new ValueTuple<string, GameEntityComponent>(null, null);
@@ -1011,11 +1052,11 @@ namespace SandBox.View.Map
 				for (int i = 0; i < deployedRangedSiegeEngines.Length; i++)
 				{
 					SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress = deployedRangedSiegeEngines[i];
-					if (siegeEngineConstructionProgress != null && siegeEngineConstructionProgress.IsConstructed && i < this.GetAttackerRangedSiegeEngineFrameCount())
+					if (siegeEngineConstructionProgress != null && siegeEngineConstructionProgress.IsConstructed && i < this._attackerRangedEngineSpawnEntities.Length)
 					{
-						MatrixFrame attackerRangedSiegeEngineFrameAtIndex = this.GetAttackerRangedSiegeEngineFrameAtIndex(i);
-						attackerRangedSiegeEngineFrameAtIndex.rotation.MakeUnit();
-						this.AddSiegeMachine(deployedRangedSiegeEngines[i].SiegeEngine, attackerRangedSiegeEngineFrameAtIndex, 1, num, i);
+						MatrixFrame globalFrame = this._attackerRangedEngineSpawnEntities[i].GetGlobalFrame();
+						globalFrame.rotation.MakeUnit();
+						this.AddSiegeMachine(deployedRangedSiegeEngines[i].SiegeEngine, globalFrame, 1, num, i);
 					}
 				}
 				SiegeEvent.SiegeEngineConstructionProgress[] deployedMeleeSiegeEngines = party.Settlement.SiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines;
@@ -1026,12 +1067,12 @@ namespace SandBox.View.Map
 					{
 						if (deployedMeleeSiegeEngines[j].SiegeEngine == DefaultSiegeEngineTypes.SiegeTower)
 						{
-							int num2 = j - this._batteringRamSpawnEntities.Length;
+							int num2 = j - this._attackerBatteringRamSpawnEntities.Length;
 							if (num2 >= 0)
 							{
-								MatrixFrame globalFrame = this._siegeTowerSpawnEntities[num2].GetGlobalFrame();
-								globalFrame.rotation.MakeUnit();
-								this.AddSiegeMachine(deployedMeleeSiegeEngines[j].SiegeEngine, globalFrame, 1, num, j);
+								MatrixFrame globalFrame2 = this._attackerSiegeTowerSpawnEntities[num2].GetGlobalFrame();
+								globalFrame2.rotation.MakeUnit();
+								this.AddSiegeMachine(deployedMeleeSiegeEngines[j].SiegeEngine, globalFrame2, 1, num, j);
 							}
 						}
 						else if (deployedMeleeSiegeEngines[j].SiegeEngine == DefaultSiegeEngineTypes.Ram || deployedMeleeSiegeEngines[j].SiegeEngine == DefaultSiegeEngineTypes.ImprovedRam)
@@ -1039,9 +1080,9 @@ namespace SandBox.View.Map
 							int num3 = j;
 							if (num3 >= 0)
 							{
-								MatrixFrame globalFrame2 = this._batteringRamSpawnEntities[num3].GetGlobalFrame();
-								globalFrame2.rotation.MakeUnit();
-								this.AddSiegeMachine(deployedMeleeSiegeEngines[j].SiegeEngine, globalFrame2, 1, num, j);
+								MatrixFrame globalFrame3 = this._attackerBatteringRamSpawnEntities[num3].GetGlobalFrame();
+								globalFrame3.rotation.MakeUnit();
+								this.AddSiegeMachine(deployedMeleeSiegeEngines[j].SiegeEngine, globalFrame3, 1, num, j);
 							}
 						}
 					}
@@ -1050,11 +1091,11 @@ namespace SandBox.View.Map
 				for (int k = 0; k < deployedRangedSiegeEngines2.Length; k++)
 				{
 					SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress3 = deployedRangedSiegeEngines2[k];
-					if (siegeEngineConstructionProgress3 != null && siegeEngineConstructionProgress3.IsConstructed && k < this.GetDefenderSiegeEngineFrameCount())
+					if (siegeEngineConstructionProgress3 != null && siegeEngineConstructionProgress3.IsConstructed && k < this._defenderBreachableWallEntitiesCacheForCurrentLevel.Length)
 					{
-						MatrixFrame defenderSiegeEngineFrameAtIndex = this.GetDefenderSiegeEngineFrameAtIndex(k);
-						defenderSiegeEngineFrameAtIndex.rotation.MakeUnit();
-						this.AddSiegeMachine(deployedRangedSiegeEngines2[k].SiegeEngine, defenderSiegeEngineFrameAtIndex, 0, num, k);
+						MatrixFrame globalFrame4 = this._defenderBreachableWallEntitiesCacheForCurrentLevel[k].GetGlobalFrame();
+						globalFrame4.rotation.MakeUnit();
+						this.AddSiegeMachine(deployedRangedSiegeEngines2[k].SiegeEngine, globalFrame4, 0, num, k);
 					}
 				}
 				for (int l = 0; l < 2; l++)
@@ -1119,17 +1160,6 @@ namespace SandBox.View.Map
 				gameEntity2.SetGlobalFrame(ref matrixFrame2);
 				gameEntity.SetVisibilityExcludeParents(false);
 			}
-		}
-
-		private void AddQuestPartyMarker(ref MatrixFrame frame)
-		{
-			MetaMesh copy = MetaMesh.GetCopy("physics_sphere_detailed", true, false);
-			copy.SetMaterial(Material.GetFromResource("vertex_color_blend_mat"));
-			copy.SetFactor1Linear(4289008776U);
-			GameEntity gameEntity = GameEntity.CreateEmpty(this.MapScene, true);
-			gameEntity.AddMultiMesh(copy, true);
-			gameEntity.SetFrame(ref frame);
-			this.StrategicEntity.AddChild(gameEntity, false);
 		}
 
 		private void AddMobileIconComponents(PartyBase party, ref bool clearBannerComponentCache, ref bool clearBannerEntityCache)
@@ -1248,7 +1278,7 @@ namespace SandBox.View.Map
 			MapEvent mapEvent3 = party.MapEvent;
 			if (((mapEvent3 != null) ? mapEvent3.MapEventSettlement : null) != null && visualPartyLeader != null && !visualPartyLeader.HasMount())
 			{
-				leaderAction = PartyVisual.raidOnFoot;
+				leaderAction = PartyVisual._raidOnFoot;
 				return;
 			}
 			if (wieldedItemIndex > -1 && ((visualPartyLeader != null) ? visualPartyLeader.Equipment[wieldedItemIndex].Item : null) != null)
@@ -1262,63 +1292,63 @@ namespace SandBox.View.Map
 						{
 							if (weaponComponent.GetItemType() == 2 || weaponComponent.GetItemType() == 3)
 							{
-								leaderAction = PartyVisual.camelSwordAttack;
-								mountAction = PartyVisual.swordAttackMount;
+								leaderAction = PartyVisual._camelSwordAttack;
+								mountAction = PartyVisual._swordAttackMount;
 							}
 							else if (weaponComponent.GetItemType() == 4)
 							{
 								if (weaponComponent.PrimaryWeapon.SwingDamageType == -1)
 								{
-									leaderAction = PartyVisual.camelSpearAttack;
-									mountAction = PartyVisual.spearAttackMount;
+									leaderAction = PartyVisual._camelSpearAttack;
+									mountAction = PartyVisual._spearAttackMount;
 								}
 								else if (weaponComponent.PrimaryWeapon.WeaponClass == 10)
 								{
-									leaderAction = PartyVisual.camel1HandedSwingAttack;
-									mountAction = PartyVisual.swingAttackMount;
+									leaderAction = PartyVisual._camel1HandedSwingAttack;
+									mountAction = PartyVisual._swingAttackMount;
 								}
 								else
 								{
-									leaderAction = PartyVisual.camel2HandedSwingAttack;
-									mountAction = PartyVisual.swingAttackMount;
+									leaderAction = PartyVisual._camel2HandedSwingAttack;
+									mountAction = PartyVisual._swingAttackMount;
 								}
 							}
 						}
 						else if (weaponComponent.GetItemType() == 2 || weaponComponent.GetItemType() == 3)
 						{
-							leaderAction = PartyVisual.horseSwordAttack;
-							mountAction = PartyVisual.swordAttackMount;
+							leaderAction = PartyVisual._horseSwordAttack;
+							mountAction = PartyVisual._swordAttackMount;
 						}
 						else if (weaponComponent.GetItemType() == 4)
 						{
 							if (weaponComponent.PrimaryWeapon.SwingDamageType == -1)
 							{
-								leaderAction = PartyVisual.horseSpearAttack;
-								mountAction = PartyVisual.spearAttackMount;
+								leaderAction = PartyVisual._horseSpearAttack;
+								mountAction = PartyVisual._spearAttackMount;
 							}
 							else if (weaponComponent.PrimaryWeapon.WeaponClass == 10)
 							{
-								leaderAction = PartyVisual.horse1HandedSwingAttack;
-								mountAction = PartyVisual.swingAttackMount;
+								leaderAction = PartyVisual._horse1HandedSwingAttack;
+								mountAction = PartyVisual._swingAttackMount;
 							}
 							else
 							{
-								leaderAction = PartyVisual.horse2HandedSwingAttack;
-								mountAction = PartyVisual.swingAttackMount;
+								leaderAction = PartyVisual._horse2HandedSwingAttack;
+								mountAction = PartyVisual._swingAttackMount;
 							}
 						}
 					}
 					else if (weaponComponent.PrimaryWeapon.WeaponClass == 4 || weaponComponent.PrimaryWeapon.WeaponClass == 6 || weaponComponent.PrimaryWeapon.WeaponClass == 2)
 					{
-						leaderAction = PartyVisual.attack1h;
+						leaderAction = PartyVisual._attack1H;
 					}
 					else if (weaponComponent.PrimaryWeapon.WeaponClass == 5 || weaponComponent.PrimaryWeapon.WeaponClass == 8 || weaponComponent.PrimaryWeapon.WeaponClass == 3)
 					{
-						leaderAction = PartyVisual.attack2h;
+						leaderAction = PartyVisual._attack2H;
 					}
 					else if (weaponComponent.PrimaryWeapon.WeaponClass == 9 || weaponComponent.PrimaryWeapon.WeaponClass == 10)
 					{
-						leaderAction = PartyVisual.attackSpear1hOr2h;
+						leaderAction = PartyVisual._attackSpear1HOr2H;
 					}
 				}
 			}
@@ -1328,31 +1358,32 @@ namespace SandBox.View.Map
 				{
 					if (visualPartyLeader.Equipment[10].Item.HorseComponent.Monster.MonsterUsage == "camel")
 					{
-						leaderAction = PartyVisual.camelUnarmedAttack;
+						leaderAction = PartyVisual._camelUnarmedAttack;
 					}
 					else
 					{
-						leaderAction = PartyVisual.horseUnarmedAttack;
+						leaderAction = PartyVisual._horseUnarmedAttack;
 					}
-					mountAction = PartyVisual.unarmedAttackMount;
+					mountAction = PartyVisual._unarmedAttackMount;
 					return;
 				}
-				leaderAction = PartyVisual.attackUnarmed;
+				leaderAction = PartyVisual._attackUnarmed;
 			}
 		}
 
-		public void RefreshWallState(PartyBase party)
+		public void RefreshWallState()
 		{
-			if (this._breachableWallEntities != null)
+			if (this._defenderBreachableWallEntitiesForAllLevels != null)
 			{
+				PartyBase partyBase = this.PartyBase;
 				MBReadOnlyList<float> mbreadOnlyList;
-				if (((party != null) ? party.Settlement : null) == null || (party.Settlement != null && !party.Settlement.IsFortification))
+				if (((partyBase != null) ? partyBase.Settlement : null) == null || (this.PartyBase.Settlement != null && !this.PartyBase.Settlement.IsFortification))
 				{
 					mbreadOnlyList = null;
 				}
 				else
 				{
-					mbreadOnlyList = party.Settlement.SettlementWallSectionHitPointsRatioList;
+					mbreadOnlyList = this.PartyBase.Settlement.SettlementWallSectionHitPointsRatioList;
 				}
 				if (mbreadOnlyList != null)
 				{
@@ -1361,17 +1392,17 @@ namespace SandBox.View.Map
 						Debug.FailedAssert(string.Concat(new object[]
 						{
 							"Town (",
-							party.Settlement.Name.ToString(),
+							this.PartyBase.Settlement.Name.ToString(),
 							") doesn't have wall entities defined for it's current level(",
-							party.Settlement.Town.GetWallLevel(),
+							this.PartyBase.Settlement.Town.GetWallLevel(),
 							")"
-						}), "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\PartyVisual.cs", "RefreshWallState", 1621);
+						}), "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Map\\PartyVisual.cs", "RefreshWallState", 1656);
 						return;
 					}
-					for (int i = 0; i < this._breachableWallEntities.Length; i++)
+					for (int i = 0; i < this._defenderBreachableWallEntitiesForAllLevels.Length; i++)
 					{
 						bool flag = mbreadOnlyList[i % mbreadOnlyList.Count] <= 0f;
-						foreach (GameEntity gameEntity in this._breachableWallEntities[i].GetChildren())
+						foreach (GameEntity gameEntity in this._defenderBreachableWallEntitiesForAllLevels[i].GetChildren())
 						{
 							if (gameEntity.HasTag("map_solid_wall"))
 							{
@@ -1409,17 +1440,17 @@ namespace SandBox.View.Map
 		public void SetLevelMask(uint newMask)
 		{
 			this._currentLevelMask = newMask;
-			this.SetMapIconAsDirty();
+			this.PartyBase.SetVisualAsDirty();
 		}
 
-		public void RefreshLevelMask(PartyBase party)
+		public void RefreshLevelMask()
 		{
-			if (party.IsSettlement)
+			if (this.PartyBase.IsSettlement)
 			{
 				uint num = 0U;
-				if (party.Settlement.IsVillage)
+				if (this.PartyBase.Settlement.IsVillage)
 				{
-					if (party.Settlement.Village.VillageState == 4)
+					if (this.PartyBase.Settlement.Village.VillageState == 4)
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("looted");
 					}
@@ -1427,23 +1458,23 @@ namespace SandBox.View.Map
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("civilian");
 					}
-					num |= PartyVisual.GetLevelOfProduction(party.Settlement);
+					num |= PartyVisual.GetLevelOfProduction(this.PartyBase.Settlement);
 				}
-				else if (party.Settlement.IsTown || party.Settlement.IsCastle)
+				else if (this.PartyBase.Settlement.IsTown || this.PartyBase.Settlement.IsCastle)
 				{
-					if (party.Settlement.Town.GetWallLevel() == 1)
+					if (this.PartyBase.Settlement.Town.GetWallLevel() == 1)
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("level_1");
 					}
-					else if (party.Settlement.Town.GetWallLevel() == 2)
+					else if (this.PartyBase.Settlement.Town.GetWallLevel() == 2)
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("level_2");
 					}
-					else if (party.Settlement.Town.GetWallLevel() == 3)
+					else if (this.PartyBase.Settlement.Town.GetWallLevel() == 3)
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("level_3");
 					}
-					if (party.Settlement.SiegeEvent != null)
+					if (this.PartyBase.Settlement.SiegeEvent != null)
 					{
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("siege");
 					}
@@ -1452,7 +1483,7 @@ namespace SandBox.View.Map
 						num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("civilian");
 					}
 				}
-				else if (party.Settlement.IsHideout)
+				else if (this.PartyBase.Settlement.IsHideout)
 				{
 					num |= Campaign.Current.MapSceneWrapper.GetSceneLevel("level_1");
 				}
@@ -1461,6 +1492,7 @@ namespace SandBox.View.Map
 					this.SetLevelMask(num);
 				}
 			}
+			this.PartyBase.OnLevelMaskUpdated();
 		}
 
 		private static uint GetLevelOfProduction(Settlement settlement)
@@ -1527,17 +1559,16 @@ namespace SandBox.View.Map
 
 		internal void OnMapHoverSiegeEngine(MatrixFrame engineFrame)
 		{
-			int attackerBatteringRamSiegeEngineFrameCount = this.GetAttackerBatteringRamSiegeEngineFrameCount();
 			if (PlayerSiege.PlayerSiegeEvent == null)
 			{
 				return;
 			}
-			for (int i = 0; i < attackerBatteringRamSiegeEngineFrameCount; i++)
+			for (int i = 0; i < this._attackerBatteringRamSpawnEntities.Length; i++)
 			{
-				MatrixFrame attackerBatteringRamSiegeEngineFrameAtIndex = this.GetAttackerBatteringRamSiegeEngineFrameAtIndex(i);
-				if (attackerBatteringRamSiegeEngineFrameAtIndex.NearlyEquals(engineFrame, 1E-05f))
+				MatrixFrame globalFrame = this._attackerBatteringRamSpawnEntities[i].GetGlobalFrame();
+				if (globalFrame.NearlyEquals(engineFrame, 1E-05f))
 				{
-					if (this._hoveredSiegeEntityFrame != attackerBatteringRamSiegeEngineFrameAtIndex)
+					if (this._hoveredSiegeEntityFrame != globalFrame)
 					{
 						SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress = PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[i];
 						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetSiegeEngineInProgressTooltip(siegeEngineConstructionProgress) });
@@ -1545,25 +1576,25 @@ namespace SandBox.View.Map
 					return;
 				}
 			}
-			for (int j = 0; j < this.GetAttackerTowerSiegeEngineFrameCount(); j++)
+			for (int j = 0; j < this._attackerSiegeTowerSpawnEntities.Length; j++)
 			{
-				MatrixFrame attackerTowerSiegeEngineFrameAtIndex = this.GetAttackerTowerSiegeEngineFrameAtIndex(j);
-				if (attackerTowerSiegeEngineFrameAtIndex.NearlyEquals(engineFrame, 1E-05f))
+				MatrixFrame globalFrame2 = this._attackerSiegeTowerSpawnEntities[j].GetGlobalFrame();
+				if (globalFrame2.NearlyEquals(engineFrame, 1E-05f))
 				{
-					if (this._hoveredSiegeEntityFrame != attackerTowerSiegeEngineFrameAtIndex)
+					if (this._hoveredSiegeEntityFrame != globalFrame2)
 					{
-						SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress2 = PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[attackerBatteringRamSiegeEngineFrameCount + j];
+						SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress2 = PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedMeleeSiegeEngines[this._attackerBatteringRamSpawnEntities.Length + j];
 						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetSiegeEngineInProgressTooltip(siegeEngineConstructionProgress2) });
 					}
 					return;
 				}
 			}
-			for (int k = 0; k < this.GetAttackerRangedSiegeEngineFrameCount(); k++)
+			for (int k = 0; k < this._attackerRangedEngineSpawnEntities.Length; k++)
 			{
-				MatrixFrame attackerRangedSiegeEngineFrameAtIndex = this.GetAttackerRangedSiegeEngineFrameAtIndex(k);
-				if (attackerRangedSiegeEngineFrameAtIndex.NearlyEquals(engineFrame, 1E-05f))
+				MatrixFrame globalFrame3 = this._attackerRangedEngineSpawnEntities[k].GetGlobalFrame();
+				if (globalFrame3.NearlyEquals(engineFrame, 1E-05f))
 				{
-					if (this._hoveredSiegeEntityFrame != attackerRangedSiegeEngineFrameAtIndex)
+					if (this._hoveredSiegeEntityFrame != globalFrame3)
 					{
 						SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress3 = PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(1).SiegeEngines.DeployedRangedSiegeEngines[k];
 						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetSiegeEngineInProgressTooltip(siegeEngineConstructionProgress3) });
@@ -1571,12 +1602,12 @@ namespace SandBox.View.Map
 					return;
 				}
 			}
-			for (int l = 0; l < this.GetDefenderSiegeEngineFrameCount(); l++)
+			for (int l = 0; l < this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel.Length; l++)
 			{
-				MatrixFrame defenderSiegeEngineFrameAtIndex = this.GetDefenderSiegeEngineFrameAtIndex(l);
-				if (defenderSiegeEngineFrameAtIndex.NearlyEquals(engineFrame, 1E-05f))
+				MatrixFrame globalFrame4 = this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[l].GetGlobalFrame();
+				if (globalFrame4.NearlyEquals(engineFrame, 1E-05f))
 				{
-					if (this._hoveredSiegeEntityFrame != defenderSiegeEngineFrameAtIndex)
+					if (this._hoveredSiegeEntityFrame != globalFrame4)
 					{
 						SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress4 = PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(0).SiegeEngines.DeployedRangedSiegeEngines[l];
 						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetSiegeEngineInProgressTooltip(siegeEngineConstructionProgress4) });
@@ -1584,15 +1615,14 @@ namespace SandBox.View.Map
 					return;
 				}
 			}
-			for (int m = 0; m < this.GetBreacableWallFrameCount(); m++)
+			for (int m = 0; m < this._defenderBreachableWallEntitiesCacheForCurrentLevel.Length; m++)
 			{
-				MatrixFrame breacableWallFrameAtIndex = this.GetBreacableWallFrameAtIndex(m);
-				if (breacableWallFrameAtIndex.NearlyEquals(engineFrame, 1E-05f))
+				MatrixFrame globalFrame5 = this._defenderBreachableWallEntitiesCacheForCurrentLevel[m].GetGlobalFrame();
+				if (globalFrame5.NearlyEquals(engineFrame, 1E-05f))
 				{
-					Settlement settlement;
-					if (this._hoveredSiegeEntityFrame != breacableWallFrameAtIndex && (settlement = this._mapEntity as Settlement) != null)
+					if (this._hoveredSiegeEntityFrame != globalFrame5 && this.PartyBase.IsSettlement)
 					{
-						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetWallSectionTooltip(settlement, m) });
+						InformationManager.ShowTooltip(typeof(List<TooltipProperty>), new object[] { SandBoxUIHelper.GetWallSectionTooltip(this.PartyBase.Settlement, m) });
 					}
 					return;
 				}
@@ -1606,33 +1636,32 @@ namespace SandBox.View.Map
 			MBInformationManager.HideInformations();
 		}
 
-		void IPartyVisual.OnStartup(PartyBase party)
+		public void OnStartup()
 		{
-			this._mapEntity = party.MapEntity;
 			bool flag = false;
-			if (party.IsMobile)
+			if (this.PartyBase.IsMobile)
 			{
 				this.StrategicEntity = GameEntity.CreateEmpty(this.MapScene, true);
-				if (!party.IsVisible)
+				if (!this.PartyBase.IsVisible)
 				{
 					this.StrategicEntity.EntityFlags |= 536870912;
 				}
 			}
-			else if (party.IsSettlement)
+			else if (this.PartyBase.IsSettlement)
 			{
-				this.StrategicEntity = this.MapScene.GetCampaignEntityWithName(party.Id);
+				this.StrategicEntity = this.MapScene.GetCampaignEntityWithName(this.PartyBase.Id);
 				if (this.StrategicEntity == null)
 				{
-					Campaign.Current.MapSceneWrapper.AddNewEntityToMapScene(party.Settlement.StringId, party.Settlement.Position2D);
-					this.StrategicEntity = this.MapScene.GetCampaignEntityWithName(party.Id);
+					Campaign.Current.MapSceneWrapper.AddNewEntityToMapScene(this.PartyBase.Settlement.StringId, this.PartyBase.Settlement.Position2D);
+					this.StrategicEntity = this.MapScene.GetCampaignEntityWithName(this.PartyBase.Id);
 				}
 				bool flag2 = false;
-				if (party.Settlement.IsFortification)
+				if (this.PartyBase.Settlement.IsFortification)
 				{
 					List<GameEntity> list = new List<GameEntity>();
 					this.StrategicEntity.GetChildrenRecursive(ref list);
-					this._currentSettlementUpgradeLevelMask = this.GetCurrentSettlementUpgradeLevelMask();
 					this.PopulateSiegeEngineFrameListsFromChildren(list);
+					this.UpdateDefenderSiegeEntitiesCache();
 					this.TownPhysicalEntities = list.FindAll((GameEntity x) => x.HasTag("bo_town"));
 					List<GameEntity> list2 = new List<GameEntity>();
 					Dictionary<int, List<GameEntity>> dictionary = new Dictionary<int, List<GameEntity>>();
@@ -1683,8 +1712,11 @@ namespace SandBox.View.Map
 						}
 					}
 					this._gateBannerEntitiesWithLevels = dictionary;
-					this._siegeCamp1GlobalFrames = list3.ToArray();
-					this._siegeCamp2GlobalFrames = list4.ToArray();
+					if (this.PartyBase.Settlement.IsFortification)
+					{
+						this.PartyBase.Settlement.Town.BesiegerCampPositions1 = list3.ToArray();
+						this.PartyBase.Settlement.Town.BesiegerCampPositions2 = list4.ToArray();
+					}
 					foreach (GameEntity gameEntity2 in list2)
 					{
 						gameEntity2.Remove(112);
@@ -1692,33 +1724,33 @@ namespace SandBox.View.Map
 				}
 				if (!flag2)
 				{
-					if (!party.Settlement.IsTown)
+					if (!this.PartyBase.Settlement.IsTown)
 					{
-						bool isCastle = party.Settlement.IsCastle;
+						bool isCastle = this.PartyBase.Settlement.IsCastle;
 					}
-					if (!PartyBase.IsPositionOkForTraveling(party.Settlement.GatePosition))
+					if (!PartyBase.IsPositionOkForTraveling(this.PartyBase.Settlement.GatePosition))
 					{
-						Vec2 gatePosition = party.Settlement.GatePosition;
+						Vec2 gatePosition = this.PartyBase.Settlement.GatePosition;
 					}
 				}
 			}
-			CharacterObject visualPartyLeader = PartyBaseHelper.GetVisualPartyLeader(party);
+			CharacterObject visualPartyLeader = PartyBaseHelper.GetVisualPartyLeader(this.PartyBase);
 			if (!flag)
 			{
 				this.CircleLocalFrame = MatrixFrame.Identity;
-				if (party.IsSettlement)
+				if (this.PartyBase.IsSettlement)
 				{
 					MatrixFrame circleLocalFrame = this.CircleLocalFrame;
 					Mat3 rotation = circleLocalFrame.rotation;
-					if (party.Settlement.IsVillage)
+					if (this.PartyBase.Settlement.IsVillage)
 					{
 						rotation.ApplyScaleLocal(1.75f);
 					}
-					else if (party.Settlement.IsTown)
+					else if (this.PartyBase.Settlement.IsTown)
 					{
 						rotation.ApplyScaleLocal(5.75f);
 					}
-					else if (party.Settlement.IsCastle)
+					else if (this.PartyBase.Settlement.IsCastle)
 					{
 						rotation.ApplyScaleLocal(2.75f);
 					}
@@ -1729,7 +1761,7 @@ namespace SandBox.View.Map
 					circleLocalFrame.rotation = rotation;
 					this.CircleLocalFrame = circleLocalFrame;
 				}
-				else if ((visualPartyLeader != null && visualPartyLeader.HasMount()) || party.MobileParty.IsCaravan)
+				else if ((visualPartyLeader != null && visualPartyLeader.HasMount()) || this.PartyBase.MobileParty.IsCaravan)
 				{
 					MatrixFrame circleLocalFrame2 = this.CircleLocalFrame;
 					Mat3 rotation2 = circleLocalFrame2.rotation;
@@ -1746,14 +1778,14 @@ namespace SandBox.View.Map
 					this.CircleLocalFrame = circleLocalFrame3;
 				}
 			}
-			this.StrategicEntity.SetVisibilityExcludeParents(party.IsVisible);
+			this.StrategicEntity.SetVisibilityExcludeParents(this.PartyBase.IsVisible);
 			AgentVisuals humanAgentVisuals = this.HumanAgentVisuals;
 			if (humanAgentVisuals != null)
 			{
 				GameEntity entity = humanAgentVisuals.GetEntity();
 				if (entity != null)
 				{
-					entity.SetVisibilityExcludeParents(party.IsVisible);
+					entity.SetVisibilityExcludeParents(this.PartyBase.IsVisible);
 				}
 			}
 			AgentVisuals mountAgentVisuals = this.MountAgentVisuals;
@@ -1762,7 +1794,7 @@ namespace SandBox.View.Map
 				GameEntity entity2 = mountAgentVisuals.GetEntity();
 				if (entity2 != null)
 				{
-					entity2.SetVisibilityExcludeParents(party.IsVisible);
+					entity2.SetVisibilityExcludeParents(this.PartyBase.IsVisible);
 				}
 			}
 			AgentVisuals caravanMountAgentVisuals = this.CaravanMountAgentVisuals;
@@ -1771,14 +1803,13 @@ namespace SandBox.View.Map
 				GameEntity entity3 = caravanMountAgentVisuals.GetEntity();
 				if (entity3 != null)
 				{
-					entity3.SetVisibilityExcludeParents(party.IsVisible);
+					entity3.SetVisibilityExcludeParents(this.PartyBase.IsVisible);
 				}
 			}
 			this.StrategicEntity.SetReadyToRender(true);
 			this.StrategicEntity.SetEntityEnvMapVisibility(false);
-			this._entityAlpha = (party.IsVisible ? 1f : 0f);
-			this._targetVisibility = party.IsVisible;
-			this.InitializePartyCollider(party);
+			this._entityAlpha = (this.PartyBase.IsVisible ? 1f : 0f);
+			this.InitializePartyCollider(this.PartyBase);
 			List<GameEntity> list5 = new List<GameEntity>();
 			this.StrategicEntity.GetChildrenRecursive(ref list5);
 			if (!MapScreen.VisualsOfEntities.ContainsKey(this.StrategicEntity.Pointer))
@@ -1792,7 +1823,7 @@ namespace SandBox.View.Map
 					MapScreen.VisualsOfEntities.Add(gameEntity3.Pointer, this);
 				}
 			}
-			if (party.IsSettlement)
+			if (this.PartyBase.IsSettlement)
 			{
 				this.StrategicEntity.SetAsPredisplayEntity();
 			}
@@ -1810,34 +1841,34 @@ namespace SandBox.View.Map
 					MapScreen.FrameAndVisualOfEngines.Add(gameEntity.GetChild(0).Pointer, new Tuple<MatrixFrame, PartyVisual>(gameEntity.GetGlobalFrame(), this));
 				}
 			}
-			this._defenderRangedEngineSpawnEntities = (from e in children.FindAll((GameEntity x) => x.Tags.Any((string t) => t.Contains("map_defensive_engine")))
+			this._defenderRangedEngineSpawnEntitiesForAllLevels = (from e in children.FindAll((GameEntity x) => x.Tags.Any((string t) => t.Contains("map_defensive_engine")))
 				orderby e.Tags.First((string s) => s.Contains("map_defensive_engine"))
 				select e).ToArray<GameEntity>();
-			foreach (GameEntity gameEntity2 in this._defenderRangedEngineSpawnEntities)
+			foreach (GameEntity gameEntity2 in this._defenderRangedEngineSpawnEntitiesForAllLevels)
 			{
 				if (gameEntity2.ChildCount > 0 && !MapScreen.FrameAndVisualOfEngines.ContainsKey(gameEntity2.GetChild(0).Pointer))
 				{
 					MapScreen.FrameAndVisualOfEngines.Add(gameEntity2.GetChild(0).Pointer, new Tuple<MatrixFrame, PartyVisual>(gameEntity2.GetGlobalFrame(), this));
 				}
 			}
-			this._batteringRamSpawnEntities = children.FindAll((GameEntity x) => x.HasTag("map_siege_ram")).ToArray();
-			foreach (GameEntity gameEntity3 in this._batteringRamSpawnEntities)
+			this._attackerBatteringRamSpawnEntities = children.FindAll((GameEntity x) => x.HasTag("map_siege_ram")).ToArray();
+			foreach (GameEntity gameEntity3 in this._attackerBatteringRamSpawnEntities)
 			{
 				if (gameEntity3.ChildCount > 0 && !MapScreen.FrameAndVisualOfEngines.ContainsKey(gameEntity3.GetChild(0).Pointer))
 				{
 					MapScreen.FrameAndVisualOfEngines.Add(gameEntity3.GetChild(0).Pointer, new Tuple<MatrixFrame, PartyVisual>(gameEntity3.GetGlobalFrame(), this));
 				}
 			}
-			this._siegeTowerSpawnEntities = children.FindAll((GameEntity x) => x.HasTag("map_siege_tower")).ToArray();
-			foreach (GameEntity gameEntity4 in this._siegeTowerSpawnEntities)
+			this._attackerSiegeTowerSpawnEntities = children.FindAll((GameEntity x) => x.HasTag("map_siege_tower")).ToArray();
+			foreach (GameEntity gameEntity4 in this._attackerSiegeTowerSpawnEntities)
 			{
 				if (gameEntity4.ChildCount > 0 && !MapScreen.FrameAndVisualOfEngines.ContainsKey(gameEntity4.GetChild(0).Pointer))
 				{
 					MapScreen.FrameAndVisualOfEngines.Add(gameEntity4.GetChild(0).Pointer, new Tuple<MatrixFrame, PartyVisual>(gameEntity4.GetGlobalFrame(), this));
 				}
 			}
-			this._breachableWallEntities = children.FindAll((GameEntity x) => x.HasTag("map_breachable_wall")).ToArray();
-			foreach (GameEntity gameEntity5 in this._breachableWallEntities)
+			this._defenderBreachableWallEntitiesForAllLevels = children.FindAll((GameEntity x) => x.HasTag("map_breachable_wall")).ToArray();
+			foreach (GameEntity gameEntity5 in this._defenderBreachableWallEntitiesForAllLevels)
 			{
 				if (gameEntity5.ChildCount > 0 && !MapScreen.FrameAndVisualOfEngines.ContainsKey(gameEntity5.GetChild(0).Pointer))
 				{
@@ -1846,17 +1877,12 @@ namespace SandBox.View.Map
 			}
 		}
 
-		MatrixFrame IPartyVisual.GetFrame()
+		private MatrixFrame GetFrame()
 		{
 			return this.StrategicEntity.GetFrame();
 		}
 
-		MatrixFrame IPartyVisual.GetGlobalFrame()
-		{
-			return this.StrategicEntity.GetGlobalFrame();
-		}
-
-		void IPartyVisual.SetFrame(ref MatrixFrame frame)
+		private void SetFrame(ref MatrixFrame frame)
 		{
 			if (this.StrategicEntity != null && !this.StrategicEntity.GetFrame().NearlyEquals(frame, 1E-05f))
 			{
@@ -1882,105 +1908,82 @@ namespace SandBox.View.Map
 			}
 		}
 
-		ReadOnlyCollection<MatrixFrame> IPartyVisual.GetSiegeCamp1GlobalFrames()
-		{
-			return Array.AsReadOnly<MatrixFrame>(this._siegeCamp1GlobalFrames);
-		}
-
-		ReadOnlyCollection<MatrixFrame> IPartyVisual.GetSiegeCamp2GlobalFrames()
-		{
-			return Array.AsReadOnly<MatrixFrame>(this._siegeCamp2GlobalFrames);
-		}
-
-		void IPartyVisual.SetVisualVisible(bool visible)
-		{
-			this._targetVisibility = visible;
-			if ((this._entityAlpha < 1f && this._targetVisibility) || (this._entityAlpha > 0f && !this._targetVisibility))
-			{
-				Campaign.Current.RegisterFadingVisual(this);
-			}
-		}
-
-		bool IPartyVisual.IsVisibleOrFadingOut()
-		{
-			return this._entityAlpha > 0f;
-		}
-
-		private GameEntity.UpgradeLevelMask GetCurrentSettlementUpgradeLevelMask()
+		private void UpdateDefenderSiegeEntitiesCache()
 		{
 			GameEntity.UpgradeLevelMask upgradeLevelMask = 0;
-			Settlement settlement;
-			if ((settlement = this._mapEntity as Settlement) != null && settlement.IsFortification)
+			if (this.PartyBase.IsSettlement && this.PartyBase.Settlement.IsFortification)
 			{
-				if (settlement.Town.GetWallLevel() == 1)
+				if (this.PartyBase.Settlement.Town.GetWallLevel() == 1)
 				{
 					upgradeLevelMask = 2;
 				}
-				else if (settlement.Town.GetWallLevel() == 2)
+				else if (this.PartyBase.Settlement.Town.GetWallLevel() == 2)
 				{
 					upgradeLevelMask = 4;
 				}
-				else if (settlement.Town.GetWallLevel() == 3)
+				else if (this.PartyBase.Settlement.Town.GetWallLevel() == 3)
 				{
 					upgradeLevelMask = 8;
 				}
 			}
-			return upgradeLevelMask;
+			this._currentSettlementUpgradeLevelMask = upgradeLevelMask;
+			this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel = this._defenderRangedEngineSpawnEntitiesForAllLevels.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>();
+			this._defenderBreachableWallEntitiesCacheForCurrentLevel = this._defenderBreachableWallEntitiesForAllLevels.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>();
 		}
 
-		MatrixFrame IPartyVisual.GetAttackerTowerSiegeEngineFrameAtIndex(int index)
+		public MatrixFrame[] GetAttackerTowerSiegeEngineFrames()
 		{
-			return this._siegeTowerSpawnEntities[index].GetGlobalFrame();
+			MatrixFrame[] array = new MatrixFrame[this._attackerSiegeTowerSpawnEntities.Length];
+			for (int i = 0; i < this._attackerSiegeTowerSpawnEntities.Length; i++)
+			{
+				array[i] = this._attackerSiegeTowerSpawnEntities[i].GetGlobalFrame();
+			}
+			return array;
 		}
 
-		int IPartyVisual.GetAttackerTowerSiegeEngineFrameCount()
+		public MatrixFrame[] GetAttackerBatteringRamSiegeEngineFrames()
 		{
-			return this._siegeTowerSpawnEntities.Length;
+			MatrixFrame[] array = new MatrixFrame[this._attackerBatteringRamSpawnEntities.Length];
+			for (int i = 0; i < this._attackerBatteringRamSpawnEntities.Length; i++)
+			{
+				array[i] = this._attackerBatteringRamSpawnEntities[i].GetGlobalFrame();
+			}
+			return array;
 		}
 
-		MatrixFrame IPartyVisual.GetAttackerBatteringRamSiegeEngineFrameAtIndex(int index)
+		public MatrixFrame[] GetAttackerRangedSiegeEngineFrames()
 		{
-			return this._batteringRamSpawnEntities[index].GetGlobalFrame();
+			MatrixFrame[] array = new MatrixFrame[this._attackerRangedEngineSpawnEntities.Length];
+			for (int i = 0; i < this._attackerRangedEngineSpawnEntities.Length; i++)
+			{
+				array[i] = this._attackerRangedEngineSpawnEntities[i].GetGlobalFrame();
+			}
+			return array;
 		}
 
-		int IPartyVisual.GetAttackerBatteringRamSiegeEngineFrameCount()
+		public MatrixFrame[] GetDefenderRangedSiegeEngineFrames()
 		{
-			return this._batteringRamSpawnEntities.Length;
+			MatrixFrame[] array = new MatrixFrame[this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel.Length];
+			for (int i = 0; i < this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel.Length; i++)
+			{
+				array[i] = this._defenderRangedEngineSpawnEntitiesCacheForCurrentLevel[i].GetGlobalFrame();
+			}
+			return array;
 		}
 
-		MatrixFrame IPartyVisual.GetAttackerRangedSiegeEngineFrameAtIndex(int index)
+		public MatrixFrame[] GetBreachableWallFrames()
 		{
-			return this._attackerRangedEngineSpawnEntities[index].GetGlobalFrame();
+			MatrixFrame[] array = new MatrixFrame[this._defenderBreachableWallEntitiesCacheForCurrentLevel.Length];
+			for (int i = 0; i < this._defenderBreachableWallEntitiesCacheForCurrentLevel.Length; i++)
+			{
+				array[i] = this._defenderBreachableWallEntitiesCacheForCurrentLevel[i].GetGlobalFrame();
+			}
+			return array;
 		}
 
-		int IPartyVisual.GetAttackerRangedSiegeEngineFrameCount()
+		public bool IsVisibleOrFadingOut()
 		{
-			return this._attackerRangedEngineSpawnEntities.Length;
-		}
-
-		MatrixFrame IPartyVisual.GetDefenderSiegeEngineFrameAtIndex(int index)
-		{
-			return this._defenderRangedEngineSpawnEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>()[index].GetGlobalFrame();
-		}
-
-		int IPartyVisual.GetDefenderSiegeEngineFrameCount()
-		{
-			return this._defenderRangedEngineSpawnEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>().Length;
-		}
-
-		MatrixFrame IPartyVisual.GetBreacableWallFrameAtIndex(int index)
-		{
-			return this._breachableWallEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>()[index].GetGlobalFrame();
-		}
-
-		int IPartyVisual.GetBreacableWallFrameCount()
-		{
-			return this._breachableWallEntities.Where((GameEntity e) => (e.GetUpgradeLevelMask() & this._currentSettlementUpgradeLevelMask) == this._currentSettlementUpgradeLevelMask).ToArray<GameEntity>().Length;
-		}
-
-		public IMapEntity GetMapEntity()
-		{
-			return this._mapEntity;
+			return this._entityAlpha > 0f;
 		}
 
 		private const string MapSiegeEngineTag = "map_siege_engine";
@@ -2011,47 +2014,43 @@ namespace SandBox.View.Map
 
 		private const float HorseAnimationSpeedFactor = 1.3f;
 
-		private const int NumberOfWorkshopSpotsAtVillage = 4;
+		private static readonly ActionIndexCache _raidOnFoot = ActionIndexCache.Create("act_map_raid");
 
-		private static readonly ActionIndexCache raidOnFoot = ActionIndexCache.Create("act_map_raid");
+		private static readonly ActionIndexCache _camelSwordAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h");
 
-		private static readonly ActionIndexCache camelSwordAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h");
+		private static readonly ActionIndexCache _camelSpearAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_spear");
 
-		private static readonly ActionIndexCache camelSpearAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_spear");
+		private static readonly ActionIndexCache _camel1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_swing");
 
-		private static readonly ActionIndexCache camel1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_1h_swing");
+		private static readonly ActionIndexCache _camel2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_2h_swing");
 
-		private static readonly ActionIndexCache camel2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_camel_attack_2h_swing");
+		private static readonly ActionIndexCache _camelUnarmedAttack = ActionIndexCache.Create("act_map_rider_camel_attack_unarmed");
 
-		private static readonly ActionIndexCache camelUnarmedAttack = ActionIndexCache.Create("act_map_rider_camel_attack_unarmed");
+		private static readonly ActionIndexCache _horseSwordAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h");
 
-		private static readonly ActionIndexCache horseSwordAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h");
+		private static readonly ActionIndexCache _horseSpearAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_spear");
 
-		private static readonly ActionIndexCache horseSpearAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_spear");
+		private static readonly ActionIndexCache _horse1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_swing");
 
-		private static readonly ActionIndexCache horse1HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_1h_swing");
+		private static readonly ActionIndexCache _horse2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_2h_swing");
 
-		private static readonly ActionIndexCache horse2HandedSwingAttack = ActionIndexCache.Create("act_map_rider_horse_attack_2h_swing");
+		private static readonly ActionIndexCache _horseUnarmedAttack = ActionIndexCache.Create("act_map_rider_horse_attack_unarmed");
 
-		private static readonly ActionIndexCache horseUnarmedAttack = ActionIndexCache.Create("act_map_rider_horse_attack_unarmed");
+		private static readonly ActionIndexCache _swordAttackMount = ActionIndexCache.Create("act_map_mount_attack_1h");
 
-		private static readonly ActionIndexCache swordAttackMount = ActionIndexCache.Create("act_map_mount_attack_1h");
+		private static readonly ActionIndexCache _spearAttackMount = ActionIndexCache.Create("act_map_mount_attack_spear");
 
-		private static readonly ActionIndexCache spearAttackMount = ActionIndexCache.Create("act_map_mount_attack_spear");
+		private static readonly ActionIndexCache _swingAttackMount = ActionIndexCache.Create("act_map_mount_attack_swing");
 
-		private static readonly ActionIndexCache swingAttackMount = ActionIndexCache.Create("act_map_mount_attack_swing");
+		private static readonly ActionIndexCache _unarmedAttackMount = ActionIndexCache.Create("act_map_mount_attack_unarmed");
 
-		private static readonly ActionIndexCache unarmedAttackMount = ActionIndexCache.Create("act_map_mount_attack_unarmed");
+		private static readonly ActionIndexCache _attack1H = ActionIndexCache.Create("act_map_attack_1h");
 
-		private static readonly ActionIndexCache attack1h = ActionIndexCache.Create("act_map_attack_1h");
+		private static readonly ActionIndexCache _attack2H = ActionIndexCache.Create("act_map_attack_2h");
 
-		private static readonly ActionIndexCache attack2h = ActionIndexCache.Create("act_map_attack_2h");
+		private static readonly ActionIndexCache _attackSpear1HOr2H = ActionIndexCache.Create("act_map_attack_spear_1h_or_2h");
 
-		private static readonly ActionIndexCache attackSpear1hOr2h = ActionIndexCache.Create("act_map_attack_spear_1h_or_2h");
-
-		private static readonly ActionIndexCache attackUnarmed = ActionIndexCache.Create("act_map_attack_unarmed");
-
-		private readonly GameEntity[] _siteEntities;
+		private static readonly ActionIndexCache _attackUnarmed = ActionIndexCache.Create("act_map_attack_unarmed");
 
 		private readonly List<ValueTuple<GameEntity, BattleSideEnum, int, MatrixFrame, GameEntity>> _siegeRangedMachineEntities;
 
@@ -2061,21 +2060,19 @@ namespace SandBox.View.Map
 
 		private Dictionary<int, List<GameEntity>> _gateBannerEntitiesWithLevels;
 
-		private MatrixFrame[] _siegeCamp1GlobalFrames;
-
-		private MatrixFrame[] _siegeCamp2GlobalFrames;
-
 		private GameEntity[] _attackerRangedEngineSpawnEntities;
 
-		private GameEntity[] _batteringRamSpawnEntities;
+		private GameEntity[] _attackerBatteringRamSpawnEntities;
 
-		private GameEntity[] _siegeTowerSpawnEntities;
+		private GameEntity[] _defenderBreachableWallEntitiesCacheForCurrentLevel;
 
-		private GameEntity[] _defenderRangedEngineSpawnEntities;
+		private GameEntity[] _attackerSiegeTowerSpawnEntities;
 
-		private GameEntity[] _breachableWallEntities;
+		private GameEntity[] _defenderRangedEngineSpawnEntitiesForAllLevels;
 
-		private GameEntity[] _currentLevelBreachableWallEntities;
+		private GameEntity[] _defenderRangedEngineSpawnEntitiesCacheForCurrentLevel;
+
+		private GameEntity[] _defenderBreachableWallEntitiesForAllLevels;
 
 		private ValueTuple<string, GameEntityComponent> _cachedBannerComponent;
 
@@ -2085,15 +2082,9 @@ namespace SandBox.View.Map
 
 		private GameEntity.UpgradeLevelMask _currentSettlementUpgradeLevelMask;
 
-		private bool _isDirty;
-
 		private float _speed;
 
-		private bool _targetVisibility;
-
 		private float _entityAlpha;
-
-		private IMapEntity _mapEntity;
 
 		private Scene _mapScene;
 
@@ -2101,9 +2092,9 @@ namespace SandBox.View.Map
 
 		private uint _currentLevelMask;
 
-		private SoundEvent _siegeSoundEvent;
+		public readonly PartyBase PartyBase;
 
-		private SoundEvent _raidedSoundEvent;
+		private Vec2 _lastFrameVisualPositionWithoutError;
 
 		private struct SiegeBombardmentData
 		{

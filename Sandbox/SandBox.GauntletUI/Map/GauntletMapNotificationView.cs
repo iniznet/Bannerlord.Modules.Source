@@ -77,8 +77,9 @@ namespace SandBox.GauntletUI.Map
 				base.Layer.IsFocusLayer = false;
 				ScreenManager.TryLoseFocus(base.Layer);
 			}
-			if (this._isHoveringOnNotification && this._dataSource.FocusedNotificationItem != null && base.Layer.Input.IsHotKeyReleased("RemoveNotification"))
+			if (this._isHoveringOnNotification && this._dataSource.FocusedNotificationItem != null && base.Layer.Input.IsHotKeyReleased("RemoveNotification") && !this._dataSource.FocusedNotificationItem.ForceInspection)
 			{
+				SoundEvent.PlaySound2D("event:/ui/default");
 				this._dataSource.FocusedNotificationItem.ExecuteRemove();
 			}
 		}
@@ -103,5 +104,7 @@ namespace SandBox.GauntletUI.Map
 		private GauntletLayer _layerAsGauntletLayer;
 
 		private bool _isHoveringOnNotification;
+
+		private const string _defaultSound = "event:/ui/default";
 	}
 }

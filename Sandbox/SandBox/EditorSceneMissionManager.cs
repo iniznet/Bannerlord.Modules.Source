@@ -73,6 +73,10 @@ namespace SandBox
 			}
 		}
 
+		public override void OnAfterCampaignStart(Game game)
+		{
+		}
+
 		public override void OnLoadFinished()
 		{
 			base.OnLoadFinished();

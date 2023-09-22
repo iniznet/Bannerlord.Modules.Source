@@ -42,11 +42,17 @@ namespace SandBox.CampaignBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionStarted));
+			CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionEnd));
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			CampaignEvents.OnPlayerBoardGameOverEvent.AddNonSerializedListener(this, new Action<Hero, BoardGameHelper.BoardGameState>(this.OnPlayerBoardGameOver));
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
 			CampaignEvents.LocationCharactersAreReadyToSpawnEvent.AddNonSerializedListener(this, new Action<Dictionary<string, int>>(this.LocationCharactersAreReadyToSpawn));
+		}
+
+		private void OnMissionEnd(IMission obj)
+		{
+			this._initializedBoardGameCultureInMission = null;
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -179,12 +185,16 @@ namespace SandBox.CampaignBehaviors
 			if (Mission.Current.Scene != null && Mission.Current.Scene.FindEntityWithTag("boardgame_holder") != null && CampaignMission.Current.Location != null && (CampaignMission.Current.Location.StringId == "lordshall" || CampaignMission.Current.Location.StringId == "tavern"))
 			{
 				mission2.AddMissionBehavior(new MissionBoardGameLogic());
-				this.InitializeBoardGame();
+				this.InitializeBoardGamePrefabInMission();
 			}
 		}
 
 		private CultureObject GetBoardGameCulture()
 		{
+			if (this._initializedBoardGameCultureInMission != null)
+			{
+				return this._initializedBoardGameCultureInMission;
+			}
 			if (CampaignMission.Current.Location.StringId == "lordshall")
 			{
 				return Settlement.CurrentSettlement.OwnerClan.Culture;
@@ -192,13 +202,14 @@ namespace SandBox.CampaignBehaviors
 			return Settlement.CurrentSettlement.Culture;
 		}
 
-		private void InitializeBoardGame()
+		private void InitializeBoardGamePrefabInMission()
 		{
 			if (Campaign.Current.GameMode != 1)
 			{
 				return;
 			}
-			CultureObject.BoardGameType boardGame = this.GetBoardGameCulture().BoardGame;
+			CultureObject boardGameCulture = this.GetBoardGameCulture();
+			CultureObject.BoardGameType boardGame = boardGameCulture.BoardGame;
 			GameEntity gameEntity = Mission.Current.Scene.FindEntityWithTag("boardgame_holder");
 			MatrixFrame globalFrame = gameEntity.GetGlobalFrame();
 			Mission.Current.Scene.RemoveEntity(gameEntity, 92);
@@ -211,6 +222,7 @@ namespace SandBox.CampaignBehaviors
 			{
 				firstChildEntityWithTag.GetFirstScriptOfType<VertexAnimator>().StopAndGoToEnd();
 			}
+			this._initializedBoardGameCultureInMission = boardGameCulture;
 		}
 
 		public void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
@@ -249,7 +261,7 @@ namespace SandBox.CampaignBehaviors
 		protected void AddDialogs(CampaignGameStarter campaignGameStarter)
 		{
 			campaignGameStarter.AddDialogLine("talk_common_to_taverngamehost", "start", "close_window", "{GAME_MASTER_INTRO}", () => this.conversation_talk_common_to_taverngamehost_on_condition() && !BoardGameCampaignBehavior.taverngamehost_player_sitting_now_on_condition(), null, 100, null);
-			campaignGameStarter.AddDialogLine("talk_common_to_taverngamehost", "start", "taverngamehost_talk", "{=LGrzKlET}Let me know how much of a challenge you can stand and we'll get started. I'm ready to offer you a {DIFFICULTY} challenge and {?IS_BETTING}a bet of {BET_AMOUNT}{GOLD_ICON}.{?}friendly game.{\\?}", () => this.conversation_talk_common_to_taverngamehost_on_condition() && BoardGameCampaignBehavior.taverngamehost_player_sitting_now_on_condition(), null, 100, null);
+			campaignGameStarter.AddDialogLine("talk_common_to_taverngamehost_2", "start", "taverngamehost_talk", "{=LGrzKlET}Let me know how much of a challenge you can stand and we'll get started. I'm ready to offer you a {DIFFICULTY} challenge and {?IS_BETTING}a bet of {BET_AMOUNT}{GOLD_ICON}.{?}friendly game.{\\?}", () => this.conversation_talk_common_to_taverngamehost_on_condition() && BoardGameCampaignBehavior.taverngamehost_player_sitting_now_on_condition(), null, 100, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_game", "taverngamehost_talk", "taverngamehost_think_play", "{=BdpW8gUM}That looks good, let's play!", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_change_difficulty", "taverngamehost_talk", "taverngamehost_change_difficulty", "{=MbwG7Gy8}Can I change the difficulty?", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_change_bet", "taverngamehost_talk", "taverngamehost_change_bet", "{=PbDK3PIi}Can I change the amount we're betting?", null, null, 100, null, null);
@@ -259,16 +271,16 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("taverngamehost_start_playing_ask_decline", "taverngamehost_think_play", "taverngamehost_talk", "{=bTnmpqU4}I'm afraid I don't have time for another game.", null, null, 100, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=7tuyySmq}I'll start.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_seega_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=J9fJlz2Y}You can start.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_seega_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_puluc_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_puluc_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_konane_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_konane_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_mutorere_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_mutorere_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=EnOOqaqf}I'll be sheep.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_baghchal_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=QjtOAyKE}I'll be wolves.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_baghchal_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=qsavxffL}I'll be attackers.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_tablut_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
-			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=WD7vOalb}I'll be defenders.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_tablut_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first_2", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_puluc_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last_2", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_puluc_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first_3", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_konane_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last_3", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_konane_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first_4", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=HdT5YyAb}I'll be white.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_mutorere_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last_4", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=i8HysulS}I'll be black.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_mutorere_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first_5", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=EnOOqaqf}I'll be sheep.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_baghchal_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last_5", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=QjtOAyKE}I'll be wolves.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_baghchal_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_first_6", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=qsavxffL}I'll be attackers.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_tablut_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_one_starts_on_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_last_6", "taverngamehost_start_play", "taverngamehost_confirm_play", "{=WD7vOalb}I'll be defenders.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_tablut_on_condition), new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_set_player_two_starts_on_consequence), 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_back", "taverngamehost_start_play", "start", "{=dUSfRYYH}Just a minute..", null, null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_player_start_playing_now", "taverngamehost_confirm_play", "close_window", "{=aB1EZssb}Great, let's begin!", null, new ConversationSentence.OnConsequenceDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_play_game_on_consequence), 100, null, null);
 			campaignGameStarter.AddDialogLine("taverngamehost_ask_difficulty", "taverngamehost_change_difficulty", "taverngamehost_changing_difficulty", "{=9VR0VeNT}Yes, how easy should I make things for you?", null, null, 100, null);
@@ -286,7 +298,7 @@ namespace SandBox.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("taverngamehost_changing_difficulty_for_bet_yes", "taverngamehost_changing_difficulty_for_bet", "taverngamehost_change_bet_2", "{=i4xzuOJE}Sure, I'll play at the hardest level.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_taverngamehost_difficulty_hard_on_consequence), 100, null, null);
 			campaignGameStarter.AddPlayerLine("taverngamehost_changing_difficulty_for_bet_no", "taverngamehost_changing_difficulty_for_bet", "start", "{=2ynnnR4c}I'd prefer to keep the difficulty where it's at.", null, null, 100, null, null);
 			campaignGameStarter.AddDialogLine("taverngamehost_ask_betting_2", "taverngamehost_change_bet_2", "taverngamehost_changing_bet", "{=GfHssUYV}Now, feel free to place a bet.", new ConversationSentence.OnConditionDelegate(this.conversation_taverngamehost_talk_place_bet_on_condition), null, 100, null);
-			campaignGameStarter.AddDialogLine("taverngamehost_tell_history_seega", "taverngamehost_learn_history", "taverngamehost_after_history", "{=9PUvbZzD}{GAME_NAME} is a traditional game within the {CULTURE_NAME}. It is a game of calm strategy. You start by placing your pieces on the board, crafting a trap for your enemy to fall into. Then you battle across the board, capturing and eliminating your oponent.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_seega_on_condition), null, 100, null);
+			campaignGameStarter.AddDialogLine("taverngamehost_tell_history_seega", "taverngamehost_learn_history", "taverngamehost_after_history", "{=9PUvbZzD}{GAME_NAME} is a traditional game within the {CULTURE_NAME}. It is a game of calm strategy. You start by placing your pieces on the board, crafting a trap for your enemy to fall into. Then you battle across the board, capturing and eliminating your opponent.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_seega_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("taverngamehost_tell_history_puluc", "taverngamehost_learn_history", "taverngamehost_after_history", "{=sVcJTu7K}{GAME_NAME} is fast and harsh, as warfare should be. Capture as much as possible to keep your opponent weakened and demoralized. But behind this endless offense, there should always be a strong defense to punish any attempt from your opponent to regain control.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_puluc_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("taverngamehost_tell_history_mutorere", "taverngamehost_learn_history", "taverngamehost_after_history", "{=SV0IEWD2}{GAME_NAME} is a game of anticipation. With no possibility of capturing, all your effort should be on reading your opponent and planning further ahead than him.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_mutorere_on_condition), null, 100, null);
 			campaignGameStarter.AddDialogLine("taverngamehost_tell_history_konane", "taverngamehost_learn_history", "taverngamehost_after_history", "{=tVb0nWxm}War is all about sacrifice. In {GAME_NAME} you must make sure that your opponent sacrifices more than you do. Every move can expose you or your opponent and must be carefully considered.", new ConversationSentence.OnConditionDelegate(BoardGameCampaignBehavior.conversation_taverngamehost_talk_is_konane_on_condition), null, 100, null);
@@ -741,19 +753,6 @@ namespace SandBox.CampaignBehaviors
 			MBTextManager.SetTextVariable("DIFFICULTY", GameTexts.FindText("str_boardgame_difficulty", difficulty.ToString()), false);
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("win_board_game", "campaign")]
-		public static string WinCurrentGame(List<string> strings)
-		{
-			Mission mission = Mission.Current;
-			MissionBoardGameLogic missionBoardGameLogic = ((mission != null) ? mission.GetMissionBehavior<MissionBoardGameLogic>() : null);
-			if (missionBoardGameLogic == null)
-			{
-				return "There is no board game.";
-			}
-			missionBoardGameLogic.PlayerOneWon("str_boardgame_victory_message");
-			return "Ok";
-		}
-
 		private const int NumberOfBoardGamesCanPlayerPlayAgainstHeroPerDay = 3;
 
 		private Dictionary<Hero, List<CampaignTime>> _heroAndBoardGameTimeDictionary = new Dictionary<Hero, List<CampaignTime>>();
@@ -773,5 +772,7 @@ namespace SandBox.CampaignBehaviors
 		private bool _relationGained;
 
 		private bool _gainedNothing;
+
+		private CultureObject _initializedBoardGameCultureInMission;
 	}
 }

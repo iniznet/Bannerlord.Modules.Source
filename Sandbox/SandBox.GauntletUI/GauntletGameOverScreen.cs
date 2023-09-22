@@ -7,6 +7,7 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -26,6 +27,7 @@ namespace SandBox.GauntletUI
 			base.OnFrameTick(dt);
 			if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this.CloseGameOverScreen();
 			}
 		}
@@ -48,7 +50,18 @@ namespace SandBox.GauntletUI
 			this._dataSource.SetCloseInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 			this._gauntletLayer.LoadMovie("GameOverScreen", this._dataSource);
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(15));
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_kingdom_open");
+			switch (this._gameOverState.Reason)
+			{
+			case 0:
+				UISoundsHelper.PlayUISound("event:/ui/endgame/end_retirement");
+				break;
+			case 1:
+				UISoundsHelper.PlayUISound("event:/ui/endgame/end_clan_destroyed");
+				break;
+			case 2:
+				UISoundsHelper.PlayUISound("event:/ui/endgame/end_victory");
+				break;
+			}
 			LoadingWindow.DisableGlobalLoadingWindow();
 		}
 
@@ -82,8 +95,6 @@ namespace SandBox.GauntletUI
 			}
 			MBGameManager.EndGame();
 		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_kingdom_open";
 
 		private SpriteCategory _gameOverCategory;
 

@@ -72,7 +72,8 @@ namespace SandBox.ViewModelCollection.SaveLoad
 				foreach (SaveGameFileInfo saveGameFileInfo in grouping.OrderByDescending((SaveGameFileInfo s) => MetaDataExtensions.GetCreationTime(s.MetaData)))
 				{
 					bool flag = SaveLoadVM.IsAnyModuleMissingFromSaveOrCurrentModules(moduleInfos, MetaDataExtensions.GetModules(saveGameFileInfo.MetaData));
-					savedGameGroupVM.SavedGamesList.Add(new SavedGameVM(saveGameFileInfo, this.IsSaving, new Action<SavedGameVM>(this.OnDeleteSavedGame), new Action<SavedGameVM>(this.OnSaveSelection), new Action(this.OnCancelLoadSave), new Action(this.ExecuteDone), false, flag));
+					bool ironmanMode = MetaDataExtensions.GetIronmanMode(saveGameFileInfo.MetaData);
+					savedGameGroupVM.SavedGamesList.Add(new SavedGameVM(saveGameFileInfo, this.IsSaving, new Action<SavedGameVM>(this.OnDeleteSavedGame), new Action<SavedGameVM>(this.OnSaveSelection), new Action(this.OnCancelLoadSave), new Action(this.ExecuteDone), false, flag, ironmanMode));
 				}
 				this.SaveGroups.Add(savedGameGroupVM);
 			}
@@ -84,7 +85,7 @@ namespace SandBox.ViewModelCollection.SaveLoad
 				};
 				foreach (SaveGameFileInfo saveGameFileInfo2 in enumerable)
 				{
-					savedGameGroupVM2.SavedGamesList.Add(new SavedGameVM(saveGameFileInfo2, this.IsSaving, new Action<SavedGameVM>(this.OnDeleteSavedGame), new Action<SavedGameVM>(this.OnSaveSelection), new Action(this.OnCancelLoadSave), new Action(this.ExecuteDone), true, false));
+					savedGameGroupVM2.SavedGamesList.Add(new SavedGameVM(saveGameFileInfo2, this.IsSaving, new Action<SavedGameVM>(this.OnDeleteSavedGame), new Action<SavedGameVM>(this.OnSaveSelection), new Action(this.OnCancelLoadSave), new Action(this.ExecuteDone), true, false, false));
 				}
 				this.SaveGroups.Add(savedGameGroupVM2);
 			}

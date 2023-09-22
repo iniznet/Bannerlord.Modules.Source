@@ -103,7 +103,7 @@ namespace SandBox.CampaignBehaviors
 				string heroPropertiesHint = HeirSelectionCampaignBehavior.GetHeroPropertiesHint(keyValuePair2.Key);
 				list.Add(new InquiryElement(keyValuePair2.Key, textObject.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(keyValuePair2.Key.CharacterObject)), true, heroPropertiesHint));
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=iHYAEEfv}SELECT AN HEIR", null).ToString(), string.Empty, list, false, 1, GameTexts.FindText("str_done", null).ToString(), string.Empty, new Action<List<InquiryElement>>(HeirSelectionCampaignBehavior.OnHeirSelectionOver), null, ""), false, false);
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=iHYAEEfv}SELECT AN HEIR", null).ToString(), string.Empty, list, false, 1, 1, GameTexts.FindText("str_done", null).ToString(), string.Empty, new Action<List<InquiryElement>>(HeirSelectionCampaignBehavior.OnHeirSelectionOver), null, ""), false, false);
 			Campaign.Current.TimeControlMode = 0;
 		}
 
@@ -184,7 +184,7 @@ namespace SandBox.CampaignBehaviors
 			Campaign.Current.MainParty.IsVisible = false;
 			Campaign.Current.CameraFollowParty = null;
 			Campaign.Current.MainParty.IsActive = false;
-			PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 			if (Hero.MainHero.MapFaction.IsKingdomFaction && Clan.PlayerClan.Kingdom.Leader == Hero.MainHero)
 			{
 				DestroyKingdomAction.ApplyByKingdomLeaderDeath(Clan.PlayerClan.Kingdom);

@@ -5,12 +5,12 @@ using Helpers;
 using SandBox.Missions.MissionLogics;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Issues;
-using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -18,6 +18,7 @@ using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.LinQuick;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
@@ -136,7 +137,7 @@ namespace SandBox.Issues
 		{
 			if (RivalGangMovingInIssueBehavior.Instance != null && RivalGangMovingInIssueBehavior.Instance._isFinalStage)
 			{
-				RivalGangMovingInIssueBehavior.Instance.StartAlleyBattle(RivalGangMovingInIssueBehavior.Instance._rivalGangLeader);
+				RivalGangMovingInIssueBehavior.Instance.StartAlleyBattle();
 			}
 		}
 
@@ -232,10 +233,10 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=GXk6f9ah}I've got a problem... And {?TARGET_NOTABLE.GENDER}her{?}his{\\?} name is {TARGET_NOTABLE.LINK}. {?TARGET_NOTABLE.GENDER}Her{?}His{\\?} people have been coming around outside the walls, robbing the dice-players and the drinkers enjoying themselves under our protection. Me and my boys are eager to teach them a lesson but I figure some extra muscle wouldn't hurt.", null);
+					TextObject textObject = new TextObject("{=GXk6f9ah}I've got a problem... [ib:confident][if:convo_undecided_closed]And {?TARGET_NOTABLE.GENDER}her{?}his{\\?} name is {TARGET_NOTABLE.LINK}. {?TARGET_NOTABLE.GENDER}Her{?}His{\\?} people have been coming around outside the walls, robbing the dice-players and the drinkers enjoying themselves under our protection. Me and my boys are eager to teach them a lesson but I figure some extra muscle wouldn't hurt.", null);
 					if (RandomOwnerExtensions.RandomInt(base.IssueOwner, 2) == 0)
 					{
-						textObject = new TextObject("{=rgTGzfzI}Yeah. I have a problem all right. {?TARGET_NOTABLE.GENDER}Her{?}His{\\?} name is {TARGET_NOTABLE.LINK}. {?TARGET_NOTABLE.GENDER}Her{?}His{\\?} people have been bothering shop owners under our protection, demanding money and making threats. Let me tell you something - those shop owners are my cows, and no one else gets to milk them. We're ready to teach these interlopers a lesson, but I could use some help.", null);
+						textObject = new TextObject("{=rgTGzfzI}Yeah. I have a problem all right. [ib:confident][if:convo_undecided_closed]{?TARGET_NOTABLE.GENDER}Her{?}His{\\?} name is {TARGET_NOTABLE.LINK}. {?TARGET_NOTABLE.GENDER}Her{?}His{\\?} people have been bothering shop owners under our protection, demanding money and making threats. Let me tell you something - those shop owners are my cows, and no one else gets to milk them. We're ready to teach these interlopers a lesson, but I could use some help.", null);
 					}
 					if (this.RivalGangLeader != null)
 					{
@@ -257,8 +258,8 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=tyyAfWRR}We already had a small scuffle with them recently. They'll be waiting for us to come down hard. Instead, we'll hold off for {NUMBER} days. Let them think that we're backing off… Then, after {NUMBER} days, your men and mine will hit them in the middle of the night when they least expect it. I'll send you a messenger when the time comes and we'll strike them down together.", null);
-					textObject.SetTextVariable("NUMBER", 4);
+					TextObject textObject = new TextObject("{=tyyAfWRR}We already had a small scuffle with them recently. [if:convo_mocking_revenge]They'll be waiting for us to come down hard. Instead, we'll hold off for {NUMBER} days. Let them think that we're backing off… Then, after {NUMBER} days, your men and mine will hit them in the middle of the night when they least expect it. I'll send you a messenger when the time comes and we'll strike them down together.", null);
+					textObject.SetTextVariable("NUMBER", 2);
 					return textObject;
 				}
 			}
@@ -267,7 +268,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=sSIjPCPO}If you'd rather not go into the fray yourself, you can leave me one of your companions together with {TROOP_COUNT} or so good men. If they stuck around for {RETURN_DAYS} days or so, I'd count it a very big favor.", null);
+					TextObject textObject = new TextObject("{=sSIjPCPO}If you'd rather not go into the fray yourself, [if:convo_mocking_aristocratic]you can leave me one of your companions together with {TROOP_COUNT} or so good men. If they stuck around for {RETURN_DAYS} days or so, I'd count it a very big favor.", null);
 					textObject.SetTextVariable("TROOP_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("RETURN_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
@@ -308,7 +309,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=0enbhess}Thank you. I'm sure your guys are worth their salt..", null);
+					return new TextObject("{=0enbhess}Thank you. [ib:normal][if:convo_approving]I'm sure your guys are worth their salt..", null);
 				}
 			}
 
@@ -316,7 +317,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=QR0V8Ae5}Our lads are well hidden nearby, waiting for the signal to go get those bastards. I won't forget this little favor you're doing me.", null);
+					return new TextObject("{=QR0V8Ae5}Our lads are well hidden nearby,[ib:normal][if:convo_excited] waiting for the signal to go get those bastards. I won't forget this little favor you're doing me.", null);
 				}
 			}
 
@@ -407,12 +408,13 @@ namespace SandBox.Issues
 				this.RelationshipChangeWithIssueOwner = 5;
 				ChangeRelationAction.ApplyPlayerRelation(this.RivalGangLeader, -5, true, true);
 				base.IssueOwner.AddPower(10f);
+				this.RivalGangLeader.AddPower(-10f);
 			}
 
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				this.RelationshipChangeWithIssueOwner = -5;
-				base.IssueSettlement.Town.Security -= 10f;
+				base.IssueSettlement.Town.Security += -10f;
 				base.IssueOwner.AddPower(-10f);
 			}
 
@@ -455,6 +457,10 @@ namespace SandBox.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -518,15 +524,19 @@ namespace SandBox.Issues
 				return ((RivalGangMovingInIssueBehavior.RivalGangMovingInIssue)o).RivalGangLeader;
 			}
 
-			private const int AlternativeSolutionRelationBonus = 5;
+			private const int AlternativeSolutionRelationChange = 5;
 
-			private const int AlternativeSolutionFailRelationPenalty = -5;
+			private const int AlternativeSolutionFailRelationChange = -5;
 
-			private const int AlternativeSolutionNotablePowerBonus = 10;
+			private const int AlternativeSolutionQuestGiverPowerChange = 10;
 
-			private const int AlternativeSolutionFailNotablePowerPenalty = -10;
+			private const int AlternativeSolutionRivalGangLeaderPowerChange = -10;
 
-			private const int AlternativeSolutionRivalGangLeaderRelationPenalty = -5;
+			private const int AlternativeSolutionFailQuestGiverPowerChange = -10;
+
+			private const int AlternativeSolutionFailSecurityChange = -10;
+
+			private const int AlternativeSolutionRivalGangLeaderRelationChange = -5;
 
 			private const int AlternativeSolutionMinimumTroopTier = 2;
 
@@ -539,18 +549,12 @@ namespace SandBox.Issues
 			private const int MeleeSkillValueThreshold = 150;
 
 			private const int RoguerySkillValueThreshold = 120;
+
+			private const int PreparationDurationInDays = 2;
 		}
 
 		public class RivalGangMovingInIssueQuest : QuestBase
 		{
-			private int PreparationDurationInDays
-			{
-				get
-				{
-					return (int)(this._timeoutDurationInDays / 2f);
-				}
-			}
-
 			private TextObject _onQuestStartedLogText
 			{
 				get
@@ -558,7 +562,7 @@ namespace SandBox.Issues
 					TextObject textObject = new TextObject("{=dav5rmDd}{QUEST_GIVER.LINK}, a gang leader from {SETTLEMENT} has told you about a rival that is trying to get a foothold in {?QUEST_GIVER.GENDER}her{?}his{\\?} town. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to wait {DAY_COUNT} days so that the other gang lets its guard down.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("SETTLEMENT", this._questSettlement.EncyclopediaLinkWithName);
-					textObject.SetTextVariable("DAY_COUNT", this.PreparationDurationInDays);
+					textObject.SetTextVariable("DAY_COUNT", 2);
 					return textObject;
 				}
 			}
@@ -686,8 +690,10 @@ namespace SandBox.Issues
 				this._rewardGold = rewardGold;
 				this._issueDifficulty = issueDifficulty;
 				this._timeoutDurationInDays = (float)duration;
-				this._preparationCompletionTime = CampaignTime.DaysFromNow((float)this.PreparationDurationInDays);
+				this._preparationCompletionTime = CampaignTime.DaysFromNow(2f);
 				this._questTimeoutTime = CampaignTime.DaysFromNow(this._timeoutDurationInDays);
+				this._sentTroops = new List<CharacterObject>();
+				this._allPlayerTroops = new List<TroopRosterElement>();
 				this.InitializeQuestSettlement();
 				this.SetDialogs();
 				base.InitializeQuestOnCreation();
@@ -718,11 +724,12 @@ namespace SandBox.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetRivalGangLeaderDialogFlow(), this);
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetQuestGiverPreparationCompletedDialogFlow(), this);
 				MobileParty rivalGangLeaderParty = this._rivalGangLeaderParty;
-				if (rivalGangLeaderParty == null)
+				if (rivalGangLeaderParty != null)
 				{
-					return;
+					rivalGangLeaderParty.SetPartyUsedByQuest(true);
 				}
-				rivalGangLeaderParty.SetPartyUsedByQuest(true);
+				this._sentTroops = new List<CharacterObject>();
+				this._allPlayerTroops = new List<TroopRosterElement>();
 			}
 
 			private void InitializeQuestSettlement()
@@ -732,10 +739,10 @@ namespace SandBox.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=Fwm0PwVb}Great. As I said we need minimum of {NUMBER} days, so they'll let their guard down. I will let you know when it's time. Remember, we wait for the dark of the night to strike.", null, null).Condition(delegate
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=Fwm0PwVb}Great. As I said we need minimum of {NUMBER} days,[ib:normal][if:convo_mocking_revenge] so they'll let their guard down. I will let you know when it's time. Remember, we wait for the dark of the night to strike.", null, null).Condition(delegate
 				{
 					MBTextManager.SetTextVariable("SETTLEMENT", this._questSettlement.EncyclopediaLinkWithName, false);
-					MBTextManager.SetTextVariable("NUMBER", this.PreparationDurationInDays);
+					MBTextManager.SetTextVariable("NUMBER", 2);
 					return Hero.OneToOneConversationHero == base.QuestGiver;
 				})
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.OnQuestAccepted))
@@ -747,10 +754,10 @@ namespace SandBox.Issues
 				})
 					.BeginPlayerOptions()
 					.PlayerOption("{=4IHRAmnA}All right. I am waiting for your runner.", null)
-					.NpcLine("{=xEs830bT}You'll know right away once the preparations are complete. Just don't leave town.", null, null)
+					.NpcLine("{=xEs830bT}You'll know right away once the preparations are complete.[ib:closed][if:convo_mocking_teasing] Just don't leave town.", null, null)
 					.CloseDialog()
 					.PlayerOption("{=6g8qvD2M}I can't just hang on here forever. Be quick about it.", null)
-					.NpcLine("{=lM7AscLo}I'm getting this together as quickly as I can.", null, null)
+					.NpcLine("{=lM7AscLo}I'm getting this together as quickly as I can.[ib:closed][if:convo_nervous]", null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -758,12 +765,12 @@ namespace SandBox.Issues
 
 			private DialogFlow GetRivalGangLeaderDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=IfeN8lYd}Coming to fight me, eh? Did {QUEST_GIVER.LINK} put you up to this? Look, there's no need for bloodshed. This town is big enough for all of us. But... if bloodshed is what you want, I will be happy to provide.", null, null).Condition(delegate
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=IfeN8lYd}Coming to fight us, eh? Did {QUEST_GIVER.LINK} put you up to this?[ib:aggressive2][if:convo_confused_annoyed] Look, there's no need for bloodshed. This town is big enough for all of us. But... if bloodshed is what you want, we will be happy to provide.", null, null).Condition(delegate
 				{
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, null, false);
-					return Hero.OneToOneConversationHero == this._rivalGangLeader && this._isReadyToBeFinalized;
+					return Hero.OneToOneConversationHero == this._rivalGangLeaderHenchmanHero && this._isReadyToBeFinalized;
 				})
-					.NpcLine("{=WSJxl2Hu}What I want to say is... You don't need to be a part of this. I'll double whatever {?QUEST_GIVER.GENDER}she{?}he{\\?} is paying you if you join us.", null, null)
+					.NpcLine("{=WSJxl2Hu}What I want to say is... [if:convo_mocking_teasing]You don't need to be a part of this. My boss will double whatever {?QUEST_GIVER.GENDER}she{?}he{\\?} is paying you if you join us.", null, null)
 					.BeginPlayerOptions()
 					.PlayerOption("{=GPBja02V}I gave my word to {QUEST_GIVER.LINK}, and I won't be bought.", null)
 					.Consequence(delegate
@@ -778,7 +785,7 @@ namespace SandBox.Issues
 							missionBehavior.StartFight(false);
 						};
 					})
-					.NpcLine("{=OSgBicif}You will regret this!", null, null)
+					.NpcLine("{=OSgBicif}You will regret this![ib:warrior][if:convo_furious]", null, null)
 					.CloseDialog()
 					.PlayerOption("{=RB4uQpPV}You're going to pay me a lot then, {REWARD}{GOLD_ICON} to be exact. But at that price, I agree.", null)
 					.Condition(delegate
@@ -799,7 +806,7 @@ namespace SandBox.Issues
 							missionBehavior2.StartFight(true);
 						};
 					})
-					.NpcLine("{=5jW4FVDc}Welcome to our ranks then. Let's kill those bastards!", null, null)
+					.NpcLine("{=5jW4FVDc}Welcome to our ranks then. [ib:warrior][if:convo_evil_smile]Let's kill those bastards!", null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -813,12 +820,12 @@ namespace SandBox.Issues
 					return Hero.OneToOneConversationHero == base.QuestGiver && !this._isFinalStage && this._preparationCompletionTime.IsPast && (!this._preparationsComplete || !CampaignTime.Now.IsNightTime);
 				}, null, null)
 					.CloseDialog()
-					.NpcOption("{=JxNlB547}Are you ready for the fight?", () => Hero.OneToOneConversationHero == base.QuestGiver && this._preparationsComplete && !this._isFinalStage && CampaignTime.Now.IsNightTime, null, null)
+					.NpcOption("{=JxNlB547}Are you ready for the fight?[ib:normal][if:convo_undecided_open]", () => Hero.OneToOneConversationHero == base.QuestGiver && this._preparationsComplete && !this._isFinalStage && CampaignTime.Now.IsNightTime, null, null)
 					.EndNpcOptions()
 					.BeginPlayerOptions()
 					.PlayerOption("{=NzMX0s21}I am ready.", null)
 					.Condition(() => !Hero.MainHero.IsWounded)
-					.NpcLine("{=dNjepcKu}Let's finish this!", null, null)
+					.NpcLine("{=dNjepcKu}Let's finish this![ib:hip][if:convo_mocking_revenge]", null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.rival_gang_start_fight_on_consequence;
@@ -826,7 +833,7 @@ namespace SandBox.Issues
 					.CloseDialog()
 					.PlayerOption("{=B2Donbwz}I need more time.", null)
 					.Condition(() => !Hero.MainHero.IsWounded)
-					.NpcLine("{=advPT3WY}You'd better hurry up!", null, null)
+					.NpcLine("{=advPT3WY}You'd better hurry up![ib:closed][if:convo_astonished]", null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.rival_gang_need_more_time_on_consequence;
@@ -834,7 +841,7 @@ namespace SandBox.Issues
 					.CloseDialog()
 					.PlayerOption("{=QaN26CZ5}My wounds are still fresh. I need some time to recover.", null)
 					.Condition(() => Hero.MainHero.IsWounded)
-					.NpcLine("{=s0jKaYo0}We must attack before the rival gang hears about our plan. You'd better hurry up!", null, null)
+					.NpcLine("{=s0jKaYo0}We must attack before the rival gang hears about our plan. You'd better hurry up![if:convo_astonished]", null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -868,10 +875,10 @@ namespace SandBox.Issues
 
 			private void AddQuestGiverGangLeaderOnSuccessDialogFlow()
 			{
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=zNPzh5jO}Ah! Now that was as good a fight as any I've had. Here, take this purse, you deserve it.", null, null).Condition(delegate
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=zNPzh5jO}Ah! Now that was as good a fight as any I've had. Here, take this purse, It is all yours as {QUEST_GIVER.LINK} has promised.[ib:hip2][if:convo_huge_smile]", null, null).Condition(delegate
 				{
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, null, false);
-					return base.IsOngoing && Hero.OneToOneConversationHero == base.QuestGiver;
+					return base.IsOngoing && Hero.OneToOneConversationHero == this._allyGangLeaderHenchmanHero;
 				})
 					.Consequence(delegate
 					{
@@ -898,40 +905,86 @@ namespace SandBox.Issues
 				}
 				if (characterObject == null)
 				{
-					Debug.FailedAssert("Can't find troop in rival gang leader quest", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Issues\\RivalGangMovingInIssueBehavior.cs", "GetTroopTypeTemplateForDifficulty", 756);
+					Debug.FailedAssert("Can't find troop in rival gang leader quest", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Issues\\RivalGangMovingInIssueBehavior.cs", "GetTroopTypeTemplateForDifficulty", 785);
 					characterObject = CharacterObject.All.First((CharacterObject t) => t.IsBasicTroop && t.IsSoldier);
 				}
 				return characterObject;
 			}
 
-			internal void StartAlleyBattle(Hero gangLeader)
+			internal void StartAlleyBattle()
+			{
+				this.CreateRivalGangLeaderParty();
+				this.CreateAllyGangLeaderParty();
+				this.PreparePlayerParty();
+				PlayerEncounter.RestartPlayerEncounter(this._rivalGangLeaderParty.Party, PartyBase.MainParty, false);
+				PlayerEncounter.StartBattle();
+				this._allyGangLeaderParty.MapEventSide = PlayerEncounter.Battle.GetMapEventSide(PlayerEncounter.Battle.PlayerSide);
+				GameMenu.ActivateGameMenu("rival_gang_quest_after_fight");
+				this._isReadyToBeFinalized = true;
+				PlayerEncounter.StartCombatMissionWithDialogueInTownCenter(this._rivalGangLeaderHenchmanHero.CharacterObject);
+			}
+
+			private void CreateRivalGangLeaderParty()
 			{
 				this._rivalGangLeaderParty = MobileParty.CreateParty("rival_gang_leader_party", null, null);
-				TextObject textObject = new TextObject("{=u4jhIFwG}{RIVAL_GANG_LEADER}'s Party", null);
+				TextObject textObject = new TextObject("{=u4jhIFwG}{GANG_LEADER}'s Party", null);
 				textObject.SetTextVariable("RIVAL_GANG_LEADER", this._rivalGangLeader.Name);
+				textObject.SetTextVariable("GANG_LEADER", this._rivalGangLeader.Name);
 				this._rivalGangLeaderParty.InitializeMobilePartyAroundPosition(new TroopRoster(this._rivalGangLeaderParty.Party), new TroopRoster(this._rivalGangLeaderParty.Party), this._questSettlement.GatePosition, 1f, 0.5f);
 				this._rivalGangLeaderParty.SetCustomName(textObject);
 				EnterSettlementAction.ApplyForParty(this._rivalGangLeaderParty, this._questSettlement);
 				this._rivalGangLeaderParty.SetPartyUsedByQuest(true);
 				CharacterObject troopTypeTemplateForDifficulty = this.GetTroopTypeTemplateForDifficulty();
 				this._rivalGangLeaderParty.MemberRoster.AddToCounts(troopTypeTemplateForDifficulty, 15, false, 0, 0, true, -1);
-				ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("cleaver_sword_t3");
-				gangLeader.CharacterObject.FirstCivilianEquipment.AddEquipmentToSlotWithoutAgent(0, new EquipmentElement(@object, null, null, false));
-				this._rivalGangLeaderParty.MemberRoster.AddToCounts(gangLeader.CharacterObject, 1, false, 0, 0, true, -1);
+				CharacterObject @object = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_3");
+				this._rivalGangLeaderHenchmanHero = HeroCreator.CreateSpecialHero(@object, null, null, null, -1);
+				TextObject textObject2 = new TextObject("{=zJqEdDiq}Henchman of {GANG_LEADER}", null);
+				textObject2.SetTextVariable("GANG_LEADER", this._rivalGangLeader.Name);
+				this._rivalGangLeaderHenchmanHero.SetName(textObject2, textObject2);
+				this._rivalGangLeaderParty.MemberRoster.AddToCounts(this._rivalGangLeaderHenchmanHero.CharacterObject, 1, false, 0, 0, true, -1);
+				Settlement closestHideout = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
+				Clan clan = LinQuick.FirstOrDefaultQ<Clan>(Clan.BanditFactions, (Clan t) => t.Culture == closestHideout.Culture);
+				this._rivalGangLeaderParty.ActualClan = clan;
+			}
+
+			private void CreateAllyGangLeaderParty()
+			{
+				this._allyGangLeaderParty = MobileParty.CreateParty("ally_gang_leader_party", null, null);
+				TextObject textObject = new TextObject("{=u4jhIFwG}{GANG_LEADER}'s Party", null);
+				textObject.SetTextVariable("GANG_LEADER", base.QuestGiver.Name);
+				this._allyGangLeaderParty.InitializeMobilePartyAroundPosition(new TroopRoster(this._allyGangLeaderParty.Party), new TroopRoster(this._allyGangLeaderParty.Party), this._questSettlement.GatePosition, 1f, 0.5f);
+				this._allyGangLeaderParty.SetCustomName(textObject);
+				EnterSettlementAction.ApplyForParty(this._allyGangLeaderParty, this._questSettlement);
+				this._allyGangLeaderParty.SetPartyUsedByQuest(true);
+				CharacterObject troopTypeTemplateForDifficulty = this.GetTroopTypeTemplateForDifficulty();
+				this._allyGangLeaderParty.MemberRoster.AddToCounts(troopTypeTemplateForDifficulty, 20, false, 0, 0, true, -1);
+				CharacterObject @object = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_2");
+				this._allyGangLeaderHenchmanHero = HeroCreator.CreateSpecialHero(@object, null, null, null, -1);
+				TextObject textObject2 = new TextObject("{=zJqEdDiq}Henchman of {GANG_LEADER}", null);
+				textObject2.SetTextVariable("GANG_LEADER", base.QuestGiver.Name);
+				this._allyGangLeaderHenchmanHero.SetName(textObject2, textObject2);
+				this._allyGangLeaderParty.MemberRoster.AddToCounts(this._allyGangLeaderHenchmanHero.CharacterObject, 1, false, 0, 0, true, -1);
+				Settlement closestHideout = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
+				Clan clan = LinQuick.FirstOrDefaultQ<Clan>(Clan.BanditFactions, (Clan t) => t.Culture == closestHideout.Culture);
+				this._allyGangLeaderParty.ActualClan = clan;
+			}
+
+			private void PreparePlayerParty()
+			{
+				this._allPlayerTroops.Clear();
 				foreach (TroopRosterElement troopRosterElement in PartyBase.MainParty.MemberRoster.GetTroopRoster())
 				{
 					if (!troopRosterElement.Character.IsPlayerCharacter)
 					{
-						this._playerTroops.Add(troopRosterElement);
+						this._allPlayerTroops.Add(troopRosterElement);
 					}
 				}
 				PartyBase.MainParty.MemberRoster.RemoveIf((TroopRosterElement t) => !t.Character.IsPlayerCharacter);
-				PartyBase.MainParty.MemberRoster.AddToCounts(troopTypeTemplateForDifficulty, 20, false, 0, 0, true, -1);
-				if (!Extensions.IsEmpty<TroopRosterElement>(this._playerTroops))
+				if (!Extensions.IsEmpty<TroopRosterElement>(this._allPlayerTroops))
 				{
-					List<CharacterObject> list = new List<CharacterObject>();
+					this._sentTroops.Clear();
 					int num = 5;
-					foreach (TroopRosterElement troopRosterElement2 in this._playerTroops.OrderByDescending((TroopRosterElement t) => t.Character.Level))
+					foreach (TroopRosterElement troopRosterElement2 in this._allPlayerTroops.OrderByDescending((TroopRosterElement t) => t.Character.Level))
 					{
 						if (num <= 0)
 						{
@@ -940,21 +993,16 @@ namespace SandBox.Issues
 						int num2 = 0;
 						while (num2 < troopRosterElement2.Number - troopRosterElement2.WoundedNumber && num > 0)
 						{
-							list.Add(troopRosterElement2.Character);
+							this._sentTroops.Add(troopRosterElement2.Character);
 							num--;
 							num2++;
 						}
 					}
-					foreach (CharacterObject characterObject in list)
+					foreach (CharacterObject characterObject in this._sentTroops)
 					{
 						PartyBase.MainParty.MemberRoster.AddToCounts(characterObject, 1, false, 0, 0, true, -1);
 					}
 				}
-				PlayerEncounter.RestartPlayerEncounter(this._rivalGangLeaderParty.Party, PartyBase.MainParty, false);
-				GameMenu.ActivateGameMenu("rival_gang_quest_after_fight");
-				this._isReadyToBeFinalized = true;
-				PlayerEncounter.StartBattle();
-				PlayerEncounter.StartCombatMissionWithDialogueInTownCenter(gangLeader.CharacterObject, troopTypeTemplateForDifficulty);
 			}
 
 			internal void HandlePlayerEncounterResult(bool hasPlayerWon)
@@ -962,10 +1010,26 @@ namespace SandBox.Issues
 				PlayerEncounter.Finish(false);
 				EncounterManager.StartSettlementEncounter(MobileParty.MainParty, this._questSettlement);
 				GameMenu.SwitchToMenu("town");
+				TroopRoster troopRoster = PartyBase.MainParty.MemberRoster.CloneRosterData();
 				PartyBase.MainParty.MemberRoster.RemoveIf((TroopRosterElement t) => !t.Character.IsPlayerCharacter);
-				foreach (TroopRosterElement troopRosterElement in this._playerTroops)
+				using (List<TroopRosterElement>.Enumerator enumerator = this._allPlayerTroops.GetEnumerator())
 				{
-					PartyBase.MainParty.MemberRoster.AddToCounts(troopRosterElement.Character, troopRosterElement.Number, false, troopRosterElement.WoundedNumber, troopRosterElement.Xp, true, -1);
+					while (enumerator.MoveNext())
+					{
+						TroopRosterElement playerTroop = enumerator.Current;
+						int num = troopRoster.FindIndexOfTroop(playerTroop.Character);
+						int num2 = playerTroop.Number;
+						int num3 = playerTroop.WoundedNumber;
+						int num4 = playerTroop.Xp;
+						if (num >= 0)
+						{
+							TroopRosterElement elementCopyAtIndex = troopRoster.GetElementCopyAtIndex(num);
+							num2 -= this._sentTroops.Count((CharacterObject t) => t == playerTroop.Character) - elementCopyAtIndex.Number;
+							num3 += elementCopyAtIndex.WoundedNumber;
+							num4 += elementCopyAtIndex.DeltaXp;
+						}
+						PartyBase.MainParty.MemberRoster.AddToCounts(playerTroop.Character, num2, false, num3, num4, true, -1);
+					}
 				}
 				if (this._rivalGangLeader.PartyBelongedTo == this._rivalGangLeaderParty)
 				{
@@ -976,7 +1040,8 @@ namespace SandBox.Issues
 					if (!this._hasBetrayedQuestGiver)
 					{
 						this.AddQuestGiverGangLeaderOnSuccessDialogFlow();
-						PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationOfCharacter(base.QuestGiver), null, base.QuestGiver.CharacterObject, null);
+						this.SpawnAllyHenchmanAfterMissionSuccess();
+						PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationOfCharacter(this._allyGangLeaderHenchmanHero), null, this._allyGangLeaderHenchmanHero.CharacterObject, null);
 						return;
 					}
 					this.OnBattleWonWithBetrayal();
@@ -996,13 +1061,20 @@ namespace SandBox.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
-				CampaignEvents.OnPlayerBattleEndEvent.AddNonSerializedListener(this, new Action<MapEvent>(this.OnPlayerBattleEnd));
+				CampaignEvents.AlleyClearedByPlayer.AddNonSerializedListener(this, new Action<Alley>(this.OnAlleyClearedByPlayer));
+				CampaignEvents.AlleyOccupiedByPlayer.AddNonSerializedListener(this, new Action<Alley, TroopRoster>(this.OnAlleyOccupiedByPlayer));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
+			}
+
+			private void SpawnAllyHenchmanAfterMissionSuccess()
+			{
+				Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(this._allyGangLeaderHenchmanHero.CharacterObject.Race, "_settlement");
+				LocationCharacter locationCharacter = new LocationCharacter(new AgentData(new SimpleAgentOrigin(this._allyGangLeaderHenchmanHero.CharacterObject, -1, null, default(UniqueTroopDescriptor))).Monster(monsterWithSuffix), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddWandererBehaviors), "npc_common", true, 0, null, true, false, null, false, false, true);
+				LocationComplex.Current.GetLocationWithId("center").AddCharacter(locationCharacter);
 			}
 
 			private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
@@ -1010,6 +1082,8 @@ namespace SandBox.Issues
 				if (settlement == base.QuestGiver.CurrentSettlement && newOwner == Hero.MainHero)
 				{
 					base.AddLog(this.OwnerOfQuestSettlementIsPlayerClanLogText, false);
+					base.QuestGiver.AddPower(-10f);
+					ChangeRelationAction.ApplyPlayerRelation(base.QuestGiver, -5, true, true);
 					base.CompleteQuestWithCancel(null);
 				}
 			}
@@ -1032,7 +1106,7 @@ namespace SandBox.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelledDueToWarLogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelledDueToWarLogText, false);
 			}
 
 			private void OnSiegeEventStarted(SiegeEvent siegeEvent)
@@ -1044,9 +1118,9 @@ namespace SandBox.Issues
 				}
 			}
 
-			private void HourlyTick()
+			protected override void HourlyTick()
 			{
-				if (RivalGangMovingInIssueBehavior.Instance != null && RivalGangMovingInIssueBehavior.Instance.IsOngoing && ((float)RivalGangMovingInIssueBehavior.Instance.PreparationDurationInDays - RivalGangMovingInIssueBehavior.Instance._preparationCompletionTime.RemainingDaysFromNow) / (float)RivalGangMovingInIssueBehavior.Instance.PreparationDurationInDays >= 1f && !this._preparationsComplete && CampaignTime.Now.IsNightTime)
+				if (RivalGangMovingInIssueBehavior.Instance != null && RivalGangMovingInIssueBehavior.Instance.IsOngoing && (2f - RivalGangMovingInIssueBehavior.Instance._preparationCompletionTime.RemainingDaysFromNow) / 2f >= 1f && !this._preparationsComplete && CampaignTime.Now.IsNightTime)
 				{
 					this.OnGuestGiverPreparationsCompleted();
 				}
@@ -1064,20 +1138,30 @@ namespace SandBox.Issues
 				}
 			}
 
-			private void OnPlayerBattleEnd(MapEvent mapEvent)
+			private void OnPlayerAlleyFightEnd(Alley alley)
 			{
-				if (!this._isReadyToBeFinalized && mapEvent.AttackerSide.IsMainPartyAmongParties() && mapEvent.DefenderSide.LeaderParty.Owner != null)
+				if (!this._isReadyToBeFinalized)
 				{
-					if (mapEvent.DefenderSide.LeaderParty.Owner == this._rivalGangLeader)
+					if (alley.Owner == this._rivalGangLeader)
 					{
 						this.OnPlayerAttackedRivalGangAlley();
 						return;
 					}
-					if (mapEvent.DefenderSide.LeaderParty.Owner == base.QuestGiver)
+					if (alley.Owner == base.QuestGiver)
 					{
 						this.OnPlayerAttackedQuestGiverAlley();
 					}
 				}
+			}
+
+			private void OnAlleyClearedByPlayer(Alley alley)
+			{
+				this.OnPlayerAlleyFightEnd(alley);
+			}
+
+			private void OnAlleyOccupiedByPlayer(Alley alley, TroopRoster troops)
+			{
+				this.OnPlayerAlleyFightEnd(alley);
 			}
 
 			private void OnPlayerAttackedRivalGangAlley()
@@ -1128,24 +1212,16 @@ namespace SandBox.Issues
 			private void OnQuestSucceeded()
 			{
 				this._onQuestSucceededLog = base.AddLog(this._onQuestSucceededLogText, false);
+				GainRenownAction.Apply(Hero.MainHero, 1f, false);
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this._rewardGold, false);
-				if (base.QuestGiver.IsAlive)
+				TraitLevelingHelper.OnIssueSolvedThroughQuest(base.QuestGiver, new Tuple<TraitObject, int>[]
 				{
-					this.RelationshipChangeWithQuestGiver = 5;
-					TraitLevelingHelper.OnIssueSolvedThroughQuest(base.QuestGiver, new Tuple<TraitObject, int>[]
-					{
-						new Tuple<TraitObject, int>(DefaultTraits.Honor, 50)
-					});
-					base.QuestGiver.AddPower(10f);
-				}
-				if (this._rivalGangLeader.IsAlive)
-				{
-					ChangeRelationAction.ApplyPlayerRelation(this._rivalGangLeader, -5, true, true);
-				}
-				if (this._rivalGangLeaderParty != null && this._rivalGangLeaderParty.IsActive)
-				{
-					DestroyPartyAction.Apply(null, this._rivalGangLeaderParty);
-				}
+					new Tuple<TraitObject, int>(DefaultTraits.Honor, 50)
+				});
+				base.QuestGiver.AddPower(10f);
+				this._rivalGangLeader.AddPower(-10f);
+				this.RelationshipChangeWithQuestGiver = 5;
+				ChangeRelationAction.ApplyPlayerRelation(this._rivalGangLeader, -5, true, true);
 				base.CompleteQuestWithSuccess();
 			}
 
@@ -1156,12 +1232,14 @@ namespace SandBox.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -20)
 				});
+				this.RelationshipChangeWithQuestGiver = -5;
 				this.ApplyQuestFailConsequences();
 			}
 
 			private void OnBattleWonWithBetrayal()
 			{
 				base.AddLog(this._onQuestFailedWithBetrayalLogText, false);
+				this.RelationshipChangeWithQuestGiver = -15;
 				if (!this._rivalGangLeader.IsDead)
 				{
 					ChangeRelationAction.ApplyPlayerRelation(this._rivalGangLeader, 5, true, true);
@@ -1171,6 +1249,7 @@ namespace SandBox.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -100)
 				});
+				this._rivalGangLeader.AddPower(10f);
 				this.ApplyQuestFailConsequences();
 				base.CompleteQuestWithBetrayal(null);
 			}
@@ -1178,21 +1257,23 @@ namespace SandBox.Issues
 			private void OnBattleLostWithBetrayal()
 			{
 				base.AddLog(this._onQuestFailedWithBetrayalLogText, false);
+				this.RelationshipChangeWithQuestGiver = -10;
 				if (!this._rivalGangLeader.IsDead)
 				{
-					ChangeRelationAction.ApplyPlayerRelation(this._rivalGangLeader, 5, true, true);
+					ChangeRelationAction.ApplyPlayerRelation(this._rivalGangLeader, -5, true, true);
 				}
+				this._rivalGangLeader.AddPower(-10f);
 				TraitLevelingHelper.OnIssueSolvedThroughBetrayal(base.QuestGiver, new Tuple<TraitObject, int>[]
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -100)
 				});
-				this._questSettlement.Town.Security += -10f;
 				this.ApplyQuestFailConsequences();
 				base.CompleteQuestWithBetrayal(null);
 			}
 
 			private void OnQuestFailedWithDefeat()
 			{
+				this.RelationshipChangeWithQuestGiver = -5;
 				base.AddLog(this._onQuestFailedWithDefeatLogText, false);
 				this.ApplyQuestFailConsequences();
 				base.CompleteQuestWithFail(null);
@@ -1200,7 +1281,6 @@ namespace SandBox.Issues
 
 			private void ApplyQuestFailConsequences()
 			{
-				this.RelationshipChangeWithQuestGiver = -15;
 				base.QuestGiver.AddPower(-10f);
 				this._questSettlement.Town.Security += -10f;
 				if (this._rivalGangLeaderParty != null && this._rivalGangLeaderParty.IsActive)
@@ -1211,14 +1291,23 @@ namespace SandBox.Issues
 
 			protected override void OnFinalize()
 			{
-				if (this._rivalGangLeader != null && this._rivalGangLeader.IsAlive)
+				if (this._rivalGangLeaderParty != null && this._rivalGangLeaderParty.IsActive)
 				{
-					MobileParty partyBelongedTo = this._rivalGangLeader.PartyBelongedTo;
-					if (partyBelongedTo != null)
-					{
-						partyBelongedTo.MemberRoster.RemoveTroop(this._rivalGangLeader.CharacterObject, 1, default(UniqueTroopDescriptor), 0);
-					}
-					EnterSettlementAction.ApplyForCharacterOnly(this._rivalGangLeader, this._questSettlement);
+					DestroyPartyAction.Apply(null, this._rivalGangLeaderParty);
+				}
+				if (this._allyGangLeaderParty != null && this._allyGangLeaderParty.IsActive)
+				{
+					DestroyPartyAction.Apply(null, this._allyGangLeaderParty);
+				}
+				if (this._allyGangLeaderHenchmanHero != null && this._allyGangLeaderHenchmanHero.IsAlive)
+				{
+					this._allyGangLeaderHenchmanHero.SetNewOccupation(0);
+					KillCharacterAction.ApplyByRemove(this._allyGangLeaderHenchmanHero, false, true);
+				}
+				if (this._rivalGangLeaderHenchmanHero != null && this._rivalGangLeaderHenchmanHero.IsAlive)
+				{
+					this._rivalGangLeaderHenchmanHero.SetNewOccupation(0);
+					KillCharacterAction.ApplyByRemove(this._rivalGangLeaderHenchmanHero, false, true);
 				}
 			}
 
@@ -1234,7 +1323,6 @@ namespace SandBox.Issues
 				collectedObjects.Add(this._rivalGangLeaderParty);
 				CampaignTime.AutoGeneratedStaticCollectObjectsCampaignTime(this._preparationCompletionTime, collectedObjects);
 				CampaignTime.AutoGeneratedStaticCollectObjectsCampaignTime(this._questTimeoutTime, collectedObjects);
-				collectedObjects.Add(this._playerTroops);
 			}
 
 			internal static object AutoGeneratedGetMemberValue_rivalGangLeader(object o)
@@ -1277,11 +1365,6 @@ namespace SandBox.Issues
 				return ((RivalGangMovingInIssueBehavior.RivalGangMovingInIssueQuest)o)._questTimeoutTime;
 			}
 
-			internal static object AutoGeneratedGetMemberValue_playerTroops(object o)
-			{
-				return ((RivalGangMovingInIssueBehavior.RivalGangMovingInIssueQuest)o)._playerTroops;
-			}
-
 			internal static object AutoGeneratedGetMemberValue_preparationsComplete(object o)
 			{
 				return ((RivalGangMovingInIssueBehavior.RivalGangMovingInIssueQuest)o)._preparationsComplete;
@@ -1297,33 +1380,51 @@ namespace SandBox.Issues
 				return ((RivalGangMovingInIssueBehavior.RivalGangMovingInIssueQuest)o)._issueDifficulty;
 			}
 
-			private const int QuestGiverRelationBonusOnSuccess = 5;
+			private const int QuestGiverRelationChangeOnSuccess = 5;
 
-			private const int RivalGangLeaderRelationPenaltyOnSuccess = -5;
+			private const int RivalGangLeaderRelationChangeOnSuccess = -5;
 
-			private const int QuestGiverNotablePowerBonusOnSuccess = 10;
+			private const int QuestGiverNotablePowerChangeOnSuccess = 10;
 
-			private const int QuestGiverRelationPenaltyOnFail = -15;
+			private const int RivalGangLeaderPowerChangeOnSuccess = -10;
 
-			private const int NotablePowerPenaltyOnFail = -10;
+			private const int RenownChangeOnSuccess = 1;
 
-			private const int TownSecurityPenaltyOnFail = -10;
+			private const int QuestGiverRelationChangeOnFail = -5;
 
-			private const int RivalGangLeaderRelationBonusOnBetrayal = 5;
+			private const int QuestGiverRelationChangeOnTimedOut = -5;
 
-			private const int PlayerAttackedQuestGiverHonorPenalty = -150;
+			private const int NotablePowerChangeOnFail = -10;
 
-			private const int PlayerAttackedQuestGiverPowerPenalty = -10;
+			private const int TownSecurityChangeOnFail = -10;
 
-			private const int PlayerAttackedQuestGiverRelationPenalty = -8;
+			private const int RivalGangLeaderRelationChangeOnSuccessfulBetrayal = 5;
 
-			private const int PlayerAttackedQuestGiverSecurityPenalty = -10;
+			private const int QuestGiverRelationChangeOnSuccessfulBetrayal = -15;
+
+			private const int RivalGangLeaderPowerChangeOnSuccessfulBetrayal = 10;
+
+			private const int QuestGiverRelationChangeOnFailedBetrayal = -10;
+
+			private const int PlayerAttackedQuestGiverHonorChange = -150;
+
+			private const int PlayerAttackedQuestGiverPowerChange = -10;
 
 			private const int NumberofRegularEnemyTroops = 15;
+
+			private const int PlayerAttackedQuestGiverRelationChange = -8;
+
+			private const int PlayerAttackedQuestGiverSecurityChange = -10;
 
 			private const int NumberOfRegularAllyTroops = 20;
 
 			private const int MaxNumberOfPlayerOwnedTroops = 5;
+
+			private const string AllyGangLeaderHenchmanStringId = "gangster_2";
+
+			private const string RivalGangLeaderHenchmanStringId = "gangster_3";
+
+			private const int PreparationDurationInDays = 2;
 
 			[SaveableField(10)]
 			internal readonly Hero _rivalGangLeader;
@@ -1331,8 +1432,14 @@ namespace SandBox.Issues
 			[SaveableField(20)]
 			private MobileParty _rivalGangLeaderParty;
 
+			private Hero _rivalGangLeaderHenchmanHero;
+
 			[SaveableField(30)]
 			private readonly CampaignTime _preparationCompletionTime;
+
+			private Hero _allyGangLeaderHenchmanHero;
+
+			private MobileParty _allyGangLeaderParty;
 
 			[SaveableField(40)]
 			private readonly CampaignTime _questTimeoutTime;
@@ -1349,8 +1456,9 @@ namespace SandBox.Issues
 			[SaveableField(90)]
 			internal bool _hasBetrayedQuestGiver;
 
-			[SaveableField(100)]
-			private List<TroopRosterElement> _playerTroops = new List<TroopRosterElement>();
+			private List<TroopRosterElement> _allPlayerTroops;
+
+			private List<CharacterObject> _sentTroops;
 
 			[SaveableField(110)]
 			private bool _preparationsComplete;

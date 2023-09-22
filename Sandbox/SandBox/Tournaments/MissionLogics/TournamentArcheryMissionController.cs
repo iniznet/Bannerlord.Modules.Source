@@ -151,7 +151,7 @@ namespace SandBox.Tournaments.MissionLogics
 			this._agentControllers.Add(archeryTournamentAgentController);
 			if (participant.Character.IsPlayerCharacter)
 			{
-				agent.WieldInitialWeapons(2);
+				agent.WieldInitialWeapons(2, 0);
 				base.Mission.PlayerTeam = team;
 				return;
 			}
@@ -195,7 +195,7 @@ namespace SandBox.Tournaments.MissionLogics
 
 		private bool IsThereAnyArrowLeft()
 		{
-			return base.Mission.Agents.Any((Agent agent) => agent.Equipment.GetAmmoAmount(agent.Equipment[0].CurrentUsageItem.AmmoClass) > 0);
+			return base.Mission.Agents.Any((Agent agent) => agent.Equipment.GetAmmoAmount(0) > 0);
 		}
 
 		private float GetDeadliness(TournamentParticipant participant)

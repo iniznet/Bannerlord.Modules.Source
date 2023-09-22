@@ -207,80 +207,44 @@ namespace SandBox.ViewModelCollection
 					OnlyShowWhenNotExtended = true
 				});
 				List<PerkObject> list;
-				Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopClasses(hero, 261, ref list);
-				bool flag = !Extensions.IsEmpty<PerkObject>(list);
+				float captainRatingForTroopUsages = Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopUsages(hero, FormationClassExtensions.GetTroopUsageFlags(0), ref list);
+				List<PerkObject> list2;
+				float captainRatingForTroopUsages2 = Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopUsages(hero, FormationClassExtensions.GetTroopUsageFlags(1), ref list2);
+				List<PerkObject> list3;
+				float captainRatingForTroopUsages3 = Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopUsages(hero, FormationClassExtensions.GetTroopUsageFlags(2), ref list3);
+				List<PerkObject> list4;
+				float captainRatingForTroopUsages4 = Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopUsages(hero, FormationClassExtensions.GetTroopUsageFlags(3), ref list4);
+				agentTooltip.Add(new TooltipProperty(this._infantryInfluenceText.ToString(), ((int)(captainRatingForTroopUsages * 100f)).ToString(), 0, false, 0)
+				{
+					OnlyShowWhenNotExtended = true
+				});
+				agentTooltip.Add(new TooltipProperty(this._rangedInfluenceText.ToString(), ((int)(captainRatingForTroopUsages2 * 100f)).ToString(), 0, false, 0)
+				{
+					OnlyShowWhenNotExtended = true
+				});
+				agentTooltip.Add(new TooltipProperty(this._cavalryInfluenceText.ToString(), ((int)(captainRatingForTroopUsages3 * 100f)).ToString(), 0, false, 0)
+				{
+					OnlyShowWhenNotExtended = true
+				});
+				agentTooltip.Add(new TooltipProperty(this._horseArcherInfluenceText.ToString(), ((int)(captainRatingForTroopUsages4 * 100f)).ToString(), 0, false, 0)
+				{
+					OnlyShowWhenNotExtended = true
+				});
+				agentTooltip.Add(new TooltipProperty(string.Empty, string.Empty, 0, false, 0)
+				{
+					OnlyShowWhenNotExtended = true
+				});
+				List<PerkObject> list5 = list.Union(list2).Union(list3).Union(list4)
+					.ToList<PerkObject>();
+				list5.Sort(this._perkComparer);
+				bool flag = list5.Count != 0;
 				if (flag)
 				{
-					agentTooltip.Add(new TooltipProperty(new TextObject("{=SSLUHH6j}Infantry Influence", null).ToString(), string.Empty, 0, true, 4096));
-					foreach (PerkObject perkObject in list)
-					{
-						if (perkObject.PrimaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject.Name.ToString(), perkObject.PrimaryDescription.ToString(), 0, true, 0));
-						}
-						else if (perkObject.SecondaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject.Name.ToString(), perkObject.SecondaryDescription.ToString(), 0, true, 0));
-						}
-					}
+					SPOrderOfBattleVM.AddPerks(this._captainPerksText, agentTooltip, list5);
 				}
-				List<PerkObject> list2;
-				Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopClasses(hero, 4176, ref list2);
-				bool flag2 = !Extensions.IsEmpty<PerkObject>(list2);
-				if (flag2)
+				if (!flag)
 				{
-					agentTooltip.Add(new TooltipProperty(new TextObject("{=0DMM0agr}Ranged Influence", null).ToString(), string.Empty, 0, true, 4096));
-					foreach (PerkObject perkObject2 in list2)
-					{
-						if (perkObject2.PrimaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject2.Name.ToString(), perkObject2.PrimaryDescription.ToString(), 0, true, 0));
-						}
-						else if (perkObject2.SecondaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject2.Name.ToString(), perkObject2.SecondaryDescription.ToString(), 0, true, 0));
-						}
-					}
-				}
-				List<PerkObject> list3;
-				Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopClasses(hero, 512, ref list3);
-				bool flag3 = !Extensions.IsEmpty<PerkObject>(list3);
-				if (flag3)
-				{
-					agentTooltip.Add(new TooltipProperty(new TextObject("{=X8i3jZn8}Cavalry Influence", null).ToString(), string.Empty, 0, true, 4096));
-					foreach (PerkObject perkObject3 in list3)
-					{
-						if (perkObject3.PrimaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject3.Name.ToString(), perkObject3.PrimaryDescription.ToString(), 0, true, 0));
-						}
-						else if (perkObject3.SecondaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject3.Name.ToString(), perkObject3.SecondaryDescription.ToString(), 0, true, 0));
-						}
-					}
-				}
-				List<PerkObject> list4;
-				Campaign.Current.Models.BattleCaptainModel.GetCaptainRatingForTroopClasses(hero, 4608, ref list4);
-				bool flag4 = !Extensions.IsEmpty<PerkObject>(list4);
-				if (flag4)
-				{
-					agentTooltip.Add(new TooltipProperty(new TextObject("{=gZIOG0wl}Horse Archer Influence", null).ToString(), string.Empty, 0, true, 4096));
-					foreach (PerkObject perkObject4 in list4)
-					{
-						if (perkObject4.PrimaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject4.Name.ToString(), perkObject4.PrimaryDescription.ToString(), 0, true, 0));
-						}
-						else if (perkObject4.SecondaryRole == 13)
-						{
-							agentTooltip.Add(new TooltipProperty(perkObject4.Name.ToString(), perkObject4.SecondaryDescription.ToString(), 0, true, 0));
-						}
-					}
-				}
-				if (!flag && !flag2 && !flag3 && !flag4)
-				{
-					agentTooltip.Add(new TooltipProperty(new TextObject("{=7yaDnyKb}There is no additional perk influence.", null).ToString(), string.Empty, 0, true, 0));
+					agentTooltip.Add(new TooltipProperty(this._noPerksText.ToString(), string.Empty, 0, true, 0));
 				}
 				if (Input.IsGamepadActive)
 				{
@@ -298,6 +262,37 @@ namespace SandBox.ViewModelCollection
 			return agentTooltip;
 		}
 
+		private static void AddPerks(TextObject title, List<TooltipProperty> tooltipProperties, List<PerkObject> perks)
+		{
+			tooltipProperties.Add(new TooltipProperty(title.ToString(), string.Empty, 0, true, 4096));
+			foreach (PerkObject perkObject in perks)
+			{
+				if (perkObject.PrimaryRole == 13 || perkObject.SecondaryRole == 13)
+				{
+					TextObject textObject = ((perkObject.PrimaryRole == 13) ? perkObject.PrimaryDescription : perkObject.SecondaryDescription);
+					string genericImageText = HyperlinkTexts.GetGenericImageText(SandBoxUIHelper.GetSkillMeshId(perkObject.Skill, true), 2);
+					SPOrderOfBattleVM._perkDefinitionText.SetTextVariable("PERK_NAME", perkObject.Name).SetTextVariable("SKILL", genericImageText).SetTextVariable("SKILL_LEVEL", perkObject.RequiredSkillValue);
+					tooltipProperties.Add(new TooltipProperty(SPOrderOfBattleVM._perkDefinitionText.ToString(), textObject.ToString(), 0, true, 0));
+				}
+			}
+		}
+
 		private OrderOfBattleCampaignBehavior _orderOfBattleBehavior;
+
+		private static readonly TextObject _perkDefinitionText = new TextObject("{=jCdZY3i4}{PERK_NAME} ({SKILL_LEVEL} - {SKILL})", null);
+
+		private readonly TextObject _captainPerksText = new TextObject("{=pgXuyHxH}Captain Perks", null);
+
+		private readonly TextObject _infantryInfluenceText = new TextObject("{=SSLUHH6j}Infantry Influence", null);
+
+		private readonly TextObject _rangedInfluenceText = new TextObject("{=0DMM0agr}Ranged Influence", null);
+
+		private readonly TextObject _cavalryInfluenceText = new TextObject("{=X8i3jZn8}Cavalry Influence", null);
+
+		private readonly TextObject _horseArcherInfluenceText = new TextObject("{=gZIOG0wl}Horse Archer Influence", null);
+
+		private readonly TextObject _noPerksText = new TextObject("{=7yaDnyKb}There is no additional perk influence.", null);
+
+		private readonly SkillObjectComparer _perkComparer = new SkillObjectComparer();
 	}
 }

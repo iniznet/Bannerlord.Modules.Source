@@ -24,8 +24,8 @@ namespace SandBox.ViewModelCollection.Nameplate
 			if (mobileParty.IsLordParty && mobileParty.LeaderHero != null)
 			{
 				this.IsLord = true;
-				IFaction mapFaction = mobileParty.MapFaction;
-				this.Visual = new ImageIdentifierVM(BannerCode.CreateFrom((mapFaction != null) ? mapFaction.Banner : null), true);
+				Clan actualClan = mobileParty.ActualClan;
+				this.Visual = new ImageIdentifierVM(BannerCode.CreateFrom((actualClan != null) ? actualClan.Banner : null), true);
 				this.SortIndex = 0;
 				return;
 			}

@@ -22,8 +22,6 @@ namespace SandBox.Missions.MissionLogics.Towns
 			missionBehavior.SpawnPlayer(base.Mission.DoesMissionRequireCivilianEquipment, true, false, false, false, "");
 			missionBehavior.SpawnLocationCharacters(null);
 			MissionAgentHandler.SpawnHorses();
-			MissionAgentHandler.SpawnCats();
-			MissionAgentHandler.SpawnDogs();
 			if (!isNight)
 			{
 				MissionAgentHandler.SpawnSheeps();

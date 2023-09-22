@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.Core;
@@ -22,6 +23,7 @@ namespace SandBox
 
 		public MapScene()
 		{
+			this._sharedLock = new ReaderWriterLockSlim();
 			this._sceneLevels = new Dictionary<string, uint>();
 		}
 
@@ -32,13 +34,18 @@ namespace SandBox
 
 		public uint GetSceneLevel(string name)
 		{
+			this._sharedLock.EnterReadLock();
 			uint num;
-			if (this._sceneLevels.TryGetValue(name, out num) && num != 2147483647U)
+			bool flag = this._sceneLevels.TryGetValue(name, out num) && num != 2147483647U;
+			this._sharedLock.ExitReadLock();
+			if (flag)
 			{
 				return num;
 			}
 			uint upgradeLevelMaskOfLevelName = this._scene.GetUpgradeLevelMaskOfLevelName(name);
+			this._sharedLock.EnterWriteLock();
 			this._sceneLevels[name] = upgradeLevelMaskOfLevelName;
+			this._sharedLock.ExitWriteLock();
 			return upgradeLevelMaskOfLevelName;
 		}
 
@@ -145,7 +152,7 @@ namespace SandBox
 			sceneInitializationData.EnableFloraPhysics = false;
 			sceneInitializationData.UseTerrainMeshBlending = false;
 			sceneInitializationData.CreateOros = false;
-			Debug.Print("reading map scene", 0, 12, 17592186044416UL);
+			Debug.Print("Reading map scene", 0, 12, 17592186044416UL);
 			this._scene.Read("Main_map", ref sceneInitializationData, "");
 			Utilities.SetAllocationAlwaysValidScene(this._scene);
 			this._scene.DisableStaticShadows(true);
@@ -169,14 +176,6 @@ namespace SandBox
 				Instance = new ManagedDelegate.DelegateDefinition(Campaign.LateAITick)
 			}, false);
 			Campaign.Current.CampaignLateAITickTask = asyncTask;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("refresh_battle_scene_index_map", "campaign")]
-		public static string RefreshBattleSceneIndexMap(List<string> strings)
-		{
-			MapScene mapScene = Campaign.Current.MapSceneWrapper as MapScene;
-			MBMapScene.GetBattleSceneIndexMap(mapScene._scene, ref mapScene._battleTerrainIndexMap, ref mapScene._battleTerrainIndexMapWidth, ref mapScene._battleTerrainIndexMapHeight);
-			return "Success!";
 		}
 
 		public void Destroy()
@@ -219,16 +218,11 @@ namespace SandBox
 			return this.GetFaceTerrainType(faceIndex);
 		}
 
-		void IMapScene.SetSoundParameters(float tod, int season, float cameraHeight)
-		{
-			MBMapScene.SetSoundParameters(this._scene, tod, season, cameraHeight);
-		}
-
 		public TerrainType GetFaceTerrainType(PathFaceRecord navMeshFace)
 		{
 			if (!navMeshFace.IsValid())
 			{
-				Debug.FailedAssert("Null nav mesh face tried to get terrain type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\MapScene.cs", "GetFaceTerrainType", 272);
+				Debug.FailedAssert("Null nav mesh face tried to get terrain type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\MapScene.cs", "GetFaceTerrainType", 255);
 				return 4;
 			}
 			switch (navMeshFace.FaceGroupIndex)
@@ -363,9 +357,9 @@ namespace SandBox
 			return MBMapScene.GetAccessiblePointNearPosition(this._scene, position, radius);
 		}
 
-		public bool GetPathBetweenAIFaces(PathFaceRecord startingFace, PathFaceRecord endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path)
+		public bool GetPathBetweenAIFaces(PathFaceRecord startingFace, PathFaceRecord endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path, int[] excludedFaceIds = null)
 		{
-			return this._scene.GetPathBetweenAIFaces(startingFace.FaceIndex, endingFace.FaceIndex, startingPosition, endingPosition, agentRadius, path);
+			return this._scene.GetPathBetweenAIFaces(startingFace.FaceIndex, endingFace.FaceIndex, startingPosition, endingPosition, agentRadius, path, excludedFaceIds, 1f);
 		}
 
 		public bool GetPathDistanceBetweenAIFaces(PathFaceRecord startingAiFace, PathFaceRecord endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, float distanceLimit, out float distance)
@@ -415,7 +409,7 @@ namespace SandBox
 			return this._scene.GetNormalAt(position);
 		}
 
-		public void GetTerrainHeightandNormal(Vec2 position, out float height, out Vec3 normal)
+		public void GetTerrainHeightAndNormal(Vec2 position, out float height, out Vec3 normal)
 		{
 			this._scene.GetTerrainHeightAndNormal(position, ref height, ref normal);
 		}
@@ -459,7 +453,7 @@ namespace SandBox
 				text = "Forest";
 				break;
 			case 11:
-				text = "ShallowRiver";
+				text = "Fording";
 				break;
 			case 12:
 				text = "Lake";
@@ -484,5 +478,7 @@ namespace SandBox
 		private byte[] _battleTerrainIndexMap;
 
 		private Vec2 _terrainSize;
+
+		private ReaderWriterLockSlim _sharedLock;
 	}
 }

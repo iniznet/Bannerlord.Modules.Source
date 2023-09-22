@@ -61,30 +61,37 @@ namespace SandBox.Missions.MissionLogics
 			this._transitionCallback = onTransition;
 		}
 
-		public void StartCinematic(Agent playerAgent, List<Agent> allyAgents, Agent bossAgent, List<Agent> banditAgents, HideoutCinematicController.OnHideoutCinematicFinished cinematicFinishedCallback, float placementPerturbation = 0.25f, float placementAngle = 0.20943952f, float transitionDuration = 0.4f, float stateDuration = 0.2f, float cinematicDuration = 8f)
+		public void StartCinematic(HideoutCinematicController.OnInitialFadeOutFinished initialFadeOutFinished, HideoutCinematicController.OnHideoutCinematicFinished cinematicFinishedCallback, float transitionDuration = 0.4f, float stateDuration = 0.2f, float cinematicDuration = 8f)
 		{
 			if (this._isBehaviorInit && this.State == HideoutCinematicController.HideoutCinematicState.None)
 			{
 				this._cinematicFinishedCallback = cinematicFinishedCallback;
-				this.ComputeAgentFrames(playerAgent, allyAgents, bossAgent, banditAgents, placementPerturbation, placementAngle);
+				this._initialFadeOutFinished = initialFadeOutFinished;
 				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.InitializeFormations;
 				this._postCinematicPhase = HideoutCinematicController.HideoutPostCinematicPhase.MoveAgents;
 				this._transitionDuration = transitionDuration;
 				this._stateDuration = stateDuration;
 				this._cinematicDuration = cinematicDuration;
 				this._remainingCinematicDuration = this._cinematicDuration;
-				this.BeginStateTransition(HideoutCinematicController.HideoutCinematicState.PreCinematic);
+				this.BeginStateTransition(HideoutCinematicController.HideoutCinematicState.InitialFadeOut);
 				return;
 			}
 			if (!this._isBehaviorInit)
 			{
-				Debug.FailedAssert("Hideout cinematic controller is not initialized.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "StartCinematic", 172);
+				Debug.FailedAssert("Hideout cinematic controller is not initialized.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "StartCinematic", 195);
 				return;
 			}
 			if (this.State != HideoutCinematicController.HideoutCinematicState.None)
 			{
-				Debug.FailedAssert("There is already an ongoing cinematic.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "StartCinematic", 176);
+				Debug.FailedAssert("There is already an ongoing cinematic.", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "StartCinematic", 199);
 			}
+		}
+
+		public MatrixFrame GetBanditsInitialFrame()
+		{
+			MatrixFrame matrixFrame;
+			this._hideoutBossFightBehavior.GetBanditsInitialFrame(out matrixFrame);
+			return matrixFrame;
 		}
 
 		public void GetBossStandingEyePosition(out Vec3 eyePosition)
@@ -96,7 +103,7 @@ namespace SandBox.Missions.MissionLogics
 				return;
 			}
 			eyePosition = Vec3.Zero;
-			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "GetBossStandingEyePosition", 189);
+			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "GetBossStandingEyePosition", 218);
 		}
 
 		public void GetPlayerStandingEyePosition(out Vec3 eyePosition)
@@ -108,7 +115,7 @@ namespace SandBox.Missions.MissionLogics
 				return;
 			}
 			eyePosition = Vec3.Zero;
-			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "GetPlayerStandingEyePosition", 202);
+			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutCinematicController.cs", "GetPlayerStandingEyePosition", 231);
 		}
 
 		public void GetScenePrefabParameters(out float innerRadius, out float outerRadius, out float walkDistance)
@@ -143,6 +150,13 @@ namespace SandBox.Missions.MissionLogics
 				}
 				switch (this.State)
 				{
+				case HideoutCinematicController.HideoutCinematicState.InitialFadeOut:
+					if (this.TickInitialFadeOut(dt))
+					{
+						this.BeginStateTransition(HideoutCinematicController.HideoutCinematicState.PreCinematic);
+						return;
+					}
+					break;
 				case HideoutCinematicController.HideoutCinematicState.PreCinematic:
 					if (this.TickPreCinematic(dt))
 					{
@@ -195,6 +209,27 @@ namespace SandBox.Missions.MissionLogics
 			}
 		}
 
+		private bool TickInitialFadeOut(float dt)
+		{
+			this._remainingStateDuration -= dt;
+			if (this._remainingStateDuration <= 0f)
+			{
+				Agent agent = null;
+				Agent agent2 = null;
+				List<Agent> list = null;
+				List<Agent> list2 = null;
+				float num = 0.25f;
+				float num2 = 0.20943952f;
+				HideoutCinematicController.OnInitialFadeOutFinished initialFadeOutFinished = this._initialFadeOutFinished;
+				if (initialFadeOutFinished != null)
+				{
+					initialFadeOutFinished(ref agent, ref list, ref agent2, ref list2, ref num, ref num2);
+				}
+				this.ComputeAgentFrames(agent, list, agent2, list2, num, num2);
+			}
+			return this._remainingStateDuration <= 0f;
+		}
+
 		private bool TickPreCinematic(float dt)
 		{
 			Scene scene = base.Mission.Scene;
@@ -206,27 +241,37 @@ namespace SandBox.Missions.MissionLogics
 				this._playerAgentInfo.Agent.Controller = 1;
 				bool isTeleportingAgents = base.Mission.IsTeleportingAgents;
 				base.Mission.IsTeleportingAgents = true;
+				MatrixFrame matrixFrame;
+				this._hideoutBossFightBehavior.GetAlliesInitialFrame(out matrixFrame);
 				foreach (Formation formation in base.Mission.Teams.Attacker.FormationsIncludingEmpty)
 				{
 					if (formation.CountOfUnits > 0)
 					{
-						MatrixFrame matrixFrame;
-						this._hideoutBossFightBehavior.GetAllyInitialFormationFrame(out matrixFrame);
 						WorldPosition worldPosition;
 						worldPosition..ctor(scene, matrixFrame.origin);
 						formation.SetMovementOrder(MovementOrder.MovementOrderMove(worldPosition));
 					}
 				}
+				MatrixFrame matrixFrame2;
+				this._hideoutBossFightBehavior.GetBanditsInitialFrame(out matrixFrame2);
 				foreach (Formation formation2 in base.Mission.Teams.Defender.FormationsIncludingEmpty)
 				{
 					if (formation2.CountOfUnits > 0)
 					{
-						MatrixFrame matrixFrame2;
-						this._hideoutBossFightBehavior.GetBanditInitialFormationFrame(out matrixFrame2);
 						WorldPosition worldPosition2;
 						worldPosition2..ctor(scene, matrixFrame2.origin);
 						formation2.SetMovementOrder(MovementOrder.MovementOrderMove(worldPosition2));
 					}
+				}
+				foreach (HideoutCinematicController.HideoutCinematicAgentInfo hideoutCinematicAgentInfo in this._hideoutAgentsInfo)
+				{
+					Agent agent = hideoutCinematicAgentInfo.Agent;
+					Vec3 f = hideoutCinematicAgentInfo.InitialFrame.rotation.f;
+					agent.LookDirection = f;
+					Agent agent2 = agent;
+					Vec2 vec = f.AsVec2;
+					vec = vec.Normalized();
+					agent2.SetMovementDirection(ref vec);
 				}
 				base.Mission.IsTeleportingAgents = isTeleportingAgents;
 				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.StopFormations;
@@ -250,34 +295,41 @@ namespace SandBox.Missions.MissionLogics
 				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.InitializeAgents;
 				break;
 			case HideoutCinematicController.HideoutPreCinematicPhase.InitializeAgents:
+			{
+				bool isTeleportingAgents2 = base.Mission.IsTeleportingAgents;
+				base.Mission.IsTeleportingAgents = true;
 				this._cachedAgentFormations = new List<Formation>();
-				foreach (HideoutCinematicController.HideoutCinematicAgentInfo hideoutCinematicAgentInfo in this._hideoutAgentsInfo)
-				{
-					Agent agent = hideoutCinematicAgentInfo.Agent;
-					this._cachedAgentFormations.Add(agent.Formation);
-					agent.Formation = null;
-					MatrixFrame initialFrame = hideoutCinematicAgentInfo.InitialFrame;
-					WorldPosition worldPosition3;
-					worldPosition3..ctor(scene, initialFrame.origin);
-					agent.TeleportToPosition(worldPosition3.GetGroundVec3());
-					Agent agent2 = agent;
-					Vec2 vec = initialFrame.rotation.f.AsVec2;
-					vec = vec.Normalized();
-					agent2.SetMovementDirection(ref vec);
-				}
-				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.MoveAgents;
-				break;
-			case HideoutCinematicController.HideoutPreCinematicPhase.MoveAgents:
 				foreach (HideoutCinematicController.HideoutCinematicAgentInfo hideoutCinematicAgentInfo2 in this._hideoutAgentsInfo)
 				{
 					Agent agent3 = hideoutCinematicAgentInfo2.Agent;
-					MatrixFrame targetFrame = hideoutCinematicAgentInfo2.TargetFrame;
+					this._cachedAgentFormations.Add(agent3.Formation);
+					agent3.Formation = null;
+					MatrixFrame initialFrame = hideoutCinematicAgentInfo2.InitialFrame;
+					WorldPosition worldPosition3;
+					worldPosition3..ctor(scene, initialFrame.origin);
+					Vec3 f2 = initialFrame.rotation.f;
+					agent3.TeleportToPosition(worldPosition3.GetGroundVec3());
+					agent3.LookDirection = f2;
+					Agent agent4 = agent3;
+					Vec2 vec = f2.AsVec2;
+					vec = vec.Normalized();
+					agent4.SetMovementDirection(ref vec);
+				}
+				base.Mission.IsTeleportingAgents = isTeleportingAgents2;
+				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.MoveAgents;
+				break;
+			}
+			case HideoutCinematicController.HideoutPreCinematicPhase.MoveAgents:
+				foreach (HideoutCinematicController.HideoutCinematicAgentInfo hideoutCinematicAgentInfo3 in this._hideoutAgentsInfo)
+				{
+					Agent agent5 = hideoutCinematicAgentInfo3.Agent;
+					MatrixFrame targetFrame = hideoutCinematicAgentInfo3.TargetFrame;
 					WorldPosition worldPosition4;
 					worldPosition4..ctor(scene, targetFrame.origin);
-					agent3.SetMaximumSpeedLimit(0.65f, false);
-					Agent agent4 = agent3;
+					agent5.SetMaximumSpeedLimit(0.65f, false);
+					Agent agent6 = agent5;
 					Vec2 vec = targetFrame.rotation.f.AsVec2;
-					agent4.SetScriptedPositionAndDirection(ref worldPosition4, vec.RotationInRadians, true, 0);
+					agent6.SetScriptedPositionAndDirection(ref worldPosition4, vec.RotationInRadians, true, 0);
 				}
 				this._preCinematicPhase = HideoutCinematicController.HideoutPreCinematicPhase.Completed;
 				break;
@@ -364,7 +416,7 @@ namespace SandBox.Missions.MissionLogics
 			return flag;
 		}
 
-		private void ComputeAgentFrames(Agent playerAgent, List<Agent> allyAgents, Agent bossAgent, List<Agent> banditAgents, float placementPerturbation, float placementAngle)
+		private void ComputeAgentFrames(Agent playerAgent, List<Agent> playerCompanions, Agent bossAgent, List<Agent> bossCompanions, float placementPerturbation, float placementAngle)
 		{
 			this._hideoutAgentsInfo = new List<HideoutCinematicController.HideoutCinematicAgentInfo>();
 			MatrixFrame matrixFrame;
@@ -374,22 +426,22 @@ namespace SandBox.Missions.MissionLogics
 			this._hideoutAgentsInfo.Add(this._playerAgentInfo);
 			List<MatrixFrame> list;
 			List<MatrixFrame> list2;
-			this._hideoutBossFightBehavior.GetAllyFrames(out list, out list2, allyAgents.Count, placementAngle, placementPerturbation);
-			for (int i = 0; i < allyAgents.Count; i++)
+			this._hideoutBossFightBehavior.GetAllyFrames(out list, out list2, playerCompanions.Count, placementAngle, placementPerturbation);
+			for (int i = 0; i < playerCompanions.Count; i++)
 			{
 				matrixFrame = list[i];
 				matrixFrame2 = list2[i];
-				this._hideoutAgentsInfo.Add(new HideoutCinematicController.HideoutCinematicAgentInfo(allyAgents[i], HideoutCinematicController.HideoutAgentType.Ally, matrixFrame, matrixFrame2));
+				this._hideoutAgentsInfo.Add(new HideoutCinematicController.HideoutCinematicAgentInfo(playerCompanions[i], HideoutCinematicController.HideoutAgentType.Ally, matrixFrame, matrixFrame2));
 			}
 			this._hideoutBossFightBehavior.GetBossFrames(out matrixFrame, out matrixFrame2, placementPerturbation);
 			this._bossAgentInfo = new HideoutCinematicController.HideoutCinematicAgentInfo(bossAgent, HideoutCinematicController.HideoutAgentType.Boss, matrixFrame, matrixFrame2);
 			this._hideoutAgentsInfo.Add(this._bossAgentInfo);
-			this._hideoutBossFightBehavior.GetBanditFrames(out list, out list2, banditAgents.Count, placementAngle, placementPerturbation);
-			for (int j = 0; j < banditAgents.Count; j++)
+			this._hideoutBossFightBehavior.GetBanditFrames(out list, out list2, bossCompanions.Count, placementAngle, placementPerturbation);
+			for (int j = 0; j < bossCompanions.Count; j++)
 			{
 				matrixFrame = list[j];
 				matrixFrame2 = list2[j];
-				this._hideoutAgentsInfo.Add(new HideoutCinematicController.HideoutCinematicAgentInfo(banditAgents[j], HideoutCinematicController.HideoutAgentType.Bandit, matrixFrame, matrixFrame2));
+				this._hideoutAgentsInfo.Add(new HideoutCinematicController.HideoutCinematicAgentInfo(bossCompanions[j], HideoutCinematicController.HideoutAgentType.Bandit, matrixFrame, matrixFrame2));
 			}
 		}
 
@@ -408,6 +460,8 @@ namespace SandBox.Missions.MissionLogics
 		public const float DefaultPlacementPerturbation = 0.25f;
 
 		public const float DefaultPlacementAngle = 0.20943952f;
+
+		private HideoutCinematicController.OnInitialFadeOutFinished _initialFadeOutFinished;
 
 		private HideoutCinematicController.OnHideoutCinematicFinished _cinematicFinishedCallback;
 
@@ -443,6 +497,8 @@ namespace SandBox.Missions.MissionLogics
 
 		private HideoutBossFightBehavior _hideoutBossFightBehavior;
 
+		public delegate void OnInitialFadeOutFinished(ref Agent playerAgent, ref List<Agent> playerCompanions, ref Agent bossAgent, ref List<Agent> bossCompanions, ref float placementPerturbation, ref float placementAngle);
+
 		public delegate void OnHideoutCinematicFinished();
 
 		public delegate void OnHideoutCinematicStateChanged(HideoutCinematicController.HideoutCinematicState state);
@@ -476,6 +532,7 @@ namespace SandBox.Missions.MissionLogics
 		public enum HideoutCinematicState
 		{
 			None,
+			InitialFadeOut,
 			PreCinematic,
 			Cinematic,
 			PostCinematic,

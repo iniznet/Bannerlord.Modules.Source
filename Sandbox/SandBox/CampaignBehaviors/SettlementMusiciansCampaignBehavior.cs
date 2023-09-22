@@ -102,7 +102,7 @@ namespace SandBox.CampaignBehaviors
 			{
 				float num7 = (Campaign.MapDiagonal - Campaign.Current.Models.MapDistanceModel.GetDistance(settlement, town2.Settlement)) / Campaign.MapDiagonal;
 				float num8 = num7 * num7 * num7;
-				num8 *= MathF.Min(settlement.Prosperity, 5000f) * 0.0002f;
+				num8 *= MathF.Min(town2.Prosperity, 5000f) * 0.0002f;
 				dictionary2 = dictionary;
 				cultureObject = town2.Culture;
 				dictionary2[cultureObject] += num8;

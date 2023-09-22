@@ -22,7 +22,7 @@ namespace SandBox.ViewModelCollection.SaveLoad
 
 		public bool IsModuleDiscrepancyDetected { get; private set; }
 
-		public SavedGameVM(SaveGameFileInfo save, bool isSaving, Action<SavedGameVM> onDelete, Action<SavedGameVM> onSelection, Action onCancelLoadSave, Action onDone, bool isCorruptedSave = false, bool isDiscrepancyDetectedForSave = false)
+		public SavedGameVM(SaveGameFileInfo save, bool isSaving, Action<SavedGameVM> onDelete, Action<SavedGameVM> onSelection, Action onCancelLoadSave, Action onDone, bool isCorruptedSave = false, bool isDiscrepancyDetectedForSave = false, bool isIronman = false)
 		{
 			this.Save = save;
 			this._isSaving = isSaving;
@@ -33,7 +33,16 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			this.IsCorrupted = isCorruptedSave;
 			this.SavedGameProperties = new MBBindingList<SavedGamePropertyVM>();
 			this.LoadedModulesInSave = new MBBindingList<SavedGameModuleInfoVM>();
-			this.NameText = ((!isCorruptedSave) ? this.Save.Name : new TextObject("{=RoYPofhK}Corrupted Save", null).ToString());
+			if (isIronman)
+			{
+				GameTexts.SetVariable("RANK", MetaDataExtensions.GetCharacterName(this.Save.MetaData));
+				GameTexts.SetVariable("NUMBER", new TextObject("{=Fm0rjkH7}Ironman", null));
+				this.NameText = new TextObject("{=AVoWvlue}{RANK} ({NUMBER})", null).ToString();
+			}
+			else
+			{
+				this.NameText = this.Save.Name;
+			}
 			this._newlineTextObject.SetTextVariable("newline", "\n");
 			this._gameVersion = ApplicationVersion.FromParametersFile(null);
 			this._saveVersion = MetaDataExtensions.GetApplicationVersion(this.Save.MetaData);
@@ -102,6 +111,7 @@ namespace SandBox.ViewModelCollection.SaveLoad
 			this.SaveLoadText = (this._isSaving ? new TextObject("{=bV75iwKa}Save", null).ToString() : new TextObject("{=9NuttOBC}Load", null).ToString());
 			this.OverrideSaveText = new TextObject("{=hYL3CFHX}Do you want to overwrite this saved game?", null).ToString();
 			this.UpdateSaveText = new TextObject("{=FFiPLPbs}Update Save", null).ToString();
+			this.CorruptedSaveText = new TextObject("{=RoYPofhK}Corrupted Save", null).ToString();
 		}
 
 		public void ExecuteSaveLoad()
@@ -391,6 +401,23 @@ namespace SandBox.ViewModelCollection.SaveLoad
 		}
 
 		[DataSourceProperty]
+		public string CorruptedSaveText
+		{
+			get
+			{
+				return this._corruptedSaveText;
+			}
+			set
+			{
+				if (value != this._corruptedSaveText)
+				{
+					this._corruptedSaveText = value;
+					base.OnPropertyChangedWithValue<string>(value, "CorruptedSaveText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public string NameText
 		{
 			get
@@ -643,6 +670,8 @@ namespace SandBox.ViewModelCollection.SaveLoad
 		private string _updateSaveText;
 
 		private string _modulesText;
+
+		private string _corruptedSaveText;
 
 		private string _saveVersionAsString;
 

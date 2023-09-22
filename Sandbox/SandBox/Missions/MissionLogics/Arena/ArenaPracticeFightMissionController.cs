@@ -270,7 +270,7 @@ namespace SandBox.Missions.MissionLogics.Arena
 			if (this.IsPlayerPracticing)
 			{
 				Agent agent2 = this.SpawnArenaAgent(base.Mission.PlayerTeam, this.GetSpawnFrame(false, true));
-				agent2.WieldInitialWeapons(2);
+				agent2.WieldInitialWeapons(2, 0);
 				this.OpponentCountBeatenByPlayer = 0;
 				this._participantAgents.Add(agent2);
 			}

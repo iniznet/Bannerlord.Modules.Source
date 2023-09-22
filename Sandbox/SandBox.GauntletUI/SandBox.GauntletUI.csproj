@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{FE195B9E-CA19-44AB-B31A-DE533EF3A549}</ProjectGuid>
+    <ProjectGuid>{11F39AAF-7001-4559-A060-FCDBE05E6ED0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox.GauntletUI</RootNamespace>
     <AssemblyName>SandBox.GauntletUI</AssemblyName>
@@ -102,6 +102,7 @@
     <Compile Include="Map\GauntletMapSaveView.cs" />
     <Compile Include="Map\GauntletMapSettlementNameplateView.cs" />
     <Compile Include="Map\GauntletMapSiegeOverlayView.cs" />
+    <Compile Include="Map\GauntletMarriageOfferPopupView.cs" />
     <Compile Include="Map\IGauntletMapEventVisualHandler.cs" />
     <Compile Include="Map\PanelScreenStatus.cs" />
     <Compile Include="Menu\GauntlerMenuBackground.cs" />
@@ -115,25 +116,27 @@
     <Compile Include="Missions\MissionGauntletArenaPracticeFightView.cs" />
     <Compile Include="Missions\MissionGauntletBarterView.cs" />
     <Compile Include="Missions\MissionGauntletBoardGameView.cs" />
+    <Compile Include="Missions\MissionGauntletCheatView.cs" />
     <Compile Include="Missions\MissionGauntletConversationView.cs" />
     <Compile Include="Missions\MissionGauntletNameMarkerView.cs" />
     <Compile Include="Missions\MissionGauntletTournamentView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SandBoxGauntletUICheats.cs" />
     <Compile Include="SandBoxGauntletUISubModule.cs" />
     <Compile Include="SandboxSceneNotificationContextProvider.cs" />
     <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SandBox.ViewModelCollection\SandBox.ViewModelCollection.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a54b}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ed2}</Project>
       <Name>SandBox.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\SandBox.View\SandBox.View.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a54a}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ed1}</Project>
       <Name>SandBox.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\SandBox\SandBox.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a548}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ecf}</Project>
       <Name>SandBox</Name>
     </ProjectReference>
   </ItemGroup>

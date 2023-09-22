@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using SandBox.View;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Inventory;
@@ -12,6 +11,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
@@ -63,7 +63,7 @@ namespace SandBox.GauntletUI
 					}
 					if (this._dataSource.CurrentFocusedItem != null && this._dataSource.CurrentFocusedItem.IsTransferable && this._dataSource.CurrentFocusedItem.InventorySide == null)
 					{
-						this._dataSource.CurrentFocusedItem.ExecuteBuySingle();
+						this.ExecuteBuySingle();
 						return;
 					}
 				}
@@ -76,7 +76,7 @@ namespace SandBox.GauntletUI
 					}
 					if (this._dataSource.CurrentFocusedItem != null && this._dataSource.CurrentFocusedItem.IsTransferable && this._dataSource.CurrentFocusedItem.InventorySide == 1)
 					{
-						this._dataSource.CurrentFocusedItem.ExecuteSellSingle();
+						this.ExecuteSellSingle();
 						return;
 					}
 				}
@@ -132,7 +132,7 @@ namespace SandBox.GauntletUI
 			this._gauntletMovie = this._gauntletLayer.LoadMovie("Inventory", this._dataSource);
 			this._openedFromMission = this.InventoryState.Predecessor is MissionState;
 			InformationManager.ClearAllMessages();
-			SoundEvent.PlaySound2D("event:/ui/panels/panel_inventory_open");
+			UISoundsHelper.PlayUISound("event:/ui/panels/panel_inventory_open");
 			this._gauntletLayer._gauntletUIContext.EventManager.GainNavigationAfterFrames(2, null);
 		}
 
@@ -241,6 +241,7 @@ namespace SandBox.GauntletUI
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
 				this._dataSource.ExecuteResetTranstactions();
+				UISoundsHelper.PlayUISound("event:/ui/default");
 			}
 		}
 
@@ -248,6 +249,7 @@ namespace SandBox.GauntletUI
 		{
 			if (this._dataSource.ItemPreview.IsSelected)
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ClosePreview();
 				return;
 			}
@@ -256,6 +258,7 @@ namespace SandBox.GauntletUI
 				this._dataSource.IsExtendedEquipmentControlsEnabled = false;
 				return;
 			}
+			UISoundsHelper.PlayUISound("event:/ui/default");
 			this._dataSource.ExecuteResetAndCompleteTranstactions();
 		}
 
@@ -264,6 +267,7 @@ namespace SandBox.GauntletUI
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
 				this._dataSource.ExecuteCompleteTranstactions();
+				UISoundsHelper.PlayUISound("event:/ui/default");
 			}
 		}
 
@@ -271,6 +275,11 @@ namespace SandBox.GauntletUI
 		{
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
+				MBBindingList<InventoryCharacterSelectorItemVM> itemList = this._dataSource.CharacterList.ItemList;
+				if (itemList != null && itemList.Count > 1)
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+				}
 				this._dataSource.CharacterList.ExecuteSelectPreviousItem();
 			}
 		}
@@ -279,8 +288,25 @@ namespace SandBox.GauntletUI
 		{
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
+				MBBindingList<InventoryCharacterSelectorItemVM> itemList = this._dataSource.CharacterList.ItemList;
+				if (itemList != null && itemList.Count > 1)
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+				}
 				this._dataSource.CharacterList.ExecuteSelectNextItem();
 			}
+		}
+
+		public void ExecuteBuySingle()
+		{
+			this._dataSource.CurrentFocusedItem.ExecuteBuySingle();
+			UISoundsHelper.PlayUISound("event:/ui/transfer");
+		}
+
+		public void ExecuteSellSingle()
+		{
+			this._dataSource.CurrentFocusedItem.ExecuteSellSingle();
+			UISoundsHelper.PlayUISound("event:/ui/transfer");
 		}
 
 		public void ExecuteTakeAll()
@@ -288,6 +314,7 @@ namespace SandBox.GauntletUI
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
 				this._dataSource.ExecuteBuyAllItems();
+				UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
 			}
 		}
 
@@ -296,6 +323,7 @@ namespace SandBox.GauntletUI
 			if (!this._dataSource.ItemPreview.IsSelected)
 			{
 				this._dataSource.ExecuteSellAllItems();
+				UISoundsHelper.PlayUISound("event:/ui/inventory/take_all");
 			}
 		}
 
@@ -338,30 +366,6 @@ namespace SandBox.GauntletUI
 		{
 			this.InventoryState.InventoryLogic.Reset(true);
 		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("set_inventory_search_enabled", "ui")]
-		public static string SetInventorySearchEnabled(List<string> args)
-		{
-			string text = "Format is \"ui.set_inventory_search_enabled [1/0]\".";
-			GauntletInventoryScreen gauntletInventoryScreen;
-			if ((gauntletInventoryScreen = ScreenManager.TopScreen as GauntletInventoryScreen) == null)
-			{
-				return "Inventory screen is not open!";
-			}
-			if (args.Count != 1)
-			{
-				return text;
-			}
-			int num;
-			if (int.TryParse(args[0], out num) && (num == 1 || num == 0))
-			{
-				gauntletInventoryScreen._dataSource.IsSearchAvailable = num == 1;
-				return "Success.";
-			}
-			return text;
-		}
-
-		private const string _panelOpenSound = "event:/ui/panels/panel_inventory_open";
 
 		private IGauntletMovie _gauntletMovie;
 

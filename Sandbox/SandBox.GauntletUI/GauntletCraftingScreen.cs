@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameState;
@@ -80,7 +81,6 @@ namespace SandBox.GauntletUI
 			this._craftingCategory.Load(resourceContext, uiresourceDepot);
 			this._gauntletLayer = new GauntletLayer(1, "GauntletLayer", false);
 			this._gauntletMovie = this._gauntletLayer.LoadMovie("Crafting", this._dataSource);
-			this._gauntletLayer.IsFocusLayer = true;
 			this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
 			this._gauntletLayer.InputRestrictions.SetCanOverrideFocusOnHit(true);
 			base.AddLayer(this._gauntletLayer);
@@ -100,8 +100,6 @@ namespace SandBox.GauntletUI
 			this.Initialize();
 			this._sceneLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("Generic"));
 			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("Generic"));
-			this._sceneLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericPanelGameKeyCategory"));
-			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericPanelGameKeyCategory"));
 			this._sceneLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CraftingHotkeyCategory"));
 			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CraftingHotkeyCategory"));
 		}
@@ -129,6 +127,7 @@ namespace SandBox.GauntletUI
 			LoadingWindow.DisableGlobalLoadingWindow();
 			base.OnFrameTick(dt);
 			this._dataSource.CanSwitchTabs = !Input.IsGamepadActive || !InformationManager.GetIsAnyTooltipActiveAndExtended();
+			this._dataSource.AreGamepadControlHintsEnabled = Input.IsGamepadActive && this._sceneLayer.IsHitThisFrame && this._dataSource.IsInCraftingMode;
 			if (this._dataSource.IsInCraftingMode)
 			{
 				this._dataSource.WeaponDesign.WeaponControlsEnabled = this._sceneLayer.IsHitThisFrame;
@@ -157,11 +156,39 @@ namespace SandBox.GauntletUI
 			{
 				if (this.IsHotKeyReleasedInAnyLayer("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._dataSource.ExecuteCancel();
 				}
 				else if (this.IsHotKeyReleasedInAnyLayer("Confirm"))
 				{
-					this._dataSource.ExecuteConfirm();
+					bool isInCraftingMode = this._dataSource.IsInCraftingMode;
+					bool isInRefinementMode = this._dataSource.IsInRefinementMode;
+					bool isInSmeltingMode = this._dataSource.IsInSmeltingMode;
+					ValueTuple<bool, bool> valueTuple = this._dataSource.ExecuteConfirm();
+					bool item = valueTuple.Item1;
+					bool item2 = valueTuple.Item2;
+					if (item)
+					{
+						if (item2)
+						{
+							if (isInCraftingMode)
+							{
+								UISoundsHelper.PlayUISound("event:/ui/crafting/craft_success");
+							}
+							else if (isInRefinementMode)
+							{
+								UISoundsHelper.PlayUISound("event:/ui/crafting/refine_success");
+							}
+							else if (isInSmeltingMode)
+							{
+								UISoundsHelper.PlayUISound("event:/ui/crafting/smelt_success");
+							}
+						}
+						else
+						{
+							UISoundsHelper.PlayUISound("event:/ui/default");
+						}
+					}
 				}
 				else if (this._dataSource.CanSwitchTabs)
 				{
@@ -169,14 +196,17 @@ namespace SandBox.GauntletUI
 					{
 						if (this._dataSource.IsInSmeltingMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/refine_tab");
 							this._dataSource.ExecuteSwitchToRefinement();
 						}
 						else if (this._dataSource.IsInCraftingMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/smelt_tab");
 							this._dataSource.ExecuteSwitchToSmelting();
 						}
 						else if (this._dataSource.IsInRefinementMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/craft_tab");
 							this._dataSource.ExecuteSwitchToCrafting();
 						}
 					}
@@ -184,14 +214,17 @@ namespace SandBox.GauntletUI
 					{
 						if (this._dataSource.IsInSmeltingMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/craft_tab");
 							this._dataSource.ExecuteSwitchToCrafting();
 						}
 						else if (this._dataSource.IsInCraftingMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/refine_tab");
 							this._dataSource.ExecuteSwitchToRefinement();
 						}
 						else if (this._dataSource.IsInRefinementMode)
 						{
+							UISoundsHelper.PlayUISound("event:/ui/crafting/smelt_tab");
 							this._dataSource.ExecuteSwitchToSmelting();
 						}
 					}
@@ -277,11 +310,14 @@ namespace SandBox.GauntletUI
 				OnItemRefreshed = new CraftingVM.OnItemRefreshedDelegate(this.RefreshItemEntity)
 			};
 			this._dataSource.WeaponDesign.CraftingHistory.SetDoneKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("Confirm"));
-			this._dataSource.WeaponDesign.CraftingHistory.SetCancelKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
+			this._dataSource.WeaponDesign.CraftingHistory.SetCancelKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("Exit"));
 			this._dataSource.SetConfirmInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("Confirm"));
-			this._dataSource.SetExitInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
-			this._dataSource.SetPreviousTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToPreviousTab"));
-			this._dataSource.SetNextTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
+			this._dataSource.SetExitInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("Exit"));
+			this._dataSource.SetPreviousTabInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("SwitchToPreviousTab"));
+			this._dataSource.SetNextTabInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetHotKey("SwitchToNextTab"));
+			this._dataSource.AddCameraControlInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetGameKey(55));
+			this._dataSource.AddCameraControlInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").GetGameKey(56));
+			this._dataSource.AddCameraControlInputKey(HotKeyManager.GetCategory("CraftingHotkeyCategory").RegisteredGameAxisKeys.FirstOrDefault((GameAxisKey x) => x.Id == "CameraAxisX"));
 		}
 
 		public void OnCraftingLogicRefreshed()
@@ -438,8 +474,7 @@ namespace SandBox.GauntletUI
 			if (Input.IsGamepadActive)
 			{
 				float gameKeyState = this._sceneLayer.Input.GetGameKeyState(55);
-				float gameKeyState2 = this._sceneLayer.Input.GetGameKeyState(56);
-				return gameKeyState - gameKeyState2;
+				return this._sceneLayer.Input.GetGameKeyState(56) - gameKeyState;
 			}
 			return MBMath.ClampFloat(this._zoomAmount - (float)MathF.Sign(this._sceneLayer.Input.GetDeltaMouseScroll()) * 0.05f, -0.6f, 0.5f);
 		}
@@ -489,7 +524,7 @@ namespace SandBox.GauntletUI
 
 		private void CopyXmlCode()
 		{
-			Input.SetClipboardText(this._craftingState.CraftingLogic.GetXmlCodeForCurrentItem(this._craftingState.CraftingLogic.GetCurrentCraftedItemObject(false, null)));
+			Input.SetClipboardText(this._craftingState.CraftingLogic.GetXmlCodeForCurrentItem(this._craftingState.CraftingLogic.GetCurrentCraftedItemObject(false)));
 		}
 
 		private void PasteXmlCode()
@@ -547,17 +582,6 @@ namespace SandBox.GauntletUI
 		private bool IsHotKeyReleasedInAnyLayer(string hotKeyId)
 		{
 			return this._sceneLayer.Input.IsHotKeyReleased(hotKeyId) || this._gauntletLayer.Input.IsHotKeyReleased(hotKeyId);
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("reload_pieces", "crafting")]
-		public static string ReloadCraftingPieces(List<string> strings)
-		{
-			if (strings.Count != 2)
-			{
-				return "Usage: crafting.reload_pieces {MODULE_NAME} {XML_NAME}";
-			}
-			GauntletCraftingScreen._reloadXmlPath = new KeyValuePair<string, string>(strings[0], strings[1]);
-			return "Reloading crafting pieces...";
 		}
 
 		void IGameStateListener.OnInitialize()

@@ -47,6 +47,7 @@ namespace SandBox.Missions.MissionLogics
 			this._battleEndLogic = base.Mission.GetMissionBehavior<BattleEndLogic>();
 			this._battleEndLogic.ChangeCanCheckForEndCondition(false);
 			this._agentVictoryLogic = base.Mission.GetMissionBehavior<AgentVictoryLogic>();
+			this._cinematicController = base.Mission.GetMissionBehavior<HideoutCinematicController>();
 			base.Mission.IsMainAgentObjectInteractionEnabled = false;
 		}
 
@@ -170,7 +171,7 @@ namespace SandBox.Missions.MissionLogics
 				{
 					if (this._missionSides[i].NumberOfTroopsNotSupplied <= this._firstPhaseEnemyTroopCount)
 					{
-						Debug.FailedAssert("_missionSides[i].NumberOfTroopsNotSupplied <= _firstPhaseEnemyTroopCount", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutMissionController.cs", "InitializeMission", 448);
+						Debug.FailedAssert("_missionSides[i].NumberOfTroopsNotSupplied <= _firstPhaseEnemyTroopCount", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\MissionLogics\\HideoutMissionController.cs", "InitializeMission", 449);
 						this._firstPhaseEnemyTroopCount = (int)((float)this._missionSides[i].NumberOfTroopsNotSupplied * 0.7f);
 					}
 					num = ((this._hideoutMissionState == HideoutMissionController.HideoutMissionState.InitialFightBeforeBossFight) ? this._firstPhaseEnemyTroopCount : this._missionSides[i].NumberOfTroopsNotSupplied);
@@ -238,7 +239,7 @@ namespace SandBox.Missions.MissionLogics
 						}
 						if (this._firstPhaseEndTimer.Check(base.Mission.CurrentTime))
 						{
-							this.StartBossFight();
+							this._cinematicController.StartCinematic(new HideoutCinematicController.OnInitialFadeOutFinished(this.OnInitialFadeOutOver), new HideoutCinematicController.OnHideoutCinematicFinished(this.OnCutSceneOver), 0.4f, 0.2f, 8f);
 							return;
 						}
 					}
@@ -320,20 +321,6 @@ namespace SandBox.Missions.MissionLogics
 			this._hideoutMissionState = ((!missionSide.IsPlayerSide) ? HideoutMissionController.HideoutMissionState.InitialFightBeforeBossFight : HideoutMissionController.HideoutMissionState.WithoutBossFight);
 		}
 
-		private void StartBossFight()
-		{
-			this._hideoutMissionState = HideoutMissionController.HideoutMissionState.CutSceneBeforeBossFight;
-			this._enemyTeam = base.Mission.PlayerEnemyTeam;
-			this.SpawnBossAndBodyguards();
-			base.Mission.PlayerTeam.SetIsEnemyOf(this._enemyTeam, false);
-			this.SetWatchStateOfAIAgents(0);
-			if (Agent.Main.IsUsingGameObject)
-			{
-				Agent.Main.StopUsingGameObject(false, 1);
-			}
-			this.StartCutScene();
-		}
-
 		private void SetWatchStateOfAIAgents(Agent.WatchState state)
 		{
 			foreach (Agent agent in base.Mission.Agents)
@@ -348,16 +335,15 @@ namespace SandBox.Missions.MissionLogics
 		private void SpawnBossAndBodyguards()
 		{
 			HideoutMissionController.MissionSide missionSide = this._missionSides[0];
-			MatrixFrame identity = MatrixFrame.Identity;
-			identity.origin = Agent.Main.Position + Agent.Main.LookDirection * -3f;
-			missionSide.SpawnRemainingTroopsForBossFight(new List<MatrixFrame> { identity }, missionSide.NumberOfTroopsNotSupplied);
+			MatrixFrame banditsInitialFrame = this._cinematicController.GetBanditsInitialFrame();
+			missionSide.SpawnRemainingTroopsForBossFight(new List<MatrixFrame> { banditsInitialFrame }, missionSide.NumberOfTroopsNotSupplied);
 			this._bossAgent = this.SelectBossAgent();
-			this._bossAgent.WieldInitialWeapons(2);
+			this._bossAgent.WieldInitialWeapons(2, 1);
 			foreach (Agent agent in this._enemyTeam.ActiveAgents)
 			{
 				if (agent != this._bossAgent)
 				{
-					agent.WieldInitialWeapons(3);
+					agent.WieldInitialWeapons(3, 0);
 				}
 			}
 		}
@@ -393,11 +379,21 @@ namespace SandBox.Missions.MissionLogics
 			return agent;
 		}
 
-		private void StartCutScene()
+		private void OnInitialFadeOutOver(ref Agent playerAgent, ref List<Agent> playerCompanions, ref Agent bossAgent, ref List<Agent> bossCompanions, ref float placementPerturbation, ref float placementAngle)
 		{
-			List<Agent> list = base.Mission.Agents.Where((Agent x) => x.IsActive() && x.Team == base.Mission.PlayerTeam && x.IsHuman && x.IsAIControlled).ToList<Agent>();
-			List<Agent> list2 = base.Mission.Agents.Where((Agent x) => x.IsActive() && x.Team == this._enemyTeam && x.IsHuman && x.IsAIControlled && x != this._bossAgent).ToList<Agent>();
-			base.Mission.GetMissionBehavior<HideoutCinematicController>().StartCinematic(Agent.Main, list, this._bossAgent, list2, new HideoutCinematicController.OnHideoutCinematicFinished(this.OnCutSceneOver), 0.25f, 0.20943952f, 0.4f, 0.2f, 8f);
+			this._hideoutMissionState = HideoutMissionController.HideoutMissionState.CutSceneBeforeBossFight;
+			this._enemyTeam = base.Mission.PlayerEnemyTeam;
+			this.SpawnBossAndBodyguards();
+			base.Mission.PlayerTeam.SetIsEnemyOf(this._enemyTeam, false);
+			this.SetWatchStateOfAIAgents(0);
+			if (Agent.Main.IsUsingGameObject)
+			{
+				Agent.Main.StopUsingGameObject(false, 1);
+			}
+			playerAgent = Agent.Main;
+			playerCompanions = base.Mission.Agents.Where((Agent x) => x.IsActive() && x.Team == base.Mission.PlayerTeam && x.IsHuman && x.IsAIControlled).ToList<Agent>();
+			bossAgent = this._bossAgent;
+			bossCompanions = base.Mission.Agents.Where((Agent x) => x.IsActive() && x.Team == this._enemyTeam && x.IsHuman && x.IsAIControlled && x != this._bossAgent).ToList<Agent>();
 		}
 
 		private void OnCutSceneOver()
@@ -530,6 +526,8 @@ namespace SandBox.Missions.MissionLogics
 		private BattleEndLogic _battleEndLogic;
 
 		private AgentVictoryLogic _agentVictoryLogic;
+
+		private HideoutCinematicController _cinematicController;
 
 		private HideoutMissionController.HideoutMissionState _hideoutMissionState;
 
@@ -698,7 +696,7 @@ namespace SandBox.Missions.MissionLogics
 				if (isPatrolling)
 				{
 					usableMachine.AddAgent(agent, -1);
-					agent.WieldInitialWeapons(2);
+					agent.WieldInitialWeapons(2, 0);
 				}
 				else
 				{

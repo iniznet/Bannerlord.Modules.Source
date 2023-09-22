@@ -15,7 +15,6 @@ using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.MissionViews.Order;
 using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
 using TaleWorlds.MountAndBlade.View.MissionViews.Sound;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace SandBox.View.Missions
 {
@@ -40,11 +39,6 @@ namespace SandBox.View.Missions
 				SandBoxViewCreator.CreateMissionNameMarkerUIHandler(mission),
 				new MissionItemContourControllerView(),
 				new MissionAgentContourControllerView(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent(),
-					new MusicMissionAlleyFightComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				ViewCreator.CreateMissionLeaveView(),
 				ViewCreator.CreatePhotoModeView(),
@@ -71,16 +65,13 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionBattleComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
 				ViewCreator.CreatePhotoModeView(),
 				new MissionBoundaryWallView(),
 				new MissionCampaignBattleSpectatorView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler()
 			}.ToArray();
 		}
@@ -101,10 +92,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
 				new MissionBoundaryWallView(),
@@ -177,11 +164,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionAgentStatusUIHandler(mission),
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent(),
-					new MusicMissionAlleyFightComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
 				ViewCreator.CreateMissionLeaveView(),
@@ -290,10 +272,6 @@ namespace SandBox.View.Missions
 				new MissionSingleplayerViewHandler(),
 				ViewCreator.CreateMissionAgentStatusUIHandler(mission),
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
 				ViewCreator.CreateMissionLeaveView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
@@ -323,10 +301,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionBattleComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
 				new MissionBoundaryWallView(),
@@ -390,6 +364,7 @@ namespace SandBox.View.Missions
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(new MissionBoundaryWallView());
 			list.Add(ViewCreator.CreateMissionFormationMarkerUIHandler(mission));
+			list.Add(new MissionFormationTargetSelectionHandler());
 			list.Add(ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler());
 			list.Add(ViewCreator.CreateMissionSpectatorControlView(mission));
 			list.Add(new MissionItemContourControllerView());
@@ -424,6 +399,7 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
@@ -458,6 +434,7 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
@@ -491,6 +468,7 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
@@ -523,6 +501,7 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
@@ -574,14 +553,11 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionBattleComponent()
-				}),
 				new MissionAmbushView(),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				new MissionCampaignBattleSpectatorView(),
 				ViewCreator.CreatePhotoModeView()
@@ -603,10 +579,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				new MissionCampaignBattleSpectatorView(),
@@ -641,6 +613,8 @@ namespace SandBox.View.Missions
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler());
 			list.Add(ViewCreator.CreatePhotoModeView());
+			list.Add(ViewCreator.CreateMissionFormationMarkerUIHandler(mission));
+			list.Add(new MissionFormationTargetSelectionHandler());
 			ISiegeDeploymentView siegeDeploymentView = missionView as ISiegeDeploymentView;
 			list.Add(new MissionEntitySelectionUIHandler(new Action<GameEntity>(siegeDeploymentView.OnEntitySelection), new Action<GameEntity>(siegeDeploymentView.OnEntityHover)));
 			list.Add(ViewCreator.CreateMissionSpectatorControlView(mission));
@@ -674,6 +648,8 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreatePhotoModeView(),
+				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				new MusicBattleMissionView(true),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
@@ -707,11 +683,13 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
 				new MissionAgentContourControllerView(),
-				new MissionPreloadView()
+				new MissionPreloadView(),
+				ViewCreator.CreatePhotoModeView()
 			}.ToArray();
 		}
 
@@ -729,10 +707,6 @@ namespace SandBox.View.Missions
 			list.Add(missionView);
 			list.Add(new OrderTroopPlacer());
 			list.Add(new MissionSingleplayerViewHandler());
-			list.Add(new MusicMissionView(new MusicBaseComponent[]
-			{
-				new MusicMissionBattleComponent()
-			}));
 			list.Add(new DeploymentMissionView());
 			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
@@ -746,6 +720,7 @@ namespace SandBox.View.Missions
 			ISiegeDeploymentView siegeDeploymentView = missionView as ISiegeDeploymentView;
 			list.Add(new MissionEntitySelectionUIHandler(new Action<GameEntity>(siegeDeploymentView.OnEntitySelection), new Action<GameEntity>(siegeDeploymentView.OnEntityHover)));
 			list.Add(ViewCreator.CreateMissionFormationMarkerUIHandler(mission));
+			list.Add(new MissionFormationTargetSelectionHandler());
 			list.Add(new MissionItemContourControllerView());
 			list.Add(new MissionAgentContourControllerView());
 			list.Add(new MissionCampaignBattleSpectatorView());
@@ -756,7 +731,7 @@ namespace SandBox.View.Missions
 		[ViewMethod("SiegeMissionForTutorial")]
 		public static MissionView[] OpenSiegeMissionForTutorial(Mission mission)
 		{
-			Debug.FailedAssert("Do not use SiegeForTutorial! Use campaign!", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Missions\\SandBoxMissionViews.cs", "OpenSiegeMissionForTutorial", 871);
+			Debug.FailedAssert("Do not use SiegeForTutorial! Use campaign!", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox.View\\Missions\\SandBoxMissionViews.cs", "OpenSiegeMissionForTutorial", 876);
 			List<MissionView> list = new List<MissionView>();
 			list.Add(new MissionConversationCameraView());
 			list.Add(ViewCreator.CreateMissionSingleplayerEscapeMenu(CampaignOptions.IsIronmanMode));
@@ -766,10 +741,6 @@ namespace SandBox.View.Missions
 			list.Add(missionView);
 			list.Add(new OrderTroopPlacer());
 			list.Add(new MissionSingleplayerViewHandler());
-			list.Add(new MusicMissionView(new MusicBaseComponent[]
-			{
-				new MusicMissionBattleComponent()
-			}));
 			list.Add(ViewCreator.CreateMissionAgentStatusUIHandler(mission));
 			list.Add(ViewCreator.CreateMissionMainAgentEquipmentController(mission));
 			list.Add(ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission));
@@ -800,10 +771,6 @@ namespace SandBox.View.Missions
 			list.Add(ViewCreator.CreateMissionOrderUIHandler(null));
 			list.Add(new OrderTroopPlacer());
 			list.Add(new MissionSingleplayerViewHandler());
-			list.Add(new MusicMissionView(new MusicBaseComponent[]
-			{
-				new MusicMissionBattleComponent()
-			}));
 			list.Add(new MissionAmbushView());
 			list.Add(ViewCreator.CreatePhotoModeView());
 			list.Add(new MissionAmbushIntroView());
@@ -841,13 +808,10 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
 				new MissionSingleplayerViewHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionBattleComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionFormationMarkerUIHandler(mission),
+				new MissionFormationTargetSelectionHandler(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
 				new MissionItemContourControllerView(),
 				new MissionAgentContourControllerView(),
@@ -871,10 +835,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				ViewCreator.CreateMissionSpectatorControlView(mission),
@@ -893,10 +853,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateOptionsUIHandler(),
 				ViewCreator.CreateMissionMainAgentEquipDropView(mission),
 				new MissionSingleplayerViewHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				new MissionBoundaryWallView(),
 				new MissionCampaignBattleSpectatorView(),
@@ -918,11 +874,6 @@ namespace SandBox.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent(),
-					new MusicMissionAlleyFightComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionConversationView(mission),
 				SandBoxViewCreator.CreateMissionBarterView(),
@@ -953,10 +904,6 @@ namespace SandBox.View.Missions
 				new MissionCampaignView(),
 				new MissionConversationCameraView(),
 				new MissionSingleplayerViewHandler(),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent()
-				}),
 				SandBoxViewCreator.CreateMissionConversationView(mission),
 				ViewCreator.CreateMissionSingleplayerEscapeMenu(CampaignOptions.IsIronmanMode),
 				ViewCreator.CreateOptionsUIHandler(),

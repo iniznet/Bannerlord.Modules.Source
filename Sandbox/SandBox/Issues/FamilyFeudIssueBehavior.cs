@@ -213,7 +213,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=7qPda0SA}One of my relatives fell victim to his temper during a quarrel and killed a man from {TARGET_VILLAGE}. We have offered to pay blood money but the family of the deceased have stubbornly refused it. As it turns out, the deceased is kin to {TARGET_NOTABLE}, an elder of this region and now the men of {TARGET_VILLAGE} have sworn to kill my relative.", null);
+					TextObject textObject = new TextObject("{=7qPda0SA}Yes... We do have a problem. One of my relatives fell victim to his temper during a quarrel and killed a man from {TARGET_VILLAGE}.[ib:normal2][if:convo_dismayed] We offered to pay blood money but the family of the deceased have stubbornly refused it. As it turns out, the deceased is kin to {TARGET_NOTABLE}, an elder of this region and now the men of {TARGET_VILLAGE} have sworn to kill my relative.", null);
 					textObject.SetTextVariable("TARGET_VILLAGE", this._targetVillage.Name);
 					textObject.SetTextVariable("TARGET_NOTABLE", this._targetNotable.Name);
 					return textObject;
@@ -232,7 +232,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=mgUoXwZt}My family is concerned for the boy's life. He has gone hiding around the village commons. We need someone who can protect him until {TARGET_NOTABLE.LINK} sees reason, accepts the blood money and ends the feud. We would be eternally grateful, if you can help my relative and take him with you for a while maybe.", null);
+					TextObject textObject = new TextObject("{=mgUoXwZt}My family is concerned for the boy's life. He has gone hiding around the village commons. We need someone who can protect him until [ib:normal][if:convo_normal]{TARGET_NOTABLE.LINK} sees reason, accepts the blood money and ends the feud. We would be eternally grateful, if you can help my relative and take him with you for a while maybe.", null);
 					StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject, false);
 					textObject.SetTextVariable("TARGET_VILLAGE", this._targetVillage.Name);
 					return textObject;
@@ -243,7 +243,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=cDYz49kZ}You can keep my relative under your protection for a time until the calls for vengeance die down. Maybe you can leave one of your warrior companions and {ALTERNATIVE_TROOP_COUNT} men with him to protect him.", null);
+					TextObject textObject = new TextObject("{=cDYz49kZ}You can keep my relative under your protection for a time until the calls for vengeance die down.[ib:closed][if:convo_pondering] Maybe you can leave one of your warrior companions and {ALTERNATIVE_TROOP_COUNT} men with him to protect him.", null);
 					textObject.SetTextVariable("ALTERNATIVE_TROOP_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -332,7 +332,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=vjk2q3OT}{?PLAYER.GENDER}Madam{?}Sir{\\?}, {TARGET_NOTABLE.LINK}'s nephew murdered one of my kinsman, and it is our right to take vengeance on the murderer. Custom gives us the right of vengeance. Everyone must know that we are willing to avenge our sons, or others will think little of killing them. Does it do us good to be a clan of old men and women, drowning in silver, if all our sons are slain? Please sir, allow us to take vengeance. We promise we won't let this turn into a senseless blood feud.", null);
+					TextObject textObject = new TextObject("{=vjk2q3OT}{?PLAYER.GENDER}Madam{?}Sir{\\?}, {TARGET_NOTABLE.LINK}'s nephew murdered one of my kinsman, [ib:aggressive][if:convo_bared_teeth]and it is our right to take vengeance on the murderer. Custom gives us the right of vengeance. Everyone must know that we are willing to avenge our sons, or others will think little of killing them. Does it do us good to be a clan of old men and women, drowning in silver, if all our sons are slain? Please sir, allow us to take vengeance. We promise we won't let this turn into a senseless blood feud.", null);
 					StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject, false);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
@@ -375,7 +375,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					return new TextObject("{=3oaVUNdr}I hope you won't be regret with your decision, my {?PLAYER.GENDER}lady{?}lord{\\?}.", null);
+					return new TextObject("{=3oaVUNdr}I hope you won't be [if:convo_disbelief]regret with your decision, my {?PLAYER.GENDER}lady{?}lord{\\?}.", null);
 				}
 			}
 
@@ -421,7 +421,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=n9QRnxbC}I have no doubt that {TARGET_NOTABLE.LINK} will have to accept the offer after seeing the boy with that many armed men behind him. Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}, for helping to ending this without more blood.", null);
+					TextObject textObject = new TextObject("{=n9QRnxbC}I have no doubt that {TARGET_NOTABLE.LINK} will have to accept[ib:closed][if:convo_grateful] the offer after seeing the boy with that many armed men behind him. Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}, for helping to ending this without more blood.", null);
 					TextObjectExtensions.SetCharacterProperties(textObject, "TARGET_NOTABLE", this._targetNotable.CharacterObject, false);
 					return textObject;
 				}
@@ -431,7 +431,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=MaGPKGHA}Thank you my {?PLAYER.GENDER}lady{?}lord{\\?}. I am sure your men will protect the boy and {TARGET_NOTABLE.LINK} will have nothing to do but to accept the blood money. I have to add, I'm ready to pay you {REWARD_GOLD}{GOLD_ICON} denars for your trouble.", null);
+					TextObject textObject = new TextObject("{=MaGPKGHA}Thank you my {?PLAYER.GENDER}lady{?}lord{\\?}. [if:convo_pondering]I am sure your men will protect the boy and {TARGET_NOTABLE.LINK} will have nothing to do but to accept the blood money. I have to add, I'm ready to pay you {REWARD_GOLD}{GOLD_ICON} denars for your trouble.", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject, false);
 					textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
@@ -444,7 +444,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=lmVCRD4Q}I hope {QUEST_GIVER.LINK} can work out that trouble with {?QUEST_GIVER.GENDER}her{?}his{\\?} kinsman.", null);
+					TextObject textObject = new TextObject("{=lmVCRD4Q}I hope {QUEST_GIVER.LINK} [if:convo_disbelief]can work out that trouble with {?QUEST_GIVER.GENDER}her{?}his{\\?} kinsman.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.IssueOwner.CharacterObject, textObject, false);
 					return textObject;
 				}
@@ -525,7 +525,7 @@ namespace SandBox.Issues
 				});
 				this.RelationshipChangeWithIssueOwner = -10;
 				ChangeRelationAction.ApplyPlayerRelation(this._targetNotable, 5, true, true);
-				base.IssueOwner.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+				base.IssueOwner.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 				base.IssueOwner.CurrentSettlement.Village.Bound.Town.Security -= 5f;
 			}
 
@@ -587,7 +587,7 @@ namespace SandBox.Issues
 				this.RelationshipChangeWithIssueOwner = -10;
 				ChangeRelationAction.ApplyPlayerRelation(this._targetNotable, 5, true, true);
 				base.IssueOwner.CurrentSettlement.Village.Bound.Town.Security -= 5f;
-				base.IssueOwner.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+				base.IssueOwner.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 			}
 
 			private void ApplySuccessRewards()
@@ -604,6 +604,10 @@ namespace SandBox.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -727,7 +731,7 @@ namespace SandBox.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=fgRq7kF2}You have accepted to talk to {CULPRIT.LINK} in {QUEST_GIVER_SETTLEMENT} first and convince him to go to {TARGET_NOTABLE.LINK} with you in {TARGET_SETTLEMENT} and mediate the issue between them peacefully and end unnecessary bloodshed. {QUEST_GIVER.LINK} said {?QUEST_GIVER.GENDER}she{?}he{\\?} will pay you {REWARD_GOLD} once the boy is safe again.", null);
+					TextObject textObject = new TextObject("{=fgRq7kF2}You agreed to talk to {CULPRIT.LINK} in {QUEST_GIVER_SETTLEMENT} first and convince him to go to {TARGET_NOTABLE.LINK} with you in {TARGET_SETTLEMENT} and mediate the issue between them peacefully and end unnecessary bloodshed. {QUEST_GIVER.LINK} said {?QUEST_GIVER.GENDER}she{?}he{\\?} will pay you {REWARD_GOLD} once the boy is safe again.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject, false);
 					StringHelpers.SetCharacterProperties("CULPRIT", this._culprit.CharacterObject, textObject, false);
@@ -841,7 +845,7 @@ namespace SandBox.Issues
 				this._checkForMissionEvents = false;
 				this._culprit = HeroCreator.CreateSpecialHero(MBObjectManager.Instance.GetObject<CharacterObject>("townsman_" + targetSettlement.Culture.StringId), targetSettlement, null, null, -1);
 				this._culprit.SetNewOccupation(16);
-				ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("short_sword_t3");
+				ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("pugio");
 				this._culprit.CivilianEquipment.AddEquipmentToSlotWithoutAgent(0, new EquipmentElement(@object, null, null, false));
 				this._culprit.BattleEquipment.AddEquipmentToSlotWithoutAgent(0, new EquipmentElement(@object, null, null, false));
 				this._notableGangsterCharacterObject = questGiver.CurrentSettlement.MapFaction.Culture.GangleaderBodyguard;
@@ -870,6 +874,10 @@ namespace SandBox.Issues
 				this.SetDialogs();
 				this.InitializeQuestDialogs();
 				this._notableGangsterCharacterObject = MBObjectManager.Instance.GetObject<CharacterObject>("gangster_1");
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			private DialogFlow GetNotableDialogFlowBeforeTalkingToCulprit()
@@ -917,25 +925,25 @@ namespace SandBox.Issues
 
 			private DialogFlow GetNotableDialogFlowAfterQuestEnd()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=UBFS1JLj}I have no problem with the boy anymore, okay? Just leave me alone.", null), null, null).Condition(() => this.FightEnded && !this._persuationInDoneAndSuccessfull && Hero.OneToOneConversationHero == this._targetNotable && !this._playerBetrayedCulprit)
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=UBFS1JLj}I have no problem with the boy anymore,[ib:closed][if:convo_annoyed] okay? Just leave me alone.", null), null, null).Condition(() => this.FightEnded && !this._persuationInDoneAndSuccessfull && Hero.OneToOneConversationHero == this._targetNotable && !this._playerBetrayedCulprit)
 					.CloseDialog()
-					.NpcLine(new TextObject("{=adbQR9j0}I got my gold, you got your boy. Now leave me alone...", null), null, null)
+					.NpcLine(new TextObject("{=adbQR9j0}I got my gold, you got your boy.[if:convo_bored2] Now leave me alone...", null), null, null)
 					.Condition(() => this.FightEnded && this._persuationInDoneAndSuccessfull && Hero.OneToOneConversationHero == this._targetNotable && !this._playerBetrayedCulprit)
 					.CloseDialog();
 			}
 
 			private DialogFlow GetCulpritDialogFlowAfterQuestEnd()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=OybG76Kf}Thank you for saving me, sir. I won't forget what you did here today.", null), null, null).Condition(() => this.FightEnded && Hero.OneToOneConversationHero == this._culprit)
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=OybG76Kf}Thank you for saving me, sir.[ib:normal][if:convo_astonished] I won't forget what you did here today.", null), null, null).Condition(() => this.FightEnded && Hero.OneToOneConversationHero == this._culprit)
 					.CloseDialog();
 			}
 
 			private DialogFlow GetNotableDialogFlowAfterNotableKnowdown()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=c6GbRQlg}Stop. We don’t need to fight any longer. You have made your point. We will accept the blood money.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsMainAgent(agent)).Condition(new ConversationSentence.OnConditionDelegate(this.multi_character_conversation_condition_after_fight))
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=c6GbRQlg}Stop. We don’t need to fight any longer. [ib:closed][if:convo_insulted]You have made your point. We will accept the blood money.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsMainAgent(agent)).Condition(new ConversationSentence.OnConditionDelegate(this.multi_character_conversation_condition_after_fight))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.multi_character_conversation_consequence_after_fight))
-					.NpcLine(new TextObject("{=pS0bBRjt}You! Go to your family and tell them to send us the blood money.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
-					.NpcLine(new TextObject("{=nxs2U0Yk}Leave now and never come back! If we ever see you here we will kill you.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
+					.NpcLine(new TextObject("{=pS0bBRjt}You! Go to your family and tell [if:convo_angry]them to send us the blood money.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
+					.NpcLine(new TextObject("{=nxs2U0Yk}Leave now and never come back! [if:convo_furious]If we ever see you here we will kill you.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
 					.NpcLine("{=udD7Y7mO}Thank you, my {?PLAYER.GENDER}lady{?}sir{\\?}, for protecting me. I will go and tell {ISSUE_GIVER.LINK} of your success here.", (IAgent agent) => this.IsCulprit(agent), (IAgent agent) => this.IsMainAgent(agent))
 					.Condition(new ConversationSentence.OnConditionDelegate(this.AfterNotableKnowdownEndingCondition))
 					.PlayerLine(new TextObject("{=g8qb3Ame}Thank you.", null), (IAgent agent) => this.IsCulprit(agent))
@@ -962,7 +970,7 @@ namespace SandBox.Issues
 			{
 				foreach (AccompanyingCharacter accompanyingCharacter in PlayerEncounter.LocationEncounter.CharactersAccompanyingPlayer)
 				{
-					if (accompanyingCharacter.LocationCharacter.Character == this._culprit.CharacterObject)
+					if (accompanyingCharacter.LocationCharacter.Character == this._culprit.CharacterObject && this._culpritAgent.IsActive())
 					{
 						accompanyingCharacter.LocationCharacter.SpecialTargetTag = "npc_common";
 						accompanyingCharacter.LocationCharacter.CharacterRelation = 0;
@@ -1015,15 +1023,15 @@ namespace SandBox.Issues
 
 			private DialogFlow GetNotableDialogFlowAfterTalkingToCulprit()
 			{
-				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=nh7a3Nog}Well well. Who did you bring to see us? Did he bring his funeral shroud with him? I hope so. He's not leaving here alive.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent)).Condition(new ConversationSentence.OnConditionDelegate(this.multi_character_conversation_on_condition))
-					.NpcLine(new TextObject("{=RsOmvdmU}We have come to talk! Just listen to us please!", null), (IAgent agent) => this.IsCulprit(agent), (IAgent agent) => this.IsTargetNotable(agent))
-					.NpcLine("{=JUjvu4XL}I knew we'd find you eventually. Now you will face justice!", (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
+				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=nh7a3Nog}Well well. Who did you bring to see us? [ib:confident][if:convo_irritable]Did he bring his funeral shroud with him? I hope so. He's not leaving here alive.", null), (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent)).Condition(new ConversationSentence.OnConditionDelegate(this.multi_character_conversation_on_condition))
+					.NpcLine(new TextObject("{=RsOmvdmU}We have come to talk! Just listen to us please![if:convo_shocked]", null), (IAgent agent) => this.IsCulprit(agent), (IAgent agent) => this.IsTargetNotable(agent))
+					.NpcLine("{=JUjvu4XL}I knew we'd find you eventually. Now you will face justice![if:convo_evil_smile]", (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsCulprit(agent))
 					.PlayerLine("{=UQyCoQCY}Wait! This lad is now under my protection. We have come to talk in peace..", (IAgent agent) => this.IsTargetNotable(agent))
-					.NpcLine("{=7AiP4BwY}What there is to talk about? This bastard murdered one of my kinsman, and it is our right to take vengeance on him!", (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsMainAgent(agent))
+					.NpcLine("{=7AiP4BwY}What there is to talk about? [if:convo_confused_annoyed]This bastard murdered one of my kinsman, and it is our right to take vengeance on him!", (IAgent agent) => this.IsTargetNotable(agent), (IAgent agent) => this.IsMainAgent(agent))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=2iVytG2y}I am not convinced. I will protect the accused until you see reason.", null), null)
-					.NpcLine(new TextObject("{=4HokUcma}You will regret pushing your nose into issues that do not concern you!", null), null, null)
-					.NpcLine(new TextObject("{=vjOkDM6C}If you defend a murderer than you die like a murderer. Boys, kill them all!", null), null, null)
+					.NpcLine(new TextObject("{=4HokUcma}You will regret pushing [if:convo_very_stern]your nose into issues that do not concern you!", null), null, null)
+					.NpcLine(new TextObject("{=vjOkDM6C}If you defend a murderer [ib:warrior][if:convo_furious]then you die like a murderer. Boys, kill them all!", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
@@ -1043,8 +1051,8 @@ namespace SandBox.Issues
 					})
 					.GotoDialogState("start_notable_family_feud_persuasion")
 					.PlayerOption(new TextObject("{=J5cQPqGQ}You are right. You are free to deliver justice as you see fit.", null), null)
-					.NpcLine(new TextObject("{=aRPLW15x}Thank you. I knew you are a reasonable {?PLAYER.GENDER}woman{?}man{\\?}.", null), null, null)
-					.NpcLine(new TextObject("{=k5R4qGtL}What? Are you just going to leave me here to be killed? My kin will never forget this!", null), new ConversationSentence.OnMultipleConversationConsequenceDelegate(this.IsCulprit), new ConversationSentence.OnMultipleConversationConsequenceDelegate(this.IsMainAgent))
+					.NpcLine(new TextObject("{=aRPLW15x}Thank you. I knew you are a reasonable[ib:aggressive][if:convo_evil_smile] {?PLAYER.GENDER}woman{?}man{\\?}.", null), null, null)
+					.NpcLine(new TextObject("{=k5R4qGtL}What? Are you just going [ib:nervous][if:convo_nervous2]to leave me here to be killed? My kin will never forget this!", null), new ConversationSentence.OnMultipleConversationConsequenceDelegate(this.IsCulprit), new ConversationSentence.OnMultipleConversationConsequenceDelegate(this.IsMainAgent))
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
@@ -1109,9 +1117,9 @@ namespace SandBox.Issues
 			{
 				dialog.AddDialogLine("family_feud_notable_persuasion_check_accepted", "start_notable_family_feud_persuasion", "family_feud_notable_persuasion_start_reservation", "{=6P1ruzsC}Maybe...", null, new ConversationSentence.OnConsequenceDelegate(this.persuasion_start_with_notable_on_consequence), this, 100, null, null, null);
 				dialog.AddDialogLine("family_feud_notable_persuasion_failed", "family_feud_notable_persuasion_start_reservation", "persuation_failed", "{=!}{FAILED_PERSUASION_LINE}", new ConversationSentence.OnConditionDelegate(this.persuasion_failed_with_family_feud_notable_on_condition), new ConversationSentence.OnConsequenceDelegate(this.persuasion_failed_with_notable_on_consequence), this, 100, null, null, null);
-				dialog.AddDialogLine("family_feud_notable_persuasion_rejected", "persuation_failed", "close_window", "{=vjOkDM6C}If you defend a murderer than you die like a murderer. Boys, kill them all!", null, new ConversationSentence.OnConsequenceDelegate(this.persuasion_failed_with_notable_start_fight_on_consequence), this, 100, null, null, null);
+				dialog.AddDialogLine("family_feud_notable_persuasion_rejected", "persuation_failed", "close_window", "{=vjOkDM6C}If you defend a murderer [ib:warrior][if:convo_furious]then you die like a murderer. Boys, kill them all!", null, new ConversationSentence.OnConsequenceDelegate(this.persuasion_failed_with_notable_start_fight_on_consequence), this, 100, null, null, null);
 				dialog.AddDialogLine("family_feud_notable_persuasion_attempt", "family_feud_notable_persuasion_start_reservation", "family_feud_notable_persuasion_select_option", "{CONTINUE_PERSUASION_LINE}", () => !this.persuasion_failed_with_family_feud_notable_on_condition(), null, this, 100, null, null, null);
-				dialog.AddDialogLine("family_feud_notable_persuasion_success", "family_feud_notable_persuasion_start_reservation", "close_window", "{=qIQbIjVS}All right! I spare the boy's life. Now get out of my sight", new ConversationSentence.OnConditionDelegate(ConversationManager.GetPersuasionProgressSatisfied), new ConversationSentence.OnConsequenceDelegate(this.persuasion_complete_with_notable_on_consequence), this, int.MaxValue, null, null, null);
+				dialog.AddDialogLine("family_feud_notable_persuasion_success", "family_feud_notable_persuasion_start_reservation", "close_window", "{=qIQbIjVS}All right! I spare the boy's life. Now get out of my sight[ib:closed][if:convo_nonchalant]", new ConversationSentence.OnConditionDelegate(ConversationManager.GetPersuasionProgressSatisfied), new ConversationSentence.OnConsequenceDelegate(this.persuasion_complete_with_notable_on_consequence), this, int.MaxValue, null, null, null);
 				string text = "family_feud_notable_persuasion_select_option_1";
 				string text2 = "family_feud_notable_persuasion_select_option";
 				string text3 = "family_feud_notable_persuasion_selected_option_response";
@@ -1164,10 +1172,10 @@ namespace SandBox.Issues
 
 			private bool persuasion_failed_with_family_feud_notable_on_condition()
 			{
-				MBTextManager.SetTextVariable("CONTINUE_PERSUASION_LINE", "{=7B7BhVhV}Let's see what you will come up with...", false);
+				MBTextManager.SetTextVariable("CONTINUE_PERSUASION_LINE", "{=7B7BhVhV}Let's see what you will come up with...[if:convo_confused_annoyed]", false);
 				if (this._task.Options.Any((PersuasionOptionArgs x) => x.IsBlocked))
 				{
-					MBTextManager.SetTextVariable("CONTINUE_PERSUASION_LINE", "{=wvbiyZfp}What else do you have to say?", false);
+					MBTextManager.SetTextVariable("CONTINUE_PERSUASION_LINE", "{=wvbiyZfp}What else do you have to say?[if:convo_confused_annoyed]", false);
 				}
 				if (this._task.Options.All((PersuasionOptionArgs x) => x.IsBlocked) && !ConversationManager.GetPersuasionProgressSatisfied())
 				{
@@ -1399,7 +1407,7 @@ namespace SandBox.Issues
 						blow.BaseMagnitude = (float)damage;
 						blow.InflictedDamage = damage;
 						blow.DamagedPercentage = 1f;
-						blow.OwnerId = affectorAgent.Index;
+						blow.OwnerId = ((affectorAgent != null) ? affectorAgent.Index : (-1));
 						Blow blow2 = blow;
 						affectedAgent.Die(blow2, -1);
 						this._isCulpritDiedInMissionFight = true;
@@ -1409,7 +1417,7 @@ namespace SandBox.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=JjXETjYb}We would be eternally grateful if you can help my relative. I have to add, I'm ready to pay you {REWARD_GOLD}{GOLD_ICON} denars for your trouble. He is hiding somewhere here, go talk to him and tell him he is safe now.", null), null, null).Condition(delegate
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=JjXETjYb}Thank you.[ib:demure][if:convo_thinking] I have to add, I'm ready to pay you {REWARD_GOLD}{GOLD_ICON} denars for your trouble. He is hiding somewhere nearby. Go talk to him, and tell him that you're here to sort things out.", null), null, null).Condition(delegate
 				{
 					MBTextManager.SetTextVariable("REWARD_GOLD", this._rewardGold);
 					MBTextManager.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">", false);
@@ -1417,7 +1425,7 @@ namespace SandBox.Issues
 				})
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=ndDpjT8s}Have you been able to talk with my boy yet?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=ndDpjT8s}Have you been able to talk with my boy yet?[if:convo_innocent_smile]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=ETiAbgHa}I will talk with them right away", null), null)
 					.NpcLine(new TextObject("{=qmqTLZ9R}Thank you {?PLAYER.GENDER}madam{?}sir{\\?}. You are a savior.", null), null, null)
@@ -1442,23 +1450,23 @@ namespace SandBox.Issues
 
 			private DialogFlow GetCulpritDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=w0HPC53e}Who are you? What do you want from me?", null), null, null).Condition(() => !this._culpritJoinedPlayerParty && Hero.OneToOneConversationHero == this._culprit)
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=w0HPC53e}Who are you? What do you want from me?[ib:nervous][if:convo_bared_teeth]", null), null, null).Condition(() => !this._culpritJoinedPlayerParty && Hero.OneToOneConversationHero == this._culprit)
 					.PlayerLine(new TextObject("{=UGTCe2qP}Relax. I've talked with your relative, {QUEST_GIVER.NAME}. I know all about your situation. I'm here to help.", null), null)
 					.Condition(delegate
 					{
 						StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, null, false);
 						return Hero.OneToOneConversationHero == this._culprit;
 					})
-					.NpcLine(new TextObject("{=45llLiYG}How will you help? Will you protect me?", null), null, null)
+					.NpcLine(new TextObject("{=45llLiYG}How will you help? Will you protect me?[ib:normal][if:convo_astonished]", null), null, null)
 					.PlayerLine(new TextObject("{=4mwSvCgG}Yes I will. Come now, I will take you with me to {TARGET_NOTABLE.NAME} to resolve this issue peacefully.", null), null)
 					.Condition(delegate
 					{
 						StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, null, false);
 						return Hero.OneToOneConversationHero == this._culprit;
 					})
-					.NpcLine(new TextObject("{=bHRZhYzd}No! I won't go anywhere near them! They'll kill me![ib:closed]", null), null, null)
+					.NpcLine(new TextObject("{=bHRZhYzd}No! I won't go anywhere near them! They'll kill me![ib:closed2][if:convo_stern]", null), null, null)
 					.PlayerLine(new TextObject("{=sakSp6H8}You can't hide in the shadows forever. I pledge on my honor to protect you if things turn ugly.", null), null)
-					.NpcLine(new TextObject("{=4CFOH0kB}I'm still not sure about all this, but I trust you. Let's go get this over.", null), null, null)
+					.NpcLine(new TextObject("{=4CFOH0kB}I'm still not sure about all this, but I suppose you're right that I don't have much choice. Let's go get this over.[ib:closed][if:convo_pondering]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.CulpritJoinedPlayersArmy;
@@ -1468,7 +1476,7 @@ namespace SandBox.Issues
 
 			private DialogFlow GetNotableThugDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=QMaYa25R}If you dare to even breathe against {TARGET_NOTABLE.LINK}, it will be your last. You got it scum?", null);
+				TextObject textObject = new TextObject("{=QMaYa25R}If you dare to even breathe a word against {TARGET_NOTABLE.LINK},[ib:aggressive2][if:convo_furious] it will be your last. You got it scum?", null);
 				StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject, false);
 				TextObject textObject2 = new TextObject("{=vGnY4KBO}I care very little for your threats. My business is with {TARGET_NOTABLE.LINK}.", null);
 				StringHelpers.SetCharacterProperties("TARGET_NOTABLE", this._targetNotable.CharacterObject, textObject2, false);
@@ -1639,7 +1647,7 @@ namespace SandBox.Issues
 					}
 					FamilyFeudIssueBehavior.FamilyFeudIssueMissionBehavior familyFeudIssueMissionBehavior = new FamilyFeudIssueBehavior.FamilyFeudIssueMissionBehavior(new Action<Agent, Agent, int>(this.OnAgentHit));
 					Mission.Current.AddMissionBehavior(familyFeudIssueMissionBehavior);
-					Mission.Current.GetMissionBehavior<MissionConversationLogic>().SetSpawnArea("common_area_2");
+					Mission.Current.GetMissionBehavior<MissionConversationLogic>().SetSpawnArea("alley_2");
 				}
 			}
 
@@ -1653,16 +1661,10 @@ namespace SandBox.Issues
 					{
 						base.AddLog(this.PlayerDiedInNotableBattle, false);
 						this.RelationshipChangeWithQuestGiver = -10;
-						base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+						base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 						base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security -= 5f;
 						this._isPlayerKnockedOutMissionFight = true;
 						base.CompleteQuestWithFail(null);
-						return;
-					}
-					if (this._isNotableKnockedDownInMissionFight)
-					{
-						base.AddLog(this.SuccessQuestSolutionLogText, false);
-						this.ApplySuccessConsequences();
 						return;
 					}
 					if (this._isCulpritDiedInMissionFight)
@@ -1681,12 +1683,18 @@ namespace SandBox.Issues
 							base.AddLog(this.CulpritDiedQuestFail, false);
 						}
 						this.RelationshipChangeWithQuestGiver = -10;
-						base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+						base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 						base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security -= 5f;
 						base.CompleteQuestWithFail(null);
 						return;
 					}
 					if (this._persuationInDoneAndSuccessfull)
+					{
+						base.AddLog(this.SuccessQuestSolutionLogText, false);
+						this.ApplySuccessConsequences();
+						return;
+					}
+					if (this._isNotableKnockedDownInMissionFight)
 					{
 						base.AddLog(this.SuccessQuestSolutionLogText, false);
 						this.ApplySuccessConsequences();
@@ -1724,7 +1732,7 @@ namespace SandBox.Issues
 					Location locationWithId = Settlement.CurrentSettlement.LocationComplex.GetLocationWithId("village_center");
 					if (locationWithId != null)
 					{
-						locationWithId.GetLocationCharacter(this._targetNotable).SpecialTargetTag = "common_area_2";
+						locationWithId.GetLocationCharacter(this._targetNotable).SpecialTargetTag = "alley_2";
 						if (this._notableThugs == null)
 						{
 							this._notableThugs = new List<LocationCharacter>();
@@ -1742,14 +1750,14 @@ namespace SandBox.Issues
 			{
 				Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(this._culprit.CharacterObject.Race, "_settlement");
 				Tuple<string, Monster> tuple = new Tuple<string, Monster>(ActionSetCode.GenerateActionSetNameWithSuffix(monsterWithSuffix, this._culprit.CharacterObject.IsFemale, "_villager"), monsterWithSuffix);
-				return new LocationCharacter(new AgentData(new SimpleAgentOrigin(this._culprit.CharacterObject, -1, null, default(UniqueTroopDescriptor))).Monster(tuple.Item2), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddFirstCompanionBehavior), "common_area_2", true, relation, tuple.Item1, true, false, null, false, false, true);
+				return new LocationCharacter(new AgentData(new SimpleAgentOrigin(this._culprit.CharacterObject, -1, null, default(UniqueTroopDescriptor))).Monster(tuple.Item2), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddFirstCompanionBehavior), "alley_2", true, relation, tuple.Item1, true, false, null, false, false, true);
 			}
 
 			private LocationCharacter CreateNotablesThugs(CultureObject culture, LocationCharacter.CharacterRelations relation)
 			{
 				Monster monsterWithSuffix = FaceGen.GetMonsterWithSuffix(this._notableGangsterCharacterObject.Race, "_settlement");
 				Tuple<string, Monster> tuple = new Tuple<string, Monster>(ActionSetCode.GenerateActionSetNameWithSuffix(monsterWithSuffix, this._notableGangsterCharacterObject.IsFemale, "_villain"), monsterWithSuffix);
-				LocationCharacter locationCharacter = new LocationCharacter(new AgentData(new SimpleAgentOrigin(this._notableGangsterCharacterObject, -1, null, default(UniqueTroopDescriptor))).Monster(tuple.Item2), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddFixedCharacterBehaviors), "common_area_2", true, relation, tuple.Item1, true, false, null, false, false, true);
+				LocationCharacter locationCharacter = new LocationCharacter(new AgentData(new SimpleAgentOrigin(this._notableGangsterCharacterObject, -1, null, default(UniqueTroopDescriptor))).Monster(tuple.Item2), new LocationCharacter.AddBehaviorsDelegate(SandBoxManager.Instance.AgentBehaviorManager.AddFixedCharacterBehaviors), "alley_2", true, relation, tuple.Item1, true, false, null, false, false, true);
 				this._notableThugs.Add(locationCharacter);
 				return locationCharacter;
 			}
@@ -1796,7 +1804,7 @@ namespace SandBox.Issues
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -50)
 				});
 				this.RelationshipChangeWithQuestGiver = -10;
-				base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 5f;
+				base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 5f;
 				base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security -= 5f;
 			}
 
@@ -1847,7 +1855,7 @@ namespace SandBox.Issues
 
 			private const int CustomTargetNotableAgentHealth = 350;
 
-			public const string CommonAreaTag = "common_area_2";
+			public const string CommonAreaTag = "alley_2";
 
 			[SaveableField(10)]
 			private readonly Settlement _targetSettlement;

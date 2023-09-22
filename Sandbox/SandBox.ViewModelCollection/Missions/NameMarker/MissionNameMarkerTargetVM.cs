@@ -101,7 +101,7 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 				{
 					this.IconType = "prisoner";
 				}
-				if (agent.IsHuman && characterObject.IsHero && agent != Agent.Main && !this.IsAdditionalTargetAgent)
+				if (agent.IsHuman && agent != Agent.Main && !this.IsAdditionalTargetAgent)
 				{
 					this.UpdateQuestStatus();
 				}
@@ -193,7 +193,7 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
-			CampaignEvents.AlleyOccupiedByPlayer.ClearListeners(this);
+			CampaignEvents.AlleyOwnerChanged.ClearListeners(this);
 		}
 
 		private void OnAlleyOwnerChanged(Alley alley, Hero newOwner, Hero oldOwner)
@@ -258,43 +258,67 @@ namespace SandBox.ViewModelCollection.Missions.NameMarker
 		{
 			this.Quests.Clear();
 			SandBoxUIHelper.IssueQuestFlags issueQuestFlags = SandBoxUIHelper.IssueQuestFlags.None;
-			if (this.TargetAgent != null && (CharacterObject)this.TargetAgent.Character != null && ((CharacterObject)this.TargetAgent.Character).HeroObject != null)
+			Agent targetAgent = this.TargetAgent;
+			CharacterObject characterObject = (CharacterObject)((targetAgent != null) ? targetAgent.Character : null);
+			Hero hero = ((characterObject != null) ? characterObject.HeroObject : null);
+			if (hero != null)
 			{
-				List<ValueTuple<SandBoxUIHelper.IssueQuestFlags, TextObject, TextObject>> questStateOfHero = SandBoxUIHelper.GetQuestStateOfHero(((CharacterObject)this.TargetAgent.Character).HeroObject);
+				List<ValueTuple<SandBoxUIHelper.IssueQuestFlags, TextObject, TextObject>> questStateOfHero = SandBoxUIHelper.GetQuestStateOfHero(hero);
 				for (int i = 0; i < questStateOfHero.Count; i++)
 				{
 					issueQuestFlags |= questStateOfHero[i].Item1;
 				}
 			}
-			Agent targetAgent = this.TargetAgent;
-			if (targetAgent != null && !targetAgent.IsHero)
+			if (this.TargetAgent != null)
 			{
-				Settlement currentSettlement = Settlement.CurrentSettlement;
-				bool flag;
-				if (currentSettlement == null)
+				CharacterObject characterObject2 = this.TargetAgent.Character as CharacterObject;
+				Hero hero2;
+				if (characterObject2 == null)
 				{
-					flag = false;
+					hero2 = null;
 				}
 				else
 				{
-					LocationComplex locationComplex = currentSettlement.LocationComplex;
-					bool? flag2;
-					if (locationComplex == null)
+					Hero heroObject = characterObject2.HeroObject;
+					if (heroObject == null)
 					{
-						flag2 = null;
+						hero2 = null;
 					}
 					else
 					{
-						LocationCharacter locationCharacter = locationComplex.FindCharacter(this.TargetAgent);
-						flag2 = ((locationCharacter != null) ? new bool?(locationCharacter.IsVisualTracked) : null);
+						Clan clan = heroObject.Clan;
+						hero2 = ((clan != null) ? clan.Leader : null);
 					}
-					bool? flag3 = flag2;
-					bool flag4 = true;
-					flag = (flag3.GetValueOrDefault() == flag4) & (flag3 != null);
 				}
-				if (flag)
+				if (hero2 != Hero.MainHero)
 				{
-					issueQuestFlags |= SandBoxUIHelper.IssueQuestFlags.TrackedIssue;
+					Settlement currentSettlement = Settlement.CurrentSettlement;
+					bool flag;
+					if (currentSettlement == null)
+					{
+						flag = false;
+					}
+					else
+					{
+						LocationComplex locationComplex = currentSettlement.LocationComplex;
+						bool? flag2;
+						if (locationComplex == null)
+						{
+							flag2 = null;
+						}
+						else
+						{
+							LocationCharacter locationCharacter = locationComplex.FindCharacter(this.TargetAgent);
+							flag2 = ((locationCharacter != null) ? new bool?(locationCharacter.IsVisualTracked) : null);
+						}
+						bool? flag3 = flag2;
+						bool flag4 = true;
+						flag = (flag3.GetValueOrDefault() == flag4) & (flag3 != null);
+					}
+					if (flag)
+					{
+						issueQuestFlags |= SandBoxUIHelper.IssueQuestFlags.TrackedIssue;
+					}
 				}
 			}
 			foreach (SandBoxUIHelper.IssueQuestFlags issueQuestFlags2 in SandBoxUIHelper.IssueQuestFlagsValues)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Encounters;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
@@ -238,6 +239,26 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
+		private void UpdateSimulationResult(bool playerVictory)
+		{
+			if (!base.IsSimulation)
+			{
+				this.SimulationResult = "NotSimulation";
+				return;
+			}
+			if (!playerVictory)
+			{
+				this.SimulationResult = "SimulationDefeat";
+				return;
+			}
+			if (PlayerEncounter.Battle.PartiesOnSide(this.PlayerSide).Sum((MapEventParty x) => x.Party.NumberOfHealthyMembers) < 70)
+			{
+				this.SimulationResult = "SimulationVictorySmall";
+				return;
+			}
+			this.SimulationResult = "SimulationVictoryLarge";
+		}
+
 		public void OnBattleOver()
 		{
 			ScoreboardBaseVM.BattleResultType battleResultType = -1;
@@ -258,6 +279,7 @@ namespace SandBox.ViewModelCollection
 				}
 				bool flag = PlayerEncounter.WinningSide == this.PlayerSide;
 				this.GetBattleRewards(flag);
+				this.UpdateSimulationResult(flag);
 			}
 			else
 			{
@@ -380,7 +402,9 @@ namespace SandBox.ViewModelCollection
 		public void TroopSideChanged(BattleSideEnum prevSide, BattleSideEnum newSide, IBattleCombatant battleCombatant, BasicCharacterObject character)
 		{
 			SPScoreboardStatsVM spscoreboardStatsVM = base.GetSide(prevSide).RemoveTroop(battleCombatant, character);
-			base.GetSide(newSide).GetPartyAddIfNotExists(battleCombatant, false);
+			SPScoreboardSideVM side = base.GetSide(newSide);
+			PartyBase partyBase = battleCombatant as PartyBase;
+			side.GetPartyAddIfNotExists(battleCombatant, ((partyBase != null) ? partyBase.Owner : null) == Hero.MainHero);
 			base.GetSide(newSide).AddTroop(battleCombatant, character, spscoreboardStatsVM);
 		}
 
@@ -401,6 +425,23 @@ namespace SandBox.ViewModelCollection
 			}
 		}
 
+		[DataSourceProperty]
+		public string SimulationResult
+		{
+			get
+			{
+				return this._simulationResult;
+			}
+			set
+			{
+				if (value != this._simulationResult)
+				{
+					this._simulationResult = value;
+					base.OnPropertyChangedWithValue<string>(value, "SimulationResult");
+				}
+			}
+		}
+
 		private readonly BattleSimulation _battleSimulation;
 
 		private static readonly TextObject _renownStr = new TextObject("{=eiWQoW9j}You gained {A0} renown.", null);
@@ -416,5 +457,7 @@ namespace SandBox.ViewModelCollection
 		private float _missionEndScoreboardDelayTimer;
 
 		private MBBindingList<BattleResultVM> _battleResults;
+
+		private string _simulationResult;
 	}
 }

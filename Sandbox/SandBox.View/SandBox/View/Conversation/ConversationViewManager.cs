@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Conversation;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Screens;
 
 namespace SandBox.View.Conversation
@@ -38,10 +39,9 @@ namespace SandBox.View.Conversation
 
 		private void FillEventHandlersWith(Assembly assembly)
 		{
-			Type[] types = assembly.GetTypes();
-			for (int i = 0; i < types.Length; i++)
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
-				foreach (MethodInfo methodInfo in types[i].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+				foreach (MethodInfo methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 				{
 					object[] customAttributes = methodInfo.GetCustomAttributes(typeof(ConversationViewEventHandler), false);
 					if (customAttributes != null && customAttributes.Length != 0)

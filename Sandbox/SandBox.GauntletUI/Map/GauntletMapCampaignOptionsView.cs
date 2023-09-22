@@ -38,6 +38,7 @@ namespace SandBox.GauntletUI.Map
 			base.OnFrameTick(dt);
 			if (base.Layer.Input.IsHotKeyReleased("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.ExecuteDone();
 			}
 		}

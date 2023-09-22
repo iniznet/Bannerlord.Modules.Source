@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{FE195B9E-CA19-44AB-B31A-DE533EF3A54A}</ProjectGuid>
+    <ProjectGuid>{11F39AAF-7001-4559-A060-FCDBE05E6ED1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox.View</RootNamespace>
     <AssemblyName>SandBox.View</AssemblyName>
@@ -70,17 +70,17 @@
     <Compile Include="SandBox\View\IChangeableScreen.cs" />
     <Compile Include="SandBox\View\MainHeroSaveVisualSupplier.cs" />
     <Compile Include="SandBox\View\Map\BattleSimulationMapView.cs" />
-    <Compile Include="SandBox\View\Map\CampaignCompass.cs" />
     <Compile Include="SandBox\View\Map\CampaignEntityVisualComponent.cs" />
     <Compile Include="SandBox\View\Map\DefaultMapConversationDataProvider.cs" />
-    <Compile Include="SandBox\View\Map\EventSystemMapTestEvent.cs" />
     <Compile Include="SandBox\View\Map\IMapConversationDataProvider.cs" />
     <Compile Include="SandBox\View\Map\MainMapCameraMoveEvent.cs" />
+    <Compile Include="SandBox\View\Map\MapAudioManager.cs" />
     <Compile Include="SandBox\View\Map\MapBarView.cs" />
     <Compile Include="SandBox\View\Map\MapBasicView.cs" />
     <Compile Include="SandBox\View\Map\MapCameraView.cs" />
     <Compile Include="SandBox\View\Map\MapCampaignOptionsView.cs" />
     <Compile Include="SandBox\View\Map\MapCheatsView.cs" />
+    <Compile Include="SandBox\View\Map\MapConversationMission.cs" />
     <Compile Include="SandBox\View\Map\MapConversationTableau.cs" />
     <Compile Include="SandBox\View\Map\MapConversationTableauData.cs" />
     <Compile Include="SandBox\View\Map\MapConversationView.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="SandBox\View\Map\MapEncyclopediaView.cs" />
     <Compile Include="SandBox\View\Map\MapEscapeMenuView.cs" />
     <Compile Include="SandBox\View\Map\MapEventVisualsView.cs" />
+    <Compile Include="SandBox\View\Map\MapGamepadEffectsView.cs" />
     <Compile Include="SandBox\View\Map\MapMobilePartyTrackerView.cs" />
     <Compile Include="SandBox\View\Map\MapNavigationHandler.cs" />
     <Compile Include="SandBox\View\Map\MapNotificationView.cs" />
@@ -100,7 +101,11 @@
     <Compile Include="SandBox\View\Map\MapSiegeOverlayView.cs" />
     <Compile Include="SandBox\View\Map\MapTracksVisual.cs" />
     <Compile Include="SandBox\View\Map\MapView.cs" />
+    <Compile Include="SandBox\View\Map\MapWeatherVisual.cs" />
+    <Compile Include="SandBox\View\Map\MapWeatherVisualManager.cs" />
+    <Compile Include="SandBox\View\Map\MarriageOfferPopupView.cs" />
     <Compile Include="SandBox\View\Map\PartyVisual.cs" />
+    <Compile Include="SandBox\View\Map\PartyVisualManager.cs" />
     <Compile Include="SandBox\View\Menu\MenuBackgroundView.cs" />
     <Compile Include="SandBox\View\Menu\MenuBaseView.cs" />
     <Compile Include="SandBox\View\Menu\MenuOverlayBaseView.cs" />
@@ -133,18 +138,13 @@
     <Compile Include="SandBox\View\Missions\SandBox\SpawnPointDebugView.cs" />
     <Compile Include="SandBox\View\Missions\SandBox\SpawnPointUnits.cs" />
     <Compile Include="SandBox\View\Missions\Sound\Components\MusicArenaPracticeMissionView.cs" />
-    <Compile Include="SandBox\View\Missions\Sound\Components\MusicCampaignComponent.cs" />
-    <Compile Include="SandBox\View\Missions\Sound\Components\MusicMissionAlleyFightComponent.cs" />
-    <Compile Include="SandBox\View\Missions\Sound\Components\MusicMissionSettlementComponent.cs" />
-    <Compile Include="SandBox\View\Missions\Sound\Components\MusicMissionTavernComponent.cs" />
-    <Compile Include="SandBox\View\Missions\Sound\Components\MusicMissionTournamentComponent.cs" />
     <Compile Include="SandBox\View\Missions\Sound\Components\MusicTournamentMissionView.cs" />
     <Compile Include="SandBox\View\Missions\Tournaments\ArenaPreloadView.cs" />
     <Compile Include="SandBox\View\Missions\Tournaments\MissionTournamentJoustingView.cs" />
     <Compile Include="SandBox\View\Missions\Tournaments\MissionTournamentView.cs" />
     <Compile Include="SandBox\View\Missions\Tournaments\TournamentMissionViews.cs" />
-    <Compile Include="SandBox\View\PartyVisualCreator.cs" />
     <Compile Include="SandBox\View\SandboxView.cs" />
+    <Compile Include="SandBox\View\SandBoxViewCheats.cs" />
     <Compile Include="SandBox\View\SandBoxViewCreator.cs" />
     <Compile Include="SandBox\View\SandBoxViewSubModule.cs" />
     <Compile Include="SandBox\View\SaveLoadScreen.cs" />
@@ -152,11 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SandBox.ViewModelCollection\SandBox.ViewModelCollection.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a54b}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ed2}</Project>
       <Name>SandBox.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\SandBox\SandBox.csproj">
-      <Project>{fe195b9e-ca19-44ab-b31a-de533ef3a548}</Project>
+      <Project>{11f39aaf-7001-4559-a060-fcdbe05e6ecf}</Project>
       <Name>SandBox</Name>
     </ProjectReference>
   </ItemGroup>

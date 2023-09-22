@@ -51,6 +51,7 @@ namespace SandBox.GauntletUI.Menu
 			base.OnFrameTick(dt);
 			if (base.Layer.Input.IsHotKeyReleased("Exit") || base.Layer.Input.IsHotKeyReleased("Confirm"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/default");
 				this._dataSource.IsEnabled = false;
 			}
 			if (!this._dataSource.IsEnabled)

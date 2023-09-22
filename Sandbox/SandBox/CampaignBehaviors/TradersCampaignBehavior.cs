@@ -6,7 +6,6 @@ using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace SandBox.CampaignBehaviors
@@ -65,7 +64,6 @@ namespace SandBox.CampaignBehaviors
 
 		private void conversation_weaponsmith_talk_player_on_consequence()
 		{
-			Debug.Print("conversation_weaponsmith_talk_player_on_consequence", 0, 8, 17592186044416UL);
 			InventoryManager.InventoryCategoryType inventoryCategoryType = -1;
 			Occupation occupation = CharacterObject.OneToOneConversationCharacter.Occupation;
 			if (occupation != 4)
