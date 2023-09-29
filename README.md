@@ -11,8 +11,7 @@ Please keep in mind that the provided source code is primarily intended for refe
 
 ## Contributing
 
-We openly welcome contributions to this repository, especially when a new game updates are released. Please adhere to the following guidelines when contributing:
-- Ensure that your contributions exclusively encompass source code and refrain from including any game assets, as they fall outside the scope of this repository. 
+We openly welcome contributions to this repository, especially when a new game updates are released. But please, hold off on tossing in any game assets other than the source code – it's not what we're about here.
 
 ## License
 
