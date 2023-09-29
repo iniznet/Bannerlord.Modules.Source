@@ -1,8 +1,6 @@
 # Bannerlord Modules Source
 
-This repository serves as a dedicated resource for tracking the source code of various built-in modules within Mount & Blade II: Bannerlord.
-
-Please keep in mind that the provided source code is primarily intended for reference purposes and is not designed to function as a complete module or a precise representation of the game's source code.
+Welcome to the Bannerlord Modules Source repository! Here, we keep tabs on the source code for various official modules within Mount & Blade II: Bannerlord. Our main aim is to provide modders with a useful reference especially compatibility issue. Just remember, this source code isn't meant to be a fully working module or an exact mirror of the game's source code.
 
 ## Tools
 
