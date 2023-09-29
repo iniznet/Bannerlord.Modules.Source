@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.Library;
 using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.Siege
@@ -23,9 +24,17 @@ namespace TaleWorlds.CampaignSystem.Siege
 			return ((SiegeEventManager)o)._siegeEvents;
 		}
 
+		public MBReadOnlyList<SiegeEvent> SiegeEvents
+		{
+			get
+			{
+				return this._siegeEvents;
+			}
+		}
+
 		public SiegeEventManager()
 		{
-			this._siegeEvents = new List<SiegeEvent>();
+			this._siegeEvents = new MBList<SiegeEvent>();
 		}
 
 		public SiegeEvent StartSiegeEvent(Settlement settlement, MobileParty besiegerParty)
@@ -54,6 +63,6 @@ namespace TaleWorlds.CampaignSystem.Siege
 		}
 
 		[SaveableField(1)]
-		private List<SiegeEvent> _siegeEvents;
+		private MBList<SiegeEvent> _siegeEvents;
 	}
 }

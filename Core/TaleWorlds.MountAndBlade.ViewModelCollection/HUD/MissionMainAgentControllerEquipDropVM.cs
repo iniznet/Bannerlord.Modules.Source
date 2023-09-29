@@ -190,6 +190,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 				{
 					return HotKeyManager.GetCategory("CombatHotKeyCategory").GetHotKey("ControllerEquipDropWeapon1");
 				}
+				Debug.FailedAssert("Wrong number of total weapons!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\HUD\\MissionMainAgentControllerEquipDropVM.cs", "GetWeaponHotKey", 182);
 			}
 			else if (currentIndexOfWeapon == 1)
 			{
@@ -212,6 +213,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 				{
 					return HotKeyManager.GetCategory("CombatHotKeyCategory").GetHotKey("ControllerEquipDropWeapon2");
 				}
+				Debug.FailedAssert("Wrong index of current weapon. Cannot be higher than 3", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\HUD\\MissionMainAgentControllerEquipDropVM.cs", "GetWeaponHotKey", 206);
 			}
 			return null;
 		}

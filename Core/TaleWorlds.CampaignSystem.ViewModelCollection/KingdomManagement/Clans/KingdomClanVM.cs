@@ -29,7 +29,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			this.CanExpelCurrentClan = this.GetCanExpelCurrentClanWithReason(this._isThereAPendingDecisionToExpelThisClan, this.ExpelCost, out textObject2);
 			this.ExpelHint.HintText = textObject2;
 			this.ClanSortController = new KingdomClanSortControllerVM(ref this._clans);
-			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
+			CampaignEvents.OnClanChangedKingdomEvent.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			this.RefreshValues();
 		}
 
@@ -227,7 +227,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
-			CampaignEvents.ClanChangedKingdom.ClearListeners(this);
+			CampaignEvents.OnClanChangedKingdomEvent.ClearListeners(this);
 		}
 
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification)

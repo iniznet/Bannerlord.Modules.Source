@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Newtonsoft.Json;
 using TaleWorlds.Library;
 
@@ -226,7 +227,15 @@ namespace TaleWorlds.PlayerServices
 
 		public override string ToString()
 		{
-			return string.Concat(new object[] { this.Part1, ".", this.Part2, ".", this.Part3, ".", this.Part4 });
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.Append(this.Part1);
+			stringBuilder.Append('.');
+			stringBuilder.Append(this.Part2);
+			stringBuilder.Append('.');
+			stringBuilder.Append(this.Part3);
+			stringBuilder.Append('.');
+			stringBuilder.Append(this.Part4);
+			return stringBuilder.ToString();
 		}
 
 		public static bool operator ==(PlayerId a, PlayerId b)

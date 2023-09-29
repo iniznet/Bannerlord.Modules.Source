@@ -1052,7 +1052,7 @@ namespace TaleWorlds.CampaignSystem.Settlements
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				this._oldProsperityObsolete = (float)objectLoadData.GetMemberValueBySaveId(118);
 			}

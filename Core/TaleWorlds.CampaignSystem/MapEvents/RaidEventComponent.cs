@@ -100,6 +100,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			MapEvent mapEvent = new MapEvent();
 			RaidEventComponent raidEventComponent = new RaidEventComponent(mapEvent);
 			mapEvent.Initialize(attackerParty, defenderParty, raidEventComponent, MapEvent.BattleTypes.Raid);
+			Settlement settlement = defenderParty.Settlement;
+			if (((settlement != null) ? settlement.MilitiaPartyComponent : null) != null)
+			{
+				defenderParty.Settlement.MilitiaPartyComponent.MobileParty.MapEventSide = mapEvent.DefenderSide;
+			}
 			Campaign.Current.MapEventManager.OnMapEventCreated(mapEvent);
 			return raidEventComponent;
 		}

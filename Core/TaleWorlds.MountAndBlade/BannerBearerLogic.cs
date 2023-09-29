@@ -13,6 +13,8 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public event Action<Formation> OnBannerBearersUpdated;
 
+		public event Action<Agent, bool> OnBannerBearerAgentUpdated;
+
 		public BannerBearerLogic()
 		{
 			this._bannerSearcherUpdateTimer = new BasicMissionTimer();
@@ -244,6 +246,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 			agent.UpdateCachedAndFormationValues(false, false);
 			agent.SetIsAIPaused(true);
+			Action<Agent, bool> onBannerBearerAgentUpdated = this.OnBannerBearerAgentUpdated;
+			if (onBannerBearerAgentUpdated == null)
+			{
+				return;
+			}
+			onBannerBearerAgentUpdated(agent, willBecomeBannerBearer);
 		}
 
 		public Agent SpawnBannerBearer(IAgentOriginBase troopOrigin, bool isPlayerSide, Formation formation, bool spawnWithHorse, bool isReinforcement, int formationTroopCount, int formationTroopIndex, bool isAlarmed, bool wieldInitialWeapons, bool forceDismounted, Vec3? initialPosition, Vec2? initialDirection, string specialActionSetSuffix = null, bool useTroopClassForSpawn = false)

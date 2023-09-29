@@ -142,6 +142,11 @@ namespace TaleWorlds.Core
 			this.BuildHashedCode();
 		}
 
+		public void SetWeaponName(TextObject name)
+		{
+			this.WeaponName = name;
+		}
+
 		private void CalculatePivotDistances()
 		{
 			float num = 0f;

@@ -133,6 +133,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 				this.EquipHoldHandled = false;
 				this._equipHoldTime = 0f;
 				this._dataSource.OnCancelEquipController();
+				Action<bool> onEquipmentEquipInteractionViewToggled = this.OnEquipmentEquipInteractionViewToggled;
+				if (onEquipmentEquipInteractionViewToggled != null)
+				{
+					onEquipmentEquipInteractionViewToggled(false);
+				}
 				this._equipmentWasInFocusFirstFrameOfEquipDown = false;
 			}
 		}

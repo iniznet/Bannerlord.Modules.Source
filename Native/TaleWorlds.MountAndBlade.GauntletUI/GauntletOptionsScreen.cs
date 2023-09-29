@@ -143,6 +143,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 
 		private void SetHotKey(Key key)
 		{
+			if (key.IsControllerInput)
+			{
+				Debug.FailedAssert("Trying to use SetHotKey with a controller input", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletOptionsScreen.cs", "SetHotKey", 161);
+				MBInformationManager.AddQuickInformation(new TextObject("{=*}Invalid key", null), 0, null, "");
+				this._keybindingPopup.OnToggle(false);
+				return;
+			}
 			GameKeyOptionVM gameKey;
 			if ((gameKey = this._currentKey as GameKeyOptionVM) == null)
 			{

@@ -276,6 +276,11 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI
 		protected override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
+			this.TickInternal(dt);
+		}
+
+		private void TickInternal(float dt)
+		{
 			MPLobbyVM lobbyDataSource = this._lobbyDataSource;
 			if (lobbyDataSource != null)
 			{
@@ -294,108 +299,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI
 			{
 				if (this._lobbyDataSource != null && !this._keybindingPopup.IsActive && !this._lobbyLayer.IsFocusedOnInput())
 				{
-					bool flag = this._lobbyLayer.Input.IsHotKeyPressed("Confirm");
-					bool flag2 = this._lobbyLayer.Input.IsHotKeyPressed("ToggleFriendsList");
-					if (flag || flag2)
-					{
-						if (this._lobbyDataSource.Login.IsEnabled && flag)
-						{
-							this._lobbyDataSource.Login.ExecuteLogin();
-							UISoundsHelper.PlayUISound("event:/ui/default");
-							return;
-						}
-						if (this._lobbyDataSource.Options.IsEnabled && flag)
-						{
-							this._lobbyDataSource.Options.ExecuteApply();
-							UISoundsHelper.PlayUISound("event:/ui/default");
-							return;
-						}
-						if (!this._lobbyDataSource.HasNoPopupOpen() && flag)
-						{
-							this._lobbyDataSource.OnConfirm();
-							UISoundsHelper.PlayUISound("event:/ui/default");
-							return;
-						}
-						if (flag2)
-						{
-							UISoundsHelper.PlayUISound("event:/ui/default");
-							this._lobbyDataSource.Friends.IsListEnabled = !this._lobbyDataSource.Friends.IsListEnabled;
-							this._lobbyDataSource.ForceCloseContextMenus();
-							return;
-						}
-					}
-					else
-					{
-						if (this._lobbyLayer.Input.IsHotKeyReleased("Exit"))
-						{
-							UISoundsHelper.PlayUISound("event:/ui/sort");
-							this._lobbyDataSource.OnEscape();
-							return;
-						}
-						if (this._lobbyLayer.Input.IsHotKeyPressed("TakeAll"))
-						{
-							if (this._lobbyDataSource.Armory.IsEnabled)
-							{
-								if (Input.IsGamepadActive && this._lobbyDataSource.Armory.IsManagingTaunts)
-								{
-									this._lobbyDataSource.Armory.ExecuteEmptyFocusedSlot();
-									return;
-								}
-							}
-							else if (this._lobbyDataSource.Options.IsEnabled)
-							{
-								UISoundsHelper.PlayUISound("event:/ui/default");
-								this._lobbyDataSource.Options.SelectPreviousCategory();
-								return;
-							}
-						}
-						else if (this._lobbyLayer.Input.IsHotKeyPressed("GiveAll"))
-						{
-							if (this._lobbyDataSource.Armory.IsEnabled)
-							{
-								if (Input.IsGamepadActive && this._lobbyDataSource.Armory.IsManagingTaunts)
-								{
-									this._lobbyDataSource.Armory.ExecuteSelectFocusedSlot();
-									return;
-								}
-							}
-							else if (this._lobbyDataSource.Options.IsEnabled)
-							{
-								UISoundsHelper.PlayUISound("event:/ui/default");
-								this._lobbyDataSource.Options.SelectNextCategory();
-								return;
-							}
-						}
-						else if (this._lobbyLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
-						{
-							if (!this._isNavigationRestricted)
-							{
-								this.SelectPreviousPage(MPLobbyVM.LobbyPage.NotAssigned);
-								return;
-							}
-						}
-						else if (this._lobbyLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
-						{
-							if (!this._isNavigationRestricted)
-							{
-								this.SelectNextPage(MPLobbyVM.LobbyPage.NotAssigned);
-								return;
-							}
-						}
-						else if (this._lobbyLayer.Input.IsHotKeyReleased("Reset"))
-						{
-							if (this._lobbyDataSource.HasNoPopupOpen() && this._lobbyDataSource.Options.IsEnabled)
-							{
-								UISoundsHelper.PlayUISound("event:/ui/default");
-								this._lobbyDataSource.Options.ExecuteCancel();
-								return;
-							}
-							if (this._lobbyDataSource.Matchmaking.CustomServer.IsEnabled && !this._lobbyDataSource.Matchmaking.CustomServer.HostGame.IsEnabled)
-							{
-								this._lobbyDataSource.Matchmaking.CustomServer.ExecuteRefresh();
-							}
-						}
-					}
+					this.HandleInput(dt);
 				}
 				return;
 			}
@@ -405,6 +309,112 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI
 				return;
 			}
 			keybindingPopup2.Tick();
+		}
+
+		private void HandleInput(float dt)
+		{
+			bool flag = this._lobbyLayer.Input.IsHotKeyPressed("Confirm");
+			bool flag2 = this._lobbyLayer.Input.IsHotKeyPressed("ToggleFriendsList");
+			if (flag || flag2)
+			{
+				if (this._lobbyDataSource.Login.IsEnabled && flag)
+				{
+					this._lobbyDataSource.Login.ExecuteLogin();
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					return;
+				}
+				if (this._lobbyDataSource.Options.IsEnabled && flag)
+				{
+					this._lobbyDataSource.Options.ExecuteApply();
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					return;
+				}
+				if (!this._lobbyDataSource.HasNoPopupOpen() && flag)
+				{
+					this._lobbyDataSource.OnConfirm();
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					return;
+				}
+				if (flag2)
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					this._lobbyDataSource.Friends.IsListEnabled = !this._lobbyDataSource.Friends.IsListEnabled;
+					this._lobbyDataSource.ForceCloseContextMenus();
+					return;
+				}
+			}
+			else
+			{
+				if (this._lobbyLayer.Input.IsHotKeyReleased("Exit"))
+				{
+					UISoundsHelper.PlayUISound("event:/ui/sort");
+					this._lobbyDataSource.OnEscape();
+					return;
+				}
+				if (this._lobbyLayer.Input.IsHotKeyPressed("TakeAll"))
+				{
+					if (this._lobbyDataSource.Armory.IsEnabled)
+					{
+						if (Input.IsGamepadActive && this._lobbyDataSource.Armory.IsManagingTaunts)
+						{
+							this._lobbyDataSource.Armory.ExecuteEmptyFocusedSlot();
+							return;
+						}
+					}
+					else if (this._lobbyDataSource.Options.IsEnabled)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
+						this._lobbyDataSource.Options.SelectPreviousCategory();
+						return;
+					}
+				}
+				else if (this._lobbyLayer.Input.IsHotKeyPressed("GiveAll"))
+				{
+					if (this._lobbyDataSource.Armory.IsEnabled)
+					{
+						if (Input.IsGamepadActive && this._lobbyDataSource.Armory.IsManagingTaunts)
+						{
+							this._lobbyDataSource.Armory.ExecuteSelectFocusedSlot();
+							return;
+						}
+					}
+					else if (this._lobbyDataSource.Options.IsEnabled)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
+						this._lobbyDataSource.Options.SelectNextCategory();
+						return;
+					}
+				}
+				else if (this._lobbyLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
+				{
+					if (!this._isNavigationRestricted)
+					{
+						this.SelectPreviousPage(MPLobbyVM.LobbyPage.NotAssigned);
+						return;
+					}
+				}
+				else if (this._lobbyLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
+				{
+					if (!this._isNavigationRestricted)
+					{
+						this.SelectNextPage(MPLobbyVM.LobbyPage.NotAssigned);
+						return;
+					}
+				}
+				else if (this._lobbyLayer.Input.IsHotKeyReleased("Reset"))
+				{
+					if (this._lobbyDataSource.HasNoPopupOpen() && this._lobbyDataSource.Options.IsEnabled)
+					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
+						this._lobbyDataSource.Options.ExecuteCancel();
+						return;
+					}
+					if (this._lobbyDataSource.Matchmaking.CustomServer.IsEnabled && !this._lobbyDataSource.Matchmaking.CustomServer.HostGame.IsEnabled)
+					{
+						this._lobbyDataSource.Matchmaking.CustomServer.ExecuteRefresh();
+					}
+				}
+			}
 		}
 
 		private void ShowNextFeedback()

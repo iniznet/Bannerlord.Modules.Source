@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C92}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B776}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.PlatformService.Steam</RootNamespace>
     <AssemblyName>TaleWorlds.PlatformService.Steam</AssemblyName>
@@ -51,39 +51,39 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.AchievementSystem\TaleWorlds.AchievementSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c69}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b74d}</Project>
       <Name>TaleWorlds.AchievementSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ActivitySystem\TaleWorlds.ActivitySystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6a}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b74e}</Project>
       <Name>TaleWorlds.ActivitySystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond.AccessProvider.Steam\TaleWorlds.Diamond.AccessProvider.Steam.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c72}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b756}</Project>
       <Name>TaleWorlds.Diamond.AccessProvider.Steam</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c75}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b759}</Project>
       <Name>TaleWorlds.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b764}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b766}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b767}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlatformService\TaleWorlds.PlatformService.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8f}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b773}</Project>
       <Name>TaleWorlds.PlatformService</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b777}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

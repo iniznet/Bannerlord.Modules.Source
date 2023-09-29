@@ -2062,6 +2062,15 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
+		public override void OnMapEventContinuityNeedsUpdate(IFaction faction)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnMapEventContinuityNeedsUpdate(faction);
+			}
+		}
+
 		public override void CanHeroLeadParty(Hero hero, ref bool result)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;

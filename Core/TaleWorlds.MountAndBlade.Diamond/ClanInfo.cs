@@ -1,20 +1,27 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
 	[Serializable]
 	public class ClanInfo
 	{
+		[JsonProperty]
 		public Guid ClanId { get; private set; }
 
+		[JsonProperty]
 		public string Name { get; private set; }
 
+		[JsonProperty]
 		public string Tag { get; private set; }
 
+		[JsonProperty]
 		public string Faction { get; private set; }
 
+		[JsonProperty]
 		public string Sigil { get; private set; }
 
+		[JsonProperty]
 		public string InformationText { get; private set; }
 
 		public ClanPlayer[] Players { get; private set; }

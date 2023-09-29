@@ -262,6 +262,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void RemoveTeleportationData(TeleportationCampaignBehavior.TeleportationData data, bool isCanceled, bool disbandTargetParty = true)
 		{
+			this._teleportationList.Remove(data);
 			if (isCanceled)
 			{
 				if (data.TeleportingHero.IsTraveling && data.TeleportingHero.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
@@ -284,7 +285,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 				}
 			}
-			this._teleportationList.Remove(data);
 		}
 
 		private bool CanApplyImmediateTeleportation(TeleportationCampaignBehavior.TeleportationData data)

@@ -18,7 +18,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			this._decision = data.Decision;
 			this._kingdomOfDecision = data.KingdomOfDecision;
 			base.NotificationIdentifier = "vote";
-			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
+			CampaignEvents.OnClanChangedKingdomEvent.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			CampaignEvents.KingdomDecisionCancelled.AddNonSerializedListener(this, new Action<KingdomDecision, bool>(this.OnDecisionCancelled));
 			CampaignEvents.KingdomDecisionConcluded.AddNonSerializedListener(this, new Action<KingdomDecision, DecisionOutcome, bool>(this.OnDecisionConcluded));
 			this._onInspect = new Action(this.OnInspect);
@@ -70,7 +70,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
-			CampaignEvents.ClanChangedKingdom.ClearListeners(this);
+			CampaignEvents.OnClanChangedKingdomEvent.ClearListeners(this);
 		}
 
 		private KingdomDecision _decision;

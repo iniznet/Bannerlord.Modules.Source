@@ -8,7 +8,7 @@ namespace TaleWorlds.Core
 		{
 			if (monster == null)
 			{
-				return "as_human_" + (isFemale ? "_female" : "") + suffix;
+				return "as_human" + (isFemale ? "_female" : "") + suffix;
 			}
 			return "as_" + (string.IsNullOrEmpty(monster.BaseMonster) ? monster.StringId : monster.BaseMonster) + (isFemale ? "_female" : "") + suffix;
 		}

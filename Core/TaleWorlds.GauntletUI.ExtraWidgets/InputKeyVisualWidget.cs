@@ -1595,7 +1595,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 				return;
 			}
 			string text = this.IconsPath + "\\" + visualName;
-			if (Input.IsGamepadActive && (Input.ControllerType == Input.ControllerTypes.PlayStationDualSense || Input.ControllerType == Input.ControllerTypes.PlayStationDualShock))
+			if (Input.IsGamepadActive && Input.ControllerType.IsPlaystation())
 			{
 				base.Sprite = base.Context.SpriteData.GetSprite(text + "_ps");
 				return;

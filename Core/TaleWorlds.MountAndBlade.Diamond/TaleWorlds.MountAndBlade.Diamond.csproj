@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C84}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B768}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.Diamond</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.Diamond</AssemblyName>
@@ -246,6 +246,7 @@
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\ClientWantsToConnectCustomGameMessage.cs" />
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\CustomBattleServerReadyResponseMessage.cs" />
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\CustomBattleServerStatsUpdateMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\PlayerDisconnectedFromLobbyMessage.cs" />
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\RegisterCustomGameMessageResponseMessage.cs" />
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\ResponseCustomGameClientConnectionMessage.cs" />
     <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\SetChatFilterListsMessage.cs" />
@@ -414,31 +415,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b751}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond.ChatSystem.Library\TaleWorlds.Diamond.ChatSystem.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c74}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b758}</Project>
       <Name>TaleWorlds.Diamond.ChatSystem.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c75}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b759}</Project>
       <Name>TaleWorlds.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b764}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b766}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b767}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b777}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

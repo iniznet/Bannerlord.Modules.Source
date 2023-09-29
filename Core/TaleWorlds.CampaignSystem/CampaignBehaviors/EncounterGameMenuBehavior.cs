@@ -130,25 +130,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				PlayerEncounter.Finish(true);
 			}, true, -1, false, null);
-			gameSystemInitializer.AddGameMenu("hostile_action_end_by_leave_kingdom_as_mercenary", "{=lBHm1JlL}Your kingdom has ended your mercenary contract.", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
-			gameSystemInitializer.AddGameMenuOption("hostile_action_end_by_leave_kingdom_as_mercenary", "hostile_action_end_by_leave_kingdom_end", "{=2YYRyrOO}Leave...", new GameMenuOption.OnConditionDelegate(this.game_menu_siege_attacker_defeated_leave_on_condition), delegate(MenuCallbackArgs args)
-			{
-				PlayerEncounter.Finish(true);
-			}, true, -1, false, null);
-			gameSystemInitializer.AddGameMenu("hostile_action_end_by_peace", "{=1rbg3Hz2}The {HOSTILE_FACTION} and {SETTLEMENT_FACTION} are no longer enemies.", new OnInitDelegate(this.game_menu_hostile_action_end_by_peace_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
-			gameSystemInitializer.AddGameMenuOption("hostile_action_end_by_peace", "hostile_action_en_by_peace_end", "{=WVkc4UgX}Continue.", delegate(MenuCallbackArgs args)
-			{
-				args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-				return true;
-			}, delegate(MenuCallbackArgs args)
-			{
-				if (PlayerEncounter.Current != null)
-				{
-					PlayerEncounter.Finish(true);
-					return;
-				}
-				GameMenu.ExitToLast();
-			}, true, -1, false, null);
 			gameSystemInitializer.AddGameMenu("encounter", "{=!}{ENCOUNTER_TEXT}", new OnInitDelegate(this.game_menu_encounter_on_init), GameOverlays.MenuOverlayType.Encounter, GameMenu.MenuFlags.None, null);
 			gameSystemInitializer.AddGameMenuOption("encounter", "continue_preparations", "{=FOoMM4AU}Continue siege preparations.", new GameMenuOption.OnConditionDelegate(this.game_menu_town_besiege_continue_siege_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_town_besiege_continue_siege_on_consequence), false, -1, false, null);
 			gameSystemInitializer.AddGameMenuOption("encounter", "village_raid_action", "{=lvttCRi8}Plunder the village, then raze it.", new GameMenuOption.OnConditionDelegate(this.game_menu_village_hostile_action_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_raid_no_resist_on_consequence), false, -1, false, null);
@@ -198,7 +179,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			gameSystemInitializer.AddGameMenuOption("menu_captivity_castle_taken_prisoner", "mno_sneak_caught_surrender", "{=veWOovVv}Continue...", new GameMenuOption.OnConditionDelegate(EncounterGameMenuBehavior.game_menu_captivity_castle_taken_prisoner_cont_on_condition), new GameMenuOption.OnConsequenceDelegate(EncounterGameMenuBehavior.game_menu_captivity_castle_taken_prisoner_cont_on_consequence), false, -1, false, null);
 			gameSystemInitializer.AddGameMenuOption("menu_captivity_castle_taken_prisoner", "cheat_continue", "{=!}Cheat : Leave.", new GameMenuOption.OnConditionDelegate(EncounterGameMenuBehavior.game_menu_captivity_taken_prisoner_cheat_on_condition), new GameMenuOption.OnConsequenceDelegate(EncounterGameMenuBehavior.game_menu_captivity_taken_prisoner_cheat_on_consequence), false, -1, false, null);
 			gameSystemInitializer.AddGameMenu("fortification_crime_rating", "{=!}{FORTIFICATION_CRIME_RATING_TEXT}", new OnInitDelegate(this.game_menu_fortification_high_crime_rating_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
-			gameSystemInitializer.AddGameMenuOption("fortification_crime_rating", "fortification_crime_rating_continue", "{=WVkc4UgX}Continue.", new GameMenuOption.OnConditionDelegate(this.game_menu_fortification_high_crime_rating_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_fortification_high_crime_rating_continue_on_consequence), false, -1, false, null);
+			gameSystemInitializer.AddGameMenuOption("fortification_crime_rating", "fortification_crime_rating_continue", "{=WVkc4UgX}Continue.", new GameMenuOption.OnConditionDelegate(this.game_menu_fortification_high_crime_rating_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_fortification_high_crime_rating_continue_on_consequence), true, -1, false, null);
 			gameSystemInitializer.AddGameMenu("army_left_settlement_due_to_war_declaration", "{=!}{ARMY_LEFT_SETTLEMENT_DUE_TO_WAR_TEXT}", new OnInitDelegate(this.game_menu_army_left_settlement_due_to_war_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			gameSystemInitializer.AddGameMenuOption("army_left_settlement_due_to_war_declaration", "army_left_settlement_due_to_war_declaration_continue", "{=WVkc4UgX}Continue.", new GameMenuOption.OnConditionDelegate(this.game_menu_army_left_settlement_due_to_war_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_army_left_settlement_due_to_war_on_consequence), false, -1, false, null);
 			gameSystemInitializer.AddGameMenu("castle_outside", "{=!}{TOWN_TEXT}", new OnInitDelegate(this.game_menu_castle_outside_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -326,7 +307,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_join_encounter_on_init(MenuCallbackArgs args)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && PlayerEncounter.Current == null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066) && PlayerEncounter.Current == null)
 			{
 				GameMenu.ExitToLast();
 				return;
@@ -517,7 +498,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (!Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.IsMainParty && !Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Attacker))
 			{
-				Debug.FailedAssert("Player should not be able to join this siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_join_siege_event_on_consequence", 689);
+				Debug.FailedAssert("Player should not be able to join this siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_join_siege_event_on_consequence", 667);
 				return;
 			}
 			MobileParty leaderParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty;
@@ -625,24 +606,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			MobileParty mobileParty = ((Settlement.CurrentSettlement.SiegeEvent != null) ? Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty : null);
 			return mobileParty == null || !mobileParty.IsMainParty;
-		}
-
-		private void game_menu_hostile_action_end_by_peace_on_init(MenuCallbackArgs args)
-		{
-			PlayerEncounter playerEncounter = PlayerEncounter.Current;
-			if (playerEncounter != null)
-			{
-				playerEncounter.ResetPlayerEncounterInterruptedByPeace();
-			}
-			StanceLink stanceLink = (from x in MobileParty.MainParty.MapFaction.Stances
-				where !x.IsAtWar
-				orderby x.PeaceDeclarationDate.ElapsedHoursUntilNow
-				select x).FirstOrDefault<StanceLink>();
-			if (stanceLink != null)
-			{
-				GameTexts.SetVariable("HOSTILE_FACTION", stanceLink.Faction1.EncyclopediaLinkWithName);
-				GameTexts.SetVariable("SETTLEMENT_FACTION", stanceLink.Faction2.EncyclopediaLinkWithName);
-			}
 		}
 
 		private bool game_menu_siege_attacker_left_return_to_settlement_on_condition(MenuCallbackArgs args)
@@ -1816,15 +1779,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_fortification_high_crime_rating_continue_on_consequence(MenuCallbackArgs args)
 		{
-			if (Settlement.CurrentSettlement.IsTown)
-			{
-				GameMenu.SwitchToMenu("town_outside");
-				return;
-			}
-			if (Settlement.CurrentSettlement.IsCastle)
-			{
-				GameMenu.SwitchToMenu("castle_outside");
-			}
+			PlayerEncounter.Finish(true);
 		}
 
 		private bool outside_menu_criminal_on_condition(MenuCallbackArgs args)
@@ -2080,7 +2035,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					GameMenu.SwitchToMenu("castle");
 					return;
 				}
-				Debug.FailedAssert("non-fortification under siege", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_town_menu_request_meeting_with_besiegers_on_init", 2472);
+				Debug.FailedAssert("non-fortification under siege", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_town_menu_request_meeting_with_besiegers_on_init", 2431);
 			}
 			List<MobileParty> list = new List<MobileParty>();
 			if (currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Army != null)

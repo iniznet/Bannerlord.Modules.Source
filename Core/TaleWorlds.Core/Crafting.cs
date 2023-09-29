@@ -32,7 +32,7 @@ namespace TaleWorlds.Core
 			if (!name.Equals(this.CraftedWeaponName.ToString()))
 			{
 				this.CraftedWeaponName = new TextObject("{=!}" + name, null);
-				this.CurrentWeaponDesign = new WeaponDesign(this.CurrentWeaponDesign.Template, this.CraftedWeaponName, this.CurrentWeaponDesign.UsedPieces);
+				this._craftedItemObject.WeaponDesign.SetWeaponName(this.CraftedWeaponName);
 			}
 		}
 

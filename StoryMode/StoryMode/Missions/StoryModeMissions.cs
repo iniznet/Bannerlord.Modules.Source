@@ -28,7 +28,7 @@ namespace StoryMode.Missions
 				new SandBoxMissionHandler(),
 				new MissionConversationLogic(talkToChar),
 				new MissionFightHandler(),
-				new MissionAgentHandler(location, null),
+				new MissionAgentHandler(location, talkToChar, null),
 				new MissionAlleyHandler(),
 				new HeroSkillHandler(),
 				new MissionFacialAnimationHandler(),

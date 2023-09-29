@@ -432,7 +432,7 @@ namespace TaleWorlds.CampaignSystem
 			this._campaignEntitySystem = new EntitySystem<CampaignEntityComponent>();
 			this.PlayerFormationPreferences = this._playerFormationPreferences.GetReadOnlyDictionary<CharacterObject, FormationClass>();
 			this.SpeedUpMultiplier = 4f;
-			if (this.UniqueGameId == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202))
+			if (this.UniqueGameId == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 27066))
 			{
 				this.UniqueGameId = "oldSave";
 			}
@@ -488,7 +488,6 @@ namespace TaleWorlds.CampaignSystem
 			this.CharacterRelationManager.AfterLoad();
 			CampaignEventDispatcher.Instance.OnGameEarlyLoaded(starter);
 			TroopRoster.CalculateCachedStatsOnLoad();
-			this.KingdomManager.OnLoad();
 			CampaignEventDispatcher.Instance.OnGameLoaded(starter);
 			this.InitializeForSavedGame();
 			this._tickData.InitializeDataCache();
@@ -527,7 +526,7 @@ namespace TaleWorlds.CampaignSystem
 			this.IsFaceGenEnabled = true;
 			this.MapEventManager.OnAfterLoad();
 			this.KingdomManager.RegisterEvents();
-			this.KingdomManager.OnNewGameCreated();
+			this.KingdomManager.OnSessionStart();
 			this.CampaignInformationManager.RegisterEvents();
 		}
 

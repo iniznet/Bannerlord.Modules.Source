@@ -203,6 +203,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new PerkResetCampaignBehavior());
 			gameStarter.AddBehavior(new SiegeAmbushCampaignBehavior());
 			gameStarter.AddBehavior(new MapWeatherCampaignBehavior());
+			gameStarter.AddBehavior(new PartyDiplomaticHandlerCampaignBehavior());
 			gameStarter.AddModel(new DefaultCharacterDevelopmentModel());
 			gameStarter.AddModel(new DefaultValuationModel());
 			gameStarter.AddModel(new DefaultItemDiscardModel());
@@ -372,7 +373,7 @@ namespace TaleWorlds.CampaignSystem
 						}
 						else
 						{
-							Debug.FailedAssert("saved a characterobject but not its heroobject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\SandBoxManager.cs", "InitializeCharactersAfterLoad", 436);
+							Debug.FailedAssert("saved a characterobject but not its heroobject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\SandBoxManager.cs", "InitializeCharactersAfterLoad", 437);
 							list.Add(characterObject);
 						}
 					}

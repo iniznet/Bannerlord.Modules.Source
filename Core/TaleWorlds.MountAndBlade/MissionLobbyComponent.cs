@@ -639,6 +639,7 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork.BeginBroadcastModuleEvent();
 			GameNetwork.WriteMessage(new MissionStateChange(this.CurrentMultiplayerState, this._timerComponent.GetCurrentTimerStartTime().NumberOfTicks));
 			GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+			Debug.Print(string.Format("Current multiplayer state sent to clients: {0}", this.CurrentMultiplayerState), 0, Debug.DebugColor.White, 17592186044416UL);
 			Action onPostMatchEnded = this.OnPostMatchEnded;
 			if (onPostMatchEnded == null)
 			{

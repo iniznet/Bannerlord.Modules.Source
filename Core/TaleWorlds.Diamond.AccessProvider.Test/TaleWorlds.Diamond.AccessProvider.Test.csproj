@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C73}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B757}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Diamond.AccessProvider.Test</RootNamespace>
     <AssemblyName>TaleWorlds.Diamond.AccessProvider.Test</AssemblyName>
@@ -43,15 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c75}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b759}</Project>
       <Name>TaleWorlds.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b764}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b777}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -41,13 +42,18 @@ namespace TaleWorlds.MountAndBlade
 
 		public Monster GetBaseMonsterFromRace(int race)
 		{
-			Monster monster = this._monstersArray[race];
-			if (monster == null)
+			if (race >= 0 && race < this._monstersArray.Length)
 			{
-				monster = Game.Current.ObjectManager.GetObject<Monster>(this._raceNamesArray[race]);
-				this._monstersArray[race] = monster;
+				Monster monster = this._monstersArray[race];
+				if (monster == null)
+				{
+					monster = Game.Current.ObjectManager.GetObject<Monster>(this._raceNamesArray[race]);
+					this._monstersArray[race] = monster;
+				}
+				return monster;
 			}
-			return monster;
+			Debug.FailedAssert("Monster race index is out of bounds: " + race, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\FaceGen.cs", "GetBaseMonsterFromRace", 64);
+			return null;
 		}
 
 		public BodyProperties GetRandomBodyProperties(int race, bool isFemale, BodyProperties bodyPropertiesMin, BodyProperties bodyPropertiesMax, int hairCoverType, int seed, string hairTags, string beardTags, string tattooTags)

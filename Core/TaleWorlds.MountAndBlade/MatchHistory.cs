@@ -26,9 +26,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		private static void PrintDebugLog(string text)
+		{
+			Debug.Print("[MATCH_HISTORY]: " + text, 0, Debug.DebugColor.Yellow, 17592186044416UL);
+		}
+
 		public static async Task LoadMatchHistory()
 		{
-			if (MatchHistory.IsHistoryCacheDirty)
+			if (MatchHistory._isHistoryCacheDirty)
 			{
 				if (FileHelper.FileExists(MatchHistory.HistoryFilePath))
 				{
@@ -51,18 +56,18 @@ namespace TaleWorlds.MountAndBlade
 					}
 					catch (Exception ex)
 					{
-						Debug.FailedAssert("Could not load match history. " + ex.Message, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\MatchHistory.cs", "LoadMatchHistory", 65);
+						Debug.FailedAssert("Could not load match history. " + ex.Message, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\MatchHistory.cs", "LoadMatchHistory", 70);
 						try
 						{
 							FileHelper.DeleteFile(MatchHistory.HistoryFilePath);
 						}
 						catch (Exception ex2)
 						{
-							Debug.FailedAssert("Could not delete match history file. " + ex2.Message, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\MatchHistory.cs", "LoadMatchHistory", 72);
+							Debug.FailedAssert("Could not delete match history file. " + ex2.Message, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\MatchHistory.cs", "LoadMatchHistory", 77);
 						}
 					}
 				}
-				MatchHistory.IsHistoryCacheDirty = false;
+				MatchHistory._isHistoryCacheDirty = false;
 			}
 		}
 
@@ -74,14 +79,18 @@ namespace TaleWorlds.MountAndBlade
 
 		public static void AddMatch(MatchInfo match)
 		{
+			MatchHistory.PrintDebugLog("Add match called for match: " + match.MatchId);
 			MatchInfo matchInfo;
 			if (MatchHistory.TryGetMatchInfo(match.MatchId, out matchInfo))
 			{
+				MatchHistory.PrintDebugLog("Found existing match with id trying to replace: " + match.MatchId);
 				for (int i = 0; i < MatchHistory._matches.Count; i++)
 				{
 					if (MatchHistory._matches[i].MatchId == match.MatchId)
 					{
 						MatchHistory._matches[i] = match;
+						MatchHistory.PrintDebugLog("[MATCH_HISTORY]: Replaced existing match: (" + MatchHistory._matches[i].MatchId + ") with: " + match.MatchId);
+						break;
 					}
 				}
 			}
@@ -90,11 +99,13 @@ namespace TaleWorlds.MountAndBlade
 				int matchTypeCount = MatchHistory.GetMatchTypeCount(match.MatchType);
 				if (matchTypeCount >= 10)
 				{
+					int num = matchTypeCount - 10 + 1;
 					MatchHistory.RemoveMatches(match.MatchType, matchTypeCount - 10 + 1);
+					MatchHistory.PrintDebugLog(string.Format("[MATCH_HISTORY]: Max match count is reached, removing ({0}) matches with type: {1}", num, match.MatchType));
 				}
 				MatchHistory._matches.Add(match);
 			}
-			MatchHistory.IsHistoryCacheDirty = true;
+			MatchHistory._isHistoryCacheDirty = true;
 		}
 
 		public static bool TryGetMatchInfo(string matchId, out MatchInfo matchInfo)
@@ -118,7 +129,7 @@ namespace TaleWorlds.MountAndBlade
 				MatchInfo oldestMatch = MatchHistory.GetOldestMatch(matchType);
 				MatchHistory._matches.Remove(oldestMatch);
 			}
-			MatchHistory.IsHistoryCacheDirty = true;
+			MatchHistory._isHistoryCacheDirty = true;
 		}
 
 		private static MatchInfo GetOldestMatch(string matchType)
@@ -145,9 +156,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				MatchHistory.PrintDebugLog(string.Format("Exception occured when serializing matches: {0}", ex));
 			}
-			MatchHistory.IsHistoryCacheDirty = true;
+			MatchHistory._isHistoryCacheDirty = true;
 		}
 
 		private static int GetMatchTypeCount(string category)
@@ -172,7 +183,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private const string HistoryFileName = "History.json";
 
-		private static bool IsHistoryCacheDirty = true;
+		private static bool _isHistoryCacheDirty = true;
 
 		private static MBList<MatchInfo> _matches = new MBList<MatchInfo>();
 	}

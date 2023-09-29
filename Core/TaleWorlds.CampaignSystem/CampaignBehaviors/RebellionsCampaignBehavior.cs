@@ -53,7 +53,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void OnGameLoaded()
 		{
 			this.InitializeIconIdAndFrequencies();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 27066))
 			{
 				foreach (Settlement settlement in Settlement.All)
 				{

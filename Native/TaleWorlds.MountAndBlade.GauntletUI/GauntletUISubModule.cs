@@ -145,6 +145,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					InformationManager.RegisterTooltip<string, HintVM>(new Action<HintVM, object[]>(HintVM.RefreshGenericHintTooltip), "HintTooltip");
 					this._queryManager = new GauntletQueryManager();
 					this._queryManager.Initialize();
+					this._queryManager.InitializeKeyVisuals();
 				}
 				this._loadingWindowManager = new LoadingWindowManager();
 				LoadingWindow.Initialize(this._loadingWindowManager);
@@ -161,15 +162,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			{
 				this._loadingWindowManager.SetCurrentModeIsMultiplayer(true);
 				this._isMultiplayer = true;
-			}
-		}
-
-		public override void BeginGameStart(Game game)
-		{
-			base.BeginGameStart(game);
-			if (!Utilities.CommandLineArgumentExists("VisualTests"))
-			{
-				this._queryManager.InitializeKeyVisuals();
 			}
 		}
 

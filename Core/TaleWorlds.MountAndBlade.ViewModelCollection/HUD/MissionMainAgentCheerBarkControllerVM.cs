@@ -56,7 +56,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 					string item = valueTuple.Item1;
 					int item2 = valueTuple.Item2;
 					TauntCosmeticElement tauntCosmeticElement = CosmeticsManager.GetCosmeticElement(item) as TauntCosmeticElement;
-					if ((tauntCosmeticElement.IsFree || this._ownedTauntCosmetics.Contains(item)) && item2 >= 0 && item2 < TauntCosmeticElement.MaxNumberOfTaunts)
+					if (!tauntCosmeticElement.IsFree && !this._ownedTauntCosmetics.Contains(item))
+					{
+						Debug.FailedAssert("Taunt list have invalid taunt: " + item, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\HUD\\MissionMainAgentCheerBarkControllerVM.cs", "PopulateList", 82);
+					}
+					else if (item2 >= 0 && item2 < TauntCosmeticElement.MaxNumberOfTaunts)
 					{
 						array[item2] = tauntCosmeticElement;
 					}
@@ -96,13 +100,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			this.DisabledReasonText = string.Empty;
 		}
 
-		private async void UpdatePlayerTauntIndices()
+		private void UpdatePlayerTauntIndices()
 		{
 			LobbyClient gameClient = NetworkMain.GameClient;
 			if (((gameClient != null) ? gameClient.PlayerData : null) != null)
 			{
-				List<ValueTuple<string, int>> list = await TauntCosmeticElement.GetTauntIndicesForPlayerAsync(NetworkMain.GameClient.PlayerData.UserId.ToString());
-				this._playerTauntsWithIndices = list;
+				string text = NetworkMain.GameClient.PlayerData.UserId.ToString();
+				this._playerTauntsWithIndices = TauntCosmeticElement.GetTauntIndicesForPlayer(text);
 			}
 			if (this._playerTauntsWithIndices == null)
 			{

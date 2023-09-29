@@ -817,7 +817,7 @@ namespace TaleWorlds.CampaignSystem
 
 		protected override void PreAfterLoad()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202) && base.StringId == "neutral")
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 27066) && base.StringId == "neutral")
 			{
 				foreach (Hero hero in Campaign.Current.AliveHeroes)
 				{
@@ -865,14 +865,10 @@ namespace TaleWorlds.CampaignSystem
 				DestroyClanAction.Apply(this);
 				Campaign.Current.CampaignObjectManager.RemoveClan(this);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 27066))
 			{
 				Hero leader = this.Leader;
 				this.IsNoble = leader != null && leader.IsNobleForOldSaves;
-			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202) && this.Leader != null && this.Leader.Clan != this)
-			{
-				ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(this);
 			}
 			Kingdom kingdom = this._kingdom;
 			if (kingdom != null)
@@ -891,15 +887,15 @@ namespace TaleWorlds.CampaignSystem
 		protected override void AfterLoad()
 		{
 			this.UpdateStrength();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 24202) && this.Kingdom != null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 27066) && this.Kingdom != null)
 			{
 				FactionHelper.AdjustFactionStancesForClanJoiningKingdom(this, this.Kingdom);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 24202) && this.Kingdom == null && this.IsUnderMercenaryService)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 27066) && this.Kingdom == null && this.IsUnderMercenaryService)
 			{
 				this.EndMercenaryService(true);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && this.IsEliminated && this.Leader != null && this.Leader.IsAlive)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066) && this.IsEliminated && this.Leader != null && this.Leader.IsAlive)
 			{
 				DestroyClanAction.Apply(this);
 			}
@@ -1149,23 +1145,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 			this.UpdateBannerColorsAccordingToKingdom();
 			this.LastFactionChangeTime = CampaignTime.Now;
-			if (this._kingdom != null)
-			{
-				this.ConsiderSiegesAndMapEvents(this._kingdom);
-				this._kingdom.ConsiderSiegesAndMapEvents(this._kingdom);
-			}
-		}
-
-		public void ConsiderSiegesAndMapEvents(IFaction factionToConsiderAgainst)
-		{
-			foreach (WarPartyComponent warPartyComponent in this._warPartyComponentsCache.ToList<WarPartyComponent>())
-			{
-				warPartyComponent.MobileParty.ConsiderMapEventsAndSiegesInternal(factionToConsiderAgainst);
-			}
-			foreach (Town town in this.Fiefs)
-			{
-				town.ConsiderSiegesAndMapEventsInternal(factionToConsiderAgainst);
-			}
 		}
 
 		private void EnterKingdomInternal()

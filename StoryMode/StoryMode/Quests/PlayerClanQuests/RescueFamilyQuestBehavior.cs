@@ -617,7 +617,7 @@ namespace StoryMode.Quests.PlayerClanQuests
 					return false;
 				}
 				StringHelpers.SetCharacterProperties("RADAGOS", this._radagos.CharacterObject, null, false);
-				return encounteredParty.MapFaction.IsBanditFaction && encounteredParty.IsSettlement && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == this._hideoutBoss && encounteredParty.Settlement.IsHideout;
+				return encounteredParty.IsSettlement && encounteredParty.Settlement.IsHideout && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == this._hideoutBoss;
 			}
 
 			private void bandit_hideout_start_duel_fight_on_consequence()

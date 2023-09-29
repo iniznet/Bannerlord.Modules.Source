@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C8C}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B770}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.NavigationSystem</RootNamespace>
     <AssemblyName>TaleWorlds.NavigationSystem</AssemblyName>

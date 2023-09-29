@@ -226,6 +226,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			if (this._bannerBearerLogic != null)
 			{
 				this._bannerBearerLogic.OnBannerBearersUpdated += this.OnBannerBearersUpdated;
+				this._bannerBearerLogic.OnBannerBearerAgentUpdated += this.OnBannerAgentUpdated;
 			}
 			this.InitializeFormationCallbacks();
 			this._isInitialized = false;
@@ -377,9 +378,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			}
 		}
 
+		private void OnBannerAgentUpdated(Agent agent, bool isBannerBearer)
+		{
+			if (this._isInitialized && (agent.Team.IsPlayerTeam || agent.Team.IsPlayerAlly) && this._orderController.SelectedFormations.Contains(agent.Formation))
+			{
+				this._orderController.DeselectFormation(agent.Formation);
+				this._orderController.SelectFormation(agent.Formation);
+			}
+		}
+
 		private OrderOfBattleFormationItemVM GetFirstAvailableFormationWithAnyClass(params FormationClass[] classes)
 		{
-			OrderOfBattleVM.<>c__DisplayClass50_0 CS$<>8__locals1 = new OrderOfBattleVM.<>c__DisplayClass50_0();
+			OrderOfBattleVM.<>c__DisplayClass51_0 CS$<>8__locals1 = new OrderOfBattleVM.<>c__DisplayClass51_0();
 			CS$<>8__locals1.classes = classes;
 			int i;
 			int j;
@@ -544,7 +554,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 					}
 					else
 					{
-						Debug.FailedAssert("Failed to find an initial formation for hero: " + this._allHeroes[i].Agent.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "SetInitialHeroFormations", 623);
+						Debug.FailedAssert("Failed to find an initial formation for hero: " + this._allHeroes[i].Agent.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "SetInitialHeroFormations", 639);
 					}
 				}
 			}
@@ -1053,7 +1063,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				}
 				if (num3 == num2)
 				{
-					Debug.FailedAssert("Failed to sum up all weights to 100", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "DistributeWeights", 1162);
+					Debug.FailedAssert("Failed to sum up all weights to 100", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "DistributeWeights", 1178);
 					break;
 				}
 			}
@@ -1655,6 +1665,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			if (this._bannerBearerLogic != null)
 			{
 				this._bannerBearerLogic.OnBannerBearersUpdated -= this.OnBannerBearersUpdated;
+				this._bannerBearerLogic.OnBannerBearerAgentUpdated -= this.OnBannerAgentUpdated;
 			}
 			Action onBeginMission = this._onBeginMission;
 			if (onBeginMission != null)

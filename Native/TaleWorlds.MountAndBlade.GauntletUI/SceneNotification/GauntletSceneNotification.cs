@@ -121,7 +121,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 
 		private void OpenScene()
 		{
-			this._scene = Scene.CreateNewScene(true, true, 0, "mono_renderscene");
+			this._scene = Scene.CreateNewScene(true, true, 2, "mono_renderscene");
 			SceneInitializationData sceneInitializationData;
 			sceneInitializationData..ctor(true);
 			this._scene.Read(this._activeData.SceneID, ref sceneInitializationData, "");

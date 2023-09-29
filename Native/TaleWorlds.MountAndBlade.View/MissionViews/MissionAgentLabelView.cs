@@ -58,6 +58,11 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 				this.PlayerOrderController.OnSelectedFormationsChanged += this.OrderController_OnSelectedFormationsChanged;
 				base.Mission.PlayerTeam.OnFormationsChanged += this.PlayerTeam_OnFormationsChanged;
 			}
+			BannerBearerLogic missionBehavior = base.Mission.GetMissionBehavior<BannerBearerLogic>();
+			if (missionBehavior != null)
+			{
+				missionBehavior.OnBannerBearerAgentUpdated += this.BannerBearerLogic_OnBannerBearerAgentUpdated;
+			}
 		}
 
 		public override void OnMissionTick(float dt)
@@ -117,18 +122,16 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 					base.Mission.PlayerTeam.OnFormationsChanged -= this.PlayerTeam_OnFormationsChanged;
 				}
 			}
+			BannerBearerLogic missionBehavior = base.Mission.GetMissionBehavior<BannerBearerLogic>();
+			if (missionBehavior != null)
+			{
+				missionBehavior.OnBannerBearerAgentUpdated -= this.BannerBearerLogic_OnBannerBearerAgentUpdated;
+			}
 		}
 
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (affectedAgent.IsHuman && this._agentMeshes.ContainsKey(affectedAgent))
-			{
-				if (affectedAgent.AgentVisuals != null)
-				{
-					affectedAgent.AgentVisuals.ReplaceMeshWithMesh(this._agentMeshes[affectedAgent], null, 13);
-				}
-				this._agentMeshes.Remove(affectedAgent);
-			}
+			this.RemoveAgentLabel(affectedAgent);
 		}
 
 		public override void OnAgentBuild(Agent agent, Banner banner)
@@ -204,6 +207,24 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 					float friendlyTroopsBannerOpacity = BannerlordConfig.FriendlyTroopsBannerOpacity;
 					metaMesh.SetVectorArgument2(30f, 0.4f, 0.44f, num * friendlyTroopsBannerOpacity);
 				}
+			}
+		}
+
+		private void BannerBearerLogic_OnBannerBearerAgentUpdated(Agent agent, bool isBannerBearer)
+		{
+			this.RemoveAgentLabel(agent);
+			this.InitAgentLabel(agent, null);
+		}
+
+		private void RemoveAgentLabel(Agent agent)
+		{
+			if (agent.IsHuman && this._agentMeshes.ContainsKey(agent))
+			{
+				if (agent.AgentVisuals != null)
+				{
+					agent.AgentVisuals.ReplaceMeshWithMesh(this._agentMeshes[agent], null, 13);
+				}
+				this._agentMeshes.Remove(agent);
 			}
 		}
 

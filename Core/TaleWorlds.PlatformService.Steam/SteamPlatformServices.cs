@@ -146,7 +146,10 @@ namespace TaleWorlds.PlatformService.Steam
 
 		void IPlatformServices.ShowGamepadTextInput(string descriptionText, string existingText, uint maxChars, bool isObfuscated)
 		{
-			SteamUtils.ShowGamepadTextInput(isObfuscated ? EGamepadTextInputMode.k_EGamepadTextInputModePassword : EGamepadTextInputMode.k_EGamepadTextInputModeNormal, EGamepadTextInputLineMode.k_EGamepadTextInputLineModeSingleLine, descriptionText, maxChars, existingText);
+			if (this.Initialized)
+			{
+				SteamUtils.ShowGamepadTextInput(isObfuscated ? EGamepadTextInputMode.k_EGamepadTextInputModePassword : EGamepadTextInputMode.k_EGamepadTextInputModeNormal, EGamepadTextInputLineMode.k_EGamepadTextInputLineModeSingleLine, descriptionText, maxChars, existingText);
+			}
 		}
 
 		bool IPlatformServices.IsPlayerProfileCardAvailable(PlayerId providedId)

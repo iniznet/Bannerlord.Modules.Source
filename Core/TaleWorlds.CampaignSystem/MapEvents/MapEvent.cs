@@ -354,7 +354,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (this.Component == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
+			if (this.Component == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 27066))
 			{
 				if (this._mapEventType == MapEvent.BattleTypes.Raid)
 				{
@@ -413,7 +413,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				this.MapEventVisual = Campaign.Current.VisualCreator.CreateMapEventVisual(this);
 				this.MapEventVisual.Initialize(this.Position, this.GetBattleSizeValue(), this.AttackerSide.LeaderParty != PartyBase.MainParty && this.DefenderSide.LeaderParty != PartyBase.MainParty, this.IsVisible);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				if (!this.AttackerSide.Parties.Any<MapEventParty>() || !this.DefenderSide.Parties.Any<MapEventParty>())
 				{
@@ -818,6 +818,10 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				this.PartyVisibilityChanged(party, false);
 			}
 			this.ResetUnsuitablePartiesThatWereTargetingThisMapEvent();
+			if (party.IsMobile)
+			{
+				party.MobileParty.Ai.SetMoveModeHold();
+			}
 		}
 
 		public int GetNumberOfInvolvedMen()
@@ -1041,11 +1045,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		{
 			this._keepSiegeEvent = true;
 			this.FinishBattle();
-		}
-
-		public void FinishSiegeEventKeepBattle()
-		{
-			this._mapEventType = MapEvent.BattleTypes.FieldBattle;
 		}
 
 		private void CheckSiegeStageChange()
@@ -1785,7 +1784,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 					return;
 				}
 			}
-			Debug.FailedAssert("Cannot retrieve party strengths. MapEvent parameter is null.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\MapEvents\\MapEvent.cs", "GetStrengthsRelativeToParty", 1930);
+			Debug.FailedAssert("Cannot retrieve party strengths. MapEvent parameter is null.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\MapEvents\\MapEvent.cs", "GetStrengthsRelativeToParty", 1929);
 		}
 
 		public bool CheckIfBattleShouldContinueAfterBattleMission(CampaignBattleResult campaignBattleResult)

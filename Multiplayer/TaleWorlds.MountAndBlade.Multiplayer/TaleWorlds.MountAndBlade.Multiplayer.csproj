@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{46AEA771-038E-4892-9D02-1725D2BC2D0B}</ProjectGuid>
+    <ProjectGuid>{2747A198-D28A-401F-BD2D-E2DD50B5C57B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.Multiplayer</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.Multiplayer</AssemblyName>

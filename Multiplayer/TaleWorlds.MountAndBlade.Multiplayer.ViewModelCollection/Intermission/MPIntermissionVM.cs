@@ -175,23 +175,33 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Intermission
 			string text3;
 			MultiplayerOptions.Instance.GetOptionFromOptionType(13, 0).GetValue(ref text3);
 			this.NextMapID = (this.IsEndGameTimerEnabled ? string.Empty : text3);
-			this.NextMapName = (this.IsEndGameTimerEnabled ? string.Empty : GameTexts.FindText("str_multiplayer_scene_name", text3).ToString());
+			TextObject textObject2;
+			string text4;
+			if (GameTexts.TryGetText("str_multiplayer_scene_name", ref textObject2, text3))
+			{
+				text4 = textObject2.ToString();
+			}
+			else
+			{
+				text4 = text3;
+			}
+			this.NextMapName = (this.IsEndGameTimerEnabled ? string.Empty : text4);
 			if (flag)
 			{
-				string text4;
-				MultiplayerOptions.Instance.GetOptionFromOptionType(14, 0).GetValue(ref text4);
-				this.IsFactionAValid = !this.IsEndGameTimerEnabled && !string.IsNullOrEmpty(text4) && this._currentIntermissionState != 1;
-				this.NextFactionACultureID = (this.IsEndGameTimerEnabled ? string.Empty : text4);
+				string text5;
+				MultiplayerOptions.Instance.GetOptionFromOptionType(14, 0).GetValue(ref text5);
+				this.IsFactionAValid = !this.IsEndGameTimerEnabled && !string.IsNullOrEmpty(text5) && this._currentIntermissionState != 1;
+				this.NextFactionACultureID = (this.IsEndGameTimerEnabled ? string.Empty : text5);
 				if (!string.IsNullOrEmpty(this.NextFactionACultureID))
 				{
 					BasicCultureObject object3 = MBObjectManager.Instance.GetObject<BasicCultureObject>(this.NextFactionACultureID);
 					this.NextFactionACultureColor1 = Color.FromUint((object3 != null) ? object3.Color : 0U);
 					this.NextFactionACultureColor2 = Color.FromUint((object3 != null) ? object3.Color2 : 0U);
 				}
-				string text5;
-				MultiplayerOptions.Instance.GetOptionFromOptionType(15, 0).GetValue(ref text5);
-				this.IsFactionBValid = !this.IsEndGameTimerEnabled && !string.IsNullOrEmpty(text5) && this._currentIntermissionState != 1;
-				this.NextFactionBCultureID = (this.IsEndGameTimerEnabled ? string.Empty : text5);
+				string text6;
+				MultiplayerOptions.Instance.GetOptionFromOptionType(15, 0).GetValue(ref text6);
+				this.IsFactionBValid = !this.IsEndGameTimerEnabled && !string.IsNullOrEmpty(text6) && this._currentIntermissionState != 1;
+				this.NextFactionBCultureID = (this.IsEndGameTimerEnabled ? string.Empty : text6);
 				if (!string.IsNullOrEmpty(this.NextFactionBCultureID))
 				{
 					BasicCultureObject object4 = MBObjectManager.Instance.GetObject<BasicCultureObject>(this.NextFactionBCultureID);
@@ -204,15 +214,15 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Intermission
 				this.IsFactionAValid = false;
 				this.IsFactionBValid = false;
 			}
-			string text6;
-			MultiplayerOptions.Instance.GetOptionFromOptionType(0, 0).GetValue(ref text6);
-			this.ServerName = text6;
 			string text7;
-			MultiplayerOptions.Instance.GetOptionFromOptionType(11, 0).GetValue(ref text7);
-			this.NextGameType = (this.IsEndGameTimerEnabled ? string.Empty : GameTexts.FindText("str_multiplayer_game_type", text7).ToString());
+			MultiplayerOptions.Instance.GetOptionFromOptionType(0, 0).GetValue(ref text7);
+			this.ServerName = text7;
 			string text8;
-			MultiplayerOptions.Instance.GetOptionFromOptionType(1, 0).GetValue(ref text8);
-			this.WelcomeMessage = (this.IsEndGameTimerEnabled ? string.Empty : text8);
+			MultiplayerOptions.Instance.GetOptionFromOptionType(11, 0).GetValue(ref text8);
+			this.NextGameType = (this.IsEndGameTimerEnabled ? string.Empty : GameTexts.FindText("str_multiplayer_game_type", text8).ToString());
+			string text9;
+			MultiplayerOptions.Instance.GetOptionFromOptionType(1, 0).GetValue(ref text9);
+			this.WelcomeMessage = (this.IsEndGameTimerEnabled ? string.Empty : text9);
 			int num4;
 			MultiplayerOptions.Instance.GetOptionFromOptionType(16, 0).GetValue(ref num4);
 			this.MaxNumPlayersValueText = num4.ToString();

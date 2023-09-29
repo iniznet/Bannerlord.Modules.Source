@@ -40,6 +40,12 @@ namespace TaleWorlds.Core
 
 		public FormationClass DefaultFormationClass { get; protected set; }
 
+		public float KnockbackResistance { get; private set; }
+
+		public float KnockdownResistance { get; private set; }
+
+		public float DismountResistance { get; private set; }
+
 		public FormationPositionPreference FormationPositionPreference { get; protected set; }
 
 		public bool IsInfantry
@@ -180,6 +186,9 @@ namespace TaleWorlds.Core
 			this.Level = character.Level;
 			this._basicName = character._basicName;
 			this._age = character._age;
+			this.KnockbackResistance = character.KnockbackResistance;
+			this.KnockdownResistance = character.KnockdownResistance;
+			this.DismountResistance = character.DismountResistance;
 			this.DefaultCharacterSkills = character.DefaultCharacterSkills;
 			this.HairTags = character.HairTags;
 			this.BeardTags = character.BeardTags;
@@ -300,6 +309,9 @@ namespace TaleWorlds.Core
 			this.DefaultFormationClass = originCharacter.DefaultFormationClass;
 			this.FormationPositionPreference = originCharacter.FormationPositionPreference;
 			this._equipmentRoster = originCharacter._equipmentRoster;
+			this.KnockbackResistance = originCharacter.KnockbackResistance;
+			this.KnockdownResistance = originCharacter.KnockdownResistance;
+			this.DismountResistance = originCharacter.DismountResistance;
 		}
 
 		public override void Deserialize(MBObjectManager objectManager, XmlNode node)
@@ -386,70 +398,87 @@ namespace TaleWorlds.Core
 						this._equipmentRoster.AddOverridenEquipments(objectManager, list);
 					}
 				}
-				else if (xmlNode2.Name == "face")
+				else
 				{
-					foreach (object obj4 in xmlNode2.ChildNodes)
+					if (xmlNode2.Name == "face")
 					{
-						XmlNode xmlNode5 = (XmlNode)obj4;
-						if (xmlNode5.Name == "hair_tags")
+						using (IEnumerator enumerator2 = xmlNode2.ChildNodes.GetEnumerator())
 						{
-							using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
+							while (enumerator2.MoveNext())
 							{
-								while (enumerator3.MoveNext())
+								object obj4 = enumerator2.Current;
+								XmlNode xmlNode5 = (XmlNode)obj4;
+								if (xmlNode5.Name == "hair_tags")
 								{
-									object obj5 = enumerator3.Current;
-									XmlNode xmlNode6 = (XmlNode)obj5;
-									this.HairTags = this.HairTags + xmlNode6.Attributes["name"].Value + ",";
+									using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
+									{
+										while (enumerator3.MoveNext())
+										{
+											object obj5 = enumerator3.Current;
+											XmlNode xmlNode6 = (XmlNode)obj5;
+											this.HairTags = this.HairTags + xmlNode6.Attributes["name"].Value + ",";
+										}
+										continue;
+									}
 								}
-								continue;
-							}
-						}
-						if (xmlNode5.Name == "beard_tags")
-						{
-							using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
-							{
-								while (enumerator3.MoveNext())
+								if (xmlNode5.Name == "beard_tags")
 								{
-									object obj6 = enumerator3.Current;
-									XmlNode xmlNode7 = (XmlNode)obj6;
-									this.BeardTags = this.BeardTags + xmlNode7.Attributes["name"].Value + ",";
+									using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
+									{
+										while (enumerator3.MoveNext())
+										{
+											object obj6 = enumerator3.Current;
+											XmlNode xmlNode7 = (XmlNode)obj6;
+											this.BeardTags = this.BeardTags + xmlNode7.Attributes["name"].Value + ",";
+										}
+										continue;
+									}
 								}
-								continue;
-							}
-						}
-						if (xmlNode5.Name == "tattoo_tags")
-						{
-							using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
-							{
-								while (enumerator3.MoveNext())
+								if (xmlNode5.Name == "tattoo_tags")
 								{
-									object obj7 = enumerator3.Current;
-									XmlNode xmlNode8 = (XmlNode)obj7;
-									this.TattooTags = this.TattooTags + xmlNode8.Attributes["name"].Value + ",";
+									using (IEnumerator enumerator3 = xmlNode5.ChildNodes.GetEnumerator())
+									{
+										while (enumerator3.MoveNext())
+										{
+											object obj7 = enumerator3.Current;
+											XmlNode xmlNode8 = (XmlNode)obj7;
+											this.TattooTags = this.TattooTags + xmlNode8.Attributes["name"].Value + ",";
+										}
+										continue;
+									}
 								}
-								continue;
+								if (xmlNode5.Name == "BodyProperties")
+								{
+									if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties))
+									{
+										Debug.FailedAssert("cannot read body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 428);
+									}
+								}
+								else if (xmlNode5.Name == "BodyPropertiesMax")
+								{
+									if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties2))
+									{
+										bodyProperties = bodyProperties2;
+										Debug.FailedAssert("cannot read max body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 437);
+									}
+								}
+								else if (xmlNode5.Name == "face_key_template")
+								{
+									MBBodyProperty mbbodyProperty = objectManager.ReadObjectReferenceFromXml<MBBodyProperty>("value", xmlNode5);
+									this.BodyPropertyRange = mbbodyProperty;
+								}
 							}
+							continue;
 						}
-						if (xmlNode5.Name == "BodyProperties")
-						{
-							if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties))
-							{
-								Debug.FailedAssert("cannot read body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 413);
-							}
-						}
-						else if (xmlNode5.Name == "BodyPropertiesMax")
-						{
-							if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties2))
-							{
-								bodyProperties = bodyProperties2;
-								Debug.FailedAssert("cannot read max body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 422);
-							}
-						}
-						else if (xmlNode5.Name == "face_key_template")
-						{
-							MBBodyProperty mbbodyProperty = objectManager.ReadObjectReferenceFromXml<MBBodyProperty>("value", xmlNode5);
-							this.BodyPropertyRange = mbbodyProperty;
-						}
+					}
+					if (xmlNode2.Name == "Resistances" || xmlNode2.Name == "resistances")
+					{
+						this.KnockbackResistance = XmlHelper.ReadFloat(xmlNode2, "knockback", 25f) * 0.01f;
+						this.KnockbackResistance = MBMath.ClampFloat(this.KnockbackResistance, 0f, 1f);
+						this.KnockdownResistance = XmlHelper.ReadFloat(xmlNode2, "knockdown", 50f) * 0.01f;
+						this.KnockdownResistance = MBMath.ClampFloat(this.KnockdownResistance, 0f, 1f);
+						this.DismountResistance = XmlHelper.ReadFloat(xmlNode2, "dismount", 50f) * 0.01f;
+						this.DismountResistance = MBMath.ClampFloat(this.DismountResistance, 0f, 1f);
 					}
 				}
 			}
@@ -517,6 +546,12 @@ namespace TaleWorlds.Core
 		{
 			base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 		}
+
+		public const float DefaultKnockbackResistance = 25f;
+
+		public const float DefaultKnockdownResistance = 50f;
+
+		public const float DefaultDismountResistance = 50f;
 
 		protected TextObject _basicName;
 

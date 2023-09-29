@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C6C}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B750}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.CampaignSystem.ViewModelCollection</RootNamespace>
     <AssemblyName>TaleWorlds.CampaignSystem.ViewModelCollection</AssemblyName>
@@ -362,31 +362,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.CampaignSystem\TaleWorlds.CampaignSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6b}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b74f}</Project>
       <Name>TaleWorlds.CampaignSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core.ViewModelCollection\TaleWorlds.Core.ViewModelCollection.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6e}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b752}</Project>
       <Name>TaleWorlds.Core.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b751}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7f}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b763}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b764}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b766}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8e}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b772}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
   </ItemGroup>

@@ -89,13 +89,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 				if (!string.Equals(this._lastButtonCancelHint, valueTuple2.Item2, StringComparison.OrdinalIgnoreCase))
 				{
 					base.ButtonCancelHint.HintText = (string.IsNullOrEmpty(valueTuple2.Item2) ? TextObject.Empty : new TextObject("{=!}" + valueTuple2.Item2, null));
+					this._lastButtonCancelHint = valueTuple2.Item2;
+					return;
 				}
-				this._lastButtonCancelHint = valueTuple2.Item2;
-				return;
 			}
-			base.IsButtonCancelEnabled = true;
-			base.ButtonOkHint.HintText = TextObject.Empty;
-			this._lastButtonCancelHint = string.Empty;
+			else
+			{
+				base.IsButtonCancelEnabled = true;
+				base.ButtonCancelHint.HintText = TextObject.Empty;
+				this._lastButtonCancelHint = string.Empty;
+			}
 		}
 
 		public void SetData(InquiryData data)

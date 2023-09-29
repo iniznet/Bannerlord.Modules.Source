@@ -50,6 +50,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this.NextTier = 0;
 				this.IsRenownProgressComplete = true;
 			}
+			this.CurrentRenownOverPreviousTier = this.CurrentRenown - this.MinRenownForCurrentTier;
+			this.CurrentTierRenownRange = this.NextTierRenown - this.MinRenownForCurrentTier;
 			this.RenownHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetClanRenownTooltip(Clan.PlayerClan));
 			this.GoldChangeTooltip = CampaignUIHelper.GetDenarTooltip();
 			this.RefreshDailyValues();
@@ -790,6 +792,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 		}
 
 		[DataSourceProperty]
+		public int CurrentTierRenownRange
+		{
+			get
+			{
+				return this._currentTierRenownRange;
+			}
+			set
+			{
+				if (value != this._currentTierRenownRange)
+				{
+					this._currentTierRenownRange = value;
+					base.OnPropertyChangedWithValue(value, "CurrentTierRenownRange");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public int CurrentRenownOverPreviousTier
+		{
+			get
+			{
+				return this._currentRenownOverPreviousTier;
+			}
+			set
+			{
+				if (value != this._currentRenownOverPreviousTier)
+				{
+					this._currentRenownOverPreviousTier = value;
+					base.OnPropertyChangedWithValue(value, "CurrentRenownOverPreviousTier");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public string MembersText
 		{
 			get
@@ -1363,6 +1399,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 		private int _nextTierRenown;
 
 		private int _nextTier;
+
+		private int _currentTierRenownRange;
+
+		private int _currentRenownOverPreviousTier;
 
 		private string _currentRenownText;
 

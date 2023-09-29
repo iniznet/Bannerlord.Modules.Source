@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C7E}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B762}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.GauntletUI.TooltipExtensions</RootNamespace>
     <AssemblyName>TaleWorlds.GauntletUI.TooltipExtensions</AssemblyName>
@@ -45,15 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.GauntletUI.Data\TaleWorlds.GauntletUI.Data.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7a}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b75e}</Project>
       <Name>TaleWorlds.GauntletUI.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI.PrefabSystem\TaleWorlds.GauntletUI.PrefabSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7d}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b761}</Project>
       <Name>TaleWorlds.GauntletUI.PrefabSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI\TaleWorlds.GauntletUI.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7b}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b75f}</Project>
       <Name>TaleWorlds.GauntletUI</Name>
     </ProjectReference>
   </ItemGroup>

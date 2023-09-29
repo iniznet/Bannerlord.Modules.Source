@@ -25,7 +25,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoadFinished()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				foreach (Town town in Town.AllFiefs)
 				{

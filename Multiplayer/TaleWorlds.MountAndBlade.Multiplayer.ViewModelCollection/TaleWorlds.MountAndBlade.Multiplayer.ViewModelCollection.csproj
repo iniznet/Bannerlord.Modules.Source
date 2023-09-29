@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{46AEA771-038E-4892-9D02-1725D2BC2D0E}</ProjectGuid>
+    <ProjectGuid>{2747A198-D28A-401F-BD2D-E2DD50B5C57E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection</AssemblyName>
@@ -219,7 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer\TaleWorlds.MountAndBlade.Multiplayer.csproj">
-      <Project>{46aea771-038e-4892-9d02-1725d2bc2d0b}</Project>
+      <Project>{2747a198-d28a-401f-bd2d-e2dd50b5c57b}</Project>
       <Name>TaleWorlds.MountAndBlade.Multiplayer</Name>
     </ProjectReference>
   </ItemGroup>

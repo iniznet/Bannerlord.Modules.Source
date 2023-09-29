@@ -5,6 +5,7 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.Screens;
@@ -116,7 +117,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 					if (parentNodeIndex != -1)
 					{
 						this._dataSource.SelectItem(parentNodeIndex, nodeIndex);
-						this._isReturningToCategories = nodeIndex == 0;
 						return;
 					}
 					this._dataSource.SelectItem(nodeIndex, -1);
@@ -127,21 +127,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 				{
 					if (!this._isSelectingFromInput)
 					{
-						if (this._isReturningToCategories && nodeIndex >= 0 && nodeIndex < this._dataSource.Nodes.Count)
+						this.HandleClosingHoldCheer();
+						this._dataSource.Nodes.ApplyActionOnAllItems(delegate(CheerBarkNodeItemVM n)
 						{
-							this._dataSource.Nodes[nodeIndex].SubNodes.ApplyActionOnAllItems(delegate(CheerBarkNodeItemVM x)
-							{
-								x.IsSelected = false;
-							});
-							this._dataSource.Nodes.ApplyActionOnAllItems(delegate(CheerBarkNodeItemVM x)
-							{
-								x.IsSelected = false;
-							});
-						}
-						else
-						{
-							this.HandleClosingHoldCheer();
-						}
+							n.ClearSelectionRecursive();
+						});
 					}
 					this._isSelectingFromInput = false;
 				}
@@ -272,6 +262,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 			if (GameNetwork.IsClient)
 			{
+				TauntUsageManager.TauntUsage.TauntUsageFlag actionNotUsableReason = CosmeticsManagerHelper.GetActionNotUsableReason(Agent.Main, tauntIndex);
+				if (actionNotUsableReason != null)
+				{
+					InformationManager.DisplayMessage(new InformationMessage(TauntUsageManager.GetActionDisabledReasonText(actionNotUsableReason)));
+					return;
+				}
 				GameNetwork.BeginModuleEventAsClient();
 				GameNetwork.WriteMessage(new TauntSelected(tauntIndex));
 				GameNetwork.EndModuleEventAsClient();
@@ -349,7 +345,5 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 		private float _cooldownTimeRemaining;
 
 		private bool _isSelectingFromInput;
-
-		private bool _isReturningToCategories;
 	}
 }

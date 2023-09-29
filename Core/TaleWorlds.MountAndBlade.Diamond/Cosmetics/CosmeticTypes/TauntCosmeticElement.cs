@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -32,45 +30,48 @@ namespace TaleWorlds.MountAndBlade.Diamond.Cosmetics.CosmeticTypes
 			return new PlatformFilePath(new PlatformDirectoryPath(PlatformFileType.User, "Data"), "Taunts.json");
 		}
 
-		private static async Task ReadExistingSlotDataAsync()
+		private static void ReadExistingSlotData()
 		{
-			if (!TauntCosmeticElement._isReadingData)
+			if (TauntCosmeticElement._isReadingData)
 			{
-				TauntCosmeticElement._isReadingData = true;
-				PlatformFilePath dataFilePath = TauntCosmeticElement.GetDataFilePath();
-				TauntCosmeticElement._localSlotData = null;
-				if (FileHelper.FileExists(dataFilePath))
-				{
-					string text = await FileHelper.GetFileContentStringAsync(dataFilePath);
-					if (!string.IsNullOrEmpty(text))
-					{
-						TauntCosmeticElement._localSlotData = JsonConvert.DeserializeObject<Dictionary<string, List<ValueTuple<string, int>>>>(text);
-					}
-				}
-				TauntCosmeticElement._isReadingData = false;
+				Debug.FailedAssert("Trying to read taunt data concurrently, this shouldn't happen", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Diamond\\Cosmetics\\CosmeticTypes\\TauntCosmeticElement.cs", "ReadExistingSlotData", 50);
+				return;
 			}
+			TauntCosmeticElement._isReadingData = true;
+			PlatformFilePath dataFilePath = TauntCosmeticElement.GetDataFilePath();
+			TauntCosmeticElement._localSlotData = null;
+			if (FileHelper.FileExists(dataFilePath))
+			{
+				string fileContentString = FileHelper.GetFileContentString(dataFilePath);
+				if (!string.IsNullOrEmpty(fileContentString))
+				{
+					TauntCosmeticElement._localSlotData = JsonConvert.DeserializeObject<Dictionary<string, List<ValueTuple<string, int>>>>(fileContentString);
+				}
+			}
+			TauntCosmeticElement._isReadingData = false;
 		}
 
-		public static async Task<List<ValueTuple<string, int>>> GetTauntIndicesForPlayerAsync(string playerId)
+		public static List<ValueTuple<string, int>> GetTauntIndicesForPlayer(string playerId)
 		{
-			await TauntCosmeticElement.ReadExistingSlotDataAsync();
+			TauntCosmeticElement.ReadExistingSlotData();
 			List<ValueTuple<string, int>> list = null;
 			Dictionary<string, List<ValueTuple<string, int>>> localSlotData = TauntCosmeticElement._localSlotData;
-			List<ValueTuple<string, int>> list2;
 			if (localSlotData != null && localSlotData.TryGetValue(playerId, out list))
 			{
-				list2 = list;
+				return list;
 			}
-			else
-			{
-				list2 = null;
-			}
-			return list2;
+			return null;
 		}
 
-		public static async Task SetTauntIndicesForPlayerAsync(string playerBannerlordId, List<ValueTuple<string, int>> tauntIndices)
+		public static void SetTauntIndicesForPlayer(string playerBannerlordId, List<ValueTuple<string, int>> tauntIndices)
 		{
-			await TauntCosmeticElement.ReadExistingSlotDataAsync();
+			if (TauntCosmeticElement._isWritingData)
+			{
+				Debug.FailedAssert("Trying to write taunt data concurrently. This shouldn't happen.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Diamond\\Cosmetics\\CosmeticTypes\\TauntCosmeticElement.cs", "SetTauntIndicesForPlayer", 90);
+				return;
+			}
+			TauntCosmeticElement._isWritingData = true;
+			TauntCosmeticElement.ReadExistingSlotData();
 			Dictionary<string, List<ValueTuple<string, int>>> dictionary = TauntCosmeticElement._localSlotData ?? new Dictionary<string, List<ValueTuple<string, int>>>();
 			PlatformFilePath dataFilePath = TauntCosmeticElement.GetDataFilePath();
 			string text = playerBannerlordId.ToString();
@@ -79,23 +80,18 @@ namespace TaleWorlds.MountAndBlade.Diamond.Cosmetics.CosmeticTypes
 				dictionary.Remove(text);
 			}
 			dictionary.Add(text, tauntIndices);
-			TaskAwaiter<SaveResult> taskAwaiter = FileHelper.SaveFileAsync(dataFilePath, Common.SerializeObjectAsJson(dictionary)).GetAwaiter();
-			if (!taskAwaiter.IsCompleted)
+			if (FileHelper.SaveFile(dataFilePath, Common.SerializeObjectAsJson(dictionary)) != SaveResult.Success)
 			{
-				await taskAwaiter;
-				TaskAwaiter<SaveResult> taskAwaiter2;
-				taskAwaiter = taskAwaiter2;
-				taskAwaiter2 = default(TaskAwaiter<SaveResult>);
+				Debug.FailedAssert("Failed to save taunt indices", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Diamond\\Cosmetics\\CosmeticTypes\\TauntCosmeticElement.cs", "SetTauntIndicesForPlayer", 114);
 			}
-			if (taskAwaiter.GetResult() != SaveResult.Success)
-			{
-				Debug.FailedAssert("Failed to save taunt indices", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Diamond\\Cosmetics\\CosmeticTypes\\TauntCosmeticElement.cs", "SetTauntIndicesForPlayerAsync", 105);
-			}
+			TauntCosmeticElement._isWritingData = false;
 		}
 
 		private static Dictionary<string, List<ValueTuple<string, int>>> _localSlotData = new Dictionary<string, List<ValueTuple<string, int>>>();
 
 		private static bool _isReadingData;
+
+		private static bool _isWritingData;
 
 		private const string _dataFolder = "Data";
 

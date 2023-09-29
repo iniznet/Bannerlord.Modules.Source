@@ -267,6 +267,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Friends
 		{
 			if (playerData == null)
 			{
+				Debug.FailedAssert("PlayerData shouldn't be null at this stage!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Friends\\MPLobbyPlayerBaseVM.cs", "UpdateWith", 276);
 				return;
 			}
 			this.PlayerData = playerData;

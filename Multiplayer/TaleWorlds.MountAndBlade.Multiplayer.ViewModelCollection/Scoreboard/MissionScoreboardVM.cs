@@ -24,14 +24,6 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard
 			this._missionScoreboardComponent = mission.GetMissionBehavior<MissionScoreboardComponent>();
 			this._voiceChatHandler = this._mission.GetMissionBehavior<VoiceChatHandler>();
 			this._permissionHandler = GameNetwork.GetNetworkComponent<MultiplayerPermissionHandler>();
-			if (this._voiceChatHandler != null)
-			{
-				this._voiceChatHandler.OnPeerMuteStatusUpdated += this.OnPeerMuteStatusUpdated;
-			}
-			if (this._permissionHandler != null)
-			{
-				this._permissionHandler.OnPlayerPlatformMuteChanged += this.OnPlayerPlatformMuteChanged;
-			}
 			this._canStartKickPolls = MultiplayerOptionsExtensions.GetBoolValue(5, 0);
 			if (this._canStartKickPolls)
 			{
@@ -45,15 +37,57 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard
 			this.InitSides();
 			GameKey gameKey = HotKeyManager.GetCategory("ScoreboardHotKeyCategory").GetGameKey(35);
 			this.ShowMouseKey = InputKeyItemVM.CreateFromGameKey(gameKey, false);
+			this.MissionName = "";
+			this.IsBotsEnabled = missionBehavior.MissionType == 5 || missionBehavior.MissionType == 4;
+			this.RegisterEvents();
+			this.RefreshValues();
+		}
+
+		public override void OnFinalize()
+		{
+			base.OnFinalize();
+			this.UnregisterEvents();
+			foreach (MissionScoreboardSideVM missionScoreboardSideVM in this.Sides)
+			{
+				missionScoreboardSideVM.OnFinalize();
+			}
+		}
+
+		private void RegisterEvents()
+		{
+			if (this._voiceChatHandler != null)
+			{
+				this._voiceChatHandler.OnPeerMuteStatusUpdated += this.OnPeerMuteStatusUpdated;
+			}
+			if (this._permissionHandler != null)
+			{
+				this._permissionHandler.OnPlayerPlatformMuteChanged += this.OnPlayerPlatformMuteChanged;
+			}
 			this._missionScoreboardComponent.OnPlayerSideChanged += this.OnPlayerSideChanged;
 			this._missionScoreboardComponent.OnPlayerPropertiesChanged += this.OnPlayerPropertiesChanged;
 			this._missionScoreboardComponent.OnBotPropertiesChanged += this.OnBotPropertiesChanged;
 			this._missionScoreboardComponent.OnRoundPropertiesChanged += this.OnRoundPropertiesChanged;
 			this._missionScoreboardComponent.OnScoreboardInitialized += this.OnScoreboardInitialized;
 			this._missionScoreboardComponent.OnMVPSelected += this.OnMVPSelected;
-			this.MissionName = "";
-			this.IsBotsEnabled = missionBehavior.MissionType == 5 || missionBehavior.MissionType == 4;
-			this.RefreshValues();
+		}
+
+		private void UnregisterEvents()
+		{
+			this._missionScoreboardComponent.OnPlayerSideChanged -= this.OnPlayerSideChanged;
+			this._missionScoreboardComponent.OnPlayerPropertiesChanged -= this.OnPlayerPropertiesChanged;
+			this._missionScoreboardComponent.OnBotPropertiesChanged -= this.OnBotPropertiesChanged;
+			this._missionScoreboardComponent.OnRoundPropertiesChanged -= this.OnRoundPropertiesChanged;
+			this._missionScoreboardComponent.OnScoreboardInitialized -= this.OnScoreboardInitialized;
+			this._missionScoreboardComponent.OnMVPSelected -= this.OnMVPSelected;
+			this._chatBox.OnPlayerMuteChanged -= new PlayerMutedDelegate(this.OnPlayerMuteChanged);
+			if (this._voiceChatHandler != null)
+			{
+				this._voiceChatHandler.OnPeerMuteStatusUpdated -= this.OnPeerMuteStatusUpdated;
+			}
+			if (this._permissionHandler != null)
+			{
+				this._permissionHandler.OnPlayerPlatformMuteChanged -= this.OnPlayerPlatformMuteChanged;
+			}
 		}
 
 		private void OnPlayerPlatformMuteChanged(PlayerId playerId, bool isPlayerMuted)
@@ -97,7 +131,15 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard
 			{
 				x.RefreshValues();
 			});
-			this.MapName = GameTexts.FindText("str_multiplayer_scene_name", missionBehavior.Mission.SceneName).ToString();
+			TextObject textObject;
+			if (GameTexts.TryGetText("str_multiplayer_scene_name", ref textObject, missionBehavior.Mission.SceneName))
+			{
+				this.MapName = textObject.ToString();
+			}
+			else
+			{
+				this.MapName = missionBehavior.Mission.SceneName;
+			}
 			this.ServerName = MultiplayerOptionsExtensions.GetStrValue(0, 0);
 			InputKeyItemVM showMouseKey = this.ShowMouseKey;
 			if (showMouseKey == null)
@@ -246,26 +288,6 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard
 				this.UpdateSideAllPlayersAttributes(1);
 				this.UpdateSideAllPlayersAttributes(0);
 				this._attributeRefreshTimeElapsed = 0f;
-			}
-		}
-
-		public override void OnFinalize()
-		{
-			base.OnFinalize();
-			this._missionScoreboardComponent.OnPlayerSideChanged -= this.OnPlayerSideChanged;
-			this._missionScoreboardComponent.OnPlayerPropertiesChanged -= this.OnPlayerPropertiesChanged;
-			this._missionScoreboardComponent.OnBotPropertiesChanged -= this.OnBotPropertiesChanged;
-			this._missionScoreboardComponent.OnRoundPropertiesChanged -= this.OnRoundPropertiesChanged;
-			this._missionScoreboardComponent.OnScoreboardInitialized -= this.OnScoreboardInitialized;
-			this._missionScoreboardComponent.OnMVPSelected -= this.OnMVPSelected;
-			this._chatBox.OnPlayerMuteChanged -= new PlayerMutedDelegate(this.OnPlayerMuteChanged);
-			if (this._voiceChatHandler != null)
-			{
-				this._voiceChatHandler.OnPeerMuteStatusUpdated -= this.OnPeerMuteStatusUpdated;
-			}
-			foreach (MissionScoreboardSideVM missionScoreboardSideVM in this.Sides)
-			{
-				missionScoreboardSideVM.OnFinalize();
 			}
 		}
 
@@ -423,7 +445,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Scoreboard
 				{
 					return 0;
 				}
-				Debug.FailedAssert("Ally side must be either Attacker or Defender", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Scoreboard\\MissionScoreboardVM.cs", "EnemySide", 516);
+				Debug.FailedAssert("Ally side must be either Attacker or Defender", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Scoreboard\\MissionScoreboardVM.cs", "EnemySide", 540);
 				return -1;
 			}
 		}

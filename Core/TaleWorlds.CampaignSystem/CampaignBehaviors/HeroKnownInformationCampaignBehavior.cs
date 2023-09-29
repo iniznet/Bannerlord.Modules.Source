@@ -229,7 +229,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoadFinishedEvent()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 27066))
 			{
 				foreach (Hero hero in Clan.PlayerClan.Heroes)
 				{

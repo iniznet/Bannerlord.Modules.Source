@@ -1255,6 +1255,21 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 
 		private GameEntity FillEntityWithPose(CharacterCode characterCode, GameEntity poseEntity, Scene scene)
 		{
+			if (characterCode.IsEmpty)
+			{
+				Debug.FailedAssert("Trying to fill entity with empty character code", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Tableaus\\TableauCacheManager.cs", "FillEntityWithPose", 1536);
+				return poseEntity;
+			}
+			if (string.IsNullOrEmpty(characterCode.EquipmentCode))
+			{
+				Debug.FailedAssert("Trying to fill entity with invalid equipment code", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Tableaus\\TableauCacheManager.cs", "FillEntityWithPose", 1542);
+				return poseEntity;
+			}
+			if (FaceGen.GetBaseMonsterFromRace(characterCode.Race) == null)
+			{
+				Debug.FailedAssert("There are no monster data for the race: " + characterCode.Race, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Tableaus\\TableauCacheManager.cs", "FillEntityWithPose", 1549);
+				return poseEntity;
+			}
 			if (TableauCacheManager.Current != null && poseEntity != null)
 			{
 				string text;

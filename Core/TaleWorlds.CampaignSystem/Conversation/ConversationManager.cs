@@ -155,7 +155,7 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			}
 			if (0 > this._currentSentence || this._currentSentence >= count)
 			{
-				Debug.FailedAssert("CurrentSentence is not valid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "ProcessSentence", 390);
+				Debug.FailedAssert("CurrentSentence is not valid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "ProcessSentence", 389);
 			}
 		}
 
@@ -349,6 +349,18 @@ namespace TaleWorlds.CampaignSystem.Conversation
 				num2--;
 			}
 			this._sentences[num] = conversationSentence;
+			if (this.CurOptions != null)
+			{
+				for (int i = 0; i < this.CurOptions.Count; i++)
+				{
+					if (this.CurOptions[i].SentenceNo >= num)
+					{
+						ConversationSentenceOption conversationSentenceOption = this.CurOptions[i];
+						conversationSentenceOption.SentenceNo = this.CurOptions[i].SentenceNo + 1;
+						this.CurOptions[i] = conversationSentenceOption;
+					}
+				}
+			}
 		}
 
 		private List<ConversationSentenceOption> GetSentenceOptions(bool onlyPlayer, bool processAfterOneOption)
@@ -1054,7 +1066,7 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			{
 				return conversationTag.IsApplicableTo(character);
 			}
-			Debug.FailedAssert("asking for a nonexistent tag", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "IsTagApplicable", 1420);
+			Debug.FailedAssert("asking for a nonexistent tag", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "IsTagApplicable", 1432);
 			return false;
 		}
 

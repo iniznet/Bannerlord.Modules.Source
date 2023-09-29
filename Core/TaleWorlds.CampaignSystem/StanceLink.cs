@@ -136,8 +136,7 @@ namespace TaleWorlds.CampaignSystem
 						this.ResetStats();
 						this.WarStartDate = CampaignTime.Now;
 					}
-					this.Faction1.ConsiderSiegesAndMapEvents(this.Faction2);
-					this.Faction2.ConsiderSiegesAndMapEvents(this.Faction1);
+					CampaignEventDispatcher.Instance.OnMapEventContinuityNeedsUpdate(this.Faction1);
 				}
 			}
 		}

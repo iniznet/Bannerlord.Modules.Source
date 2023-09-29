@@ -9,9 +9,11 @@ namespace TaleWorlds.MountAndBlade.ComponentInterfaces
 
 		public abstract void DecideMissileWeaponFlags(Agent attackerAgent, MissionWeapon missileWeapon, ref WeaponFlags missileWeaponFlags);
 
-		public abstract void CalculateCollisionStunMultipliers(Agent attackerAgent, Agent defenderAgent, bool isAlternativeAttack, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier);
+		public abstract void CalculateDefendedBlowStunMultipliers(Agent attackerAgent, Agent defenderAgent, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier);
 
 		public abstract float CalculateStaggerThresholdMultiplier(Agent defenderAgent);
+
+		public abstract float CalculateAlternativeAttackDamage(BasicCharacterObject attackerCharacter, WeaponComponentData weapon);
 
 		public abstract float CalculatePassiveAttackDamage(BasicCharacterObject attackerCharacter, in AttackCollisionData collisionData, float baseDamage);
 
@@ -19,7 +21,7 @@ namespace TaleWorlds.MountAndBlade.ComponentInterfaces
 
 		public abstract float CalculateShieldDamage(in AttackInformation attackInformation, float baseDamage);
 
-		public abstract float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman);
+		public abstract float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile);
 
 		public abstract bool CanWeaponIgnoreFriendlyFireChecks(WeaponComponentData weapon);
 

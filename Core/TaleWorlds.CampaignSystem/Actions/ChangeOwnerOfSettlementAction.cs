@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using TaleWorlds.CampaignSystem.GameMenus;
-using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -48,14 +45,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 				if (settlement.Party.MapEvent != null && !settlement.Party.MapEvent.AttackerSide.LeaderParty.MapFaction.IsAtWarWith(mapFaction) && settlement.Party.MapEvent.Winner == null)
 				{
 					settlement.Party.MapEvent.DiplomaticallyFinished = true;
-					List<MobileParty> list = new List<MobileParty>();
-					foreach (MapEventParty mapEventParty in settlement.Party.MapEvent.AttackerSide.Parties)
-					{
-						if (mapEventParty.Party.MobileParty != null)
-						{
-							list.Add(mapEventParty.Party.MobileParty);
-						}
-					}
 					foreach (WarPartyComponent warPartyComponent in settlement.MapFaction.WarPartyComponents)
 					{
 						MobileParty mobileParty2 = warPartyComponent.MobileParty;
@@ -65,18 +54,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 						}
 					}
 					settlement.Party.MapEvent.Update();
-					foreach (MobileParty mobileParty3 in list)
-					{
-						mobileParty3.Ai.SetMoveModeHold();
-						if (mobileParty3 == MobileParty.MainParty)
-						{
-							GameMenu.ActivateGameMenu("hostile_action_end_by_peace");
-						}
-					}
-				}
-				if (settlement.Party.SiegeEvent != null && !settlement.Party.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction.IsAtWarWith(mapFaction))
-				{
-					settlement.Party.SiegeEvent.FinalizeSiegeEvent();
 				}
 				foreach (Clan clan in Clan.NonBanditFactions)
 				{
@@ -84,15 +61,15 @@ namespace TaleWorlds.CampaignSystem.Actions
 					{
 						foreach (WarPartyComponent warPartyComponent2 in clan.WarPartyComponents)
 						{
-							MobileParty mobileParty4 = warPartyComponent2.MobileParty;
-							if (mobileParty4.BesiegedSettlement != settlement && (mobileParty4.DefaultBehavior == AiBehavior.RaidSettlement || mobileParty4.DefaultBehavior == AiBehavior.BesiegeSettlement || mobileParty4.DefaultBehavior == AiBehavior.AssaultSettlement) && mobileParty4.TargetSettlement == settlement)
+							MobileParty mobileParty3 = warPartyComponent2.MobileParty;
+							if (mobileParty3.BesiegedSettlement != settlement && (mobileParty3.DefaultBehavior == AiBehavior.RaidSettlement || mobileParty3.DefaultBehavior == AiBehavior.BesiegeSettlement || mobileParty3.DefaultBehavior == AiBehavior.AssaultSettlement) && mobileParty3.TargetSettlement == settlement)
 							{
-								Army army = mobileParty4.Army;
+								Army army = mobileParty3.Army;
 								if (army != null)
 								{
 									army.FinishArmyObjective();
 								}
-								mobileParty4.Ai.SetMoveModeHold();
+								mobileParty3.Ai.SetMoveModeHold();
 							}
 						}
 					}

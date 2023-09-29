@@ -97,7 +97,7 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			{
 				this.State = ((this._owner == Hero.MainHero) ? Alley.AreaState.OccupiedByPlayer : Alley.AreaState.OccupiedByGangLeader);
 				this._owner.OwnedAlleys.Add(this);
-				if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && !this._owner.IsAlive)
+				if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066) && !this._owner.IsAlive)
 				{
 					this.SetOwner(null);
 					this.State = Alley.AreaState.Empty;

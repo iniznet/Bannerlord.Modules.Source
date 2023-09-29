@@ -163,7 +163,7 @@ namespace TaleWorlds.ModuleManager
 
 		public void UpdateVersionChangeSet()
 		{
-			this.Version = new ApplicationVersion(this.Version.ApplicationVersionType, this.Version.Major, this.Version.Minor, this.Version.Revision, 24202);
+			this.Version = new ApplicationVersion(this.Version.ApplicationVersionType, this.Version.Major, this.Version.Minor, this.Version.Revision, 27066);
 		}
 
 		private const int ModuleDefaultChangeSet = 0;

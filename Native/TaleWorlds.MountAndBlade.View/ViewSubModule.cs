@@ -135,7 +135,7 @@ namespace TaleWorlds.MountAndBlade.View
 
 		private bool GetIsPlaystationGamepadActive()
 		{
-			return Input.ControllerType == 4 || Input.ControllerType == 2;
+			return Input.IsGamepadActive && (Input.ControllerType == 4 || Input.ControllerType == 2);
 		}
 
 		private void OnControllerTypeChanged(Input.ControllerTypes newType)

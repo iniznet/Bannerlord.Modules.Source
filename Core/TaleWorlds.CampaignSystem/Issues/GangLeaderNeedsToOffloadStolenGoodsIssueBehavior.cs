@@ -376,7 +376,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void OnGameLoad()
 			{
-				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 				{
 					Campaign.Current.IssueManager.DeactivateIssue(this);
 				}

@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<List<WeaponDesign>>("_craftingHistory", ref this._craftingHistory);
 			dataStore.SyncData<Dictionary<CraftingTemplate, List<CraftingPiece>>>("_openedPartsDictionary", ref this._openedPartsDictionary);
 			dataStore.SyncData<Dictionary<CraftingTemplate, float>>("_openNewPartXpDictionary", ref this._openNewPartXpDictionary);
-			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 24202))
+			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 27066))
 			{
 				List<CraftingPiece> list = new List<CraftingPiece>();
 				dataStore.SyncData<List<CraftingPiece>>("_openedParts", ref list);
@@ -162,8 +162,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				if (keyValuePair.Value.CraftingStamina < maxHeroCraftingStamina)
 				{
 					Hero key = keyValuePair.Key;
-					MobileParty partyBelongedTo = key.PartyBelongedTo;
-					if (((partyBelongedTo != null) ? partyBelongedTo.CurrentSettlement : null) != null)
+					if (key.CurrentSettlement != null)
 					{
 						keyValuePair.Value.CraftingStamina = MathF.Min(maxHeroCraftingStamina, keyValuePair.Value.CraftingStamina + this.GetStaminaHourlyRecoveryRate(key));
 					}
@@ -287,7 +286,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (KeyValuePair<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData> keyValuePair in this._craftedItemDictionary)
 			{
 				WeaponDesign weaponDesign = keyValuePair.Value.CraftedData;
-				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
+				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 27066))
 				{
 					WeaponDesignElement[] array = new WeaponDesignElement[keyValuePair.Value.CraftedData.UsedPieces.Length];
 					for (int i = 0; i < keyValuePair.Value.CraftedData.UsedPieces.Length; i++)
@@ -336,36 +335,36 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				foreach (CraftingOrder craftingOrder in keyValuePair2.Value.Slots)
 				{
-					if (craftingOrder != null && !craftingOrder.IsPreCraftedWeaponDesignValid())
+					if (craftingOrder != null)
 					{
-						keyValuePair2.Value.RemoveTownOrder(craftingOrder);
+						craftingOrder.InitializeCraftingOrderOnLoad();
 					}
 				}
-				List<CraftingOrder> list2 = new List<CraftingOrder>();
 				foreach (CraftingOrder craftingOrder2 in keyValuePair2.Value.CustomOrders)
 				{
-					if (craftingOrder2.IsPreCraftedWeaponDesignValid())
-					{
-						list2.Add(craftingOrder2);
-					}
-				}
-				foreach (CraftingOrder craftingOrder3 in list2)
-				{
-					keyValuePair2.Value.RemoveCustomOrder(craftingOrder3);
+					craftingOrder2.InitializeCraftingOrderOnLoad();
 				}
 			}
 			foreach (KeyValuePair<Town, CraftingCampaignBehavior.CraftingOrderSlots> keyValuePair3 in this.CraftingOrders)
 			{
-				foreach (CraftingOrder craftingOrder4 in keyValuePair3.Value.Slots)
+				foreach (CraftingOrder craftingOrder3 in keyValuePair3.Value.Slots)
 				{
-					if (craftingOrder4 != null)
+					if (craftingOrder3 != null && !craftingOrder3.IsPreCraftedWeaponDesignValid())
 					{
-						craftingOrder4.InitializeCraftingOrderOnLoad();
+						keyValuePair3.Value.RemoveTownOrder(craftingOrder3);
 					}
 				}
-				foreach (CraftingOrder craftingOrder5 in keyValuePair3.Value.CustomOrders)
+				List<CraftingOrder> list2 = new List<CraftingOrder>();
+				foreach (CraftingOrder craftingOrder4 in keyValuePair3.Value.CustomOrders)
 				{
-					craftingOrder5.InitializeCraftingOrderOnLoad();
+					if (craftingOrder4.IsPreCraftedWeaponDesignValid())
+					{
+						list2.Add(craftingOrder4);
+					}
+				}
+				foreach (CraftingOrder craftingOrder5 in list2)
+				{
+					keyValuePair3.Value.RemoveCustomOrder(craftingOrder5);
 				}
 			}
 		}
@@ -972,7 +971,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this._craftingOrders[town].RemoveCustomOrder(craftingOrder);
 				return;
 			}
-			Debug.FailedAssert("Trying to cancel a custom order that doesn't exist.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\CraftingCampaignBehavior.cs", "CancelCustomOrder", 1235);
+			Debug.FailedAssert("Trying to cancel a custom order that doesn't exist.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\CraftingCampaignBehavior.cs", "CancelCustomOrder", 1236);
 		}
 
 		private void CancelOrder(Town town, CraftingOrder craftingOrder)

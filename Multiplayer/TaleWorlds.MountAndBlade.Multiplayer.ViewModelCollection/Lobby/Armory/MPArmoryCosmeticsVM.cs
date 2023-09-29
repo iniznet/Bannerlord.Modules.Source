@@ -114,11 +114,16 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 
 		public async void OnTick(float dt)
 		{
+			if (NetworkMain.GameClient == null)
+			{
+				this._isNetworkCosmeticsDirty = false;
+				this._isLocalCosmeticsDirty = false;
+			}
 			if (!this._isSendingCosmeticData && !this._isRetrievingCosmeticData)
 			{
 				if (this._isNetworkCosmeticsDirty)
 				{
-					await this.RefreshCosmeticInfoFromNetworkAux();
+					this.RefreshCosmeticInfoFromNetworkAux();
 					this._isNetworkCosmeticsDirty = false;
 				}
 				if (this._isLocalCosmeticsDirty)
@@ -256,24 +261,24 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 			this._isNetworkCosmeticsDirty = true;
 		}
 
-		private async Task RefreshCosmeticInfoFromNetworkAux()
+		private void RefreshCosmeticInfoFromNetworkAux()
 		{
 			this._isRetrievingCosmeticData = true;
 			this.IsLoading = true;
 			this.HasCosmeticInfoReceived = true;
 			this.IsLoading = false;
-			string playerId = NetworkMain.GameClient.PlayerData.UserId.ToString();
-			List<ValueTuple<string, int>> list = await TauntCosmeticElement.GetTauntIndicesForPlayerAsync(playerId);
+			string text = NetworkMain.GameClient.PlayerData.UserId.ToString();
+			List<ValueTuple<string, int>> tauntIndicesForPlayer = TauntCosmeticElement.GetTauntIndicesForPlayer(text);
 			this._ownedCosmetics = NetworkMain.GameClient.OwnedCosmetics.ToList<string>();
-			this.RefreshTaunts(playerId, list);
+			this.RefreshTaunts(text, tauntIndicesForPlayer);
 			IReadOnlyDictionary<string, List<string>> usedCosmetics = NetworkMain.GameClient.UsedCosmetics;
 			this._usedCosmetics = new Dictionary<string, List<string>>();
 			foreach (KeyValuePair<string, List<string>> keyValuePair in usedCosmetics)
 			{
 				this._usedCosmetics.Add(keyValuePair.Key, new List<string>());
-				foreach (string text in usedCosmetics[keyValuePair.Key])
+				foreach (string text2 in usedCosmetics[keyValuePair.Key])
 				{
-					this._usedCosmetics[keyValuePair.Key].Add(text);
+					this._usedCosmetics[keyValuePair.Key].Add(text2);
 				}
 			}
 			this.RefreshSelectedClass(this._selectedClass, this._getSelectedPerks());
@@ -284,10 +289,10 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 		{
 			this._isSendingCosmeticData = true;
 			IReadOnlyDictionary<string, List<string>> usedCosmetics = NetworkMain.GameClient.UsedCosmetics;
-			Dictionary<string, List<ValueTuple<string, bool>>> updatedCosmetics = new Dictionary<string, List<ValueTuple<string, bool>>>();
+			Dictionary<string, List<ValueTuple<string, bool>>> dictionary = new Dictionary<string, List<ValueTuple<string, bool>>>();
 			foreach (string text in this._usedCosmetics.Keys)
 			{
-				updatedCosmetics.Add(text, new List<ValueTuple<string, bool>>());
+				dictionary.Add(text, new List<ValueTuple<string, bool>>());
 			}
 			foreach (KeyValuePair<string, List<string>> keyValuePair in usedCosmetics)
 			{
@@ -295,7 +300,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 				{
 					if (!this._usedCosmetics[keyValuePair.Key].Contains(text2))
 					{
-						updatedCosmetics[keyValuePair.Key].Add(new ValueTuple<string, bool>(text2, false));
+						dictionary[keyValuePair.Key].Add(new ValueTuple<string, bool>(text2, false));
 					}
 				}
 			}
@@ -308,7 +313,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 						while (enumerator3.MoveNext())
 						{
 							string text3 = enumerator3.Current;
-							updatedCosmetics[keyValuePair2.Key].Add(new ValueTuple<string, bool>(text3, true));
+							dictionary[keyValuePair2.Key].Add(new ValueTuple<string, bool>(text3, true));
 						}
 						continue;
 					}
@@ -317,11 +322,11 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 				{
 					if (!usedCosmetics[keyValuePair2.Key].Contains(text4))
 					{
-						updatedCosmetics[keyValuePair2.Key].Add(new ValueTuple<string, bool>(text4, true));
+						dictionary[keyValuePair2.Key].Add(new ValueTuple<string, bool>(text4, true));
 					}
 				}
 			}
-			foreach (KeyValuePair<string, List<ValueTuple<string, bool>>> keyValuePair3 in updatedCosmetics)
+			foreach (KeyValuePair<string, List<ValueTuple<string, bool>>> keyValuePair3 in dictionary)
 			{
 				List<ItemObject.ItemTypeEnum> list = new List<ItemObject.ItemTypeEnum>();
 				foreach (ValueTuple<string, bool> valueTuple in keyValuePair3.Value)
@@ -346,8 +351,8 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 					list2.Add(valueTuple2);
 				}
 			}
-			await TauntCosmeticElement.SetTauntIndicesForPlayerAsync(NetworkMain.GameClient.PlayerData.UserId.ToString(), list2);
-			bool flag = await NetworkMain.GameClient.UpdateUsedCosmeticItems(updatedCosmetics);
+			TauntCosmeticElement.SetTauntIndicesForPlayer(NetworkMain.GameClient.PlayerData.UserId.ToString(), list2);
+			bool flag = await NetworkMain.GameClient.UpdateUsedCosmeticItems(dictionary);
 			this._isSendingCosmeticData = false;
 			return flag;
 		}
@@ -391,15 +396,17 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 
 		private void EquipItemOnHeroPreview(MPArmoryCosmeticItemBaseVM itemVM)
 		{
-			if (itemVM != null)
+			if (itemVM == null)
 			{
-				Action<MPArmoryCosmeticItemBaseVM> onCosmeticPreview = MPArmoryCosmeticsVM.OnCosmeticPreview;
-				if (onCosmeticPreview == null)
-				{
-					return;
-				}
-				onCosmeticPreview(itemVM);
+				Debug.FailedAssert("Previewing null item", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Armory\\MPArmoryCosmeticsVM.cs", "EquipItemOnHeroPreview", 505);
+				return;
 			}
+			Action<MPArmoryCosmeticItemBaseVM> onCosmeticPreview = MPArmoryCosmeticsVM.OnCosmeticPreview;
+			if (onCosmeticPreview == null)
+			{
+				return;
+			}
+			onCosmeticPreview(itemVM);
 		}
 
 		private void OnCosmeticEquipRequested(MPArmoryCosmeticItemBaseVM cosmeticItemVM)
@@ -731,14 +738,12 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 		private void OnTauntItemEquipped(MPArmoryCosmeticTauntSlotVM equippedSlot, MPArmoryCosmeticTauntItemVM previousTauntItem, bool isSwapping)
 		{
 			NetworkMain.GameClient.PlayerData.UserId.ToString();
-			List<ValueTuple<string, int>> list = new List<ValueTuple<string, int>>();
 			for (int i = 0; i < this.TauntSlots.Count; i++)
 			{
 				MPArmoryCosmeticTauntItemVM assignedTauntItem = this.TauntSlots[i].AssignedTauntItem;
-				if (assignedTauntItem != null && assignedTauntItem.IsUnlocked)
+				if (assignedTauntItem != null && !assignedTauntItem.IsUnlocked)
 				{
-					ValueTuple<string, int> valueTuple = new ValueTuple<string, int>(assignedTauntItem.TauntID, i);
-					list.Add(valueTuple);
+					Debug.FailedAssert("Assigned a taunt without ownership: " + assignedTauntItem.TauntID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Armory\\MPArmoryCosmeticsVM.cs", "OnTauntItemEquipped", 850);
 				}
 			}
 			this._isLocalCosmeticsDirty = true;
@@ -808,6 +813,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 			}
 			if (clothingCategory == null)
 			{
+				Debug.FailedAssert("Trying to filter by null clothing category", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Armory\\MPArmoryCosmeticsVM.cs", "FilterClothingsByCategory", 913);
 				return;
 			}
 			this._currentClothingCategory = clothingCategory.ClothingCategory;
@@ -966,9 +972,16 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 				int item2 = tauntIndices[j].Item2;
 				MPArmoryCosmeticItemBaseVM mparmoryCosmeticItemBaseVM3;
 				MPArmoryCosmeticTauntItemVM mparmoryCosmeticTauntItemVM;
-				if (this._cosmeticItemsLookup.TryGetValue(item, out mparmoryCosmeticItemBaseVM3) && (mparmoryCosmeticTauntItemVM = mparmoryCosmeticItemBaseVM3 as MPArmoryCosmeticTauntItemVM) != null && mparmoryCosmeticTauntItemVM.IsUnlocked && item2 >= 0 && item2 < this.TauntSlots.Count)
+				if (this._cosmeticItemsLookup.TryGetValue(item, out mparmoryCosmeticItemBaseVM3) && (mparmoryCosmeticTauntItemVM = mparmoryCosmeticItemBaseVM3 as MPArmoryCosmeticTauntItemVM) != null)
 				{
-					this.TauntSlots[item2].AssignTauntItem(mparmoryCosmeticTauntItemVM, false);
+					if (!mparmoryCosmeticTauntItemVM.IsUnlocked)
+					{
+						Debug.FailedAssert("Trying to add non-owned cosmetic to taunt slot: " + mparmoryCosmeticTauntItemVM.TauntID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Armory\\MPArmoryCosmeticsVM.cs", "RefreshTaunts", 1090);
+					}
+					else if (item2 >= 0 && item2 < this.TauntSlots.Count)
+					{
+						this.TauntSlots[item2].AssignTauntItem(mparmoryCosmeticTauntItemVM, false);
+					}
 				}
 			}
 		}
@@ -1090,6 +1103,23 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 				{
 					this._hasCosmeticInfoReceived = value;
 					base.OnPropertyChangedWithValue(value, "HasCosmeticInfoReceived");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsManagingTaunts
+		{
+			get
+			{
+				return this._isManagingTaunts;
+			}
+			set
+			{
+				if (value != this._isManagingTaunts)
+				{
+					this._isManagingTaunts = value;
+					base.OnPropertyChangedWithValue(value, "IsManagingTaunts");
 				}
 			}
 		}
@@ -1415,6 +1445,8 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 		private bool _isLoading;
 
 		private bool _hasCosmeticInfoReceived;
+
+		private bool _isManagingTaunts;
 
 		private bool _isTauntAssignmentActive;
 

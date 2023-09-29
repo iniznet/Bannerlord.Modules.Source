@@ -44,7 +44,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 
 		private static bool CheckIsPlayStation()
 		{
-			return Input.ControllerType == Input.ControllerTypes.PlayStationDualSense || Input.ControllerType == Input.ControllerTypes.PlayStationDualShock;
+			return Input.ControllerType.IsPlaystation();
 		}
 
 		public int GetPriorityIndex()
