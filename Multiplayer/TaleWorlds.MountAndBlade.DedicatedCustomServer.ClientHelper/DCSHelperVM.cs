@@ -570,7 +570,7 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			{
 				get
 				{
-					return new TextObject("{=wdxXylLz}The map '{MAP_NAME}' has been downloaded into the {MODULE_NAME} module", null).SetTextVariable("MODULE_NAME", "Multiplayer");
+					return new TextObject("{=wdxXylLz}The map '{MAP_NAME}' has been successfully downloaded.", null).SetTextVariable("MODULE_NAME", "Multiplayer");
 				}
 			}
 
@@ -578,7 +578,7 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			{
 				get
 				{
-					return new TextObject("{=zifpttFx}{MAP_COUNT} maps have been downloaded into the {MODULE_NAME} module", null).SetTextVariable("MODULE_NAME", "Multiplayer");
+					return new TextObject("{=zifpttFx}{MAP_COUNT} maps have been successfully downloaded.", null).SetTextVariable("MODULE_NAME", "Multiplayer");
 				}
 			}
 
@@ -586,7 +586,7 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 			{
 				get
 				{
-					return new TextObject("{=DluuLzfU}'{MAP_NAME}' already exists within the {MODULE_NAME} module, should it be deleted and replaced? This action is IRREVERSIBLE.", null).SetTextVariable("MODULE_NAME", "Multiplayer");
+					return new TextObject("{=DluuLzfU}'{MAP_NAME}' already exists, should it be deleted and replaced? This action is IRREVERSIBLE.", null).SetTextVariable("MODULE_NAME", "Multiplayer");
 				}
 			}
 

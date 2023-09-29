@@ -43,6 +43,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			this.RefreshValues();
 		}
 
+		public void ClearSelectionRecursive()
+		{
+			this.IsSelected = false;
+			for (int i = 0; i < this.SubNodes.Count; i++)
+			{
+				this.SubNodes[i].ClearSelectionRecursive();
+			}
+		}
+
 		public void ExecuteFocused()
 		{
 			Action<CheerBarkNodeItemVM> onNodeFocused = CheerBarkNodeItemVM.OnNodeFocused;

@@ -394,7 +394,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		protected override void AfterLoad()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				if (this.Hero.Age >= (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && Campaign.Current.Models.CharacterDevelopmentModel.SkillsRequiredForLevel(this.Hero.Level) > this.TotalXp)
 				{

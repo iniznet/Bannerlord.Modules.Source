@@ -41,7 +41,7 @@ namespace TaleWorlds.MountAndBlade
 			return MBMath.IsBetween((int)blow.VictimBodyPart, 0, 6) && ((!attackerAgent.HasMount && blow.StrikeType == StrikeType.Swing && blow.WeaponRecord.WeaponFlags.HasAnyFlag(WeaponFlags.CanHook)) || (blow.StrikeType == StrikeType.Thrust && blow.WeaponRecord.WeaponFlags.HasAnyFlag(WeaponFlags.CanDismount)));
 		}
 
-		public override void CalculateCollisionStunMultipliers(Agent attackerAgent, Agent defenderAgent, bool isAlternativeAttack, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier)
+		public override void CalculateDefendedBlowStunMultipliers(Agent attackerAgent, Agent defenderAgent, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier)
 		{
 			attackerStunMultiplier = 1f;
 			defenderStunMultiplier = 1f;
@@ -71,12 +71,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetDismountPenetration(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
 		{
-			float num = 0f;
-			if (blow.StrikeType == StrikeType.Swing && blow.WeaponRecord.WeaponFlags.HasAnyFlag(WeaponFlags.CanHook))
-			{
-				num += 0.25f;
-			}
-			return num;
+			return 0f;
 		}
 
 		public override float GetKnockBackPenetration(Agent attackerAgent, WeaponComponentData attackerWeapon, in Blow blow, in AttackCollisionData attackCollisionData)
@@ -112,11 +107,32 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetHorseChargePenetration()
 		{
-			return 0.37f;
+			return 0.4f;
 		}
 
 		public override float CalculateStaggerThresholdMultiplier(Agent defenderAgent)
 		{
+			return 1f;
+		}
+
+		public override float CalculateAlternativeAttackDamage(BasicCharacterObject attackerCharacter, WeaponComponentData weapon)
+		{
+			if (weapon == null)
+			{
+				return 2f;
+			}
+			if (weapon.WeaponClass == WeaponClass.LargeShield)
+			{
+				return 2f;
+			}
+			if (weapon.WeaponClass == WeaponClass.SmallShield)
+			{
+				return 1f;
+			}
+			if (weapon.IsTwoHanded)
+			{
+				return 2f;
+			}
 			return 1f;
 		}
 
@@ -136,12 +152,12 @@ namespace TaleWorlds.MountAndBlade
 			MissionMultiplayerFlagDomination missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerFlagDomination>();
 			if (missionBehavior != null && missionBehavior.GetMissionType() == MultiplayerGameType.Captain)
 			{
-				return baseDamage * 0.5f;
+				return baseDamage * 0.75f;
 			}
 			return baseDamage;
 		}
 
-		public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman)
+		public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile)
 		{
 			float num = 1f;
 			switch (bodyPart)
@@ -153,7 +169,7 @@ namespace TaleWorlds.MountAndBlade
 				switch (type)
 				{
 				case DamageTypes.Invalid:
-					num = 2f;
+					num = 1.5f;
 					break;
 				case DamageTypes.Cut:
 					num = 1.2f;
@@ -161,7 +177,7 @@ namespace TaleWorlds.MountAndBlade
 				case DamageTypes.Pierce:
 					if (isHuman)
 					{
-						num = 2f;
+						num = (isMissile ? 2f : 1.5f);
 					}
 					else
 					{
@@ -177,7 +193,7 @@ namespace TaleWorlds.MountAndBlade
 				switch (type)
 				{
 				case DamageTypes.Invalid:
-					num = 2f;
+					num = 1.5f;
 					break;
 				case DamageTypes.Cut:
 					num = 1.2f;
@@ -185,7 +201,7 @@ namespace TaleWorlds.MountAndBlade
 				case DamageTypes.Pierce:
 					if (isHuman)
 					{
-						num = 2f;
+						num = (isMissile ? 2f : 1.5f);
 					}
 					else
 					{

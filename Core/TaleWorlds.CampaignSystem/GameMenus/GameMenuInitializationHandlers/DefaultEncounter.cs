@@ -405,28 +405,6 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");
 		}
 
-		[GameMenuInitializationHandler("hostile_action_end_by_peace")]
-		[GameMenuInitializationHandler("hostile_action_end_by_leave_kingdom_as_mercenary")]
-		public static void hostile_action_end_by_peace_on_init(MenuCallbackArgs args)
-		{
-			if (MobileParty.MainParty.BesiegedSettlement != null)
-			{
-				args.MenuContext.SetBackgroundMeshName(MobileParty.MainParty.BesiegedSettlement.SettlementComponent.WaitMeshName);
-				return;
-			}
-			if (MobileParty.MainParty.LastVisitedSettlement != null)
-			{
-				args.MenuContext.SetBackgroundMeshName(MobileParty.MainParty.LastVisitedSettlement.SettlementComponent.WaitMeshName);
-				return;
-			}
-			if (PlayerEncounter.EncounterSettlement != null)
-			{
-				args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounterSettlement.SettlementComponent.WaitMeshName);
-				return;
-			}
-			Debug.FailedAssert("no menu background to initialize!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "hostile_action_end_by_peace_on_init", 486);
-		}
-
 		[GameMenuInitializationHandler("new_game_begin")]
 		public static void game_menu_new_game_begin_on_init(MenuCallbackArgs args)
 		{

@@ -5370,12 +5370,11 @@ namespace TaleWorlds.MountAndBlade
 			{
 				InformationManager.DisplayMessage(new InformationMessage(GameTexts.FindText("ui_hit_shield_on_back", null).ToString(), Color.ConvertStringToColor("#FFFFFFFF")));
 			}
-			MatrixFrame matrixFrame;
 			bool flag11;
+			MatrixFrame matrixFrame;
 			if (!collisionData.MissileHasPhysics && missileCollisionReaction == Mission.MissileCollisionReaction.Stick)
 			{
-				matrixFrame = this.CalculateAttachedLocalFrame(attachGlobalFrame, collisionData, missile.Weapon.CurrentUsageItem, victim, hitEntity, movementVelocity, missileAngularVelocity, affectedShieldGlobalFrame, true);
-				flag11 = true;
+				matrixFrame = this.CalculateAttachedLocalFrame(attachGlobalFrame, collisionData, missile.Weapon.CurrentUsageItem, victim, hitEntity, movementVelocity, missileAngularVelocity, affectedShieldGlobalFrame, true, out flag11);
 			}
 			else
 			{
@@ -5775,8 +5774,9 @@ namespace TaleWorlds.MountAndBlade
 			return num3;
 		}
 
-		private MatrixFrame CalculateAttachedLocalFrame(in MatrixFrame attachedGlobalFrame, AttackCollisionData collisionData, WeaponComponentData missileWeapon, Agent affectedAgent, GameEntity hitEntity, Vec3 missileMovementVelocity, Vec3 missileRotationSpeed, MatrixFrame shieldGlobalFrame, bool shouldMissilePenetrate)
+		private MatrixFrame CalculateAttachedLocalFrame(in MatrixFrame attachedGlobalFrame, AttackCollisionData collisionData, WeaponComponentData missileWeapon, Agent affectedAgent, GameEntity hitEntity, Vec3 missileMovementVelocity, Vec3 missileRotationSpeed, MatrixFrame shieldGlobalFrame, bool shouldMissilePenetrate, out bool isAttachedFrameLocal)
 		{
+			isAttachedFrameLocal = false;
 			MatrixFrame matrixFrame = attachedGlobalFrame;
 			bool isNonZero = missileWeapon.RotationSpeed.IsNonZero;
 			bool flag = affectedAgent != null && !collisionData.AttackBlockedWithShield && missileWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.AmmoSticksWhenShot);
@@ -5817,6 +5817,7 @@ namespace TaleWorlds.MountAndBlade
 			if (collisionData.AttackBlockedWithShield)
 			{
 				matrixFrame = shieldGlobalFrame.TransformToLocal(matrixFrame);
+				isAttachedFrameLocal = true;
 			}
 			else if (affectedAgent != null)
 			{
@@ -5825,6 +5826,7 @@ namespace TaleWorlds.MountAndBlade
 					MBAgentVisuals agentVisuals = affectedAgent.AgentVisuals;
 					matrixFrame = agentVisuals.GetGlobalFrame().TransformToParent(agentVisuals.GetSkeleton().GetBoneEntitialFrameWithIndex(collisionData.CollisionBoneIndex)).GetUnitRotFrame(affectedAgent.AgentScale)
 						.TransformToLocalNonOrthogonal(ref matrixFrame);
+					isAttachedFrameLocal = true;
 				}
 			}
 			else if (hitEntity != null)
@@ -5832,10 +5834,12 @@ namespace TaleWorlds.MountAndBlade
 				if (collisionData.CollisionBoneIndex >= 0)
 				{
 					matrixFrame = hitEntity.Skeleton.GetBoneEntitialFrameWithIndex(collisionData.CollisionBoneIndex).TransformToLocalNonOrthogonal(ref matrixFrame);
+					isAttachedFrameLocal = true;
 				}
 				else
 				{
 					matrixFrame = hitEntity.GetGlobalFrame().TransformToLocalNonOrthogonal(ref matrixFrame);
+					isAttachedFrameLocal = true;
 				}
 			}
 			else

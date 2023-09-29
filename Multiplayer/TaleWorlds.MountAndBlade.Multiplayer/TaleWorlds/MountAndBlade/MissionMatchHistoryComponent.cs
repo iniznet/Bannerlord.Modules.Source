@@ -2,6 +2,7 @@
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.Multiplayer.NetworkComponents;
 using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
@@ -10,7 +11,8 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public static MissionMatchHistoryComponent CreateIfConditionsAreMet()
 		{
-			if (NetworkMain.GameClient.IsInGame && NetworkMain.GameClient.LastBattleIsOfficial)
+			BaseNetworkComponent networkComponent = GameNetwork.GetNetworkComponent<BaseNetworkComponent>();
+			if ((networkComponent == null || networkComponent.ClientIntermissionState == 0 || NetworkMain.GameClient.IsInGame) && NetworkMain.GameClient.LastBattleIsOfficial)
 			{
 				return new MissionMatchHistoryComponent();
 			}
@@ -33,6 +35,11 @@ namespace TaleWorlds.MountAndBlade
 				this._matchInfo.MatchId = NetworkMain.GameClient.CurrentMatchId;
 			}
 			this._matchInfo.MatchDate = DateTime.Now;
+		}
+
+		private static void PrintDebugLog(string text)
+		{
+			Debug.Print("[MATCH_HISTORY_COMPONTENT]: " + text, 0, 9, 17592186044416UL);
 		}
 
 		private async void LoadMatchhHistory()
@@ -73,36 +80,44 @@ namespace TaleWorlds.MountAndBlade
 
 		private void HandleServerEventMissionStateChange(GameNetworkMessage baseMessage)
 		{
-			if (((MissionStateChange)baseMessage).CurrentState == 2 && !this._recordedHistory)
+			if (((MissionStateChange)baseMessage).CurrentState == 2)
 			{
-				MissionScoreboardComponent missionBehavior = base.Mission.GetMissionBehavior<MissionScoreboardComponent>();
-				if (missionBehavior != null && !missionBehavior.IsOneSided)
+				MissionMatchHistoryComponent.PrintDebugLog("Received mission ending message from server");
+				if (!this._recordedHistory)
 				{
-					int roundScore = missionBehavior.GetRoundScore(1);
-					int roundScore2 = missionBehavior.GetRoundScore(0);
-					BattleSideEnum matchWinnerSide = missionBehavior.GetMatchWinnerSide();
-					this._matchInfo.WinnerTeam = matchWinnerSide;
-					this._matchInfo.AttackerScore = roundScore;
-					this._matchInfo.DefenderScore = roundScore2;
-					MissionScoreboardComponent.MissionScoreboardSide[] sides = missionBehavior.Sides;
-					for (int i = 0; i < sides.Length; i++)
+					MissionMatchHistoryComponent.PrintDebugLog("Match history is eligible for recording after end message");
+					MissionScoreboardComponent missionBehavior = base.Mission.GetMissionBehavior<MissionScoreboardComponent>();
+					if (missionBehavior != null && !missionBehavior.IsOneSided)
 					{
-						foreach (MissionPeer missionPeer in sides[i].Players)
+						int roundScore = missionBehavior.GetRoundScore(1);
+						int roundScore2 = missionBehavior.GetRoundScore(0);
+						BattleSideEnum matchWinnerSide = missionBehavior.GetMatchWinnerSide();
+						this._matchInfo.WinnerTeam = matchWinnerSide;
+						this._matchInfo.AttackerScore = roundScore;
+						this._matchInfo.DefenderScore = roundScore2;
+						MissionScoreboardComponent.MissionScoreboardSide[] sides = missionBehavior.Sides;
+						for (int i = 0; i < sides.Length; i++)
 						{
-							this._matchInfo.TryUpdatePlayerStats(missionPeer.Peer.Id.ToString(), missionPeer.KillCount, missionPeer.DeathCount, missionPeer.AssistCount);
+							foreach (MissionPeer missionPeer in sides[i].Players)
+							{
+								this._matchInfo.TryUpdatePlayerStats(missionPeer.Peer.Id.ToString(), missionPeer.KillCount, missionPeer.DeathCount, missionPeer.AssistCount);
+							}
 						}
 					}
+					MatchHistory.AddMatch(this._matchInfo);
+					MatchHistory.Serialize();
+					this._recordedHistory = true;
+					MissionMatchHistoryComponent.PrintDebugLog("Recorded match history after end message");
 				}
-				MatchHistory.AddMatch(this._matchInfo);
-				MatchHistory.Serialize();
-				this._recordedHistory = true;
 			}
 		}
 
 		public override void OnRemoveBehavior()
 		{
+			MissionMatchHistoryComponent.PrintDebugLog("Removing match history behavior");
 			if (this._matchInfo.GameType != "Duel" && !this._recordedHistory)
 			{
+				MissionMatchHistoryComponent.PrintDebugLog("Match history was eligible for recording when removing behavior");
 				this._matchInfo.WinnerTeam = -1;
 				MissionScoreboardComponent missionBehavior = base.Mission.GetMissionBehavior<MissionScoreboardComponent>();
 				if (missionBehavior != null)
@@ -122,6 +137,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				MatchHistory.AddMatch(this._matchInfo);
 				MatchHistory.Serialize();
+				MissionMatchHistoryComponent.PrintDebugLog("Recorded match history after removing behavior");
 				this._recordedHistory = true;
 			}
 			MissionPeer.OnTeamChanged -= new MissionPeer.OnTeamChangedDelegate(this.TeamChange);

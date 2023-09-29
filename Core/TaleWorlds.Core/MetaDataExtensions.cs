@@ -32,7 +32,7 @@ namespace TaleWorlds.Core
 			{
 				return ApplicationVersion.Empty;
 			}
-			return ApplicationVersion.FromString(text, 24202);
+			return ApplicationVersion.FromString(text, 27066);
 		}
 
 		public static string[] GetModules(this MetaData metaData)
@@ -53,7 +53,7 @@ namespace TaleWorlds.Core
 			{
 				try
 				{
-					return ApplicationVersion.FromString(text2, 24202);
+					return ApplicationVersion.FromString(text2, 27066);
 				}
 				catch (Exception ex)
 				{

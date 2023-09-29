@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C6E}</ProjectGuid>
+    <ProjectGuid>{4FCCA1EC-F5E2-4BC6-8C79-D8B94359B752}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Core</RootNamespace>
     <AssemblyName>TaleWorlds.Core.ViewModelCollection</AssemblyName>
@@ -81,23 +81,23 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b751}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b764}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b766}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8e}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b772}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
+      <Project>{4fcca1ec-f5e2-4bc6-8c79-d8b94359b777}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5AA53B8C-9531-4C6B-9B33-21BCBC5E4C8B}</ProjectGuid>
+    <ProjectGuid>{5A31B146-5D62-4691-9339-8D8B2539B36F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode.View</RootNamespace>
     <AssemblyName>StoryMode.View</AssemblyName>
@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryMode\StoryMode.csproj">
-      <Project>{5aa53b8c-9531-4c6b-9b33-21bcbc5e4c89}</Project>
+      <Project>{5a31b146-5d62-4691-9339-8d8b2539b36d}</Project>
       <Name>StoryMode</Name>
     </ProjectReference>
   </ItemGroup>

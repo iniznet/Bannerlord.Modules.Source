@@ -271,6 +271,7 @@ namespace TaleWorlds.CampaignSystem
 			this._onConfigChanged.ClearListeners(obj);
 			this._onCraftingOrderCompleted.ClearListeners(obj);
 			this._onItemsRefined.ClearListeners(obj);
+			this._onMapEventContinuityNeedsUpdate.ClearListeners(obj);
 		}
 
 		public static IMbEvent OnPlayerBodyPropertiesChangedEvent
@@ -455,7 +456,7 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._clanTierIncrease.Invoke(clan, shouldNotify);
 		}
 
-		public static IMbEvent<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool> ClanChangedKingdom
+		public static IMbEvent<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool> OnClanChangedKingdomEvent
 		{
 			get
 			{
@@ -3337,6 +3338,19 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._canHaveQuestsOrIssues.Invoke(hero, ref result);
 		}
 
+		public static IMbEvent<IFaction> OnMapEventContinuityNeedsUpdateEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onMapEventContinuityNeedsUpdate;
+			}
+		}
+
+		public override void OnMapEventContinuityNeedsUpdate(IFaction faction)
+		{
+			CampaignEvents.Instance._onMapEventContinuityNeedsUpdate.Invoke(faction);
+		}
+
 		private readonly MbEvent _onPlayerBodyPropertiesChangedEvent = new MbEvent();
 
 		private readonly MbEvent<BarterData> _barterablesRequested = new MbEvent<BarterData>();
@@ -3808,5 +3822,7 @@ namespace TaleWorlds.CampaignSystem
 		private readonly ReferenceMBEvent<Hero, bool> _canMoveToSettlementEvent = new ReferenceMBEvent<Hero, bool>();
 
 		private readonly ReferenceMBEvent<Hero, bool> _canHaveQuestsOrIssues = new ReferenceMBEvent<Hero, bool>();
+
+		private readonly MbEvent<IFaction> _onMapEventContinuityNeedsUpdate = new MbEvent<IFaction>();
 	}
 }

@@ -743,7 +743,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 
 		internal GenericOptionDataVM GetOptionItem(IOptionData option)
 		{
-			bool flag = false;
+			bool flag = Input.ControllerType.IsPlaystation();
 			MBTextManager.SetTextVariable("IS_PLAYSTATION", flag ? 1 : 0);
 			if (!option.IsAction())
 			{

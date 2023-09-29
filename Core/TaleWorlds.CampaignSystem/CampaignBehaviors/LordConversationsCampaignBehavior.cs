@@ -2435,7 +2435,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public bool conversation_player_want_to_join_faction_as_mercenary_or_vassal_on_condition()
 		{
-			if (Hero.OneToOneConversationHero.MapFaction != null && !Hero.OneToOneConversationHero.IsPrisoner && Hero.MainHero.MapFaction != Hero.OneToOneConversationHero.MapFaction && Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction && (!Hero.MainHero.MapFaction.IsKingdomFaction || Clan.PlayerClan.IsUnderMercenaryService) && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction))
+			if (Hero.OneToOneConversationHero.MapFaction != null && !Hero.OneToOneConversationHero.IsPrisoner && Hero.OneToOneConversationHero.Occupation == Occupation.Lord && Hero.MainHero.MapFaction != Hero.OneToOneConversationHero.MapFaction && Hero.OneToOneConversationHero.MapFaction.IsKingdomFaction && (!Hero.MainHero.MapFaction.IsKingdomFaction || Clan.PlayerClan.IsUnderMercenaryService) && !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.OneToOneConversationHero.MapFaction))
 			{
 				if (Hero.OneToOneConversationHero.MapFaction.Leader == Hero.OneToOneConversationHero)
 				{
@@ -2469,7 +2469,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		public void conversation_player_want_to_end_service_as_mercenary_on_consequence()
 		{
 			ChangeClanInfluenceAction.Apply(Clan.PlayerClan, -Hero.MainHero.Clan.Influence);
-			ChangeKingdomAction.ApplyByLeaveKingdomAsMercenaryWithKingDecision(Hero.MainHero.Clan, true);
+			ChangeKingdomAction.ApplyByLeaveKingdomAsMercenary(Hero.MainHero.Clan, true);
 		}
 
 		public bool conversation_player_ask_to_claim_land_on_condition()

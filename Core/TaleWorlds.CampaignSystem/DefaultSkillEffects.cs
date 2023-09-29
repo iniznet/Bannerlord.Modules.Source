@@ -150,19 +150,27 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public static SkillEffect HorseWeaponDamagePenalty
+		public static SkillEffect MountedWeaponDamagePenalty
 		{
 			get
 			{
-				return DefaultSkillEffects.Instance._effectHorseWeaponDamagePenalty;
+				return DefaultSkillEffects.Instance._effectMountedWeaponDamagePenalty;
 			}
 		}
 
-		public static SkillEffect HorseWeaponSpeedPenalty
+		public static SkillEffect MountedWeaponSpeedPenalty
 		{
 			get
 			{
-				return DefaultSkillEffects.Instance._effectHorseWeaponSpeedPenalty;
+				return DefaultSkillEffects.Instance._effectMountedWeaponSpeedPenalty;
+			}
+		}
+
+		public static SkillEffect MountedWeaponAccuracyPenalty
+		{
+			get
+			{
+				return DefaultSkillEffects.Instance._effectMountedWeaponAccuracyPenalty;
 			}
 		}
 
@@ -390,8 +398,9 @@ namespace TaleWorlds.CampaignSystem
 			this._effectHorseLevel = this.Create("HorseLevel");
 			this._effectHorseSpeed = this.Create("HorseSpeed");
 			this._effectHorseManeuver = this.Create("HorseManeuver");
-			this._effectHorseWeaponDamagePenalty = this.Create("HorseWeaponDamagePenalty");
-			this._effectHorseWeaponSpeedPenalty = this.Create("HorseWeaponSpeedPenalty");
+			this._effectMountedWeaponDamagePenalty = this.Create("MountedWeaponDamagePenalty");
+			this._effectMountedWeaponSpeedPenalty = this.Create("MountedWeaponSpeedPenalty");
+			this._effectMountedWeaponAccuracyPenalty = this.Create("MountedWeaponAccuracyPenalty");
 			this._effectDismountResistance = this.Create("DismountResistance");
 			this._effectAthleticsSpeedFactor = this.Create("AthleticsSpeedFactor");
 			this._effectAthleticsWeightFactor = this.Create("AthleticsWeightFactor");
@@ -444,8 +453,9 @@ namespace TaleWorlds.CampaignSystem
 			this._effectHorseLevel.Initialize(new TextObject("{=8uBbbwY9}Max mount difficulty: {a0}", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, 1f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
 			this._effectHorseSpeed.Initialize(new TextObject("{=Y07OcP1T}Horse speed: +{a0}", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, 0.2f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
 			this._effectHorseManeuver.Initialize(new TextObject("{=AahNTeXY}Horse maneuver: +{a0}", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, 0.04f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
-			this._effectHorseWeaponDamagePenalty.Initialize(new TextObject("{=0dbwEczK}Mounted weapon damage penalty: {a0}%", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, -0.2f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 20f, 0f);
-			this._effectHorseWeaponSpeedPenalty.Initialize(new TextObject("{=oE5etyy0}Mounted weapon speed & reload penalty: {a0}%", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, -0.2f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 20f, 0f);
+			this._effectMountedWeaponDamagePenalty.Initialize(new TextObject("{=0dbwEczK}Mounted weapon damage penalty: {a0}%", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, -0.2f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 20f, 0f);
+			this._effectMountedWeaponSpeedPenalty.Initialize(new TextObject("{=oE5etyy0}Mounted weapon speed & reload penalty: {a0}%", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, -0.2f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 20f, 0f);
+			this._effectMountedWeaponAccuracyPenalty.Initialize(new TextObject("{=*}Mounted weapon accuracy penalty: {a0}%", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, -0.4f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 40f, 0f);
 			this._effectDismountResistance.Initialize(new TextObject("{=kbHJVxAo}Dismount resistance: {a0}% of max. hitpoints", null), new SkillObject[] { DefaultSkills.Riding }, SkillEffect.PerkRole.Personal, 0.1f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.Add, 40f, 0f);
 			this._effectAthleticsSpeedFactor.Initialize(new TextObject("{=rgb6vdon}Running speed increased by {a0}%", null), new SkillObject[] { DefaultSkills.Athletics }, SkillEffect.PerkRole.Personal, 0.1f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
 			this._effectAthleticsWeightFactor.Initialize(new TextObject("{=WaUuhxwv}Weight penalty reduced by: {a0}%", null), new SkillObject[] { DefaultSkills.Athletics }, SkillEffect.PerkRole.Personal, 0.1f, SkillEffect.PerkRole.None, 0f, SkillEffect.EffectIncrementType.AddFactor, 0f, 0f);
@@ -507,9 +517,11 @@ namespace TaleWorlds.CampaignSystem
 
 		private SkillEffect _effectHorseManeuver;
 
-		private SkillEffect _effectHorseWeaponDamagePenalty;
+		private SkillEffect _effectMountedWeaponDamagePenalty;
 
-		private SkillEffect _effectHorseWeaponSpeedPenalty;
+		private SkillEffect _effectMountedWeaponSpeedPenalty;
+
+		private SkillEffect _effectMountedWeaponAccuracyPenalty;
 
 		private SkillEffect _effectDismountResistance;
 

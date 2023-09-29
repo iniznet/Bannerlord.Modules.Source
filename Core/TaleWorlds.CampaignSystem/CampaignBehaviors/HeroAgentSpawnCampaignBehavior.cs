@@ -90,10 +90,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					SettlementAccessModel.AccessDetails accessDetails;
 					Campaign.Current.Models.SettlementAccessModel.CanMainHeroEnterLordsHall(town.Settlement, out accessDetails);
 					Location locationOfCharacter = town.Settlement.LocationComplex.GetLocationOfCharacter(oldGovernor);
-					Location location = ((accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess) ? HeroAgentSpawnCampaignBehavior.LordsHall : (town.IsTown ? HeroAgentSpawnCampaignBehavior.Tavern : HeroAgentSpawnCampaignBehavior.Center));
-					if (location != locationOfCharacter)
+					if (LocationComplex.Current != null)
 					{
-						town.Settlement.LocationComplex.ChangeLocation(locationCharacterOfHero, locationOfCharacter, location);
+						Location location = ((accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess) ? HeroAgentSpawnCampaignBehavior.LordsHall : (town.IsTown ? HeroAgentSpawnCampaignBehavior.Tavern : HeroAgentSpawnCampaignBehavior.Center));
+						if (location != locationOfCharacter)
+						{
+							town.Settlement.LocationComplex.ChangeLocation(locationCharacterOfHero, locationOfCharacter, location);
+						}
+					}
+					else
+					{
+						Debug.Print("LocationComplex is null", 0, Debug.DebugColor.White, 17592186044416UL);
+						Debug.FailedAssert("LocationComplex is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\HeroAgentSpawnCampaignBehavior.cs", "OnGovernorChanged", 67);
 					}
 				}
 			}
@@ -103,9 +111,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				if (locationCharacterOfHero2 != null)
 				{
 					Location locationOfCharacter2 = town.Settlement.LocationComplex.GetLocationOfCharacter(newGovernor);
-					if (locationOfCharacter2 != HeroAgentSpawnCampaignBehavior.LordsHall)
+					if (LocationComplex.Current != null)
 					{
-						town.Settlement.LocationComplex.ChangeLocation(locationCharacterOfHero2, locationOfCharacter2, HeroAgentSpawnCampaignBehavior.LordsHall);
+						if (locationOfCharacter2 != HeroAgentSpawnCampaignBehavior.LordsHall)
+						{
+							town.Settlement.LocationComplex.ChangeLocation(locationCharacterOfHero2, locationOfCharacter2, HeroAgentSpawnCampaignBehavior.LordsHall);
+							return;
+						}
+					}
+					else
+					{
+						Debug.Print("LocationComplex is null", 0, Debug.DebugColor.White, 17592186044416UL);
+						Debug.FailedAssert("LocationComplex is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\HeroAgentSpawnCampaignBehavior.cs", "OnGovernorChanged", 88);
 					}
 				}
 			}

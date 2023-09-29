@@ -10,9 +10,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 {
 	public class PersuasionOptionVM : ViewModel
 	{
-		public PersuasionOptionVM(ConversationManager manager, ConversationSentenceOption option, Action onReadyToContinue)
+		private ConversationSentenceOption _option
 		{
-			this._option = option;
+			get
+			{
+				return this._manager.CurOptions[this._index];
+			}
+		}
+
+		public PersuasionOptionVM(ConversationManager manager, int index, Action onReadyToContinue)
+		{
+			this._index = index;
 			this._manager = manager;
 			this._onReadyToContinue = onReadyToContinue;
 			if (ConversationManager.GetPersuasionIsActive() && this._option.HasPersuasion)
@@ -26,7 +34,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 				this.FailChance = (int)(num4 * 100f);
 				this.SuccessChance = (int)(num * 100f);
 				this.CritSuccessChance = (int)(num2 * 100f);
-				this._args = option.PersuationOptionArgs;
+				this._args = this._option.PersuationOptionArgs;
 			}
 			this.RefreshValues();
 		}
@@ -478,13 +486,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 
 		private const int _minSkillValueForPositive = 50;
 
-		private ConversationSentenceOption _option;
-
 		private readonly ConversationManager _manager;
 
 		private readonly PersuasionOptionArgs _args;
 
 		private readonly Action _onReadyToContinue;
+
+		private readonly int _index;
 
 		private int _critFailChance;
 

@@ -44,6 +44,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Profile
 			this.ClickToCloseText = ((getExitText != null) ? getExitText() : null);
 			if (player.RankInfo == null)
 			{
+				Debug.FailedAssert("Can't request rank progression information of another player.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\\Lobby\\Profile\\MPLobbyRankProgressInformationVM.cs", "OpenWith", 54);
 				return;
 			}
 			this._basePlayer = player;

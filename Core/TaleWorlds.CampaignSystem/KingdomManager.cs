@@ -38,11 +38,18 @@ namespace TaleWorlds.CampaignSystem
 			return ((KingdomManager)o).PrisonerLordRansomOffered;
 		}
 
-		public void OnNewGameCreated()
+		public void OnSessionStart()
 		{
 			foreach (Clan clan in Clan.All)
 			{
 				clan.UpdateStrength();
+			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
+			{
+				for (int i = 0; i < Kingdom.All.Count; i++)
+				{
+					this.ExpelConstantWarClansFromKingdom(Kingdom.All[i]);
+				}
 			}
 		}
 
@@ -57,18 +64,7 @@ namespace TaleWorlds.CampaignSystem
 			this.QuarterHourlyTickEvent.AddHandler(new MBCampaignEvent.CampaignEventDelegate(KingdomManager.QuarterHourlyTick));
 		}
 
-		public void OnLoad()
-		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
-			{
-				for (int i = 0; i < Kingdom.All.Count; i++)
-				{
-					this.OnLoadInternal(Kingdom.All[i]);
-				}
-			}
-		}
-
-		private void OnLoadInternal(Kingdom kingdom)
+		private void ExpelConstantWarClansFromKingdom(Kingdom kingdom)
 		{
 			for (int i = kingdom.Clans.Count - 1; i >= 0; i--)
 			{
@@ -196,7 +192,7 @@ namespace TaleWorlds.CampaignSystem
 				}
 				else if (kingdom2.IsAtWarWith(rulingClan))
 				{
-					Debug.FailedAssert("Deviation in peace states between ruling clan & kingdom in abdication", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\KingdomManager.cs", "AbdicateTheThrone", 232);
+					Debug.FailedAssert("Deviation in peace states between ruling clan & kingdom in abdication", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\KingdomManager.cs", "AbdicateTheThrone", 224);
 				}
 			}
 			if (!kingdom.IsEliminated)

@@ -280,12 +280,12 @@ namespace TaleWorlds.CampaignSystem.Siege
 			{
 				Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
 				MenuContext currentMenuContext = Campaign.Current.CurrentMenuContext;
-				if (currentMenuContext == null)
+				if (currentMenuContext != null)
 				{
-					return;
+					currentMenuContext.Refresh();
 				}
-				currentMenuContext.Refresh();
 			}
+			mobileParty.Ai.SetMoveModeHold();
 		}
 
 		private void ChangeSiegeStrategyIfNeeded()
@@ -539,7 +539,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 		[LateLoadInitializationCallback]
 		private void OnLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (this._leaderParty == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (this._leaderParty == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				this._leaderParty = ((this._besiegerParties.Count > 0) ? this._besiegerParties[0] : null);
 			}

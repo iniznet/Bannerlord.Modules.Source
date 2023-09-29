@@ -32,7 +32,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (Clan clan in Clan.NonBanditFactions)
 			{
 				float dailyCrimeRatingChange = clan.DailyCrimeRatingChange;
-				if (!dailyCrimeRatingChange.ApproximatelyEqualsTo(0f, 1E-05f))
+				if (!clan.IsEliminated && !dailyCrimeRatingChange.ApproximatelyEqualsTo(0f, 1E-05f))
 				{
 					ChangeCrimeRatingAction.Apply(clan, dailyCrimeRatingChange, false);
 				}
@@ -40,7 +40,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (Kingdom kingdom in Kingdom.All)
 			{
 				float dailyCrimeRatingChange2 = kingdom.DailyCrimeRatingChange;
-				if (!dailyCrimeRatingChange2.ApproximatelyEqualsTo(0f, 1E-05f))
+				if (!kingdom.IsEliminated && !dailyCrimeRatingChange2.ApproximatelyEqualsTo(0f, 1E-05f))
 				{
 					ChangeCrimeRatingAction.Apply(kingdom, dailyCrimeRatingChange2, false);
 				}
@@ -76,11 +76,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				foreach (Clan clan in Clan.NonBanditFactions)
 				{
-					ChangeCrimeRatingAction.Apply(clan, -clan.MainHeroCrimeRating, true);
+					if (!clan.IsEliminated)
+					{
+						ChangeCrimeRatingAction.Apply(clan, -clan.MainHeroCrimeRating, true);
+					}
 				}
 				foreach (Kingdom kingdom in Kingdom.All)
 				{
-					ChangeCrimeRatingAction.Apply(kingdom, -kingdom.MainHeroCrimeRating, true);
+					if (!kingdom.IsEliminated)
+					{
+						ChangeCrimeRatingAction.Apply(kingdom, -kingdom.MainHeroCrimeRating, true);
+					}
 				}
 			}
 		}

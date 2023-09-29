@@ -306,7 +306,7 @@ namespace TaleWorlds.MountAndBlade
 			defenderStunPeriod /= num6;
 			float num8;
 			float num9;
-			MissionGameModels.Current.AgentApplyDamageModel.CalculateCollisionStunMultipliers(attackerAgent, defenderAgent, isAlternativeAttack, collisionResult, weaponComponentData, weaponComponentData2, out num8, out num9);
+			MissionGameModels.Current.AgentApplyDamageModel.CalculateDefendedBlowStunMultipliers(attackerAgent, defenderAgent, collisionResult, weaponComponentData, weaponComponentData2, out num8, out num9);
 			attackerStunPeriod *= num8;
 			defenderStunPeriod *= num9;
 			float managedParameter2 = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.StunPeriodMax);
@@ -527,37 +527,35 @@ namespace TaleWorlds.MountAndBlade
 				attackCollisionData2 = attackCollisionData;
 				if (attackCollisionData2.IsMissile)
 				{
-					if (attackerWeapon.WeaponClass == WeaponClass.Javelin)
+					if (attackerWeapon.WeaponClass == WeaponClass.ThrowingAxe)
 					{
-						num2 *= 0.25f;
+						num2 *= 0.3f;
 					}
-					else if (attackerWeapon.WeaponClass == WeaponClass.ThrowingAxe)
+					else if (attackerWeapon.WeaponClass == WeaponClass.Javelin)
 					{
 						num2 *= 0.5f;
 					}
-					else if (attackerWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.CanPenetrateShield))
+					else if (attackerWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.CanPenetrateShield) && attackerWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.MultiplePenetration))
 					{
 						num2 *= 0.5f;
 					}
 					else
 					{
-						num2 *= 0.1f;
+						num2 *= 0.15f;
 					}
 				}
 				else
 				{
 					attackCollisionData2 = attackCollisionData;
-					if (attackCollisionData2.DamageType == 1)
+					switch (attackCollisionData2.DamageType)
 					{
+					case 0:
+					case 2:
+						num2 *= 0.7f;
+						break;
+					case 1:
 						num2 *= 0.5f;
-					}
-					else
-					{
-						attackCollisionData2 = attackCollisionData;
-						if (attackCollisionData2.DamageType == 2)
-						{
-							num2 *= 0.5f;
-						}
+						break;
 					}
 				}
 				if (attackerWeapon != null && attackerWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.BonusAgainstShield))
@@ -599,7 +597,9 @@ namespace TaleWorlds.MountAndBlade
 				BasicCharacterObject basicCharacterObject2 = attackerCaptainCharacter;
 				float num3 = num2;
 				missionWeapon = weapon;
-				num4 = strikeMagnitudeModel.CalculateStrikeMagnitudeForThrust(basicCharacterObject, basicCharacterObject2, num3, missionWeapon.Item.Weight, currentUsageItem, exraLinearSpeed, doesAttackerHaveMount, false);
+				float weight = missionWeapon.Item.Weight;
+				missionWeapon = weapon;
+				num4 = strikeMagnitudeModel.CalculateStrikeMagnitudeForThrust(basicCharacterObject, basicCharacterObject2, num3, weight, missionWeapon.Item, currentUsageItem, exraLinearSpeed, doesAttackerHaveMount, false);
 			}
 			else
 			{
@@ -619,7 +619,9 @@ namespace TaleWorlds.MountAndBlade
 					float num11 = num5;
 					float num12 = num10;
 					missionWeapon = weapon;
-					float num13 = strikeMagnitudeModel2.CalculateStrikeMagnitudeForSwing(basicCharacterObject3, basicCharacterObject4, num11, num12, missionWeapon.Item.Weight, currentUsageItem, currentUsageItem.GetRealWeaponLength(), currentUsageItem.Inertia, currentUsageItem.CenterOfMass, exraLinearSpeed, doesAttackerHaveMount);
+					float weight2 = missionWeapon.Item.Weight;
+					missionWeapon = weapon;
+					float num13 = strikeMagnitudeModel2.CalculateStrikeMagnitudeForSwing(basicCharacterObject3, basicCharacterObject4, num11, num12, weight2, missionWeapon.Item, currentUsageItem, currentUsageItem.GetRealWeaponLength(), currentUsageItem.Inertia, currentUsageItem.CenterOfMass, exraLinearSpeed, doesAttackerHaveMount);
 					if (num9 < num13)
 					{
 						num9 = num13;
@@ -674,10 +676,15 @@ namespace TaleWorlds.MountAndBlade
 			speedBonusInt = 0;
 			specialMagnitude = 0f;
 			baseMagnitude = 0f;
+			BasicCharacterObject attackerAgentCharacter = attackInformation.AttackerAgentCharacter;
 			AttackCollisionData attackCollisionData = acd;
+			MissionWeapon missionWeapon;
 			if (attackCollisionData.IsAlternativeAttack)
 			{
-				baseMagnitude = 3f * momentumRemaining;
+				missionWeapon = weapon;
+				WeaponComponentData currentUsageItem = missionWeapon.CurrentUsageItem;
+				baseMagnitude = MissionGameModels.Current.AgentApplyDamageModel.CalculateAlternativeAttackDamage(attackerAgentCharacter, currentUsageItem);
+				baseMagnitude *= momentumRemaining;
 				specialMagnitude = baseMagnitude;
 				return;
 			}
@@ -692,7 +699,7 @@ namespace TaleWorlds.MountAndBlade
 				num2 = MathF.Min(num2, 1f);
 			}
 			float num3 = num * num2;
-			MissionWeapon missionWeapon = weapon;
+			missionWeapon = weapon;
 			if (missionWeapon.IsEmpty)
 			{
 				attackCollisionData = acd;
@@ -702,11 +709,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 			float z = attackerAgentCurrentWeaponOffset.z;
 			missionWeapon = weapon;
-			WeaponComponentData currentUsageItem = missionWeapon.CurrentUsageItem;
-			float num4 = currentUsageItem.GetRealWeaponLength() + z;
+			WeaponComponentData currentUsageItem2 = missionWeapon.CurrentUsageItem;
+			float num4 = currentUsageItem2.GetRealWeaponLength() + z;
 			attackCollisionData = acd;
 			float num5 = MBMath.ClampFloat(attackCollisionData.CollisionDistanceOnWeapon, -0.2f, num4) / num4;
-			BasicCharacterObject attackerAgentCharacter = attackInformation.AttackerAgentCharacter;
 			bool doesAttackerHaveMountAgent = attackInformation.DoesAttackerHaveMountAgent;
 			if (attackerIsDoingPassiveAttack)
 			{
@@ -762,10 +768,10 @@ namespace TaleWorlds.MountAndBlade
 			baseMagnitude *= num8;
 			if (attackInformation.AttackerAgent != null)
 			{
-				float weaponDamageMultiplier = MissionGameModels.Current.AgentStatCalculateModel.GetWeaponDamageMultiplier(attackInformation.AttackerAgent, currentUsageItem);
+				float weaponDamageMultiplier = MissionGameModels.Current.AgentStatCalculateModel.GetWeaponDamageMultiplier(attackInformation.AttackerAgent, currentUsageItem2);
 				baseMagnitude *= weaponDamageMultiplier;
 			}
-			specialMagnitude = MissionCombatMechanicsHelper.ConvertBaseAttackMagnitude(currentUsageItem, strikeType, baseMagnitude);
+			specialMagnitude = MissionCombatMechanicsHelper.ConvertBaseAttackMagnitude(currentUsageItem2, strikeType, baseMagnitude);
 		}
 
 		private static void ComputeBlowMagnitudeFromHorseCharge(in AttackInformation attackInformation, in AttackCollisionData acd, Vec2 attackerAgentVelocity, Vec2 victimAgentVelocity, out float baseMagnitude, out float specialMagnitude)
@@ -808,7 +814,9 @@ namespace TaleWorlds.MountAndBlade
 			attackCollisionData = acd;
 			float missileStartingBaseSpeed = attackCollisionData.MissileStartingBaseSpeed;
 			MissionWeapon missionWeapon = weapon;
-			baseMagnitude = strikeMagnitudeModel.CalculateStrikeMagnitudeForMissile(basicCharacterObject, basicCharacterObject2, missileTotalDamage, num2, missileStartingBaseSpeed, missionWeapon.CurrentUsageItem);
+			ItemObject item = missionWeapon.Item;
+			missionWeapon = weapon;
+			baseMagnitude = strikeMagnitudeModel.CalculateStrikeMagnitudeForMissile(basicCharacterObject, basicCharacterObject2, missileTotalDamage, num2, missileStartingBaseSpeed, item, missionWeapon.CurrentUsageItem);
 			baseMagnitude *= momentumRemaining;
 			if (attackInformation.AttackerAgent != null)
 			{

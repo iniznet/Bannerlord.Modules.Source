@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using TaleWorlds.Library;
@@ -33,23 +34,35 @@ namespace TaleWorlds.MountAndBlade
 		{
 			XmlDocument xmlDocument = new XmlDocument();
 			xmlDocument.Load(ModuleHelper.GetModuleFullPath("Native") + "ModuleData/Multiplayer/MultiplayerScenes.xml");
-			foreach (object obj in xmlDocument.FirstChild)
+			foreach (object obj in xmlDocument.ChildNodes)
 			{
 				XmlNode xmlNode = (XmlNode)obj;
-				if (xmlNode.NodeType != XmlNodeType.Comment)
+				if (xmlNode.NodeType == XmlNodeType.Element && xmlNode.Name == "MultiplayerScenes")
 				{
-					string innerText = xmlNode.Attributes["name"].InnerText;
-					foreach (object obj2 in xmlNode.ChildNodes)
+					using (IEnumerator enumerator2 = xmlNode.GetEnumerator())
 					{
-						XmlNode xmlNode2 = (XmlNode)obj2;
-						if (xmlNode2.NodeType != XmlNodeType.Comment)
+						while (enumerator2.MoveNext())
 						{
-							string innerText2 = xmlNode2.Attributes["name"].InnerText;
-							if (MultiplayerGameTypes._multiplayerGameTypeInfos.ContainsKey(innerText2))
+							object obj2 = enumerator2.Current;
+							XmlNode xmlNode2 = (XmlNode)obj2;
+							if (xmlNode2.NodeType != XmlNodeType.Comment)
 							{
-								MultiplayerGameTypes._multiplayerGameTypeInfos[innerText2].Scenes.Add(innerText);
+								string innerText = xmlNode2.Attributes["name"].InnerText;
+								foreach (object obj3 in xmlNode2.ChildNodes)
+								{
+									XmlNode xmlNode3 = (XmlNode)obj3;
+									if (xmlNode3.NodeType != XmlNodeType.Comment)
+									{
+										string innerText2 = xmlNode3.Attributes["name"].InnerText;
+										if (MultiplayerGameTypes._multiplayerGameTypeInfos.ContainsKey(innerText2))
+										{
+											MultiplayerGameTypes._multiplayerGameTypeInfos[innerText2].Scenes.Add(innerText);
+										}
+									}
+								}
 							}
 						}
+						break;
 					}
 				}
 			}

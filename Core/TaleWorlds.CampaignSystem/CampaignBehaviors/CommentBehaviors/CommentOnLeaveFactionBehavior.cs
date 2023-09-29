@@ -8,7 +8,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.CommentBehaviors
 	{
 		public override void RegisterEvents()
 		{
-			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanLeaveKingdom));
+			CampaignEvents.OnClanChangedKingdomEvent.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanLeaveKingdom));
 		}
 
 		public override void SyncData(IDataStore dataStore)

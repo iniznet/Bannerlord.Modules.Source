@@ -6,8 +6,6 @@ using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
-using TaleWorlds.CampaignSystem.Encounters;
-using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.CampaignSystem.MapEvents;
@@ -768,152 +766,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		internal void ConsiderMapEventsAndSiegesInternal(IFaction factionToConsiderAgainst)
-		{
-			if (this.Army != null && this.Army.Kingdom != this.MapFaction)
-			{
-				this.Army = null;
-			}
-			if (this.CurrentSettlement != null)
-			{
-				IFaction mapFaction = this.CurrentSettlement.MapFaction;
-				if ((mapFaction != null && mapFaction.IsAtWarWith(this.MapFaction) && this.DefaultBehavior == AiBehavior.RaidSettlement) || (this.IsMainParty && PlayerEncounter.Current != null && (PlayerEncounter.Current.ForceRaid || PlayerEncounter.Current.ForceSupplies || PlayerEncounter.Current.ForceVolunteers)))
-				{
-					return;
-				}
-			}
-			if (this.Party.MapEventSide != null && !this.Party.MapEvent.IsFinalized)
-			{
-				if (!this.MapEvent.CanPartyJoinBattle(this.Party, this.Party.MapEventSide.MissionSide))
-				{
-					if (this.Party == PartyBase.MainParty && PlayerEncounter.Current != null)
-					{
-						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-					}
-					this.Party.MapEventSide = null;
-					this.Ai.SetMoveModeHold();
-				}
-				if (this.Party == PartyBase.MainParty && PlayerEncounter.Current != null && PlayerEncounter.Battle != null && !PlayerEncounter.EncounteredParty.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction) && PlayerEncounter.Current.IsPlayerEncounterInterruptedByPeace && Game.Current.GameStateManager.ActiveState is MapState)
-				{
-					PlayerEncounter.Finish(true);
-				}
-			}
-			BattleSideEnum battleSideEnum = ((PlayerEncounter.Battle != null) ? PlayerEncounter.Battle.PlayerSide : BattleSideEnum.None);
-			bool flag = PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && PlayerEncounter.EncounterSettlement.SiegeEvent.IsPartyInvolved(this.Party);
-			if (this.BesiegerCamp != null || flag)
-			{
-				BesiegerCamp besiegerCamp = this.BesiegerCamp;
-				Settlement settlement = ((besiegerCamp != null) ? besiegerCamp.SiegeEvent.BesiegedSettlement : null) ?? PlayerEncounter.EncounterSettlement;
-				BesiegerCamp besiegerCamp2 = this.BesiegerCamp;
-				MobileParty mobileParty;
-				if ((mobileParty = ((besiegerCamp2 != null) ? besiegerCamp2.LeaderParty : null)) == null)
-				{
-					Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
-					mobileParty = ((encounterSettlement != null) ? encounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty : null);
-				}
-				MobileParty mobileParty2 = mobileParty;
-				IFaction mapFaction2 = settlement.MapFaction;
-				IFaction faction = ((mobileParty2 != null) ? mobileParty2.MapFaction : null);
-				if (mapFaction2 == null || (!mapFaction2.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
-				{
-					if (this.Party == PartyBase.MainParty && battleSideEnum == BattleSideEnum.None)
-					{
-						GameMenu.ActivateGameMenu("hostile_action_end_by_peace");
-					}
-					else if (PlayerEncounter.Current != null && (PlayerEncounter.EncounteredParty == this.Party || (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && PlayerEncounter.EncounterSettlement.SiegeEvent == this.SiegeEvent)) && mobileParty2 != null && mobileParty2 == this)
-					{
-						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-					}
-					if (this.Army == null || this.Army.LeaderParty == this)
-					{
-						this.BesiegerCamp = null;
-						this.Ai.SetMoveModeHold();
-						if (this.Party.MapEventSide != null && !this.Party.MapEvent.IsFieldBattle && !this.Party.MapEvent.IsSiegeAssault)
-						{
-							this.Party.MapEvent.FinishSiegeEventKeepBattle();
-						}
-					}
-				}
-				else if (faction == null || (faction.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
-				{
-					this.BesiegerCamp = null;
-					this.Ai.SetMoveModeHold();
-					if (this.Party.MapEventSide != null)
-					{
-						this.Party.MapEvent.FinishSiegeEventKeepBattle();
-					}
-				}
-				else if (mapFaction2 != null && faction != null && this.MapFaction != mapFaction2 && this.MapFaction != faction && PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && !PartyBase.MainParty.MapFaction.IsAtWarWith(PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction))
-				{
-					PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-				}
-			}
-			if (this.CurrentSettlement != null)
-			{
-				IFaction mapFaction3 = this.CurrentSettlement.MapFaction;
-				if (mapFaction3 != null && mapFaction3 == factionToConsiderAgainst && mapFaction3.IsAtWarWith(this.MapFaction))
-				{
-					if (this.IsMainParty)
-					{
-						if (!GameStateManager.Current.ActiveState.IsMission && this.CurrentSettlement.IsFortification)
-						{
-							GameMenu.SwitchToMenu("fortification_crime_rating");
-						}
-					}
-					else if (this.Army == null)
-					{
-						Settlement currentSettlement = this.CurrentSettlement;
-						LeaveSettlementAction.ApplyForParty(this);
-						SetPartyAiAction.GetActionForPatrollingAroundSettlement(this, currentSettlement);
-					}
-					else if (this.Army.LeaderParty == this)
-					{
-						if (!this.Army.Parties.Contains(MobileParty.MainParty))
-						{
-							Settlement currentSettlement2 = this.CurrentSettlement;
-							LeaveSettlementAction.ApplyForParty(this);
-							SetPartyAiAction.GetActionForPatrollingAroundSettlement(this, currentSettlement2);
-						}
-						else
-						{
-							GameMenu.SwitchToMenu("army_left_settlement_due_to_war_declaration");
-						}
-					}
-				}
-			}
-			if (this.Party == PartyBase.MainParty && PlayerEncounter.Current != null)
-			{
-				if (PlayerEncounter.EncounteredBattle != null && !PlayerEncounter.EncounteredBattle.IsFinalized)
-				{
-					MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
-					if (encounteredBattle.PlayerSide != BattleSideEnum.None)
-					{
-						if (!encounteredBattle.GetLeaderParty(encounteredBattle.PlayerSide.GetOppositeSide()).MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction))
-						{
-							PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-						}
-					}
-					else if (!encounteredBattle.InvolvedParties.Any((PartyBase x) => x.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction)))
-					{
-						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-					}
-				}
-				else if (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.IsUnderSiege && !PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction) && (PlayerEncounter.PlayerIsDefender || (PlayerEncounter.PlayerIsAttacker && MobileParty.MainParty.SiegeEvent != null && !PlayerEncounter.Current.IsJoinedBattle)))
-				{
-					PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
-				}
-				if (PlayerEncounter.Current.IsPlayerEncounterInterruptedByPeace)
-				{
-					if (Game.Current.GameStateManager.ActiveState is MapState)
-					{
-						PlayerEncounter.Finish(true);
-						return;
-					}
-					GameMenu.ActivateGameMenu("hostile_action_end_by_peace");
-				}
-			}
-		}
-
 		public AiBehavior DefaultBehavior
 		{
 			get
@@ -1175,7 +1027,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
+			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 27066))
 			{
 				PartyBase partyBase = (PartyBase)objectLoadData.GetMemberValueBySaveId(1052);
 				IMapEntity mapEntity = null;
@@ -1285,7 +1137,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					" is not a member of ",
 					this.Name,
 					"!\nParty leader did not change."
-				}), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "ChangePartyLeader", 1030);
+				}), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "ChangePartyLeader", 845);
 				return;
 			}
 			if (this.IsLordParty)
@@ -1389,7 +1241,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this._isDisorganized = true;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 27066))
 			{
 				if (this.LeaderHero != null && this != MobileParty.MainParty && this.LeaderHero.PartyBelongedTo != this)
 				{
@@ -1464,15 +1316,15 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this.Army = null;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 27066) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
 			{
 				this.SetWagePaymentLimit(Campaign.Current.Models.PartyWageModel.MaxWage);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && this.IsCaravan && this.Owner == Hero.MainHero && this.ActualClan == null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066) && this.IsCaravan && this.Owner == Hero.MainHero && this.ActualClan == null)
 			{
 				this.ActualClan = this.Owner.Clan;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 24202))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 27066))
 			{
 				if (this.TargetParty != null)
 				{
@@ -2442,7 +2294,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				return false;
 			case SkillEffect.PerkRole.Personal:
 			{
-				Debug.FailedAssert("personal perk is called in party", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "HasPerk", 2182);
+				Debug.FailedAssert("personal perk is called in party", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "HasPerk", 1997);
 				Hero leaderHero3 = this.LeaderHero;
 				return leaderHero3 != null && leaderHero3.GetPerkValue(perk);
 			}

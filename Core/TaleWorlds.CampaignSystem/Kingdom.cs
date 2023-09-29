@@ -707,14 +707,6 @@ namespace TaleWorlds.CampaignSystem
 			return FactionManager.IsAtWarAgainstFaction(this, other);
 		}
 
-		public void ConsiderSiegesAndMapEvents(IFaction factionToConsiderAgainst)
-		{
-			foreach (Clan clan in this.Clans)
-			{
-				clan.ConsiderSiegesAndMapEvents(factionToConsiderAgainst);
-			}
-		}
-
 		internal void AddStanceInternal(StanceLink stanceLink)
 		{
 			this._stances.Add(stanceLink);

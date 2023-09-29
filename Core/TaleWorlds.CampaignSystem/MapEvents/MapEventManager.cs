@@ -26,7 +26,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			return ((MapEventManager)o)._mapEvents;
 		}
 
-		public List<MapEvent> MapEvents
+		public MBReadOnlyList<MapEvent> MapEvents
 		{
 			get
 			{
@@ -36,7 +36,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		internal MapEventManager()
 		{
-			this._mapEvents = new List<MapEvent>();
+			this._mapEvents = new MBList<MapEvent>();
 		}
 
 		internal void OnAfterLoad()
@@ -163,6 +163,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		}
 
 		[SaveableField(1)]
-		private List<MapEvent> _mapEvents;
+		private MBList<MapEvent> _mapEvents;
 	}
 }

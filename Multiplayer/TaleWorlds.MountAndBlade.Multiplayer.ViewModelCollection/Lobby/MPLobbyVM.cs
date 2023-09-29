@@ -217,9 +217,12 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby
 			this.Friends.OnFinalize();
 			this.Home.OnFindGameRequested -= this.AutoFindGameRequested;
 			this.Profile.OnFindGameRequested -= this.AutoFindGameRequested;
-			this._lobbyState.UnregisterForCustomServerAction(new Func<GameServerEntry, List<CustomServerAction>>(this.OnServerActionRequested));
-			LobbyState lobbyState = this._lobbyState;
-			lobbyState.OnUserGeneratedContentPrivilegeUpdated = (Action<bool>)Delegate.Remove(lobbyState.OnUserGeneratedContentPrivilegeUpdated, new Action<bool>(this.OnUserGeneratedContentPrivilegeUpdated));
+			if (this._lobbyState != null)
+			{
+				this._lobbyState.UnregisterForCustomServerAction(new Func<GameServerEntry, List<CustomServerAction>>(this.OnServerActionRequested));
+				LobbyState lobbyState = this._lobbyState;
+				lobbyState.OnUserGeneratedContentPrivilegeUpdated = (Action<bool>)Delegate.Remove(lobbyState.OnUserGeneratedContentPrivilegeUpdated, new Action<bool>(this.OnUserGeneratedContentPrivilegeUpdated));
+			}
 			MPLobbyRejoinVM rejoin = this.Rejoin;
 			rejoin.OnRejoinRequested = (Action)Delegate.Remove(rejoin.OnRejoinRequested, new Action(this.OnRejoinRequested));
 			this.Menu.OnFinalize();

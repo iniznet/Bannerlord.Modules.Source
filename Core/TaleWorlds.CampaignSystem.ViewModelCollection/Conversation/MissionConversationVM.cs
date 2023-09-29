@@ -261,7 +261,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			{
 				for (int i = 0; i < num; i++)
 				{
-					this.AnswerList.Add(new ConversationItemVM(new Action<int>(this.OnSelectOption), new Action(this.OnReadyToContinue), new Action<ConversationItemVM>(this.ExecuteSetCurrentAnswer), i, this._conversationManager.CurOptions[i]));
+					this.AnswerList.Add(new ConversationItemVM(new Action<int>(this.OnSelectOption), new Action(this.OnReadyToContinue), new Action<ConversationItemVM>(this.ExecuteSetCurrentAnswer), i));
 				}
 			}
 			this.GoldText = CampaignUIHelper.GetAbbreviatedValueTextFromValue(Hero.MainHero.Gold);

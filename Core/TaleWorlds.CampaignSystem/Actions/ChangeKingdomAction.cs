@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Helpers;
 using TaleWorlds.CampaignSystem.Encounters;
-using TaleWorlds.CampaignSystem.GameMenus;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -15,9 +15,9 @@ namespace TaleWorlds.CampaignSystem.Actions
 		private static void ApplyInternal(Clan clan, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, int awardMultiplier = 0, bool byRebellion = false, bool showNotification = true)
 		{
 			Kingdom kingdom = clan.Kingdom;
-			bool flag = PlayerSiege.PlayerSiegeEvent != null;
-			bool flag2 = MobileParty.MainParty.MapEvent != null;
-			bool flag3 = PlayerEncounter.Current != null;
+			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
+			MapEvent mapEvent = MobileParty.MainParty.MapEvent;
+			PlayerEncounter playerEncounter = PlayerEncounter.Current;
 			clan.DebtToKingdom = 0;
 			if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.JoinKingdom || detail == ChangeKingdomAction.ChangeKingdomActionDetail.JoinAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.JoinKingdomByDefection)
 			{
@@ -105,7 +105,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 									}
 								}
 							}
-							goto IL_31E;
+							goto IL_30F;
 						}
 					}
 					if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByKingdomDestruction)
@@ -124,7 +124,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 					}
 				}
 			}
-			IL_31E:
+			IL_30F:
 			if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion)
 			{
 				foreach (StanceLink stanceLink2 in new List<StanceLink>(clan.Stances))
@@ -140,7 +140,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 						}
 					}
 				}
-				ChangeKingdomAction.CheckEventsAndHandleMenu(flag, flag2, flag3, detail);
 				ChangeKingdomAction.CheckIfPartyIconIsDirty(clan, kingdom);
 			}
 			foreach (WarPartyComponent warPartyComponent in clan.WarPartyComponents)
@@ -198,11 +197,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			ChangeKingdomAction.ApplyInternal(clan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByClanDestruction, 0, false, showNotification);
 		}
 
-		public static void ApplyByLeaveKingdomAsMercenaryWithKingDecision(Clan mercenaryClan, bool showNotification = true)
-		{
-			ChangeKingdomAction.ApplyInternal(mercenaryClan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary, 0, false, showNotification);
-		}
-
 		private static void CheckIfPartyIconIsDirty(Clan clan, Kingdom oldKingdom)
 		{
 			IFaction faction;
@@ -227,22 +221,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			foreach (Settlement settlement in clan.Settlements)
 			{
 				settlement.Party.SetVisualAsDirty();
-			}
-		}
-
-		private static void CheckEventsAndHandleMenu(bool thereWasAPlayerSiege, bool thereWasAPlayerMapEvent, bool thereWasAPlayerEncounter, ChangeKingdomAction.ChangeKingdomActionDetail detail)
-		{
-			if ((thereWasAPlayerSiege && PlayerSiege.PlayerSiegeEvent == null) || (thereWasAPlayerMapEvent && MobileParty.MainParty.MapEvent == null) || (thereWasAPlayerEncounter && PlayerEncounter.Current == null))
-			{
-				if (CampaignMission.Current != null)
-				{
-					Campaign.Current.GameMenuManager.SetNextMenu((detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary) ? "hostile_action_end_by_leave_kingdom_as_mercenary" : "hostile_action_end_by_peace");
-					return;
-				}
-				if (detail != ChangeKingdomAction.ChangeKingdomActionDetail.CreateKingdom)
-				{
-					GameMenu.ActivateGameMenu((detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary) ? "hostile_action_end_by_leave_kingdom_as_mercenary" : "hostile_action_end_by_peace");
-				}
 			}
 		}
 

@@ -69,7 +69,7 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			yield return base.Settlement.Party;
 			foreach (MobileParty mobileParty in base.Settlement.Parties)
 			{
-				if (mobileParty.MapFaction == base.Settlement.MapFaction && !mobileParty.IsCaravan)
+				if (mobileParty.MapFaction == base.Settlement.MapFaction && ((!mobileParty.IsMilitia && !mobileParty.IsVillager) || battleType == MapEvent.BattleTypes.Raid || battleType == MapEvent.BattleTypes.IsForcingSupplies || battleType == MapEvent.BattleTypes.IsForcingVolunteers) && !mobileParty.IsCaravan)
 				{
 					yield return mobileParty.Party;
 				}

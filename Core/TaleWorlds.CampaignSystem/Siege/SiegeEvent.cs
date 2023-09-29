@@ -159,7 +159,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 
 		public bool CanPartyJoinSide(PartyBase party, BattleSideEnum side)
 		{
-			IFaction mapFaction = party.MapFaction;
+			IFaction partyFaction = party.MapFaction;
 			BattleSideEnum battleSideEnum = BattleSideEnum.None;
 			if (side != BattleSideEnum.Defender)
 			{
@@ -172,9 +172,9 @@ namespace TaleWorlds.CampaignSystem.Siege
 			{
 				battleSideEnum = BattleSideEnum.Attacker;
 			}
-			return !FactionManager.IsAtWarAgainstFaction(this.GetSiegeEventSide(side).GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).First<PartyBase>()
-				.MapFaction, mapFaction) && FactionManager.IsAtWarAgainstFaction(this.GetSiegeEventSide(battleSideEnum).GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).First<PartyBase>()
-				.MapFaction, mapFaction);
+			bool flag = this.GetSiegeEventSide(side).GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).All((PartyBase x) => !x.MapFaction.IsAtWarWith(partyFaction));
+			bool flag2 = this.GetSiegeEventSide(battleSideEnum).GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).All((PartyBase x) => x.MapFaction.IsAtWarWith(partyFaction));
+			return flag && flag2;
 		}
 
 		public void Tick(float dt)
@@ -469,7 +469,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 					{
 						if (targetType != SiegeBombardTargets.RangedEngines)
 						{
-							Debug.FailedAssert("Invalid target type on hit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\SiegeEvent.cs", "BombardTick", 937);
+							Debug.FailedAssert("Invalid target type on hit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\SiegeEvent.cs", "BombardTick", 939);
 						}
 						else
 						{

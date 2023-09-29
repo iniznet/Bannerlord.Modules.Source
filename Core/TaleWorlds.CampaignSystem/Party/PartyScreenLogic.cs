@@ -1032,8 +1032,16 @@ namespace TaleWorlds.CampaignSystem.Party
 				{
 					GainKingdomInfluenceAction.ApplyForLeavingTroopToGarrison(Hero.MainHero, (float)this.CurrentData.PartyInfluenceChangeAmount.Item2);
 				}
-				this._initialData.CopyFromScreenData(this.CurrentData);
 				this.FireCampaignRelatedEvents();
+				this.SetPartyGoldChangeAmount(0);
+				this.SetHorseChangeAmount(0);
+				this.SetInfluenceChangeAmount(0, 0, 0);
+				this.SetMoraleChangeAmount(0);
+				this.CurrentData.UpgradedTroopsHistory = new List<Tuple<CharacterObject, CharacterObject, int>>();
+				this.CurrentData.TransferredPrisonersHistory = new List<Tuple<CharacterObject, int>>();
+				this.CurrentData.RecruitedPrisonersHistory = new List<Tuple<CharacterObject, int>>();
+				this.CurrentData.UsedUpgradeHorsesHistory = new List<Tuple<EquipmentElement, int>>();
+				this._initialData.CopyFromScreenData(this.CurrentData);
 			}
 			return flag;
 		}
@@ -1270,7 +1278,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 			if (numOfItemsLeftToRemove > 0)
 			{
-				Debug.FailedAssert("Couldn't find enough upgrade req items in the inventory.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "RemoveItemFromItemRoster", 1467);
+				Debug.FailedAssert("Couldn't find enough upgrade req items in the inventory.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "RemoveItemFromItemRoster", 1478);
 			}
 			return list;
 		}

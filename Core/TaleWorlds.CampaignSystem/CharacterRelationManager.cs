@@ -54,7 +54,7 @@ namespace TaleWorlds.CampaignSystem
 
 		public void AfterLoad()
 		{
-			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
+			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 27066))
 			{
 				this._heroRelations.ClearOldData();
 			}

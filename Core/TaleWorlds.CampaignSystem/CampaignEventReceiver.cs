@@ -941,6 +941,10 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
+		public virtual void OnMapEventContinuityNeedsUpdate(IFaction faction)
+		{
+		}
+
 		public virtual void CanHeroLeadParty(Hero hero, ref bool result)
 		{
 		}

@@ -398,6 +398,7 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.Armory
 				{
 					this._isManagingTaunts = value;
 					base.OnPropertyChangedWithValue(value, "IsManagingTaunts");
+					this.Cosmetics.IsManagingTaunts = value;
 				}
 			}
 		}

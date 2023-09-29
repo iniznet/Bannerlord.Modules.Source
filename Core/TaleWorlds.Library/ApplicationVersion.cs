@@ -42,10 +42,10 @@ namespace TaleWorlds.Library
 				return ApplicationVersion.Empty;
 			}
 			xmlDocument.LoadXml(fileContent);
-			return ApplicationVersion.FromString(xmlDocument.ChildNodes[0].ChildNodes[0].Attributes["Value"].InnerText, 24202);
+			return ApplicationVersion.FromString(xmlDocument.ChildNodes[0].ChildNodes[0].Attributes["Value"].InnerText, 27066);
 		}
 
-		public static ApplicationVersion FromString(string versionAsString, int defaultChangeSet = 24202)
+		public static ApplicationVersion FromString(string versionAsString, int defaultChangeSet = 27066)
 		{
 			string[] array = versionAsString.Split(new char[] { '.' });
 			if (array.Length != 3 && array.Length != 4)
@@ -205,7 +205,7 @@ namespace TaleWorlds.Library
 			return a == b || a < b;
 		}
 
-		public const int DefaultChangeSet = 24202;
+		public const int DefaultChangeSet = 27066;
 
 		[JsonIgnore]
 		public static readonly ApplicationVersion Empty = new ApplicationVersion(ApplicationVersionType.Invalid, -1, -1, -1, -1);

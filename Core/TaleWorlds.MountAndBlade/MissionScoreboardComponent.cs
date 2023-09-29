@@ -206,7 +206,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (side > (BattleSideEnum)this._sides.Length || side < BattleSideEnum.Defender)
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetRoundScore", 432);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetRoundScore", 444);
 				return 0;
 			}
 			return this.GetSideSafe(side).SideScore;
@@ -698,18 +698,20 @@ namespace TaleWorlds.MountAndBlade
 
 			public string GetValueOf(MissionPeer missionPeer)
 			{
-				if (this._playerGetterFunc == null)
+				if (missionPeer == null || this._playerGetterFunc == null)
 				{
-					return "";
+					Debug.FailedAssert(string.Format("Scoreboard header values are invalid: Peer: {0} Getter: {1}", missionPeer, this._playerGetterFunc), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetValueOf", 43);
+					return string.Empty;
 				}
 				return this._playerGetterFunc(missionPeer);
 			}
 
 			public string GetValueOf(BotData botData)
 			{
-				if (this._botGetterFunc == null)
+				if (botData == null || this._botGetterFunc == null)
 				{
-					return "";
+					Debug.FailedAssert(string.Format("Scoreboard header values are invalid: Bot Data: {0} Getter: {1}", botData, this._botGetterFunc), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetValueOf", 54);
+					return string.Empty;
 				}
 				return this._botGetterFunc(botData);
 			}

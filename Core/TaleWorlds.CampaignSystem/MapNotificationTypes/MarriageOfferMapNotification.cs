@@ -64,7 +64,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		public override bool IsValid()
 		{
 			bool flag = Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this.Suitor, this.Maiden);
-			if (flag && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			if (flag && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 27066))
 			{
 				MarriageOfferCampaignBehavior behavior = Campaign.Current.CampaignBehaviorManager.GetBehavior<MarriageOfferCampaignBehavior>();
 				flag = behavior != null && behavior.IsThereActiveMarriageOffer;

@@ -180,7 +180,12 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		public static TauntUsageManager.TauntUsage.TauntUsageFlag GetIsActionNotSuitableReason(int index, bool isLeftStance, bool onFoot, WeaponComponentData mainHandWeapon, WeaponComponentData offhandWeapon)
 		{
 			MBReadOnlyList<TauntUsageManager.TauntUsage> usages = TauntUsageManager._tauntUsageSets[index].GetUsages();
-			TauntUsageManager.TauntUsage.TauntUsageFlag tauntUsageFlag = TauntUsageManager.TauntUsage.TauntUsageFlag.None;
+			if (usages.Count == 0)
+			{
+				Debug.FailedAssert("Taunt usages are empty", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.Diamond\\TauntUsageManager.cs", "GetIsActionNotSuitableReason", 214);
+				return TauntUsageManager.TauntUsage.TauntUsageFlag.None;
+			}
+			TauntUsageManager.TauntUsage.TauntUsageFlag[] array = new TauntUsageManager.TauntUsage.TauntUsageFlag[usages.Count];
 			for (int i = 0; i < usages.Count; i++)
 			{
 				TauntUsageManager.TauntUsage.TauntUsageFlag isNotSuitableReason = usages[i].GetIsNotSuitableReason(isLeftStance, onFoot, mainHandWeapon, offhandWeapon);
@@ -188,9 +193,10 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				{
 					return TauntUsageManager.TauntUsage.TauntUsageFlag.None;
 				}
-				tauntUsageFlag |= isNotSuitableReason;
+				array[i] = isNotSuitableReason;
 			}
-			return tauntUsageFlag;
+			Array.Sort<TauntUsageManager.TauntUsage.TauntUsageFlag>(array, new TauntUsageManager.TauntUsageFlagComparer());
+			return array[0];
 		}
 
 		public static int GetTauntItemCount()
@@ -229,6 +235,15 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		private static List<TauntUsageManager.TauntUsageSet> _tauntUsageSets = new List<TauntUsageManager.TauntUsageSet>();
 
 		private static Dictionary<string, int> _tauntUsageSetIndexMap = new Dictionary<string, int>();
+
+		private class TauntUsageFlagComparer : IComparer<TauntUsageManager.TauntUsage.TauntUsageFlag>
+		{
+			public int Compare(TauntUsageManager.TauntUsage.TauntUsageFlag x, TauntUsageManager.TauntUsage.TauntUsageFlag y)
+			{
+				int num = (int)x;
+				return num.CompareTo((int)y);
+			}
+		}
 
 		public class TauntUsageSet
 		{

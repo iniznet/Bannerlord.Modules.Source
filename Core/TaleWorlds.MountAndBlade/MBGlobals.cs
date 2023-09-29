@@ -30,7 +30,8 @@ namespace TaleWorlds.MountAndBlade
 				actionSet = MBActionSet.GetActionSet(actionSetCode);
 				if (!actionSet.IsValid)
 				{
-					throw new MBNotFoundException("Unable to find action set : " + actionSetCode);
+					Debug.FailedAssert("No action set found with action set code: " + actionSetCode, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Base\\MBGlobals.cs", "GetActionSet", 40);
+					throw new Exception("Invalid action set code");
 				}
 				MBGlobals._actionSets[actionSetCode] = actionSet;
 			}

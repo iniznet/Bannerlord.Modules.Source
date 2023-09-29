@@ -168,16 +168,10 @@ namespace TaleWorlds.MountAndBlade
 					boneBodyPartType = agentVisuals.GetBoneTypeData(attackCollisionData2.CollisionBoneIndex).BodyPartType;
 				}
 				attackCollisionData2 = attackCollisionData;
-				this.DamageMultiplierOfBone = agentApplyDamageModel.GetDamageMultiplierForBodyPart(boneBodyPartType, (DamageTypes)attackCollisionData2.DamageType, this.IsVictimAgentHuman);
+				DamageTypes damageType = (DamageTypes)attackCollisionData2.DamageType;
+				bool isVictimAgentHuman = this.IsVictimAgentHuman;
 				attackCollisionData2 = attackCollisionData;
-				if (!attackCollisionData2.IsMissile)
-				{
-					attackCollisionData2 = attackCollisionData;
-					if (attackCollisionData2.DamageType == 1)
-					{
-						this.DamageMultiplierOfBone = (1f + this.DamageMultiplierOfBone) * 0.5f;
-					}
-				}
+				this.DamageMultiplierOfBone = agentApplyDamageModel.GetDamageMultiplierForBodyPart(boneBodyPartType, damageType, isVictimAgentHuman, attackCollisionData2.IsMissile);
 				this.VictimMovementDirectionAsAngle = victimAgent.MovementDirectionAsAngle;
 				this.VictimAgentScale = victimAgent.AgentScale;
 				this.VictimAgentHealth = victimAgent.Health;

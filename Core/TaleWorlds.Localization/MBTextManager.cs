@@ -311,7 +311,7 @@ namespace TaleWorlds.Localization
 			{
 				text2 = MBTextManager.DiscardAnimationTags(match.Value);
 			}
-			return string.IsNullOrEmpty(text2);
+			return string.IsNullOrEmpty(text2.Replace(" ", ""));
 		}
 
 		public static string[] GetConversationAnimations(TextObject to)

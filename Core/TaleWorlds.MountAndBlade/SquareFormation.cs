@@ -382,6 +382,41 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
+		public override void TurnBackwards()
+		{
+			int num = base.FileCount / 2;
+			for (int i = 0; i <= base.FileCount / 2; i++)
+			{
+				for (int j = 0; j < base.RankCount; j++)
+				{
+					int num2 = i + num;
+					if (num2 < base.FileCount)
+					{
+						IFormationUnit unitAt = base.GetUnitAt(i, j);
+						IFormationUnit unitAt2 = base.GetUnitAt(num2, j);
+						if (unitAt != unitAt2)
+						{
+							if (unitAt != null && unitAt2 != null)
+							{
+								base.SwitchUnitLocations(unitAt, unitAt2);
+							}
+							else if (unitAt != null)
+							{
+								if (base.IsUnitPositionAvailable(num2, j))
+								{
+									base.RelocateUnit(unitAt, num2, j);
+								}
+							}
+							else if (unitAt2 != null && base.IsUnitPositionAvailable(i, j))
+							{
+								base.RelocateUnit(unitAt2, i, j);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		private enum Side
 		{
 			Front,

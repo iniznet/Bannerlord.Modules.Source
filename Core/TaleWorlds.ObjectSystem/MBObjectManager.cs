@@ -823,9 +823,13 @@ namespace TaleWorlds.ObjectSystem
 						list.Add(mbobjectBase);
 					}
 				}
-				foreach (MBObjectBase mbobjectBase2 in list)
+				if (list.Any<MBObjectBase>())
 				{
-					this.UnregisterObject(mbobjectBase2);
+					foreach (MBObjectBase mbobjectBase2 in list)
+					{
+						Debug.Print("Null object reference found with ID: " + mbobjectBase2.StringId, 0, Debug.DebugColor.White, 17592186044416UL);
+						this.UnregisterObject(mbobjectBase2);
+					}
 				}
 			}
 		}

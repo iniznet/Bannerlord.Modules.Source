@@ -298,6 +298,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		protected IFormationUnit GetUnitAt(int fileIndex, int rankIndex)
+		{
+			return this._units2D[fileIndex, rankIndex];
+		}
+
 		public bool IsUnitPositionAvailable(int fileIndex, int rankIndex)
 		{
 			return this.UnitPositionAvailabilities[fileIndex, rankIndex] == 2;
@@ -1254,7 +1259,7 @@ namespace TaleWorlds.MountAndBlade
 			LineFormation.GetToBeFilledInAndToBeEmptiedOutUnitPositions(formation, mbqueue, mbarrayList);
 			if (formation._shiftUnitsForwardsPredicateDelegate == null)
 			{
-				formation._shiftUnitsForwardsPredicateDelegate = new Func<LineFormation, int, int, bool>(LineFormation.<>c.<>9.<ShiftUnitsForwardsForWideningFormation>g__ShiftUnitForwardsPredicate|126_0);
+				formation._shiftUnitsForwardsPredicateDelegate = new Func<LineFormation, int, int, bool>(LineFormation.<>c.<>9.<ShiftUnitsForwardsForWideningFormation>g__ShiftUnitForwardsPredicate|127_0);
 			}
 			while (mbqueue.Count > 0)
 			{
@@ -1469,7 +1474,7 @@ namespace TaleWorlds.MountAndBlade
 			MBArrayList<Vec2i> mbarrayList = formation._filledInUnitPositionsWorkspace.StartUsingWorkspace();
 			if (formation._shiftUnitsBackwardsPredicateDelegate == null)
 			{
-				formation._shiftUnitsBackwardsPredicateDelegate = new Func<LineFormation, int, int, bool>(LineFormation.<>c.<>9.<ShiftUnitsBackwardsAux>g__ShiftUnitsBackwardsPredicate|135_0);
+				formation._shiftUnitsBackwardsPredicateDelegate = new Func<LineFormation, int, int, bool>(LineFormation.<>c.<>9.<ShiftUnitsBackwardsAux>g__ShiftUnitsBackwardsPredicate|136_0);
 			}
 			while (!displacedUnits.IsEmpty<ValueTuple<IFormationUnit, int, int>>())
 			{
@@ -2080,11 +2085,11 @@ namespace TaleWorlds.MountAndBlade
 					i--;
 				}
 			}
-			Debug.FailedAssert("This line should not be reached.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\LineFormation.cs", "GetUnitToFillIn", 3155);
+			Debug.FailedAssert("This line should not be reached.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\LineFormation.cs", "GetUnitToFillIn", 3161);
 			return null;
 		}
 
-		private void RelocateUnit(IFormationUnit unit, int fileIndex, int rankIndex)
+		protected void RelocateUnit(IFormationUnit unit, int fileIndex, int rankIndex)
 		{
 			this._units2D[unit.FormationFileIndex, unit.FormationRankIndex] = null;
 			this._units2D[fileIndex, rankIndex] = unit;
@@ -2474,7 +2479,7 @@ namespace TaleWorlds.MountAndBlade
 			return hasNewDirection && MathF.Abs(MBMath.GetSmallestDifferenceBetweenTwoAngles(newDirection.Value.RotationInRadians, previousDirection.RotationInRadians)) >= 2.3561945f;
 		}
 
-		public void TurnBackwards()
+		public virtual void TurnBackwards()
 		{
 			for (int i = 0; i <= this.FileCount / 2; i++)
 			{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Conversation.Persuasion;
 using TaleWorlds.Core;
@@ -10,16 +11,28 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 {
 	public class ConversationItemVM : ViewModel
 	{
-		public ConversationItemVM(Action<int> action, Action onReadyToContinue, Action<ConversationItemVM> setCurrentAnswer, int index, ConversationSentenceOption option)
+		private ConversationSentenceOption _option
+		{
+			get
+			{
+				List<ConversationSentenceOption> curOptions = Campaign.Current.ConversationManager.CurOptions;
+				if (curOptions == null || curOptions.Count <= 0)
+				{
+					return default(ConversationSentenceOption);
+				}
+				return Campaign.Current.ConversationManager.CurOptions[this.Index];
+			}
+		}
+
+		public ConversationItemVM(Action<int> action, Action onReadyToContinue, Action<ConversationItemVM> setCurrentAnswer, int index)
 		{
 			this.ActionWihIntIndex = action;
-			this._option = option;
 			this.Index = index;
 			this._onReadyToContinue = onReadyToContinue;
 			this.IsEnabled = this._option.IsClickable;
 			this.HasPersuasion = this._option.HasPersuasion;
 			this._setCurrentAnswer = setCurrentAnswer;
-			this.PersuasionItem = new PersuasionOptionVM(Campaign.Current.ConversationManager, option, new Action(this.OnReadyToContinue));
+			this.PersuasionItem = new PersuasionOptionVM(Campaign.Current.ConversationManager, index, new Action(this.OnReadyToContinue));
 			this.IsSpecial = this._option.IsSpecial;
 			this.RefreshValues();
 		}
@@ -222,8 +235,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 		public Action<ConversationItemVM> _setCurrentAnswer;
 
 		public int Index;
-
-		private ConversationSentenceOption _option;
 
 		private Action _onReadyToContinue;
 

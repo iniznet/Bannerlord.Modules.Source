@@ -210,7 +210,8 @@ namespace TaleWorlds.MountAndBlade
 					{
 						float num6 = ((float)thrustSpeed - 89f) / 13f;
 						num6 = MBMath.ClampFloat(num6, 0f, 1f);
-						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty *= 3.5f * MBMath.Lerp(1.5f, 0.8f, num6, 1E-05f);
+						agentDrivenProperties.WeaponMaxMovementAccuracyPenalty *= 0.5f;
+						agentDrivenProperties.WeaponMaxUnsteadyAccuracyPenalty *= 1.5f * MBMath.Lerp(1.5f, 0.8f, num6, 1E-05f);
 					}
 					else if (weaponComponentData3.RelevantSkill == DefaultSkills.Crossbow)
 					{
@@ -232,7 +233,7 @@ namespace TaleWorlds.MountAndBlade
 					}
 					else if (weaponComponentData3.WeaponClass == WeaponClass.Javelin || weaponComponentData3.WeaponClass == WeaponClass.ThrowingAxe || weaponComponentData3.WeaponClass == WeaponClass.ThrowingKnife)
 					{
-						agentDrivenProperties.WeaponBestAccuracyWaitTime = 0.4f + (89f - (float)thrustSpeed) * 0.03f;
+						agentDrivenProperties.WeaponBestAccuracyWaitTime = 0.2f + (89f - (float)thrustSpeed) * 0.009f;
 						agentDrivenProperties.WeaponUnsteadyBeginTime = 2.5f + (float)effectiveSkillForWeapon * 0.01f;
 						agentDrivenProperties.WeaponUnsteadyEndTime = 10f + agentDrivenProperties.WeaponUnsteadyBeginTime;
 						agentDrivenProperties.WeaponRotationalAccuracyPenaltyInRadians = 0.025f;
@@ -250,47 +251,47 @@ namespace TaleWorlds.MountAndBlade
 					agentDrivenProperties.WeaponUnsteadyBeginTime = 1f + (float)effectiveSkillForWeapon * 0.005f;
 					agentDrivenProperties.WeaponUnsteadyEndTime = 3f + (float)effectiveSkillForWeapon * 0.01f;
 				}
-				if (agent.HasMount)
-				{
-					float num8 = 1f - MathF.Max(0f, 0.2f - (float)effectiveSkill2 * 0.002f);
-					agentDrivenProperties.SwingSpeedMultiplier *= num8;
-					agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier *= num8;
-					agentDrivenProperties.ReloadSpeed *= num8;
-				}
 			}
 			agentDrivenProperties.TopSpeedReachDuration = 2f / MathF.Max((200f + (float)effectiveSkill) / 300f * ((float)weight / ((float)weight + num2)), 0.3f);
-			float num9 = 0.7f + 0.00070000015f * (float)effectiveSkill;
-			float num10 = MathF.Max(0.2f * (1f - (float)effectiveSkill * 0.001f), 0f) * num2 / (float)weight;
-			float num11 = MBMath.ClampFloat(num9 - num10, 0f, 0.91f);
-			agentDrivenProperties.MaxSpeedMultiplier = this.GetEnvironmentSpeedFactor(agent) * num11;
+			float num8 = 0.7f + 0.00070000015f * (float)effectiveSkill;
+			float num9 = MathF.Max(0.2f * (1f - (float)effectiveSkill * 0.001f), 0f) * num2 / (float)weight;
+			float num10 = MBMath.ClampFloat(num8 - num9, 0f, 0.91f);
+			agentDrivenProperties.MaxSpeedMultiplier = this.GetEnvironmentSpeedFactor(agent) * num10;
 			float managedParameter = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMinMultiplier);
 			float managedParameter2 = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalCombatSpeedMaxMultiplier);
-			float num12 = MathF.Min(num2 / (float)weight, 1f);
-			agentDrivenProperties.CombatMaxSpeedMultiplier = MathF.Min(MBMath.Lerp(managedParameter2, managedParameter, num12, 1E-05f), 1f);
+			float num11 = MathF.Min(num2 / (float)weight, 1f);
+			agentDrivenProperties.CombatMaxSpeedMultiplier = MathF.Min(MBMath.Lerp(managedParameter2, managedParameter, num11, 1E-05f), 1f);
 			agentDrivenProperties.AttributeShieldMissileCollisionBodySizeAdder = 0.3f;
 			Agent mountAgent = agent.MountAgent;
-			float num13 = ((mountAgent != null) ? mountAgent.GetAgentDrivenPropertyValue(DrivenProperty.AttributeRiding) : 1f);
-			agentDrivenProperties.AttributeRiding = (float)effectiveSkill2 * num13;
+			float num12 = ((mountAgent != null) ? mountAgent.GetAgentDrivenPropertyValue(DrivenProperty.AttributeRiding) : 1f);
+			agentDrivenProperties.AttributeRiding = (float)effectiveSkill2 * num12;
 			agentDrivenProperties.AttributeHorseArchery = Game.Current.BasicModels.StrikeMagnitudeModel.CalculateHorseArcheryFactor(character);
 			agentDrivenProperties.BipedalRangedReadySpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReadySpeedMultiplier);
 			agentDrivenProperties.BipedalRangedReloadSpeedMultiplier = ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.BipedalRangedReloadSpeedMultiplier);
-			this.GetBannerEffectsOnAgent(agent, agentDrivenProperties, weaponComponentData);
+			if (agent.Character != null)
+			{
+				if (agent.HasMount && weaponComponentData != null)
+				{
+					this.SetMountedWeaponPenaltiesOnAgent(agent, agentDrivenProperties, weaponComponentData);
+				}
+				this.SetBannerEffectsOnAgent(agent, agentDrivenProperties, weaponComponentData);
+			}
 			base.SetAiRelatedProperties(agent, agentDrivenProperties, weaponComponentData, weaponComponentData2);
-			float num14 = 1f;
+			float num13 = 1f;
 			if (!agent.Mission.Scene.IsAtmosphereIndoor)
 			{
 				float rainDensity = agent.Mission.Scene.GetRainDensity();
 				float fog = agent.Mission.Scene.GetFog();
 				if (rainDensity > 0f || fog > 0f)
 				{
-					num14 += MathF.Min(0.3f, rainDensity + fog);
+					num13 += MathF.Min(0.3f, rainDensity + fog);
 				}
 				if (!MBMath.IsBetween(agent.Mission.Scene.TimeOfDay, 4f, 20.01f))
 				{
-					num14 += 0.1f;
+					num13 += 0.1f;
 				}
 			}
-			agentDrivenProperties.AiShooterError *= num14;
+			agentDrivenProperties.AiShooterError *= num13;
 		}
 
 		private void UpdateHorseStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
@@ -329,21 +330,44 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.TopSpeedReachDuration = Game.Current.BasicModels.RidingModel.CalculateAcceleration(equipmentElement, equipmentElement2, num2);
 		}
 
-		private void GetBannerEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData rightHandEquippedItem)
+		private void SetBannerEffectsOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData equippedWeaponComponent)
 		{
 			BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(agent.Formation);
-			if (agent.Character != null && activeBanner != null)
+			if (activeBanner != null)
 			{
-				bool flag = rightHandEquippedItem != null && rightHandEquippedItem.IsRangedWeapon;
+				bool flag = equippedWeaponComponent != null && equippedWeaponComponent.IsRangedWeapon;
 				FactoredNumber factoredNumber = new FactoredNumber(agentDrivenProperties.MaxSpeedMultiplier);
 				FactoredNumber factoredNumber2 = new FactoredNumber(agentDrivenProperties.WeaponInaccuracy);
-				if (flag && rightHandEquippedItem != null)
+				if (flag && equippedWeaponComponent != null)
 				{
 					BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.DecreasedRangedAccuracyPenalty, activeBanner, ref factoredNumber2);
 				}
 				BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedTroopMovementSpeed, activeBanner, ref factoredNumber);
 				agentDrivenProperties.MaxSpeedMultiplier = factoredNumber.ResultNumber;
 				agentDrivenProperties.WeaponInaccuracy = factoredNumber2.ResultNumber;
+			}
+		}
+
+		private void SetMountedWeaponPenaltiesOnAgent(Agent agent, AgentDrivenProperties agentDrivenProperties, WeaponComponentData equippedWeaponComponent)
+		{
+			int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
+			float num = 0.2f - (float)effectiveSkill * 0.002f;
+			if (num > 0f)
+			{
+				float num2 = agentDrivenProperties.SwingSpeedMultiplier * (1f - num);
+				float num3 = agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier * (1f - num);
+				float num4 = agentDrivenProperties.ReloadSpeed * (1f - num);
+				float num5 = agentDrivenProperties.WeaponBestAccuracyWaitTime * (1f + num);
+				agentDrivenProperties.SwingSpeedMultiplier = Math.Max(0f, num2);
+				agentDrivenProperties.ThrustOrRangedReadySpeedMultiplier = Math.Max(0f, num3);
+				agentDrivenProperties.ReloadSpeed = Math.Max(0f, num4);
+				agentDrivenProperties.WeaponBestAccuracyWaitTime = Math.Max(0f, num5);
+			}
+			float num6 = 0.4f - (float)effectiveSkill * 0.004f;
+			if (num6 > 0f)
+			{
+				float num7 = agentDrivenProperties.WeaponInaccuracy * (1f + num6);
+				agentDrivenProperties.WeaponInaccuracy = Math.Max(0f, num7);
 			}
 		}
 	}

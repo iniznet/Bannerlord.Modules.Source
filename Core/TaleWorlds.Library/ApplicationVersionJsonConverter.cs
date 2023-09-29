@@ -13,7 +13,7 @@ namespace TaleWorlds.Library
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
-			return ApplicationVersion.FromString((string)JObject.Load(reader)["_version"], 24202);
+			return ApplicationVersion.FromString((string)JObject.Load(reader)["_version"], 27066);
 		}
 
 		public override bool CanWrite

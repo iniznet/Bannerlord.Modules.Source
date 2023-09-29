@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5AA53B8C-9531-4C6B-9B33-21BCBC5E4C89}</ProjectGuid>
+    <ProjectGuid>{5A31B146-5D62-4691-9339-8D8B2539B36D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode</RootNamespace>
     <AssemblyName>StoryMode</AssemblyName>

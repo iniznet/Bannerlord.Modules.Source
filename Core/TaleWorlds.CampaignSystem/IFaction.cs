@@ -98,7 +98,5 @@ namespace TaleWorlds.CampaignSystem
 		ExplainedNumber DailyCrimeRatingChangeExplained { get; }
 
 		CampaignTime NotAttackableByPlayerUntilTime { get; set; }
-
-		void ConsiderSiegesAndMapEvents(IFaction factionToConsiderAgainst);
 	}
 }

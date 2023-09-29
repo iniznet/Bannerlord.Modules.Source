@@ -49,6 +49,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this._contextMenuItem = null;
 			CampaignEvents.ArmyOverlaySetDirtyEvent.AddNonSerializedListener(this, new Action(this.Refresh));
 			CampaignEvents.PartyAttachedAnotherParty.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartyAttachedAnotherParty));
+			CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, new Action<Hero, Settlement, Hero, CharacterObject, int>(this.OnTroopRecruited));
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 			this._cohesionConceptObj = Concept.All.SingleOrDefault((Concept c) => c.StringId == "str_game_objects_army_cohesion");
 			base.IsInitializationOver = true;
@@ -63,6 +64,15 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 				tutorialNotification.RefreshValues();
 			}
 			this.Refresh();
+		}
+
+		public override void OnFinalize()
+		{
+			base.OnFinalize();
+			CampaignEvents.ArmyOverlaySetDirtyEvent.ClearListeners(this);
+			CampaignEvents.PartyAttachedAnotherParty.ClearListeners(this);
+			CampaignEvents.OnTroopRecruitedEvent.ClearListeners(this);
+			Game.Current.EventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 		}
 
 		protected override void ExecuteOnSetAsActiveContextMenuItem(GameMenuPartyItemVM troop)
@@ -228,14 +238,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 		}
 
-		public override void OnFinalize()
-		{
-			base.OnFinalize();
-			CampaignEvents.ArmyOverlaySetDirtyEvent.ClearListeners(this);
-			CampaignEvents.PartyAttachedAnotherParty.ClearListeners(this);
-			Game.Current.EventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
-		}
-
 		public void ExecuteOpenArmyManagement()
 		{
 			MobileParty mainParty = MobileParty.MainParty;
@@ -261,7 +263,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 				Campaign.Current.EncyclopediaManager.GoToLink(this._cohesionConceptObj.EncyclopediaLink);
 				return;
 			}
-			Debug.FailedAssert("Couldn't find Cohesion encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\GameMenu\\Overlay\\ArmyMenuOverlayVM.cs", "ExecuteCohesionLink", 292);
+			Debug.FailedAssert("Couldn't find Cohesion encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\GameMenu\\Overlay\\ArmyMenuOverlayVM.cs", "ExecuteCohesionLink", 294);
 		}
 
 		private void OnTutorialNotificationElementIDChange(TutorialNotificationElementChangeEvent obj)
@@ -294,6 +296,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			if (((attachedTo != null) ? attachedTo.Army : null) != null && party.AttachedTo.Army == MobileParty.MainParty.Army)
 			{
 				this._isVisualsDirty = true;
+			}
+		}
+
+		private void OnTroopRecruited(Hero recruiterHero, Settlement settlement, Hero troopSource, CharacterObject troop, int number)
+		{
+			if (((recruiterHero != null) ? recruiterHero.PartyBelongedTo : null) != null && recruiterHero.IsPartyLeader)
+			{
+				for (int i = 0; i < this.PartyList.Count; i++)
+				{
+					if (this.PartyList[i].Party == recruiterHero.PartyBelongedTo.Party)
+					{
+						this.PartyList[i].RefreshProperties();
+						return;
+					}
+				}
 			}
 		}
 

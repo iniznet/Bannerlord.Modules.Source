@@ -205,7 +205,7 @@ namespace TaleWorlds.MountAndBlade.Options
 
 		private static IEnumerable<IOptionData> GetGameplayControlsOptions(bool isMainMenu, bool isMultiplayer)
 		{
-			bool isDualSense = Input.ControllerType == Input.ControllerTypes.PlayStationDualShock || Input.ControllerType == Input.ControllerTypes.PlayStationDualSense;
+			bool isDualSense = Input.ControllerType.IsPlaystation();
 			if (isDualSense)
 			{
 				yield return new ManagedBooleanOptionData(ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend);

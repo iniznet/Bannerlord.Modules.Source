@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -211,7 +210,7 @@ namespace TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper
 
 			private bool ServerSupportsDownloadPanel(GameServerEntry serverEntry)
 			{
-				return serverEntry.LoadedModules.Any((ModuleInfoModel m) => m.Id == "Multiplayer");
+				return true;
 			}
 
 			private void OpenDownloadPanelForServer(GameServerEntry serverEntry)

@@ -13,14 +13,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 100f;
 		}
 
-		public override float CalculateStrikeMagnitudeForMissile(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float missileDamage, float missileSpeed, float missileStartingSpeed, WeaponComponentData currentUsageWeaponComponent)
+		public override float CalculateStrikeMagnitudeForMissile(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float missileDamage, float missileSpeed, float missileStartingSpeed, ItemObject weaponItem, WeaponComponentData weaponUsageComponent)
 		{
 			float num = missileSpeed;
 			float num2 = missileSpeed - missileStartingSpeed;
 			if (num2 > 0f)
 			{
 				ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
-				WeaponClass ammoClass = currentUsageWeaponComponent.AmmoClass;
+				WeaponClass ammoClass = weaponUsageComponent.AmmoClass;
 				CharacterObject characterObject = attackerCharacter as CharacterObject;
 				if (characterObject != null && characterObject.IsHero && (ammoClass == WeaponClass.Stone || ammoClass == WeaponClass.ThrowingAxe || ammoClass == WeaponClass.ThrowingKnife || ammoClass == WeaponClass.Javelin))
 				{
@@ -32,7 +32,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num * num * missileDamage;
 		}
 
-		public override float CalculateStrikeMagnitudeForSwing(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float swingSpeed, float impactPointAsPercent, float weaponWeight, WeaponComponentData weaponUsageComponent, float weaponLength, float weaponInertia, float weaponCoM, float extraLinearSpeed, bool doesAttackerHaveMount)
+		public override float CalculateStrikeMagnitudeForSwing(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float swingSpeed, float impactPointAsPercent, float weaponWeight, ItemObject weaponItem, WeaponComponentData weaponUsageComponent, float weaponLength, float weaponInertia, float weaponCoM, float extraLinearSpeed, bool doesAttackerHaveMount)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
 			ExplainedNumber explainedNumber = new ExplainedNumber(extraLinearSpeed, false, null);
@@ -64,10 +64,17 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 				}
 			}
-			return CombatStatCalculator.CalculateStrikeMagnitudeForSwing(swingSpeed, impactPointAsPercent, weaponWeight, weaponLength, weaponInertia, weaponCoM, explainedNumber.ResultNumber);
+			float num = CombatStatCalculator.CalculateStrikeMagnitudeForSwing(swingSpeed, impactPointAsPercent, weaponWeight, weaponLength, weaponInertia, weaponCoM, explainedNumber.ResultNumber);
+			if (weaponItem.IsCraftedByPlayer)
+			{
+				ExplainedNumber explainedNumber2 = new ExplainedNumber(num, false, null);
+				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crafting.SharpenedEdge, characterObject, true, ref explainedNumber2);
+				num = explainedNumber2.ResultNumber;
+			}
+			return num;
 		}
 
-		public override float CalculateStrikeMagnitudeForThrust(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float thrustWeaponSpeed, float weaponWeight, WeaponComponentData weaponUsageComponent, float extraLinearSpeed, bool doesAttackerHaveMount, bool isThrown = false)
+		public override float CalculateStrikeMagnitudeForThrust(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float thrustWeaponSpeed, float weaponWeight, ItemObject weaponItem, WeaponComponentData weaponUsageComponent, float extraLinearSpeed, bool doesAttackerHaveMount, bool isThrown = false)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
 			ExplainedNumber explainedNumber = new ExplainedNumber(extraLinearSpeed, false, null);
@@ -99,7 +106,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 				}
 			}
-			return CombatStatCalculator.CalculateStrikeMagnitudeForThrust(thrustWeaponSpeed, weaponWeight, explainedNumber.ResultNumber, isThrown);
+			float num = CombatStatCalculator.CalculateStrikeMagnitudeForThrust(thrustWeaponSpeed, weaponWeight, explainedNumber.ResultNumber, isThrown);
+			if (weaponItem.IsCraftedByPlayer)
+			{
+				ExplainedNumber explainedNumber2 = new ExplainedNumber(num, false, null);
+				PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Crafting.SharpenedTip, characterObject, true, ref explainedNumber2);
+				num = explainedNumber2.ResultNumber;
+			}
+			return num;
 		}
 
 		public override float ComputeRawDamage(DamageTypes damageType, float magnitude, float armorEffectiveness, float absorbedDamageRatio)
@@ -121,7 +135,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				num4 = MathF.Max(0f, num2 - armorEffectiveness * 0.2f);
 				break;
 			default:
-				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\SandboxStrikeMagnitudeModel.cs", "ComputeRawDamage", 174);
+				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\SandboxStrikeMagnitudeModel.cs", "ComputeRawDamage", 192);
 				return 0f;
 			}
 			num3 += (1f - bluntDamageFactorByDamageType) * num4;

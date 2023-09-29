@@ -1,6 +1,7 @@
 ﻿using System;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Intermission
 {
@@ -15,7 +16,13 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Intermission
 
 		public override void RefreshValues()
 		{
-			this.MapName = GameTexts.FindText("str_multiplayer_scene_name", this.MapID).ToString();
+			TextObject textObject;
+			if (GameTexts.TryGetText("str_multiplayer_scene_name", ref textObject, this.MapID))
+			{
+				this.MapName = textObject.ToString();
+				return;
+			}
+			this.MapName = this.MapID;
 		}
 
 		public void ExecuteVote()

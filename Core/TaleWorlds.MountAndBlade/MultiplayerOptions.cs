@@ -553,7 +553,17 @@ namespace TaleWorlds.MountAndBlade
 					while (enumerator.MoveNext())
 					{
 						string text3 = enumerator.Current;
-						list.Add(GameTexts.FindText("str_multiplayer_scene_name", text3).ToString());
+						TextObject textObject;
+						string text4;
+						if (GameTexts.TryGetText("str_multiplayer_scene_name", out textObject, text3))
+						{
+							text4 = textObject.ToString();
+						}
+						else
+						{
+							text4 = text3;
+						}
+						list.Add(text4);
 					}
 					return list;
 				}
@@ -804,7 +814,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (!(cultureID == "aserai"))
 			{
-				Debug.FailedAssert("Unidentified culture id: " + cultureID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\MultiplayerOptions.cs", "GetLocalizedCultureNameFromStringID", 1037);
+				Debug.FailedAssert("Unidentified culture id: " + cultureID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\MultiplayerOptions.cs", "GetLocalizedCultureNameFromStringID", 1047);
 				return "";
 			}
 			return new TextObject("{=aseraifaction}Aserai", null).ToString();

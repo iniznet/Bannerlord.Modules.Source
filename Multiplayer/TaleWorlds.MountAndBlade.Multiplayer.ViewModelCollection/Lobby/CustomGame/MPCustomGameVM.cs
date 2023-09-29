@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Generic;
@@ -229,10 +228,8 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.Lobby.CustomG
 			if (this.DoesClientRefuseToJoinCustomServer(selectedServer))
 			{
 				this._lobbyState.OnClientRefusedToJoinCustomServer(selectedServer);
-				string text = new TextObject("{=Gcs49qcC}The client doesn't have the map ({MAP_NAME}) being played on the server loaded, or the local map is not identical.", null).SetTextVariable("MAP_NAME", selectedServer.Map).ToString();
-				string text2 = new TextObject("{=SHiA1TRX}Enabling the DedicatedCustomServerHelper module allows downloading maps from supported servers!", null).ToString();
-				string text3 = (Utilities.GetModulesNames().Contains("DedicatedCustomServerHelper") ? text : (text + " " + text2));
-				InformationManager.ShowInquiry(new InquiryData(GameTexts.FindText("str_couldnt_join_server", null).ToString(), text3, false, true, "", GameTexts.FindText("str_dismiss", null).ToString(), null, null, "", 0f, null, null, null), false, false);
+				string text = new TextObject("{=*}You don't have the map ({MAP_NAME}) being played on the server or the local map is not identical. Download the map from the server if you would like to join it.", null).SetTextVariable("MAP_NAME", selectedServer.Map).ToString();
+				InformationManager.ShowInquiry(new InquiryData(GameTexts.FindText("str_couldnt_join_server", null).ToString(), text, false, true, "", GameTexts.FindText("str_dismiss", null).ToString(), null, null, "", 0f, null, null, null), false, false);
 			}
 			else
 			{

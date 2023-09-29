@@ -164,6 +164,11 @@ namespace TaleWorlds.SaveSystem.Save
 
 		public int GetObjectId(object target)
 		{
+			if (!this._idsOfChildObjects.ContainsKey(target))
+			{
+				Debug.Print(string.Format("SAVE ERROR. Cant find {0} with type {1}", target, target.GetType()), 0, Debug.DebugColor.White, 17592186044416UL);
+				Debug.FailedAssert("SAVE ERROR. Cant find target object on save", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\Save\\SaveContext.cs", "GetObjectId", 261);
+			}
 			return this._idsOfChildObjects[target];
 		}
 

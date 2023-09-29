@@ -31,28 +31,54 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI.Mission
 			{
 				base.MissionScreen.SceneLayer.Input.RegisterHotKeyCategory(category);
 			}
-			base.MissionScreen.OnSpectateAgentFocusIn += new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusIn);
-			base.MissionScreen.OnSpectateAgentFocusOut += new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusOut);
 			this._missionLobbyComponent = base.Mission.GetMissionBehavior<MissionLobbyComponent>();
-			this._missionLobbyComponent.CurrentMultiplayerStateChanged += this.MissionLobbyComponentOnCurrentMultiplayerStateChanged;
-			this._missionLobbyComponent.OnCultureSelectionRequested += this.OnCultureSelectionRequested;
 			this._scoreboardStayDuration = MissionLobbyComponent.PostMatchWaitDuration / 2f;
 			this._teamSelectComponent = base.Mission.GetMissionBehavior<MultiplayerTeamSelectComponent>();
-			if (this._teamSelectComponent != null)
-			{
-				this._teamSelectComponent.OnSelectingTeam += new MultiplayerTeamSelectComponent.OnSelectingTeamDelegate(this.OnSelectingTeam);
-			}
-			MissionPeer.OnTeamChanged += new MissionPeer.OnTeamChangedDelegate(this.OnTeamChanged);
+			this.RegisterEvents();
 			if (this._dataSource != null)
 			{
 				this._dataSource.IsActive = false;
 			}
 		}
 
+		public override void OnRemoveBehavior()
+		{
+			this.UnregisterEvents();
+			this.FinalizeLayer();
+			base.OnRemoveBehavior();
+		}
+
 		public override void OnMissionScreenFinalize()
 		{
-			base.MissionScreen.OnSpectateAgentFocusIn -= new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusIn);
-			base.MissionScreen.OnSpectateAgentFocusOut -= new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusOut);
+			base.OnMissionScreenFinalize();
+			this.UnregisterEvents();
+			this.FinalizeLayer();
+			base.OnMissionScreenFinalize();
+		}
+
+		private void RegisterEvents()
+		{
+			if (base.MissionScreen != null)
+			{
+				base.MissionScreen.OnSpectateAgentFocusIn += new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusIn);
+				base.MissionScreen.OnSpectateAgentFocusOut += new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusOut);
+			}
+			this._missionLobbyComponent.CurrentMultiplayerStateChanged += this.MissionLobbyComponentOnCurrentMultiplayerStateChanged;
+			this._missionLobbyComponent.OnCultureSelectionRequested += this.OnCultureSelectionRequested;
+			if (this._teamSelectComponent != null)
+			{
+				this._teamSelectComponent.OnSelectingTeam += new MultiplayerTeamSelectComponent.OnSelectingTeamDelegate(this.OnSelectingTeam);
+			}
+			MissionPeer.OnTeamChanged += new MissionPeer.OnTeamChangedDelegate(this.OnTeamChanged);
+		}
+
+		private void UnregisterEvents()
+		{
+			if (base.MissionScreen != null)
+			{
+				base.MissionScreen.OnSpectateAgentFocusIn -= new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusIn);
+				base.MissionScreen.OnSpectateAgentFocusOut -= new MissionScreen.OnSpectateAgentDelegate(this.HandleSpectateAgentFocusOut);
+			}
 			this._missionLobbyComponent.CurrentMultiplayerStateChanged -= this.MissionLobbyComponentOnCurrentMultiplayerStateChanged;
 			this._missionLobbyComponent.OnCultureSelectionRequested -= this.OnCultureSelectionRequested;
 			if (this._teamSelectComponent != null)
@@ -60,8 +86,6 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI.Mission
 				this._teamSelectComponent.OnSelectingTeam -= new MultiplayerTeamSelectComponent.OnSelectingTeamDelegate(this.OnSelectingTeam);
 			}
 			MissionPeer.OnTeamChanged -= new MissionPeer.OnTeamChangedDelegate(this.OnTeamChanged);
-			this.FinalizeLayer();
-			base.OnMissionScreenFinalize();
 		}
 
 		public override void OnMissionTick(float dt)
@@ -179,8 +203,14 @@ namespace TaleWorlds.MountAndBlade.Multiplayer.GauntletUI.Mission
 
 		private void FinalizeLayer()
 		{
-			this._dataSource.OnFinalize();
-			base.MissionScreen.RemoveLayer(this._gauntletLayer);
+			if (this._dataSource != null)
+			{
+				this._dataSource.OnFinalize();
+			}
+			if (this._gauntletLayer != null)
+			{
+				base.MissionScreen.RemoveLayer(this._gauntletLayer);
+			}
 			this._gauntletLayer = null;
 			this._dataSource = null;
 			this._isActive = false;

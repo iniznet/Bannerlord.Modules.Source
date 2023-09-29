@@ -251,7 +251,7 @@ namespace StoryMode.Quests.TutorialPhase
 		private bool bandit_hideout_boss_fight_start_on_condition()
 		{
 			PartyBase encounteredParty = PlayerEncounter.EncounteredParty;
-			return encounteredParty != null && !encounteredParty.IsMobile && encounteredParty.MapFaction.IsBanditFaction && (!this._foughtWithRadagos && encounteredParty.MapFaction.IsBanditFaction && encounteredParty.IsSettlement && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == StoryModeHeroes.Radagos) && encounteredParty.Settlement.IsHideout;
+			return encounteredParty != null && !encounteredParty.IsMobile && encounteredParty.MapFaction != null && encounteredParty.MapFaction.IsBanditFaction && (!this._foughtWithRadagos && encounteredParty.IsSettlement && encounteredParty.Settlement.IsHideout && encounteredParty.Settlement == this._hideout && Mission.Current != null && Mission.Current.GetMissionBehavior<HideoutMissionController>() != null && Hero.OneToOneConversationHero != null) && Hero.OneToOneConversationHero == StoryModeHeroes.Radagos;
 		}
 
 		private void bandit_hideout_start_duel_fight_on_consequence()
@@ -347,7 +347,7 @@ namespace StoryMode.Quests.TutorialPhase
 						CharacterObject @object = Campaign.Current.ObjectManager.GetObject<CharacterObject>("storymode_quest_raider");
 						mobileParty.MemberRoster.AddToCounts(@object, 4 - totalManCount, false, 0, 0, true, -1);
 					}
-					if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 24202) && mobileParty.IsBanditBossParty && mobileParty.MemberRoster.GetTroopCount(StoryModeHeroes.Radagos.CharacterObject) <= 0)
+					if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 27066) && mobileParty.IsBanditBossParty && mobileParty.MemberRoster.GetTroopCount(StoryModeHeroes.Radagos.CharacterObject) <= 0)
 					{
 						mobileParty.MemberRoster.AddToCounts(StoryModeHeroes.Radagos.CharacterObject, 1, false, 0, 0, true, -1);
 					}

@@ -5,6 +5,11 @@ namespace TaleWorlds.InputSystem
 {
 	public static class Input
 	{
+		public static bool IsPlaystation(this Input.ControllerTypes controllerType)
+		{
+			return controllerType.HasAnyFlag((Input.ControllerTypes)6);
+		}
+
 		public static InputState InputState { get; private set; }
 
 		public static IInputContext DebugInput { get; private set; }

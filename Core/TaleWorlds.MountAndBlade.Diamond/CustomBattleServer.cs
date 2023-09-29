@@ -104,6 +104,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			base.AddMessageHandler<ClientQuitFromCustomGameMessage>(new ClientMessageHandler<ClientQuitFromCustomGameMessage>(this.OnClientQuitFromCustomGameMessage));
 			base.AddMessageHandler<TerminateOperationCustomMessage>(new ClientMessageHandler<TerminateOperationCustomMessage>(this.OnTerminateOperationCustomMessage));
 			base.AddMessageHandler<SetChatFilterListsMessage>(new ClientMessageHandler<SetChatFilterListsMessage>(this.OnSetChatFilterListsMessage));
+			base.AddMessageHandler<PlayerDisconnectedFromLobbyMessage>(new ClientMessageHandler<PlayerDisconnectedFromLobbyMessage>(this.OnPlayerDisconnectedFromLobbyMessage));
 		}
 
 		public void SetBadgeComponent(IBadgeComponent badgeComponent)
@@ -343,6 +344,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				}
 				this._customBattlePlayers.Remove(message.PlayerId);
 			}
+		}
+
+		public void OnPlayerDisconnectedFromLobbyMessage(PlayerDisconnectedFromLobbyMessage message)
+		{
+			this.HandlePlayerDisconnect(message.PlayerId, DisconnectType.DisconnectedFromLobby);
 		}
 
 		private void OnTerminateOperationCustomMessage(TerminateOperationCustomMessage message)

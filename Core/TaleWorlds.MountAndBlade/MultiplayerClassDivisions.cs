@@ -293,7 +293,7 @@ namespace TaleWorlds.MountAndBlade
 				return this.TroopCharacter == character;
 			}
 
-			private List<IReadOnlyPerkObject> _perks;
+			private List<IReadOnlyPerkObject> _perks = new List<IReadOnlyPerkObject>();
 		}
 
 		public class MPHeroClassGroup

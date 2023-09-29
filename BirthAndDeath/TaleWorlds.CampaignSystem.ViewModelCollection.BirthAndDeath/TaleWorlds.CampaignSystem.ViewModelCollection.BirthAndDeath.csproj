@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{797D297C-D5E8-400C-94F4-ED09EEA67FC9}</ProjectGuid>
+    <ProjectGuid>{4DB924B1-FB60-482D-8EBD-E90502E551B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.CampaignSystem.ViewModelCollection.BirthAndDeath</RootNamespace>
     <AssemblyName>TaleWorlds.CampaignSystem.ViewModelCollection.BirthAndDeath</AssemblyName>

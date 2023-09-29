@@ -638,7 +638,6 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			{
 				this.SetNewOwnerClan();
 			}
-			this.ConsiderSiegesAndMapEventsInternal(this._ownerClan);
 		}
 
 		public float GetEffectOfBuildings(BuildingEffectEnum buildingEffect)
@@ -649,23 +648,6 @@ namespace TaleWorlds.CampaignSystem.Settlements
 				num += building.GetBuildingEffectAmount(buildingEffect);
 			}
 			return num;
-		}
-
-		internal void ConsiderSiegesAndMapEventsInternal(IFaction factionToConsiderAgainst)
-		{
-			MobileParty garrisonParty = base.GarrisonParty;
-			if (garrisonParty != null)
-			{
-				garrisonParty.ConsiderMapEventsAndSiegesInternal(factionToConsiderAgainst);
-			}
-			foreach (Village village in base.Settlement.BoundVillages)
-			{
-				VillagerPartyComponent villagerPartyComponent = village.VillagerPartyComponent;
-				if (villagerPartyComponent != null)
-				{
-					villagerPartyComponent.MobileParty.ConsiderMapEventsAndSiegesInternal(factionToConsiderAgainst);
-				}
-			}
 		}
 
 		private void SetNewOwnerClan()

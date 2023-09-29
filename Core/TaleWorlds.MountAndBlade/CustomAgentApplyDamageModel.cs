@@ -102,7 +102,7 @@ namespace TaleWorlds.MountAndBlade
 			return MBMath.IsBetween((int)blow.VictimBodyPart, 0, 6) && ((!attackerAgent.HasMount && blow.StrikeType == StrikeType.Swing && blow.WeaponRecord.WeaponFlags.HasAnyFlag(WeaponFlags.CanHook)) || (blow.StrikeType == StrikeType.Thrust && blow.WeaponRecord.WeaponFlags.HasAnyFlag(WeaponFlags.CanDismount)));
 		}
 
-		public override void CalculateCollisionStunMultipliers(Agent attackerAgent, Agent defenderAgent, bool isAlternativeAttack, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier)
+		public override void CalculateDefendedBlowStunMultipliers(Agent attackerAgent, Agent defenderAgent, CombatCollisionResult collisionResult, WeaponComponentData attackerWeapon, WeaponComponentData defenderWeapon, out float attackerStunMultiplier, out float defenderStunMultiplier)
 		{
 			attackerStunMultiplier = 1f;
 			defenderStunMultiplier = 1f;
@@ -173,11 +173,32 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetHorseChargePenetration()
 		{
-			return 0.37f;
+			return 0.4f;
 		}
 
 		public override float CalculateStaggerThresholdMultiplier(Agent defenderAgent)
 		{
+			return 1f;
+		}
+
+		public override float CalculateAlternativeAttackDamage(BasicCharacterObject attackerCharacter, WeaponComponentData weapon)
+		{
+			if (weapon == null)
+			{
+				return 2f;
+			}
+			if (weapon.WeaponClass == WeaponClass.LargeShield)
+			{
+				return 2f;
+			}
+			if (weapon.WeaponClass == WeaponClass.SmallShield)
+			{
+				return 1f;
+			}
+			if (weapon.IsTwoHanded)
+			{
+				return 2f;
+			}
 			return 1f;
 		}
 
@@ -194,11 +215,6 @@ namespace TaleWorlds.MountAndBlade
 		public override float CalculateShieldDamage(in AttackInformation attackInformation, float baseDamage)
 		{
 			baseDamage *= 1.25f;
-			MissionMultiplayerFlagDomination missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerFlagDomination>();
-			if (missionBehavior != null && missionBehavior.GetMissionType() == MultiplayerGameType.Captain)
-			{
-				return baseDamage * 0.75f;
-			}
 			FactoredNumber factoredNumber = new FactoredNumber(baseDamage);
 			Formation victimFormation = attackInformation.VictimFormation;
 			BannerComponent activeBanner = MissionGameModels.Current.BattleBannerBearersModel.GetActiveBanner(victimFormation);
@@ -209,7 +225,7 @@ namespace TaleWorlds.MountAndBlade
 			return Math.Max(0f, factoredNumber.ResultNumber);
 		}
 
-		public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman)
+		public override float GetDamageMultiplierForBodyPart(BoneBodyPartType bodyPart, DamageTypes type, bool isHuman, bool isMissile)
 		{
 			float num = 1f;
 			switch (bodyPart)
@@ -221,7 +237,7 @@ namespace TaleWorlds.MountAndBlade
 				switch (type)
 				{
 				case DamageTypes.Invalid:
-					num = 2f;
+					num = 1.5f;
 					break;
 				case DamageTypes.Cut:
 					num = 1.2f;
@@ -229,7 +245,7 @@ namespace TaleWorlds.MountAndBlade
 				case DamageTypes.Pierce:
 					if (isHuman)
 					{
-						num = 2f;
+						num = (isMissile ? 2f : 1.5f);
 					}
 					else
 					{
@@ -245,7 +261,7 @@ namespace TaleWorlds.MountAndBlade
 				switch (type)
 				{
 				case DamageTypes.Invalid:
-					num = 2f;
+					num = 1.5f;
 					break;
 				case DamageTypes.Cut:
 					num = 1.2f;
@@ -253,7 +269,7 @@ namespace TaleWorlds.MountAndBlade
 				case DamageTypes.Pierce:
 					if (isHuman)
 					{
-						num = 2f;
+						num = (isMissile ? 2f : 1.5f);
 					}
 					else
 					{
